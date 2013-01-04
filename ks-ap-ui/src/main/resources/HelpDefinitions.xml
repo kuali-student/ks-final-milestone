@@ -21,21 +21,21 @@
 
     <bean id="quarter_facet_help_icon" parent="MyPlanHelpImage">
         <property name="toolTip">
-          <bean parent="MyPlan-Tooltip-Left" p:tooltipContent="Projected courses indicate which quarter the course might be offered next. Contact the department for verification. Scheduled courses appear in the current Time Schedule. &lt;br&gt; &lt;a href=javascript:openHelpWindow(&quot;http://depts.washington.edu/myplan/help-site/#820&quot;);&gt;Learn more&lt;/a&gt;"/>
+          <bean parent="MyPlan-Tooltip-Left" p:tooltipContent="Projected courses indicate which quarter the course might be offered next. Contact the department for verification. Scheduled courses appear in the current Time Schedule."/>
         </property>
     </bean>
 
 
     <bean id="bookmarks_help_icon" parent="MyPlanHelpImage">
         <property name="toolTip">
-          <bean parent="MyPlan-Tooltip-Right" p:tooltipContent="Bookmark a course to save it for future planning. The course remains in your bookmarks until you've added it to your Plan or deleted it. &lt;a href=javascript:openHelpWindow(&quot;http://depts.washington.edu/myplan/help-site/#821&quot;);&gt;Learn more&lt;/a&gt;"/>
+          <bean parent="MyPlan-Tooltip-Right" p:tooltipContent="Bookmark a course to save it for future planning. The course remains in your bookmarks until you've added it to your Plan or deleted it."/>
         </property>
     </bean>
 
 
     <bean id="recent_audits_help_icon" parent="MyPlanHelpImage">
          <property name="toolTip">
-          <bean parent="MyPlan-Tooltip-Right" p:tooltipContent="Displays the last seven audits run through MyPlan. Audits are cleared at the end of each quarter. &lt;a href=javascript:openHelpWindow(&quot;http://depts.washington.edu/myplan/help-site/#822&quot;);&gt;Learn more&lt;/a&gt;"/>
+          <bean parent="MyPlan-Tooltip-Right" p:tooltipContent="Displays the last seven audits run through MyPlan. Audits are cleared at the end of each quarter."/>
         </property>
     </bean>
 
@@ -66,7 +66,7 @@
     <bean id="registered_help_icon" parent="MyPlanHelpImage"
           p:render="@{!#parentLine.completedTerm and (#parentLine.academicRecord.size() gt 0 or !#parentLine.openForPlanning) and #parentLine.displayRegisteredHelp ? true : false}">
         <property name="onDocumentReadyScript" value="
-            myplanCreateTooltip('registered_help_icon_line@{#index}', 'Courses you are enrolled in for the current or a future academic quarter. To update this information, go to the  &lt;a target=_blank href=&quot;https://sdb.admin.washington.edu/students/uwnetid/register.asp&quot;&gt;Registration &lt;/a&gt;page.',{
+            myplanCreateTooltip('registered_help_icon_line@{#index}', 'Courses you are enrolled in for the current or a future academic quarter.',{
                 position: 'top',
                 align: 'left',
                 alwaysVisible: false,
@@ -88,7 +88,7 @@
 
     <bean id="planned_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayPlannedHelp ? true : false}">
         <property name="onDocumentReadyScript" value="
-            myplanCreateTooltip('planned_help_icon_line@{#index}', 'MyPlan allows you to add courses to your plan, but does not register you. Check the Time Schedule each quarter to verify whether your planned courses will be offered. &lt;a href=javascript:openHelpWindow(&quot;http://depts.washington.edu/myplan/help-site/#825&quot;);&gt;Learn more&lt;/a&gt;',{
+            myplanCreateTooltip('planned_help_icon_line@{#index}', 'MyPlan allows you to add courses to your plan, but does not register you. Check the Time Schedule each quarter to verify whether your planned courses will be offered.',{
                 position: 'top',
                 align: 'left',
                 alwaysVisible: false,
@@ -170,8 +170,7 @@
     <bean id="course_quarter_help_icon" parent="MyPlanHelpImage">
         <property name="toolTip">
             <bean parent="MyPlan-Tooltip-Left"
-                  p:tooltipContent="Projected courses indicate which quarter the course might be offered next. Contact the department for verification. Scheduled courses appear in the current Time Schedule. &lt;br&gt;
-                                    &lt;a href=javascript:openHelpWindow('http://depts.washington.edu/myplan/help-site#820');&gt;Learn more&lt;/a&gt;"/>
+                  p:tooltipContent="Projected courses indicate which quarter the course might be offered next. Contact the department for verification. Scheduled courses appear in the current Time Schedule. "/>
         </property>
     </bean>
 
@@ -180,8 +179,7 @@
             <bean parent="MyPlan-Tooltip-Left"
                   p:tooltipContent="&lt;strong&gt;Variable Credits&lt;/strong&gt; &lt;/br&gt;
                                                                  &lt;strong&gt;(1-5)-&lt;/strong&gt; You can enroll for any number of credits in the range that's given. These are typically independent study courses that you and the professor decide on the number of credits.&lt;/br&gt;&lt;/br&gt;
-                                                                 &lt;strong&gt;(3/5) -&lt;/strong&gt; A course you can enroll in for either 3 or 5 credits.&lt;/br&gt;
-                                                                 &lt;/br&gt; &lt;a href=javascript:openHelpWindow('http://depts.washington.edu/myplan/help-site/#823');&gt;Learn more about credits&lt;/a&gt;"/>
+                                                                 &lt;strong&gt;(3/5) -&lt;/strong&gt; A course you can enroll in for either 3 or 5 credits."/>
         </property>
     </bean>
 
@@ -195,8 +193,7 @@
                                                                  &lt;strong&gt;VLPA&lt;/strong&gt;  - Visual, Literary, and Performing Arts&lt;/br&gt;
                                                                  &lt;strong&gt;I&amp;S&lt;/strong&gt; - Individuals and Societies&lt;/br&gt;
                                                                  &lt;strong&gt;NW&lt;/strong&gt; - Natural World&lt;/br&gt;
-                                                                 &lt;strong&gt;None&lt;/strong&gt; - Does not count towards General Education Requirements&lt;/br&gt;
-                                                                 &lt;/br&gt; &lt;a href=javascript:openHelpWindow('http://www.washington.edu/uaa/advising/degreeplanning/gereqs.php');&gt;Learn More on the UAA Advising Website&lt;/a&gt;"/>
+                                                                 &lt;strong&gt;None&lt;/strong&gt; - Does not count towards General Education Requirements"/>
         </property>
     </bean>
 

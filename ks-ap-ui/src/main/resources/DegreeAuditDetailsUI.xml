@@ -13,30 +13,6 @@
          express or implied. See the License for the specific language governing permissions
          and limitations under the License. -->
 
-    <!--
-       <bean id="DegreeAuditRaw-FormView" parent="MyPlanFormView">
-           <property name="id" value="degreeAuditView"/>
-           <property name="cssClasses" value="myplan"/>
-           <property name="entryPageId" value="degree_audit"/>
-           <property name="items">
-               <list>
-                   <bean parent="Uif-Page" p:id="degree_audit" p:headerText="Degree Audit">
-                       <property name="items">
-                           <list>
-                               <bean id="yippee" parent="Uif-Message" p:messageText="@{getAuditHtml()}"/>
-                           </list>
-                       </property>
-                   </bean>
-               </list>
-           </property>
-
-
-
-           <property name="footer.render" value="false"/>
-           <property name="formClass" value="org.kuali.student.myplan.audit.form.DegreeAuditForm"/>
-       </bean>
-    -->
-
     <!-- Not used to view audit reports. -->
     <bean id="DegreeAudit-FormView" parent="MyPlanFormView">
         <property name="headerText" value="Audit Degree"/>
@@ -487,15 +463,8 @@
     <bean id="audit_instruction" parent="Uif-HorizontalBoxGroup" p:validationMessages.render="false">
         <property name="items">
             <list>
-                <bean parent="Uif-Link" p:cssClasses="fl-font-size-90"
-                      p:style="margin-right: 4px; text-decoration: underline;">
-                    <property name="linkText"
-                              value="Some programs are not included"/>
-                    <property name="href"
-                              value="javascript:openHelpWindow('http://depts.washington.edu/myplan/help-site/#855');"/>
-                </bean>
                 <bean parent="Uif-Message" p:cssClasses="fl-text-gray fl-font-size-90">
-                    <property name="messageText" value=" in the degree program list for audit."/>
+                    <property name="messageText" value="Some programs are not included in the degree program list for audit."/>
                 </bean>
             </list>
         </property>

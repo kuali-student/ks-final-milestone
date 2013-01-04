@@ -41,6 +41,8 @@ public class CampusSearch extends KeyValuesBase {
     @Override
     public List<KeyValue> getKeyValues() {
        	// TODO: factory for context /mwfyffe
+
+        // Campus locations are drawn from database KSOR_ORG with TYPE="kuali.org.type.campus"
     	ContextInfo context = new ContextInfo();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         if (blankOption) {

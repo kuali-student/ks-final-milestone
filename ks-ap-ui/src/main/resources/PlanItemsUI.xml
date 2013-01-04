@@ -1448,7 +1448,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-MessageField"
-                                  p:messageText="Create your plan by finding and adding courses to any quarter. &lt;a href=&quot;javascript:openHelpWindow('http://depts.washington.edu/myplan/help-site/#824')&quot;&gt;Learn more&lt;/a&gt;"/>
+                                  p:messageText="Create your plan by finding and adding courses to any quarter."/>
                         </list>
                     </property>
                 </bean>
@@ -3128,10 +3128,6 @@
                                             <property name="message">
                                                 <bean parent="Uif-Message" p:messageText=""/>
                                             </property>
-                                        </bean>
-                                        <bean parent="Uif-Link" p:linkText="Help">
-                                            <property name="href"
-                                                      value="javascript:openHelpWindow('http://depts.washington.edu/myplan/help-site/');"/>
                                         </bean>
                                         <bean parent="Uif-Link" p:linkText="Log out">
                                             <property name="href"

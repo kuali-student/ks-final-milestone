@@ -35,7 +35,7 @@
             <list>
                 <bean parent="Uif-Page" p:id="course_search">
                     <property name="instructionalText"
-                              value="Enter a course code, title, or a keyword to search the Course Catalog and Time Schedule if applicable. &lt;a href=&quot;javascript:openHelpWindow('http://depts.washington.edu/myplan/help-site/#815')&quot;&gt;Learn more&lt;/a&gt;"/>
+                              value="Enter a course code, title, or a keyword to search the Course Catalog and Time Schedule if applicable."/>
                     <property name="layoutManager">
                         <bean parent="Uif-HorizontalBoxLayout"/>
                     </property>
