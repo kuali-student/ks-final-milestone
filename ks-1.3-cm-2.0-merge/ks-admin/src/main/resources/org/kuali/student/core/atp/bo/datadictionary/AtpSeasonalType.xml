@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+        xsi:schemaLocation=" http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+
+                            ">
+
+    <bean id="AtpSeasonalType" parent="AtpSeasonalType-parentBean" />
+    <bean id="AtpSeasonalType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.student.core.atp.bo.AtpSeasonalType" />
+        <property name="titleAttribute" value="id" />
+        <property name="objectLabel" value="Academic Time Period Seasonal Type" />
+        <property name="lookupDefinition">
+            <ref bean="AtpSeasonalType-lookupDefinition" />
+        </property>
+        <property name="inquiryDefinition">
+            <ref bean="AtpSeasonalType-inquiryDefinition" />
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="AtpSeasonalType-id" />
+                <ref bean="AtpSeasonalType-name" />
+                <ref bean="AtpSeasonalType-description" />
+                <ref bean="AtpSeasonalType-activeFromDate" />
+                <ref bean="AtpSeasonalType-activeToDate" />
+                <ref bean="AtpSeasonalType-active" />
+            </list>
+        </property>
+    </bean>
+
+    <alias alias="AtpSeasonalType-id" name="CoreTypeReference-id" />
+    <alias alias="AtpSeasonalType-name" name="CoreTypeReference-name" />
+    <alias alias="AtpSeasonalType-description" name="CoreTypeReference-description" />
+    <alias alias="AtpSeasonalType-activeFromDate" name="CoreTypeReference-activeFromDate" />
+    <alias alias="AtpSeasonalType-activeToDate" name="CoreTypeReference-activeToDate" />
+    <alias alias="AtpSeasonalType-active" name="CoreTypeReference-active" />
+    
+    
+    <bean id="AtpSeasonalType-lookupDefinition" parent="AtpSeasonalType-lookupDefinition-parentBean" />
+    <bean id="AtpSeasonalType-lookupDefinition-parentBean" abstract="true" parent="CoreTypeReference-lookupDefinition">
+    	<property name="title" value="Atp Seasonal Type Lookup" />
+    </bean>
+
+
+    <bean id="AtpSeasonalType-inquiryDefinition" parent="AtpSeasonalType-inquiryDefinition-parentBean" />
+    <bean id="AtpSeasonalType-inquiryDefinition-parentBean" abstract="true" parent="CoreTypeReference-inquiryDefinition">
+        <property name="title" value="Atp Seasonal Type Inquiry" />
+    </bean>
+    
+</beans>

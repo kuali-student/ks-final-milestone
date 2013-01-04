@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <!--LPR Service-->
+    <bean id="luiPersonRelationInfoDictionaryLocation" class="java.lang.String">
+        <!--<constructor-arg value="classpath:ks-LuiPersonRelationInfo-dictionary.xml" />-->
+        <constructor-arg value="classpath:ks-LprInfo-dictionary.xml" />
+    </bean>
+    <bean name="luiPersonRelationServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="luiPersonRelationInfoDictionaryLocation" />
+            </list>
+        </constructor-arg>
+    </bean>
+    <!--ATP Service-->
+    <bean id="atpInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-AtpInfo-dictionary.xml" />
+    </bean>
+    <bean id="milestoneInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-MilestoneInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="atpAtpRelationInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-AtpAtpRelationInfo-dictionary.xml" />
+    </bean>
+    <bean name="atpServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="atpInfoDictionaryLocation" />
+                <bean parent="milestoneInfoDictionaryLocation" />
+                <bean parent="atpAtpRelationInfoDictionaryLocation" />
+            </list>
+        </constructor-arg>
+    </bean>
+    <!--Academic Calendar Service-->
+    <bean id="acalInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-AcademicCalendarInfo-dictionary.xml" />
+    </bean>
+    <bean id="holidayCalendarInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-HolidayCalendarInfo-dictionary.xml" />
+    </bean>    
+    <bean id="termInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-TermInfo-dictionary.xml" />
+    </bean>
+    <bean id="holidayInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-HolidayInfo-dictionary.xml" />
+    </bean> 
+    <bean id="keyDateInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-KeyDateInfo-dictionary.xml" />
+    </bean>  
+    <bean name="acalServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="acalInfoDictionaryLocation" />
+                <bean parent="holidayCalendarInfoDictionaryLocation" />                
+                <bean parent="termInfoDictionaryLocation" />
+                <bean parent="holidayInfoDictionaryLocation" />
+                <bean parent="keyDateInfoDictionaryLocation" />
+            </list>
+        </constructor-arg>
+    </bean>
+   <!--Hold Service-->
+    <bean id="appliedHoldInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-AppliedHoldInfo-dictionary.xml" />
+    </bean>
+    <bean id="holdIssueInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-HoldIssueInfo-dictionary.xml" />
+    </bean>
+    <bean name="holdServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="appliedHoldInfoDictionaryLocation" />
+                <bean parent="holdIssueInfoDictionaryLocation" />                
+            </list>
+        </constructor-arg>
+     </bean>
+    <!--Process Service-->
+    <bean id="processInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ProcessInfo-dictionary.xml" />
+    </bean>
+    <bean id="checkInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-CheckInfo-dictionary.xml" />
+    </bean>
+    <bean id="instructionInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-InstructionInfo-dictionary.xml" />
+    </bean>
+    <bean name="processServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="processInfoDictionaryLocation" />
+                <bean parent="checkInfoDictionaryLocation" />
+                <bean parent="instructionInfoDictionaryLocation" />
+            </list>
+        </constructor-arg>
+    </bean>
+	<!-- LUI Service -->
+    <bean id="luiInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-LuiInfo-dictionary.xml" />
+    </bean>
+    <bean id="luiLuiRelationInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-LuiLuiRelationInfo-dictionary.xml" />
+    </bean>
+    <bean name="luiServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="luiInfoDictionaryLocation" />
+                <bean parent="luiLuiRelationInfoDictionaryLocation" />                
+            </list>
+        </constructor-arg>
+     </bean>
+     <!-- CourseOffering Service -->
+    <bean id="courseOfferingInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-CourseOfferingInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="activityOfferingInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ActivityOfferingInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="formatOfferingInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-FormatOfferingInfo-dictionary.xml" />
+    </bean>
+    
+     <bean id="activityOfferingClusterInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ActivityOfferingClusterInfo-dictionary.xml" />
+    </bean>
+    
+      <bean id="activityOfferingSetInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ActivityOfferingSetInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="registrationGroupInfoDictionaryLocation" class="java.lang.String">
+           <constructor-arg value="classpath:ks-RegistrationGroupInfo-dictionary.xml" />
+       </bean>
+
+	<bean id="seatPoolDefinitionInfoDictionaryLocation" class="java.lang.String">
+           <constructor-arg value="classpath:ks-SeatPoolDefinitionInfo-dictionary.xml" />
+       </bean>
+
+    <bean name="courseOfferingServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="courseOfferingInfoDictionaryLocation" />
+                <bean parent="formatOfferingInfoDictionaryLocation"/>
+                <bean parent="activityOfferingInfoDictionaryLocation"/>
+                <bean parent="activityOfferingClusterInfoDictionaryLocation"/>
+                <bean parent="activityOfferingSetInfoDictionaryLocation"/>
+                <bean parent="registrationGroupInfoDictionaryLocation"/>
+                <bean parent="seatPoolDefinitionInfoDictionaryLocation"/>
+                
+            </list>
+        </constructor-arg>
+     </bean>
+    <!-- Scheduling Service -->
+    <bean id="scheduleRequestInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ScheduleRequestInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="scheduleRequestComponentInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ScheduleRequestComponentInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="timeSlotInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-TimeSlotInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="timeOfDayInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-TimeOfDayInfo-dictionary.xml" />
+    </bean>
+
+    <bean name="schedulingServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="scheduleRequestInfoDictionaryLocation" />
+                <bean parent="scheduleRequestComponentInfoDictionaryLocation"/>
+                <bean parent="timeSlotInfoDictionaryLocation"/>
+                <bean parent="timeOfDayInfoDictionaryLocation"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!--THIS IS USED BY RICE DATA DICTIONARY SERVICE
+     and the Global Student Dictionary Service, dataDictionaryServiceForAllUsedByRice
+     that is used in the rice dictionary validation service impl -->
+    <bean name="allDictionaryFileLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="luiPersonRelationInfoDictionaryLocation" />
+                <bean parent="atpInfoDictionaryLocation" />
+                <bean parent="milestoneInfoDictionaryLocation" />
+                <bean parent="atpAtpRelationInfoDictionaryLocation" />
+                <bean parent="acalInfoDictionaryLocation" />
+                <bean parent="holidayCalendarInfoDictionaryLocation" />
+                <bean parent="termInfoDictionaryLocation" />
+                <bean parent="holidayInfoDictionaryLocation" />
+                <bean parent="keyDateInfoDictionaryLocation" />
+                <bean parent="appliedHoldInfoDictionaryLocation" />
+                <bean parent="holdIssueInfoDictionaryLocation" />
+                <bean parent="luiInfoDictionaryLocation" />
+                <bean parent="luiLuiRelationInfoDictionaryLocation" />
+                <bean parent="courseOfferingInfoDictionaryLocation" />
+                <bean parent="activityOfferingInfoDictionaryLocation" />
+                <bean parent="formatOfferingInfoDictionaryLocation" />
+                <bean parent="activityOfferingClusterInfoDictionaryLocation"/>
+                <bean parent="activityOfferingSetInfoDictionaryLocation"/>
+                <bean parent="registrationGroupInfoDictionaryLocation" />
+                <bean parent="seatPoolDefinitionInfoDictionaryLocation" />
+                <bean parent="processInfoDictionaryLocation" />
+                <bean parent="checkInfoDictionaryLocation" />
+                <bean parent="instructionInfoDictionaryLocation" />
+                <bean parent="scheduleRequestInfoDictionaryLocation" />
+                <bean parent="scheduleRequestComponentInfoDictionaryLocation"/>
+                <bean parent="timeSlotInfoDictionaryLocation"/>
+                <bean parent="timeOfDayInfoDictionaryLocation"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+
+</beans>

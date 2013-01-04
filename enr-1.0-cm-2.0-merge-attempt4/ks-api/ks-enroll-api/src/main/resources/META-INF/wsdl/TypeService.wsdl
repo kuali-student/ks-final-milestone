@@ -1,0 +1,1369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="TypeService" targetNamespace="http://student.kuali.org/wsdl/type" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/type" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://exceptions.common.r2.student.kuali.org/" xmlns:tns="http://student.kuali.org/wsdl/type" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/type">
+<xs:element name="createType" type="tns:createType"/>
+<xs:element name="createTypeResponse" type="tns:createTypeResponse"/>
+<xs:element name="createTypeTypeRelation" type="tns:createTypeTypeRelation"/>
+<xs:element name="createTypeTypeRelationResponse" type="tns:createTypeTypeRelationResponse"/>
+<xs:element name="deleteType" type="tns:deleteType"/>
+<xs:element name="deleteTypeResponse" type="tns:deleteTypeResponse"/>
+<xs:element name="deleteTypeTypeRelation" type="tns:deleteTypeTypeRelation"/>
+<xs:element name="deleteTypeTypeRelationResponse" type="tns:deleteTypeTypeRelationResponse"/>
+<xs:element name="getAllowedTypesForType" type="tns:getAllowedTypesForType"/>
+<xs:element name="getAllowedTypesForTypeResponse" type="tns:getAllowedTypesForTypeResponse"/>
+<xs:element name="getRefObjectUris" type="tns:getRefObjectUris"/>
+<xs:element name="getRefObjectUrisResponse" type="tns:getRefObjectUrisResponse"/>
+<xs:element name="getType" type="tns:getType"/>
+<xs:element name="getTypeResponse" type="tns:getTypeResponse"/>
+<xs:element name="getTypeTypeRelation" type="tns:getTypeTypeRelation"/>
+<xs:element name="getTypeTypeRelationResponse" type="tns:getTypeTypeRelationResponse"/>
+<xs:element name="getTypeTypeRelationsByIds" type="tns:getTypeTypeRelationsByIds"/>
+<xs:element name="getTypeTypeRelationsByIdsResponse" type="tns:getTypeTypeRelationsByIdsResponse"/>
+<xs:element name="getTypeTypeRelationsByOwnerAndType" type="tns:getTypeTypeRelationsByOwnerAndType"/>
+<xs:element name="getTypeTypeRelationsByOwnerAndTypeResponse" type="tns:getTypeTypeRelationsByOwnerAndTypeResponse"/>
+<xs:element name="getTypeTypeRelationsByRelatedTypeAndType" type="tns:getTypeTypeRelationsByRelatedTypeAndType"/>
+<xs:element name="getTypeTypeRelationsByRelatedTypeAndTypeResponse" type="tns:getTypeTypeRelationsByRelatedTypeAndTypeResponse"/>
+<xs:element name="getTypesByKeys" type="tns:getTypesByKeys"/>
+<xs:element name="getTypesByKeysResponse" type="tns:getTypesByKeysResponse"/>
+<xs:element name="getTypesByRefObjectUri" type="tns:getTypesByRefObjectUri"/>
+<xs:element name="getTypesByRefObjectUriResponse" type="tns:getTypesByRefObjectUriResponse"/>
+<xs:element name="getTypesForGroupType" type="tns:getTypesForGroupType"/>
+<xs:element name="getTypesForGroupTypeResponse" type="tns:getTypesForGroupTypeResponse"/>
+<xs:element name="updateType" type="tns:updateType"/>
+<xs:element name="updateTypeResponse" type="tns:updateTypeResponse"/>
+<xs:element name="updateTypeTypeRelation" type="tns:updateTypeTypeRelation"/>
+<xs:element name="updateTypeTypeRelationResponse" type="tns:updateTypeTypeRelationResponse"/>
+<xs:element name="validateType" type="tns:validateType"/>
+<xs:element name="validateTypeResponse" type="tns:validateTypeResponse"/>
+<xs:element name="validateTypeTypeRelation" type="tns:validateTypeTypeRelation"/>
+<xs:element name="validateTypeTypeRelationResponse" type="tns:validateTypeTypeRelationResponse"/>
+<xs:complexType name="getTypeTypeRelationsByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="typeTypeRelationIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ContextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="authenticatedPrincipalId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="currentDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="locale" type="tns:LocaleInfo"/>
+<xs:element minOccurs="0" name="timeZone" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LocaleInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="localeLanguage" type="xs:string"/>
+<xs:element minOccurs="0" name="localeVariant" type="xs:string"/>
+<xs:element minOccurs="0" name="localeRegion" type="xs:string"/>
+<xs:element minOccurs="0" name="localeScript" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="AttributeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="key" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTypeTypeRelationsByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:TypeTypeRelationInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="TypeTypeRelationInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="ownerTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="relatedTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="rank" type="xs:int"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="MetaInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="versionInd" type="xs:string"/>
+<xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createId" type="xs:string"/>
+<xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="updateId" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTypeTypeRelation">
+<xs:sequence>
+<xs:element minOccurs="0" name="typeTypeRelationId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTypeTypeRelationResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:TypeTypeRelationInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAllowedTypesForType">
+<xs:sequence>
+<xs:element minOccurs="0" name="ownerTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAllowedTypesForTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:TypeInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="TypeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="refObjectUri" type="xs:string"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="RichTextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="plain" type="xs:string"/>
+<xs:element minOccurs="0" name="formatted" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTypesForGroupType">
+<xs:sequence>
+<xs:element minOccurs="0" name="groupTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTypesForGroupTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:TypeInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createType">
+<xs:sequence>
+<xs:element minOccurs="0" name="typeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="typeInfo" type="tns:TypeInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createTypeResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:TypeInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateTypeTypeRelation">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="typeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="typePeerKey" type="xs:string"/>
+<xs:element minOccurs="0" name="typeTypeRelationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="typeTypeRelationInfo" type="tns:TypeTypeRelationInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateTypeTypeRelationResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ValidationResultInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="element" type="xs:string"/>
+<xs:element minOccurs="0" name="level" type="tns:errorLevel"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRefObjectUris">
+<xs:sequence>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRefObjectUrisResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteTypeTypeRelation">
+<xs:sequence>
+<xs:element minOccurs="0" name="typeTypeRelationId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteTypeTypeRelationResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="StatusInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="isSuccess" type="xs:boolean"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateType">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="typeInfo" type="tns:TypeInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTypeTypeRelationsByOwnerAndType">
+<xs:sequence>
+<xs:element minOccurs="0" name="ownerTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="typeTypeRelationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTypeTypeRelationsByOwnerAndTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:TypeTypeRelationInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createTypeTypeRelation">
+<xs:sequence>
+<xs:element minOccurs="0" name="typeTypeRelationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="ownerTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="relatedTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="typeTypeRelationInfo" type="tns:TypeTypeRelationInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createTypeTypeRelationResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:TypeTypeRelationInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTypeTypeRelationsByRelatedTypeAndType">
+<xs:sequence>
+<xs:element minOccurs="0" name="relatedTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="typeTypeRelationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTypeTypeRelationsByRelatedTypeAndTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:TypeTypeRelationInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTypesByRefObjectUri">
+<xs:sequence>
+<xs:element minOccurs="0" name="refObjectUri" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTypesByRefObjectUriResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:TypeInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateTypeTypeRelation">
+<xs:sequence>
+<xs:element minOccurs="0" name="typeTypeRelationId" type="xs:string"/>
+<xs:element minOccurs="0" name="typeTypeRelationInfo" type="tns:TypeTypeRelationInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateTypeTypeRelationResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:TypeTypeRelationInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateType">
+<xs:sequence>
+<xs:element minOccurs="0" name="typeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="typeInfo" type="tns:TypeInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateTypeResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:TypeInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTypesByKeys">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="typeKeys" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTypesByKeysResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:TypeInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getType">
+<xs:sequence>
+<xs:element minOccurs="0" name="typeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTypeResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:TypeInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteType">
+<xs:sequence>
+<xs:element minOccurs="0" name="typeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteTypeResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="errorLevel">
+<xs:restriction base="xs:string">
+<xs:enumeration value="OK"/>
+<xs:enumeration value="WARN"/>
+<xs:enumeration value="ERROR"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
+<xs:element name="InvalidParameterException" nillable="true" type="ns0:InvalidParameterException"/>
+<xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
+<xs:element name="PermissionDeniedException" nillable="true" type="ns0:PermissionDeniedException"/>
+<xs:element name="MissingParameterException" nillable="true" type="ns0:MissingParameterException"/>
+<xs:element name="DataValidationErrorException" nillable="true" type="ns0:DataValidationErrorException"/>
+<xs:element name="ReadOnlyException" nillable="true" type="ns0:ReadOnlyException"/>
+<xs:element name="AlreadyExistsException" nillable="true" type="ns0:AlreadyExistsException"/>
+<xs:element name="VersionMismatchException" nillable="true" type="ns0:VersionMismatchException"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://exceptions.common.r2.student.kuali.org/" targetNamespace="http://exceptions.common.r2.student.kuali.org/" version="1.0">
+<xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+<xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+<xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+<xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+<xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+<xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+<xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+<xs:element name="ReadOnlyException" type="tns:ReadOnlyException"/>
+<xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+<xs:complexType name="OperationFailedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="InvalidParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DoesNotExistException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="PermissionDeniedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MissingParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DataValidationErrorException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" nillable="true" type="xs:anyType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ReadOnlyException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AlreadyExistsException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="VersionMismatchException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getTypesByKeys">
+    <wsdl:part name="parameters" element="tns:getTypesByKeys">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTypeTypeRelationsByIds">
+    <wsdl:part name="parameters" element="tns:getTypeTypeRelationsByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createTypeResponse">
+    <wsdl:part name="parameters" element="tns:createTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTypesForGroupType">
+    <wsdl:part name="parameters" element="tns:getTypesForGroupType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTypeTypeRelationsByOwnerAndType">
+    <wsdl:part name="parameters" element="tns:getTypeTypeRelationsByOwnerAndType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTypeTypeRelation">
+    <wsdl:part name="parameters" element="tns:getTypeTypeRelation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTypesByRefObjectUriResponse">
+    <wsdl:part name="parameters" element="tns:getTypesByRefObjectUriResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateTypeTypeRelationResponse">
+    <wsdl:part name="parameters" element="tns:updateTypeTypeRelationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteType">
+    <wsdl:part name="parameters" element="tns:deleteType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTypesByKeysResponse">
+    <wsdl:part name="parameters" element="tns:getTypesByKeysResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTypeTypeRelationsByRelatedTypeAndType">
+    <wsdl:part name="parameters" element="tns:getTypeTypeRelationsByRelatedTypeAndType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllowedTypesForTypeResponse">
+    <wsdl:part name="parameters" element="tns:getAllowedTypesForTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTypeTypeRelationsByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getTypeTypeRelationsByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTypesByRefObjectUri">
+    <wsdl:part name="parameters" element="tns:getTypesByRefObjectUri">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTypesForGroupTypeResponse">
+    <wsdl:part name="parameters" element="tns:getTypesForGroupTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteTypeResponse">
+    <wsdl:part name="parameters" element="tns:deleteTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createTypeTypeRelation">
+    <wsdl:part name="parameters" element="tns:createTypeTypeRelation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateType">
+    <wsdl:part name="parameters" element="tns:validateType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTypeResponse">
+    <wsdl:part name="parameters" element="tns:getTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTypeTypeRelationResponse">
+    <wsdl:part name="parameters" element="tns:getTypeTypeRelationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRefObjectUrisResponse">
+    <wsdl:part name="parameters" element="tns:getRefObjectUrisResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ReadOnlyException">
+    <wsdl:part name="ReadOnlyException" element="tns:ReadOnlyException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRefObjectUris">
+    <wsdl:part name="parameters" element="tns:getRefObjectUris">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateType">
+    <wsdl:part name="parameters" element="tns:updateType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTypeTypeRelationsByRelatedTypeAndTypeResponse">
+    <wsdl:part name="parameters" element="tns:getTypeTypeRelationsByRelatedTypeAndTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllowedTypesForType">
+    <wsdl:part name="parameters" element="tns:getAllowedTypesForType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateTypeTypeRelation">
+    <wsdl:part name="parameters" element="tns:validateTypeTypeRelation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateTypeTypeRelationResponse">
+    <wsdl:part name="parameters" element="tns:validateTypeTypeRelationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateTypeResponse">
+    <wsdl:part name="parameters" element="tns:updateTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateTypeResponse">
+    <wsdl:part name="parameters" element="tns:validateTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createTypeTypeRelationResponse">
+    <wsdl:part name="parameters" element="tns:createTypeTypeRelationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getType">
+    <wsdl:part name="parameters" element="tns:getType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DataValidationErrorException">
+    <wsdl:part name="DataValidationErrorException" element="tns:DataValidationErrorException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteTypeTypeRelation">
+    <wsdl:part name="parameters" element="tns:deleteTypeTypeRelation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteTypeTypeRelationResponse">
+    <wsdl:part name="parameters" element="tns:deleteTypeTypeRelationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="VersionMismatchException">
+    <wsdl:part name="VersionMismatchException" element="tns:VersionMismatchException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createType">
+    <wsdl:part name="parameters" element="tns:createType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PermissionDeniedException">
+    <wsdl:part name="PermissionDeniedException" element="tns:PermissionDeniedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateTypeTypeRelation">
+    <wsdl:part name="parameters" element="tns:updateTypeTypeRelation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AlreadyExistsException">
+    <wsdl:part name="AlreadyExistsException" element="tns:AlreadyExistsException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTypeTypeRelationsByOwnerAndTypeResponse">
+    <wsdl:part name="parameters" element="tns:getTypeTypeRelationsByOwnerAndTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="TypeService">
+    <wsdl:operation name="getTypeTypeRelationsByIds">
+      <wsdl:input name="getTypeTypeRelationsByIds" message="tns:getTypeTypeRelationsByIds">
+    </wsdl:input>
+      <wsdl:output name="getTypeTypeRelationsByIdsResponse" message="tns:getTypeTypeRelationsByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTypeTypeRelation">
+      <wsdl:input name="getTypeTypeRelation" message="tns:getTypeTypeRelation">
+    </wsdl:input>
+      <wsdl:output name="getTypeTypeRelationResponse" message="tns:getTypeTypeRelationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllowedTypesForType">
+      <wsdl:input name="getAllowedTypesForType" message="tns:getAllowedTypesForType">
+    </wsdl:input>
+      <wsdl:output name="getAllowedTypesForTypeResponse" message="tns:getAllowedTypesForTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTypesForGroupType">
+      <wsdl:input name="getTypesForGroupType" message="tns:getTypesForGroupType">
+    </wsdl:input>
+      <wsdl:output name="getTypesForGroupTypeResponse" message="tns:getTypesForGroupTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createType">
+      <wsdl:input name="createType" message="tns:createType">
+    </wsdl:input>
+      <wsdl:output name="createTypeResponse" message="tns:createTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateTypeTypeRelation">
+      <wsdl:input name="validateTypeTypeRelation" message="tns:validateTypeTypeRelation">
+    </wsdl:input>
+      <wsdl:output name="validateTypeTypeRelationResponse" message="tns:validateTypeTypeRelationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRefObjectUris">
+      <wsdl:input name="getRefObjectUris" message="tns:getRefObjectUris">
+    </wsdl:input>
+      <wsdl:output name="getRefObjectUrisResponse" message="tns:getRefObjectUrisResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteTypeTypeRelation">
+      <wsdl:input name="deleteTypeTypeRelation" message="tns:deleteTypeTypeRelation">
+    </wsdl:input>
+      <wsdl:output name="deleteTypeTypeRelationResponse" message="tns:deleteTypeTypeRelationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateType">
+      <wsdl:input name="validateType" message="tns:validateType">
+    </wsdl:input>
+      <wsdl:output name="validateTypeResponse" message="tns:validateTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTypeTypeRelationsByOwnerAndType">
+      <wsdl:input name="getTypeTypeRelationsByOwnerAndType" message="tns:getTypeTypeRelationsByOwnerAndType">
+    </wsdl:input>
+      <wsdl:output name="getTypeTypeRelationsByOwnerAndTypeResponse" message="tns:getTypeTypeRelationsByOwnerAndTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createTypeTypeRelation">
+      <wsdl:input name="createTypeTypeRelation" message="tns:createTypeTypeRelation">
+    </wsdl:input>
+      <wsdl:output name="createTypeTypeRelationResponse" message="tns:createTypeTypeRelationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTypeTypeRelationsByRelatedTypeAndType">
+      <wsdl:input name="getTypeTypeRelationsByRelatedTypeAndType" message="tns:getTypeTypeRelationsByRelatedTypeAndType">
+    </wsdl:input>
+      <wsdl:output name="getTypeTypeRelationsByRelatedTypeAndTypeResponse" message="tns:getTypeTypeRelationsByRelatedTypeAndTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTypesByRefObjectUri">
+      <wsdl:input name="getTypesByRefObjectUri" message="tns:getTypesByRefObjectUri">
+    </wsdl:input>
+      <wsdl:output name="getTypesByRefObjectUriResponse" message="tns:getTypesByRefObjectUriResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateTypeTypeRelation">
+      <wsdl:input name="updateTypeTypeRelation" message="tns:updateTypeTypeRelation">
+    </wsdl:input>
+      <wsdl:output name="updateTypeTypeRelationResponse" message="tns:updateTypeTypeRelationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateType">
+      <wsdl:input name="updateType" message="tns:updateType">
+    </wsdl:input>
+      <wsdl:output name="updateTypeResponse" message="tns:updateTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTypesByKeys">
+      <wsdl:input name="getTypesByKeys" message="tns:getTypesByKeys">
+    </wsdl:input>
+      <wsdl:output name="getTypesByKeysResponse" message="tns:getTypesByKeysResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getType">
+      <wsdl:input name="getType" message="tns:getType">
+    </wsdl:input>
+      <wsdl:output name="getTypeResponse" message="tns:getTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteType">
+      <wsdl:input name="deleteType" message="tns:deleteType">
+    </wsdl:input>
+      <wsdl:output name="deleteTypeResponse" message="tns:deleteTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TypeServiceSoapBinding" type="tns:TypeService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getTypeTypeRelationsByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTypeTypeRelationsByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTypeTypeRelationsByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllowedTypesForType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllowedTypesForType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllowedTypesForTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTypeTypeRelation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTypeTypeRelation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTypeTypeRelationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTypesForGroupType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTypesForGroupType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTypesForGroupTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateTypeTypeRelation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateTypeTypeRelation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateTypeTypeRelationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteTypeTypeRelation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteTypeTypeRelation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteTypeTypeRelationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRefObjectUris">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRefObjectUris">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRefObjectUrisResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTypeTypeRelationsByOwnerAndType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTypeTypeRelationsByOwnerAndType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTypeTypeRelationsByOwnerAndTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createTypeTypeRelation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createTypeTypeRelation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createTypeTypeRelationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTypeTypeRelationsByRelatedTypeAndType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTypeTypeRelationsByRelatedTypeAndType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTypeTypeRelationsByRelatedTypeAndTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTypesByRefObjectUri">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTypesByRefObjectUri">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTypesByRefObjectUriResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateTypeTypeRelation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateTypeTypeRelation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateTypeTypeRelationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTypesByKeys">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTypesByKeys">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTypesByKeysResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TypeService">
+    <wsdl:port name="TypeService" binding="tns:TypeServiceSoapBinding">
+      <soap:address location="http://localhost:9090/TypeService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

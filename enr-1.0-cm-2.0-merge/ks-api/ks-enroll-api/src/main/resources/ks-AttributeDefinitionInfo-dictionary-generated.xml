@@ -1,0 +1,690 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- AttributeDefinitionInfo-->
+	<bean id="AttributeDefinitionInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="attributeDefinitionInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.common.datadictionary.dto.AttributeDefinitionInfo"/>
+		<property name="objectLabel" value="Attribute Definition"/>
+		<property name="objectDescription">
+			<value>
+Dictionary data for Attributes (or fields) that exist on an object.
+			</value>
+		</property>
+		<property name="titleAttribute" value="name"/>
+		<property name="primaryKeys">
+			<list>
+				<value>name</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="AttributeDefinitionInfo.name"/>
+				<ref bean="AttributeDefinitionInfo.childEntryName"/>
+				<ref bean="AttributeDefinitionInfo.isRequired"/>
+				<ref bean="AttributeDefinitionInfo.minOccurs"/>
+				<ref bean="AttributeDefinitionInfo.maxOccurs"/>
+				<ref bean="AttributeDefinitionInfo.minLength"/>
+				<ref bean="AttributeDefinitionInfo.maxLength"/>
+				<ref bean="AttributeDefinitionInfo.isForceUppercase"/>
+				<ref bean="AttributeDefinitionInfo.shortLabel"/>
+				<ref bean="AttributeDefinitionInfo.summary"/>
+				<ref bean="AttributeDefinitionInfo.label"/>
+				<ref bean="AttributeDefinitionInfo.description"/>
+				<ref bean="AttributeDefinitionInfo.exclusiveMin"/>
+				<ref bean="AttributeDefinitionInfo.inclusiveMax"/>
+				<ref bean="AttributeDefinitionInfo.displayLabelAttribute"/>
+				<ref bean="AttributeDefinitionInfo.isUnique"/>
+				<ref bean="AttributeDefinitionInfo.customValidatorClass"/>
+				<ref bean="AttributeDefinitionInfo.formatterClass"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+				<ref bean="AttributeDefinitionInfo.dataType"/>
+				<ref bean="AttributeDefinitionInfo.validCharactersConstraint"/>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.name-generated" abstract="true" parent="BaseKuali.name">
+		<property name="name" value="name"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.childEntryName-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="childEntryName"/>
+		<property name="shortLabel" value="Child Entry Name"/>
+		<property name="summary">
+			<value>
+???
+			</value>
+		</property>
+		<property name="label" value="Child Entry Name"/>
+		<property name="description">
+			<value>
+???
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.dataType-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="dataType"/>
+		<property name="shortLabel" value="Data Type"/>
+		<property name="summary">
+			<value>
+The type of data this attribite (field) holds.
+
+			</value>
+		</property>
+		<property name="label" value="Data Type"/>
+		<property name="description">
+			<value>
+The type of data this attribite (field) holds.
+I.e. STRING, INTEGER, DATE, LONG, DATETIME, COMPLEX, etc.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="dataType"/>
+				<property name="dataObjectClass" value="org.kuali.rice.core.api.uif.DataType"/>
+				<property name="objectLabel" value="Data Type"/>
+				<property name="objectDescription">
+					<value>
+The type of data this attribite (field) holds.
+I.e. STRING, INTEGER, DATE, LONG, DATETIME, COMPLEX, etc.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+						<ref bean="AttributeDefinitionInfo.dataType.type"/>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.dataType.type-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="type"/>
+		<property name="shortLabel" value="Type"/>
+		<property name="summary">
+			<value>
+???
+			</value>
+		</property>
+		<property name="label" value="Type"/>
+		<property name="description">
+			<value>
+???
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="type"/>
+				<property name="dataObjectClass" value="java.lang.Class"/>
+				<property name="objectLabel" value="Type"/>
+				<property name="objectDescription">
+					<value>
+???
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.isRequired-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isRequired"/>
+		<property name="shortLabel" value="Is Required"/>
+		<property name="summary">
+			<value>
+The required element allows values of &quot;true&quot; or &quot;false&quot;. 
+			</value>
+		</property>
+		<property name="label" value="Is Required"/>
+		<property name="description">
+			<value>
+The required element allows values of &quot;true&quot; or &quot;false&quot;. A
+value of &quot;true&quot; indicates that a value must be entered for this
+business object when creating or editing a new business object.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.minOccurs-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="minOccurs"/>
+		<property name="shortLabel" value="Min Occurs"/>
+		<property name="summary">
+			<value>
+The minimum number of allowed occurences
+
+TODO: get Rice to rename this to getMinOccurs to it matches the
+setter.
+			</value>
+		</property>
+		<property name="label" value="Minimum Occurences"/>
+		<property name="description">
+			<value>
+The minimum number of allowed occurences
+
+TODO: get Rice to rename this to getMinOccurs to it matches the
+setter.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.maxOccurs-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="maxOccurs"/>
+		<property name="shortLabel" value="Max Occurs"/>
+		<property name="summary">
+			<value>
+The maximum number of allowed occurences of this field
+
+TODO: Get RICE to rename this getMaxOccurs so it matches the setter
+TODO: Get RICE to set a value that means UNBOUNDED, perhaps 999999999
+			</value>
+		</property>
+		<property name="label" value="Maximum Occurrences"/>
+		<property name="description">
+			<value>
+The maximum number of allowed occurences of this field
+
+TODO: Get RICE to rename this getMaxOccurs so it matches the setter
+TODO: Get RICE to set a value that means UNBOUNDED, perhaps 999999999
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.minLength-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="minLength"/>
+		<property name="shortLabel" value="Min Length"/>
+		<property name="summary">
+			<value>
+The miniumum length allowed for the field.
+			</value>
+		</property>
+		<property name="label" value="Minimum Length"/>
+		<property name="description">
+			<value>
+The miniumum length allowed for the field.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.maxLength-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="maxLength"/>
+		<property name="shortLabel" value="Max Length"/>
+		<property name="summary">
+			<value>
+The maxLength element determines the maximum size of the field
+for data entry edit purposes and for display purposes.
+			</value>
+		</property>
+		<property name="label" value="Maximum Length"/>
+		<property name="description">
+			<value>
+The maxLength element determines the maximum size of the field
+for data entry edit purposes and for display purposes.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.isForceUppercase-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isForceUppercase"/>
+		<property name="shortLabel" value="Is Force Uppercase"/>
+		<property name="summary">
+			<value>
+Converts user entry to uppercase and always display database
+value as uppercase.
+			</value>
+		</property>
+		<property name="label" value="Force Uppercase"/>
+		<property name="description">
+			<value>
+Converts user entry to uppercase and always display database
+value as uppercase.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.shortLabel-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="shortLabel"/>
+		<property name="shortLabel" value="Short Label"/>
+		<property name="summary">
+			<value>
+The shortLabel element is the field or collection name that
+will be used in applications when a shorter name (than the
+label element) is required.  
+			</value>
+		</property>
+		<property name="label" value="Short Label"/>
+		<property name="description">
+			<value>
+The shortLabel element is the field or collection name that
+will be used in applications when a shorter name (than the
+label element) is required.  This will be overridden by
+presence of displayLabelAttribute element.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.summary-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="summary"/>
+		<property name="shortLabel" value="Summary"/>
+		<property name="summary">
+			<value>
+The summary element is used to provide a short description of
+the attribute or collection. 
+			</value>
+		</property>
+		<property name="label" value="Summary"/>
+		<property name="description">
+			<value>
+The summary element is used to provide a short description of
+the attribute or collection. This is designed to be used for
+help purposes.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.label-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="label"/>
+		<property name="shortLabel" value="Label"/>
+		<property name="summary">
+			<value>
+The label element is the field or collection name that will be
+shown on inquiry and maintenance screens. 
+			</value>
+		</property>
+		<property name="label" value="Label"/>
+		<property name="description">
+			<value>
+The label element is the field or collection name that will be
+shown on inquiry and maintenance screens. This will be
+overridden by presence of displayLabelAttribute element.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.description-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="description"/>
+		<property name="shortLabel" value="Description"/>
+		<property name="summary">
+			<value>
+The description element is used to provide a long description
+of the attribute or collection. 
+			</value>
+		</property>
+		<property name="label" value="Description"/>
+		<property name="description">
+			<value>
+The description element is used to provide a long description
+of the attribute or collection. This is designed to be used for
+help purposes.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.exclusiveMin-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="exclusiveMin"/>
+		<property name="shortLabel" value="Exclusive Min"/>
+		<property name="summary">
+			<value>
+The exclusiveMin element determines the minimum allowable value
+for data entry editing purposes. 
+			</value>
+		</property>
+		<property name="label" value="Exclusive Minimum"/>
+		<property name="description">
+			<value>
+The exclusiveMin element determines the minimum allowable value
+for data entry editing purposes. Value can be an integer or
+decimal value such as -.001 or 99.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.inclusiveMax-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="inclusiveMax"/>
+		<property name="shortLabel" value="Inclusive Max"/>
+		<property name="summary">
+			<value>
+The inclusiveMax element determines the maximum allowable value
+for data entry editing purposes. 
+			</value>
+		</property>
+		<property name="label" value="Exclusive Maximum"/>
+		<property name="description">
+			<value>
+The inclusiveMax element determines the maximum allowable value
+for data entry editing purposes. Value can be an integer or
+decimal value such as -.001 or 99.
+
+JSTL: This field is mapped into the field named &quot;exclusiveMax&quot;.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.displayLabelAttribute-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="displayLabelAttribute"/>
+		<property name="shortLabel" value="Display Label Attribute"/>
+		<property name="summary">
+			<value>
+The displayLabelAttribute element is used to indicate that the
+label and short label should be obtained from another
+attribute.
+
+
+			</value>
+		</property>
+		<property name="label" value="Display Label Attribute"/>
+		<property name="description">
+			<value>
+The displayLabelAttribute element is used to indicate that the
+label and short label should be obtained from another
+attribute.
+
+The label element and short label element defined for this
+attribute will be overridden. Instead, the label and short
+label values will be obtained by referencing the corresponding
+values from the attribute indicated by this element.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.isUnique-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isUnique"/>
+		<property name="shortLabel" value="Is Unique"/>
+		<property name="summary">
+			<value>
+Similar to a db column that is flagged as unique, the value is
+unique across all data objects of that type
+			</value>
+		</property>
+		<property name="label" value="Unique"/>
+		<property name="description">
+			<value>
+Similar to a db column that is flagged as unique, the value is
+unique across all data objects of that type
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.customValidatorClass-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="customValidatorClass"/>
+		<property name="shortLabel" value="Custom Validator Class"/>
+		<property name="summary">
+			<value>
+Class to do custom validation
+			</value>
+		</property>
+		<property name="label" value="Custom Validator Class"/>
+		<property name="description">
+			<value>
+Class to do custom validation
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.formatterClass-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="formatterClass"/>
+		<property name="shortLabel" value="Formatter Class"/>
+		<property name="summary">
+			<value>
+The formatterClass element is used when custom formatting is
+required for display of the field value. 
+			</value>
+		</property>
+		<property name="label" value="Formatter Class"/>
+		<property name="description">
+			<value>
+The formatterClass element is used when custom formatting is
+required for display of the field value. This field specifies
+the name of the java class to be used for the formatting. About
+15 different classes are available including BooleanFormatter,
+CurrencyFormatter, DateFormatter, etc.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.validCharactersConstraint-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="validCharactersConstraint"/>
+		<property name="shortLabel" value="Valid Characters Constraint"/>
+		<property name="summary">
+			<value>
+The constraint that applies regular expressions to to the value
+
+TODO: Ask RICE to create an interface for
+ValidCharactersConstraint so we can return that instead of the
+generic constraint
+			</value>
+		</property>
+		<property name="label" value="Valid Characters Constraint"/>
+		<property name="description">
+			<value>
+The constraint that applies regular expressions to to the value
+
+TODO: Ask RICE to create an interface for
+ValidCharactersConstraint so we can return that instead of the
+generic constraint
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="validCharactersConstraint"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.datadictionary.dto.ValidCharactersConstraintInfo"/>
+				<property name="objectLabel" value="Valid Characters Constraint"/>
+				<property name="objectDescription">
+					<value>
+The constraint that applies regular expressions to to the value
+
+TODO: Ask RICE to create an interface for
+ValidCharactersConstraint so we can return that instead of the
+generic constraint
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="AttributeDefinitionInfo.validCharactersConstraint.jsValue"/>
+						<ref bean="AttributeDefinitionInfo.validCharactersConstraint.value"/>
+						<ref bean="AttributeDefinitionInfo.validCharactersConstraint.isApplyClientSide"/>
+						<ref bean="AttributeDefinitionInfo.validCharactersConstraint.labelKey"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.validCharactersConstraint.jsValue-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="jsValue"/>
+		<property name="shortLabel" value="Js Value"/>
+		<property name="summary">
+			<value>
+Javascript version of the regex defined in value.  
+			</value>
+		</property>
+		<property name="label" value="Java Script Value"/>
+		<property name="description">
+			<value>
+Javascript version of the regex defined in value.  This does
+not have to be set if this constraint's key maps to one of the
+default valid character methods contained in jQuery - (insert
+that list here).  This must be set if there is NO default
+method that matches the label key and applyClientSide is true.
+
+This is completely ignored if applyClientSide is set to false.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.validCharactersConstraint.value-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="value"/>
+		<property name="shortLabel" value="Value"/>
+		<property name="summary">
+			<value>
+The Java based regex for valid characters
+There are two forms:
+regex:xxxxx
+and just: xxxx
+
+If the 2nd form then it is interpreted as a simple list of valid characters.
+
+			</value>
+		</property>
+		<property name="label" value="Value"/>
+		<property name="description">
+			<value>
+The Java based regex for valid characters
+There are two forms:
+regex:xxxxx
+and just: xxxx
+
+If the 2nd form then it is interpreted as a simple list of valid characters.
+Note: it is actualy converted to a regular expression by wrapping it in [].
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.validCharactersConstraint.isApplyClientSide-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isApplyClientSide"/>
+		<property name="shortLabel" value="Is Apply Client Side"/>
+		<property name="summary">
+			<value>
+If this is true, the constraint should be applied on the client
+side when the user interacts with a field - if this constraint
+can be interpreted for client side use. 
+			</value>
+		</property>
+		<property name="label" value="Is Apply Client Side"/>
+		<property name="description">
+			<value>
+If this is true, the constraint should be applied on the client
+side when the user interacts with a field - if this constraint
+can be interpreted for client side use. Default is true.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AttributeDefinitionInfo.validCharactersConstraint.labelKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="labelKey"/>
+		<property name="shortLabel" value="Label Key"/>
+		<property name="summary">
+			<value>
+LabelKey should be a single word key.  
+			</value>
+		</property>
+		<property name="label" value="Label Key"/>
+		<property name="description">
+			<value>
+LabelKey should be a single word key.  This key is used to find
+a message to use for this constraint from available messages.
+The key is also used for defining/retrieving validation method
+names when applicable - as such this key MUST exist for valid
+character constraints.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+</beans>

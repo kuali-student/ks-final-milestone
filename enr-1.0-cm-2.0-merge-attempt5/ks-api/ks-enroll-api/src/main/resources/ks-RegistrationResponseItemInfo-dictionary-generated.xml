@@ -1,0 +1,281 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- RegistrationResponseItemInfo-->
+	<bean id="RegistrationResponseItemInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="registrationResponseItemInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseItemInfo"/>
+		<property name="objectLabel" value="Registration Response Item"/>
+		<property name="objectDescription">
+			<value>
+A response to an individual RegistrationRequestItem.  A response
+may result in a CourseRegistration or a position on a course
+waitlist, or just return the error messages.
+			</value>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>registrationRequestItemId</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="RegistrationResponseItemInfo.registrationRequestItemId"/>
+				<ref bean="RegistrationResponseItemInfo.courseRegistrationId"/>
+				<ref bean="RegistrationResponseItemInfo.courseWaitlistEntryId"/>
+				<ref bean="RegistrationResponseItemInfo.holdUntilListEntryId"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+				<ref bean="RegistrationResponseItemInfo.operationStatus"/>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="RegistrationResponseItemInfo.registrationRequestItemId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="registrationRequestItemId"/>
+		<property name="shortLabel" value="Registration Request Item Id"/>
+		<property name="summary">
+			<value>
+Gets the RegistrationRequestItem to which this item is a
+response.
+			</value>
+		</property>
+		<property name="label" value="Registration Request Item"/>
+		<property name="description">
+			<value>
+Gets the RegistrationRequestItem to which this item is a
+response.
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="RegistrationResponseItemInfo.operationStatus-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="operationStatus"/>
+		<property name="shortLabel" value="Operation Status"/>
+		<property name="summary">
+			<value>
+Get the operation status info for the registration item.
+			</value>
+		</property>
+		<property name="label" value="Operation Status"/>
+		<property name="description">
+			<value>
+Get the operation status info for the registration item.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="operationStatus"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.OperationStatusInfo"/>
+				<property name="objectLabel" value="Operation Status"/>
+				<property name="objectDescription">
+					<value>
+Get the operation status info for the registration item.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="RegistrationResponseItemInfo.operationStatus.status"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="RegistrationResponseItemInfo.operationStatus.status-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="status"/>
+		<property name="shortLabel" value="Status"/>
+		<property name="summary">
+			<value>
+Gets the operation status for the transaction.
+			</value>
+		</property>
+		<property name="label" value="Status"/>
+		<property name="description">
+			<value>
+Gets the operation status for the transaction.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="RegistrationResponseItemInfo.operationStatus.messages-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="messages"/>
+		<property name="shortLabel" value="Messages"/>
+		<property name="summary">
+			<value>
+Gets the informational message as a result of this transaction.
+			</value>
+		</property>
+		<property name="label" value="Messages"/>
+		<property name="elementLabel" value="Message"/>
+		<property name="description">
+			<value>
+Gets the informational message as a result of this transaction.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="RegistrationResponseItemInfo.operationStatus.warnings-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="warnings"/>
+		<property name="shortLabel" value="Warnings"/>
+		<property name="summary">
+			<value>
+Returns the warning messages for this transaction. 
+			</value>
+		</property>
+		<property name="label" value="Warnings"/>
+		<property name="elementLabel" value="Warning"/>
+		<property name="description">
+			<value>
+Returns the warning messages for this transaction. Returns an
+empty list if there are no warnings.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="RegistrationResponseItemInfo.operationStatus.errors-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="errors"/>
+		<property name="shortLabel" value="Errors"/>
+		<property name="summary">
+			<value>
+Returns the error messages for this transaction. 
+			</value>
+		</property>
+		<property name="label" value="Errors"/>
+		<property name="elementLabel" value="Error"/>
+		<property name="description">
+			<value>
+Returns the error messages for this transaction. Returns an
+empty list if there are no errors.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="RegistrationResponseItemInfo.courseRegistrationId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseRegistrationId"/>
+		<property name="shortLabel" value="Course Registration Id"/>
+		<property name="summary">
+			<value>
+Gets the course registration (if any) that resulted from this
+registration transaction.
+			</value>
+		</property>
+		<property name="label" value="Course Registration Id"/>
+		<property name="description">
+			<value>
+Gets the course registration (if any) that resulted from this
+registration transaction.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="RegistrationResponseItemInfo.courseWaitlistEntryId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseWaitlistEntryId"/>
+		<property name="shortLabel" value="Course Waitlist Entry Id"/>
+		<property name="summary">
+			<value>
+Gets the waitlist entry (if any) that resulted from this
+registration transaction.
+			</value>
+		</property>
+		<property name="label" value="Course Waitlist Entry Id"/>
+		<property name="description">
+			<value>
+Gets the waitlist entry (if any) that resulted from this
+registration transaction.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="RegistrationResponseItemInfo.holdUntilListEntryId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="holdUntilListEntryId"/>
+		<property name="shortLabel" value="Hold Until List Entry Id"/>
+		<property name="summary">
+			<value>
+Gets the hold until list entry (if any) that resulted from this
+registration transaction.
+			</value>
+		</property>
+		<property name="label" value="Hold Until List Entry Id"/>
+		<property name="description">
+			<value>
+Gets the hold until list entry (if any) that resulted from this
+registration transaction.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+</beans>

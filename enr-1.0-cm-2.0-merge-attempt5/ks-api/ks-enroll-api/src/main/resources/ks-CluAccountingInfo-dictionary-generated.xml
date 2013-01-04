@@ -1,0 +1,163 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- CluAccountingInfo-->
+	<bean id="CluAccountingInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="cluAccountingInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.CluAccountingInfo"/>
+		<property name="objectLabel" value="Clu Accounting"/>
+		<property name="objectDescription">
+			<value>
+Copyright 2010 The Kuali Foundation Licensed under the
+Educational Community License, Version 2.0 (the &quot;License&quot;); you may
+not use this file except in compliance with the License. You may
+obtain a copy of the License at
+
+http://www.osedu.org/licenses/ECL-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an &quot;AS IS&quot;
+BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+or implied. See the License for the specific language governing
+permissions and limitations under the License.
+			</value>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>id</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="CluAccountingInfo.id"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+				<ref bean="CluAccountingInfo.descr"/>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+				<ref bean="CluAccountingInfo.affiliatedOrgs"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="CluAccountingInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+	</bean>
+
+	<bean id="CluAccountingInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="descr"/>
+		<property name="shortLabel" value="Descr"/>
+		<property name="summary">
+			<value>
+Narrative description of the CLU Accounting
+			</value>
+		</property>
+		<property name="label" value="Descr"/>
+		<property name="description">
+			<value>
+Narrative description of the CLU Accounting
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="descr"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.RichTextInfo"/>
+				<property name="objectLabel" value="Descr"/>
+				<property name="objectDescription">
+					<value>
+Narrative description of the CLU Accounting
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="CluAccountingInfo.descr.plain"/>
+						<ref bean="CluAccountingInfo.descr.formatted"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="CluAccountingInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+		<property name="name" value="plain"/>
+	</bean>
+
+	<bean id="CluAccountingInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+		<property name="name" value="formatted"/>
+	</bean>
+
+	<bean id="CluAccountingInfo.affiliatedOrgs-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="affiliatedOrgs"/>
+		<property name="shortLabel" value="Affiliated Orgs"/>
+		<property name="summary">
+			<value>
+List of Affiliated Orgs
+			</value>
+		</property>
+		<property name="label" value="Affiliated Orgs"/>
+		<property name="elementLabel" value="Affiliated Org"/>
+		<property name="description">
+			<value>
+List of Affiliated Orgs
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo"/>
+	</bean>
+</beans>
