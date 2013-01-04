@@ -1,0 +1,753 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <import resource="classpath:ks-base-dictionary.xml"/>
+    
+	<!-- LuiInfo-->
+    <bean id="LuiInfo" parent="LuiInfo-parent"/>
+    <bean id="LuiInfo-parent" abstract="true" parent="LuiInfo-generated">
+	<!-- insert any overrides to the generated object definitions here -->
+    </bean>
+ 
+	<!-- LuiInfo-->
+    <bean id="LuiInfo-generated" abstract="true" parent="DataObjectEntry">
+        <property name="name" value="luiInfo"/>
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.lui.dto.LuiInfo"/>
+        <property name="objectLabel" value="Lui"/>
+        <property name="objectDescription" value="Detailed information about a single LUI."/>
+        <property name="titleAttribute" value="name"/>
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="LuiInfo.id"/>
+                <ref bean="LuiInfo.typeKey"/>
+                <ref bean="LuiInfo.stateKey"/>
+                <ref bean="LuiInfo.name"/>
+                <ref bean="LuiInfo.descr"/>
+                <ref bean="LuiInfo.descr.plain"/>
+                <ref bean="LuiInfo.descr.formatted"/>
+                <ref bean="LuiInfo.effectiveDate"/>
+                <ref bean="LuiInfo.expirationDate"/>
+                <ref bean="LuiInfo.cluId"/>
+                <ref bean="LuiInfo.atpId"/>
+                <ref bean="LuiInfo.maximumEnrollment"/>
+                <ref bean="LuiInfo.minimumEnrollment"/>
+                <ref bean="LuiInfo.referenceURL"/>
+                <ref bean="LuiInfo.expenditure"/>
+                <ref bean="LuiInfo.expenditure.id"/>
+                <ref bean="LuiInfo.expenditure.meta"/>
+                <ref bean="LuiInfo.expenditure.meta.versionInd"/>
+                <ref bean="LuiInfo.expenditure.meta.createTime"/>
+                <ref bean="LuiInfo.expenditure.meta.createId"/>
+                <ref bean="LuiInfo.expenditure.meta.updateTime"/>
+                <ref bean="LuiInfo.expenditure.meta.updateId"/>
+                <ref bean="LuiInfo.meta"/>
+                <ref bean="LuiInfo.meta.versionInd"/>
+                <ref bean="LuiInfo.meta.createTime"/>
+                <ref bean="LuiInfo.meta.createId"/>
+                <ref bean="LuiInfo.meta.updateTime"/>
+                <ref bean="LuiInfo.meta.updateId"/>
+            </list>
+        </property>
+        <property name="complexAttributes">
+            <list>
+                <ref bean="LuiInfo.officialIdentifier"/>
+            </list>
+        </property>        
+    </bean>
+
+
+    <bean id="LuiInfo.officialIdentifier" parent="LuiInfo.officialIdentifier-parent"/>
+    <bean id="LuiInfo.officialIdentifier-parent" abstract="true" parent="LuiInfo.officialIdentifier-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+    <bean id="LuiInfo.officialIdentifier-generated" abstract="true" parent="ComplexAttributeDefinition">
+        <property name="dataObjectEntry" ref="LuiInfo.officialIdentifier-LuiIdentifierInfo" />
+        <property name="name" value="officialIdentifier"/>
+        <property name="required" value="false"/>
+        <property name="shortLabel" value="Official Identifier"/>
+        <property name="summary">
+            <value>
+The LUI identifier.
+            </value>
+        </property>
+        <property name="label" value="Official Identifier"/>
+        <property name="description">
+            <value>
+The LUI identifier.
+            </value>
+        </property>
+    </bean>
+
+
+    <bean id="LuiInfo.officialIdentifier-LuiIdentifierInfo" parent="LuiInfo.officialIdentifier-LuiIdentifierInfo-parent"/>
+    <bean id="LuiInfo.officialIdentifier-LuiIdentifierInfo-parent" abstract="true" parent="LuiInfo.officialIdentifier-LuiIdentifierInfo-generated">
+	<!-- insert any overrides to the generated object definitions here -->
+    </bean>
+	<!-- LuiIdentifierInfo.officialIdentifier-->
+    <bean id="LuiInfo.officialIdentifier-LuiIdentifierInfo-generated" abstract="true" parent="DataObjectEntry">
+        <property name="name" value="LuiIdentifierInfo.officialIdentifier"/>
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo"/>
+        <property name="objectLabel" value="Lui Official Identifier"/>
+        <property name="objectDescription" value="Detailed information about a single LUI offical identifier."/>
+        <property name="titleAttribute" value="name"/>
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+        <property name="attributes">
+            <list>
+				
+                <ref bean="LuiInfo.officialIdentifier.id"/>
+                <ref bean="LuiInfo.officialIdentifier.typeKey"/>
+                <ref bean="LuiInfo.officialIdentifier.stateKey"/>
+                <ref bean="LuiInfo.officialIdentifier.code"/>
+                <ref bean="LuiInfo.officialIdentifier.shortName"/>
+                <ref bean="LuiInfo.officialIdentifier.longName"/>
+                <ref bean="LuiInfo.officialIdentifier.division"/>
+                <ref bean="LuiInfo.officialIdentifier.suffixCode"/>
+                <ref bean="LuiInfo.officialIdentifier.variation"/>
+                <ref bean="LuiInfo.officialIdentifier.meta"/>
+                <ref bean="LuiInfo.officialIdentifier.meta.versionInd"/>
+                <ref bean="LuiInfo.officialIdentifier.meta.createTime"/>
+                <ref bean="LuiInfo.officialIdentifier.meta.createId"/>
+                <ref bean="LuiInfo.officialIdentifier.meta.updateTime"/>
+                <ref bean="LuiInfo.officialIdentifier.meta.updateId"/>
+				
+            </list>
+        </property>
+       
+    </bean>
+
+
+
+    <bean id="LuiInfo.id" parent="LuiInfo.id-parent"/>
+    <bean id="LuiInfo.id-parent" abstract="true" parent="LuiInfo.id-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.typeKey" parent="LuiInfo.typeKey-parent"/>
+    <bean id="LuiInfo.typeKey-parent" abstract="true" parent="LuiInfo.typeKey-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.stateKey" parent="LuiInfo.stateKey-parent"/>
+    <bean id="LuiInfo.stateKey-parent" abstract="true" parent="LuiInfo.stateKey-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.name" parent="LuiInfo.name-parent"/>
+    <bean id="LuiInfo.name-parent" abstract="true" parent="LuiInfo.name-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.descr" parent="LuiInfo.descr-parent"/>
+    <bean id="LuiInfo.descr-parent" abstract="true" parent="LuiInfo.descr-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.descr.plain" parent="LuiInfo.descr.plain-parent"/>
+    <bean id="LuiInfo.descr.plain-parent" abstract="true" parent="LuiInfo.descr.plain-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.descr.formatted" parent="LuiInfo.descr.formatted-parent"/>
+    <bean id="LuiInfo.descr.formatted-parent" abstract="true" parent="LuiInfo.descr.formatted-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.effectiveDate" parent="LuiInfo.effectiveDate-parent"/>
+    <bean id="LuiInfo.effectiveDate-parent" abstract="true" parent="LuiInfo.effectiveDate-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.expirationDate" parent="LuiInfo.expirationDate-parent"/>
+    <bean id="LuiInfo.expirationDate-parent" abstract="true" parent="LuiInfo.expirationDate-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.id" parent="LuiInfo.officialIdentifier.id-parent"/>
+    <bean id="LuiInfo.officialIdentifier.id-parent" abstract="true" parent="LuiInfo.officialIdentifier.id-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.typeKey" parent="LuiInfo.officialIdentifier.typeKey-parent"/>
+    <bean id="LuiInfo.officialIdentifier.typeKey-parent" abstract="true" parent="LuiInfo.officialIdentifier.typeKey-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+<!--     TODO: MAKE THIS REQUIRED AGAIN ONCE RICE FIXES THE BUG WHERE THIS FAILS EVEN IF THE OFFICIAL IDENTIFIER IS NOT REQUIRD BUT THIS IS-->
+<!--     <property name="required" value="false"/>-->
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.stateKey" parent="LuiInfo.officialIdentifier.stateKey-parent"/>
+    <bean id="LuiInfo.officialIdentifier.stateKey-parent" abstract="true" parent="LuiInfo.officialIdentifier.stateKey-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+<!--     TODO: MAKE THIS REQUIRED AGAIN ONCE RICE FIXES THE BUG WHERE THIS FAILS EVEN IF THE OFFICIAL IDENTIFIER IS NOT REQUIRD BUT THIS IS-->    
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.code" parent="LuiInfo.officialIdentifier.code-parent"/>
+    <bean id="LuiInfo.officialIdentifier.code-parent" abstract="true" parent="LuiInfo.officialIdentifier.code-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.shortName" parent="LuiInfo.officialIdentifier.shortName-parent"/>
+    <bean id="LuiInfo.officialIdentifier.shortName-parent" abstract="true" parent="LuiInfo.officialIdentifier.shortName-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.longName" parent="LuiInfo.officialIdentifier.longName-parent"/>
+    <bean id="LuiInfo.officialIdentifier.longName-parent" abstract="true" parent="LuiInfo.officialIdentifier.longName-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.division" parent="LuiInfo.officialIdentifier.division-parent"/>
+    <bean id="LuiInfo.officialIdentifier.division-parent" abstract="true" parent="LuiInfo.officialIdentifier.division-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.suffixCode" parent="LuiInfo.officialIdentifier.suffixCode-parent"/>
+    <bean id="LuiInfo.officialIdentifier.suffixCode-parent" abstract="true" parent="LuiInfo.officialIdentifier.suffixCode-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.variation" parent="LuiInfo.officialIdentifier.variation-parent"/>
+    <bean id="LuiInfo.officialIdentifier.variation-parent" abstract="true" parent="LuiInfo.officialIdentifier.variation-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.meta" parent="LuiInfo.officialIdentifier.meta-parent"/>
+    <bean id="LuiInfo.officialIdentifier.meta-parent" abstract="true" parent="LuiInfo.officialIdentifier.meta-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.meta.versionInd" parent="LuiInfo.officialIdentifier.meta.versionInd-parent"/>
+    <bean id="LuiInfo.officialIdentifier.meta.versionInd-parent" abstract="true" parent="LuiInfo.officialIdentifier.meta.versionInd-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.meta.createTime" parent="LuiInfo.officialIdentifier.meta.createTime-parent"/>
+    <bean id="LuiInfo.officialIdentifier.meta.createTime-parent" abstract="true" parent="LuiInfo.officialIdentifier.meta.createTime-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.meta.createId" parent="LuiInfo.officialIdentifier.meta.createId-parent"/>
+    <bean id="LuiInfo.officialIdentifier.meta.createId-parent" abstract="true" parent="LuiInfo.officialIdentifier.meta.createId-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.meta.updateTime" parent="LuiInfo.officialIdentifier.meta.updateTime-parent"/>
+    <bean id="LuiInfo.officialIdentifier.meta.updateTime-parent" abstract="true" parent="LuiInfo.officialIdentifier.meta.updateTime-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.meta.updateId" parent="LuiInfo.officialIdentifier.meta.updateId-parent"/>
+    <bean id="LuiInfo.officialIdentifier.meta.updateId-parent" abstract="true" parent="LuiInfo.officialIdentifier.meta.updateId-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.cluId" parent="LuiInfo.cluId-parent"/>
+    <bean id="LuiInfo.cluId-parent" abstract="true" parent="LuiInfo.cluId-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.atpId" parent="LuiInfo.atpId-parent"/>
+    <bean id="LuiInfo.atpId-parent" abstract="true" parent="LuiInfo.atpId-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.maximumEnrollment" parent="LuiInfo.maximumEnrollment-parent"/>
+    <bean id="LuiInfo.maximumEnrollment-parent" abstract="true" parent="LuiInfo.maximumEnrollment-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.minimumEnrollment" parent="LuiInfo.minimumEnrollment-parent"/>
+    <bean id="LuiInfo.minimumEnrollment-parent" abstract="true" parent="LuiInfo.minimumEnrollment-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.referenceURL" parent="LuiInfo.referenceURL-parent"/>
+    <bean id="LuiInfo.referenceURL-parent" abstract="true" parent="LuiInfo.referenceURL-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.expenditure" parent="LuiInfo.expenditure-parent"/>
+    <bean id="LuiInfo.expenditure-parent" abstract="true" parent="LuiInfo.expenditure-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.expenditure.id" parent="LuiInfo.expenditure.id-parent"/>
+    <bean id="LuiInfo.expenditure.id-parent" abstract="true" parent="LuiInfo.expenditure.id-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.expenditure.meta" parent="LuiInfo.expenditure.meta-parent"/>
+    <bean id="LuiInfo.expenditure.meta-parent" abstract="true" parent="LuiInfo.expenditure.meta-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.expenditure.meta.versionInd" parent="LuiInfo.expenditure.meta.versionInd-parent"/>
+    <bean id="LuiInfo.expenditure.meta.versionInd-parent" abstract="true" parent="LuiInfo.expenditure.meta.versionInd-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.expenditure.meta.createTime" parent="LuiInfo.expenditure.meta.createTime-parent"/>
+    <bean id="LuiInfo.expenditure.meta.createTime-parent" abstract="true" parent="LuiInfo.expenditure.meta.createTime-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.expenditure.meta.createId" parent="LuiInfo.expenditure.meta.createId-parent"/>
+    <bean id="LuiInfo.expenditure.meta.createId-parent" abstract="true" parent="LuiInfo.expenditure.meta.createId-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.expenditure.meta.updateTime" parent="LuiInfo.expenditure.meta.updateTime-parent"/>
+    <bean id="LuiInfo.expenditure.meta.updateTime-parent" abstract="true" parent="LuiInfo.expenditure.meta.updateTime-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.expenditure.meta.updateId" parent="LuiInfo.expenditure.meta.updateId-parent"/>
+    <bean id="LuiInfo.expenditure.meta.updateId-parent" abstract="true" parent="LuiInfo.expenditure.meta.updateId-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.meta" parent="LuiInfo.meta-parent"/>
+    <bean id="LuiInfo.meta-parent" abstract="true" parent="LuiInfo.meta-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.meta.versionInd" parent="LuiInfo.meta.versionInd-parent"/>
+    <bean id="LuiInfo.meta.versionInd-parent" abstract="true" parent="LuiInfo.meta.versionInd-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.meta.createTime" parent="LuiInfo.meta.createTime-parent"/>
+    <bean id="LuiInfo.meta.createTime-parent" abstract="true" parent="LuiInfo.meta.createTime-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.meta.createId" parent="LuiInfo.meta.createId-parent"/>
+    <bean id="LuiInfo.meta.createId-parent" abstract="true" parent="LuiInfo.meta.createId-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.meta.updateTime" parent="LuiInfo.meta.updateTime-parent"/>
+    <bean id="LuiInfo.meta.updateTime-parent" abstract="true" parent="LuiInfo.meta.updateTime-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+
+    <bean id="LuiInfo.meta.updateId" parent="LuiInfo.meta.updateId-parent"/>
+    <bean id="LuiInfo.meta.updateId-parent" abstract="true" parent="LuiInfo.meta.updateId-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+   
+    <bean id="LuiInfo.id-generated" abstract="true" parent="BaseKuali.id">
+        <property name="name" value="id"/>
+        <property name="childEntryName" value="id"/>
+    </bean>
+
+    <bean id="LuiInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+        <property name="name" value="typeKey"/>
+        <property name="childEntryName" value="typeKey"/>
+    </bean>
+
+    <bean id="LuiInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+        <property name="name" value="stateKey"/>
+        <property name="childEntryName" value="stateKey"/>
+    </bean>
+
+    <bean id="LuiInfo.name-generated" abstract="true" parent="BaseKuali.name">
+        <property name="name" value="name"/>
+        <property name="childEntryName" value="name"/>
+    </bean>
+
+    <bean id="LuiInfo.descr-generated" abstract="true" parent="BaseKuali.descr">
+        <property name="name" value="descr"/>
+        <property name="childEntryName" value="descr"/>
+    </bean>
+
+    <bean id="LuiInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+        <property name="name" value="descr.plain"/>
+        <property name="childEntryName" value="plain"/>
+    </bean>
+
+    <bean id="LuiInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+        <property name="name" value="descr.formatted"/>
+        <property name="childEntryName" value="formatted"/>
+    </bean>
+
+    <bean id="LuiInfo.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
+        <property name="name" value="effectiveDate"/>
+        <property name="childEntryName" value="effectiveDate"/>
+    </bean>
+
+    <bean id="LuiInfo.expirationDate-generated" abstract="true" parent="BaseKuali.expirationDate">
+        <property name="name" value="expirationDate"/>
+        <property name="childEntryName" value="expirationDate"/>
+    </bean>
+
+
+    <bean id="LuiInfo.officialIdentifier.id-generated" abstract="true" parent="BaseKuali.id">
+        <property name="name" value="id"/>
+        <property name="childEntryName" value="id"/>
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+        <property name="name" value="typeKey"/>
+        <property name="childEntryName" value="typeKey"/>
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+        <property name="name" value="stateKey"/>
+        <property name="childEntryName" value="stateKey"/>
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.code-generated" abstract="true" parent="BaseKuali.code">
+        <property name="name" value="code"/>
+        <property name="childEntryName" value="code"/>
+        <property name="required" value="false"/>
+        <property name="shortLabel" value="Code"/>
+        <property name="summary">
+            <value>
+The composite string that is used to officially reference or
+publish the LUI. 
+            </value>
+        </property>
+        <property name="label" value="Code"/>
+        <property name="description">
+            <value>
+The composite string that is used to officially reference or
+publish the LUI. Note it may have an internal structure that
+each Institution may want to enforce. This structure may be
+composed from the other parts of the structure such as Level
+amp; Division, but may include items such as luiType.
+            </value>
+        </property>
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.shortName-generated" abstract="true" parent="BaseKuali.string">
+        <property name="name" value="shortName"/>
+        <property name="childEntryName" value="shortName"/>
+        <property name="required" value="false"/>
+        <property name="shortLabel" value="Short Name"/>
+        <property name="summary">
+            <value>
+Abbreviated name of the LUI, commonly used on transcripts.
+            </value>
+        </property>
+        <property name="label" value="Short Name"/>
+        <property name="description">
+            <value>
+Abbreviated name of the LUI, commonly used on transcripts.
+            </value>
+        </property>
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.longName-generated" abstract="true" parent="BaseKuali.string">
+        <property name="name" value="longName"/>
+        <property name="childEntryName" value="longName"/>
+        <property name="required" value="false"/>
+        <property name="shortLabel" value="Long Name"/>
+        <property name="summary">
+            <value>
+The Long Name of the LUI.
+            </value>
+        </property>
+        <property name="label" value="Long Name"/>
+        <property name="description">
+            <value>
+The Long Name of the LUI.
+            </value>
+        </property>
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.division-generated" abstract="true" parent="BaseKuali.string">
+        <property name="name" value="division"/>
+        <property name="childEntryName" value="division"/>
+        <property name="required" value="false"/>
+        <property name="shortLabel" value="Division"/>
+        <property name="summary">
+            <value>
+A code that indicates what school, program, major, subject
+area, etc. 
+            </value>
+        </property>
+        <property name="label" value="Division"/>
+        <property name="description">
+            <value>
+A code that indicates what school, program, major, subject
+area, etc. Examples: &quot;Chem&quot;, &quot;18&quot;.
+            </value>
+        </property>
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.suffixCode-generated" abstract="true" parent="BaseKuali.code">
+        <property name="name" value="suffixCode"/>
+        <property name="childEntryName" value="suffixCode"/>
+        <property name="required" value="false"/>
+        <property name="shortLabel" value="Suffix Code"/>
+        <property name="summary">
+            <value>
+???
+            </value>
+        </property>
+        <property name="label" value="Suffix Code"/>
+        <property name="description">
+            <value>
+???
+            </value>
+        </property>
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.variation-generated" abstract="true" parent="BaseKuali.string">
+        <property name="name" value="variation"/>
+        <property name="childEntryName" value="variation"/>
+        <property name="required" value="false"/>
+        <property name="shortLabel" value="Variation"/>
+        <property name="summary">
+            <value>
+A number that indicates the sequence or order of versions in
+cases where several different Clus have the same offical
+Identifier.
+            </value>
+        </property>
+        <property name="label" value="Variation"/>
+        <property name="description">
+            <value>
+A number that indicates the sequence or order of versions in
+cases where several different Clus have the same offical
+Identifier.
+            </value>
+        </property>
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.meta-generated" abstract="true" parent="BaseKuali.meta">
+        <property name="name" value="meta"/>
+        <property name="childEntryName" value="meta"/>
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+        <property name="name" value="meta.versionInd"/>
+        <property name="childEntryName" value="versionInd"/>
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+        <property name="name" value="meta.createTime"/>
+        <property name="childEntryName" value="createTime"/>
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+        <property name="name" value="meta.createId"/>
+        <property name="childEntryName" value="createId"/>
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+        <property name="name" value="meta.updateTime"/>
+        <property name="childEntryName" value="updateTime"/>
+    </bean>
+
+    <bean id="LuiInfo.officialIdentifier.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+        <property name="name" value="meta.updateId"/>
+        <property name="childEntryName" value="updateId"/>
+    </bean>
+
+    <bean id="LuiInfo.cluId-generated" abstract="true" parent="BaseKuali.cluId">
+        <property name="name" value="cluId"/>
+        <property name="childEntryName" value="cluId"/>
+        <property name="required" value="false"/>
+        <property name="shortLabel" value="Clu Id"/>
+        <property name="summary">
+            <value>
+The unique identifier for the Canonical Learning Unit
+(CLU) of which this is an instance.
+            </value>
+        </property>
+        <property name="label" value="Clu Id"/>
+        <property name="description">
+            <value>
+The unique identifier for the Canonical Learning Unit
+(CLU) of which this is an instance.
+            </value>
+        </property>
+    </bean>
+
+    <bean id="LuiInfo.atpId-generated" abstract="true" parent="BaseKuali.atpId">
+        <property name="name" value="atpId"/>
+        <property name="childEntryName" value="atpId"/>
+        <property name="required" value="false"/>
+        <property name="shortLabel" value="Atp Key"/>
+        <property name="summary">
+            <value>
+The unique identifier for the Academic Time Period (ATP)
+for which this instance is offered.
+            </value>
+        </property>
+        <property name="label" value="Atp Key"/>
+        <property name="description">
+            <value>
+The unique identifier for the Academic Time Period (ATP)
+for which this instance is offered.
+            </value>
+        </property>
+    </bean>
+
+    <bean id="LuiInfo.maximumEnrollment-generated" abstract="true" parent="BaseKuali.integer">
+        <property name="name" value="maximumEnrollment"/>
+        <property name="childEntryName" value="maximumEnrollment"/>
+        <property name="required" value="false"/>
+        <property name="shortLabel" value="Maximum Enrollment"/>
+        <property name="summary">
+            <value>
+The total maximum number of &quot;seats&quot; or enrollment slots that
+can be filled for the lui.
+            </value>
+        </property>
+        <property name="label" value="Maximum Enrollment"/>
+        <property name="description">
+            <value>
+The total maximum number of &quot;seats&quot; or enrollment slots that
+can be filled for the lui.
+            </value>
+        </property>
+    </bean>
+
+    <bean id="LuiInfo.minimumEnrollment-generated" abstract="true" parent="BaseKuali.integer">
+        <property name="name" value="minimumEnrollment"/>
+        <property name="childEntryName" value="minimumEnrollment"/>
+        <property name="required" value="false"/>
+        <property name="shortLabel" value="Minimum Enrollment"/>
+        <property name="summary">
+            <value>
+Total minimum number of seats that must be filled for the lui.
+            </value>
+        </property>
+        <property name="label" value="Minimum Enrollment"/>
+        <property name="description">
+            <value>
+Total minimum number of seats that must be filled for the lui.
+            </value>
+        </property>
+    </bean>
+
+    <bean id="LuiInfo.referenceURL-generated" abstract="true" parent="BaseKuali.string">
+        <property name="name" value="referenceURL"/>
+        <property name="childEntryName" value="referenceURL"/>
+        <property name="required" value="false"/>
+        <property name="shortLabel" value="Reference URL"/>
+        <property name="summary">
+            <value>
+The reference URL for this LUI.
+            </value>
+        </property>
+        <property name="label" value="referenceURL"/>
+        <property name="description">
+            <value>
+The reference URL for this LUI.
+            </value>
+        </property>
+    </bean>
+
+    <bean id="LuiInfo.expenditure-generated" abstract="true" parent="BaseKuali.complex">
+        <property name="name" value="expenditure"/>
+        <property name="childEntryName" value="expenditure"/>
+        <property name="required" value="false"/>
+        <property name="shortLabel" value="Expenditure"/>
+        <property name="summary">
+            <value>
+The organization that incurs the cost associated with the
+course.
+            </value>
+        </property>
+        <property name="label" value="Expenditure"/>
+        <property name="description">
+            <value>
+The organization that incurs the cost associated with the
+course.
+            </value>
+        </property>
+    </bean>
+
+    <bean id="LuiInfo.expenditure.id-generated" abstract="true" parent="BaseKuali.id">
+        <property name="name" value="expenditure.id"/>
+        <property name="childEntryName" value="id"/>
+    </bean>
+
+    <bean id="LuiInfo.expenditure.meta-generated" abstract="true" parent="BaseKuali.meta">
+        <property name="name" value="expenditure.meta"/>
+        <property name="childEntryName" value="meta"/>
+    </bean>
+
+    <bean id="LuiInfo.expenditure.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+        <property name="name" value="expenditure.meta.versionInd"/>
+        <property name="childEntryName" value="versionInd"/>
+    </bean>
+
+    <bean id="LuiInfo.expenditure.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+        <property name="name" value="expenditure.meta.createTime"/>
+        <property name="childEntryName" value="createTime"/>
+    </bean>
+
+    <bean id="LuiInfo.expenditure.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+        <property name="name" value="expenditure.meta.createId"/>
+        <property name="childEntryName" value="createId"/>
+    </bean>
+
+    <bean id="LuiInfo.expenditure.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+        <property name="name" value="expenditure.meta.updateTime"/>
+        <property name="childEntryName" value="updateTime"/>
+    </bean>
+
+    <bean id="LuiInfo.expenditure.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+        <property name="name" value="expenditure.meta.updateId"/>
+        <property name="childEntryName" value="updateId"/>
+    </bean>
+
+    <bean id="LuiInfo.meta-generated" abstract="true" parent="BaseKuali.meta">
+        <property name="name" value="meta"/>
+        <property name="childEntryName" value="meta"/>
+    </bean>
+
+    <bean id="LuiInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+        <property name="name" value="meta.versionInd"/>
+        <property name="childEntryName" value="versionInd"/>
+    </bean>
+
+    <bean id="LuiInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+        <property name="name" value="meta.createTime"/>
+        <property name="childEntryName" value="createTime"/>
+    </bean>
+
+    <bean id="LuiInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+        <property name="name" value="meta.createId"/>
+        <property name="childEntryName" value="createId"/>
+    </bean>
+
+    <bean id="LuiInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+        <property name="name" value="meta.updateTime"/>
+        <property name="childEntryName" value="updateTime"/>
+    </bean>
+
+    <bean id="LuiInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+        <property name="name" value="meta.updateId"/>
+        <property name="childEntryName" value="updateId"/>
+    </bean>
+</beans>
