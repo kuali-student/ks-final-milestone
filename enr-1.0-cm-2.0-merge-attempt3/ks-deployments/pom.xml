@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.kuali.student</groupId>
+        <artifactId>student</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+    </parent>
+    <groupId>org.kuali.student.deployments</groupId>
+    <artifactId>ks-deployments</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+    <name>KS Deployments</name>
+    <packaging>pom</packaging>
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>ks-cfg-dbs</module>
+                <module>ks-web</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>impex-only</id>
+            <modules>
+                <module>ks-cfg-dbs</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>web-only</id>
+            <modules>
+                <module>ks-web</module>
+            </modules>
+        </profile>
+    </profiles>
+</project>

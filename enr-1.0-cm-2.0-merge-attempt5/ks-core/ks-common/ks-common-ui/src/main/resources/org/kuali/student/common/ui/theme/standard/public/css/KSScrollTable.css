@@ -1,0 +1,113 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+/*body {
+  padding: 10px;
+}*/
+.KS-Scroll-Table{
+	
+}
+/*
+ * ScrollTable
+ */
+.gwt-ScrollTable {
+  border-color: #aaa;
+  border-style: solid;
+  border-width: 1px 0px 1px 1px;
+}
+
+.gwt-ScrollTable .headerWrapper {
+  background: #8bd url(images/bg_header_gradient.gif) repeat-x bottom left;
+}
+
+.gwt-ScrollTable .footerWrapper {
+  border-top: 1px solid #aaa;
+  background: #8bd url(images/bg_header_gradient.gif) repeat-x bottom left;
+}
+
+.gwt-ScrollTable .dataTable td,
+.gwt-ScrollTable .headerTable td,
+.gwt-ScrollTable .footerTable td {
+  border-color: #aaa;
+  border-style: solid;
+  border-bottom: 1px solid #D5D5D5;
+  empty-cells: show;
+  border-width: 0px 1px 1px 0px;
+  white-space: nowrap;
+  overflow: hidden;
+}	
+
+.gwt-ScrollTable .headerTable td,
+.gwt-ScrollTable .footerTable td {
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+}
+    
+.gwt-ScrollTable .dataTable tr.highlighted {
+  background: #C3D9FF;
+}
+
+.gwt-ScrollTable .dataTable td.highlighted {
+  background: #FFFFAA;
+  cursor: hand;
+  cursor: pointer;
+}
+
+.gwt-ScrollTable .dataTable tr.selected td {
+  background: #7AA5D6;
+}
+
+/**
+ * Applied to the options at the bottom of the page.
+ */
+.gwt-PagingOptions {
+  background: #e8eef7;
+  border: 1px solid #aaa;
+  border-top: none;
+}
+
+.gwt-PagingOptions .errorMessage {
+    color: red;
+}
+
+.pagingOptionsFirstPage,
+.pagingOptionsLastPage,
+.pagingOptionsNextPage,
+.pagingOptionsPrevPage {
+  cursor: hand;
+  cursor: pointer;
+}
+
+.gwt-InlineCellEditor {
+  border: 3px solid #7AA5D6;
+  padding: 4px;
+  background: white;
+  overflow: auto;
+}
+.gwt-InlineCellEditor .accept {
+  cursor: pointer;
+  cursor: hand;
+}
+.gwt-InlineCellEditor .cancel {
+  cursor: pointer;
+  cursor: hand;
+}
+
+/** Applied to AbstractOptions */
+.AbstractOption-Label {
+  font-weight: bold;
+  text-align: right;
+}

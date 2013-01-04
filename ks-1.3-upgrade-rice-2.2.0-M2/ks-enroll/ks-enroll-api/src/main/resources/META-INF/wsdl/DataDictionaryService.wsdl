@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="DataDictionaryServiceService" targetNamespace="http://student.kuali.org/wsdl/datadictionary" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/datadictionary" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://exceptions.common.r2.student.kuali.org/" xmlns:ns1="http://rice.kuali.org/core/v2_0" xmlns:tns="http://student.kuali.org/wsdl/datadictionary" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/datadictionary">
+<xs:import namespace="http://rice.kuali.org/core/v2_0"/>
+<xs:element name="getDataDictionaryEntry" type="tns:getDataDictionaryEntry"/>
+<xs:element name="getDataDictionaryEntryKeys" type="tns:getDataDictionaryEntryKeys"/>
+<xs:element name="getDataDictionaryEntryKeysResponse" type="tns:getDataDictionaryEntryKeysResponse"/>
+<xs:element name="getDataDictionaryEntryResponse" type="tns:getDataDictionaryEntryResponse"/>
+<xs:complexType name="getDataDictionaryEntryKeys">
+<xs:sequence>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ContextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="authenticatedPrincipalId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="currentDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="locale" type="tns:LocaleInfo"/>
+<xs:element minOccurs="0" name="timeZone" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LocaleInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="localeLanguage" type="xs:string"/>
+<xs:element minOccurs="0" name="localeVariant" type="xs:string"/>
+<xs:element minOccurs="0" name="localeRegion" type="xs:string"/>
+<xs:element minOccurs="0" name="localeScript" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="AttributeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="key" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDataDictionaryEntryKeysResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDataDictionaryEntry">
+<xs:sequence>
+<xs:element minOccurs="0" name="entryKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDataDictionaryEntryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:dictionaryEntryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="dictionaryEntryInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="objectClass" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="objectLabel" type="xs:string"/>
+<xs:element minOccurs="0" name="objectDescription" type="xs:string"/>
+<xs:element minOccurs="0" name="titleAttribute" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="primaryKeys" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:attributeDefinitionInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="attributeDefinitionInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="childEntryName" type="xs:string"/>
+<xs:element minOccurs="0" name="dataType" type="ns1:dataType"/>
+<xs:element minOccurs="0" name="isRequired" type="xs:boolean"/>
+<xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
+<xs:element minOccurs="0" name="maxOccurs" type="xs:int"/>
+<xs:element minOccurs="0" name="minLength" type="xs:int"/>
+<xs:element minOccurs="0" name="maxLength" type="xs:int"/>
+<xs:element minOccurs="0" name="isForceUppercase" type="xs:boolean"/>
+<xs:element minOccurs="0" name="shortLabel" type="xs:string"/>
+<xs:element minOccurs="0" name="summary" type="xs:string"/>
+<xs:element minOccurs="0" name="label" type="xs:string"/>
+<xs:element minOccurs="0" name="description" type="xs:string"/>
+<xs:element minOccurs="0" name="exclusiveMin" type="xs:string"/>
+<xs:element minOccurs="0" name="inclusiveMax" type="xs:string"/>
+<xs:element minOccurs="0" name="displayLabelAttribute" type="xs:string"/>
+<xs:element minOccurs="0" name="isUnique" type="xs:boolean"/>
+<xs:element minOccurs="0" name="customValidatorClass" type="xs:string"/>
+<xs:element minOccurs="0" name="formatterClass" type="xs:string"/>
+<xs:element minOccurs="0" name="validCharactersConstraint" type="tns:validCharactersConstraintInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validCharactersConstraintInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:element minOccurs="0" name="jsValue" type="xs:string"/>
+<xs:element minOccurs="0" name="isApplyClientSide" type="xs:boolean"/>
+<xs:element minOccurs="0" name="labelKey" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
+<xs:element name="MissingParameterException" nillable="true" type="ns0:MissingParameterException"/>
+<xs:element name="PermissionDeniedException" nillable="true" type="ns0:PermissionDeniedException"/>
+<xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://rice.kuali.org/core/v2_0" version="1.0">
+<xs:simpleType name="dataType">
+<xs:restriction base="xs:string">
+<xs:enumeration value="STRING"/>
+<xs:enumeration value="MARKUP"/>
+<xs:enumeration value="DATE"/>
+<xs:enumeration value="TRUNCATED_DATE"/>
+<xs:enumeration value="BOOLEAN"/>
+<xs:enumeration value="INTEGER"/>
+<xs:enumeration value="FLOAT"/>
+<xs:enumeration value="DOUBLE"/>
+<xs:enumeration value="LONG"/>
+<xs:enumeration value="DATETIME"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://exceptions.common.r2.student.kuali.org/" targetNamespace="http://exceptions.common.r2.student.kuali.org/" version="1.0">
+<xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+<xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+<xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+<xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+<xs:complexType name="OperationFailedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MissingParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="PermissionDeniedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DoesNotExistException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getDataDictionaryEntry">
+    <wsdl:part name="parameters" element="tns:getDataDictionaryEntry">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDataDictionaryEntryKeys">
+    <wsdl:part name="parameters" element="tns:getDataDictionaryEntryKeys">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDataDictionaryEntryResponse">
+    <wsdl:part name="parameters" element="tns:getDataDictionaryEntryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PermissionDeniedException">
+    <wsdl:part name="PermissionDeniedException" element="tns:PermissionDeniedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDataDictionaryEntryKeysResponse">
+    <wsdl:part name="parameters" element="tns:getDataDictionaryEntryKeysResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="DataDictionaryService">
+    <wsdl:operation name="getDataDictionaryEntryKeys">
+      <wsdl:input name="getDataDictionaryEntryKeys" message="tns:getDataDictionaryEntryKeys">
+    </wsdl:input>
+      <wsdl:output name="getDataDictionaryEntryKeysResponse" message="tns:getDataDictionaryEntryKeysResponse">
+    </wsdl:output>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDataDictionaryEntry">
+      <wsdl:input name="getDataDictionaryEntry" message="tns:getDataDictionaryEntry">
+    </wsdl:input>
+      <wsdl:output name="getDataDictionaryEntryResponse" message="tns:getDataDictionaryEntryResponse">
+    </wsdl:output>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DataDictionaryServiceServiceSoapBinding" type="tns:DataDictionaryService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getDataDictionaryEntryKeys">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getDataDictionaryEntryKeys">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDataDictionaryEntryKeysResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDataDictionaryEntry">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getDataDictionaryEntry">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDataDictionaryEntryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DataDictionaryServiceService">
+    <wsdl:port name="DataDictionaryServicePort" binding="tns:DataDictionaryServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/DataDictionaryServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

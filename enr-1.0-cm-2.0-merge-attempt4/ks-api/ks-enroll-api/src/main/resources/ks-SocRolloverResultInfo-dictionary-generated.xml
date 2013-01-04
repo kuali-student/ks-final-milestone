@@ -1,0 +1,517 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- SocRolloverResultInfo-->
+	<bean id="SocRolloverResultInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="socRolloverResultInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo"/>
+		<property name="objectLabel" value="Soc Rollover Result"/>
+		<property name="objectDescription">
+			<value>
+Read only object that holds the results of a rollover process
+			</value>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>id</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="SocRolloverResultInfo.id"/>
+				<ref bean="SocRolloverResultInfo.typeKey"/>
+				<ref bean="SocRolloverResultInfo.stateKey"/>
+				<ref bean="SocRolloverResultInfo.sourceSocId"/>
+				<ref bean="SocRolloverResultInfo.targetSocId"/>
+				<ref bean="SocRolloverResultInfo.targetTermId"/>
+				<ref bean="SocRolloverResultInfo.itemsProcessed"/>
+				<ref bean="SocRolloverResultInfo.itemsExpected"/>
+				<ref bean="SocRolloverResultInfo.courseOfferingsCreated"/>
+				<ref bean="SocRolloverResultInfo.courseOfferingsSkipped"/>
+				<ref bean="SocRolloverResultInfo.activityOfferingsCreated"/>
+				<ref bean="SocRolloverResultInfo.activityOfferingsSkipped"/>
+				<ref bean="SocRolloverResultInfo.sourceTermId"/>
+				<ref bean="SocRolloverResultInfo.dateInitiated"/>
+				<ref bean="SocRolloverResultInfo.dateCompleted"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+				<ref bean="SocRolloverResultInfo.message"/>
+				<ref bean="SocRolloverResultInfo.meta"/>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+		<property name="name" value="typeKey"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+		<property name="name" value="stateKey"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.sourceSocId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="sourceSocId"/>
+		<property name="shortLabel" value="Source Soc Id"/>
+		<property name="summary">
+			<value>
+The id of the source soc
+			</value>
+		</property>
+		<property name="label" value="Source Soc Id"/>
+		<property name="description">
+			<value>
+The id of the source soc
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.targetSocId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="targetSocId"/>
+		<property name="shortLabel" value="Target Soc Id"/>
+		<property name="summary">
+			<value>
+The id of the target Soc
+
+Note: this Soc could have already existed or it may have been created 
+based on the source soc but for the new term.
+			</value>
+		</property>
+		<property name="label" value="Target Soc Id"/>
+		<property name="description">
+			<value>
+The id of the target Soc
+
+Note: this Soc could have already existed or it may have been created 
+based on the source soc but for the new term.
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.targetTermId-generated" abstract="true" parent="BaseKuali.termId">
+		<property name="name" value="targetTermId"/>
+		<property name="shortLabel" value="Target Term Id"/>
+		<property name="summary">
+			<value>
+Academic target term of the courses that were rolled over
+			</value>
+		</property>
+		<property name="label" value="Target Term Id"/>
+		<property name="description">
+			<value>
+Academic target term of the courses that were rolled over
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.optionKeys-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="optionKeys"/>
+		<property name="shortLabel" value="Option Keys"/>
+		<property name="summary">
+			<value>
+Option Keys specified to control the rollover process
+			</value>
+		</property>
+		<property name="label" value="Option Keys"/>
+		<property name="elementLabel" value="Option Key"/>
+		<property name="description">
+			<value>
+Option Keys specified to control the rollover process
+			</value>
+		</property>
+		<property name="minOccurs" value="1"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.itemsProcessed-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="itemsProcessed"/>
+		<property name="shortLabel" value="Items Processed"/>
+		<property name="summary">
+			<value>
+Number of items processed
+			</value>
+		</property>
+		<property name="label" value="Items Processed"/>
+		<property name="description">
+			<value>
+Number of items processed
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.itemsExpected-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="itemsExpected"/>
+		<property name="shortLabel" value="Items Expected"/>
+		<property name="summary">
+			<value>
+Number of items expected to be processed
+			</value>
+		</property>
+		<property name="label" value="Items Expected"/>
+		<property name="description">
+			<value>
+Number of items expected to be processed
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.courseOfferingsCreated-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="courseOfferingsCreated"/>
+		<property name="shortLabel" value="Course Offerings Created"/>
+		<property name="summary">
+			<value>
+Number of course offerings created
+			</value>
+		</property>
+		<property name="label" value="Course Offerings Created"/>
+		<property name="description">
+			<value>
+Number of course offerings created
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.courseOfferingsSkipped-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="courseOfferingsSkipped"/>
+		<property name="shortLabel" value="Course Offerings Skipped"/>
+		<property name="summary">
+			<value>
+Number of course offerings skipped (not rolled over)
+			</value>
+		</property>
+		<property name="label" value="Course Offerings Skipped"/>
+		<property name="description">
+			<value>
+Number of course offerings skipped (not rolled over)
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.activityOfferingsCreated-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="activityOfferingsCreated"/>
+		<property name="shortLabel" value="Activity Offerings Created"/>
+		<property name="summary">
+			<value>
+Number of activity offerings created
+			</value>
+		</property>
+		<property name="label" value="Activity Offerings Created"/>
+		<property name="description">
+			<value>
+Number of activity offerings created
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.activityOfferingsSkipped-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="activityOfferingsSkipped"/>
+		<property name="shortLabel" value="Activity Offerings Skipped"/>
+		<property name="summary">
+			<value>
+Number of activity offerings skipped (not rolled over)
+			</value>
+		</property>
+		<property name="label" value="Activity Offerings Skipped"/>
+		<property name="description">
+			<value>
+Number of activity offerings skipped (not rolled over)
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.sourceTermId-generated" abstract="true" parent="BaseKuali.termId">
+		<property name="name" value="sourceTermId"/>
+		<property name="shortLabel" value="Source Term Id"/>
+		<property name="summary">
+			<value>
+Get the target term Id
+			</value>
+		</property>
+		<property name="label" value="Source Term Id"/>
+		<property name="description">
+			<value>
+Get the target term Id
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.message-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="message"/>
+		<property name="shortLabel" value="Message"/>
+		<property name="summary">
+			<value>
+Messages describing details of the status.
+
+
+			</value>
+		</property>
+		<property name="label" value="Message"/>
+		<property name="description">
+			<value>
+Messages describing details of the status.
+
+Often left null if the status is that it is complete.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="message"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.RichTextInfo"/>
+				<property name="objectLabel" value="Message"/>
+				<property name="objectDescription">
+					<value>
+Messages describing details of the status.
+
+Often left null if the status is that it is complete.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="SocRolloverResultInfo.message.plain"/>
+						<ref bean="SocRolloverResultInfo.message.formatted"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.message.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+		<property name="name" value="plain"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.message.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+		<property name="name" value="formatted"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.dateInitiated-generated" abstract="true" parent="BaseKuali.date">
+		<property name="name" value="dateInitiated"/>
+		<property name="shortLabel" value="Date Initiated"/>
+		<property name="summary">
+			<value>
+Get date that the rollover started on.  
+			</value>
+		</property>
+		<property name="label" value="Date Initiated"/>
+		<property name="description">
+			<value>
+Get date that the rollover started on.  Date includes hours/minutes/seconds.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.dateCompleted-generated" abstract="true" parent="BaseKuali.date">
+		<property name="name" value="dateCompleted"/>
+		<property name="shortLabel" value="Date Completed"/>
+		<property name="summary">
+			<value>
+Get the date that the rollover completed.  
+			</value>
+		</property>
+		<property name="label" value="Date Completed"/>
+		<property name="description">
+			<value>
+Get the date that the rollover completed.  Date includes hours/minutes/seconds.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="meta"/>
+		<property name="shortLabel" value="Meta"/>
+		<property name="summary">
+			<value>
+Create and last update info for the structure. 
+			</value>
+		</property>
+		<property name="label" value="Meta"/>
+		<property name="description">
+			<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="meta"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
+				<property name="objectLabel" value="Meta"/>
+				<property name="objectDescription">
+					<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="SocRolloverResultInfo.meta.versionInd"/>
+						<ref bean="SocRolloverResultInfo.meta.createTime"/>
+						<ref bean="SocRolloverResultInfo.meta.createId"/>
+						<ref bean="SocRolloverResultInfo.meta.updateTime"/>
+						<ref bean="SocRolloverResultInfo.meta.updateId"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+		<property name="name" value="versionInd"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+		<property name="name" value="createTime"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+		<property name="name" value="createId"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+		<property name="name" value="updateTime"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+		<property name="name" value="updateId"/>
+	</bean>
+</beans>
