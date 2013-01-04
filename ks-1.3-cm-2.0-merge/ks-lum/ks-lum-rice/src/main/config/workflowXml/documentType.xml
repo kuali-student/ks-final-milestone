@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>KualiStudentDocument</name>
+      <parent>KualiDocument</parent>
+      <description>Kuali Student Parent Document</description>
+      <label>Kuali Student Parent Document</label>
+      <active>true</active>
+    </documentType>
+<!-- BEGIN TEST DOCUMENT FOR HIERARCHY ROUTING -->
+<!--
+    <documentType>
+      <name>HierarchyNodeDocumentTest</name>
+      <parent>KualiStudentDocument</parent>
+      <label>HierarchyNodeDocumentTest</label>
+      <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+      <active>true</active>
+      <policies>
+	    <policy>
+		  <name>DEFAULT_APPROVE</name>
+		  <value>true</value>
+	    </policy>
+      </policies>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" nextNode="HierarchyNode" />
+          <role name="HierarchyNode"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <role name="HierarchyNode">
+          <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+-->
+<!-- END TEST DOCUMENT FOR HIERARCHY ROUTING -->
+<!-- BEGIN CREDIT COURSE DOCUMENTS -->
+    <documentType>
+      <name>CluParentDocument</name>
+      <parent>KualiStudentDocument</parent>
+      <description>Kuali Student Clu Parent Document</description>
+      <label>Kuali Student Clu Parent Document</label>
+      <active>true</active>
+      <attributes>
+        <attribute>
+            <name>CluCreditCourse.OrgSearchAttribute</name>
+        </attribute>
+      </attributes>
+    </documentType>
+
+    <documentType>
+      <name>CluCreditCourseParentDocument</name>
+      <parent>CluParentDocument</parent>
+      <description>Kuali Student Credit Course Parent Document</description>
+      <label>Kuali Student Credit Course Parent Document</label>
+      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=COURSE_PROPOSAL&amp;idType=documentNumber</docHandler>
+      <active>true</active>
+    </documentType>
+
+    <documentType>
+      <name>CluMajorDisciplineParentDocument</name>
+      <parent>CluParentDocument</parent>
+      <description>Kuali Student Major Discipline Parent Document</description>
+      <label>Kuali Student Major Discipline Parent Document</label>
+      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=PROGRAM_PROPOSAL&amp;idType=documentNumber</docHandler>
+      <active>true</active>
+    </documentType>
+    
+    <!-- KSLAB Responsibilities which tie users to Workflow nodes are defined via SQL  -->
+    <!-- for example 2012-01-01_03_KRIM-Course-Workflow-Roles-Responsibilities.sql -->
+    <!-- Because they are tied to the parent course doctype, and the workflow nodes -->
+    <!-- are defined the same way, the same users can be used to test retire workflow as create/modify. -->
+    <documentType>
+      <name>kuali.proposal.type.course.retire</name>
+      <parent>CluCreditCourseParentDocument</parent>
+      <description>Credit Course Retirement</description>
+      <label>Credit Course Retirement</label>
+      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=COURSE_RETIRE_BY_PROPOSAL&amp;idType=documentNumber</docHandler>
+      <postProcessorName>org.kuali.student.lum.workflow.CoursePostProcessorBase</postProcessorName>
+      <active>false</active>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" nextNode="Department Review" />          
+          <!-- 5-2-2012 Even thought the decision was informally made to mimick modify workflow for retire in KS, 
+               these next two nodes don't currently work because the associated responsibilities are not set
+               to the parent doc type (unlike the responsibilities made for create course), 
+               they are set to only work for modify proposals.  Therefore they do not function 
+               for kuali.proposal.type.course.retire doctype.  You can see this in rice, admin, 
+               responsibilities.   The decision was made to comment on this issue to clarify and move on,
+               as we are out of time for finishing up our own functionality (UMD-CM). -mcm 
+               
+          <role name="Document Organization Review" nextNode="Publication Decision Review" />
+          <role name="Publication Decision Review" nextNode="Department Review" />  
+                -->
+          <role name="Department Review" nextNode="Division Review" />
+          <role name="Division Review" nextNode="College Review" />
+          <role name="College Review" nextNode="Senate Review" />
+          <role name="Senate Review" nextNode="Publication Review" />
+          <role name="Publication Review" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <!-- Currently these only work for modify (see above)
+        <role name="Document Organization Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationIdQualifierKey>orgId</organizationIdQualifierKey>
+        </role>
+        <role name="Publication Decision Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>176</organizationId>
+        </role> -->
+        <role name="Department Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.Department</organizationTypeCode>
+          <organizationIdQualifierKey>department</organizationIdQualifierKey>
+        </role>
+        <role name="Division Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.Division</organizationTypeCode>
+          <organizationIdQualifierKey>division</organizationIdQualifierKey>
+        </role>
+        <role name="College Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.College</organizationTypeCode>
+          <organizationIdQualifierKey>college</organizationIdQualifierKey>
+        </role>
+        <role name="Senate Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>141</organizationId>
+        </role>
+        <role name="Publication Review">
+	      <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>176</organizationId>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>kuali.proposal.type.course.modify</name>
+      <parent>CluCreditCourseParentDocument</parent>
+      <description>Credit Course Modification</description>
+      <label>Credit Course Modification</label>
+      <postProcessorName>org.kuali.student.lum.workflow.CoursePostProcessorBase</postProcessorName>
+      <active>true</active>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" nextNode="Document Organization Review" />
+          <role name="Document Organization Review" nextNode="Publication Decision Review" />
+          <role name="Publication Decision Review" nextNode="Department Review" />
+          <role name="Department Review" nextNode="Division Review" />
+          <role name="Division Review" nextNode="College Review" />
+          <role name="College Review" nextNode="Senate Review" />
+          <role name="Senate Review" nextNode="Publication Review" />
+          <role name="Publication Review" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <role name="Document Organization Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationIdQualifierKey>orgId</organizationIdQualifierKey>
+        </role>
+        <role name="Publication Decision Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>176</organizationId>
+        </role>
+        <role name="Department Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.Department</organizationTypeCode>
+          <organizationIdQualifierKey>department</organizationIdQualifierKey>
+        </role>
+        <role name="Division Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.Division</organizationTypeCode>
+          <organizationIdQualifierKey>division</organizationIdQualifierKey>
+        </role>
+        <role name="College Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.College</organizationTypeCode>
+          <organizationIdQualifierKey>college</organizationIdQualifierKey>
+        </role>
+        <role name="Senate Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>141</organizationId>
+        </role>
+        <role name="Publication Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>176</organizationId>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>kuali.proposal.type.course.create</name>
+      <parent>CluCreditCourseParentDocument</parent>
+      <description>Credit Course Proposal</description>
+      <label>Credit Course Proposal</label>
+      <postProcessorName>org.kuali.student.lum.workflow.CoursePostProcessorBase</postProcessorName>
+      <active>true</active>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" nextNode="Department Review" />
+          <role name="Department Review" nextNode="Division Review" />
+          <role name="Division Review" nextNode="College Review" />
+          <role name="College Review" nextNode="Senate Review" />
+          <role name="Senate Review" nextNode="Publication Review" />
+          <role name="Publication Review" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <role name="Department Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.Department</organizationTypeCode>
+          <organizationIdQualifierKey>department</organizationIdQualifierKey>
+        </role>
+        <role name="Division Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.Division</organizationTypeCode>
+          <organizationIdQualifierKey>division</organizationIdQualifierKey>
+        </role>
+        <role name="College Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.College</organizationTypeCode>
+          <organizationIdQualifierKey>college</organizationIdQualifierKey>
+         </role>
+        <role name="Senate Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>141</organizationId>
+        </role>
+        <role name="Publication Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>176</organizationId>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>kuali.proposal.type.course.create.admin</name>
+      <parent>CluCreditCourseParentDocument</parent>
+      <description>Credit Course Admin Proposal</description>
+      <label>Credit Course Admin Proposal</label>
+      <postProcessorName>org.kuali.student.lum.workflow.CoursePostProcessorBase</postProcessorName>
+      <active>true</active>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>kuali.proposal.type.course.modify.admin</name>
+      <parent>CluCreditCourseParentDocument</parent>
+      <description>Modify Credit Course Admin Proposal</description>
+      <label>Modify Credit Course Admin Proposal</label>
+      <postProcessorName>org.kuali.student.lum.workflow.CoursePostProcessorBase</postProcessorName>
+      <active>true</active>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+      </routeNodes>
+    </documentType>
+<!-- END CREDIT COURSE DOCUMENTS -->
+<!-- Program Documents -->
+    <documentType>
+      <name>kuali.proposal.type.majorDiscipline.create</name>
+      <parent>CluMajorDisciplineParentDocument</parent>
+      <description>Create Major Discipline Proposal</description>
+      <label>Create Major Discipline Proposal</label>
+      <postProcessorName>org.kuali.student.lum.workflow.ProgramPostProcessorBase</postProcessorName>
+      <active>true</active>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" nextNode="Department Review" />
+          <role name="Department Review" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <role name="Department Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.Department</organizationTypeCode>
+          <organizationIdQualifierKey>department</organizationIdQualifierKey>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>kuali.proposal.type.majorDiscipline.modify</name>
+      <parent>CluMajorDisciplineParentDocument</parent>
+      <description>Modify Major Discipline Proposal</description>
+      <label>Modify Major Discipline Proposal</label>
+      <postProcessorName>org.kuali.student.lum.workflow.ProgramPostProcessorBase</postProcessorName>
+      <active>true</active>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" nextNode="Department Review" />
+          <role name="Department Review" nextNode="Division Review" />
+          <role name="Division Review" nextNode="College Review" />
+          <role name="College Review" nextNode="Curriculum Admin Review" />
+          <role name="Curriculum Admin Review" nextNode="Senate Review" />
+          <role name="Senate Review" nextNode="Presidents Office Review" />
+          <role name="Presidents Office Review" nextNode="System Office Review" />
+          <role name="System Office Review" nextNode="Publication Review" />
+          <role name="Publication Review" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <role name="Department Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.Department</organizationTypeCode>
+          <organizationIdQualifierKey>department</organizationIdQualifierKey>
+        </role>
+        <role name="Division Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.Division</organizationTypeCode>
+          <organizationIdQualifierKey>division</organizationIdQualifierKey>
+        </role>
+        <role name="College Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.College</organizationTypeCode>
+          <organizationIdQualifierKey>college</organizationIdQualifierKey>
+         </role>
+		<role name="Curriculum Admin Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>141</organizationId>
+        </role>
+		<role name="Senate Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>141</organizationId>
+        </role>
+		<role name="Presidents Office Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>141</organizationId>
+        </role>
+        <role name="System Office Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>141</organizationId>
+        </role>
+        <role name="Publication Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>176</organizationId>
+        </role>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>
+

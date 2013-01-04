@@ -1,0 +1,19 @@
+<projectDescription>
+  <name>ks-common-test</name>
+  <comment>KS test framework for web services. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
+  <projects>
+    <project>ks-common-util</project>
+    <project>ks-cxf</project>
+    <project>ks-hibernate</project>
+    <project>ks-jta</project>
+    <project>ks-rice-lessdep</project>
+  </projects>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+  </natures>
+</projectDescription>

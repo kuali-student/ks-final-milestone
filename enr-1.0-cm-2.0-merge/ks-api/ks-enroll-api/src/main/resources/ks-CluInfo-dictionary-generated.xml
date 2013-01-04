@@ -1,0 +1,1728 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- CluInfo-->
+	<bean id="CluInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="cluInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.CluInfo"/>
+		<property name="objectLabel" value="Clu"/>
+		<property name="objectDescription">
+			<value>
+Copyright 2010 The Kuali Foundation Licensed under the
+Educational Community License, Version 2.0 (the &quot;License&quot;); you may
+not use this file except in compliance with the License. You may
+obtain a copy of the License at
+
+http://www.osedu.org/licenses/ECL-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an &quot;AS IS&quot;
+BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+or implied. See the License for the specific language governing
+permissions and limitations under the License.
+			</value>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>id</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="CluInfo.id"/>
+				<ref bean="CluInfo.typeKey"/>
+				<ref bean="CluInfo.stateKey"/>
+				<ref bean="CluInfo.studySubjectArea"/>
+				<ref bean="CluInfo.expectedFirstAtp"/>
+				<ref bean="CluInfo.lastAtp"/>
+				<ref bean="CluInfo.lastAdmitAtp"/>
+				<ref bean="CluInfo.canCreateLui"/>
+				<ref bean="CluInfo.referenceURL"/>
+				<ref bean="CluInfo.nextReviewPeriod"/>
+				<ref bean="CluInfo.isEnrollable"/>
+				<ref bean="CluInfo.isHasEarlyDropDeadline"/>
+				<ref bean="CluInfo.defaultEnrollmentEstimate"/>
+				<ref bean="CluInfo.defaultMaximumEnrollment"/>
+				<ref bean="CluInfo.isHazardousForDisabledStudents"/>
+				<ref bean="CluInfo.effectiveDate"/>
+				<ref bean="CluInfo.expirationDate"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+				<ref bean="CluInfo.descr"/>
+				<ref bean="CluInfo.officialIdentifier"/>
+				<ref bean="CluInfo.primaryInstructor"/>
+				<ref bean="CluInfo.intensity"/>
+				<ref bean="CluInfo.stdDuration"/>
+				<ref bean="CluInfo.feeInfo"/>
+				<ref bean="CluInfo.accountingInfo"/>
+				<ref bean="CluInfo.versionInfo"/>
+				<ref bean="CluInfo.meta"/>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+				<ref bean="CluInfo.alternateIdentifiers"/>
+				<ref bean="CluInfo.accreditations"/>
+				<ref bean="CluInfo.adminOrgs"/>
+				<ref bean="CluInfo.instructors"/>
+				<ref bean="CluInfo.luCodes"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="CluInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+	</bean>
+
+	<bean id="CluInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+		<property name="name" value="typeKey"/>
+	</bean>
+
+	<bean id="CluInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+		<property name="name" value="stateKey"/>
+	</bean>
+
+	<bean id="CluInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="descr"/>
+		<property name="shortLabel" value="Descr"/>
+		<property name="summary">
+			<value>
+Narrative description of the CLU, used for the catalog.
+			</value>
+		</property>
+		<property name="label" value="Description"/>
+		<property name="description">
+			<value>
+Narrative description of the CLU, used for the catalog.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="descr"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.RichTextInfo"/>
+				<property name="objectLabel" value="Description"/>
+				<property name="objectDescription">
+					<value>
+Narrative description of the CLU, used for the catalog.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="CluInfo.descr.plain"/>
+						<ref bean="CluInfo.descr.formatted"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="CluInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+		<property name="name" value="plain"/>
+	</bean>
+
+	<bean id="CluInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+		<property name="name" value="formatted"/>
+	</bean>
+
+	<bean id="CluInfo.officialIdentifier-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="officialIdentifier"/>
+		<property name="shortLabel" value="Official Identifier"/>
+		<property name="summary">
+			<value>
+Information related to the official identification of the clu, typically
+in human readable form. 
+			</value>
+		</property>
+		<property name="label" value="Official Identifier"/>
+		<property name="description">
+			<value>
+Information related to the official identification of the clu, typically
+in human readable form. Used to officially reference or publish.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="officialIdentifier"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo"/>
+				<property name="objectLabel" value="Official Identifier"/>
+				<property name="objectDescription">
+					<value>
+Information related to the official identification of the clu, typically
+in human readable form. Used to officially reference or publish.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="CluInfo.officialIdentifier.id"/>
+						<ref bean="CluInfo.officialIdentifier.typeKey"/>
+						<ref bean="CluInfo.officialIdentifier.stateKey"/>
+						<ref bean="CluInfo.officialIdentifier.code"/>
+						<ref bean="CluInfo.officialIdentifier.shortName"/>
+						<ref bean="CluInfo.officialIdentifier.longName"/>
+						<ref bean="CluInfo.officialIdentifier.level"/>
+						<ref bean="CluInfo.officialIdentifier.division"/>
+						<ref bean="CluInfo.officialIdentifier.variation"/>
+						<ref bean="CluInfo.officialIdentifier.suffixCode"/>
+						<ref bean="CluInfo.officialIdentifier.orgId"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+						<ref bean="CluInfo.officialIdentifier.meta"/>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="CluInfo.officialIdentifier.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+	</bean>
+
+	<bean id="CluInfo.officialIdentifier.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+		<property name="name" value="typeKey"/>
+	</bean>
+
+	<bean id="CluInfo.officialIdentifier.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+		<property name="name" value="stateKey"/>
+	</bean>
+
+	<bean id="CluInfo.officialIdentifier.code-generated" abstract="true" parent="BaseKuali.code">
+		<property name="name" value="code"/>
+		<property name="shortLabel" value="Code"/>
+		<property name="summary">
+			<value>
+The composite string that is used to officially reference or publish the
+CLU. 
+			</value>
+		</property>
+		<property name="label" value="Code"/>
+		<property name="description">
+			<value>
+The composite string that is used to officially reference or publish the
+CLU. Note it may have an internal structure that each Institution may
+want to enforce. This structure may be composed from the other parts of
+the structure such as Level amp; Division, but may include items such as
+cluType.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.officialIdentifier.shortName-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="shortName"/>
+		<property name="shortLabel" value="Short Name"/>
+		<property name="summary">
+			<value>
+Abbreviated name of the CLU, commonly used on transcripts
+			</value>
+		</property>
+		<property name="label" value="Short Name"/>
+		<property name="description">
+			<value>
+Abbreviated name of the CLU, commonly used on transcripts
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.officialIdentifier.longName-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="longName"/>
+		<property name="shortLabel" value="Long Name"/>
+		<property name="summary">
+			<value>
+Descriptive name of the CLU
+			</value>
+		</property>
+		<property name="label" value="Long Name"/>
+		<property name="description">
+			<value>
+Descriptive name of the CLU
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.officialIdentifier.level-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="level"/>
+		<property name="shortLabel" value="Level"/>
+		<property name="summary">
+			<value>
+A code that indicates whether this is introductory, advanced, etc.
+			</value>
+		</property>
+		<property name="label" value="Level"/>
+		<property name="description">
+			<value>
+A code that indicates whether this is introductory, advanced, etc.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.officialIdentifier.division-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="division"/>
+		<property name="shortLabel" value="Division"/>
+		<property name="summary">
+			<value>
+A code that indicates what school, program, major, subject area, etc.
+
+			</value>
+		</property>
+		<property name="label" value="Division"/>
+		<property name="description">
+			<value>
+A code that indicates what school, program, major, subject area, etc.
+Examples: &quot;Chem&quot;, &quot;18&quot;
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.officialIdentifier.variation-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="variation"/>
+		<property name="shortLabel" value="Variation"/>
+		<property name="summary">
+			<value>
+A number that indicates the sequence or order of versions in cases where
+several different Clus have the same offical Identifier
+			</value>
+		</property>
+		<property name="label" value="Variation"/>
+		<property name="description">
+			<value>
+A number that indicates the sequence or order of versions in cases where
+several different Clus have the same offical Identifier
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.officialIdentifier.suffixCode-generated" abstract="true" parent="BaseKuali.code">
+		<property name="name" value="suffixCode"/>
+		<property name="shortLabel" value="Suffix Code"/>
+		<property name="summary">
+			<value>
+???
+			</value>
+		</property>
+		<property name="label" value="Suffix Code"/>
+		<property name="description">
+			<value>
+???
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.officialIdentifier.orgId-generated" abstract="true" parent="BaseKuali.orgId">
+		<property name="name" value="orgId"/>
+		<property name="shortLabel" value="Org Id"/>
+		<property name="summary">
+			<value>
+???
+			</value>
+		</property>
+		<property name="label" value="Org Id"/>
+		<property name="description">
+			<value>
+???
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.officialIdentifier.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="meta"/>
+		<property name="shortLabel" value="Meta"/>
+		<property name="summary">
+			<value>
+Create and last update info for the structure. 
+			</value>
+		</property>
+		<property name="label" value="Meta"/>
+		<property name="description">
+			<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="meta"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
+				<property name="objectLabel" value="Meta"/>
+				<property name="objectDescription">
+					<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="CluInfo.officialIdentifier.meta.versionInd"/>
+						<ref bean="CluInfo.officialIdentifier.meta.createTime"/>
+						<ref bean="CluInfo.officialIdentifier.meta.createId"/>
+						<ref bean="CluInfo.officialIdentifier.meta.updateTime"/>
+						<ref bean="CluInfo.officialIdentifier.meta.updateId"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="CluInfo.officialIdentifier.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+		<property name="name" value="versionInd"/>
+	</bean>
+
+	<bean id="CluInfo.officialIdentifier.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+		<property name="name" value="createTime"/>
+	</bean>
+
+	<bean id="CluInfo.officialIdentifier.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+		<property name="name" value="createId"/>
+	</bean>
+
+	<bean id="CluInfo.officialIdentifier.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+		<property name="name" value="updateTime"/>
+	</bean>
+
+	<bean id="CluInfo.officialIdentifier.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+		<property name="name" value="updateId"/>
+	</bean>
+
+	<bean id="CluInfo.alternateIdentifiers-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="alternateIdentifiers"/>
+		<property name="shortLabel" value="Alternate Identifiers"/>
+		<property name="summary">
+			<value>
+Information related to alternate identifications of the clu, typically in
+human readable form. 
+			</value>
+		</property>
+		<property name="label" value="Alternate Identifiers"/>
+		<property name="elementLabel" value="Alternate Identifier"/>
+		<property name="description">
+			<value>
+Information related to alternate identifications of the clu, typically in
+human readable form. Used to reference or publish.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo"/>
+	</bean>
+
+	<bean id="CluInfo.studySubjectArea-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="studySubjectArea"/>
+		<property name="shortLabel" value="Study Subject Area"/>
+		<property name="summary">
+			<value>
+The Study Subject Area is used to identify the area of study associated
+with the clu. 
+			</value>
+		</property>
+		<property name="label" value="Study Subject Area"/>
+		<property name="description">
+			<value>
+The Study Subject Area is used to identify the area of study associated
+with the clu. It may be a general study area (e.g. Chemistry) or very
+specific (e.g. Naval Architecture) depending on the level of specificity
+of the clu.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.campusLocations-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="campusLocations"/>
+		<property name="shortLabel" value="Campus Locations"/>
+		<property name="summary">
+			<value>
+Places where this clu might be offered
+			</value>
+		</property>
+		<property name="label" value="Campus Location Keys"/>
+		<property name="elementLabel" value="Campus Location"/>
+		<property name="description">
+			<value>
+Places where this clu might be offered
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="CluInfo.accreditations-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="accreditations"/>
+		<property name="shortLabel" value="Accreditations"/>
+		<property name="summary">
+			<value>
+Information around the accreditation of the clu.
+			</value>
+		</property>
+		<property name="label" value="Accreditations"/>
+		<property name="elementLabel" value="Accreditation"/>
+		<property name="description">
+			<value>
+Information around the accreditation of the clu.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.AccreditationInfo"/>
+	</bean>
+
+	<bean id="CluInfo.adminOrgs-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="adminOrgs"/>
+		<property name="shortLabel" value="Admin Orgs"/>
+		<property name="summary">
+			<value>
+Admin Orgs associated with this clu
+			</value>
+		</property>
+		<property name="label" value="Admin Orgs"/>
+		<property name="elementLabel" value="Admin Org"/>
+		<property name="description">
+			<value>
+Admin Orgs associated with this clu
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo"/>
+	</bean>
+
+	<bean id="CluInfo.primaryInstructor-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="primaryInstructor"/>
+		<property name="shortLabel" value="Primary Instructor"/>
+		<property name="summary">
+			<value>
+Primary potential instructor for the clu. 
+			</value>
+		</property>
+		<property name="label" value="Primary Instructor"/>
+		<property name="description">
+			<value>
+Primary potential instructor for the clu. This is primarily for use in
+advertising the clu and may not be the actual instructor.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="primaryInstructor"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.CluInstructorInfo"/>
+				<property name="objectLabel" value="Primary Instructor"/>
+				<property name="objectDescription">
+					<value>
+Primary potential instructor for the clu. This is primarily for use in
+advertising the clu and may not be the actual instructor.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="CluInfo.primaryInstructor.id"/>
+						<ref bean="CluInfo.primaryInstructor.orgId"/>
+						<ref bean="CluInfo.primaryInstructor.personId"/>
+						<ref bean="CluInfo.primaryInstructor.personInfoOverride"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="CluInfo.primaryInstructor.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+	</bean>
+
+	<bean id="CluInfo.primaryInstructor.orgId-generated" abstract="true" parent="BaseKuali.orgId">
+		<property name="name" value="orgId"/>
+		<property name="shortLabel" value="Org Id"/>
+		<property name="summary">
+			<value>
+Unique identifier for an organization. 
+			</value>
+		</property>
+		<property name="label" value="Org Id"/>
+		<property name="description">
+			<value>
+Unique identifier for an organization. This indicates which organization
+this individual is associated with for the purposes of this clu.
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="CluInfo.primaryInstructor.personId-generated" abstract="true" parent="BaseKuali.personId">
+		<property name="name" value="personId"/>
+		<property name="shortLabel" value="Person Id"/>
+		<property name="summary">
+			<value>
+Unique identifier for a person record.
+			</value>
+		</property>
+		<property name="label" value="Person Id"/>
+		<property name="description">
+			<value>
+Unique identifier for a person record.
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="CluInfo.primaryInstructor.personInfoOverride-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="personInfoOverride"/>
+		<property name="shortLabel" value="Person Info Override"/>
+		<property name="summary">
+			<value>
+Any override information for the person
+			</value>
+		</property>
+		<property name="label" value="Person Info Override"/>
+		<property name="description">
+			<value>
+Any override information for the person
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.instructors-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="instructors"/>
+		<property name="shortLabel" value="Instructors"/>
+		<property name="summary">
+			<value>
+Instructors associated with this clu. 
+			</value>
+		</property>
+		<property name="label" value="Instructors"/>
+		<property name="elementLabel" value="Instructor"/>
+		<property name="description">
+			<value>
+Instructors associated with this clu. This may not be an exhaustive list,
+and instead may only be used to indicate potential instructors in
+publication.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.CluInstructorInfo"/>
+	</bean>
+
+	<bean id="CluInfo.expectedFirstAtp-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="expectedFirstAtp"/>
+		<property name="shortLabel" value="Expected First Atp"/>
+		<property name="summary">
+			<value>
+The expected first academic time period that this clu would be effective.
+
+			</value>
+		</property>
+		<property name="label" value="Expected First Atp"/>
+		<property name="description">
+			<value>
+The expected first academic time period that this clu would be effective.
+This may not reflect the first &quot;real&quot; academic time period for this clu.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.lastAtp-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="lastAtp"/>
+		<property name="shortLabel" value="Last Atp"/>
+		<property name="summary">
+			<value>
+The last academic time period that this clu would be effective.
+			</value>
+		</property>
+		<property name="label" value="Last Atp"/>
+		<property name="description">
+			<value>
+The last academic time period that this clu would be effective.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.lastAdmitAtp-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="lastAdmitAtp"/>
+		<property name="shortLabel" value="Last Admit Atp"/>
+		<property name="summary">
+			<value>
+The last academic time period that this clu would be available for
+enrollment. 
+			</value>
+		</property>
+		<property name="label" value="Last Admit Atp"/>
+		<property name="description">
+			<value>
+The last academic time period that this clu would be available for
+enrollment. This may not reflect the last &quot;real&quot; academic time period for
+this clu.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.intensity-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="intensity"/>
+		<property name="shortLabel" value="Intensity"/>
+		<property name="summary">
+			<value>
+???
+			</value>
+		</property>
+		<property name="label" value="Intensity"/>
+		<property name="description">
+			<value>
+???
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="intensity"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.AmountInfo"/>
+				<property name="objectLabel" value="Intensity"/>
+				<property name="objectDescription">
+					<value>
+???
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="CluInfo.intensity.unitTypeKey"/>
+						<ref bean="CluInfo.intensity.unitQuantity"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="CluInfo.intensity.unitTypeKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="unitTypeKey"/>
+		<property name="shortLabel" value="Unit Type Key"/>
+		<property name="summary">
+			<value>
+The kind of units associated with the quantity, such as
+hours/week. 
+			</value>
+		</property>
+		<property name="label" value="Unit Type Key"/>
+		<property name="description">
+			<value>
+The kind of units associated with the quantity, such as
+hours/week. It is expected that in usage in other structures,
+this value will always be enumerated based on that context.
+Key
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="CluInfo.intensity.unitQuantity-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="unitQuantity"/>
+		<property name="shortLabel" value="Unit Quantity"/>
+		<property name="summary">
+			<value>
+The amount of units. 
+			</value>
+		</property>
+		<property name="label" value="Unit Quantity"/>
+		<property name="description">
+			<value>
+The amount of units. Allowed values consist of numeric values
+as well as the string &quot;unbounded&quot;.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="CluInfo.stdDuration-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="stdDuration"/>
+		<property name="shortLabel" value="Std Duration"/>
+		<property name="summary">
+			<value>
+The standard duration of the learning unit.
+			</value>
+		</property>
+		<property name="label" value="Std Duration"/>
+		<property name="description">
+			<value>
+The standard duration of the learning unit.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="stdDuration"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.TimeAmountInfo"/>
+				<property name="objectLabel" value="Std Duration"/>
+				<property name="objectDescription">
+					<value>
+The standard duration of the learning unit.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="CluInfo.stdDuration.atpDurationTypeKey"/>
+						<ref bean="CluInfo.stdDuration.timeQuantity"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="CluInfo.stdDuration.atpDurationTypeKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="atpDurationTypeKey"/>
+		<property name="shortLabel" value="Atp Duration Type Key"/>
+		<property name="summary">
+			<value>
+The kind of units associated with the quantity, such as
+Semesters.
+			</value>
+		</property>
+		<property name="label" value="Academic Time Period Duration Type Key"/>
+		<property name="description">
+			<value>
+The kind of units associated with the quantity, such as
+Semesters.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.stdDuration.timeQuantity-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="timeQuantity"/>
+		<property name="shortLabel" value="Time Quantity"/>
+		<property name="summary">
+			<value>
+The amount of time.
+			</value>
+		</property>
+		<property name="label" value="Time Quantity"/>
+		<property name="description">
+			<value>
+The amount of time.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.canCreateLui-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="canCreateLui"/>
+		<property name="shortLabel" value="Can Create Lui"/>
+		<property name="summary">
+			<value>
+Indicates if the CLU can be used to instantiate LUIs (offerings).
+			</value>
+		</property>
+		<property name="label" value="is Can Create Lui"/>
+		<property name="description">
+			<value>
+Indicates if the CLU can be used to instantiate LUIs (offerings).
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.referenceURL-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="referenceURL"/>
+		<property name="shortLabel" value="Reference URL"/>
+		<property name="summary">
+			<value>
+An URL for additional information about the CLU. 
+			</value>
+		</property>
+		<property name="label" value="Reference URL"/>
+		<property name="description">
+			<value>
+An URL for additional information about the CLU. This could be a
+reference to a document which might in turn have references to other
+documents (e.g. course syllabus provided by the faculty or department,
+standard schedule of classes, etc.).
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.luCodes-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="luCodes"/>
+		<property name="shortLabel" value="Lu Codes"/>
+		<property name="summary">
+			<value>
+List of LU code info structures. 
+			</value>
+		</property>
+		<property name="label" value="Lu Codes"/>
+		<property name="elementLabel" value="Lu Code"/>
+		<property name="description">
+			<value>
+List of LU code info structures. These are structures so that many
+different types of codes can be associated with the clu. This allows them
+to be put into categories.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.LuCodeInfo"/>
+	</bean>
+
+	<bean id="CluInfo.nextReviewPeriod-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="nextReviewPeriod"/>
+		<property name="shortLabel" value="Next Review Period"/>
+		<property name="summary">
+			<value>
+When the next review should be
+			</value>
+		</property>
+		<property name="label" value="Next Review Period"/>
+		<property name="description">
+			<value>
+When the next review should be
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.isEnrollable-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isEnrollable"/>
+		<property name="shortLabel" value="Is Enrollable"/>
+		<property name="summary">
+			<value>
+Indicates if Luis generated from this Clu are intended to be enrolled in
+by Students directly
+			</value>
+		</property>
+		<property name="label" value="is Enrollable"/>
+		<property name="description">
+			<value>
+Indicates if Luis generated from this Clu are intended to be enrolled in
+by Students directly
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.offeredAtpTypes-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="offeredAtpTypes"/>
+		<property name="shortLabel" value="Offered Atp Types"/>
+		<property name="summary">
+			<value>
+The academic time period types in which this CLU is typically offered.
+
+			</value>
+		</property>
+		<property name="label" value="Offered Atp Types"/>
+		<property name="elementLabel" value="Offered Atp Type"/>
+		<property name="description">
+			<value>
+The academic time period types in which this CLU is typically offered.
+Standard usage would equate to terms.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="CluInfo.isHasEarlyDropDeadline-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isHasEarlyDropDeadline"/>
+		<property name="shortLabel" value="Is Has Early Drop Deadline"/>
+		<property name="summary">
+			<value>
+Indicates if the CLU has an Early Drop Deadline (EDD). 
+			</value>
+		</property>
+		<property name="label" value="is Has Early Drop Deadline"/>
+		<property name="description">
+			<value>
+Indicates if the CLU has an Early Drop Deadline (EDD). Certain courses
+are designated as such to maximize access to courses that have
+historically experienced high demand and high attrition. Default is
+&quot;false&quot;.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.defaultEnrollmentEstimate-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="defaultEnrollmentEstimate"/>
+		<property name="shortLabel" value="Default Enrollment Estimate"/>
+		<property name="summary">
+			<value>
+Default enrollment estimate for this CLU.
+			</value>
+		</property>
+		<property name="label" value="Default Enrollment Estimate"/>
+		<property name="description">
+			<value>
+Default enrollment estimate for this CLU.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.defaultMaximumEnrollment-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="defaultMaximumEnrollment"/>
+		<property name="shortLabel" value="Default Maximum Enrollment"/>
+		<property name="summary">
+			<value>
+Default maximum enrollment for this CLU.
+			</value>
+		</property>
+		<property name="label" value="Default Maximum Enrollment"/>
+		<property name="description">
+			<value>
+Default maximum enrollment for this CLU.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.isHazardousForDisabledStudents-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isHazardousForDisabledStudents"/>
+		<property name="shortLabel" value="Is Hazardous For Disabled Students"/>
+		<property name="summary">
+			<value>
+Indicates if the CLU may be hazardous for students with disabilities.
+
+			</value>
+		</property>
+		<property name="label" value="is Hazardous For Disabled Students"/>
+		<property name="description">
+			<value>
+Indicates if the CLU may be hazardous for students with disabilities.
+Would default to &quot;false&quot;.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.feeInfo-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="feeInfo"/>
+		<property name="shortLabel" value="Fee Info"/>
+		<property name="summary">
+			<value>
+Fee information associated with this CLU.
+			</value>
+		</property>
+		<property name="label" value="Fee Info"/>
+		<property name="description">
+			<value>
+Fee information associated with this CLU.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="feeInfo"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.CluFeeInfo"/>
+				<property name="objectLabel" value="Fee Info"/>
+				<property name="objectDescription">
+					<value>
+Fee information associated with this CLU.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="CluInfo.feeInfo.id"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+						<ref bean="CluInfo.feeInfo.descr"/>
+						<ref bean="CluInfo.feeInfo.meta"/>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+						<ref bean="CluInfo.feeInfo.cluFeeRecords"/>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="CluInfo.feeInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+	</bean>
+
+	<bean id="CluInfo.feeInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="descr"/>
+		<property name="shortLabel" value="Descr"/>
+		<property name="summary">
+			<value>
+Narrative description of the CLU Fee
+			</value>
+		</property>
+		<property name="label" value="Descr"/>
+		<property name="description">
+			<value>
+Narrative description of the CLU Fee
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="descr"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.RichTextInfo"/>
+				<property name="objectLabel" value="Descr"/>
+				<property name="objectDescription">
+					<value>
+Narrative description of the CLU Fee
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="CluInfo.feeInfo.descr.plain"/>
+						<ref bean="CluInfo.feeInfo.descr.formatted"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="CluInfo.feeInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+		<property name="name" value="plain"/>
+	</bean>
+
+	<bean id="CluInfo.feeInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+		<property name="name" value="formatted"/>
+	</bean>
+
+	<bean id="CluInfo.feeInfo.cluFeeRecords-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="cluFeeRecords"/>
+		<property name="shortLabel" value="Clu Fee Records"/>
+		<property name="summary">
+			<value>
+List of Fee Records
+			</value>
+		</property>
+		<property name="label" value="Clu Fee Records"/>
+		<property name="elementLabel" value="Clu Fee Record"/>
+		<property name="description">
+			<value>
+List of Fee Records
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.CluFeeRecordInfo"/>
+	</bean>
+
+	<bean id="CluInfo.feeInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="meta"/>
+		<property name="shortLabel" value="Meta"/>
+		<property name="summary">
+			<value>
+Create and last update info for the structure. 
+			</value>
+		</property>
+		<property name="label" value="Meta"/>
+		<property name="description">
+			<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="meta"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
+				<property name="objectLabel" value="Meta"/>
+				<property name="objectDescription">
+					<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="CluInfo.feeInfo.meta.versionInd"/>
+						<ref bean="CluInfo.feeInfo.meta.createTime"/>
+						<ref bean="CluInfo.feeInfo.meta.createId"/>
+						<ref bean="CluInfo.feeInfo.meta.updateTime"/>
+						<ref bean="CluInfo.feeInfo.meta.updateId"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="CluInfo.feeInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+		<property name="name" value="versionInd"/>
+	</bean>
+
+	<bean id="CluInfo.feeInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+		<property name="name" value="createTime"/>
+	</bean>
+
+	<bean id="CluInfo.feeInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+		<property name="name" value="createId"/>
+	</bean>
+
+	<bean id="CluInfo.feeInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+		<property name="name" value="updateTime"/>
+	</bean>
+
+	<bean id="CluInfo.feeInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+		<property name="name" value="updateId"/>
+	</bean>
+
+	<bean id="CluInfo.accountingInfo-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="accountingInfo"/>
+		<property name="shortLabel" value="Accounting Info"/>
+		<property name="summary">
+			<value>
+Accounting information associated with this CLU.
+			</value>
+		</property>
+		<property name="label" value="Account Info"/>
+		<property name="description">
+			<value>
+Accounting information associated with this CLU.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="accountingInfo"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.CluAccountingInfo"/>
+				<property name="objectLabel" value="Account Info"/>
+				<property name="objectDescription">
+					<value>
+Accounting information associated with this CLU.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="CluInfo.accountingInfo.id"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+						<ref bean="CluInfo.accountingInfo.descr"/>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+						<ref bean="CluInfo.accountingInfo.affiliatedOrgs"/>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="CluInfo.accountingInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+	</bean>
+
+	<bean id="CluInfo.accountingInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="descr"/>
+		<property name="shortLabel" value="Descr"/>
+		<property name="summary">
+			<value>
+Narrative description of the CLU Accounting
+			</value>
+		</property>
+		<property name="label" value="Descr"/>
+		<property name="description">
+			<value>
+Narrative description of the CLU Accounting
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="descr"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.RichTextInfo"/>
+				<property name="objectLabel" value="Descr"/>
+				<property name="objectDescription">
+					<value>
+Narrative description of the CLU Accounting
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="CluInfo.accountingInfo.descr.plain"/>
+						<ref bean="CluInfo.accountingInfo.descr.formatted"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="CluInfo.accountingInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+		<property name="name" value="plain"/>
+	</bean>
+
+	<bean id="CluInfo.accountingInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+		<property name="name" value="formatted"/>
+	</bean>
+
+	<bean id="CluInfo.accountingInfo.affiliatedOrgs-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="affiliatedOrgs"/>
+		<property name="shortLabel" value="Affiliated Orgs"/>
+		<property name="summary">
+			<value>
+List of Affiliated Orgs
+			</value>
+		</property>
+		<property name="label" value="Affiliated Orgs"/>
+		<property name="elementLabel" value="Affiliated Org"/>
+		<property name="description">
+			<value>
+List of Affiliated Orgs
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo"/>
+	</bean>
+
+	<bean id="CluInfo.versionInfo-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="versionInfo"/>
+		<property name="shortLabel" value="Version Info"/>
+		<property name="summary">
+			<value>
+Version information associated with this CLU
+			</value>
+		</property>
+		<property name="label" value="Version Info"/>
+		<property name="description">
+			<value>
+Version information associated with this CLU
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="versionInfo"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>
+				<property name="objectLabel" value="Version Info"/>
+				<property name="objectDescription">
+					<value>
+Version information associated with this CLU
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="CluInfo.versionInfo.versionIndId"/>
+						<ref bean="CluInfo.versionInfo.sequenceNumber"/>
+						<ref bean="CluInfo.versionInfo.currentVersionStart"/>
+						<ref bean="CluInfo.versionInfo.currentVersionEnd"/>
+						<ref bean="CluInfo.versionInfo.versionComment"/>
+						<ref bean="CluInfo.versionInfo.versionedFromId"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="CluInfo.versionInfo.versionIndId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="versionIndId"/>
+		<property name="shortLabel" value="Version Ind Id"/>
+		<property name="summary">
+			<value>
+Version independent Id that remains the same across all versions
+			</value>
+		</property>
+		<property name="label" value="Version Independent Id"/>
+		<property name="description">
+			<value>
+Version independent Id that remains the same across all versions
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="CluInfo.versionInfo.sequenceNumber-generated" abstract="true" parent="BaseKuali.long">
+		<property name="name" value="sequenceNumber"/>
+		<property name="shortLabel" value="Sequence Number"/>
+		<property name="summary">
+			<value>
+The sequence number of the version
+			</value>
+		</property>
+		<property name="label" value="Sequence Number"/>
+		<property name="description">
+			<value>
+The sequence number of the version
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="CluInfo.versionInfo.currentVersionStart-generated" abstract="true" parent="BaseKuali.start">
+		<property name="name" value="currentVersionStart"/>
+		<property name="shortLabel" value="Current Version Start"/>
+		<property name="summary">
+			<value>
+The date and time this version became current.
+			</value>
+		</property>
+		<property name="label" value="Current Version Start Date"/>
+		<property name="description">
+			<value>
+The date and time this version became current.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="CluInfo.versionInfo.currentVersionEnd-generated" abstract="true" parent="BaseKuali.end">
+		<property name="name" value="currentVersionEnd"/>
+		<property name="shortLabel" value="Current Version End"/>
+		<property name="summary">
+			<value>
+The date and time when this version stopped being current.
+			</value>
+		</property>
+		<property name="label" value="Current Version End Date"/>
+		<property name="description">
+			<value>
+The date and time when this version stopped being current.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.versionInfo.versionComment-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="versionComment"/>
+		<property name="shortLabel" value="Version Comment"/>
+		<property name="summary">
+			<value>
+Comments associated with the version
+			</value>
+		</property>
+		<property name="label" value="Version Comment"/>
+		<property name="description">
+			<value>
+Comments associated with the version
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.versionInfo.versionedFromId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="versionedFromId"/>
+		<property name="shortLabel" value="Versioned From Id"/>
+		<property name="summary">
+			<value>
+Version from which this version was created
+			</value>
+		</property>
+		<property name="label" value="Versioned From Id"/>
+		<property name="description">
+			<value>
+Version from which this version was created
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CluInfo.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
+		<property name="name" value="effectiveDate"/>
+	</bean>
+
+	<bean id="CluInfo.expirationDate-generated" abstract="true" parent="BaseKuali.expirationDate">
+		<property name="name" value="expirationDate"/>
+	</bean>
+
+	<bean id="CluInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="meta"/>
+		<property name="shortLabel" value="Meta"/>
+		<property name="summary">
+			<value>
+Create and last update info for the structure. 
+			</value>
+		</property>
+		<property name="label" value="Meta"/>
+		<property name="description">
+			<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="meta"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
+				<property name="objectLabel" value="Meta"/>
+				<property name="objectDescription">
+					<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="CluInfo.meta.versionInd"/>
+						<ref bean="CluInfo.meta.createTime"/>
+						<ref bean="CluInfo.meta.createId"/>
+						<ref bean="CluInfo.meta.updateTime"/>
+						<ref bean="CluInfo.meta.updateId"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="CluInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+		<property name="name" value="versionInd"/>
+	</bean>
+
+	<bean id="CluInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+		<property name="name" value="createTime"/>
+	</bean>
+
+	<bean id="CluInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+		<property name="name" value="createId"/>
+	</bean>
+
+	<bean id="CluInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+		<property name="name" value="updateTime"/>
+	</bean>
+
+	<bean id="CluInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+		<property name="name" value="updateId"/>
+	</bean>
+</beans>

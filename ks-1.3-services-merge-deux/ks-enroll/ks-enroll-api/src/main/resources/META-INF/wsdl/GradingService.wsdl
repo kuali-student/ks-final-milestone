@@ -1,0 +1,1601 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="GradingService" targetNamespace="http://student.kuali.org/wsdl/grading" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/grading" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://exceptions.common.r2.student.kuali.org/" xmlns:tns="http://student.kuali.org/wsdl/grading" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/grading">
+<xs:element name="addEntrytoInterimRoster" type="tns:addEntrytoInterimRoster"/>
+<xs:element name="addEntrytoInterimRosterResponse" type="tns:addEntrytoInterimRosterResponse"/>
+<xs:element name="buildInterimGradeRosterByType" type="tns:buildInterimGradeRosterByType"/>
+<xs:element name="buildInterimGradeRosterByTypeResponse" type="tns:buildInterimGradeRosterByTypeResponse"/>
+<xs:element name="deleteInterimGradeRoster" type="tns:deleteInterimGradeRoster"/>
+<xs:element name="deleteInterimGradeRosterResponse" type="tns:deleteInterimGradeRosterResponse"/>
+<xs:element name="getFinalGradeForStudentInCourseOffering" type="tns:getFinalGradeForStudentInCourseOffering"/>
+<xs:element name="getFinalGradeForStudentInCourseOfferingResponse" type="tns:getFinalGradeForStudentInCourseOfferingResponse"/>
+<xs:element name="getFinalGradeRostersForActivityOffering" type="tns:getFinalGradeRostersForActivityOffering"/>
+<xs:element name="getFinalGradeRostersForActivityOfferingResponse" type="tns:getFinalGradeRostersForActivityOfferingResponse"/>
+<xs:element name="getFinalGradeRostersForCourseOffering" type="tns:getFinalGradeRostersForCourseOffering"/>
+<xs:element name="getFinalGradeRostersForCourseOfferingResponse" type="tns:getFinalGradeRostersForCourseOfferingResponse"/>
+<xs:element name="getGradeGroupsByKeyList" type="tns:getGradeGroupsByKeyList"/>
+<xs:element name="getGradeGroupsByKeyListResponse" type="tns:getGradeGroupsByKeyListResponse"/>
+<xs:element name="getGradeRoster" type="tns:getGradeRoster"/>
+<xs:element name="getGradeRosterEntriesByIds" type="tns:getGradeRosterEntriesByIds"/>
+<xs:element name="getGradeRosterEntriesByIdsResponse" type="tns:getGradeRosterEntriesByIdsResponse"/>
+<xs:element name="getGradeRosterEntriesByRosterId" type="tns:getGradeRosterEntriesByRosterId"/>
+<xs:element name="getGradeRosterEntriesByRosterIdResponse" type="tns:getGradeRosterEntriesByRosterIdResponse"/>
+<xs:element name="getGradeRosterEntry" type="tns:getGradeRosterEntry"/>
+<xs:element name="getGradeRosterEntryResponse" type="tns:getGradeRosterEntryResponse"/>
+<xs:element name="getGradeRosterResponse" type="tns:getGradeRosterResponse"/>
+<xs:element name="getGradeRosterType" type="tns:getGradeRosterType"/>
+<xs:element name="getGradeRosterTypeResponse" type="tns:getGradeRosterTypeResponse"/>
+<xs:element name="getGradeRostersByGraderAndTerm" type="tns:getGradeRostersByGraderAndTerm"/>
+<xs:element name="getGradeRostersByGraderAndTermResponse" type="tns:getGradeRostersByGraderAndTermResponse"/>
+<xs:element name="getGradeRostersForActivityOffering" type="tns:getGradeRostersForActivityOffering"/>
+<xs:element name="getGradeRostersForActivityOfferingResponse" type="tns:getGradeRostersForActivityOfferingResponse"/>
+<xs:element name="removeEntryFromInterimRoster" type="tns:removeEntryFromInterimRoster"/>
+<xs:element name="removeEntryFromInterimRosterResponse" type="tns:removeEntryFromInterimRosterResponse"/>
+<xs:element name="updateCredit" type="tns:updateCredit"/>
+<xs:element name="updateCreditResponse" type="tns:updateCreditResponse"/>
+<xs:element name="updateFinalGradeRosterState" type="tns:updateFinalGradeRosterState"/>
+<xs:element name="updateFinalGradeRosterStateResponse" type="tns:updateFinalGradeRosterStateResponse"/>
+<xs:element name="updateGrade" type="tns:updateGrade"/>
+<xs:element name="updateGradeResponse" type="tns:updateGradeResponse"/>
+<xs:element name="updateInterimGradeRoster" type="tns:updateInterimGradeRoster"/>
+<xs:element name="updateInterimGradeRosterResponse" type="tns:updateInterimGradeRosterResponse"/>
+<xs:element name="updateNumberGrade" type="tns:updateNumberGrade"/>
+<xs:element name="updateNumberGradeResponse" type="tns:updateNumberGradeResponse"/>
+<xs:element name="validateGradeRoster" type="tns:validateGradeRoster"/>
+<xs:element name="validateGradeRosterResponse" type="tns:validateGradeRosterResponse"/>
+<xs:complexType name="getGradeRosterEntriesByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="gradeRosterEntryIds" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ContextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="authenticatedPrincipalId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="currentDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="locale" type="tns:LocaleInfo"/>
+<xs:element minOccurs="0" name="timeZone" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LocaleInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="localeLanguage" type="xs:string"/>
+<xs:element minOccurs="0" name="localeVariant" type="xs:string"/>
+<xs:element minOccurs="0" name="localeRegion" type="xs:string"/>
+<xs:element minOccurs="0" name="localeScript" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="AttributeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="key" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getGradeRosterEntriesByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:GradeRosterEntryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GradeRosterEntryInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="studentId" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="validGradeGroupKeys" type="xs:string"/>
+<xs:element minOccurs="0" name="activityOfferingId" type="xs:string"/>
+<xs:element minOccurs="0" name="assignedGradeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="administrativeGradeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="calculatedGradeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="creditsEarnedKey" type="xs:string"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="MetaInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="versionInd" type="xs:string"/>
+<xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createId" type="xs:string"/>
+<xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="updateId" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getGradeRosterType">
+<xs:sequence>
+<xs:element minOccurs="0" name="gradeRosterTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getGradeRosterTypeResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:TypeInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="TypeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="refObjectUri" type="xs:string"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="RichTextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="plain" type="xs:string"/>
+<xs:element minOccurs="0" name="formatted" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getFinalGradeRostersForCourseOffering">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseOfferingId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getFinalGradeRostersForCourseOfferingResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:GradeRosterInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GradeRosterInfo">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="gradeRosterEntryIds" nillable="true" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="graderIds" nillable="true" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="activityOfferingIds" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="courseOfferingId" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="getFinalGradeRostersForActivityOffering">
+<xs:sequence>
+<xs:element minOccurs="0" name="activityOfferingId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getFinalGradeRostersForActivityOfferingResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:GradeRosterInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateGradeRoster">
+<xs:sequence>
+<xs:element minOccurs="0" name="gradeRoster" type="tns:GradeRosterInfo"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateGradeRosterResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ValidationResultInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="element" type="xs:string"/>
+<xs:element minOccurs="0" name="level" type="tns:errorLevel"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteInterimGradeRoster">
+<xs:sequence>
+<xs:element minOccurs="0" name="gradeRosterId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteInterimGradeRosterResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="StatusInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="isSuccess" type="xs:boolean"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addEntrytoInterimRoster">
+<xs:sequence>
+<xs:element minOccurs="0" name="gradeRosterEntry" type="tns:GradeRosterEntryInfo"/>
+<xs:element minOccurs="0" name="gradeRosterId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addEntrytoInterimRosterResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:GradeRosterEntryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateNumberGrade">
+<xs:sequence>
+<xs:element minOccurs="0" name="gradeRosterEntryId" type="xs:string"/>
+<xs:element minOccurs="0" name="numberGradeValue" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateNumberGradeResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateFinalGradeRosterState">
+<xs:sequence>
+<xs:element minOccurs="0" name="gradeRosterId" type="xs:string"/>
+<xs:element minOccurs="0" name="newStateKey" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateFinalGradeRosterStateResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:GradeRosterInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateInterimGradeRoster">
+<xs:sequence>
+<xs:element minOccurs="0" name="gradeRoster" type="tns:GradeRosterInfo"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateInterimGradeRosterResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:GradeRosterInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getGradeRostersByGraderAndTerm">
+<xs:sequence>
+<xs:element minOccurs="0" name="graderId" type="xs:string"/>
+<xs:element minOccurs="0" name="termId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getGradeRostersByGraderAndTermResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:GradeRosterInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateGrade">
+<xs:sequence>
+<xs:element minOccurs="0" name="gradeRosterEntryId" type="xs:string"/>
+<xs:element minOccurs="0" name="assignedGradeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateGradeResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getGradeRosterEntry">
+<xs:sequence>
+<xs:element minOccurs="0" name="gradeRosterEntryId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getGradeRosterEntryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:GradeRosterEntryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getFinalGradeForStudentInCourseOffering">
+<xs:sequence>
+<xs:element minOccurs="0" name="studentId" type="xs:string"/>
+<xs:element minOccurs="0" name="courseOfferingId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getFinalGradeForStudentInCourseOfferingResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:GradeRosterEntryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateCredit">
+<xs:sequence>
+<xs:element minOccurs="0" name="gradeRosterEntryId" type="xs:string"/>
+<xs:element minOccurs="0" name="creditsEarned" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateCreditResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="removeEntryFromInterimRoster">
+<xs:sequence>
+<xs:element minOccurs="0" name="gradeRosterEntryId" type="xs:string"/>
+<xs:element minOccurs="0" name="gradeRosterId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="removeEntryFromInterimRosterResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getGradeRosterEntriesByRosterId">
+<xs:sequence>
+<xs:element minOccurs="0" name="gradeRosterId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getGradeRosterEntriesByRosterIdResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:GradeRosterEntryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getGradeRoster">
+<xs:sequence>
+<xs:element minOccurs="0" name="gradeRosterId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getGradeRosterResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:GradeRosterInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="buildInterimGradeRosterByType">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="activityOfferingIds" type="xs:string"/>
+<xs:element minOccurs="0" name="rosterTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="buildInterimGradeRosterByTypeResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:GradeRosterInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getGradeRostersForActivityOffering">
+<xs:sequence>
+<xs:element minOccurs="0" name="activityOfferingId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getGradeRostersForActivityOfferingResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:GradeRosterInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getGradeGroupsByKeyList">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="gradeGroupKeyList" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getGradeGroupsByKeyListResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:GradeValuesGroupInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GradeValuesGroupInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="resultValueInfos" type="tns:ResultValueInfo"/>
+<xs:element minOccurs="0" name="resultValueRange" type="tns:ResultValueRangeInfo"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="ResultValueInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="resultScaleKey" type="xs:string"/>
+<xs:element minOccurs="0" name="numericValue" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="ResultValueRangeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="minValue" type="xs:string"/>
+<xs:element minOccurs="0" name="maxValue" type="xs:string"/>
+<xs:element minOccurs="0" name="increment" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="errorLevel">
+<xs:restriction base="xs:string">
+<xs:enumeration value="OK"/>
+<xs:enumeration value="WARN"/>
+<xs:enumeration value="ERROR"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="InvalidParameterException" nillable="true" type="ns0:InvalidParameterException"/>
+<xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
+<xs:element name="MissingParameterException" nillable="true" type="ns0:MissingParameterException"/>
+<xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
+<xs:element name="PermissionDeniedException" nillable="true" type="ns0:PermissionDeniedException"/>
+<xs:element name="AlreadyExistsException" nillable="true" type="ns0:AlreadyExistsException"/>
+<xs:element name="DataValidationErrorException" nillable="true" type="ns0:DataValidationErrorException"/>
+<xs:element name="VersionMismatchException" nillable="true" type="ns0:VersionMismatchException"/>
+<xs:element name="DisabledIdentifierException" type="tns:DisabledIdentifierException"/>
+<xs:complexType name="DisabledIdentifierException">
+<xs:sequence/>
+</xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://exceptions.common.r2.student.kuali.org/" targetNamespace="http://exceptions.common.r2.student.kuali.org/" version="1.0">
+<xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+<xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+<xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+<xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+<xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+<xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+<xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+<xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+<xs:complexType name="InvalidParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DoesNotExistException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MissingParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="OperationFailedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="PermissionDeniedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AlreadyExistsException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DataValidationErrorException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" nillable="true" type="xs:anyType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="VersionMismatchException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="DataValidationErrorException">
+    <wsdl:part name="DataValidationErrorException" element="tns:DataValidationErrorException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFinalGradeRostersForCourseOffering">
+    <wsdl:part name="parameters" element="tns:getFinalGradeRostersForCourseOffering">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AlreadyExistsException">
+    <wsdl:part name="AlreadyExistsException" element="tns:AlreadyExistsException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFinalGradeRostersForActivityOffering">
+    <wsdl:part name="parameters" element="tns:getFinalGradeRostersForActivityOffering">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGradeRosterEntry">
+    <wsdl:part name="parameters" element="tns:getGradeRosterEntry">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="VersionMismatchException">
+    <wsdl:part name="VersionMismatchException" element="tns:VersionMismatchException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PermissionDeniedException">
+    <wsdl:part name="PermissionDeniedException" element="tns:PermissionDeniedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGradeRosterEntriesByIds">
+    <wsdl:part name="parameters" element="tns:getGradeRosterEntriesByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeEntryFromInterimRosterResponse">
+    <wsdl:part name="parameters" element="tns:removeEntryFromInterimRosterResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="buildInterimGradeRosterByTypeResponse">
+    <wsdl:part name="parameters" element="tns:buildInterimGradeRosterByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateGradeRoster">
+    <wsdl:part name="parameters" element="tns:validateGradeRoster">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGradeRosterEntriesByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getGradeRosterEntriesByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteInterimGradeRosterResponse">
+    <wsdl:part name="parameters" element="tns:deleteInterimGradeRosterResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGradeRosterResponse">
+    <wsdl:part name="parameters" element="tns:getGradeRosterResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateFinalGradeRosterState">
+    <wsdl:part name="parameters" element="tns:updateFinalGradeRosterState">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGradeRosterEntryResponse">
+    <wsdl:part name="parameters" element="tns:getGradeRosterEntryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateGradeResponse">
+    <wsdl:part name="parameters" element="tns:updateGradeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGradeRosterEntriesByRosterId">
+    <wsdl:part name="parameters" element="tns:getGradeRosterEntriesByRosterId">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGradeGroupsByKeyList">
+    <wsdl:part name="parameters" element="tns:getGradeGroupsByKeyList">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCredit">
+    <wsdl:part name="parameters" element="tns:updateCredit">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateInterimGradeRoster">
+    <wsdl:part name="parameters" element="tns:updateInterimGradeRoster">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateFinalGradeRosterStateResponse">
+    <wsdl:part name="parameters" element="tns:updateFinalGradeRosterStateResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFinalGradeRostersForActivityOfferingResponse">
+    <wsdl:part name="parameters" element="tns:getFinalGradeRostersForActivityOfferingResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGradeRosterType">
+    <wsdl:part name="parameters" element="tns:getGradeRosterType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateGradeRosterResponse">
+    <wsdl:part name="parameters" element="tns:validateGradeRosterResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addEntrytoInterimRosterResponse">
+    <wsdl:part name="parameters" element="tns:addEntrytoInterimRosterResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addEntrytoInterimRoster">
+    <wsdl:part name="parameters" element="tns:addEntrytoInterimRoster">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateGrade">
+    <wsdl:part name="parameters" element="tns:updateGrade">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGradeGroupsByKeyListResponse">
+    <wsdl:part name="parameters" element="tns:getGradeGroupsByKeyListResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFinalGradeRostersForCourseOfferingResponse">
+    <wsdl:part name="parameters" element="tns:getFinalGradeRostersForCourseOfferingResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGradeRosterEntriesByRosterIdResponse">
+    <wsdl:part name="parameters" element="tns:getGradeRosterEntriesByRosterIdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGradeRostersByGraderAndTermResponse">
+    <wsdl:part name="parameters" element="tns:getGradeRostersByGraderAndTermResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DisabledIdentifierException">
+    <wsdl:part name="DisabledIdentifierException" element="tns:DisabledIdentifierException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGradeRoster">
+    <wsdl:part name="parameters" element="tns:getGradeRoster">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="buildInterimGradeRosterByType">
+    <wsdl:part name="parameters" element="tns:buildInterimGradeRosterByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGradeRosterTypeResponse">
+    <wsdl:part name="parameters" element="tns:getGradeRosterTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCreditResponse">
+    <wsdl:part name="parameters" element="tns:updateCreditResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateNumberGradeResponse">
+    <wsdl:part name="parameters" element="tns:updateNumberGradeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteInterimGradeRoster">
+    <wsdl:part name="parameters" element="tns:deleteInterimGradeRoster">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFinalGradeForStudentInCourseOfferingResponse">
+    <wsdl:part name="parameters" element="tns:getFinalGradeForStudentInCourseOfferingResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFinalGradeForStudentInCourseOffering">
+    <wsdl:part name="parameters" element="tns:getFinalGradeForStudentInCourseOffering">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGradeRostersForActivityOffering">
+    <wsdl:part name="parameters" element="tns:getGradeRostersForActivityOffering">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGradeRostersByGraderAndTerm">
+    <wsdl:part name="parameters" element="tns:getGradeRostersByGraderAndTerm">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGradeRostersForActivityOfferingResponse">
+    <wsdl:part name="parameters" element="tns:getGradeRostersForActivityOfferingResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateNumberGrade">
+    <wsdl:part name="parameters" element="tns:updateNumberGrade">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeEntryFromInterimRoster">
+    <wsdl:part name="parameters" element="tns:removeEntryFromInterimRoster">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateInterimGradeRosterResponse">
+    <wsdl:part name="parameters" element="tns:updateInterimGradeRosterResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="GradingService">
+    <wsdl:operation name="getGradeRosterEntriesByIds">
+      <wsdl:input name="getGradeRosterEntriesByIds" message="tns:getGradeRosterEntriesByIds">
+    </wsdl:input>
+      <wsdl:output name="getGradeRosterEntriesByIdsResponse" message="tns:getGradeRosterEntriesByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGradeRosterType">
+      <wsdl:input name="getGradeRosterType" message="tns:getGradeRosterType">
+    </wsdl:input>
+      <wsdl:output name="getGradeRosterTypeResponse" message="tns:getGradeRosterTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getFinalGradeRostersForCourseOffering">
+      <wsdl:input name="getFinalGradeRostersForCourseOffering" message="tns:getFinalGradeRostersForCourseOffering">
+    </wsdl:input>
+      <wsdl:output name="getFinalGradeRostersForCourseOfferingResponse" message="tns:getFinalGradeRostersForCourseOfferingResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getFinalGradeRostersForActivityOffering">
+      <wsdl:input name="getFinalGradeRostersForActivityOffering" message="tns:getFinalGradeRostersForActivityOffering">
+    </wsdl:input>
+      <wsdl:output name="getFinalGradeRostersForActivityOfferingResponse" message="tns:getFinalGradeRostersForActivityOfferingResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateGradeRoster">
+      <wsdl:input name="validateGradeRoster" message="tns:validateGradeRoster">
+    </wsdl:input>
+      <wsdl:output name="validateGradeRosterResponse" message="tns:validateGradeRosterResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteInterimGradeRoster">
+      <wsdl:input name="deleteInterimGradeRoster" message="tns:deleteInterimGradeRoster">
+    </wsdl:input>
+      <wsdl:output name="deleteInterimGradeRosterResponse" message="tns:deleteInterimGradeRosterResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addEntrytoInterimRoster">
+      <wsdl:input name="addEntrytoInterimRoster" message="tns:addEntrytoInterimRoster">
+    </wsdl:input>
+      <wsdl:output name="addEntrytoInterimRosterResponse" message="tns:addEntrytoInterimRosterResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateNumberGrade">
+      <wsdl:input name="updateNumberGrade" message="tns:updateNumberGrade">
+    </wsdl:input>
+      <wsdl:output name="updateNumberGradeResponse" message="tns:updateNumberGradeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateFinalGradeRosterState">
+      <wsdl:input name="updateFinalGradeRosterState" message="tns:updateFinalGradeRosterState">
+    </wsdl:input>
+      <wsdl:output name="updateFinalGradeRosterStateResponse" message="tns:updateFinalGradeRosterStateResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateInterimGradeRoster">
+      <wsdl:input name="updateInterimGradeRoster" message="tns:updateInterimGradeRoster">
+    </wsdl:input>
+      <wsdl:output name="updateInterimGradeRosterResponse" message="tns:updateInterimGradeRosterResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGradeRostersByGraderAndTerm">
+      <wsdl:input name="getGradeRostersByGraderAndTerm" message="tns:getGradeRostersByGraderAndTerm">
+    </wsdl:input>
+      <wsdl:output name="getGradeRostersByGraderAndTermResponse" message="tns:getGradeRostersByGraderAndTermResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateGrade">
+      <wsdl:input name="updateGrade" message="tns:updateGrade">
+    </wsdl:input>
+      <wsdl:output name="updateGradeResponse" message="tns:updateGradeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGradeRosterEntry">
+      <wsdl:input name="getGradeRosterEntry" message="tns:getGradeRosterEntry">
+    </wsdl:input>
+      <wsdl:output name="getGradeRosterEntryResponse" message="tns:getGradeRosterEntryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getFinalGradeForStudentInCourseOffering">
+      <wsdl:input name="getFinalGradeForStudentInCourseOffering" message="tns:getFinalGradeForStudentInCourseOffering">
+    </wsdl:input>
+      <wsdl:output name="getFinalGradeForStudentInCourseOfferingResponse" message="tns:getFinalGradeForStudentInCourseOfferingResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DisabledIdentifierException" message="tns:DisabledIdentifierException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateCredit">
+      <wsdl:input name="updateCredit" message="tns:updateCredit">
+    </wsdl:input>
+      <wsdl:output name="updateCreditResponse" message="tns:updateCreditResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeEntryFromInterimRoster">
+      <wsdl:input name="removeEntryFromInterimRoster" message="tns:removeEntryFromInterimRoster">
+    </wsdl:input>
+      <wsdl:output name="removeEntryFromInterimRosterResponse" message="tns:removeEntryFromInterimRosterResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGradeRosterEntriesByRosterId">
+      <wsdl:input name="getGradeRosterEntriesByRosterId" message="tns:getGradeRosterEntriesByRosterId">
+    </wsdl:input>
+      <wsdl:output name="getGradeRosterEntriesByRosterIdResponse" message="tns:getGradeRosterEntriesByRosterIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGradeRoster">
+      <wsdl:input name="getGradeRoster" message="tns:getGradeRoster">
+    </wsdl:input>
+      <wsdl:output name="getGradeRosterResponse" message="tns:getGradeRosterResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="buildInterimGradeRosterByType">
+      <wsdl:input name="buildInterimGradeRosterByType" message="tns:buildInterimGradeRosterByType">
+    </wsdl:input>
+      <wsdl:output name="buildInterimGradeRosterByTypeResponse" message="tns:buildInterimGradeRosterByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGradeRostersForActivityOffering">
+      <wsdl:input name="getGradeRostersForActivityOffering" message="tns:getGradeRostersForActivityOffering">
+    </wsdl:input>
+      <wsdl:output name="getGradeRostersForActivityOfferingResponse" message="tns:getGradeRostersForActivityOfferingResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGradeGroupsByKeyList">
+      <wsdl:input name="getGradeGroupsByKeyList" message="tns:getGradeGroupsByKeyList">
+    </wsdl:input>
+      <wsdl:output name="getGradeGroupsByKeyListResponse" message="tns:getGradeGroupsByKeyListResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="GradingServiceSoapBinding" type="tns:GradingService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getGradeRosterEntriesByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getGradeRosterEntriesByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getGradeRosterEntriesByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getFinalGradeRostersForActivityOffering">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getFinalGradeRostersForActivityOffering">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getFinalGradeRostersForActivityOfferingResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getFinalGradeRostersForCourseOffering">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getFinalGradeRostersForCourseOffering">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getFinalGradeRostersForCourseOfferingResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGradeRosterType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getGradeRosterType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getGradeRosterTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateGradeRoster">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateGradeRoster">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateGradeRosterResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addEntrytoInterimRoster">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addEntrytoInterimRoster">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addEntrytoInterimRosterResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteInterimGradeRoster">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteInterimGradeRoster">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteInterimGradeRosterResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateFinalGradeRosterState">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateFinalGradeRosterState">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateFinalGradeRosterStateResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateNumberGrade">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateNumberGrade">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateNumberGradeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateInterimGradeRoster">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateInterimGradeRoster">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateInterimGradeRosterResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGradeRostersByGraderAndTerm">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getGradeRostersByGraderAndTerm">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getGradeRostersByGraderAndTermResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGradeRosterEntry">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getGradeRosterEntry">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getGradeRosterEntryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateGrade">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateGrade">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateGradeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getFinalGradeForStudentInCourseOffering">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getFinalGradeForStudentInCourseOffering">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getFinalGradeForStudentInCourseOfferingResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DisabledIdentifierException">
+        <soap:fault name="DisabledIdentifierException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateCredit">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateCredit">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateCreditResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeEntryFromInterimRoster">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeEntryFromInterimRoster">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeEntryFromInterimRosterResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGradeRosterEntriesByRosterId">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getGradeRosterEntriesByRosterId">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getGradeRosterEntriesByRosterIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGradeRoster">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getGradeRoster">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getGradeRosterResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="buildInterimGradeRosterByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="buildInterimGradeRosterByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="buildInterimGradeRosterByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGradeRostersForActivityOffering">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getGradeRostersForActivityOffering">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getGradeRostersForActivityOfferingResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGradeGroupsByKeyList">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getGradeGroupsByKeyList">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getGradeGroupsByKeyListResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GradingService">
+    <wsdl:port name="GradingService" binding="tns:GradingServiceSoapBinding">
+      <soap:address location="http://localhost:9090/GradingService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
