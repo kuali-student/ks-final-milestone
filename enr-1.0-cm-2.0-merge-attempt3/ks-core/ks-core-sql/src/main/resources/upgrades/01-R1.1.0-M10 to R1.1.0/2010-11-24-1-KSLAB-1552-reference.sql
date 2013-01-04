@@ -1,2 +1,0 @@
-insert into KSOR_ORG (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, LNG_NAME, SHRT_NAME, ST, TYPE, OBJ_ID) values ('182', 'admin', to_date('2010-11-24 12:56:26','yyyy-mm-dd hh:mi:ss'), 'admin', to_date('2010-11-24 12:56:26','yyyy-mm-dd hh:mi:ss'), '0', to_date('2010-11-24 12:56:26','yyyy-mm-dd hh:mi:ss'), 'Office of the Provost', 'ProvostOffice', 'Active', 'kuali.org.Office', SYS_GUID())
-/
