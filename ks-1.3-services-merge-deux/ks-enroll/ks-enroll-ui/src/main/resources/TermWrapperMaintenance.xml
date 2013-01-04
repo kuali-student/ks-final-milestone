@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:p="http://www.springframework.org/schema/p"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="TermWrapper" parent="TermWrapper-parentBean"/>
+  <bean id="TermWrapper-parentBean" abstract="true" parent="DataObjectEntry">
+    <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
+    <property name="titleAttribute" value="id"/>
+    <property name="attributes">
+        <list>
+            <ref bean="TermWrapper.id"/>
+        </list>
+    </property>
+    <property name="complexAttributes">
+      <list>
+        <ref bean="TermWrapper.termInfo"/>
+        <ref bean="TermWrapper.classesMeetDates"/>
+        <ref bean="TermWrapper.registrationPeriod"/>
+        <ref bean="TermWrapper.dropPeriodEndsDate"/>
+        <ref bean="TermWrapper.finalExaminationsDates"/>
+        <ref bean="TermWrapper.gradesDueDate"/>
+      </list>
+    </property>
+    <property name="objectLabel" value="Term with Key Dates"/>
+    <property name="primaryKeys">
+      <list>
+        <value>id</value>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Attribute Definitions -->
+  <bean id="TermWrapper.id" parent="BaseKuali.id">
+        <property name="name" value="id"/>
+        <property name="label" value="Term ID" />
+        <property name="required" value="false"/>
+        <property name="unique" value="true"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NoWhitespacePatternConstraint" />
+        </property>
+    	<property name="controlField">
+      		<bean parent="Uif-TextControl" p:size="60"/>
+    	</property>
+    	<property name="control">
+      		<bean parent="TextControlDefinition" p:size="60"/>
+	    </property>
+  </bean>
+
+  <bean id="TermWrapper.termInfo" parent="ComplexAttributeDefinition">
+  	<property name="name" value="termInfo"/>
+  	<property name="dataObjectEntry" ref="TermInfoUI"/>
+  </bean>
+  <bean id="TermWrapper.classesMeetDates" parent="ComplexAttributeDefinition">
+  	<property name="name" value="classesMeetDates"/>
+  	<property name="dataObjectEntry" ref="KeyDateInfoUI"/>
+  </bean>
+  <bean id="TermWrapper.registrationPeriod" parent="ComplexAttributeDefinition">
+  	<property name="name" value="registrationPeriod"/>
+  	<property name="dataObjectEntry" ref="KeyDateInfoUI"/>
+  </bean>
+  <bean id="TermWrapper.dropPeriodEndsDate" parent="ComplexAttributeDefinition">
+  	<property name="name" value="registrationPeriod"/>
+  	<property name="dataObjectEntry" ref="KeyDateInfoUI"/>
+  </bean>
+  <bean id="TermWrapper.finalExaminationsDates" parent="ComplexAttributeDefinition">
+  	<property name="name" value="finalExaminationsDates"/>
+  	<property name="dataObjectEntry" ref="KeyDateInfoUI"/>
+  </bean>
+  <bean id="TermWrapper.gradesDueDate" parent="ComplexAttributeDefinition">
+  	<property name="name" value="gradesDueDate"/>
+  	<property name="dataObjectEntry" ref="KeyDateInfoUI"/>
+  </bean>
+
+  <!-- LookupView -->
+  <bean id="TermWrapper-LookupView" parent="KSLookupView">
+    <property name="headerText" value="Term Lookup (by ID)" />
+    <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper" />
+    <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.TermWrapperLookupableImpl"></property>
+    <property name="criteriaFields">
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="termInfo.typeKey"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="id" />
+		<!-- <bean parent="Uif-InputField" p:propertyName="termInfo.id" />    -->
+        <bean parent="Uif-InputField" p:propertyName="termInfo.typeKey" />
+        <bean parent="Uif-InputField" p:propertyName="termInfo.startDate" />
+        <bean parent="Uif-InputField" p:propertyName="termInfo.endDate" />
+        <bean parent="Uif-InputField" p:propertyName="classesMeetDates.startDate">
+            <property name="label" value="Classes Meet Start Date" />
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="classesMeetDates.endDate">
+            <property name="label" value="Classes Meet End Date" />
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+
+  <!-- LookupView   -->
+  <bean id="TermWrapper-LookupView2" parent="KSLookupView">
+    <property name="headerText" value="Term Wrapp/Info Lookup (by ID)" />
+    <property name="viewName" value="TermInfo-LookupView2"/>
+    <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
+    <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.TermLookupableImpl"></property>
+    <property name="criteriaFields">
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+		<bean parent="Uif-InputField" p:propertyName="id" />
+        <bean parent="Uif-InputField" p:propertyName="typeKey" />
+        <bean parent="Uif-InputField" p:propertyName="startDate" />
+        <bean parent="Uif-InputField" p:propertyName="endDate" />
+      </list>
+    </property>
+  </bean>
+
+
+  <!-- InquiryView -->
+  <bean id="TermWrapper-InquiryView" parent="KSInquiryView">
+     <property name="headerText" value="Term with Key Dates Inquiry"/>
+     <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
+     <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.TermWrapperInquiryViewHelperServiceImpl" />
+
+     <property name="Items">
+         <list>
+           <bean parent="Uif-Disclosure-GridSection">
+             <property name="layoutManager.numberOfColumns" value="2"/>
+             <property name="headerText" value="Term with Key Dates"/>
+             <property name="items">
+               <list>
+               	<bean parent="Uif-InputField" p:propertyName="termInfo.id"/>
+                <bean parent="Uif-InputField" p:propertyName="termInfo.typeKey"/>
+                <bean parent="Uif-InputField" p:propertyName="termInfo.startDate"/>
+                <bean parent="Uif-InputField" p:propertyName="termInfo.endDate"/>
+                <bean parent="Uif-Message" p:messageText="Term Dates" p:colSpan="2" />
+				<bean parent="Uif-Message" p:messageText="Dates between which classes should meet" p:colSpan="2" />
+                <bean parent="Uif-InputField" p:propertyName="classesMeetDates.startDate"/>
+                <bean parent="Uif-InputField" p:propertyName="classesMeetDates.endDate"/>
+                <bean parent="Uif-Message" p:messageText="Registration Period" p:colSpan="2"/>
+                <bean parent="Uif-InputField" p:propertyName="registrationPeriod.startDate"/>
+                <bean parent="Uif-InputField" p:propertyName="registrationPeriod.endDate"/>
+                <bean parent="Uif-Message" p:messageText="Drop Period ends" p:colSpan="2"/>
+                <bean parent="Uif-InputField" p:propertyName="dropPeriodEndsDate.endDate">
+                	<property name="label" value="Date" />
+                </bean>
+				<bean parent="Uif-Message" p:messageText="Final Examinations" p:colSpan="2"/>
+                <bean parent="Uif-InputField" p:propertyName="finalExaminationsDates.startDate"/>
+                <bean parent="Uif-InputField" p:propertyName="finalExaminationsDates.endDate"/>
+			    <bean parent="Uif-Message" p:messageText="Grades Due" p:colSpan="2"/>
+                <bean parent="Uif-InputField" p:propertyName="gradesDueDate.endDate">
+               		<property name="label" value="Date" />
+                </bean>
+               </list>
+             </property>
+           </bean>
+         </list>
+     </property>
+  </bean>
+
+
+    <bean id="TermWrapper-MaintenanceView" parent="KSMaintenanceView">
+        <property name="headerText" value="Term Wrapper Maintenance"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.enrollment.class2.acal.service.TermWrapperMaintainableImpl"/>
+        <property name="items">
+            <list merge="true">
+
+                <bean parent="Uif-MaintenanceGridSection">
+                    <property name="layoutManager.cssClasses" value=""/>
+                    <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+                    <property name="disclosure.render" value="false"/>
+                    <property name="headerText" value="Term Wrapper"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="termInfo.typeKey">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermInfoTypeKeyValues"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Term Start/End">
+                                <property name="group.layoutManager.orientation" value="HORIZONTAL"/>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField" p:propertyName="termInfo.startDate"
+                                              p:fieldLabel.render="false"/>
+                                        <bean parent="Uif-Message" p:messageText=" to "/>
+                                        <bean parent="Uif-InputField" p:propertyName="termInfo.endDate"
+                                              p:fieldLabel.render="false"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+
+                </bean>
+
+                <bean parent="Uif-MaintenanceGridSection">
+                    <property name="headerText" value="Term Dates"/>
+                    <property name="instructionalText" value="Key dates for a Term"/>
+                    <property name="layoutManager.cssClasses" value="ks-termDates-table"/>
+                    <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+                    <property name="disclosure.render" value="false"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Class Meeting Dates">
+                                <property name="group.layoutManager.orientation"
+                                          value="HORIZONTAL"/>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField"
+                                              p:propertyName="classesMeetDates.startDate"
+                                              p:constraint="Required when End Date has a value" p:fieldLabel.render="false">
+                                            <property name="dependencyConstraints">
+                                                <list>
+                                                    <bean parent="PrerequisiteConstraint"
+                                                          p:attributePath="document.newMaintainableObject.dataObject.classesMeetDates.endDate"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-Message" p:messageText=" to "/>
+                                        <bean parent="Uif-InputField"
+                                              p:propertyName="classesMeetDates.endDate"
+                                              p:constraint="Required when Start Date has a value" p:fieldLabel.render="false">
+                                            <property name="dependencyConstraints">
+                                                <list>
+                                                    <bean parent="PrerequisiteConstraint"
+                                                          p:attributePath="document.newMaintainableObject.dataObject.classesMeetDates.startDate"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Registration Period">
+                                <property name="group.layoutManager.orientation"
+                                          value="HORIZONTAL"/>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField"
+                                              p:propertyName="registrationPeriod.startDate"
+                                              p:constraint="Required when End Date has a value" p:fieldLabel.render="false">
+                                            <property name="dependencyConstraints">
+                                                <list>
+                                                    <bean parent="PrerequisiteConstraint"
+                                                          p:attributePath="document.newMaintainableObject.dataObject.registrationPeriod.endDate"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-Message" p:messageText=" to "/>
+                                        <bean parent="Uif-InputField"
+                                              p:propertyName="registrationPeriod.endDate"
+                                              p:constraint="Required when Start Date has a value" p:fieldLabel.render="false">
+                                            <property name="dependencyConstraints">
+                                                <list>
+                                                    <bean parent="PrerequisiteConstraint"
+                                                          p:attributePath="document.newMaintainableObject.dataObject.registrationPeriod.startDate"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField"
+                                  p:propertyName="dropPeriodEndsDate.endDate">
+                                <property name="label" value="Drop Period ends"/>
+                            </bean>
+
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Final Examinations">
+                                <property name="group.layoutManager.orientation"
+                                          value="HORIZONTAL"/>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField"
+                                              p:propertyName="finalExaminationsDates.startDate"
+                                              p:constraint="Required when End Date has a value"
+                                              p:fieldLabel.render="false">
+                                            <property name="dependencyConstraints">
+                                                <list>
+                                                    <bean parent="PrerequisiteConstraint"
+                                                          p:attributePath="document.newMaintainableObject.dataObject.finalExaminationsDates.endDate"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-Message" p:messageText=" to "/>
+                                        <bean parent="Uif-InputField"
+                                              p:propertyName="finalExaminationsDates.endDate"
+                                              p:constraint="Required when Start Date has a value"
+                                              p:fieldLabel.render="false">
+                                            <property name="dependencyConstraints">
+                                                <list>
+                                                    <bean parent="PrerequisiteConstraint"
+                                                          p:attributePath="document.newMaintainableObject.dataObject.finalExaminationsDates.StartDate"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <bean parent="Uif-InputField"
+                                  p:propertyName="gradesDueDate.endDate">
+                                <property name="label" value="Grades Due Date"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="TermWrapperMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+    <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
+    <property name="maintainableClass" value="org.kuali.student.enrollment.class2.acal.service.TermWrapperMaintainableImpl"/>
+    <property name="documentTypeName" value="TermWrapperMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase"/>
+    <property name="lockingKeys">
+      <list>
+        <value>termInfo.id</value>
+      </list>
+    </property>
+  </bean>
+</beans>

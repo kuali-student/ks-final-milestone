@@ -1,0 +1,24 @@
+
+==================================================================
+        Instructions to complete Rice Template Install
+==================================================================
+1. Import ..\/ks-test as an 'existing' eclipse project.
+2. Configure an M2_REPO classpath variable in Eclipse
+3. Update C:\Users\sgibson/kuali/main/dev/ks-test-config.xml 
+   with application runtime database information.
+4. Configure an impex-build.properties file in your home directory
+   with application runtime database information, being sure to set
+   the torque.schema.dir property to the location of the rice
+   database/bootstrap-server-dataset directory. A template for impex-build.properties 
+   can be found in database/database-impex/impex-build.properties.sample.
+5. Run the impex tool under /database/impex-database.  If you require
+   a schema to be created for you, type: 'ant create-schema'.
+   To import the demonstration dataset, type: 'ant import'
+6. Start the application using the eclipse launch configuration.
+   In the eclipse Run menu, choose 'Run...' and select the
+   configuration named 'Launch Web App'
+7. Open a brower to http://localhost:8080/ks-test-dev/index.jsp
+
+   
+   These instructions can also be found in the instructions.txt file
+   in your generated project.
