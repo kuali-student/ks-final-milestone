@@ -105,7 +105,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private TypeService typeService;
     private CourseService courseService;
     private AcademicCalendarService acalService;
-    private AtpService atpService;
     private RegistrationGroupAssembler registrationGroupAssembler;
     private StateService stateService;
     private LprService lprService;
@@ -2918,25 +2917,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return false;
     }
 
-    public AtpService getAtpService() {
-        if (atpService == null) {
-            Object o = GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE,
-                    AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
-            atpService = (AtpService) o;
-        }
-        return atpService;
-    }
-
     public void setCourseOfferingTransformer(CourseOfferingTransformer courseOfferingTransformer) {
         this.courseOfferingTransformer = courseOfferingTransformer;
     }
 
     public void setRegistrationGroupTransformer(RegistrationGroupTransformer registrationGroupTransformer) {
         this.registrationGroupTransformer = registrationGroupTransformer;
-    }
-
-    public void setAtpService(AtpService atpService) {
-        this.atpService = atpService;
     }
 
     public void setOfferingCodeGenerator(CourseOfferingCodeGenerator offeringCodeGenerator) {

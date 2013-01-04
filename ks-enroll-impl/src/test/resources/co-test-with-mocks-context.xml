@@ -44,7 +44,6 @@
         <property name="lprService" ref="lprService" />
         <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
         <property name="businessLogic" ref="businessLogic" />
-        <property name="atpService" ref="atpService"/>
         <property name="lrcService" ref="LrcService"/>
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>

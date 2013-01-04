@@ -135,7 +135,6 @@
         <property name="lprService" ref="lprPersistenceService" />
         <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
         <property name="businessLogic" ref="businessLogic" />
-        <property name="atpService" ref="atpService"/>
         <property name="typeService" ref="typeService"/>
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>

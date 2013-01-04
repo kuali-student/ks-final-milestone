@@ -182,7 +182,6 @@
         <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
         <property name="businessLogic" ref="businessLogic" />
         <property name="typeService" ref="typeService"/>
-        <property name="atpService" ref="atpService"/>
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
         <property name="registrationGroupTransformer" ref="registrationGroupTransformer"/>

@@ -529,7 +529,6 @@
         <property name="seatPoolDefinitionDao" ref="seatPoolDefinitionDao" />
         <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao" />
         <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
-        <property name="atpService" ref="atpEnrService"/>
         <property name="schedulingService" ref="schedulingServiceImpl"/>
         <property name="lrcService" ref="lrcServiceCache"/>
         <property name="stateTransitionsHelper" ref="stateTransitionsHelper"/>
