@@ -114,7 +114,7 @@
 
     <bean id="KS-HolidayCalendar-HolidaySection" parent="Uif-TableCollectionSection"
           p:id="KS-HolidayCalendar-HolidaySection"
-		  p:layoutManager.numberOfColumns="10"
+          p:layoutManager.numberOfColumns="10"
           p:layoutManager.style="width: 100%; display:block;">
 		<property name="headerText" value="Holidays" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper" />
@@ -141,8 +141,7 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="startDate"
-                      p:label="Start Date" p:required="true">
+                <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true">
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy" />
                     </property>
@@ -150,33 +149,19 @@
                         <bean parent="BasicDatePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="startTime" p:label="Start Time"
-                      p:id="timeFieldStart">
-                    <!--<property name="progressiveRender" value="@{#lp.allDay eq false}"/>-->
-                    <!-- may work with Rice 2.2...
-                    <property name="dependencyConstraints">
-                        <list>
-                            <bean parent="PrerequisiteConstraint" p:propertyName="startTimeAmPm" />
-                        </list>
-                    </property>
-                        Rice 2.2... -->
+                <bean parent="Uif-InputField" p:propertyName="startTime" p:label="Start Time">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="4" p:watermarkText="hh:mm">
                             <property name="disabled" value="@{#lp.allDay}"/>
-                            <!--<property name="onKeyUpScript" value="setAttributesFromTimeField(jq(this));"/>
-                            <property name="onChangeScript" value="setAttributesFromTimeField(jq(this));"/>-->
                         </bean>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="startTimeAmPm" p:id="timeFieldStartAmPm">
-                    <!-- expression causes runtime exc on refresh with 'disabled' property
+                <bean parent="Uif-InputField" p:propertyName="startTimeAmPm">
                     <property name="required" value="@{!#lp.allDay and !#empty(#lp.startTime)}"/>
-                    <property name="refreshWhenChangedPropertyNames" value="#lp.startTime,#lp.allDay"/>
-                        -->
-                    <!--<property name="progressiveRender" value="@{#lp.allDay eq false}"/>-->
+                    <property name="refreshWhenChangedPropertyNames" value="#lp.startTime"/>
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="hctime-options">
                             <property name="disabled" value="@{#lp.allDay or #empty(#lp.startTime)}"/>
@@ -184,7 +169,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="endDate" p:render="@{!#view.readOnly}"
-                      p:id="endDate" p:label="End Date">
+                      p:label="End Date">
                     <property name="required" value="@{#lp.dateRange}"/>
                     <property name="refreshWhenChangedPropertyNames" value="#lp.dateRange"/>
                     <property name="control">
@@ -196,41 +181,31 @@
                         <bean parent="BasicDatePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="endTime" p:id="timeFieldEnd"
-                      p:label="End Time">
-                    <!--<property name="progressiveRender" value="@{#lp.allDay eq false}"/>-->
+                <bean parent="Uif-InputField" p:propertyName="endTime" p:label="End Time">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="4" p:watermarkText="hh:mm">
                             <property name="disabled" value="@{#lp.allDay}"/>
-                            <!--<property name="onKeyUpScript" value="setAttributesFromTimeField(jq(this));"/>
-                            <property name="onChangeScript" value="setAttributesFromTimeField(jq(this));"/>-->
                         </bean>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="endTimeAmPm" p:id="timeFieldEndAmPm">
-                    <!-- expression causes runtime exc on refresh with 'disabled' property
-                    <property name="required" value="@{!#empty(#lp.endTime)}"/>
+                <bean parent="Uif-InputField" p:propertyName="endTimeAmPm">
+                    <property name="required" value="@{!#lp.allDay and !#empty(#lp.endTime)}"/>
                     <property name="refreshWhenChangedPropertyNames" value="#lp.endTime"/>
-                        -->
-                    <!--<property name="progressiveRender" value="@{#lp.allDay eq false}"/>-->
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="hctime-options">
                             <property name="disabled" value="@{#lp.allDay or #empty(#lp.endTime)}"/>
                         </bean>
                     </property>
                 </bean>
-	            <bean parent="Uif-InputField" p:propertyName="allDay" p:id="allDayCheckbox"
-                      p:label="All Day">
-                    <property name="onClickScript" value="setAttributesFromAllDayCheckbox(jq(this));"/>
+	            <bean parent="Uif-InputField" p:propertyName="allDay" p:label="All Day">
 					<property name="control">
 						<bean parent="Uif-CheckboxControl"/>
 					</property>
 				</bean>
-                <bean parent="Uif-InputField" p:propertyName="dateRange" p:id="dateRangeCheckbox"
-                      p:label="Date Range">
+                <bean parent="Uif-InputField" p:propertyName="dateRange" p:label="Date Range">
 					<property name="control">
 						<bean parent="Uif-CheckboxControl"/>
 					</property>

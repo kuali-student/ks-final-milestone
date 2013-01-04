@@ -73,7 +73,6 @@
                         <bean parent="Uif-TextControl">
                             <property name="onKeyUpScript"
                                       value="filterSelectBox('dropDown_control', 'filterTextBox_control', 'dropDownTarget');"/>
-                            <!--<property name="onChangeScript" value="setAttributesFromTimeField(jq(this));"/>-->
                         </bean>
                     </property>
                     <property name="cssClasses">
