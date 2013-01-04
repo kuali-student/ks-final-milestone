@@ -34,6 +34,12 @@
         <load-on-startup>3</load-on-startup>
     </servlet>
 
+    <!-- Filter to overriding Service checks -->
+    <filter>
+        <filter-name>ArmKsapFilter</filter-name>
+        <filter-class>org.kuali.student.myplan.utils.ArmKsapFilter</filter-class>
+    </filter>
+
     <!-- Adds filter for user logins for use when myplan-servlet used-->
     <filter-mapping>
         <filter-name>UserLoginFilter</filter-name>
@@ -45,6 +51,12 @@
         <servlet-name>myplan</servlet-name>
         <url-pattern>/myplan/*</url-pattern>
     </servlet-mapping>
+
+    <!-- Filter on myplan servlet -->
+    <filter-mapping>
+        <filter-name>ArmKsapFilter</filter-name>
+        <servlet-name>myplan</servlet-name>
+    </filter-mapping>
 
 
     <!-- Start KRAD Defaults-->
@@ -110,6 +122,9 @@
         <filter-name>UserPreferencesFilter</filter-name>
         <filter-class>org.kuali.rice.kew.web.UserPreferencesFilter</filter-class>
     </filter>
+
+
+
 
     <!-- The mappings of files, urls and servlets for use of set filters-->
     <filter-mapping>

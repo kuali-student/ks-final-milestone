@@ -36,6 +36,12 @@
             <groupId>org.kuali.student.api</groupId>
             <artifactId>ks-ap-api</artifactId>
             <version>${ks.ap.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.kuali.student.core</groupId>
+                    <artifactId>ks-core-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.ap</groupId>
@@ -44,6 +50,30 @@
                 <exclusion>
                     <groupId>org.kuali.student.api</groupId>
                     <artifactId>ks-ap-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.kuali.student.api</groupId>
+                    <artifactId>ks-enroll-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.kuali.student.common</groupId>
+                    <artifactId>ks-common-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.kuali.student.core</groupId>
+                    <artifactId>ks-core-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.kuali.student.lum</groupId>
+                    <artifactId>ks-lum-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.kuali.rice</groupId>
+                    <artifactId>rice-krad-app-framework</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.kuali.rice</groupId>
+                    <artifactId>rice-krad-app-framework</artifactId>
                 </exclusion>
             </exclusions>
             <version>${ks.ap.version}</version>
@@ -151,6 +181,14 @@
                         <exclusion>
                             <groupId>org.kuali.student.api</groupId>
                             <artifactId>ks-ap-framework</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>org.kuali.student.api</groupId>
+                            <artifactId>ks-enroll-api</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>org.kuali.student.core</groupId>
+                            <artifactId>ks-core-api</artifactId>
                         </exclusion>
                     </exclusions>
         </dependency>

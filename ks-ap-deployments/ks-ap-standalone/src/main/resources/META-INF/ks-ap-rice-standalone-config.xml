@@ -89,7 +89,8 @@
 
     <!-- MyPlan course lookup url  -->
     <param name="ks.ap.MainEntryPoint" override="false">${lum.application.url}/myplan/course?methodToCall=start&amp;viewId=CourseSearch-FormView</param>
-
+    <param name="ks.ap.planner" override="false">${lum.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView</param>
+    <param name="ks.ap.audit" override="false">${lum.application.url}/myplan/audit?methodToCall=audit&amp;viewId=DegreeAudit-FormView</param>
     <!-- End Url Location -->
 
     <!-- Start Cache Configuration-->
@@ -183,6 +184,5 @@
 	<param name="serviceServletUrl">${application.url}/services/</param>
 
     <param name="rice.portal.allowed.regex">^(${lum.application.url}|${application.url})(/.*|)</param>
-    <param name="serviceNamespace">KSCore</param>
 
 </config>

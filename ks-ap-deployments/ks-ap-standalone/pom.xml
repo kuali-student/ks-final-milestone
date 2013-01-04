@@ -117,11 +117,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.kuali.student.lum</groupId>
-            <artifactId>ks-lum-rice</artifactId>
-            <version>${ks.lum.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-ui</artifactId>
             <version>${ks.core.version}</version>
@@ -144,6 +139,10 @@
                 <exclusion>
                     <groupId>org.kuali.student.core</groupId>
                     <artifactId>ks-common-util</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.kuali.student.core</groupId>
+                    <artifactId>ks-core-api</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -172,6 +171,12 @@
             <groupId>org.kuali.student.enroll</groupId>
             <artifactId>ks-enroll-impl</artifactId>
             <version>${ks.enroll.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.kuali.student.lum</groupId>
+                    <artifactId>ks-lum-impl</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <artifactId>servlet-api</artifactId>
@@ -189,6 +194,10 @@
                 <exclusion>
                     <groupId>org.kuali.student.core</groupId>
                     <artifactId>ks-common-util</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.kuali.student.api</groupId>
+                    <artifactId>ks-enroll-api</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
