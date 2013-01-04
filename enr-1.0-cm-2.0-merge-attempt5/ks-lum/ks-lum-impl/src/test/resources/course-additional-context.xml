@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<bean id="cluService"
+		class="org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl">
+	</bean>
+
+	<bean id="luDao"
+		class="org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl">
+	</bean>
+
+
+	<bean id="statementService"
+		class="org.kuali.student.r1.core.statement.service.impl.StatementServiceImpl">
+	</bean>
+
+	<bean id="orgService"
+		class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
+	</bean>
+
+	<bean id="atpService"
+		class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
+	</bean>
+
+	<bean id="loService"
+		class="org.kuali.student.r2.lum.lo.service.impl.LearningObjectiveServiceImpl">
+	</bean>
+
+</beans>
