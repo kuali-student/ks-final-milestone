@@ -70,10 +70,10 @@
             <ref bean="massPublishConfirmDialog"/>
           </list>
       </property>
-      <property name="viewHelperService.helperClasses">
+      <property name="viewHelperService.helpers">
           <map>
 			<entry key="publishHelper">
-              <value  type="java.lang.Class">org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetPublishingHelper</value>
+                <bean class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetPublishingHelper"/>
               </entry>
 		</map>
       </property>
@@ -177,7 +177,7 @@
    <bean id="ManageSOCView-StatusHistory-SubSection1" parent="Uif-HorizontalBoxSubSection" p:style="background-color:#C8E4F7; ">
        <property name="items">
            <list>
-            <bean parent="Uif-MessageField" p:messageText="@{socStatus}" p:label="Status" p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"/>
+            <bean id="socStatus" parent="Uif-MessageField" p:messageText="@{socStatus}" p:label="Status" p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"/>
            </list>
        </property>
 
@@ -268,7 +268,7 @@
                 <bean parent="Uif-HorizontalBoxSubSection" p:style="background-color:#E0DEDE; ">
                    <property name="items">
                        <list>
-                        <bean parent="Uif-MessageField" p:messageText="@{socSchedulingStatus}" p:label="SOC Scheduling Status" p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"/>
+                        <bean id="socSchedulingStatus" parent="Uif-MessageField" p:messageText="@{socSchedulingStatus}" p:label="SOC Scheduling Status" p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"/>
                        </list>
                    </property>
                </bean>
@@ -292,7 +292,7 @@
                 <bean parent="Uif-HorizontalBoxSubSection" p:style="background-color:#E0DEDE; ">
                    <property name="items">
                        <list>
-                           <bean parent="Uif-MessageField" p:messageText="@{socPublishingStatus}" p:label="SOC Publishing Status" p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"/>
+                           <bean id="socPublishingStatus" parent="Uif-MessageField" p:messageText="@{socPublishingStatus}" p:label="SOC Publishing Status" p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"/>
                            <bean parent="ManageSOCView-SchedulingDetails-PublishButton"/>
                        </list>
                    </property>
