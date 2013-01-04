@@ -1,0 +1,1183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="LearningResultRecordServiceService" targetNamespace="http://student.kuali.org/wsdl/lrr" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/lrr" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://exceptions.common.r2.student.kuali.org/" xmlns:tns="http://student.kuali.org/wsdl/lrr" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/lrr">
+<xs:element name="createLearningResultRecord" type="tns:createLearningResultRecord"/>
+<xs:element name="createLearningResultRecordResponse" type="tns:createLearningResultRecordResponse"/>
+<xs:element name="createResultSource" type="tns:createResultSource"/>
+<xs:element name="createResultSourceResponse" type="tns:createResultSourceResponse"/>
+<xs:element name="deleteLearningResultRecord" type="tns:deleteLearningResultRecord"/>
+<xs:element name="deleteLearningResultRecordResponse" type="tns:deleteLearningResultRecordResponse"/>
+<xs:element name="deleteResultSource" type="tns:deleteResultSource"/>
+<xs:element name="deleteResultSourceResponse" type="tns:deleteResultSourceResponse"/>
+<xs:element name="getLearningResultRecord" type="tns:getLearningResultRecord"/>
+<xs:element name="getLearningResultRecordResponse" type="tns:getLearningResultRecordResponse"/>
+<xs:element name="getLearningResultRecordsBySourceId" type="tns:getLearningResultRecordsBySourceId"/>
+<xs:element name="getLearningResultRecordsBySourceIdResponse" type="tns:getLearningResultRecordsBySourceIdResponse"/>
+<xs:element name="getLearningResultRecordsForLpr" type="tns:getLearningResultRecordsForLpr"/>
+<xs:element name="getLearningResultRecordsForLprAndType" type="tns:getLearningResultRecordsForLprAndType"/>
+<xs:element name="getLearningResultRecordsForLprAndTypeResponse" type="tns:getLearningResultRecordsForLprAndTypeResponse"/>
+<xs:element name="getLearningResultRecordsForLprIds" type="tns:getLearningResultRecordsForLprIds"/>
+<xs:element name="getLearningResultRecordsForLprIdsResponse" type="tns:getLearningResultRecordsForLprIdsResponse"/>
+<xs:element name="getLearningResultRecordsForLprResponse" type="tns:getLearningResultRecordsForLprResponse"/>
+<xs:element name="getResultSource" type="tns:getResultSource"/>
+<xs:element name="getResultSourceResponse" type="tns:getResultSourceResponse"/>
+<xs:element name="getResultSourcesByIds" type="tns:getResultSourcesByIds"/>
+<xs:element name="getResultSourcesByIdsResponse" type="tns:getResultSourcesByIdsResponse"/>
+<xs:element name="getResultSourcesByType" type="tns:getResultSourcesByType"/>
+<xs:element name="getResultSourcesByTypeResponse" type="tns:getResultSourcesByTypeResponse"/>
+<xs:element name="updateLearningResultRecord" type="tns:updateLearningResultRecord"/>
+<xs:element name="updateLearningResultRecordResponse" type="tns:updateLearningResultRecordResponse"/>
+<xs:element name="updateResultSource" type="tns:updateResultSource"/>
+<xs:element name="updateResultSourceResponse" type="tns:updateResultSourceResponse"/>
+<xs:element name="validateLearningResultRecord" type="tns:validateLearningResultRecord"/>
+<xs:element name="validateLearningResultRecordResponse" type="tns:validateLearningResultRecordResponse"/>
+<xs:element name="validateResultSource" type="tns:validateResultSource"/>
+<xs:element name="validateResultSourceResponse" type="tns:validateResultSourceResponse"/>
+<xs:complexType name="updateResultSource">
+<xs:sequence>
+<xs:element minOccurs="0" name="resultSourceId" type="xs:string"/>
+<xs:element minOccurs="0" name="resultSourceInfo" type="tns:ResultSourceInfo"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ResultSourceInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="articulationId" type="xs:string"/>
+<xs:element minOccurs="0" name="resultTransformationId" type="xs:string"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="RichTextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="plain" type="xs:string"/>
+<xs:element minOccurs="0" name="formatted" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MetaInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="versionInd" type="xs:string"/>
+<xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createId" type="xs:string"/>
+<xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="updateId" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="AttributeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="key" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ContextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="authenticatedPrincipalId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="currentDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="locale" type="tns:LocaleInfo"/>
+<xs:element minOccurs="0" name="timeZone" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LocaleInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="localeLanguage" type="xs:string"/>
+<xs:element minOccurs="0" name="localeVariant" type="xs:string"/>
+<xs:element minOccurs="0" name="localeRegion" type="xs:string"/>
+<xs:element minOccurs="0" name="localeScript" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateResultSourceResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ResultSourceInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLearningResultRecordsForLprIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="lprIds" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLearningResultRecordsForLprIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:LearningResultRecordInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LearningResultRecordInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="lprId" type="xs:string"/>
+<xs:element minOccurs="0" name="resultValueKey" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="resultSourceIds" type="xs:string"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="createLearningResultRecord">
+<xs:sequence>
+<xs:element minOccurs="0" name="learningResultRecord" type="tns:LearningResultRecordInfo"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createLearningResultRecordResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:LearningResultRecordInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLearningResultRecordsForLpr">
+<xs:sequence>
+<xs:element minOccurs="0" name="lprId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLearningResultRecordsForLprResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:LearningResultRecordInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateLearningResultRecord">
+<xs:sequence>
+<xs:element minOccurs="0" name="learningResultRecordId" type="xs:string"/>
+<xs:element minOccurs="0" name="learningResultRecordInfo" type="tns:LearningResultRecordInfo"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateLearningResultRecordResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:LearningResultRecordInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLearningResultRecord">
+<xs:sequence>
+<xs:element minOccurs="0" name="learningResultRecordId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLearningResultRecordResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:LearningResultRecordInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createResultSource">
+<xs:sequence>
+<xs:element minOccurs="0" name="resultSourceInfo" type="tns:ResultSourceInfo"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createResultSourceResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ResultSourceInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteLearningResultRecord">
+<xs:sequence>
+<xs:element minOccurs="0" name="learningResultRecordId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteLearningResultRecordResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="StatusInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="isSuccess" type="xs:boolean"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLearningResultRecordsForLprAndType">
+<xs:sequence>
+<xs:element minOccurs="0" name="lprId" type="xs:string"/>
+<xs:element minOccurs="0" name="lrrType" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLearningResultRecordsForLprAndTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:LearningResultRecordInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getResultSourcesByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="resultSourceIds" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getResultSourcesByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ResultSourceInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLearningResultRecordsBySourceId">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="lprIds" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLearningResultRecordsBySourceIdResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:LearningResultRecordInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteResultSource">
+<xs:sequence>
+<xs:element minOccurs="0" name="deleteResultSourceId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteResultSourceResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateLearningResultRecord">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationType" type="xs:string"/>
+<xs:element minOccurs="0" name="learningResultRecordInfo" type="tns:LearningResultRecordInfo"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateLearningResultRecordResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ValidationResultInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="element" type="xs:string"/>
+<xs:element minOccurs="0" name="level" type="tns:errorLevel"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getResultSource">
+<xs:sequence>
+<xs:element minOccurs="0" name="resultSourceId" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getResultSourceResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ResultSourceInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateResultSource">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationType" type="xs:string"/>
+<xs:element minOccurs="0" name="resultSourceInfo" type="tns:ResultSourceInfo"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateResultSourceResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getResultSourcesByType">
+<xs:sequence>
+<xs:element minOccurs="0" name="resultSourceTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="context" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getResultSourcesByTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ResultSourceInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="errorLevel">
+<xs:restriction base="xs:string">
+<xs:enumeration value="OK"/>
+<xs:enumeration value="WARN"/>
+<xs:enumeration value="ERROR"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="MissingParameterException" nillable="true" type="ns0:MissingParameterException"/>
+<xs:element name="DataValidationErrorException" nillable="true" type="ns0:DataValidationErrorException"/>
+<xs:element name="VersionMismatchException" nillable="true" type="ns0:VersionMismatchException"/>
+<xs:element name="PermissionDeniedException" nillable="true" type="ns0:PermissionDeniedException"/>
+<xs:element name="InvalidParameterException" nillable="true" type="ns0:InvalidParameterException"/>
+<xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
+<xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
+<xs:element name="AlreadyExistsException" nillable="true" type="ns0:AlreadyExistsException"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://exceptions.common.r2.student.kuali.org/" targetNamespace="http://exceptions.common.r2.student.kuali.org/" version="1.0">
+<xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+<xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+<xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+<xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+<xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+<xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+<xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+<xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+<xs:complexType name="MissingParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DataValidationErrorException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" nillable="true" type="xs:anyType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="VersionMismatchException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="PermissionDeniedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="InvalidParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DoesNotExistException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="OperationFailedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AlreadyExistsException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="createResultSourceResponse">
+    <wsdl:part name="parameters" element="tns:createResultSourceResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteLearningResultRecord">
+    <wsdl:part name="parameters" element="tns:deleteLearningResultRecord">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getResultSourcesByIds">
+    <wsdl:part name="parameters" element="tns:getResultSourcesByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLearningResultRecord">
+    <wsdl:part name="parameters" element="tns:getLearningResultRecord">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateLearningResultRecord">
+    <wsdl:part name="parameters" element="tns:validateLearningResultRecord">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateResultSourceResponse">
+    <wsdl:part name="parameters" element="tns:updateResultSourceResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getResultSourcesByType">
+    <wsdl:part name="parameters" element="tns:getResultSourcesByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateLearningResultRecord">
+    <wsdl:part name="parameters" element="tns:updateLearningResultRecord">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateResultSource">
+    <wsdl:part name="parameters" element="tns:updateResultSource">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getResultSource">
+    <wsdl:part name="parameters" element="tns:getResultSource">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getResultSourcesByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getResultSourcesByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createLearningResultRecordResponse">
+    <wsdl:part name="parameters" element="tns:createLearningResultRecordResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLearningResultRecordsForLpr">
+    <wsdl:part name="parameters" element="tns:getLearningResultRecordsForLpr">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLearningResultRecordsBySourceId">
+    <wsdl:part name="parameters" element="tns:getLearningResultRecordsBySourceId">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLearningResultRecordsForLprIds">
+    <wsdl:part name="parameters" element="tns:getLearningResultRecordsForLprIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLearningResultRecordResponse">
+    <wsdl:part name="parameters" element="tns:getLearningResultRecordResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DataValidationErrorException">
+    <wsdl:part name="DataValidationErrorException" element="tns:DataValidationErrorException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteResultSource">
+    <wsdl:part name="parameters" element="tns:deleteResultSource">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getResultSourcesByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getResultSourcesByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AlreadyExistsException">
+    <wsdl:part name="AlreadyExistsException" element="tns:AlreadyExistsException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getResultSourceResponse">
+    <wsdl:part name="parameters" element="tns:getResultSourceResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createLearningResultRecord">
+    <wsdl:part name="parameters" element="tns:createLearningResultRecord">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="VersionMismatchException">
+    <wsdl:part name="VersionMismatchException" element="tns:VersionMismatchException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PermissionDeniedException">
+    <wsdl:part name="PermissionDeniedException" element="tns:PermissionDeniedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLearningResultRecordsForLprAndType">
+    <wsdl:part name="parameters" element="tns:getLearningResultRecordsForLprAndType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createResultSource">
+    <wsdl:part name="parameters" element="tns:createResultSource">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteResultSourceResponse">
+    <wsdl:part name="parameters" element="tns:deleteResultSourceResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLearningResultRecordsBySourceIdResponse">
+    <wsdl:part name="parameters" element="tns:getLearningResultRecordsBySourceIdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLearningResultRecordsForLprResponse">
+    <wsdl:part name="parameters" element="tns:getLearningResultRecordsForLprResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLearningResultRecordsForLprIdsResponse">
+    <wsdl:part name="parameters" element="tns:getLearningResultRecordsForLprIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateResultSourceResponse">
+    <wsdl:part name="parameters" element="tns:validateResultSourceResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateResultSource">
+    <wsdl:part name="parameters" element="tns:validateResultSource">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateLearningResultRecordResponse">
+    <wsdl:part name="parameters" element="tns:validateLearningResultRecordResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLearningResultRecordsForLprAndTypeResponse">
+    <wsdl:part name="parameters" element="tns:getLearningResultRecordsForLprAndTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteLearningResultRecordResponse">
+    <wsdl:part name="parameters" element="tns:deleteLearningResultRecordResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateLearningResultRecordResponse">
+    <wsdl:part name="parameters" element="tns:updateLearningResultRecordResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="LearningResultRecordService">
+    <wsdl:operation name="updateResultSource">
+      <wsdl:input name="updateResultSource" message="tns:updateResultSource">
+    </wsdl:input>
+      <wsdl:output name="updateResultSourceResponse" message="tns:updateResultSourceResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLearningResultRecordsForLprIds">
+      <wsdl:input name="getLearningResultRecordsForLprIds" message="tns:getLearningResultRecordsForLprIds">
+    </wsdl:input>
+      <wsdl:output name="getLearningResultRecordsForLprIdsResponse" message="tns:getLearningResultRecordsForLprIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createLearningResultRecord">
+      <wsdl:input name="createLearningResultRecord" message="tns:createLearningResultRecord">
+    </wsdl:input>
+      <wsdl:output name="createLearningResultRecordResponse" message="tns:createLearningResultRecordResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLearningResultRecordsForLpr">
+      <wsdl:input name="getLearningResultRecordsForLpr" message="tns:getLearningResultRecordsForLpr">
+    </wsdl:input>
+      <wsdl:output name="getLearningResultRecordsForLprResponse" message="tns:getLearningResultRecordsForLprResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateLearningResultRecord">
+      <wsdl:input name="updateLearningResultRecord" message="tns:updateLearningResultRecord">
+    </wsdl:input>
+      <wsdl:output name="updateLearningResultRecordResponse" message="tns:updateLearningResultRecordResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLearningResultRecord">
+      <wsdl:input name="getLearningResultRecord" message="tns:getLearningResultRecord">
+    </wsdl:input>
+      <wsdl:output name="getLearningResultRecordResponse" message="tns:getLearningResultRecordResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createResultSource">
+      <wsdl:input name="createResultSource" message="tns:createResultSource">
+    </wsdl:input>
+      <wsdl:output name="createResultSourceResponse" message="tns:createResultSourceResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteLearningResultRecord">
+      <wsdl:input name="deleteLearningResultRecord" message="tns:deleteLearningResultRecord">
+    </wsdl:input>
+      <wsdl:output name="deleteLearningResultRecordResponse" message="tns:deleteLearningResultRecordResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLearningResultRecordsForLprAndType">
+      <wsdl:input name="getLearningResultRecordsForLprAndType" message="tns:getLearningResultRecordsForLprAndType">
+    </wsdl:input>
+      <wsdl:output name="getLearningResultRecordsForLprAndTypeResponse" message="tns:getLearningResultRecordsForLprAndTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getResultSourcesByIds">
+      <wsdl:input name="getResultSourcesByIds" message="tns:getResultSourcesByIds">
+    </wsdl:input>
+      <wsdl:output name="getResultSourcesByIdsResponse" message="tns:getResultSourcesByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLearningResultRecordsBySourceId">
+      <wsdl:input name="getLearningResultRecordsBySourceId" message="tns:getLearningResultRecordsBySourceId">
+    </wsdl:input>
+      <wsdl:output name="getLearningResultRecordsBySourceIdResponse" message="tns:getLearningResultRecordsBySourceIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteResultSource">
+      <wsdl:input name="deleteResultSource" message="tns:deleteResultSource">
+    </wsdl:input>
+      <wsdl:output name="deleteResultSourceResponse" message="tns:deleteResultSourceResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateLearningResultRecord">
+      <wsdl:input name="validateLearningResultRecord" message="tns:validateLearningResultRecord">
+    </wsdl:input>
+      <wsdl:output name="validateLearningResultRecordResponse" message="tns:validateLearningResultRecordResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getResultSource">
+      <wsdl:input name="getResultSource" message="tns:getResultSource">
+    </wsdl:input>
+      <wsdl:output name="getResultSourceResponse" message="tns:getResultSourceResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateResultSource">
+      <wsdl:input name="validateResultSource" message="tns:validateResultSource">
+    </wsdl:input>
+      <wsdl:output name="validateResultSourceResponse" message="tns:validateResultSourceResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getResultSourcesByType">
+      <wsdl:input name="getResultSourcesByType" message="tns:getResultSourcesByType">
+    </wsdl:input>
+      <wsdl:output name="getResultSourcesByTypeResponse" message="tns:getResultSourcesByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="LearningResultRecordServiceServiceSoapBinding" type="tns:LearningResultRecordService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="updateResultSource">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateResultSource">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateResultSourceResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLearningResultRecordsForLprIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLearningResultRecordsForLprIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLearningResultRecordsForLprIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createLearningResultRecord">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createLearningResultRecord">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createLearningResultRecordResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLearningResultRecordsForLpr">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLearningResultRecordsForLpr">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLearningResultRecordsForLprResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateLearningResultRecord">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateLearningResultRecord">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateLearningResultRecordResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLearningResultRecord">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLearningResultRecord">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLearningResultRecordResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createResultSource">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createResultSource">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createResultSourceResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteLearningResultRecord">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteLearningResultRecord">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteLearningResultRecordResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLearningResultRecordsForLprAndType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLearningResultRecordsForLprAndType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLearningResultRecordsForLprAndTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLearningResultRecordsBySourceId">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLearningResultRecordsBySourceId">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLearningResultRecordsBySourceIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getResultSourcesByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getResultSourcesByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getResultSourcesByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteResultSource">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteResultSource">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteResultSourceResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateLearningResultRecord">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateLearningResultRecord">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateLearningResultRecordResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getResultSource">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getResultSource">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getResultSourceResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateResultSource">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateResultSource">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateResultSourceResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getResultSourcesByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getResultSourcesByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getResultSourcesByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="LearningResultRecordServiceService">
+    <wsdl:port name="LearningResultRecordServicePort" binding="tns:LearningResultRecordServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/LearningResultRecordServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
