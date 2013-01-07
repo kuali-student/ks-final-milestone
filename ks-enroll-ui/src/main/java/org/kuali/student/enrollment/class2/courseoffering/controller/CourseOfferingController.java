@@ -250,7 +250,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                 contextInfo);
 
         getCourseOfferingService().getCourseOffering(item.getTargetCourseOfferingId(), contextInfo);
-        KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CourseOfferingConstants.COURSEOFFERING_INFO_COPIED_SUCCESSFULLY, createWrapper.getCatalogCourseCode(), createWrapper.getTargetTermCode());
+        KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CourseOfferingConstants.COURSEOFFERING_INFO_COPIED_SUCCESSFULLY, createWrapper.getCatalogCourseCode(), createWrapper.getTerm().getName());
         return getUIFModelAndView(form);
 
     }
