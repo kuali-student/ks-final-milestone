@@ -108,8 +108,14 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Delete Course Offering" p:methodToCall="deleteCo"/>
-                            <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancelDeleteCo">
+                            <bean parent="Uif-PrimaryActionButton"
+                                  p:id="coDeleteConfirmationResultSection_confirmDeleteButton"
+                                  p:actionLabel="Delete Course Offering"
+                                  p:methodToCall="deleteCo"/>
+                            <bean parent="Uif-ActionLink"
+                                  p:id="coDeleteConfirmationResultSection_cancelDeleteButton"
+                                  p:actionLabel="Cancel"
+                                  p:methodToCall="cancelDeleteCo">
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>ks-enrollment-cancel-link</value>
