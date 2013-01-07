@@ -39,6 +39,15 @@ import java.util.*;
 
 import static junit.framework.Assert.assertNotNull;
 
+/**
+ * This test is used to test the Rice Krms integration for KS.
+ *
+ * This Test class needs a physical database to execute and is therefore @Ignored.
+ * This is only used in development until a proper solution is found to make this
+ * part of the CI environment.
+ *
+ * @Author: SW Genis
+ */
 @Ignore
 public class TestKRMSAgendasExecution extends KSKRMSTestCase {
 
