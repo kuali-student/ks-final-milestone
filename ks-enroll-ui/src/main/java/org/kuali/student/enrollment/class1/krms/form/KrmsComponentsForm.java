@@ -19,6 +19,11 @@ package org.kuali.student.enrollment.class1.krms.form;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+
+
 /**
  * This class //TODO ...
  *
@@ -41,6 +46,12 @@ public class KrmsComponentsForm extends UifFormBase {
     private String tests;
 
     private int testScore;
+
+    //private String currentMultipleCourseName;
+
+    private List<CourseInfo> multipleCourses;
+
+
 
     public PropositionEditor getProposition() {
         return proposition;
@@ -103,4 +114,25 @@ public class KrmsComponentsForm extends UifFormBase {
     public void setTestScore(int testScore) {
         this.testScore = testScore;
     }
+
+//    public String getCurrentMultipleCourseName() {
+//        return currentMultipleCourseName;
+//    }
+//
+//    public void setCurrentMultipleCourseName(String currentMultipleCourseName) {
+//        this.currentMultipleCourseName = currentMultipleCourseName;
+//    }
+
+    public List<CourseInfo> getMultipleCourses() {
+        if (multipleCourses == null) {
+            multipleCourses = new ArrayList<CourseInfo>();
+        }
+        return multipleCourses;
+    }
+
+    public void setMultipleCourses(List<CourseInfo> multipleCourses) {
+        this.multipleCourses = multipleCourses;
+    }
+
+
 }

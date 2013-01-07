@@ -5,7 +5,6 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="KrmsComponents-ManageView" parent="KSFormView">
-
         <property name="id" value="manageKrmsComponentsView"/>
         <property name="headerText" value="KS KRMS Custom Components"/>
         <property name="formClass" value="org.kuali.student.enrollment.class1.krms.form.KrmsComponentsForm"/>
@@ -39,9 +38,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="Clu Components"/>
-                <!--<ref bean="course"/>
-                <ref bean="courseList"/>-->
-                <ref bean="singleCourse"/>
+                <ref bean="KRMS-SingleCourse-SuggestField"/>
                 <ref bean="multipleCourse-Section"/>
                 <ref bean="gpaComponent" />
                 <ref bean="testScoreComponent" />
@@ -53,7 +50,6 @@
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="Organizational Components"/>
-                <!--<ref bean="org"/>-->
                 <ref bean="departmentComponent"/>
                 <ref bean="administeringOrgComponent"/>
             </list>
@@ -78,54 +74,7 @@
         </property>
     </bean>
 
-    <!--<bean id="course-parent" parent="parameter-parent-dropdown" p:label="Course">
-        <property name="optionsFinder">
-            <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.CourseCodeValuesFinder"/>
-        </property>
-    </bean>
-    <bean id="course" parent="course-parent"/>
-
-    <bean id="courseList-parent" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="1">
-        <property name="headerText" value="Selected Modules"/>
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.TermParameter"/>
-        <property name="propertyName" value="proposition.termParameterList"/>
-        <property name="layoutManager.richTable.render" value="false"/>
-        <property name="layoutManager.separateAddLine" value="true"/>
-        <property name="items">
-            <list>
-                <bean parent="Uif-InputField" p:label="Module" p:propertyName="parameter" p:required="true">
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.CourseCodeValuesFinder"/>
-                    </property>
-                </bean>
-            </list>
-        </property>
-        <property name="addLineItems">
-            <list>
-                <bean parent="Uif-InputField" p:label="Module" p:propertyName="parameter" p:required="true">
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.CourseCodeValuesFinder"/>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-    <bean id="courseList" parent="courseList-parent"/>
-
-    <bean id="org-parent" parent="parameter-parent-dropdown" p:label="Organization">
-        <property name="optionsFinder">
-            <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.OrganizationCodeValuesFinder"/>
-        </property>
-    </bean>
-    <bean id="org" parent="org-parent"/>-->
-
-    <bean id="singleCourse-parent" parent="Uif-InputField-LabelTop" p:propertyName="courseSuggest" p:label="Course">
+    <bean id="KRMS-SingleCourse-SuggestField-Parent" parent="Uif-InputField-LabelTop" p:propertyName="courseSuggest" p:label="Course">
         <property name="suggest">
             <bean parent="Uif-Suggest">
                 <property name="render" value="true"/>
@@ -139,7 +88,7 @@
             </bean>
         </property>
     </bean>
-    <bean id="singleCourse" parent="singleCourse-parent" />
+    <bean id="KRMS-SingleCourse-SuggestField" parent="KRMS-SingleCourse-SuggestField-Parent" />
 
     <bean id="courseTypeSelector-parent" parent="Uif-InputField-LabelTop" p:propertyName="multipleCourseType" p:label="Add a course, course set, or course range">
         <property name="control">
@@ -156,12 +105,105 @@
         <property name="items">
             <list>
                 <ref bean="courseTypeSelector" />
-                <ref bean="approvedCoursesComponent" />
+                <ref bean="addToList-Section" />
             </list>
         </property>
     </bean>
 
-    <bean id="approvedCoursesComponent" parent="Uif-VerticalBoxSection">
+    <bean id="addToList-Section" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-TableCollectionSection">
+                    <property name="propertyName" value="multipleCourses"/>
+                    <property name="collectionObjectClass"
+                              value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="renderAddBlankLineButton" value="true" />
+                    <property name="addLinePlacement" value="BOTTOM" />
+                    <property name="layoutManager.cssClasses" value=""/>
+                    <property name="layoutManager.richTable.render" value="false" />
+                    <property name="layoutManager.actionFieldPrototype.label" value=""/>
+                    <property name="header">
+                        <bean parent="Uif-HeaderThree"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField">
+                                <property name="propertyName" value="code"/>
+                                <property name="label" value="Approved Courses"/>
+                                <property name="suggest">
+                                    <bean parent="Uif-Suggest">
+                                        <property name="render" value="true"/>
+                                        <property name="sourcePropertyName" value="displayName"/>
+                                        <property name="templateOptions" value="minLength:1,delay:0"/>
+                                        <property name="suggestQuery">
+                                            <bean parent="Uif-AttributeQueryConfig">
+                                                <property name="queryMethodToCall" value="getCourseNamesForSuggest"/>
+                                            </bean>
+                                        </property>
+                                    </bean>
+                                </property>
+                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+                                <!--<property name="quickfinder.viewName" value="KS-KitchenSink-Lookup-TermInfo"/>-->
+                                <property name="quickfinder.fieldConversions">
+                                    <map>
+                                        <entry key="code" value="code"/>
+                                    </map>
+                                </property>
+                                <property name="quickfinder.quickfinderAction">
+                                    <bean parent="Uif-ActionLink">
+                                        <property name="methodToCall" value="performLookup"/>
+                                        <property name="actionLabel" value="Advanced Search"/>
+                                        <property name="style" value="display:block"/>
+                                    </bean>
+                                </property>
+                                <property name="quickfinder.lightBoxLookup">
+                                    <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <!--<property name="lineActions">
+                        <list>
+                            <bean parent="Uif-ActionLink">
+                                <property name="methodToCall" value="deleteLine"/>
+                                <property name="loadingMessageText" value="Removing line..."/>
+                                <property name="skipInTabOrder" value="true"/>
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image">
+                                        <property name="source" value="../ks-enroll-ksink/images/delete.png"/>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>-->
+                    <property name="lineActions">
+                        <list>
+                            <bean parent="Uif-ActionLink">
+                                <property name="methodToCall" value="deleteLine"/>
+                                <property name="actionLabel" value="delete"/>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="addBlankLineAction">
+                        <bean parent="Uif-SecondaryActionButton-Small">
+                            <property name="methodToCall" value="addBlankLine"/>
+                            <property name="actionEvent" value="addBlankLine"/>
+                            <property name="id" value="uif-addBlankLine"/>
+                            <property name="actionLabel" value="Add another item"/>
+                            <property name="actionImagePlacement" value="LEFT"/>
+                            <property name="actionImage">
+                                <bean parent="Uif-Image" p:source="../ks-enroll-ksink/images/plus_15px.png"/>
+                            </property>
+                            <property name="style" value="margin-top:5px;"/>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="approvedCoursesComponent" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSection">
@@ -175,7 +217,7 @@
                 <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="gpaComponent" parent="Uif-InputField-LabelTop" p:propertyName="gpa" p:label="GPA" p:minLength="3" p:maxLength="3">
         <property name="control">
@@ -185,6 +227,7 @@
             <bean parent="FixedPointPatternConstraint" p:precision="2" p:scale="1" p:allowNegative="false"/>
         </property>
     </bean>
+
     <bean id="department-parent" parent="Uif-InputField-LabelTop" >
         <property name="suggest">
             <bean parent="Uif-Suggest">
