@@ -487,11 +487,18 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '=', 'O', 3, 1)
 /
 
---BSCI380 Prerequisites,AND,kuali.reqComponent.type.course.courseset.grade.min,Must have earned a minimum grade of <gradeType> <grade> in <courses>
+--BSCI380 Prerequisites,AND
+insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
+values (krms_prop_s.nextval, 'Must meet all of the following', NULL, 'C', '&', (Select rule_id from krms_rule_t where nm = 'BSCI380 Prerequisites'), 1, NULL)
+/
+update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI380 Prerequisites')
+/
+
+--kuali.reqComponent.type.course.courseset.grade.min,Must have earned a minimum grade of <gradeType> <grade> in <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
 values (krms_prop_s.nextval, 'Must have earned a minimum grade of <gradeType> <grade> in <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.courseset.grade.min'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI380 Prerequisites'), 1, NULL)
 /
-update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI380 Prerequisites')
+insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI380 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
 --kuali.reqComponent.field.type.course.cluSet.id,375ab6aa-b37e-4cb4-928f-b2ae928f3335
 --kuali.reqComponent.field.type.grade.id,kuali.result.value.grade.letter.c
@@ -508,11 +515,20 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '=', 'O', 3, 1)
 /
 
---BSCI380 Prerequisites,OR,kuali.reqComponent.type.course.courseset.grade.min,Must have earned a minimum grade of <gradeType> <grade> in <courses>
+--OR
+insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
+values (krms_prop_s.nextval, 'Must meet 1 of the following', NULL, 'C', '|', (Select rule_id from krms_rule_t where nm = 'BSCI380 Prerequisites'), 1, NULL)
+/
+insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values
+((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI380 Prerequisites') and dscrm_typ_cd = 'C' and desc_txt = 'Must meet all of the following'), krms_prop_s.currval)
+/
+
+--kuali.reqComponent.type.course.courseset.grade.min,Must have earned a minimum grade of <gradeType> <grade> in <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
 values (krms_prop_s.nextval, 'Must have earned a minimum grade of <gradeType> <grade> in <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.courseset.grade.min'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI380 Prerequisites'), 1, NULL)
 /
-update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI380 Prerequisites')
+insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values
+((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI380 Prerequisites') and dscrm_typ_cd = 'C' and desc_txt = 'Must meet 1 of the following'), krms_prop_s.currval)
 /
 --kuali.reqComponent.field.type.grade.id,kuali.result.value.grade.letter.c
 --kuali.reqComponent.field.type.course.cluSet.id,9630d314-4392-4d51-8de9-491f0fe09d3c
@@ -529,9 +545,12 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '=', 'O', 3, 1)
 /
 
---BSCI380 Prerequisites,OR,kuali.reqComponent.type.course.courseset.grade.min,Must have earned a minimum grade of <gradeType> <grade> in <courses>
+--kuali.reqComponent.type.course.courseset.grade.min,Must have earned a minimum grade of <gradeType> <grade> in <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
 values (krms_prop_s.nextval, 'Must have earned a minimum grade of <gradeType> <grade> in <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.courseset.grade.min'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI380 Prerequisites'), 1, NULL)
+/
+insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values
+((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI380 Prerequisites') and dscrm_typ_cd = 'C' and desc_txt = 'Must meet 1 of the following'), krms_prop_s.currval)
 /
 --kuali.reqComponent.field.type.grade.id,kuali.result.value.grade.letter.c
 --kuali.reqComponent.field.type.course.cluSet.id,97550fcf-0a3a-4523-af35-34b39ec5b13f
