@@ -194,6 +194,7 @@
                 <entry key="sDom" value="rtip"/>
                 <entry key="aaSorting" value="[[ 3, 'asc' ], [1, 'asc']]"/>
                 <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
             </map>
         </property>
         <property name="items">
@@ -356,6 +357,7 @@
         <property name="disclosure.render" value="false"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper" />
         <property name="propertyName" value="filteredAOClusterWrapperList" />
+        <property name="cssClasses" value="aoc_disclosure"/>
         <property name="headerText" value=""/>
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
@@ -448,6 +450,7 @@
                 <entry key="sDom" value="rtip"/>
                 <entry key="aaSorting" value="[[ 2, 'asc' ], [0, 'asc']]"/>
                 <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
             </map>
         </property>
         <property name="items">

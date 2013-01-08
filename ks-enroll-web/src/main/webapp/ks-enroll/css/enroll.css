@@ -190,9 +190,13 @@ a
 .aoc_stateandlinks
 {
     background: #EDEDED;
+    float: none;
 }
 
-
+.aoc_disclosure .uif-horizontalFieldGroup
+{
+    float: none;
+}
 
 .aoc_stateandlinks .uif-boxLayoutHorizontalItem
 {
