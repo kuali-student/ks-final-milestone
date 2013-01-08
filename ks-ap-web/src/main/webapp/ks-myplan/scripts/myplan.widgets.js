@@ -665,7 +665,7 @@ function myplanAjaxSubmitForm(methodToCall, successCallback, additionalData, ele
         success:function (response) {
             var tempDiv = document.createElement('div');
             tempDiv.innerHTML = response;
-            var hasError = handleIncidentReport(response);
+            var hasError = checkForIncidentReport(response);
             if (!hasError) {
                 successCallback(tempDiv);
             }

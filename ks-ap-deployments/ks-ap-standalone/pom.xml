@@ -199,7 +199,29 @@
                     <groupId>org.kuali.student.api</groupId>
                     <artifactId>ks-enroll-api</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.kuali.student.ap</groupId>
+                    <artifactId>ks-ap-framework</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.kuali.student.ap</groupId>
+                    <artifactId>ks-ap-ui</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.kuali.student.ap</groupId>
+                    <artifactId>ks-ap-impl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.kuali.student.api</groupId>
+                    <artifactId>ks-ap-api</artifactId>
+                </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.ap</groupId>
+            <artifactId>ks-ap-web</artifactId>
+            <version>${ks.ap.version}</version>
+            <type>war</type>
         </dependency>
     </dependencies>
 

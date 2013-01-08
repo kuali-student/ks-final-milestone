@@ -1,29 +1,7 @@
 <#macro myplan_app_header element>
 <div id="applicationHeader">
     <div id="applicationHeading">
-        <div id="applicationLogo">MyPlan</div>
-        <div id="applicationUser">
-            <#if UserSession.objectMap["kuali.uw.authz.adviser"]??>
-                <#if UserSession.objectMap["kuali.uw.authz.adviser"]?string("true","false")=="true">
-                    <div class="identity">
-                        Welcome, <span class="name">${UserSession.person.firstName?cap_first} ${UserSession.person.lastName?substring(0,1)?capitalize} .</span>
-                    </div>
-                    <div class="logout">
-                        <a href="javascript:openHelpWindow('http://depts.washington.edu/myplan/help-site/');">Help</a>
-                        |
-                        <a href="/${ConfigProperties['app.code']}/logout.do">Log out</a>
-                    </div>
-                </#if>
-            <#else>
-                <div class="identity">
-                    Welcome, <a class="name" onclick="openPopUpForm('student_academic_planner_page','student_academic_planner_page','startAcademicPlannerForm','plan',
-                        {viewId:'StudentAcademicPlanner-FormView',pageId:'student_academic_planner_page'},event,null,{width:'16px'},{tail:{align:'right'},align:'right',position:'bottom',alwaysVisible:'false'},true);">${UserSession.person.firstName?cap_first} ${UserSession.person.lastName?substring(0,1)?capitalize} .</a>
-                </div>
-            </#if>
-        </div>
-
-        <img id="myplanUwPatch" src="../ks-myplan/images/myplan_w_patch_purple.png"/>
-
+        <div id="applicationLogo">Kuali Student Academic Planning</div>
         <div id="applicationNavigation">
             <ul>
                 <#if RequestParameters.viewId??>
@@ -57,17 +35,5 @@
             </ul>
         </div>
     </div>
-
-    <#if UserSession.objectMap["kuali.uw.authz.adviser"]??>
-        <#if UserSession.objectMap["kuali.uw.authz.adviser"]?string("true","false")=="true">
-            <div class="adviser-banner myplan-status info" style="float: none;">
-                <img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"/>
-                <div class="message">
-                    You&#39;re viewing <strong>${UserSession.objectMap["kuali.uw.authn.studentName"]}</strong>&#39;s MyPlan.
-                    Some features are restricted in Adviser View. <a href="javascript:openHelpWindow('https://depts.washington.edu/myplan/?page_id=985#view');">Learn more.</a>
-                </div>
-            </div>
-        </#if>
-    </#if>
 </div>
 </#macro>
