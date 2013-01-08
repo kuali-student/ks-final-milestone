@@ -730,7 +730,7 @@ public class PlanController extends UifControllerBase {
             return doOperationFailedError(form, "Unable to process request.", e);
         }
         if (!AtpHelper.isAtpIdFormatValid(newAtpIds.get(0))) {
-            return doOperationFailedError(form, String.format("ATP ID [%s] was not formatted properly.", newAtpIds.get(0)), null);
+        //    return doOperationFailedError(form, String.format("ATP ID [%s] was not formatted properly.", newAtpIds.get(0)), null);
         }
 
         String studentId = getUserId();
@@ -761,7 +761,9 @@ public class PlanController extends UifControllerBase {
         try {
             courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(courseId, getUserId(), context);
         } catch (Exception e) {
+            logger.error("Unable to retrieve Course Details.",e);
             return doOperationFailedError(form, "Unable to retrieve Course Details.", null);
+
         }
 
         /*  Do validations. */

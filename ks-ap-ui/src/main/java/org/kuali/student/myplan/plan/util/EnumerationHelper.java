@@ -21,6 +21,8 @@ public class EnumerationHelper {
 
     private static HashMap<String, List<EnumeratedValueInfo>> enumServiceCache;
 
+    private static final String GEN_EDU_REQ_KEY = "kuali.lu.genedreq";
+
     public static HashMap<String, List<EnumeratedValueInfo>> getEnumServiceCache() {
         if (EnumerationHelper.enumServiceCache == null) {
             EnumerationHelper.enumServiceCache = new HashMap<String, List<EnumeratedValueInfo>>();
@@ -36,10 +38,10 @@ public class EnumerationHelper {
         EnumeratedValueInfo enumValueInfo = null;
         try {
             List<EnumeratedValueInfo> enumeratedValueInfoList = null;
-            if (!getEnumServiceCache().containsKey("kuali.uw.lu.genedreq")) {
-                enumeratedValueInfoList = getEnumerationValueInfoList("kuali.uw.lu.genedreq", context);
+            if (!getEnumServiceCache().containsKey(GEN_EDU_REQ_KEY)) {
+                enumeratedValueInfoList = getEnumerationValueInfoList(GEN_EDU_REQ_KEY, context);
             } else {
-                enumeratedValueInfoList = getEnumServiceCache().get("kuali.uw.lu.genedreq");
+                enumeratedValueInfoList = getEnumServiceCache().get(GEN_EDU_REQ_KEY);
             }
             for (EnumeratedValueInfo enumVal : enumeratedValueInfoList) {
                 String enumCode = enumVal.getCode();
@@ -73,10 +75,10 @@ public class EnumerationHelper {
         try {
 
             List<EnumeratedValueInfo> enumeratedValueInfoList = null;
-            if (!getEnumServiceCache().containsKey("kuali.uw.lu.genedreq")) {
-                enumeratedValueInfoList = getEnumerationValueInfoList("kuali.uw.lu.genedreq", context);
+            if (!getEnumServiceCache().containsKey(GEN_EDU_REQ_KEY)) {
+                enumeratedValueInfoList = getEnumerationValueInfoList(GEN_EDU_REQ_KEY, context);
             } else {
-                enumeratedValueInfoList = getEnumServiceCache().get("kuali.uw.lu.genedreq");
+                enumeratedValueInfoList = getEnumServiceCache().get(GEN_EDU_REQ_KEY);
             }
             for (EnumeratedValueInfo enumVal : enumeratedValueInfoList) {
                 String enumCode = enumVal.getCode();
@@ -97,10 +99,10 @@ public class EnumerationHelper {
         try {
 
             List<EnumeratedValueInfo> enumeratedValueInfoList = null;
-            if (!getEnumServiceCache().containsKey("kuali.uw.lu.genedreq")) {
-                enumeratedValueInfoList = getEnumerationValueInfoList("kuali.uw.lu.genedreq", context);
+            if (!getEnumServiceCache().containsKey(GEN_EDU_REQ_KEY)) {
+                enumeratedValueInfoList = getEnumerationValueInfoList(GEN_EDU_REQ_KEY, context);
             } else {
-                enumeratedValueInfoList = getEnumServiceCache().get("kuali.uw.lu.genedreq");
+                enumeratedValueInfoList = getEnumServiceCache().get(GEN_EDU_REQ_KEY);
             }
             for (EnumeratedValueInfo enumVal : enumeratedValueInfoList) {
                 String enumCode = enumVal.getCode();
@@ -121,10 +123,10 @@ public class EnumerationHelper {
         try {
 
             List<EnumeratedValueInfo> enumeratedValueInfoList = null;
-            if (!getEnumServiceCache().containsKey("kuali.uw.lu.genedreq")) {
-                enumeratedValueInfoList = getEnumerationValueInfoList("kuali.uw.lu.genedreq", context);
+            if (!getEnumServiceCache().containsKey(GEN_EDU_REQ_KEY)) {
+                enumeratedValueInfoList = getEnumerationValueInfoList(GEN_EDU_REQ_KEY, context);
             } else {
-                enumeratedValueInfoList = getEnumServiceCache().get("kuali.uw.lu.genedreq");
+                enumeratedValueInfoList = getEnumServiceCache().get(GEN_EDU_REQ_KEY);
             }
             for (EnumeratedValueInfo enumVal : enumeratedValueInfoList) {
                 String enumAbbrVal = enumVal.getAbbrevValue();

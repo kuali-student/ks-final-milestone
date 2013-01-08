@@ -412,24 +412,24 @@ public class CourseSearchStrategyTest {
         request = requests.get(0);
         params = request.getParams();
         assertEquals("myplan.lu.search.title", request.getSearchKey());
-        assertEquals(2, params.size());
+        assertEquals(3, params.size());
         param = params.get(0);
         assertEquals("queryText", param.getKey());
         assertEquals("ASTRONOMY", param.getValues().get(0));
         param = params.get(1);
         assertEquals("campuses", param.getKey());
-        assertEquals(CourseSearchStrategy.NO_CAMPUS, param.getValues().get(0));
+        assertEquals("310", param.getValues().get(0));
 
         request = requests.get(1);
         params = request.getParams();
         assertEquals("myplan.lu.search.description", request.getSearchKey());
-        assertEquals(2, params.size());
+        assertEquals(3, params.size());
         param = params.get(0);
         assertEquals("queryText", param.getKey());
         assertEquals("ASTRONOMY", param.getValues().get(0));
         param = params.get(1);
         assertEquals("campuses", param.getKey());
-        assertEquals(CourseSearchStrategy.NO_CAMPUS, param.getValues().get(0));
+        assertEquals("310", param.getValues().get(0));
 
     }
 
@@ -892,14 +892,14 @@ public class CourseSearchStrategyTest {
     public void testProcessRequests4() throws Exception {
         ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
         CourseSearchForm form = new CourseSearchForm();
-        form.setSearchQuery("ARTHONOMY BIOLOGY");
+        form.setSearchQuery("ASTRONOMY BIOLOGY");
         List<String> campusParams=new ArrayList<String>();
         campusParams.add("310");
         form.setCampusSelect(campusParams);
         form.setSearchTerm("any");
         CourseSearchStrategy strategy = getCourseSearchStrategy();
         SearchRequestInfo request = new SearchRequestInfo("myplan.lu.search.fulltext");
-        request.addParam("queryText", "ARTHONOMY");
+        request.addParam("queryText", "ASTRONOMY");
         request.addParam("campuses", "310");
         requests.add(request);
         request = new SearchRequestInfo("myplan.lu.search.fulltext");
@@ -921,9 +921,9 @@ public class CourseSearchStrategyTest {
         assertEquals("ASTRONOMY", param.getValues().get(0));
         param = params.get(1);
         assertEquals("campuses", param.getKey());
-        assertEquals(CourseSearchStrategy.NO_CAMPUS, param.getValues().get(0));
+        assertEquals("310", param.getValues().get(0));
 
-        request = requests.get(1);
+        request = requests.get(2);
         params = request.getParams();
         assertEquals("myplan.lu.search.description", request.getSearchKey());
         assertEquals(2, params.size());
@@ -932,9 +932,9 @@ public class CourseSearchStrategyTest {
         assertEquals("ASTRONOMY", param.getValues().get(0));
         param = params.get(1);
         assertEquals("campuses", param.getKey());
-        assertEquals(CourseSearchStrategy.NO_CAMPUS, param.getValues().get(0));
+        assertEquals("310", param.getValues().get(0));
 
-        request = requests.get(2);
+        request = requests.get(1);
         params = request.getParams();
         assertEquals("myplan.lu.search.title", request.getSearchKey());
         assertEquals(2, params.size());
@@ -943,7 +943,7 @@ public class CourseSearchStrategyTest {
         assertEquals("BIOLOGY", param.getValues().get(0));
         param = params.get(1);
         assertEquals("campuses", param.getKey());
-        assertEquals(CourseSearchStrategy.NO_CAMPUS, param.getValues().get(0));
+        assertEquals("310", param.getValues().get(0));
 
         request = requests.get(3);
         params = request.getParams();
@@ -954,7 +954,7 @@ public class CourseSearchStrategyTest {
         assertEquals("BIOLOGY", param.getValues().get(0));
         param = params.get(1);
         assertEquals("campuses", param.getKey());
-        assertEquals(CourseSearchStrategy.NO_CAMPUS, param.getValues().get(0));
+        assertEquals("310", param.getValues().get(0));
     }
 
     @Test

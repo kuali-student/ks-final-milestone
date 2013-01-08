@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.kuali.student.ap</groupId>
         <artifactId>ks-ap</artifactId>
-        <version>0.1.1-KSAP-SNAPSHOT</version>
+        <version>0.2.1-KSAP-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -169,6 +169,12 @@
                     <artifactId>ks-core-api</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc14</artifactId>
+            <version>${oracle.ojdbc.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

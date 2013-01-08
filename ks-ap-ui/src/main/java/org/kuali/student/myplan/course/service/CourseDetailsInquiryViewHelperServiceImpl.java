@@ -190,15 +190,16 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends KualiInquirableIm
      * @return
      */
     public CourseDetails retrieveCourseSummary(String courseId, String studentId, ContextInfo context) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        if (!Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_COURSE_OFFERING_SERVICE_UP).toString())
-                || !Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_CALENDER_SERVICE_UP).toString())
-                || !Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_RECORD_SERVICE_UP).toString())) {
-            AtpHelper.addServiceError("curriculumTitle");
-            this.setAcademicCalendarServiceUp(Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_CALENDER_SERVICE_UP).toString()));
-            this.setAcademicRecordServiceUp(Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_RECORD_SERVICE_UP).toString()));
-            this.setCourseOfferingServiceUp(Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_COURSE_OFFERING_SERVICE_UP).toString()));
-        }
+        // Filtering Request attributes for Service Ups
+//        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//        if (!Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_COURSE_OFFERING_SERVICE_UP).toString())
+//                || !Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_CALENDER_SERVICE_UP).toString())
+//                || !Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_RECORD_SERVICE_UP).toString())) {
+//            AtpHelper.addServiceError("curriculumTitle");
+//            this.setAcademicCalendarServiceUp(Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_CALENDER_SERVICE_UP).toString()));
+//            this.setAcademicRecordServiceUp(Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_RECORD_SERVICE_UP).toString()));
+//            this.setCourseOfferingServiceUp(Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_COURSE_OFFERING_SERVICE_UP).toString()));
+//        }
         CourseDetails courseDetails = new CourseDetails();
         courseDetails.setSummaryOnly(true);
 

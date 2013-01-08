@@ -52,16 +52,12 @@
     </bean>
 
 	<bean id="searchController" class="org.kuali.student.myplan.course.controller.CourseSearchController">
-        <property name="cluService" ref="ksLumCluService"/>
-        <property name="atpService" ref="ksCoreAtpService"/>
-        <property name="courseOfferingService" ref="ksEnrollCourseOfferingService"/>
-        <property name="academicCalendarService" ref="ksEnrollAcalService"/>
         <property name="atpTypeComparator" ref="atpTypeComparator"/>
     </bean>
 
 	<bean id="atpTypeComparator" class="org.kuali.student.myplan.course.controller.DefaultAtpTypeComparator"/>
 
     <bean id="courseSearchStrategy" class="org.kuali.student.myplan.course.controller.CourseSearchStrategy" />
-
+    <bean id="planController" class="org.kuali.student.myplan.plan.controller.PlanController"/>
 
 </beans>
