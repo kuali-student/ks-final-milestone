@@ -1,6 +1,13 @@
 package org.kuali.student.r2.core.class1.atp.service.impl;
 
-import org.hibernate.LockMode;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.OptimisticLockException;
+
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
@@ -34,15 +41,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.service.SearchManager;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.LockModeType;
-
-@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class})
 public class AtpServiceImpl implements AtpService {
 
     private AtpDao atpDao;
@@ -515,7 +514,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public AtpInfo updateAtp(String atpId, AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
@@ -532,7 +531,13 @@ public class AtpServiceImpl implements AtpService {
         // this line can be removed once KSENROLL-4605 is resolved
         entity.setVersionNumber(new Long (atpInfo.getMeta().getVersionInd()));
         
-        atpDao.merge(entity);
+        try {
+            atpDao.merge(entity);
+        } catch (OptimisticLockException e) {
+            // this catch can be removed once KSENROLL-4253 is resolved
+            throw new VersionMismatchException();
+        }
+        
         atpDao.getEm().flush();
         return entity.toDto();
     }
