@@ -72,7 +72,6 @@
                                                                 <list>
                                                                     <bean parent="Uif-PrimaryActionButton" p:actionLabel="Release to Departments"
                                                                           p:methodToCall="confirmReleaseToDepts"/>
-                                                                    <bean parent="Uif-ActionLink" p:actionLabel="Re-do Rollover" p:methodToCall="redoRollover"/>
                                                                 </list>
                                                             </property>
                                                         </bean>
@@ -110,28 +109,6 @@
                                                     </list>
                                                 </property>
                                             </bean>
-                                            <bean parent="Uif-HorizontalBoxSubSection">
-                                                <property name="items">
-                                                    <list>
-                                                        <bean parent="Uif-InputField" p:labelPlacement="TOP"
-                                                              p:propertyName="configurationOptions"
-                                                              p:fieldLabel.renderColon="false" p:label="Configuration Options">
-                                                            <property name="control">
-                                                                <bean parent="Uif-VerticalCheckboxesControl" p:disabled="@{isConfigurationOptionsDisabled}">
-                                                                    <property name="options">
-                                                                        <list>
-                                                                            <bean parent="Uif-KeyLabelPair" p:key="checkBox1" p:value="Exclude canceled course offerings"/>
-                                                                            <bean parent="Uif-KeyLabelPair" p:key="checkBox2" p:value="Refresh rollover with catalog versions"/>
-                                                                            <bean parent="Uif-KeyLabelPair" p:key="checkBox3" p:value="Exclude scheduling information"/>
-                                                                            <bean parent="Uif-KeyLabelPair" p:key="checkBox4" p:value="Exclude instructor information"/>
-                                                                        </list>
-                                                                    </property>
-                                                                </bean>
-                                                            </property>
-                                                        </bean>
-                                                    </list>
-                                                </property>
-                                            </bean>
                                         </list>
                                     </property>
                                  </bean>   <!-- grid section-->
@@ -164,7 +141,6 @@
                                         <list>
                                             <bean parent="Uif-PrimaryActionButton" p:actionLabel="Release to Departments"
                                                   p:methodToCall="confirmReleaseToDepts"/>
-                                            <bean parent="Uif-ActionLink" p:actionLabel="Re-do Rollover" p:methodToCall="redoRollover"/>
                                         </list>
                                      </property>
                                  </bean>
