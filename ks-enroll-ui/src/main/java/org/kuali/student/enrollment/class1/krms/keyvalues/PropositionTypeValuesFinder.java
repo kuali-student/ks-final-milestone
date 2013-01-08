@@ -24,7 +24,10 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 //import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
+import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
+import org.kuali.rice.krms.impl.repository.TypeTypeRelationBoService;
+import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.StudentAgendaEditor;
 
 import java.util.ArrayList;
@@ -50,41 +53,28 @@ public class PropositionTypeValuesFinder extends UifKeyValuesFinderBase {
             dataObject = MaintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
         }
 
-        String ruleTypeId;
-        if (dataObject instanceof StudentAgendaEditor){
-            ruleTypeId = ((StudentAgendaEditor)dataObject).getAgendaItemLine().getRule().getTypeId();
+        String ruleTypeId = "";
+        if (dataObject instanceof StudentAgendaEditor) {
+            ruleTypeId = ((StudentAgendaEditor) dataObject).getAgendaItemLine().getRule().getTypeId();
+        } else if (dataObject instanceof RuleEditor){
+            ruleTypeId = ((RuleEditor) dataObject).getRule().getTypeId();
         }
 
+        // if we have an agenda w/ a selected context
+        Collection<TypeTypeRelation> typeRelations = getTypeTypeRelationBoService().findTypeTypeRelationsByFromType(ruleTypeId);
+        for (TypeTypeRelation typeRelation : typeRelations) {
+            keyValues.add(new ConcreteKeyValue(typeRelation.getToTypeId(), getKrmsTypeRepositoryService().getTypeById(typeRelation.getToTypeId()).getName()));
+        }
 
-
-       // if we have an agenda w/ a selected context
-        //Collection<TypeTypeRelation> typeRelations = getTypeTypeRelationBoService().findTypeTypeRelationsByFromType(ruleTypeId);
-        //for (TypeTypeRelation typeRelation : typeRelations) {
-        //    keyValues.add(new ConcreteKeyValue(typeRelation.getToTypeId(), getKrmsTypeRepositoryService().getTypeById(typeRelation.getToTypeId()).getName()));
-        //}
-
-        return this.getMockKeyValues();
+        return keyValues;
     }
 
     public KrmsTypeRepositoryService getKrmsTypeRepositoryService() {
         return KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService();
     }
 
-    //public TypeTypeRelationBoService getTypeTypeRelationBoService() {
-    //    return KrmsRepositoryServiceLocator.getTypeTypeRelationBoService();
-    //}
-
-
-    private List<KeyValue> getMockKeyValues(){
-
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        Collection<KrmsTypeDefinition> types = KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService().findAllTypesByNamespace("KS-SYS");
-        for (KrmsTypeDefinition type : types) {
-            if ("simplePropositionTypeService".equals(type.getServiceName())){
-                keyValues.add(new ConcreteKeyValue(type.getId(), type.getName()));
-            }
-        }
-        return keyValues;
+    public TypeTypeRelationBoService getTypeTypeRelationBoService() {
+        return KrmsRepositoryServiceLocator.getTypeTypeRelationBoService();
     }
 
 }
