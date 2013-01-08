@@ -16,7 +16,6 @@
 
 package org.kuali.student.r2.common.dao;
 
-import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -25,12 +24,12 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.r2.common.entity.BaseEntity;
 import org.kuali.student.r2.common.entity.PersistableEntity;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 
@@ -90,13 +89,22 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
         // TODO: see if this can be externalized as a named query.
         Query q = em.createQuery("select id from " + entityClass.getSimpleName() + " where id = :key").setParameter("key", primaryKey);
     
-        Object result =  q.getSingleResult();
-
-        if (result != null)
-            return true;
-        else
+        Object result;
+        try {
+            result = q.getSingleResult();
+        }
+        catch (NonUniqueResultException e) {
+            // more than 1 match (should never happen...)
             return false;
-                  
+        } 
+        catch (NoResultException e) {
+            // zero matches
+            return false;
+        }
+
+        // all other cases
+        return true;
+        
     }
     protected void verifyResults(List<T> resultList, Set<String> primaryKeys) throws DoesNotExistException {
 

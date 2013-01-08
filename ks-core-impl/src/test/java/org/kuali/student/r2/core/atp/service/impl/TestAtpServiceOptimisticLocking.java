@@ -124,7 +124,6 @@ public class TestAtpServiceOptimisticLocking {
         } catch (DoesNotExistException e) {
             log.error ("Exception = ", e);
         } catch (VersionMismatchException e) {
-            log.error ("Exception = ", e);
             versionMissmatchException = true;
         }
         
@@ -136,7 +135,6 @@ public class TestAtpServiceOptimisticLocking {
         try {
             atpService.updateAtp(newAtp.getId(), newAtp, callContext);
         } catch (DoesNotExistException e) {
-            log.error ("Exception = ", e);
             updateFailed = true;
         } catch (VersionMismatchException e) {
             log.error ("Exception = ", e);
