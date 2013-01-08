@@ -1,5 +1,6 @@
 package org.kuali.student.r2.core.class1.atp.service.impl;
 
+import org.hibernate.LockMode;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
@@ -38,6 +39,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.persistence.LockModeType;
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class AtpServiceImpl implements AtpService {
@@ -516,14 +519,21 @@ public class AtpServiceImpl implements AtpService {
     public AtpInfo updateAtp(String atpId, AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
-        AtpEntity entity = atpDao.find(atpId);
-        if (entity == null) {
-            throw new DoesNotExistException(atpId);
+        
+        if (atpDao.entityExists(atpId) == false) {
+            throw new DoesNotExistException("No existing Atp for id = " + atpId);
         }
-        entity.fromDTO(atpInfo);
+        
+        AtpEntity entity = new AtpEntity(atpInfo);
+        
         entity.setUpdateId(context.getPrincipalId());
         entity.setUpdateTime(context.getCurrentDate());
+        
+        // this line can be removed once KSENROLL-4605 is resolved
+        entity.setVersionNumber(new Long (atpInfo.getMeta().getVersionInd()));
+        
         atpDao.merge(entity);
+        atpDao.getEm().flush();
         return entity.toDto();
     }
 

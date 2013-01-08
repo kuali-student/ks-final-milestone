@@ -25,7 +25,9 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.common.entity.BaseEntity;
@@ -76,6 +78,26 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
 		return resultList;
     }
 
+    /**
+     * Check if an entity exists with the primary key given.
+     * 
+     * @param primaryKey the primary key identifier for the entity that will be checked.
+     * @return true if there is a row/entity with the primary key given in the database; false otherwise.
+     * 
+     */
+    public boolean entityExists (String primaryKey) {
+        
+        // TODO: see if this can be externalized as a named query.
+        Query q = em.createQuery("select id from " + entityClass.getSimpleName() + " where id = :key").setParameter("key", primaryKey);
+    
+        Object result =  q.getSingleResult();
+
+        if (result != null)
+            return true;
+        else
+            return false;
+                  
+    }
     protected void verifyResults(List<T> resultList, Set<String> primaryKeys) throws DoesNotExistException {
 
     	 if (resultList.size() == 0)
