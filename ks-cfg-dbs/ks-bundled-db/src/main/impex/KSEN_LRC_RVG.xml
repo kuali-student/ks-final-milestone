@@ -180,8 +180,8 @@
         OBJ_ID="684517ce-3731-4119-81ee-13f69e452e98"
         RESULT_SCALE_ID="kuali.result.scale.credit.degree"
         RVG_STATE="kuali.result.values.group.state.approved"
-        RVG_TYPE="kuali.result.values.group.type.fixed" UPDATEID="BATCH"
-        UPDATETIME="20121206113855" VER_NBR="0"/>
+        RVG_TYPE="kuali.result.values.group.type.multiple"
+        UPDATEID="BATCH" UPDATETIME="20121206113855" VER_NBR="0"/>
     <KSEN_LRC_RVG CREATEID="BATCH" CREATETIME="20121206113655"
         DESCR_FORMATTED="1.0,1.5,2.0,2.5,3.0 Academic Credits"
         DESCR_PLAIN="1.0,1.5,2.0,2.5,3.0 Academic Credits"
@@ -191,8 +191,8 @@
         OBJ_ID="a89d92f5-a7c9-4882-903b-bca55100bc9b"
         RESULT_SCALE_ID="kuali.result.scale.credit.degree"
         RVG_STATE="kuali.result.values.group.state.approved"
-        RVG_TYPE="kuali.result.values.group.type.fixed" UPDATEID="BATCH"
-        UPDATETIME="20121206113655" VER_NBR="0"/>
+        RVG_TYPE="kuali.result.values.group.type.multiple"
+        UPDATEID="BATCH" UPDATETIME="20121206113655" VER_NBR="0"/>
     <KSEN_LRC_RVG CREATEID="BATCH" CREATETIME="20121206113715"
         DESCR_FORMATTED="1.0,1.5,2.0,2.5,3.0,3.5,4.0 Academic Credits"
         DESCR_PLAIN="1.0,1.5,2.0,2.5,3.0,3.5,4.0 Academic Credits"
@@ -202,8 +202,8 @@
         OBJ_ID="cf7f1af0-0254-47fa-9109-08adf14f53eb"
         RESULT_SCALE_ID="kuali.result.scale.credit.degree"
         RVG_STATE="kuali.result.values.group.state.approved"
-        RVG_TYPE="kuali.result.values.group.type.fixed" UPDATEID="BATCH"
-        UPDATETIME="20121206113715" VER_NBR="0"/>
+        RVG_TYPE="kuali.result.values.group.type.multiple"
+        UPDATEID="BATCH" UPDATETIME="20121206113715" VER_NBR="0"/>
     <KSEN_LRC_RVG CREATEID="BATCH" CREATETIME="20121206113725"
         DESCR_FORMATTED="1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0 Academic Credits"
         DESCR_PLAIN="1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0 Academic Credits"
@@ -213,8 +213,8 @@
         OBJ_ID="e4c317a1-2fdc-4354-8619-fe48a6921b7e"
         RESULT_SCALE_ID="kuali.result.scale.credit.degree"
         RVG_STATE="kuali.result.values.group.state.approved"
-        RVG_TYPE="kuali.result.values.group.type.fixed" UPDATEID="BATCH"
-        UPDATETIME="20121206113725" VER_NBR="0"/>
+        RVG_TYPE="kuali.result.values.group.type.multiple"
+        UPDATEID="BATCH" UPDATETIME="20121206113725" VER_NBR="0"/>
     <KSEN_LRC_RVG CREATEID="BATCH" CREATETIME="20121206113748"
         DESCR_FORMATTED="1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0 Academic Credits"
         DESCR_PLAIN="1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0 Academic Credits"
@@ -224,8 +224,8 @@
         OBJ_ID="0365564c-ad08-4bf8-b44c-d0a3d0fc6739"
         RESULT_SCALE_ID="kuali.result.scale.credit.degree"
         RVG_STATE="kuali.result.values.group.state.approved"
-        RVG_TYPE="kuali.result.values.group.type.fixed" UPDATEID="BATCH"
-        UPDATETIME="20121206113748" VER_NBR="0"/>
+        RVG_TYPE="kuali.result.values.group.type.multiple"
+        UPDATEID="BATCH" UPDATETIME="20121206113748" VER_NBR="0"/>
     <KSEN_LRC_RVG CREATEID="BATCH" CREATETIME="20121206113543"
         DESCR_FORMATTED="1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0 Academic Credits"
         DESCR_PLAIN="1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0 Academic Credits"
@@ -235,8 +235,8 @@
         OBJ_ID="78d468a2-7677-4eb4-abb7-cba52b3d4684"
         RESULT_SCALE_ID="kuali.result.scale.credit.degree"
         RVG_STATE="kuali.result.values.group.state.approved"
-        RVG_TYPE="kuali.result.values.group.type.fixed" UPDATEID="BATCH"
-        UPDATETIME="20121206113543" VER_NBR="0"/>
+        RVG_TYPE="kuali.result.values.group.type.multiple"
+        UPDATEID="BATCH" UPDATETIME="20121206113543" VER_NBR="0"/>
     <KSEN_LRC_RVG CREATEID="BATCH" CREATETIME="20121206110436"
         DESCR_FORMATTED="1.0.1.5.2.5.2.0.3.0 Academic Credits"
         DESCR_PLAIN="1.0.1.5.2.5.2.0.3.0 Academic Credits"
@@ -457,8 +457,8 @@
         OBJ_ID="62867abf-42a2-43b0-bd37-51a0755a7391"
         RESULT_SCALE_ID="kuali.result.scale.credit.degree"
         RVG_STATE="kuali.result.values.group.state.approved"
-        RVG_TYPE="kuali.result.values.group.type.fixed" UPDATEID="BATCH"
-        UPDATETIME="20121206113813" VER_NBR="0"/>
+        RVG_TYPE="kuali.result.values.group.type.multiple"
+        UPDATEID="BATCH" UPDATETIME="20121206113813" VER_NBR="0"/>
     <KSEN_LRC_RVG CREATEID="BATCH" CREATETIME="20121206113827"
         DESCR_FORMATTED="3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0 Academic Credits"
         DESCR_PLAIN="3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0 Academic Credits"
@@ -468,8 +468,8 @@
         OBJ_ID="40ebb6e8-2749-4f9e-a307-54a156bcc34a"
         RESULT_SCALE_ID="kuali.result.scale.credit.degree"
         RVG_STATE="kuali.result.values.group.state.approved"
-        RVG_TYPE="kuali.result.values.group.type.fixed" UPDATEID="BATCH"
-        UPDATETIME="20121206113827" VER_NBR="0"/>
+        RVG_TYPE="kuali.result.values.group.type.multiple"
+        UPDATEID="BATCH" UPDATETIME="20121206113827" VER_NBR="0"/>
     <KSEN_LRC_RVG CREATEID="Retired" CREATETIME="20121024191007"
         DESCR_FORMATTED="4 - 11 Academic Credits"
         DESCR_PLAIN="4 - 11 AcademicCredits"
@@ -539,8 +539,8 @@
         OBJ_ID="a297c75e-0883-4247-8817-d777bfc0943a"
         RESULT_SCALE_ID="kuali.result.scale.credit.degree"
         RVG_STATE="kuali.result.values.group.state.approved"
-        RVG_TYPE="kuali.result.values.group.type.fixed" UPDATEID="BATCH"
-        UPDATETIME="20121206113847" VER_NBR="0"/>
+        RVG_TYPE="kuali.result.values.group.type.multiple"
+        UPDATEID="BATCH" UPDATETIME="20121206113847" VER_NBR="0"/>
     <KSEN_LRC_RVG CREATEID="Retired" CREATETIME="20121024191007"
         DESCR_FORMATTED="5.0 Academic Credits"
         DESCR_PLAIN="5.0 Academic Credits"
