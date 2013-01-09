@@ -87,6 +87,7 @@ limitations under the License.
 
     <bean id="KS-AcademicCalendar-EditSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false" p:id="acal-info" p:style="min-width:70em;" >
         <property name="headerText" value="Information" />
+        <property name="cssClasses" value="ac_disclosure"/>
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="Last saved at @{lastUpdatedTime}" p:cssClasses="font-light12"/>

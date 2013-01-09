@@ -209,6 +209,11 @@ a
     margin-bottom: 0px;
 }
 
+.ac_disclosure .uif-boxLayoutHorizontalItem
+{
+    float: none;
+}
+
 .error_403
 {
     margin: 100px auto;
