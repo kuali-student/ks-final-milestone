@@ -30,11 +30,12 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
-import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
-import org.kuali.student.r1.core.proposal.service.ProposalService;
 
 import javax.xml.namespace.QName;
 import java.util.*;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.proposal.service.ProposalService;
 
 //import org.kuali.rice.kew.api.doctype.DocumentType;
 
@@ -123,7 +124,7 @@ public class KimQualificationHelper {
 			if (StringUtils.isBlank(documentNumber)) {
 			    // if document number is not in qualification try to get it using proposal id qualification
 	            if (StringUtils.isNotBlank(proposalId)) {
-	                ProposalInfo propInfo = getProposalService().getProposal(proposalId);
+	                ProposalInfo propInfo = getProposalService().getProposal(proposalId, ContextUtils.getContextInfo());
 	                documentNumber = propInfo.getWorkflowId();
 	            }
 			}

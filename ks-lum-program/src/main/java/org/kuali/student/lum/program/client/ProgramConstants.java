@@ -45,7 +45,7 @@ public class ProgramConstants {
     public static final String PROPOSAL_TITLE_PATH = "proposal/name";
     public static final String PROPOSAL_TYPE_OF_MODIFICATON_PATH = "proposal/typeOfModification";
     public static final String PROPOSAL_ABSTRACT_PATH = "proposal/abstract";
-    public static final String PROPOSAL_RATIONALE_PATH = "proposal/rationale";
+    public static final String PROPOSAL_RATIONALE_PATH = "proposal/rationale/plain";
     public static final String PROPOSAL_PREV_START_TERM_PATH = "proposal/prevStartTerm";  
     
     //Change Impact

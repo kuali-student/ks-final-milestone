@@ -40,6 +40,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Widget;
+import org.kuali.student.lum.lu.assembly.data.client.constants.base.RichTextInfoConstants;
 
 public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
 
@@ -325,7 +326,7 @@ public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
         block.setTitle(getLabel(LUUIConstants.PROPOSED_RETIRE_INFORMATION_LABEL_KEY));
         block.addSummaryTableFieldRow(getFieldRow(PROPOSAL_TITLE_PATH,
                 generateMessageInfo(LUUIConstants.PROPOSED_PROPOSAL_TITLE_LABEL_KEY)));
-        block.addSummaryTableFieldRow(getFieldRow(PROPOSAL + "/" + PROPOSED_RATIONALE,
+        block.addSummaryTableFieldRow(getFieldRow(PROPOSAL + "/" + PROPOSED_RATIONALE+ "/" + RichTextInfoConstants.PLAIN,
                 generateMessageInfo(LUUIConstants.RETIREMENT_RATIONALE_LABEL_KEY)));
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + START_TERM, 
                 generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY)));

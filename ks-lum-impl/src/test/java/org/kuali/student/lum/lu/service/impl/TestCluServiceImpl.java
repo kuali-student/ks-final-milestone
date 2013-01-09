@@ -1773,7 +1773,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testSearchCourseLevelRanges() throws MissingParameterException, PermissionDeniedException, OperationFailedException {
+	public void testSearchCourseLevelRanges() throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
         SearchParamInfo courseLevelsParam = new SearchParamInfo();
         courseLevelsParam.setKey("lu.queryParam.luOptionalCrsNoRange");

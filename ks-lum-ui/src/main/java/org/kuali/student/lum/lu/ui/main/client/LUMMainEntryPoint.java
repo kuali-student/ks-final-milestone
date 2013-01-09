@@ -16,7 +16,6 @@
 package org.kuali.student.lum.lu.ui.main.client;
 
 
-import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
@@ -33,8 +32,6 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.main.client.controllers.ApplicationController;
 import org.kuali.student.lum.lu.ui.main.client.theme.LumTheme;
 import org.kuali.student.lum.lu.ui.main.client.widgets.ApplicationHeader;
-import org.kuali.student.r1.common.messages.dto.MessageList;
-import org.kuali.student.r2.common.messages.dto.MessageInfo;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -42,6 +39,8 @@ import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamFactory;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
+import java.util.ArrayList;
+import org.kuali.student.r2.common.messages.dto.MessageInfo;
 
 public class LUMMainEntryPoint implements EntryPoint{
 
@@ -77,11 +76,11 @@ public class LUMMainEntryPoint implements EntryPoint{
     }
     
     private void loadMessages(final ApplicationContext context) throws SerializationException {
-        MessageList commonMessageList =  getMsgSerializedObject("commonMessages" );
-        MessageList lumMessageList =  getMsgSerializedObject("luMessages" );
+        ArrayList<MessageInfo> commonMessageList =  getMsgSerializedObject("commonMessages" );
+        ArrayList<MessageInfo>  luMessageList =  getMsgSerializedObject("luMessages" );
 
-        context.addMessages(commonMessageList.getMessages());
-        context.addMessages(lumMessageList.getMessages());
+        context.addMessages(commonMessageList);
+        context.addMessages(luMessageList);
     }
 
     @SuppressWarnings("unchecked")

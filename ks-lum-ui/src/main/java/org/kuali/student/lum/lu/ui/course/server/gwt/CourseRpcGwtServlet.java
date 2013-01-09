@@ -25,7 +25,6 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r1.core.proposal.service.ProposalService;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.statement.service.StatementService;
@@ -38,6 +37,7 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
+import org.kuali.student.r2.core.proposal.service.ProposalService;
 
 public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcService {
 

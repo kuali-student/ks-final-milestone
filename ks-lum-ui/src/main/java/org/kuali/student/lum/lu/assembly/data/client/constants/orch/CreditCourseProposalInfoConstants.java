@@ -22,7 +22,6 @@ public interface CreditCourseProposalInfoConstants
 	public static final String ID = "id";
 	public static final String PROPOSER_PERSON = "proposerPerson";
 	public static final String TITLE = "title";
-	public static final String RATIONALE = "rationale";
 	public static final String REFERENCE_TYPE = "referenceType";
 	public static final String REFERENCES = "references";
 	public static final String META_INFO = "meta";

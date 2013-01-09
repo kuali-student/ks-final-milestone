@@ -51,6 +51,7 @@ public class SpecializationsEditConfiguration extends AbstractSectionConfigurati
         KSCheckBox isVariationRequiredCheckBox = new KSCheckBox(getLabel(ProgramMsgConstants.PROGRAMSPECIALIZATION_INSTRUCTIONS));
         configurer.addField(section, ProgramConstants.IS_VARIATION_REQUIRED, null, isVariationRequiredCheckBox);
         configurer.addField(section, ProgramConstants.VARIATIONS, new MessageKeyInfo(""), new FlexTable()).setWidgetBinding(new VariationsBinding(AppLocations.Locations.EDIT_VARIATION.getLocation(), true, this));
+        configurer.addField(section, ProgramConstants.DEGREE_TYPE, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_DEGREETYPE)).getFieldElement().setVisible(false);
         section.addWidget(addSpecializationButton);
         rootSection.addSection(section);
     }

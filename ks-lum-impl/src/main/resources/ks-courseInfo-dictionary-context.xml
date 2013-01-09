@@ -1377,12 +1377,12 @@
  </bean>
  <bean id="courseRevenueInfo.id" parent="courseRevenueInfo.id-parent"/>
  
-    <bean id="courseRevenueInfo.stateKey-parent" abstract="true" parent="baseKualiStateRequired">
+    <bean id="courseRevenueInfo.stateKey-parent" abstract="true" parent="baseKualiState">
         <property name="name" value="stateKey"/>
     </bean>
     <bean id="courseRevenueInfo.stateKey" parent="courseRevenueInfo.stateKey-parent"/>
     
-    <bean id="courseRevenueInfo.typeKey-parent" abstract="true" parent="baseKualiStateRequired">
+    <bean id="courseRevenueInfo.typeKey-parent" abstract="true" parent="baseKualiType">
         <property name="name" value="typeKey"/>
     </bean>
     <bean id="courseRevenueInfo.typeKey" parent="courseRevenueInfo.typeKey-parent"/>

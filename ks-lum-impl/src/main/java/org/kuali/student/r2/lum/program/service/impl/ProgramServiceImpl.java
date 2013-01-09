@@ -982,26 +982,6 @@ public class ProgramServiceImpl implements ProgramService{
     }
 
     @Override
-    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("getSearchTypesByResult");
-    }
-
-    @Override
-    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("getSearchTypesByCriteria");
-    }
-
-    @Override
-    public List<TypeInfo> getSearchResultTypes( ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("getSearchResultTypes");
-    }
-
-    @Override
-    public List<TypeInfo> getSearchCriteriaTypes( ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("getSearchCriteriaTypes");
-    }
-
-    @Override
     public SearchResultInfo search(SearchRequestInfo searchRequestInfo,  ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("ProgramService.search");
     }

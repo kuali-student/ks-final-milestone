@@ -90,9 +90,8 @@ public class TestProgramServiceImpl {
     private final String[] DUMMY_SERVICE_METHODS = {"createHonorsProgram", "createMinorDiscipline",
             "deleteHonorsProgram", "deleteMinorDiscipline", "getHonorsProgram", "getMinorDiscipline",
             "getMinorsByCredentialProgramType", "updateHonorsProgram", "updateMinorDiscipline",
-            "validateHonorsProgram", "validateMinorDiscipline", "getSearchCriteriaTypes",
-            "getSearchResultTypes", "getSearchType", "getSearchTypes",
-            "getSearchTypesByCriteria", "getSearchTypesByResult", "search"};
+            "validateHonorsProgram", "validateMinorDiscipline", "getSearchType", "getSearchTypes",
+            "search"};
 
     @Before
     public void setUp() {

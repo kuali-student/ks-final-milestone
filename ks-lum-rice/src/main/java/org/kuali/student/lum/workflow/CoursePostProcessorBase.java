@@ -15,7 +15,6 @@ import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.framework.postprocessor.IDocumentEvent;
-import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 
@@ -23,7 +22,9 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.util.AttributeHelper;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.clu.CLUConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -99,7 +100,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
      protected boolean processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo) throws Exception {
 
          String courseId = getCourseId(proposalInfo);        
-         String prevEndTermAtpId = proposalInfo.getAttributes().get("prevEndTerm");
+         String prevEndTermAtpId = new AttributeHelper (proposalInfo.getAttributes()).get("prevEndTerm");
          
          // Get the current "existing" courseInfo
          CourseInfo courseInfo = getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
@@ -151,43 +152,45 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
      * @param courseInfo - course object we are updating
      * @param proposalInfo - proposal object which has the on-screen fields we are copying from
       */
-     protected void retireCourseByProposalCopyAndSave(String courseState, CourseInfo courseInfo, ProposalInfo proposalInfo) throws Exception {
-         
-         // Copy the data to the object - 
-         // These Proposal Attribs need to go back to courseInfo Object 
-         // to pass validation.
-         if (DtoConstants.STATE_RETIRED.equals(courseState)){
-             if ((proposalInfo != null) && (proposalInfo.getAttributes() != null))
-             {
-             String rationale = proposalInfo.getRationale();
-             String proposedEndTerm = proposalInfo.getAttributes().get("proposedEndTerm");          
-             String proposedLastTermOffered = proposalInfo.getAttributes().get("proposedLastTermOffered");
-             String proposedLastCourseCatalogYear = proposalInfo.getAttributes().get("proposedLastCourseCatalogYear");
-                   
-             courseInfo.setEndTerm(proposedEndTerm);             
-             courseInfo.getAttributes().add(new AttributeInfo("retirementRationale", rationale));
-             courseInfo.getAttributes().add(new AttributeInfo("lastTermOffered", proposedLastTermOffered));
-             courseInfo.getAttributes().add(new AttributeInfo("lastPublicationYear", proposedLastCourseCatalogYear));
-             
-               // lastTermOffered is a special case field, as it is required upon retire state
-               // but not required for submit.  Therefore it is possible for a user to submit a retire proposal
-               // without this field filled out, then when the course gets approved, and the state changes to RETIRED
-               // validation would fail and the proposal will then go into exception routing.  
-               // We can't simply make lastTermOffered a required field as it is not a desired field  
-               // on the course proposal screen.
-               //              
-               // So in the case of lastTermOffered being null when a course is retired,
-               // Just copy the "proposalInfo.proposedEndTerm" value (required for saves, so it will be filled out) 
-               // into "courseInfo.lastTermOffered" to pass validation.   
-               if ((proposalInfo!=null) && (courseInfo!=null) && 
-                         (courseInfo.getAttributeValue("lastTermOffered")==null)) {
-                    courseInfo.getAttributes().add(new AttributeInfo("lastTermOffered", proposalInfo.getAttributes().get("proposedEndTerm")));
-               }
-             }
-         }
-         // Save the Data to the DB
-         getCourseService().updateCourse(courseInfo.getId(), courseInfo, ContextUtils.getContextInfo());
-     }
+    protected void retireCourseByProposalCopyAndSave(String courseState, CourseInfo courseInfo, ProposalInfo proposalInfo) throws Exception {
+
+        // Copy the data to the object - 
+        // These Proposal Attribs need to go back to courseInfo Object 
+        // to pass validation.
+        if (DtoConstants.STATE_RETIRED.equals(courseState)) {
+            if ((proposalInfo != null) && (proposalInfo.getAttributes() != null)) {
+                String rationale = null;
+                if (proposalInfo.getRationale() != null) {
+                    rationale = proposalInfo.getRationale().getPlain();
+                }
+                String proposedEndTerm = new AttributeHelper(proposalInfo.getAttributes()).get("proposedEndTerm");
+                String proposedLastTermOffered = new AttributeHelper(proposalInfo.getAttributes()).get("proposedLastTermOffered");
+                String proposedLastCourseCatalogYear = new AttributeHelper(proposalInfo.getAttributes()).get("proposedLastCourseCatalogYear");
+
+                courseInfo.setEndTerm(proposedEndTerm);
+                courseInfo.getAttributes().add(new AttributeInfo("retirementRationale", rationale));
+                courseInfo.getAttributes().add(new AttributeInfo("lastTermOffered", proposedLastTermOffered));
+                courseInfo.getAttributes().add(new AttributeInfo("lastPublicationYear", proposedLastCourseCatalogYear));
+
+                // lastTermOffered is a special case field, as it is required upon retire state
+                // but not required for submit.  Therefore it is possible for a user to submit a retire proposal
+                // without this field filled out, then when the course gets approved, and the state changes to RETIRED
+                // validation would fail and the proposal will then go into exception routing.  
+                // We can't simply make lastTermOffered a required field as it is not a desired field  
+                // on the course proposal screen.
+                //              
+                // So in the case of lastTermOffered being null when a course is retired,
+                // Just copy the "proposalInfo.proposedEndTerm" value (required for saves, so it will be filled out) 
+                // into "courseInfo.lastTermOffered" to pass validation.   
+                if ((proposalInfo != null) && (courseInfo != null)
+                        && (courseInfo.getAttributeValue("lastTermOffered") == null)) {
+                    courseInfo.getAttributes().add(new AttributeInfo("lastTermOffered", new AttributeHelper(proposalInfo.getAttributes()).get("proposedEndTerm")));
+                }
+            }
+        }
+        // Save the Data to the DB
+        getCourseService().updateCourse(courseInfo.getId(), courseInfo, ContextUtils.getContextInfo());
+    }
 
     protected String getCourseId(ProposalInfo proposalInfo) throws OperationFailedException {
         if (proposalInfo.getProposalReference().size() != 1) {
