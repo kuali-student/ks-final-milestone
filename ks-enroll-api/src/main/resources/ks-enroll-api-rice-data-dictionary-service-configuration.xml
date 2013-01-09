@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+    <import resource="classpath:ks-core-api-dictionary-file-locations.xml"/>
+
+    <!--
+      RICE Dictionary service
+      This is used by the rice dictionary validation service
+    -->
+    <!--
+    THIIS COMMENTED OUT BECAUSE WE DON'T NEED THE CONFIGURATION SERVICE
+    <bean id="kualiConfigurationService" class="org.kuali.rice.krad.service.impl.KualiConfigurationServiceImpl" />
+    -->
+
+    <bean id="kualiModuleService" class="org.kuali.rice.krad.service.impl.KualiModuleServiceImpl" />
+    <bean id="riceDataDictionaryService" class="org.kuali.rice.krad.service.impl.DataDictionaryServiceImpl">
+        <constructor-arg>
+            <bean class="org.kuali.student.r2.common.datadictionary.SpringConfigurableDataDictionary" init-method="init">
+                <property name="dataDictionaryMapper">
+                    <bean class="org.kuali.rice.krad.datadictionary.DataDictionaryIndexMapper"/>
+                </property>
+            </bean>
+        </constructor-arg>
+        <!--<property name="kualiConfigurationService" ref="kualiConfigurationService" />-->
+        <property name="kualiModuleService" ref="kualiModuleService" />
+            <property name="additionalDictionaryFiles">
+                <map>
+                    <entry key="http://student.kuali.org/wsdl/datadictionary">
+                        <ref bean="allDictionaryFileLocations"/>
+                    </entry>
+                </map>
+        </property>
+    </bean>
+</beans>

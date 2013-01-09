@@ -42,7 +42,7 @@ import java.util.List;
 @XmlType(name = "ScheduleTransactionInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
         "scheduleBatchId", "refObjectId", "refObjectTypeKey", "scheduleRequestComponents",
         "scheduleId", "statusMessage",
-        "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+        "meta", "attributes", "_futureElements" }) 
 public class ScheduleTransactionInfo extends IdEntityInfo implements ScheduleTransaction, Serializable {
 
     @XmlElement
@@ -57,9 +57,8 @@ public class ScheduleTransactionInfo extends IdEntityInfo implements ScheduleTra
     private String statusMessage;
     @XmlElement
     private List<ScheduleRequestComponentInfo> scheduleRequestComponents;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public ScheduleTransactionInfo() {
     }

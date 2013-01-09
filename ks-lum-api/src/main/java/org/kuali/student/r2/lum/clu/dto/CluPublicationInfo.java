@@ -15,24 +15,24 @@
 
 package org.kuali.student.r2.lum.clu.dto;
 
-import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.r2.lum.clu.infc.CluPublication;
-import org.kuali.student.r2.lum.clu.infc.Field;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.r2.lum.clu.infc.CluPublication;
+import org.kuali.student.r2.lum.clu.infc.Field;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CluPublicationInfo", propOrder = {"id", "typeKey", "stateKey", "cluId", "variants", "startCycle", "endCycle", "effectiveDate",
-        "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+        "expirationDate", "meta", "attributes" , "_futureElements" }) 
 public class CluPublicationInfo extends IdNamelessEntityInfo implements Serializable, CluPublication {
 
     private static final long serialVersionUID = 1L;
@@ -55,9 +55,8 @@ public class CluPublicationInfo extends IdNamelessEntityInfo implements Serializ
     @XmlElement
     private Date expirationDate;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public CluPublicationInfo() {
 

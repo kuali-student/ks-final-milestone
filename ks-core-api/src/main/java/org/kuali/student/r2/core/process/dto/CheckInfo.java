@@ -38,8 +38,7 @@ import java.util.List;
     "leftComparisonAgendaId",
     "rightComparisonAgendaId",
     "meta",
-    "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
-
+    "attributes", "_futureElements" }) 
 public class CheckInfo 
     extends IdEntityInfo 
     implements Check, Serializable {
@@ -71,9 +70,8 @@ public class CheckInfo
     @XmlElement 
     private String childProcessKey;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     //////////////////////////
     // CONSTRUCTORS ETC.

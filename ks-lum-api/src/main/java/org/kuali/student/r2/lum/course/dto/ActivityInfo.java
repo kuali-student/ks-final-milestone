@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -24,7 +25,7 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.lum.course.infc.Activity;
 
-@XmlType(name = "ActivityInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "duration", "unitsContentOwner", "defaultEnrollmentEstimate", "contactHours", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+@XmlType(name = "ActivityInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "duration", "unitsContentOwner", "defaultEnrollmentEstimate", "contactHours", "meta", "attributes", "_futureElements" }) 
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ActivityInfo extends IdEntityInfo implements Activity, Serializable {
@@ -42,12 +43,9 @@ public class ActivityInfo extends IdEntityInfo implements Activity, Serializable
 
     @XmlElement
     private AmountInfo contactHours;
-    
 
-
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public ActivityInfo() {}
 

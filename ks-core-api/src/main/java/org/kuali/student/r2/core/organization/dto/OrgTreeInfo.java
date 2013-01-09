@@ -32,8 +32,7 @@ import org.kuali.student.r2.core.organization.infc.OrgTree;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OrgTreeInfo", propOrder = {
                 "displayName", "orgHierarchyId", "orgId", "parentId",
-                "positions", "positionId", "personId", "relationTypeKey"/*,
-                "_futureElements"*/ })
+                "positions", "positionId", "personId", "relationTypeKey", "_futureElements" }) 
 
 public class OrgTreeInfo 
     implements OrgTree, Serializable {
@@ -64,9 +63,8 @@ public class OrgTreeInfo
     @XmlElement
     private String relationTypeKey;
 	
-    //    TODO KSCM-372: Non-GWT translatable code
-    //@XmlAnyElement
-    //private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
 
     /**

@@ -17,7 +17,7 @@ package org.kuali.student.r2.common.datadictionary.util;
 
 import org.junit.Test;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
-import org.kuali.student.enrollment.acal.dto.*;
+import org.kuali.student.r2.core.acal.dto.*;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;

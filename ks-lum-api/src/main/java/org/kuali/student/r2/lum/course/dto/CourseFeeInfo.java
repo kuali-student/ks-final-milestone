@@ -29,7 +29,7 @@ import org.kuali.student.r2.lum.course.infc.CourseFee;
 @XmlType(name = "CourseFeeInfo", propOrder = {"id",
     "typeKey", "stateKey", 
     "name", "descr",
-    "feeType", "rateType", "feeAmounts", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+    "feeType", "rateType", "feeAmounts", "meta", "attributes" , "_futureElements" }) 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseFeeInfo extends IdEntityInfo implements CourseFee, Serializable {
 
@@ -44,9 +44,8 @@ public class CourseFeeInfo extends IdEntityInfo implements CourseFee, Serializab
     @XmlElement
     private List<CurrencyAmountInfo> feeAmounts;
     
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public CourseFeeInfo() {
 

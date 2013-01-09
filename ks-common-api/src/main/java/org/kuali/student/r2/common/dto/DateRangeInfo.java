@@ -37,7 +37,7 @@ import org.kuali.student.r2.common.infc.DateRange;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DateRangeInfo", propOrder = {
-                "startDate", "endDate" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+                "startDate", "endDate" , "_futureElements" }) 
 
 public class DateRangeInfo 
     implements DateRange, Serializable {
@@ -50,9 +50,9 @@ public class DateRangeInfo
     @XmlElement
     private Date endDate;
     
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;    
+    
+    @XmlAnyElement
+    private List<Object> _futureElements;   
     
 
     /**

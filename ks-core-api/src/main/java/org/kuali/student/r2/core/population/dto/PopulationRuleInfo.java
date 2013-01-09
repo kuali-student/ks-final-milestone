@@ -40,7 +40,7 @@ import java.util.List;
     "variesByTime",
     "supportsGetMembers",
     "meta",
-    "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+    "attributes", "_futureElements" }) 
 public class PopulationRuleInfo
         extends IdEntityInfo
         implements PopulationRule, Serializable {
@@ -64,9 +64,8 @@ public class PopulationRuleInfo
     private Boolean variesByTime;
     @XmlElement
     private Boolean supportsGetMembers;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
 
     /**

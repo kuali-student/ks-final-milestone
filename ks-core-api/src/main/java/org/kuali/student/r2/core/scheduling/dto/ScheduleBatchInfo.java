@@ -35,7 +35,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleBatchInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
         "requestingPersonId", "orgId", "statusMessage",
-        "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+        "meta", "attributes", "_futureElements" }) 
 public class ScheduleBatchInfo extends IdEntityInfo implements ScheduleBatch, Serializable {
 
     @XmlElement
@@ -45,9 +45,8 @@ public class ScheduleBatchInfo extends IdEntityInfo implements ScheduleBatch, Se
     @XmlElement
     private String statusMessage;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public ScheduleBatchInfo() {
     }

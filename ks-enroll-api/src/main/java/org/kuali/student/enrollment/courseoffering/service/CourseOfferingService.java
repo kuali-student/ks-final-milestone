@@ -1887,11 +1887,25 @@ public interface CourseOfferingService
     public StatusInfo deleteRegistrationGroupsForCluster(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Verifies a Registration Group applying rules such as: (1) Reg Group has
-     * one of each AO type (2) AO's don't meet at the same time (if scheduling
-     * has already happened) (3) AO's are all offered at the same campus (4)
-     * AO's don't have conflicting seatpool/enrollment restrictions
-     *
+     * Verifies a Registration Group applying rules such as: 
+     * <ol>
+     * <li>Registration Group has one ActivityOffering for each Format Offering
+     *  activityOfferingType</li>
+     * <li>ActivityOffering's don't have any time conflicts (if scheduling
+     * has already happened)</li>
+     * <li>ActivityOffering's are all offered at the same campus</li>
+     * <li>ActivityOffering's don't have conflicting seatpool/enrollment 
+     * restrictions</li>
+     * </ol>
+     * <p></p>
+     * The distinction between <b>validateRegistrationGroup</b> and this 
+     * method is that <b>validate</b> checks if its OK to save the object where
+     * as <b>verify</b> checks a saved object and its relation to other saved objects.
+     * <p></p>
+     * <b>validate</b> is called for every <b>create</b> and <b>update</b> and 
+     * needs to execute quickly where as this method can take longer to 
+     * accurately evaluate the specified RegistrationGroup.
+     * 
      * @param registrationGroupId the registrationGroup information to be
      *                            tested.
      * @param contextInfo         Context information containing the principalId
@@ -2132,9 +2146,18 @@ public interface CourseOfferingService
     public StatusInfo deleteActivityOfferingClusterCascaded(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Verifies an Activity Offering Cluster completeness for generation,
-     * verifying that each of the created RegGroups will be legitimate
-     *
+     * Verifies an Activity Offering Cluster's completeness for the generation
+     * of Registration Group's.
+     * 
+     * The distinction between <b>validateActivityOfferingCluster</b> and this 
+     * method is that <b>validate</b> checks if its OK to save the object where
+     * as <b>verify</b> checks a saved object in relation to other saved objects.
+     * 
+     * <p></p>
+     * <b>validate</b> is called for every <b>create</b> and <b>update</b> and 
+     * needs to execute quickly where as this method can take longer to 
+     * accurately evaluate the specified Activity Offering Cluster.
+     * 
      * @param activityOfferingClusterId Activity Offering Cluster to be
      *                                  verified
      * @param contextInfo               Context information containing the

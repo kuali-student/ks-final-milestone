@@ -36,7 +36,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleRequestInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
         "refObjectId", "refObjectTypeKey", "scheduleRequestComponents",
-        "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+        "meta", "attributes", "_futureElements" }) 
 public class ScheduleRequestInfo extends IdEntityInfo implements ScheduleRequest, Serializable {
 
     @XmlElement
@@ -46,9 +46,8 @@ public class ScheduleRequestInfo extends IdEntityInfo implements ScheduleRequest
     @XmlElement
     private List<ScheduleRequestComponentInfo> scheduleRequestComponents;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public ScheduleRequestInfo() {
     }

@@ -39,7 +39,7 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
                 "id", "typeKey", "stateKey", "descr", 
                 "amount", "orgId", "refObjectURI",
                 "refObjectId", 
-		"meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
+		"meta", "attributes", "_futureElements" }) 
 
 public class EnrollmentFeeInfo 
     extends IdNamelessEntityInfo 
@@ -62,9 +62,8 @@ public class EnrollmentFeeInfo
     @XmlElement
     private String refObjectId;
 	
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
 
     /**

@@ -19,16 +19,16 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
 
 	<!-- ********************************************************
-		                       WARNING 
+		                       WARNING
 		             DO NOT UPDATE THIS FILE MANUALLY
 		This dictionary file was automatically generated
-		The DictionaryGeneratorMojo reads the service contract 
+		The DictionaryGeneratorMojo reads the service contract
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
 		If this file is out of sync with the contract re-run the mojo.
 
 		To add additional constraints or change these default values (perhaps
-		because the generator is not perfect) please update the corresponding 
+		because the generator is not perfect) please update the corresponding
 		ks-XXXX-dictionary.xml instead of this one.
 	************************************************************* -->
 	<!-- ********************************************************************************************************** -->
@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- AcademicCalendarInfo-->
 	<bean id="AcademicCalendarInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="academicCalendarInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo"/>
 		<property name="objectLabel" value="Academic Calendar"/>
 		<property name="objectDescription">
 			<value>
@@ -156,7 +156,7 @@ A description of the entity.
 		<property name="summary">
 			<value>
 The holiday calendar id corresponding to this academic
-calendar. 
+calendar.
 			</value>
 		</property>
 		<property name="label" value="Holiday Calendar Ids"/>
@@ -196,7 +196,7 @@ this calendar.
 		<property name="shortLabel" value="Start Date"/>
 		<property name="summary">
 			<value>
-Date and time the term became effective. 
+Date and time the term became effective.
 			</value>
 		</property>
 		<property name="label" value="Start Date"/>
@@ -219,7 +219,7 @@ expiration date.
 		<property name="shortLabel" value="End Date"/>
 		<property name="summary">
 			<value>
-Date and time the term expires. 
+Date and time the term expires.
 			</value>
 		</property>
 		<property name="label" value="End Date"/>
@@ -242,7 +242,7 @@ automatically be considered greater than the effective date.
 		<property name="shortLabel" value="Meta"/>
 		<property name="summary">
 			<value>
-Create and last update info for the structure. 
+Create and last update info for the structure.
 			</value>
 		</property>
 		<property name="label" value="Meta"/>

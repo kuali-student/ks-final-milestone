@@ -28,7 +28,7 @@ import org.kuali.student.r2.core.exemption.infc.MilestoneOverride;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MilestoneOverrideInfo", propOrder = { "milestoneId", 
-                 "effectiveMilestoneId"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
+                 "effectiveMilestoneId", "_futureElements" }) 
 
 public class MilestoneOverrideInfo implements MilestoneOverride, Serializable {
 	private static final long serialVersionUID = 1L;
@@ -39,17 +39,15 @@ public class MilestoneOverrideInfo implements MilestoneOverride, Serializable {
 	@XmlElement
 	private String effectiveMilestoneId;
 
-//  TODO KSCM-372: Non-GWT translatable code
-//	@XmlAnyElement
-//	private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
 	public MilestoneOverrideInfo() {
 		super();
 		milestoneId = null;
 		effectiveMilestoneId = null;
 		
-//	    TODO KSCM-372: Non-GWT translatable code
-//		_futureElements = null;
+		_futureElements = null;
 	}
 
 	/**
@@ -65,8 +63,7 @@ public class MilestoneOverrideInfo implements MilestoneOverride, Serializable {
 		    this.effectiveMilestoneId = milestoneOverride.getEffectiveMilestoneId();
 		}
 
-//	    TODO KSCM-372: Non-GWT translatable code
-//		_futureElements = null;
+		_futureElements = null;
 	}
 
 	@Override

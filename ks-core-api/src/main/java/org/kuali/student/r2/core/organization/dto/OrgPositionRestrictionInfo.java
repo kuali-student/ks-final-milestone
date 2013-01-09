@@ -45,7 +45,7 @@ import org.kuali.student.r2.common.dto.TimeAmountInfo;
     "title", "descr",
     "stdDuration",
     "minNumRelations", "maxNumRelations",
-    "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+    "meta", "attributes", "_futureElements" }) 
 public class OrgPositionRestrictionInfo extends HasAttributesAndMetaInfo
         implements OrgPositionRestriction, Serializable {
 
@@ -66,9 +66,8 @@ public class OrgPositionRestrictionInfo extends HasAttributesAndMetaInfo
     private Integer minNumRelations;
     @XmlElement
     private String maxNumRelations;
-    //    TODO KSCM-372: Non-GWT translatable code
-    //@XmlAnyElement
-    //private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     /**
      * Constructs a new OrgPositionrestrictionInfo.

@@ -15,17 +15,19 @@
 
 package org.kuali.student.r2.lum.lo.dto;
 
-import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.lum.lo.infc.LoRepository;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
-import java.util.Date;
 
-@XmlType(name = "LoRepositoryInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "rootLoId", "effectiveDate", "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.lum.lo.infc.LoRepository;
+
+@XmlType(name = "LoRepositoryInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "rootLoId", "effectiveDate", "expirationDate", "meta", "attributes" , "_futureElements" }) 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LoRepositoryInfo extends KeyEntityInfo implements LoRepository, Serializable {
 
@@ -39,6 +41,9 @@ public class LoRepositoryInfo extends KeyEntityInfo implements LoRepository, Ser
 
     @XmlElement
     private Date expirationDate;
+    
+    @XmlElement
+    private List<Object>_futureElements;
     
     public LoRepositoryInfo(){
 

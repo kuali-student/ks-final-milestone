@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -41,7 +42,7 @@ import org.kuali.student.r2.lum.program.infc.ProgramRequirement;
     "minCredits",
     "maxCredits",
     "meta",
-    "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+    "attributes", "_futureElements" }) 
     
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramRequirementInfo extends IdNamelessEntityInfo implements ProgramRequirement, Serializable {
@@ -61,11 +62,9 @@ public class ProgramRequirementInfo extends IdNamelessEntityInfo implements Prog
     private Integer minCredits;
     @XmlElement
     private Integer maxCredits;
-    
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public ProgramRequirementInfo() {
     }

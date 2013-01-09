@@ -30,7 +30,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DocumentBinaryInfo", propOrder = {"binary"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "DocumentBinaryInfo", propOrder = {"binary", "_futureElements" }) 
 public class DocumentBinaryInfo implements DocumentBinary, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,9 +38,8 @@ public class DocumentBinaryInfo implements DocumentBinary, Serializable {
     @XmlElement
     private String binary;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public DocumentBinaryInfo() {
     }

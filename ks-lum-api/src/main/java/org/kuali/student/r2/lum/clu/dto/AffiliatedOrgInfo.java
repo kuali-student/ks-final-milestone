@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AffiliatedOrgInfo", propOrder = {"id", "meta", "attributes", "orgId", "percentage", "effectiveDate", "expirationDate", "typeKey", "stateKey" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "AffiliatedOrgInfo", propOrder = {"id", "meta", "attributes", "orgId", "percentage", "effectiveDate", "expirationDate", "typeKey", "stateKey" , "_futureElements" }) 
 public class AffiliatedOrgInfo extends IdNamelessEntityInfo implements AffiliatedOrg, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,9 +36,8 @@ public class AffiliatedOrgInfo extends IdNamelessEntityInfo implements Affiliate
     private Date effectiveDate;
     @XmlElement
     private Date expirationDate;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public AffiliatedOrgInfo() {
     }

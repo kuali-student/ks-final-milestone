@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -32,7 +33,7 @@ import org.kuali.student.r2.common.infc.ValidationResult;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ValidationResultInfo", propOrder = {
-    "element", "level", "message" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+    "element", "level", "message" , "_futureElements" }) 
     
 public class ValidationResultInfo
         implements ValidationResult, Serializable {
@@ -47,9 +48,9 @@ public class ValidationResultInfo
 //  used to hold debugging information 
 //  not intended to be sent over the wire          
     private transient Object invalidData;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     /**
      * Constructs a new ValidationResultInfo.

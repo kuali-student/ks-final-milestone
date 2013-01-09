@@ -22,6 +22,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -32,7 +33,7 @@ import org.kuali.student.r2.core.search.infc.SearchParam;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SearchParamInfo", propOrder = {
-    "key", "values"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+    "key", "values", "_futureElements" }) 
 public class SearchParamInfo
         implements SearchParam, Serializable {
 
@@ -41,9 +42,8 @@ public class SearchParamInfo
     private String key;
     @XmlElement
     private List<String> values;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     /**
      * Constructs a new SearchParamInfo.

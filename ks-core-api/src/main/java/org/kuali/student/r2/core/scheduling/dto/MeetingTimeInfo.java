@@ -34,7 +34,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MeetingTimeInfo", propOrder = {"id", "startDate", "duration", "roomId"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+@XmlType(name = "MeetingTimeInfo", propOrder = {"id", "startDate", "duration", "roomId", "_futureElements" }) 
 public class MeetingTimeInfo implements MeetingTime, Serializable {
 
     @XmlElement
@@ -45,9 +45,8 @@ public class MeetingTimeInfo implements MeetingTime, Serializable {
     private TimeAmountInfo duration;
     @XmlElement
     private String roomId;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
 
     public MeetingTimeInfo() {

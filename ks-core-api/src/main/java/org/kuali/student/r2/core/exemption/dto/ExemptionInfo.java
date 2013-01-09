@@ -31,7 +31,7 @@ import org.kuali.student.r2.core.exemption.infc.Exemption;
                 "personId", "effectiveDate", "expirationDate", 
                 "useLimit", "useCount", "dateOverride", 
                 "milestoneOverride", "learningResultOverride", 
-                "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+                "meta", "attributes", "_futureElements" }) 
 
 public class ExemptionInfo 
     extends IdEntityInfo 
@@ -71,9 +71,8 @@ public class ExemptionInfo
     @XmlElement
     private LearningResultOverrideInfo learningResultOverride;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public ExemptionInfo() {
         super();
@@ -111,8 +110,7 @@ public class ExemptionInfo
             }
         }
 
-//      TODO KSCM-372: Non-GWT translatable code
-//        _futureElements = null;
+        _futureElements = null;
     }
 
     @Override

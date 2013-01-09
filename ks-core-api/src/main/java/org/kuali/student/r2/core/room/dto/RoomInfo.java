@@ -1,44 +1,45 @@
-/*
- * Copyright 2011 The Kuali Foundation Licensed under the
- *  Educational Community License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License. You may
- *  obtain a copy of the License at
+/**
+ * Copyright 2012 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
  *
- *   http://www.osedu.org/licenses/ECL-2.0
+ * http://www.osedu.org/licenses/ECL-2.0
  *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an "AS IS"
- *  BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- *  or implied. See the License for the specific language governing
- *  permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ *
+ * Created by Gordon on 11/01/12
  */
 
 package org.kuali.student.r2.core.room.dto;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.room.infc.Room;
 import org.kuali.student.r2.core.room.infc.RoomFixedResource;
 import org.kuali.student.r2.core.room.infc.RoomUsage;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-//import org.w3c.dom.Element;
-
 /**
- *
- * @Version 2.0
- * @Author Sri komandur@uw.edu
+ * @version 2.0
+ * @author Kuali Student Team
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RoomInfo", propOrder = {"id", "typeKey", "stateKey",
         "name", "descr", "roomCode", "buildingId", "floor", "roomFixedResources", "roomUsages", "accessibilityTypeKeys",
-        "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+        "meta", "attributes", "_futureElements" }) 
 
 public class RoomInfo extends IdEntityInfo implements Room, Serializable {
 
@@ -62,9 +63,8 @@ public class RoomInfo extends IdEntityInfo implements Room, Serializable {
     @XmlElement
     List<String> accessibilityTypeKeys;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public RoomInfo() {
     }

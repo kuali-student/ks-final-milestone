@@ -15,24 +15,24 @@
 
 package org.kuali.student.r2.lum.clu.dto;
 
-import org.kuali.student.r2.common.dto.MetaInfo;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.lum.clu.infc.CluFee;
 import org.kuali.student.r2.lum.clu.infc.CluFeeRecord;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CluFeeInfo", propOrder = {"id", "descr", "cluFeeRecords", "attributes", "meta" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "CluFeeInfo", propOrder = {"id", "descr", "cluFeeRecords", "attributes", "meta" , "_futureElements" }) 
 public class CluFeeInfo extends HasAttributesAndMetaInfo implements CluFee, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,9 +46,8 @@ public class CluFeeInfo extends HasAttributesAndMetaInfo implements CluFee, Seri
     @XmlElement
     private List<CluFeeRecordInfo> cluFeeRecords;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public CluFeeInfo() {
 

@@ -30,7 +30,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LuDocRelationInfo", propOrder = {"id", "descr", "stateKey", "typeKey", "cluId", "documentId", "title",
-        "effectiveDate", "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+        "effectiveDate", "expirationDate", "meta", "attributes" , "_futureElements" }) 
 public class LuDocRelationInfo extends RelationshipInfo implements Serializable, LuDocRelation {
 
     private static final long serialVersionUID = 1L;
@@ -47,9 +47,8 @@ public class LuDocRelationInfo extends RelationshipInfo implements Serializable,
     @XmlElement
     private RichTextInfo descr;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public LuDocRelationInfo() {
 

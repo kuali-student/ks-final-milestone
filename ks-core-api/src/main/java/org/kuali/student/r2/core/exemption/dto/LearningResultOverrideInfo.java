@@ -15,8 +15,8 @@
 package org.kuali.student.r2.core.exemption.dto;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,27 +25,23 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.exemption.infc.LearningResultOverride;
-//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LearningResultOverrideInfo", propOrder = { "lrrIds"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
-
+@XmlType(name = "LearningResultOverrideInfo", propOrder = { "lrrIds", "_futureElements" }) 
 public class LearningResultOverrideInfo implements LearningResultOverride, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@XmlElement
 	private List<String> lrrIds;
 
-//  TODO KSCM-372: Non-GWT translatable code
-//	@XmlAnyElement
-//	private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
 	public LearningResultOverrideInfo() {
 		super();
 		lrrIds = null;
 		
-//	    TODO KSCM-372: Non-GWT translatable code
-//		_futureElements = null;
+		_futureElements = null;
 	}
 
 	/**
@@ -57,11 +53,10 @@ public class LearningResultOverrideInfo implements LearningResultOverride, Seria
 	public LearningResultOverrideInfo(LearningResultOverride learningResultOverride) {
 		super();
 		if (null != learningResultOverride) {
-		    this.lrrIds = new ArrayList(learningResultOverride.getLrrIds());
+		    this.lrrIds = new ArrayList<String>(learningResultOverride.getLrrIds());
 		}
 
-//	    TODO KSCM-372: Non-GWT translatable code
-//		_futureElements = null;
+		_futureElements = null;
 	}
 
 	@Override

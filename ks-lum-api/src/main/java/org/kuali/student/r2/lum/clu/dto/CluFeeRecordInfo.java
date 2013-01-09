@@ -15,7 +15,17 @@
 
 package org.kuali.student.r2.lum.clu.dto;
 
-import org.kuali.student.r2.common.dto.MetaInfo;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -23,18 +33,8 @@ import org.kuali.student.r2.common.infc.CurrencyAmount;
 import org.kuali.student.r2.lum.clu.infc.AffiliatedOrg;
 import org.kuali.student.r2.lum.clu.infc.CluFeeRecord;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CluFeeRecordInfo", propOrder = {"id", "feeType", "rateType", "feeAmounts", "affiliatedOrgs", "descr", "attributes", "meta" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "CluFeeRecordInfo", propOrder = {"id", "feeType", "rateType", "feeAmounts", "affiliatedOrgs", "descr", "attributes", "meta" , "_futureElements" }) 
 public class CluFeeRecordInfo extends HasAttributesAndMetaInfo implements CluFeeRecord, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -57,9 +57,8 @@ public class CluFeeRecordInfo extends HasAttributesAndMetaInfo implements CluFee
     @XmlElement
     private List<AffiliatedOrgInfo> affiliatedOrgs;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
 
     public CluFeeRecordInfo() {

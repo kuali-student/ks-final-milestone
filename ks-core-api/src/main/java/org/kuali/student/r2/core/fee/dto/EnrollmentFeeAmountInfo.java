@@ -38,7 +38,7 @@ import org.kuali.student.r2.core.fee.infc.EnrollmentFeeAmount;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FeeAmountInfo", propOrder = {
-                "currencyTypeKey", "currencyQuantity"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
+                "currencyTypeKey", "currencyQuantity", "_futureElements" }) 
 
 public class EnrollmentFeeAmountInfo 
     implements EnrollmentFeeAmount, Serializable {
@@ -51,9 +51,8 @@ public class EnrollmentFeeAmountInfo
     @XmlElement
     private Integer currencyQuantity;
     
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     /**
      * Constructs a new FeeAmount.

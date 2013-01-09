@@ -11,16 +11,18 @@
 
 package org.kuali.student.r2.lum.lo.dto;
 
-import org.kuali.student.r2.common.dto.RelationshipInfo;
-import org.kuali.student.r2.lum.lo.infc.LoLoRelation;
+import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
 
-@XmlType(name = "LoLoRelationInfo", propOrder = {"id", "typeKey", "stateKey", "loId", "relatedLoId", "effectiveDate", "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+import org.kuali.student.r2.common.dto.RelationshipInfo;
+import org.kuali.student.r2.lum.lo.infc.LoLoRelation;
+
+@XmlType(name = "LoLoRelationInfo", propOrder = {"id", "typeKey", "stateKey", "loId", "relatedLoId", "effectiveDate", "expirationDate", "meta", "attributes" , "_futureElements" }) 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LoLoRelationInfo extends RelationshipInfo implements LoLoRelation, Serializable {
 
@@ -31,6 +33,9 @@ public class LoLoRelationInfo extends RelationshipInfo implements LoLoRelation, 
 
     @XmlElement
     private String relatedLoId;
+    
+    @XmlElement
+    private List<Object>_futureElements;
 
     public LoLoRelationInfo() {
 

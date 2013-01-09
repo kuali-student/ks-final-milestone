@@ -16,10 +16,10 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramAtpAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramBasicOrgAssembly;
@@ -27,7 +27,6 @@ import org.kuali.student.r2.lum.program.dto.assembly.ProgramCodeAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramIdentifierAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramRequirementAssembly;
 import org.kuali.student.r2.lum.program.infc.CredentialProgram;
-import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 
 /**
  * Detailed information about a single credential program, e.g. Baccalaureate,
@@ -59,7 +58,7 @@ import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
     "programLevel",
     "coreProgramIds",
     "meta",
-    "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+    "attributes" , "_futureElements" }) 
     
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CredentialProgramInfo extends CommonWithCredentialProgramInfo implements CredentialProgram,
@@ -79,9 +78,8 @@ public class CredentialProgramInfo extends CommonWithCredentialProgramInfo imple
     private String programLevel;
     @XmlElement
     private List<String> coreProgramIds;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
      
     public CredentialProgramInfo() {
     }

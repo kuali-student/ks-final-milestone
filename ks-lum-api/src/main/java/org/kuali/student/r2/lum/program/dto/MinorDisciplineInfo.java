@@ -32,7 +32,7 @@ import org.kuali.student.r2.lum.program.infc.MinorDiscipline;
     "credentialProgramId",
     "programRequirements",
     "meta",
-    "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+    "attributes" , "_futureElements" }) 
     
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDiscipline, Serializable {
@@ -42,9 +42,8 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
     private String credentialProgramId;
     @XmlElement
     private List<String> programRequirements;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
     
     public MinorDisciplineInfo() {
         this.programRequirements = new ArrayList<String>();
