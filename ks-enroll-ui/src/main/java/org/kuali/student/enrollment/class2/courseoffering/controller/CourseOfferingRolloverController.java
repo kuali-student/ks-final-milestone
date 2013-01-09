@@ -22,6 +22,10 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.appointment.util.AppointmentConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.uif.util.GrowlIcon;
+import org.kuali.student.enrollment.uif.util.KSUifUtils;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.SocRolloverResultItemWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm;
@@ -536,6 +540,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             }
             // Do a refresh of the data on rollover details
             showRolloverResults(form, result, request, response);
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CourseOfferingConstants.COURSEOFFERING_ROLLOVER_RELEASE_TO_DEPTS_SUCCESSFULLY);
         }
         return getUIFModelAndView(form);
     }

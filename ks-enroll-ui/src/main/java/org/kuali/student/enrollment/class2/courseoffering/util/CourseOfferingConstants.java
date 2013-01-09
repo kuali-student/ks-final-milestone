@@ -76,4 +76,5 @@ public class CourseOfferingConstants {
      * Course Offering Informational Constants
      */
     public static final String COURSEOFFERING_INFO_COPIED_SUCCESSFULLY = "info.enroll.courseoffering.copied.successful";
+    public static final String COURSEOFFERING_ROLLOVER_RELEASE_TO_DEPTS_SUCCESSFULLY = "info.enroll.courseoffering.rollover.releaseToDepts.successful";
 }
