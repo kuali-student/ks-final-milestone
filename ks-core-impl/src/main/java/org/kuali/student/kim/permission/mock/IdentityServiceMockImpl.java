@@ -192,7 +192,7 @@ public class IdentityServiceMockImpl implements IdentityService, MockService {
     }
 
     @Override
-    public PrincipalQueryResults findPrincipals(@WebParam(name = "query") QueryByCriteria query) throws RiceIllegalArgumentException {
+    public PrincipalQueryResults findPrincipals(QueryByCriteria query) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -244,7 +244,7 @@ public class IdentityServiceMockImpl implements IdentityService, MockService {
      * @throws IllegalArgumentException if the employeeId is blank
      */
     @Override
-    public Entity getEntityByEmployeeId(@WebParam(name = "employeeId") String employeeId) throws RiceIllegalArgumentException {
+    public Entity getEntityByEmployeeId(String employeeId) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -277,7 +277,7 @@ public class IdentityServiceMockImpl implements IdentityService, MockService {
      * @throws IllegalArgumentException if the employeeId is blank
      */
     @Override
-    public EntityDefault getEntityDefaultByEmployeeId(@WebParam(name = "employeeId") String employeeId) throws RiceIllegalArgumentException {
+    public EntityDefault getEntityDefaultByEmployeeId(String employeeId) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -332,7 +332,7 @@ public class IdentityServiceMockImpl implements IdentityService, MockService {
     }
 
     @Override
-    public List<Principal> getPrincipals(@WebParam(name = "principalIds") List<String> strings) {
+    public List<Principal> getPrincipals(List<String> strings) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -364,7 +364,7 @@ public class IdentityServiceMockImpl implements IdentityService, MockService {
      * @return The default name information for the principal
      */
     @Override
-    public EntityNamePrincipalName getDefaultNamesForPrincipalId(@WebParam(name = "principalId") String principalId) {
+    public EntityNamePrincipalName getDefaultNamesForPrincipalId(String principalId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

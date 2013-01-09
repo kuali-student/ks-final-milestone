@@ -86,12 +86,12 @@ public class SearchManagerImpl implements SearchManager {
     }
 
     @Override
-    public TypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public TypeInfo getSearchType(String searchTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		return toTypeInfo(searchInfoTypeMap.get(searchTypeKey));
 	}
 
     @Override
-    public List<TypeInfo> getSearchTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<TypeInfo> getSearchTypes( ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
         for(SearchTypeInfo searchTypeInfo : searchInfoTypeMap.values()){
             typeInfos.add(toTypeInfo(searchTypeInfo));

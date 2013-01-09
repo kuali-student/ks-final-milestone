@@ -435,12 +435,12 @@ public class GroupServiceMockImpl implements GroupService, MockService {
     }
 
     @Override
-    public GroupMember createGroupMember(@WebParam(name="groupMember") GroupMember groupMember) throws RiceIllegalArgumentException{
+    public GroupMember createGroupMember(GroupMember groupMember) throws RiceIllegalArgumentException{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public GroupMember updateGroupMember(@WebParam(name="groupMember") GroupMember groupMember) throws RiceIllegalArgumentException{
+    public GroupMember updateGroupMember(GroupMember groupMember) throws RiceIllegalArgumentException{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

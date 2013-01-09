@@ -1,6 +1,12 @@
 package org.kuali.student.krms;
 
-import junit.framework.Assert;
+import org.junit.Assert;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.rice.krms.api.engine.*;

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.MetadataInterrogator;
 import org.kuali.student.r1.common.assembly.data.ModelDefinition;
@@ -185,6 +186,7 @@ public class WorkflowUtilities{
     private final KSLabel proposalStatusLabel = new KSLabel("");
 
     private final LayoutController parentController;
+    private SummaryTableSection tableSection;
 
     private String dropDownLabel = "Workflow Actions";
     
@@ -1084,6 +1086,10 @@ public class WorkflowUtilities{
                                                                         parentController.fireApplicationEvent(saveActionEvent);
                                                                     }else{
                                                                         submitSuccessDialog.hide();
+                                                                        if (tableSection != null){
+                                                                            tableSection.enableValidation(true);
+                                                                            tableSection.processValidationResults(results);
+                                                                        }
                                                                         KSNotifier.add(new KSNotification("Unable to blanket approve, please enter all data required for final approval.", false, true, 5000));
                                                                     }
                                                                 }else{
@@ -1509,6 +1515,10 @@ public class WorkflowUtilities{
      */
     public void setProposalPath(String proposalPath) {
         this.proposalPath = proposalPath;
+    }
+
+    public void setTableSection(SummaryTableSection tableSection) {
+        this.tableSection = tableSection;
     }
         
     public void setWorkflowRpcService(WorkflowRpcServiceAsync workflowRpcServiceAsync){

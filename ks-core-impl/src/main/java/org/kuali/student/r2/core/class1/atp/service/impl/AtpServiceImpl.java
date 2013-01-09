@@ -1,15 +1,28 @@
 package org.kuali.student.r2.core.class1.atp.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.OptimisticLockException;
+
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.service.SearchManager;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
@@ -23,12 +36,12 @@ import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity;
 import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.service.SearchManager;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.jws.WebParam;
-import java.util.*;
-
-@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class})
 public class AtpServiceImpl implements AtpService {
 
     private AtpDao atpDao;
@@ -237,16 +250,22 @@ public class AtpServiceImpl implements AtpService {
         return result;
     }
 
+
+
     @Override
     public List<AtpInfo> getAtpsByCode(String code, ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO
-        return new ArrayList<AtpInfo>();
+        List<AtpEntity> atpEntities = atpDao.getByCode(code);
+        List<AtpInfo> atpInfos = new ArrayList<AtpInfo>(atpEntities.size());
+        for(AtpEntity e : atpEntities) {
+            atpInfos.add(e.toDto());
+        }
+        return atpInfos;
     }
 
     @Override
-    public List<AtpInfo> getAtpsByIds(@WebParam(name = "atpIds") List<String> atpIds,
-                                      @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+    public List<AtpInfo> getAtpsByIds(List<String> atpIds,
+                                      ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<AtpEntity> atps = atpDao.findByIds(atpIds);
 
@@ -342,8 +361,8 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public List<MilestoneInfo> getMilestonesForAtp(@WebParam(name = "atpId") String atpId,
-                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+    public List<MilestoneInfo> getMilestonesForAtp(String atpId,
+                                                   ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpEntity atp = atpDao.find(atpId);
         if (atp == null) {
@@ -360,6 +379,11 @@ public class AtpServiceImpl implements AtpService {
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("Atp to Milestone relation exists to a milestone that has been deleted", ex);
         }
+    }
+
+    @Override
+    public List<AtpInfo> getATPsForMilestone(String milestoneId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("getATPsForMilestone");
     }
 
     @Override
@@ -393,7 +417,8 @@ public class AtpServiceImpl implements AtpService {
         List<MilestoneInfo> list = this.getMilestonesForAtp(atpId, contextInfo);
         List<MilestoneInfo> results = new ArrayList<MilestoneInfo>(list.size());
         for (MilestoneInfo info : list) {
-            results.add(info);
+            if (info.getTypeKey().equals(milestoneTypeKey))
+                results.add(info);
         }
         return results;
     }
@@ -459,18 +484,31 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public AtpInfo updateAtp(String atpId, AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
-        AtpEntity entity = atpDao.find(atpId);
-        if (entity == null) {
-            throw new DoesNotExistException(atpId);
+        
+        if (atpDao.entityExists(atpId) == false) {
+            throw new DoesNotExistException("No existing Atp for id = " + atpId);
         }
-        entity.fromDTO(atpInfo);
+        
+        AtpEntity entity = new AtpEntity(atpInfo);
+        
         entity.setUpdateId(context.getPrincipalId());
         entity.setUpdateTime(context.getCurrentDate());
-        atpDao.merge(entity);
+        
+        // this line can be removed once KSENROLL-4605 is resolved
+        entity.setVersionNumber(new Long (atpInfo.getMeta().getVersionInd()));
+        
+        try {
+            atpDao.merge(entity);
+        } catch (OptimisticLockException e) {
+            // this catch can be removed once KSENROLL-4253 is resolved
+            throw new VersionMismatchException();
+        }
+        
+        atpDao.getEm().flush();
         return entity.toDto();
     }
 

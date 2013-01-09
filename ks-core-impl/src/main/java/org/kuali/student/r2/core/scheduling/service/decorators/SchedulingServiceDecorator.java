@@ -362,4 +362,16 @@ public class SchedulingServiceDecorator implements SchedulingService {
     public List<ScheduleRequestDisplayInfo> searchForScheduleRequestDisplays(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().searchForScheduleRequestDisplays(criteria, contextInfo);
     }
+
+    @Override
+    public List<ScheduleRequestInfo> getScheduleRequestsByRefObjects(
+            @WebParam(name = "refObjectType") String refObjectType,
+            @WebParam(name = "refObjectId") List<String> refObjectIds,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getScheduleRequestsByRefObjects(refObjectType, refObjectIds, contextInfo);
+    }
+    
+    
 }
