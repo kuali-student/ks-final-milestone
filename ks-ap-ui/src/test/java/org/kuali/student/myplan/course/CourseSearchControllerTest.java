@@ -225,7 +225,8 @@ public class CourseSearchControllerTest {
 		course.setCode("FAKE");
 		assertFalse(controller.isCourseOffered(form, course));
     }
-
+    // TODO: need reference data to support this, see KSAP-5
+    /*
     @Test
     public void testProcessSearchRequests() throws Throwable {
 
@@ -241,11 +242,12 @@ public class CourseSearchControllerTest {
         ArrayList<CourseSearchController.Hit> hits = null;
 		requests = strategy.queryToRequests(form, true, context);
 		hits = controller.processSearchRequests(requests, context);
-		// TODO: need reference data to support this, see KSAP-5
+
 		// assertEquals(1, hits.size());
         // assertEquals("dd003c5a-d0e4-4cfe-a81c-cbb756383685", hits.get(0).courseID);
     }
-
+    */
+    /* TODO: need reference data to support this, see KSAP-5
     @Test
     public void testProcessSearchRequests2() throws Throwable {
 
@@ -261,9 +263,10 @@ public class CourseSearchControllerTest {
         ArrayList<CourseSearchController.Hit> hits = null;
 		requests = strategy.queryToRequests(form, true, context);
 		hits = controller.processSearchRequests(requests, context);
-		// TODO: need reference data to support this, see KSAP-5
+
         // assertTrue(hits.size() > 0);
     }
+    */
     @Test
     public void testProcessSearchRequests3() {
 

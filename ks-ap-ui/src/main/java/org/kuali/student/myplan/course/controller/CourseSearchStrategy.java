@@ -224,29 +224,36 @@ public class CourseSearchStrategy {
 		query = extractDivisions(divisionMap, query, divisions);
 
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
+
 		logger.info("Start of method addDivisionSearches of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
 		// Order is important, more exact search results appear at top of list
 		addDivisionSearches(divisions, codes, levels, requests);
 		logger.info("End of method addDivisionSearches of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
+
 		logger.info("Start of method addFullTextSearches of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
 		addFullTextSearches(query, requests);
-		logger.info("Start of method addFullTextSearches of CourseSearchStrategy:"
+		logger.info("End of method addFullTextSearches of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
+
 		logger.info("Start of method addCampusParams of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
 		addCampusParams(requests, form, context);
 		logger.info("Start of method addCampusParams of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
+
 		logger.info("Count of No of Query Tokens:" + requests.size());
 		processRequests(requests, form, context);
 		logger.info("No of Requests after processRequest method:"
 				+ requests.size());
+
 		logger.info("End Of Method queryToRequests in CourseSearchStrategy:"
 				+ System.currentTimeMillis());
+
 		addVersionDateParam(requests, isAcademicCalenderServiceUp);
+
 		return requests;
 	}
 

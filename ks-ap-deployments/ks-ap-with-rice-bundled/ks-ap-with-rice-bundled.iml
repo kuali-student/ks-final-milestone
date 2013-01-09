@@ -46,7 +46,6 @@
       <excludeFolder url="file://$MODULE_DIR$/target/classes" />
       <excludeFolder url="file://$MODULE_DIR$/target/ks-ap-with-rice-bundled-webapp" />
       <excludeFolder url="file://$MODULE_DIR$/target/maven-archiver" />
-      <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
       <excludeFolder url="file://$MODULE_DIR$/target/war" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -270,6 +269,7 @@
     <orderEntry type="module" module-name="ks-ap-framework" />
     <orderEntry type="module" module-name="ks-enroll-api" />
     <orderEntry type="module" module-name="ks-ap-api" />
+    <orderEntry type="module" module-name="ks-enroll-impl" />
     <orderEntry type="module" module-name="ks-ap-impl" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-io:1.3.2" level="project" />
     <orderEntry type="module" module-name="ks-ap-ui" />
