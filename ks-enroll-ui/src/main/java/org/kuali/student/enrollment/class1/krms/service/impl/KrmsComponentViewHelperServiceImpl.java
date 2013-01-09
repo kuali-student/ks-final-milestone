@@ -17,32 +17,30 @@
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
-import org.kuali.student.mock.utilities.TestHelper;
+import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
+import org.kuali.student.enrollment.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.OrganizationServiceConstants;
-import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
-import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 
 /**
  * This class //TODO ...
  *
  * @author Kuali Student Team
  */
-public class KrmsComponentViewHelperServiceImpl extends ViewHelperServiceImpl {
+public class KrmsComponentViewHelperServiceImpl extends KSViewHelperServiceImpl {
 
     private CluService cluService;
 
@@ -82,7 +80,7 @@ public class KrmsComponentViewHelperServiceImpl extends ViewHelperServiceImpl {
                 displays.add(display);
             }
         } catch (Exception e) {
-
+            throw convertServiceExceptionsToUI(e);
         }
         return displays;
     }
@@ -119,7 +117,7 @@ public class KrmsComponentViewHelperServiceImpl extends ViewHelperServiceImpl {
                 displays.add(display);
             }
         } catch (Exception e) {
-
+            throw convertServiceExceptionsToUI(e);
         }
         return displays;
     }
@@ -158,7 +156,7 @@ public class KrmsComponentViewHelperServiceImpl extends ViewHelperServiceImpl {
                 displays.add(display);
             }
         } catch (Exception e) {
-
+            throw convertServiceExceptionsToUI(e);
         }
         return displays;
     }
@@ -172,8 +170,7 @@ public class KrmsComponentViewHelperServiceImpl extends ViewHelperServiceImpl {
 
     private ContextInfo getContextInfo() {
         if (null == contextInfo) {
-            //TODO - get real ContextInfo
-            contextInfo = TestHelper.getContext1();
+            contextInfo = ContextUtils.createDefaultContextInfo();
         }
         return contextInfo;
     }

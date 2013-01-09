@@ -24,7 +24,6 @@ import org.kuali.rice.krms.impl.repository.AgendaBo;
 import org.kuali.rice.krms.impl.ui.AgendaEditor;
 import org.kuali.rice.krms.impl.util.KrmsRetriever;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -74,17 +73,6 @@ public class AgendaStudentInquiryHelperServiceImpl extends KualiInquirableImpl {
         return krmsRetriever.retrieveAgendaCustomAttributes(agendaEditor);
     }
 
-    /**
-     * Returns the Rule Action RemotableAttributeFields. This only supports a single action within a rule.
-     * @param view
-     * @param model InquiryFrom to retrieve the AgendaEditor from.
-     * @param container
-     * @return List<RemotableAttributeField>
-     */
-    public List<RemotableAttributeField> retrieveRuleActionCustomAttributes(View view, Object model, Container container) {
-        AgendaEditor agendaEditor = retrieveAgendaEditor((InquiryForm)model);
-        return krmsRetriever.retrieveRuleActionCustomAttributes(agendaEditor);
-    }
 
     /**
      * Returns the Rule RemotableAttributeFields. This only supports a single action within a rule.
@@ -99,16 +87,4 @@ public class AgendaStudentInquiryHelperServiceImpl extends KualiInquirableImpl {
     }
 
 
-    /**
-     * Retrieve a list of {@link org.kuali.rice.core.api.uif.RemotableAttributeField}s for the parameters (if any) required by the resolver for
-     * the selected term in the proposition that is under edit.  Since this method is part of the inquiry view,
-     * non of the propositions will ever be under edit when it is called, and an empty list will be returned.
-     * @param view
-     * @param model InquiryFrom to retrieve the AgendaEditor from.
-     * @param container
-     * @return List<RemotableAttributeField> Collections.emptyList()
-     */
-    public List<RemotableAttributeField> retrieveTermParameters(View view, Object model, Container container) {
-        return Collections.emptyList();
-    }
 }

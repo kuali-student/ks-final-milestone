@@ -22,16 +22,13 @@ import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.element.Message;
 import org.kuali.rice.krad.uif.field.SpaceField;
 import org.kuali.rice.krad.uif.layout.GridLayoutManager;
-import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.web.form.InquiryForm;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-import org.kuali.rice.krms.impl.repository.PropositionBo;
-import org.kuali.rice.krms.impl.repository.RuleBo;
+import org.kuali.student.enrollment.uif.service.impl.KSViewHelperServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +38,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class RequisitesViewHelperServiceImpl extends ViewHelperServiceImpl {
+public class RequisitesViewHelperServiceImpl extends KSViewHelperServiceImpl {
 
     private static int ID = 1;
 
@@ -159,7 +156,7 @@ public class RequisitesViewHelperServiceImpl extends ViewHelperServiceImpl {
     }
 
     private static Group getPropositionGroup() {
-        Group group = (Group) ComponentFactory.getGroupGridBodyOnly();
+        Group group = ComponentFactory.getGroupGridBodyOnly();
         group.getValidationMessages().setId(String.valueOf(ID++));
         group.getDisclosure().setId(String.valueOf(ID++));
         return group;

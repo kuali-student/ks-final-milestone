@@ -15,17 +15,14 @@
  */
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.ojb.broker.metadata.ClassNotPersistenceCapableException;
-import org.kuali.rice.core.api.uif.DataType;
 import org.kuali.rice.core.api.uif.RemotableAttributeField;
-import org.kuali.rice.core.api.uif.RemotableTextInput;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -37,15 +34,11 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
-import org.kuali.rice.krms.api.repository.type.KrmsAttributeDefinition;
 import org.kuali.rice.krms.impl.repository.ActionBo;
 import org.kuali.rice.krms.impl.repository.AgendaBo;
 import org.kuali.rice.krms.impl.repository.AgendaItemBo;
-import org.kuali.rice.krms.impl.repository.ContextBoService;
-import org.kuali.rice.krms.impl.repository.KrmsAttributeDefinitionService;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
-import org.kuali.rice.krms.impl.repository.PropositionParameterBo;
 import org.kuali.rice.krms.impl.repository.RuleBo;
 import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.rice.krms.impl.repository.TermParameterBo;
@@ -55,10 +48,10 @@ import org.kuali.rice.krms.impl.util.KrmsRetriever;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
 import org.kuali.student.enrollment.class1.krms.dto.StudentAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.service.AgendaStudentEditorMaintainable;
+import org.kuali.student.enrollment.uif.service.impl.KSMaintainableImpl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -70,11 +63,11 @@ import java.util.Map;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  *
  */
-public class AgendaStudentEditorMaintainableImpl extends MaintainableImpl implements AgendaStudentEditorMaintainable{
+public class AgendaStudentEditorMaintainableImpl extends KSMaintainableImpl implements AgendaStudentEditorMaintainable{
 
     private static final long serialVersionUID = 1L;
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AgendaStudentEditorMaintainableImpl.class);
+    private static final Logger LOG = Logger.getLogger(AgendaStudentEditorMaintainableImpl.class);
 
     public static final String NEW_AGENDA_EDITOR_DOCUMENT_TEXT = "New Agenda Editor Document";
 
@@ -89,72 +82,12 @@ public class AgendaStudentEditorMaintainableImpl extends MaintainableImpl implem
         return KRADServiceLocator.getBusinessObjectService();
     }
 
-    /**
-     * return the contextBoService
-     */
-    private ContextBoService getContextBoService() {
-        return KrmsRepositoryServiceLocator.getContextBoService();
-    }
 
     public List<RemotableAttributeField> retrieveAgendaCustomAttributes(View view, Object model, Container container) {
         StudentAgendaEditor agendaEditor = getAgendaEditor(model);
         return krmsRetriever.retrieveAgendaCustomAttributes(agendaEditor);
     }
 
-    /**
-     * Retrieve a list of {@link org.kuali.rice.core.api.uif.RemotableAttributeField}s for the parameters (if any) required by the resolver for
-     * the selected term in the proposition that is under edit.
-     */
-    public List<RemotableAttributeField> retrieveTermParameters(View view, Object model, Container container) {
-
-        List<RemotableAttributeField> results = new ArrayList<RemotableAttributeField>();
-
-        StudentAgendaEditor agendaEditor = getAgendaEditor(model);
-
-        // Figure out which rule is being edited
-        RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
-        // Figure out which proposition is being edited
-        Tree<RuleEditorTreeNode, String> propositionTree = rule.getPropositionTree();
-        Node<RuleEditorTreeNode, String> editedPropositionNode = findEditedProposition(propositionTree.getRootElement());
-
-        if (editedPropositionNode != null) {
-            PropositionBo propositionBo = editedPropositionNode.getData().getProposition().getProposition();
-            if (StringUtils.isEmpty(propositionBo.getCompoundOpCode()) && CollectionUtils.size(propositionBo.getParameters()) > 0) {
-                // Get the term ID; if it is a new parameterized term, it will have a special prefix
-                PropositionParameterBo param = propositionBo.getParameters().get(0);
-                if (param.getValue().startsWith(KrmsImplConstants.PARAMETERIZED_TERM_PREFIX)) {
-                    String termSpecId = param.getValue().substring(KrmsImplConstants.PARAMETERIZED_TERM_PREFIX.length());
-                    TermResolverDefinition simplestResolver = getSimplestTermResolver(termSpecId, rule.getNamespace());
-
-                    // Get the parameters and build RemotableAttributeFields
-                    if (simplestResolver != null) {
-                        List<String> parameterNames = new ArrayList<String>(simplestResolver.getParameterNames());
-                        Collections.sort(parameterNames); // make param order deterministic
-
-                        for (String parameterName : parameterNames) {
-                            // TODO: also allow for DD parameters if there are matching type attributes
-                            RemotableTextInput.Builder controlBuilder = RemotableTextInput.Builder.create();
-                            controlBuilder.setSize(64);
-
-                            RemotableAttributeField.Builder builder = RemotableAttributeField.Builder.create(parameterName);
-
-                            builder.setRequired(true);
-                            builder.setDataType(DataType.STRING);
-                            builder.setControl(controlBuilder);
-                            builder.setLongLabel(parameterName);
-                            builder.setShortLabel(parameterName);
-                            builder.setMinLength(Integer.valueOf(1));
-                            builder.setMaxLength(Integer.valueOf(64));
-
-                            results.add(builder.build());
-                        }
-                    }
-                }
-            }
-        }
-
-        return results;
-    }
 
     /**
      * finds the term resolver with the fewest parameters that resolves the given term specification
@@ -210,10 +143,6 @@ public class AgendaStudentEditorMaintainableImpl extends MaintainableImpl implem
         return (StudentAgendaEditor)MaintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
     }
 
-    public List<RemotableAttributeField> retrieveRuleActionCustomAttributes(View view, Object model, Container container) {
-        StudentAgendaEditor agendaEditor = getAgendaEditor((MaintenanceDocumentForm) model);
-        return krmsRetriever.retrieveRuleActionCustomAttributes(agendaEditor);
-    }
 
     /**
      *  This only supports a single action within a rule.
@@ -335,7 +264,7 @@ public class AgendaStudentEditorMaintainableImpl extends MaintainableImpl implem
                 TermBo newTerm = new TermBo();
                 newTerm.setDescription(propositionBo.getNewTermDescription());
                 newTerm.setSpecificationId(termSpecId);
-                newTerm.setId(KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber(
+                newTerm.setId(getSequenceAccessorService().getNextAvailableSequenceNumber(
                         KrmsMaintenanceConstants.Sequences.TERM_SPECIFICATION).toString());
 
                 List<TermParameterBo> params = new ArrayList<TermParameterBo>();
@@ -344,7 +273,7 @@ public class AgendaStudentEditorMaintainableImpl extends MaintainableImpl implem
                     param.setTermId(newTerm.getId());
                     param.setName(entry.getKey());
                     param.setValue(entry.getValue());
-                    param.setId(KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber(
+                    param.setId(getSequenceAccessorService().getNextAvailableSequenceNumber(
                             KrmsMaintenanceConstants.Sequences.TERM_PARAMETER).toString());
 
                     params.add(param);
@@ -361,27 +290,6 @@ public class AgendaStudentEditorMaintainableImpl extends MaintainableImpl implem
                 saveNewParameterizedTerms(childProp);
             }
         }
-    }
-
-    /**
-     * Build a map from attribute name to attribute definition from all the defined attribute definitions for the
-     * specified agenda type
-     * @param agendaTypeId
-     * @return
-     */
-    private Map<String, KrmsAttributeDefinition> buildAttributeDefinitionMap(String agendaTypeId) {
-        KrmsAttributeDefinitionService attributeDefinitionService = KrmsRepositoryServiceLocator.getKrmsAttributeDefinitionService();
-
-        // build a map from attribute name to definition
-        Map<String, KrmsAttributeDefinition> attributeDefinitionMap = new HashMap<String, KrmsAttributeDefinition>();
-
-        List<KrmsAttributeDefinition> attributeDefinitions =
-                attributeDefinitionService.findAttributeDefinitionsByType(agendaTypeId);
-
-        for (KrmsAttributeDefinition attributeDefinition : attributeDefinitions) {
-            attributeDefinitionMap.put(attributeDefinition.getName(), attributeDefinition);
-        }
-        return attributeDefinitionMap;
     }
 
     @Override

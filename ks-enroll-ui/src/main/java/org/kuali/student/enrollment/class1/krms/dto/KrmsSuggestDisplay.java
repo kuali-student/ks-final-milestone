@@ -14,7 +14,7 @@
  *
  * Created by Paul on 2012/12/11
  */
-package org.kuali.student.enrollment.class1.krms.service.impl;
+package org.kuali.student.enrollment.class1.krms.dto;
 
 /**
  * This class //TODO ...

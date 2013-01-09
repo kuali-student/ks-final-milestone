@@ -17,12 +17,9 @@
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -106,8 +103,7 @@ public class DepartmentLookupableImpl extends LookupableImpl {
 
     private ContextInfo getContextInfo() {
         if (null == contextInfo) {
-            //TODO - get real ContextInfo
-            contextInfo = TestHelper.getContext1();
+            contextInfo = ContextUtils.createDefaultContextInfo();
         }
         return contextInfo;
     }
