@@ -6,7 +6,9 @@
         <artifactId>ks-enroll</artifactId>
         <version>1.0.0-KSAP-SNAPSHOT</version>
     </parent>
+    <groupId>org.kuali.student.enroll</groupId>
     <artifactId>ks-enroll-impl</artifactId>
+    <version>${ks.enroll.version}</version>
     <name>KS Enroll Impl</name>
     <build>
         <plugins>
