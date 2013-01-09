@@ -182,20 +182,20 @@
         TERM_SPEC_ID="10009" VER_NBR="1"/>
     <KRMS_TERM_T DESC_TXT="Successfully completed all courses from list"
         TERM_ID="10082" TERM_SPEC_ID="10001" VER_NBR="1"/>
-    <KRMS_TERM_T
-        DESC_TXT="Successfully completed a minimum of number credits from courses in the organization"
-        TERM_ID="10083" TERM_SPEC_ID="10008" VER_NBR="1"/>
+    <KRMS_TERM_T DESC_TXT="Successfully completed list" TERM_ID="10083"
+        TERM_SPEC_ID="10000" VER_NBR="1"/>
     <KRMS_TERM_T DESC_TXT="Successfully completed all courses from list"
         TERM_ID="10084" TERM_SPEC_ID="10001" VER_NBR="1"/>
-    <KRMS_TERM_T DESC_TXT="Successfully completed list" TERM_ID="10085"
+    <KRMS_TERM_T
+        DESC_TXT="Successfully completed a minimum of number credits from courses in the organization"
+        TERM_ID="10085" TERM_SPEC_ID="10008" VER_NBR="1"/>
+    <KRMS_TERM_T DESC_TXT="Successfully completed list" TERM_ID="10086"
         TERM_SPEC_ID="10000" VER_NBR="1"/>
     <KRMS_TERM_T
         DESC_TXT="Successfully completed a minimum of number courses from list"
-        TERM_ID="10086" TERM_SPEC_ID="10002" VER_NBR="1"/>
-    <KRMS_TERM_T DESC_TXT="Permission of organization" TERM_ID="10087"
+        TERM_ID="10087" TERM_SPEC_ID="10002" VER_NBR="1"/>
+    <KRMS_TERM_T DESC_TXT="Permission of organization" TERM_ID="10088"
         TERM_SPEC_ID="10009" VER_NBR="1"/>
-    <KRMS_TERM_T DESC_TXT="Successfully completed list" TERM_ID="10088"
-        TERM_SPEC_ID="10000" VER_NBR="1"/>
     <KRMS_TERM_T
         DESC_TXT="Successfully completed a minimum of number courses from list"
         TERM_ID="10089" TERM_SPEC_ID="10002" VER_NBR="1"/>
@@ -452,11 +452,11 @@
     <KRMS_TERM_T
         DESC_TXT="Concurrently enrolled in all courses from list."
         TERM_ID="10200" TERM_SPEC_ID="10004" VER_NBR="1"/>
-    <KRMS_TERM_T DESC_TXT="Permission of organization." TERM_ID="10201"
-        TERM_SPEC_ID="10009" VER_NBR="1"/>
-    <KRMS_TERM_T DESC_TXT="Admitted to the list program."
-        TERM_ID="10202" TERM_SPEC_ID="10011" VER_NBR="1"/>
     <KRMS_TERM_T
         DESC_TXT="Successfully complete a minimum of number courses from list with a minimum grade of type mark."
-        TERM_ID="10203" TERM_SPEC_ID="10006" VER_NBR="1"/>
+        TERM_ID="10201" TERM_SPEC_ID="10006" VER_NBR="1"/>
+    <KRMS_TERM_T DESC_TXT="Permission of organization." TERM_ID="10202"
+        TERM_SPEC_ID="10009" VER_NBR="1"/>
+    <KRMS_TERM_T DESC_TXT="Admitted to the list program."
+        TERM_ID="10203" TERM_SPEC_ID="10011" VER_NBR="1"/>
 </dataset>

@@ -47,7 +47,7 @@
         NM="kuali.krms.rule.type.program.satisfactoryProgress"
         NMSPC_CD="KS-SYS" SRVC_NM="ruleTypeService" TYP_ID="10015" VER_NBR="0"/>
     <KRMS_TYP_T ACTV="Y" NM="kuali.krms.rule.type.schedule.eligibility"
-        NMSPC_CD="KS-SYS" SRVC_NM="agendaTypeService" TYP_ID="10016" VER_NBR="0"/>
+        NMSPC_CD="KS-SYS" SRVC_NM="ruleTypeService" TYP_ID="10016" VER_NBR="0"/>
     <KRMS_TYP_T ACTV="Y"
         NM="kuali.krms.proposition.type.success.compl.course"
         NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
