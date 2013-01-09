@@ -366,7 +366,7 @@
                         setUrlHash('modified', 'yes');
                     "/>
                     <property name="control">
-                        <bean parent="Uif-HorizontalRadioControl"/>
+                        <bean parent="Uif-VerticalRadioControl"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.myplan.course.util.AuditRunCampusParam"/>

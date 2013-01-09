@@ -153,7 +153,7 @@
     </bean>
 
     <!-- Group for Search Input Parameters -->
-    <bean id="course_search_params" parent="Uif-HorizontalFieldGroup">
+    <bean id="course_search_params" parent="Uif-HorizontalFieldGroup" >
         <property name="cssClasses">
             <list merge="true">
                 <value>myplan-course-search-params</value>
@@ -162,15 +162,8 @@
         <property name="items">
             <list>
                 <bean id="radio_campusSelect" parent="Uif-InputField" p:propertyName="campusSelect" p:width="auto" >
-                    <property name="defaultValues">
-                    <list>
-                        <value>306</value>
-                        <value>310</value>
-                        <value>323</value>
-                    </list>
-                </property>
                     <property name="control">
-                            <bean parent="Uif-HorizontalCheckboxesControl"/>
+                            <bean parent="Uif-VerticalCheckboxesControl"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.myplan.course.util.CampusSearch"/>
