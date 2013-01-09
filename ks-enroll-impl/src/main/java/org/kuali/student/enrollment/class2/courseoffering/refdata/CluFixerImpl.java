@@ -21,7 +21,6 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r1.lum.lrc.service.LrcService;
 import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -44,6 +43,7 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,7 +73,7 @@ import java.util.regex.Pattern;
 public class CluFixerImpl implements CluFixer {
     private CourseOfferingService coService;
     private CourseService courseService;
-    private LrcService lrcService;
+    private LRCService lrcService;
     private static final Logger LOGGER = Logger.getLogger(CluFixer.class);
     private String pathPrefix = "";
 
@@ -91,7 +91,7 @@ public class CluFixerImpl implements CluFixer {
         this.courseService = courseService;
     }
 
-    public void setLrcService(LrcService lrcService) {
+    public void setLrcService(LRCService lrcService) {
         this.lrcService = lrcService;
     }
 
