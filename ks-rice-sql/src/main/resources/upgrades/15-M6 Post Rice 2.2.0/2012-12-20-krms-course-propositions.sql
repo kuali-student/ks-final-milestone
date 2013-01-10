@@ -451,23 +451,23 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 /
 
 --kuali.reqComponent.type.course.org.credits.completed.min,Must have successfully completed a minimum of <n> credits from courses in the <org>
-insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> credits from courses in the <org>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.org.credits.completed.min'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI373 Prerequisites'), 1, NULL)
-/
-insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI373 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
-/
+--insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
+--values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> credits from courses in the <org>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.org.credits.completed.min'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI373 Prerequisites'), 1, NULL)
+--/
+--insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI373 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
+--/
 --kuali.reqComponent.field.type.org.id,65
 --kuali.reqComponent.field.type.value.positive.integer,3
-insert into krms_term_t (term_id, term_spec_id, ver_nbr, desc_txt) values (krms_term_s.nextval, (Select term_spec_id from krms_term_spec_t where nm = 'numberOfCreditsFromOrganization' and nmspc_cd = 'KS-SYS'), 1, 'Successfully completed a minimum of number credits from courses in the organization')
-/
-insert into krms_term_parm_t (term_parm_id, term_id, nm, val, ver_nbr) values (krms_term_parm_s.nextval, krms_term_s.currval, 'kuali.reqComponent.field.type.org.id', '65', 1)
-/
-insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, krms_term_s.currval, 'T', 1, 1)
-/
-insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '3', 'C', 2, 1)
-/
-insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '=', 'O', 3, 1)
-/
+--insert into krms_term_t (term_id, term_spec_id, ver_nbr, desc_txt) values (krms_term_s.nextval, (Select term_spec_id from krms_term_spec_t where nm = 'numberOfCreditsFromOrganization' and nmspc_cd = 'KS-SYS'), 1, 'Successfully completed a minimum of number credits from courses in the organization')
+--/
+--insert into krms_term_parm_t (term_parm_id, term_id, nm, val, ver_nbr) values (krms_term_parm_s.nextval, krms_term_s.currval, 'kuali.reqComponent.field.type.org.id', '65', 1)
+--/
+--insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, krms_term_s.currval, 'T', 1, 1)
+--/
+--insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '3', 'C', 2, 1)
+--/
+--insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '=', 'O', 3, 1)
+--/
 
 --BSCI379 Prerequisites,AND,kuali.reqComponent.type.course.permission.org.required,Permission of <administering org> required
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
@@ -1739,24 +1739,24 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 /
 
 --kuali.reqComponent.type.course.org.credits.completed.min,Must have successfully completed a minimum of <n> credits from courses in the <org>
-insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> credits from courses in the <org>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.org.credits.completed.min'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI493 Prerequisites'), 1, NULL)
-/
-insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values
-((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI493 Prerequisites') and dscrm_typ_cd = 'C' and desc_txt = 'Must meet 1 of the following'), krms_prop_s.currval)
-/
+--insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
+--values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> credits from courses in the <org>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.org.credits.completed.min'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI493 Prerequisites'), 1, NULL)
+--/
+--insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values
+--((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI493 Prerequisites') and dscrm_typ_cd = 'C' and desc_txt = 'Must meet 1 of the following'), krms_prop_s.currval)
+--/
 --73bca644-79a5-4806-a785-cd538ccc07e9,kuali.reqComponent.field.type.org.id,65
 --73bca644-79a5-4806-a785-cd538ccc07e9,kuali.reqComponent.field.type.value.positive.integer,4
-insert into krms_term_t (term_id, term_spec_id, ver_nbr, desc_txt) values (krms_term_s.nextval, (Select term_spec_id from krms_term_spec_t where nm = 'numberOfCreditsFromOrganization' and nmspc_cd = 'KS-SYS'), 1, 'Successfully completed a minimum of number credits from courses in the organization')
-/
-insert into krms_term_parm_t (term_parm_id, term_id, nm, val, ver_nbr) values (krms_term_parm_s.nextval, krms_term_s.currval, 'kuali.reqComponent.field.type.org.id', '65', 1)
-/
-insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, krms_term_s.currval, 'T', 1, 1)
-/
-insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '4', 'C', 2, 1)
-/
-insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '=', 'O', 3, 1)
-/
+--insert into krms_term_t (term_id, term_spec_id, ver_nbr, desc_txt) values (krms_term_s.nextval, (Select term_spec_id from krms_term_spec_t where nm = 'numberOfCreditsFromOrganization' and nmspc_cd = 'KS-SYS'), 1, 'Successfully completed a minimum of number credits from courses in the organization')
+--/
+--insert into krms_term_parm_t (term_parm_id, term_id, nm, val, ver_nbr) values (krms_term_parm_s.nextval, krms_term_s.currval, 'kuali.reqComponent.field.type.org.id', '65', 1)
+--/
+--insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, krms_term_s.currval, 'T', 1, 1)
+--/
+--insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '4', 'C', 2, 1)
+--/
+--insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '=', 'O', 3, 1)
+--/
 
 --BSCI494 Prerequisites,AND
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
@@ -2204,23 +2204,23 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 /
 
 --kuali.reqComponent.type.course.org.credits.completed.min,Must have successfully completed a minimum of <n> credits from courses in the <org>
-insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> credits from courses in the <org>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.org.credits.completed.min'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS359 Prerequisites'), 1, NULL)
-/
-insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'CCJS359 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
-/
+--insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
+--values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> credits from courses in the <org>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.org.credits.completed.min'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS359 Prerequisites'), 1, NULL)
+--/
+--insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'CCJS359 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
+--/
 --kuali.reqComponent.field.type.org.id,214
 --kuali.reqComponent.field.type.value.positive.integer,6
-insert into krms_term_t (term_id, term_spec_id, ver_nbr, desc_txt) values (krms_term_s.nextval, (Select term_spec_id from krms_term_spec_t where nm = 'numberOfCreditsFromOrganization' and nmspc_cd = 'KS-SYS'), 1, 'Successfully completed a minimum of number credits from courses in the organization')
-/
-insert into krms_term_parm_t (term_parm_id, term_id, nm, val, ver_nbr) values (krms_term_parm_s.nextval, krms_term_s.currval, 'kuali.reqComponent.field.type.org.id', '214', 1)
-/
-insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, krms_term_s.currval, 'T', 1, 1)
-/
-insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '6', 'C', 2, 1)
-/
-insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '=', 'O', 3, 1)
-/
+--insert into krms_term_t (term_id, term_spec_id, ver_nbr, desc_txt) values (krms_term_s.nextval, (Select term_spec_id from krms_term_spec_t where nm = 'numberOfCreditsFromOrganization' and nmspc_cd = 'KS-SYS'), 1, 'Successfully completed a minimum of number credits from courses in the organization')
+--/
+--insert into krms_term_parm_t (term_parm_id, term_id, nm, val, ver_nbr) values (krms_term_parm_s.nextval, krms_term_s.currval, 'kuali.reqComponent.field.type.org.id', '214', 1)
+--/
+--insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, krms_term_s.currval, 'T', 1, 1)
+--/
+--insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '6', 'C', 2, 1)
+--/
+--insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '=', 'O', 3, 1)
+--/
 
 --CCJS360 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
@@ -2337,23 +2337,23 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 /
 
 --kuali.reqComponent.type.course.org.credits.completed.min,Must have successfully completed a minimum of <n> credits from courses in the <org>
-insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> credits from courses in the <org>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.org.credits.completed.min'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS398 Prerequisites'), 1, NULL)
-/
-insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'CCJS398 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
-/
+--insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
+--values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> credits from courses in the <org>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.org.credits.completed.min'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS398 Prerequisites'), 1, NULL)
+--/
+--insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'CCJS398 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
+--/
 --kuali.reqComponent.field.type.org.id,214
 --kuali.reqComponent.field.type.value.positive.integer,6
-insert into krms_term_t (term_id, term_spec_id, ver_nbr, desc_txt) values (krms_term_s.nextval, (Select term_spec_id from krms_term_spec_t where nm = 'numberOfCreditsFromOrganization' and nmspc_cd = 'KS-SYS'), 1, 'Successfully completed a minimum of number credits from courses in the organization')
-/
-insert into krms_term_parm_t (term_parm_id, term_id, nm, val, ver_nbr) values (krms_term_parm_s.nextval, krms_term_s.currval, 'kuali.reqComponent.field.type.org.id', '214', 1)
-/
-insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, krms_term_s.currval, 'T', 1, 1)
-/
-insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '6', 'C', 2, 1)
-/
-insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '=', 'O', 3, 1)
-/
+--insert into krms_term_t (term_id, term_spec_id, ver_nbr, desc_txt) values (krms_term_s.nextval, (Select term_spec_id from krms_term_spec_t where nm = 'numberOfCreditsFromOrganization' and nmspc_cd = 'KS-SYS'), 1, 'Successfully completed a minimum of number credits from courses in the organization')
+--/
+--insert into krms_term_parm_t (term_parm_id, term_id, nm, val, ver_nbr) values (krms_term_parm_s.nextval, krms_term_s.currval, 'kuali.reqComponent.field.type.org.id', '214', 1)
+--/
+--insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, krms_term_s.currval, 'T', 1, 1)
+--/
+--insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '6', 'C', 2, 1)
+--/
+--insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '=', 'O', 3, 1)
+--/
 
 --CCJS399 Prerequisites,AND,
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
@@ -2381,22 +2381,22 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 /
 
 --kuali.reqComponent.type.course.org.credits.completed.min,Must have successfully completed a minimum of <n> credits from courses in the <org>
-insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> credits from courses in the <org>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.org.credits.completed.min'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS399 Prerequisites'), 1, NULL)
-/
-insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'CCJS399 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
-/
+--insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
+--values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> credits from courses in the <org>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.org.credits.completed.min'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS399 Prerequisites'), 1, NULL)
+--/
+--insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'CCJS399 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
+--/
 --kuali.reqComponent.field.type.org.id,214
-insert into krms_term_t (term_id, term_spec_id, ver_nbr, desc_txt) values (krms_term_s.nextval, (Select term_spec_id from krms_term_spec_t where nm = 'numberOfCreditsFromOrganization' and nmspc_cd = 'KS-SYS'), 1, 'Successfully completed a minimum of number credits from courses in the organization')
-/
-insert into krms_term_parm_t (term_parm_id, term_id, nm, val, ver_nbr) values (krms_term_parm_s.nextval, krms_term_s.currval, 'kuali.reqComponent.field.type.org.id', '214', 1)
-/
-insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, krms_term_s.currval, 'T', 1, 1)
-/
-insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, 'true', 'C', 2, 1)
-/
-insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '=', 'O', 3, 1)
-/
+--insert into krms_term_t (term_id, term_spec_id, ver_nbr, desc_txt) values (krms_term_s.nextval, (Select term_spec_id from krms_term_spec_t where nm = 'numberOfCreditsFromOrganization' and nmspc_cd = 'KS-SYS'), 1, 'Successfully completed a minimum of number credits from courses in the organization')
+--/
+--insert into krms_term_parm_t (term_parm_id, term_id, nm, val, ver_nbr) values (krms_term_parm_s.nextval, krms_term_s.currval, 'kuali.reqComponent.field.type.org.id', '214', 1)
+--/
+--insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, krms_term_s.currval, 'T', 1, 1)
+--/
+--insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, 'true', 'C', 2, 1)
+--/
+--insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '=', 'O', 3, 1)
+--/
 
 --CCJS400 v6 Prerequisites,OR,
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
@@ -2447,23 +2447,23 @@ values (krms_prop_s.nextval, 'Must meet all of the following', NULL, 'C', '&', (
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'CCJS400 v8 Prerequisites')
 /
 --kuali.reqComponent.type.course.org.credits.completed.min,Must have successfully completed a minimum of <n> credits from courses in the <org>
-insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> credits from courses in the <org>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.org.credits.completed.min'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS400 v8 Prerequisites'), 1, NULL)
-/
-insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'CCJS400 v8 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
-/
+--insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
+--values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> credits from courses in the <org>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.org.credits.completed.min'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS400 v8 Prerequisites'), 1, NULL)
+--/
+--insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'CCJS400 v8 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
+--/
 --kuali.reqComponent.field.type.value.positive.integer,12
 --kuali.reqComponent.field.type.org.id,214
-insert into krms_term_t (term_id, term_spec_id, ver_nbr, desc_txt) values (krms_term_s.nextval, (Select term_spec_id from krms_term_spec_t where nm = 'numberOfCreditsFromOrganization' and nmspc_cd = 'KS-SYS'), 1, 'Successfully completed a minimum of number credits from courses in the organization')
-/
-insert into krms_term_parm_t (term_parm_id, term_id, nm, val, ver_nbr) values (krms_term_parm_s.nextval, krms_term_s.currval, 'kuali.reqComponent.field.type.org.id', '214', 1)
-/
-insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, krms_term_s.currval, 'T', 1, 1)
-/
-insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '12', 'C', 2, 1)
-/
-insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '=', 'O', 3, 1)
-/
+--insert into krms_term_t (term_id, term_spec_id, ver_nbr, desc_txt) values (krms_term_s.nextval, (Select term_spec_id from krms_term_spec_t where nm = 'numberOfCreditsFromOrganization' and nmspc_cd = 'KS-SYS'), 1, 'Successfully completed a minimum of number credits from courses in the organization')
+--/
+--insert into krms_term_parm_t (term_parm_id, term_id, nm, val, ver_nbr) values (krms_term_parm_s.nextval, krms_term_s.currval, 'kuali.reqComponent.field.type.org.id', '214', 1)
+--/
+--insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, krms_term_s.currval, 'T', 1, 1)
+--/
+--insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '12', 'C', 2, 1)
+--/
+--insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_no, ver_nbr) values (krms_prop_parm_s.nextval, krms_prop_s.currval, '=', 'O', 3, 1)
+--/
 
 --kuali.reqComponent.type.course.permission.org.required,Permission of <administering org> required
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
