@@ -49,15 +49,15 @@
     <bean id="ActivityOfferingEdit-MainPage-section1" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:label="Status" p:propertyName="stateName"/>
-                <bean parent="Uif-DataField" p:label="Term" p:propertyName="termDisplayString" p:readOnly="true" />
+                <bean parent="Uif-DataField" id="status" p:label="Status" p:propertyName="stateName"/>
+                <bean parent="Uif-DataField" id="term" p:label="Term" p:propertyName="termDisplayString" p:readOnly="true" />
 
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
                             <!-- <bean parent="Uif-DataField" p:label="Activity Type" p:propertyName="aoInfo.typeKey" p:readOnly="true"/> -->
-                            <bean parent="Uif-DataField" p:label="Activity Type" p:propertyName="typeName" p:readOnly="true"/>
-                            <bean parent="Uif-DataField" p:label="Format" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true"/>
+                            <bean parent="Uif-DataField" id="type_name" p:label="Activity Type" p:propertyName="typeName" p:readOnly="true"/>
+                            <bean parent="Uif-DataField" id="format_offering_name" p:label="Format" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true"/>
                             <!-- <bean parent="Uif-DataField" p:label="Format" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true" p:defaultValue="Lecture"/> -->
                         </list>
                     </property>
@@ -73,12 +73,12 @@
         <property name="headerText" value="Activity Offering Information"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="Activity Code " p:fieldLabel.renderColon="false" p:propertyName="aoInfo.activityCode">
+                <bean parent="Uif-InputField" id="activity_code" p:label="Activity Code " p:fieldLabel.renderColon="false" p:propertyName="aoInfo.activityCode">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="1"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="Total Maximum Enrollment" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment"
+                <bean parent="Uif-InputField" id="max_enrollment" p:label="Total Maximum Enrollment" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment"
                       p:id="maximumEnrollment" p:onChangeScript="calculatePercent(jQuery(this))">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="3"/>
@@ -282,7 +282,7 @@
     <bean id="ActivityOfferingEdit-MainPage-Miscellaneous" parent="Uif-VerticalBoxSection" p:headerText="Miscellaneous" p:id="aoInfo.Miscellaneous">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop"
+                <bean id="course_url" parent="Uif-InputField-LabelTop"
                       p:propertyName="aoInfo.activityOfferingURL"
                       p:label="Course URL">
                     <property name="control">
@@ -296,7 +296,8 @@
                       p:style="margin-bottom:0">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField-LabelRight"
+                            <bean id="is_evaluated"
+                                  parent="Uif-InputField-LabelRight"
                                   p:propertyName="aoInfo.isEvaluated"
                                   p:label="This lecture requires an evaluation"
                                   p:fieldLabel.cssClasses="label-normal"
@@ -314,7 +315,8 @@
                       p:style="margin-bottom:0">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField-LabelRight"
+                            <bean id="is_honors_offering"
+                                  parent="Uif-InputField-LabelRight"
                                   p:propertyName="aoInfo.isHonorsOffering"
                                   p:label="This is an honors course"
                                   p:fieldLabel.cssClasses="label-normal"
