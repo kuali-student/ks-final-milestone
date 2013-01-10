@@ -5,6 +5,7 @@
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
@@ -275,7 +276,19 @@ public class CourseOfferingRolloverRunner implements Runnable {
         } catch (AlreadyExistsException ex) {
             error = ex.getMessage();
         } catch (DataValidationErrorException ex) {
-            error = ex.getMessage();
+            // This provides a better error message for display in rollover results page= (KSENROLL-4582)
+            String err = "Validation error(s): ";
+            boolean firstTime = true;
+            for (ValidationResultInfo info: ex.getValidationResults()) {
+                if (firstTime) {
+                    firstTime = false;
+                } else {
+                    err += ", ";
+                }
+                // Append on multiple error messages
+                err += info.getElement() + " has bad data: " + info.getInvalidData();
+            }
+            error = err;
         } catch (InvalidParameterException ex) {
             error = ex.getMessage();
         } catch (Exception ex) {
