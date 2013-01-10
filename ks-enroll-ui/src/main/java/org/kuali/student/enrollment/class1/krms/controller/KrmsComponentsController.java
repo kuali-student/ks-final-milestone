@@ -52,7 +52,7 @@ public class KrmsComponentsController extends UifControllerBase {
                               HttpServletRequest request, HttpServletResponse response) {
         KrmsComponentsForm uiTestForm = (KrmsComponentsForm) form;
 
-        uiTestForm.setProposition(new PropositionEditor());
+        uiTestForm.setPropositionEditor(new PropositionEditor());
 
         return getUIFModelAndView(uiTestForm);
     }

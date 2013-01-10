@@ -17,11 +17,11 @@
 package org.kuali.student.enrollment.class1.krms.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krms.impl.repository.PropositionBo;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
-
-import java.util.ArrayList;
-import java.util.List;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+
+import java.util.List;
 
 
 /**
@@ -31,108 +31,26 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
  */
 public class KrmsComponentsForm extends UifFormBase {
 
-    private PropositionEditor proposition;
+    private PropositionEditor propositionEditor;
 
-    private String courseSuggest;
-
-    private String multipleCourseType;
-
-    private float gpa;
-
-    private String orgDepartment;
-
-    private String administeringOrg;
-
-    private String tests;
-
-    private int testScore;
-
-    //private String currentMultipleCourseName;
-
-    private List<CourseInfo> multipleCourses;
-
-
-
-    public PropositionEditor getProposition() {
-        return proposition;
+    public PropositionEditor getPropositionEditor() {
+        return propositionEditor;
     }
 
-    public void setProposition(PropositionEditor proposition) {
-        this.proposition = proposition;
-    }
-
-    public String getCourseSuggest() {
-        return courseSuggest;
-    }
-
-    public void setCourseSuggest(String courseSuggest) {
-        this.courseSuggest = courseSuggest;
+    public void setPropositionEditor(PropositionEditor propositionEditor) {
+        this.propositionEditor = propositionEditor;
     }
 
     public String getMultipleCourseType() {
-        return multipleCourseType;
+        return propositionEditor.getMultipleCourseType();
     }
-
-    public void setMultipleCourseType(String multipleCourseType) {
-        this.multipleCourseType = multipleCourseType;
-    }
-
-    public float getGpa() {
-        return gpa;
-    }
-
-    public void setGpa(float gpa) {
-        this.gpa = gpa;
-    }
-    public String getOrgDepartment() {
-        return orgDepartment;
-    }
-
-    public void setOrgDepartment(String orgDepartment) {
-        this.orgDepartment = orgDepartment;
-    }
-
-    public String getAdministeringOrg() {
-        return administeringOrg;
-    }
-
-    public void setAdministeringOrg(String administeringOrg) {
-        this.administeringOrg = administeringOrg;
-    }
-    public String getTests() {
-        return tests;
-    }
-
-    public void setTests(String tests) {
-        this.tests = tests;
-    }
-
-    public int getTestScore() {
-        return testScore;
-    }
-
-    public void setTestScore(int testScore) {
-        this.testScore = testScore;
-    }
-
-//    public String getCurrentMultipleCourseName() {
-//        return currentMultipleCourseName;
-//    }
-//
-//    public void setCurrentMultipleCourseName(String currentMultipleCourseName) {
-//        this.currentMultipleCourseName = currentMultipleCourseName;
-//    }
 
     public List<CourseInfo> getMultipleCourses() {
-        if (multipleCourses == null) {
-            multipleCourses = new ArrayList<CourseInfo>();
-        }
-        return multipleCourses;
+        return propositionEditor.getMultipleCourses();
     }
 
-    public void setMultipleCourses(List<CourseInfo> multipleCourses) {
-        this.multipleCourses = multipleCourses;
+    public PropositionBo getProposition() {
+        return getPropositionEditor().getProposition();
     }
-
 
 }

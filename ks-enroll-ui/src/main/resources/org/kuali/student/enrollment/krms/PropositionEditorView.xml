@@ -196,7 +196,7 @@
                             <bean parent="course.courseset.grade.max" />
                             <bean parent="course.test.score.min" />
                             <bean parent="course.test.score.max" />
-                            <bean parent="course.notcompleted" />
+                            <!--<bean parent="course.notcompleted" />-->
                             <bean parent="course.courseset.completed.none" />
                             <bean parent="course.courseset.credits.completed.none" />
                             <bean parent="course.courseset.credits.completed.nof" />

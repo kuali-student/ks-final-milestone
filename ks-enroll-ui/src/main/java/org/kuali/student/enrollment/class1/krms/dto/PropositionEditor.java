@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class1.krms.dto;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
 import org.kuali.rice.krms.impl.repository.PropositionParameterBo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,8 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
     private String termParameter;
     private String type;
     private List<TermParameter> termParameterList = new ArrayList<TermParameter>();
+    private String multipleCourseType;
+    private List<CourseInfo> multipleCourses;
 
     public PropositionEditor() {
         super();
@@ -96,5 +99,24 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getMultipleCourseType() {
+        return multipleCourseType;
+    }
+
+    public void setMultipleCourseType(String multipleCourseType) {
+        this.multipleCourseType = multipleCourseType;
+    }
+
+    public List<CourseInfo> getMultipleCourses() {
+        if (multipleCourses == null) {
+            multipleCourses = new ArrayList<CourseInfo>();
+        }
+        return multipleCourses;
+    }
+
+    public void setMultipleCourses(List<CourseInfo> multipleCourses) {
+        this.multipleCourses = multipleCourses;
     }
 }

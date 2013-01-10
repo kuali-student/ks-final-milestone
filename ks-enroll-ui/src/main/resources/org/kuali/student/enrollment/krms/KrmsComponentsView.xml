@@ -39,7 +39,9 @@
                 <ref bean="KRMS-SingleCourse-SuggestField" />
                 <ref bean="KRMS-MultiCourse-Section" />
                 <ref bean="KRMS-GPA-Field" />
-                <ref bean="KRMS-TestScore-Section" />
+                <ref bean="KRMS-TestScore-Field" />
+                <ref bean="KRMS-TestName-Field" />
+                <ref bean="KRMS-GradeType-Field" />
             </list>
         </property>
     </bean>
@@ -48,25 +50,44 @@
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="Organizational Components"/>
-                <ref bean="KRMS-Department-Section" />
-                <ref bean="KRMS-Administering-Org-Section" />
+                <ref bean="KRMS-Department-Field" />
+                <ref bean="KRMS-Administering-Org-Field" />
             </list>
         </property>
     </bean>
 
+    <!--Generic Components-->
+    <bean id="proposition-group" parent="Uif-VerticalFieldGroup" >
+    </bean>
 
-
-    <bean id="parameter-parent" parent="Uif-InputField" p:propertyName="proposition.termParameter" p:render="true"
-          p:style="margin-left: 12pt" p:showLabel="true" p:maxLength="40"/>
-
-    <bean id="parameter-parent-dropdown" abstract="true" parent="parameter-parent">
+    <bean id="KRMS-Integer-ConstantValue-Parent" parent="Uif-InputField" p:propertyName="proposition.parameters[0].value" p:showLabel="true" p:label="Value" p:maxLength="255">
         <property name="control">
-            <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"
-                  p:onChangeScript="ajaxSubmitForm('updateDescription', null, jQuery(this).data('submitdata'), null, null, null);"/>
+            <bean parent="Uif-TextControl" p:style="margin-top:null 2px;" p:watermarkText="Enter a Literal Value" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="IntegerPatternConstraint" p:allowNegative="false"/>
         </property>
     </bean>
 
-    <bean id="KRMS-SingleCourse-SuggestField-Parent" parent="Uif-InputField-LabelTop" p:propertyName="courseSuggest" p:label="Course">
+    <!-- Integer constant Instance components -->
+    <bean id="KRMS-NumberOfCourses-ConstantValue" parent="KRMS-Integer-ConstantValue-Parent" p:label="Number of Courses" />
+
+    <bean id="KRMS-RepeatCourseNum-ConstantValue" parent="KRMS-Integer-ConstantValue-Parent" p:label="Number of Repeats" />
+
+    <bean id="KRMS-Credits-ConstantValue" parent="KRMS-Integer-ConstantValue-Parent" p:label="Credits" />
+
+    <bean id="KRMS-Minutes-ConstantValue" parent="KRMS-Integer-ConstantValue-Parent" p:label="Minutes" />
+
+    <bean id="KRMS-CreditHours-ConstantValue" parent="KRMS-Integer-ConstantValue-Parent" p:label="Credit Hours" />
+
+    <!-- TextArea component -->
+    <bean id="KRMS-FreeForm-ConstantValue" parent="Uif-InputField" p:propertyName="proposition.parameters[0].value" p:showLabel="true" p:label="Text">
+        <property name="control">
+            <bean parent="Uif-TextAreaControl" />
+        </property>
+    </bean>
+
+    <bean id="KRMS-SingleCourse-SuggestField-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termParameter" p:label="Course">
         <property name="suggest">
             <bean parent="Uif-Suggest">
                 <property name="render" value="true"/>
@@ -82,17 +103,8 @@
     </bean>
     <bean id="KRMS-SingleCourse-SuggestField" parent="KRMS-SingleCourse-SuggestField-Parent" />
 
-    <bean id="KRMS-MultiCourse-Type-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="multipleCourseType" p:label="Add a course, course set, or course range">
-        <property name="control">
-            <bean parent="Uif-DropdownControl"/>
-        </property>
-        <property name="optionsFinder">
-            <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.CourseTypeValuesFinder"/>
-        </property>
-    </bean>
-    <bean id="KRMS-MultiCourse-Type-Field" parent="KRMS-MultiCourse-Type-Field-Parent" />
-
     <bean id="KRMS-MultiCourse-Section-Parent" parent="Uif-VerticalBoxSection" p:headerText="Courses">
+        <property name="header.style" value="font-size:12px;"/>
         <property name="instructionalText" value="Add courses, course sets, or course ranges to your course set. You may add any combination of courses, dynamic course ranges, or Course sets." />
         <property name="items">
             <list>
@@ -103,11 +115,21 @@
     </bean>
     <bean id="KRMS-MultiCourse-Section" parent="KRMS-MultiCourse-Section-Parent" />
 
+    <bean id="KRMS-MultiCourse-Type-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="multipleCourseType" p:label="Add a course, course set, or course range">
+        <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.CourseTypeValuesFinder"/>
+        </property>
+    </bean>
+    <bean id="KRMS-MultiCourse-Type-Field" parent="KRMS-MultiCourse-Type-Field-Parent" />
+
     <bean id="KRMS-MultiCourse-AddToList-Section-Parent" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean parent="Uif-TableCollectionSection">
-                    <property name="propertyName" value="multipleCourses"/>
+                    <property name="propertyName" value="proposition.termParameterList" />
                     <property name="collectionObjectClass"
                               value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
                     <property name="layoutManager.renderSequenceField" value="false"/>
@@ -213,7 +235,7 @@
         </property>
     </bean>-->
 
-    <bean id="KRMS-GPA-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="gpa" p:label="GPA" p:minLength="3" p:maxLength="3">
+    <bean id="KRMS-GPA-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termParameter" p:label="GPA" p:minLength="3" p:maxLength="3">
         <property name="control">
             <bean parent="Uif-TextControl"/>
         </property>
@@ -223,7 +245,7 @@
     </bean>
     <bean id="KRMS-GPA-Field" parent="KRMS-GPA-Field-Parent" />
 
-    <bean id="KRMS-Department-Field-Parent" parent="Uif-InputField-LabelTop" >
+    <bean id="KRMS-OrgDepartment-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termParameter" p:required="true">
         <property name="suggest">
             <bean parent="Uif-Suggest">
                 <property name="render" value="true"/>
@@ -244,51 +266,34 @@
             <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
         </property>
     </bean>
-    <bean id="KRMS-Department-Field" parent="KRMS-Department-Field-Parent" />
 
-    <bean id="KRMS-Department-Section-Parent" parent="Uif-VerticalBoxSection">
-        <property name="items">
-            <list>
-                <bean parent="Uif-HorizontalBoxSection">
-                    <property name="items">
-                        <list>
-                            <bean parent="KRMS-Department-Field-Parent" p:label="Department" p:propertyName="orgDepartment" p:required="true">
-                                <property name="quickfinder.fieldConversions">
-                                    <map>
-                                        <entry key="longName" value="orgDepartment"/>
-                                    </map>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
+    <bean id="KRMS-Department-Field" parent="KRMS-OrgDepartment-Field-Parent" p:label="Department" >
+        <property name="quickfinder.fieldConversions">
+            <map>
+                <entry key="longName" value="orgDepartment"/>
+            </map>
         </property>
     </bean>
-    <bean id="KRMS-Department-Section" parent="KRMS-Department-Section-Parent" />
 
-    <bean id="KRMS-Administering-Org-Section-Parent" parent="Uif-VerticalBoxSection">
-        <property name="items">
-            <list>
-                <bean parent="Uif-HorizontalBoxSection">
-                    <property name="items">
-                        <list>
-                            <bean parent="KRMS-Department-Field-Parent" p:label="Organization" p:propertyName="administeringOrg" p:required="true">
-                                <property name="quickfinder.fieldConversions">
-                                    <map>
-                                        <entry key="longName" value="administeringOrg"/>
-                                    </map>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
+    <bean id="KRMS-Administering-Org-Field" parent="KRMS-OrgDepartment-Field-Parent" p:label="Organization">
+        <property name="quickfinder.fieldConversions">
+            <map>
+                <entry key="longName" value="administeringOrg"/>
+            </map>
         </property>
     </bean>
-    <bean id="KRMS-Administering-Org-Section" parent="KRMS-Administering-Org-Section-Parent" />
 
-    <bean id="KRMS-TestName-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="tests" p:label="Tests">
+    <bean id="KRMS-TestScore-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.parameters[0].value" p:label="Test Score" p:maxLength="6">
+        <property name="control">
+            <bean parent="Uif-TextControl" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="IntegerPatternConstraint" />
+        </property>
+    </bean>
+    <bean id="KRMS-TestScore-Field" parent="KRMS-TestScore-Field-Parent" />
+
+    <bean id="KRMS-TestName-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termParameter" p:label="Tests">
         <property name="suggest">
             <bean parent="Uif-Suggest">
                 <property name="render" value="true"/>
@@ -316,21 +321,17 @@
     </bean>
     <bean id="KRMS-TestName-Field" parent="KRMS-TestName-Field-Parent" />
 
-    <bean id="KRMS-TestScore-Section-Parent" parent="Uif-VerticalBoxSection">
-        <property name="items">
-            <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="testScore" p:label="Test Score" p:maxLength="6">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" />
-                    </property>
-                    <property name="validCharactersConstraint">
-                        <bean parent="IntegerPatternConstraint" />
-                    </property>
-                </bean>
-                <ref bean="KRMS-TestName-Field" />
-            </list>
+    <bean id="KRMS-GradeType-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termParameter" p:label="Grade">
+        <property name="control">
+            <bean parent="Uif-VerticalRadioControl" />
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.GradingOptionsKeyValues" p:addBlankOption="false" />
         </property>
     </bean>
-    <bean id="KRMS-TestScore-Section" parent="KRMS-TestScore-Section-Parent" />
+    <bean id="KRMS-GradeType-Field" parent="KRMS-GradeType-Field-Parent" />
 
+    <bean id="KRMS-Grade-Section" parent="Uif-VerticalBoxSection">
+
+    </bean>
 </beans>
