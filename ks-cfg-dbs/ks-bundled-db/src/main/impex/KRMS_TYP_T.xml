@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KRMS_TYP_T ACTV="Y" NM="kuali.krms.agenda.type.course"
+        NMSPC_CD="KS-SYS" SRVC_NM="agendaTypeService" TYP_ID="10000" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y" NM="kuali.krms.agenda.type.program"
+        NMSPC_CD="KS-SYS" SRVC_NM="agendaTypeService" TYP_ID="10001" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.agenda.type.course.enrollmentEligibility"
+        NMSPC_CD="KS-SYS" SRVC_NM="agendaTypeService" TYP_ID="10002" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.agenda.type.course.creditConstraints"
+        NMSPC_CD="KS-SYS" SRVC_NM="agendaTypeService" TYP_ID="10003" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.agenda.type.schedule.eligibility"
+        NMSPC_CD="KS-SYS" SRVC_NM="agendaTypeService" TYP_ID="10004" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.rule.type.course.academicReadiness.antireq"
+        NMSPC_CD="KS-SYS" SRVC_NM="ruleTypeService" TYP_ID="10005" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.rule.type.course.academicReadiness.coreq"
+        NMSPC_CD="KS-SYS" SRVC_NM="ruleTypeService" TYP_ID="10006" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.rule.type.course.academicReadiness.prereq"
+        NMSPC_CD="KS-SYS" SRVC_NM="ruleTypeService" TYP_ID="10007" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.rule.type.course.recommendedPreparation"
+        NMSPC_CD="KS-SYS" SRVC_NM="ruleTypeService" TYP_ID="10008" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.rule.type.course.academicReadiness.studentEligibility"
+        NMSPC_CD="KS-SYS" SRVC_NM="ruleTypeService" TYP_ID="10009" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.rule.type.course.academicReadiness.studentEligibilityPrereq"
+        NMSPC_CD="KS-SYS" SRVC_NM="ruleTypeService" TYP_ID="10010" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.rule.type.course.credit.repeatable"
+        NMSPC_CD="KS-SYS" SRVC_NM="ruleTypeService" TYP_ID="10011" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.rule.type.course.credit.restriction"
+        NMSPC_CD="KS-SYS" SRVC_NM="ruleTypeService" TYP_ID="10012" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y" NM="kuali.krms.rule.type.program.completion"
+        NMSPC_CD="KS-SYS" SRVC_NM="ruleTypeService" TYP_ID="10013" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y" NM="kuali.krms.rule.type.program.entrance"
+        NMSPC_CD="KS-SYS" SRVC_NM="ruleTypeService" TYP_ID="10014" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.rule.type.program.satisfactoryProgress"
+        NMSPC_CD="KS-SYS" SRVC_NM="ruleTypeService" TYP_ID="10015" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y" NM="kuali.krms.rule.type.schedule.eligibility"
+        NMSPC_CD="KS-SYS" SRVC_NM="agendaTypeService" TYP_ID="10016" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.success.compl.course"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10017" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.success.course.courseset.completed.all"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10018" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.success.course.courseset.completed.nof"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10019" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.course.courseset.completed.none"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10020" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.course.courseset.credits.completed.nof"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10021" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.course.courseset.credits.completed.none"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10022" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.course.courseset.enrolled.all"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10023" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.course.courseset.enrolled.nof"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10024" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.course.courseset.gpa.min"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10025" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.course.courseset.grade.max"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10026" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.course.courseset.grade.min"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10027" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.course.courseset.nof.grade.min"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10028" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.course.credits.repeat.max"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10029" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.course.enrolled"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10030" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y" NM="kuali.krms.proposition.type.freeform.text"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10031" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.course.notcompleted"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10032" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.reqComponent.type.course.org.credits.completed.min"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10033" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.admitted.to.program.campus"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10034" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.permission.instructor.required"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10035" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.course.drop.org.permission.required"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10036" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.notadmitted.to.program"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10037" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.course.test.score.max"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10038" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.course.test.score.min"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10039" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.credits.earned.min"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10040" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.cumulative.gpa.min"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10041" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.duration.cumulative.gpa.min"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10042" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.drop.min.credit.hours.due.to.attribute"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10043" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.drop.min.credit.hours"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10044" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.exceeds.minutes.overlap.allowed"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10045" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.time.conflict.start.end"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10046" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.max.limit.courses.for.program"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10047" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.max.limit.credits.for.program"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10048" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.max.limit.courses.at.org.for.program"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10049" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.max.limit.courses.at.org.duration.for.program"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10050" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.max.limit.courses.for.campus.duration"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10051" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.max.limit.credits.for.campus.duration"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10052" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="N"
+        NM="kuali.krms.proposition.type.course.offering.drop.instructor.permission.required"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10053" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.proposition.type.test.score.between.values"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10054" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y" NM="kuali.krms.proposition.type.test.score"
+        NMSPC_CD="KS-SYS" SRVC_NM="simplePropositionTypeService"
+        TYP_ID="10055" VER_NBR="0"/>
+</dataset>

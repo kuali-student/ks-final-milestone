@@ -1,0 +1,719 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10000" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="f712d97b-10f4-4763-93db-a740794dc518"
+        REF_OBJ_KRMS_OBJ_ID="10000" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10001" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="caef7cf0-902d-4071-9553-5c3c8cf347ea"
+        REF_OBJ_KRMS_OBJ_ID="10001" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10002" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="9820f4f3-b90e-4678-bb6d-57c17887ce6e"
+        REF_OBJ_KRMS_OBJ_ID="10002" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10003" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-ENGL879-199608000000"
+        REF_OBJ_KRMS_OBJ_ID="10003" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10004" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-PHYS606-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10004" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10005" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="802b7f0f-adc9-4760-ad46-2f6900cd3360"
+        REF_OBJ_KRMS_OBJ_ID="10005" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10006" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="60506abf-5ace-4b76-91f2-d9d528a43dfb"
+        REF_OBJ_KRMS_OBJ_ID="10006" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10007" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-HIST328-200801000000"
+        REF_OBJ_KRMS_OBJ_ID="10007" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10008" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-PHYS818-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10008" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10009" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="12919ada-0daa-4555-9b6c-2c9722353ce1"
+        REF_OBJ_KRMS_OBJ_ID="10009" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10010" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-ENGL878-200501000000"
+        REF_OBJ_KRMS_OBJ_ID="10010" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10011" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="30a3b114-6251-433c-b759-0236fb49638b"
+        REF_OBJ_KRMS_OBJ_ID="10011" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10012" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="9da9fee3-588a-4d67-b620-615226fc177d"
+        REF_OBJ_KRMS_OBJ_ID="10012" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10013" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-ENGL269-201008000000"
+        REF_OBJ_KRMS_OBJ_ID="10013" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10014" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-CHEM277-200608000000"
+        REF_OBJ_KRMS_OBJ_ID="10014" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10015" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="494245a2-f48b-47c0-88b4-c408edbff96a"
+        REF_OBJ_KRMS_OBJ_ID="10015" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10016" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-HIST463-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10016" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10017" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-HIST799-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10017" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10018" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-ENGL291-198608000000"
+        REF_OBJ_KRMS_OBJ_ID="10018" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10019" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="724972ae-61ff-4792-8e8a-700bac3fb942"
+        REF_OBJ_KRMS_OBJ_ID="10019" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10020" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="64195984-a054-4921-b5bc-900922bb36ca"
+        REF_OBJ_KRMS_OBJ_ID="10020" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10021" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="e06a59fd-3ac7-4150-9158-39443fbc9bee"
+        REF_OBJ_KRMS_OBJ_ID="10021" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10022" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-ENGL719-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10022" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10023" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-CHEM247-199508000000"
+        REF_OBJ_KRMS_OBJ_ID="10023" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10024" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-CHEM678-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10024" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10025" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="d82b9c5c-d6d5-4857-ba92-f2a8f2561001"
+        REF_OBJ_KRMS_OBJ_ID="10025" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10026" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="8bdc6414-4b96-4069-97bf-e572e5f90525"
+        REF_OBJ_KRMS_OBJ_ID="10026" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10027" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-HIST429-200801000000"
+        REF_OBJ_KRMS_OBJ_ID="10027" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10028" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-ENGL467-200408000000"
+        REF_OBJ_KRMS_OBJ_ID="10028" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10029" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="28e2e021-5e23-4ae2-b5f4-03176e2c058d"
+        REF_OBJ_KRMS_OBJ_ID="10029" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10030" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="8bd87ab2-5a9b-47e7-a523-b2632ee5701e"
+        REF_OBJ_KRMS_OBJ_ID="10030" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10031" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-ENGL398-200608000000"
+        REF_OBJ_KRMS_OBJ_ID="10031" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10032" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="55f24c68-57d0-4c33-889a-7313cc81d108"
+        REF_OBJ_KRMS_OBJ_ID="10032" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10033" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-WMST698-199008000000"
+        REF_OBJ_KRMS_OBJ_ID="10033" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10034" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="c13bf04e-60c9-4488-a177-4e1997d7d7b3"
+        REF_OBJ_KRMS_OBJ_ID="10034" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10035" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-WMST275-199501000000"
+        REF_OBJ_KRMS_OBJ_ID="10035" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10036" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="11610dc7-a1e2-4a8f-95fc-340fcc9e9e73"
+        REF_OBJ_KRMS_OBJ_ID="10036" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10037" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="7ca748fc-3d7c-4276-bb07-7abec637b9dc"
+        REF_OBJ_KRMS_OBJ_ID="10037" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10038" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="c360126f-600f-4251-889b-13daa1034986"
+        REF_OBJ_KRMS_OBJ_ID="10038" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10039" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="234cdd26-c081-4c86-9aa4-b8e03aabf99b"
+        REF_OBJ_KRMS_OBJ_ID="10039" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10040" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-ENGL359-200001000000"
+        REF_OBJ_KRMS_OBJ_ID="10040" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10041" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-PHYS624-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10041" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10042" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-HIST779-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10042" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10043" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="f1303980-0d91-44c5-a71c-9f569d8de140"
+        REF_OBJ_KRMS_OBJ_ID="10043" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10044" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-HIST353-199501000000"
+        REF_OBJ_KRMS_OBJ_ID="10044" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10045" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="8f924f66-a2dc-4834-bfad-1cb6c6faf2df"
+        REF_OBJ_KRMS_OBJ_ID="10045" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10046" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="2d69d93d-c0c4-4e76-bfa4-0ed5828cdac9"
+        REF_OBJ_KRMS_OBJ_ID="10046" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10047" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="a0849169-fdf9-4918-9e3a-2571a3931332"
+        REF_OBJ_KRMS_OBJ_ID="10047" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10048" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-HIST454-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10048" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10049" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-WMST619-199801000000"
+        REF_OBJ_KRMS_OBJ_ID="10049" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10050" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-HIST619-198101000000"
+        REF_OBJ_KRMS_OBJ_ID="10050" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10051" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-PHYS798-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10051" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10052" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-ENGL278-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10052" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10053" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="9fb17f47-77f1-47ff-8b8e-37a65f04cf1b"
+        REF_OBJ_KRMS_OBJ_ID="10053" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10054" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-PHYS758-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10054" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10055" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="3cb6152f-d1a0-4fb1-a446-bd976430e263"
+        REF_OBJ_KRMS_OBJ_ID="10055" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10056" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-PHYS685-200001000000"
+        REF_OBJ_KRMS_OBJ_ID="10056" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10057" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="8af12adc-3200-4b40-b941-435966e9e536"
+        REF_OBJ_KRMS_OBJ_ID="10057" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10058" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-HIST709-200408000000"
+        REF_OBJ_KRMS_OBJ_ID="10058" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10059" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-ENGL428-200508000000"
+        REF_OBJ_KRMS_OBJ_ID="10059" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10060" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-WMST708-198701000000"
+        REF_OBJ_KRMS_OBJ_ID="10060" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10061" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="3437ef80-bd75-4247-a00c-bff6f6c1d2e4"
+        REF_OBJ_KRMS_OBJ_ID="10061" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10062" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="b779cfb2-e46c-4cb3-8d5e-46d3df5a4a2a"
+        REF_OBJ_KRMS_OBJ_ID="10062" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10063" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="fd7e4894-be5e-4e88-a7a8-d9a4fa2045d6"
+        REF_OBJ_KRMS_OBJ_ID="10063" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10064" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="1dfceb69-3534-4f69-8fc8-34cacd0962bb"
+        REF_OBJ_KRMS_OBJ_ID="10064" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10065" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="45bff073-b97b-460e-bcdc-746f6c174ee6"
+        REF_OBJ_KRMS_OBJ_ID="10065" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10066" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-CHEM242-200408000000"
+        REF_OBJ_KRMS_OBJ_ID="10066" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10067" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="be959064-e46d-48cf-9eb1-6201e0484a19"
+        REF_OBJ_KRMS_OBJ_ID="10067" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10068" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-WMST898-200508000000"
+        REF_OBJ_KRMS_OBJ_ID="10068" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10069" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-WMST471-199501000000"
+        REF_OBJ_KRMS_OBJ_ID="10069" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10070" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-PHYS741-198201000000"
+        REF_OBJ_KRMS_OBJ_ID="10070" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10071" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-PHYS615-200408000000"
+        REF_OBJ_KRMS_OBJ_ID="10071" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10072" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-ENGL789-198901000000"
+        REF_OBJ_KRMS_OBJ_ID="10072" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10073" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="768ab22d-b8fa-4bdb-9dd5-ed20c2070db3"
+        REF_OBJ_KRMS_OBJ_ID="10073" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10074" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-CHEM699-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10074" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10075" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="3804374c-89ec-43ff-a1ac-2fbe46b8bffe"
+        REF_OBJ_KRMS_OBJ_ID="10075" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10076" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="d2e8c421-2d7f-44be-98f9-758890219331"
+        REF_OBJ_KRMS_OBJ_ID="10076" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10077" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="0e7ae4b6-b30c-4276-82e7-64601635e9da"
+        REF_OBJ_KRMS_OBJ_ID="10077" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10078" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="2a1b541e-f9c2-4ac6-b774-5f31c4f6e498"
+        REF_OBJ_KRMS_OBJ_ID="10078" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10079" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-WMST326-199501000000"
+        REF_OBJ_KRMS_OBJ_ID="10079" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10080" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-PHYS769-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10080" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10081" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-CHEM625-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10081" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10082" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="6dccaf6a-a7ae-4e7c-b2f6-8a07ed68f376"
+        REF_OBJ_KRMS_OBJ_ID="10082" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10083" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-HIST325-198108000000"
+        REF_OBJ_KRMS_OBJ_ID="10083" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10084" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="8149aa68-9bfa-4d95-bcfe-b17b2d36d763"
+        REF_OBJ_KRMS_OBJ_ID="10084" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10085" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-CHEM474-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10085" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10086" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="2eed4844-4d1f-47ef-8234-9df83fa0e7fb"
+        REF_OBJ_KRMS_OBJ_ID="10086" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10087" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="64d8fa83-55fa-44e9-8f2a-fb6c2012d024"
+        REF_OBJ_KRMS_OBJ_ID="10087" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10088" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="6962d16c-0d7b-4add-922e-338ae9a6636c"
+        REF_OBJ_KRMS_OBJ_ID="10088" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10089" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-PHYS759-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10089" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10090" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-PHYS402-199708000000"
+        REF_OBJ_KRMS_OBJ_ID="10090" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10091" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="3e20cee4-ec0c-414c-bd29-d7e5cdf3b76c"
+        REF_OBJ_KRMS_OBJ_ID="10091" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10092" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-HIST352-199501000000"
+        REF_OBJ_KRMS_OBJ_ID="10092" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10093" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="51f228a4-d464-48eb-b7aa-ec5dc535aa68"
+        REF_OBJ_KRMS_OBJ_ID="10093" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10094" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-ENGL339-200208000000"
+        REF_OBJ_KRMS_OBJ_ID="10094" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10095" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="fa7cd7bb-9d4f-4832-b31a-44280730bc01"
+        REF_OBJ_KRMS_OBJ_ID="10095" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10096" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="e05a99f4-fc4a-4942-9783-9f8fa29994c6"
+        REF_OBJ_KRMS_OBJ_ID="10096" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10097" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-HIST208-200208000000"
+        REF_OBJ_KRMS_OBJ_ID="10097" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10098" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="2fdfb4dc-6cd7-4801-a1f2-f8874fc5b75b"
+        REF_OBJ_KRMS_OBJ_ID="10098" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10099" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-CHEM689-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10099" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10100" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="bde29519-2459-46f4-ab48-dec00047aec1"
+        REF_OBJ_KRMS_OBJ_ID="10100" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10101" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-WMST448-199501000000"
+        REF_OBJ_KRMS_OBJ_ID="10101" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10102" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="a80b4adf-214f-4e33-8492-af5b9beb48e8"
+        REF_OBJ_KRMS_OBJ_ID="10102" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10103" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="4394265e-96f5-48a8-82b8-517584a6a60c"
+        REF_OBJ_KRMS_OBJ_ID="10103" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10104" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="fa6d9e3a-d363-4053-8d2b-db3d65bca9c0"
+        REF_OBJ_KRMS_OBJ_ID="10104" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10105" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-HIST324-198108000000"
+        REF_OBJ_KRMS_OBJ_ID="10105" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10106" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="9ece45f8-ae91-421a-8f4e-20f120ea6929"
+        REF_OBJ_KRMS_OBJ_ID="10106" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10107" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-ENGL688-198901000000"
+        REF_OBJ_KRMS_OBJ_ID="10107" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10108" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-WMST410-199508000000"
+        REF_OBJ_KRMS_OBJ_ID="10108" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10109" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-ENGL349-200208000000"
+        REF_OBJ_KRMS_OBJ_ID="10109" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10110" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-ENGL729-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10110" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10111" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-BSCI379-199908000000"
+        REF_OBJ_KRMS_OBJ_ID="10111" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10112" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="9cdb07b7-f43d-45ad-a769-7b58c520581e"
+        REF_OBJ_KRMS_OBJ_ID="10112" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10113" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-WMST469-201008000000"
+        REF_OBJ_KRMS_OBJ_ID="10113" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10114" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-ENGL689-198901000000"
+        REF_OBJ_KRMS_OBJ_ID="10114" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10115" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-HIST811-200301000000"
+        REF_OBJ_KRMS_OBJ_ID="10115" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10116" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="5fb54488-3f8e-439e-890f-2859456980e7"
+        REF_OBJ_KRMS_OBJ_ID="10116" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10117" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-HIST729-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10117" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10118" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-ENGL621-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10118" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10119" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="1ad26d52-0cf7-4562-bf0d-05f827387c25"
+        REF_OBJ_KRMS_OBJ_ID="10119" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10120" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="562c63c5-e2c5-43b5-96c2-f06c2023aa43"
+        REF_OBJ_KRMS_OBJ_ID="10120" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10121" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="ec06665e-f585-4c92-a69c-4d6c6e9490de"
+        REF_OBJ_KRMS_OBJ_ID="10121" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10122" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-WMST369-201008000000"
+        REF_OBJ_KRMS_OBJ_ID="10122" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10123" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-ENGL293-201101000000"
+        REF_OBJ_KRMS_OBJ_ID="10123" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10124" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="5f8f97ac-0138-4a3f-930e-43f8782e8345"
+        REF_OBJ_KRMS_OBJ_ID="10124" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10125" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="1ec7256d-51b3-40ac-8c0b-d1042a3b5b17"
+        REF_OBJ_KRMS_OBJ_ID="10125" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10126" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="00da4a2b-2edb-488c-a7d0-89d5790f107f"
+        REF_OBJ_KRMS_OBJ_ID="10126" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10127" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-HIST430-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10127" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10128" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-WMST370-200408000000"
+        REF_OBJ_KRMS_OBJ_ID="10128" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10129" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="b2d6a58f-6d74-4394-ba56-b70d06f32f3a"
+        REF_OBJ_KRMS_OBJ_ID="10129" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10130" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-CHEM608-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10130" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10131" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="c994c056-2784-4fd7-996c-e55890f40f23"
+        REF_OBJ_KRMS_OBJ_ID="10131" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10132" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-HIST269-201008000000"
+        REF_OBJ_KRMS_OBJ_ID="10132" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10133" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="6a81b2da-a809-4ce4-9c7d-6bc90ba28be1"
+        REF_OBJ_KRMS_OBJ_ID="10133" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10134" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-HIST899-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10134" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10135" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-PHYS778-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10135" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10136" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="e7424552-424a-470d-bcbb-2fc04eec65de"
+        REF_OBJ_KRMS_OBJ_ID="10136" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10137" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="22c763ad-5212-4cc9-8099-31d75992abf7"
+        REF_OBJ_KRMS_OBJ_ID="10137" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10138" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-HIST455-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10138" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10139" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-CHEM146-200508000000"
+        REF_OBJ_KRMS_OBJ_ID="10139" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10140" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="ddd89101-4cc8-4c61-90a4-d4ec5645f8ef"
+        REF_OBJ_KRMS_OBJ_ID="10140" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10141" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-PHYS851-198001000000"
+        REF_OBJ_KRMS_OBJ_ID="10141" VER_NBR="0"/>
+    <KRMS_REF_OBJ_KRMS_OBJ_T ACTV="Y" COLLECTION_NM="Course"
+        KRMS_DSCR_TYP="Agenda" KRMS_OBJ_ID="10142" NMSPC_CD="KS-SYS"
+        REF_DSCR_TYP="kuali.lu.type.CreditCourse"
+        REF_OBJ_ID="CLUID-CHEM237-199508000000"
+        REF_OBJ_KRMS_OBJ_ID="10142" VER_NBR="0"/>
+</dataset>

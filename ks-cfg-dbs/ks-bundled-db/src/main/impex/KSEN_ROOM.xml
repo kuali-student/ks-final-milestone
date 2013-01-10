@@ -5923,6 +5923,13 @@
         ROOM_STATE="kuali.room.room.state.active "
         ROOM_TYPE="kuali.room.type.classroom.general"
         UPDATEID="batchjob" UPDATETIME="20130107121232" VER_NBR="0"/>
+    <KSEN_ROOM BUILDING_ID="9f5288fd-c4d2-4d81-a0c2-5ed43a4941cc"
+        CREATEID="batchjob" CREATETIME="20130109152309" FLOOR="0"
+        ID="de7120d3-1578-4982-b5cd-f0cc6e0e11b4" NAME="0223"
+        OBJ_ID="79e3d5bf-d385-4df9-800b-075f8ef0ba99" ROOM_CD="0223"
+        ROOM_STATE="kuali.room.room.state.active "
+        ROOM_TYPE="kuali.room.type.classroom.general"
+        UPDATEID="batchjob" UPDATETIME="20130109152309" VER_NBR="0"/>
     <KSEN_ROOM BUILDING_ID="4a382e14-f6aa-4fd1-b15a-c259475d212f"
         CREATEID="batchjob" CREATETIME="20130107121212" FLOOR="1"
         ID="de71a7e3-2be9-4292-95f9-dd363be9bca7" NAME="1101"
