@@ -21,14 +21,21 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.InquiryForm;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
+import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 //import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
+import org.kuali.rice.krms.impl.repository.NaturalLanguageTemplateBoService;
+import org.kuali.rice.krms.impl.repository.NaturalLanguageUsageBoService;
 import org.kuali.rice.krms.impl.repository.TypeTypeRelationBoService;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.StudentAgendaEditor;
+import org.kuali.student.enrollment.class1.krms.util.KsKrmsConstants;
+import org.kuali.student.enrollment.class1.krms.util.KsKrmsRepositoryServiceLocator;
+import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -53,28 +60,52 @@ public class PropositionTypeValuesFinder extends UifKeyValuesFinderBase {
             dataObject = MaintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
         }
 
-        String ruleTypeId = "";
+        String ruleTypeId = null;
         if (dataObject instanceof StudentAgendaEditor) {
             ruleTypeId = ((StudentAgendaEditor) dataObject).getAgendaItemLine().getRule().getTypeId();
         } else if (dataObject instanceof RuleEditor){
             ruleTypeId = ((RuleEditor) dataObject).getRule().getTypeId();
         }
 
+        NaturalLanguageUsage usage = getNaturalLanguageUsageBoService().getNaturalLanguageUsageByName(PermissionServiceConstants.KS_SYS_NAMESPACE, KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION);
+
         // if we have an agenda w/ a selected context
         Collection<TypeTypeRelation> typeRelations = getTypeTypeRelationBoService().findTypeTypeRelationsByFromType(ruleTypeId);
         for (TypeTypeRelation typeRelation : typeRelations) {
-            keyValues.add(new ConcreteKeyValue(typeRelation.getToTypeId(), getKrmsTypeRepositoryService().getTypeById(typeRelation.getToTypeId()).getName()));
+
+            NaturalLanguageTemplate template = null;
+            try{
+                template = getNaturalLanguageTemplateBoService().findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId("en", typeRelation.getToTypeId(), usage.getId());
+            }catch (IndexOutOfBoundsException e){
+                //Ignore, rice error in NaturalLanguageTemplateBoServiceImpl line l
+            }
+
+            if (template != null){
+                //Use the template in the dropdown
+                keyValues.add(new ConcreteKeyValue(typeRelation.getToTypeId(), template.getTemplate()));
+            } else {
+                //If no template exist, display the type name
+                keyValues.add(new ConcreteKeyValue(typeRelation.getToTypeId(), getKrmsTypeRepositoryService().getTypeById(typeRelation.getToTypeId()).getName()));
+            }
         }
 
         return keyValues;
     }
 
-    public KrmsTypeRepositoryService getKrmsTypeRepositoryService() {
+    private KrmsTypeRepositoryService getKrmsTypeRepositoryService() {
         return KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService();
     }
 
-    public TypeTypeRelationBoService getTypeTypeRelationBoService() {
+    private TypeTypeRelationBoService getTypeTypeRelationBoService() {
         return KrmsRepositoryServiceLocator.getTypeTypeRelationBoService();
+    }
+
+    private NaturalLanguageUsageBoService getNaturalLanguageUsageBoService() {
+        return KsKrmsRepositoryServiceLocator.getNaturalLanguageUsageBoService();
+    }
+
+    private NaturalLanguageTemplateBoService getNaturalLanguageTemplateBoService() {
+        return KsKrmsRepositoryServiceLocator.getNaturalLanguageTemplateBoService();
     }
 
 }
