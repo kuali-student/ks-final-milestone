@@ -15,11 +15,6 @@
  */
 package org.kuali.student.r2.common.datadictionary.util;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
@@ -31,7 +26,6 @@ import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
-
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -44,7 +38,10 @@ import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-@Ignore
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class TestServiceDictionaries {
 
     private String calculateXmlFileName(Class<?> clazz) {
