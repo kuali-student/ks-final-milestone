@@ -222,6 +222,12 @@
             <artifactId>ks-ap-web</artifactId>
             <version>${ks.ap.version}</version>
             <type>war</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>antlr</groupId>
+                    <artifactId>antlr</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

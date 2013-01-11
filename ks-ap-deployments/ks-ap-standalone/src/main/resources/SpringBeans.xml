@@ -71,8 +71,12 @@
     <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
     <import resource="classpath:org/kuali/rice/core/RiceDataSourceSpringBeans.xml" />
     <import resource="classpath:org/kuali/rice/config/RiceSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/>
 
     <!-- End KRAD Defaults -->
+
+    <!-- Allows for the use of Annotations when setting up Data Object Beans -->
+    <import resource="classpath:ks-transaction-context.xml" />
 
     <!-- Configurations for factory bean loading; List of Files with configuration settings-->
     <bean id="bootstrapConfig"

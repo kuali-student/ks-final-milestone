@@ -34,8 +34,6 @@
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{coreConfig.getProperties()}" />
     </bean>
-
-	<import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/>
     
     <!-- Used by enrollServices-context.xml, via enrollDao.xml, instead of the
     	standard bean name 'userTransaction' -->

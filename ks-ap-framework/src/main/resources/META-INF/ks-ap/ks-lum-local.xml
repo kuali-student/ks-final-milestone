@@ -35,7 +35,6 @@
         <property name="properties" value="#{coreConfig.getProperties()}" />
     </bean>
 
-	<import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/>
 
     <import resource="classpath:ksb/ks-lu-no-tx-context.xml"/>
 
