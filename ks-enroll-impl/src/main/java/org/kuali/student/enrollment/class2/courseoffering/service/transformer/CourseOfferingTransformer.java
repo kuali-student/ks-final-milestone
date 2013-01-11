@@ -205,8 +205,8 @@ public class CourseOfferingTransformer {
         co.setMinimumEnrollment(lui.getMinimumEnrollment());
         co.setCourseId(lui.getCluId());
         co.setTermId(lui.getAtpId());
-        co.setUnitsDeployment(lui.getUnitsDeployment());
-        co.setUnitsContentOwner(lui.getUnitsContentOwner());
+        co.setUnitsDeploymentOrgIds(lui.getUnitsDeployment());
+        co.setUnitsContentOwnerOrgIds(lui.getUnitsContentOwner());
 
         //Split up the result keys for student registration options into a separate field.
         co.getStudentRegistrationGradingOptions().clear();
@@ -314,8 +314,8 @@ public class CourseOfferingTransformer {
 
         co.setCourseId(lui.getCluId());
         co.setTermId(lui.getAtpId());
-        co.setUnitsDeployment(lui.getUnitsDeployment());
-        co.setUnitsContentOwner(lui.getUnitsContentOwner());
+        co.setUnitsDeploymentOrgIds(lui.getUnitsDeployment());
+        co.setUnitsContentOwnerOrgIds(lui.getUnitsContentOwner());
 
         //Split up the result keys for student registration options into a separate field.
         co.getStudentRegistrationGradingOptions().clear();
@@ -638,8 +638,8 @@ public class CourseOfferingTransformer {
             courseOfferingInfo.setCourseOfferingCode(courseInfo.getCode());
         }
 
-        courseOfferingInfo.setUnitsContentOwner(courseInfo.getUnitsContentOwner());
-        courseOfferingInfo.setUnitsDeployment(courseInfo.getUnitsDeployment());
+        courseOfferingInfo.setUnitsContentOwnerOrgIds(courseInfo.getUnitsContentOwner());
+        courseOfferingInfo.setUnitsDeploymentOrgIds(courseInfo.getUnitsDeployment());
 
         //Split up the result keys for student registration options into a separate field.
         for(String resultValueGroupKey : courseInfo.getGradingOptions()){
