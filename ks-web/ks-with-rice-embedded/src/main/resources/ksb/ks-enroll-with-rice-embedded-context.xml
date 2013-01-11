@@ -309,7 +309,6 @@
         <property name="seatPoolDefinitionDao" ref="seatPoolDefinitionDao" />
         <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao" />
         <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
-        <property name="atpService" ref="atpServiceClient"/>
         <property name="schedulingService" ref="schedulingServiceImpl"/>
         <property name="lrcService" ref="lrcServiceCache"/>
     </bean>
