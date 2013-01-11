@@ -272,9 +272,9 @@
                        </list>
                    </property>
                </bean>
-               <bean parent="Uif-MessageField" p:messageText="@{scheduleInitiatedDate}" p:label="Initiated" />
-                <bean parent="Uif-MessageField" p:messageText="@{scheduleCompleteDate}" p:label="Completed" />
-                <bean parent="Uif-MessageField" p:messageText="@{scheduleDuration}" p:label="Scheduling Duration" />
+               <bean id="schedule_initiated_date" parent="Uif-MessageField" p:messageText="@{scheduleInitiatedDate}" p:label="Initiated" />
+                <bean id="schedule_completed_date" parent="Uif-MessageField" p:messageText="@{scheduleCompleteDate}" p:label="Completed" />
+                <bean id="schedule_duration" parent="Uif-MessageField" p:messageText="@{scheduleDuration}" p:label="Scheduling Duration" />
                 <ref bean="ManageSOCView-SchedulingDetails-SendToSchedulerButton"/>
             </list>
         </property>
@@ -297,9 +297,9 @@
                        </list>
                    </property>
                </bean>
-                <bean parent="Uif-MessageField" p:messageText="@{publishInitiatedDate}" p:label="Initiated" />
-                <bean parent="Uif-MessageField" p:messageText="@{publishCompleteDate}" p:label="Completed" />
-                <bean parent="Uif-MessageField" p:messageText="@{publishDuration}" p:label="Publishing Duration" />
+                <bean id="publish_initiated_date" parent="Uif-MessageField" p:messageText="@{publishInitiatedDate}" p:label="Initiated" />
+                <bean id="publish_completed_date" parent="Uif-MessageField" p:messageText="@{publishCompleteDate}" p:label="Completed" />
+                <bean id="publish_duration" parent="Uif-MessageField" p:messageText="@{publishDuration}" p:label="Publishing Duration" />
             </list>
         </property>
    </bean>
