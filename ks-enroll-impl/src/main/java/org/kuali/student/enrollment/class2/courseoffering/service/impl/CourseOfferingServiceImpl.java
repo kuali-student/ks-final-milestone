@@ -1174,8 +1174,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
         aoInfo.setTermId(fo.getTermId());
 
-        //check that the passed in activity code does not already exist for that course offering
-        _cAO_setActivityCodeForAO(aoInfo, co, context);
+        // check that the passed in activity code does not already exist for that course offering
+        if (context.getAttributeValue("skip.aocode.validation") == null ||
+                context.getAttributeValue("skip.aocode.validation").equals("false")) {
+            // TODO: This is a hack to avoid setting the AO code for rollover--will be fixed by bigger solution later on.
+            _cAO_setActivityCodeForAO(aoInfo, co, context);
+        }
 
         // copy to the lui
         LuiInfo lui = new LuiInfo();

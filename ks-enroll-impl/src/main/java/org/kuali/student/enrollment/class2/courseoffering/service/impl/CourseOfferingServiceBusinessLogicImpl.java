@@ -157,8 +157,15 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         }
         // Rolled over AO should be in draft state
         targetAo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
+        // The temp context will signal the services to skip over validation of activity offering code
+        // TODO: To be removed once COSI is fixed
+        ContextInfo tempContext = new ContextInfo(context);
+        List<AttributeInfo> attrs = new ArrayList<AttributeInfo>();
+        AttributeInfo info = new AttributeInfo("skip.aocode.validation", "true");
+        attrs.add(info);
+        tempContext.setAttributes(attrs);
         targetAo = coService.createActivityOffering(targetAo.getFormatOfferingId(), targetAo.getActivityId(),
-                targetAo.getTypeKey(), targetAo, context);
+                targetAo.getTypeKey(), targetAo, tempContext);
         return targetAo;
     }
 
