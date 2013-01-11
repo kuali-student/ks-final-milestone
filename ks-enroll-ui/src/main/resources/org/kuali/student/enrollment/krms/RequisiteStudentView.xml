@@ -93,9 +93,10 @@
                       p:progressiveRender="@{ruleType ne null and ruleType ne '0'}">
                     <property name="items">
                         <list>
-                            <bean parent="Preview-Section"/>
-                            <bean parent="Edit-With-Object-Section"/>
-                            <bean parent="Edit-With-Logic-Section"/>
+                            <bean parent="Preview-Canonical-Section" />
+                            <bean parent="Preview-CO-Section" />
+                            <bean parent="Edit-With-Object-Section" />
+                            <bean parent="Edit-With-Logic-Section" />
                         </list>
                     </property>
                 </bean>
@@ -104,7 +105,7 @@
         </property>
     </bean>
 
-    <bean id="Preview-Section" parent="Uif-VerticalBoxSection"
+    <bean id="Preview-Section-Parent" parent="Uif-VerticalBoxSection"
           p:headerText="Preview" p:header.render="false">
         <property name="items">
             <list>
@@ -125,6 +126,13 @@
             </list>
         </property>
     </bean>
+
+    <bean id="Preview-Canonical-Section" parent="Preview-Section-Parent" p:headerText="Preview Canonical" />
+
+    <bean id="Preview-CO-Section" parent="Preview-Section-Parent" p:headerText="Preview CO" />
+
+    <!-- Use the plain preview with seat pools -->
+    <bean id="Preview-Section" parent="Preview-Section-Parent" />
 
     <bean id="Edit-With-Object-Section" parent="Uif-VerticalBoxSection"
           p:headerText="Edit with Object" p:header.render="false">
