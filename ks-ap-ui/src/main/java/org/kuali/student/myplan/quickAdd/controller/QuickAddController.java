@@ -25,6 +25,7 @@ import org.kuali.rice.krad.datadictionary.exception.DuplicateEntryException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -247,10 +248,7 @@ public class QuickAddController extends UifControllerBase {
 
 	@RequestMapping(value = "autoSuggestions")
 	public void autoSuggestions(HttpServletResponse response,
-			HttpServletRequest request) {
-
-		// TODO: factory for context /mwfyffe
-		ContextInfo context = new ContextInfo();
+			HttpServletRequest request) throws IOException {
 
 		String queryText = request.getParameter("courseCd");
 		String atpId = request.getParameter("atpId");
@@ -260,7 +258,7 @@ public class QuickAddController extends UifControllerBase {
 				SearchRequestInfo searchRequest = null;
 				SearchResult searchResult = null;
 				HashMap<String, String> divisionMap = searchController
-						.fetchCourseDivisions(context);
+						.fetchCourseDivisions();
 				/* Params from the Url */
 				String searchText = org.apache.commons.lang.StringUtils
 						.upperCase(queryText);
@@ -278,7 +276,7 @@ public class QuickAddController extends UifControllerBase {
 						searchRequest = new SearchRequestInfo(
 								"myplan.clu.divisionAndCode");
 						results = searchController.getResults(searchRequest,
-								subject, number, context);
+								subject, number);
 					}
 				} else if (splitStr.length == 1
 						&& !org.apache.commons.lang.StringUtils
@@ -288,13 +286,15 @@ public class QuickAddController extends UifControllerBase {
 							splitStr[0], divisions, true);
 					if (divisions.size() > 0) {
 						subject = divisions.get(0);
-						searchRequest = new SearchRequestInfo("myplan.clu.division");
+						searchRequest = new SearchRequestInfo(
+								"myplan.clu.division");
 						results = searchController.getResults(searchRequest,
-								subject, number, context);
+								subject, number);
 					} else {
-						searchRequest = new SearchRequestInfo("myplan.clu.division");
+						searchRequest = new SearchRequestInfo(
+								"myplan.clu.division");
 						results = searchController.getResults(searchRequest,
-								subject, number, context);
+								subject, number);
 					}
 				}
 
@@ -320,16 +320,11 @@ public class QuickAddController extends UifControllerBase {
 			jsonStr = jsonString.toString();
 		}
 		jsonStr = jsonStr + "]" + "}";
-		try {
-			response.setHeader("content-type", "application/json");
-			response.setHeader("Cache-Control", "No-cache");
-			response.setHeader("Cache-Control", "No-store");
-			response.setHeader("Cache-Control", "max-age=0");
-			response.getWriter().println(jsonStr);
-		} catch (IOException e) {
-			e.printStackTrace(); // To change body of catch statement use File |
-									// Settings | File Templates.
-		}
+		response.setContentType("application/json");
+		response.setHeader("Cache-Control", "No-cache");
+		response.setHeader("Cache-Control", "No-store");
+		response.setHeader("Cache-Control", "max-age=0");
+		response.getWriter().println(jsonStr);
 	}
 
 	@RequestMapping(params = "methodToCall=quickAddCourse")
@@ -337,10 +332,7 @@ public class QuickAddController extends UifControllerBase {
 			@ModelAttribute("KualiForm") QuickAddForm form,
 			BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
-		
-		// TODO: factory for context /mwfyffe
-		ContextInfo context = new ContextInfo();
-		
+
 		String[] parameters = {};
 		if (UserSessionHelper.isAdviser()) {
 			return doAdviserAccessError(form, "Adviser Access Denied",
@@ -356,7 +348,7 @@ public class QuickAddController extends UifControllerBase {
 
 		String courseId = null;
 		HashMap<String, String> divisionMap = searchController
-				.fetchCourseDivisions(context);
+				.fetchCourseDivisions();
 		String[] splitStr = form.getCourseCd().split(
 				"(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
 		if (splitStr.length == 2) {
@@ -373,17 +365,20 @@ public class QuickAddController extends UifControllerBase {
 					false);
 			if (divisions.size() > 0) {
 				subject = divisions.get(0);
-				SearchRequestInfo req = new SearchRequestInfo("myplan.course.getcluid");
+				SearchRequestInfo req = new SearchRequestInfo(
+						"myplan.course.getcluid");
 				SearchResult res = null;
 				try {
 					req.addParam("number", number);
 					req.addParam("subject", subject.trim());
-					// TODO: Fix when version issue for course is addressed
-					// req.addParam("currentTerm", AtpHelper.getCurrentAtpId());
+					req.addParam("currentTerm", AtpHelper.getCurrentAtpId());
 					req.addParam("lastScheduledTerm",
 							AtpHelper.getLastScheduledAtpId());
 
-					res = getCluService().search(req, context);
+					res = getCluService().search(
+							req,
+							KsapFrameworkServiceLocator.getContext()
+									.getContextInfo());
 				} catch (Exception e) {
 					throw new RuntimeException(e);
 				}
@@ -494,8 +489,11 @@ public class QuickAddController extends UifControllerBase {
 		CourseDetails courseDetails = null;
 		try {
 			courseDetails = getCourseDetailsInquiryService()
-					.retrieveCourseSummary(courseId,
-							UserSessionHelper.getStudentId(), context);
+					.retrieveCourseSummary(
+							courseId,
+							UserSessionHelper.getStudentId(),
+							KsapFrameworkServiceLocator.getContext()
+									.getContextInfo());
 		} catch (Exception e) {
 			return doOperationFailedError(form,
 					"Unable to retrieve Course Details.",
@@ -549,7 +547,8 @@ public class QuickAddController extends UifControllerBase {
 						courseDetails);
 			}
 			// Create wishlist events before updating the plan item.
-			wishlistEvents = makeRemoveEvent(planItem, courseDetails, context);
+			wishlistEvents = makeRemoveEvent(planItem, courseDetails,
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 			planItem.setTypeKey(newType);
 			planItem.setPlanPeriods(newAtpIds);
 
@@ -584,7 +583,8 @@ public class QuickAddController extends UifControllerBase {
 
 		events.putAll(makeUpdateTotalCreditsEvent(planItem.getPlanPeriods()
 				.get(0),
-				PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS, context));
+				PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS,
+				KsapFrameworkServiceLocator.getContext().getContextInfo()));
 
 		// Populate the form.
 		form.setJavascriptEvents(events);
@@ -602,7 +602,8 @@ public class QuickAddController extends UifControllerBase {
 	 * @return
 	 */
 	private Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> makeRemoveEvent(
-			PlanItemInfo planItem, CourseDetails courseDetails, ContextInfo context) {
+			PlanItemInfo planItem, CourseDetails courseDetails,
+			ContextInfo context) {
 		Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new LinkedHashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
 		Map<String, String> params = new HashMap<String, String>();
 
@@ -853,7 +854,7 @@ public class QuickAddController extends UifControllerBase {
 		try {
 			learningPlanList = getAcademicPlanService()
 					.getLearningPlansForStudentByType(studentID, planTypeKey,
-							CourseSearchConstants.CONTEXT_INFO);
+							KsapFrameworkServiceLocator.getContext().getContextInfo());
 			for (LearningPlanInfo learningPlan : learningPlanList) {
 				String learningPlanID = learningPlan.getId();
 
@@ -868,7 +869,8 @@ public class QuickAddController extends UifControllerBase {
 						if (atp.equalsIgnoreCase(termId)) {
 							CourseDetails courseDetails = getCourseDetailsInquiryService()
 									.retrieveCourseSummary(courseID,
-											UserSessionHelper.getStudentId(), context);
+											UserSessionHelper.getStudentId(),
+											context);
 							if (courseDetails != null
 									&& !courseDetails.getCredit().contains(".")) {
 								String[] str = courseDetails.getCredit().split(
@@ -981,7 +983,8 @@ public class QuickAddController extends UifControllerBase {
 	 * @return
 	 */
 	private Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> makeUpdateTotalCreditsEvent(
-			String atpId, PlanConstants.JS_EVENT_NAME eventName, ContextInfo context) {
+			String atpId, PlanConstants.JS_EVENT_NAME eventName,
+			ContextInfo context) {
 		Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new LinkedHashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -1108,7 +1111,6 @@ public class QuickAddController extends UifControllerBase {
 		}
 
 		List<PlanItemInfo> planItems = null;
-		PlanItem item = null;
 		try {
 			planItems = getAcademicPlanService().getPlanItemsInPlanByType(
 					plan.getId(), typeKey, PlanConstants.CONTEXT_INFO);

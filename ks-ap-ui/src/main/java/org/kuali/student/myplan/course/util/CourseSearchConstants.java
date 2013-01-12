@@ -26,6 +26,7 @@ public class CourseSearchConstants {
     public static final String ORG_SERVICE_NAMESPACE = "http://student.kuali.org/wsdl/organization";
 
     //  Global context info for use in service methods which need caching, but don't use the context argument.
+    @Deprecated
     public static final ContextInfo CONTEXT_INFO = new ContextInfo();
     //  Process key for use in service methods which need caching, but don't use the process key argument.
     public static final String PROCESS_KEY = "Null";

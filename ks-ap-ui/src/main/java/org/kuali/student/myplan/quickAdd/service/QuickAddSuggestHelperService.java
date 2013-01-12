@@ -133,7 +133,7 @@ public class QuickAddSuggestHelperService {
             if (StringUtils.hasText(courseCd)) {
                 SearchRequestInfo searchRequest = null;
                 SearchResult searchResult = null;
-                HashMap<String, String> divisionMap = searchController.fetchCourseDivisions(context);
+                HashMap<String, String> divisionMap = searchController.fetchCourseDivisions();
                 /*Params from the Url*/
                 String searchText = org.apache.commons.lang.StringUtils.upperCase(courseCd);
                 String number = null;
@@ -146,7 +146,7 @@ public class QuickAddSuggestHelperService {
                     if (divisions.size() > 0) {
                         subject = divisions.get(0);
                         searchRequest = new SearchRequestInfo("myplan.clu.divisionAndCode");
-                        results = searchController.getResults(searchRequest, subject, number, context);
+                        results = searchController.getResults(searchRequest, subject, number);
                     }
                 } else if (splitStr.length == 1 && !org.apache.commons.lang.StringUtils.isNumeric(splitStr[0])) {
                     ArrayList<String> divisions = new ArrayList<String>();
@@ -154,10 +154,10 @@ public class QuickAddSuggestHelperService {
                     if (divisions.size() > 0) {
                         subject = divisions.get(0);
                         searchRequest = new SearchRequestInfo("myplan.clu.division");
-                        results = searchController.getResults(searchRequest, subject, number, context);
+                        results = searchController.getResults(searchRequest, subject, number);
                     } else {
                         searchRequest = new SearchRequestInfo("myplan.clu.division");
-                        results = searchController.getResults(searchRequest, subject, number, context);
+                        results = searchController.getResults(searchRequest, subject, number);
                     }
                 }
                 if (results == null || results.size() == 0) {

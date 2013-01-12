@@ -129,10 +129,10 @@
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.myplan.utils.PublishedTermsListBuilder">
-                            <property name="suffix" value=" quarter only"/>
+                            <property name="suffix" value=" only"/>
                             <property name="additionalListItemsTop">
                                 <map>
-                                    <entry key="any" value="Any quarter"/>
+                                    <entry key="any" value="Any term"/>
                                 </map>
                             </property>
                         </bean>

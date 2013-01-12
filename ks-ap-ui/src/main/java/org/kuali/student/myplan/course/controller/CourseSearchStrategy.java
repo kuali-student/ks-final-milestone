@@ -15,7 +15,6 @@ import org.kuali.student.myplan.course.form.CourseSearchForm;
 import org.kuali.student.myplan.course.util.CourseSearchConstants;
 import org.kuali.student.myplan.plan.util.AtpHelper;
 import org.kuali.student.myplan.plan.util.OrgHelper;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.organization.infc.Org;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -55,7 +54,7 @@ public class CourseSearchStrategy {
 		this.hashMap = hashMap;
 	}
 
-	public HashMap<String, String> fetchCourseDivisions(ContextInfo context) {
+	public HashMap<String, String> fetchCourseDivisions() {
 		HashMap<String, String> map = new HashMap<String, String>();
 		for (String div : KsapFrameworkServiceLocator.getCourseSearchAdaptor()
 				.getDivisionCodes())
@@ -66,7 +65,7 @@ public class CourseSearchStrategy {
 	}
 
 	public void addCampusParams(List<SearchRequestInfo> requests,
-			CourseSearchForm form, ContextInfo context) {
+			CourseSearchForm form) {
 		Set<String> campusLocations = getOrgTypeCache().get(
 				CourseSearchConstants.CAMPUS_LOCATION);
 		if (campusLocations == null) {
@@ -93,9 +92,8 @@ public class CourseSearchStrategy {
 			request.getParams().add(new SearchParamInfo("campuses", sel));
 	}
 
-	public void addCampusParam(SearchRequestInfo request,
-			CourseSearchForm form, ContextInfo context) {
-		addCampusParams(Collections.singletonList(request), form, context);
+	public void addCampusParam(SearchRequestInfo request, CourseSearchForm form) {
+		addCampusParams(Collections.singletonList(request), form);
 	}
 
 	/**
@@ -202,9 +200,7 @@ public class CourseSearchStrategy {
 		}
 	}
 
-	public List<SearchRequestInfo> queryToRequests(CourseSearchForm form,
-			boolean isAcademicCalenderServiceUp, ContextInfo context)
-			throws Exception {
+	public List<SearchRequestInfo> queryToRequests(CourseSearchForm form) {
 		logger.info("Start Of Method queryToRequests in CourseSearchStrategy:"
 				+ System.currentTimeMillis());
 		String query = form.getSearchQuery().toUpperCase();
@@ -218,7 +214,7 @@ public class CourseSearchStrategy {
 			query = query.replace(code, "");
 		}
 
-		HashMap<String, String> divisionMap = fetchCourseDivisions(context);
+		HashMap<String, String> divisionMap = fetchCourseDivisions();
 
 		ArrayList<String> divisions = new ArrayList<String>();
 		query = extractDivisions(divisionMap, query, divisions);
@@ -240,30 +236,32 @@ public class CourseSearchStrategy {
 
 		logger.info("Start of method addCampusParams of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
-		addCampusParams(requests, form, context);
+		addCampusParams(requests, form);
 		logger.info("Start of method addCampusParams of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
 
 		logger.info("Count of No of Query Tokens:" + requests.size());
-		processRequests(requests, form, context);
+		processRequests(requests, form);
 		logger.info("No of Requests after processRequest method:"
 				+ requests.size());
 
 		logger.info("End Of Method queryToRequests in CourseSearchStrategy:"
 				+ System.currentTimeMillis());
-
-		addVersionDateParam(requests, isAcademicCalenderServiceUp);
+		addVersionDateParam(requests);
 
 		return requests;
 	}
 
 	/**
+	 * Process the Request with search key as division or full Text
+	 * 
 	 * @param requests
+	 *            The list of requests.
 	 * @param form
+	 *            The search form.
 	 */
-	// To process the Request with search key as division or full Text
-	public void processRequests(ArrayList<SearchRequestInfo> requests,
-			CourseSearchForm form, ContextInfo context) {
+	public void processRequests(List<SearchRequestInfo> requests,
+			CourseSearchForm form) {
 		logger.info("Start of method processRequests in CourseSearchStrategy:"
 				+ System.currentTimeMillis());
 		Map<String, String> subjects = null;
@@ -282,11 +280,11 @@ public class CourseSearchStrategy {
 						SearchRequestInfo request0 = new SearchRequestInfo(
 								"myplan.lu.search.title");
 						request0.addParam("queryText", queryText.trim());
-						addCampusParam(request0, form, context);
+						addCampusParam(request0, form);
 						requests.add(request0);
 						if (!this.getHashMap().containsKey(
 								CourseSearchConstants.SUBJECT_AREA)) {
-							subjects = OrgHelper.getSubjectAreas(context);
+							subjects = OrgHelper.getSubjectAreas();
 							getHashMap().put(
 									CourseSearchConstants.SUBJECT_AREA,
 									subjects);
@@ -316,13 +314,13 @@ public class CourseSearchStrategy {
 							SearchRequestInfo request1 = new SearchRequestInfo(
 									"myplan.lu.search.additionalDivision");
 							request1.addParam("divisions", div.trim());
-							addCampusParam(request1, form, context);
+							addCampusParam(request1, form);
 							requests.add(request1);
 						}
 						SearchRequestInfo request2 = new SearchRequestInfo(
 								"myplan.lu.search.description");
 						request2.addParam("queryText", queryText.trim());
-						addCampusParam(request2, form, context);
+						addCampusParam(request2, form);
 						requests.add(request2);
 
 					}
@@ -342,7 +340,7 @@ public class CourseSearchStrategy {
 
 							if (!this.getHashMap().containsKey(
 									CourseSearchConstants.SUBJECT_AREA)) {
-								subjects = OrgHelper.getSubjectAreas(context);
+								subjects = OrgHelper.getSubjectAreas();
 								getHashMap().put(
 										CourseSearchConstants.SUBJECT_AREA,
 										subjects);
@@ -375,12 +373,12 @@ public class CourseSearchStrategy {
 								SearchRequestInfo request1 = new SearchRequestInfo(
 										"myplan.lu.search.title");
 								request1.addParam("queryText", key.trim());
-								addCampusParam(request1, form, context);
+								addCampusParam(request1, form);
 								requests.add(request1);
 								SearchRequestInfo request2 = new SearchRequestInfo(
 										"myplan.lu.search.description");
 								request2.addParam("queryText", key.trim());
-								addCampusParam(request2, form, context);
+								addCampusParam(request2, form);
 								requests.add(request2);
 							} else {
 								requests.get(i).setSearchKey(
@@ -388,7 +386,7 @@ public class CourseSearchStrategy {
 								SearchRequestInfo request2 = new SearchRequestInfo(
 										"myplan.lu.search.description");
 								request2.addParam("queryText", key.trim());
-								addCampusParam(request2, form, context);
+								addCampusParam(request2, form);
 								requests.add(request2);
 							}
 						}
@@ -402,20 +400,10 @@ public class CourseSearchStrategy {
 				+ System.currentTimeMillis());
 	}
 
-	private void addVersionDateParam(List<SearchRequestInfo> searchRequests,
-			boolean isAcademicCalenderServiceUp) {
-		String currentTerm = null;
-		String lastScheduledTerm = null;
-
-		if (isAcademicCalenderServiceUp) {
-			currentTerm = AtpHelper.getCurrentAtpId();
-			lastScheduledTerm = AtpHelper.getLastScheduledAtpId();
-		} else {
-			currentTerm = AtpHelper.populateAtpIdFromCalender().get(0).getId();
-			lastScheduledTerm = currentTerm;
-		}
+	private void addVersionDateParam(List<SearchRequestInfo> searchRequests) {
+		// String currentTerm = AtpHelper.getCurrentAtpId();
+		String lastScheduledTerm = AtpHelper.getLastScheduledAtpId();
 		for (SearchRequestInfo searchRequest : searchRequests) {
-			// TODO: Fix when version issue for course is addressed
 			// searchRequest.addParam("currentTerm", currentTerm);
 			searchRequest.addParam("lastScheduledTerm", lastScheduledTerm);
 		}

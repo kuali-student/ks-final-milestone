@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -70,13 +71,11 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
-import org.kuali.student.r2.lum.clu.service.CluService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -91,25 +90,13 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/course/**")
 public class CourseSearchController extends UifControllerBase {
 
-	private final Logger logger = Logger
+	private static final Logger LOG = Logger
 			.getLogger(CourseSearchController.class);
 
 	private static final int MAX_HITS = 1000;
 
-	private transient CluService cluService;
-
-	private transient AtpService atpService;
-
-	private transient CourseOfferingService courseOfferingService;
-
-	private transient AcademicCalendarService academicCalendarService;
-
-	//@Autowired
-	//private Comparator<String> atpTypeComparator;
-
 	@Autowired
 	private CourseSearchStrategy searcher = new CourseSearchStrategy();
-
 	private CampusSearch campusSearch = new CampusSearch();
 
 	// Java to JSON outputter.
@@ -125,10 +112,7 @@ public class CourseSearchController extends UifControllerBase {
 			@ModelAttribute("KualiForm") CourseSearchForm form,
 			BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		
-		// TODO: factory for context info /mwfyffe
-		ContextInfo context = new ContextInfo();
-		
+
 		String number = "";
 		String subject = "";
 		String courseId = "";
@@ -153,7 +137,7 @@ public class CourseSearchController extends UifControllerBase {
 			return null;
 
 		}
-		HashMap<String, String> divisionMap = fetchCourseDivisions(context);
+		HashMap<String, String> divisionMap = fetchCourseDivisions();
 
 		ArrayList<String> divisions = new ArrayList<String>();
 		extractDivisions(divisionMap, subject, divisions, false);
@@ -167,14 +151,12 @@ public class CourseSearchController extends UifControllerBase {
 		try {
 			searchRequest.addParam("number", number);
 			searchRequest.addParam("subject", subject.trim());
-			// TODO: Fix when version issue for course is addressed
-			// searchRequest.addParam("currentTerm",
-			// AtpHelper.getCurrentAtpId());
+			searchRequest.addParam("currentTerm", AtpHelper.getCurrentAtpId());
 			searchRequest.addParam("lastScheduledTerm",
 					AtpHelper.getLastScheduledAtpId());
-			;
-
-			searchResult = KsapFrameworkServiceLocator.getCluService().search(searchRequest, context);
+			searchResult = KsapFrameworkServiceLocator.getCluService().search(
+					searchRequest,
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -183,12 +165,14 @@ public class CourseSearchController extends UifControllerBase {
 
 		}
 		if (courseId.equalsIgnoreCase("")) {
-			response.sendRedirect("/student/myplan/course?searchQuery="
-					+ courseCd + "&searchTerm=any&campusSelect=" + campus);
+			response.sendRedirect(request.getContextPath()
+					+ "/myplan/course?searchQuery=" + courseCd
+					+ "&searchTerm=any&campusSelect=" + campus);
 			return null;
 
 		}
-		response.sendRedirect("/student/myplan/inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId="
+		response.sendRedirect(request.getContextPath()
+				+ "/myplan/inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId="
 				+ courseId);
 		return null;
 	}
@@ -197,13 +181,10 @@ public class CourseSearchController extends UifControllerBase {
 	public ModelAndView get(@ModelAttribute("KualiForm") UifFormBase form,
 			BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
-
 		super.start(form, result, request, response);
-		CourseSearchForm searchForm = (CourseSearchForm) form;
 		form.setViewId("CourseSearch-FormView");
 		form.setView(super.getViewService()
 				.getViewById("CourseSearch-FormView"));
-
 		return getUIFModelAndView(form);
 	}
 
@@ -211,7 +192,6 @@ public class CourseSearchController extends UifControllerBase {
 	public String doGet(@ModelAttribute("KualiForm") UifFormBase form,
 			BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
-
 		return "redirect:/myplan/course";
 	}
 
@@ -276,18 +256,17 @@ public class CourseSearchController extends UifControllerBase {
 		throw new RuntimeException("cell result '" + key + "' not found");
 	}
 
-	public HashMap<String, Credit> getCreditMap(ContextInfo context) {
-		HashMap<String, Credit> creditMap = new HashMap<String, Credit>();
-
+	public Map<String, Credit> getCreditMap() {
+		Map<String, Credit> creditMap = new java.util.LinkedHashMap<String, Credit>();
+		SearchRequestInfo searchRequest = new SearchRequestInfo(
+				"myplan.course.info.credits.details");
+		searchRequest.setParams(Collections.<SearchParamInfo> emptyList());
 		try {
-
-			SearchRequestInfo searchRequest = new SearchRequestInfo(
-					"myplan.course.info.credits.details");
-			List<SearchParamInfo> params = new ArrayList<SearchParamInfo>();
-			searchRequest.setParams(params);
-			SearchResult searchResult = KsapFrameworkServiceLocator.getCluService().search(searchRequest,
-					context);
-			for (SearchResultRow row : searchResult.getRows()) {
+			for (SearchResultRow row : KsapFrameworkServiceLocator
+					.getCluService()
+					.search(searchRequest,
+							KsapFrameworkServiceLocator.getContext()
+									.getContextInfo()).getRows()) {
 				String id = getCellValue(row, "credit.id");
 				String type = getCellValue(row, "credit.type");
 				String min = getCellValue(row, "credit.min");
@@ -306,109 +285,85 @@ public class CourseSearchController extends UifControllerBase {
 					credit.display = min;
 					credit.type = CourseSearchItem.CreditType.fixed;
 				}
-
 				creditMap.put(id, credit);
 			}
-			return creditMap;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+		} catch (NumberFormatException e) {
+			throw new IllegalArgumentException("CLU lookup error", e);
+		} catch (MissingParameterException e) {
+			throw new IllegalArgumentException("CLU lookup error", e);
+		} catch (InvalidParameterException e) {
+			throw new IllegalArgumentException("CLU lookup error", e);
+		} catch (OperationFailedException e) {
+			throw new IllegalStateException("CLU lookup error", e);
+		} catch (PermissionDeniedException e) {
+			throw new IllegalStateException("CLU lookup error", e);
 		}
+		return creditMap;
 	}
 
-	public Credit getCreditByID(String id, ContextInfo context) {
-		Credit credit;
-		HashMap<String, Credit> creditMap = getCreditMap(context);
-		if (getCreditMap(context).containsKey(id)) {
-			credit = creditMap.get(id);
-		} else {
-			credit = creditMap.get("u");
-		}
-		return credit;
+	public Credit getCreditByID(String id) {
+		Credit credit = getCreditMap().get(id);
+		return credit == null ? getCreditMap().get("u") : credit;
 	}
 
 	public List<CourseSearchItem> courseSearch(CourseSearchForm form,
-			String studentId, boolean isAcademicCalenderServiceUp,
-			ContextInfo context) {
-
+			String studentId) {
 		String maxCountProp = ConfigContext.getCurrentContextConfig()
 				.getProperty("myplan.search.results.max");
 		int maxCount = (StringUtils.hasText(maxCountProp)) ? Integer
 				.valueOf(maxCountProp) : MAX_HITS;
-		try {
-			List<SearchRequestInfo> requests = searcher.queryToRequests(form,
-					isAcademicCalenderServiceUp, context);
-			List<Hit> hits = processSearchRequests(requests, context);
-			List<CourseSearchItem> courseList = new ArrayList<CourseSearchItem>();
-			Map<String, CourseSearchItem.PlanState> courseStatusMap = getCourseStatusMap(studentId);
-			for (Hit hit : hits) {
-				CourseSearchItem course = getCourseInfo(hit.courseID, context);
-				if (isCourseOffered(form, course)) {
-					if (isAcademicCalenderServiceUp) {
-						loadScheduledTerms(course);
-					}
-					loadTermsOffered(course, context);
-					loadGenEduReqs(course, context);
-					String courseId = course.getCourseId();
-					if (courseStatusMap.containsKey(courseId)) {
-						course.setStatus(courseStatusMap.get(courseId));
-					}
-					courseList.add(course);
-					if (courseList.size() >= maxCount) {
-						break;
-					}
+		List<SearchRequestInfo> requests = searcher.queryToRequests(form);
+		List<Hit> hits = processSearchRequests(requests);
+		List<CourseSearchItem> courseList = new ArrayList<CourseSearchItem>();
+		Map<String, CourseSearchItem.PlanState> courseStatusMap = getCourseStatusMap(studentId);
+		for (Hit hit : hits) {
+			CourseSearchItem course = getCourseInfo(hit.courseID);
+			if (isCourseOffered(form, course)) {
+				loadScheduledTerms(course);
+				loadTermsOffered(course);
+				loadGenEduReqs(course);
+				String courseId = course.getCourseId();
+				if (courseStatusMap.containsKey(courseId)) {
+					course.setStatus(courseStatusMap.get(courseId));
+				}
+				courseList.add(course);
+				if (courseList.size() >= maxCount) {
+					break;
 				}
 			}
-			populateFacets(form, courseList);
-			logger.error(String.format("SEARCH: %s  : %s CAMPUS : %s : %s",
-					form.getSearchQuery(), form.getSearchTerm(),
-					form.getCampusSelect(), String.valueOf(hits.size())));
-			return courseList;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
 		}
-
+		populateFacets(form, courseList);
+		LOG.error(String.format("SEARCH: %s  : %s CAMPUS : %s : %s",
+				form.getSearchQuery(), form.getSearchTerm(),
+				form.getCampusSelect(), String.valueOf(hits.size())));
+		return courseList;
 	}
 
 	@RequestMapping(value = "/course/search")
 	public void getJsonResponse(HttpServletResponse response,
-			HttpServletRequest request) {
-
-		// TODO: factory for context /mwfyffe
-		ContextInfo context = new ContextInfo();
-
-		List<CourseSearchItem> courses = new ArrayList<CourseSearchItem>();
-		boolean isAcademicCalenderServiceUp = Boolean.valueOf(request
-				.getAttribute(
-						CourseSearchConstants.IS_ACADEMIC_CALENDER_SERVICE_UP)
-				.toString());
+			HttpServletRequest request) throws IOException {
 		String user = UserSessionHelper.getStudentId();
-		if (!isAcademicCalenderServiceUp) {
-			AtpHelper.addServiceError("searchTerm");
-		}
-		/* Params from the Url */
-		String queryText = request.getParameter("queryText");
-		if (queryText.contains("%20")) {
-			queryText = queryText.replace("%20", " ");
-		}
 
+		// Params from the Url
+		String queryText = request.getParameter("queryText");
 		String campusParamStr = request.getParameter("campusParam");
 		List<String> campusParams = Arrays.asList(campusParamStr
 				.split("\\s*,\\s*"));
 		String termParam = request.getParameter("termParam");
-		/* populating the form with the params */
+
+		// populating the form with the params
 		CourseSearchForm form = new CourseSearchForm();
 		form.setSearchQuery(queryText);
 		form.setCampusSelect(campusParams);
 		form.setSearchTerm(termParam);
 
-		/* populating the CourseSearchItem list */
+		// populating the CourseSearchItem list
+		List<CourseSearchItem> courses = courseSearch(form, user);
 
-		courses = courseSearch(form, user, isAcademicCalenderServiceUp, context);
-
-		/* Building the Json String */
+		// Building the Json String
+		// TODO: Use a tool to generate JSON - a template at the very least
 		StringBuilder jsonString = new StringBuilder();
 		jsonString = jsonString.append("{ \"aaData\":[");
-		int count = 0;
 		for (CourseSearchItem item : courses) {
 			String scheduledAndOfferedTerms = null;
 			String status = "";
@@ -471,16 +426,11 @@ public class CourseSearchController extends UifControllerBase {
 			jsonStr = jsonString.toString();
 		}
 		jsonStr = jsonStr + "]" + "}";
-		try {
-			response.setHeader("content-type", "application/json");
-			response.setHeader("Cache-Control", "No-cache");
-			response.setHeader("Cache-Control", "No-store");
-			response.setHeader("Cache-Control", "max-age=0");
-			response.getWriter().println(jsonStr);
-		} catch (IOException e) {
-			e.printStackTrace(); // To change body of catch statement use File |
-									// Settings | File Templates.
-		}
+		response.setContentType("application/json");
+		response.setHeader("Cache-Control", "No-cache");
+		response.setHeader("Cache-Control", "No-store");
+		response.setHeader("Cache-Control", "max-age=0");
+		response.getWriter().println(jsonStr);
 	}
 
 	@RequestMapping(params = "methodToCall=searchForCourses")
@@ -493,37 +443,38 @@ public class CourseSearchController extends UifControllerBase {
 	}
 
 	public List<String> getResults(SearchRequestInfo request, String division,
-			String code, ContextInfo context) {
-		List<String> results = new ArrayList<String>();
-		SearchResult searchResult = null;
+			String code) {
+
+		if (division != null && code != null) {
+			request.addParam("division", division);
+			request.addParam("code", code);
+		} else if (division != null && code == null)
+			request.addParam("division", division);
+		else
+			return Collections.emptyList();
+
+		request.addParam("lastScheduledTerm", AtpHelper.getLastScheduledAtpId());
+		request.addParam("currentTerm", AtpHelper.getCurrentAtpId());
+		SearchResult searchResult;
 		try {
-			if (division != null && code != null) {
-				request.addParam("division", division);
-				request.addParam("code", code);
-
-			} else if (division != null && code == null) {
-				request.addParam("division", division);
-			} else {
-				return results;
-			}
-			request.addParam("lastScheduledTerm",
-					AtpHelper.getLastScheduledAtpId());
-			// TODO: Fix when version issue for course is addressed
-			// request.addParam("currentTerm", AtpHelper.getCurrentAtpId());
-
-			searchResult = KsapFrameworkServiceLocator.getCluService().search(request, context);
-
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+			if ((searchResult = KsapFrameworkServiceLocator.getCluService()
+					.search(request,
+							KsapFrameworkServiceLocator.getContext()
+									.getContextInfo())) == null)
+				return Collections.emptyList();
+		} catch (MissingParameterException e) {
+			throw new IllegalArgumentException("CLU lookup error", e);
+		} catch (InvalidParameterException e) {
+			throw new IllegalArgumentException("CLU lookup error", e);
+		} catch (OperationFailedException e) {
+			throw new IllegalStateException("CLU lookup error", e);
+		} catch (PermissionDeniedException e) {
+			throw new IllegalStateException("CLU lookup error", e);
 		}
-
-		if (searchResult != null) {
-			for (SearchResultRow row : searchResult.getRows()) {
-				results.add(getCellValue(row, "courseCode"));
-
-			}
-
-		}
+		List<String> results = new java.util.ArrayList<String>(searchResult
+				.getRows().size());
+		for (SearchResultRow row : searchResult.getRows())
+			results.add(getCellValue(row, "courseCode"));
 		return results;
 	}
 
@@ -538,19 +489,24 @@ public class CourseSearchController extends UifControllerBase {
 		}
 	}
 
-	public ArrayList<Hit> processSearchRequests(
-			List<SearchRequestInfo> requests, ContextInfo context)
-			throws MissingParameterException {
-		logger.info("Start of processSearchRequests of CourseSearchController:"
+	public List<Hit> processSearchRequests(List<SearchRequestInfo> requests) {
+		LOG.info("Start of processSearchRequests of CourseSearchController:"
 				+ System.currentTimeMillis());
-		HashMap<String, Hit> courseMap = new HashMap<String, Hit>();
-
-		ArrayList<Hit> hits = new ArrayList<Hit>();
-		ArrayList<Hit> tempHits = new ArrayList<Hit>();
-		for (SearchRequestInfo request : requests) {
-			SearchResult searchResult;
+		List<Hit> hits = new java.util.LinkedList<Hit>();
+		Set<String> seen = new java.util.HashSet<String>();
+		String id;
+		for (SearchRequestInfo request : requests)
 			try {
-				searchResult = KsapFrameworkServiceLocator.getCluService().search(request, context);
+				for (SearchResultRow row : KsapFrameworkServiceLocator
+						.getCluService()
+						.search(request,
+								KsapFrameworkServiceLocator.getContext()
+										.getContextInfo()).getRows())
+					if (seen.add(id = getCellValue(row, "lu.resultColumn.cluId")))
+						hits.add(new Hit(id));
+			} catch (MissingParameterException e) {
+				throw new IllegalArgumentException(
+						"Invalid course ID or CLU lookup error", e);
 			} catch (InvalidParameterException e) {
 				throw new IllegalArgumentException(
 						"Invalid course ID or CLU lookup error", e);
@@ -559,27 +515,13 @@ public class CourseSearchController extends UifControllerBase {
 			} catch (PermissionDeniedException e) {
 				throw new IllegalArgumentException("CLU lookup error", e);
 			}
-			for (SearchResultRow row : searchResult.getRows()) {
-				String id = getCellValue(row, "lu.resultColumn.cluId");
-				/* hitCourseID(courseMap, id); */
-				Hit hit = new Hit(id);
-				tempHits.add(hit);
-
-			}
-			tempHits.removeAll(hits);
-			hits.addAll(tempHits);
-			tempHits.clear();
-		}
-
-		// ArrayList<Hit> hits = new ArrayList<Hit>(courseMap.values());
-		// Collections.sort(hits, new HitComparator());
-		logger.info("End of processSearchRequests of CourseSearchController:"
+		LOG.info("End of processSearchRequests of CourseSearchController:"
 				+ System.currentTimeMillis());
 		return hits;
 	}
 
 	public boolean isCourseOffered(CourseSearchForm form,
-			CourseSearchItem course) throws Exception {
+			CourseSearchItem course) {
 		/*
 		 * If the "any" item was chosen in the terms dop-down then continue
 		 * processing. Otherwise, determine if the CourseSearchItem should be
@@ -595,11 +537,26 @@ public class CourseSearchController extends UifControllerBase {
 		 * in the selected term. Note: In the UW implementation of the Course
 		 * Offering service, course id is actually course code.
 		 */
-		CourseOfferingService service = KsapFrameworkServiceLocator.getCourseOfferingService();
+		CourseOfferingService service = KsapFrameworkServiceLocator
+				.getCourseOfferingService();
 
 		String subject = course.getSubject();
-		List<String> codes = service.getCourseOfferingIdsByTermAndSubjectArea(
-				term, subject, CourseSearchConstants.CONTEXT_INFO);
+		List<String> codes;
+		try {
+			codes = service.getCourseOfferingIdsByTermAndSubjectArea(term,
+					subject, KsapFrameworkServiceLocator.getContext()
+							.getContextInfo());
+		} catch (DoesNotExistException e) {
+			throw new IllegalArgumentException("Course Offering not found", e);
+		} catch (InvalidParameterException e) {
+			throw new IllegalArgumentException("CO lookup error", e);
+		} catch (MissingParameterException e) {
+			throw new IllegalArgumentException("CO lookup error", e);
+		} catch (OperationFailedException e) {
+			throw new IllegalStateException("CO lookup error", e);
+		} catch (PermissionDeniedException e) {
+			throw new IllegalStateException("CO lookup error", e);
+		}
 
 		// The course code is not in the list, so move on to the next item.
 		String code = course.getCode();
@@ -610,55 +567,78 @@ public class CourseSearchController extends UifControllerBase {
 	// Load scheduled terms.
 	// Fetch the available terms from the Academic Calendar Service.
 	private void loadScheduledTerms(CourseSearchItem course) {
+		LOG.info("Start of method loadScheduledTerms of CourseSearchController:"
+				+ System.currentTimeMillis());
+		AcademicCalendarService atpService = KsapFrameworkServiceLocator
+				.getAcademicCalendarService();
+
+		List<TermInfo> terms;
 		try {
-			logger.info("Start of method loadScheduledTerms of CourseSearchController:"
-					+ System.currentTimeMillis());
-			AcademicCalendarService atpService = KsapFrameworkServiceLocator.getAcademicCalendarService();
+			terms = atpService.searchForTerms(QueryByCriteria.Builder
+					.fromPredicates(equalIgnoreCase("query",
+							PlanConstants.PUBLISHED)),
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
+		} catch (InvalidParameterException e) {
+			throw new IllegalArgumentException("ATP lookup failed", e);
+		} catch (MissingParameterException e) {
+			throw new IllegalArgumentException("ATP lookup failed", e);
+		} catch (OperationFailedException e) {
+			throw new IllegalStateException("ATP lookup failed", e);
+		} catch (PermissionDeniedException e) {
+			throw new IllegalStateException("ATP lookup failed", e);
+		}
 
-			List<TermInfo> terms = atpService.searchForTerms(
-					QueryByCriteria.Builder.fromPredicates(equalIgnoreCase(
-							"query", PlanConstants.PUBLISHED)),
-					CourseSearchConstants.CONTEXT_INFO);
+		CourseOfferingService offeringService = KsapFrameworkServiceLocator
+				.getCourseOfferingService();
 
-			CourseOfferingService offeringService = KsapFrameworkServiceLocator.getCourseOfferingService();
+		// If the course is offered in the term then add the term info to
+		// the scheduled terms list.
+		String code = course.getCode();
 
-			// If the course is offered in the term then add the term info to
-			// the scheduled terms list.
-			String code = course.getCode();
+		for (TermInfo term : terms) {
 
-			for (TermInfo term : terms) {
+			String key = term.getId();
+			String subject = course.getSubject();
 
-				String key = term.getId();
-				String subject = course.getSubject();
-
+			try {
 				List<String> offerings = offeringService
 						.getCourseOfferingIdsByTermAndSubjectArea(key, subject,
-								CourseSearchConstants.CONTEXT_INFO);
-				if (offerings.contains(code)) {
+								KsapFrameworkServiceLocator.getContext()
+										.getContextInfo());
+				if (offerings.contains(code))
 					course.addScheduledTerm(term.getName());
-				}
+			} catch (InvalidParameterException e) {
+				throw new IllegalArgumentException("ATP lookup failed", e);
+			} catch (MissingParameterException e) {
+				throw new IllegalArgumentException("ATP lookup failed", e);
+			} catch (OperationFailedException e) {
+				throw new IllegalStateException("ATP lookup failed", e);
+			} catch (PermissionDeniedException e) {
+				throw new IllegalStateException("ATP lookup failed", e);
+			} catch (DoesNotExistException e) {
+				LOG.warn("Missing course offering", e);
 			}
-			logger.info("End of method loadScheduledTerms of CourseSearchController:"
-					+ System.currentTimeMillis());
-		} catch (Exception e) {
-			// TODO: Eating this error sucks
-			logger.error("Web service call failed.", e);
 		}
+		LOG.info("End of method loadScheduledTerms of CourseSearchController:"
+				+ System.currentTimeMillis());
 	}
 
-	private void loadTermsOffered(CourseSearchItem course, ContextInfo context)
-			throws MissingParameterException {
-		logger.info("Start of method loadTermsOffered of CourseSearchController:"
+	private void loadTermsOffered(CourseSearchItem course) {
+		LOG.info("Start of method loadTermsOffered of CourseSearchController:"
 				+ System.currentTimeMillis());
 		String courseId = course.getCourseId();
 		SearchRequestInfo request = new SearchRequestInfo(
 				"myplan.course.info.atp");
 		request.addParam("courseID", courseId);
 
-		List<String> termsOffered = new ArrayList<String>();
 		SearchResult result;
 		try {
-			result = KsapFrameworkServiceLocator.getCluService().search(request, context);
+			result = KsapFrameworkServiceLocator.getCluService().search(
+					request,
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
+		} catch (MissingParameterException e) {
+			throw new IllegalArgumentException(
+					"Invalid course ID or CLU lookup error", e);
 		} catch (InvalidParameterException e) {
 			throw new IllegalArgumentException(
 					"Invalid course ID or CLU lookup error", e);
@@ -667,15 +647,23 @@ public class CourseSearchController extends UifControllerBase {
 		} catch (PermissionDeniedException e) {
 			throw new IllegalArgumentException("CLU lookup error", e);
 		}
+		List<String> termsOffered = new java.util.ArrayList<String>(result
+				.getRows().size());
 		for (SearchResultRow row : result.getRows()) {
 			String id = getCellValue(row, "atp.id");
 
 			// Don't add the terms that are not found
 			AtpInfo atp;
 			try {
-				atp = KsapFrameworkServiceLocator.getAtpService().getAtp(id, context);
+				atp = KsapFrameworkServiceLocator.getAtpService().getAtp(
+						id,
+						KsapFrameworkServiceLocator.getContext()
+								.getContextInfo());
 			} catch (DoesNotExistException e) {
 				throw new IllegalArgumentException("Invalid ATP ID " + id, e);
+			} catch (MissingParameterException e) {
+				throw new IllegalArgumentException(
+						"Invalid course ID or CLU lookup error", e);
 			} catch (InvalidParameterException e) {
 				throw new IllegalArgumentException(
 						"Invalid ATP ID or ATP lookup error", e);
@@ -689,15 +677,14 @@ public class CourseSearchController extends UifControllerBase {
 			}
 		}
 
-		//Collections.sort(termsOffered, getAtpTypeComparator());
+		// Collections.sort(termsOffered, getAtpTypeComparator());
 		course.setTermInfoList(termsOffered);
-		logger.info("End of method loadTermsOffered of CourseSearchController:"
+		LOG.info("End of method loadTermsOffered of CourseSearchController:"
 				+ System.currentTimeMillis());
 	}
 
-	private void loadGenEduReqs(CourseSearchItem course, ContextInfo context)
-			throws MissingParameterException {
-		logger.info("Start of method loadGenEduReqs of CourseSearchController:"
+	private void loadGenEduReqs(CourseSearchItem course) {
+		LOG.info("Start of method loadGenEduReqs of CourseSearchController:"
 				+ System.currentTimeMillis());
 		String courseId = course.getCourseId();
 		SearchRequestInfo request = new SearchRequestInfo(
@@ -706,7 +693,12 @@ public class CourseSearchController extends UifControllerBase {
 		List<String> reqs = new ArrayList<String>();
 		SearchResult result;
 		try {
-			result = KsapFrameworkServiceLocator.getCluService().search(request, context);
+			result = KsapFrameworkServiceLocator.getCluService().search(
+					request,
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
+		} catch (MissingParameterException e) {
+			throw new IllegalArgumentException(
+					"Invalid course ID or CLU lookup error", e);
 		} catch (InvalidParameterException e) {
 			throw new IllegalArgumentException(
 					"Invalid course ID or CLU lookup error", e);
@@ -719,9 +711,10 @@ public class CourseSearchController extends UifControllerBase {
 			String genEd = getCellValue(row, "gened.name");
 			reqs.add(genEd);
 		}
-		String formatted = formatGenEduReq(reqs, context);
+		String formatted = formatGenEduReq(reqs, KsapFrameworkServiceLocator
+				.getContext().getContextInfo());
 		course.setGenEduReq(formatted);
-		logger.info("End of method loadGenEduReqs of CourseSearchController:"
+		LOG.info("End of method loadGenEduReqs of CourseSearchController:"
 				+ System.currentTimeMillis());
 	}
 
@@ -742,8 +735,8 @@ public class CourseSearchController extends UifControllerBase {
 	}
 
 	private Map<String, CourseSearchItem.PlanState> getCourseStatusMap(
-			String studentID) throws Exception {
-		logger.info("Start of method getCourseStatusMap of CourseSearchController:"
+			String studentID) {
+		LOG.info("Start of method getCourseStatusMap of CourseSearchController:"
 				+ System.currentTimeMillis());
 		AcademicPlanService academicPlanService = getAcademicPlanService();
 
@@ -756,13 +749,37 @@ public class CourseSearchController extends UifControllerBase {
 		/*
 		 * For each plan item in each plan set the state based on the type.
 		 */
-		List<LearningPlanInfo> learningPlanList = academicPlanService
-				.getLearningPlansForStudentByType(studentID, planTypeKey,
-						context);
+		List<LearningPlanInfo> learningPlanList;
+		try {
+			learningPlanList = academicPlanService
+					.getLearningPlansForStudentByType(studentID, planTypeKey,
+							context);
+		} catch (DoesNotExistException e) {
+			throw new IllegalArgumentException("Learning plan does not exist",
+					e);
+		} catch (InvalidParameterException e) {
+			throw new IllegalArgumentException("LP lookup error", e);
+		} catch (MissingParameterException e) {
+			throw new IllegalArgumentException("LP lookup error", e);
+		} catch (OperationFailedException e) {
+			throw new IllegalStateException("LP lookup error", e);
+		}
 		for (LearningPlan learningPlan : learningPlanList) {
 			String learningPlanID = learningPlan.getId();
-			List<PlanItemInfo> planItemList = academicPlanService
-					.getPlanItemsInPlan(learningPlanID, context);
+			List<PlanItemInfo> planItemList;
+			try {
+				planItemList = academicPlanService.getPlanItemsInPlan(
+						learningPlanID, context);
+			} catch (DoesNotExistException e) {
+				throw new IllegalArgumentException(
+						"Learning plan items do not exist", e);
+			} catch (InvalidParameterException e) {
+				throw new IllegalArgumentException("LP lookup error", e);
+			} catch (MissingParameterException e) {
+				throw new IllegalArgumentException("LP lookup error", e);
+			} catch (OperationFailedException e) {
+				throw new IllegalStateException("LP lookup error", e);
+			}
 			for (PlanItem planItem : planItemList) {
 				String courseID = planItem.getRefObjectId();
 				CourseSearchItem.PlanState state;
@@ -780,22 +797,25 @@ public class CourseSearchController extends UifControllerBase {
 				savedCourseSet.put(courseID, state);
 			}
 		}
-		logger.info("End of method getCourseStatusMap of CourseSearchController:"
+		LOG.info("End of method getCourseStatusMap of CourseSearchController:"
 				+ System.currentTimeMillis());
 		return savedCourseSet;
 	}
 
-	private CourseSearchItem getCourseInfo(String courseId, ContextInfo context)
-			throws MissingParameterException {
-		logger.info("Start of method getCourseInfo of CourseSearchController:"
+	private CourseSearchItem getCourseInfo(String courseId) {
+		LOG.info("Start of method getCourseInfo of CourseSearchController:"
 				+ System.currentTimeMillis());
-		CourseSearchItem course = new CourseSearchItem();
 
 		SearchRequestInfo request = new SearchRequestInfo("myplan.course.info");
 		request.addParam("courseID", courseId);
 		SearchResult result;
 		try {
-			result = KsapFrameworkServiceLocator.getCluService().search(request, context);
+			result = KsapFrameworkServiceLocator.getCluService().search(
+					request,
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
+		} catch (MissingParameterException e) {
+			throw new IllegalArgumentException(
+					"Invalid course ID or CLU lookup error", e);
 		} catch (InvalidParameterException e) {
 			throw new IllegalArgumentException(
 					"Invalid course ID or CLU lookup error", e);
@@ -804,36 +824,32 @@ public class CourseSearchController extends UifControllerBase {
 		} catch (PermissionDeniedException e) {
 			throw new IllegalArgumentException("CLU lookup error", e);
 		}
-		for (SearchResultRow row : result.getRows()) {
-			String name = getCellValue(row, "course.name");
-			String number = getCellValue(row, "course.number");
-			String subject = getCellValue(row, "course.subject");
-			String level = getCellValue(row, "course.level");
-			String creditsID = getCellValue(row, "course.credits");
-			String code = getCellValue(row, "course.code");
+		if (result.getRows().isEmpty())
+			return new CourseSearchItem();
 
-			course.setCourseId(courseId);
-			course.setSubject(subject);
-			course.setNumber(number);
-			course.setLevel(level);
-			course.setCourseName(name);
-			course.setCode(code);
+		SearchResultRow row = result.getRows().get(0);
+		CourseSearchItem course = new CourseSearchItem();
+		course.setCourseId(courseId);
+		course.setSubject(getCellValue(row, "course.subject"));
+		course.setNumber(getCellValue(row, "course.number"));
+		course.setLevel(getCellValue(row, "course.level"));
+		course.setCourseName(getCellValue(row, "course.name"));
+		course.setCode(getCellValue(row, "course.code"));
 
-			Credit credit = getCreditByID(creditsID, context);
-			course.setCreditMin(credit.min);
-			course.setCreditMax(credit.max);
-			course.setCreditType(credit.type);
-			course.setCredit(credit.display);
-			break;
-		}
-		logger.info("End of method getCourseInfo of CourseSearchController:"
+		Credit credit = getCreditByID(getCellValue(row, "course.credits"));
+		course.setCreditMin(credit.min);
+		course.setCreditMax(credit.max);
+		course.setCreditType(credit.type);
+		course.setCredit(credit.display);
+
+		LOG.info("End of method getCourseInfo of CourseSearchController:"
 				+ System.currentTimeMillis());
 		return course;
 	}
 
 	public void populateFacets(CourseSearchForm form,
 			List<CourseSearchItem> courses) {
-		logger.info("Start of method populateFacets of CourseSearchController:"
+		LOG.info("Start of method populateFacets of CourseSearchController:"
 				+ System.currentTimeMillis());
 		// Initialize facets.
 		CurriculumFacet curriculumFacet = new CurriculumFacet();
@@ -898,13 +914,16 @@ public class CourseSearchController extends UifControllerBase {
 		 */
 	}
 
-	public HashMap<String, String> fetchCourseDivisions(ContextInfo context) {
+	public HashMap<String, String> fetchCourseDivisions() {
 		HashMap<String, String> map = new HashMap<String, String>();
 		try {
 			SearchRequestInfo request = new SearchRequestInfo(
 					"myplan.distinct.clu.divisions");
 
-			SearchResult result = KsapFrameworkServiceLocator.getCluService().search(request, context);
+			SearchResult result = KsapFrameworkServiceLocator.getCluService()
+					.search(request,
+							KsapFrameworkServiceLocator.getContext()
+									.getContextInfo());
 
 			for (SearchResultRow row : result.getRows()) {
 				for (SearchResultCell cell : row.getCells()) {
@@ -957,7 +976,8 @@ public class CourseSearchController extends UifControllerBase {
 		return query;
 	}
 
-	private String formatGenEduReq(List<String> genEduRequirements, ContextInfo context) {
+	private String formatGenEduReq(List<String> genEduRequirements,
+			ContextInfo context) {
 
 		// Make the order predictable.
 		Collections.sort(genEduRequirements);
@@ -977,12 +997,12 @@ public class CourseSearchController extends UifControllerBase {
 	}
 
 	public Comparator<String> getAtpTypeComparator() {
-		//return atpTypeComparator;
-        return null;
+		// return atpTypeComparator;
+		return null;
 	}
 
 	public void setAtpTypeComparator(Comparator<String> atpTypeComparator) {
-		//this.atpTypeComparator = atpTypeComparator;
+		// this.atpTypeComparator = atpTypeComparator;
 	}
 
 	public CourseSearchStrategy getSearcher() {

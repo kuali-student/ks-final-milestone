@@ -1,22 +1,26 @@
 package org.kuali.student.myplan.plan.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.namespace.QName;
+
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-//import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.myplan.course.util.CourseSearchConstants;
 import org.kuali.student.myplan.plan.PlanConstants;
-import org.kuali.student.myplan.plan.dataobject.*;
+import org.kuali.student.myplan.plan.dataobject.FullPlanItemsDataObject;
+import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
+import org.kuali.student.myplan.plan.dataobject.PlannedTerm;
 import org.kuali.student.myplan.plan.util.AtpHelper;
 import org.kuali.student.myplan.utils.UserSessionHelper;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.namespace.QName;
-import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -81,8 +85,8 @@ public class FullPlanItemsLookupableHelperImpl extends PlanItemLookupableHelperB
             FullPlanItemsDataObject fullPlanItemsDataObject = new FullPlanItemsDataObject();
             List<PlannedTerm> plannedTermList = new ArrayList<PlannedTerm>();
 
-
-            for (int j = 0; j < AtpHelper.TERM_COUNT; j++) {
+            // TODO: configure number of terms to display at a time
+            for (int j = 0; j < 4; j++) {
                 plannedTermList.add(perfectPlannedTerms.get(0));
                 perfectPlannedTerms.remove(perfectPlannedTerms.get(0));
                 size--;

@@ -1,299 +1,305 @@
 package org.kuali.student.myplan.plan.util;
 
-import org.apache.log4j.Logger;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
+
+import java.text.DecimalFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.regex.Pattern;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.myplan.course.util.CourseSearchConstants;
 import org.kuali.student.myplan.plan.PlanConstants;
-
-import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
 
 /**
  * Helper methods for dealing with ATPs.
  */
 public class AtpHelper {
 
-    private static String term1 = "winter";
-    private static String term2 = "spring";
-    private static String term3 = "summer";
-    private static String term4 = "autumn";
+	private static ContextInfo getContext() {
+		return KsapFrameworkServiceLocator.getContext().getContextInfo();
+	}
 
-    private static transient AcademicCalendarService academicCalendarService;
+	/**
+	 * Query the Academic Calendar Service, determine the current ATP, and the
+	 * return the ID.
+	 * 
+	 * @return The ID of the current ATP.
+	 */
+	public static String getCurrentAtpId() {
+		List<TermInfo> inProgressTerms;
+		try {
+			inProgressTerms = KsapFrameworkServiceLocator
+					.getAcademicCalendarService()
+					.searchForTerms(
+							QueryByCriteria.Builder.fromPredicates(equalIgnoreCase(
+									"query", PlanConstants.INPROGRESS)),
+							getContext());
+		} catch (Throwable t) {
+			if (t instanceof RuntimeException)
+				throw (RuntimeException) t;
+			if (t instanceof Error)
+				throw (Error) t;
+			throw new IllegalStateException(
+					"Unexpected error in current ATP ID lookup", t);
+		}
+		assert inProgressTerms != null && inProgressTerms.size() > 1 : "No in-progress terms from acal service"
+				+ inProgressTerms;
+		return inProgressTerms.iterator().next().getId();
+	}
 
-    public static int TERM_COUNT = 4;
+	/**
+	 * Query the Academic Calendar Service for terms that have offering's
+	 * published, determine the last ATP, and return its ID.
+	 * 
+	 * @return The ID of the last scheduled ATP.
+	 * @throws RuntimeException
+	 *             if the query fails or if the return data set doesn't make
+	 *             sense.
+	 */
+	public static String getLastScheduledAtpId() {
+		List<TermInfo> scheduledTerms;
+		try {
+			scheduledTerms = KsapFrameworkServiceLocator
+					.getAcademicCalendarService()
+					.searchForTerms(
+							QueryByCriteria.Builder.fromPredicates(equalIgnoreCase(
+									"query", PlanConstants.PUBLISHED)),
+							getContext());
+		} catch (Throwable t) {
+			if (t instanceof RuntimeException)
+				throw (RuntimeException) t;
+			if (t instanceof Error)
+				throw (Error) t;
+			throw new IllegalStateException(
+					"Unexpected error in current ATP ID lookup", t);
+		}
+		assert scheduledTerms != null && scheduledTerms.size() > 1 : "No scheduled terms from acal service"
+				+ scheduledTerms;
+		return scheduledTerms.get(scheduledTerms.size() - 1).getId();
+	}
 
-    private static final Logger logger = Logger.getLogger(AtpHelper.class);
+	/**
+	 * Gets the ATP ID of the first ATP in the current academic year.
+	 */
 
-    private static AcademicCalendarService getAcademicCalendarService() {
-        if (academicCalendarService == null) {
-            academicCalendarService = (AcademicCalendarService) GlobalResourceLoader
-                    .getService(new QName(AcademicCalendarServiceConstants.NAMESPACE,
-                            AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return academicCalendarService;
-    }
+	public static String getFirstAtpIdOfAcademicYear(String atpId) {
+		String[] termYear = atpIdToTermAndYear(atpId);
+		String year = termYear[0];
+		String term = termYear[1];
 
-    /**
-     * Query the Academic Calendar Service, determine the current ATP, and the return the ID.
-     *
-     * @return The ID of the current ATP.
-     * @throws RuntimeException if the query fails or if the return data set doesn't make sense.
-     */
-    public static String getCurrentAtpId() {
-        //   The first arg here is "usageKey" which isn't used.
-        List<TermInfo> inProgressTerms = new ArrayList<TermInfo>();
-        
-        try {
-//            inProgressTerms = getAcademicCalendarService().searchForTerms(QueryByCriteria.Builder.fromPredicates(equalIgnoreCase("query", PlanConstants.INPROGRESS)), CourseSearchConstants.CONTEXT_INFO);
-            inProgressTerms=populateAtpIdFromCalender();
-        } catch (Exception e) {
-            logger.error("Query to Academic Calendar Service failed.", e);
-            /*If SWS Fails to load up scheduled Terms then current atp Id in TermInfo is populated from the calender month and year and set to the scheduledTerms list*/
-            inProgressTerms=populateAtpIdFromCalender();
-        }
-        //  The UW implementation of the AcademicCalendarService.getCurrentTerms() contains the "current term" logic so we can simply
-        //  use the first item in the list. Although, TODO: Not sure if the order of the list is guaranteed, so maybe putting a sort here
-        //  is the Right thing to do.
-        TermInfo currentTerm = inProgressTerms.get(0);
-        return currentTerm.getId();
-    }
+		// If the term is not Autumn/4 then the beginning of the academic year
+		// is (year - 1) . 4
+		if (term.equals("4")) {
+			return atpId;
+		} else {
+			String y = String.valueOf(Integer.valueOf(year) - 1);
+			return AtpHelper.getAtpFromNumTermAndYear("4", y);
+		}
+	}
 
+	/**
+	 * Returns an String[] {term, year} given an ATP ID.
+	 */
+	public static String[] atpIdToTermAndYear(String atpId) {
+		AtpInfo atp;
+		try {
+			atp = KsapFrameworkServiceLocator.getAtpService().getAtp(atpId,
+					getContext());
+		} catch (Throwable t) {
+			if (t instanceof RuntimeException)
+				throw (RuntimeException) t;
+			if (t instanceof Error)
+				throw (Error) t;
+			throw new IllegalStateException(
+					"Unexpected error in sheduled ATP ID lookup", t);
+		}
+		Calendar c = Calendar.getInstance();
+		c.setTime(atp.getStartDate());
+		String year = new DecimalFormat("0000").format(c.get(Calendar.YEAR));
+		String atptype = atp.getTypeKey();
+		String term;
+		if (atptype.equals("kuali.atp.type.Winter"))
+			term = "1";
+		else if (atptype.equals("kuali.atp.type.Spring"))
+			term = "2";
+		else if (atptype.equals("kuali.atp.type.Summer"))
+			term = "3";
+		else if (atptype.equals("kuali.atp.type.Fall"))
+			term = "4";
+		else
+			throw new IllegalArgumentException(
+					"Unable to determine term from ATP " + atp);
+		return new String[] { term, year };
+	}
 
-   /**
-     * Query the Academic Calendar Service for terms that have offering's published, determine the last ATP, and return its ID.
-     *
-     * @return The ID of the last scheduled ATP.
-     * @throws RuntimeException if the query fails or if the return data set doesn't make sense.
-     */
-    public static String getLastScheduledAtpId() {
-        //   The first arg here is "usageKey" which isn't used.
-        List<TermInfo> scheduledTerms = new ArrayList<TermInfo>();
-        
-        // TODO: This logic of PUBLISHED and IN_PROGRESS does not appear to apply to AcademicCalendarService
-        // other than at UW.  KS will need to implement these concepts before a general solution can be
-        // achieved. /mwfyffe
-        try {
-        	// TODO: Broken, and spring-tx triggers rollback on the error. This logic needs to be corrected.
-//			scheduledTerms = getAcademicCalendarService().searchForTerms(
-//					QueryByCriteria.Builder.fromPredicates(equalIgnoreCase(
-//							"query", PlanConstants.PUBLISHED)),
-//					CourseSearchConstants.CONTEXT_INFO);
-            scheduledTerms=populateAtpIdFromCalender();
-        } catch (Exception e) {
-        	// TODO: This should be a runtime error, and the "populateAtpIdFromCalendar" logic discarded
-        	// once a general data-based solution for this logic is available /mwfyffe
-            logger.debug("Query to Academic Calendar Service failed.", e);
-            /*If SWS Fails to load up scheduled Terms then current atp Id in TermInfo is populated from the calender month and year and set to the scheduledTerms list*/
-            scheduledTerms=populateAtpIdFromCalender();
-        }
-        //  The UW implementation of the AcademicCalendarService.getCurrentTerms() contains the "current term" logic so we can simply
-        //  use the first item in the list. Although, TODO: Not sure if the order of the list is guaranteed, so maybe putting a sort here
-        //  is the Right thing to do.
-        TermInfo currentTerm = scheduledTerms.get( scheduledTerms.size() - 1 );
-        return currentTerm.getId();
-    }
+	/**
+	 * Converts an ATP ID to a Term and Year ... "kuali.uw.atp.1991.1" ->
+	 * {"Autumn", "1991"}
+	 * 
+	 * @return A String array containing a term and year.
+	 */
+	public static String[] atpIdToTermNameAndYear(String atpId) {
+		AtpInfo atp;
+		try {
+			atp = KsapFrameworkServiceLocator.getAtpService().getAtp(atpId,
+					getContext());
+		} catch (Throwable t) {
+			if (t instanceof RuntimeException)
+				throw (RuntimeException) t;
+			if (t instanceof Error)
+				throw (Error) t;
+			throw new IllegalStateException(
+					"Unexpected error in ATP ID lookup", t);
+		}
+		assert atp != null : "Missing ATP for " + atpId;
+		String descr = atp.getDescr().getPlain();
+		String term = Pattern.compile("([A-Za-z]+)").matcher(descr).group(1);
+		String year = Pattern.compile("([0-9]+)").matcher(descr).group(1);
+		return new String[] { term, year };
+	}
 
+	public static String getAtpIdFromTermAndYear(String term, String year) {
+		String ts = term == null ? "" : term.toUpperCase();
+		final String termNum;
+		if (ts.contains("WI"))
+			termNum = "1";
+		else if (ts.contains("SP"))
+			termNum = "2";
+		else if (ts.contains("SU"))
+			termNum = "3";
+		else if (ts.contains("FA") || ts.contains("AU"))
+			termNum = "4";
+		else
+			throw new IllegalArgumentException("Invalid term " + term);
+		return getAtpFromNumTermAndYear(termNum, year);
+	}
 
-    public static List<TermInfo> populateAtpIdFromCalender() {
+	public static String getAtpFromNumTermAndYear(String term, String year) {
+		int ty = Integer.parseInt(year);
+		String type;
+		int tmo;
+		if ("1".equals(term)) {
+			type = "kuali.atp.type.Winter";
+			tmo = Calendar.JANUARY;
+		} else if ("2".equals(term)) {
+			type = "kuali.atp.type.Spring";
+			tmo = Calendar.APRIL;
+		} else if ("3".equals(term)) {
+			type = "kuali.atp.type.Summer";
+			tmo = Calendar.JULY;
+		} else if ("4".equals(term)) {
+			type = "kuali.atp.type.Fall";
+			tmo = Calendar.OCTOBER;
+		} else
+			throw new IllegalArgumentException("Invalid term " + term);
+		Calendar cal = new GregorianCalendar(ty, tmo, 1);
+		List<AtpInfo> atps;
+		try {
+			atps = KsapFrameworkServiceLocator.getAtpService()
+					.getAtpsByDateAndType(cal.getTime(), type, getContext());
+		} catch (Throwable t) {
+			if (t instanceof RuntimeException)
+				throw (RuntimeException) t;
+			if (t instanceof Error)
+				throw (Error) t;
+			throw new IllegalStateException(
+					"Unexpected error in ATP ID lookup", t);
+		}
+		assert atps != null && atps.size() == 1 : "Expected exactly one term for "
+				+ type + " and date " + cal.getTime();
+		return atps.get(0).getId();
+	}
 
-        List<TermInfo> scheduledTerms = new ArrayList<TermInfo>();
+	/**
+	 * Gets term name as "Spring 2012" given an ATP ID.
+	 * 
+	 * @return
+	 */
+	public static String atpIdToTermName(String atpId) {
+		String[] termYear = atpIdToTermNameAndYear(atpId);
+		return (termYear[0] + " " + termYear[1]);
+	}
 
-        TermInfo termInfo = new TermInfo();
-        String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
-        int month = Calendar.getInstance().get(Calendar.MONTH);
-        String atp = null;
-        if (month >= 1 && month <= 3) {
-            atp = getAtpIdFromTermAndYear(term1, year);
-        }
-        if (month >= 4 && month <= 6) {
-            atp = getAtpIdFromTermAndYear(term2, year);
-        }
-        if (month >= 7 && month <= 9) {
-            atp = getAtpIdFromTermAndYear(term3, year);
-        }
-        if (month >= 10 && month <= 12) {
-            atp = getAtpIdFromTermAndYear(term4, year);
-        }
-        termInfo.setId(atp);
-        scheduledTerms.add(termInfo);
-        return scheduledTerms;
-    }
+	/**
+	 * Returns true if an ATP is considered present or greater in the context of
+	 * WHAT? Otherwise, false.
+	 * 
+	 * @param atpId
+	 * @return
+	 */
+	public static boolean isAtpSetToPlanning(String atpId) {
+		List<TermInfo> planningTermInfo;
+		TermInfo comparingTerm;
+		try {
+			AcademicCalendarService acal = KsapFrameworkServiceLocator
+					.getAcademicCalendarService();
+			planningTermInfo = acal.searchForTerms(QueryByCriteria.Builder
+					.fromPredicates(equalIgnoreCase("query",
+							PlanConstants.PLANNING)), getContext());
+			comparingTerm = acal.getTerm(atpId, getContext());
+		} catch (Throwable t) {
+			if (t instanceof RuntimeException)
+				throw (RuntimeException) t;
+			if (t instanceof Error)
+				throw (Error) t;
+			throw new IllegalStateException(
+					"Unexpected error in ATP ID lookup", t);
+		}
+		assert planningTermInfo != null && planningTermInfo.size() >= 1 : "Expected at least one planning term";
+		return comparingTerm.getStartDate().after(
+				planningTermInfo.get(0).getStartDate());
+	}
 
+	/**
+	 * Returns true if an ATP is considered present or greater in the context of
+	 * WHAT? Otherwise, false.
+	 * 
+	 * @param atpId
+	 * @return
+	 */
+	public static boolean isAtpCompletedTerm(String atpId) {
+		List<TermInfo> inProgressTermInfo;
+		TermInfo comparingTerm;
+		try {
+			AcademicCalendarService acal = KsapFrameworkServiceLocator
+					.getAcademicCalendarService();
+			inProgressTermInfo = acal.searchForTerms(QueryByCriteria.Builder
+					.fromPredicates(equalIgnoreCase("query",
+							PlanConstants.INPROGRESS)), getContext());
+			comparingTerm = acal.getTerm(atpId, getContext());
+		} catch (Throwable t) {
+			if (t instanceof RuntimeException)
+				throw (RuntimeException) t;
+			if (t instanceof Error)
+				throw (Error) t;
+			throw new IllegalStateException(
+					"Unexpected error in ATP ID lookup", t);
+		}
+		assert inProgressTermInfo != null && inProgressTermInfo.size() >= 1 : "Expected at least one in progress term";
+		return comparingTerm.getStartDate().before(
+				inProgressTermInfo.get(0).getStartDate());
+	}
 
-    /**
-     * Gets the ATP ID of the first ATP in the current academic year.
-     */
+	public static boolean isAtpIdFormatValid(String atpId) {
+		try {
+			return KsapFrameworkServiceLocator.getAcademicCalendarService()
+					.getTerm(atpId, getContext()) != null;
+		} catch (Throwable t) {
+			return false;
+		}
+	}
 
-    public static String getFirstAtpIdOfAcademicYear(String atpId) {
-        String[] termYear = atpIdToTermAndYear(atpId);
-        String year = termYear[0];
-        String term = termYear[1];
-
-        //   If the term is not Autumn/4 then the beginning of the academic year is (year - 1) . 4
-        if (term.equals("4")) {
-            return atpId;
-        } else {
-            String y = String.valueOf(Integer.valueOf(year) - 1);
-            return AtpHelper.getAtpFromNumTermAndYear("4", y);
-        }
-    }
-
-    /**
-     * Returns an String[] {term, year} given an ATP ID.
-     */
-    public static String[] atpIdToTermAndYear(String atpId) {
-        //  See if the ATP ID is nearly sane.
-        if (!isAtpIdFormatValid(atpId)) {
-            throw new RuntimeException(String.format("ATP ID [%s] isn't formatted correctly.", atpId));
-        }
-
-        String year = atpId.substring(0,4);
-        String term = atpId.substring(4,5);
-        return new String[]{term, year};
-    }
-
-    /**
-     * Converts an ATP ID to a Term and Year ...
-     * "kuali.uw.atp.1991.1" -> {"Autumn", "1991"}
-     *
-     * @return A String array containing a term and year.
-     */
-    public static String[] atpIdToTermNameAndYear(String atpId) {
-        String[] termYear = atpIdToTermAndYear(atpId);
-        String term = termYear[0];
-        String year = termYear[1];
-
-        if (term.equals("4")) {
-            term = "Autumn";
-        } else if (term.equals("1")) {
-            term = "Winter";
-        } else if (term.equals("2")) {
-            term = "Spring";
-        } else if (term.equals("3")) {
-            term = "Summer";
-        }
-        return new String[]{term, year};
-    }
-
-    /*  Retuns ATP ID in format 19911 for term="Winter" and year = 1991*/
-    public static String getAtpIdFromTermAndYear(String term, String year) {
-        int termVal = 0;
-        if (term.equalsIgnoreCase(term1)) {
-            termVal = 1;
-        }
-        if (term.equalsIgnoreCase(term2)) {
-            termVal = 2;
-        }
-        if (term.equalsIgnoreCase(term3)) {
-            termVal = 3;
-        }
-        if (term.equalsIgnoreCase(term4)) {
-            termVal = 4;
-        }
-        StringBuffer newAtpId = new StringBuffer();
-        newAtpId = newAtpId.append(year).append(termVal);
-        return newAtpId.toString();
-    }
-
-    /* Returns ATP ID as 19911 for term=1 and year = 1991 */
-    public static String getAtpFromNumTermAndYear(String term, String year) {
-        StringBuffer newAtpId = new StringBuffer();
-        newAtpId = newAtpId.append(year).append(term);
-        return newAtpId.toString();
-    }
-
-    /**
-     * Gets term name as "Spring 2012" given an ATP ID.
-     *
-     * @return
-     */
-    public static String atpIdToTermName(String atpId) {
-        String[] termYear = atpIdToTermNameAndYear(atpId);
-        return (termYear[0] + " " + termYear[1]);
-    }
-
-    /**
-     * Returns true if an ATP is considered present or greater in the context of WHAT? Otherwise, false.
-     *
-     * @param atpId
-     * @return
-     */
-    public static boolean isAtpSetToPlanning(String atpId) {
-        boolean isSetToPlanning = false;
-        List<TermInfo> planningTermInfo = null;
-        try {
-            planningTermInfo = getAcademicCalendarService().searchForTerms(QueryByCriteria.Builder.fromPredicates(equalIgnoreCase("query", PlanConstants.PLANNING)), CourseSearchConstants.CONTEXT_INFO);
-        } catch (Exception e) {
-            logger.error("Could not load planningTermInfo as service call failed", e);
-            /*If SWS Fails to load up planningTermInfo  then current atp Id in TermInfo is populated from the calender month and year and set to the planningTermInfo list*/
-            planningTermInfo=AtpHelper.populateAtpIdFromCalender();
-        }
-
-        String[] planningAtpYearAndTerm = atpIdToTermAndYear(planningTermInfo.get(0).getId());
-        String[] comparingAtpYearAndTerm = atpIdToTermAndYear(atpId);
-
-        /*Planning term = atpId*/
-        if (planningTermInfo.get(0).getId().equalsIgnoreCase(atpId)) {
-            isSetToPlanning = true;
-        }
-
-        /*atpId term having same year as planning year but atpId term is greater than planning term*/
-
-        if (!isSetToPlanning && Integer.parseInt(comparingAtpYearAndTerm[1]) == Integer.parseInt(planningAtpYearAndTerm[1]) && Integer.parseInt(comparingAtpYearAndTerm[0]) > Integer.parseInt(planningAtpYearAndTerm[0])) {
-            isSetToPlanning = true;
-
-        }
-
-        /*atpId term having year greater than planning year*/
-        if (!isSetToPlanning && Integer.parseInt(comparingAtpYearAndTerm[1]) > Integer.parseInt(planningAtpYearAndTerm[1])) {
-            isSetToPlanning = true;
-        }
-
-        return isSetToPlanning;
-    }
-
-    /**
-     * Returns true if an ATP is considered present or greater in the context of WHAT? Otherwise, false.
-     *
-     * @param atpId
-     * @return
-     */
-    public static boolean isAtpCompletedTerm(String atpId) {
-        boolean isAtpCompletedTerm = false;
-
-        String[] planningAtpYearAndTerm = atpIdToTermAndYear(getCurrentAtpId());
-        String[] comparingAtpYearAndTerm = atpIdToTermAndYear(atpId);
-
-        /*atpId term having same year as planning year but atpId term less than planning term*/
-
-        if (!isAtpCompletedTerm && Integer.parseInt(comparingAtpYearAndTerm[1]) == Integer.parseInt(planningAtpYearAndTerm[1]) && Integer.parseInt(comparingAtpYearAndTerm[0]) < Integer.parseInt(planningAtpYearAndTerm[0])) {
-            isAtpCompletedTerm = true;
-        }
-
-        /*atpId term having year less than planning year*/
-        if (!isAtpCompletedTerm && Integer.parseInt(comparingAtpYearAndTerm[1]) < Integer.parseInt(planningAtpYearAndTerm[1])) {
-            isAtpCompletedTerm = true;
-        }
-
-        return isAtpCompletedTerm;
-    }
-
-    public static boolean isAtpIdFormatValid(String atpId) {
-        return atpId.matches("[0-9]{4}[1-4]{1}");
-    }
-
-    public static void addServiceError(String propertyName) {
-        String[] params = {};
-        GlobalVariables.getMessageMap().putWarning(propertyName, PlanConstants.ERROR_TECHNICAL_PROBLEMS, params);
-    }
+	public static void addServiceError(String propertyName) {
+		String[] params = {};
+		GlobalVariables.getMessageMap().putWarning(propertyName,
+				PlanConstants.ERROR_TECHNICAL_PROBLEMS, params);
+	}
 
 }
