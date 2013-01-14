@@ -192,7 +192,7 @@ function searchForCourses(id, parentId) {
                 data: aoData,
                 success: fnCallback,
                 statusCode: {
-                    500: function() { sessionExpired(); }
+                    500: function() { showGrowl("500 Internal Server Error","Fatal Error"); }
                 }
             });
         },
@@ -204,7 +204,7 @@ function searchForCourses(id, parentId) {
             "sLengthMenu":"Show _MENU_",
             "sZeroRecords":"0 results found"
         },
-        sAjaxSource: '/student/myplan/course/search?queryText=' + escape(sQuery) + '&termParam=' + sTerm + '&campusParam=' + aCampus + '&time=' + new Date().getTime(),
+        sAjaxSource: 'course/search?queryText=' + escape(sQuery) + '&termParam=' + sTerm + '&campusParam=' + aCampus + '&time=' + new Date().getTime(),
         sCookiePrefix: "myplan_",
         sDom: "ilrtSp",
         sPaginationType: "full_numbers"

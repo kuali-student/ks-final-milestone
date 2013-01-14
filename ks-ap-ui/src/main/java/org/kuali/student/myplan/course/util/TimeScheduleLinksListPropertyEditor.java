@@ -244,7 +244,7 @@ public class TimeScheduleLinksListPropertyEditor extends PropertyEditorSupport i
                 if (!instCd.isEmpty()) {
 
                     if (!this.getHashMap().containsKey(CourseSearchConstants.COURSE_OFFERING_INSTITUTE)) {
-                        enumeratedValueInfoList = EnumerationHelper.getEnumerationValueInfoList(CourseSearchConstants.COURSE_OFFERING_INSTITUTE, context);
+                        enumeratedValueInfoList = EnumerationHelper.getEnumerationValueInfoList(CourseSearchConstants.COURSE_OFFERING_INSTITUTE);
 
                     } else {
                         enumeratedValueInfoList = hashMap.get(CourseSearchConstants.COURSE_OFFERING_INSTITUTE);

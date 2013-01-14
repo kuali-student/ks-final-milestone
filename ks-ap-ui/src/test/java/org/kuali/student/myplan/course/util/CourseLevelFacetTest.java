@@ -1,21 +1,22 @@
 package org.kuali.student.myplan.course.util;
 
-import org.junit.Test;
-import org.kuali.student.myplan.course.dataobject.CourseSearchItem;
-import org.kuali.student.myplan.course.dataobject.FacetItem;
+import static junit.framework.Assert.assertEquals;
 
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
+import org.junit.Test;
+import org.kuali.student.ap.framework.course.CourseSearchItem;
+import org.kuali.student.myplan.course.dataobject.CourseSearchItemImpl;
+import org.kuali.student.myplan.course.dataobject.FacetItem;
 
 public class CourseLevelFacetTest {
     @Test
     public void testGetFacetItems() throws Exception {
         CourseLevelFacet facet = new CourseLevelFacet();
-        CourseSearchItem course500 = new CourseSearchItem();
+		CourseSearchItem course500 = new CourseSearchItemImpl();
         course500.setLevel("500");
         facet.process(course500);
-        CourseSearchItem course600 = new CourseSearchItem();
+        CourseSearchItem course600 = new CourseSearchItemImpl();
         course600.setLevel("600");
         facet.process(course600);
 
@@ -29,7 +30,7 @@ public class CourseLevelFacetTest {
     @Test
     public void testProcess() throws Exception {
         CourseLevelFacet facet = new CourseLevelFacet();
-        CourseSearchItem course = new CourseSearchItem();
+        CourseSearchItem course = new CourseSearchItemImpl();
         course.setLevel("500");
         facet.process(course);
         assertEquals( course.getCourseLevelFacetKey(), ";500;" );

@@ -5,7 +5,6 @@
     <name>KSAP Standalone</name>
     <groupId>org.kuali.student.deployments</groupId>
     <artifactId>ks-ap-standalone</artifactId>
-    <version>${ks.ap.version}</version>
     <packaging>war</packaging>
     <parent>
         <groupId>org.kuali.student.ap</groupId>

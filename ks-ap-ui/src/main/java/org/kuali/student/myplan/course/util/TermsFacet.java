@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 
-import org.kuali.student.myplan.course.dataobject.CourseSearchItem;
+import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.myplan.course.dataobject.FacetItem;
 
 /**

@@ -34,9 +34,14 @@
     <import resource="classpath:ks-transaction-context.xml" />
     <import resource="classpath:META-INF/ks-ap/ks-ap-no-tx-context.xml" />
 
-    <bean id="validator"
+    <bean id="riceDictionaryValidationService"
           class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="validator"/>
+        <property name="serviceName" value="riceDictionaryValidationService"/>
+    </bean>
+
+    <bean id="validator" class="org.kuali.student.r2.common.datadictionary.RiceDataDictionaryValidatorImpl">
+        <property name="riceDataDictionaryService" ref="dataDictionaryServiceForAcademicPlanService" />
+        <property name="riceDictionaryValidationService" ref="riceDictionaryValidationService" />
     </bean>
 
 	<bean id="apDataSource" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.PrimaryDataSourceFactoryBean" lazy-init="true">

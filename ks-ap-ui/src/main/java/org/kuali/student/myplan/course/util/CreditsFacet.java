@@ -1,10 +1,14 @@
 package org.kuali.student.myplan.course.util;
 
 
-import org.kuali.student.myplan.course.dataobject.CourseSearchItem;
-import org.kuali.student.myplan.course.dataobject.FacetItem;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import java.util.*;
+import org.kuali.student.ap.framework.course.CourseSearchItem;
+import org.kuali.student.myplan.course.dataobject.FacetItem;
 
 /**
 *  Logic for building list of FacetItems and coding CourseSearchItems.

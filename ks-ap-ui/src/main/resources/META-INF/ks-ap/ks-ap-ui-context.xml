@@ -20,6 +20,8 @@
 	<bean name="ksapCourseSearchAdaptor"
 			class="org.kuali.student.myplan.course.controller.DefaultCourseSearchAdaptor" />
 
+    <bean id="courseSearchStrategy" class="org.kuali.student.myplan.course.controller.CourseSearchStrategyImpl"/>
+
     <bean id="coursePreReqSearch" class="org.kuali.student.myplan.course.service.CoursePreReqSearch">
         <property name="cluService" ref="ksLumCluService"/>
     </bean>

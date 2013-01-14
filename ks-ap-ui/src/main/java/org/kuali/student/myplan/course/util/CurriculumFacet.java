@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.myplan.course.dataobject.CourseSearchItem;
+import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.myplan.course.dataobject.FacetItem;
 import org.kuali.student.myplan.plan.util.OrgHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;

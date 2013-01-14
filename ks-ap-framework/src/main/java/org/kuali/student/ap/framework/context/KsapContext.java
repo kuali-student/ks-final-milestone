@@ -14,6 +14,12 @@ public interface KsapContext {
 	/**
 	 * Get the context info for the active transaction.
 	 * 
+	 * <p>
+	 * NOTE: It is expected that user principal name and principal ID will be
+	 * populated with the current user's information on the context returned by
+	 * this method.
+	 * </p>
+	 * 
 	 * @return The KS context info for the active transaction.
 	 */
 	ContextInfo getContextInfo();

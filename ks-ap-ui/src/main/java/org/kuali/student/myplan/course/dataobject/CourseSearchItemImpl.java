@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.myplan.course.util.CollectionListPropertyEditorHtmlListType;
 import org.kuali.student.myplan.course.util.FacetKeyFormatter;
 import org.springframework.util.StringUtils;
@@ -19,9 +20,7 @@ import org.springframework.util.StringUtils;
  * <p/>
  * Wrapper for CourseInfo data.
  */
-public class CourseSearchItem {
-
-    public static final String EMPTY_RESULT_VALUE_KEY = "&mdash;";
+public class CourseSearchItemImpl implements CourseSearchItem {
 
     private String courseId;
     private String code;
@@ -37,23 +36,6 @@ public class CourseSearchItem {
     private CreditType creditType;
 
     private String genEduReq = EMPTY_RESULT_VALUE_KEY;
-
-    public enum PlanState {
-        UNPLANNED(""),
-        SAVED("Bookmarked"),
-        IN_PLAN("Planned");
-
-        //  This is the value that will be displayed in the UI. (TODO: Read from properties file)
-        private final String label;
-
-        PlanState(String label) {
-            this.label = label;
-        }
-
-        public String getLabel() {
-            return this.label;
-        }
-    }
 
     private PlanState status = PlanState.UNPLANNED;
 
@@ -139,8 +121,6 @@ public class CourseSearchItem {
     public void setCreditMax(float creditMax) {
         this.creditMax = creditMax;
     }
-
-    public enum CreditType {fixed, range, multiple, unknown}
 
     public CreditType getCreditType() {
         return creditType;

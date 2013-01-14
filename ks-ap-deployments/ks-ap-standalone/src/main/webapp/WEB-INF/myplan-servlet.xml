@@ -21,9 +21,6 @@
     <context:component-scan base-package="org.kuali.student.myplan.comment"/>
     <context:component-scan base-package="org.kuali.student.myplan.quickAdd"/>
 
-    <!-- Search Strategy -->
-    <bean id="courseSearchStrategy" class="org.kuali.student.myplan.course.controller.CourseSearchStrategy"/>
-
     <!-- Global Resource Loader Service Bean for a Student Service-->
     <bean id="StudentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="{MyPlan}StudentServiceClient"/>

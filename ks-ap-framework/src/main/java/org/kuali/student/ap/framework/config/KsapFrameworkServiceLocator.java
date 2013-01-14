@@ -3,8 +3,11 @@ package org.kuali.student.ap.framework.config;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.ap.framework.context.KsapContext;
 import org.kuali.student.ap.framework.course.CourseSearchAdaptor;
+import org.kuali.student.ap.framework.course.CourseSearchStrategy;
+import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.myplan.academicplan.service.AcademicPlanService;
 import org.kuali.student.r2.common.messages.service.MessageService;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
@@ -33,8 +36,8 @@ public final class KsapFrameworkServiceLocator {
 	/**
 	 * Get a local service.
 	 * 
-	 * @param serviceName The
-	 *            local service name.
+	 * @param serviceName
+	 *            The local service name.
 	 * @return The local service.
 	 * @throws AssertionError
 	 *             If assertions are enabled and the service doesn't exist.
@@ -100,6 +103,15 @@ public final class KsapFrameworkServiceLocator {
 	}
 
 	/**
+	 * Get the ks-enroll remote academic record service.
+	 * 
+	 * @return The ks-enroll remote message service.
+	 */
+	public static AcademicRecordService getAcademicRecordService() {
+		return getLocalService("ksEnrollAcademicRecordService");
+	}
+
+	/**
 	 * Get the ks-lum remote course service.
 	 * 
 	 * @return The ks-lum remote course service.
@@ -133,6 +145,24 @@ public final class KsapFrameworkServiceLocator {
 	 */
 	public static CourseSearchAdaptor getCourseSearchAdaptor() {
 		return getLocalService("ksapCourseSearchAdaptor");
+	}
+
+	/**
+	 * Get the academic plan service.
+	 * 
+	 * @return The adacemic plan service.
+	 */
+	public static AcademicPlanService getAcademicPlanService() {
+		return getLocalService("academicPlanService");
+	}
+
+	/**
+	 * Get the course search strategy.
+	 * 
+	 * @reteurn The course search strategy.
+	 */
+	public static CourseSearchStrategy getCourseSearchStrategy() {
+		return getLocalService("courseSearchStrategy");
 	}
 
 }

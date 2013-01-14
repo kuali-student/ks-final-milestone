@@ -1,11 +1,11 @@
 package org.kuali.student.myplan.course.util;
 
-import org.kuali.student.myplan.course.dataobject.FacetItem;
-import org.kuali.student.myplan.course.dataobject.CourseSearchItem;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
+
+import org.kuali.student.ap.framework.course.CourseSearchItem;
+import org.kuali.student.myplan.course.dataobject.FacetItem;
 
 public abstract class AbstractFacet {
 

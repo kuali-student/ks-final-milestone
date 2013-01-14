@@ -10,18 +10,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Resource;
-
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.support.DefaultKsapContext;
 import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
 import org.kuali.student.myplan.academicplan.infc.LearningPlan;
 import org.kuali.student.myplan.academicplan.infc.PlanItem;
-import org.kuali.student.myplan.academicplan.service.AcademicPlanService;
 import org.kuali.student.myplan.academicplan.service.AcademicPlanServiceConstants;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -44,40 +43,29 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AcademicPlanServiceImplTest {
 
-	@Resource
-	// look up bean via variable name, then type
-	private AcademicPlanService academicPlanService;
-
-	public static final String principalId = "student1";
-	public ContextInfo context;
-
 	@Before
 	public void setUp() {
-		context = new ContextInfo();
-		context.setPrincipalId(principalId);
+		DefaultKsapContext.before("student1");
 	}
 
-	@Test
-	public void serviceSetup() {
-		assertNotNull(academicPlanService);
+	@After
+	public void tearDown() {
+		DefaultKsapContext.after();
 	}
 
 	@Test(expected = DoesNotExistException.class)
 	public void getUnknownLearningPlan() throws InvalidParameterException,
 			MissingParameterException, DoesNotExistException,
 			OperationFailedException {
-		academicPlanService.getLearningPlan("unknown_plan", context);
+		KsapFrameworkServiceLocator.getAcademicPlanService().getLearningPlan("unknown_plan",
+				KsapFrameworkServiceLocator.getContext().getContextInfo());
 	}
 
 	@Test
-	public void getLearningPlan() {
+	public void getLearningPlan() throws Throwable {
 		String planId = "lp1";
-		LearningPlan learningPlan = null;
-		try {
-			learningPlan = academicPlanService.getLearningPlan(planId, context);
-		} catch (Exception e) {
-			fail(e.getLocalizedMessage());
-		}
+		LearningPlan learningPlan = KsapFrameworkServiceLocator.getAcademicPlanService().getLearningPlan(planId,
+				KsapFrameworkServiceLocator.getContext().getContextInfo());
 		assertNotNull(learningPlan);
 		assertEquals(planId, learningPlan.getId());
 		assertEquals("student1", learningPlan.getStudentId());
@@ -86,19 +74,13 @@ public class AcademicPlanServiceImplTest {
 	}
 
 	@Test
-	public void getLearningPlans() {
+	public void getLearningPlans() throws Throwable {
 		String studentId = "student1";
-
 		List<LearningPlanInfo> learningPlans = null;
-		try {
-			learningPlans = academicPlanService
-					.getLearningPlansForStudentByType(
-							studentId,
-							AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN,
-							context);
-		} catch (Exception e) {
-			fail(e.getLocalizedMessage());
-		}
+		learningPlans = KsapFrameworkServiceLocator.getAcademicPlanService().getLearningPlansForStudentByType(
+				studentId,
+				AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN,
+				KsapFrameworkServiceLocator.getContext().getContextInfo());
 		assertNotNull(learningPlans);
 		assertEquals(2, learningPlans.size());
 
@@ -114,7 +96,7 @@ public class AcademicPlanServiceImplTest {
 		LearningPlanInfo learningPlan = new LearningPlanInfo();
 		learningPlan
 				.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN);
-		learningPlan.setStudentId(principalId);
+		learningPlan.setStudentId("student1");
 		RichTextInfo desc = new RichTextInfo();
 		String formattedDesc = "<span>My Plan</span>";
 		String planDesc = "My Plan";
@@ -128,20 +110,21 @@ public class AcademicPlanServiceImplTest {
 		learningPlan
 				.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ACTIVE_STATE_KEY);
 
-		LearningPlanInfo newLearningPlan = academicPlanService.createLearningPlan(
-					learningPlan, context);
+		LearningPlanInfo newLearningPlan = KsapFrameworkServiceLocator.getAcademicPlanService()
+				.createLearningPlan(learningPlan, KsapFrameworkServiceLocator
+						.getContext().getContextInfo());
 
 		assertNotNull(newLearningPlan);
 		assertEquals(AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN,
 				newLearningPlan.getTypeKey());
-		assertEquals(principalId, newLearningPlan.getStudentId());
+		assertEquals("student1", newLearningPlan.getStudentId());
 		assertEquals(formattedDesc, newLearningPlan.getDescr().getFormatted());
 		assertEquals(planDesc, newLearningPlan.getDescr().getPlain());
 
 		// Validate metadata was set.
-		assertEquals(principalId, newLearningPlan.getMeta().getCreateId());
+		assertEquals("student1", newLearningPlan.getMeta().getCreateId());
 		assertNotNull(newLearningPlan.getMeta().getCreateTime());
-		assertEquals(principalId, newLearningPlan.getMeta().getUpdateId());
+		assertEquals("student1", newLearningPlan.getMeta().getUpdateId());
 		assertNotNull(newLearningPlan.getMeta().getUpdateTime());
 	}
 
@@ -153,7 +136,7 @@ public class AcademicPlanServiceImplTest {
 		LearningPlanInfo learningPlan = new LearningPlanInfo();
 		learningPlan
 				.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN);
-		learningPlan.setStudentId(principalId);
+		learningPlan.setStudentId("student1");
 		RichTextInfo desc = new RichTextInfo();
 		String formattedDesc = "<span>My Plan</span>";
 		String planDesc = "My Plan";
@@ -166,8 +149,8 @@ public class AcademicPlanServiceImplTest {
 
 		LearningPlanInfo plan = null;
 		try {
-			plan = academicPlanService
-					.createLearningPlan(learningPlan, context);
+			plan = KsapFrameworkServiceLocator.getAcademicPlanService().createLearningPlan(learningPlan,
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (Exception e) {
 			fail(e.getLocalizedMessage());
 		}
@@ -180,8 +163,8 @@ public class AcademicPlanServiceImplTest {
 		// FIXME: Implement state.
 		plan.setStateKey("fixme");
 		Thread.sleep(2000L);
-		plan = academicPlanService.updateLearningPlan(plan.getId(), plan,
-				context);
+		plan = KsapFrameworkServiceLocator.getAcademicPlanService().updateLearningPlan(plan.getId(), plan,
+				KsapFrameworkServiceLocator.getContext().getContextInfo());
 		Date updated2 = plan.getMeta().getUpdateTime();
 		assertNotNull(updated2);
 
@@ -194,28 +177,34 @@ public class AcademicPlanServiceImplTest {
 
 		// Make sure the plan exists and has some plan items.
 		try {
-			academicPlanService.getLearningPlan(id, context);
+			KsapFrameworkServiceLocator.getAcademicPlanService().getLearningPlan(id, KsapFrameworkServiceLocator
+					.getContext().getContextInfo());
 		} catch (Exception e) {
 			fail(e.getLocalizedMessage());
 		}
 
-		int itemCount = academicPlanService.getPlanItemsInPlan(id, context)
+		int itemCount = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItemsInPlan(id,
+				KsapFrameworkServiceLocator.getContext().getContextInfo())
 				.size();
 		assertEquals(7, itemCount);
 
 		// Delete the plan
 		try {
-			academicPlanService.deleteLearningPlan(id, context);
+			KsapFrameworkServiceLocator.getAcademicPlanService().deleteLearningPlan(id,
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (Exception e) {
 			fail(e.getLocalizedMessage());
 		}
 
 		// Make sure the plan items were cleaned up.
-		itemCount = academicPlanService.getPlanItemsInPlan(id, context).size();
+		itemCount = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItemsInPlan(id,
+				KsapFrameworkServiceLocator.getContext().getContextInfo())
+				.size();
 		assertEquals(0, itemCount);
 
 		try {
-			academicPlanService.getLearningPlan(id, context);
+			KsapFrameworkServiceLocator.getAcademicPlanService().getLearningPlan(id, KsapFrameworkServiceLocator
+					.getContext().getContextInfo());
 		} catch (Exception e) {
 			// Swallow anything but DoesNotExistException.
 			if (e instanceof DoesNotExistException) {
@@ -233,9 +222,10 @@ public class AcademicPlanServiceImplTest {
 		String refObjectId = "006476b5-18d8-4830-bbb6-2bb9e79600fb";
 		String refObjectType = "kuali.lu.type.CreditCourse";
 
-		List<PlanItemInfo> planItems = academicPlanService
+		List<PlanItemInfo> planItems = KsapFrameworkServiceLocator.getAcademicPlanService()
 				.getPlanItemsInPlanByRefObjectIdByRefObjectType(planId,
-						refObjectId, refObjectType, context);
+						refObjectId, refObjectType, KsapFrameworkServiceLocator
+								.getContext().getContextInfo());
 		assertEquals(1, planItems.size());
 		assertEquals(planId, planItems.get(0).getLearningPlanId());
 		assertEquals(refObjectId, planItems.get(0).getRefObjectId());
@@ -269,8 +259,8 @@ public class AcademicPlanServiceImplTest {
 
 		planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
 
-		PlanItem newPlanItem = academicPlanService.createPlanItem(planItem,
-				context);
+		PlanItem newPlanItem = KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItem,
+				KsapFrameworkServiceLocator.getContext().getContextInfo());
 		assertNotNull(newPlanItem);
 		assertNotNull(newPlanItem.getId());
 		assertEquals(planId, newPlanItem.getLearningPlanId());
@@ -280,8 +270,9 @@ public class AcademicPlanServiceImplTest {
 		assertEquals(courseType, newPlanItem.getRefObjectType());
 
 		// Test getPlanItem
-		PlanItem fetchedPlanItem = academicPlanService.getPlanItem(
-				newPlanItem.getId(), context);
+		PlanItem fetchedPlanItem = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItem(newPlanItem
+				.getId(), KsapFrameworkServiceLocator.getContext()
+				.getContextInfo());
 
 		assertNotNull(fetchedPlanItem);
 		assertNotNull(fetchedPlanItem.getId());
@@ -324,8 +315,8 @@ public class AcademicPlanServiceImplTest {
 		planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
 
 		// Verify the object returned by createPlanItem.
-		PlanItem newPlanItem = academicPlanService.createPlanItem(planItem,
-				context);
+		PlanItem newPlanItem = KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItem,
+				KsapFrameworkServiceLocator.getContext().getContextInfo());
 		assertNotNull(newPlanItem);
 		assertNotNull(newPlanItem.getId());
 		assertEquals(planId, newPlanItem.getLearningPlanId());
@@ -337,8 +328,9 @@ public class AcademicPlanServiceImplTest {
 		assertEquals(2, newPlanItem.getPlanPeriods().size());
 
 		// Verify the object returned by getPlanItem().
-		PlanItem fetchedPlanItem = academicPlanService.getPlanItem(
-				newPlanItem.getId(), context);
+		PlanItem fetchedPlanItem = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItem(newPlanItem
+				.getId(), KsapFrameworkServiceLocator.getContext()
+				.getContextInfo());
 
 		assertNotNull(fetchedPlanItem);
 		assertNotNull(fetchedPlanItem.getId());
@@ -387,13 +379,15 @@ public class AcademicPlanServiceImplTest {
 				.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
 
 		// Save the plan item
-		PlanItemInfo newPlanItem = academicPlanService.createPlanItem(
-				planItemInfo, context);
+		PlanItemInfo newPlanItem = KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(
+				planItemInfo, KsapFrameworkServiceLocator.getContext()
+						.getContextInfo());
 		String planItemId = newPlanItem.getId();
 
 		// Verify the object returned by getPlanItem().
-		PlanItemInfo fetchedPlanItem = academicPlanService.getPlanItem(
-				planItemId, context);
+		PlanItemInfo fetchedPlanItem = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItem(
+				planItemId, KsapFrameworkServiceLocator.getContext()
+						.getContextInfo());
 
 		assertNotNull(fetchedPlanItem);
 		assertEquals(planItemId, fetchedPlanItem.getId());
@@ -403,7 +397,7 @@ public class AcademicPlanServiceImplTest {
 		assertEquals(planItemInfo.getTypeKey(), fetchedPlanItem.getTypeKey());
 		assertEquals(planItemInfo.getStateKey(), fetchedPlanItem.getStateKey());
 		assertEquals(2, fetchedPlanItem.getPlanPeriods().size());
-		assertEquals(principalId, fetchedPlanItem.getMeta().getUpdateId());
+		assertEquals("student1", fetchedPlanItem.getMeta().getUpdateId());
 		assertNotNull(fetchedPlanItem.getMeta().getUpdateTime());
 
 		// Save meta data info.
@@ -413,8 +407,9 @@ public class AcademicPlanServiceImplTest {
 		fetchedPlanItem.getPlanPeriods().remove("20111");
 		assertEquals(1, fetchedPlanItem.getPlanPeriods().size());
 
-		PlanItemInfo updatedPlanItem = academicPlanService.updatePlanItem(
-				planItemId, fetchedPlanItem, context);
+		PlanItemInfo updatedPlanItem = KsapFrameworkServiceLocator.getAcademicPlanService().updatePlanItem(
+				planItemId, fetchedPlanItem, KsapFrameworkServiceLocator
+						.getContext().getContextInfo());
 
 		assertNotNull(updatedPlanItem);
 		assertEquals(planItemId, updatedPlanItem.getId());
@@ -425,7 +420,8 @@ public class AcademicPlanServiceImplTest {
 		assertEquals(courseType, updatedPlanItem.getRefObjectType());
 		assertEquals(1, updatedPlanItem.getPlanPeriods().size());
 		assertTrue(updatedPlanItem.getPlanPeriods().contains("20114"));
-		assertFalse(originalUpdateDate.equals(updatedPlanItem.getMeta().getUpdateTime()));
+		assertFalse(originalUpdateDate.equals(updatedPlanItem.getMeta()
+				.getUpdateTime()));
 	}
 
 	@Test(expected = AlreadyExistsException.class)
@@ -462,11 +458,13 @@ public class AcademicPlanServiceImplTest {
 
 		planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
 
-		academicPlanService.createPlanItem(planItem, context);
+		KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItem,
+				KsapFrameworkServiceLocator.getContext().getContextInfo());
 
 		// Now violate the plan, type, course id uniqiue constraint by re-adding
 		// the course.
-		academicPlanService.createPlanItem(planItem, context);
+		KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItem,
+				KsapFrameworkServiceLocator.getContext().getContextInfo());
 	}
 
 	@Test
@@ -501,7 +499,8 @@ public class AcademicPlanServiceImplTest {
 
 		// Create the plan item
 		try {
-			academicPlanService.createPlanItem(planItemInfo, context);
+			KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItemInfo,
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 			fail("A validation exception should have been thrown.");
 		} catch (DataValidationErrorException e) {
 			// OK
@@ -531,7 +530,8 @@ public class AcademicPlanServiceImplTest {
 		planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
 
 		try {
-			academicPlanService.createPlanItem(planItem, context);
+			KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItem,
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (DataValidationErrorException dvee) {
 			dvee.printStackTrace();
 			assertEquals(1, dvee.getValidationResults().size());
@@ -566,7 +566,8 @@ public class AcademicPlanServiceImplTest {
 		planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
 
 		try {
-			academicPlanService.createPlanItem(planItem, context);
+			KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItem,
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (DataValidationErrorException dvee) {
 			dvee.printStackTrace();
 			assertEquals(1, dvee.getValidationResults().size());
@@ -600,7 +601,8 @@ public class AcademicPlanServiceImplTest {
 		planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
 
 		try {
-			academicPlanService.createPlanItem(planItem, context);
+			KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItem,
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (DataValidationErrorException dvee) {
 			assertEquals(2, dvee.getValidationResults().size());
 			ValidationResultInfo resultInfo = dvee.getValidationResults()
@@ -637,11 +639,13 @@ public class AcademicPlanServiceImplTest {
 
 		planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
 
-		academicPlanService.createPlanItem(planItem, context);
+		KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItem,
+				KsapFrameworkServiceLocator.getContext().getContextInfo());
 
 		// Make sure the item was saved.
-		List<PlanItemInfo> savedCourses = academicPlanService
-				.getPlanItemsInPlan(planId, context);
+		List<PlanItemInfo> savedCourses = KsapFrameworkServiceLocator.getAcademicPlanService()
+				.getPlanItemsInPlan(planId, KsapFrameworkServiceLocator
+						.getContext().getContextInfo());
 		boolean exists = false;
 		for (PlanItemInfo pii : savedCourses) {
 			if (pii.getRefObjectId().equals(courseId)) {
@@ -657,7 +661,8 @@ public class AcademicPlanServiceImplTest {
 		try {
 			// Make sure the id of the plan item isn't a factor.
 			planItem.setId(null);
-			academicPlanService.createPlanItem(planItem, context);
+			KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItem,
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (AlreadyExistsException e) {
 			return;
 		} catch (Exception e) {
@@ -674,14 +679,16 @@ public class AcademicPlanServiceImplTest {
 
 		// Make sure the plan exists and has some plan items.
 		try {
-			academicPlanService.getLearningPlan(id, context);
+			KsapFrameworkServiceLocator.getAcademicPlanService().getLearningPlan(id, KsapFrameworkServiceLocator
+					.getContext().getContextInfo());
 		} catch (Exception e) {
 			fail(e.getLocalizedMessage());
 		}
 
 		List<PlanItemInfo> planItems = null;
 		try {
-			planItems = academicPlanService.getPlanItemsInPlan(id, context);
+			planItems = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItemsInPlan(id,
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (Exception e) {
 			fail(e.getLocalizedMessage());
 		}
@@ -690,7 +697,8 @@ public class AcademicPlanServiceImplTest {
 		// Delete a plan item.
 		String planItemId = planItems.get(0).getId();
 		try {
-			academicPlanService.deletePlanItem(planItemId, context);
+			KsapFrameworkServiceLocator.getAcademicPlanService().deletePlanItem(planItemId,
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (Exception e) {
 			fail(e.getLocalizedMessage());
 		}
@@ -698,7 +706,8 @@ public class AcademicPlanServiceImplTest {
 		// Make sure the plan items were cleaned up.
 		int itemCount = 0;
 		try {
-			itemCount = academicPlanService.getPlanItemsInPlan(id, context)
+			itemCount = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItemsInPlan(id,
+					KsapFrameworkServiceLocator.getContext().getContextInfo())
 					.size();
 		} catch (Exception e) {
 			fail(e.getLocalizedMessage());
@@ -715,8 +724,9 @@ public class AcademicPlanServiceImplTest {
 		planItemInfo.setTypeKey("YY");
 		List<ValidationResultInfo> validationResultInfos = null;
 		try {
-			validationResultInfos = academicPlanService.validatePlanItem(
-					"FULL_VALIDATION", planItemInfo, context);
+			validationResultInfos = KsapFrameworkServiceLocator.getAcademicPlanService().validatePlanItem(
+					"FULL_VALIDATION", planItemInfo,
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (Exception e) {
 			fail(e.getLocalizedMessage());
 		}
@@ -741,8 +751,10 @@ public class AcademicPlanServiceImplTest {
 		PlanItemInfo planItemInfo = new PlanItemInfo();
 		planItemInfo.setRefObjectId("XX");
 		planItemInfo.setTypeKey("kuali.academicplan.item.planned");
-		List<ValidationResultInfo> validationResultInfos = academicPlanService
-				.validatePlanItem("FULL_VALIDATION", planItemInfo, context);
+		List<ValidationResultInfo> validationResultInfos = KsapFrameworkServiceLocator.getAcademicPlanService()
+				.validatePlanItem("FULL_VALIDATION", planItemInfo,
+						KsapFrameworkServiceLocator.getContext()
+								.getContextInfo());
 		assertEquals("error.required", validationResultInfos.get(0)
 				.getMessage());
 		assertEquals("refObjectType", validationResultInfos.get(0).getElement());
@@ -770,13 +782,11 @@ public class AcademicPlanServiceImplTest {
 		PlanItemInfo planItemInfo = new PlanItemInfo();
 		planItemInfo.setRefObjectId("XX");
 		planItemInfo.setTypeKey("kuali.academicplan.item.backup");
-		List<ValidationResultInfo> validationResultInfos = null;
-		try {
-			validationResultInfos = academicPlanService.validatePlanItem(
-					"FULL_VALIDATION", planItemInfo, context);
-		} catch (Exception e) {
-			fail(e.getLocalizedMessage());
-		}
+		List<ValidationResultInfo> validationResultInfos = KsapFrameworkServiceLocator
+				.getAcademicPlanService()
+				.validatePlanItem("FULL_VALIDATION", planItemInfo,
+						KsapFrameworkServiceLocator.getContext()
+								.getContextInfo());
 		assertEquals("error.required", validationResultInfos.get(0)
 				.getMessage());
 		assertEquals("refObjectType", validationResultInfos.get(0).getElement());

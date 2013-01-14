@@ -49,7 +49,7 @@
             </list>
         </property>
         <property name="footer.render" value="false"/>
-        <property name="formClass" value="org.kuali.student.myplan.course.form.CourseSearchForm"/>
+        <property name="formClass" value="org.kuali.student.myplan.course.form.CourseSearchFormImpl"/>
     </bean>
 
 

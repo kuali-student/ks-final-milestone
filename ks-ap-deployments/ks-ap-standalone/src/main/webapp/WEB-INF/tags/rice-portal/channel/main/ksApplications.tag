@@ -21,9 +21,10 @@
   <ul class="chan">
     <li><a href="${ConfigProperties.ks.home.MainEntryPoint}">Kuali Student Home</a></li>
     <li><a href="${ConfigProperties.ks.lum.MainEntryPoint}">Curriculum Management</a></li>
-      <li><a href="${ConfigProperties.ks.ap.MainEntryPoint}">Academic RoadMap - Course Search</a></li>
-      <li><a href="${ConfigProperties.ks.ap.planner}">Academic RoadMap - Planner</a></li>
-      <li><a href="${ConfigProperties.ks.ap.audit}">Academic RoadMap - Audit</a></li>
+    <li><a href="${ConfigProperties.ks.org.MainEntryPoint}">Organization Management</a></li>
+	<li><a href="${ConfigProperties.ks.ap.MainEntryPoint}">Academic Planning - Course Search</a></li>
+	<li><a href="${ConfigProperties.ks.ap.planner}">Academic Planning - Course Planner</a></li>
+	<li><a href="${ConfigProperties.ks.ap.audit}">Academic Planning - Degree Audit</a></li>
   </ul>
 
 </div>

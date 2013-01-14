@@ -5,14 +5,15 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.support.DefaultKsapContext;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -23,6 +24,16 @@ import org.springframework.transaction.annotation.Transactional;
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class TestKsapFrameworkInit {
+
+	@Before
+	public void setUp() throws Throwable {
+		DefaultKsapContext.before("student1");
+	}
+
+	@After
+	public void tearDown() throws Throwable {
+		DefaultKsapContext.after();
+	}
 
 	@Test
 	public void testIsThisThingOn() {

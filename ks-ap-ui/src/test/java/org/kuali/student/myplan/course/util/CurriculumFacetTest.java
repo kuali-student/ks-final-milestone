@@ -7,7 +7,8 @@ import static junit.framework.Assert.assertTrue;
 import java.util.Set;
 
 import org.junit.Test;
-import org.kuali.student.myplan.course.dataobject.CourseSearchItem;
+import org.kuali.student.ap.framework.course.CourseSearchItem;
+import org.kuali.student.myplan.course.dataobject.CourseSearchItemImpl;
 
 
 public class CurriculumFacetTest {
@@ -47,7 +48,7 @@ public class CurriculumFacetTest {
     public void testProcess() throws Exception {
 
         CurriculumFacet facet = new CurriculumFacet();
-        CourseSearchItem course = new CourseSearchItem();
+        CourseSearchItem course = new CourseSearchItemImpl();
         course.setSubject("ABC");
         facet.process(course);
 

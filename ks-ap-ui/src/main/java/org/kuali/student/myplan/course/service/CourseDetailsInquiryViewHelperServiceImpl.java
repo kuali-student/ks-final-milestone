@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.xml.namespace.QName;
 
 import org.apache.log4j.Logger;
@@ -59,8 +58,6 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 
 public class CourseDetailsInquiryViewHelperServiceImpl extends KualiInquirableImpl {
@@ -288,7 +285,7 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends KualiInquirableIm
         List<AttributeInfo> abbrAttributes = course.getAttributes();
         for (AttributeInfo entry : abbrAttributes) {
             if ("Y".equals(entry.getValue()) && entry.getKey().startsWith(CourseSearchConstants.GEN_EDU_REQUIREMENTS_PREFIX)) {
-                abbrGenEdReqs.add(EnumerationHelper.getEnumAbbrValForCode(entry.getKey(), context));
+                abbrGenEdReqs.add(EnumerationHelper.getEnumAbbrValForCode(entry.getKey()));
             }
         }
         courseDetails.setAbbrGenEdRequirements(abbrGenEdReqs);

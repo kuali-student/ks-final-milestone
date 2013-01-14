@@ -1,16 +1,15 @@
 package org.kuali.student.myplan.course.util;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.kuali.student.myplan.course.dataobject.CourseSearchItem;
-import org.kuali.student.myplan.course.dataobject.FacetItem;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import java.util.List;
 import java.util.Set;
 
-import static junit.framework.Assert.*;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.kuali.student.ap.framework.course.CourseSearchItem;
+import org.kuali.student.myplan.course.dataobject.CourseSearchItemImpl;
+import org.kuali.student.myplan.course.dataobject.FacetItem;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:ks-ap-test-context.xml"})
@@ -19,10 +18,10 @@ public class GenEduReqFacetTest {
     @Test
     public void testGetFacetItems() throws Exception {
         GenEduReqFacet facet = new GenEduReqFacet();
-        CourseSearchItem course1 = new CourseSearchItem();
+        CourseSearchItem course1 = new CourseSearchItemImpl();
         course1.setGenEduReq("ABC");
         facet.process( course1 );
-        CourseSearchItem course2 = new CourseSearchItem();
+        CourseSearchItem course2 = new CourseSearchItemImpl();
         course2.setGenEduReq("XYZ");
         facet.process( course2 );
 
@@ -40,7 +39,7 @@ public class GenEduReqFacetTest {
     public void testProcess() throws Exception {
 
         GenEduReqFacet facet = new GenEduReqFacet();
-        CourseSearchItem course = new CourseSearchItem();
+        CourseSearchItem course = new CourseSearchItemImpl();
         course.setGenEduReq( "ABC" );
         facet.process( course );
 

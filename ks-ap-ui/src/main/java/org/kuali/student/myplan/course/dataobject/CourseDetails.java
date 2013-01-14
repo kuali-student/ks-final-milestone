@@ -1,11 +1,9 @@
 package org.kuali.student.myplan.course.dataobject;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.hsqldb.lib.StringUtil;
 import org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
 import org.springframework.util.StringUtils;

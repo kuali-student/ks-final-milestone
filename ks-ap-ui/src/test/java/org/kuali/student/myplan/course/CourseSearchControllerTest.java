@@ -12,17 +12,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.myplan.academicplan.service.AcademicPlanService;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.course.CourseSearchForm;
+import org.kuali.student.ap.framework.course.CourseSearchItem;
+import org.kuali.student.ap.framework.course.CourseSearchStrategy;
+import org.kuali.student.ap.framework.course.Credit;
 import org.kuali.student.myplan.course.controller.CourseSearchController;
-import org.kuali.student.myplan.course.controller.CourseSearchController.Hit;
-import org.kuali.student.myplan.course.controller.CourseSearchStrategy;
-import org.kuali.student.myplan.course.dataobject.CourseSearchItem;
-import org.kuali.student.myplan.course.form.CourseSearchForm;
+import org.kuali.student.myplan.course.controller.CourseSearchStrategyImpl;
+import org.kuali.student.myplan.course.dataobject.CourseSearchItemImpl;
+import org.kuali.student.myplan.course.form.CourseSearchFormImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
@@ -58,28 +59,6 @@ public class CourseSearchControllerTest {
 		this.searchController = searchController;
 	}
 
-	@Autowired
-	private CourseSearchStrategy courseSearchStrategy = null;
-
-	public CourseSearchStrategy getCourseSearchStrategy() {
-		return courseSearchStrategy;
-	}
-
-	public void setCourseSearchStrategy(CourseSearchStrategy strategy) {
-		this.courseSearchStrategy = strategy;
-	}
-
-	@Resource
-	private AcademicPlanService academicPlanService;
-
-	public AcademicPlanService getAcademicPlanService() {
-		return academicPlanService;
-	}
-
-	public void setAcademicPlanService(AcademicPlanService academicPlanService) {
-		this.academicPlanService = academicPlanService;
-	}
-
 	// @Autowired
 	// private PersonImpl person;
 	//
@@ -93,12 +72,14 @@ public class CourseSearchControllerTest {
 
 	@Test
 	public void testHitComparator() {
-		CourseSearchController.HitComparator comparator = new CourseSearchController.HitComparator();
+		CourseSearchStrategyImpl.HitComparator comparator = new CourseSearchStrategyImpl.HitComparator();
 
-		CourseSearchController.Hit hit1 = new CourseSearchController.Hit("a");
+		CourseSearchStrategyImpl.Hit hit1 = new CourseSearchStrategyImpl.Hit(
+				"a");
 		hit1.count++;
 
-		CourseSearchController.Hit hit2 = new CourseSearchController.Hit("b");
+		CourseSearchStrategyImpl.Hit hit2 = new CourseSearchStrategyImpl.Hit(
+				"b");
 		hit2.count++;
 		hit2.count++;
 		hit2.count++;
@@ -112,14 +93,13 @@ public class CourseSearchControllerTest {
 
 	@Test
 	public void testGetCellValue() {
-		CourseSearchController controller = getSearchController();
+		CourseSearchStrategy strategy = KsapFrameworkServiceLocator
+				.getCourseSearchStrategy();
 		SearchResultRowInfo row = new SearchResultRowInfo();
 		row.addCell("key", "value");
-
-		assertEquals("value", controller.getCellValue(row, "key"));
-
+		assertEquals("value", strategy.getCellValue(row, "key"));
 		try {
-			controller.getCellValue(row, "fail");
+			strategy.getCellValue(row, "fail");
 			fail("should have throw exception");
 		} catch (Exception e) {
 		}
@@ -127,21 +107,20 @@ public class CourseSearchControllerTest {
 
 	@Test
 	public void testGetCreditMap() {
-		CourseSearchController controller = getSearchController();
-		Map<String, CourseSearchController.Credit> map = controller
-				.getCreditMap();
+		CourseSearchStrategy strategy = KsapFrameworkServiceLocator
+				.getCourseSearchStrategy();
+		Map<String, Credit> map = strategy.getCreditMap();
 		assertFalse(map.isEmpty());
 	}
 
 	@Test
 	public void testGetCreditByID() {
-		CourseSearchController controller = getSearchController();
-
-		CourseSearchController.Credit nothing = controller
-				.getCreditByID("nothing");
+		CourseSearchStrategy strategy = KsapFrameworkServiceLocator
+				.getCourseSearchStrategy();
+		Credit nothing = strategy.getCreditByID("nothing");
 		assertNull(nothing);
 
-		CourseSearchController.Credit something = controller
+		Credit something = strategy
 				.getCreditByID("kuali.result.scale.credit.degree");
 		assertNotNull(something);
 	}
@@ -205,25 +184,24 @@ public class CourseSearchControllerTest {
 
 	@Test
 	public void testIsCourseOffered() throws Throwable {
-
-		CourseSearchForm form = new CourseSearchForm();
-		CourseSearchItem course = new CourseSearchItem();
-		CourseSearchController controller = getSearchController();
+		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchItem course = new CourseSearchItemImpl();
+		CourseSearchStrategy strategy = KsapFrameworkServiceLocator
+				.getCourseSearchStrategy();
 
 		form.setSearchTerm(CourseSearchForm.SEARCH_TERM_ANY_ITEM);
 
-		assertTrue(controller.isCourseOffered(form, course));
+		assertTrue(strategy.isCourseOffered(form, course));
 
 		form.setSearchTerm("20122");
 		course.setCode("7b1fb0cb-a070-487e-a6d5-c74e037b912c");
 		course.setSubject("BIOL");
-		assertTrue(controller.isCourseOffered(form, course));
+		assertTrue(strategy.isCourseOffered(form, course));
 
 		course.setCode("FAKE");
-		assertFalse(controller.isCourseOffered(form, course));
+		assertFalse(strategy.isCourseOffered(form, course));
 	}
-    // TODO: need reference data to support this, see KSAP-5
-    /*
+
 	// TODO: need reference data to support this, see KSAP-5
 	/*
 	 * @Test public void testProcessSearchRequests() throws Throwable {
@@ -260,38 +238,40 @@ public class CourseSearchControllerTest {
 	 * // assertTrue(hits.size() > 0); }
 	 */
 	@Test
-	public void testProcessSearchRequests3() {
-
-		CourseSearchController controller = getSearchController();
+	public void testProcessSearchRequests3() throws Throwable {
+		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
 		List<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
-		List<Hit> hits = controller.processSearchRequests(requests);
+		List<CourseSearchStrategyImpl.Hit> hits = strategy
+				.processSearchRequests(requests);
 		assertEquals(0, hits.size());
 	}
-    */
-    /* TODO: need reference data to support this, see KSAP-5
+
 	@Test
 	public void testPopulateFacets() {
 
-        CourseSearchForm form = new CourseSearchForm();
-        CourseSearchController controller = getSearchController();
-        form.setSearchQuery("ASTR");
-        List<String> campusParams = new ArrayList<String>();
-        campusParams.add("306");
-        form.setCampusSelect(campusParams);
-        form.setSearchTerm("any");
-        CourseSearchStrategy strategy = getCourseSearchStrategy();
-        List<SearchRequestInfo> requests = null;
-        ArrayList<CourseSearchController.Hit> hits = null;
-		requests = strategy.queryToRequests(form, true, context);
-		hits = controller.processSearchRequests(requests, context);
+		CourseSearchStrategy strategy = KsapFrameworkServiceLocator
+				.getCourseSearchStrategy();
 
-        // assertTrue(hits.size() > 0);
-    }
-    */
-    @Test
-    public void testProcessSearchRequests3() {
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
+		form.setSearchQuery("CHEM 110");
+		List<String> campusParams = new ArrayList<String>();
+		campusParams.add("306");
+		form.setCampusSelect(campusParams);
+		form.setSearchTerm("any");
+		form.setViewId("CourseSearch-FormView");
+		List<CourseSearchItem> courses = new ArrayList<CourseSearchItem>();
+		List<String> termInfos = new ArrayList<String>();
+		// AtpInfo termInfo = new AtpInfo();
+		// termInfo.setDurationType("kuali.uw.atp.duration.quarter");
+		// termInfo.setSeasonalType("kuali.uw.atp.season.autumn");
+		// termInfo.setId("kuali.uw.atp.type.autumn");
+		// termInfo.setName("autumn");
+		// termInfo.setDescr("autumn quarter");
+		// termInfo.setEffectiveDate(null);
+		// termInfo.setExpirationDate(null);
+		termInfos.add("autumn");
 
-		CourseSearchItem courseSearchItem = new CourseSearchItem();
+		CourseSearchItem courseSearchItem = new CourseSearchItemImpl();
 		courseSearchItem.setCourseId("74995ac1-8d2a-45f2-a408-056cb929f8a7");
 		courseSearchItem.setCode("CHEM   110");
 		courseSearchItem.setNumber("110");
@@ -306,7 +286,7 @@ public class CourseSearchControllerTest {
 		courseSearchItem.setStatus(CourseSearchItem.PlanState.SAVED);
 		courseSearchItem.setTermInfoList(termInfos);
 		courses.add(courseSearchItem);
-		controller.populateFacets(form, courses);
+		strategy.populateFacets(form, courses);
 		/*
 		 * assertTrue(form.getCurriculumFacetItems().size()>0);
 		 * assertTrue(form.getCreditsFacetItems().size()>0);
@@ -319,8 +299,9 @@ public class CourseSearchControllerTest {
 	@Test
 	public void testPopulateFacets2() {
 
-		CourseSearchController controller = getSearchController();
-		CourseSearchForm form = new CourseSearchForm();
+		CourseSearchStrategy strategy = KsapFrameworkServiceLocator
+				.getCourseSearchStrategy();
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		form.setSearchQuery("");
 		List<String> campusParams = new ArrayList<String>();
 		campusParams.add("306");
@@ -328,7 +309,7 @@ public class CourseSearchControllerTest {
 		form.setSearchTerm("any");
 		form.setViewId("CourseSearch-FormView");
 		List<CourseSearchItem> courses = new ArrayList<CourseSearchItem>();
-		controller.populateFacets(form, courses);
+		strategy.populateFacets(form, courses);
 		/*
 		 * assertTrue(form.getCurriculumFacetItems().size()==0);
 		 * assertTrue(form.getCreditsFacetItems().size()==0);
@@ -345,10 +326,11 @@ public class CourseSearchControllerTest {
 		map.put("AB", "A B ");
 		map.put("B", "B   ");
 		map.put("C", "C   ");
-		CourseSearchController controller = getSearchController();
+		CourseSearchStrategy strategy = KsapFrameworkServiceLocator
+				.getCourseSearchStrategy();
 		ArrayList<String> divisions = new ArrayList<String>();
 		String query = "A B C";
-		query = controller.extractDivisions(map, query, divisions, false);
+		query = strategy.extractDivisions(map, query, divisions, false);
 		assertEquals("", query);
 		assertEquals(2, divisions.size());
 		assertEquals("A B ", divisions.get(0));
@@ -357,8 +339,9 @@ public class CourseSearchControllerTest {
 
 	@Test
 	public void testFetchCourseDivisions() throws Exception {
-		CourseSearchController controller = getSearchController();
-		Map<String, String> divisionsMap = controller.fetchCourseDivisions();
+		CourseSearchStrategy strategy = KsapFrameworkServiceLocator
+				.getCourseSearchStrategy();
+		Map<String, String> divisionsMap = strategy.fetchCourseDivisions();
 		assertFalse(divisionsMap.isEmpty());
 	}
 
