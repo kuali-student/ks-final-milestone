@@ -44,6 +44,7 @@ import org.kuali.student.r2.core.constants.FeeServiceConstants;
 /**
  * This service supports the management of fees.
  *
+ * @version 0.0.7
  * @author tom
  */
 

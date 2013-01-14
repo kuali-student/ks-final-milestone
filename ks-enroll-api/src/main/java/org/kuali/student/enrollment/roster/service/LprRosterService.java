@@ -16,37 +16,24 @@
 
 package org.kuali.student.enrollment.roster.service;
 
-import java.util.List;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.enrollment.roster.dto.LprRosterEntryInfo;
+import org.kuali.student.enrollment.roster.dto.LprRosterInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.LprRosterServiceConstants;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-
-import org.kuali.student.enrollment.roster.dto.LprRosterEntryInfo;
-import org.kuali.student.enrollment.roster.dto.LprRosterInfo;
-
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-
-import org.kuali.student.r2.common.util.constants.LprRosterServiceConstants;
+import java.util.List;
 
 /**
  * The LprRoster service maintains ordered collections of Lprs for
  * various applications such as waitlists and grading sheets.
+ * @version 0.0.7
  */
 
 @WebService(name = "LprRosterService", serviceName = "LprRosterService", portName = "LprRosterService", targetNamespace = LprRosterServiceConstants.NAMESPACE)
@@ -326,7 +313,29 @@ public interface LprRosterService {
                OperationFailedException, 
                PermissionDeniedException,
                ReadOnlyException,
-               VersionMismatchException;                          
+               VersionMismatchException;
+
+    /**
+     * Updates the state of an existing LprRoster to another state
+     * provided that it is valid to do so.
+     *
+     * @param lprRosterId        identifier of the LprRoster to be
+     *                           updated
+     * @param nextStateKey       The State Key into which the identified
+     *                           LprRoster will be placed if the
+     *                           operation succeeds.
+     * @param contextInfo        Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     the identified LprRoster does
+     *                                   not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo changeLprRosterState(@WebParam(name = "lprRosterId") String lprRosterId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Deletes an existing LprRoster.
@@ -557,9 +566,9 @@ public interface LprRosterService {
      * @param validationTypeKey the identifier for the validation Type
      * @param lprRosterId the LprRoster of the LprRosterEntry
      * @param lprId the Lpr of the LprRosterEntry
-     * @param lprRosterEntryTypeKey the identifier for the
+     * @param lprRosterTypeKey the identifier for the
      *        LprRosterEntry Type to be validated
-     * @param lprRosterEntryInfo the LprRosterEntry to be validated
+     * @param lprRosterInfo the LprRosterEntry to be validated
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of the service
      *        operation
@@ -596,7 +605,7 @@ public interface LprRosterService {
      * @param lprId the Lpr of the LprRosterEntry
      * @param lprRosterEntryTypeKey the identifier for the Type of
      *        LprRosterEntry to be created
-     * @param lprRosterInfo the data with which to create the
+     * @param lprRosterEntryInfo the data with which to create the
      *        LprRoster
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of the service
@@ -663,7 +672,29 @@ public interface LprRosterService {
                OperationFailedException, 
                PermissionDeniedException,
                ReadOnlyException,
-               VersionMismatchException;                          
+               VersionMismatchException;
+
+    /**
+     * Updates the state of an existing LprRosterEntry to another state
+     * provided that it is valid to do so.
+     *
+     * @param lprRosterEntryId   identifier of the LprRosterEntry to be
+     *                           updated
+     * @param nextStateKey       The State Key into which the identified
+     *                           LprRosterEntry will be placed if the
+     *                           operation succeeds.
+     * @param contextInfo        Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     the identified LprRosterEntry does
+     *                                   not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo changeLprRosterEntryState(@WebParam(name = "lprRosterEntryId") String lprRosterEntryId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Deletes an existing LprRosterEntry.
@@ -731,7 +762,7 @@ public interface LprRosterService {
      * supplied list are ordered by their existing position and placed
      * at the end of the LprRosterEntries in the specified list.
      *
-     * @param lprRosterIds the LprRoster to reorder.  All supplied
+     * @param lprRosterId the LprRoster to reorder.  All supplied
      *        LprRosterEntryIds must belong to the given LprRoster.
      * @param lprRosterEntryIds an ordered list of LprRosterEntries
      * @param contextInfo information containing the principalId and
@@ -745,7 +776,7 @@ public interface LprRosterService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo reorderLprRosterEntries(@WebParam(name = "lprRosterIds") String lprRosterId,
+    public StatusInfo reorderLprRosterEntries(@WebParam(name = "lprRosterId") String lprRosterId,
                                               @WebParam(name = "lprRosterEntryIds") List<String> lprRosterEntryIds,
                                               @WebParam(name = "context") ContextInfo contextInfo) 
         throws DoesNotExistException, 

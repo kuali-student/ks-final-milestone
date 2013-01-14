@@ -45,7 +45,7 @@ import org.kuali.student.r2.common.util.constants.DataDictionaryServiceConstants
  * methods simply appear (are "included") on the service that includes
  * it.
  *
- * Version: 1.0 (Dev)
+ * @version 0.0.7
  *
  * @author nwright
  */

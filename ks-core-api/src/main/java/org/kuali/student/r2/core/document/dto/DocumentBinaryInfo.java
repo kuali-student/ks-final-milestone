@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.List;
 
-/**
+/*
  * Refer to interface javadoc
  *
  * @Version 2.0

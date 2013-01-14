@@ -27,9 +27,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Refer to interface javadoc
+ * Information about a comment applied to another object in the system.
  *
- * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)

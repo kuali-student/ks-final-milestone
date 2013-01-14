@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- HolidayCalendarInfo-->
 	<bean id="HolidayCalendarInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="holidayCalendarInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo"/>
 		<property name="objectLabel" value="Holiday Calendar"/>
 		<property name="objectDescription">
 			<value>

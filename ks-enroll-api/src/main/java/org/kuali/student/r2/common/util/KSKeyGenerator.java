@@ -1,7 +1,7 @@
 package org.kuali.student.r2.common.util;
 
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;

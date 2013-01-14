@@ -39,8 +39,6 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.constants.ExemptionServiceConstants;
 
 /**
- * Version: DRAFT - NOT READY FOR RELEASE. 
- *
  * The Exemption service stores information to permit a person to be exempted
  * from the enforcement of a restriction, deadline, or statement.
  *
@@ -58,6 +56,7 @@ import org.kuali.student.r2.core.constants.ExemptionServiceConstants;
  * specific check that occurs somewhere in the system based on one of the above
  * Exemption types.
  *
+ * @version 0.0.7
  * @author tom
  * @since Tue Jun 21 14:22:34 EDT 2011
  */
