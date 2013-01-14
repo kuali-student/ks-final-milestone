@@ -949,11 +949,12 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             //RuleStudentViewHelperService viewHelper = (RuleStudentViewHelperService) KSControllerHelper.getViewHelperService(form);
             RuleStudentViewHelperService viewHelper = new RuleStudentViewHelperServiceImpl(); //TODO: fix this.
 
-
             //Set the term spec
             String termSpecId = viewHelper.getTermSpecificationForType(propositionTypeId);
-            TermSpecificationDefinition termSpecification = getTermBoService().getTermSpecificationById(termSpecId);
-            setTermForProposition(proposition, termSpecification.getId());
+            if (termSpecId != null){
+                TermSpecificationDefinition termSpecification = getTermBoService().getTermSpecificationById(termSpecId);
+                setTermForProposition(proposition, termSpecification.getId());
+            }
 
             proposition.setTermSpecId(termSpecId);
 
