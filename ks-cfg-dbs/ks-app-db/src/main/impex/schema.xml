@@ -5724,7 +5724,7 @@
     <sequence name="KRMS_FUNC_PARM_S" nextval="10000"/>
     <sequence name="KRMS_FUNC_S" nextval="10000"/>
     <sequence name="KRMS_NL_TMPL_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_NL_TMPL_S" nextval="10003"/>
+    <sequence name="KRMS_NL_TMPL_S" nextval="10118"/>
     <sequence name="KRMS_NL_USAGE_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_NL_USAGE_S" nextval="10005"/>
     <sequence name="KRMS_PROP_PARM_S" nextval="10594"/>
@@ -5740,8 +5740,8 @@
     <sequence name="KRMS_TERM_S" nextval="10198"/>
     <sequence name="KRMS_TERM_SPEC_S" nextval="10013"/>
     <sequence name="KRMS_TYP_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_TYP_RELN_S" nextval="10096"/>
-    <sequence name="KRMS_TYP_S" nextval="10056"/>
+    <sequence name="KRMS_TYP_RELN_S" nextval="10117"/>
+    <sequence name="KRMS_TYP_S" nextval="10077"/>
     <sequence name="KRNS_DOC_TYP_ATTR_S" nextval="1000"/>
     <sequence name="KRNS_LOCK_S" nextval="2000"/>
     <sequence name="KRNS_LOOKUP_RSLT_S" nextval="2000"/>
