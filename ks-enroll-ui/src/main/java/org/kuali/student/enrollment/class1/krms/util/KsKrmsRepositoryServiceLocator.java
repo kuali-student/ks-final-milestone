@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageTemplateBoService;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageUsageBoService;
+import org.kuali.student.enrollment.class1.krms.service.TemplateResolverService;
 
 import javax.xml.namespace.QName;
 
@@ -24,9 +25,11 @@ public final class KsKrmsRepositoryServiceLocator {
 
     public static final String KRMS_NL_TEMPLATE_SERVICE = "naturalLanguageTemplateBoService";
     public static final String KRMS_NL_USAGE_SERVICE = "naturalLanguageUsageBoService";
+    public static final String KRMS_TEMPLATE_RESOLVER_SERVICE = "templateResolverMockService";
 
     private static NaturalLanguageTemplateBoService naturalLanguageTemplateBoService;
     private static NaturalLanguageUsageBoService naturalLanguageUsageBoService;
+    private static TemplateResolverService templateResolverService;
 
     public static <T extends Object> T getService(String serviceName) {
         return KsKrmsRepositoryServiceLocator.<T>getBean(serviceName);
@@ -51,6 +54,13 @@ public final class KsKrmsRepositoryServiceLocator {
             naturalLanguageUsageBoService = getService(KRMS_NL_USAGE_SERVICE);
         }
         return naturalLanguageUsageBoService;
+    }
+
+    public static TemplateResolverService getTemplateResolverService() {
+        if(templateResolverService == null){
+            templateResolverService = getService(KRMS_TEMPLATE_RESOLVER_SERVICE);
+        }
+        return templateResolverService;
     }
 
 }

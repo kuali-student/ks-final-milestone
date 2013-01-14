@@ -14,28 +14,19 @@ import org.kuali.student.enrollment.class1.krms.util.KsKrmsRepositoryServiceLoca
  */
 public class RuleStudentViewHelperServiceImpl extends ViewHelperServiceImpl implements RuleStudentViewHelperService{
 
-    private TemplateResolverService templateResolverService;
-
-    public TemplateResolverService getTemplateResolverService() {
-        if(templateResolverService == null){
-            templateResolverService = KsKrmsRepositoryServiceLocator.getService("templateResolverMockService");
-        }
-        return templateResolverService;
-    }
-
     @Override
     public String getTermSpecificationForType(String type) {
-        return getTemplateResolverService().getTermSpecificationForType(type);
+        return KsKrmsRepositoryServiceLocator.getTemplateResolverService().getTermSpecificationForType(type);
     }
 
     @Override
     public String getOperationForType(String type) {
-        return getTemplateResolverService().getOperationForType(type);
+        return KsKrmsRepositoryServiceLocator.getTemplateResolverService().getOperationForType(type);
     }
 
     @Override
     public String getValueForType(String type) {
-        return getTemplateResolverService().getValueForType(type);
+        return KsKrmsRepositoryServiceLocator.getTemplateResolverService().getValueForType(type);
     }
 
 }
