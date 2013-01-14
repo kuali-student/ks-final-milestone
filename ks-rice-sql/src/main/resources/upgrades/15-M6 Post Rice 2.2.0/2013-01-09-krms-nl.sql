@@ -498,6 +498,49 @@ insert into krms_nl_usage_t (nl_usage_id, nm, nmspc_cd, desc_txt, actv, ver_nbr)
 insert into krms_nl_usage_t (nl_usage_id, nm, nmspc_cd, desc_txt, actv, ver_nbr) values (krms_nl_usage_s.nextval, 'kuali.krms.type.description', 'KS-SYS', 'Kuali Rule Type Description', 'Y', '0')
 /
 
+--**Agendas**
+insert into krms_nl_tmpl_t (nl_tmpl_id, lang_cd, nl_usage_id, typ_id, tmpl, ver_nbr) values
+(krms_nl_tmpl_s.nextval, 'en', krms_nl_usage_s.currval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.agenda.type.course.enrollmentEligibility'), 'Enrollment Eligibility', '0')
+/
+
+insert into krms_nl_tmpl_t (nl_tmpl_id, lang_cd, nl_usage_id, typ_id, tmpl, ver_nbr) values
+(krms_nl_tmpl_s.nextval, 'en', krms_nl_usage_s.currval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.agenda.type.course.creditConstraints'), 'Credit Constraints', '0')
+/
+
+--**Rules**
+insert into krms_nl_tmpl_t (nl_tmpl_id, lang_cd, nl_usage_id, typ_id, tmpl, ver_nbr) values
+(krms_nl_tmpl_s.nextval, 'en', krms_nl_usage_s.currval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.course.academicReadiness.antireq'), 'Antirequisite', '0')
+/
+
+insert into krms_nl_tmpl_t (nl_tmpl_id, lang_cd, nl_usage_id, typ_id, tmpl, ver_nbr) values
+(krms_nl_tmpl_s.nextval, 'en', krms_nl_usage_s.currval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.course.academicReadiness.coreq'), 'Corequisite', '0')
+/
+
+insert into krms_nl_tmpl_t (nl_tmpl_id, lang_cd, nl_usage_id, typ_id, tmpl, ver_nbr) values
+(krms_nl_tmpl_s.nextval, 'en', krms_nl_usage_s.currval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.course.academicReadiness.prereq'), 'Prerequisite', '0')
+/
+
+insert into krms_nl_tmpl_t (nl_tmpl_id, lang_cd, nl_usage_id, typ_id, tmpl, ver_nbr) values
+(krms_nl_tmpl_s.nextval, 'en', krms_nl_usage_s.currval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.course.academicReadiness.studentEligibility'), 'Student Eligibility', '0')
+/
+
+insert into krms_nl_tmpl_t (nl_tmpl_id, lang_cd, nl_usage_id, typ_id, tmpl, ver_nbr) values
+(krms_nl_tmpl_s.nextval, 'en', krms_nl_usage_s.currval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.course.recommendedPreparation'), 'Recommended Preparation', '0')
+/
+
+insert into krms_nl_tmpl_t (nl_tmpl_id, lang_cd, nl_usage_id, typ_id, tmpl, ver_nbr) values
+(krms_nl_tmpl_s.nextval, 'en', krms_nl_usage_s.currval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.course.academicReadiness.studentEligibilityPrereq'), 'Student Eligibility & Prerequisite', '0')
+/
+
+insert into krms_nl_tmpl_t (nl_tmpl_id, lang_cd, nl_usage_id, typ_id, tmpl, ver_nbr) values
+(krms_nl_tmpl_s.nextval, 'en', krms_nl_usage_s.currval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.course.credit.repeatable'), 'Repeatable for Credit', '0')
+/
+
+insert into krms_nl_tmpl_t (nl_tmpl_id, lang_cd, nl_usage_id, typ_id, tmpl, ver_nbr) values
+(krms_nl_tmpl_s.nextval, 'en', krms_nl_usage_s.currval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.course.credit.restriction'), 'Restricted for Credit', '0')
+/
+
+--**Propositions**
 --kuali.krms.proposition.type.cant.add.to.activity.offering.due.to.state,Student cannot add Activity Offering with <Activity Offering State>  of <state>
 insert into krms_nl_tmpl_t (nl_tmpl_id, lang_cd, nl_usage_id, typ_id, tmpl, ver_nbr) values
 (krms_nl_tmpl_s.nextval, 'en', krms_nl_usage_s.currval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.cant.add.to.activity.offering.due.to.state'), 'Student cannot add Activity Offering with <Activity Offering State>  of <state>', '0')
