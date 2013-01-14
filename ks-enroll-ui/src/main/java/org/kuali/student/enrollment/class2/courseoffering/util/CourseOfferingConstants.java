@@ -63,6 +63,8 @@ public class CourseOfferingConstants {
     public static final String REG_GROUP_PAGE = "manageRegistrationGroupsPage";
     public static final String COPY_CO_PAGE = "copyCourseOfferingPage";
     public static final String SEARCH_PAGE = "searchInputPage";
+    public static final String SEARCH_PAGE_POC = "searchInputPagePOC";
+    public static final String SEARCH_PAGE_JSON_POC = "searchInputPageJSONPOC";
 
     // Display text
     public static final String COURSEOFFERING_TEXT_STD_REG_OPTS_EMPTY = "None available";

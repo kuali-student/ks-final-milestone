@@ -84,6 +84,10 @@
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingRollover?viewId=courseOfferingRolloverManagementView&amp;pageId=selectTermForRolloverDetails&amp;methodToCall=start"/>
                 <bean parent="Uif-Link" p:linkText="Create Course Offerings"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOffering?methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper&amp;hideReturnLink=true"/>
+                <bean parent="Uif-Link" p:linkText="Manage Course Offerings (POC)"
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementViewPOC&amp;pageId=searchInputPagePOC&amp;methodToCall=start&amp;withinPortal=false"/>
+                <bean parent="Uif-Link" p:linkText="Manage Course Offerings (JSON POC)"
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementViewJSONPOC&amp;pageId=searchInputPageJSONPOC&amp;methodToCall=start&amp;withinPortal=false"/>
                 <bean parent="Uif-Link" p:linkText="Manage Course Offerings"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementView&amp;pageId=searchInputPage&amp;methodToCall=start&amp;withinPortal=false"/>
                 <bean parent="Uif-Link" p:linkText="Manage SOC"

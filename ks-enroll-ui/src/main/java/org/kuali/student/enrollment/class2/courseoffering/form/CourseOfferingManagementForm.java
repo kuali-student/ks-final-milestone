@@ -29,6 +29,8 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private CourseOfferingEditWrapper courseOfferingEditWrapper = null;
     private String socState;
 
+    private boolean readOnly;
+
     private List<ActivityOfferingWrapper> activityWrapperList;
     private List<ActivityOfferingWrapper> selectedToDeleteList;
     private CourseOfferingCopyWrapper courseOfferingCopyWrapper;
@@ -311,5 +313,13 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public void setSocState(String socState) {
         this.socState = socState;
+    }
+
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
     }
 }

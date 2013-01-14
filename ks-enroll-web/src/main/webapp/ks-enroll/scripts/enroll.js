@@ -523,6 +523,167 @@ function generateFieldLinkSublist(parentSectionData, currentFields, messageMap, 
     return disclosureLink;
 }
 
+function ajaxShow(url) {
+    //var formData = jQuery('#kualiForm').serialize();
+    var viewId = jQuery.trim(jQuery('#viewId').val());
+    var formKey = jQuery.trim(jQuery('#formKey').val());
+    var validateDirty = jQuery.trim(jQuery('#validateDirty').val());
+    var renderedInLightBox = jQuery.trim(jQuery('#renderedInLightBox').val());
+    var termCodeId_control = jQuery.trim(jQuery('#termCodeId_control').val());
+    var inputCodeId_control = jQuery.trim(jQuery('#inputCodeId_control').val());
+    var pageId = jQuery.trim(jQuery('#pageId').val());
+    var pageTitle = jQuery.trim(jQuery('#pageTitle').val());
+    var historyParameterString = jQuery.trim(jQuery('#historyParameterString').val());
+    var _dialogResponse = "on";
+    var formData = {
+        "viewId":viewId,
+        "formKey":formKey,
+        "view.applyDirtyCheck":validateDirty,
+        "renderedInLightBox":renderedInLightBox,
+        "termCode":termCodeId_control,
+        "inputCode":inputCodeId_control,
+        "view.currentPageId":pageId,
+        "view.currentPage.header.headerText":pageTitle,
+        "_dialogResponse":_dialogResponse
+    };
+    // console.log("theDate: " + jQuery.now());
+    // console.log("formData: " + jQuery(formData).serialize());
+    // console.log("historyParameterString " + historyParameterString);
+    jQuery.ajax({
+        url:url + "/kr-krad/courseOfferingManagement/ajaxShow.do",
+        type:"GET",
+        data:formData,
+        // callback handler that will be called on success
+        success:function (data, textStatus, jqXHR) {
+            updateTable(data);
+        }
+    });
+//  return false;
+
+    function updateTable(data) {
+
+        var page = jQuery('<html/>').html(data);
+        var div = jQuery('#Uif-PageContentWrapper');
+        var tableContainer = jQuery('#tableContainer');
+        if(tableContainer.length == 0){
+            tableContainer = jQuery("<div id='tableContainer' />");
+            div.append(tableContainer);
+        }
+        tableContainer.html(page);
+    }
+}
+
+
+function jsonShow(url) {
+    //var formData = jQuery('#kualiForm').serialize();
+    var viewId = jQuery.trim(jQuery('#viewId').val());
+    var formKey = jQuery.trim(jQuery('#formKey').val());
+    var validateDirty = jQuery.trim(jQuery('#validateDirty').val());
+    var renderedInLightBox = jQuery.trim(jQuery('#renderedInLightBox').val());
+    var termCodeId_control = jQuery.trim(jQuery('#termCodeId_control').val());
+    var inputCodeId_control = jQuery.trim(jQuery('#inputCodeId_control').val());
+    var pageId = jQuery.trim(jQuery('#pageId').val());
+    var pageTitle = jQuery.trim(jQuery('#pageTitle').val());
+    var historyParameterString = jQuery.trim(jQuery('#historyParameterString').val());
+    var _dialogResponse = "on";
+    var formData = {
+        "viewId":viewId,
+        "formKey":formKey,
+        "view.applyDirtyCheck":validateDirty,
+        "renderedInLightBox":renderedInLightBox,
+        "termCode":termCodeId_control,
+        "inputCode":inputCodeId_control,
+        "view.currentPageId":pageId,
+        "view.currentPage.header.headerText":pageTitle,
+        "_dialogResponse":_dialogResponse
+    };
+    jQuery.ajax({
+        dataType:"json",
+        url:url + "/kr-krad/courseOfferingManagement/jsonShow.do",
+        type:"GET",
+        data:formData,
+        success:function (data, textStatus, jqXHR) {
+            updateTable(data);
+        }
+    });
+
+    return false;
+
+    function updateTable(data) {
+
+        var codeContainerIds = [];
+
+        var table = jQuery("<table class='uif-tableCollectionLayout dataTable'/>");
+        var tHead = jQuery("<thead/>").append("<tr/>")
+            .append("<th scope='col' colspan='1' rowspan='1' class='sorting' role='columnheader' tabindex='0' aria-controls='tableContainer' aria-label=': activate to sort column ascending'></th>")
+            .append("<th scope='col' colspan='1' rowspan='1' class='sorting_asc' role='columnheader' tabindex='0' aria-controls='tableContainer' aria-sort='ascending' aria-label=': activate to sort column descending'></th>")
+            .append("<th scope='col' colspan='1' rowspan='1' class='sorting' role='columnheader' tabindex='0' aria-controls='tableContainer' aria-label=': Status'>Status</th>")
+            .append("<th scope='col' colspan='1' rowspan='1' class='sorting' role='columnheader' tabindex='0' aria-controls='tableContainer' aria-label=': Title'>Title</th>")
+            .append("<th scope='col' colspan='1' rowspan='1' class='sorting' role='columnheader' tabindex='0' aria-controls='tableContainer' aria-label=': Credits'>Credits</th>")
+            .append("<th scope='col' colspan='1' rowspan='1' class='sorting' role='columnheader' tabindex='0' aria-controls='tableContainer' aria-label=': Grading'>Grading</th>");
+//            .append("<th scope='col' colspan='1' rowspan='1' class='sorting' role='columnheader' tabindex='0' aria-controls='tableContainer' aria-label=': Actions'>Actions</th>");
+        table.append(tHead);
+        var tBody = jQuery("<tbody/>");
+        var tableData = data.tableData;
+        jQuery.each(tableData, function (rowNumber, columns) {
+            var row = jQuery("<tr/>");
+            var checkboxColumn = jQuery("<td/>");
+            var checkbox = jQuery("<input type='checkbox' />");
+            checkboxColumn.append(checkbox);
+            row.append(checkboxColumn);
+
+            var codeAnchor = jQuery("<a id='code_line" + rowNumber + "'"
+                + "href='" + url + "/kr-krad/inquiry?courseOfferingId=" + columns.courseOfferingId +"&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper&amp;renderedInLightBox=true&amp;showHome=false&amp;showHistory=false&amp;history=" + historyParameterString
+                + "' target='_self' class='uif-link' title='Course Offering =courseOfferingId'>" + columns.courseOfferingCode + "</a>");
+
+//            <input type="hidden" data-role="script" value="
+//                createLightBoxLink('u240_line83', {fitToView:true,height:'95%',width:'75%',autoSize:false,openEffect:'fade',closeEffect:'fade',openSpeed:200,closeSpeed:200,helpers:{overlay:{css:{cursor:'arrow'},closeClick:false}},type:'iframe'}, true);
+//                " script="first_run">
+
+            var id = "code_line" + rowNumber;
+            codeContainerIds.push(id);
+
+            var code = jQuery("<td role='presentation' colspan='1' rowspan='1' class='  sorting_1'/>");
+            code.append(codeAnchor);
+            row.append(code);
+
+            var status = jQuery("<td>" + columns.courseOfferingStateDisplay + "</td>");
+            row.append(status);
+
+            var title = jQuery("<td>" + columns.courseOfferingDesc + "</td>");
+            row.append(title);
+
+            var credits = jQuery("<td>" + columns.courseOfferingCreditOptionDisplay + "</td>");
+            row.append(credits);
+
+            var grading = jQuery("<td>" + columns.courseOfferingGradingOptionDisplay + "</td>");
+            row.append(grading);
+
+            tBody.append(row);
+        });
+        table.append(tBody);
+        var tFoot = jQuery("<tfoot/>").append("<tr/>")
+            .append("<th rowspan='1' colspan='1' />")
+            .append("<th rowspan='1' colspan='1' />")
+            .append("<th rowspan='1' colspan='1' />")
+            .append("<th rowspan='1' colspan='1' />")
+            .append("<th rowspan='1' colspan='1' />")
+            .append("<th rowspan='1' colspan='1' />");
+//            .append("<th rowspan='1' colspan='1' />");
+        table.append(tFoot);
+        var div = jQuery('#Uif-PageContentWrapper');
+        var tableContainer = jQuery('#tableContainer');
+        if(tableContainer.length == 0){
+            tableContainer = jQuery("<div id='tableContainer' />");
+            div.append(tableContainer);
+        }
+        tableContainer.html(table);
+
+        jQuery.each(codeContainerIds, function(index){
+            createLightBoxLink(codeContainerIds[index] , {fitToView:true,height:'95%',width:'75%',autoSize:false,openEffect:'fade',closeEffect:'fade',openSpeed:200,closeSpeed:200,helpers:{overlay:{css:{cursor:'arrow'},closeClick:false}},type:'iframe'}, true);
+        });
+    }
+}
 
 /*
  function updateCollectionAndRelatedItem(jqObject, collectionGroupId, updateAfterId){
@@ -537,11 +698,11 @@ function generateFieldLinkSublist(parentSectionData, currentFields, messageMap, 
  //replace component
  if(jq("#" + updateAfterId + "_div").length){
  jq("#" + updateAfterId + "_div").replaceWith(component);
- }
+        }
  runHiddenScripts(updateAfterId + "_div");
- }
+    }
  });
- };
+    };
  var elementToBlock = jq("#" + collectionGroupId + "_div");
  var updateCollectionCallback = function(htmlContent){
  var component = jq("#" + collectionGroupId + "_div", htmlContent);
@@ -550,19 +711,19 @@ function generateFieldLinkSublist(parentSectionData, currentFields, messageMap, 
  //replace component
  if(jq("#" + collectionGroupId + "_div").length){
  jq("#" + collectionGroupId + "_div").replaceWith(component);
- }
+        }
  runHiddenScripts(collectionGroupId + "_div");
  ajaxSubmitForm("updateComponent", updateComponentCallback,
  {reqComponentId: updateAfterId, skipViewInit: "true"}, otherElementToBlock);
  }
- });
- };
+        });
+    };
 
  var methodToCall = jq("input[name='methodToCall']").val();
  ajaxSubmitForm(methodToCall, updateCollectionCallback, {reqComponentId: collectionGroupId, skipViewInit: "true"},
  elementToBlock);
- }
- }
+    }
+                }
 
  function removeFromCart(){
  var row = jq(this).closest("tr.keyRow");
@@ -574,5 +735,5 @@ function generateFieldLinkSublist(parentSectionData, currentFields, messageMap, 
  writeHiddenToForm('renderFullView' , 'true');
  writeHiddenToForm('actionParameters[itemId]' , id);
  jq('#kualiForm').submit();
- }
+                }
  }*/

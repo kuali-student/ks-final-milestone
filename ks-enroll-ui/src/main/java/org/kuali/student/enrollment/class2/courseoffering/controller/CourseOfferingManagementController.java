@@ -44,10 +44,12 @@ import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.ow2.carol.jndi.intercept.operation.StringGetNameParserInterceptionContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -205,6 +207,183 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
             return getUIFModelAndView(theForm);
         }
+    }
+
+
+    @RequestMapping(value = "/ajaxShow", method = RequestMethod.GET)
+    public ModelAndView ajaxShow(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+                             @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+
+        //First, find TermInfo based on termCode
+        String termCode = theForm.getTermCode();
+        List<TermInfo> termList = getViewHelperService(theForm).findTermByTermCode(termCode);
+
+        if (termList != null && !termList.isEmpty()){
+            if( termList.size() == 1) {
+                // Get THE term
+                theForm.setTermInfo(termList.get(0));
+            } else {
+                LOG.error("Error: Found more than one Term for term code: " + termCode);
+                GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
+                theForm.clearCourseOfferingResultList();
+                return getUIFModelAndView(theForm);
+            }
+        } else {
+            LOG.error("Error: Can't find any Term for term code: " + termCode);
+            GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, termCode);
+            theForm.clearCourseOfferingResultList();
+            return getUIFModelAndView(theForm);
+        }
+
+        //load all courseofferings based on subject Code
+        String inputCode = theForm.getInputCode();
+        if (inputCode != null && !inputCode.isEmpty()) {
+            getViewHelperService(theForm).loadCourseOfferingsByTermAndCourseCode(theForm.getTermInfo().getId(), inputCode, theForm);
+            if(!theForm.getCourseOfferingResultList().isEmpty()) {
+                if (theForm.getCourseOfferingResultList().size() > 1) {
+                    theForm.setSubjectCode(theForm.getCourseOfferingResultList().get(0).getSubjectArea());
+                    String longNameDescr = getOrgNameDescription(theForm.getSubjectCode());
+                    theForm.setSubjectCodeDescription(longNameDescr);
+                    // Pull out the first CO from the result list and then pull out the org ids from this CO
+                    // and pass in the first one as the adminOrg
+                    CourseOfferingInfo firstCO = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+                    List<String> orgIds = firstCO.getUnitsDeploymentOrgIds();
+                    if(orgIds !=null && !orgIds.isEmpty()){
+                        theForm.setAdminOrg(orgIds.get(0));
+                    }
+                    CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+                    theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
+                } else { // just one course offering is returned
+                    CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+                    theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
+                    return _prepareManageAOsModelAndView(theForm, coToShow);
+                }
+                ModelAndView mav = new ModelAndView("pages/courseOfferingResult");
+                List<CourseOfferingListSectionWrapper> wrapper = theForm.getCourseOfferingResultList();
+                String pathInfo = request.getPathInfo();
+                String url = request.getRequestURL().substring(0, request.getRequestURL().indexOf(pathInfo));
+
+                mav.addObject("tableData", wrapper);
+                mav.addObject("url", url);
+                return mav;
+            }
+            //
+            theForm.setEditAuthz(checkEditViewAuthz(theForm));
+            if (GlobalVariables.getMessageMap().getErrorMessages().isEmpty()){
+                return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
+            }else{
+                return getUIFModelAndView(theForm, CourseOfferingConstants.SEARCH_PAGE_POC);
+            }
+        } else {
+            LOG.error("Error: Course Code search field can't be empty");
+            GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Offering", inputCode, termCode);
+            theForm.clearCourseOfferingResultList();
+            theForm.setActivityWrapperList(null);
+
+            return getUIFModelAndView(theForm);
+        }
+
+//        response.setContentType("application/json");
+//        response.getWriter().write("[{\"Hello\" : \"There\" }]");
+//        return null;
+    }
+
+    @RequestMapping(value = "/jsonShow", method = RequestMethod.GET)
+    public void jsonShow(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+                                 @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+
+        //First, find TermInfo based on termCode
+        StringBuilder jsonString = new StringBuilder();
+        jsonString = jsonString.append("{ \"tableData\":[");
+
+        String termCode = theForm.getTermCode();
+        List<TermInfo> termList = getViewHelperService(theForm).findTermByTermCode(termCode);
+
+        if (termList != null && !termList.isEmpty()){
+            if( termList.size() == 1) {
+                // Get THE term
+                theForm.setTermInfo(termList.get(0));
+            } else {
+                LOG.error("Error: Found more than one Term for term code: " + termCode);
+                GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
+                theForm.clearCourseOfferingResultList();
+//                return getUIFModelAndView(theForm);
+                //return "";
+            }
+        } else {
+            LOG.error("Error: Can't find any Term for term code: " + termCode);
+            GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, termCode);
+            theForm.clearCourseOfferingResultList();
+//            return getUIFModelAndView(theForm);
+           // return "";
+        }
+
+        //load all courseofferings based on subject Code
+        String inputCode = theForm.getInputCode();
+        if (inputCode != null && !inputCode.isEmpty()) {
+            getViewHelperService(theForm).loadCourseOfferingsByTermAndCourseCode(theForm.getTermInfo().getId(), inputCode, theForm);
+            if(!theForm.getCourseOfferingResultList().isEmpty()) {
+                if (theForm.getCourseOfferingResultList().size() > 1) {
+                    theForm.setSubjectCode(theForm.getCourseOfferingResultList().get(0).getSubjectArea());
+                    String longNameDescr = getOrgNameDescription(theForm.getSubjectCode());
+                    theForm.setSubjectCodeDescription(longNameDescr);
+                    // Pull out the first CO from the result list and then pull out the org ids from this CO
+                    // and pass in the first one as the adminOrg
+                    CourseOfferingInfo firstCO = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+                    List<String> orgIds = firstCO.getUnitsDeploymentOrgIds();
+                    if(orgIds !=null && !orgIds.isEmpty()){
+                        theForm.setAdminOrg(orgIds.get(0));
+                    }
+                    CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+                    theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
+                } else { // just one course offering is returned
+                    CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+                    theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
+//                    return _prepareManageAOsModelAndView(theForm, coToShow);
+//                    response.getWriter().write("[{\"Hello\" : \"There\" }]");
+                   // return "[{\"Hello\" : \"There\" }]";
+                }
+                for(CourseOfferingListSectionWrapper wrapper : theForm.getCourseOfferingResultList()){
+                    jsonString = jsonString.append("{\"courseOfferingId\":").append("\"").append(wrapper.getCourseOfferingId()).append("\",").
+                        append("\"courseOfferingCode\":").append("\"").append(wrapper.getCourseOfferingCode()).append("\",").
+                        append("\"courseOfferingDesc\":").append("\"").append(wrapper.getCourseOfferingDesc()).append("\",").
+                        append("\"courseOfferingStateKey\":").append("\"").append(wrapper.getCourseOfferingStateKey()).append("\",").
+                        append("\"courseOfferingStateDisplay\":").append("\"").append(wrapper.getCourseOfferingStateDisplay()).append("\",").
+                        append("\"courseOfferingCreditOptionKey\":").append("\"").append(wrapper.getCourseOfferingCreditOptionKey()).append("\",").
+                        append("\"courseOfferingGradingOptionKey\":").append("\"").append(wrapper.getCourseOfferingGradingOptionKey()).append("\",").
+                        append("\"courseOfferingCreditOptionDisplay\":").append("\"").append(wrapper.getCourseOfferingCreditOptionDisplay()).append("\",").
+                        append("\"courseOfferingGradingOptionDisplay\":").append("\"").append(wrapper.getCourseOfferingGradingOptionDisplay()).append("\",").
+                        append("\"subjectArea\":").append("\"").append(wrapper.getSubjectArea()).append("\",").
+                        append("\"isLegalToDelete\":").append("\"").append(wrapper.isLegalToDelete()).append("\",").
+                        append("\"isChecked\":").append("\"").append(wrapper.getIsChecked()).append("\"},");
+                }
+                String jsonStr = jsonString.substring(0, jsonString.lastIndexOf(","));
+                jsonStr = jsonStr + "]}";
+                response.setContentType("application/json");
+                response.getWriter().write(jsonStr);
+            }
+            //
+            theForm.setEditAuthz(checkEditViewAuthz(theForm));
+            if (GlobalVariables.getMessageMap().getErrorMessages().isEmpty()){
+//                return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
+               // return "";
+            }else{
+//                return getUIFModelAndView(theForm, CourseOfferingConstants.SEARCH_PAGE_POC);
+              //  return "";
+            }
+        } else {
+            LOG.error("Error: Course Code search field can't be empty");
+            GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Offering", inputCode, termCode);
+            theForm.clearCourseOfferingResultList();
+            theForm.setActivityWrapperList(null);
+
+//            return getUIFModelAndView(theForm);
+            //return "";
+        }
+
+//        response.setContentType("application/json");
+//        response.getWriter().write("[{\"Hello\" : \"There\" }]");
+//        return null;
     }
 
     private ModelAndView _prepareManageAOsModelAndView(CourseOfferingManagementForm theForm, CourseOfferingInfo coToShow) throws Exception {
