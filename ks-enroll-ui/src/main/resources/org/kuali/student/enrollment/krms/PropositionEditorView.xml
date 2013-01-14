@@ -179,37 +179,37 @@
                     <property name="items">
                         <list>
 
-                            <bean parent="permission.instructor.required" />
-                            <bean parent="course.drop.org.permission.required" />
-                            <bean parent="max.limit.courses.at.org.for.program" />
-                            <bean parent="max.limit.courses.at.org.duration.for.program" />
-                            <bean parent="success.compl.course" />
-                            <bean parent="success.course.courseset.completed.nof" />
-                            <bean parent="success.course.courseset.completed.all" />
-                            <bean parent="success.credit.courseset.completed.nof" />
-                            <bean parent="success.credit.courseset.completed.nof.org" />
-                            <bean parent="cumulative.gpa.min" />
-                            <bean parent="duration.cumulative.gpa.min" />
-                            <bean parent="course.courseset.gpa.min" />
-                            <bean parent="course.courseset.grade.min" />
-                            <bean parent="course.courseset.nof.grade.min" />
-                            <bean parent="course.courseset.grade.max" />
-                            <bean parent="course.test.score.min" />
-                            <bean parent="course.test.score.max" />
+                            <ref bean="permission.instructor.required" />
+                            <ref bean="course.drop.org.permission.required" />
+                            <ref bean="max.limit.courses.at.org.for.program" />
+                            <ref bean="max.limit.courses.at.org.duration.for.program" />
+                            <ref bean="success.compl.course" />
+                            <ref bean="success.course.courseset.completed.nof" />
+                            <ref bean="success.course.courseset.completed.all" />
+                            <ref bean="success.credit.courseset.completed.nof" />
+                            <ref bean="success.credit.courseset.completed.nof.org" />
+                            <ref bean="cumulative.gpa.min" />
+                            <ref bean="duration.cumulative.gpa.min" />
+                            <ref bean="course.courseset.gpa.min" />
+                            <ref bean="course.courseset.grade.min" />
+                            <ref bean="course.courseset.nof.grade.min" />
+                            <ref bean="course.courseset.grade.max" />
+                            <ref bean="course.test.score.min" />
+                            <ref bean="course.test.score.max" />
                             <!--<bean parent="course.notcompleted" />-->
-                            <bean parent="course.courseset.completed.none" />
-                            <bean parent="course.courseset.credits.completed.none" />
-                            <bean parent="course.courseset.credits.completed.nof" />
-                            <bean parent="course.courseset.completed.nof" />
-                            <bean parent="course.enrolled" />
-                            <bean parent="course.courseset.enrolled.nof" />
-                            <bean parent="course.courseset.enrolled.all" />
-                            <bean parent="credits.earned.min" />
-                            <bean parent="course.notccompleted" />
-                            <bean parent="course.credits.repeat.max" />
-                            <bean parent="admitted.to.program" />
-                            <bean parent="admitted.to.program.campus" />
-                            <bean parent="notadmitted.to.program" />
+                            <ref bean="course.courseset.completed.none" />
+                            <ref bean="course.courseset.credits.completed.none" />
+                            <ref bean="course.courseset.credits.completed.nof" />
+                            <ref bean="course.courseset.completed.nof" />
+                            <ref bean="course.enrolled" />
+                            <ref bean="course.courseset.enrolled.nof" />
+                            <ref bean="course.courseset.enrolled.all" />
+                            <ref bean="credits.earned.min" />
+                            <ref bean="course.notccompleted" />
+                            <ref bean="course.credits.repeat.max" />
+                            <ref bean="admitted.to.program" />
+                            <ref bean="admitted.to.program.campus" />
+                            <ref bean="notadmitted.to.program" />
 
                         </list>
                     </property>
