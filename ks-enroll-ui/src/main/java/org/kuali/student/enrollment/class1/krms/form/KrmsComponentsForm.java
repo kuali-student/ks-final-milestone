@@ -49,6 +49,14 @@ public class KrmsComponentsForm extends UifFormBase {
         return propositionEditor.getMultipleCourses();
     }
 
+    public String getGradeScale() {
+        return propositionEditor.getGradeScale();
+    }
+
+    public void setGradeScale(String gradeScale) {
+        propositionEditor.setGradeScale(gradeScale);
+    }
+
     public PropositionBo getProposition() {
         return getPropositionEditor().getProposition();
     }

@@ -41,7 +41,7 @@
                 <ref bean="KRMS-GPA-Field" />
                 <ref bean="KRMS-TestScore-Field" />
                 <ref bean="KRMS-TestName-Field" />
-                <ref bean="KRMS-GradeType-Field" />
+                <ref bean="KRMS-Grade-Section" />
             </list>
         </property>
     </bean>
@@ -205,7 +205,7 @@
                             <property name="methodToCall" value="addBlankLine"/>
                             <property name="actionEvent" value="addBlankLine"/>
                             <property name="id" value="uif-addBlankLine"/>
-                            <property name="actionLabel" value="Add another item"/>
+                            <property name="actionLabel" value="Add to list"/>
                             <property name="actionImagePlacement" value="LEFT"/>
                             <property name="actionImage">
                                 <bean parent="Uif-Image" p:source="../ks-enroll-ksink/images/plus_15px.png"/>
@@ -321,17 +321,33 @@
     </bean>
     <bean id="KRMS-TestName-Field" parent="KRMS-TestName-Field-Parent" />
 
-    <bean id="KRMS-GradeType-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termParameter" p:label="Grade">
+    <bean id="KRMS-GradeScale-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="gradeScale" p:label="Grade">
         <property name="control">
             <bean parent="Uif-VerticalRadioControl" />
         </property>
         <property name="optionsFinder">
-            <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.GradingOptionsKeyValues" p:addBlankOption="false" />
+            <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.GradeScaleValuesFinder" />
         </property>
     </bean>
-    <bean id="KRMS-GradeType-Field" parent="KRMS-GradeType-Field-Parent" />
+    <bean id="KRMS-GradeScale-Field" parent="KRMS-GradeScale-Field-Parent" />
+
+    <bean id="KRMS-GradeValues-Field-Parent" parent="Uif-InputField" p:propertyName="proposition.termParameter" p:refreshWhenChangedPropertyNames="gradeScale">
+        <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.GradeValuesKeyFinder" />
+        </property>
+    </bean>
+    <bean id="KRMS-GradeValues-Field" parent="KRMS-GradeValues-Field-Parent" />
 
     <bean id="KRMS-Grade-Section" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                 <ref bean="KRMS-GradeScale-Field" />
+                 <ref bean="KRMS-GradeValues-Field" />
+            </list>
+        </property>
 
     </bean>
 </beans>

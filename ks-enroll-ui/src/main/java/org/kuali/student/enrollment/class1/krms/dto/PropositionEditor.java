@@ -26,6 +26,7 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
     private List<TermParameter> termParameterList = new ArrayList<TermParameter>();
     private String multipleCourseType;
     private List<CourseInfo> multipleCourses;
+    private String gradeScale;
 
     public PropositionEditor() {
         super();
@@ -118,5 +119,13 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
 
     public void setMultipleCourses(List<CourseInfo> multipleCourses) {
         this.multipleCourses = multipleCourses;
+    }
+
+    public String getGradeScale() {
+        return gradeScale;
+    }
+
+    public void setGradeScale(String gradeScale) {
+        this.gradeScale = gradeScale;
     }
 }
