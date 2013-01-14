@@ -297,7 +297,7 @@ insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_
 insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.program.completion'), krms_typ_s.currval, 'A', 15, 0, 'Y')
 /
 
---kuali.reqComponent.type.course.org.program.admitted
+--kuali.krms.proposition.type.admitted.to.program.campus
 insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.admitted.to.program.campus','KS-SYS','simplePropositionTypeService','Y','0')
 /
 insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.course.academicReadiness.studentEligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
@@ -562,25 +562,131 @@ insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (kr
 insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
 /
 
-
 --New ENR Proposition Types
+--kuali.krms.proposition.type.admitted.to.program
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.admitted.to.program','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
+
+--kuali.krms.proposition.type.course.courseset.completed.nof
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.course.courseset.completed.nof','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
+
+--kuali.krms.proposition.type.success.credit.courseset.completed.nof
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.success.credit.courseset.completed.nof','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
+
+--kuali.krms.proposition.type.success.credit.courseset.completed.nof.org
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.success.credit.courseset.completed.nof.org','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
+
 --kuali.krms.proposition.type.cant.add.to.activity.offering.due.to.state
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.cant.add.to.activity.offering.due.to.state','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
+
 --kuali.krms.proposition.type.no.repeat.course
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.no.repeat.course','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
+
 --kuali.krms.proposition.type.no.repeat.courses
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.no.repeat.courses','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
+
 --kuali.krms.proposition.type.avail.seat
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.avail.seat','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
+
 --kuali.krms.proposition.type.success.compl.course.as.of.term
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.success.compl.course.as.of.term','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
+
 --kuali.krms.proposition.type.success.compl.prior.to.term
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.success.compl.prior.to.term','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
+
 --kuali.krms.proposition.type.success.compl.course.between.terms
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.success.compl.course.between.terms','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
+
 --kuali.krms.proposition.type.success.compl.course.offer
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.success.compl.course.offer','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
+
 --kuali.krms.proposition.type.notadmitted.to.program.in.class.standing
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.notadmitted.to.program.in.class.standing','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
+
 --kuali.krms.proposition.type.admitted.to.program.org
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.admitted.to.program.org','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
+
 --kuali.krms.proposition.type.in.class.standing
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.in.class.standing','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
+
 --kuali.krms.proposition.type.greater.than.class.standing
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.greater.than.class.standing','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
+
 --kuali.krms.proposition.type.less.than.class.standing
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.less.than.class.standing','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
+
 --kuali.krms.proposition.type.notin.class.standing
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.notin.class.standing','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
+
 --kuali.krms.proposition.type.course.offering.enrolled
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.course.offering.enrolled','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
+
 --kuali.krms.proposition.type.course.courseset.enrolled
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.course.courseset.enrolled','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
 --kuali.krms.proposition.type.no.repeat.course.nof
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.no.repeat.course.nof','KS-SYS','simplePropositionTypeService','Y','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.krms.rule.type.schedule.eligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
+/
 
 --kuali.krms.proposition.type.course.offering.drop.instructor.permission.required
 insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.course.offering.drop.instructor.permission.required','KS-SYS','simplePropositionTypeService','N','0')
