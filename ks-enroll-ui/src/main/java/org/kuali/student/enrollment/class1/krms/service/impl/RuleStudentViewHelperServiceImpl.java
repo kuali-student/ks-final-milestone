@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class1.krms.service.impl;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.krms.service.RuleStudentViewHelperService;
 import org.kuali.student.enrollment.class1.krms.service.TemplateResolverService;
+import org.kuali.student.enrollment.class1.krms.util.KsKrmsRepositoryServiceLocator;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,25 +14,28 @@ import org.kuali.student.enrollment.class1.krms.service.TemplateResolverService;
  */
 public class RuleStudentViewHelperServiceImpl extends ViewHelperServiceImpl implements RuleStudentViewHelperService{
 
-    private TemplateResolverService templateResolverService = new TempResolverServiceMockImpl();
+    private TemplateResolverService templateResolverService;
+
+    public TemplateResolverService getTemplateResolverService() {
+        if(templateResolverService == null){
+            templateResolverService = KsKrmsRepositoryServiceLocator.getService("templateResolverMockService");
+        }
+        return templateResolverService;
+    }
 
     @Override
     public String getTermSpecificationForType(String type) {
-        return templateResolverService.getTermSpecificationForType(type);
+        return getTemplateResolverService().getTermSpecificationForType(type);
     }
 
     @Override
     public String getOperationForType(String type) {
-        return templateResolverService.getOperationForType(type);
+        return getTemplateResolverService().getOperationForType(type);
     }
 
     @Override
     public String getValueForType(String type) {
-        return templateResolverService.getValueForType(type);
+        return getTemplateResolverService().getValueForType(type);
     }
 
-    @Override
-    public String getComponentForTermSpec(String termSpecId) {
-        return templateResolverService.getComponentForTermSpec(termSpecId);
-    }
 }

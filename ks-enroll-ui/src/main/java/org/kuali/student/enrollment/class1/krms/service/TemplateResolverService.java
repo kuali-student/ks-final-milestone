@@ -15,5 +15,5 @@ public interface TemplateResolverService {
 
     public String getValueForType(String type);
 
-    public String getComponentForTermSpec(String termSpecId);
+
 }
