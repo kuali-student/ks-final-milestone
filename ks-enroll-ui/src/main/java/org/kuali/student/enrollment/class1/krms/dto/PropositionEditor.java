@@ -29,9 +29,7 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
 
     private PropositionBo proposition;
     private String termSpecId;
-    private String termParameter;
     private String type;
-    private List<TermParameter> termParameterList = new ArrayList<TermParameter>();
     private String multipleCourseType;
     private List<CourseInfo> multipleCourses;
     private String gradeScale;
@@ -63,22 +61,6 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
 
     public void setTermSpecId(String componentId) {
         this.termSpecId = componentId;
-    }
-
-    public String getTermParameter() {
-        return termParameter;
-    }
-
-    public void setTermParameter(String termParameter) {
-        this.termParameter = termParameter;
-    }
-
-    public List<TermParameter> getTermParameterList() {
-        return termParameterList;
-    }
-
-    public void setTermParameterList(List<TermParameter> termParameterList) {
-        this.termParameterList = termParameterList;
     }
 
     public String getId(){

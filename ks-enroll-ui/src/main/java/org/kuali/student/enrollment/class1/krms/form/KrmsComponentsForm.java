@@ -31,34 +31,32 @@ import java.util.List;
  */
 public class KrmsComponentsForm extends UifFormBase {
 
-    private PropositionEditor propositionEditor;
+    private PropositionEditor proposition;
 
-    public PropositionEditor getPropositionEditor() {
-        return propositionEditor;
+    public PropositionEditor getProposition() {
+        return proposition;
     }
 
-    public void setPropositionEditor(PropositionEditor propositionEditor) {
-        this.propositionEditor = propositionEditor;
+    public void setProposition(PropositionEditor proposition) {
+        this.proposition = proposition;
     }
 
-    public String getMultipleCourseType() {
-        return propositionEditor.getMultipleCourseType();
-    }
+//    public String getMultipleCourseType() {
+//        return propositionEditor.getMultipleCourseType();
+//    }
+//
+//    public List<CourseInfo> getMultipleCourses() {
+//        return propositionEditor.getMultipleCourses();
+//    }
+//
+//    public String getGradeScale() {
+//        return propositionEditor.getGradeScale();
+//    }
+//
+//    public void setGradeScale(String gradeScale) {
+//        propositionEditor.setGradeScale(gradeScale);
+//    }
 
-    public List<CourseInfo> getMultipleCourses() {
-        return propositionEditor.getMultipleCourses();
-    }
 
-    public String getGradeScale() {
-        return propositionEditor.getGradeScale();
-    }
-
-    public void setGradeScale(String gradeScale) {
-        propositionEditor.setGradeScale(gradeScale);
-    }
-
-    public PropositionBo getProposition() {
-        return getPropositionEditor().getProposition();
-    }
 
 }

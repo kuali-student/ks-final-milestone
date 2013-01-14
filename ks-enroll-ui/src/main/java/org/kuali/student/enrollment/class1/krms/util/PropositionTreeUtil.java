@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.class1.krms.util;
 
 import org.kuali.rice.core.api.util.tree.Node;
+import org.kuali.rice.core.api.util.tree.Tree;
+import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
 
 import java.util.List;
@@ -32,6 +34,24 @@ public class PropositionTreeUtil {
             }
         }
         return bingo;
+    }
+
+    public static PropositionEditor findPropositionEditor(String propositionId, Tree<RuleEditorTreeNode, String> propositionTree) {
+        if (propositionId != null && propositionTree != null) {
+            List<Node<RuleEditorTreeNode, String>> nodeList = propositionTree.toList();
+            if (nodeList != null) {
+                for (Node<RuleEditorTreeNode, String> node : nodeList) {
+                    RuleEditorTreeNode ruleEditorTreeNode = node.getData();
+                    if (ruleEditorTreeNode != null) {
+                        PropositionEditor propositionEditor = ruleEditorTreeNode.getProposition();
+                        if (propositionId.equals(propositionEditor.getProposition().getId())) {
+                            return propositionEditor;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
 
 }

@@ -16,19 +16,18 @@
  */
 package org.kuali.student.enrollment.class1.krms.keyvalues;
 
-import org.kuali.rice.core.api.criteria.Predicate;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
+import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.form.KrmsComponentsForm;
+import org.kuali.student.enrollment.class1.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
@@ -48,21 +47,30 @@ public class GradeValuesKeyFinder extends UifKeyValuesFinderBase {
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
-        KrmsComponentsForm krmsComponentsForm = null;
-        if (model instanceof KrmsComponentsForm) {
-            krmsComponentsForm = (KrmsComponentsForm)model;
-        }
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        try
-        {
-            List<ResultValueInfo> list = this.getLRCService().getResultValuesForScale(krmsComponentsForm.getGradeScale(), getContextInfo());
+        String gradeScale = "";
+        if (model instanceof KrmsComponentsForm) {
+            KrmsComponentsForm krmsComponentsForm = (KrmsComponentsForm) model;
+            gradeScale = krmsComponentsForm.getProposition().getGradeScale();
+
+        } else if (model instanceof MaintenanceDocumentForm) {
+            MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
+            Object dataObject = maintenanceForm.getDocument().getNewMaintainableObject().getDataObject();
+            if (dataObject instanceof RuleEditor) {
+                RuleEditor ruleEditor = (RuleEditor) dataObject;
+                PropositionEditor propositionEditor = PropositionTreeUtil.findPropositionEditor(ruleEditor.getSelectedPropositionId(), ruleEditor.getPropositionTree()) ;
+                gradeScale = propositionEditor.getGradeScale();
+            }
+        }
+
+        try {
+            List<ResultValueInfo> list = this.getLRCService().getResultValuesForScale(gradeScale, getContextInfo());
             if (list != null) {
                 for (ResultValueInfo info : list) {
                     keyValues.add(new ConcreteKeyValue(info.getKey(), info.getValue()));
                 }
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
         return keyValues;
