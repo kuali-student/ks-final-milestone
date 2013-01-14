@@ -294,8 +294,7 @@
     <bean id="course.courseset.grade.min" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.grade.min'}">
         <property name="items">
             <list>
-                <!-- TODO: GradeType component -->
-                <!-- TODO: Grade component -->
+                <ref bean="KRMS-Grade-Section" />
                 <!--<ref bean="KRMS-MultiCourse-Section" />-->
             </list>
         </property>
@@ -307,8 +306,7 @@
             <list>
                 <ref bean="KRMS-NumberOfCourses-ConstantValue" />
                 <!--<ref bean="KRMS-MultiCourse-Section" />-->
-                <!-- TODO: GradeType component -->
-                <!-- TODO: Grade component -->
+                <ref bean="KRMS-Grade-Section" />
             </list>
         </property>
     </bean>
@@ -317,8 +315,7 @@
     <bean id="course.courseset.grade.max" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.grade.max'}">
         <property name="items">
             <list>
-                <!-- TODO: GradeType component -->
-                <!-- TODO: Grade component -->
+                <ref bean="KRMS-Grade-Section" />
                 <!--<ref bean="KRMS-MultiCourse-Section" />-->
             </list>
         </property>
