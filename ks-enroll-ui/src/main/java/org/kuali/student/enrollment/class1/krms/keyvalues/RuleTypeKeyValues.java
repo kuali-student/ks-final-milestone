@@ -4,11 +4,12 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.repository.TypeTypeRelationBoService;
-import org.kuali.student.enrollment.class1.krms.form.RequisitesForm;
+import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,12 +21,16 @@ public class RuleTypeKeyValues extends UifKeyValuesFinderBase implements Seriali
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
-        RequisitesForm requisiteForm = (RequisitesForm)model;
+        String agendaTypeId = null;
+        if (model instanceof MaintenanceDocumentForm){
+            MaintenanceDocumentForm MaintenanceDocumentForm = (MaintenanceDocumentForm) model;
+            agendaTypeId = ((RuleEditor)MaintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject()).getAgendaType();
+        }
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
          //Use Type Type Relation to get Rule Types
         try {
-            List<TypeTypeRelation> typeTypeRelationList = getTypeTypeRelationBoService().findTypeTypeRelationsByFromType(requisiteForm.getAgendaType());
+            List<TypeTypeRelation> typeTypeRelationList = getTypeTypeRelationBoService().findTypeTypeRelationsByFromType(agendaTypeId);
 
             for (TypeTypeRelation typeTypeRelation : typeTypeRelationList) {
                 KrmsTypeDefinition krmsTypeDefinition = KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService().getTypeById(typeTypeRelation.getToTypeId());

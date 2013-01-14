@@ -4,33 +4,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="Requisites-ManageView" parent="KSFormView">
-        <property name="id" value="manageRequisitesView"/>
+    <bean id="Agenda-Student-MaintenanceView" parent="KSMaintenanceView">
         <property name="headerText" value="Manage Enrollment Eligibility"/>
-        <property name="formClass" value="org.kuali.student.enrollment.class1.krms.form.RequisitesForm"/>
-        <property name="viewHelperServiceClass"
-                  value="org.kuali.student.enrollment.class1.krms.service.impl.RequisitesViewHelperServiceImpl"/>
-        <property name="singlePageView" value="true"/>
-        <property name="theme">
-            <bean parent="Uif-KradTheme"/>
-        </property>
-        <property name="page">
-            <bean parent="Uif-Page"/>
-        </property>
-        <property name="header">
-            <bean parent="Uif-HeaderTwo"/>
-        </property>
-        <property name="footer">
-            <bean parent="Uif-FooterBase"/>
-        </property>
-        <property name="items">
-            <list>
-                <ref bean="Requisites-ManageSection"/>
-            </list>
-        </property>
         <property name="additionalScriptFiles">
-            <list merge="true">
-                <value>ks-enroll/scripts/common.js</value>
+            <list>
                 <value>krms/scripts/agendaTree.js</value>
                 <value>krms/scripts/ruleStudentTree.js</value>
                 <value>krms/scripts/requiredAlerts.js</value>
@@ -38,7 +15,18 @@
                 <value>krms/scripts/countdownInputs.js</value>
             </list>
         </property>
-
+        <property name="viewName" value="AgendaWithRuleView"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.RuleEditor"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.enrollment.class1.krms.service.impl.RuleStudentViewHelperServiceImpl"/>
+        <property name="page.items">
+            <list>
+                <ref bean="Requisites-ManageSection"/>
+            </list>
+        </property>
+        <property name="page.footer.items">
+            <ref bean="KSDocumentPageFooter_SubmitCancel" />
+        </property>
     </bean>
 
     <bean id="Requisites-ManageSection" parent="Uif-VerticalBoxSection">
@@ -47,7 +35,7 @@
         <property name="items">
             <list>
 
-                <bean parent="Uif-MessageField" p:messageText="@{courseName}"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#dp.courseName}"/>
 
                 <bean parent="Uif-InputField-LabelTop" p:label="Select Agenda" p:propertyName="agendaType">
                     <property name="control">
@@ -64,9 +52,10 @@
 
                             <bean parent="Uif-InputField-LabelTop" p:label="Select Rule" p:propertyName="ruleType"
                                   p:optionsFinderClass="org.kuali.student.enrollment.class1.krms.keyvalues.RuleTypeKeyValues"
-                                  p:refreshWhenChangedPropertyNames="agendaType">
+                                  p:refreshWhenChangedPropertyNames="#dp.agendaType">
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl"/>
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"
+                                          p:onChangeScript="ajaxSubmitForm('retrieveRule', null, jQuery(this).data('submitdata'), null, null, null);"/>
                                 </property>
                             </bean>
 
@@ -90,7 +79,7 @@
                 </bean>
 
                 <bean id="Enrollment-Eligibility-TabSection" parent="Uif-TabSection"
-                      p:progressiveRender="@{ruleType ne null and ruleType ne '0'}">
+                      p:progressiveRender="@{#dp.ruleType ne null and #dp.ruleType ne '0'}">
                     <property name="items">
                         <list>
                             <bean parent="Preview-Canonical-Section" />

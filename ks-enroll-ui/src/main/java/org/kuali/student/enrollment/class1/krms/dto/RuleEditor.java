@@ -24,16 +24,24 @@ public class RuleEditor extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 
+    private String cluId;
+    private String courseName;
+    private String agendaType;
+    private String ruleType;
+    private List<String> activeSelections;
+
     private RuleBo rule;
     private ContextBo context;
     private String namespace;
     private String contextName;
+
     private String selectedPropositionId;
     private String cutPropositionId;
     private String copyRuleName;
     private String oldContextId;
     private String ruleEditorMessage;
     private boolean addRuleInProgress = false;
+
     private Map<String, String> customAttributesMap = new HashMap<String, String>();
     private Map<String, String> customRuleAttributesMap = new HashMap<String, String>();
     private Map<String, String> customRuleActionAttributesMap = new HashMap<String, String>();
@@ -42,7 +50,6 @@ public class RuleEditor extends PersistableBusinessObjectBase {
     Tree<RuleEditorTreeNode, String> propositionTree;
 
     // for rule editor display
-    String propositionSummary;
     private StringBuffer propositionSummaryBuffer;
 
     public RuleEditor() {
@@ -54,12 +61,58 @@ public class RuleEditor extends PersistableBusinessObjectBase {
         this.rule = rule;
     }
 
+    public void clearRule(){
+        this.setRule(null);
+        this.setPropositionTree(null);
+        this.setRuleEditorMessage(null);
+    }
+
     public RuleBo getRule() {
         return rule;
     }
 
     public void setRule(RuleBo rule) {
         this.rule = rule;
+    }
+
+    public String getCluId() {
+        return cluId;
+    }
+
+    public void setCluId(String cluId) {
+        this.cluId = cluId;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public String getAgendaType() {
+        return agendaType;
+    }
+
+    public void setAgendaType(String agendaType) {
+        this.agendaType = agendaType;
+    }
+
+    public String getRuleType() {
+        return ruleType;
+    }
+
+    public void setRuleType(String ruleType) {
+        this.ruleType = ruleType;
+    }
+
+    public List<String> getActiveSelections() {
+        return activeSelections;
+    }
+
+    public void setActiveSelections(List<String> activeSelections) {
+        this.activeSelections = activeSelections;
     }
 
     /**
@@ -262,7 +315,7 @@ public class RuleEditor extends PersistableBusinessObjectBase {
                     child.setData(pNode);
                 }
                 sprout.getChildren().add(child);
-                propositionSummaryBuffer.append(prop.getParameterDisplayString());
+                propositionSummaryBuffer.append(propositionEditor.getParameterDisplayString());
             }
             else if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())){
                 // Compound Proposition

@@ -40,7 +40,7 @@
     </bean>
 
 
-    <bean id="RuleBo-Student-MaintenanceView" parent="Uif-MaintenanceView">
+    <bean id="RuleBo-Student-MaintenanceView" parent="KSMaintenanceView">
         <property name="headerText" value="Rule Editor"/>
         <property name="additionalScriptFiles">
             <list>
@@ -52,16 +52,16 @@
             </list>
         </property>
         <property name="viewName" value="StudentView"/>
-        <property name="theme">
-            <bean parent="Uif-KradTheme"/>
-        </property>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.RuleEditor"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.enrollment.class1.krms.service.impl.RuleStudentViewHelperServiceImpl"/>
-        <property name="items">
-            <list merge="false">
-                <bean parent="ruleStudentEditorBody"/>
+        <property name="page.items">
+            <list>
+                <ref bean="ruleStudentEditorBody"/>
             </list>
+        </property>
+        <property name="page.footer.items">
+            <ref bean="KSDocumentPageFooter_SubmitCancel" />
         </property>
     </bean>
 
@@ -409,8 +409,7 @@
             <bean parent="Uif-Message"/>
         </property>
         <property name="dataGroupPrototype">
-            <bean parent="Uif-HorizontalBoxGroup" p:style="float: right;"
-                  p:progressiveRender="@{#form.viewTypeName.toString() == 'MAINTENANCE'}">
+            <bean parent="Uif-HorizontalBoxGroup" p:style="float: right;">
                 <property name="items">
                     <list>
                         <bean parent="Uif-ActionImage"
@@ -441,7 +440,6 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-InputField" p:propertyName="proposition.id"
-                              p:progressiveRender="@{#form.viewTypeName.toString() == 'MAINTENANCE'}"
                               p:showLabel="false" p:label="id" p:maxLength="255">
                             <property name="control">
                                 <bean parent="Uif-HiddenControl" p:cssClasses="hiddenId"/>
@@ -469,8 +467,7 @@
         </property>
     </bean>
 
-    <bean id="selectedNodeQuickActions" parent="Uif-HorizontalFieldGroup" p:cssClasses="actionReveal"
-          p:progressiveRender="@{#form.viewTypeName.toString() == 'MAINTENANCE'}">
+    <bean id="selectedNodeQuickActions" parent="Uif-HorizontalFieldGroup" p:cssClasses="actionReveal">
         <property name="items">
             <list>
                 <bean parent="Uif-ActionImage"

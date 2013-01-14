@@ -27,7 +27,10 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.api.KrmsApiServiceLocator;
 import org.kuali.rice.krms.api.engine.expression.ComparisonOperatorService;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
+import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
+import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
+import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
@@ -35,11 +38,12 @@ import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.impl.repository.ActionBo;
-import org.kuali.rice.krms.impl.repository.AgendaBo;
+import org.kuali.rice.krms.impl.repository.AgendaBoService;
 import org.kuali.rice.krms.impl.repository.AgendaItemBo;
 import org.kuali.rice.krms.impl.repository.ContextBoService;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
+import org.kuali.rice.krms.impl.repository.ReferenceObjectBindingBoService;
 import org.kuali.rice.krms.impl.repository.RuleBo;
 import org.kuali.rice.krms.impl.repository.RuleBoService;
 import org.kuali.rice.krms.impl.repository.TermBo;
@@ -54,10 +58,10 @@ import org.kuali.rice.krms.impl.util.KrmsImplConstants;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
-import org.kuali.student.enrollment.class1.krms.dto.StudentAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.service.RuleStudentViewHelperService;
 import org.kuali.student.enrollment.class1.krms.service.impl.AgendaStudentEditorMaintainableImpl;
 import org.kuali.student.enrollment.class1.krms.service.impl.RuleStudentViewHelperServiceImpl;
+import org.kuali.student.enrollment.class1.krms.util.KsKrmsRepositoryServiceLocator;
 import org.kuali.student.enrollment.class1.krms.util.PropositionTreeUtil;
 import org.kuali.student.krms.KRMSConstants;
 import org.springframework.stereotype.Controller;
@@ -87,42 +91,6 @@ import java.util.UUID;
 public class RuleStudentEditorController extends MaintenanceDocumentController {
 
     private SequenceAccessorService sequenceAccessorService;
-
-    /**
-     * This overridden method does extra work on refresh to update the namespace when the context has been changed.
-     *
-     * @see org.kuali.rice.krad.web.controller.UifControllerBase#refresh(org.kuali.rice.krad.web.form.UifFormBase, org.springframework.validation.BindingResult, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @RequestMapping(params = "methodToCall=" + "refresh")
-    @Override
-    public ModelAndView refresh(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ModelAndView modelAndView = super.refresh(form, result, request, response);
-
-        // handle return from context lookup
-        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
-        StudentAgendaEditor agendaEditor = ((StudentAgendaEditor) maintenanceForm.getDocument().getNewMaintainableObject().getDataObject());
-        AgendaEditorBusRule rule = new AgendaEditorBusRule();
-        if (rule.validContext(agendaEditor) && rule.validAgendaName(agendaEditor)) {
-            // update the namespace on all agenda related objects if the contest has been changed
-            if (!StringUtils.equals(agendaEditor.getOldContextId(), agendaEditor.getAgenda().getContextId())) {
-                agendaEditor.setOldContextId(agendaEditor.getAgenda().getContextId());
-
-                String namespace = "";
-                if (!StringUtils.isBlank(agendaEditor.getAgenda().getContextId())) {
-                    namespace = getContextBoService().getContextByContextId(agendaEditor.getAgenda().getContextId()).getNamespace();
-                }
-
-                for (AgendaItemBo agendaItem : agendaEditor.getAgenda().getItems()) {
-                    agendaItem.getRule().setNamespace(namespace);
-                    for (ActionBo action : agendaItem.getRule().getActions()) {
-                        action.setNamespace(namespace);
-                    }
-                }
-            }
-        }
-        return modelAndView;
-    }
 
     /**
      * Validate the given simple proposition.  Note that this method is side-effecting,
@@ -910,6 +878,41 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
+    @RequestMapping(params = "methodToCall=" + "retrieveRule")
+    public ModelAndView retrieveRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                         HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
+        RuleBo rule = null;
+        RuleEditor ruleEditor = getRuleEditor(form);
+        ruleEditor.clearRule();
+
+        List<ReferenceObjectBinding> refObjects = getReferenceObjectBindingBoService().findReferenceObjectBindingsByReferenceObject(ruleEditor.getCluId());
+        refs : for(ReferenceObjectBinding refObject : refObjects){
+            if ("Agenda".equals(refObject.getKrmsDiscriminatorType())){
+
+                AgendaDefinition agenda = getAgendaBoService().getAgendaByAgendaId(refObject.getKrmsObjectId());
+                if ((agenda == null) || (!agenda.getTypeId().equals(ruleEditor.getAgendaType()))){
+                    continue;
+                }
+
+                List<AgendaItemDefinition> agendaItems = getAgendaBoService().getAgendaItemsByAgendaId(refObject.getKrmsObjectId());
+                for (AgendaItemDefinition agendaItem : agendaItems){
+
+                    rule = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(RuleBo.class, agendaItem.getRuleId());
+
+                    if ((rule != null) && (rule.getTypeId().equals(ruleEditor.getRuleType()))){
+                        ruleEditor.setRule(rule);
+                        break refs;
+                    }
+
+                }
+            }
+        }
+
+        return getUIFModelAndView(form);
+    }
+
     @RequestMapping(params = "methodToCall=" + "updateProposition")
     public ModelAndView updateProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response)
@@ -1022,6 +1025,14 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
     public TermBoService getTermBoService() {
         return KrmsRepositoryServiceLocator.getTermBoService();
+    }
+
+    public ReferenceObjectBindingBoService getReferenceObjectBindingBoService() {
+        return KsKrmsRepositoryServiceLocator.getReferenceObjectBindingBoService();
+    }
+
+    public AgendaBoService getAgendaBoService() {
+        return KrmsRepositoryServiceLocator.getAgendaBoService();
     }
 
 }

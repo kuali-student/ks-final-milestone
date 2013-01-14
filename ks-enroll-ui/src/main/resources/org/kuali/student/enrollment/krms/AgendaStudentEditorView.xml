@@ -51,7 +51,7 @@
     <property name="templateName" value="uif_agendaTree"/>
   </bean>
 
-    <bean id="Editor-Student-MaintenanceView" parent="Uif-MaintenanceView">
+    <bean id="Editor-Student-MaintenanceView" parent="KSMaintenanceView">
         <property name="additionalScriptFiles">
             <list>
                 <value>krms/scripts/ruleStudentTree.js</value>
@@ -69,9 +69,6 @@
         </property>
     <property name="headerText" value="Agenda Editor"/>
     <property name="viewName" value="StudentLookupView" />
-    <property name="theme">
-      <bean parent="Uif-KradTheme"/>
-    </property>
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.StudentAgendaEditor"/>
     <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.AgendaStudentEditorMaintainableImpl"/>
     <property name="items">

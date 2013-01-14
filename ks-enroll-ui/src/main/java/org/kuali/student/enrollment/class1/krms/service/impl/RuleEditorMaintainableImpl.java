@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class1.krms.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.metadata.ClassNotPersistenceCapableException;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.uif.RemotableAttributeField;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
@@ -48,7 +49,14 @@ import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
 import org.kuali.student.enrollment.class1.krms.service.AgendaStudentEditorMaintainable;
 import org.kuali.student.enrollment.uif.service.impl.KSMaintainableImpl;
+import org.kuali.student.mock.utilities.TestHelper;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -60,11 +68,14 @@ import java.util.Map;
  * {@link org.kuali.rice.krad.maintenance.Maintainable} for the {@link org.kuali.rice.krms.impl.ui.AgendaEditor}
  *
  * @author Kuali Rice Team (rice.collab@kuali.org)
- *
  */
-public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements AgendaStudentEditorMaintainable{
+public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements AgendaStudentEditorMaintainable {
 
     private static final long serialVersionUID = 1L;
+
+    private CluService cluService;
+
+    private ContextInfo contextInfo;
 
     private static final Logger LOG = Logger.getLogger(RuleEditorMaintainableImpl.class);
 
@@ -81,8 +92,17 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
         return KRADServiceLocator.getBusinessObjectService();
     }
 
+    private ContextInfo getContextInfo() {
+        if (null == contextInfo) {
+            //TODO - get real ContextInfo
+            contextInfo = TestHelper.getContext1();
+        }
+        return contextInfo;
+    }
+
     /**
      * Find and return the node containing the proposition that is in currently in edit mode
+     *
      * @param node the node to start searching from (typically the root)
      * @return the node that is currently being edited, if any.  Otherwise, null.
      */
@@ -102,17 +122,18 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
 
     /**
      * Get the AgendaEditor out of the MaintenanceDocumentForm's newMaintainableObject
+     *
      * @param model the MaintenanceDocumentForm
      * @return the AgendaEditor
      */
     private AgendaEditor getAgendaEditor(Object model) {
-        MaintenanceDocumentForm MaintenanceDocumentForm = (MaintenanceDocumentForm)model;
-        return (AgendaEditor)MaintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
+        MaintenanceDocumentForm MaintenanceDocumentForm = (MaintenanceDocumentForm) model;
+        return (AgendaEditor) MaintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
     }
 
 
     /**
-     *  This only supports a single action within a rule.
+     * This only supports a single action within a rule.
      */
     public List<RemotableAttributeField> retrieveRuleCustomAttributes(View view, Object model, Container container) {
         AgendaEditor agendaEditor = getAgendaEditor(model);
@@ -123,10 +144,47 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
         Object dataObject = null;
 
+        // Since the dataObject is a wrapper class we need to build it and populate with the agenda bo.
+        RuleEditor ruleEditor = new RuleEditor();
+
+        String cluId = dataObjectKeys.get("cluId");
+        ruleEditor.setCluId(cluId);
+
+        //Retrieve the Clu information
+        CluInfo cluInfo = null;
+        if (cluId != null) {
+            try {
+                cluInfo = getCluService().getClu(cluId, getContextInfo());
+            } catch (Exception e) {
+                //TODO: Add Exception handling.
+            }
+        }
+
+        //Populate Clu Identification Information
+        if (cluInfo != null) {
+            CluIdentifierInfo cluIdentInfo = cluInfo.getOfficialIdentifier();
+            StringBuilder courseNameBuilder = new StringBuilder();
+            courseNameBuilder.append(cluIdentInfo.getDivision());
+            courseNameBuilder.append(" ");
+            courseNameBuilder.append(cluIdentInfo.getSuffixCode());
+            courseNameBuilder.append(" - ");
+            courseNameBuilder.append(cluIdentInfo.getLongName());
+            ruleEditor.setCourseName(courseNameBuilder.toString());
+        }
+
         try {
-            // Since the dataObject is a wrapper class we need to build it and populate with the agenda bo.
-            RuleEditor ruleEditor = new RuleEditor();
-            RuleBo rule = getLookupService().findObjectBySearch(((RuleEditor) getDataObject()).getRule().getClass(), dataObjectKeys);
+
+            RuleBo rule = null;
+            String ruleId = dataObjectKeys.get("id");
+
+            if (ruleId != null) {
+                rule = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(RuleBo.class, ruleId);
+            }
+
+            if (rule == null) {
+                rule = new RuleBo();
+            }
+
             if (KRADConstants.MAINTENANCE_COPY_ACTION.equals(getMaintenanceAction())) {
                 String dateTimeStamp = (new Date()).getTime() + "";
                 String newRuleName = AgendaItemBo.COPY_OF_TEXT + rule.getName() + " " + dateTimeStamp;
@@ -137,16 +195,8 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
                 document.setFieldsClearedOnCopy(true);
                 ruleEditor.setRule(copiedRule);
             } else {
-                // set custom attributes map in AgendaEditor
-                //                agendaEditor.setCustomAttributesMap(agenda.getAttributes());
                 ruleEditor.setRule(rule);
             }
-            //ruleEditor.setCustomAttributesMap(agenda.getAttributes());
-
-
-            // set extra fields on AgendaEditor
-            //ruleEditor.setNamespace(agenda.getContext().getNamespace());
-            //ruleEditor.setContextName(agenda.getContext().getName());
 
             dataObject = ruleEditor;
         } catch (ClassNotPersistenceCapableException ex) {
@@ -161,15 +211,17 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
     }
 
     /**
-     *  Returns the sequenceAssessorService
+     * Returns the sequenceAssessorService
+     *
      * @return {@link org.kuali.rice.krad.service.SequenceAccessorService}
      */
     private SequenceAccessorService getSequenceAccessorService() {
-        if ( sequenceAccessorService == null ) {
+        if (sequenceAccessorService == null) {
             sequenceAccessorService = KRADServiceLocator.getSequenceAccessorService();
         }
         return sequenceAccessorService;
     }
+
     /**
      * {@inheritDoc}
      */
@@ -205,7 +257,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
         }
 
         if (agendaBo instanceof PersistableBusinessObject) {
-            Map<String,String> primaryKeys = new HashMap<String, String>();
+            Map<String, String> primaryKeys = new HashMap<String, String>();
             primaryKeys.put("id", agendaBo.getId());
             AgendaBo blah = getBusinessObjectService().findByPrimaryKey(AgendaBo.class, primaryKeys);
             getBusinessObjectService().delete(blah);
@@ -219,12 +271,13 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
 
     /**
      * walk the proposition tree and save any new parameterized terms that are contained therein
+     *
      * @param propositionBo the root proposition from which to search
      */
     private void saveNewParameterizedTerms(PropositionBo propositionBo) {
         if (StringUtils.isBlank(propositionBo.getCompoundOpCode())) {
             // it is a simple proposition
-             if (!propositionBo.getParameters().isEmpty() && propositionBo.getParameters().get(0).getValue().startsWith(KrmsImplConstants.PARAMETERIZED_TERM_PREFIX)) {
+            if (!propositionBo.getParameters().isEmpty() && propositionBo.getParameters().get(0).getValue().startsWith(KrmsImplConstants.PARAMETERIZED_TERM_PREFIX)) {
                 String termId = propositionBo.getParameters().get(0).getValue();
                 String termSpecId = termId.substring(KrmsImplConstants.PARAMETERIZED_TERM_PREFIX.length());
                 // create new term
@@ -293,7 +346,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
 
     /**
      * In the case of edit maintenance adds a new blank line to the old side
-     *
+     * <p/>
      * TODO: should this write some sort of missing message on the old side
      * instead?
      *
@@ -304,7 +357,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
     @Override
     protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         // Check for maintenance documents in edit but exclude notes
-        if (model instanceof MaintenanceDocumentForm && KRADConstants.MAINTENANCE_EDIT_ACTION.equals(((MaintenanceDocumentForm)model).getMaintenanceAction()) && !(addLine instanceof Note)) {
+        if (model instanceof MaintenanceDocumentForm && KRADConstants.MAINTENANCE_EDIT_ACTION.equals(((MaintenanceDocumentForm) model).getMaintenanceAction()) && !(addLine instanceof Note)) {
             MaintenanceDocumentForm MaintenanceDocumentForm = (MaintenanceDocumentForm) model;
             MaintenanceDocument document = MaintenanceDocumentForm.getDocument();
 
@@ -322,8 +375,8 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
             try {
                 Object blankLine = collectionGroup.getCollectionObjectClass().newInstance();
                 //Add a blank line to the top of the collection
-                if(oldCollection instanceof List){
-                    ((List) oldCollection).add(0,blankLine);
+                if (oldCollection instanceof List) {
+                    ((List) oldCollection).add(0, blankLine);
                 } else {
                     oldCollection.add(blankLine);
                 }
@@ -341,5 +394,12 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
         }
 
         super.processBeforeAddLine(view, collectionGroup, model, addLine);
+    }
+
+    protected CluService getCluService() {
+        if (cluService == null) {
+            cluService = (CluService) GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return cluService;
     }
 }
