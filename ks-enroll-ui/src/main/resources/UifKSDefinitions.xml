@@ -90,6 +90,9 @@
         <property name="page.header.lowerGroup.items">   <!-- Also, expandall/collapseall not needed-->
             <list/>
         </property>
+        <property name="page.items">  <!-- In KS, we are not displaying the notes,route and doc overview section -->
+            <list></list>
+        </property>
     </bean>
 
     <!--Added by Bonnie-->
