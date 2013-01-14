@@ -13,6 +13,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
@@ -65,6 +68,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     private StateService stateService;
     private CourseOfferingManagementViewHelperService viewHelperService;
     private OrganizationService organizationService;
+    private CourseOfferingSetService socService;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -221,6 +225,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         theForm.setEditAuthz(checkEditViewAuthz(theForm));
 
+        //Set SOC State
+        theForm.setSocState(getSocState(theForm.getTermCode()));
+        
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 
@@ -966,6 +973,37 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             throw new RuntimeException("Error! No long name description found.", e);
         }
         return longName;
+    }
+
+    public String getSocState (String termCode) {
+        ContextInfo context = new ContextInfo();
+        try {
+            List<String> socIds = getSocService().getSocIdsByTerm(termCode, context);
+            if (socIds != null) {
+                if (socIds.isEmpty()) {
+                    return null;
+                }
+                List<SocInfo> targetSocs = this.getSocService().getSocsByIds(socIds, context);
+                for (SocInfo soc: targetSocs) {
+                    if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
+                        return soc.getStateKey().substring(soc.getStateKey().lastIndexOf('.')+1);
+                    }
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
+    public CourseOfferingSetService getSocService() {
+        // If it hasn't been set by Spring, then look it up by GlobalResourceLoader
+        if (socService == null) {
+            socService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE,
+                                                                                    CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return socService;
     }
 
     public CourseOfferingManagementViewHelperService getViewHelperService(CourseOfferingManagementForm theForm){

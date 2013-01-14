@@ -27,6 +27,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private CourseOfferingInfo theCourseOffering;
     private String coViewLinkWrapper = "View"; // temp var to hold/store the View Details Link
     private CourseOfferingEditWrapper courseOfferingEditWrapper = null;
+    private String socState;
 
     private List<ActivityOfferingWrapper> activityWrapperList;
     private List<ActivityOfferingWrapper> selectedToDeleteList;
@@ -302,5 +303,13 @@ public class CourseOfferingManagementForm extends UifFormBase {
     }
     public void setEditAuthz(boolean editAuthz){
         this.editAuthz=editAuthz;
+    }
+
+    public String getSocState() {
+        return socState;
+    }
+
+    public void setSocState(String socState) {
+        this.socState = socState;
     }
 }
