@@ -36,4 +36,9 @@
         <property name="templatesMap" ref="templatesMap"/>
     </bean>
 
+    <bean id="referenceObjectBindingBoService" class="org.kuali.rice.krms.impl.repository.ReferenceObjectBindingBoServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService"/>
+        <property name="attributeDefinitionService" ref="krmsAttributeDefinitionService"/>
+    </bean>
+
 </beans>
