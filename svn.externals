@@ -11,8 +11,8 @@
 # svn propset svn:externals -F svn.externals .
 #
 # *** IMPORTANT ***
-# you must rerun the svn propset command and commit after editing any of
-# the external paths
+# you must rerun the svn propset command (shown above) and commit after editing any of
+# the external paths for the changes to take effect
 #
 
 ks-api https://svn.kuali.org/repos/student/enrollment/ks-api/branches/M6
