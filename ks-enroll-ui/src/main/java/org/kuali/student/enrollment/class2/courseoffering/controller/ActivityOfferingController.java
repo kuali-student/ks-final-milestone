@@ -63,6 +63,13 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
     public ModelAndView addScheduleComponent(@ModelAttribute("KualiForm") ActivityOfferingForm form) throws Exception {
 
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+
+        ScheduleWrapper scheduleWrapper = activityOfferingWrapper.getNewScheduleRequest();
+        if (validateTime(scheduleWrapper.getStartTime(), scheduleWrapper.getStartTimeAMPM(), scheduleWrapper.getEndTime(), scheduleWrapper.getEndTimeAMPM())) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Start Time must be prior to End Time!");
+            return getUIFModelAndView(form);
+        }
+
         ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
         boolean success = viewHelper.addScheduleRequestComponent(form);
 
@@ -174,5 +181,34 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
 
         Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
         return ((List<Object>) collection).get(selectedLineIndex);
+    }
+    
+    public boolean validateTime (String startTime, String startAmPm, String endTime, String endAmPm) {
+        int startTimeInMinutes;
+        int endTimeInMinutes;
+
+        //Do not continue if true
+        if (startAmPm.equalsIgnoreCase("PM") && endAmPm.equalsIgnoreCase("AM")) {
+            return true;
+        }
+
+        //Compare in minutes
+        if (startAmPm.equalsIgnoreCase("AM") ) {
+            startTimeInMinutes = Integer.parseInt(startTime.substring(0,1))* 60 + Integer.parseInt(startTime.substring(3,4));
+        } else {  //PM
+            startTimeInMinutes = Integer.parseInt(startTime.substring(0,1))* 60 + Integer.parseInt(startTime.substring(3,4)) + 12 * 60;
+        }
+        if (endAmPm.equalsIgnoreCase("AM") ) {
+            endTimeInMinutes = Integer.parseInt(endTime.substring(0,1))* 60 + Integer.parseInt(endTime.substring(3,4));
+        } else {  //PM
+            endTimeInMinutes = Integer.parseInt(endTime.substring(0,1))* 60 + Integer.parseInt(endTime.substring(3,4)) + 12 * 60;
+        }
+
+        //Throw error if false
+        if (startTimeInMinutes > endTimeInMinutes) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
