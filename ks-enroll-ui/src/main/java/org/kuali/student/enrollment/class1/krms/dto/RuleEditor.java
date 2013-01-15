@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class1.krms.dto;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -303,7 +304,7 @@ public class RuleEditor extends PersistableBusinessObjectBase {
                 // Simple Proposition
                 // add a node for the description display with a child proposition node
                 Node<RuleEditorTreeNode, String> child = new Node<RuleEditorTreeNode, String>();
-                child.setNodeLabel(prop.getDescription());
+                child.setNodeLabel(StringEscapeUtils.escapeHtml(prop.getDescription()));
                 if (prop.getEditMode()){
                     child.setNodeLabel("");
                     child.setNodeType(SimpleStudentPropositionEditNode.NODE_TYPE);
@@ -321,15 +322,15 @@ public class RuleEditor extends PersistableBusinessObjectBase {
                 // Compound Proposition
                 propositionSummaryBuffer.append(" ( ");
                 Node<RuleEditorTreeNode, String> aNode = new Node<RuleEditorTreeNode, String>();
-                aNode.setNodeLabel(prop.getDescription());
+                aNode.setNodeLabel(StringEscapeUtils.escapeHtml(prop.getDescription()));
                 // editMode has description as an editable field
                 if (prop.getEditMode()){
                     aNode.setNodeLabel("");
-                    aNode.setNodeType("ruleTreeNode compoundNode editNode");
+                    aNode.setNodeType("ruleTreeNode editNode");
                     CompoundStudentPropositionEditNode pNode = new CompoundStudentPropositionEditNode(propositionEditor);
                     aNode.setData(pNode);
                 } else {
-                    aNode.setNodeType("ruleTreeNode compoundNode");
+                    aNode.setNodeType("ruleTreeNode");
                     RuleEditorTreeNode pNode = new RuleEditorTreeNode(propositionEditor);
                     aNode.setData(pNode);
                 }

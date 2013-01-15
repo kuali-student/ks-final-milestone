@@ -142,10 +142,11 @@
                     <property name="items">
                         <list>
                             <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
-                            <bean id="RuleStudentEditorView-PropositionSummary"
+                            <!--bean id="RuleStudentEditorView-PropositionSummary"
                                   parent="RuleStudentEditorView-PropositionSummary-parent"
-                                  p:forceSessionPersistence="true"/>
+                                  p:forceSessionPersistence="true"/-->
                             <bean parent="RuleStudentEditorView-TreeExpandCollapse"/>
+                            <bean parent="Uif-Message" p:messageText="Click on rule to edit" p:style="font-weight:bold;margin-left: 2em;"/>
                             <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
                             <bean id="RuleStudentEditorView-Tree" parent="RuleStudentEditorView-Tree-parent"
                                   p:forceSessionPersistence="true"/>
@@ -409,16 +410,16 @@
             <bean parent="Uif-Message"/>
         </property>
         <property name="dataGroupPrototype">
-            <bean parent="Uif-HorizontalBoxGroup" p:style="float: right;">
+            <bean parent="Uif-HorizontalBoxGroup"> <!--p:style="float: right;">-->
                 <property name="items">
                     <list>
-                        <bean parent="Uif-ActionImage"
+                        <!--bean parent="Uif-ActionImage"
                               p:actionScript="ajaxCallPropositionTree('goToEditProposition', 'RuleStudentEditorView-TreeGroup');">
                             <property name="actionImage">
                                 <bean parent="Uif-Image" p:source="../krms/images/edit.png"
                                       p:altText="Edit" p:cssClasses="actionReveal"/>
                             </property>
-                        </bean>
+                        </bean-->
                         <bean parent="Uif-InputField" p:propertyName="proposition.id"
                               p:showLabel="false" p:label="id" p:maxLength="255">
                             <property name="control">
@@ -446,7 +447,7 @@
                             </property>
                         </bean>
 
-                        <bean parent="selectedNodeQuickActions"/>
+                        <!--bean parent="selectedNodeQuickActions"/-->
 
                     </list>
                 </property>
@@ -494,7 +495,7 @@
             <bean parent="Uif-Message"/>
         </property>
         <property name="dataGroupPrototype">
-            <bean parent="Uif-HorizontalBoxGroup" p:style="padding-bottom: 10pt;">
+            <bean parent="Uif-HorizontalBoxGroup"> <!--p:style="padding-bottom: 10pt;">-->
                 <property name="items">
                     <list>
                         <bean parent="Uif-InputField" p:propertyName="proposition.compoundOpCode"
@@ -536,13 +537,13 @@
                             </property>
                         </bean>
 
-                        <bean parent="Uif-ActionImage"
+                        <!--bean parent="Uif-ActionImage"
                               p:actionScript="ajaxCallPropositionTree('goToEditProposition', 'RuleStudentEditorView-Tree');">
                             <property name="actionImage">
                                 <bean parent="Uif-Image" p:source="../krms/images/edit.png"
                                       p:altText="Edit" p:cssClasses="actionReveal"/>
                             </property>
-                        </bean>
+                        </bean-->
 
                     </list>
                 </property>
