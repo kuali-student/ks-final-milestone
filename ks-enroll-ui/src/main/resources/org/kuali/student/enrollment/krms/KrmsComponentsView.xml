@@ -331,7 +331,7 @@
     </bean>
     <bean id="KRMS-GradeScale-Field" parent="KRMS-GradeScale-Field-Parent" />
 
-    <bean id="KRMS-GradeValues-Field-Parent" parent="Uif-InputField" p:propertyName="proposition.proposition.termParameter" p:refreshWhenChangedPropertyNames="proposition.gradeScale">
+    <bean id="KRMS-GradeValues-Field-Parent" parent="Uif-InputField" p:propertyName="proposition.proposition.termParameter" p:refreshWhenChangedPropertyNames="#np.proposition.gradeScale">
         <property name="control">
             <bean parent="Uif-DropdownControl"/>
         </property>
