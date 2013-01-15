@@ -331,7 +331,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
 		// If the course is offered in the term then add the term info to
 		// the scheduled terms list.
-		String code = course.getCode();
+		String courseId = course.getCourseId();
 
 		for (TermInfo term : terms) {
 
@@ -343,7 +343,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 						.getCourseOfferingIdsByTermAndSubjectArea(key, subject,
 								KsapFrameworkServiceLocator.getContext()
 										.getContextInfo());
-				if (offerings.contains(code))
+				if (offerings.contains(courseId))
 					course.addScheduledTerm(term.getName());
 			} catch (InvalidParameterException e) {
 				throw new IllegalArgumentException("ATP lookup failed", e);

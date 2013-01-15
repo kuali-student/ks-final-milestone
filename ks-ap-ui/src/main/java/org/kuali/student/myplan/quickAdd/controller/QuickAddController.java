@@ -358,8 +358,7 @@ public class QuickAddController extends UifControllerBase {
 		CourseDetails courseDetails = null;
 		try {
 			courseDetails = courseDetailsInquiryService.retrieveCourseSummary(
-					courseId, UserSessionHelper.getStudentId(),
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
+					courseId, UserSessionHelper.getStudentId());
 		} catch (Exception e) {
 			return doOperationFailedError(form,
 					"Unable to retrieve Course Details.",
@@ -413,8 +412,7 @@ public class QuickAddController extends UifControllerBase {
 						courseDetails);
 			}
 			// Create wishlist events before updating the plan item.
-			wishlistEvents = makeRemoveEvent(planItem, courseDetails,
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
+			wishlistEvents = makeRemoveEvent(planItem, courseDetails);
 			planItem.setTypeKey(newType);
 			planItem.setPlanPeriods(newAtpIds);
 
@@ -449,8 +447,7 @@ public class QuickAddController extends UifControllerBase {
 
 		events.putAll(makeUpdateTotalCreditsEvent(planItem.getPlanPeriods()
 				.get(0),
-				PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS,
-				KsapFrameworkServiceLocator.getContext().getContextInfo()));
+				PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS));
 
 		// Populate the form.
 		form.setJavascriptEvents(events);
@@ -468,8 +465,7 @@ public class QuickAddController extends UifControllerBase {
 	 * @return
 	 */
 	private Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> makeRemoveEvent(
-			PlanItemInfo planItem, CourseDetails courseDetails,
-			ContextInfo context) {
+			PlanItemInfo planItem, CourseDetails courseDetails) {
 		Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new LinkedHashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
 		Map<String, String> params = new HashMap<String, String>();
 
@@ -489,7 +485,7 @@ public class QuickAddController extends UifControllerBase {
 			if (courseDetails == null) {
 				courseDetails = courseDetailsInquiryService
 						.retrieveCourseSummary(planItem.getRefObjectId(),
-								UserSessionHelper.getStudentId(), context);
+								UserSessionHelper.getStudentId());
 			}
 			// Serialize course details into a string of JSON.
 			courseDetailsAsJson = mapper.writeValueAsString(courseDetails);
@@ -707,7 +703,7 @@ public class QuickAddController extends UifControllerBase {
 		return studentCourseRecordInfos;
 	}
 
-	private String getTotalCredits(String termId, ContextInfo context) {
+	private String getTotalCredits(String termId) {
 		double plannedTotalMin = 0;
 		double plannedTotalMax = 0;
 		String totalCredits = null;
@@ -741,8 +737,7 @@ public class QuickAddController extends UifControllerBase {
 						if (atp.equalsIgnoreCase(termId)) {
 							CourseDetails courseDetails = courseDetailsInquiryService
 									.retrieveCourseSummary(courseID,
-											UserSessionHelper.getStudentId(),
-											context);
+											UserSessionHelper.getStudentId());
 							if (courseDetails != null
 									&& !courseDetails.getCredit().contains(".")) {
 								String[] str = courseDetails.getCredit().split(
@@ -855,14 +850,13 @@ public class QuickAddController extends UifControllerBase {
 	 * @return
 	 */
 	private Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> makeUpdateTotalCreditsEvent(
-			String atpId, PlanConstants.JS_EVENT_NAME eventName,
-			ContextInfo context) {
+			String atpId, PlanConstants.JS_EVENT_NAME eventName) {
 		Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new LinkedHashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
 
 		Map<String, String> params = new HashMap<String, String>();
 
 		params.put("atpId", formatAtpIdForUI(atpId));
-		String totalCredits = this.getTotalCredits(atpId, context);
+		String totalCredits = this.getTotalCredits(atpId);
 		params.put("totalCredits", totalCredits);
 
 		events.put(eventName, params);

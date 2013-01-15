@@ -96,7 +96,13 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:watermarkText="e.g. COM, Math 124, ENGL 1XX, sun">
 
-                            <property name="onDocumentReadyScript" value="if (jQuery('#text_searchQuery_control').val() != '') jQuery('button.course-search-submit').click();"/>
+                            <property name="onDocumentReadyScript" value="
+                            	if (jQuery('#text_searchQuery_control').val() != '') {
+		                            var sb = jQuery('button.course-search-submit');
+                                    sb.attr('disabled', false);
+                                    sb.removeClass('disabled');
+                            		sb.click();
+                            	}"/>
                             <property name="onLoadScript" value="jQuery(this).blur();"/>
                             <property name="onKeyUpScript" value="
 	                            var sb = jQuery('button.course-search-submit');
@@ -163,7 +169,7 @@
             <list>
                 <bean id="radio_campusSelect" parent="Uif-InputField" p:propertyName="campusSelect" p:width="auto" >
                     <property name="control">
-                            <bean parent="Uif-VerticalCheckboxesControl"/>
+                            <bean parent="Uif-HorizontalCheckboxesControl"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.myplan.course.util.CampusSearch"/>
@@ -239,7 +245,7 @@
                             {'sTitle':'Code','bSortable':true, 'bSearchable':false, 'sClass':'myplan-text-nowrap', 'sWidth':'73px'},
                             {'sTitle':'Course Name','bSortable':true, 'bSearchable':false, 'sWidth':'170px'},
                             {'sTitle':'Credits','bSortable':false, 'bSearchable':false, 'sWidth':'34px'},
-                            {'sTitle':'Quarter Offered', 'bSortable':false, 'bSearchable':false, 'sClass':'myplan-data-list', 'sWidth':'76px'},
+                            {'sTitle':'Terms Offered', 'bSortable':false, 'bSearchable':false, 'sClass':'myplan-data-list', 'sWidth':'76px'},
                             {'sTitle':'Gen Edu Req', 'bSortable':false, 'bSearchable':false, 'sWidth':'66px'},
                             {'sTitle':'', 'bSortable':false, 'bSearchable':false, 'sClass':'myplan-status-column', 'sWidth':'69px'},
                             {'sTitle':'facetQuarter', 'bVisible':false},

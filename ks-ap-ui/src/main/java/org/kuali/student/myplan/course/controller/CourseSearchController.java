@@ -194,19 +194,12 @@ public class CourseSearchController extends UifControllerBase {
 		List<CourseSearchItem> courses = searcher.courseSearch(form, user);
 
 		// Building the Json String
-		// TODO: Use a tool to generate JSON - a template at the very least
 		StringBuilder jsonString = new StringBuilder();
 		jsonString = jsonString.append("{ \"aaData\":[");
 		for (CourseSearchItem item : courses) {
-			String scheduledAndOfferedTerms = null;
 			String status = "";
-			try {
-				scheduledAndOfferedTerms = mapper.writeValueAsString(item
-						.getScheduledAndOfferedTerms());
-			} catch (IOException e) {
-				throw new RuntimeException(
-						"Could not write the value using mapper", e);
-			}
+			String scheduledAndOfferedTerms = mapper.writeValueAsString(item
+					.getScheduledAndOfferedTerms());
 			if (item.getStatus().getLabel().length() > 0) {
 				status = "<span id=\\\"" + item.getCourseId()
 						+ "_status\\\" class=\\\""

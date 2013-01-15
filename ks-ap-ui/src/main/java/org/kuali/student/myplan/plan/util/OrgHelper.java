@@ -112,14 +112,16 @@ public class OrgHelper {
 	}
 
 	/* Used for the subjects area's with trimmed key value */
-	public static Map<String, String> getTrimmedSubjectAreas(ContextInfo context) {
+	public static Map<String, String> getTrimmedSubjectAreas() {
 		Map<String, String> subjects = new HashMap<String, String>();
 		SearchRequestInfo searchRequest = new SearchRequestInfo(
 				CourseSearchConstants.ORG_QUERY_SEARCH_SUBJECT_AREAS);
 		SearchResult searchResult = new SearchResultInfo();
 		try {
 			searchResult = KsapFrameworkServiceLocator.getOrganizationService()
-					.search(searchRequest, context);
+					.search(searchRequest,
+							KsapFrameworkServiceLocator.getContext()
+									.getContextInfo());
 		} catch (MissingParameterException e) {
 			logger.error("Search Failed to get the Organization Data ", e);
 		} catch (InvalidParameterException e) {
