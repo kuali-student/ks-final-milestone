@@ -46,6 +46,8 @@ import org.kuali.student.r2.lum.lo.dto.LoRepositoryInfo;
 
 /**
  * The Learning Objective Service allows for the creation and management of Learning Objectives.
+ * 
+ * @version 2.0 
  */
 @WebService(name = "LearningObjectiveService", targetNamespace = LearningObjectiveServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)

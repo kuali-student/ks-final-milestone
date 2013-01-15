@@ -25,7 +25,7 @@ import java.util.List;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 
 
-/**
+/*
  * Refer to interface javadoc
  *
  * @Version 2.0

@@ -30,7 +30,6 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.constants.DocumentServiceConstants;
 
-import org.kuali.student.r2.core.document.dto.DocumentCategoryInfo;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 
@@ -38,16 +37,13 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import java.util.List;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 /**
+ * The Document Service supports the management of document objects as well 
+ * as the relationship between those documents and external entities.
  *
- * The Document Service supports the management of document objects. Relations
- * between stored documents and external entities are managed through
- *
- * the respective entity service.
- *
- * @Version 2.0
- * @Author tom
+ * @version 2.0
  * @Author Sri komandur@uw.edu
  *
  */
@@ -126,9 +122,17 @@ public interface DocumentService extends DictionaryService {
      * @throws MissingParameterException documentTypeKey, documentCategoryKey, documentInfo, contextInfo not specified
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws ReadOnlyException attempted update of readonly data
      */
-    public DocumentInfo createDocument(@WebParam(name="documentTypeKey")String documentTypeKey, @WebParam(name="documentCategoryKey")String documentCategoryKey, @WebParam(name="documentInfo")DocumentInfo documentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public DocumentInfo createDocument(@WebParam(name="documentTypeKey")String documentTypeKey, 
+            @WebParam(name="documentCategoryKey")String documentCategoryKey, 
+            @WebParam(name="documentInfo")DocumentInfo documentInfo, 
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws DataValidationErrorException, 
+            DoesNotExistException, 
+            InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException, 
+            PermissionDeniedException;
 
     /**
      * Updates an existing document
@@ -164,35 +168,128 @@ public interface DocumentService extends DictionaryService {
      */
     public StatusInfo deleteDocument(@WebParam(name="documentId")String documentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    
     /**
-     * Retrieves information about a particular document category
+     * Retrieves information about a particular document type
      *
-     * @param documentCategoryKey document category identifier
+     * @param documentTypeKey document type identifier
+     * @param contextInfo Context information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return document type information
+     * @throws DoesNotExistException specified documentTypeKey not found
+     * @throws InvalidParameterException invalid documentTypeKey, contextInfo
+     * @throws MissingParameterException documentTypeKey, contextInfo not specified
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException if not authorized
+     *
+     */
+    public TypeInfo getDocumentType(@WebParam(name="documentTypeKey")String documentTypeKey, 
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, 
+            InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves the list of document category types known by this service
+     *
+     * @param contextInfo Context information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return list of document category information
+     * @throws InvalidParameterException contextInfo is invalid
+     * @throws MissingParameterException contextInfo not specified
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException if not authorized
+     */
+    public List<TypeInfo> getDocumentTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException,
+            PermissionDeniedException;
+       
+    /**
+     * Retrieves information about a particular ref document relation type
+     *
+     * @param refDocRelationTypeKey ref doc relation type identifier
+     * @param contextInfo Context information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return ref Doc Relation type information
+     * @throws DoesNotExistException specified documentTypeKey not found
+     * @throws InvalidParameterException invalid documentTypeKey, contextInfo
+     * @throws MissingParameterException documentTypeKey, contextInfo not specified
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException if not authorized
+     *
+     */
+    public TypeInfo getRefDocRelationType(@WebParam(name="refDocRelationTypeKey")String refDocRelationTypeKey, 
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, 
+            InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves the list of ref document relation types known by this service
+     *
+     * @param contextInfo Context information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return list of document category information
+     * @throws InvalidParameterException contextInfo is invalid
+     * @throws MissingParameterException contextInfo not specified
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException if not authorized
+     */
+    public List<TypeInfo> getRefDocRelationTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException,
+            PermissionDeniedException;
+ 
+    /**
+     * Retrieves information about a particular document category type
+     *
+     * @param documentCategoryTypeKey document category identifier
      * @param contextInfo Context information containing the principalId and locale
      *                    information about the caller of service operation
      * @return document category information
-     * @throws DoesNotExistException specified documentCategoryKey not found
+     * @throws DoesNotExistException specified documentCategoryTypeKey not found
      * @throws InvalidParameterException invalid documentCategoryKey, contextInfo
      * @throws MissingParameterException documentCategoryKey, contextInfo not specified
      * @throws OperationFailedException unable to complete request
      *
      */
-    public DocumentCategoryInfo getDocumentCategory(@WebParam(name="documentCategoryKey")String documentCategoryKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public TypeInfo getDocumentCategoryType(@WebParam(name="documentCategoryTypeKey") String documentCategoryTypeKey, 
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws DoesNotExistException, 
+            InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
-     * Retrieves the list of document categories known by this service
+     * Retrieves the list of document category types known by this service
      *
      * @param contextInfo Context information containing the principalId and locale
      *                    information about the caller of service operation
      * @return list of document category information
+     * @throws InvalidParameterException contextInfo is invalid
      * @throws MissingParameterException contextInfo not specified
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException if not authorized
      *
      */
-    public List<DocumentCategoryInfo> getDocumentCategories(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws OperationFailedException;
+    public List<TypeInfo> getDocumentCategoryTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException,
+            PermissionDeniedException;
 
+    
+    
     /**
-     * Retrieves category information for a document
+     * Retrieves category type information for a given document
      *
      * @param documentId identifier of the document
      * @param contextInfo Context information containing the principalId and locale
@@ -204,7 +301,13 @@ public interface DocumentService extends DictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<DocumentCategoryInfo> getDocumentCategoriesByDocumentId(@WebParam(name = "documentId") String documentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeInfo> getDocumentCategoryTypesByDocument(@WebParam(name = "documentId") String documentId, 
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws DoesNotExistException, 
+            InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException, 
+            PermissionDeniedException;
 
     /**
      * Removes an existing category from a document
@@ -350,7 +453,16 @@ public interface DocumentService extends DictionaryService {
      * @throws PermissionDeniedException authorization failure
      * @throws VersionMismatchException action was attempted on an out of date version
      */
-    public RefDocRelationInfo updateRefDocRelation(@WebParam(name="refDocRelationId")String refDocRelationId, @WebParam(name="refDocRelationInfo")RefDocRelationInfo refDocRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public RefDocRelationInfo updateRefDocRelation(@WebParam(name="refDocRelationId")String refDocRelationId, 
+            @WebParam(name="refDocRelationInfo")RefDocRelationInfo refDocRelationInfo, 
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws DoesNotExistException, 
+            DataValidationErrorException, 
+            InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException, 
+            PermissionDeniedException, 
+            VersionMismatchException;
 
     /**
      * Removes a relationship between a reference and a document
@@ -368,8 +480,10 @@ public interface DocumentService extends DictionaryService {
     public StatusInfo deleteRefDocRelation(@WebParam(name="refDocRelationId")String refDocRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     @Deprecated
+    @Override
     public ObjectStructureDefinition getObjectStructure(String objectTypeKey);
 
     @Deprecated
+    @Override
     public List<String> getObjectTypes();
 }

@@ -46,7 +46,7 @@ import java.util.List;
  * The Room will always be referenced by the internal Room Id and not the code
  * when used by other KS services.
  *
- * @Version 2.0
+ * @version 0.0.7
  * @Author Sri komandur@uw.edu
  * @Author Mezba mezba.mahtab@utoronto.ca
  */

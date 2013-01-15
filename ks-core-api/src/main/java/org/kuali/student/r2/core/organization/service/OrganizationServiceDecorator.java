@@ -17,11 +17,6 @@
 package org.kuali.student.r2.core.organization.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -43,7 +38,6 @@ import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 
-import javax.jws.WebParam;
 import java.util.List;
 
 /**
@@ -393,7 +387,6 @@ public class OrganizationServiceDecorator
         return getNextDecorator().searchForOrgHierarchies(criteria, contextInfo);
     }
 
-
     @Override
     public List<TypeInfo> getSearchTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         return getNextDecorator().getSearchTypes(contextInfo);
@@ -405,27 +398,8 @@ public class OrganizationServiceDecorator
     }
 
     @Override
-    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getSearchTypesByResult(searchResultTypeKey, contextInfo);
-    }
-
-    @Override
-    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
-    }
-
-    @Override
-    public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getSearchResultTypes(contextInfo);
-    }
-
-    @Override
-    public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getSearchCriteriaTypes(contextInfo);
-    }
-
-    @Override
-    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, 
+            InvalidParameterException,OperationFailedException, PermissionDeniedException {
         return getNextDecorator().search(searchRequestInfo, contextInfo);
     }
 }

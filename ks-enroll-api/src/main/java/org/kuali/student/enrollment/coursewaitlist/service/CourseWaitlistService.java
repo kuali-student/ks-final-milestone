@@ -32,6 +32,7 @@ import org.kuali.student.r2.common.util.constants.CourseWaitlistServiceConstants
  * part of negotiating the student's registration, operations are provided to
  * manage related exceptions and holds related to registration.
  * 
+ * @version 0.0.7
  * @author Kuali Student Team (sambit)
  */
 
@@ -145,6 +146,28 @@ public interface CourseWaitlistService  {
     public StatusInfo updateCourseWaitlistEntry(@WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId,
             @WebParam(name = "courseWaitlistEntryInfo") CourseWaitlistEntryInfo courseWaitlistEntryInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Updates the state of an existing CourseWaitlistEntry to another state
+     * provided that it is valid to do so.
+     *
+     * @param courseWaitlistEntryId        identifier of the CourseWaitlistEntry to be
+     *                                      updated
+     * @param nextStateKey       The State Key into which the identified
+     *                           CourseWaitlistEntry will be placed if the
+     *                           operation succeeds.
+     * @param contextInfo        Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     the identified CourseWaitlistEntry does
+     *                                   not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo changeCourseWaitlistEntryState(@WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Reorder all the entries that are passed in in the input list, i.e.,

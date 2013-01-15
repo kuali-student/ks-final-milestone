@@ -68,7 +68,8 @@ public interface Type
     public String getRefObjectUri();
 
     /**
-     *
+     * URI for the service that is primarily responsible for managing the ref object for this type
+     * 
      * @name Service Uri
      */
     public String getServiceUri();
