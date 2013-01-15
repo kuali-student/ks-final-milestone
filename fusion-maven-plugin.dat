@@ -1,0 +1,12 @@
+# module = ks-api branch Path = enrollment/ks-api/branches/KSAP revision = 41973
+ks-api::enrollment_ks-api_branches_KSAP::c0192081349b00c32ba93098bb4eb6b5e59a4b18
+# module = ks-core branch Path = enrollment/ks-core/branches/KSAP revision = 41973
+ks-core::enrollment_ks-core_branches_KSAP::b7e581e18ac24ee3d4721179d12926b4b6ae2eb7
+# module = ks-lum branch Path = enrollment/ks-lum/branches/KSAP revision = 41973
+ks-lum::enrollment_ks-lum_branches_KSAP::5cbf41f76cf6d5acf45f83fff8268a804dd79810
+# module = ks-enroll branch Path = enrollment/ks-enroll/branches/KSAP revision = 41973
+ks-enroll::enrollment_ks-enroll_branches_KSAP::617b05597af527cce7daf25cbc03c7838b80d8ef
+# module = ks-deployments branch Path = enrollment/ks-deployments/branches/KSAP revision = 41973
+ks-deployments::enrollment_ks-deployments_branches_KSAP::487fa0a2fa77a6a67aa6b51bc5c77551a67348eb
+# module = ks-ap branch Path = enrollment/ks-ap/trunk revision = 41973
+ks-ap::enrollment_ks-ap_trunk::31def0d185357f7fd30e0f19a27cf371aa47b571
