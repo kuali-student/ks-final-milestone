@@ -28,7 +28,7 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 
 /**
- * Version: DRAFT - NOT READY FOR RELEASE. This service manages grade and credit
+ * This service manages grade and credit
  * submission for activity/course offerings. The service can be used for
  * capturing final grades and any number of interim grades. The service provides
  * the following primary functions:
@@ -51,8 +51,9 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
  * structure and breakdown of the students in the final grade roster can be
  * configured and student can exist only once in the final grade roster(s).
  * Interim rosters can be created for activity offerings based on a assessment
- * event like mid term, weekly quiz etc. Version: 1.0 (Dev)
+ * event like mid term, weekly quiz etc.
  * 
+ * @version 0.0.7
  * @author Kuali Student Team (Kamal)
  */
 @WebService(name = "GradingService", serviceName = "GradingService", portName = "GradingService", targetNamespace = GradingServiceConstants.NAMESPACE)

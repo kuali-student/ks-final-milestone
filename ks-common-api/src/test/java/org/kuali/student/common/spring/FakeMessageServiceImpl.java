@@ -18,11 +18,12 @@ package org.kuali.student.common.spring;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.jws.WebParam;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -156,6 +157,13 @@ public class FakeMessageServiceImpl  extends AbstractFakeService implements Mess
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    @Override
+    public List<ValidationResultInfo> validateProposal(String validationTypeKey, MessageInfo messageInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;
+    }
+
+    
 
 	@Override
     public String toString() {

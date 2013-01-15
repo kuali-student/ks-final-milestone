@@ -110,6 +110,55 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="AcademicCalendarInfo.meta.createTime" parent="AcademicCalendarInfo.meta.createTime-parent"/>
 	<bean id="AcademicCalendarInfo.meta.createTime-parent" abstract="true" parent="AcademicCalendarInfo.meta.createTime-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
+    </bean>
+    
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated on Wed Jul 27 20:42:00 EDT 2011
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+
+
+	<!-- TestAcademicCalendarInfo-->
+	<bean id="TestAcademicCalendarInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="academicCalendarInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo"/>
+		<property name="objectLabel" value="Academic Calendar"/>
+		<property name="objectDescription" value="Information about an Academic Calendar."/>
+		<property name="titleAttribute" value="name"/>
+		<property name="primaryKeys">
+			<list>
+				<value>key</value>
+			</list>
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="TestAcademicCalendarInfo.key"/>
+				<ref bean="TestAcademicCalendarInfo.typeKey"/>
+				<ref bean="TestAcademicCalendarInfo.stateKey"/>
+				<ref bean="TestAcademicCalendarInfo.name"/>
+				<ref bean="TestAcademicCalendarInfo.descr"/>
+				<ref bean="TestAcademicCalendarInfo.descr.plain"/>
+				<ref bean="TestAcademicCalendarInfo.descr.formatted"/>
+				<ref bean="TestAcademicCalendarInfo.startDate"/>
+				<ref bean="TestAcademicCalendarInfo.endDate"/>
+				<ref bean="TestAcademicCalendarInfo.meta"/>
+				<ref bean="TestAcademicCalendarInfo.meta.versionInd"/>
+				<ref bean="TestAcademicCalendarInfo.meta.createTime"/>
+				<ref bean="TestAcademicCalendarInfo.meta.createId"/>
+				<ref bean="TestAcademicCalendarInfo.meta.updateTime"/>
+				<ref bean="TestAcademicCalendarInfo.meta.updateId"/>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="AcademicCalendarInfo.meta.createId" parent="AcademicCalendarInfo.meta.createId-parent"/>

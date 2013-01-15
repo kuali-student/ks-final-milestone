@@ -16,17 +16,26 @@
 
 package org.kuali.student.r2.common.messages.infc;
 
-import org.kuali.student.r2.common.infc.HasKey;
 import org.kuali.student.r2.common.infc.Locale;
 
 /**
  * Information about a message
+ * It has no single unique or primary key.
+ * Instead it has a composite key composed of:
+ * (1) GroupNameKey, (2) MessageKey, (3) Locale
  *
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
-public interface Message 
-    extends HasKey {
+public interface Message {
+    /**
+     * Key identifying the message within the message group.
+     * 
+     * @name Key
+     * @readOnly on updates
+     * @required on updates
+     */
+    public String getMessageKey();
 
     /**
      * The Locale.

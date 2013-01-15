@@ -48,7 +48,7 @@ import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
 /**
  * The Program Service allows for the creation and management of programs.
  * 
- * @Version 2.0
+ * @version 2.0
  * @Author sambitpa@usc.edu
  */
 @WebService(name = "ProgramService", targetNamespace = ProgramServiceConstants.PROGRAM_NAMESPACE)

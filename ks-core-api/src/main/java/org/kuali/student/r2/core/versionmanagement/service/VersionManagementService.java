@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Version Management Service supports the management of object versions
  *
- * @Version 2.0
+ * @version 2.0
  * @Author Sri komandur@uw.edu
  */
 

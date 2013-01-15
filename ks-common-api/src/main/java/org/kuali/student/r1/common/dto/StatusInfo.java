@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
+@Deprecated
 public class StatusInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@XmlElement

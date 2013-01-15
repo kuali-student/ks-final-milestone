@@ -156,6 +156,10 @@
         </constructor-arg>
      </bean>
     <!-- Scheduling Service -->
+    <bean id="scheduleInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ScheduleInfo-dictionary.xml" />
+    </bean>
+
     <bean id="scheduleRequestInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-ScheduleRequestInfo-dictionary.xml" />
     </bean>
@@ -175,6 +179,7 @@
     <bean name="schedulingServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
+                <bean parent="scheduleInfoDictionaryLocation" />
                 <bean parent="scheduleRequestInfoDictionaryLocation" />
                 <bean parent="scheduleRequestComponentInfoDictionaryLocation"/>
                 <bean parent="timeSlotInfoDictionaryLocation"/>
@@ -212,6 +217,7 @@
                 <bean parent="processInfoDictionaryLocation" />
                 <bean parent="checkInfoDictionaryLocation" />
                 <bean parent="instructionInfoDictionaryLocation" />
+                <bean parent="scheduleInfoDictionaryLocation" />
                 <bean parent="scheduleRequestInfoDictionaryLocation" />
                 <bean parent="scheduleRequestComponentInfoDictionaryLocation"/>
                 <bean parent="timeSlotInfoDictionaryLocation"/>
