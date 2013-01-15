@@ -44,6 +44,8 @@ import java.util.List;
  * Process Service Description and Assumptions.
  *
  * This service supports the management of Checks.
+ * 
+ * @version 2.0
  *
  */
 @WebService(name = "ProcessService", serviceName = "ProcessService", portName = "ProcessService", targetNamespace = ProcessServiceConstants.NAMESPACE)

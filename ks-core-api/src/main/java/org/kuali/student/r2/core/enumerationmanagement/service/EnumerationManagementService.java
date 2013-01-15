@@ -43,7 +43,7 @@ import java.util.List;
  * other services. It is only accessed by authorized callers configuring some
  * piece of the system.
  *
- * @Version 2.0
+ * @version 2.0
  * @Author Sri komandur@uw.edu
  */
 

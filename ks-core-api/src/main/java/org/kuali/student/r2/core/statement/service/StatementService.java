@@ -44,7 +44,7 @@ import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 /**
  * Statement Service
  *
- * @Version 2.0
+ * @version 0.0.7
  * @Author Sri komandur@uw.edu
  */
 @WebService(name = "StatementService", targetNamespace = org.kuali.student.r2.core.constants.StatementServiceConstants.NAMESPACE)

@@ -48,6 +48,15 @@ public class PopulationServiceConstants {
     public static final String POPULATION_RULE_TYPE_INTERSECTION_KEY = "kuali.population.rule.type.intersection";
     public static final String POPULATION_RULE_TYPE_EXCLUSION_KEY = "kuali.population.rule.type.exclusion";
 
+    public static final String[] POPULATION_RULE_TYPE_KEYS = {
+            PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY,
+            PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY,
+            PopulationServiceConstants.POPULATION_RULE_TYPE_SEARCH_KEY,
+            PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY,
+            PopulationServiceConstants.POPULATION_RULE_TYPE_INTERSECTION_KEY,
+            PopulationServiceConstants.POPULATION_RULE_TYPE_EXCLUSION_KEY
+    };
+
     /**
      * States for Population Rule
      */

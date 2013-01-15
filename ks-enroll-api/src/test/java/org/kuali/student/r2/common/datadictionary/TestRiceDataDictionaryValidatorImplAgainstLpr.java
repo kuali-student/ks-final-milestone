@@ -41,7 +41,6 @@ import static org.junit.Assert.assertEquals;
  *
  * @author nwright
  */
-@Ignore //KSENROLL-3723
 public class TestRiceDataDictionaryValidatorImplAgainstLpr {
 
     public TestRiceDataDictionaryValidatorImplAgainstLpr() {
@@ -107,13 +106,15 @@ public class TestRiceDataDictionaryValidatorImplAgainstLpr {
         if (validator == null) {
             ApplicationContext appContext =
                     new ClassPathXmlApplicationContext(new String[]{"classpath:testContext.xml"});
-            this.validator = (DataDictionaryValidator) appContext.getBean("validator");
+            this.validator = (DataDictionaryValidator) appContext.getBean("testValidator");
         }
         return validator;
     }
 
     /**
      * Test of validate method, of class RiceValidatorImpl.
+     * Because there is no constraintProcessors provided for DictionaryValidationService in rice all tests are just
+     * to validate the xml file syntax. Any element setting is not validated.
      */
     @Test
     public void testValidate() throws Exception {
@@ -139,7 +140,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstLpr {
         for (ValidationResult vri : result) {
             System.out.println (vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
         }
-        assertEquals(1, result.size());
+        assertEquals(0, result.size());
 
 
 
@@ -156,7 +157,6 @@ public class TestRiceDataDictionaryValidatorImplAgainstLpr {
         for (ValidationResult vri : result) {
             System.out.println (vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
         }
-        assertEquals(1, result.size());
-//        assertEquals (0, 0);
+        assertEquals(0, result.size());
     }
 }

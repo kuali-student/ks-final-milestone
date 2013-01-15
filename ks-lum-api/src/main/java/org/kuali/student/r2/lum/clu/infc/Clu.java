@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2011 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -26,7 +26,6 @@ import org.kuali.student.r2.common.infc.RichText;
 /**
  * Detailed information about a single CLU.
  *
- * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
 public interface Clu extends IdNamelessEntity, HasEffectiveDates {
