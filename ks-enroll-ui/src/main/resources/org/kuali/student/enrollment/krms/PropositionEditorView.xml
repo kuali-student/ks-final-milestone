@@ -210,7 +210,8 @@
                             <ref bean="admitted.to.program" />
                             <ref bean="admitted.to.program.campus" />
                             <ref bean="notadmitted.to.program" />
-
+                            <ref bean="test.score.between.values" />
+                            <ref bean="test.score" />
                         </list>
                     </property>
                 </bean>

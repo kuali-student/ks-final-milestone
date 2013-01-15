@@ -45,7 +45,7 @@
     <bean id="no.repeat.courses" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.no.repeat.courses'}">
         <property name="items">
             <list>
-                <!--<ref bean="KRMS-MultiCourse-Section" />-->
+                <ref bean="KRMS-MultiCourse-Section" />
             </list>
         </property>
     </bean>
@@ -228,7 +228,8 @@
     <bean id="success.course.courseset.completed.nof" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.success.course.courseset.completed.nof'}">
         <property name="items">
             <list>
-                <!--<ref bean="KRMS-MultiCourse-Section" />-->
+                <ref bean="KRMS-MultiCourse-Section" />
+                <ref bean="KRMS-NumberOfCourses-ConstantValue" />
             </list>
         </property>
     </bean>
@@ -237,7 +238,7 @@
     <bean id="success.course.courseset.completed.all" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.success.course.courseset.completed.all'}">
         <property name="items">
             <list>
-                <!--<ref bean="KRMS-MultiCourse-Section" />-->
+                <ref bean="KRMS-MultiCourse-Section" />
             </list>
         </property>
     </bean>
@@ -284,8 +285,8 @@
     <bean id="course.courseset.gpa.min" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.gpa.min'}">
         <property name="items">
             <list>
+                <ref bean="KRMS-MultiCourse-Section" />
                 <ref bean="KRMS-GPA-Field" />
-                <!--<ref bean="KRMS-MultiCourse-Section" />-->
             </list>
         </property>
     </bean>
@@ -294,8 +295,8 @@
     <bean id="course.courseset.grade.min" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.grade.min'}">
         <property name="items">
             <list>
+                <ref bean="KRMS-MultiCourse-Section" />
                 <ref bean="KRMS-Grade-Section" />
-                <!--<ref bean="KRMS-MultiCourse-Section" />-->
             </list>
         </property>
     </bean>
@@ -304,8 +305,8 @@
     <bean id="course.courseset.nof.grade.min" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.nof.grade.min'}">
         <property name="items">
             <list>
+                <ref bean="KRMS-MultiCourse-Section" />
                 <ref bean="KRMS-NumberOfCourses-ConstantValue" />
-                <!--<ref bean="KRMS-MultiCourse-Section" />-->
                 <ref bean="KRMS-Grade-Section" />
             </list>
         </property>
@@ -315,8 +316,8 @@
     <bean id="course.courseset.grade.max" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.grade.max'}">
         <property name="items">
             <list>
+                <ref bean="KRMS-MultiCourse-Section" />
                 <ref bean="KRMS-Grade-Section" />
-                <!--<ref bean="KRMS-MultiCourse-Section" />-->
             </list>
         </property>
     </bean>
@@ -354,7 +355,7 @@
     <bean id="course.courseset.completed.none" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.completed.none'}">
         <property name="items">
             <list>
-                <!--<ref bean="KRMS-MultiCourse-Section" />-->
+                <ref bean="KRMS-MultiCourse-Section" />
             </list>
         </property>
     </bean>
@@ -363,7 +364,7 @@
     <bean id="course.courseset.credits.completed.none" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.credits.completed.none'}">
         <property name="items">
             <list>
-                <!--<ref bean="KRMS-MultiCourse-Section" />-->
+                <ref bean="KRMS-MultiCourse-Section" />
             </list>
         </property>
     </bean>
@@ -372,8 +373,8 @@
     <bean id="course.courseset.credits.completed.nof" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.credits.completed.nof'}">
         <property name="items">
             <list>
-                <ref bean="KRMS-NumberOfCourses-ConstantValue" />
-                <!--<ref bean="KRMS-MultiCourse-Section" />-->
+                <ref bean="KRMS-MultiCourse-Section" />
+                <ref bean="KRMS-Credits-ConstantValue" />
             </list>
         </property>
     </bean>
@@ -382,8 +383,8 @@
     <bean id="course.courseset.completed.nof" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.completed.nof'}">
         <property name="items">
             <list>
+                <ref bean="KRMS-MultiCourse-Section" />
                 <ref bean="KRMS-NumberOfCourses-ConstantValue" />
-                <!--<ref bean="KRMS-MultiCourse-Section" />-->
             </list>
         </property>
     </bean>
@@ -401,8 +402,8 @@
     <bean id="course.courseset.enrolled.nof" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.enrolled.nof'}">
         <property name="items">
             <list>
+                <ref bean="KRMS-MultiCourse-Section" />
                 <ref bean="KRMS-NumberOfCourses-ConstantValue" />
-                <!--<ref bean="KRMS-MultiCourse-Section" />-->
             </list>
         </property>
     </bean>
@@ -411,7 +412,7 @@
     <bean id="course.courseset.enrolled.all" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.enrolled.all'}">
         <property name="items">
             <list>
-                <!--<ref bean="KRMS-MultiCourse-Section" />-->
+                <ref bean="KRMS-MultiCourse-Section" />
             </list>
         </property>
     </bean>
@@ -563,7 +564,7 @@
     <bean id="course.courseset.enrolled" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.enrolled'}">
         <property name="items">
             <list>
-                <!--<ref bean="KRMS-MultiCourse-Section" />-->
+                <ref bean="KRMS-MultiCourse-Section" />
             </list>
         </property>
     </bean>
