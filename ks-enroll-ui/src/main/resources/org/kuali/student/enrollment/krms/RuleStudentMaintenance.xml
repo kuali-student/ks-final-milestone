@@ -18,9 +18,9 @@
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+                      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
     <bean id="RuleMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.RuleEditor"/>
@@ -199,11 +199,11 @@
         </property>
     </bean>
 
-    <bean id="RuleEditorView-Button" parent="Uif-SecondaryActionButton" p:actionImagePlacement="LEFT"
+    <bean id="RuleEditorView-Button" parent="Uif-Action" p:actionImagePlacement="TOP" p:style="font-size: 10px"
           abstract="true" >
         <property name="cssClasses">
             <list merge="true">
-                <value>tree-bar-button</value>
+                <value>edit-with-object-buttons</value>
             </list>
         </property>
     </bean>
@@ -214,150 +214,140 @@
         <property name="renderHeader" value="true"/>
         <property name="headerText" value="Prerequisite Rule"/>
         <property name="layoutManager">
-            <bean parent="Uif-HorizontalBoxLayout" p:style="padding: 5px;"/>
+            <bean parent="Uif-HorizontalBoxLayout" p:style="padding-right: 20px"/>
         </property>
 
         <property name="items">
             <list>
-                <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('add');
-          if (enabled) {
-              ajaxCallPropositionTree('addProposition', 'RuleStudentEditorView-Tree');
-          }
-          "
-                      p:actionLabel="Add Proposition">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>kr-add-button</value>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('add');
+                                if (enabled) {
+                                ajaxCallPropositionTree('addProposition', 'RuleStudentEditorView-Tree');}"
+                                p:actionLabel="Add Proposition">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image"
+                                        p:source="@{#ConfigProperties['application.url']}/krms/images/node-insert-next.png"
+                                        p:altText="Add Proposition"/>
+                                </property>
+                            </bean>
+
+                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('addparent');
+                                if (enabled) {
+                                ajaxCallPropositionTree('goToEditProposition', 'RuleStudentEditorView-TreeGroup');}"
+                                p:actionLabel="Add Parent">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:source="../krms/images/node-parent-and-child.png"
+                                        p:altText="Add Parent"/>
+                                </property>
+                            </bean>
+
+                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('edit');
+                                if (enabled) {
+                                ajaxCallPropositionTree('goToEditProposition', 'RuleStudentEditorView-TreeGroup');}"
+                                p:actionLabel="Edit Proposition">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/edit.png"
+                                        p:altText="Edit Proposition"/>
+                                </property>
+                            </bean>
                         </list>
                     </property>
-                    <property name="actionImage">
-                        <bean parent="Uif-Image"
-                              p:source="@{#ConfigProperties['application.url']}/krms/images/node-insert-next.png"
-                              p:altText="Add Proposition"/>
-                    </property>
                 </bean>
 
-                <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('addparent');
-          if (enabled) {
-              ajaxCallPropositionTree('goToEditProposition', 'RuleStudentEditorView-TreeGroup');
-          }
-          "
-                      p:actionLabel="Add Parent">
-                    <property name="actionImage">
-                        <bean parent="Uif-Image" p:source="../krms/images/node-parent-and-child.png"
-                              p:altText="Add Parent"/>
-                    </property>
-                </bean>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('left');
+                                if (enabled) {
+                                ajaxCallPropositionTree('movePropositionLeft', 'RuleStudentEditorView-TreeGroup');}"
+                                p:actionLabel="Left">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image"
+                                        p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-left.png"
+                                        p:altText="Left"/>
+                                </property>
+                            </bean>
 
-                <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('edit');
-          if (enabled) {
-              ajaxCallPropositionTree('goToEditProposition', 'RuleStudentEditorView-TreeGroup');
-          }
-          "
-                      p:actionLabel="Edit Proposition">
-                    <property name="actionImage">
-                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/edit.png"
-                              p:altText="Edit Proposition"/>
-                    </property>
-                </bean>
+                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('right');
+                                if (enabled) {
+                                ajaxCallPropositionTree('movePropositionRight', 'RuleStudentEditorView-TreeGroup');}"
+                                p:actionLabel="Right">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image"
+                                        p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
+                                        p:altText="Right"/>
+                                </property>
+                            </bean>
 
-                <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('left');
-          if (enabled) {
-              ajaxCallPropositionTree('movePropositionLeft', 'RuleStudentEditorView-TreeGroup');
-          }
-          "
-                      p:actionLabel="Left">
-                    <property name="actionImage">
-                        <bean parent="Uif-Image"
-                              p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-left.png"
-                              p:altText="Left"/>
-                    </property>
-                </bean>
-                <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('right');
-          if (enabled) {
-              ajaxCallPropositionTree('movePropositionRight', 'RuleStudentEditorView-TreeGroup');
-          }
-          "
-                      p:actionLabel="Right">
-                    <property name="actionImage">
-                        <bean parent="Uif-Image"
-                              p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
-                              p:altText="Right"/>
-                    </property>
-                </bean>
-                <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('up');
-          if (enabled) {
-              ajaxCallPropositionTree('movePropositionUp', 'RuleStudentEditorView-TreeGroup');
-          }
-          "
-                      p:actionLabel="Up">
-                    <property name="actionImage">
-                        <bean parent="Uif-Image"
-                              p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-up.png"
-                              p:altText="Up"/>
-                    </property>
-                </bean>
-                <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('down');
-          if (enabled) {
-              ajaxCallPropositionTree('movePropositionDown', 'RuleStudentEditorView-TreeGroup');
-          }
-          "
-                      p:actionLabel="Down">
-                    <property name="actionImage">
-                        <bean parent="Uif-Image"
-                              p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-down.png"
-                              p:altText="Down"/>
-                    </property>
-                </bean>
+                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('up');
+                                if (enabled) {
+                                ajaxCallPropositionTree('movePropositionUp', 'RuleStudentEditorView-TreeGroup');}"
+                                p:actionLabel="Up">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image"
+                                        p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-up.png"
+                                        p:altText="Up"/>
+                                </property>
+                            </bean>
 
-                <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('cut');
-          if (enabled) {
-              ajaxCutPropositionTree('cutProposition', 'RuleStudentEditorView-Tree');
-          }
-          "
-                      p:actionLabel="Cut" p:style="margin-left: 15pt;"> <!-- Horiz whitespace -->
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>tree-bar-button</value>
-                            <value>kr-cut-button</value>
+                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('down');
+                                if (enabled) {
+                                ajaxCallPropositionTree('movePropositionDown', 'RuleStudentEditorView-TreeGroup');}"
+                                p:actionLabel="Down">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image"
+                                        p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-down.png"
+                                        p:altText="Down"/>
+                                </property>
+                            </bean>
                         </list>
                     </property>
-                    <property name="actionImage">
-                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/cut.png"
-                              p:altText="Cut"/>
-                    </property>
-                </bean>
-                <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('paste');
-          if (enabled) {
-              ajaxCallPropositionTree('pasteProposition', 'RuleStudentEditorView-TreeGroup');
-          }
-          "
-                      p:actionLabel="Paste">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>tree-bar-button</value>
-                            <value>kr-paste-button</value>
-                        </list>
-                    </property>
-                    <property name="actionImage">
-                        <bean parent="Uif-Image"
-                              p:source="@{#ConfigProperties['application.url']}/krms/images/paste.png"
-                              p:altText="Paste"/>
-                    </property>
-                </bean>
-                <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('delete');
-          if (enabled) {
-              ajaxCallPropositionTree('deleteProposition', 'RuleStudentEditorView-TreeGroup');
-          }
-          "
-                      p:actionLabel="Delete" p:style="margin-right: 15pt;"> <!-- Horiz whitespace -->
-                    <property name="actionImage">
-                        <bean parent="Uif-Image"
-                              p:source="@{#ConfigProperties['application.url']}/krms/images/delete.png"
-                              p:altText="Delete"/>
-                    </property>
                 </bean>
 
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>group</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('cut');
+                                if (enabled) {
+                                ajaxCutPropositionTree('cutProposition', 'RuleStudentEditorView-Tree');}"
+                                p:actionLabel="Cut">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/cut.png"
+                                        p:altText="Cut"/>
+                                </property>
+                            </bean>
+
+                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('paste');
+                                if (enabled) {
+                                ajaxCallPropositionTree('pasteProposition', 'RuleStudentEditorView-TreeGroup');}"
+                                p:actionLabel="Paste">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image"
+                                        p:source="@{#ConfigProperties['application.url']}/krms/images/paste.png"
+                                        p:altText="Paste"/>
+                                </property>
+                            </bean>
+
+                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('delete');
+                                if (enabled) {
+                                ajaxCallPropositionTree('deleteProposition', 'RuleStudentEditorView-TreeGroup');}"
+                                p:actionLabel="Delete"> <!-- Horiz whitespace -->
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image"
+                                        p:source="@{#ConfigProperties['application.url']}/krms/images/delete.png"
+                                        p:altText="Delete"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

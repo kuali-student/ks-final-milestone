@@ -1,0 +1,10 @@
+.edit-with-object-buttons {
+    background-image: url('./images/buttonNormal.png');
+    background-size: 150px;
+    width: 80px;
+    height: 50px;
+    background-position: -10px -10px;
+    cursor: pointer;
+    white-space: normal;
+    text-align: center;
+}

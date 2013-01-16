@@ -15,6 +15,11 @@
                 <value>krms/scripts/countdownInputs.js</value>
             </list>
         </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ks-enroll/css/krms.css</value>
+            </list>
+        </property>
         <property name="viewName" value="AgendaWithRuleView"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.RuleEditor"/>
         <property name="viewHelperServiceClass"
