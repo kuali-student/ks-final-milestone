@@ -903,7 +903,7 @@ CREATE TABLE KSLU_CLU_IDENT
 (
       ID VARCHAR2(255)
         , CD VARCHAR2(255)
-        , DIV VARCHAR2(255)
+        , DIVISION VARCHAR2(255)
         , LVL VARCHAR2(255)
         , LNG_NAME VARCHAR2(255)
         , ORG_ID VARCHAR2(255)
@@ -923,6 +923,36 @@ ALTER TABLE KSLU_CLU_IDENT
     ADD CONSTRAINT KSLU_CLU_IDENTP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_IDENT_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_IDENT_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_IDENT_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_IDENT_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(2000)
+        , OWNER VARCHAR2(255)
+        , OBJ_ID VARCHAR2(36)
+        , VER_NBR NUMBER(19)
+    
+
+)
+/
+
 
 
 
@@ -1256,6 +1286,10 @@ CREATE INDEX KSLU_CLU_LO_RELTN_I1
   ON KSLU_CLU_LO_RELTN 
   (CLU_ID)
 /
+CREATE INDEX KSLU_CLU_LO_RELTN_I2 
+  ON KSLU_CLU_LO_RELTN 
+  (TYPE)
+/
 
 
 
@@ -1574,7 +1608,7 @@ CREATE TABLE KSLU_CLU_PUBL_VARI
 (
       ID VARCHAR2(255)
         , VARI_KEY VARCHAR2(255)
-        , VARI_VALUE VARCHAR2(255)
+        , VARI_VALUE VARCHAR2(2500)
         , OWNER VARCHAR2(255)
         , OBJ_ID VARCHAR2(36)
         , VER_NBR NUMBER(19)
@@ -1947,22 +1981,22 @@ END;
 CREATE TABLE KSLU_CLU_SET_JN_CLU
 (
       CLU_SET_ID VARCHAR2(255) NOT NULL
-        , CLU_ID VARCHAR2(255) NOT NULL
+        , CLU_VER_IND_ID VARCHAR2(255) NOT NULL
+        , ID VARCHAR2(255)
+        , VER_NBR NUMBER(19)
+        , OBJ_ID VARCHAR2(36)
     
+    , CONSTRAINT KSLU_CLU_SET_JN_CLU_I1 UNIQUE (CLU_SET_ID, CLU_VER_IND_ID)
 
 )
 /
 
+ALTER TABLE KSLU_CLU_SET_JN_CLU
+    ADD CONSTRAINT KSLU_CLU_SET_JN_CLUP1
+PRIMARY KEY (ID)
+/
 
 
-CREATE INDEX KSLU_CLU_SET_JN_CLU_I1 
-  ON KSLU_CLU_SET_JN_CLU 
-  (CLU_SET_ID)
-/
-CREATE INDEX KSLU_CLU_SET_JN_CLU_I2 
-  ON KSLU_CLU_SET_JN_CLU 
-  (CLU_ID)
-/
 
 
 
@@ -2216,181 +2250,6 @@ CREATE INDEX KSLU_INSTFRMT_TYPE_ATTR_I1
   ON KSLU_INSTFRMT_TYPE_ATTR 
   (OWNER)
 /
-
-
-
-
-
------------------------------------------------------------------------------
--- KSLU_LUI
------------------------------------------------------------------------------
---DECLARE temp NUMBER;
---BEGIN
---	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LUI';
---	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LUI CASCADE CONSTRAINTS PURGE'; END IF;
---END;
---/
-
---CREATE TABLE KSLU_LUI
---(
---      ID VARCHAR2(255)
---        , CREATEID VARCHAR2(255)
---        , CREATETIME TIMESTAMP
---        , UPDATEID VARCHAR2(255)
---        , UPDATETIME TIMESTAMP
---        , VER_NBR NUMBER(19) NOT NULL
---        , ATP_ID VARCHAR2(255)
---        , EFF_DT TIMESTAMP
---        , EXP_DT TIMESTAMP
---        , LUI_CODE VARCHAR2(255)
---        , MAX_SEATS NUMBER(10)
---        , ST VARCHAR2(255)
---        , CLU_ID VARCHAR2(255)
---        , OBJ_ID VARCHAR2(36)
---
---
---)
---/
-
---ALTER TABLE KSLU_LUI
---    ADD CONSTRAINT KSLU_LUIP1
---PRIMARY KEY (ID)
---/
-
-
---CREATE INDEX KSLU_LUI_I1
---  ON KSLU_LUI
---  (CLU_ID)
---/
-
-
-
-
-
------------------------------------------------------------------------------
--- KSLU_LUILUI_RELTN
------------------------------------------------------------------------------
---DECLARE temp NUMBER;
---BEGIN
---	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LUILUI_RELTN';
---	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LUILUI_RELTN CASCADE CONSTRAINTS PURGE'; END IF;
---END;
---/
-
---CREATE TABLE KSLU_LUILUI_RELTN
---(
---      ID VARCHAR2(255)
---        , CREATEID VARCHAR2(255)
---        , CREATETIME TIMESTAMP
---        , UPDATEID VARCHAR2(255)
---        , UPDATETIME TIMESTAMP
---        , VER_NBR NUMBER(19) NOT NULL
---        , EFF_DT TIMESTAMP
---        , EXPIR_DT TIMESTAMP
---        , ST VARCHAR2(255)
---        , LULU_RELTN_TYPE_ID VARCHAR2(255)
---        , LUI_ID VARCHAR2(255)
---        , RELATED_LUI_ID VARCHAR2(255)
---        , OBJ_ID VARCHAR2(36)
---
---
---)
---/
-
---ALTER TABLE KSLU_LUILUI_RELTN
---    ADD CONSTRAINT KSLU_LUILUI_RELTNP1
---PRIMARY KEY (ID)
---/
-
-
---CREATE INDEX KSLU_LUILUI_RELTN_I1
---  ON KSLU_LUILUI_RELTN
---  (RELATED_LUI_ID)
---/
---CREATE INDEX KSLU_LUILUI_RELTN_I2
---  ON KSLU_LUILUI_RELTN
---  (LULU_RELTN_TYPE_ID)
---/
---CREATE INDEX KSLU_LUILUI_RELTN_I3
---  ON KSLU_LUILUI_RELTN
---  (LUI_ID)
---/
-
-
-
-
-
------------------------------------------------------------------------------
--- KSLU_LUILUI_RELTN_ATTR
------------------------------------------------------------------------------
---DECLARE temp NUMBER;
---BEGIN
---	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LUILUI_RELTN_ATTR';
---	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LUILUI_RELTN_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
---END;
---/
-
---CREATE TABLE KSLU_LUILUI_RELTN_ATTR
---(
---      ID VARCHAR2(255)
---        , ATTR_NAME VARCHAR2(255)
---        , ATTR_VALUE VARCHAR2(2000)
- --       , OWNER VARCHAR2(255)
---        , OBJ_ID VARCHAR2(36)
---        , VER_NBR NUMBER(19)
---
---
---)
---/
-
---ALTER TABLE KSLU_LUILUI_RELTN_ATTR
---    ADD CONSTRAINT KSLU_LUILUI_RELTN_ATTRP1
---PRIMARY KEY (ID)
---/
-
-
---CREATE INDEX KSLU_LUILUI_RELTN_ATTR_I1
---  ON KSLU_LUILUI_RELTN_ATTR
---  (OWNER)
---/
-
-
-
-
-
------------------------------------------------------------------------------
--- KSLU_LUI_ATTR
------------------------------------------------------------------------------
---DECLARE temp NUMBER;
---BEGIN
---	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LUI_ATTR';
---	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LUI_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
---END;
---/
-
---CREATE TABLE KSLU_LUI_ATTR
---(
---      ID VARCHAR2(255)
---        , ATTR_NAME VARCHAR2(255)
---        , ATTR_VALUE VARCHAR2(2000)
---        , OWNER VARCHAR2(255)
---        , OBJ_ID VARCHAR2(36)
---        , VER_NBR NUMBER(19)
-    
-
---)
---/
-
---ALTER TABLE KSLU_LUI_ATTR
---    ADD CONSTRAINT KSLU_LUI_ATTRP1
---PRIMARY KEY (ID)
---/
-
-
---CREATE INDEX KSLU_LUI_ATTR_I1
---  ON KSLU_LUI_ATTR
---  (OWNER)
---/
 
 
 
@@ -2939,8 +2798,8 @@ END;
 CREATE TABLE KSLU_RICH_TEXT_T
 (
       ID VARCHAR2(255)
-        , FORMATTED VARCHAR2(500)
-        , PLAIN VARCHAR2(2000)
+        , FORMATTED VARCHAR2(2000)
+        , PLAIN VARCHAR2(4000)
         , OBJ_ID VARCHAR2(36)
         , VER_NBR NUMBER(19)
     
@@ -3297,5 +3156,4 @@ ALTER TABLE KSLU_SPVALUE
     ADD CONSTRAINT KSLU_SPVALUEP1
 PRIMARY KEY (ID)
 /
-
 

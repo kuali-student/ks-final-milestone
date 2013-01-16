@@ -28,29 +28,47 @@ INSERT INTO KSLU_LUTYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
   VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Discussion','2C116DCB4BE147E58E22946268DAF7F3','The exchange of opinions or questions on course material.','kuali.lu.type.activity.Discussion',0)
 /
 INSERT INTO KSLU_LUTYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
+  VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Experiential Learning/Other','8074fb30-0604-49c9-b526-3f9d1045dfbe','Individual activity in authentic non-academic setting arranged by instructor.','kuali.lu.type.activity.ExperientialLearningOROther',0)
+/
+INSERT INTO KSLU_LUTYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
+  VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Homework','B01F8C874CA3C64EE040C60AF05B7C9A','Student''s doing homework, problem sets and reading assignments and writing','kuali.lu.type.activity.Homework',0)
+/
+INSERT INTO KSLU_LUTYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
   VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Lab','528734054E4A44E4AAE2789490A0D463','Student working on projects in a defined laboratory space.  Instructors are on-hand for students to ask questions and guidance.','kuali.lu.type.activity.Lab',0)
 /
 INSERT INTO KSLU_LUTYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
   VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Lecture','3CB868F97F804AC0B4AE0F84174AE701','Instructor presentation of course materials.','kuali.lu.type.activity.Lecture',0)
 /
 INSERT INTO KSLU_LUTYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
+  VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Lecture or Seminar','39f83cee-7473-46ab-80cd-d5876621c5dd','Instructor presentation of course materials.','kuali.lu.type.activity.LectureORSeminar',0)
+/
+INSERT INTO KSLU_LUTYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
   VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Tutorial','CF0872C0047A4809A3A77E813EEABDBF','Instructor or assistant walking through a learning practice.','kuali.lu.type.activity.Tutorial',0)
 /
 INSERT INTO KSLU_LUTYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
-  VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Lecture','55AE1CB7FDEE43DDAE8E4DA47767CE21','Instructor presentation of course materials via the web','kuali.lu.type.activity.WebLecture',0)
+  VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Web Discuss','B01F8C874CA2C64EE040C60AF05B7C9A','Web-based or technologically-mediated activities replacing standard discussion sections','kuali.lu.type.activity.WebDiscussion',0)
+/
+INSERT INTO KSLU_LUTYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
+  VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Web Lecture','55AE1CB7FDEE43DDAE8E4DA47767CE21','Instructor presentation of course materials via the web','kuali.lu.type.activity.WebLecture',0)
 /
 INSERT INTO KSLU_LUTYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
   VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Baccalaureate','6A33734B7426482792951DD942080C05','A Baccalaureate','kuali.lu.type.credential.Baccalaureate',0)
+/
+INSERT INTO KSLU_LUTYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
+  VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Doctoral','57a7ddfe-24d9-4f9f-a393-edfa627337b8','A Doctoral','kuali.lu.type.credential.Doctoral',0)
+/
+INSERT INTO KSLU_LUTYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
+  VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Masters','b953a46e-c886-41c5-89b5-b9e6c6093cdc','A Masters','kuali.lu.type.credential.Masters',0)
+/
+INSERT INTO KSLU_LUTYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
+  VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Standardized Test','B01F8C874CA4C64EE040C60AF05B7C9A','Standardized Test','kuali.lu.type.standardized.test',0)
+/
+INSERT INTO KSLU_LUTYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
+  VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Standardized Test Component','B01F8C874CA5C64EE040C60AF05B7C9A','Standardized Test Component','kuali.lu.type.standardized.test.component',0)
 /
 INSERT INTO KSLU_LUTYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
   VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Course','A8F346262C1B41B79C36BA0E27790BAB','A Shell Course','luType.shell.course',0)
 /
 INSERT INTO KSLU_LUTYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
   VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Program','0F7597C4E8DE4B6EBBCCCB8B631B81C6','A Shell Program','luType.shell.program',0)
-/
-INSERT INTO KSLU_LUTYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
-  VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Masters','6A33734B7426482792951DD942080C05','Masters level program','kuali.lu.type.credential.Masters',0)
-/
-INSERT INTO KSLU_LUTYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
-  VALUES (TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),'Professional', sys_guid(),'A program leading to a professional degree','kuali.lu.type.credential.Professional',0)
 /
