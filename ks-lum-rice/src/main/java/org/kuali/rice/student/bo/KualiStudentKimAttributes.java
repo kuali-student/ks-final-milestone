@@ -46,6 +46,11 @@ public class KualiStudentKimAttributes implements ExternalizableBusinessObject {
     public static final String DESCEND_HIERARCHY                    = "descendHierarchy";
     public static final String KS_REFERENCE_TYPE_KEY                = "ksReferenceTypeKey";
 
+    public static final String KS_CO_STATE_KEY                      = "coStateKey";
+    public static final String KS_SOC_STATE_KEY                     = "socStateKey";
+
+    public static final String KS_PERMISSION_EXPRESSION             = "permissionExpression";
+
 	protected String dataId;
 	protected String org;
 	protected String department;
@@ -59,6 +64,11 @@ public class KualiStudentKimAttributes implements ExternalizableBusinessObject {
 	protected String sectionId;
     protected Boolean descendHierarchy;
     protected String ksReferenceTypeKey;
+
+    protected String coStateKey;
+    protected String socStateKey;
+
+    protected String permissionExpression;
 
 	/**
      * @return the dataId
@@ -230,6 +240,31 @@ public class KualiStudentKimAttributes implements ExternalizableBusinessObject {
      */
     public void setKsReferenceTypeKey(String ksReferenceTypeKey) {
         this.ksReferenceTypeKey = ksReferenceTypeKey;
+    }
+
+
+    public String getSocStateKey() {
+        return socStateKey;
+    }
+
+    public void setSocStateKey(String socStateKey) {
+        this.socStateKey = socStateKey;
+    }
+
+    public String getCoStateKey() {
+        return coStateKey;
+    }
+
+    public void setCoStateKey(String coStateKey) {
+        this.coStateKey = coStateKey;
+    }
+
+    public String getPermissionExpression() {
+        return permissionExpression;
+    }
+
+    public void setPermissionExpression(String permissionExpression) {
+        this.permissionExpression = permissionExpression;
     }
 
     @Override
