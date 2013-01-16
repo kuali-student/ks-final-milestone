@@ -35,7 +35,7 @@
         <property name="items">
             <list>
 
-                <bean parent="Uif-MessageField" p:messageText="@{#dp.courseName}"/>
+                <bean parent="Uif-PageHeader" p:headerText="@{#dp.courseName}"/>
 
                 <bean parent="Uif-InputField-LabelTop" p:label="Select Agenda" p:propertyName="agendaType">
                     <property name="control">
