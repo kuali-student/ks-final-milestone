@@ -64,6 +64,8 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
     private boolean socReleasedToDepts = false;
     private boolean rolloverCompleted = false; // Only true if finished or aborted
 
+    private String breadCrumbJson;
+
     public CourseOfferingRolloverManagementForm(){
         targetTermCode = "";
         sourceTermCode = "";
@@ -343,6 +345,14 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
 
     public void setConfigurationOptions(List<String> configurationOptions) {
         this.configurationOptions = configurationOptions;
+    }
+
+    public String getBreadCrumbJson() {
+        return breadCrumbJson;
+    }
+
+    public void setBreadCrumbJson(String breadCrumbJson) {
+        this.breadCrumbJson = breadCrumbJson;
     }
 
     public void resetForm(){

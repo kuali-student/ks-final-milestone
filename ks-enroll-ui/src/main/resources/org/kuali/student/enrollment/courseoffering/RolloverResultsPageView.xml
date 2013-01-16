@@ -28,7 +28,7 @@
             </property>
             <property name="items">
                 <list>
-                   <bean parent="Uif-VerticalBoxGroup">
+                    <bean parent="Uif-VerticalBoxGroup">
                         <property name="items">
                             <list>
                                  <bean parent="Uif-Message" p:messageText="Specify a term to review the details of the associated rollover."/>
@@ -71,7 +71,7 @@
                                                             <property name="items">
                                                                 <list>
                                                                     <bean parent="Uif-PrimaryActionButton" p:actionLabel="Release to Departments"
-                                                                          p:methodToCall="confirmReleaseToDepts"/>
+                                                                          p:methodToCall="confirmReleaseToDepts" />
                                                                 </list>
                                                             </property>
                                                         </bean>
@@ -141,7 +141,7 @@
                                      <property name="items">
                                         <list>
                                             <bean parent="Uif-PrimaryActionButton" p:actionLabel="Release to Departments"
-                                                  p:methodToCall="confirmReleaseToDepts"/>
+                                                  p:methodToCall="confirmReleaseToDepts" />
                                         </list>
                                      </property>
                                  </bean>

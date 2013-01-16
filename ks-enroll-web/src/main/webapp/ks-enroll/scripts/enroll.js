@@ -1,6 +1,35 @@
 /**
  * Fix for KULRICE-7795 as suggested by Brian. We need to remove this method once we get the same in next rice upgrade M3/M4
  */
+
+function replaceBreadCrumbs(bc) {
+    if (bc !== undefined) {
+        var bcObj = jQuery.parseJSON(bc);
+        var length = Object.keys(bcObj.breadCrumb).length;
+        var pos = 0;
+        var ol = jQuery("<ol id='breadcrumbs' role='navigation' aria-labelledby='breadcrumb_label'>");
+        jQuery.each(bcObj.breadCrumb, function (key, value) {
+            if (pos != 0 && pos != length) {
+                var separator = jQuery("<li/>").html(jQuery("<span role='presentation' />").text(' \u00BB '));
+                ol.append(separator);
+            }
+
+            var li = jQuery("<li/>");
+            if (value != "") {
+                var anchor = jQuery("<a href='" + value + "'>" + key + "</a>");
+                li.html(anchor);
+            } else {
+                li.text(key);
+            }
+
+            ol.append(li);
+            pos++;
+        });
+        var bcSpan = jQuery('#courseOfferingRolloverManagementView').find("span.uif-breadcrumbs");
+        bcSpan.html(ol);
+    }
+}
+
 writeMessagesForPage = function () {
     var page = jQuery("[data-type='Page']");
     var pageId = page.attr("id");

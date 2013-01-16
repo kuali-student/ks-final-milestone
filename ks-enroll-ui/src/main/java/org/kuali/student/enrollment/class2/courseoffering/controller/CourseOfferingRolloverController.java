@@ -16,10 +16,17 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.UnhandledException;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.view.History;
+import org.kuali.rice.krad.uif.view.HistoryEntry;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.appointment.util.AppointmentConstants;
@@ -62,6 +69,7 @@ import javax.xml.namespace.QName;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -79,6 +87,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
 
     private static final Logger LOGGER = Logger.getLogger(CourseOfferingRolloverController.class);
     public static final String ROLLOVER_DETAILS_PAGEID = "selectTermForRolloverDetails";
+    public static final String ROLLOVER_MANAGEMENT_VIEWID = "courseOfferingRolloverManagementView";
     public static final String ROLLOVER_CONFIRM_RELEASE = "releaseToDepts";
 
     @Override
@@ -563,6 +572,35 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     public ModelAndView confirmReleaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
                                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         LOGGER.info("confirmReleaseToDepts ");
+
+        //get the url for Home
+        String homeUrl = form.getFormHistory().getHomewardPath().get(0).getUrl();
+        //construct the url for Rollover Details page
+        Properties urlParameters = new Properties();
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, UifConstants.MethodToCallNames.START);
+        urlParameters.put(UifParameters.VIEW_ID, ROLLOVER_MANAGEMENT_VIEWID);
+        urlParameters.put(UifParameters.PAGE_ID, ROLLOVER_DETAILS_PAGEID);
+        urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+        urlParameters.put(UifConstants.UrlParams.FORM_KEY, form.getFormKey());
+
+        HistoryEntry tempCurrent = form.getFormHistory().getCurrent();
+        form.getFormHistory().setCurrent(null);
+        if(form.getFormHistory() != null)  {
+            urlParameters.put(UifConstants.UrlParams.HISTORY, form.getFormHistory().getHistoryParameterString());
+        }
+
+        String controllerPath = "courseOfferingRollover";
+        String rolloverDetailsUrl = UrlFactory.parameterizeUrl(controllerPath, urlParameters);
+
+        //create the breadcrumb item for the current page
+        String currentPage = (form.getRolloverTargetTermDesc()!=null ) ? form.getRolloverTargetTermDesc() + " Course Offerings" : "Unknown Term Course Offerings";
+
+        //construct the JSON string for breadcrumb
+        String breadCrumbJson = "{\"breadCrumb\": {\"Home\": \"" + homeUrl + "\", \"Rollover Details\":\"" + rolloverDetailsUrl + "\", \"" + currentPage + "\":\"\"}}";
+        form.setBreadCrumbJson(breadCrumbJson);
+
+        //set the current back to form
+        form.getFormHistory().setCurrent(tempCurrent);
         return getUIFModelAndView(form, ROLLOVER_CONFIRM_RELEASE);
     }
 
