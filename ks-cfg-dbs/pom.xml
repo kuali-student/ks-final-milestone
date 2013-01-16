@@ -736,7 +736,7 @@
                                     <artifactId>ks-rice-sql</artifactId>
                                     <version>${ks.core.version}</version>
                                     <includes>**\/*.sql</includes>
-                                    <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
+                                    <outputDirectory>${project.build.directory}/gen/data/ks-rice</outputDirectory>
                                     </artifactItem>
                                     <artifactItem>
                                     <groupId>org.kuali.student.lum</groupId>
@@ -753,9 +753,10 @@
                                     <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
                                     </artifactItem>
                                     <artifactItem>
-                                    <groupId>org.kuali.student.db</groupId>
-                                    <artifactId>ks-rice-baseline-db</artifactId>
-                                    <version>${project.version}</version>
+                                    <groupId>org.kuali.rice</groupId>
+                                    <artifactId>rice-impex-server-bootstrap</artifactId>
+                                    <version>${kuali.rice.version}</version>
+                                    <classifier>sql</classifier>
                                     <includes>**/oracle/*.sql</includes>
                                     <outputDirectory>${project.build.directory}/gen/data/rice</outputDirectory>
                                     </artifactItem>
@@ -785,52 +786,14 @@
                                 <version>${ks.enroll.version}</version>
                             </dependency>
                             <dependency>
-                                <groupId>org.kuali.student.db</groupId>
-                                <artifactId>ks-rice-baseline-db</artifactId>
-                                <version>${project.version}</version>
+                                <groupId>org.kuali.rice</groupId>
+                                <artifactId>rice-impex-server-bootstrap</artifactId>
+                                <version>${kuali.rice.version}</version>
+                                <classifier>sql</classifier>
                             </dependency>
                         </dependencies>
                     </plugin>
-                    <plugin>
-                        <groupId>org.kuali.maven.plugins</groupId>
-                        <artifactId>maven-impex-plugin</artifactId>
-                        <configuration>
-                            <forceMojoExecution>true</forceMojoExecution>
-                            <importDir>${project.build.directory}/gen/data/rice/sql</importDir>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>create-rice-baseline-schema</id>
-                                <phase>process-resources</phase>
-                                <goals>
-                                    <goal>import</goal>
-                                </goals>
-                                <configuration>
-                                    <importDirIncludes>ks-rice-baseline-db.sql</importDirIncludes>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>load-rice-baseline-data</id>
-                                <phase>process-resources</phase>
-                                <goals>
-                                    <goal>import</goal>
-                                </goals>
-                                <configuration>
-                                    <importDirExcludes>ks-rice-baseline-db*.sql</importDirExcludes>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>add-rice-baseline-constraints</id>
-                                <phase>process-resources</phase>
-                                <goals>
-                                    <goal>import</goal>
-                                </goals>
-                                <configuration>
-                                    <importDirIncludes>ks-rice-baseline-db-constraints.sql</importDirIncludes>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
+
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>sql-maven-plugin</artifactId>
@@ -850,6 +813,73 @@
                                 <id>init-db</id>
                                 <phase>initialize</phase>
                             </execution>
+                            <!-- **** -->
+
+                            <execution>
+                                <id>create-rice-baseline-schema</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                                <configuration>
+                                    <fileset>
+                                        <basedir>${project.build.directory}/gen/data/rice/sql/oracle</basedir>
+                                        <includes>
+                                            <include>rice-impex-server-bootstrap.sql</include>
+                                        </includes>
+                                    </fileset>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>load-rice-baseline-data</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                                <configuration>
+                                    <fileset>
+                                        <basedir>${project.build.directory}/gen/data/rice/sql/oracle</basedir>
+                                        <excludes>
+                                            <exclude>rice-impex-server-bootstrap*.sql</exclude>
+                                        </excludes>
+                                    </fileset>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>load-ks-rice-data</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                                <configuration>
+                                    <fileset>
+                                        <basedir>${project.build.directory}/gen/data/ks-rice</basedir>
+                                        <includes>
+                                            <include>initial-db/*/*data/*.sql</include>
+                                        </includes>
+                                    </fileset>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>add-rice-baseline-constraints</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                                <configuration>
+                                    <fileset>
+                                        <basedir>${project.build.directory}/gen/data/rice/sql/oracle</basedir>
+                                        <includes>
+                                            <include>rice-impex-server-bootstrap-constraints.sql</include>
+                                        </includes>
+                                    </fileset>
+                                </configuration>
+                            </execution>
+
+                            <!-- **** -->
                             <execution>
                                 <id>create-schema</id>
                                 <phase>process-resources</phase>
