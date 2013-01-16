@@ -23,6 +23,7 @@
             <list>
                 <ref bean="KRMS-Clu-Components-Section" />
                 <ref bean="KRMS-Org-Components-Section" />
+                <ref bean="KRMS-Tree-Section"/>
             </list>
         </property>
         <property name="additionalScriptFiles">
@@ -350,4 +351,41 @@
         </property>
 
     </bean>
+
+    <bean id="KRMS-Tree-Section" parent="Uif-TreeSection">
+        <property name="headerText" value="Basic String Data tree"/>
+        <property name="instructionalText" value="Data Tree"/>
+        <property name="propertyName" value="tree1"/>
+        <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-InputField-LabelTop"
+                                      p:propertyName="data" p:label="Course">
+                                    <property name="suggest">
+                                        <bean parent="Uif-Suggest">
+                                            <property name="render" value="true"/>
+                                            <property name="sourcePropertyName" value="displayName"/>
+                                            <property name="templateOptions" value="minLength:1,delay:0"/>
+                                            <property name="suggestQuery">
+                                                <bean parent="Uif-AttributeQueryConfig">
+                                                    <property name="queryMethodToCall" value="getCourseNamesForSuggest"/>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
 </beans>
