@@ -1,4 +1,0 @@
-insert into KSEN_STATE_LIFECYCLE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, REF_OBJECT_URI, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.course.activity.offering.cluster.lifecycle', null, 'kuali.course.activity.offering.cluster.lifecycle', 'Activity Offering Lifecycle', 'Activity Offering Lifecycle', null, 1, to_date('2012-11-02', 'YYYY-MM-DD'), 'SYSTEMLOADER', null, null)
-/
-insert into KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.activity.offering.cluster.state.active', null, 'Active', 'Activity Offering Cluster is active', 'Activity Offering Cluster is active', 'kuali.course.activity.offering.cluster.lifecycle', null, null, 0, to_date('2012-11-02', 'YYYY-MM-DD'), 'SYSTEMLOADER', null, null)
-/
