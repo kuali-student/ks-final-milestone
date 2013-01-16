@@ -97,7 +97,7 @@
                 <bean parent="Uif-ActionLink" p:methodToCall="createFromCatalog" p:style="font-weight:bold;" p:actionLabel="Create from Catalog" p:render="@{#showCatalogLink}"/>
                 <bean parent="Uif-Message" p:messageText="Create from Catalog" p:style="font-weight:bold;" p:render="@{!#showCatalogLink}"/>
                 <bean parent="Uif-Message" p:messageText="  |  " p:style="font-weight:bold;"/>
-                <bean parent="Uif-ActionLink" p:methodToCall="createFromTermOffering" p:style="font-weight:bold;" p:actionLabel="Create from Existing Offering (@{#noOfTermOfferings})" p:render="@{#showTermOfferingLink}"/>
+                <bean id="KS-CourseOffering-LinkSection_CreateFromExistingOffering" parent="Uif-ActionLink" p:methodToCall="createFromTermOffering" p:style="font-weight:bold;" p:actionLabel="Create from Existing Offering (@{#noOfTermOfferings})" p:render="@{#showTermOfferingLink}"/>
                 <bean parent="Uif-Message" p:messageText="Create from Existing Offering (@{#noOfTermOfferings})" p:style="font-weight:bold;" p:render="@{!#showTermOfferingLink}"/>
             </list>
         </property>
