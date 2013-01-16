@@ -117,7 +117,7 @@
             <bean parent="Uif-HorizontalBoxSection">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-InputField" p:propertyName="selectedOfferingAction" p:label="Selected Course Offering Actions" p:labelPlacement="TOP">
+                        <bean id="KS-CourseOfferingManagement-CourseOfferingActionSection-Select" parent="Uif-InputField" p:propertyName="selectedOfferingAction" p:label="Selected Course Offering Actions" p:labelPlacement="TOP">
                             <property name="readOnly" value="false"/>
                             <property name="control">
                                 <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
@@ -126,7 +126,7 @@
                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CourseOfferingActionsKeyValues"/>
                             </property>
                         </bean>
-                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:disabled="@{#parent.readOnly}" p:methodToCall="selectedCOActions" p:style="margin-top: 18px;"
+                        <bean id="KS-CourseOfferingManagement-CourseOfferingActionSection-Go" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:disabled="@{#parent.readOnly}" p:methodToCall="selectedCOActions" p:style="margin-top: 18px;"
                               p:preSubmitCall="return confirm('This will mark all checked Activity Offerings as Ready for Scheduling')" />
                     </list>
                 </property>
