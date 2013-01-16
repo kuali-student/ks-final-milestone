@@ -8,3 +8,19 @@
     white-space: normal;
     text-align: center;
 }
+
+button.edit-with-object-buttons:hover {
+    background-image: none;
+    background-color: #808080;
+    background-size: 150px;
+    width: 80px;
+    height: 50px;
+    background-position: -10px -10px;
+    cursor: pointer;
+    white-space: normal;
+    text-align: center;
+}
+
+.uif-boxLayoutHorizontalItem {
+     margin-right: 0px;
+ }

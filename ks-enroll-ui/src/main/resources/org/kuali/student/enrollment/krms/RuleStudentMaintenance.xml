@@ -208,18 +208,14 @@
         </property>
     </bean>
 
-    <bean id="RuleStudentEditorView-RuleTreeEditControls" parent="Uif-VerticalBoxSection"
-          p:cssClasses="krms-rulesButtonBar">
+    <bean id="RuleStudentEditorView-RuleTreeEditControls" parent="Uif-HorizontalBoxSection">
 
         <property name="renderHeader" value="true"/>
         <property name="headerText" value="Prerequisite Rule"/>
-        <property name="layoutManager">
-            <bean parent="Uif-HorizontalBoxLayout" p:style="padding-right: 20px"/>
-        </property>
 
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxGroup">
+                <bean parent="Uif-HorizontalBoxGroup" p:style="padding-right: 20px; padding-left:20px">
                     <property name="items">
                         <list>
                             <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('add');
@@ -256,7 +252,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-HorizontalBoxGroup">
+                <bean parent="Uif-HorizontalBoxGroup" p:style="padding-right: 20px">
                     <property name="items">
                         <list>
                             <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('left');
@@ -306,12 +302,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-HorizontalBoxGroup">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>group</value>
-                        </list>
-                    </property>
+                <bean parent="Uif-HorizontalBoxGroup" p:style="padding-right: 20px">
                     <property name="items">
                         <list>
                             <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('cut');
