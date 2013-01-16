@@ -1,10 +1,18 @@
 package org.kuali.student.enrollment.main.view;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.component.ComponentSecurity;
+import org.kuali.rice.krad.uif.container.Group;
+import org.kuali.rice.krad.uif.element.Action;
+import org.kuali.rice.krad.uif.field.Field;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.ViewAuthorizerBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.uif.widget.Widget;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm;
 
@@ -18,6 +26,8 @@ import java.util.Map;
  * (object.field1[3].field2->qualifierId)
  */
 public class KsViewAuthorizerBase extends ViewAuthorizerBase {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KsViewAuthorizerBase.class);
+
     @Override
     protected void addRoleQualification(Object primaryDataObjectOrDocument, Map<String, String> attributes) {
         if (primaryDataObjectOrDocument !=null && primaryDataObjectOrDocument instanceof CourseOfferingManagementForm) {
@@ -39,20 +49,155 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
         super.addRoleQualification(primaryDataObjectOrDocument, attributes);
     }
 
+    @Override
+    protected void addPermissionDetails(Object primaryDataObjectOrDocument, Map<String, String> attributes) {
+        attributes.put("socStateKey","Active");//TODO pull these out of the form
+        attributes.put("coStateKey","Draft");
+        super.addPermissionDetails(primaryDataObjectOrDocument, attributes);    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
     /**
      * This method resolves the unitsDeploymentOrgId from the CourseOffering Model and passes it in as
      * a role qualifier
      */
+    /**
+     * Performs a permission check for the given template name in the context of the given view and component
+     *
+     * <p>
+     * First standard permission details are added based on the type of component the permission check is being
+     * done for.
+     * Then the {@link org.kuali.rice.krad.uif.component.ComponentSecurity} of the given component is used to pick up additional permission details and
+     * role qualifiers.
+     * </p>
+     *
+     * @param view - view instance the component belongs to
+     * @param component - component instance the permission check is being done for
+     * @param model - object containing the views data
+     * @param permissionTemplateName - template name for the permission to check
+     * @param user - user to perform the authorization for
+     * @param additionalPermissionDetails - additional key/value pairs to pass with the permission details
+     * @param additionalRoleQualifications - additional key/value paris to pass with the role qualifiers
+     * @param checkPermissionExistence - boolean indicating whether the existence of the permission should be checked
+     * before performing the authorization
+     * @return boolean indicating whether the user has authorization, this will be the case if the user has been
+     * granted the permission or checkPermissionExistence is true and the permission does not exist
+     */
     @Override
-    protected boolean isAuthorizedByTemplate(View view, Component component, ViewModel model, String permissionTemplateName, Person user, Map<String, String> additionalPermissionDetails, Map<String, String> additionalRoleQualifications, boolean checkPermissionExistence) {
-        if(additionalRoleQualifications == null){
-            //Instantiate if null was passed in
-            additionalRoleQualifications = new HashMap<String, String>();
-        }
-        addRoleQualification(model, additionalRoleQualifications);
+    protected boolean isAuthorizedByTemplate(View view, Component component, ViewModel model,
+                                             String permissionTemplateName, Person user, Map<String, String> additionalPermissionDetails,
+                                             Map<String, String> additionalRoleQualifications, boolean checkPermissionExistence) {
+        Map<String, String> permissionDetails = new HashMap<String, String>();
+        Map<String, String> roleQualifications = new HashMap<String, String>();
 
-        // Make the actual call to is authorized by template
-        return super.isAuthorizedByTemplate(view, component, model, permissionTemplateName, user, additionalPermissionDetails, additionalRoleQualifications, checkPermissionExistence);
+        if (additionalPermissionDetails != null) {
+            permissionDetails.putAll(additionalPermissionDetails);
+        }
+
+        if (additionalRoleQualifications != null) {
+            roleQualifications.putAll(additionalRoleQualifications);
+        }
+
+        addRoleQualification(model, additionalRoleQualifications); //Added this line when duplicating
+
+        Object dataObjectForContext = getDataObjectContext(view, model);
+
+        // add permission details depending on the type of component
+        if (component instanceof Field) {
+            permissionDetails.putAll(getFieldPermissionDetails(view, dataObjectForContext, (Field) component));
+        } else if (component instanceof Group) {
+            permissionDetails.putAll(getGroupPermissionDetails(view, dataObjectForContext, (Group) component));
+        } else if (component instanceof Widget) {
+            permissionDetails.putAll(getWidgetPermissionDetails(view, dataObjectForContext, (Widget) component));
+        } else if (component instanceof Action) {
+            permissionDetails.putAll(getActionPermissionDetails(view, dataObjectForContext, (Action) component));
+        }
+
+        // pick up additional attributes and overrides from component security
+        ComponentSecurity componentSecurity = component.getComponentSecurity();
+
+        // add configured overrides
+        if (StringUtils.isNotBlank(componentSecurity.getNamespaceAttribute())) {
+            permissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE,
+                    componentSecurity.getNamespaceAttribute());
+        }
+        if (StringUtils.isNotBlank(componentSecurity.getComponentAttribute())) {
+            permissionDetails.put(KimConstants.AttributeConstants.COMPONENT_NAME,
+                    componentSecurity.getComponentAttribute());
+        }
+        if (StringUtils.isNotBlank(componentSecurity.getIdAttribute())) {
+            if (component instanceof Field) {
+                permissionDetails.put(KimConstants.AttributeConstants.FIELD_ID, componentSecurity.getIdAttribute());
+            } else if (component instanceof Group) {
+                permissionDetails.put(KimConstants.AttributeConstants.GROUP_ID, componentSecurity.getIdAttribute());
+            } else if (component instanceof Widget) {
+                permissionDetails.put(KimConstants.AttributeConstants.WIDGET_ID, componentSecurity.getIdAttribute());
+            }
+        }
+
+        if (componentSecurity.getAdditionalPermissionDetails() != null) {
+            permissionDetails.putAll(componentSecurity.getAdditionalPermissionDetails());
+        }
+
+        if (componentSecurity.getAdditionalRoleQualifiers() != null) {
+            roleQualifications.putAll(componentSecurity.getAdditionalRoleQualifiers());
+        }
+
+        boolean result = true;
+        if (!checkPermissionExistence || (checkPermissionExistence && permissionExistsByTemplate(dataObjectForContext,
+                "KS-ENR", permissionTemplateName, permissionDetails))) {
+            result = isAuthorizedByTemplate(dataObjectForContext, "KS-ENR", permissionTemplateName,
+                    user.getPrincipalId(), permissionDetails, roleQualifications);
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Performed permission check for: " + permissionTemplateName + " and got result: " + result);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Override the method to change the KRAD namespace to KS Enroll
+     * @param view
+     * @param model
+     * @param user
+     * @return
+     */
+    @Override
+    public boolean canOpenView(View view, ViewModel model, Person user) {
+        Map<String, String> additionalPermissionDetails = new HashMap<String, String>();
+        additionalPermissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, view.getNamespaceCode());
+        additionalPermissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, model.getViewId());
+
+        if (permissionExistsByTemplate(model, "KS-ENR",
+                KimConstants.PermissionTemplateNames.OPEN_VIEW, additionalPermissionDetails)) {
+            return isAuthorizedByTemplate(model, "KS-ENR",
+                    KimConstants.PermissionTemplateNames.OPEN_VIEW, user.getPrincipalId(), additionalPermissionDetails,
+                    null);
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks for an edit view permission for the view id, and if found verifies the user has that permission
+     *
+     * @see org.kuali.rice.krad.uif.view.ViewAuthorizer#canEditView(org.kuali.rice.krad.uif.view.View, org.kuali.rice.krad.uif.view.ViewModel,
+     *      org.kuali.rice.kim.api.identity.Person)
+     */
+    public boolean canEditView(View view, ViewModel model, Person user) {
+        Map<String, String> additionalPermissionDetails = new HashMap<String, String>();
+        additionalPermissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, view.getNamespaceCode());
+        additionalPermissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, model.getViewId());
+
+        if (permissionExistsByTemplate(model, "KS-ENR",
+                KimConstants.PermissionTemplateNames.EDIT_VIEW, additionalPermissionDetails)) {
+            return isAuthorizedByTemplate(model, "KS-ENR",
+                    KimConstants.PermissionTemplateNames.EDIT_VIEW, user.getPrincipalId(), additionalPermissionDetails,
+                    null);
+        }
+
+        return true;
     }
 
 }
