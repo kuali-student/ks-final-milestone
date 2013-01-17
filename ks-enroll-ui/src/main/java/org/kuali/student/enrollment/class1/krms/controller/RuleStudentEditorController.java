@@ -38,6 +38,7 @@ import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.impl.repository.ActionBo;
+import org.kuali.rice.krms.impl.repository.AgendaBo;
 import org.kuali.rice.krms.impl.repository.AgendaBoService;
 import org.kuali.rice.krms.impl.repository.AgendaItemBo;
 import org.kuali.rice.krms.impl.repository.ContextBoService;
@@ -878,39 +879,70 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
+    @RequestMapping(params = "methodToCall=" + "retrieveAgenda")
+    public ModelAndView retrieveAgenda(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
+        AgendaBo agenda = null;
+        RuleEditor ruleEditor = getRuleEditor(form);
+
+        List<ReferenceObjectBinding> refObjects = getReferenceObjectBindingBoService().findReferenceObjectBindingsByReferenceObject(ruleEditor.getCluId());
+        for (ReferenceObjectBinding refObject : refObjects) {
+            if ("Agenda".equals(refObject.getKrmsDiscriminatorType())) {
+
+                AgendaBo refagenda = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(AgendaBo.class, refObject.getKrmsObjectId());
+                if ((refagenda != null) || (refagenda.getTypeId().equals(ruleEditor.getAgendaType()))) {
+                    agenda = refagenda;
+                    break;
+                }
+
+            }
+        }
+
+        if (agenda == null){
+            agenda = new AgendaBo();
+            agenda.setTypeId(ruleEditor.getAgendaType());
+        }
+
+        ruleEditor.setAgenda(agenda);
+        ruleEditor.setRuleType(null);
+
+        return getUIFModelAndView(form);
+    }
+
     @RequestMapping(params = "methodToCall=" + "retrieveRule")
     public ModelAndView retrieveRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                         HttpServletRequest request, HttpServletResponse response)
+                                     HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
         RuleBo rule = null;
         RuleEditor ruleEditor = getRuleEditor(form);
         ruleEditor.clearRule();
 
-        List<ReferenceObjectBinding> refObjects = getReferenceObjectBindingBoService().findReferenceObjectBindingsByReferenceObject(ruleEditor.getCluId());
-        refs : for(ReferenceObjectBinding refObject : refObjects){
-            if ("Agenda".equals(refObject.getKrmsDiscriminatorType())){
+        if (ruleEditor.getAgenda() != null) {
+            List<AgendaItemDefinition> agendaItems = getAgendaBoService().getAgendaItemsByAgendaId(ruleEditor.getAgenda().getId());
+            for (AgendaItemDefinition agendaItem : agendaItems) {
 
-                AgendaDefinition agenda = getAgendaBoService().getAgendaByAgendaId(refObject.getKrmsObjectId());
-                if ((agenda == null) || (!agenda.getTypeId().equals(ruleEditor.getAgendaType()))){
-                    continue;
+                RuleBo refrule = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(RuleBo.class, agendaItem.getRuleId());
+
+                if ((refrule != null) && (refrule.getTypeId().equals(ruleEditor.getRuleType()))) {
+                    rule = refrule;
+                    break;
                 }
 
-                List<AgendaItemDefinition> agendaItems = getAgendaBoService().getAgendaItemsByAgendaId(refObject.getKrmsObjectId());
-                for (AgendaItemDefinition agendaItem : agendaItems){
-
-                    rule = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(RuleBo.class, agendaItem.getRuleId());
-
-                    if ((rule != null) && (rule.getTypeId().equals(ruleEditor.getRuleType()))){
-                        ruleEditor.setRule(rule);
-                        break refs;
-                    }
-
-                }
             }
         }
 
+        if (rule == null){
+            rule = new RuleBo();
+            rule.setTypeId(ruleEditor.getRuleType());
+        }
+
+        ruleEditor.setRule(rule);
+
         return getUIFModelAndView(form);
+
     }
 
     @RequestMapping(params = "methodToCall=" + "updateProposition")
@@ -951,7 +983,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
             //Set the term spec
             String termSpecId = viewHelper.getTermSpecificationForType(propositionTypeId);
-            if (termSpecId != null){
+            if (termSpecId != null) {
                 TermSpecificationDefinition termSpecification = getTermBoService().getTermSpecificationById(termSpecId);
                 setTermForProposition(proposition, termSpecification.getId());
             }

@@ -105,7 +105,7 @@
     <bean id="KRMS-SingleCourse-SuggestField" parent="KRMS-SingleCourse-SuggestField-Parent" />
 
     <bean id="KRMS-MultiCourse-Section-Parent" parent="Uif-VerticalBoxSection" p:headerText="Courses">
-        <property name="header.style" value="font-size:12px;"/>
+        <!--property name="header.style" value="font-size:12px;"/-->
         <property name="instructionalText" value="Add courses, course sets, or course ranges to your course set. You may add any combination of courses, dynamic course ranges, or Course sets." />
         <property name="items">
             <list>
@@ -116,7 +116,8 @@
     </bean>
     <bean id="KRMS-MultiCourse-Section" parent="KRMS-MultiCourse-Section-Parent" />
 
-    <bean id="KRMS-MultiCourse-Type-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.multipleCourseType" p:label="Add a course, course set, or course range">
+    <bean id="KRMS-MultiCourse-Type-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.multipleCourseType">
+        <property name="instructionalText" value="Add a course, course set, or course range" />
         <property name="control">
             <bean parent="Uif-DropdownControl"/>
         </property>

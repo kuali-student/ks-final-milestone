@@ -126,19 +126,19 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
      * @param model the MaintenanceDocumentForm
      * @return the AgendaEditor
      */
-    private AgendaEditor getAgendaEditor(Object model) {
+    private RuleEditor getRuleEditor(Object model) {
         MaintenanceDocumentForm MaintenanceDocumentForm = (MaintenanceDocumentForm) model;
-        return (AgendaEditor) MaintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
+        return (RuleEditor) MaintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
     }
 
 
     /**
      * This only supports a single action within a rule.
      */
-    public List<RemotableAttributeField> retrieveRuleCustomAttributes(View view, Object model, Container container) {
-        AgendaEditor agendaEditor = getAgendaEditor(model);
-        return krmsRetriever.retrieveRuleCustomAttributes(agendaEditor);
-    }
+    //public List<RemotableAttributeField> retrieveRuleCustomAttributes(View view, Object model, Container container) {
+    //    AgendaEditor agendaEditor = getAgendaEditor(model);
+    //    return krmsRetriever.retrieveRuleCustomAttributes(agendaEditor);
+    //}
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
@@ -179,10 +179,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
 
             if (ruleId != null) {
                 rule = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(RuleBo.class, ruleId);
-            }
-
-            if (rule == null) {
-                rule = new RuleBo();
             }
 
             if (KRADConstants.MAINTENANCE_COPY_ACTION.equals(getMaintenanceAction())) {
@@ -240,24 +236,24 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
     @Override
     public void prepareForSave() {
         // set agenda attributes
-        AgendaEditor agendaEditor = (AgendaEditor) getDataObject();
-        agendaEditor.getAgenda().setAttributes(agendaEditor.getCustomAttributesMap());
+        RuleEditor ruleEditor = (RuleEditor) getDataObject();
+        //agendaEditor.getAgenda().setAttributes(agendaEditor.getCustomAttributesMap());
     }
 
     @Override
     public void saveDataObject() {
-        AgendaBo agendaBo = ((AgendaEditor) getDataObject()).getAgenda();
+        RuleBo ruleBo = ((RuleEditor) getDataObject()).getRule();
 
         // handle saving new parameterized terms
-        for (AgendaItemBo agendaItem : agendaBo.getItems()) {
-            PropositionBo propositionBo = agendaItem.getRule().getProposition();
-            if (propositionBo != null) {
-                saveNewParameterizedTerms(propositionBo);
-            }
+        PropositionBo propositionBo = ruleBo.getProposition();
+        if (propositionBo != null) {
+            saveNewParameterizedTerms(propositionBo);
         }
 
+        AgendaBo agendaBo = ((RuleEditor) getDataObject()).getAgenda();
+
         if (agendaBo instanceof PersistableBusinessObject) {
-            Map<String, String> primaryKeys = new HashMap<String, String>();
+            Map<String,String> primaryKeys = new HashMap<String, String>();
             primaryKeys.put("id", agendaBo.getId());
             AgendaBo blah = getBusinessObjectService().findByPrimaryKey(AgendaBo.class, primaryKeys);
             getBusinessObjectService().delete(blah);
@@ -338,7 +334,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
         return isOldDataObjectInExistence;
     }
 
-    // Since the dataObject is a wrapper class we need to return the agendaBo instead.
+    // Since the dataObject is a wrapper class we need to return the ruleBo instead.
     @Override
     public Class getDataObjectClass() {
         return AgendaBo.class;
@@ -362,7 +358,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
             MaintenanceDocument document = MaintenanceDocumentForm.getDocument();
 
             // Figure out which rule is being edited
-            RuleBo rule = getAgendaEditor(model).getAgendaItemLine().getRule();
+            RuleBo rule = getRuleEditor(model).getRule();
             // Figure out which proposition is being edited
             Tree<RuleEditorTreeNode, String> propositionTree = rule.getPropositionTree();
             Node<RuleEditorTreeNode, String> editedPropositionNode = findEditedProposition(propositionTree.getRootElement());
@@ -388,9 +384,9 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
 
     @Override
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        AgendaEditor agendaEditor = getAgendaEditor(model);
+        RuleEditor ruleEditor = getRuleEditor(model);
         if (addLine instanceof ActionBo) {
-            ((ActionBo) addLine).setNamespace(agendaEditor.getAgendaItemLine().getRule().getNamespace());
+            ((ActionBo) addLine).setNamespace(ruleEditor.getRule().getNamespace());
         }
 
         super.processBeforeAddLine(view, collectionGroup, model, addLine);

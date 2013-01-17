@@ -44,7 +44,8 @@
 
                 <bean parent="Uif-InputField-LabelTop" p:label="Select Agenda" p:propertyName="agendaType">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
+                        <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"
+                              p:onChangeScript="ajaxSubmitForm('retrieveAgenda', null, jQuery(this).data('submitdata'), null, null, null);"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.RequisiteAgendaTypeKeyValues"/>

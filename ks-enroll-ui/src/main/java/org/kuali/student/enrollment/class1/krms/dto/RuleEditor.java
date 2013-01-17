@@ -6,6 +6,7 @@ import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
+import org.kuali.rice.krms.impl.repository.AgendaBo;
 import org.kuali.rice.krms.impl.repository.ContextBo;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
 import org.kuali.rice.krms.impl.repository.RuleBo;
@@ -31,6 +32,7 @@ public class RuleEditor extends PersistableBusinessObjectBase {
     private String ruleType;
     private List<String> activeSelections;
 
+    private AgendaBo agenda;
     private RuleBo rule;
     private ContextBo context;
     private String namespace;
@@ -74,6 +76,14 @@ public class RuleEditor extends PersistableBusinessObjectBase {
 
     public void setRule(RuleBo rule) {
         this.rule = rule;
+    }
+
+    public AgendaBo getAgenda() {
+        return agenda;
+    }
+
+    public void setAgenda(AgendaBo agenda) {
+        this.agenda = agenda;
     }
 
     public String getCluId() {
@@ -278,8 +288,11 @@ public class RuleEditor extends PersistableBusinessObjectBase {
         myTree.setRootElement(rootNode);
 
         propositionSummaryBuffer = new StringBuffer();
-        PropositionBo prop = rule.getProposition();
-        buildPropTree( rootNode, prop, editMode );
+        if (rule != null){
+            PropositionBo prop = rule.getProposition();
+            buildPropTree( rootNode, prop, editMode );
+        }
+
         this.propositionTree = myTree;
         return myTree;
     }
