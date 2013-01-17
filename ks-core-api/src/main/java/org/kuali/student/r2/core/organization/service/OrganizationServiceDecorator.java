@@ -384,6 +384,26 @@ public class OrganizationServiceDecorator
     }
 
     @Override
+    public List<ValidationResultInfo> validateOrgHierarchy(String validationTypeKey, String orgHierarchyTypeKey, OrgHierarchyInfo orgHierarchyInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().validateOrgHierarchy(validationTypeKey, orgHierarchyTypeKey, orgHierarchyInfo, contextInfo);
+    }
+
+    @Override
+    public OrgHierarchyInfo createOrgHierarchy(String orgHierarchyTypeKey, OrgHierarchyInfo orgHierarchyInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createOrgHierarchy(orgHierarchyTypeKey, orgHierarchyInfo, contextInfo);
+    }
+
+    @Override
+    public OrgHierarchyInfo updateOrgHierarchy(String orgHierarchyId, OrgHierarchyInfo orgHierarchyInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        return getNextDecorator().updateOrgHierarchy(orgHierarchyId, orgHierarchyInfo, contextInfo);
+    }
+
+    @Override
+    public StatusInfo deleteOrgHierarchy(String orgHierarchyId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteOrgHierarchy(orgHierarchyId, contextInfo);
+    }
+
+    @Override
     public List<TypeInfo> getSearchTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         return getNextDecorator().getSearchTypes(contextInfo);
     }
