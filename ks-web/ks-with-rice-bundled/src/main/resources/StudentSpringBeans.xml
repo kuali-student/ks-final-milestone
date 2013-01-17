@@ -57,6 +57,7 @@
                 <value>classpath:ks-CourseOfferingDisplayInfo-dictionary.xml</value>
                 <value>classpath:ks-BuildingInfo-dictionary.xml</value>
                 <value>classpath:ks-RoomInfo-dictionary.xml</value>
+                <value>classpath:ks-SocInfo-dictionary.xml</value>
 
                 <!-- KIM Attributes -->
                 <value>classpath:org/kuali/rice/student/bo/KualiStudentKimAttributes.xml</value>
