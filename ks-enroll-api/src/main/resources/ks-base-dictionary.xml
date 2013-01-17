@@ -360,7 +360,7 @@ Could be implemented as as sequence number or as a UUID.
         <property name="summary" value="Unique ID for a person's authentication principal"/>
         <property name="label" value="ID"/>
         <property name="description" value="ID assigned to the principal the user used to sign on to the system"/>
-        <!--TODO: Add some sort of referential integrity constriant to make sure the id is a valid principal id-->
+        <!--TODO: Add some sort of referential integrity constraint to make sure the id is a valid principal id-->
     </bean>
 
     <bean id="BaseKuali.luiId" abstract="true" parent="BaseKuali.idField">
@@ -378,7 +378,7 @@ Could be implemented as as sequence number or as a UUID.
         <property name="childEntryName" value="atpId"/>
         <property name="shortLabel" value="ATP"/>
         <property name="summary" value="Unique id to the Academic Time Period (ATP)"/>
-        <property name="label" value="ATO"/>
+        <property name="label" value="ATP"/>
         <property name="description" value="Unique id to the Academic Time Period (ATP)"/>
     </bean>
 
