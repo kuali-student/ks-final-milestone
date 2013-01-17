@@ -229,10 +229,12 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
     }
 
     public Map<String,String> getAdminOrg(){
-        String org=  getOrganizationNames().get(0).getId();
-        Map<String,String> temp = new HashMap<String,String>();
-        temp.put("org",org);
-        return  temp;
+        Map<String,String> adminOrgMap = new HashMap<String,String>();
+        if(organizationNames!=null && !organizationNames.isEmpty()){
+            String org = getOrganizationNames().get(0).getId();
+            adminOrgMap.put("org",org);
+        }
+        return  adminOrgMap;
     }
 }
 
