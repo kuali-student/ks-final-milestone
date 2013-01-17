@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.uif.form.KSUifForm;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.SocRolloverResultItemWrapper;
 
@@ -27,7 +28,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class CourseOfferingRolloverManagementForm extends UifFormBase {
+public class CourseOfferingRolloverManagementForm extends KSUifForm {
     // Properties of the form
     private String targetTermCode;
     private String sourceTermCode;
@@ -64,7 +65,6 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
     private boolean socReleasedToDepts = false;
     private boolean rolloverCompleted = false; // Only true if finished or aborted
 
-    private String breadCrumbJson;
 
     public CourseOfferingRolloverManagementForm(){
         targetTermCode = "";
@@ -345,14 +345,6 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
 
     public void setConfigurationOptions(List<String> configurationOptions) {
         this.configurationOptions = configurationOptions;
-    }
-
-    public String getBreadCrumbJson() {
-        return breadCrumbJson;
-    }
-
-    public void setBreadCrumbJson(String breadCrumbJson) {
-        this.breadCrumbJson = breadCrumbJson;
     }
 
     public void resetForm(){

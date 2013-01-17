@@ -20,7 +20,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <bean id="KS-CourseOfferingRolloverManagement-ReleaseToDeptsPage" parent="Uif-Page" p:disclosure.render="false" p:onDocumentReadyScript="replaceBreadCrumbs('@{breadCrumbJson}');"
+    <bean id="KS-CourseOfferingRolloverManagement-ReleaseToDeptsPage" parent="Uif-Page" p:disclosure.render="false" p:onDocumentReadyScript="replaceBreadCrumbs('@{breadCrumbJSON}');"
           p:id="releaseToDepts"
           p:headerText="@{rolloverTargetTermDesc == '' ? 'Unknown Term Course Offerings': rolloverTargetTermDesc + ' Course Offerings'}">
         <property name="header">

@@ -25,7 +25,7 @@ function replaceBreadCrumbs(bc) {
             ol.append(li);
             pos++;
         });
-        var bcSpan = jQuery('#courseOfferingRolloverManagementView').find("span.uif-breadcrumbs");
+        var bcSpan = jQuery("span.uif-breadcrumbs");
         bcSpan.html(ol);
     }
 }

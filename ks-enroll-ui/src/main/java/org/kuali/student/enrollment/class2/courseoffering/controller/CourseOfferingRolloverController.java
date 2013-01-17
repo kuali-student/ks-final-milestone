@@ -67,6 +67,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -573,34 +574,16 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         LOGGER.info("confirmReleaseToDepts ");
 
-        //get the url for Home
-        String homeUrl = form.getFormHistory().getHomewardPath().get(0).getUrl();
-        //construct the url for Rollover Details page
-        Properties urlParameters = new Properties();
-        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, UifConstants.MethodToCallNames.START);
-        urlParameters.put(UifParameters.VIEW_ID, ROLLOVER_MANAGEMENT_VIEWID);
-        urlParameters.put(UifParameters.PAGE_ID, ROLLOVER_DETAILS_PAGEID);
-        urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
-        urlParameters.put(UifConstants.UrlParams.FORM_KEY, form.getFormKey());
-
-        HistoryEntry tempCurrent = form.getFormHistory().getCurrent();
-        form.getFormHistory().setCurrent(null);
-        if(form.getFormHistory() != null)  {
-            urlParameters.put(UifConstants.UrlParams.HISTORY, form.getFormHistory().getHistoryParameterString());
-        }
-
-        String controllerPath = "courseOfferingRollover";
-        String rolloverDetailsUrl = UrlFactory.parameterizeUrl(controllerPath, urlParameters);
-
-        //create the breadcrumb item for the current page
+        //Construct the JSON breadcrumb string to generate the customized breadcrumb to replace KRAD one
+        LinkedHashMap<String,String> breadCrumbItemsMap = new LinkedHashMap<String,String>();
+        breadCrumbItemsMap.put("Home", "");
+        breadCrumbItemsMap.put("Rollover Details", ROLLOVER_DETAILS_PAGEID);
         String currentPage = (form.getRolloverTargetTermDesc()!=null ) ? form.getRolloverTargetTermDesc() + " Course Offerings" : "Unknown Term Course Offerings";
+        breadCrumbItemsMap.put(currentPage, "");
 
-        //construct the JSON string for breadcrumb
-        String breadCrumbJson = "{\"breadCrumb\": {\"Home\": \"" + homeUrl + "\", \"Rollover Details\":\"" + rolloverDetailsUrl + "\", \"" + currentPage + "\":\"\"}}";
-        form.setBreadCrumbJson(breadCrumbJson);
+        form.setBreadCrumbItemsMap(breadCrumbItemsMap);
+        KSUifUtils.constructBreadCrumbs(form);
 
-        //set the current back to form
-        form.getFormHistory().setCurrent(tempCurrent);
         return getUIFModelAndView(form, ROLLOVER_CONFIRM_RELEASE);
     }
 
