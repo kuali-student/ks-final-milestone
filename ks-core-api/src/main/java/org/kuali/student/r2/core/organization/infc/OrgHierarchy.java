@@ -16,6 +16,7 @@
 
 package org.kuali.student.r2.core.organization.infc;
 
+import java.util.List;
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdEntity;
 
@@ -34,4 +35,12 @@ public interface OrgHierarchy
      * @name Root Org Id
      */
     public String getRootOrgId();
+    
+    /**
+     * Org-org relation types that should be 
+     * used to navigate this hierarchy.
+     * 
+     * @name Org-Org Relation Types
+     */
+    public List<String> getOrgOrgRelationTypes();
 }

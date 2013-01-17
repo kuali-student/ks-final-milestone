@@ -16,6 +16,7 @@
 package org.kuali.student.r2.core.organization.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,11 +37,18 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OrgHierarchyInfo", propOrder = {
-    "id", "typeKey", "stateKey", "name", "descr",
+    "id", 
+    "typeKey", 
+    "stateKey", 
+    "name", 
+    "descr",
     "rootOrgId",
+    "orgOrgRelationTypes",
     "effectiveDate",
     "expirationDate",
-    "meta", "attributes", "_futureElements" }) 
+    "meta", 
+    "attributes", 
+    "_futureElements" }) 
 public class OrgHierarchyInfo
         extends IdEntityInfo
         implements OrgHierarchy, Serializable {
@@ -48,6 +56,8 @@ public class OrgHierarchyInfo
     private static final long serialVersionUID = 1L;
     @XmlElement
     private String rootOrgId;
+    @XmlElement
+    private List<String> orgOrgRelationTypes;
     @XmlElement
     private Date effectiveDate;
     @XmlElement
@@ -71,6 +81,9 @@ public class OrgHierarchyInfo
 
         if (orgHierarchy != null) {
             this.rootOrgId = orgHierarchy.getRootOrgId();
+            this.effectiveDate = orgHierarchy.getEffectiveDate() == null ? null : new Date (orgHierarchy.getEffectiveDate().getTime ());
+            this.effectiveDate = orgHierarchy.getExpirationDate() == null ? null : new Date (orgHierarchy.getExpirationDate().getTime ());
+            this.orgOrgRelationTypes = orgHierarchy.getOrgOrgRelationTypes() == null ? null : new ArrayList (orgHierarchy.getOrgOrgRelationTypes());
         }
     }
 
@@ -83,6 +96,18 @@ public class OrgHierarchyInfo
         this.rootOrgId = rootOrgId;
     }
 
+    @Override
+    public List<String> getOrgOrgRelationTypes() {
+        if (orgOrgRelationTypes == null) {
+            this.orgOrgRelationTypes = new ArrayList ();
+        }
+        return orgOrgRelationTypes;
+    }
+
+    public void setOrgOrgRelationTypes(List<String> orgOrgRelationTypes) {
+        this.orgOrgRelationTypes = orgOrgRelationTypes;
+    }  
+    
     @Override
     public Date getEffectiveDate() {
         return effectiveDate;
