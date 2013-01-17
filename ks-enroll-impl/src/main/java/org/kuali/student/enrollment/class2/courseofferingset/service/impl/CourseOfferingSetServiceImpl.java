@@ -669,21 +669,21 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     public List<ValidationResultInfo> validateSoc(String validationType, SocInfo socInfo, ContextInfo context) throws
             DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
     public List<ValidationResultInfo> validateSocRolloverResult(String validationType, SocRolloverResultInfo socRolloverResultInfo, ContextInfo context) throws
             DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
     public List<ValidationResultInfo> validateSocRolloverResultItem(String validationType, SocRolloverResultItemInfo socRolloverResultItemInfo, ContextInfo context) throws
             DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override

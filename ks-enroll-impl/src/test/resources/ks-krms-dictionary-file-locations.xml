@@ -97,6 +97,14 @@
         <constructor-arg value="classpath:ks-CourseOfferingInfo-dictionary.xml" />
     </bean>
 
+    <bean id="socInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-SocInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="socRolloverResultInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-SocRolloverResultInfo-dictionary.xml" />
+    </bean>
+
     <bean id="activityOfferingInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-ActivityOfferingInfo-dictionary.xml" />
     </bean>
@@ -142,6 +150,8 @@
                 <bean parent="courseOfferingInfoDictionaryLocation" />
                 <bean parent="activityOfferingInfoDictionaryLocation" />
                 <bean parent="formatOfferingInfoDictionaryLocation" />
+                <bean parent="socInfoDictionaryLocation"/>
+                <bean parent="socRolloverResultInfoDictionaryLocation"/>
             </list>
         </constructor-arg>
     </bean>
