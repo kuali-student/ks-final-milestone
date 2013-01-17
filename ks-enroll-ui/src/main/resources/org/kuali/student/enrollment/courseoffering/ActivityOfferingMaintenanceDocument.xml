@@ -50,6 +50,9 @@
     </bean>
 
     <bean id="ActivityOffering-MaintenanceView" parent="KSMaintenanceView" p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView}" p:entryPageId="ActivityOfferingEdit-MainPage">
+        <property name="authorizer">
+            <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
+        </property>
         <property name="headerText" value="Edit Activity Offering"/>
         <property name="header.render" value="false"/>
         <property name="breadcrumbTitlePropertyName" value="aoInfo.activityCode"/>

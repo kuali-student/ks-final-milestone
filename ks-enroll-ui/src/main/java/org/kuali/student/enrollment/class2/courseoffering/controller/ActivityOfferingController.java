@@ -14,12 +14,14 @@ import org.kuali.student.enrollment.class2.courseoffering.form.ActivityOfferingF
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.uif.util.KSControllerHelper;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.List;
 
@@ -30,6 +32,25 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
     @Override
     protected MaintenanceDocumentForm createInitialForm(HttpServletRequest request) {
         return new ActivityOfferingForm();
+    }
+
+    /**
+     * Setups a new <code>MaintenanceDocumentView</code> with the edit maintenance
+     * action
+     */
+    @RequestMapping(params = "methodToCall=" + KRADConstants.Maintenance.METHOD_TO_CALL_EDIT)
+    public ModelAndView maintenanceEdit(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // check view authorization
+        // TODO: this needs to be invoked for each request
+        if (form.getView() != null) {
+            String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
+            checkViewAuthorization(form, methodToCall);
+//            form.setEditAuthz(checkEditViewAuthz(form));
+        }
+        setupMaintenance(form, request, KRADConstants.MAINTENANCE_EDIT_ACTION);
+
+        return getUIFModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=reviseSchedule")
