@@ -793,7 +793,6 @@
                             </dependency>
                         </dependencies>
                     </plugin>
-
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>sql-maven-plugin</artifactId>
@@ -814,7 +813,6 @@
                                 <phase>initialize</phase>
                             </execution>
                             <!-- **** -->
-
                             <execution>
                                 <id>create-rice-baseline-schema</id>
                                 <phase>process-resources</phase>
@@ -823,14 +821,13 @@
                                 </goals>
                                 <configuration>
                                     <fileset>
-                                        <basedir>${project.build.directory}/gen/data/rice/sql/oracle</basedir>
-                                        <includes>
-                                            <include>rice-impex-server-bootstrap.sql</include>
-                                        </includes>
+                                    <basedir>${project.build.directory}/gen/data/rice/sql/oracle</basedir>
+                                    <includes>
+                                    <include>rice-impex-server-bootstrap.sql</include>
+                                    </includes>
                                     </fileset>
                                 </configuration>
                             </execution>
-
                             <execution>
                                 <id>load-rice-baseline-data</id>
                                 <phase>process-resources</phase>
@@ -839,14 +836,13 @@
                                 </goals>
                                 <configuration>
                                     <fileset>
-                                        <basedir>${project.build.directory}/gen/data/rice/sql/oracle</basedir>
-                                        <excludes>
-                                            <exclude>rice-impex-server-bootstrap*.sql</exclude>
-                                        </excludes>
+                                    <basedir>${project.build.directory}/gen/data/rice/sql/oracle</basedir>
+                                    <excludes>
+                                    <exclude>rice-impex-server-bootstrap*.sql</exclude>
+                                    </excludes>
                                     </fileset>
                                 </configuration>
                             </execution>
-
                             <execution>
                                 <id>load-ks-rice-data</id>
                                 <phase>process-resources</phase>
@@ -855,14 +851,13 @@
                                 </goals>
                                 <configuration>
                                     <fileset>
-                                        <basedir>${project.build.directory}/gen/data/ks-rice</basedir>
-                                        <includes>
-                                            <include>initial-db/*/*data/*.sql</include>
-                                        </includes>
+                                    <basedir>${project.build.directory}/gen/data/ks-rice</basedir>
+                                    <includes>
+                                    <include>initial-db/*/*data/*.sql</include>
+                                    </includes>
                                     </fileset>
                                 </configuration>
                             </execution>
-
                             <execution>
                                 <id>add-rice-baseline-constraints</id>
                                 <phase>process-resources</phase>
@@ -871,14 +866,13 @@
                                 </goals>
                                 <configuration>
                                     <fileset>
-                                        <basedir>${project.build.directory}/gen/data/rice/sql/oracle</basedir>
-                                        <includes>
-                                            <include>rice-impex-server-bootstrap-constraints.sql</include>
-                                        </includes>
+                                    <basedir>${project.build.directory}/gen/data/rice/sql/oracle</basedir>
+                                    <includes>
+                                    <include>rice-impex-server-bootstrap-constraints.sql</include>
+                                    </includes>
                                     </fileset>
                                 </configuration>
                             </execution>
-
                             <!-- **** -->
                             <execution>
                                 <id>create-schema</id>
