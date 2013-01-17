@@ -79,4 +79,7 @@ public class CourseOfferingConstants {
      */
     public static final String COURSEOFFERING_INFO_COPIED_SUCCESSFULLY = "info.enroll.courseoffering.copied.successful";
     public static final String COURSEOFFERING_ROLLOVER_RELEASE_TO_DEPTS_SUCCESSFULLY = "info.enroll.courseoffering.rollover.releaseToDepts.successful";
+
+    //JSON string root key for customized breadcrumb
+    public static final String BREADCRUMB_JSON_ROOT_KEY = "breadCrumb";
 }
