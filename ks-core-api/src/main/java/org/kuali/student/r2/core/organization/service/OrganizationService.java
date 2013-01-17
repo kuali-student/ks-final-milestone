@@ -184,10 +184,11 @@ public interface OrganizationService extends SearchService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<OrgHierarchyInfo> getOrgHierarchies(@WebParam(name = "contextInfo") ContextInfo contextInfo) 
-            throws InvalidParameterException, 
+     throws InvalidParameterException, 
             MissingParameterException, 
             OperationFailedException, 
             PermissionDeniedException;
+
   /**
      * Searches for Org Hierarchy Ids that meet the given search criteria.
      * 
@@ -229,11 +230,139 @@ public interface OrganizationService extends SearchService {
             PermissionDeniedException;
 
     // Insert CRUD for Hierarchy
+
     
+    //
+    // CRUD methods for OrgHierarchy Id Entity Pattern.
+    //
+
+    /**
+     * Validates an Org Hierarchy. Depending on the value of
+     * validationType, this validation could be limited to tests on
+     * just the current object and its directly contained sub-objects
+     * or expanded to perform all tests related to this
+     * OrgHierarchy. If an identifier is present for the OrgHierarchy
+     * (and/or one of its contained sub-objects) and a record is found
+     * for that identifier, the validation checks if the OrgHierarchy
+     * can be shifted to the new values. If a an identifier is not
+     * present or a record does not exist, the validation checks if
+     * the OrgHierarchy with the given data can be created.
+     * 
+     * @param validationTypeKey the identifier for the validation Type
+     * @param orgHierarchyTypeKey the identifier for the OrgHierarchy Type to be validated
+     * @param orgHierarchyInfo the identifier for the OrgHierarchy to be validated
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of validation results or an empty list if validation
+     *         succeeded
+     * @throws DoesNotExistException validationTypeKey or orgHierarchyTypeKey
+     *         is not found
+     * @throws InvalidParameterException orgHierarchyInfo or contextInfo is not valid
+     * @throws MissingParameterException validationTypeKey, orgHierarchyTypeKey
+     *         orgHierarchyInfo, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateOrgHierarchy(@WebParam(name = "validationTypeKey") String validationTypeKey, 
+            @WebParam(name = "orgHierarchyTypeKey") String orgHierarchyTypeKey, 
+            @WebParam(name = "orgHierarchyInfo") OrgHierarchyInfo orgHierarchyInfo, 
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws DoesNotExistException, 
+            InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException, 
+            PermissionDeniedException;
+
+    /**
+     * Creates a new OrgHierarchy. The OrgHierarchy Id, Type and Meta information may
+     * not be set in the supplied data object.
+     * 
+     * @param orgHierarchyTypeKey a unique identifier for the Type of the new
+     *        OrgHierarchy
+     * @param orgHierarchyInfo the data with which to create the OrgHierarchy
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the new OrgHierarchy
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException orgHierarchyTypeKey does not exist or is
+     *         not supported
+     * @throws InvalidParameterException orgHierarchyInfo or contextInfo is not valid
+     * @throws MissingParameterException orgHierarchyTypeKey, orgHierarchyInfo, or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read only
+     */
+    public OrgHierarchyInfo createOrgHierarchy(@WebParam(name = "orgHierarchyTypeKey") String orgHierarchyTypeKey, 
+            @WebParam(name = "orgHierarchyInfo") OrgHierarchyInfo orgHierarchyInfo, 
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws DataValidationErrorException, 
+            DoesNotExistException, 
+            InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException, 
+            PermissionDeniedException, 
+            ReadOnlyException;
+
+    /**
+     * Updates an existing OrgHierarchy. The OrgHierarchy id, Type, and
+     * Meta information may not be changed.
+     * 
+     * @param orgHierarchyId the identifier for the OrgHierarchy to be updated
+     * @param orgHierarchyInfo the new data for the OrgHierarchy
+     * @param contextInfo information containing the principalId and locale
+     *        information about the caller of service operation
+     * @return the updated OrgHierarchy
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException orgHierarchyId is not found
+     * @throws InvalidParameterException orgHierarchyInfo or contextInfo is not valid
+     * @throws MissingParameterException orgHierarchyId, orgHierarchyInfo, or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read only
+     * @throws VersionMismatchException an optimistic locking failure
+     *         or the action was attempted on an out of date version
+     */
+    public OrgHierarchyInfo updateOrgHierarchy(@WebParam(name = "orgHierarchyId") String orgHierarchyId, 
+            @WebParam(name = "orgHierarchyInfo") OrgHierarchyInfo orgHierarchyInfo, 
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws DataValidationErrorException, 
+            DoesNotExistException, 
+            InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException, 
+            PermissionDeniedException, 
+            ReadOnlyException, 
+            VersionMismatchException;
+
+    /**
+     * Deletes an existing OrgHierarchy.
+     * 
+     * @param orgHierarchyId the identifier for the OrgHierarchy to be deleted
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the status of the operation. This must always be true.
+     * @throws DoesNotExistException orgHierarchyId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException orgHierarchyId or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StatusInfo deleteOrgHierarchy(@WebParam(name = "orgHierarchyId") String orgHierarchyId, 
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws DoesNotExistException, 
+            InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException, 
+            PermissionDeniedException;
     
     
     /** 
-     * Retrieves the list of types of organizations known by this service.
+     * Retrieves the list of types of orgHierarchyanizations known by this service.
      *
      * Deprecated: instead use the TypeService directly
      * 
