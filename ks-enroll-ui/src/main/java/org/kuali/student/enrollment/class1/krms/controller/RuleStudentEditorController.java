@@ -17,9 +17,12 @@ package org.kuali.student.enrollment.class1.krms.controller;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.tree.Node;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -29,6 +32,7 @@ import org.kuali.rice.krms.api.engine.expression.ComparisonOperatorService;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
+import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
@@ -59,11 +63,13 @@ import org.kuali.rice.krms.impl.util.KrmsImplConstants;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
+import org.kuali.student.enrollment.class1.krms.dto.StudentAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.service.RuleStudentViewHelperService;
 import org.kuali.student.enrollment.class1.krms.service.impl.AgendaStudentEditorMaintainableImpl;
 import org.kuali.student.enrollment.class1.krms.service.impl.RuleStudentViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.krms.util.KsKrmsRepositoryServiceLocator;
 import org.kuali.student.enrollment.class1.krms.util.PropositionTreeUtil;
+import org.kuali.student.enrollment.uif.util.KSControllerHelper;
 import org.kuali.student.krms.KRMSConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -92,6 +98,69 @@ import java.util.UUID;
 public class RuleStudentEditorController extends MaintenanceDocumentController {
 
     private SequenceAccessorService sequenceAccessorService;
+
+    /**
+     * This method updates the existing rule in the agenda.
+     */
+    @RequestMapping(params = "methodToCall=" + "editRule")
+    public ModelAndView editRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RuleEditor ruleEditor = getRuleEditor(form);
+
+        if (!validateProposition(ruleEditor.getRule().getProposition(), ruleEditor.getRule().getNamespace())) {
+            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "AgendaStudentEditorView-EditRule-Page");
+            // NOTICE short circuit method on invalid proposition
+            return super.navigate(form, result, request, response);
+        }
+
+        AgendaEditorBusRule rule = new AgendaEditorBusRule();
+        MaintenanceDocumentForm MaintenanceDocumentForm = (MaintenanceDocumentForm) form;
+        MaintenanceDocument document = MaintenanceDocumentForm.getDocument();
+        if (rule.processAgendaItemBusinessRules(document)) {
+            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "AgendaStudentEditorView-Agenda-Page");
+        } else {
+            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "AgendaStudentEditorView-EditRule-Page");
+        }
+        return super.navigate(form, result, request, response);
+    }
+
+    /**
+     * Validate the given proposition and its children.  Note that this method is side-effecting,
+     * when errors are detected with the proposition, errors are added to the error map.
+     * @param proposition the proposition to validate
+     * @param namespace the namespace of the parent rule
+     * @return true if the proposition and its children (if any) are considered valid
+     */
+    // TODO also wire up to proposition for faster feedback to the user
+    private boolean validateProposition(PropositionBo proposition, String namespace) {
+        boolean result = true;
+
+        if (proposition != null) { // Null props are allowed.
+
+            if (StringUtils.isBlank(proposition.getCompoundOpCode())) {
+                // then this is a simple proposition, validate accordingly
+
+                result &= validateSimpleProposition(proposition, namespace);
+
+            } else {
+                // this is a compound proposition (or it should be)
+                List<PropositionBo> compoundComponents = proposition.getCompoundComponents();
+
+                if (!CollectionUtils.isEmpty(proposition.getParameters())) {
+                    GlobalVariables.getMessageMap().putError(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
+                            "error.rule.proposition.compound.invalidParameter", proposition.getDescription());
+                    result &= false;
+                }
+
+                // recurse
+                if (!CollectionUtils.isEmpty(compoundComponents)) for (PropositionBo childProp : compoundComponents) {
+                    result &= validateProposition(childProp, namespace);
+                }
+            }
+        }
+
+        return result;
+    }
 
     /**
      * Validate the given simple proposition.  Note that this method is side-effecting,
@@ -886,6 +955,10 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
         AgendaBo agenda = null;
         RuleEditor ruleEditor = getRuleEditor(form);
+        Node<RuleEditorTreeNode, String> root = ruleEditor.getPropositionTree().getRootElement();
+
+        ruleEditor.clearRule();
+        resetEditModeOnPropositionTree(root);
 
         List<ReferenceObjectBinding> refObjects = getReferenceObjectBindingBoService().findReferenceObjectBindingsByReferenceObject(ruleEditor.getCluId());
         for (ReferenceObjectBinding refObject : refObjects) {
@@ -918,16 +991,17 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
         RuleBo rule = null;
         RuleEditor ruleEditor = getRuleEditor(form);
+        Node<RuleEditorTreeNode, String> root = ruleEditor.getPropositionTree().getRootElement();
+
         ruleEditor.clearRule();
+        resetEditModeOnPropositionTree(root);
 
         if (ruleEditor.getAgenda() != null) {
-            List<AgendaItemDefinition> agendaItems = getAgendaBoService().getAgendaItemsByAgendaId(ruleEditor.getAgenda().getId());
-            for (AgendaItemDefinition agendaItem : agendaItems) {
+            List<AgendaItemBo> agendaItems = ruleEditor.getAgenda().getItems();
+            for (AgendaItemBo agendaItem : agendaItems) {
 
-                RuleBo refrule = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(RuleBo.class, agendaItem.getRuleId());
-
-                if ((refrule != null) && (refrule.getTypeId().equals(ruleEditor.getRuleType()))) {
-                    rule = refrule;
+                if ((agendaItem.getRule() != null) && (agendaItem.getRule().getTypeId().equals(ruleEditor.getRuleType()))) {
+                    rule = agendaItem.getRule();
                     break;
                 }
 
@@ -971,15 +1045,15 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                 return;
             }
 
+            RuleStudentViewHelperService viewHelper = (RuleStudentViewHelperService) KSControllerHelper.getViewHelperService(form);
+
             KrmsTypeDefinition type = this.getKrmsTypeRepositoryService().getTypeById(propositionTypeId);
             if (type != null) {
                 proposition.setType(type.getName());
-                proposition.getProposition().setDescription(type.getName());
+
+                proposition.getProposition().setDescription(viewHelper.getTranslatedNaturalLanguage(propositionTypeId));
                 setValueForProposition(proposition, "");
             }
-
-            //RuleStudentViewHelperService viewHelper = (RuleStudentViewHelperService) KSControllerHelper.getViewHelperService(form);
-            RuleStudentViewHelperService viewHelper = new RuleStudentViewHelperServiceImpl(); //TODO: fix this.
 
             //Set the term spec
             String termSpecId = viewHelper.getTermSpecificationForType(propositionTypeId);

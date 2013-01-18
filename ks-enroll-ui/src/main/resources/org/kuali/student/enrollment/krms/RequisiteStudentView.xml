@@ -30,7 +30,10 @@
             </list>
         </property>
         <property name="page.footer.items">
-            <ref bean="KSDocumentPageFooter_SubmitCancel" />
+            <list>
+                <bean parent="Uif-SaveAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
+                <bean parent="Uif-CancelAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
         </property>
     </bean>
 

@@ -68,6 +68,8 @@ public class RuleEditor extends PersistableBusinessObjectBase {
         this.setRule(null);
         this.setPropositionTree(null);
         this.setRuleEditorMessage(null);
+        this.setSelectedPropositionId(null);
+        this.setCutPropositionId(null);
     }
 
     public RuleBo getRule() {
@@ -255,7 +257,7 @@ public class RuleEditor extends PersistableBusinessObjectBase {
     // Need to override this method since the actual persistable BO is wrapped inside dataObject.
     @Override
     public void refreshNonUpdateableReferences() {
-        getPersistenceService().refreshAllNonUpdatingReferences(this.getRule());
+        getPersistenceService().refreshAllNonUpdatingReferences(this.getAgenda());
     }
 
     public String getPropositionSummary(){

@@ -8,4 +8,7 @@ package org.kuali.student.enrollment.class1.krms.service;
  * To change this template use File | Settings | File Templates.
  */
 public interface RuleStudentViewHelperService extends TemplateResolverService {
+
+    public String getTranslatedNaturalLanguage(String typeId);
+
 }

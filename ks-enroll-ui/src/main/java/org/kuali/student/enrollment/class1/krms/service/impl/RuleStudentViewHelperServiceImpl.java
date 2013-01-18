@@ -2,10 +2,16 @@ package org.kuali.student.enrollment.class1.krms.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
+import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
+import org.kuali.rice.krms.impl.repository.NaturalLanguageTemplateBoService;
+import org.kuali.rice.krms.impl.repository.NaturalLanguageUsageBoService;
 import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
 import org.kuali.student.enrollment.class1.krms.service.RuleStudentViewHelperService;
 import org.kuali.student.enrollment.class1.krms.service.TemplateResolverService;
+import org.kuali.student.enrollment.class1.krms.util.KsKrmsConstants;
 import org.kuali.student.enrollment.class1.krms.util.KsKrmsRepositoryServiceLocator;
+import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.OrganizationServiceConstants;
@@ -35,11 +41,28 @@ public class RuleStudentViewHelperServiceImpl extends ViewHelperServiceImpl impl
     private ContextInfo contextInfo;
     private OrganizationService organizationService;
 
+    @Override
+    public String getTermSpecificationForType(String type) {
+        return KsKrmsRepositoryServiceLocator.getTemplateResolverService().getTermSpecificationForType(type);
+    }
+
+    @Override
+    public String getOperationForType(String type) {
+        return KsKrmsRepositoryServiceLocator.getTemplateResolverService().getOperationForType(type);
+    }
+
+    @Override
+    public String getValueForType(String type) {
+        return KsKrmsRepositoryServiceLocator.getTemplateResolverService().getValueForType(type);
+    }
+
     public List<KrmsSuggestDisplay> getCourseNamesForSuggest(String moduleName) {
+
         List<KrmsSuggestDisplay> displays = new ArrayList<KrmsSuggestDisplay>();
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
         SearchParamInfo stateKeyParam = new SearchParamInfo();
         stateKeyParam.setKey("lu.queryParam.luOptionalState");
+
         List<String> stateValues = new ArrayList<String>();
         stateValues.add("Active");
         stateValues.add("Approved");
@@ -49,10 +72,12 @@ public class RuleStudentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         cluCodeParam.setKey("lu.queryParam.luOptionalCode");
         cluCodeParam.getValues().add(moduleName);
         queryParamValueList.add(cluCodeParam);
+
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("lu.search.current.quick");
         searchRequest.setParams(queryParamValueList);
         SearchResultInfo clus = null;
+
         try {
             clus = getCluService().search(searchRequest, getContextInfo());
             for (SearchResultRowInfo result : clus.getRows()) {
@@ -70,10 +95,12 @@ public class RuleStudentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         } catch (Exception e) {
             //do nothing
         }
+
         return displays;
     }
 
     public List<KrmsSuggestDisplay> getOrgDepartmentForSuggest(String orgName) {
+
         List<KrmsSuggestDisplay> displays = new ArrayList<KrmsSuggestDisplay>();
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
         SearchParamInfo orgNameParam = new SearchParamInfo();
@@ -90,6 +117,7 @@ public class RuleStudentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         searchRequest.setSearchKey("org.search.generic");
         searchRequest.setParams(queryParamValueList);
         SearchResultInfo orgs = null;
+
         try {
             orgs = getOrganizationService().search(searchRequest, getContextInfo());
             for (SearchResultRowInfo result : orgs.getRows()) {
@@ -107,10 +135,12 @@ public class RuleStudentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         } catch (Exception e) {
             //do nothing
         }
+
         return displays;
     }
 
     public List<KrmsSuggestDisplay> getTestNamesForSuggest(String testName) {
+
         List<KrmsSuggestDisplay> displays = new ArrayList<KrmsSuggestDisplay>();
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
         SearchParamInfo testNameParam = new SearchParamInfo();
@@ -125,10 +155,12 @@ public class RuleStudentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         cluSetTypeParam.setKey("cluset.queryParam.optionalType");
         cluSetTypeParam.getValues().add("kuali.cluSet.type.Test");
         queryParamValueList.add(cluSetTypeParam);
+
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("cluset.search.generic");
         searchRequest.setParams(queryParamValueList);
         SearchResultInfo clus = null;
+
         try {
             clus = getCluService().search(searchRequest, getContextInfo());
             for (SearchResultRowInfo result : clus.getRows()) {
@@ -186,6 +218,22 @@ public class RuleStudentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         }
         return displays;
     }
+    public String getTranslatedNaturalLanguage(String typeId){
+
+        NaturalLanguageUsage usage = getNaturalLanguageUsageBoService().getNaturalLanguageUsageByName(PermissionServiceConstants.KS_SYS_NAMESPACE, KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION);
+
+        NaturalLanguageTemplate template = null;
+        try{
+            template = getNaturalLanguageTemplateBoService().findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId("en", typeId, usage.getId());
+        }catch (IndexOutOfBoundsException e){
+            //Ignore, rice error in NaturalLanguageTemplateBoServiceImpl line l
+        }
+
+        //TODO: Do translation.
+
+        return template.getTemplate();
+    }
+
     private CluService getCluService() {
         if (cluService == null) {
             cluService = (CluService) GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
@@ -207,19 +255,12 @@ public class RuleStudentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         return organizationService;
     }
 
-    @Override
-    public String getTermSpecificationForType(String type) {
-        return KsKrmsRepositoryServiceLocator.getTemplateResolverService().getTermSpecificationForType(type);
+    private NaturalLanguageUsageBoService getNaturalLanguageUsageBoService() {
+        return KsKrmsRepositoryServiceLocator.getNaturalLanguageUsageBoService();
     }
 
-    @Override
-    public String getOperationForType(String type) {
-        return KsKrmsRepositoryServiceLocator.getTemplateResolverService().getOperationForType(type);
-    }
-
-    @Override
-    public String getValueForType(String type) {
-        return KsKrmsRepositoryServiceLocator.getTemplateResolverService().getValueForType(type);
+    private NaturalLanguageTemplateBoService getNaturalLanguageTemplateBoService() {
+        return KsKrmsRepositoryServiceLocator.getNaturalLanguageTemplateBoService();
     }
 
 }

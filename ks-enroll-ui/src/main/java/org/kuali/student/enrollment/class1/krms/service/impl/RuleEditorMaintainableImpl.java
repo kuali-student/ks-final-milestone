@@ -150,6 +150,9 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
         String cluId = dataObjectKeys.get("cluId");
         ruleEditor.setCluId(cluId);
 
+        //Populate the agenda. Should be retrieved based on agenda type passed as parameter.
+        ruleEditor.setAgenda(new AgendaBo());
+
         //Retrieve the Clu information
         CluInfo cluInfo = null;
         if (cluId != null) {
@@ -317,7 +320,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
             isOldDataObjectInExistence = false;
         } else {
             // dataObject contains a non persistable wrapper - use agenda from the wrapper object instead
-            Map<String, ?> keyFieldValues = getDataObjectMetaDataService().getPrimaryKeyFieldValues(((AgendaEditor) getDataObject()).getAgenda());
+            Map<String, ?> keyFieldValues = getDataObjectMetaDataService().getPrimaryKeyFieldValues(((RuleEditor) getDataObject()).getAgenda());
             for (Object keyValue : keyFieldValues.values()) {
                 if (keyValue == null) {
                     isOldDataObjectInExistence = false;

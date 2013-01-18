@@ -34,12 +34,6 @@
         </property>
     </bean>
 
-    <bean id="RuleStudentTreeWidget" parent="Uif-Tree">
-        <property name="template" value="/krad/WEB-INF/ftl/components/widget/ruleTree.ftl"/>
-        <property name="templateName" value="uif_ruleTree"/>
-    </bean>
-
-
     <bean id="RuleBo-Student-MaintenanceView" parent="KSMaintenanceView">
         <property name="headerText" value="Rule Editor"/>
         <property name="additionalScriptFiles">
@@ -60,25 +54,13 @@
                 <ref bean="ruleStudentEditorBody"/>
             </list>
         </property>
-        <property name="page.footer.items">
-            <ref bean="KSDocumentPageFooter_SubmitCancel" />
-        </property>
     </bean>
 
-    <bean id="ruleStudentEditorBody" parent="ruleStudentEditorBody-parent">
-        <property name="componentModifiers">
-            <list>
-            </list>
-        </property>
-        <property name="layoutManager">
-            <bean parent="Uif-HorizontalBoxLayout"/>
-        </property>
-    </bean>
-
+    <bean id="ruleStudentEditorBody" parent="ruleStudentEditorBody-parent"/>
     <bean id="ruleStudentEditorBody-parent" parent="Uif-GridSection" p:renderHeader="false">
         <property name="headerText" value="Rule Editor"/>
         <property name="layoutManager">
-            <bean parent="Uif-GridLayoutBase" p:numberOfColumns="3"/>
+            <bean parent="Uif-HorizontalBoxLayout"/>
         </property>
         <property name="items">
             <list>
@@ -388,7 +370,7 @@
         <property name="validationMessages.displayMessages" value="true"/>
         <property name="validationMessages.displayFieldLabelWithMessages" value="false"/>
         <property name="tree">
-            <bean parent="RuleStudentTreeWidget">
+            <bean parent="RuleTreeWidget">
                 <property name="templateOptions">
                     <map>
                         <entry key="'plugins'"
