@@ -350,22 +350,22 @@
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Open View for ActivityOffering-MaintenanceView"
         NM="Open View for ActivityOffering-MaintenanceView"
-        NMSPC_CD="KS-ENR" OBJ_ID="D38C6F95F498E504E040760A4A456252"
+        NMSPC_CD="KS-ENR" OBJ_ID="D396AD21EF3D6DD1E040760A4A451798"
         PERM_ID="10071" PERM_TMPL_ID="10006" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit View for ActivityOffering-MaintenanceView"
         NM="Edit View for ActivityOffering-MaintenanceView"
-        NMSPC_CD="KS-ENR" OBJ_ID="D38C6F95F499E504E040760A4A456252"
+        NMSPC_CD="KS-ENR" OBJ_ID="D396AD21EF3E6DD1E040760A4A451798"
         PERM_ID="10072" PERM_TMPL_ID="10007" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to View Group for ActivityOfferingEdit-MainPage-SeatPool"
         NM="View Group for ActivityOfferingEdit-MainPage-SeatPool"
-        NMSPC_CD="KS-ENR" OBJ_ID="D38C6F95F49AE504E040760A4A456252"
+        NMSPC_CD="KS-ENR" OBJ_ID="D396AD21EF3F6DD1E040760A4A451798"
         PERM_ID="10073" PERM_TMPL_ID="10011" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit Group for ActivityOfferingEdit-MainPage-SeatPool"
         NM="Edit Group for ActivityOfferingEdit-MainPage-SeatPool"
-        NMSPC_CD="KS-ENR" OBJ_ID="D38C6F95F49BE504E040760A4A456252"
+        NMSPC_CD="KS-ENR" OBJ_ID="D396AD21EF406DD1E040760A4A451798"
         PERM_ID="10074" PERM_TMPL_ID="10012" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows users to access the Document Operation screen."
