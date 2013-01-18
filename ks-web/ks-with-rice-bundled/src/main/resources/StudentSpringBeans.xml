@@ -221,6 +221,7 @@
                 <value>classpath:org/kuali/student/enrollment/kitchensink/LookupSuggest.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/LookupDefaultAction.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/LookupOverview.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/MessageBox.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/MultiSelectControl.xml</value>
                 <!--
                 <value>classpath:org/kuali/student/enrollment/kitchensink/Popovers.xml</value>

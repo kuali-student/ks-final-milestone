@@ -30,6 +30,8 @@
         <li><portal:portalLink displayTitle="true" title="Popovers"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-Popovers-View&methodToCall=start" /></li>
         --%>
+        <li><portal:portalLink displayTitle="true" title="Message Box"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-MessageBox-View&methodToCall=start" /></li>
     </ul>
 
     <strong>Event Examples</strong>
