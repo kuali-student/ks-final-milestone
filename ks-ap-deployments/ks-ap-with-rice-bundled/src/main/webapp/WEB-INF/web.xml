@@ -418,6 +418,37 @@
    			<url-pattern>/exportDownloadHTTPServlet</url-pattern>  
    	 </servlet-mapping>  
 	<!-- HTTP Servlet end -->
+
+    <!-- Setup for custom servlet myplan-servlet.xml-->
+    <servlet>
+        <servlet-name>myplan</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+
+    <!-- Filter to overriding Service checks -->
+    <filter>
+        <filter-name>ArmKsapFilter</filter-name>
+        <filter-class>org.kuali.student.myplan.utils.ArmKsapFilter</filter-class>
+    </filter>
+
+    <!-- Adds filter for user logins for use when myplan-servlet used-->
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <servlet-name>myplan</servlet-name>
+    </filter-mapping>
+
+    <!-- Maps myplan-servlet to handle {application}/myplan/ urls-->
+    <servlet-mapping>
+        <servlet-name>myplan</servlet-name>
+        <url-pattern>/myplan/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- Filter on myplan servlet -->
+    <filter-mapping>
+        <filter-name>ArmKsapFilter</filter-name>
+        <servlet-name>myplan</servlet-name>
+    </filter-mapping>
 	
 </web-app>
 

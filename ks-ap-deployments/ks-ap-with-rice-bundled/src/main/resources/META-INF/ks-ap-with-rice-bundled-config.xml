@@ -82,37 +82,9 @@
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
 
-	<param name="transaction.timeout">3600</param>  
-
-    <!-- Login Filter Configuration - Dummy Login Filter (CAS later?) -->
-    <!--    <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>-->
-    <!--    <param name="filtermapping.login.1">/*</param>-->
-
-
-    <!-- additional config files -->
-    <!--
-        Setting this property allows selective loading lum or core project or both
-    -->
-    <!-- 
-    <param name="ks.projects">classpath:ksb/ks-core-context.xml,classpath:ksb/ks-lu-context.xml,
-        classpath:ks-spring-security-saml.xml,classpath:ks-spring-security-sts.xml
-	</param>
-	 -->
-  
-    <!--
-      this property allows switching between the ks-ap-with-rice-bundled-admin-context which loads
-      the ks admin app into rice the old ks-ap-with-rice-bundled-context.xml which skips ks admin
-      and loads a mock messageservice impl
-    -->
-    <!-- <param name="ks.bundled.context">classpath:ks-ap-with-rice-bundled-admin-context.xml</param> -->
-
-    <!-- additional context files -->
-    <!-- 
-    <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
-    <param name="rice.KS-SYS.additionalSpringFiles">${ks.projects},${ks.bundled.context},${ks.authentication.context},${ks.institutional.context}</param>
-	-->
+	<param name="transaction.timeout">3600</param>
 	
-	<param name="rice.kim.additionalSpringFiles">classpath:ks-kim-context.xml</param>
+
 
     <param name="ks.rice.label">RICE</param>
     <param name="ks.rice.url">${application.url}</param>
@@ -136,8 +108,10 @@
     <!-- KS Home Url -->
     <param name="ks.home.MainEntryPoint" override="false">${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</param>
 
-    <!-- KS AP Url -->
+    <!-- MyPlan course lookup url  -->
     <param name="ks.ap.MainEntryPoint" override="false">${lum.application.url}/myplan/course?methodToCall=start&amp;viewId=CourseSearch-FormView</param>
+    <param name="ks.ap.planner" override="false">${lum.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView</param>
+    <param name="ks.ap.audit" override="false">${lum.application.url}/myplan/audit?methodToCall=audit&amp;viewId=DegreeAudit-FormView</param>
 
     <param name="ks.bundled.doDataLoad">false</param>
 
@@ -152,6 +126,10 @@
     <param name="kew.mode">LOCAL</param>
     <param name="krms.mode">LOCAL</param>
     <param name="ksb.mode">LOCAL</param>
+    <param name="kscore.mode">LOCAL</param>
+    <param name="kslum.mode">LOCAL</param>
+    <param name="ksenroll.mode">LOCAL</param>
+    <param name="ksap.mode">LOCAL</param>
 
     <!-- KS caching config -->
     <param name="ks.cache.config.file">classpath:ks-ehcache.xml</param>
@@ -168,5 +146,8 @@
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-ap-with-rice-bundled-config.xml</param>
     <param name="config.location">${additional.config.locations}</param>
+
+    <!-- Kuali Student AP Settings -->
+    <param name="config.location">classpath:META-INF/ks-ap/ks-ap-config.xml</param>
     
 </config>

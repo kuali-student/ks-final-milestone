@@ -24,6 +24,13 @@
     ${institution}
 -->
 <config>
+    <!-- Module Settings -->
+    <param name="module.name">ks-ap-standalone</param>
+    <param name="application.id">ks</param>
+
+    <!-- used to show KS links in Rice Portal -->
+    <param name="portal.show.sample.app">true</param>
+
     <!-- Start of Additional Properties files -->
 
     <!-- Location of Security configurations KS Defaults-->
@@ -50,7 +57,8 @@
     <!-- Additional Settings To Load -->
     <param name="config.location">${additional.config.locations}</param>
 
-
+    <!-- Additional Kim Authorization Beans -->
+    <param name="rice.kim.additionalSpringFiles">classpath:ks-kim-context.xml</param>
     <!-- End AdditionalProperties Files -->
 
     <!-- Mode to run the KS modules in-->
@@ -79,7 +87,7 @@
     <param name="appserver.url">http://localhost:8081</param>
 
     <!-- The base url of the standalone -->
-    <param name="lum.application.url" override="false">${appserver.url}/ks-ap-rice-standalone-dev</param>
+    <param name="lum.application.url" override="false">${application.url}</param>
 
     <!-- Curriculum management main page url with view set -->
     <param name="ks.lum.MainEntryPoint" override="false">${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=CURRICULUM_MANAGEMENT</param>
@@ -104,6 +112,10 @@
     <param name="ks.lu.enable.caching">true</param>
     <param name="ks.searchForm.enable.caching">true</param>
     <param name="ks.academicCalendar.enable.caching">true</param>
+
+    <!-- KS Lum Specific Cache -->
+    <param name="ks.lum.gwt.cache.config.file">classpath:ks-lum-gwt-ehcache.xml</param>
+    <param name="ks.lum.gwt.metadata.enable.caching">true</param>
 
     <!-- MyPlan Specific Cache -->
     <param name="myplan.cache.config.file">classpath:myplan-ehcache.xml</param>
@@ -168,11 +180,6 @@
 
 
     <!-- End Database Configuration-->
-
-
-    <!-- Bus security -->
-    <param name="ks.core.bus.security">false</param>
-    <param name="ks.ap.bus.security">false</param>
 
     <!-- Keystore Configuration -->
     <param name="keystore.file">${user.home}/Desktop/AcademicRoadmap/ks-ap/ks-ap-deployments/ks-ap-standalone/src/main/resources/rice.keystore</param>

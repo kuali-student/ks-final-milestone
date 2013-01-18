@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <context:annotation-config/>
+
+    <!-- Packages containing controller classes to be used when this servlet is used -->
+    <context:component-scan base-package="org.kuali.rice.krad"/>
+    <context:component-scan base-package="org.kuali.student.myplan.course"/>
+    <context:component-scan base-package="org.kuali.student.myplan.audit"/>
+    <context:component-scan base-package="org.kuali.student.myplan.adviser"/>
+    <context:component-scan base-package="org.kuali.student.myplan.plan"/>
+    <context:component-scan base-package="org.kuali.student.myplan.comment"/>
+    <context:component-scan base-package="org.kuali.student.myplan.quickAdd"/>
+
+    <!-- Global Resource Loader Service Bean for a Student Service-->
+    <bean id="StudentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="{MyPlan}StudentServiceClient"/>
+    </bean>
+
+    <!-- List of files that contain message collections for use in the application-->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>org/kuali/student/myplan/KSMyPlan-ApplicationResources</value>
+                <value>org/kuali/rice/krad/ApplicationResources</value>
+                <value>org/kuali/rice/krad/KRAD-ApplicationResources</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Start KRAD Defaults-->
+    <!-- Setup of Freemarker -->
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="preferFileSystemAccess" value="false"/>
+        <property name="templateLoaderPath" value="/"/>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="template_update_delay">1000000</prop>
+                <prop key="cache_storage">freemarker.cache.StrongCacheStorage</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- Setup of Freemarker view resolver-->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="cache" value="true"/>
+        <property name="prefix" value=""/>
+        <property name="suffix" value=".ftl"/>
+    </bean>
+
+    <!-- Setup of Mapping handler for annotations -->
+    <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <ref bean="uifControllerHandlerInterceptor"/>
+                <ref bean="moduleLockingHandlerInterceptor"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- KRAD base for the views creation from controller -->
+    <bean id="uifControllerHandlerInterceptor"
+          class="org.kuali.rice.krad.web.controller.UifControllerHandlerInterceptor"/>
+
+    <!-- KRAD handler checking if requested module is locked -->
+    <bean id="moduleLockingHandlerInterceptor"
+          class="org.kuali.rice.krad.web.controller.ModuleLockingHandlerInterceptor">
+        <property name="moduleLockedMapping" value="module-locked"/>
+        <property name="kualiModuleService" ref="kualiModuleService"/>
+    </bean>
+
+    <!-- Parent Bean for Kuali Module Services -->
+    <bean id="kualiModuleService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kualiModuleService"/>
+    </bean>
+
+    <!-- KRAD Annotation handler to hook UIF binder class -->
+    <bean class="org.kuali.rice.krad.web.controller.UifAnnotationMethodHandleAdapter">
+        <property name="webBindingInitializer">
+            <ref bean="kradConfigurableWebBindingInitializer"/>
+        </property>
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- KRAD Registration of property editors -->
+    <bean id="kradConfigurableWebBindingInitializer"
+          class="org.kuali.rice.krad.web.bind.UifConfigurableWebBindingInitializer"/>
+
+    <!-- Base Spring Setup for multi file upload -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="500000"/>
+    </bean>
+
+    <!-- End KRAD Defaults-->
+
+</beans>

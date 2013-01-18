@@ -21,15 +21,11 @@
   <ul class="chan">
     <li><a href="${ConfigProperties.ks.home.MainEntryPoint}">Kuali Student Home</a></li>
     <li><a href="${ConfigProperties.ks.lum.MainEntryPoint}">Curriculum Management</a></li>
-      <li><a href="${ConfigProperties.ks.ap.MainEntryPoint}">Academic RoadMap</a></li>
-      <!--<li><a href="${ConfigProperties.ks.org.MainEntryPoint}">Organization Management</a></li>      -->
+    <li><a href="${ConfigProperties.ks.org.MainEntryPoint}">Organization Management</a></li>
+	<li><a href="${ConfigProperties.ks.ap.MainEntryPoint}">Academic Planning - Course Search</a></li>
+	<li><a href="${ConfigProperties.ks.ap.planner}">Academic Planning - Course Planner</a></li>
+	<li><a href="${ConfigProperties.ks.ap.audit}">Academic Planning - Degree Audit</a></li>
   </ul>
-    <%--Disabled enrollment links because that application has not yet been released--%>
-    <%--
-  <ul class="chan">
-    <li><a href="${ConfigProperties.application.url}/kr-krad/launch?viewId=enrollmentHomeView&methodToCall=start">Enrollment Home</a></li>
-  </ul>
-  --%>
 
 </div>
 <channel:portalChannelBottom />
