@@ -171,6 +171,8 @@
                 <value>classpath:org/kuali/student/enrollment/krms/KrmsComponentsView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/DepartmentLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/TestSetLookupView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/CourseRangeView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/KRMSCourseLookupView.xml</value>
                 
                 <!-- Type -->
                 <value>classpath:org/kuali/student/enrollment/type/TypeVerificationView.xml</value>
