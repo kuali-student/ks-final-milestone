@@ -186,6 +186,30 @@ public class KitchenSinkController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
+    @RequestMapping(params = "methodToCall=dialogButtonConfirm")
+    public ModelAndView dialogButtonConfirm(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String dialogId = "dialogButton1";
+
+        if (!hasDialogBeenAnswered(dialogId, form)) {
+            return showDialog(dialogId, form, request, response);
+        }
+
+        //boolean isDialogResponseTrue = getBooleanDialogResponse(dialogId, form, request, response);
+        String dialogResponse = getStringDialogResponse(dialogId, form, request, response);
+        if ("Y".equals(dialogResponse)) {
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, "kitchensink.custom", "You clicked the button.");
+        }
+        else {
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, "kitchensink.custom", "Be more careful next time.");
+        }
+
+        // clear dialog history so user can press the button again
+        form.getDialogManager().resetDialogStatus(dialogId);
+
+        return getUIFModelAndView(form);
+    }
+
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveForm")
     public ModelAndView saveForm(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) {

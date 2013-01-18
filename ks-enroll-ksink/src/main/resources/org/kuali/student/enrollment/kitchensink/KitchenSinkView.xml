@@ -40,7 +40,9 @@
                 <value>ks-enroll-ksink/scripts/kitchensink.js</value>
             </list>
         </property>
-        <property name="onSubmitScript" value="alert('form submit canceled');return false;"/>
+        <!-- onSubmitScript returning false causes problems with Uif-DialogGroup -->
+        <!--<property name="onSubmitScript" value="alert('form submit canceled');return false;"/>-->
+        <!--<property name="onSubmitScript" value="return false;"/>-->
     </bean>
 
     <bean id="KS-KitchenSink-FormView-Bare" parent="KS-KitchenSink-FormView" abstract="true">
