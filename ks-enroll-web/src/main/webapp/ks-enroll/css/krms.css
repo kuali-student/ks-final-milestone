@@ -1,24 +1,46 @@
-.edit-with-object-buttons {
+.tree-bar-button {
     background-image: url('./images/buttonNormal.png');
-    background-size: 150px;
-    width: 80px;
-    height: 50px;
+    background-repeat: no-repeat;
+    background-size: 110px;
+    border: 1px solid #808080;
+    width: 86px;
+    height: 48px;
     background-position: -10px -10px;
     cursor: pointer;
     white-space: normal;
     text-align: center;
+    padding-right: 0em ;
+    padding-left: 0em;
 }
 
-button.edit-with-object-buttons:hover {
-    background-image: none;
-    background-color: #808080;
-    background-size: 150px;
-    width: 80px;
-    height: 50px;
+.tree-bar-button-selected {
+    background-image: url('./images/buttonDisabled.png');
+    background-repeat: no-repeat;
+    background-size: 110px;
+    border: 1px solid #808080;
+    width: 86px;
+    height: 48px;
     background-position: -10px -10px;
     cursor: pointer;
     white-space: normal;
     text-align: center;
+    padding-right: 0em ;
+    padding-left: 0em;
+}
+
+.kr-button-primary-disabled {
+    background-image: url('./images/buttonDisabled.png');
+    background-repeat: no-repeat;
+    border: 1px solid #808080;
+    font-weight: normal;
+    text-transform: none;
+    -moz-border-radius: none;
+    -webkit-border-radius: none;
+    border-radius: 0px;
+    background: linear-gradient(none);
+    color: #bfbfbf;
+    padding-top: 0em;
+
 }
 
 .uif-boxLayoutHorizontalItem {
