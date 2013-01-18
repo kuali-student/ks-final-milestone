@@ -44,7 +44,7 @@
 
     <bean id="KRMS-Course-LookupView" parent="KSLookupView">
         <property name="id" value="CourseLookupView"/>
-        <property name="viewName" value="krmscCoursesOnlyLookup"/>
+        <property name="viewName" value="krmsCoursesOnlyLookup"/>
         <property name="headerText" value="Advance Search: Courses Only" />
         <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.KRMSCourseInfoLookupableImpl" />

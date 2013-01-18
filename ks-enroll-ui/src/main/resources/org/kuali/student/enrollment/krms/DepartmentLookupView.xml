@@ -8,7 +8,7 @@
     <bean id="Department" parent="Department-parentBean"/>
     <bean id="Department-parentBean" abstract="true" parent="DataObjectEntry">
         <property name="objectLabel" value="Department"/>
-        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.DepartmentInfo"/>
+        <property name="dataObjectClass" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
         <property name="titleAttribute" value="id"/>
         <property name="attributes">
             <list>
@@ -91,8 +91,9 @@
 
     <bean id="KS-Department-LookupView" parent="KSLookupView">
         <property name="id" value="departmentLookupView"/>
+        <property name="viewName" value="krmsOrgDepartmentView" />
         <property name="headerText" value="Advance Search: Organization" />
-        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.DepartmentInfo" />
+        <property name="dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.DepartmentLookupableImpl" />
         <property name="criteriaFields">
             <list>
