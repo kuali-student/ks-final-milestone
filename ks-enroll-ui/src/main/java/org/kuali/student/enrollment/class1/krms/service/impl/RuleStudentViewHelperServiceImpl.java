@@ -148,7 +148,44 @@ public class RuleStudentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         }
         return displays;
     }
-
+    public List<KrmsSuggestDisplay> getCourseSetForSuggest(String cluSetName) {
+        List<KrmsSuggestDisplay> displays = new ArrayList<KrmsSuggestDisplay>();
+        List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+        SearchParamInfo cluSetParam = new SearchParamInfo();
+        cluSetParam.setKey("cluset.queryParam.optionalName");
+        cluSetParam.getValues().add(cluSetName);
+        queryParamValueList.add(cluSetParam);
+        SearchParamInfo reusableCluSet = new SearchParamInfo();
+        reusableCluSet.setKey("cluset.queryParam.optionalReusable");
+        reusableCluSet.getValues().add(Boolean.TRUE.toString());
+        queryParamValueList.add(reusableCluSet);
+        SearchRequestInfo searchRequest = new SearchRequestInfo();
+        searchRequest.setSearchKey("cluset.search.generic");
+        searchRequest.setParams(queryParamValueList);
+        SearchParamInfo cluSetTypeParam = new SearchParamInfo();
+        cluSetTypeParam.setKey("cluset.queryParam.optionalType");
+        cluSetTypeParam.getValues().add("kuali.cluSet.type.CreditCourse");
+        queryParamValueList.add(cluSetTypeParam);
+        SearchResultInfo clus = null;
+        try {
+            clus = getCluService().search(searchRequest, getContextInfo());
+            for (SearchResultRowInfo result : clus.getRows()) {
+                List<SearchResultCellInfo> cells = result.getCells();
+                KrmsSuggestDisplay display = new KrmsSuggestDisplay();
+                for (SearchResultCellInfo cell : cells) {
+                    if ("cluset.resultColumn.cluSetId".equals(cell.getKey())) {
+                        display.setId(cell.getValue());
+                    } else if ("cluset.resultColumn.name".equals(cell.getKey())) {
+                        display.setDisplayName(cell.getValue());
+                    }
+                }
+                displays.add(display);
+            }
+        } catch (Exception e) {
+            //do nothing
+        }
+        return displays;
+    }
     private CluService getCluService() {
         if (cluService == null) {
             cluService = (CluService) GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));

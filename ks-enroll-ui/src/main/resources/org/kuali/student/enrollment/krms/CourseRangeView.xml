@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="KRMS-CourseRange-View" parent="KSFormView">
+        <property name="id" value="krmsCourseRangeView"/>
+        <property name="headerText" value="Course Range"/>
+        <property name="formClass" value="org.kuali.student.enrollment.class1.krms.form.KrmsComponentsForm"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.RuleStudentViewHelperServiceImpl"/>
+        <property name="singlePageView" value="true"/>
+        <property name="page">
+            <bean parent="Uif-Page"/>
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderTwo"/>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Add Course Range" p:onClickScript="e.preventDefault();closeLightbox();return false;" />
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:onClickScript="e.preventDefault();closeLightbox();return false;" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="KRMS-SearchBy-Field" parent="Uif-InputField-LabelTop" p:propertyName="proposition.searchByCourseRange">
+                    <property name="instructionalText" value="Search By" />
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.CourseRangeValuesFinder"/>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-VerticalBoxSection" p:instructionalText="Enter one or more fields">
+                    <property name="items">
+                        <list>
+                            <bean id="KRMS-SubjectCode-Field" parent="Uif-InputField-LabelTop" p:propertyName="proposition.subjectCode" p:label="Subject Code" p:progressiveRender="proposition.searchByCourseRange eq '1'">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" />
+                                </property>
+                            </bean>
+
+                            <bean id="KRMS-CourseNumberRange-Field" parent="Uif-InputField-LabelTop" p:propertyName="proposition.courseNumberRange" p:label="Course Number Range" p:progressiveRender="proposition.searchByCourseRange eq '1'">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" />
+                                </property>
+                            </bean>
+
+                            <bean id="KRMS-Description-Field" parent="Uif-InputField-LabelTop" p:propertyName="proposition.description" p:label="Description" p:progressiveRender="proposition.searchByCourseRange eq '2'">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" />
+                                </property>
+                            </bean>
+
+                            <bean id="KRMS-EffectiveFrom-Field" parent="Uif-InputField-LabelTop" p:propertyName="proposition.effectiveFrom" p:label="Effective From" p:progressiveRender="proposition.searchByCourseRange eq '3'">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" />
+                                </property>
+                            </bean>
+
+                            <bean id="KRMS-EffectiveTo-Field" parent="Uif-InputField-LabelTop" p:propertyName="proposition.effectiveTo" p:label="Effective To" p:progressiveRender="proposition.searchByCourseRange eq '3'">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" />
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-enroll/scripts/common.js</value>
+            </list>
+        </property>
+    </bean>
+
+
+
+
+
+
+</beans>

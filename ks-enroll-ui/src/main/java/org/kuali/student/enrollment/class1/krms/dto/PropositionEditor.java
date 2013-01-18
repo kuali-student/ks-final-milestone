@@ -13,6 +13,7 @@ import org.kuali.rice.krms.impl.repository.TermSpecificationBo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,8 +32,12 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
     private String termSpecId;
     private String type;
     private String multipleCourseType;
-    private List<CourseInfo> multipleCourses;
     private String gradeScale;
+    private String searchByCourseRange;
+    private String subjectCode;
+    private String courseNumberRange;
+    private Date effectiveFrom;
+    private Date effectiveTo;
 
     private String newTermDescription = "new term " + UUID.randomUUID().toString();
     private String parameterDisplayString;
@@ -103,16 +108,7 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
         this.multipleCourseType = multipleCourseType;
     }
 
-    public List<CourseInfo> getMultipleCourses() {
-        if (multipleCourses == null) {
-            multipleCourses = new ArrayList<CourseInfo>();
-        }
-        return multipleCourses;
-    }
 
-    public void setMultipleCourses(List<CourseInfo> multipleCourses) {
-        this.multipleCourses = multipleCourses;
-    }
 
     public String getGradeScale() {
         return gradeScale;
@@ -120,6 +116,46 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
 
     public void setGradeScale(String gradeScale) {
         this.gradeScale = gradeScale;
+    }
+
+    public String getSearchByCourseRange() {
+        return searchByCourseRange;
+    }
+
+    public void setSearchByCourseRange(String searchByCourseRange) {
+        this.searchByCourseRange = searchByCourseRange;
+    }
+
+    public String getSubjectCode() {
+        return subjectCode;
+    }
+
+    public void setSubjectCode(String subjectCode) {
+        this.subjectCode = subjectCode;
+    }
+
+    public String getCourseNumberRange() {
+        return courseNumberRange;
+    }
+
+    public void setCourseNumberRange(String courseNumberRange) {
+        this.courseNumberRange = courseNumberRange;
+    }
+
+    public Date getEffectiveFrom() {
+        return effectiveFrom;
+    }
+
+    public void setEffectiveFrom(Date effectiveFrom) {
+        this.effectiveFrom = effectiveFrom;
+    }
+
+    public Date getEffectiveTo() {
+        return effectiveTo;
+    }
+
+    public void setEffectiveTo(Date effectiveTo) {
+        this.effectiveTo = effectiveTo;
     }
 
     /**

@@ -57,11 +57,4 @@ public class KrmsComponentsController extends UifControllerBase {
         return getUIFModelAndView(uiTestForm);
     }
 
-    @RequestMapping(params = "methodToCall=collection")
-    public ModelAndView collection(@ModelAttribute("KualiForm") KrmsComponentsForm form, BindingResult result,
-                                   HttpServletRequest request, HttpServletResponse response) {
-
-        return getUIFModelAndView(form);
-    }
-
 }
