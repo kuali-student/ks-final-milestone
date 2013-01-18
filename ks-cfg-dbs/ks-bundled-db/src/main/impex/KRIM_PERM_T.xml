@@ -301,32 +301,32 @@
         DESC_TXT="Allows the user to Open Views for Course Offering"
         NM="Open Views for Course Offering" NMSPC_CD="KS-ENR"
         OBJ_ID="D2F07FCB2E7EFFC9E040760A4A45207E" PERM_ID="10061"
-        PERM_TMPL_ID="122" VER_NBR="1"/>
+        PERM_TMPL_ID="10006" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit Views for Course Offering"
         NM="Edit Views for Course Offering" NMSPC_CD="KS-ENR"
         OBJ_ID="D2F07FCB2E7FFFC9E040760A4A45207E" PERM_ID="10062"
-        PERM_TMPL_ID="123" VER_NBR="1"/>
+        PERM_TMPL_ID="10007" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Open Views for  Manage Registration Groups"
         NM="Open Views for Manage Registration Groups" NMSPC_CD="KS-ENR"
         OBJ_ID="D2F07FCB2E80FFC9E040760A4A45207E" PERM_ID="10063"
-        PERM_TMPL_ID="122" VER_NBR="1"/>
+        PERM_TMPL_ID="10006" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit Views for  Manage Registration Groups"
         NM="Edit Views for Manage Registration Groups" NMSPC_CD="KS-ENR"
         OBJ_ID="D2F07FCB2E81FFC9E040760A4A45207E" PERM_ID="10064"
-        PERM_TMPL_ID="123" VER_NBR="1"/>
+        PERM_TMPL_ID="10007" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Open Views for Create Course Offering"
         NM="Open Views for Create Course Offering" NMSPC_CD="KS-ENR"
         OBJ_ID="D2F07FCB2E82FFC9E040760A4A45207E" PERM_ID="10065"
-        PERM_TMPL_ID="122" VER_NBR="1"/>
+        PERM_TMPL_ID="10006" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit Views for Create Course Offering"
         NM="Edit Views for Create Course Offering" NMSPC_CD="KS-ENR"
         OBJ_ID="D2F07FCB2E83FFC9E040760A4A45207E" PERM_ID="10066"
-        PERM_TMPL_ID="123" VER_NBR="1"/>
+        PERM_TMPL_ID="10007" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit Views for Edit Course Offering"
         NM="Edit Views for KS-CourseOfferingEditWrapper-EditMaintenanceView"
@@ -347,6 +347,26 @@
         NM="Open Views for ActivityOffering-MaintenanceView"
         NMSPC_CD="KS-ENR" OBJ_ID="D2F07FCB2E87FFC9E040760A4A45207E"
         PERM_ID="10070" PERM_TMPL_ID="40" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Allows the user to Open View for ActivityOffering-MaintenanceView"
+        NM="Open View for ActivityOffering-MaintenanceView"
+        NMSPC_CD="KS-ENR" OBJ_ID="D388A0A598DBCB9FE040760A4A451ED0"
+        PERM_ID="10071" PERM_TMPL_ID="10006" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Allows the user to Edit View for ActivityOffering-MaintenanceView"
+        NM="Edit View for ActivityOffering-MaintenanceView"
+        NMSPC_CD="KS-ENR" OBJ_ID="D388A0A598DCCB9FE040760A4A451ED0"
+        PERM_ID="10072" PERM_TMPL_ID="10007" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Allows the user to View Group for ActivityOfferingEdit-MainPage-SeatPool"
+        NM="View Group for ActivityOfferingEdit-MainPage-SeatPool"
+        NMSPC_CD="KS-ENR" OBJ_ID="D388A0A598DDCB9FE040760A4A451ED0"
+        PERM_ID="10073" PERM_TMPL_ID="10011" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Allows the user to Edit Group for ActivityOfferingEdit-MainPage-SeatPool"
+        NM="Edit Group for ActivityOfferingEdit-MainPage-SeatPool"
+        NMSPC_CD="KS-ENR" OBJ_ID="D388A0A598DECB9FE040760A4A451ED0"
+        PERM_ID="10074" PERM_TMPL_ID="10012" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows users to access the Document Operation screen."
         NM="Use Document Operation Screen" NMSPC_CD="KR-WKFLW"
