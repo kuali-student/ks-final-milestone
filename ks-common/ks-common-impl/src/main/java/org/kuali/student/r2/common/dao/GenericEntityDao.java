@@ -197,6 +197,10 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
 
     @Override
     public T merge(T entity) {
+        
+        if (em.contains(entity))
+            em.detach(entity);
+        
         return em.merge(entity);
     }
 
