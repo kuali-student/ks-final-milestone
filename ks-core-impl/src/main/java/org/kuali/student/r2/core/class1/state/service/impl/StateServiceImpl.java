@@ -211,6 +211,9 @@ public class StateServiceImpl implements StateService {
         entity.setEntityCreated(contextInfo);
 
         lifecycleDao.persist(entity);
+        
+        lifecycleDao.getEm().flush();
+        
         return entity.toDto();
     }
 
@@ -227,6 +230,9 @@ public class StateServiceImpl implements StateService {
         entity.setEntityUpdated(contextInfo);
 
         lifecycleDao.merge(entity);
+        
+        lifecycleDao.getEm().flush();
+        
         return entity.toDto();
     }
 
@@ -325,6 +331,9 @@ public class StateServiceImpl implements StateService {
         entity.setEntityCreated(contextInfo);
 
         stateDao.persist(entity);
+        
+        stateDao.getEm().flush();
+        
         return entity.toDto();
     }
 
@@ -343,6 +352,9 @@ public class StateServiceImpl implements StateService {
         entity.setEntityUpdated(contextInfo);
 
         stateDao.merge(entity);
+        
+        stateDao.getEm().flush();
+        
         return entity.toDto();
     }
 
@@ -452,6 +464,9 @@ public class StateServiceImpl implements StateService {
         entity.setEntityCreated(contextInfo);
 
         stateChangeDao.persist(entity);
+        
+        stateChangeDao.getEm().flush();
+        
         return entity.toDto();
     }
 
@@ -467,6 +482,9 @@ public class StateServiceImpl implements StateService {
         entity.setEntityUpdated(contextInfo);
 
         stateChangeDao.merge(entity);
+        
+        stateChangeDao.getEm().flush();
+        
         return entity.toDto();
     }
 
@@ -544,6 +562,9 @@ public class StateServiceImpl implements StateService {
         entity.setEntityCreated(contextInfo);
 
         stateConstraintDao.persist(entity);
+        
+        stateConstraintDao.getEm().flush();
+        
         return entity.toDto();
     }
 
@@ -563,6 +584,9 @@ public class StateServiceImpl implements StateService {
         entity.setEntityUpdated(contextInfo);
 
         stateConstraintDao.merge(entity);
+        
+        stateConstraintDao.getEm().flush();
+        
         return entity.toDto();
     }
 
@@ -653,6 +677,9 @@ public class StateServiceImpl implements StateService {
         entity.setEntityCreated(contextInfo);
 
         statePropagationDao.persist(entity);
+        
+        statePropagationDao.getEm().flush();
+        
         return entity.toDto();
     }
 
@@ -670,6 +697,9 @@ public class StateServiceImpl implements StateService {
         entity.setEntityUpdated(contextInfo);
 
         statePropagationDao.merge(entity);
+        
+        statePropagationDao.getEm().flush();
+        
         return entity.toDto();
     }
 
