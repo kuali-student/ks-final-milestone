@@ -2376,6 +2376,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throw new OperationFailedException("unexpected", ex);
         }
 
+        activityOfferingClusterDao.getEm().flush();
         return activityOfferingClusterEntity.toDto();
     }
 
@@ -2551,7 +2552,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 activityOfferingClusterDao.getEm().remove(orphan);
             }
             activityOfferingClusterEntity.setEntityUpdated(contextInfo);
-            ActivityOfferingClusterInfo merged = activityOfferingClusterDao.merge(activityOfferingClusterEntity).toDto();
+            
+            ActivityOfferingClusterEntity mergedEntity = activityOfferingClusterDao.merge(activityOfferingClusterEntity);
+            
+            activityOfferingClusterDao.getEm().flush();
+            
+            ActivityOfferingClusterInfo merged = mergedEntity.toDto();
             // Delete reg groups with AOs no longer in AO cluster (put here, in case merge fails--then, this code won't
             // run.
             _uAOC_deleteRegGroupsWithAosNotInCluster(merged, contextInfo);
@@ -2654,6 +2660,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
         }
+        seatPoolDefinitionDao.getEm().flush();
         return poolEntity.toDto();
     }
 
@@ -2670,7 +2677,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         if (null != seatPoolDefinitionEntity) {
             seatPoolDefinitionEntity.fromDto(seatPoolDefinitionInfo);
             seatPoolDefinitionEntity.setEntityUpdated(context);
-            return seatPoolDefinitionDao.merge(seatPoolDefinitionEntity).toDto();
+            
+            SeatPoolDefinitionEntity mergedEntity = seatPoolDefinitionDao.merge(seatPoolDefinitionEntity);
+            
+            seatPoolDefinitionDao.getEm().flush();
+            
+            return mergedEntity.toDto();
+            
         } else {
             throw new DoesNotExistException("No SeatPool found for seatPoolDefinitionId=" + seatPoolDefinitionId);
         }
