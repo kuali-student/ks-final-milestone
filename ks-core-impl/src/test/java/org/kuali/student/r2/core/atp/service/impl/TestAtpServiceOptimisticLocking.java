@@ -130,7 +130,9 @@ public class TestAtpServiceOptimisticLocking {
         Assert.assertTrue(versionMissmatchException);
         
         AtpInfo newAtp = createAtp("F1234", "F1234");
-    
+        
+        newAtp.setId("aFakeId");
+        
         boolean updateFailed = false;
         try {
             atpService.updateAtp(newAtp.getId(), newAtp, callContext);
