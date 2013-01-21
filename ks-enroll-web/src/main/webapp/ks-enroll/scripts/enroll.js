@@ -714,6 +714,47 @@ function jsonShow(url) {
     }
 }
 
+
+function dataTableShow(url, containerId, tableId) {
+    var termCodeId_control = jQuery.trim(jQuery('#termCodeId_control').val());
+    var inputCodeId_control = jQuery.trim(jQuery('#inputCodeId_control').val());
+    var viewId = jQuery.trim(jQuery('#viewId').val());
+    var formKey = jQuery.trim(jQuery('#formKey').val());
+    var source = url +  "/kr-krad/courseOfferingManagement/dataTableShow.do?viewId=" + viewId + "&formKey=" + formKey + "&termCode=" + termCodeId_control + "&inputCode=" + inputCodeId_control;
+
+    var tableContainer = jQuery('#' + containerId);
+    var theTable = jQuery('#' + tableId);
+    if(theTable.length == 0){
+        theTable = jQuery("<table id='" + tableId + "' />");
+        tableContainer.append(theTable);
+    }else{
+        jQuery('#' + tableId).dataTable().fnDestroy();
+    }
+
+    jQuery('#' + tableId).dataTable({
+        //  bServerSide: true,
+        bPaginate: false,
+        bFilter: false,
+        asSorting: [ 2, 'asc' ],
+        aoColumns: [
+            {'sTitle':'', 'bSortable':false, 'bSearchable':false},
+            {'sTitle':'', 'bSortable':true, 'bSearchable':true},
+            {'sTitle':'STATUS', 'bSortable':true, 'bSearchable':true},
+            {'sTitle':'TITLE', 'bSortable':true, 'bSearchable':true},
+            {'sTitle':'CREDITS', 'bSortable':true, 'bSearchable':false},
+            {'sTitle':'GRADING', 'bSortable':true, 'bSearchable':false}
+        ],
+        fnInitComplete:function(oSettings, json){
+            jQuery('#' + tableId).find('a').each(function(index){
+                var coId = jQuery(this).attr("id");
+                createLightBoxLink(coId , {fitToView:true,height:'95%',width:'75%',autoSize:false,openEffect:'fade',closeEffect:'fade',openSpeed:200,closeSpeed:200,helpers:{overlay:{css:{cursor:'arrow'},closeClick:false}},type:'iframe'}, true);
+            });
+        },
+        bRetrieve: true,
+        sAjaxSource: source
+    });
+}
+
 /*
  function updateCollectionAndRelatedItem(jqObject, collectionGroupId, updateAfterId){
  if(jqObject && collectionGroupId){

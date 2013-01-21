@@ -88,6 +88,8 @@
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementViewPOC&amp;pageId=searchInputPagePOC&amp;methodToCall=start&amp;withinPortal=false"/>
                 <bean parent="Uif-Link" p:linkText="Manage Course Offerings (JSON POC)"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementViewJSONPOC&amp;pageId=searchInputPageJSONPOC&amp;methodToCall=start&amp;withinPortal=false"/>
+                <bean parent="Uif-Link" p:linkText="Manage Course Offerings (DataTable POC)"
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementViewDataTablePOC&amp;pageId=searchInputPageDataTablePOC&amp;methodToCall=start&amp;withinPortal=false"/>
                 <bean parent="Uif-Link" p:linkText="Manage Course Offerings"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementView&amp;pageId=searchInputPage&amp;methodToCall=start&amp;withinPortal=false"/>
                 <bean parent="Uif-Link" p:linkText="Manage SOC"

@@ -386,6 +386,85 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 //        return null;
     }
 
+    @RequestMapping(value = "/dataTableShow", method = RequestMethod.GET)
+    public void dataTableShow(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+
+        StringBuilder aaDataJSONString = new StringBuilder();
+        aaDataJSONString = aaDataJSONString.append("{ \"aaData\":[");
+
+        //First, find TermInfo based on termCode
+        String termCode = theForm.getTermCode();
+        if (StringUtils.isEmpty(termCode)) {
+            aaDataJSONString.append("\"]}");
+        } else {
+            List<TermInfo> termList = getViewHelperService(theForm).findTermByTermCode(termCode);
+            if (termList != null && !termList.isEmpty()) {
+                if (termList.size() == 1) {
+                    // Get THE term
+                    theForm.setTermInfo(termList.get(0));
+                    //load all courseofferings based on subject Code
+                    String inputCode = theForm.getInputCode();
+                    if (!StringUtils.isEmpty(inputCode)) {
+                        getViewHelperService(theForm).loadCourseOfferingsByTermAndCourseCode(theForm.getTermInfo().getId(), inputCode, theForm);
+                        if (!theForm.getCourseOfferingResultList().isEmpty()) {
+                            if (theForm.getCourseOfferingResultList().size() > 1) {
+                                theForm.setSubjectCode(theForm.getCourseOfferingResultList().get(0).getSubjectArea());
+                                String longNameDescr = getOrgNameDescription(theForm.getSubjectCode());
+                                theForm.setSubjectCodeDescription(longNameDescr);
+                                // Pull out the first CO from the result list and then pull out the org ids from this CO
+                                // and pass in the first one as the adminOrg
+                                CourseOfferingInfo firstCO = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+                                List<String> orgIds = firstCO.getUnitsDeploymentOrgIds();
+                                if (orgIds != null && !orgIds.isEmpty()) {
+                                    theForm.setAdminOrg(orgIds.get(0));
+                                }
+                                CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+                                theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
+                            } else { // just one course offering is returned
+                                CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+                                theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
+                            }
+                            int rowNumber = 0;
+                            for (CourseOfferingListSectionWrapper wrapper : theForm.getCourseOfferingResultList()) {
+                                aaDataJSONString = aaDataJSONString.append("[").
+                                        append("\"").append("<input type='checkbox' />").append("\",").
+                                        append("\"").append(createLink(wrapper.getCourseOfferingId(), wrapper.getCourseOfferingCode(), rowNumber, request )).append("\",").
+                                        append("\"").append(wrapper.getCourseOfferingStateDisplay()).append("\",").
+                                        append("\"").append(wrapper.getCourseOfferingDesc()).append("\",").
+                                        append("\"").append(wrapper.getCourseOfferingCreditOptionDisplay()).append("\",").
+                                        append("\"").append(wrapper.getCourseOfferingGradingOptionDisplay()).append("\"],");
+                                rowNumber++;
+                            }
+                        }
+                        theForm.setEditAuthz(checkEditViewAuthz(theForm));
+                    }
+                }
+            }
+        }
+        String aaDataJSONStr = aaDataJSONString.toString();
+        int index = aaDataJSONString.lastIndexOf(",");
+        if (index > -1) {
+            aaDataJSONStr = aaDataJSONString.substring(0, index);
+        }
+        aaDataJSONStr = aaDataJSONStr + "]}";
+        response.setContentType("application/json");
+        response.getWriter().write(aaDataJSONStr);
+    }
+
+    private String createLink(String courseOfferingId, String courseOfferingCode, int rowNumber, HttpServletRequest request){
+        if(!StringUtils.isEmpty(courseOfferingId)){
+            String pathInfo = request.getPathInfo();
+            String url = request.getRequestURL().substring(0, request.getRequestURL().indexOf(pathInfo));
+            String anchor = "<a id='code_line" + rowNumber + "'"
+                    + "href='" + url + "/inquiry?courseOfferingId=" + courseOfferingId +"&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper&amp;renderedInLightBox=true&amp;showHome=false&amp;showHistory=false&amp;history=" + request.getParameter("history")
+                    + "' target='_self' class='uif-link' title='Course Offering =courseOfferingId'>" + courseOfferingCode + "</a>";
+
+            return anchor;
+        }
+        return "";
+    }
+
     private ModelAndView _prepareManageAOsModelAndView(CourseOfferingManagementForm theForm, CourseOfferingInfo coToShow) throws Exception {
         CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(coToShow);
 
