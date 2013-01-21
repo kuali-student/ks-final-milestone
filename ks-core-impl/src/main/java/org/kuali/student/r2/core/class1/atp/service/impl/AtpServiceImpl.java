@@ -478,7 +478,7 @@ public class AtpServiceImpl implements AtpService {
         atpDao.persist(entity);
 //        System.out.println ("AtpEntity: after persist ATP " + entity.getId());
 //        System.out.println ("AtpEntity: flushmode=" + atpDao.getEm().getFlushMode());
-//        atpDao.getEm().flush ();
+        atpDao.getEm().flush ();
 //        System.out.println ("AtpEntity: after flush ATP " + entity.getId());
         return entity.toDto();
     }
@@ -489,27 +489,29 @@ public class AtpServiceImpl implements AtpService {
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
         
-        if (atpDao.entityExists(atpId) == false) {
+        AtpEntity atpEntity = atpDao.find (atpId);
+        
+        if (atpEntity == null) {
             throw new DoesNotExistException("No existing Atp for id = " + atpId);
         }
         
-        AtpEntity entity = new AtpEntity(atpInfo);
-        
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
+        atpEntity.fromDTO(atpInfo);
+        atpEntity.setUpdateId(context.getPrincipalId());
+        atpEntity.setUpdateTime(context.getCurrentDate());
         
         // this line can be removed once KSENROLL-4605 is resolved
-        entity.setVersionNumber(new Long (atpInfo.getMeta().getVersionInd()));
+        if (atpInfo.getMeta() != null)
+            atpEntity.setVersionNumber(new Long (atpInfo.getMeta().getVersionInd()));
         
         try {
-            atpDao.merge(entity);
+            atpEntity = atpDao.merge(atpEntity);
         } catch (OptimisticLockException e) {
             // this catch can be removed once KSENROLL-4253 is resolved
             throw new VersionMismatchException();
         }
         
         atpDao.getEm().flush();
-        return entity.toDto();
+        return atpEntity.toDto();
     }
 
     @Override
@@ -533,6 +535,8 @@ public class AtpServiceImpl implements AtpService {
             }
         }
         atpDao.remove(entity);
+        atpDao.getEm().flush();
+        
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
@@ -603,6 +607,7 @@ public class AtpServiceImpl implements AtpService {
         entity.setUpdateId(contextInfo.getPrincipalId());
         entity.setUpdateTime(contextInfo.getCurrentDate());
         milestoneDao.persist(entity);
+        milestoneDao.getEm().flush();
         MilestoneInfo result = entity.toDto();
         return result;
     }
@@ -620,6 +625,7 @@ public class AtpServiceImpl implements AtpService {
         entity.setUpdateId(context.getPrincipalId());
         entity.setUpdateTime(context.getCurrentDate());
         milestoneDao.merge(entity);
+        milestoneDao.getEm().flush();
         return entity.toDto();
     }
 
@@ -641,6 +647,9 @@ public class AtpServiceImpl implements AtpService {
             }
         }
         milestoneDao.remove(existingEntity);
+        
+        milestoneDao.getEm().flush();
+        
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
@@ -887,6 +896,9 @@ public class AtpServiceImpl implements AtpService {
         entity.setUpdateId(contextInfo.getPrincipalId());
         entity.setUpdateTime(contextInfo.getCurrentDate());
         atpRelDao.persist(entity);
+        
+        atpRelDao.getEm().flush();
+        
         return entity.toDto();
     }
 
@@ -906,6 +918,8 @@ public class AtpServiceImpl implements AtpService {
         entity.setUpdateId(context.getPrincipalId());
         entity.setUpdateTime(context.getCurrentDate());
         atpRelDao.merge(entity);
+        
+        atpRelDao.getEm().flush();
         return entity.toDto();
     }
 
@@ -918,6 +932,9 @@ public class AtpServiceImpl implements AtpService {
             throw new DoesNotExistException(atpAtpRelationId);
         }
         atpRelDao.remove(atpRel);
+        
+        atpRelDao.getEm().flush();
+        
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;

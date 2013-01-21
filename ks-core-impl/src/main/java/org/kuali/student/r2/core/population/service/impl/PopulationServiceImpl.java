@@ -72,6 +72,8 @@ public class PopulationServiceImpl implements PopulationService {
         popEntity.setUpdateId(contextInfo.getPrincipalId());
         popEntity.setUpdateTime(contextInfo.getCurrentDate());
         populationDao.persist(popEntity);
+        
+        populationDao.getEm().flush();
         return popEntity.toDto();
     }
 
@@ -84,6 +86,7 @@ public class PopulationServiceImpl implements PopulationService {
             popEntity.setUpdateId(contextInfo.getPrincipalId());
             popEntity.setUpdateTime(contextInfo.getCurrentDate());
             populationDao.merge(popEntity);
+            populationDao.getEm().flush();
             return popEntity.toDto();
         } else {
             throw new DoesNotExistException(populationId);
@@ -164,6 +167,8 @@ public class PopulationServiceImpl implements PopulationService {
         }
         popRuleEntity.setChildPopulations(childPops);
         populationRuleDao.persist(popRuleEntity);
+        
+        populationRuleDao.getEm().flush();
         return popRuleEntity.toDto();
     }
 
@@ -185,6 +190,7 @@ public class PopulationServiceImpl implements PopulationService {
             }
             popRuleEntity.setChildPopulations(childPops);
             populationRuleDao.merge(popRuleEntity);
+            populationRuleDao.getEm().flush();
             return popRuleEntity.toDto();
         } else {
             throw new DoesNotExistException(populationRuleId);
