@@ -20,7 +20,7 @@ public class TemplateResolverServiceMockImpl implements TemplateResolverService 
 
     public String getTermSpecificationForType(String type) {
         TemplateInfo template = templatesMap.get(type);
-        return (template != null ? template.getTermSpecification() : null);
+        return (template != null ? template.getTermSpecName() : null);
     }
 
     public String getOperationForType(String type) {
@@ -34,7 +34,7 @@ public class TemplateResolverServiceMockImpl implements TemplateResolverService 
 
     public String getValueForType(String type) {
         TemplateInfo template = templatesMap.get(type);
-        return (template != null ? template.getTermSpecification() : null);
+        return (template != null ? template.getValue() : null);
     }
 
 

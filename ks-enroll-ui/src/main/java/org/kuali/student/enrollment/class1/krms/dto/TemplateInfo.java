@@ -22,7 +22,7 @@ package org.kuali.student.enrollment.class1.krms.dto;
  */
 public class TemplateInfo {
     private String type;
-    private String termSpecification;
+    private String termSpecName;
     private String operator;
     private String value;
 
@@ -34,12 +34,12 @@ public class TemplateInfo {
         this.type = type;
     }
 
-    public String getTermSpecification() {
-        return termSpecification;
+    public String getTermSpecName() {
+        return termSpecName;
     }
 
-    public void setTermSpecification(String termSpecification) {
-        this.termSpecification = termSpecification;
+    public void setTermSpecName(String name) {
+        this.termSpecName = name;
     }
 
     public String getOperator() {
