@@ -317,12 +317,13 @@
 
     <!-- Default all KRAD type services to the original KRAD definition -->
     <!--<alias name="viewPermissionTypeService" alias="ksViewPermissionTypeService"/>-->
-    <bean id="ksViewPermissionTypeService" class="org.kuali.rice.kim.permission.mock.KsViewPermissionTypeService"/>
+    <bean id="ksViewPermissionTypeService" class="org.kuali.student.enroll.kim.permission.type.KSViewPermissionTypeServiceImpl"/>
+    <bean id="ksViewActionPermissionTypeService" class="org.kuali.student.enroll.kim.permission.type.KSViewActionPermissionTypeServiceImpl"/>
     <alias name="viewEditModePermissionTypeService" alias="ksViewEditModePermissionTypeService"/>
     <alias name="viewFieldPermissionTypeService" alias="ksViewFieldPermissionTypeService"/>
     <alias name="viewGroupPermissionTypeService" alias="ksViewGroupPermissionTypeService"/>
     <alias name="viewWidgetPermissionTypeService" alias="ksViewWidgetPermissionTypeService"/>
-    <alias name="viewActionPermissionTypeService" alias="ksViewActionPermissionTypeService"/>
+    <!-- alias name="viewActionPermissionTypeService" alias="ksViewActionPermissionTypeService"/-->
     <alias name="viewLineFieldPermissionTypeService" alias="ksViewLineFieldPermissionTypeService"/>
     <alias name="viewLineActionPermissionTypeService" alias="ksViewLineActionPermissionTypeService"/>
 
