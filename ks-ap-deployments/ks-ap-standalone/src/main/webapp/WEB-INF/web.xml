@@ -40,24 +40,6 @@
         <filter-class>org.kuali.student.myplan.utils.ArmKsapFilter</filter-class>
     </filter>
 
-    <!-- Adds filter for user logins for use when myplan-servlet used-->
-    <filter-mapping>
-        <filter-name>UserLoginFilter</filter-name>
-        <servlet-name>myplan</servlet-name>
-    </filter-mapping>
-
-    <!-- Maps myplan-servlet to handle {application}/myplan/ urls-->
-    <servlet-mapping>
-        <servlet-name>myplan</servlet-name>
-        <url-pattern>/myplan/*</url-pattern>
-    </servlet-mapping>
-
-    <!-- Filter on myplan servlet -->
-    <filter-mapping>
-        <filter-name>ArmKsapFilter</filter-name>
-        <servlet-name>myplan</servlet-name>
-    </filter-mapping>
-
 
     <!-- Start KRAD Defaults-->
 
@@ -400,6 +382,24 @@
     </jsp-config>
     <!-- End KRAD Defaults -->
 
+    <!-- Adds filter for user logins for use when myplan-servlet used-->
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <servlet-name>myplan</servlet-name>
+    </filter-mapping>
+
+    <!-- Maps myplan-servlet to handle {application}/myplan/ urls-->
+    <servlet-mapping>
+        <servlet-name>myplan</servlet-name>
+        <url-pattern>/myplan/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- Filter on myplan servlet -->
+    <filter-mapping>
+        <filter-name>ArmKsapFilter</filter-name>
+        <servlet-name>myplan</servlet-name>
+    </filter-mapping>
+
     <!-- Start Lum GWT -->
 
     <servlet>
@@ -407,7 +407,7 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:core-gwt-context.xml</param-value>
+            <param-value>classpath:META-INF/ks-ap/ksap-core-gwt-context.xml</param-value>
         </init-param>
         <load-on-startup>2</load-on-startup>
     </servlet>
@@ -416,7 +416,7 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:lum-gwt-context.xml</param-value>
+            <param-value>classpath:META-INF/ks-ap/ksap-lum-gwt-context.xml</param-value>
         </init-param>
         <load-on-startup>2</load-on-startup>
     </servlet>
