@@ -54,6 +54,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
@@ -345,13 +346,18 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         List<CourseInfo> courseInfoList = new ArrayList<CourseInfo>();
 
         SearchParamInfo qpv1 = new SearchParamInfo();
-        qpv1.setKey("lu.criteria.code");
+        qpv1.setKey("lu.queryParam.startsWith.cluCode");
         qpv1.getValues().add(courseName.toUpperCase());
         searchParams.add(qpv1);
 
+        SearchParamInfo qpv2 = new SearchParamInfo();
+        qpv2.setKey("lu.queryParam.cluState");
+        qpv2.setValues(Arrays.asList("Active"));
+        searchParams.add(qpv2);
+
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setParams(searchParams);
-        searchRequest.setSearchKey("lu.search.cluByCode");
+        searchRequest.setSearchKey("lu.search.cluByCodeAndState");
 
         try {
             SearchResultInfo searchResult = getCluService().search(searchRequest, ContextUtils.getContextInfo());
