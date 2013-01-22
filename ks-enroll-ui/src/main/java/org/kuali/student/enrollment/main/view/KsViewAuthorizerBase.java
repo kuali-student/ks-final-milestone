@@ -3,19 +3,25 @@ package org.kuali.student.enrollment.main.view;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.component.ComponentSecurity;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.field.Field;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.ViewAuthorizerBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.uif.widget.Widget;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,8 +57,12 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
 
     @Override
     protected void addPermissionDetails(Object primaryDataObjectOrDocument, Map<String, String> attributes) {
-        attributes.put("socStateKey","Active");//TODO pull these out of the form
-        attributes.put("coStateKey","Draft");
+        if (primaryDataObjectOrDocument !=null && primaryDataObjectOrDocument instanceof CourseOfferingManagementForm) {
+            CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) primaryDataObjectOrDocument;
+            if (theForm.getSocState() != null) {
+                attributes.put("socState", theForm.getSocState());
+            }
+        }
         super.addPermissionDetails(primaryDataObjectOrDocument, attributes);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
@@ -86,6 +96,12 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
     protected boolean isAuthorizedByTemplate(View view, Component component, ViewModel model,
                                              String permissionTemplateName, Person user, Map<String, String> additionalPermissionDetails,
                                              Map<String, String> additionalRoleQualifications, boolean checkPermissionExistence) {
+        if(additionalRoleQualifications == null){
+            //Instantiate if null was passed in
+            additionalRoleQualifications = new HashMap<String, String>();
+        }
+        addRoleQualification(model, additionalRoleQualifications);
+
         Map<String, String> permissionDetails = new HashMap<String, String>();
         Map<String, String> roleQualifications = new HashMap<String, String>();
 
@@ -96,8 +112,6 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
         if (additionalRoleQualifications != null) {
             roleQualifications.putAll(additionalRoleQualifications);
         }
-
-        addRoleQualification(model, additionalRoleQualifications); //Added this line when duplicating
 
         Object dataObjectForContext = getDataObjectContext(view, model);
 
@@ -131,6 +145,33 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
                 permissionDetails.put(KimConstants.AttributeConstants.GROUP_ID, componentSecurity.getIdAttribute());
             } else if (component instanceof Widget) {
                 permissionDetails.put(KimConstants.AttributeConstants.WIDGET_ID, componentSecurity.getIdAttribute());
+            }
+        }
+
+        // Add attribute depending on CO state for 'permissionExpression'
+        if (component instanceof Action) {
+            if (!((Action) component).getActionParameters().isEmpty() &&
+                    (((Action) component).getActionParameters().get(UifParameters.SELECTED_LINE_INDEX) != null) && !((Action) component).getActionParameters().get(UifParameters.SELECTED_LINE_INDEX).equals("") &&
+                    (((Action) component).getActionParameters().get(UifParameters.SELLECTED_COLLECTION_PATH) != null && !((Action) component).getActionParameters().get(UifParameters.SELLECTED_COLLECTION_PATH).equals("")) ) {
+                String selectedCollectionPath = ((Action) component).getActionParameters().get(UifParameters.SELLECTED_COLLECTION_PATH);
+
+                int selectedLineIndex = -1;
+                String selectedLine = ((Action) component).getActionParameters().get(UifParameters.SELECTED_LINE_INDEX);
+                if (StringUtils.isNotBlank(selectedLine)) {
+                    selectedLineIndex = Integer.parseInt(selectedLine);
+                }
+
+                if (model != null && model instanceof CourseOfferingManagementForm) {
+                    CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) model;
+                    Collection<CourseOfferingListSectionWrapper> collection = ObjectPropertyUtils.getPropertyValue(theForm, selectedCollectionPath);
+                    CourseOfferingListSectionWrapper theCourseOfferingWrapper = ((List<CourseOfferingListSectionWrapper>) collection).get(selectedLineIndex);
+                    if (theCourseOfferingWrapper != null) {
+                        String courseOfferingStateDisplay = theCourseOfferingWrapper.getCourseOfferingStateDisplay();
+                        if (courseOfferingStateDisplay != null) {
+                            permissionDetails.put("coState", courseOfferingStateDisplay);
+                        }
+                    }
+                }
             }
         }
 
@@ -185,6 +226,7 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
      * @see org.kuali.rice.krad.uif.view.ViewAuthorizer#canEditView(org.kuali.rice.krad.uif.view.View, org.kuali.rice.krad.uif.view.ViewModel,
      *      org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public boolean canEditView(View view, ViewModel model, Person user) {
         Map<String, String> additionalPermissionDetails = new HashMap<String, String>();
         additionalPermissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, view.getNamespaceCode());
