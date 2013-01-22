@@ -4619,7 +4619,7 @@
         UPDATETIME="20130102101328" VER_NBR="0"/>
     <KSEN_MSTONE CREATEID="batchjob" CREATETIME="20130102101321"
         DESCR_FORMATTED="Sophomore Registration"
-        DESCR_PLAIN="Sophomore Registration" END_DT="02011127000000"
+        DESCR_PLAIN="Sophomore Registration" END_DT="20121127000000"
         ID="35311783-3689-46c3-9cf2-ede075d78206" IS_ALL_DAY="0"
         IS_DATE_RANGE="1" IS_INSTRCT_DAY="0" IS_RELATIVE="0"
         MSTONE_STATE="kuali.atp.state.Official"
