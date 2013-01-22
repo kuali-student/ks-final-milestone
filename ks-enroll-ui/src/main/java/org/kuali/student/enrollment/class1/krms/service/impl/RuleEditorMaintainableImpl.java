@@ -19,7 +19,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.metadata.ClassNotPersistenceCapableException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.uif.RemotableAttributeField;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.bo.Note;
@@ -29,7 +28,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
-import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -41,13 +39,13 @@ import org.kuali.rice.krms.impl.repository.PropositionBo;
 import org.kuali.rice.krms.impl.repository.RuleBo;
 import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.rice.krms.impl.repository.TermParameterBo;
-import org.kuali.rice.krms.impl.ui.AgendaEditor;
 import org.kuali.rice.krms.impl.ui.KrmsMaintenanceConstants;
 import org.kuali.rice.krms.impl.util.KrmsImplConstants;
 import org.kuali.rice.krms.impl.util.KrmsRetriever;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
 import org.kuali.student.enrollment.class1.krms.service.AgendaStudentEditorMaintainable;
+import org.kuali.student.enrollment.class1.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -59,6 +57,7 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -85,39 +84,12 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
 
     private transient KrmsRetriever krmsRetriever = new KrmsRetriever();
 
-    /**
-     * @return the boService
-     */
-    public BusinessObjectService getBoService() {
-        return KRADServiceLocator.getBusinessObjectService();
-    }
-
     private ContextInfo getContextInfo() {
         if (null == contextInfo) {
             //TODO - get real ContextInfo
             contextInfo = TestHelper.getContext1();
         }
         return contextInfo;
-    }
-
-    /**
-     * Find and return the node containing the proposition that is in currently in edit mode
-     *
-     * @param node the node to start searching from (typically the root)
-     * @return the node that is currently being edited, if any.  Otherwise, null.
-     */
-    private Node<RuleEditorTreeNode, String> findEditedProposition(Node<RuleEditorTreeNode, String> node) {
-        Node<RuleEditorTreeNode, String> result = null;
-        if (node.getData() != null && node.getData().getProposition() != null &&
-                node.getData().getProposition().getProposition().getEditMode()) {
-            result = node;
-        } else {
-            for (Node<RuleEditorTreeNode, String> child : node.getChildren()) {
-                result = findEditedProposition(child);
-                if (result != null) break;
-            }
-        }
-        return result;
     }
 
     /**
@@ -311,7 +283,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
         }
     }
 
-
     @Override
     public boolean isOldDataObjectInDocument() {
         boolean isOldDataObjectInExistence = true;
@@ -364,7 +335,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
             RuleBo rule = getRuleEditor(model).getRule();
             // Figure out which proposition is being edited
             Tree<RuleEditorTreeNode, String> propositionTree = rule.getPropositionTree();
-            Node<RuleEditorTreeNode, String> editedPropositionNode = findEditedProposition(propositionTree.getRootElement());
+            Node<RuleEditorTreeNode, String> editedPropositionNode = PropositionTreeUtil.findEditedProposition(propositionTree.getRootElement());
 
             // get the old object's collection
             Collection<Object> oldCollection = ObjectPropertyUtils

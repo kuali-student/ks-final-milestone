@@ -54,4 +54,26 @@ public class PropositionTreeUtil {
         return null;
     }
 
+    /**
+     * Find and return the node containing the proposition that is in currently in edit mode
+     *
+     * @param node the node to start searching from (typically the root)
+     * @return the node that is currently being edited, if any.  Otherwise, null.
+     */
+    public static Node<RuleEditorTreeNode, String> findEditedProposition(Node<RuleEditorTreeNode, String> node) {
+        Node<RuleEditorTreeNode, String> result = null;
+        if (node.getData() != null && node.getData().getProposition() != null && node.getData().getProposition().getProposition()
+                .getEditMode()) {
+            result = node;
+        } else {
+            for (Node<RuleEditorTreeNode, String> child : node.getChildren()) {
+                result = findEditedProposition(child);
+                if (result != null) {
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
 }

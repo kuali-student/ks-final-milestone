@@ -1,16 +1,41 @@
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.uif.DataType;
+import org.kuali.rice.core.api.uif.RemotableAttributeField;
+import org.kuali.rice.core.api.uif.RemotableTextInput;
+import org.kuali.rice.core.api.util.tree.Node;
+import org.kuali.rice.core.api.util.tree.Tree;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
+import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
+import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageTemplateBoService;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageUsageBoService;
+import org.kuali.rice.krms.impl.repository.PropositionBo;
+import org.kuali.rice.krms.impl.repository.PropositionParameterBo;
+import org.kuali.rice.krms.impl.repository.RuleBo;
+import org.kuali.rice.krms.impl.repository.TermBo;
+import org.kuali.rice.krms.impl.repository.TermSpecificationBo;
+import org.kuali.rice.krms.impl.ui.AgendaEditor;
+import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
+import org.kuali.rice.krms.impl.util.KrmsImplConstants;
 import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
+import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
+import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
+import org.kuali.student.enrollment.class1.krms.dto.StudentAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.service.RuleStudentViewHelperService;
-import org.kuali.student.enrollment.class1.krms.service.TemplateResolverService;
 import org.kuali.student.enrollment.class1.krms.util.KsKrmsConstants;
 import org.kuali.student.enrollment.class1.krms.util.KsKrmsRepositoryServiceLocator;
+import org.kuali.student.enrollment.class1.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -26,7 +51,11 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,15 +64,34 @@ import java.util.List;
  * Time: 11:52 AM
  * To change this template use File | Settings | File Templates.
  */
-public class RuleStudentViewHelperServiceImpl extends ViewHelperServiceImpl implements RuleStudentViewHelperService{
+public class RuleStudentViewHelperServiceImpl extends ViewHelperServiceImpl implements RuleStudentViewHelperService {
 
     private CluService cluService;
     private ContextInfo contextInfo;
     private OrganizationService organizationService;
 
+    public String getTermSpecIdForType(String type) {
+
+        String termSpecName = this.getTermSpecNameForType(type);
+
+        Map<String, String> criteria = new HashMap<String, String>();
+
+        criteria.put("name", termSpecName);
+        criteria.put("namespace", PermissionServiceConstants.KS_SYS_NAMESPACE);
+
+        Collection<TermSpecificationBo> matchingTermSpecs = this.getBoService().findMatching(TermSpecificationBo.class, criteria);
+        for (TermSpecificationBo termSpec : matchingTermSpecs){
+            if (termSpec.isActive()){
+                return termSpec.getId();
+            }
+        }
+
+        return null;
+    }
+
     @Override
-    public String getTermSpecificationForType(String type) {
-        return KsKrmsRepositoryServiceLocator.getTemplateResolverService().getTermSpecificationForType(type);
+    public String getTermSpecNameForType(String type) {
+        return KsKrmsRepositoryServiceLocator.getTemplateResolverService().getTermSpecNameForType(type);
     }
 
     @Override
@@ -180,6 +228,7 @@ public class RuleStudentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         }
         return displays;
     }
+
     public List<KrmsSuggestDisplay> getCourseSetForSuggest(String cluSetName) {
         List<KrmsSuggestDisplay> displays = new ArrayList<KrmsSuggestDisplay>();
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
@@ -218,20 +267,113 @@ public class RuleStudentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         }
         return displays;
     }
-    public String getTranslatedNaturalLanguage(String typeId){
+
+    /**
+     * Retrieve a list of {@link RemotableAttributeField}s for the parameters (if any) required by the resolver for
+     * the selected term in the proposition that is under edit.
+     */
+    public List<RemotableAttributeField> retrieveTermParameters(View view, Object model, Container container) {
+
+        MaintenanceDocumentForm MaintenanceDocumentForm = (MaintenanceDocumentForm) model;
+        RuleEditor ruleEditor = (RuleEditor) MaintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
+
+        List<RemotableAttributeField> results = new ArrayList<RemotableAttributeField>();
+
+        // Figure out which rule is being edited
+        if (null != ruleEditor) {
+
+            // Figure out which proposition is being edited
+            Tree<RuleEditorTreeNode, String> propositionTree = ruleEditor.getPropositionTree();
+            Node<RuleEditorTreeNode, String> editedPropositionNode = PropositionTreeUtil.findEditedProposition(propositionTree.getRootElement());
+
+            if (editedPropositionNode != null) {
+                PropositionBo propositionBo = editedPropositionNode.getData().getProposition().getProposition();
+                if (StringUtils.isEmpty(propositionBo.getCompoundOpCode()) && CollectionUtils.size(
+                        propositionBo.getParameters()) > 0) {
+                    // Get the term ID; if it is a new parameterized term, it will have a special prefix
+                    PropositionParameterBo param = propositionBo.getParameters().get(0);
+                    String termSpecId = param.getValue();
+                    TermResolverDefinition simplestResolver = getSimplestTermResolver(termSpecId,
+                            ruleEditor.getRule().getNamespace());
+
+                    // Get the parameters and build RemotableAttributeFields
+                    if (simplestResolver != null) {
+                        List<String> parameterNames = new ArrayList<String>(simplestResolver.getParameterNames());
+                        Collections.sort(parameterNames); // make param order deterministic
+
+                        for (String parameterName : parameterNames) {
+                            // TODO: also allow for DD parameters if there are matching type attributes
+                            RemotableTextInput.Builder controlBuilder = RemotableTextInput.Builder.create();
+                            controlBuilder.setSize(64);
+
+                            RemotableAttributeField.Builder builder = RemotableAttributeField.Builder.create(
+                                    parameterName);
+
+                            builder.setRequired(true);
+                            builder.setDataType(DataType.STRING);
+                            builder.setControl(controlBuilder);
+                            builder.setLongLabel(parameterName);
+                            builder.setShortLabel(parameterName);
+                            builder.setMinLength(Integer.valueOf(1));
+                            builder.setMaxLength(Integer.valueOf(64));
+
+                            results.add(builder.build());
+                        }
+                    }
+
+                }
+            }
+        }
+        return results;
+    }
+
+    /**
+     * finds the term resolver with the fewest parameters that resolves the given term specification
+     *
+     * @param termSpecId the id of the term specification
+     * @param namespace  the  namespace of the term specification
+     * @return the simples {@link org.kuali.rice.krms.api.repository.term.TermResolverDefinition} found, or null if none was found
+     */
+    // public access so that AgendaEditorController can use it too
+    public static TermResolverDefinition getSimplestTermResolver(String termSpecId,
+                                                                 String namespace) {// Get the term resolver for the term spec
+
+        List<TermResolverDefinition> resolvers =
+                KrmsRepositoryServiceLocator.getTermBoService().findTermResolversByOutputId(termSpecId, namespace);
+
+        TermResolverDefinition simplestResolver = null;
+
+        for (TermResolverDefinition resolver : resolvers) {
+            if (simplestResolver == null ||
+                    simplestResolver.getParameterNames().size() < resolver.getParameterNames().size()) {
+                simplestResolver = resolver;
+            }
+        }
+
+        return simplestResolver;
+    }
+
+    public String getTranslatedNaturalLanguage(String typeId) {
 
         NaturalLanguageUsage usage = getNaturalLanguageUsageBoService().getNaturalLanguageUsageByName(PermissionServiceConstants.KS_SYS_NAMESPACE, KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION);
 
         NaturalLanguageTemplate template = null;
-        try{
+        try {
             template = getNaturalLanguageTemplateBoService().findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId("en", typeId, usage.getId());
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             //Ignore, rice error in NaturalLanguageTemplateBoServiceImpl line l
         }
 
         //TODO: Do translation.
 
         return template.getTemplate();
+    }
+
+    /**
+     * @return the boService
+     */
+    public BusinessObjectService getBoService() {
+        return KRADServiceLocator.getBusinessObjectService();
     }
 
     private CluService getCluService() {
@@ -248,8 +390,8 @@ public class RuleStudentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         return contextInfo;
     }
 
-    protected OrganizationService getOrganizationService(){
-        if(organizationService == null) {
+    protected OrganizationService getOrganizationService() {
+        if (organizationService == null) {
             organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(OrganizationServiceConstants.NAMESPACE, OrganizationServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return organizationService;

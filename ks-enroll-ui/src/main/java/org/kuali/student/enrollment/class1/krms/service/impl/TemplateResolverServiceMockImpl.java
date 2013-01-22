@@ -18,7 +18,7 @@ public class TemplateResolverServiceMockImpl implements TemplateResolverService 
         this.templatesMap = templatesMap;
     }
 
-    public String getTermSpecificationForType(String type) {
+    public String getTermSpecNameForType(String type) {
         TemplateInfo template = templatesMap.get(type);
         return (template != null ? template.getTermSpecName() : null);
     }

@@ -2188,7 +2188,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
             String propositionTypeId = proposition.getProposition().getTypeId();
 
             //Set the term spec
-            String termSpecId = viewHelper.getTermSpecificationForType(propositionTypeId);
+            String termSpecId = viewHelper.getTermSpecIdForType(propositionTypeId);
             TermSpecificationDefinition termSpecification = getTermBoService().getTermSpecificationById(termSpecId);
             setTermForProposition(proposition, termSpecification.getDescription());
 

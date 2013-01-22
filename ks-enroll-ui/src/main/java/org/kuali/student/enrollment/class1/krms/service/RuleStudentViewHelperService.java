@@ -9,6 +9,8 @@ package org.kuali.student.enrollment.class1.krms.service;
  */
 public interface RuleStudentViewHelperService extends TemplateResolverService {
 
+    public String getTermSpecIdForType(String type);
+
     public String getTranslatedNaturalLanguage(String typeId);
 
 }

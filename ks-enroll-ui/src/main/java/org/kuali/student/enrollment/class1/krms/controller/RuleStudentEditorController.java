@@ -55,11 +55,11 @@ import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.rice.krms.impl.repository.TermBoService;
 import org.kuali.rice.krms.impl.rule.AgendaEditorBusRule;
 import org.kuali.rice.krms.impl.ui.CompoundOpCodeNode;
-import org.kuali.rice.krms.impl.ui.RuleTreeNode;
 import org.kuali.rice.krms.impl.ui.SimplePropositionEditNode;
 import org.kuali.rice.krms.impl.ui.SimplePropositionNode;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.rice.krms.impl.util.KrmsImplConstants;
+import org.kuali.student.enrollment.class1.krms.dto.CompoundStudentOpCodeNode;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
@@ -127,8 +127,9 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
     /**
      * Validate the given proposition and its children.  Note that this method is side-effecting,
      * when errors are detected with the proposition, errors are added to the error map.
+     *
      * @param proposition the proposition to validate
-     * @param namespace the namespace of the parent rule
+     * @param namespace   the namespace of the parent rule
      * @return true if the proposition and its children (if any) are considered valid
      */
     // TODO also wire up to proposition for faster feedback to the user
@@ -269,7 +270,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             String termSpecificationId = termId.substring(KrmsImplConstants.PARAMETERIZED_TERM_PREFIX.length());
 
             TermResolverDefinition termResolverDefinition =
-                    AgendaStudentEditorMaintainableImpl.getSimplestTermResolver(termSpecificationId, namespace);
+                    RuleStudentViewHelperServiceImpl.getSimplestTermResolver(termSpecificationId, namespace);
 
             if (termResolverDefinition == null) {
                 GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
@@ -457,8 +458,6 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             ruleEditor.refreshPropositionTree(null);
         }
 
-        configureProposition(form, this.getProposition(form));
-
         return getUIFModelAndView(form);
     }
 
@@ -473,6 +472,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         // find parent
         Node<RuleEditorTreeNode, String> root = ruleEditor.getPropositionTree().getRootElement();
         Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(root, selectedPropId);
+        Node<RuleEditorTreeNode, String> editedPropositionNode = PropositionTreeUtil.findEditedProposition(root);
 
         resetEditModeOnPropositionTree(root);
 
@@ -543,10 +543,10 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         } else if (LogicalOperator.OR.getCode().equalsIgnoreCase(prop.getCompoundOpCode())) {
             opCodeLabel = "OR";
         }
-        Node<RuleTreeNode, String> aNode = new Node<RuleTreeNode, String>();
+        Node<RuleEditorTreeNode, String> aNode = new Node<RuleEditorTreeNode, String>();
         aNode.setNodeLabel("");
         aNode.setNodeType("ruleTreeNode compoundOpCodeNode");
-        aNode.setData(new CompoundOpCodeNode(prop));
+        aNode.setData(new CompoundStudentOpCodeNode(new PropositionEditor(prop)));
         currentNode.insertChildAt(index, aNode);
     }
 
@@ -653,7 +653,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                 if (propIdMatches(child, selectedPropId)) {
                     if (SimplePropositionNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()) ||
                             SimplePropositionEditNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()) ||
-                            RuleTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(child.getNodeType())) {
+                            RuleEditorTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(child.getNodeType())) {
 
                         if (((index > 0) && up) || ((index < (children.size() - 1) && !up))) {
                             //remove it from its current spot
@@ -697,7 +697,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         // find agendaEditor.getAgendaItemLine().getRule().getPropositionTree().getRootElement()parent
         Node<RuleEditorTreeNode, String> root = ruleEditor.getPropositionTree().getRootElement();
         Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(root, selectedPropId);
-        if ((parent != null) && (RuleTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(parent.getNodeType()))) {
+        if ((parent != null) && (RuleEditorTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(parent.getNodeType()))) {
             Node<RuleEditorTreeNode, String> granny = PropositionTreeUtil.findParentPropositionNode(root, parent.getData().getProposition().getProposition().getId());
             if (granny != root) {
                 int oldIndex = findChildIndex(parent, selectedPropId);
@@ -742,7 +742,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                 Node<RuleEditorTreeNode, String> child = parent.getChildren().get(index);
                 Node<RuleEditorTreeNode, String> nextSibling = parent.getChildren().get(index + 2);
                 // if selected node above a compound node, move it into it as first child
-                if (RuleTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(nextSibling.getNodeType())) {
+                if (RuleEditorTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(nextSibling.getNodeType())) {
                     // remove selected node from it's current spot
                     PropositionBo prop = parent.getData().getProposition().getProposition().getCompoundComponents().remove(index / 2);
                     // add it to it's siblings children
@@ -973,7 +973,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             }
         }
 
-        if (agenda == null){
+        if (agenda == null) {
             agenda = new AgendaBo();
             agenda.setTypeId(ruleEditor.getAgendaType());
         }
@@ -1008,7 +1008,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             }
         }
 
-        if (rule == null){
+        if (rule == null) {
             rule = new RuleBo();
             rule.setTypeId(ruleEditor.getRuleType());
         }
@@ -1053,31 +1053,23 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
                 proposition.getProposition().setDescription(viewHelper.getTranslatedNaturalLanguage(propositionTypeId));
                 setValueForProposition(proposition, "");
-            }
 
-            //Set the term spec
-            String termSpecId = viewHelper.getTermSpecificationForType(propositionTypeId);
-            if (termSpecId != null) {
-                TermSpecificationDefinition termSpecification = getTermBoService().getTermSpecificationById(termSpecId);
-                setTermForProposition(proposition, termSpecification.getId());
-            }
+                //Set the term spec
+                String termSpecId = viewHelper.getTermSpecIdForType(type.getName());
+                proposition.setTermSpecId(termSpecId);
 
-            proposition.setTermSpecId(termSpecId);
+                //Set the operation
+                setOperationForProposition(proposition, viewHelper.getOperationForType(type.getName()));
 
-            //Set the operation
-            setOperationForProposition(proposition, viewHelper.getOperationForType(propositionTypeId));
+                //Set the value
+                String defaultValue = viewHelper.getValueForType(type.getName());
+                if (!"n".equals(defaultValue)) {
+                    setValueForProposition(proposition, defaultValue);
+                }
 
-            //Set the value
-            String defaultValue = viewHelper.getValueForType(propositionTypeId);
-            if (!"?".equals(defaultValue)) {
-                setValueForProposition(proposition, defaultValue);
             }
 
         }
-    }
-
-    private void setTermForProposition(PropositionEditor proposition, String term) {
-        proposition.getProposition().getParameters().get(0).setValue(term);
     }
 
     private void setOperationForProposition(PropositionEditor proposition, String operation) {

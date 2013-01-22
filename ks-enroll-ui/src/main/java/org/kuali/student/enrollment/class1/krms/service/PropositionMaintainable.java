@@ -39,7 +39,6 @@ import org.kuali.rice.krms.impl.repository.PropositionParameterBo;
 import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.rice.krms.impl.repository.TermParameterBo;
 import org.kuali.rice.krms.impl.ui.KrmsMaintenanceConstants;
-import org.kuali.rice.krms.impl.ui.RuleTreeNode;
 import org.kuali.rice.krms.impl.util.KrmsImplConstants;
 import org.kuali.rice.krms.impl.util.KrmsRetriever;
 import org.kuali.student.enrollment.uif.service.KSMaintainable;

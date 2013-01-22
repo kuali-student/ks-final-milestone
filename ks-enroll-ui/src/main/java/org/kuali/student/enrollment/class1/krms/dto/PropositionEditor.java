@@ -29,13 +29,15 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
     private static final long serialVersionUID = 1L;
 
     private PropositionBo proposition;
-    private String termSpecId;
+    private TermBo term;
     private String type;
+
     private String multipleCourseType;
     private String gradeScale;
     private String searchByCourseRange;
     private String subjectCode;
     private String courseNumberRange;
+
     private Date effectiveFrom;
     private Date effectiveTo;
 
@@ -61,11 +63,11 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
     }
 
     public String getTermSpecId() {
-        return termSpecId;
+        return this.getProposition().getTermSpecId();
     }
 
     public void setTermSpecId(String componentId) {
-        this.termSpecId = componentId;
+        this.getProposition().setTermSpecId(componentId);
     }
 
     public String getId(){
@@ -107,8 +109,6 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
     public void setMultipleCourseType(String multipleCourseType) {
         this.multipleCourseType = multipleCourseType;
     }
-
-
 
     public String getGradeScale() {
         return gradeScale;
@@ -191,19 +191,9 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
             String termName = "";
             String termId = prop.getValue();
             if (termId != null && termId.length()>0){
-                if (termId.startsWith("parameterized:")) {
-                    if (!StringUtils.isBlank(newTermDescription)) {
-                        termName = newTermDescription;
-                    } else {
-                        TermSpecificationBo termSpec = getBoService().findBySinglePrimaryKey(TermSpecificationBo.class, termId.substring(1+termId.indexOf(':')));
-                        termName = termSpec.getName() + "(...)";
-                    }
-                } else {
-                    //TODO: use termBoService
-                    TermBo term = getBoService().findBySinglePrimaryKey(TermBo.class,termId);
-                    if (term != null && term.getSpecification() != null){
-                        termName = term.getSpecification().getName();
-                    }
+                TermBo term = getBoService().findBySinglePrimaryKey(TermBo.class,termId);
+                if (term != null && term.getSpecification() != null){
+                    termName = term.getSpecification().getName();
                 }
             }
             return termName;

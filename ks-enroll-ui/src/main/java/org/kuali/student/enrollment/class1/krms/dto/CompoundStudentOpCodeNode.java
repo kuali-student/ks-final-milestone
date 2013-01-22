@@ -16,7 +16,6 @@
 package org.kuali.student.enrollment.class1.krms.dto;
 
 import org.kuali.rice.krms.impl.repository.PropositionBo;
-import org.kuali.rice.krms.impl.ui.RuleTreeNode;
 
 /**
  * abstract data class for the rule tree {@link org.kuali.rice.core.api.util.tree.Node}s
