@@ -289,6 +289,10 @@ public interface ActivityOffering extends IdEntity {
 
     /**
      * Indicates that the activity offering is part of a ColocatedOfferingSet.
+     * This is a derived flag, managed without persistence
+     *
+     * @name Is Part Of Colocated Offering Set
+     * @readOnly
      */
     public Boolean getIsPartOfColocatedOfferingSet();
 
