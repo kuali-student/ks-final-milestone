@@ -56,7 +56,7 @@
         CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
         KIM_ATTR_DEFN_ID="10011" LBL="Permission Expression"
         NM="permissionExpression" NMSPC_CD="KS-ENR"
-        OBJ_ID="D3FA0DF954FE7A03E040760A4A450452" VER_NBR="1"/>
+        OBJ_ID="D3FC8FFA8AC803C0E040760A4A4530DF" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
         KIM_ATTR_DEFN_ID="101" LBL="College" NM="college"
