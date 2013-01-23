@@ -350,32 +350,32 @@
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Open View for ActivityOffering-MaintenanceView"
         NM="Open View for ActivityOffering-MaintenanceView"
-        NMSPC_CD="KS-ENR" OBJ_ID="D3F73E2729E9F60CE040760A4A45513F"
+        NMSPC_CD="KS-ENR" OBJ_ID="D3FA0DF954BD7A03E040760A4A450452"
         PERM_ID="10071" PERM_TMPL_ID="10006" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit View for ActivityOffering-MaintenanceView"
         NM="Edit View for ActivityOffering-MaintenanceView"
-        NMSPC_CD="KS-ENR" OBJ_ID="D3F73E2729EAF60CE040760A4A45513F"
+        NMSPC_CD="KS-ENR" OBJ_ID="D3FA0DF954BE7A03E040760A4A450452"
         PERM_ID="10072" PERM_TMPL_ID="10007" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to View Group for ActivityOfferingEdit-MainPage-SeatPool"
         NM="View Group for ActivityOfferingEdit-MainPage-SeatPool"
-        NMSPC_CD="KS-ENR" OBJ_ID="D3F73E2729EBF60CE040760A4A45513F"
+        NMSPC_CD="KS-ENR" OBJ_ID="D3FA0DF954BF7A03E040760A4A450452"
         PERM_ID="10073" PERM_TMPL_ID="10011" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit Group for ActivityOfferingEdit-MainPage-SeatPool"
         NM="Edit Group for ActivityOfferingEdit-MainPage-SeatPool"
-        NMSPC_CD="KS-ENR" OBJ_ID="D3F73E2729ECF60CE040760A4A45513F"
+        NMSPC_CD="KS-ENR" OBJ_ID="D3FA0DF954C07A03E040760A4A450452"
         PERM_ID="10074" PERM_TMPL_ID="10012" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Action for Course Offering"
         NM="Perform Action for Course Offering" NMSPC_CD="KS-ENR"
-        OBJ_ID="D3F73E272A2CF60CE040760A4A45513F" PERM_ID="10075"
+        OBJ_ID="D3FA0DF955007A03E040760A4A450452" PERM_ID="10075"
         PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the Admin to Perform Action for Course Offering"
         NM="Perform Action for Course Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D3F73E272A31F60CE040760A4A45513F"
+        NMSPC_CD="KS-ENR" OBJ_ID="D3FA0DF955057A03E040760A4A450452"
         PERM_ID="10076" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows users to access the Document Operation screen."
