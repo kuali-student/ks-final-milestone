@@ -773,20 +773,6 @@
             <unique-column name="NAMESPACE"/>
         </unique>
     </table>
-    <table name="KSEN_COMM_STATE">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" size="19" type="DECIMAL"/>
-        <column name="CREATEID" size="255" type="VARCHAR"/>
-        <column name="CREATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="DESCR" size="255" type="VARCHAR"/>
-        <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="EXPIR_DT" type="TIMESTAMP"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
-        <column name="PROCESS_KEY" size="255" type="VARCHAR"/>
-    </table>
     <table name="KSEN_CO_AO_CLUSTER">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
@@ -1414,9 +1400,6 @@
         </foreign-key>
         <foreign-key foreignTable="KSEN_LRR_TYPE" name="FK1BE15Q7B1D2EF131">
             <reference foreign="TYPE_KEY" local="TYPE_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSEN_COMM_STATE" name="FK1BE2597A61E975Q1">
-            <reference foreign="ID" local="STATE_ID"/>
         </foreign-key>
     </table>
     <table name="KSEN_LRR_ATTR">
@@ -2771,27 +2754,6 @@
         <index name="KSEN_STATE_IF1">
             <index-column name="LIFECYCLE_KEY"/>
         </index>
-    </table>
-    <table name="KSEN_STATEPROCESS_RELTN">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" size="19" type="DECIMAL"/>
-        <column name="CREATEID" size="255" type="VARCHAR"/>
-        <column name="CREATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="NEXT_STATEKEY" size="255" type="VARCHAR"/>
-        <column name="PRIOR_STATEKEY" size="255" type="VARCHAR"/>
-        <column name="PROCESS_KEY" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_COMM_STATE" name="FKCDFDC0E09F94F29D">
-            <reference foreign="ID" local="NEXT_STATEKEY"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSEN_STATE_PROCESS" name="FKCDFDC0E0D6162101">
-            <reference foreign="ID" local="PROCESS_KEY"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSEN_COMM_STATE" name="FKCDFDC0E024D2ACA6">
-            <reference foreign="ID" local="PRIOR_STATEKEY"/>
-        </foreign-key>
     </table>
     <table name="KSEN_STATE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5701,7 +5663,7 @@
     <sequence name="KREW_TYP_ATTR_S" nextval="10000"/>
     <sequence name="KREW_TYP_S" nextval="10000"/>
     <sequence name="KREW_USR_S" nextval="100000000000"/>
-    <sequence name="KRIM_ATTR_DATA_ID_S" nextval="10108"/>
+    <sequence name="KRIM_ATTR_DATA_ID_S" nextval="10113"/>
     <sequence name="KRIM_ATTR_DEFN_ID_S" nextval="10012"/>
     <sequence name="KRIM_DLGN_ID_S" nextval="10000"/>
     <sequence name="KRIM_DLGN_MBR_ID_S" nextval="10000"/>
@@ -5720,13 +5682,13 @@
     <sequence name="KRIM_GRP_ATTR_DATA_ID_S" nextval="10000"/>
     <sequence name="KRIM_GRP_ID_S" nextval="10000"/>
     <sequence name="KRIM_GRP_MBR_ID_S" nextval="10000"/>
-    <sequence name="KRIM_PERM_ID_S" nextval="10077"/>
+    <sequence name="KRIM_PERM_ID_S" nextval="10079"/>
     <sequence name="KRIM_PERM_RQRD_ATTR_ID_S" nextval="10000"/>
     <sequence name="KRIM_PERM_TMPL_ID_S" nextval="10021"/>
     <sequence name="KRIM_PRNCPL_ID_S" nextval="10000"/>
     <sequence name="KRIM_ROLE_ID_S" nextval="10003"/>
     <sequence name="KRIM_ROLE_MBR_ID_S" nextval="10003"/>
-    <sequence name="KRIM_ROLE_PERM_ID_S" nextval="1143"/>
+    <sequence name="KRIM_ROLE_PERM_ID_S" nextval="1147"/>
     <sequence name="KRIM_ROLE_RSP_ACTN_ID_S" nextval="10000"/>
     <sequence name="KRIM_ROLE_RSP_ID_S" nextval="10000"/>
     <sequence name="KRIM_RSP_ID_S" nextval="10000"/>
