@@ -1,5 +1,8 @@
 package org.kuali.student.ap.framework.config;
 
+import java.util.Hashtable;
+import java.util.Map;
+
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.ap.framework.context.KsapContext;
 import org.kuali.student.ap.framework.course.CourseSearchAdaptor;
@@ -34,6 +37,12 @@ public final class KsapFrameworkServiceLocator {
 	}
 
 	/**
+	 * Service cache, for minimizing calls to GlobalResourceLoader.
+	 */
+	private static final Map<String, Object> SERVICE_CACHE = new Hashtable<String, Object>(
+			16);
+
+	/**
 	 * Get a local service.
 	 * 
 	 * @param serviceName
@@ -43,7 +52,11 @@ public final class KsapFrameworkServiceLocator {
 	 *             If assertions are enabled and the service doesn't exist.
 	 */
 	private static <T> T getLocalService(String serviceName) {
-		T rv = GlobalResourceLoader.getService(serviceName);
+		@SuppressWarnings("unchecked")
+		T rv = (T) SERVICE_CACHE.get(serviceName);
+		if (rv == null)
+			SERVICE_CACHE.put(serviceName,
+					rv = GlobalResourceLoader.getService(serviceName));
 		assert rv != null : serviceName + " not defined in Rice";
 		return rv;
 	}

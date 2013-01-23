@@ -2,6 +2,7 @@ package org.kuali.student.myplan.course.controller;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -62,6 +63,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
 	public static final String NO_CAMPUS = "-1";
 	private static final int MAX_HITS = 1000;
+	private static WeakReference<Map<String, Credit>> creditMapRef;
 
 	public String getCellValue(SearchResultRow row, String key) {
 		for (SearchResultCell cell : row.getCells()) {
@@ -164,48 +166,57 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	}
 
 	public Map<String, Credit> getCreditMap() {
-		Map<String, Credit> creditMap = new java.util.LinkedHashMap<String, Credit>();
-		SearchRequestInfo searchRequest = new SearchRequestInfo(
-				"myplan.course.info.credits.details");
-		searchRequest.setParams(Collections.<SearchParamInfo> emptyList());
-		try {
-			for (SearchResultRow row : KsapFrameworkServiceLocator
-					.getCluService()
-					.search(searchRequest,
-							KsapFrameworkServiceLocator.getContext()
-									.getContextInfo()).getRows()) {
-				String id = getCellValue(row, "credit.id");
-				String type = getCellValue(row, "credit.type");
-				String min = getCellValue(row, "credit.min");
-				String max = getCellValue(row, "credit.max");
-				CreditImpl credit = new CreditImpl();
-				credit.id = id;
-				credit.min = Float.valueOf(min);
-				credit.max = Float.valueOf(max);
-				if ("kuali.result.values.group.type.multiple".equals(type)) {
-					credit.display = min + ", " + max;
-					credit.type = CourseSearchItem.CreditType.multiple;
-				} else if ("kuali.result.values.group.type.range".equals(type)) {
-					credit.display = min + "-" + max;
-					credit.type = CourseSearchItem.CreditType.range;
-				} else if ("kuali.result.values.group.type.fixed".equals(type)) {
-					credit.display = min;
-					credit.type = CourseSearchItem.CreditType.fixed;
+		Map<String, Credit> rv = creditMapRef == null ? null : creditMapRef
+				.get();
+		if (rv == null) {
+			Map<String, Credit> creditMap = new java.util.LinkedHashMap<String, Credit>();
+			SearchRequestInfo searchRequest = new SearchRequestInfo(
+					"myplan.course.info.credits.details");
+			searchRequest.setParams(Collections.<SearchParamInfo> emptyList());
+			try {
+				for (SearchResultRow row : KsapFrameworkServiceLocator
+						.getCluService()
+						.search(searchRequest,
+								KsapFrameworkServiceLocator.getContext()
+										.getContextInfo()).getRows()) {
+					String id = getCellValue(row, "credit.id");
+					String type = getCellValue(row, "credit.type");
+					String min = getCellValue(row, "credit.min");
+					String max = getCellValue(row, "credit.max");
+					CreditImpl credit = new CreditImpl();
+					credit.id = id;
+					credit.min = Float.valueOf(min);
+					credit.max = Float.valueOf(max);
+					if ("kuali.result.values.group.type.multiple".equals(type)) {
+						credit.display = min + ", " + max;
+						credit.type = CourseSearchItem.CreditType.multiple;
+					} else if ("kuali.result.values.group.type.range"
+							.equals(type)) {
+						credit.display = min + "-" + max;
+						credit.type = CourseSearchItem.CreditType.range;
+					} else if ("kuali.result.values.group.type.fixed"
+							.equals(type)) {
+						credit.display = min;
+						credit.type = CourseSearchItem.CreditType.fixed;
+					}
+					creditMap.put(id, credit);
 				}
-				creditMap.put(id, credit);
+			} catch (NumberFormatException e) {
+				throw new IllegalArgumentException("CLU lookup error", e);
+			} catch (MissingParameterException e) {
+				throw new IllegalArgumentException("CLU lookup error", e);
+			} catch (InvalidParameterException e) {
+				throw new IllegalArgumentException("CLU lookup error", e);
+			} catch (OperationFailedException e) {
+				throw new IllegalStateException("CLU lookup error", e);
+			} catch (PermissionDeniedException e) {
+				throw new IllegalStateException("CLU lookup error", e);
 			}
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException("CLU lookup error", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("CLU lookup error", e);
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("CLU lookup error", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("CLU lookup error", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("CLU lookup error", e);
+			creditMapRef = new WeakReference<Map<String, Credit>>(
+					rv = Collections.unmodifiableMap(Collections
+							.synchronizedMap(creditMap)));
 		}
-		return creditMap;
+		return rv;
 	}
 
 	public Credit getCreditByID(String id) {

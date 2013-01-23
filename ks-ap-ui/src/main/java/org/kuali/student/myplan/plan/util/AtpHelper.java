@@ -6,6 +6,7 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -27,7 +28,7 @@ public class AtpHelper {
 	}
 
 	/**
-	 * Query the Academic Calendar Service, determine the current ATP, and the
+	 * Query the Academic Calendar Service, determine the current ATP, and
 	 * return the ID.
 	 * 
 	 * @return The ID of the current ATP.
@@ -122,7 +123,7 @@ public class AtpHelper {
 		}
 		Calendar c = Calendar.getInstance();
 		c.setTime(atp.getStartDate());
-		String year = new DecimalFormat("0000").format(c.get(Calendar.YEAR));
+		String year = Integer.toString(c.get(Calendar.YEAR));
 		String atptype = atp.getTypeKey();
 		String term;
 		if (atptype.equals("kuali.atp.type.Winter"))
@@ -159,9 +160,13 @@ public class AtpHelper {
 					"Unexpected error in ATP ID lookup", t);
 		}
 		assert atp != null : "Missing ATP for " + atpId;
-		String descr = atp.getDescr().getPlain();
-		String term = Pattern.compile("([A-Za-z]+)").matcher(descr).group(1);
-		String year = Pattern.compile("([0-9]+)").matcher(descr).group(1);
+		Matcher tm = Pattern.compile("([A-Za-z]+) ([0-9]+)").matcher(
+				atp.getName());
+		if (!tm.matches())
+			throw new IllegalArgumentException("Term name " + atp.getName()
+					+ " doesn't match expected format");
+		String term = tm.group(1);
+		String year = tm.group(2);
 		return new String[] { term, year };
 	}
 

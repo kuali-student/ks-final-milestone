@@ -5,53 +5,65 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.myplan.course.dataobject.FacetItem;
 
 /**
-*  Logic for building list of Course Level FacetItems and coding CourseSearchItems.
-*/
+ * Logic for building list of Course Level FacetItems and coding
+ * CourseSearchItems.
+ */
 public class CourseLevelFacet extends AbstractFacet {
 
-    private HashSet<Integer> courseFacetSet = new HashSet<Integer>();
+	private static final Logger LOG = Logger.getLogger(CourseLevelFacet.class);
 
-    public CourseLevelFacet() {
-        super();
-    }
+	private HashSet<Integer> courseFacetSet = new HashSet<Integer>();
 
-    /**
-     * Overriding because the course level facet list needs to be in numeric order rather than string order.
-     *
-     * @return A list of FacetItems.
-     */
-    @Override
-    public List<FacetItem> getFacetItems() {
-        Integer[] list = courseFacetSet.toArray( new Integer[0] );
-        Arrays.sort(list);
+	public CourseLevelFacet() {
+		super();
+	}
 
-        for( Integer credit : list ) {
-            String display = credit.toString();
-            String key = FACET_KEY_DELIMITER + display + FACET_KEY_DELIMITER;
-            facetItems.add(new FacetItem(key, display));
-        }
+	/**
+	 * Overriding because the course level facet list needs to be in numeric
+	 * order rather than string order.
+	 * 
+	 * @return A list of FacetItems.
+	 */
+	@Override
+	public List<FacetItem> getFacetItems() {
+		Integer[] list = courseFacetSet.toArray(new Integer[0]);
+		Arrays.sort(list);
 
-        return facetItems;
-    }
+		for (Integer credit : list) {
+			String display = credit.toString();
+			String key = FACET_KEY_DELIMITER + display + FACET_KEY_DELIMITER;
+			facetItems.add(new FacetItem(key, display));
+		}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void process(CourseSearchItem course) {
-        String key = course.getLevel();
-        int level = Integer.valueOf( key );
-        courseFacetSet.add( level );
+		return facetItems;
+	}
 
-        key = FACET_KEY_DELIMITER + key + FACET_KEY_DELIMITER;
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void process(CourseSearchItem course) {
+		String key = course.getLevel();
 
-        //  Code the item with the facet key.
-        Set<String> keys = new HashSet<String>();
-        keys.add(key);
-        course.setCourseLevelFacetKeys(keys);
-    }
+		int level;
+		try {
+			level = key == null ? 0 : Integer.valueOf(key);
+		} catch (NumberFormatException e) {
+			LOG.warn("Invalid number in course level " + key, e);
+			level = 0;
+		}
+		courseFacetSet.add(level);
+
+		key = FACET_KEY_DELIMITER + key + FACET_KEY_DELIMITER;
+
+		// Code the item with the facet key.
+		Set<String> keys = new HashSet<String>();
+		keys.add(key);
+		course.setCourseLevelFacetKeys(keys);
+	}
 }
