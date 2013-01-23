@@ -135,28 +135,14 @@ public class CourseOfferingCrossListingInfo
         if( that == null ) throw new NullPointerException("that cannot be null");
         if( this == that ) return EQUAL;
 
-        int comparison = this.getId().compareTo(that.getId());
-        if( comparison != EQUAL ) return comparison;
-
-        comparison = this.getTypeKey().compareTo(that.getTypeKey());
-        if( comparison != EQUAL ) return comparison;
-
-        comparison = this.getStateKey().compareTo(that.getStateKey());
+        int comparison = this.getSubjectArea().compareTo(that.getSubjectArea());
         if( comparison != EQUAL ) return comparison;
 
         comparison = this.getCode().compareTo(that.getCode());
         if( comparison != EQUAL ) return comparison;
 
-        comparison = this.getSubjectArea().compareTo(that.getSubjectArea());
-        if( comparison != EQUAL ) return comparison;
-
-        comparison = this.getDepartmentOrgId().compareTo(that.getDepartmentOrgId());
-        if( comparison != EQUAL ) return comparison;
-
         comparison = this.getCourseNumberSuffix().compareTo(that.getCourseNumberSuffix());
         if( comparison != EQUAL ) return comparison;
-
-        // meta & attributes-- not handled
 
         return EQUAL;
     }
