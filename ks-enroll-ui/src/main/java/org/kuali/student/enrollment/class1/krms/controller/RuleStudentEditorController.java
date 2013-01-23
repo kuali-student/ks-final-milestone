@@ -458,6 +458,30 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             ruleEditor.refreshPropositionTree(null);
         }
 
+        PropositionEditor proposition = this.getProposition(form);
+        if (!PropositionType.COMPOUND.getCode().equalsIgnoreCase(proposition.getProposition().getPropositionTypeCode())) {
+
+            String propositionTypeId = proposition.getProposition().getTypeId();
+            if (propositionTypeId == null) {
+                proposition.setType(null);
+                proposition.setTermSpecId(null);
+            } else {
+
+                RuleStudentViewHelperService viewHelper = (RuleStudentViewHelperService) KSControllerHelper.getViewHelperService(form);
+
+                KrmsTypeDefinition type = this.getKrmsTypeRepositoryService().getTypeById(propositionTypeId);
+                if (type != null) {
+                    proposition.setType(type.getName());
+
+                    //Set the term spec
+                    String termSpecId = viewHelper.getTermSpecIdForType(type.getName());
+                    proposition.setTermSpecId(termSpecId);
+
+                }
+            }
+
+        }
+
         return getUIFModelAndView(form);
     }
 
