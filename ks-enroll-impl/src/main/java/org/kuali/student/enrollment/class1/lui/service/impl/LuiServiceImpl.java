@@ -800,7 +800,7 @@ public class LuiServiceImpl
 
     @Override
     public List<String> getLuiIdsFromLuiSet( String luiSetId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        LuiSetEntity luiSetEntity = luiSetDao.find (luiSetId);
+        LuiSetEntity luiSetEntity = luiSetDao.find(luiSetId);
 
         if (luiSetEntity == null) {
             throw new DoesNotExistException("No existing Lui set for id = " + luiSetId);
@@ -811,7 +811,7 @@ public class LuiServiceImpl
 
     @Override
     public List<ValidationResultInfo> validateLuiSet( String validationTypeKey,  String luiSetTypeKey, LuiSetInfo LuiSetInfo,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented.");
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override

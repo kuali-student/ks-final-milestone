@@ -7,7 +7,16 @@ import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.dto.LuiSetInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
@@ -119,7 +128,7 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
                                                      @WebParam(name = "LuiSetInfo") LuiSetInfo LuiSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(validationTypeKey, getTypeService(), contextInfo);
-        errors.addAll(getNextDecorator().validateLuiSet(validationTypeKey,luiSetTypeKey,LuiSetInfo,contextInfo));
+        errors.addAll(getNextDecorator().validateLuiSet(validationTypeKey, luiSetTypeKey, LuiSetInfo, contextInfo));
         return errors;
     }
 
@@ -135,6 +144,37 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
         List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(luiLuiRelationTypeKey, getTypeService(), contextInfo);
         errors.addAll(getNextDecorator().validateLuiLuiRelation(validationTypeKey,luiId, relatedLuiId,luiLuiRelationTypeKey, luiLuiRelationInfo, contextInfo));
         return errors;
+    }
+
+    @Override
+    public LuiSetInfo createLuiSet(@WebParam(name = "luiSetTypeKey") String luiSetTypeKey, @WebParam(name = "luiSetInfo") LuiSetInfo luiSetInfo,
+                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, ReadOnlyException, UnsupportedActionException {
+        List<ValidationResultInfo> errors = this.validateLuiSet(ValidationUtils.TYPE_VALIDATION_TYPE_KEY,luiSetTypeKey,luiSetInfo,contextInfo);
+
+        if(errors != null && !errors.isEmpty()){
+            throw new DataValidationErrorException("Could not create lui set because the type errors", errors);
+        }
+
+        return getNextDecorator().createLuiSet(luiSetTypeKey,luiSetInfo,contextInfo);
+    }
+
+    @Override
+    public LuiSetInfo updateLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "luiSetInfo") LuiSetInfo luiSetInfo,
+                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException, UnsupportedActionException, VersionMismatchException {
+        LuiSetInfo oldLuiSet = getNextDecorator().getLuiSet(luiSetId,contextInfo);
+
+        // types can never change on update.
+        List<ValidationResultInfo> errors = ValidationUtils.validateTypesAreEqual(luiSetInfo, oldLuiSet);
+
+        if(errors != null && !errors.isEmpty()){
+            throw new DataValidationErrorException("Could not update lui set because the type errors", errors);
+        }
+
+        return getNextDecorator().updateLuiSet(luiSetId,luiSetInfo,contextInfo);
     }
 
     public TypeService getTypeService() {
