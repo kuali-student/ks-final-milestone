@@ -62,7 +62,11 @@
     
      <bean id="luiDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiDao">
     	<property name="em" ref="enrollEntityManager"/>
-    </bean>   
+    </bean>
+
+    <bean id="luiSetDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiSetDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
 
    <bean id="luiLuiRelationDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao">
     	<property name="em" ref="enrollEntityManager"/>

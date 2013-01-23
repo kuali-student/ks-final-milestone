@@ -4,6 +4,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.enrollment.lui.dto.LuiSetInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
@@ -11,6 +12,7 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
+import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import java.util.List;
 
@@ -109,6 +111,15 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
 
         List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(luiTypeKey, getTypeService(), contextInfo);
         errors.addAll(getNextDecorator().validateLui(validationTypeKey,cluId,atpId,luiTypeKey,luiInfo, contextInfo));
+        return errors;
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateLuiSet(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "luiSetTypeKey") String luiSetTypeKey,
+                                                     @WebParam(name = "LuiSetInfo") LuiSetInfo LuiSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(validationTypeKey, getTypeService(), contextInfo);
+        errors.addAll(getNextDecorator().validateLuiSet(validationTypeKey,luiSetTypeKey,LuiSetInfo,contextInfo));
         return errors;
     }
 

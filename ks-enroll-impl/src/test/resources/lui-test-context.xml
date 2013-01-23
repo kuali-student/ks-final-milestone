@@ -74,6 +74,7 @@
     
     <bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
         <property name="luiDao" ref="luiDao"/>
+        <property name="luiSetDao" ref="luiSetDao"/>
         <property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
         <property name="criteriaLookupService" ref="criteriaLookupService" />
     </bean>
@@ -81,6 +82,10 @@
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 
     <bean id="luiDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+    <bean id="luiSetDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiSetDao">
         <property name="em" ref="entityManager"/>
     </bean>
 

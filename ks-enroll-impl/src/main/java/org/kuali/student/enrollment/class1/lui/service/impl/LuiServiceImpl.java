@@ -16,15 +16,18 @@
 
 package org.kuali.student.enrollment.class1.lui.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
+import org.kuali.student.enrollment.class1.lui.dao.LuiSetDao;
 import org.kuali.student.enrollment.class1.lui.model.LuCodeEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiAttributeEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
+import org.kuali.student.enrollment.class1.lui.model.LuiSetEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiUnitsDeploymentEntity;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -40,6 +43,7 @@ import org.kuali.student.r2.common.infc.ValidationResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
+import javax.persistence.OptimisticLockException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +55,7 @@ public class LuiServiceImpl
 
     private LuiDao luiDao;
     private LuiLuiRelationDao luiLuiRelationDao;
+    private LuiSetDao luiSetDao;
 
     public LuiDao getLuiDao() {
         return luiDao;
@@ -60,6 +65,14 @@ public class LuiServiceImpl
         this.luiDao = luiDao;
     }
 
+    public LuiSetDao getLuiSetDao() {
+        return luiSetDao;
+    }
+
+    public void setLuiSetDao(LuiSetDao luiSetDao) {
+        this.luiSetDao = luiSetDao;
+    }
+    
     public CriteriaLookupService getCriteriaLookupService() {
         return criteriaLookupService;
     }
@@ -763,17 +776,37 @@ public class LuiServiceImpl
 
     @Override
     public LuiSetInfo getLuiSet(String luiSetId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented.");
+        LuiSetEntity luiSetEntity = luiSetDao.find (luiSetId);
+
+        if (luiSetEntity == null) {
+            throw new DoesNotExistException("No existing Lui for id = " + luiSetId);
+        }
+
+        return luiSetEntity.toDto();
     }
 
     @Override
     public List<LuiSetInfo> getLuiSetsByIds(List<String> luiSetIds,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented.");
+
+        List<LuiSetEntity> luiSetEntities = luiSetDao.findByIds(luiSetIds);
+        List<LuiSetInfo> luiSetInfos = new ArrayList<LuiSetInfo>();
+
+        for (LuiSetEntity luiSetEntity : luiSetEntities) {
+            luiSetInfos.add(luiSetEntity.toDto());
+        }
+
+        return luiSetInfos;
     }
 
     @Override
     public List<String> getLuiIdsFromLuiSet( String luiSetId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented.");
+        LuiSetEntity luiSetEntity = luiSetDao.find (luiSetId);
+
+        if (luiSetEntity == null) {
+            throw new DoesNotExistException("No existing Lui set for id = " + luiSetId);
+        }
+
+        return luiSetEntity.getLuiIds();
     }
 
     @Override
@@ -783,26 +816,69 @@ public class LuiServiceImpl
 
     @Override
     public LuiSetInfo createLuiSet( String luiSetTypeKey, LuiSetInfo luiSetInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, UnsupportedActionException {
-        throw new RuntimeException("Not implemented.");
+
+        if (!StringUtils.equals(luiSetTypeKey,luiSetInfo.getTypeKey())) {
+            throw new InvalidParameterException(luiSetTypeKey + " does not match the type in the info object " + luiSetInfo.getTypeKey());
+        }
+
+        LuiSetEntity entity = new LuiSetEntity(luiSetInfo);
+        entity.setEntityCreated(contextInfo);
+        luiSetDao.persist(entity);
+
+        return entity.toDto();
     }
 
     @Override
     public LuiSetInfo updateLuiSet( String luiSetId, LuiSetInfo luiSetInfo,  ContextInfo contextInfo) throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, UnsupportedActionException, VersionMismatchException {
-        throw new RuntimeException("Not implemented.");
+        LuiSetEntity luiSetEntity = luiSetDao.find (luiSetId);
+        
+        if (luiSetEntity == null) {
+            throw new DoesNotExistException("No existing Lui set for id = " + luiSetId);
+        }
+
+        luiSetEntity.fromDto(luiSetInfo);
+        luiSetEntity.setUpdateId(contextInfo.getPrincipalId());
+        luiSetEntity.setUpdateTime(contextInfo.getCurrentDate());
+
+        // this line can be removed once KSENROLL-4605 is resolved
+        if (luiSetInfo.getMeta() != null)
+            luiSetEntity.setVersionNumber(new Long (luiSetInfo.getMeta().getVersionInd()));
+
+        try {
+            luiSetEntity = luiSetDao.merge(luiSetEntity);
+        } catch (OptimisticLockException e) {
+            throw new VersionMismatchException();
+        }
+
+//        luiSetDao.getEm().flush();
+        return luiSetEntity.toDto();
     }
 
     @Override
     public StatusInfo deleteLuiSet( String luiSetId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented.");
+        LuiSetEntity luiSetEntity = luiSetDao.find (luiSetId);
+
+        if (luiSetEntity == null) {
+            throw new DoesNotExistException("No existing Lui set for id = " + luiSetId);
+        }
+
+        luiSetDao.remove(luiSetEntity);
+
+        return new StatusInfo();
     }
 
     @Override
     public List<LuiSetInfo> getLuiSetsByLui(String luiId,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented.");
+        List<LuiSetEntity> luiSetEntities = luiSetDao.getLuiSetsByLui(luiId);
+        List<LuiSetInfo> luiSetInfos = new ArrayList<LuiSetInfo>();
+        for (LuiSetEntity luiSetEntity : luiSetEntities) {
+            luiSetInfos.add(luiSetEntity.toDto());
+        }
+        return luiSetInfos;
     }
 
     @Override
     public List<String> getLuiSetIdsByType(String luiSetTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented.");
+        return luiSetDao.getLuiSetIdsByType(luiSetTypeKey);
     }
 }

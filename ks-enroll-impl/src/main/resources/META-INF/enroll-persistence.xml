@@ -81,6 +81,8 @@
         <class>org.kuali.student.enrollment.class1.lui.model.LuCodeEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuCodeAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsDeploymentEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiSetEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiSetAttributeEntity</class>
 
         <class>org.kuali.student.enrollment.class1.lpr.model.LprEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprAttributeEntity</class>
