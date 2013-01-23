@@ -346,7 +346,9 @@ public class ActivityOfferingWrapper implements Serializable{
     public boolean isLegalToDelete() {
         if (StringUtils.equals(aoInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY) ||
                 StringUtils.equals(aoInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY) ||
-                StringUtils.equals(aoInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_SUBMITTED_KEY)) {
+                StringUtils.equals(aoInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_SUBMITTED_KEY) ||
+                StringUtils.equals(aoInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY) ||
+                StringUtils.equals(aoInfo.getStateKey(), LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY) ) {
             return true;
         }
         return false;

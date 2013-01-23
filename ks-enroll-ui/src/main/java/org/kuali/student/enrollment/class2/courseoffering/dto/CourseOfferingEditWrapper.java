@@ -186,7 +186,9 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
         if (getCoInfo() != null &&
             StringUtils.equals(getCoInfo().getStateKey(), LuiServiceConstants.LUI_DRAFT_STATE_KEY) ||
             StringUtils.equals(getCoInfo().getStateKey(), LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY) ||
-            StringUtils.equals(getCoInfo().getStateKey(), LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)) {
+            StringUtils.equals(getCoInfo().getStateKey(), LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)||
+            StringUtils.equals(getCoInfo().getStateKey(), LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY) ||
+            StringUtils.equals(getCoInfo().getStateKey(), LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY) ) {
             return true;
         }
 

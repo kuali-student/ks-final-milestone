@@ -58,7 +58,9 @@ public class CourseOfferingListSectionWrapper implements Serializable{
         if (this.getCourseOfferingStateKey() != null &&
                 StringUtils.equals(this.getCourseOfferingStateKey(), LuiServiceConstants.LUI_DRAFT_STATE_KEY) ||
                 StringUtils.equals(this.getCourseOfferingStateKey(), LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY) ||
-                StringUtils.equals(this.getCourseOfferingStateKey(), LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)) {
+                StringUtils.equals(this.getCourseOfferingStateKey(), LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY) ||
+                StringUtils.equals(this.getCourseOfferingStateKey(), LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY) ||
+                StringUtils.equals(this.getCourseOfferingStateKey(), LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY) ) {
             return true;
         }
 
