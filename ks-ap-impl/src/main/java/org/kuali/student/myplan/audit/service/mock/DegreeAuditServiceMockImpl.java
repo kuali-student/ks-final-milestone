@@ -1,15 +1,6 @@
 package org.kuali.student.myplan.audit.service.mock;
 
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.activation.DataHandler;
-import javax.jws.WebParam;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,6 +19,14 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.activation.DataHandler;
+import javax.jws.WebParam;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 public class DegreeAuditServiceMockImpl implements DegreeAuditService {
 
@@ -43,7 +42,10 @@ public class DegreeAuditServiceMockImpl implements DegreeAuditService {
 
     @Override
     public AuditReportInfo runAudit(@WebParam(name = "studentId") String studentId, @WebParam(name = "programId") String programId, @WebParam(name = "auditTypeKey") String auditTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        //TO DO: change body of implemented methods use File | Settings | File Templates.
+        AuditReportInfo auditReportInfo = new AuditReportInfo();
+        auditReportInfo.setAuditId("a1");
+        return auditReportInfo;
     }
 
     @Override

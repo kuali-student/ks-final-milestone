@@ -392,7 +392,7 @@
                                     </bean>
                                 </property>
                                 <property name="optionsFinder">
-                                    <bean class="org.kuali.student.myplan.course.util.DegreeAuditSeattlePrograms"/>
+                                    <bean class="org.kuali.student.myplan.audit.util.DegreeAuditRunProgramParam"/>
                                 </property>
                             </bean>
                         </list>
@@ -412,7 +412,7 @@
                                     </bean>
                                 </property>
                                 <property name="optionsFinder">
-                                    <bean class="org.kuali.student.myplan.course.util.DegreeAuditBothellPrograms"/>
+                                    <bean class="org.kuali.student.myplan.audit.util.DegreeAuditRunProgramParam"/>
                                 </property>
                             </bean>
                         </list>
@@ -432,7 +432,7 @@
                                     </bean>
                                 </property>
                                 <property name="optionsFinder">
-                                    <bean class="org.kuali.student.myplan.course.util.DegreeAuditTacomaPrograms"/>
+                                    <bean class="org.kuali.student.myplan.audit.util.DegreeAuditRunProgramParam"/>
                                 </property>
                             </bean>
                         </list>
@@ -444,7 +444,7 @@
     </bean>
 
 
-    <bean id="degree_audit_run" parent="Uif-PrimaryActionButton" p:methodToCall="runAudit" p:disabled="true"
+    <bean id="degree_audit_run" parent="Uif-PrimaryActionButton" p:methodToCall="runAudit" p:disabled="false"
           p:refreshId="audit_section" p:focusOnIdAfterSubmit="degree_audits_summary"
           p:actionLabel="Run Degree Audit"> <!-- audit_report_section degree_audit_block-->
         <property name="onClickScript" value="setPendingAudit(2); setUrlHash('modified','yes'); changeLoadingMessage('.myplan-audit-report');"/>

@@ -16,8 +16,9 @@ public class DegreeAuditConstants extends DegreeAuditServiceConstants {
     public static final String AUDIT_REPORT_SECTION = "audit_report_section";
     public static final String AUDIT_EMPTY_PAGE_SECTION = "empty_degree_audits";
 
+    public static final String ORG_QUERY_SEARCH_BY_TYPE_REQUEST = "org.search.orgInfoByType";
     public static final String ORG_QUERY_PARAM = "org_queryParam_orgType";
-
+    public static final String PROGRAM_TYPE_KEY = "kuali.org.Program";
     public static final String CAMPUS_LOCATION = "kuali.org.type.campus";
 
     public static final String AUDIT_RUN_FAILED = "myplan.text.error.message.auditIncomplete";

@@ -1044,7 +1044,7 @@ function setPendingAudit(minutes) {
                     }
                 },
                 statusCode:{
-                    500: function() { sessionExpired(); }
+                    200: function() { window.location = 'audit?methodToCall=runAudit&viewId=DegreeAudit-FormView'; }
                     }
             });
         }
