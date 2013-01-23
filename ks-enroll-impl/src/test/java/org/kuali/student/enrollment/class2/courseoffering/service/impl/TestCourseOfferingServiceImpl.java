@@ -9,16 +9,9 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.enrollment.class1.lrc.service.util.MockLrcTestDataLoader;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.DtoConstants;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -39,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -80,6 +74,8 @@ public class TestCourseOfferingServiceImpl {
 
     public static String principalId = "123";
     public ContextInfo callContext = null;
+
+    private final List<CourseOfferingCrossListingInfo> crossListings = new ArrayList<CourseOfferingCrossListingInfo>();
 
     @Before
     public void setup() throws Exception {
@@ -192,24 +188,6 @@ public class TestCourseOfferingServiceImpl {
         testDeleteCourseOffering(coId);
     }
 
-    private CourseOfferingInfo createCourseOffering() throws Exception {
-        List<String> optionKeys = new ArrayList<String>();
-        CourseInfo canonicalCourse = courseService
-                .getCourse("CLU-1", callContext);
-        CourseOfferingInfo coInfo = CourseOfferingServiceTestDataUtils
-                .createCourseOffering(canonicalCourse, "2012FA");
-
-        // gets around the unique course code constraint
-        // this is ok for testing.
-        coInfo.setCourseCode(coInfo.getCourseOfferingCode() + "TESTING CREATE");
-
-        CourseOfferingInfo created = coService.createCourseOffering("CLU-1",
-                "2012FA", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, coInfo,
-                optionKeys, callContext);
-
-        return created;
-    }
-
     private String testCreateCourseOffering() throws Exception {
         CourseOfferingInfo created = createCourseOffering();
         assertNotNull(created);
@@ -242,6 +220,63 @@ public class TestCourseOfferingServiceImpl {
         return created.getId();
     }
 
+    private CourseOfferingInfo createCourseOffering() throws Exception {
+        List<String> optionKeys = new ArrayList<String>();
+        CourseInfo canonicalCourse = courseService
+                .getCourse("CLU-1", callContext);
+        CourseOfferingInfo coInfo = CourseOfferingServiceTestDataUtils
+                .createCourseOffering(canonicalCourse, "2012FA");
+
+        buildAndAttachCrossListings(coInfo);
+
+        // gets around the unique course code constraint
+        // this is ok for testing.
+        coInfo.setCourseCode(coInfo.getCourseOfferingCode() + "TESTING CREATE");
+
+        CourseOfferingInfo created = coService.createCourseOffering("CLU-1",
+                "2012FA", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, coInfo,
+                optionKeys, callContext);
+
+
+        return created;
+    }
+
+    private void buildAndAttachCrossListings(CourseOfferingInfo coInfo) {
+
+        CourseOfferingCrossListingInfo info = null;
+        Date createTime = new Date();
+        for( int i = 0, j = 3 ; i < j ; i++ ) {
+            info = new CourseOfferingCrossListingInfo();
+
+            info.setId("MY-ID_" + i);
+            info.setTypeKey("MY-TYPE_" + i);
+            info.setStateKey("MY-STATE_" + i);
+            info.setCode("MY-CODE_" + i);
+            info.setSubjectArea("MY-SUBJECT_" + i);
+            //info.setDepartmentOrgId(coInfo.getd);     // not sure how this maps
+            info.setCourseNumberSuffix("MY-SUFFIX_" + i);
+
+            MetaInfo meta = new MetaInfo();
+            meta.setCreateId("META-CREATE-ID_" + i);
+            meta.setCreateTime(createTime);
+            meta.setVersionInd(Integer.toString(i));
+            info.setMeta(meta);
+
+            List<AttributeInfo> attrs = new ArrayList<AttributeInfo>();
+            AttributeInfo attr = new AttributeInfo();
+            attr.setId("ATTRS-ID_" + i);
+            attr.setKey("ATTRS-KEY_" + i);
+            attr.setValue("ATTRS-VALUE_" + i);
+            attrs.add(attr);
+            info.setAttributes(attrs);
+
+            crossListings.add(info);
+        }
+
+        coInfo.setCrossListings(crossListings);
+    }
+
+
     private void testUpdateCourseOffering(String coId) throws Exception {
         try {
             CourseOfferingInfo coi = coService.getCourseOffering(coId,
@@ -251,7 +286,7 @@ public class TestCourseOfferingServiceImpl {
             coi.setMaximumEnrollment(40);
             coi.setMinimumEnrollment(10);
 
-            //skiping instructors test because we can't config kim personservice at test context
+            //skipping instructors test because we can't config kim personservice at test context
 
             // dynamic attributes
             AttributeTester attributeTester = new AttributeTester();
@@ -297,9 +332,40 @@ public class TestCourseOfferingServiceImpl {
             CourseOfferingInfo coInfo = coList.get(0);
             assertEquals("CHEM123", coInfo.getCourseOfferingCode());
             assertEquals("2012FA", coInfo.getTermId());
+
+            validateCrossListings(coInfo.getCrossListings());
         } catch (Exception ex) {
             fail("Exception from service call :" + ex.getMessage());
         }
+    }
+
+    private void validateCrossListings(List<CourseOfferingCrossListingInfo> crossListings) {
+
+        assertTrue( this.crossListings.size() == crossListings.size() );
+        Collections.sort(this.crossListings);
+        Collections.sort(crossListings);
+
+        for( int i = 0, j = this.crossListings.size() ; i < j ; i++ ) {
+            CourseOfferingCrossListingInfo expected = this.crossListings.get(i);
+            CourseOfferingCrossListingInfo actual = crossListings.get(i);
+
+            // basic props
+            assertEquals( expected.getId(), actual.getId() );
+            assertEquals( expected.getTypeKey(), actual.getTypeKey() );
+            assertEquals( expected.getStateKey(), actual.getStateKey() );
+            assertEquals( expected.getCode(), actual.getCode() );
+            assertEquals( expected.getSubjectArea(), actual.getSubjectArea() );
+            assertEquals( expected.getDepartmentOrgId(), actual.getDepartmentOrgId() );
+            assertEquals( expected.getCourseNumberSuffix(), actual.getCourseNumberSuffix() );
+        }
+
+    }
+
+    private CourseOfferingCrossListingInfo getCrosslistingWithMatchingIdFromList(CourseOfferingCrossListingInfo target, List<CourseOfferingCrossListingInfo> list) {
+        for( CourseOfferingCrossListingInfo item : list ) {
+            if( item.getId().equals(target.getId())) return target;
+        }
+        return null;
     }
 
     private void testDeleteCourseOffering(String coId) throws Exception {
