@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -13,6 +15,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.ActivityOfferingForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.uif.util.KSControllerHelper;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -205,28 +208,12 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
     }
     
     public boolean validateTime (String startTime, String startAmPm, String endTime, String endAmPm) {
-        int startTimeInMinutes;
-        int endTimeInMinutes;
-
-        //Do not continue if true
-        if (startAmPm.equalsIgnoreCase("PM") && endAmPm.equalsIgnoreCase("AM")) {
-            return true;
-        }
-
-        //Compare in minutes
-        if (startAmPm.equalsIgnoreCase("AM") ) {
-            startTimeInMinutes = Integer.parseInt(startTime.substring(0,1))* 60 + Integer.parseInt(startTime.substring(3,4));
-        } else {  //PM
-            startTimeInMinutes = Integer.parseInt(startTime.substring(0,1))* 60 + Integer.parseInt(startTime.substring(3,4)) + 12 * 60;
-        }
-        if (endAmPm.equalsIgnoreCase("AM") ) {
-            endTimeInMinutes = Integer.parseInt(endTime.substring(0,1))* 60 + Integer.parseInt(endTime.substring(3,4));
-        } else {  //PM
-            endTimeInMinutes = Integer.parseInt(endTime.substring(0,1))* 60 + Integer.parseInt(endTime.substring(3,4)) + 12 * 60;
-        }
-
-        //Throw error if false
-        if (startTimeInMinutes > endTimeInMinutes) {
+        //Set Date objects
+        KSDateTimeFormatter timeFormatter = new KSDateTimeFormatter("hh:mm aa");
+        DateTime startingTime = timeFormatter.getFormatter().parseDateTime(startTime + " " + startAmPm);
+        DateTime endingTime = timeFormatter.getFormatter().parseDateTime(endTime + " " + endAmPm);
+        //Compare and throw exception if start time is after end time
+        if (DateTimeComparator.getInstance().compare(startingTime, endingTime) > 0 ) {
             return true;
         } else {
             return false;
