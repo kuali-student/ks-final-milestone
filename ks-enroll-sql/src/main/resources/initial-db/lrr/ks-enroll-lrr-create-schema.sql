@@ -225,39 +225,3 @@ ALTER TABLE KSEN_RICH_TEXT_T
     ADD CONSTRAINT KSEN_RICH_TEXT_TP1
 PRIMARY KEY (ID)
 /
-
-
------------------------------------------------------------------------------
--- KSEN_COMM_STATE
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_COMM_STATE';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_COMM_STATE CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-
-CREATE TABLE KSEN_COMM_STATE
-(
-      ID VARCHAR2(255)
-        , OBJ_ID VARCHAR2(36)
-        , VER_NBR NUMBER(19)
-        , CREATEID VARCHAR2(255)
-        , CREATETIME TIMESTAMP
-        , UPDATEID VARCHAR2(255)
-        , UPDATETIME TIMESTAMP
-        , DESCR VARCHAR2(255)
-        , EFF_DT TIMESTAMP
-        , EXPIR_DT TIMESTAMP
-        , NAME VARCHAR2(255)
-        , PROCESS_KEY VARCHAR2(255)
-
-
-)
-/
-
-ALTER TABLE KSEN_COMM_STATE
-    ADD CONSTRAINT KSEN_COMM_STATEP1
-PRIMARY KEY (ID)
-/
-
