@@ -176,6 +176,8 @@ public class CourseOfferingTransformer {
         co.setMeta(lui.getMeta());
         co.setCourseOfferingURL(lui.getReferenceURL());
 
+        co.setCrossListings(buildCrosslistingsFromLui(lui));
+
         //Dynamic attributes
         List<AttributeInfo> attributes = co.getAttributes();
         for (Attribute attr : lui.getAttributes()) {
@@ -273,7 +275,6 @@ public class CourseOfferingTransformer {
         return;
     }
 
-
     public void lui2CourseOffering(LuiInfo lui, CourseOfferingInfo co, ContextInfo context) {
 
         co.setId(lui.getId());
@@ -283,22 +284,7 @@ public class CourseOfferingTransformer {
         co.setMeta(lui.getMeta());
         co.setCourseOfferingURL(lui.getReferenceURL());
 
-        // cross-listings
-        List<CourseOfferingCrossListingInfo> crossListingInfos = new ArrayList<CourseOfferingCrossListingInfo>();
-        for(LuiIdentifierInfo luiIdentifierInfo : lui.getAlternateIdentifiers()) {
-            CourseOfferingCrossListingInfo info = new CourseOfferingCrossListingInfo();
-            info.setId(luiIdentifierInfo.getId());
-            info.setTypeKey(luiIdentifierInfo.getTypeKey());
-            info.setStateKey(luiIdentifierInfo.getStateKey());
-            info.setCode(luiIdentifierInfo.getCode());
-            info.setSubjectArea(luiIdentifierInfo.getDivision());
-            //info.setDepartmentOrgId(luiIdentifierInfo.);
-            info.setCourseNumberSuffix(luiIdentifierInfo.getSuffixCode());
-            info.setMeta(luiIdentifierInfo.getMeta());
-            info.setAttributes(luiIdentifierInfo.getAttributes());
-            crossListingInfos.add(info);
-        }
-        co.setCrossListings(crossListingInfos);
+        co.setCrossListings( buildCrosslistingsFromLui(lui) );
 
         //Dynamic attributes
         List<AttributeInfo> attributes = co.getAttributes();
@@ -400,24 +386,7 @@ public class CourseOfferingTransformer {
         }
         lui.setName(coCode + " CO");
 
-        // cross-listings
-        List<LuiIdentifierInfo> alternateIds = new ArrayList<LuiIdentifierInfo>();
-        for(CourseOfferingCrossListingInfo crossListingInfo : co.getCrossListings()) {
-            LuiIdentifierInfo info = new LuiIdentifierInfo();
-            info.setId(crossListingInfo.getId());
-            info.setTypeKey(crossListingInfo.getTypeKey());
-            info.setStateKey(crossListingInfo.getStateKey());
-            info.setCode(crossListingInfo.getCode());
-            //info.setShortName(crossListingInfo.);
-            //info.setLongName(crossListingInfo.);
-            info.setDivision(crossListingInfo.getSubjectArea());
-            info.setSuffixCode(crossListingInfo.getCourseNumberSuffix());
-            //info.setVariation(crossListingInfo.);
-            info.setMeta(crossListingInfo.getMeta());
-            info.setAttributes(crossListingInfo.getAttributes());
-            alternateIds.add(info);
-        }
-        lui.setAlternateIdentifiers(alternateIds);
+        lui.setAlternateIdentifiers( buildAlternateIdentifiersFromCo(co) );
 
         //Dynamic Attributes
         HashMap<String, AttributeInfo> attributesMap = new HashMap<String, AttributeInfo>();
@@ -513,6 +482,54 @@ public class CourseOfferingTransformer {
         //fundingSource
         //isFinancialAidEligible
         //registrationOrderTypeKey
+    }
+
+    private List<CourseOfferingCrossListingInfo> buildCrosslistingsFromLui( LuiInfo lui ) {
+
+        List<CourseOfferingCrossListingInfo> result = new ArrayList<CourseOfferingCrossListingInfo>();
+        for(LuiIdentifierInfo luiIdentifierInfo : lui.getAlternateIdentifiers()) {
+
+            CourseOfferingCrossListingInfo info = new CourseOfferingCrossListingInfo();
+
+            info.setId(luiIdentifierInfo.getId());
+            info.setTypeKey(luiIdentifierInfo.getTypeKey());
+            info.setStateKey(luiIdentifierInfo.getStateKey());
+            info.setCode(luiIdentifierInfo.getCode());
+            info.setSubjectArea(luiIdentifierInfo.getDivision());
+            //info.setDepartmentOrgId(luiIdentifierInfo.);
+            info.setCourseNumberSuffix(luiIdentifierInfo.getSuffixCode());
+            info.setMeta(luiIdentifierInfo.getMeta());
+            info.setAttributes(luiIdentifierInfo.getAttributes());
+
+            result.add(info);
+        }
+
+        return result;
+    }
+
+    private List<LuiIdentifierInfo> buildAlternateIdentifiersFromCo( CourseOfferingInfo co ) {
+
+        List<LuiIdentifierInfo> result = new ArrayList<LuiIdentifierInfo>();
+        for(CourseOfferingCrossListingInfo crossListingInfo : co.getCrossListings()) {
+
+            LuiIdentifierInfo info = new LuiIdentifierInfo();
+
+            info.setId(crossListingInfo.getId());
+            info.setTypeKey(crossListingInfo.getTypeKey());
+            info.setStateKey(crossListingInfo.getStateKey());
+            info.setCode(crossListingInfo.getCode());
+            //info.setShortName(crossListingInfo.);
+            //info.setLongName(crossListingInfo.);
+            info.setDivision(crossListingInfo.getSubjectArea());
+            info.setSuffixCode(crossListingInfo.getCourseNumberSuffix());
+            //info.setVariation(crossListingInfo.);
+            info.setMeta(crossListingInfo.getMeta());
+            info.setAttributes(crossListingInfo.getAttributes());
+
+            result.add(info);
+        }
+
+        return result;
     }
 
     public static String trimTrailing0(String creditValue){
