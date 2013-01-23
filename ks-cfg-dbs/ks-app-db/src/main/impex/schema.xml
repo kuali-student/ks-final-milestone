@@ -1713,6 +1713,54 @@
             <index-column name="LUI_ID"/>
         </index>
     </table>
+    <table name="KSEN_LUI_SET">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="LUI_SET_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="LUI_SET_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
+        <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <index name="KSEN_LUI_SET_I1">
+            <index-column name="LUI_SET_TYPE"/>
+        </index>
+    </table>
+    <table name="KSEN_LUI_SET_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LUI_SET" name="KSEN_LUI_SET_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_LUI_SET_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_LUI_SET_LUI">
+        <column name="LUI_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="LUI_SET_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LUI_SET" name="KSEN_LUI_SET_LUI_FK1">
+            <reference foreign="ID" local="LUI_SET_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_LUI" name="KSEN_LUI_SET_LUI_FK2">
+            <reference foreign="ID" local="LUI_ID"/>
+        </foreign-key>
+        <index name="KSEN_LUI_SET_LUI_IF1">
+            <index-column name="LUI_SET_ID"/>
+        </index>
+        <index name="KSEN_LUI_SET_LUI_IF2">
+            <index-column name="LUI_ID"/>
+        </index>
+    </table>
     <table name="KSEN_LUI_UNITS_CONT_OWNER">
         <column name="LUI_ID" required="true" size="255" type="VARCHAR"/>
         <column name="ORG_ID" required="true" size="255" type="VARCHAR"/>
