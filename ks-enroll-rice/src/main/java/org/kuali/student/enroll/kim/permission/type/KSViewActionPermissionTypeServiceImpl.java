@@ -41,58 +41,7 @@ public class KSViewActionPermissionTypeServiceImpl extends ViewActionPermissionT
     @Override
     protected List<Permission> performPermissionMatches(Map<String, String> requestedDetails,
                                                         List<Permission> permissionsList) {
-
-        String requestedFieldId = null;
-        if (requestedDetails.containsKey(KimConstants.AttributeConstants.FIELD_ID)) {
-            requestedFieldId = requestedDetails.get(KimConstants.AttributeConstants.FIELD_ID);
-        }
-
-        String requestedActionEvent = null;
-        if (requestedDetails.containsKey(KimConstants.AttributeConstants.ACTION_EVENT)) {
-            requestedActionEvent = requestedDetails.get(KimConstants.AttributeConstants.ACTION_EVENT);
-        }
-
-        List<Permission> matchingPermissions = new ArrayList<Permission>();
-        for (Permission permission : permissionsList) {
-            PermissionBo bo = PermissionBo.from(permission);
-
-            String permissionFieldId = null;
-            if (bo.getDetails().containsKey(KimConstants.AttributeConstants.FIELD_ID)) {
-                permissionFieldId = bo.getDetails().get(KimConstants.AttributeConstants.FIELD_ID);
-            }
-
-            String permissionActionEvent = null;
-            if (bo.getDetails().containsKey(KimConstants.AttributeConstants.ACTION_EVENT)) {
-                permissionActionEvent = bo.getDetails().get(KimConstants.AttributeConstants.ACTION_EVENT);
-            }
-
-            if ((requestedFieldId != null) && (permissionFieldId != null) && StringUtils.equals(requestedFieldId,
-                    permissionFieldId)) {
-                matchingPermissions.add(permission);
-            } else if ((requestedActionEvent != null) && (permissionActionEvent != null) && StringUtils.equals(
-                    requestedActionEvent, permissionActionEvent)) {
-                matchingPermissions.add(permission);
-            }
-        }
-
-        List<Permission> matchedPermissions = super.performPermissionMatches(requestedDetails, matchingPermissions);
-
-        //Loop through the matched permissions
-        for(Iterator<Permission> iter = matchedPermissions.iterator();iter.hasNext();){
-            Permission permission = iter.next();
-
-            //Check if the permission has the 'permissionExpression' attribute. If so, evaluate the expression
-            if(permission.getAttributes().containsKey("permissionExpression")){//TODO change the name of the attribute
-                ExpressionParser parser = new SpelExpressionParser();
-                Expression exp = parser.parseExpression(permission.getAttributes().get("permissionExpression"));//TODO cache the expressions
-
-                if(!exp.getValue(requestedDetails, Boolean.class)){
-                    //If the expression resolves to false then remove from the list of matched permissions
-                    iter.remove();
-                }
-            }
-        }
-
-        return matchedPermissions;
+        List<Permission> matchedPermissions = super.performPermissionMatches(requestedDetails, permissionsList);
+        return KSPermissionDetailsExpressionEvaluator.performPermissionMatches(requestedDetails, matchedPermissions);
     }
 }

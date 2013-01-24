@@ -35,24 +35,7 @@ public class KSViewPermissionTypeServiceImpl extends ViewPermissionTypeServiceIm
 
     @Override
     protected List<Permission> performPermissionMatches(Map<String, String> requestedDetails, List<Permission> permissionsList) {
-        //Use the superclass to do normal matching
-        List<Permission> matchedPermissions = super.performPermissionMatches(requestedDetails, permissionsList);    //To change body of overridden methods use File | Settings | File Templates.
-
-        //Loop through the matched permissions
-        for(Iterator<Permission> iter = matchedPermissions.iterator();iter.hasNext();){
-            Permission permission = iter.next();
-
-            //Check if the permission has the 'permissionExpression' attribute. If so, evaluate the expression
-            if(permission.getAttributes().containsKey("permissionExpression")){//TODO change the name of the attribute
-                ExpressionParser parser = new SpelExpressionParser();
-                Expression exp = parser.parseExpression(permission.getAttributes().get("permissionExpression"));//TODO cache the expressions
-
-                if(!exp.getValue(requestedDetails, Boolean.class)){
-                    //If the expression resolves to false then remove from the list of matched permissions
-                    iter.remove();
-                }
-            }
-        }
-        return matchedPermissions;
+        List<Permission> matchedPermissions = super.performPermissionMatches(requestedDetails, permissionsList);
+        return KSPermissionDetailsExpressionEvaluator.performPermissionMatches(requestedDetails, matchedPermissions);
     }
 }
