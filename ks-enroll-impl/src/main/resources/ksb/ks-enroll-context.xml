@@ -542,6 +542,7 @@
         <property name="schedulingService" ref="schedulingServiceImpl"/>
         <property name="lrcService" ref="lrcServiceCache"/>
         <property name="stateTransitionsHelper" ref="stateTransitionsHelper"/>
+        <property name="colocatedOfferingSetTransformer" ref="colocatedOfferingSetTransformer"/>
   </bean>
 
     <bean id="stateTransitionsHelper" class="org.kuali.student.r2.core.class1.state.service.impl.StateTransitionsHelperImpl">
