@@ -122,6 +122,10 @@
     </bean>
 
     <bean id="socRolloverResultInfoDictionaryLocation" class="java.lang.String">
+    <constructor-arg value="classpath:ks-SocRolloverResultInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="socRolloverResultItemInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-SocRolloverResultInfo-dictionary.xml" />
     </bean>
 
@@ -163,6 +167,42 @@
             </list>
         </constructor-arg>
      </bean>
+
+    <bean name="courseOfferingSetServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="socInfoDictionaryLocation" />
+                <bean parent="socRolloverResultInfoDictionaryLocation"/>
+                <bean parent="socRolloverResultInfoDictionaryLocation"/>
+
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!--LRCSerice-->
+    <bean id="resultScaleInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ResultScaleInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="resultValueInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ResultValueInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="resultValuesGroupInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ResultValuesGroupInfo-dictionary.xml" />
+    </bean>
+
+    <bean name="lrcServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="resultScaleInfoDictionaryLocation" />
+                <bean parent="resultValueInfoDictionaryLocation"/>
+                <bean parent="resultValuesGroupInfoDictionaryLocation"/>
+
+            </list>
+        </constructor-arg>
+    </bean>
+
     <!-- Scheduling Service -->
     <bean id="scheduleInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-ScheduleInfo-dictionary.xml" />
@@ -232,6 +272,7 @@
                 <bean parent="timeOfDayInfoDictionaryLocation"/>
                 <bean parent="socInfoDictionaryLocation"/>
                 <bean parent="socRolloverResultInfoDictionaryLocation"/>
+                <bean parent="socRolloverResultItemInfoDictionaryLocation" />
             </list>
         </constructor-arg>
     </bean>
