@@ -15,6 +15,7 @@ import org.kuali.rice.krad.uif.view.ViewAuthorizerBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.uif.widget.Widget;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm;
@@ -163,12 +164,19 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
 
                 if (model != null && model instanceof CourseOfferingManagementForm) {
                     CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) model;
-                    Collection<CourseOfferingListSectionWrapper> collection = ObjectPropertyUtils.getPropertyValue(theForm, selectedCollectionPath);
-                    CourseOfferingListSectionWrapper theCourseOfferingWrapper = ((List<CourseOfferingListSectionWrapper>) collection).get(selectedLineIndex);
-                    if (theCourseOfferingWrapper != null) {
+                    Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(theForm, selectedCollectionPath);
+                    Object selectedObject = ((List<Object>) collection).get(selectedLineIndex);
+                    if(selectedObject instanceof CourseOfferingListSectionWrapper){
+                        CourseOfferingListSectionWrapper theCourseOfferingWrapper =  (CourseOfferingListSectionWrapper)selectedObject;
                         String courseOfferingStateDisplay = theCourseOfferingWrapper.getCourseOfferingStateDisplay();
                         if (courseOfferingStateDisplay != null) {
                             permissionDetails.put("coState", courseOfferingStateDisplay);
+                        }
+                    } else if(selectedObject instanceof ActivityOfferingWrapper){
+                        ActivityOfferingWrapper theActivityOfferingWrapper =  (ActivityOfferingWrapper)selectedObject;
+                        String activityOfferingStateName = theActivityOfferingWrapper.getStateName();
+                        if (activityOfferingStateName != null) {
+                            permissionDetails.put("aoState", activityOfferingStateName);
                         }
                     }
                 }
