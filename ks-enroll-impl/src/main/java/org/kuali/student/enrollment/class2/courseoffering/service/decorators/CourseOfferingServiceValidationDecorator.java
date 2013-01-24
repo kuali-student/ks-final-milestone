@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
@@ -24,6 +25,7 @@ import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 
+import javax.jws.WebParam;
 import java.util.List;
 
 public class CourseOfferingServiceValidationDecorator
@@ -529,6 +531,41 @@ public class CourseOfferingServiceValidationDecorator
 
 
         return getNextDecorator().deleteActivityOfferingCluster(activityOfferingClusterId, context);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateColocatedOfferingSet(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "colocatedOfferingSetTypeKey") String colocatedOfferingSetTypeKey, @WebParam(name = "colocatedOfferingSetInfo") ColocatedOfferingSetInfo colocatedOfferingSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // validate
+        List<ValidationResultInfo> errors;
+        try {
+            errors = ValidationUtils.validateInfo(validator, validationTypeKey, colocatedOfferingSetInfo, contextInfo);
+            List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateColocatedOfferingSet(validationTypeKey,colocatedOfferingSetTypeKey,colocatedOfferingSetInfo,contextInfo);
+            errors.addAll(nextDecoratorErrors);
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error validating", ex);
+        }
+
+        return errors;
+    }
+
+    @Override
+    public ColocatedOfferingSetInfo createColocatedOfferingSet(@WebParam(name = "colocatedOfferingSetTypeKey") String colocatedOfferingSetTypeKey, @WebParam(name = "colocatedOfferingSetInfo") ColocatedOfferingSetInfo colocatedOfferingSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        List<ValidationResultInfo> errors = this.validateColocatedOfferingSet(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), colocatedOfferingSetTypeKey, colocatedOfferingSetInfo, contextInfo);
+        boolean errorCheck = checkForErrors(errors);
+        if (errorCheck) {
+            throw new DataValidationErrorException("Error(s) occurred validating", errors);
+        }
+        return getNextDecorator().createColocatedOfferingSet(colocatedOfferingSetTypeKey,colocatedOfferingSetInfo,contextInfo);
+    }
+
+    @Override
+    public ColocatedOfferingSetInfo updateColocatedOfferingSet(@WebParam(name = "colocatedOfferingSetId") String colocatedOfferingSetId, @WebParam(name = "colocatedOfferingSetInfo") ColocatedOfferingSetInfo colocatedOfferingSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        List<ValidationResultInfo> errors = this.validateColocatedOfferingSet(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), "", colocatedOfferingSetInfo, contextInfo);
+        boolean errorCheck = checkForErrors(errors);
+        if (errorCheck) {
+            throw new DataValidationErrorException("Error(s) occurred validating", errors);
+        }
+        return getNextDecorator().updateColocatedOfferingSet(colocatedOfferingSetId,colocatedOfferingSetInfo,contextInfo);
     }
 
     private static boolean checkForErrors(List<ValidationResultInfo> errors) {

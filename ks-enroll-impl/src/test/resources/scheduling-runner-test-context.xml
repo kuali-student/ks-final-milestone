@@ -189,6 +189,7 @@
         <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao" />
         <property name="schedulingService" ref="schedulingService"/>
         <property name="stateTransitionsHelper" ref="stateTransitionsHelper"/>
+        <property name="colocatedOfferingSetTransformer" ref="colocatedOfferingSetTransformer"/>
     </bean>
 
     <bean id="activityOfferingClusterDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDao" />
@@ -197,6 +198,8 @@
     <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
         <property name="lprService" ref="lprPersistenceService" />
     </bean>
+
+    <bean id="colocatedOfferingSetTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ColocatedOfferingSetTransformer"/>
 
     <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseServiceImpl" />

@@ -7,6 +7,7 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
+import org.kuali.student.enrollment.class1.lui.model.LuiSetEntity;
 import org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDaoApi;
 import org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDaoApi;
 import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterAttributeEntity;
@@ -18,6 +19,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.assembler.Regi
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingDisplayTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ColocatedOfferingSetTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingDisplayTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.FormatOfferingTransformer;
@@ -42,6 +44,7 @@ import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.enrollment.lui.dto.LuiSetInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -50,6 +53,7 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -58,6 +62,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -119,6 +124,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private CriteriaLookupService criteriaLookupService;
     private RoomService roomService;
     private StateTransitionsHelper stateTransitionsHelper;
+    private ColocatedOfferingSetTransformer colocatedOfferingSetTransformer;
 
     private static final Logger LOGGER = Logger.getLogger(CourseOfferingServiceImpl.class);
 
@@ -3034,52 +3040,129 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     public ColocatedOfferingSetInfo getColocatedOfferingSet(String colocatedOfferingSetId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+
+        LuiSetInfo luiSetInfo = getLuiService().getLuiSet(colocatedOfferingSetId,contextInfo);
+
+        ColocatedOfferingSetInfo colocatedOfferingSetInfo = new ColocatedOfferingSetInfo();
+        getColocatedOfferingSetTransformer().luiSet2ColocatedOfferingSet(luiSetInfo,colocatedOfferingSetInfo);
+
+        return colocatedOfferingSetInfo;
     }
 
     @Override
     public List<ColocatedOfferingSetInfo> getColocatedOfferingSetsByIds(List<String> colocatedOfferingSetIds,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+        List<LuiSetInfo> luiSetInfos = getLuiService().getLuiSetsByIds(colocatedOfferingSetIds, contextInfo);
+
+        List<ColocatedOfferingSetInfo> colocatedOfferingSetInfos = new ArrayList<ColocatedOfferingSetInfo>();
+
+        for (LuiSetInfo luiSetInfo : luiSetInfos) {
+            ColocatedOfferingSetInfo colocatedOfferingSetInfo = new ColocatedOfferingSetInfo();
+            getColocatedOfferingSetTransformer().luiSet2ColocatedOfferingSet(luiSetInfo,colocatedOfferingSetInfo);
+            colocatedOfferingSetInfos.add(colocatedOfferingSetInfo);
+        }
+
+        return colocatedOfferingSetInfos;
     }
 
     @Override
     public List<String> getColocatedOfferingSetIdsByType(String colocatedOfferingSetTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+        return getLuiService().getLuiSetIdsByType(colocatedOfferingSetTypeKey,contextInfo);
     }
 
     @Override
     public List<String> searchForColocatedOfferingSetIds(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+        GenericQueryResults<String> results = criteriaLookupService.lookupIds(ActivityOfferingClusterEntity.class, criteria);
+        return results.getResults();
     }
 
     @Override
     public List<ColocatedOfferingSetInfo> searchForColocatedOfferingSets(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+
+        GenericQueryResults<LuiSetEntity> results = criteriaLookupService.lookup(LuiSetEntity.class, criteria);
+        List<ColocatedOfferingSetInfo> infos = new ArrayList<ColocatedOfferingSetInfo>(results.getResults().size());
+
+        for(LuiSetEntity luiSetEntity : results.getResults()){
+            ColocatedOfferingSetInfo colocatedOfferingSetInfo = new ColocatedOfferingSetInfo();
+            LuiSetInfo luiSetInfo = luiSetEntity.toDto();
+            getColocatedOfferingSetTransformer().luiSet2ColocatedOfferingSet(luiSetInfo,colocatedOfferingSetInfo);
+            infos.add(colocatedOfferingSetInfo);
+        }
+
+        return infos;
     }
 
     @Override
     public List<ValidationResultInfo> validateColocatedOfferingSet(String validationTypeKey, String colocatedOfferingSetTypeKey, ColocatedOfferingSetInfo colocatedOfferingSetInfo,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
     public ColocatedOfferingSetInfo createColocatedOfferingSet(String colocatedOfferingSetTypeKey,ColocatedOfferingSetInfo colocatedOfferingSetInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new OperationFailedException("not implemented");
+
+        if (!StringUtils.equals(colocatedOfferingSetTypeKey,colocatedOfferingSetInfo.getTypeKey())) {
+            throw new InvalidParameterException(colocatedOfferingSetTypeKey + " does not match the corresponding value in the object " + colocatedOfferingSetInfo.getTypeKey());
+        }
+
+        LuiSetInfo luiSetInfo = new LuiSetInfo();
+        getColocatedOfferingSetTransformer().colocatedOfferingSet2LuiSet(colocatedOfferingSetInfo,luiSetInfo);
+
+        LuiSetInfo newLuiSetInfo;
+        try {
+            newLuiSetInfo = getLuiService().createLuiSet(colocatedOfferingSetTypeKey,luiSetInfo,contextInfo);
+        } catch (UnsupportedActionException e) {
+            throw new OperationFailedException(e.getMessage());
+        }
+
+        ColocatedOfferingSetInfo newCoLoSet = new ColocatedOfferingSetInfo();
+        getColocatedOfferingSetTransformer().luiSet2ColocatedOfferingSet(newLuiSetInfo,newCoLoSet);
+        return newCoLoSet;
     }
 
     @Override
     public ColocatedOfferingSetInfo updateColocatedOfferingSet(String colocatedOfferingSetId, ColocatedOfferingSetInfo colocatedOfferingSetInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        throw new OperationFailedException("not implemented");
+
+        if (!StringUtils.equals(colocatedOfferingSetId,colocatedOfferingSetInfo.getId())){
+            throw new InvalidParameterException(colocatedOfferingSetId + " does not match the corresponding value in the object " + colocatedOfferingSetInfo.getId());
+        }
+
+        LuiSetInfo luiSetInfo = getLuiService().getLuiSet(colocatedOfferingSetId,contextInfo);
+
+        if (!StringUtils.equals(luiSetInfo.getStateKey(),colocatedOfferingSetInfo.getStateKey())){
+            throw new OperationFailedException("Changing the ColocatedOfferingset state is not supported with updateColocatedOfferingSet(). Please call updateCourseOfferingState() for state changes.");
+        }
+
+        LuiSetInfo luiSetInfoToUpdate = new LuiSetInfo();
+        getColocatedOfferingSetTransformer().colocatedOfferingSet2LuiSet(colocatedOfferingSetInfo,luiSetInfoToUpdate);
+
+        LuiSetInfo updateSetInfo;
+        try {
+            updateSetInfo = getLuiService().updateLuiSet(luiSetInfoToUpdate.getId(),luiSetInfoToUpdate,contextInfo);
+        } catch (CircularRelationshipException e) {
+            throw new OperationFailedException("Error updating Colocated offering set",e);
+        } catch (UnsupportedActionException e) {
+            throw new OperationFailedException("Error updating Colocated offering set",e);
+        }
+
+        ColocatedOfferingSetInfo updatedCoLo = new ColocatedOfferingSetInfo();
+        getColocatedOfferingSetTransformer().luiSet2ColocatedOfferingSet(updateSetInfo,updatedCoLo);
+        return updatedCoLo;
     }
 
     @Override
     public StatusInfo deleteColocatedOfferingSet(String colocatedOfferingSetId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+        return getLuiService().deleteLuiSet(colocatedOfferingSetId,contextInfo);
     }
 
     @Override
     public List<String> getColocatedOfferingSetIdsForActivityOffering(String activityOfferingId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        List<LuiSetInfo> luiSetInfos = getLuiService().getLuiSetsByLui(activityOfferingId,contextInfo);
+        List<String> colocatedOfferingSetIds = new ArrayList<String>();
+
+        for (LuiSetInfo luiSetInfo : luiSetInfos) {
+            colocatedOfferingSetIds.add(luiSetInfo.getId());
+        }
+
+        return colocatedOfferingSetIds;
     }
 
     @Override
@@ -3465,5 +3548,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     public void setStateTransitionsHelper(StateTransitionsHelper stateTransitionsHelper) {
         this.stateTransitionsHelper = stateTransitionsHelper;
+    }
+
+    public ColocatedOfferingSetTransformer getColocatedOfferingSetTransformer() {
+        return colocatedOfferingSetTransformer;
+    }
+
+    public void setColocatedOfferingSetTransformer(ColocatedOfferingSetTransformer colocatedOfferingSetTransformer) {
+        this.colocatedOfferingSetTransformer = colocatedOfferingSetTransformer;
     }
 }

@@ -543,52 +543,52 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
 
     @Override
     public ColocatedOfferingSetInfo getColocatedOfferingSet(@WebParam(name = "colocatedOfferingSetId") String colocatedOfferingSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+        return getNextDecorator().getColocatedOfferingSet(colocatedOfferingSetId,contextInfo);
     }
 
     @Override
     public List<ColocatedOfferingSetInfo> getColocatedOfferingSetsByIds(@WebParam(name = "colocatedOfferingSetIds") List<String> colocatedOfferingSetIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+        return getNextDecorator().getColocatedOfferingSetsByIds(colocatedOfferingSetIds,contextInfo);
     }
 
     @Override
     public List<String> getColocatedOfferingSetIdsByType(@WebParam(name = "colocatedOfferingSetTypeKey") String colocatedOfferingSetTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+        return getNextDecorator().getColocatedOfferingSetIdsByType(colocatedOfferingSetTypeKey,contextInfo);
     }
 
     @Override
     public List<String> searchForColocatedOfferingSetIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+        return getNextDecorator().searchForColocatedOfferingSetIds(criteria,contextInfo);
     }
 
     @Override
     public List<ColocatedOfferingSetInfo> searchForColocatedOfferingSets(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+        return getNextDecorator().searchForColocatedOfferingSets(criteria,contextInfo);
     }
 
     @Override
     public List<ValidationResultInfo> validateColocatedOfferingSet(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "colocatedOfferingSetTypeKey") String colocatedOfferingSetTypeKey, @WebParam(name = "colocatedOfferingSetInfo") ColocatedOfferingSetInfo colocatedOfferingSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+        return getNextDecorator().validateColocatedOfferingSet(validationTypeKey,colocatedOfferingSetTypeKey,colocatedOfferingSetInfo,contextInfo);
     }
 
     @Override
     public ColocatedOfferingSetInfo createColocatedOfferingSet(@WebParam(name = "colocatedOfferingSetTypeKey") String colocatedOfferingSetTypeKey, @WebParam(name = "colocatedOfferingSetInfo") ColocatedOfferingSetInfo colocatedOfferingSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new OperationFailedException("not implemented");
+        return getNextDecorator().createColocatedOfferingSet(colocatedOfferingSetTypeKey,colocatedOfferingSetInfo,contextInfo);
     }
 
     @Override
     public ColocatedOfferingSetInfo updateColocatedOfferingSet(@WebParam(name = "colocatedOfferingSetId") String colocatedOfferingSetId, @WebParam(name = "colocatedOfferingSetInfo") ColocatedOfferingSetInfo colocatedOfferingSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        throw new OperationFailedException("not implemented");
+        return getNextDecorator().updateColocatedOfferingSet(colocatedOfferingSetId,colocatedOfferingSetInfo,contextInfo);
     }
 
     @Override
     public StatusInfo deleteColocatedOfferingSet(@WebParam(name = "colocatedOfferingSetId") String colocatedOfferingSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+        return getNextDecorator().deleteColocatedOfferingSet(colocatedOfferingSetId,contextInfo);
     }
 
     @Override
     public List<String> getColocatedOfferingSetIdsForActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+        return getNextDecorator().getColocatedOfferingSetIdsForActivityOffering(activityOfferingId,contextInfo);
     }
 
     @Override

@@ -42,7 +42,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * This class //TODO ...
+ * This is the entity representation for <code>KSEN_LUI_SET</code> table. And, this is mapped with the dto <code>LuiSetInfo</code>
+ * at class1 and <code>ColocatedOfferingSetInfo</code> at class2 service.
  *
  * @author Kuali Student Team
  */
@@ -92,10 +93,7 @@ public class LuiSetEntity extends MetaEntity implements AttributeOwner<LuiSetAtt
         this.setLuiSetState(luiSet.getStateKey());
         this.setName(luiSet.getName());
         this.getLuiIds().clear();
-
-        for(String luiId : luiSet.getLuiIds()){
-            this.getLuiIds().add(luiId);
-        }
+        this.getLuiIds().addAll(luiSet.getLuiIds());
 
         this.getAttributes().clear();
         for (Attribute attributeInfo : luiSet.getAttributes()) {
@@ -123,10 +121,11 @@ public class LuiSetEntity extends MetaEntity implements AttributeOwner<LuiSetAtt
         luiSetInfo.setMeta(super.toDTO());
         luiSetInfo.setDescr(new RichTextHelper().toRichTextInfo(descrPlain, descrFormatted));
 
-        luiSetInfo.setLuiIds(new ArrayList<String>());
-        for (String luiId : luiIds) {
-            luiSetInfo.getLuiIds().add(luiId);
+        if (luiSetInfo.getLuiIds() == null){
+            luiSetInfo.setLuiIds(new ArrayList<String>());
         }
+
+        luiSetInfo.getLuiIds().addAll(luiIds);
 
         luiSetInfo.setAttributes(TransformUtility.toAttributeInfoList(this));
 
