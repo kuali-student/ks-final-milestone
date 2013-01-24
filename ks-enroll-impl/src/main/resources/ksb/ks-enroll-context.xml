@@ -766,6 +766,14 @@
 
     <bean id="lrcServiceBusinessLogic" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl" />
 
+    <alias name="lrcServiceValidation" alias="LRCService" />
+
+    <bean id="lrcServiceValidation"
+          class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceValidationDecorator">
+        <property name="nextDecorator" ref="lrcPersistenceService" />
+        <property name="validator" ref="validator" />
+    </bean>
+
     <bean id="lrcServiceCache" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceCacheDecorator">
         <property name="nextDecorator" ref="lrcPersistenceService" />
         <property name="cacheManager" ref="ksCacheManager"/>
