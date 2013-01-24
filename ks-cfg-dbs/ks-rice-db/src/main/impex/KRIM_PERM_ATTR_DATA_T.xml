@@ -330,63 +330,63 @@
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="10097"
         ATTR_VAL="ActivityOffering-MaintenanceView"
         KIM_ATTR_DEFN_ID="121" KIM_TYP_ID="1"
-        OBJ_ID="D3FF27301A00BC36E040760A4A455F0F" PERM_ID="10071" VER_NBR="1"/>
+        OBJ_ID="D40E8BD73BED4121E040760A4A4570E0" PERM_ID="10071" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="10098"
         ATTR_VAL="ActivityOffering-MaintenanceView"
         KIM_ATTR_DEFN_ID="121" KIM_TYP_ID="1"
-        OBJ_ID="D3FF27301A01BC36E040760A4A455F0F" PERM_ID="10072" VER_NBR="1"/>
+        OBJ_ID="D40E8BD73BEE4121E040760A4A4570E0" PERM_ID="10072" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="10099"
         ATTR_VAL="ActivityOfferingEdit-MainPage-SeatPool"
         KIM_ATTR_DEFN_ID="125" KIM_TYP_ID="1"
-        OBJ_ID="D3FF27301A02BC36E040760A4A455F0F" PERM_ID="10073" VER_NBR="1"/>
+        OBJ_ID="D40E8BD73BEF4121E040760A4A4570E0" PERM_ID="10073" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="10100"
         ATTR_VAL="ActivityOffering-MaintenanceView"
         KIM_ATTR_DEFN_ID="121" KIM_TYP_ID="1"
-        OBJ_ID="D3FF27301A03BC36E040760A4A455F0F" PERM_ID="10073" VER_NBR="1"/>
+        OBJ_ID="D40E8BD73BF04121E040760A4A4570E0" PERM_ID="10073" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="10101"
         ATTR_VAL="ActivityOfferingEdit-MainPage-SeatPool"
         KIM_ATTR_DEFN_ID="125" KIM_TYP_ID="1"
-        OBJ_ID="D3FF27301A04BC36E040760A4A455F0F" PERM_ID="10074" VER_NBR="1"/>
+        OBJ_ID="D40E8BD73BF14121E040760A4A4570E0" PERM_ID="10074" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="10102"
         ATTR_VAL="ActivityOffering-MaintenanceView"
         KIM_ATTR_DEFN_ID="121" KIM_TYP_ID="1"
-        OBJ_ID="D3FF27301A05BC36E040760A4A455F0F" PERM_ID="10074" VER_NBR="1"/>
+        OBJ_ID="D40E8BD73BF24121E040760A4A4570E0" PERM_ID="10074" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="10103"
         ATTR_VAL="courseOfferingManagementView" KIM_ATTR_DEFN_ID="121"
-        KIM_TYP_ID="1" OBJ_ID="D3FF27301A40BC36E040760A4A455F0F"
+        KIM_TYP_ID="1" OBJ_ID="D40E8BD73C2D4121E040760A4A4570E0"
         PERM_ID="10075" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="10104" ATTR_VAL="deleteCO"
         KIM_ATTR_DEFN_ID="122" KIM_TYP_ID="1"
-        OBJ_ID="D3FF27301A41BC36E040760A4A455F0F" PERM_ID="10075" VER_NBR="1"/>
+        OBJ_ID="D40E8BD73C2E4121E040760A4A4570E0" PERM_ID="10075" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="10105"
-        ATTR_VAL="(['socState']=='Open' and (['coState']=='Draft' or ['coState']=='Planned' or ['coState']=='Suspended' or ['coState']=='Cancelled')) or (['socState']=='Final Edits' and (['coState']=='Draft' or ['coState']=='Planned' or ['coState']=='Suspended' or ['coState']=='Cancelled')) or (['socState']=='Published' and ['coState']=='Draft')"
+        ATTR_VAL="({&quot;Open&quot;,&quot;Final Edits&quot;}.contains(#socState) and {&quot;Draft&quot;,&quot;Planned&quot;,&quot;Suspended&quot;,&quot;Cancelled&quot;}.contains(#coState)) or (['socState']=='Published' and ['coState']=='Draft')"
         KIM_ATTR_DEFN_ID="10011" KIM_TYP_ID="10026"
-        OBJ_ID="D3FF27301A43BC36E040760A4A455F0F" PERM_ID="10075" VER_NBR="1"/>
+        OBJ_ID="D40E8BD73C304121E040760A4A4570E0" PERM_ID="10075" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="10106"
         ATTR_VAL="courseOfferingManagementView" KIM_ATTR_DEFN_ID="121"
-        KIM_TYP_ID="1" OBJ_ID="D3FF27301A45BC36E040760A4A455F0F"
+        KIM_TYP_ID="1" OBJ_ID="D40E8BD73C324121E040760A4A4570E0"
         PERM_ID="10076" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="10107" ATTR_VAL="deleteAO"
         KIM_ATTR_DEFN_ID="122" KIM_TYP_ID="1"
-        OBJ_ID="D3FF27301A46BC36E040760A4A455F0F" PERM_ID="10076" VER_NBR="1"/>
+        OBJ_ID="D40E8BD73C334121E040760A4A4570E0" PERM_ID="10076" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="10108"
-        ATTR_VAL="(['socState']=='Open' and (['aoState']=='Draft' or ['aoState']=='Approved' or ['aoState']=='Suspended' or ['aoState']=='Cancelled')) or (['socState']=='Final Edits' and (['aoState']=='Draft' or ['aoState']=='Approved' or ['aoState']=='Suspended' or ['aoState']=='Cancelled')) or (['socState']=='Published' and ['aoState']=='Draft')"
+        ATTR_VAL="({&quot;Open&quot;,&quot;Final Edits&quot;}.contains(#socState) and {&quot;Draft&quot;,&quot;Approved&quot;,&quot;Suspended&quot;,&quot;Cancelled&quot;}.contains(#aoState)) or (['socState']=='Published' and ['aoState']=='Draft')"
         KIM_ATTR_DEFN_ID="10011" KIM_TYP_ID="10026"
-        OBJ_ID="D3FF27301A48BC36E040760A4A455F0F" PERM_ID="10076" VER_NBR="1"/>
+        OBJ_ID="D40E8BD73C354121E040760A4A4570E0" PERM_ID="10076" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="10109"
         ATTR_VAL="courseOfferingManagementView" KIM_ATTR_DEFN_ID="121"
-        KIM_TYP_ID="1" OBJ_ID="D3FF27301A4ABC36E040760A4A455F0F"
+        KIM_TYP_ID="1" OBJ_ID="D40E8BD73C374121E040760A4A4570E0"
         PERM_ID="10077" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="10110" ATTR_VAL="deleteCO"
         KIM_ATTR_DEFN_ID="122" KIM_TYP_ID="1"
-        OBJ_ID="D3FF27301A4BBC36E040760A4A455F0F" PERM_ID="10077" VER_NBR="1"/>
+        OBJ_ID="D40E8BD73C384121E040760A4A4570E0" PERM_ID="10077" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="10111"
         ATTR_VAL="courseOfferingManagementView" KIM_ATTR_DEFN_ID="121"
-        KIM_TYP_ID="1" OBJ_ID="D3FF27301A4EBC36E040760A4A455F0F"
+        KIM_TYP_ID="1" OBJ_ID="D40E8BD73C3B4121E040760A4A4570E0"
         PERM_ID="10078" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="10112" ATTR_VAL="deleteAO"
         KIM_ATTR_DEFN_ID="122" KIM_TYP_ID="1"
-        OBJ_ID="D3FF27301A4FBC36E040760A4A455F0F" PERM_ID="10078" VER_NBR="1"/>
+        OBJ_ID="D40E8BD73C3C4121E040760A4A4570E0" PERM_ID="10078" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="181"
         ATTR_VAL="org.kuali.rice.kew.documentoperation.web.DocumentOperationAction"
         KIM_ATTR_DEFN_ID="2" KIM_TYP_ID="12"
