@@ -658,7 +658,7 @@ public class LRCServiceImpl implements LRCService {
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException {
-        throw new OperationFailedException("Should have been implemented in the Validation Decorator");
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -669,7 +669,7 @@ public class LRCServiceImpl implements LRCService {
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException {
-        throw new OperationFailedException("Should have been implemented in the Validation Decorator");
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -680,7 +680,7 @@ public class LRCServiceImpl implements LRCService {
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException {
-        throw new OperationFailedException("Should have been implemented in the Validation Decorator");
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
