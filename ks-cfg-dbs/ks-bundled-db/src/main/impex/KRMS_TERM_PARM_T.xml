@@ -12,7 +12,7 @@
         VAL="6f7421b8-2fe6-4b42-90c8-cbe29dc503be" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10002" TERM_PARM_ID="10002"
-        VAL="802b7f0f-adc9-4760-ad46-2f6900cd3360" VER_NBR="1"/>
+        VAL="8bdc6414-4b96-4069-97bf-e572e5f90525" VER_NBR="1"/>
     <KRMS_TERM_PARM_T
         NM="kuali.reqComponent.field.type.course.cluSet.id"
         TERM_ID="10003" TERM_PARM_ID="10003"
@@ -36,21 +36,21 @@
         VAL="kuali.result.value.grade.letter.c" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10006" TERM_PARM_ID="10009"
-        VAL="8149aa68-9bfa-4d95-bcfe-b17b2d36d763" VER_NBR="1"/>
+        VAL="8da4b7e0-40e4-42ec-8f93-524cb22aeeec" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.org.id"
         TERM_ID="10007" TERM_PARM_ID="10010" VAL="65" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.org.id"
         TERM_ID="10008" TERM_PARM_ID="10011" VAL="65" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10009" TERM_PARM_ID="10012"
-        VAL="8454fc43-a7bf-4ed9-a9f2-899b65090305" VER_NBR="1"/>
+        VAL="8e245703-a1d7-4491-b19d-4f3c70d520e8" VER_NBR="1"/>
     <KRMS_TERM_PARM_T
         NM="kuali.reqComponent.field.type.course.cluSet.id"
         TERM_ID="10010" TERM_PARM_ID="10013"
         VAL="97ae3d8d-4522-47ff-a8fe-9f8abedb12ab" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10011" TERM_PARM_ID="10014"
-        VAL="8597c766-5cf9-4223-90bd-0c18d697ec28" VER_NBR="1"/>
+        VAL="8e9304fb-9003-4ec2-8b93-d24a4a64c1ee" VER_NBR="1"/>
     <KRMS_TERM_PARM_T
         NM="kuali.reqComponent.field.type.course.cluSet.id"
         TERM_ID="10012" TERM_PARM_ID="10015"
@@ -61,13 +61,13 @@
         VAL="a67606b4-b3f0-421f-a8c5-ba306385d1a6" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10014" TERM_PARM_ID="10017"
-        VAL="8602bc5c-6216-4ebb-bd4f-e61bb68b2a8a" VER_NBR="1"/>
+        VAL="8f924f66-a2dc-4834-bfad-1cb6c6faf2df" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10015" TERM_PARM_ID="10018"
-        VAL="86c94194-062d-4a49-a9d2-ef24de44d860" VER_NBR="1"/>
+        VAL="8fbe72fa-3746-469a-8824-7f59bf29f3a6" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10016" TERM_PARM_ID="10019"
-        VAL="88e00da8-c4df-42b6-be3b-51ad25a919f3" VER_NBR="1"/>
+        VAL="91ac48e7-5df9-4bc8-be86-44c52e66cf06" VER_NBR="1"/>
     <KRMS_TERM_PARM_T
         NM="kuali.reqComponent.field.type.course.cluSet.id"
         TERM_ID="10017" TERM_PARM_ID="10020"
@@ -76,7 +76,7 @@
         TERM_ID="10018" TERM_PARM_ID="10021" VAL="65" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10019" TERM_PARM_ID="10022"
-        VAL="8af12adc-3200-4b40-b941-435966e9e536" VER_NBR="1"/>
+        VAL="941a37ab-cf17-4b25-adf7-c23fd098cf18" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.org.id"
         TERM_ID="10020" TERM_PARM_ID="10023" VAL="65" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.org.id"
@@ -104,12 +104,12 @@
         VAL="97550fcf-0a3a-4523-af35-34b39ec5b13f" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10025" TERM_PARM_ID="10031"
-        VAL="8b135299-a36f-4c60-92ea-f5804cf6bc78" VER_NBR="1"/>
+        VAL="94cee9e7-42fa-4e5a-893e-3a9b0b65eacb" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.org.id"
         TERM_ID="10026" TERM_PARM_ID="10032" VAL="65" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10027" TERM_PARM_ID="10033"
-        VAL="8bd87ab2-5a9b-47e7-a523-b2632ee5701e" VER_NBR="1"/>
+        VAL="97c3df63-3a15-4de6-8fe4-2d65bafeada5" VER_NBR="1"/>
     <KRMS_TERM_PARM_T
         NM="kuali.reqComponent.field.type.course.cluSet.id"
         TERM_ID="10028" TERM_PARM_ID="10034"
@@ -132,7 +132,7 @@
         VAL="61edada9-2aa0-466f-a7ef-adfe549c2699" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10034" TERM_PARM_ID="10040"
-        VAL="8bdc6414-4b96-4069-97bf-e572e5f90525" VER_NBR="1"/>
+        VAL="97decd7a-3bb2-4848-bcd3-2ddf39b48609" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.grade.id"
         TERM_ID="10035" TERM_PARM_ID="10041"
         VAL="kuali.result.value.grade.letter.c" VER_NBR="1"/>
@@ -158,24 +158,24 @@
         VAL="886db399-9b88-4786-9f88-23c82bd4a545" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10040" TERM_PARM_ID="10047"
-        VAL="8da4b7e0-40e4-42ec-8f93-524cb22aeeec" VER_NBR="1"/>
+        VAL="9820f4f3-b90e-4678-bb6d-57c17887ce6e" VER_NBR="1"/>
     <KRMS_TERM_PARM_T
         NM="kuali.reqComponent.field.type.course.cluSet.id"
         TERM_ID="10041" TERM_PARM_ID="10048"
         VAL="463779dd-eec4-42e5-b15a-987c263351c1" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10042" TERM_PARM_ID="10049"
-        VAL="8e245703-a1d7-4491-b19d-4f3c70d520e8" VER_NBR="1"/>
+        VAL="9ac066f9-01e2-4792-969c-25a9e64c44d2" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10043" TERM_PARM_ID="10050"
-        VAL="8e9304fb-9003-4ec2-8b93-d24a4a64c1ee" VER_NBR="1"/>
+        VAL="9c43ef0f-5951-47b5-8516-3ccc5f21f0a2" VER_NBR="1"/>
     <KRMS_TERM_PARM_T
         NM="kuali.reqComponent.field.type.course.cluSet.id"
         TERM_ID="10044" TERM_PARM_ID="10051"
         VAL="595cf72b-7b98-463f-aa74-7e4770ee6da0" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10045" TERM_PARM_ID="10052"
-        VAL="8f924f66-a2dc-4834-bfad-1cb6c6faf2df" VER_NBR="1"/>
+        VAL="9ca85679-51bf-4486-8f89-6bbf84756db6" VER_NBR="1"/>
     <KRMS_TERM_PARM_T
         NM="kuali.reqComponent.field.type.course.cluSet.id"
         TERM_ID="10046" TERM_PARM_ID="10053"
@@ -200,15 +200,15 @@
         TERM_ID="10052" TERM_PARM_ID="10059" VAL="65" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10053" TERM_PARM_ID="10060"
-        VAL="8fbe72fa-3746-469a-8824-7f59bf29f3a6" VER_NBR="1"/>
+        VAL="9cdb07b7-f43d-45ad-a769-7b58c520581e" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.org.id"
         TERM_ID="10054" TERM_PARM_ID="10061" VAL="65" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10055" TERM_PARM_ID="10062"
-        VAL="91ac48e7-5df9-4bc8-be86-44c52e66cf06" VER_NBR="1"/>
+        VAL="9d4104bd-b99d-4bbc-9e3a-8507ed8b607d" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10056" TERM_PARM_ID="10063"
-        VAL="941a37ab-cf17-4b25-adf7-c23fd098cf18" VER_NBR="1"/>
+        VAL="9da9fee3-588a-4d67-b620-615226fc177d" VER_NBR="1"/>
     <KRMS_TERM_PARM_T
         NM="kuali.reqComponent.field.type.course.cluSet.id"
         TERM_ID="10057" TERM_PARM_ID="10064"
@@ -251,7 +251,7 @@
         VAL="eee56265-e4f0-4cfd-b094-debdd31cd373" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10064" TERM_PARM_ID="10075"
-        VAL="94cee9e7-42fa-4e5a-893e-3a9b0b65eacb" VER_NBR="1"/>
+        VAL="9dcadd7f-e904-41f0-ac31-3926db577cc2" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.grade.id"
         TERM_ID="10065" TERM_PARM_ID="10076"
         VAL="kuali.result.value.grade.letter.c" VER_NBR="1"/>
@@ -518,10 +518,10 @@
         VAL="221f04d1-1807-4bf4-a006-bbac909c5695" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10145" TERM_PARM_ID="10158"
-        VAL="97c3df63-3a15-4de6-8fe4-2d65bafeada5" VER_NBR="1"/>
+        VAL="802b7f0f-adc9-4760-ad46-2f6900cd3360" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10146" TERM_PARM_ID="10159"
-        VAL="97decd7a-3bb2-4848-bcd3-2ddf39b48609" VER_NBR="1"/>
+        VAL="8149aa68-9bfa-4d95-bcfe-b17b2d36d763" VER_NBR="1"/>
     <KRMS_TERM_PARM_T
         NM="kuali.reqComponent.field.type.course.cluSet.id"
         TERM_ID="10147" TERM_PARM_ID="10160"
@@ -550,7 +550,7 @@
         TERM_ID="10153" TERM_PARM_ID="10166" VAL="53" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10154" TERM_PARM_ID="10167"
-        VAL="9820f4f3-b90e-4678-bb6d-57c17887ce6e" VER_NBR="1"/>
+        VAL="8454fc43-a7bf-4ed9-a9f2-899b65090305" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.org.id"
         TERM_ID="10155" TERM_PARM_ID="10168" VAL="53" VER_NBR="1"/>
     <KRMS_TERM_PARM_T
@@ -571,10 +571,10 @@
         TERM_ID="10161" TERM_PARM_ID="10174" VAL="53" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10162" TERM_PARM_ID="10175"
-        VAL="9ac066f9-01e2-4792-969c-25a9e64c44d2" VER_NBR="1"/>
+        VAL="8597c766-5cf9-4223-90bd-0c18d697ec28" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10163" TERM_PARM_ID="10176"
-        VAL="9c43ef0f-5951-47b5-8516-3ccc5f21f0a2" VER_NBR="1"/>
+        VAL="8602bc5c-6216-4ebb-bd4f-e61bb68b2a8a" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.org.id"
         TERM_ID="10164" TERM_PARM_ID="10177" VAL="53" VER_NBR="1"/>
     <KRMS_TERM_PARM_T
@@ -607,12 +607,12 @@
         TERM_ID="10172" TERM_PARM_ID="10185" VAL="53" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10173" TERM_PARM_ID="10186"
-        VAL="9ca85679-51bf-4486-8f89-6bbf84756db6" VER_NBR="1"/>
+        VAL="86c94194-062d-4a49-a9d2-ef24de44d860" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.org.id"
         TERM_ID="10174" TERM_PARM_ID="10187" VAL="53" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10175" TERM_PARM_ID="10188"
-        VAL="9cdb07b7-f43d-45ad-a769-7b58c520581e" VER_NBR="1"/>
+        VAL="88e00da8-c4df-42b6-be3b-51ad25a919f3" VER_NBR="1"/>
     <KRMS_TERM_PARM_T
         NM="kuali.reqComponent.field.type.course.cluSet.id"
         TERM_ID="10176" TERM_PARM_ID="10189"
@@ -621,7 +621,7 @@
         TERM_ID="10177" TERM_PARM_ID="10190" VAL="53" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10178" TERM_PARM_ID="10191"
-        VAL="9d4104bd-b99d-4bbc-9e3a-8507ed8b607d" VER_NBR="1"/>
+        VAL="8af12adc-3200-4b40-b941-435966e9e536" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.org.id"
         TERM_ID="10179" TERM_PARM_ID="10192" VAL="53" VER_NBR="1"/>
     <KRMS_TERM_PARM_T
@@ -666,10 +666,10 @@
         VAL="a1c7362a-e6b6-408b-8d34-709db7541167" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10190" TERM_PARM_ID="10203"
-        VAL="9da9fee3-588a-4d67-b620-615226fc177d" VER_NBR="1"/>
+        VAL="8b135299-a36f-4c60-92ea-f5804cf6bc78" VER_NBR="1"/>
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.course.clu.id"
         TERM_ID="10192" TERM_PARM_ID="10204"
-        VAL="9dcadd7f-e904-41f0-ac31-3926db577cc2" VER_NBR="1"/>
+        VAL="8bd87ab2-5a9b-47e7-a523-b2632ee5701e" VER_NBR="1"/>
     <KRMS_TERM_PARM_T
         NM="kuali.reqComponent.field.type.program.cluSet.id"
         TERM_ID="10193" TERM_PARM_ID="10205"
