@@ -3,7 +3,7 @@
  */
 
 function replaceBreadCrumbs(bc) {
-    if (bc !== undefined) {
+    if (bc && 0!==bc.length) {
         var bcObj = jQuery.parseJSON(bc);
         var length = Object.keys(bcObj.breadCrumb).length;
         var pos = 0;

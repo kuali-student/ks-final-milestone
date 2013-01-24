@@ -86,7 +86,7 @@ public class KSUifUtils {
      *                 Please note:
      *                 1. If a pageId is not assigned to the Home item, the default KS home url will be generated.
      *                    In this case, unless you really want to use a different url for the Home breadcrumb item,
-     *                    just set the value to emplty.
+     *                    just set the value to empty.
      *                 2. The last item, e.g.Spring 2015 Course Offerings, is for the current screen. If hyperlink
      *                    is not expected, which is most of the case, just set the value to empty.
      *
@@ -143,6 +143,6 @@ public class KSUifUtils {
             mapIndex++;
         }
 
-        form.setBreadCrumbJSON(JSONString);
+            form.setBreadCrumbJSON(JSONString);
     }
 }

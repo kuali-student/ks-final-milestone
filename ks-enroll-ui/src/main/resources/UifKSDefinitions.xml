@@ -215,4 +215,8 @@
         <property name="disclosure.render" value="true"/>
     </bean>
 
+    <!-- Added by David Yin -->
+    <!-- For breadcrumb customization -->
+    <bean id="KS-Uif-Page" parent="KS-Uif-Page-parentBean"/>
+    <bean id="KS-Uif-Page-parentBean" class="org.kuali.student.enrollment.uif.container.KSUifPage" parent="Uif-Page" />
 </beans>
