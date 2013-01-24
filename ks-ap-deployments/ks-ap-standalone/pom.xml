@@ -199,6 +199,12 @@
             <version>${ks.lum.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.kuali.student.enroll</groupId>
+            <artifactId>ks-enroll-web</artifactId>
+            <version>${ks.enroll.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-impl</artifactId>
             <version>${ks.core.version}</version>

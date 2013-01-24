@@ -25,6 +25,7 @@
 	<li><a href="${ConfigProperties.ks.ap.MainEntryPoint}">Academic Planning - Course Search</a></li>
 	<li><a href="${ConfigProperties.ks.ap.planner}">Academic Planning - Course Planner</a></li>
 	<li><a href="${ConfigProperties.ks.ap.audit}">Academic Planning - Degree Audit</a></li>
+    <li><a href="${ConfigProperties.application.url}/kr-krad/launch?viewId=enrollmentHomeView&methodToCall=start">Enrollment Home</a></li>
   </ul>
 
 </div>

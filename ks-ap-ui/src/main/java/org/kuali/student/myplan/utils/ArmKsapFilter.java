@@ -34,7 +34,7 @@ public class ArmKsapFilter implements Filter {
 				true);
 		req.setAttribute(CourseSearchConstants.IS_ACADEMIC_RECORD_SERVICE_UP,
 				true);
-		req.setAttribute(DegreeAuditConstants.IS_AUDIT_SERVICE_UP, false);
+		req.setAttribute(DegreeAuditConstants.IS_AUDIT_SERVICE_UP, true);
 
 		fc.doFilter(req, resp);
 		

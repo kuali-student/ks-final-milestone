@@ -51,6 +51,9 @@
     <!-- Kuali Student LUM Settings -->
     <param name="config.location">classpath:META-INF/ks-lum-config.xml</param>
 
+    <!-- Kuali Student Enroll Settings -->
+    <param name="config.location">classpath:META-INF/ks-enroll-config.xml</param>
+
     <!-- Kuali Student AP Settings -->
     <param name="config.location">classpath:META-INF/ks-ap/ks-ap-config.xml</param>
 
@@ -68,7 +71,7 @@
     <param name="ksap.mode">LOCAL</param>
 
     <!-- The Version of the MyPlan -->
-    <param name="myplan.version">0.1.1-KSAP-SNAPSHOT</param>
+    <param name="myplan.version">0.2.1-KSAP-SNAPSHOT</param>
 
     <!-- Application Code -->
     <param name="app.code">ks-ap-rice-standalone</param>

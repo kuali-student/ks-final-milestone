@@ -50,7 +50,7 @@ public class PublishedTermsListBuilder extends KeyValuesBase {
 					.getAcademicCalendarService()
 					.searchForTerms(
 							QueryByCriteria.Builder.fromPredicates(equalIgnoreCase(
-									"query", PlanConstants.PUBLISHED)),
+									"atpState", PlanConstants.PUBLISHED)),
 							KsapFrameworkServiceLocator.getContext()
 									.getContextInfo());
 		} catch (Throwable t) {

@@ -54,9 +54,12 @@ public final class KsapFrameworkServiceLocator {
 	private static <T> T getLocalService(String serviceName) {
 		@SuppressWarnings("unchecked")
 		T rv = (T) SERVICE_CACHE.get(serviceName);
-		if (rv == null)
-			SERVICE_CACHE.put(serviceName,
-					rv = GlobalResourceLoader.getService(serviceName));
+		if (rv == null){
+            rv = GlobalResourceLoader.getService(serviceName);
+            if(rv!=null){
+			    SERVICE_CACHE.put(serviceName,rv);
+            }
+        }
 		assert rv != null : serviceName + " not defined in Rice";
 		return rv;
 	}
