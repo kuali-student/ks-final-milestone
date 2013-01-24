@@ -161,22 +161,22 @@ public interface ActivityOffering extends IdEntity {
      */
     public String getCourseOfferingTitle();
 
-    /********************** Final Exam Information ******************/
+    /********************** Final ExamOffering Information ******************/
     /**
      * Start time of final exam
-     * @name Final Exam StartTime
+     * @name Final ExamOffering StartTime
      */
     public Date getFinalExamStartTime();
 
     /**
      * End time of final exam.
-     * @name Final Exam EndTime
+     * @name Final ExamOffering EndTime
      */
     public Date getFinalExamEndTime();
 
     /**
      * Space code where final exam will be conducted
-     * @name Final Exam Space Code
+     * @name Final ExamOffering Space Code
      */
     public String getFinalExamSpaceCode();
 
