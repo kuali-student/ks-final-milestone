@@ -55,6 +55,9 @@ public class CourseOfferingServiceConstants {
     public static final String COURSE_NUMBER_IN_SUFX_ATTR = "kuali.attribute.course.number.internal.suffix";
     public static final String IS_REGISTRATION_GROUP_GENERATED_INDICATOR_ATTR = "kuali.attribute.registration.group.is.generated";
     public static final String AOCLUSTER_ID_ATTR = "kuali.attribute.registration.group.aocluster.id";
+    public static final String COLOCATED_SET_MAXIMUM_ENROLLMENT_ATTR = "kuali.attribute.colocatedset.max.enrollment";
+    public static final String IS_MAX_ENROLLMENT_SHARED_ATTR = "kuali.attribute.colocatedset.is.max.enrollment.shared";
+
     // The type/states are defined in LuiServiceConstants.java
 
     //The list of all Student registration-specific grading options
