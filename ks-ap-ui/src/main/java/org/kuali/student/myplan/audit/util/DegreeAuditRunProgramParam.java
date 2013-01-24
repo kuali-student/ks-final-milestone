@@ -43,27 +43,24 @@ import java.util.List;
         List<KeyValue> keyValues = null;
 
         if (orgInfoList != null && orgInfoList.size() > 0) {
-            List<KeyValue> keyValues_temp = new ArrayList<KeyValue>();
+            keyValues = new ArrayList<KeyValue>();
             for (OrgInfo entry : orgInfoList) {
-                keyValues_temp.add(new ConcreteKeyValue(entry.getId(), entry.getLongName()));
+                keyValues.add(new ConcreteKeyValue(entry.getId(), entry.getLongName()));
             }
             /*Removing Duplicate entries from Key values*/
             HashSet hs = new HashSet();
-            hs.addAll(keyValues_temp);
-            keyValues_temp.clear();
-            keyValues_temp.addAll(hs);
-            Collections.sort(keyValues_temp, new Comparator<KeyValue>() {
+            hs.addAll(keyValues);
+            keyValues.clear();
+            keyValues.addAll(hs);
+            Collections.sort(keyValues, new Comparator<KeyValue>() {
                 @Override
                 public int compare(KeyValue keyValue1, KeyValue keyValue2) {
                     return keyValue1.getValue().compareTo(keyValue2.getValue());
                 }
             });
-
-            keyValues = new ArrayList<KeyValue>();
+            Collections.reverse(keyValues);
             keyValues.add(new ConcreteKeyValue("", DegreeAuditConstants.DEFAULT_VALUE));
-            for (int i = 0; i < keyValues_temp.size(); i++) {
-                keyValues.add(i+1, keyValues_temp.get(i));
-            }
+            Collections.reverse(keyValues);
         }else{
             logger.error("DegreeAuditRunProgramParam.getKeyValues(): No Values for programs found");
         }
