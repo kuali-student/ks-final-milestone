@@ -43,7 +43,7 @@ public class KSPermissionDetailsExpressionEvaluator {
                 //Parse the expression
                 Expression exp = parser.parseExpression(permission.getAttributes().get(PERMISSION_EXPRESSION));//TODO cache the parsed expressions
 
-                if(!exp.getValue(requestedDetails, Boolean.class)){
+                if(!exp.getValue(ctx, Boolean.class)){
                     //If the expression resolves to false then remove from the list of matched permissions
                     iter.remove();
                 }
