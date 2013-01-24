@@ -63,7 +63,7 @@ import static org.junit.Assert.fail;
 @Transactional
 public class TestLuiServiceImpl {
 
-    @Resource(name = "luiService")
+    @Resource(name = "LuiService")
     private LuiService luiService;
 
     @Resource(name = "luiDao")

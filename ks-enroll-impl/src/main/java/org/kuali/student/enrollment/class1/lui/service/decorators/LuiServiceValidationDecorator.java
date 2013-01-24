@@ -5,6 +5,7 @@ import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.dto.LuiSetInfo;
+import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
@@ -37,10 +38,20 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
 
     protected TypeService typeService = null;
 
+    private DataDictionaryValidator validator;
+
+    public DataDictionaryValidator getValidator() {
+        return validator;
+    }
+
+    public void setValidator(DataDictionaryValidator validator) {
+        this.validator = validator;
+    }
+
     @Override
     public LuiInfo createLui(String cluId, String atpId, String luiTypeKey, LuiInfo luiInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
-        List<ValidationResultInfo> errors = this.validateLui(ValidationUtils.TYPE_VALIDATION_TYPE_KEY,cluId,atpId,luiTypeKey,luiInfo,contextInfo);
+        List<ValidationResultInfo> errors = this.validateLui(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),cluId,atpId,luiTypeKey,luiInfo,contextInfo);
 
         if(errors != null && !errors.isEmpty()){
             throw new DataValidationErrorException("Could not create lui because the type errors", errors);
@@ -51,7 +62,7 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
 
     @Override
     public LuiCapacityInfo createLuiCapacity(String luiCapacityTypeKey, LuiCapacityInfo luiCapacityInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        List<ValidationResultInfo> errors = this.validateLuiCapacity(ValidationUtils.TYPE_VALIDATION_TYPE_KEY,luiCapacityTypeKey,luiCapacityInfo,contextInfo);
+        List<ValidationResultInfo> errors = this.validateLuiCapacity(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),luiCapacityTypeKey,luiCapacityInfo,contextInfo);
 
         if(errors != null && !errors.isEmpty()){
             throw new DataValidationErrorException("Could not create lui because the type errors", errors);
@@ -62,13 +73,27 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
 
     @Override
     public LuiLuiRelationInfo createLuiLuiRelation(String luiId, String relatedLuiId, String luiLuiRelationTypeKey, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        List<ValidationResultInfo> errors = this.validateLuiLuiRelation(ValidationUtils.TYPE_VALIDATION_TYPE_KEY,luiId,relatedLuiId,luiLuiRelationTypeKey,luiLuiRelationInfo,contextInfo);
+        List<ValidationResultInfo> errors = this.validateLuiLuiRelation(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),luiId,relatedLuiId,luiLuiRelationTypeKey,luiLuiRelationInfo,contextInfo);
 
         if(errors != null && !errors.isEmpty()){
             throw new DataValidationErrorException("Could not create lui because the type errors", errors);
         }
 
         return getNextDecorator().createLuiLuiRelation(luiId,relatedLuiId,luiLuiRelationTypeKey,luiLuiRelationInfo,contextInfo);
+    }
+
+
+    private static boolean checkForErrors(List<ValidationResultInfo> errors) {
+
+        if (errors != null && !errors.isEmpty()) {
+            for (ValidationResultInfo error : errors) {
+                if (error.isError()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     @Override
@@ -83,8 +108,14 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
             throw new DataValidationErrorException("Could not create lui because the type errors", errors);
         }
 
+        errors = this.validateLui(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), luiInfo.getCluId(), luiInfo.getAtpId(), luiInfo.getTypeKey(), luiInfo, contextInfo);
+        if (checkForErrors(errors)) {
+            throw new DataValidationErrorException("Error(s) occurred validating", errors);
+        }
+
         return getNextDecorator().updateLui(luiId,luiInfo,contextInfo);
     }
+
 
     @Override
     public LuiCapacityInfo updateLuiCapacity(String luiCapacityId, LuiCapacityInfo luiCapacityInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
@@ -96,6 +127,11 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
 
         if(errors != null && !errors.isEmpty()){
             throw new DataValidationErrorException("Could not create lui because the type errors", errors);
+        }
+
+        errors = this.validateLuiCapacity(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), luiCapacityInfo.getTypeKey(), luiCapacityInfo, contextInfo);
+        if (checkForErrors(errors)) {
+            throw new DataValidationErrorException("Error(s) occurred validating", errors);
         }
 
         return getNextDecorator().updateLuiCapacity(luiCapacityId,luiCapacityInfo,contextInfo);
@@ -112,6 +148,11 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
             throw new DataValidationErrorException("Could not create lui because the type errors", errors);
         }
 
+        errors = this.validateLuiLuiRelation(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), luiLuiRelationInfo.getLuiId(), luiLuiRelationInfo.getRelatedLuiId(), luiLuiRelationInfo.getTypeKey(), luiLuiRelationInfo, contextInfo);
+        if (checkForErrors(errors)) {
+            throw new DataValidationErrorException("Error(s) occurred validating", errors);
+        }
+
         return getNextDecorator().updateLuiLuiRelation(luiLuiRelationId,luiLuiRelationInfo,contextInfo);
     }
 
@@ -120,6 +161,8 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
 
         List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(luiTypeKey, getTypeService(), contextInfo);
         errors.addAll(getNextDecorator().validateLui(validationTypeKey,cluId,atpId,luiTypeKey,luiInfo, contextInfo));
+        errors.addAll(ValidationUtils.validateInfo(validator, validationTypeKey, luiInfo, contextInfo));
+
         return errors;
     }
 
@@ -134,8 +177,9 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
 
     @Override
     public List<ValidationResultInfo> validateLuiCapacity(String validationTypeKey, String luiCapacityTypeKey, LuiCapacityInfo luiCapacityInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(luiCapacityTypeKey, getTypeService(), contextInfo);
+        List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(ValidationUtils.TYPE_VALIDATION_TYPE_KEY, getTypeService(), contextInfo);
         errors.addAll(getNextDecorator().validateLuiCapacity(validationTypeKey,luiCapacityTypeKey,luiCapacityInfo, contextInfo));
+        errors.addAll(ValidationUtils.validateInfo(validator, validationTypeKey, luiCapacityInfo, contextInfo));
         return errors;
     }
 
@@ -143,6 +187,7 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
     public List<ValidationResultInfo> validateLuiLuiRelation(String validationTypeKey, String luiId, String relatedLuiId, String luiLuiRelationTypeKey, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(luiLuiRelationTypeKey, getTypeService(), contextInfo);
         errors.addAll(getNextDecorator().validateLuiLuiRelation(validationTypeKey,luiId, relatedLuiId,luiLuiRelationTypeKey, luiLuiRelationInfo, contextInfo));
+        errors.addAll(ValidationUtils.validateInfo(validator, validationTypeKey, luiLuiRelationInfo, contextInfo));
         return errors;
     }
 

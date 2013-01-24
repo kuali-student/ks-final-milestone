@@ -71,8 +71,10 @@
     <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean" autowire-candidate="false" autowire="no">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
-    
-    <bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
+
+    <bean id="TypeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>
+
+    <bean id="luiServiceImpl" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
         <property name="luiDao" ref="luiDao"/>
         <property name="luiSetDao" ref="luiSetDao"/>
         <property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
@@ -103,5 +105,12 @@
 
     <tx:annotation-driven transaction-manager="JtaTxManager"
 		order="1000" />
+
+    <alias name="luiServiceValidationDecorator" alias="LuiService" />
+
+    <bean id="luiServiceValidationDecorator" class="org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceValidationDecorator">
+        <property name="nextDecorator" ref="luiServiceImpl"/>
+        <property name="validator" ref="validator" />
+    </bean>
 		
 </beans>
