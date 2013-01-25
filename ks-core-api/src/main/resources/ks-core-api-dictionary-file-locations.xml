@@ -101,6 +101,12 @@
     <bean id="luiInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-LuiInfo-dictionary.xml" />
     </bean>
+     <bean id="luiCapacityInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-LuiCapacityInfo-dictionary.xml" />
+    </bean>
+     <bean id="luiSetInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-LuiSetInfo-dictionary.xml" />
+    </bean>
     <bean id="luiLuiRelationInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-LuiLuiRelationInfo-dictionary.xml" />
     </bean>
@@ -108,7 +114,9 @@
         <constructor-arg>
             <list>
                 <bean parent="luiInfoDictionaryLocation" />
-                <bean parent="luiLuiRelationInfoDictionaryLocation" />                
+                <bean parent="luiCapacityInfoDictionaryLocation" />
+                <bean parent="luiLuiRelationInfoDictionaryLocation" />
+                <bean parent="luiSetInfoDictionaryLocation" />               
             </list>
         </constructor-arg>
      </bean>
@@ -254,7 +262,9 @@
                 <bean parent="appliedHoldInfoDictionaryLocation" />
                 <bean parent="holdIssueInfoDictionaryLocation" />
                 <bean parent="luiInfoDictionaryLocation" />
+                <bean parent="luiCapacityInfoDictionaryLocation" />
                 <bean parent="luiLuiRelationInfoDictionaryLocation" />
+                <bean parent="luiSetInfoDictionaryLocation" />
                 <bean parent="courseOfferingInfoDictionaryLocation" />
                 <bean parent="activityOfferingInfoDictionaryLocation" />
                 <bean parent="formatOfferingInfoDictionaryLocation" />
