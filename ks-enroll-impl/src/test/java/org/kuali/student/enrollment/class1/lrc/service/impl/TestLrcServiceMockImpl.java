@@ -48,6 +48,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+/**
+ *
+ * @author Kuali Student Team 
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:lrc-mock-service-test-context.xml"})
 public class TestLrcServiceMockImpl {
@@ -59,7 +64,8 @@ public class TestLrcServiceMockImpl {
     public void setLRCService(LRCService lrcService) {
         this.lrcService = lrcService;
     }
-    @Resource
+    
+    @Resource (name="LRCService")
     private LRCService lrcService;
     public static String principalId = "123";
     public ContextInfo callContext = null;
@@ -315,7 +321,7 @@ public class TestLrcServiceMockImpl {
         return range.getMinValue() + " to " + range.getMaxValue() + " + " + range.getIncrement();
     }
 
-    public void testCrudResultValue()
+    private void testCrudResultValue()
             throws DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
