@@ -1619,6 +1619,8 @@
         <column name="UPDATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="LUI_ID" size="255" type="VARCHAR"/>
+        <column name="IDENT_LEVEL" size="255" type="VARCHAR"/>
+        <column name="ORGID" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_LUI" name="KSEN_LUI_IDENT_FK1">
             <reference foreign="ID" local="LUI_ID"/>
         </foreign-key>
