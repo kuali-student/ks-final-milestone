@@ -484,7 +484,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         theForm.setEditAuthz(checkEditViewAuthz(theForm));
 
         //Set SOC State
-        theForm.setSocState(getSocState(theForm.getTermInfo().getId()));
+        //theForm.setSocState(getSocState(theForm.getTermInfo().getId()));
+        theForm.setSocState(theForm.getCourseOfferingResultList().get(0).getCourseOfferingStateDisplay());
+
         
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
