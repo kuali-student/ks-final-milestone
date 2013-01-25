@@ -108,7 +108,7 @@ public class ColocatedOfferingSetInfo
     }
 
     public void setActivityOfferingIds(List<String> activityOferingIds) {
-        this.activityOfferingIds = activityOfferingIds;
+        this.activityOfferingIds = activityOferingIds;
     }
 
     @Deprecated
