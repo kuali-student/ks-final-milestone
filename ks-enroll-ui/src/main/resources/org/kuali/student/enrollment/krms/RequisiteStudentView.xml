@@ -87,12 +87,12 @@
                     </property>
                 </bean>
 
+                <ref bean="Proposition-Tree-Section"/>
+
                 <bean id="Enrollment-Eligibility-TabSection" parent="Uif-TabSection"
                       p:progressiveRender="@{#dp.ruleType ne null and #dp.ruleType ne '0'}">
                     <property name="items">
                         <list>
-                            <bean parent="Preview-Canonical-Section" />
-                            <bean parent="Preview-CO-Section" />
                             <bean parent="Edit-With-Object-Section" />
                             <bean parent="Edit-With-Logic-Section" />
                         </list>
@@ -120,17 +120,14 @@
                     <property name="actionLabel" value="See Example"/>
                     <property name="actionScript" value="alert('click');"/>
                 </bean>
-                <ref bean="propositionGroup"/>
+                <!--<ref bean="propositionGroup"/>-->
             </list>
         </property>
     </bean>
 
-    <bean id="Preview-Canonical-Section" parent="Preview-Section-Parent" p:headerText="Preview Canonical" />
 
-    <bean id="Preview-CO-Section" parent="Preview-Section-Parent" p:headerText="Preview CO" />
 
-    <!-- Use the plain preview with seat pools -->
-    <bean id="Preview-Section" parent="Preview-Section-Parent" />
+
 
     <bean id="Edit-With-Object-Section" parent="Uif-VerticalBoxSection"
           p:headerText="Edit with Object" p:header.render="false">
@@ -147,6 +144,44 @@
             <list>
                 <!--<ref bean="propositionGroup"/>-->
             </list>
+        </property>
+    </bean>
+
+    <bean id="Proposition-Tree-Section" parent="Uif-TreeSection">
+        <property name="headerText" value="Prerequisite Rule"/>
+        <property name="instructionalText" value="Tree Instructional Text"/>
+        <property name="propertyName" value="previewTree"/>
+        <property name="tree">
+            <bean parent="RuleTreeWidget">
+                <property name="templateOptions">
+                    <map>
+                        <entry key="'plugins'"
+                               value="['themes','html_data', 'ui', 'crrm', 'dnd']"/>
+                        <entry key="'themes'"
+                               value="{'theme':'default','dots':'true','icons':'false'}"/>
+                        <entry key="'ui'" value="{ 'select_limit' : 1 }"/>
+                        <entry key="'dnd'" value="{ 'drag_target' : false, 'drop_target' : false }"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+        <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;">
+                        <!--<property name="items">-->
+                            <!--<list>-->
+                                <!--<bean parent="Uif-InputField"  p:propertyName="data" p:readOnlyDisplayReplacement="true"-->
+                                      <!--p:showLabel="false" p:label="id" p:maxLength="255"/>-->
+
+                            <!--</list>-->
+                        <!--</property>-->
+                    </bean>
+                </property>
+            </bean>
         </property>
     </bean>
 

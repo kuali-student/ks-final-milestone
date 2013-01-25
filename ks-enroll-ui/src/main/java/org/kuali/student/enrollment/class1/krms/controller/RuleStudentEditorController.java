@@ -1038,7 +1038,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         }
 
         ruleEditor.setRule(rule);
-
+        ruleEditor.initPreviewTree();
         return getUIFModelAndView(form);
 
     }
