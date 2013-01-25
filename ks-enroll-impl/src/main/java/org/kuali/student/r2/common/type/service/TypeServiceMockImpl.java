@@ -275,6 +275,8 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         typeArrays.add(new String[] {LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, "Course Offering", "Course Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
         typeArrays.add(new String[] {LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, "Lui Lui Relation Delivered via FO to AO", "Lui Lui Relation Delivered via FO to AO", LuiServiceConstants.REF_OBJECT_URI_LUI});
         typeArrays.add(new String[] {LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, "Lui Lui Relation Associated", "Lui Lui Relation Associated", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY, "Lui Set Colocated Offering", "Lui Set Colocated Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        
         for (String[] typeArray : typeArrays) {
             createTypeInfo(typeArray[0], typeArray[1], typeArray[2], typeArray[3]);
         }

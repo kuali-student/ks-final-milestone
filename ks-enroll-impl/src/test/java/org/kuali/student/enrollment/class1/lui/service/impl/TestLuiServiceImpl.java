@@ -16,6 +16,21 @@
 
 package org.kuali.student.enrollment.class1.lui.service.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,19 +58,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:lui-test-context.xml"})
@@ -640,8 +642,8 @@ public class TestLuiServiceImpl {
     private LuiSetInfo createLuiSetInfo(){
         LuiSetInfo luiSetInfo = new LuiSetInfo();
         luiSetInfo.setName("Lui Set");
-        luiSetInfo.setTypeKey("test.type");
-        luiSetInfo.setStateKey("test.state");
+        luiSetInfo.setTypeKey(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY);
+        luiSetInfo.setStateKey(LuiServiceConstants.LUI_SET_ACTIVE_STATE_KEY);
         luiSetInfo.getLuiIds().add("Lui-1");
         luiSetInfo.getLuiIds().add("Lui-2");
         RichTextInfo descr = new RichTextInfo();
@@ -651,6 +653,8 @@ public class TestLuiServiceImpl {
         attributeInfo.setKey("test.key");
         attributeInfo.setValue("test.value");
         luiSetInfo.getAttributes().add(attributeInfo);
+        luiSetInfo.setEffectiveDate(new Date());
+        luiSetInfo.setExpirationDate(new Date());
         return luiSetInfo;
     }
 
@@ -659,7 +663,7 @@ public class TestLuiServiceImpl {
 
         LuiSetInfo luiSetInfo = createLuiSetInfo();
 
-        LuiSetInfo newLuiSet = luiService.createLuiSet("test.type",luiSetInfo,callContext);
+        LuiSetInfo newLuiSet = luiService.createLuiSet(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,luiSetInfo,callContext);
 
         assertNotNull(newLuiSet);
         assertNotNull(newLuiSet.getId());
@@ -684,7 +688,7 @@ public class TestLuiServiceImpl {
     public void testUpdateLuiSet() throws Exception {
         LuiSetInfo luiSetInfo1 = createLuiSetInfo();
 
-        LuiSetInfo newLuiSet = luiService.createLuiSet("test.type",luiSetInfo1,callContext);
+        LuiSetInfo newLuiSet = luiService.createLuiSet(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,luiSetInfo1,callContext);
         assertNotNull(newLuiSet);
 
         newLuiSet.setName("UpdateName");
@@ -712,7 +716,7 @@ public class TestLuiServiceImpl {
     @Test
     public void testDeleteLuiSet() throws Exception {
         LuiSetInfo luiSetInfo = createLuiSetInfo();
-        LuiSetInfo newLuiSet = luiService.createLuiSet("test.type",luiSetInfo,callContext);
+        LuiSetInfo newLuiSet = luiService.createLuiSet(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,luiSetInfo,callContext);
         assertNotNull(newLuiSet);
 
         StatusInfo statusInfo = luiService.deleteLuiSet(newLuiSet.getId(),callContext);
@@ -723,7 +727,7 @@ public class TestLuiServiceImpl {
     @Test
     public void testGetLuiSetsByLui() throws Exception{
         LuiSetInfo luiSetInfo = createLuiSetInfo();
-        LuiSetInfo newLuiSet = luiService.createLuiSet("test.type",luiSetInfo,callContext);
+        LuiSetInfo newLuiSet = luiService.createLuiSet(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,luiSetInfo,callContext);
         assertNotNull(newLuiSet);
 
         List<LuiSetInfo> luiSetInfos = luiService.getLuiSetsByLui("Lui-1",callContext);
@@ -736,10 +740,10 @@ public class TestLuiServiceImpl {
     @Test
     public void testGetLuiSetIdsByType() throws Exception{
         LuiSetInfo luiSetInfo = createLuiSetInfo();
-        LuiSetInfo newLuiSet = luiService.createLuiSet("test.type",luiSetInfo,callContext);
+        LuiSetInfo newLuiSet = luiService.createLuiSet(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,luiSetInfo,callContext);
         assertNotNull(newLuiSet);
 
-        List<String> luiSetIdsByType = luiService.getLuiSetIdsByType("test.type", callContext);
+        List<String> luiSetIdsByType = luiService.getLuiSetIdsByType(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY, callContext);
         assertEquals(1,luiSetIdsByType.size());
 
         luiSetIdsByType = luiService.getLuiSetIdsByType("test.type.invalid",callContext);
@@ -749,7 +753,7 @@ public class TestLuiServiceImpl {
     @Test
     public void testGetLuiIdsFromLuiSet() throws Exception{
         LuiSetInfo luiSetInfo = createLuiSetInfo();
-        LuiSetInfo newLuiSet = luiService.createLuiSet("test.type",luiSetInfo,callContext);
+        LuiSetInfo newLuiSet = luiService.createLuiSet(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,luiSetInfo,callContext);
         assertNotNull(newLuiSet);
 
         List<String> luiIds = luiService.getLuiIdsFromLuiSet(newLuiSet.getId(),callContext);
@@ -759,11 +763,11 @@ public class TestLuiServiceImpl {
     @Test
     public void testGetLuiSetsByIds() throws Exception{
         LuiSetInfo luiSetInfo = createLuiSetInfo();
-        LuiSetInfo newLuiSet1 = luiService.createLuiSet("test.type",luiSetInfo,callContext);
+        LuiSetInfo newLuiSet1 = luiService.createLuiSet(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,luiSetInfo,callContext);
         assertNotNull(newLuiSet1);
 
         luiSetInfo = createLuiSetInfo();
-        LuiSetInfo newLuiSet2 = luiService.createLuiSet("test.type",luiSetInfo,callContext);
+        LuiSetInfo newLuiSet2 = luiService.createLuiSet(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,luiSetInfo,callContext);
         assertNotNull(newLuiSet2);
 
         List<String> luiSetIds = new ArrayList<String>();

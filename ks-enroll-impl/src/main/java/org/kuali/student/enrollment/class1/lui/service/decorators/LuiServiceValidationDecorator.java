@@ -170,14 +170,16 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
     public List<ValidationResultInfo> validateLuiSet(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "luiSetTypeKey") String luiSetTypeKey,
                                                      @WebParam(name = "LuiSetInfo") LuiSetInfo LuiSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(validationTypeKey, getTypeService(), contextInfo);
+        List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(luiSetTypeKey, getTypeService(), contextInfo);
         errors.addAll(getNextDecorator().validateLuiSet(validationTypeKey, luiSetTypeKey, LuiSetInfo, contextInfo));
+        errors.addAll(ValidationUtils.validateInfo(validator, validationTypeKey, LuiSetInfo, contextInfo));
+        
         return errors;
     }
 
     @Override
     public List<ValidationResultInfo> validateLuiCapacity(String validationTypeKey, String luiCapacityTypeKey, LuiCapacityInfo luiCapacityInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(ValidationUtils.TYPE_VALIDATION_TYPE_KEY, getTypeService(), contextInfo);
+        List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(luiCapacityTypeKey, getTypeService(), contextInfo);
         errors.addAll(getNextDecorator().validateLuiCapacity(validationTypeKey,luiCapacityTypeKey,luiCapacityInfo, contextInfo));
         errors.addAll(ValidationUtils.validateInfo(validator, validationTypeKey, luiCapacityInfo, contextInfo));
         return errors;
@@ -196,7 +198,7 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, ReadOnlyException, UnsupportedActionException {
-        List<ValidationResultInfo> errors = this.validateLuiSet(ValidationUtils.TYPE_VALIDATION_TYPE_KEY,luiSetTypeKey,luiSetInfo,contextInfo);
+        List<ValidationResultInfo> errors = this.validateLuiSet(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),luiSetTypeKey,luiSetInfo,contextInfo);
 
         if(errors != null && !errors.isEmpty()){
             throw new DataValidationErrorException("Could not create lui set because the type errors", errors);
