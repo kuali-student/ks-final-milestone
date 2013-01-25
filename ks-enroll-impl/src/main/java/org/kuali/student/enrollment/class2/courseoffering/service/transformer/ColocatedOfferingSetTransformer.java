@@ -63,7 +63,10 @@ public class ColocatedOfferingSetTransformer {
         colocatedOfferingSetInfo.setMeta(luiSetInfo.getMeta());
         colocatedOfferingSetInfo.setEffectiveDate(luiSetInfo.getEffectiveDate());
         colocatedOfferingSetInfo.setExpirationDate(luiSetInfo.getExpirationDate());
-        colocatedOfferingSetInfo.setActivityOfferingIds(luiSetInfo.getLuiIds());
+        if (colocatedOfferingSetInfo.getActivityOfferingIds() == null){
+            colocatedOfferingSetInfo.setActivityOfferingIds(new ArrayList<String>());
+        }
+        colocatedOfferingSetInfo.getActivityOfferingIds().addAll(luiSetInfo.getLuiIds());
 
         List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
         for (AttributeInfo attribute : luiSetInfo.getAttributes()){
@@ -103,9 +106,9 @@ public class ColocatedOfferingSetTransformer {
         luiSetInfo.setMeta(colocatedOfferingSetInfo.getMeta());
         luiSetInfo.setEffectiveDate(colocatedOfferingSetInfo.getEffectiveDate());
         luiSetInfo.setExpirationDate(colocatedOfferingSetInfo.getExpirationDate());
-        luiSetInfo.setLuiIds(colocatedOfferingSetInfo.getActivityOfferingIds());
+        luiSetInfo.getLuiIds().addAll(colocatedOfferingSetInfo.getActivityOfferingIds());
 
-        List<AttributeInfo> attributes = colocatedOfferingSetInfo.getAttributes();
+        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
         for (Attribute attr : colocatedOfferingSetInfo.getAttributes()) {
             attributes.add(new AttributeInfo(attr));
         }
