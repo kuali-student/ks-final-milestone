@@ -149,5 +149,18 @@ public class ValidationUtils {
         return errors;
     }
 
+    public static boolean checkForErrors(List<ValidationResultInfo> errors) {
+
+        if (errors != null && !errors.isEmpty()) {
+            for (ValidationResultInfo error : errors) {
+                if (error.isError()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
 
 }
