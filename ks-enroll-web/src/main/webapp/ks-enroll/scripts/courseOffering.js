@@ -68,10 +68,10 @@ function handleButton(arr, id) {
     if(jQuery.isEmptyObject(arr)){
         jQuery("#" + id).attr("disabled", "disabled");
     } else{
-        if(jQuery.inArray("false", arr) != -1){
-            jQuery("#" + id).attr("disabled", "disabled");
+        if(jQuery.inArray("true", arr) != -1){
+            jQuery("#" + id).removeAttr("disabled");
         } else{
-           jQuery("#" + id).removeAttr("disabled");
+            jQuery("#" + id).attr("disabled", "disabled");
         }
     }
 }
