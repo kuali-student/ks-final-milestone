@@ -42,6 +42,7 @@
             <list>
 
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingLinks"/>
+                <ref bean="KS-CourseOfferingManagement-AO-ToolBarSection"/>
                 <ref bean="KS-CourseOfferingManagement-AddActivityOfferingSection"/>
                 <ref bean="KS-CourseOfferingManagement-SelectAll"/>
                 <ref bean="KS-CourseOfferingManagement-ActivityOfferingListSection"/>
@@ -168,7 +169,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" >
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
@@ -191,7 +192,27 @@
                 <bean parent="KS-Schedule-DisplayField" p:label="ROOM" p:messageText="@{#line.roomName}"/>
                 <bean parent="Uif-DataField" p:label="INSTRUCTOR" p:propertyName="firstInstructorDisplayName"/>
                 <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoInfo.maximumEnrollment"/>
+                <bean name="enableAddButton" parent="Uif-InputField" p:propertyName="enableAddButton"/>
+                <bean name="enableApproveButton" parent="Uif-InputField" p:propertyName="enableApproveButton"/>
+                <bean name="enableDraftButton" parent="Uif-InputField" p:propertyName="enableDraftButton"/>
+                <bean name="enableCopyButton" parent="Uif-InputField" p:propertyName="enableCopyButton"/>
+                <bean name="enableSuspendButton" parent="Uif-InputField" p:propertyName="enableSuspendButton"/>
+                <bean name="enableCancelButton" parent="Uif-InputField" p:propertyName="enableCancelButton"/>
+                <bean name="enableReinstateButton" parent="Uif-InputField" p:propertyName="enableReinstateButton" />
+                <bean name="enableDeleteButton" parent="Uif-InputField" p:propertyName="enableDeleteButton" />
             </list>
+        </property>
+        <property name="layoutManager.richTable.hiddenColumns">
+            <set>
+              <value>enableAddButton</value>
+              <value>enableApproveButton</value>
+              <value>enableDraftButton</value>
+              <value>enableCopyButton</value>
+              <value>enableSuspendButton</value>
+              <value>enableCancelButton</value>
+              <value>enableReinstateButton</value>
+              <value>enableDeleteButton</value>
+            </set>
         </property>
         <property name="layoutManager.actionFieldPrototype">
             <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="Actions"/>

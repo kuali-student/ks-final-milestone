@@ -43,6 +43,7 @@
                 <bean id="KS-CourseOfferingManagement-ApproveSubj" parent="Uif-ActionLink" p:preSubmitCall="return confirm('This will mark all Activity Offerings in this Subject Code as: Ready for Scheduling')"
                       p:methodToCall="markSubjectCodeReadyForScheduling"
                       p:actionLabel="Approve Subject Code for Scheduling" p:disabled="@{#parent.readOnly}"/>
+                <ref bean="KS-CourseOfferingManagement-CO-ToolBarSection"/>
                 <bean parent="Uif-Label" p:labelText="Current Course Offerings" p:render="@{!courseOfferingResultList.empty}"/>
                 <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering" p:disabled="@{#parent.readOnly}" p:render="@{!courseOfferingResultList.empty}"/>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingListSection"/>
@@ -93,10 +94,23 @@
                 <bean parent="Uif-DataField"
                       p:label="GRADING"
                       p:propertyName="courseOfferingGradingOptionDisplay"/>
-                <!--<bean parent="Uif-DataField"-->
-                      <!--p:label="STATUS"-->
-                      <!--p:propertyName="stateKey"/>-->
+                <bean name="enableAddButton" parent="Uif-InputField" p:propertyName="enableAddButton"/>
+                <bean name="enableApproveButton" parent="Uif-InputField" p:propertyName="enableApproveButton"/>
+                <bean name="enableSuspendButton" parent="Uif-InputField" p:propertyName="enableSuspendButton"/>
+                <bean name="enableCancelButton" parent="Uif-InputField" p:propertyName="enableCancelButton"/>
+                <bean name="enableReinstateButton" parent="Uif-InputField" p:propertyName="enableReinstateButton" />
+                <bean name="enableDeleteButton" parent="Uif-InputField" p:propertyName="enableDeleteButton" />
             </list>
+        </property>
+        <property name="layoutManager.richTable.hiddenColumns">
+            <set>
+              <value>enableAddButton</value>
+              <value>enableApproveButton</value>
+              <value>enableSuspendButton</value>
+              <value>enableCancelButton</value>
+              <value>enableReinstateButton</value>
+              <value>enableDeleteButton</value>
+            </set>
         </property>
         <property name="layoutManager.actionFieldPrototype">
             <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="ACTIONS"/>

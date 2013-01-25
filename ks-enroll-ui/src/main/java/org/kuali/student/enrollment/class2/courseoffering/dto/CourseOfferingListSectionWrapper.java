@@ -44,6 +44,62 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     boolean isLegalToDelete = true;
     boolean isChecked = false;
 
+    //hidden columns for toolbar
+    private boolean enableAddButton = true;
+    private boolean enableApproveButton = true;
+    private boolean enableSuspendButton = true;
+    private boolean enableCancelButton = true;
+    private boolean enableReinstateButton = true;
+    private boolean enableDeleteButton = true;
+
+    public boolean isEnableAddButton() {
+        return enableAddButton;
+    }
+
+    public void setEnableAddButton(boolean enableAddButton) {
+        this.enableAddButton = enableAddButton;
+    }
+
+    public boolean isEnableApproveButton() {
+        return enableApproveButton;
+    }
+
+    public void setEnableApproveButton(boolean enableApproveButton) {
+        this.enableApproveButton = enableApproveButton;
+    }
+
+    public boolean isEnableSuspendButton() {
+        return enableSuspendButton;
+    }
+
+    public void setEnableSuspendButton(boolean enableSuspendButton) {
+        this.enableSuspendButton = enableSuspendButton;
+    }
+
+    public boolean isEnableCancelButton() {
+        return enableCancelButton;
+    }
+
+    public void setEnableCancelButton(boolean enableCancelButton) {
+        this.enableCancelButton = enableCancelButton;
+    }
+
+    public boolean isEnableReinstateButton() {
+        return enableReinstateButton;
+    }
+
+    public void setEnableReinstateButton(boolean enableReinstateButton) {
+        this.enableReinstateButton = enableReinstateButton;
+    }
+
+    public boolean isEnableDeleteButton() {
+        return enableDeleteButton;
+    }
+
+    public void setEnableDeleteButton(boolean enableDeleteButton) {
+        this.enableDeleteButton = enableDeleteButton;
+    }
+
     public boolean getIsChecked() {
         return isChecked;
     }

@@ -37,6 +37,7 @@
         <property name="additionalScriptFiles">
             <list merge="true">
                 <value>ks-enroll/scripts/common.js</value>
+                <value>ks-enroll/scripts/courseOffering.js</value>
             </list>
         </property>
         <property name="additionalCssFiles">

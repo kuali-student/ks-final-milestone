@@ -69,6 +69,16 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private String adminOrg;
 
+      //hidden columns for toolbar
+    private boolean enableAddButton = true;
+    private boolean enableApproveButton = true;
+    private boolean enableDraftButton = true;
+    private boolean enableCopyButton = true;
+    private boolean enableSuspendButton = true;
+    private boolean enableCancelButton = true;
+    private boolean enableReinstateButton = true;
+    private boolean enableDeleteButton = true;
+
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
         instructors = new ArrayList<OfferingInstructorWrapper>();
@@ -91,6 +101,70 @@ public class ActivityOfferingWrapper implements Serializable{
         aoInfo = info;
         instructors = new ArrayList<OfferingInstructorWrapper>();
         seatpools = new ArrayList<SeatPoolWrapper>();
+    }
+
+    public boolean isEnableAddButton() {
+        return enableAddButton;
+    }
+
+    public void setEnableAddButton(boolean enableAddButton) {
+        this.enableAddButton = enableAddButton;
+    }
+
+    public boolean isEnableApproveButton() {
+        return enableApproveButton;
+    }
+
+    public void setEnableApproveButton(boolean enableApproveButton) {
+        this.enableApproveButton = enableApproveButton;
+    }
+
+    public boolean isEnableDraftButton() {
+        return enableDraftButton;
+    }
+
+    public void setEnableDraftButton(boolean enableDraftButton) {
+        this.enableDraftButton = enableDraftButton;
+    }
+
+    public boolean isEnableCopyButton() {
+        return enableCopyButton;
+    }
+
+    public void setEnableCopyButton(boolean enableCopyButton) {
+        this.enableCopyButton = enableCopyButton;
+    }
+
+    public boolean isEnableSuspendButton() {
+        return enableSuspendButton;
+    }
+
+    public void setEnableSuspendButton(boolean enableSuspendButton) {
+        this.enableSuspendButton = enableSuspendButton;
+    }
+
+    public boolean isEnableCancelButton() {
+        return enableCancelButton;
+    }
+
+    public void setEnableCancelButton(boolean enableCancelButton) {
+        this.enableCancelButton = enableCancelButton;
+    }
+
+    public boolean isEnableReinstateButton() {
+        return enableReinstateButton;
+    }
+
+    public void setEnableReinstateButton(boolean enableReinstateButton) {
+        this.enableReinstateButton = enableReinstateButton;
+    }
+
+    public boolean isEnableDeleteButton() {
+        return enableDeleteButton;
+    }
+
+    public void setEnableDeleteButton(boolean enableDeleteButton) {
+        this.enableDeleteButton = enableDeleteButton;
     }
 
     public String getCourseOfferingCode() {
