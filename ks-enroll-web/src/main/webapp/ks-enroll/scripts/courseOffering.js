@@ -17,6 +17,12 @@ function handleToolbar(atpType) {
     var enableCopyButtonVals=[];
     var enableDraftButtonVals=[];
 
+    var coEnableButtonVals=[enableApproveButtonVals,enableSuspendButtonVals, enableCancelButtonVals,
+        enableReinstateButtonVals,enableDeleteButtonVals];
+
+    var aoEnableButtonVals=[enableApproveButtonVals,enableSuspendButtonVals, enableCancelButtonVals,
+        enableReinstateButtonVals,enableDeleteButtonVals,enableCopyButtonVals,enableDraftButtonVals];
+
     var oTable = getDataTableHandle(atpType);
 
     var selectedRows =  jQuery(oTable.fnGetNodes()).filter(':has(:input:checkbox:checked)');
@@ -37,25 +43,26 @@ function handleToolbar(atpType) {
    });
 
     if(atpType == 'CO'){
-      // handleButton(enableAddButtonVals, "KS-CourseOfferingManagement-ToolBar-Add-CO");
-       handleButton(enableApproveButtonVals, "KS-CourseOfferingManagement-ToolBar-Approve-CO");
-       handleButton(enableSuspendButtonVals, "KS-CourseOfferingManagement-ToolBar-Suspend-CO" );
-       handleButton(enableCancelButtonVals, "KS-CourseOfferingManagement-ToolBar-Cancel-CO");
-       handleButton(enableReinstateButtonVals, "KS-CourseOfferingManagement-ToolBar-Reinstate-CO");
-       handleButton(enableDeleteButtonVals, "KS-CourseOfferingManagement-ToolBar-Delete-CO");
+        var ids = ['KS-CourseOfferingManagement-ToolBar-Approve-CO', 'KS-CourseOfferingManagement-ToolBar-Suspend-CO',
+                    'KS-CourseOfferingManagement-ToolBar-Cancel-CO', 'KS-CourseOfferingManagement-ToolBar-Reinstate-CO',
+                    'KS-CourseOfferingManagement-ToolBar-Delete-CO'];
+        handleButtons(coEnableButtonVals, ids);
     }else{
-      // handleButton(enableAddButtonVals, "KS-CourseOfferingManagement-ToolBar-Add-AO");
-       handleButton(enableApproveButtonVals, "KS-CourseOfferingManagement-ToolBar-Approve-AO");
-       handleButton(enableSuspendButtonVals, "KS-CourseOfferingManagement-ToolBar-Suspend-AO" );
-       handleButton(enableCancelButtonVals, "KS-CourseOfferingManagement-ToolBar-Cancel-AO");
-       handleButton(enableReinstateButtonVals, "KS-CourseOfferingManagement-ToolBar-Reinstate-AO");
-       handleButton(enableDeleteButtonVals, "KS-CourseOfferingManagement-ToolBar-Delete-AO");
-       handleButton(enableCopyButtonVals, "KS-CourseOfferingManagement-ToolBar-Copy-AO");
-       handleButton(enableDraftButtonVals, "KS-CourseOfferingManagement-ToolBar-Draft-AO");
+        var ids = ['KS-CourseOfferingManagement-ToolBar-Approve-AO', 'KS-CourseOfferingManagement-ToolBar-Suspend-AO',
+                    'KS-CourseOfferingManagement-ToolBar-Cancel-AO', 'KS-CourseOfferingManagement-ToolBar-Reinstate-AO',
+                    'KS-CourseOfferingManagement-ToolBar-Delete-AO', 'KS-CourseOfferingManagement-ToolBar-Copy-AO',
+                    'KS-CourseOfferingManagement-ToolBar-Draft-AO'];
+        handleButtons(aoEnableButtonVals, ids);
     }
 
 }
 
+function handleButtons(buttonVals, ids) {
+    for(var i=0; i<buttonVals.length; i++)
+   {
+       handleButton(buttonVals[i], ids[i]);
+   }
+}
 
 function handleButton(arr, id) {
     if(jQuery.isEmptyObject(arr)){
