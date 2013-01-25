@@ -328,6 +328,12 @@ public class LuiServiceConstants {
      * LUI Set types
      */
     public static final String LUI_SET_COLOCATED_OFFERING_TYPE_KEY = "kuali.luiset.type.colocated.offering.set";
+
+    /**
+     * LUI Set states
+     */
+    public static final String LUI_SET_ACTIVE_STATE_KEY = "kuali.luiset.state.active";
+    public static final String LUI_SET_INACTIVE_STATE_KEY = "kuali.luiset.state.inactive";
     
     /**
      *  Waitlist types?
