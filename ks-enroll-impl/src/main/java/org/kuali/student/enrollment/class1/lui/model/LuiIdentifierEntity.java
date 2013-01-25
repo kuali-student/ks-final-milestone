@@ -36,6 +36,8 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
     private LuiEntity lui;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     private Set<LuiIdentifierAttributeEntity> attributes;
+    @Column(name = "ORGID")
+    private String orgId;
 
     public LuiIdentifierEntity() {
     }
@@ -57,6 +59,7 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
         this.setShortName(luiIdentifier.getShortName());
         this.setSuffixCode(luiIdentifier.getSuffixCode());
         this.setVariation(luiIdentifier.getVariation());
+        this.setOrgId(luiIdentifier.getOrgId());
 
         //Attributes
         orphansToDelete.addAll(TransformUtility.mergeToEntityAttributes(LuiIdentifierAttributeEntity.class, luiIdentifier, this));
@@ -75,6 +78,7 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
         info.setSuffixCode(suffixCode);
         info.setTypeKey(type);
         info.setVariation(variation);
+        info.setOrgId(orgId);
         info.setMeta(super.toDTO());
 
         //Attributes
@@ -169,5 +173,13 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
 
     public void setLui(LuiEntity lui) {
         this.lui = lui;
+    }
+
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
     }
 }
