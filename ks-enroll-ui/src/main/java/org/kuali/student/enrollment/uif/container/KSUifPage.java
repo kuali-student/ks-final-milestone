@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.uif.container;
 
 import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.container.PageGroup;
 import org.kuali.rice.krad.uif.view.FormView;
 import org.kuali.rice.krad.uif.view.View;
@@ -41,9 +42,8 @@ public class KSUifPage extends PageGroup {
     }
 
     @Override
-    public void performFinalize(View view, Object model, Component parent) {
-        super.performFinalize(view, model, parent);
-
+    public void performInitialization(View view, Object model) {
+        super.performInitialization(view, model);
         if (breadCrumbItems!=null && !breadCrumbItems.isEmpty()) {
             KSUifForm form = (KSUifForm) model;
             LinkedHashMap<String,String> breadCrumbItemsSorted = new LinkedHashMap<String, String>(breadCrumbItems);
