@@ -3180,4 +3180,29 @@
         MSG_ID="program.menu.sections.viewAll"
         MSG_VALUE="View All Sections"
         OBJ_ID="4d1d1985-3298-4507-afc4-86c11ce170ef" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="kuali.org.Message.Degree.Audit.Group.Name.Home.Page"
+                  ID="16FA4833B3B3432F9A8F460C219A1B26" LOCALE="en_US"
+                  MSG_ID="kuali.org.Message.Degree.Audit.Message.ID.Name.howToUseDegreeAudit"
+                  MSG_VALUE="How to Use Degree Audit (DARS) for Academic Planning"
+                  OBJ_ID="241EC790034D42D492767D7EBB749E7C" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="kuali.org.Message.Degree.Audit.Group.Name.Home.Page"
+                  ID="0E7AAD2DD3CD44AF8B6CA8362763C1AF" LOCALE="en_US"
+                  MSG_ID="kuali.org.Message.Degree.Audit.Message.ID.Name.theAuditFeatureDisabled"
+                  MSG_VALUE="The Audit feature is disabled for non-students. We are unable to run a degree audit for you at this time."
+                  OBJ_ID="9EF49F84AEF443B797F3D1E911B212D7" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="kuali.org.Message.Degree.Audit.Group.Name.Home.Page"
+                  ID="04285632F449447790F3CC0FA9130086" LOCALE="en_US"
+                  MSG_ID="kuali.org.Message.Degree.Audit.Message.ID.Name.trackYourProgress"
+                  MSG_VALUE="Track Your Progress"
+                  OBJ_ID="7E79CF395D5E4DF3BD365F96B31746F5" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="kuali.org.Message.Degree.Audit.Group.Name.Home.Page"
+                  ID="0D5D09DA46FB42BABF23F6172BCE82E9" LOCALE="en_US"
+                  MSG_ID="kuali.org.Message.Degree.Audit.Message.ID.Name.stayOnTopOfUrRequired"
+                  MSG_VALUE="Stay on top of your required credits and courses. DARS will compare your academic record with program requirements so that you know what&#39;s needed to complete your degree."
+                  OBJ_ID="662F773F824F4514B8A1C66C8D5E8ACE" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="kuali.org.Message.Degree.Audit.Group.Name.Home.Page"
+                  ID="0E7E9756216B4320A53CF263057944A8" LOCALE="en_US"
+                  MSG_ID="kuali.org.Message.Degree.Audit.Message.ID.Name.selectYourProgram"
+                  MSG_VALUE="Select your program from the menu above &amp; run DARS to see your academic progress now."
+                  OBJ_ID="E1AF8BF5C0734FF185DE9A2194161705" VER_NBR="1"/>
 </dataset>
