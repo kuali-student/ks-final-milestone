@@ -81,6 +81,10 @@
         DESCR_PLAIN="kuali.lpr.lifecycle.instructor.course.assignment state lifecycle"
         ID="kuali.lpr.lifecycle.instructor.course.assignment"
         NAME="kuali.lpr.lifecycle.instructor.course.assignment" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="1" CREATETIME="20130125093600"
+        DESCR_FORMATTED="kuali.luiset.lifecycle state lifecycle"
+        DESCR_PLAIN="kuali.luiset.lifecycle state lifecycle"
+        ID="kuali.luiset.lifecycle" NAME="kuali.luiset.lifecycle" VER_NBR="0"/>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="19700101000000"
         DESCR_PLAIN="kuali milestone state process"

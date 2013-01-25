@@ -229,6 +229,16 @@
         ID="kuali.lui.registration.group.state.suspended"
         LIFECYCLE_KEY="kuali.course.registration.group.lifecycle"
         NAME="Suspended" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="1" CREATETIME="20130125083900"
+        DESCR_FORMATTED="The identifier is active"
+        DESCR_PLAIN="The identifier is active"
+        ID="kuali.luiset.state.active"
+        LIFECYCLE_KEY="kuali.luiset.lifecycle" NAME="Active" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="1" CREATETIME="20130125083900"
+        DESCR_FORMATTED="The identifier is inactive"
+        DESCR_PLAIN="The identifier is inactive"
+        ID="kuali.luiset.state.inactive"
+        LIFECYCLE_KEY="kuali.luiset.lifecycle" NAME="Inactive" VER_NBR="0"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
         DESCR_PLAIN="Indicates that this milestone is just tentative"
         ID="kuali.milestone.state.Draft"

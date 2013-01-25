@@ -1768,6 +1768,13 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/course/ActivityInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/clu/CluService"
         TYPE_KEY="kuali.lu.type.grouping.activity" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="1" CREATETIME="20130125111900"
+        DESCR_FORMATTED="This identifier holds the cross-listed identifiers for this course offering"
+        DESCR_PLAIN="This identifier holds the cross-listed identifiers for this course offering"
+        NAME="Cross-listed"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lui.LuiInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/lui/LuiService"
+        TYPE_KEY="kuali.lui.identifier.type.cross-listed" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120814000000"
         DESCR_FORMATTED="LuiLui relation beween course offering and format offering"
         DESCR_PLAIN="LuiLui relation beween course offering and format offering"
