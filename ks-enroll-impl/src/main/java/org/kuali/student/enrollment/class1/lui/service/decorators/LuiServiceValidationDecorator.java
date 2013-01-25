@@ -40,14 +40,6 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
 
     private DataDictionaryValidator validator;
 
-    public DataDictionaryValidator getValidator() {
-        return validator;
-    }
-
-    public void setValidator(DataDictionaryValidator validator) {
-        this.validator = validator;
-    }
-
     @Override
     public LuiInfo createLui(String cluId, String atpId, String luiTypeKey, LuiInfo luiInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
@@ -82,20 +74,6 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
         return getNextDecorator().createLuiLuiRelation(luiId,relatedLuiId,luiLuiRelationTypeKey,luiLuiRelationInfo,contextInfo);
     }
 
-
-    private static boolean checkForErrors(List<ValidationResultInfo> errors) {
-
-        if (errors != null && !errors.isEmpty()) {
-            for (ValidationResultInfo error : errors) {
-                if (error.isError()) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
     @Override
     public LuiInfo updateLui(String luiId, LuiInfo luiInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
 
@@ -109,7 +87,7 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
         }
 
         errors = this.validateLui(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), luiInfo.getCluId(), luiInfo.getAtpId(), luiInfo.getTypeKey(), luiInfo, contextInfo);
-        if (checkForErrors(errors)) {
+        if (ValidationUtils.checkForErrors(errors)) {
             throw new DataValidationErrorException("Error(s) occurred validating", errors);
         }
 
@@ -130,7 +108,7 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
         }
 
         errors = this.validateLuiCapacity(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), luiCapacityInfo.getTypeKey(), luiCapacityInfo, contextInfo);
-        if (checkForErrors(errors)) {
+        if (ValidationUtils.checkForErrors(errors)) {
             throw new DataValidationErrorException("Error(s) occurred validating", errors);
         }
 
@@ -149,7 +127,7 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
         }
 
         errors = this.validateLuiLuiRelation(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), luiLuiRelationInfo.getLuiId(), luiLuiRelationInfo.getRelatedLuiId(), luiLuiRelationInfo.getTypeKey(), luiLuiRelationInfo, contextInfo);
-        if (checkForErrors(errors)) {
+        if (ValidationUtils.checkForErrors(errors)) {
             throw new DataValidationErrorException("Error(s) occurred validating", errors);
         }
 
@@ -233,5 +211,13 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
 
     public void setTypeService(TypeService typeService) {
         this.typeService = typeService;
+    }
+
+    public DataDictionaryValidator getValidator() {
+        return validator;
+    }
+
+    public void setValidator(DataDictionaryValidator validator) {
+        this.validator = validator;
     }
 }
