@@ -3,10 +3,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.uif.container.CollectionGroup;
-import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -99,13 +96,11 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         wrapper.setFormatOfferingList(updatedFOs);
     }
 
-    @Override
-    protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        if (addLine instanceof FormatOfferingInfo) {
-            FormatOfferingInfo formatOfferingInfo = (FormatOfferingInfo) addLine;
-            CourseOfferingCreateWrapper coCreateWrapper = (CourseOfferingCreateWrapper) ((MaintenanceDocumentForm) model).getDocument().getNewMaintainableObject().getDataObject();
+    public void populateFormatName(CourseOfferingCreateWrapper wrapper) {
+            FormatOfferingInfo formatOfferingInfo = (FormatOfferingInfo) wrapper.getFormatOfferingAddLine();
+//            CourseOfferingCreateWrapper coCreateWrapper = (CourseOfferingCreateWrapper) ((MaintenanceDocumentForm) model).getDocument().getNewMaintainableObject().getDataObject();
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-            for (FormatInfo formatInfo : coCreateWrapper.getCourse().getFormats()) {
+            for (FormatInfo formatInfo : wrapper.getCourse().getFormats()) {
                 if (StringUtils.equals(formatInfo.getId(), formatOfferingInfo.getFormatId())) {
                     // TODO: fix R2 Format to include name and short name
 //                    formatOfferingInfo.setName("FIX ME!");
@@ -130,7 +125,6 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
 
                 }
             }
-        }
     }
 
     @Override

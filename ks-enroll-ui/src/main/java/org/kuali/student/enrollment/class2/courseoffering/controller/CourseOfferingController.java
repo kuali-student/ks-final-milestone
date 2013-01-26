@@ -19,6 +19,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingCon
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.uif.util.GrowlIcon;
@@ -32,6 +33,8 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.search.CourseOfferingHistorySearchImpl;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -40,7 +43,10 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
@@ -72,6 +78,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     private CourseOfferingService courseOfferingService;
     private transient LRCService lrcService;
     private transient SearchService searchService;
+    private transient TypeService typeService;
 
     @Override
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
@@ -113,6 +120,11 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             coWrapper.setShowAllSections(true);
             coWrapper.setShowCatalogLink(false);
             coWrapper.setShowTermOfferingLink(true);
+            if(!course.getCrossListings().isEmpty())  {
+                for(CourseCrossListingInfo crossListingInfo : course.getCrossListings()) {
+                    coWrapper.getCoListedCOs().add(crossListingInfo.getCode());
+                }
+            }
 
             //Get all the course offerings in a term
             List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(), term.getId(), contextInfo);
@@ -202,6 +214,50 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
         wrapper.setShowCatalogLink(false);
         wrapper.setShowTermOfferingLink(true);
+
+        return getUIFModelAndView(form);
+    }
+
+
+    @RequestMapping(params = "methodToCall=addDeliveryFormatsAndActivities")
+    public ModelAndView addDeliveryFormatsAndActivities(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
+                                          @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+
+        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+            FormatOfferingInfo formatOfferingInfo = (FormatOfferingInfo) wrapper.getFormatOfferingAddLine();
+//            CourseOfferingCreateWrapper coCreateWrapper = (CourseOfferingCreateWrapper) ((MaintenanceDocumentForm) model).getDocument().getNewMaintainableObject().getDataObject();
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+        for (FormatInfo formatInfo : wrapper.getCourse().getFormats()) {
+            if (StringUtils.equals(formatInfo.getId(), formatOfferingInfo.getFormatId())) {
+                // TODO: fix R2 Format to include name and short name
+//                    formatOfferingInfo.setName("FIX ME!");
+//                    formatOfferingInfo.setShortName("FIX ME!");
+                //Bonnie: this is only a temporary walk-around solution.
+                //Still need to address the issue that FormatInfo does not include name and short name
+                try {
+                    List<ActivityInfo> activityInfos = formatInfo.getActivities();
+                    StringBuffer st = new StringBuffer();
+                    for (ActivityInfo activityInfo : activityInfos) {
+                        TypeInfo activityType = getTypeService().getType(activityInfo.getTypeKey(), contextInfo);
+                        st.append(activityType.getName() + "/");
+                    }
+                    String name = st.toString();
+                    name = name.substring(0, name.length() - 1);
+                    formatOfferingInfo.setName(name);
+                    formatOfferingInfo.setShortName(name);
+                } catch (Exception e) {
+                    //This was just swallowing the exception so a log entry was added
+                    LOG.error("An exception was thrown!", e);
+                }
+
+            }
+        }
+        // add the format to the list
+        FormatOfferingInfo newLine  = new FormatOfferingInfo(formatOfferingInfo);
+        newLine.setTermId(wrapper.getTargetTermCode());
+        newLine.setShortName(wrapper.getCatalogCourseCode());
+
+        wrapper.getFormatOfferingList().add(newLine);
 
         return getUIFModelAndView(form);
     }
@@ -381,6 +437,13 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
         return courseInfoList;
 
+    }
+
+    protected TypeService getTypeService() {
+        if(typeService == null) {
+            typeService = CourseOfferingResourceLoader.loadTypeService();
+        }
+        return this.typeService;
     }
 
     private CluService getCluService() {

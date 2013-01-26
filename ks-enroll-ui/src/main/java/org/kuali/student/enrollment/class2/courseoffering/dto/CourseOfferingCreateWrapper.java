@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 
 import java.util.ArrayList;
@@ -26,6 +27,12 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     private List<ExistingCourseOffering> existingOfferingsInCurrentTerm;
     private List<ExistingCourseOffering> existingTermOfferings;
 
+    private List<String> coListedCOs;
+    private boolean selectCoListCoEnabled;
+    private String selectiveColocationAllowed;
+    private FormatOfferingInfo formatOfferingAddLine;
+
+
     private boolean excludeCancelledActivityOfferings;
     private boolean excludeSchedulingInformation;
     private boolean excludeInstructorInformation;
@@ -33,9 +40,12 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     public CourseOfferingCreateWrapper(){
         super();
         showTermOfferingLink = true;
+        selectCoListCoEnabled = true;
         formatOfferingList = new ArrayList<FormatOfferingInfo>();
         existingOfferingsInCurrentTerm = new ArrayList<ExistingCourseOffering>();
         existingTermOfferings = new ArrayList<ExistingCourseOffering>();
+        coListedCOs = new ArrayList<String>();
+        formatOfferingAddLine = new FormatOfferingInfo();
     }
 
     public String getTargetTermCode() {
@@ -160,6 +170,38 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
 
     public void setExcludeInstructorInformation(boolean excludeInstructorInformation) {
         this.excludeInstructorInformation = excludeInstructorInformation;
+    }
+
+    public List<String> getCoListedCOs() {
+        return coListedCOs;
+    }
+
+    public void setCoListedCOs(List<String> coListedCOs) {
+        this.coListedCOs = coListedCOs;
+    }
+
+    public boolean isSelectCoListCoEnabled() {
+         if (null == selectiveColocationAllowed) {
+             selectiveColocationAllowed = ConfigContext.getCurrentContextConfig().getProperty("selective-colocation-allowed");
+        }
+
+        if("false".equalsIgnoreCase(selectiveColocationAllowed)) {
+            return false;
+        };
+
+        return true;
+    }
+
+    public void setSelectCoListCoEnabled(boolean selectCoListCoEnabled) {
+        this.selectCoListCoEnabled = selectCoListCoEnabled;
+    }
+
+    public FormatOfferingInfo getFormatOfferingAddLine() {
+        return formatOfferingAddLine;
+    }
+
+    public void setFormatOfferingAddLine(FormatOfferingInfo formatOfferingAddLine) {
+        this.formatOfferingAddLine = formatOfferingAddLine;
     }
 
     public void clear(){

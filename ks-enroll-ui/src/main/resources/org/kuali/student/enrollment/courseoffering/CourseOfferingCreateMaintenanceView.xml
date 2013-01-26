@@ -135,36 +135,6 @@
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="loadCourseCatalog" p:actionLabel="Show"
                               p:performClientSideValidation="true" p:style="margin-top:15px;" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
 
-                <bean parent="Uif-VerticalFieldGroup" p:style="margin-left:100px;">
-                  <property name="group.instructionalText" value="Course Catalog Details"/>
-                  <property name="group.instructionalMessage">
-                      <bean parent="Uif-InstructionalMessage" p:style="font-weight:bold;font-size:15px;"/>
-                  </property>
-                  <property name="group.instructionalMessage.cssClasses">
-                      <list merge="true">
-                        <value>ks-borderBottom</value>
-                      </list>
-                  </property>
-                  <property name="items">
-                    <list>
-                      <bean parent="Uif-InputField" p:propertyName="course.code" p:label="Catalog Course Code" p:readOnly="true">
-                        <property name="control">
-                          <bean parent="Uif-TextControl" p:size="5"/>
-                        </property>
-                      </bean>
-                      <bean parent="Uif-InputField" p:propertyName="course.courseTitle" p:label="Course Title" p:readOnly="true">
-                        <property name="control">
-                          <bean parent="Uif-TextControl" p:size="21"/>
-                        </property>
-                      </bean>
-                      <bean parent="Uif-InputField" p:propertyName="creditCount" p:label="Credits" p:readOnly="true">
-                        <property name="control">
-                          <bean parent="Uif-TextControl" p:size="5"/>
-                        </property>
-                      </bean>
-                    </list>
-                  </property>
-                </bean>
             </list>
         </property>
     </bean>
@@ -173,52 +143,126 @@
          <property name="items">
             <list>
                  <ref bean="KS-Catalog-CourseOfferingCodeSubSection"/>
-                 <ref bean="KS-Catalog-FormatOfferingSubSection"/>
+                 <ref bean="KS-Catalog-FormatOfferingSubSection-New"/>
                  <ref bean="KS-Catalog-ExistingOfferingsSubSection"/>
             </list>
          </property>
     </bean>
 
     <!--This will be displayed for Copy from Catalog action-->
-    <bean id="KS-Catalog-CourseOfferingCodeSubSection" parent="Uif-HorizontalBoxSubSection" >
+    <bean id="KS-Catalog-CourseOfferingCodeSubSection" parent="Uif-VerticalBoxSection" >
         <property name="disclosure.render" value="false"/>
-        <property name="headerText" value="Create Course Offering Code"/>
+        <property name="headerText" value="Course Information"/>
         <property name="items">
             <list>
-                 <bean parent="Uif-InputField" p:propertyName="course.code"
-                       p:label="Catalog Course Code" p:labelPlacement="TOP" p:readOnly="true" p:fieldLabel.renderColon="false">
-                     <property name="control">
-                         <bean parent="Uif-TextControl" p:size="10" />
-                     </property>
-                 </bean>
-                 <bean parent="Uif-InputField" p:propertyName="courseOfferingSuffix"
-                       p:label="Add Suffix" p:labelPlacement="TOP" p:fieldLabel.renderColon="false">
-                     <property name="control">
-                         <bean parent="Uif-TextControl" p:size="10" />
-                     </property>
-                 </bean>
+                <bean parent="Uif-VerticalFieldGroup" p:style="margin-left:68px;">
+                     <property name="group.instructionalMessage">
+                        <bean parent="Uif-InstructionalMessage" p:style="font-weight:bold;font-size:15px;"/>
+                    </property>
+                    <property name="group.instructionalMessage.cssClasses">
+                        <list merge="true">
+                            <value>ks-borderBottom</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="course.code" p:label="Course Code(s)" p:readOnly="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="5"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="courseOfferingSuffix"
+                                  p:label="Suffix" p:labelPlacement="LEFT" p:fieldLabel.renderColon="false">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="10" />
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="course.courseTitle" p:label="Course Title" p:readOnly="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="21"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="creditCount" p:label="Credits" p:readOnly="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="5"/>
+                                </property>
+                            </bean>
+                            <ref bean="KS-CoListed-Checkbox-Group"/>
+                         </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CoListed-Checkbox-Group" parent="Uif-InputField" p:finalizeMethodToCall="populateCrossCourseList" p:propertyName="coListedCOs">
+        <property name="label" value="Cross List As"/>
+        <property name="control">
+            <bean parent="Uif-HorizontalCheckboxesControl">
+                <property name="options">
+                    <list>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-Catalog-FormatOfferingSubSection-New" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="Add Delivery Formats and Activities" />
+        <property name="items">
+            <list>
+                <ref bean="Catalog-FormatOffering-New-Section"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Add" p:methodToCall="addDeliveryFormatsAndActivities"/>
+                <ref bean="Added-Delivery-Formats-And-Activity-List-Section"/>
             </list>
         </property>
     </bean>
 
     <!--This will be displayed for Copy from Catalog action-->
-    <bean id="KS-Catalog-FormatOfferingSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false">
-		<property name="headerText" value="Add Delivery Formats" />
-		<property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo" />
-		<property name="propertyName" value="formatOfferingList" />
-		<property name="layoutManager.renderSequenceField" value="false" />
+    <bean id="Added-Delivery-Formats-And-Activity-List-Section" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false"
+          p:layoutManager.renderSequenceField="false" p:renderAddLine="false">
+<!--        <property name="headerText" value="Added Delivery Formats and Activities" />-->
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo" />
+        <property name="propertyName" value="formatOfferingList" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.richTable.render" value="false" />
-        <property name="addLineActions">
-          <list>
-            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add" p:actionEvent="addLine" />
-          </list>
+        <property name="items">
+            <list>
+               <bean parent="Uif-DataField" p:label="CODE" p:propertyName="shortName"/>
+                <bean parent="Uif-DataField" p:inquiry.render="false" p:label="FORMAT" p:propertyName="name"/>
+
+                 <bean parent="Uif-InputField" p:propertyName="gradeRosterLevelTypeKey"
+                      p:label="GRADE ROSTER LEVEL" p:required="true" p:labelPlacement="TOP"  p:finalizeMethodToCall="populateGradeRosterLevelTypes">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
+                    </property>
+
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey"
+                      p:label="FINAL EXAM DRIVER ACTIVITY" p:required="true" p:labelPlacement="TOP"  p:finalizeMethodToCall="populateFinalExamDriverTypes">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
+                    </property>
+
+                </bean>
+
+            </list>
         </property>
-		<property name="items">
-           <list>
-               <bean parent="Uif-InputField" p:propertyName="formatId" p:readOnlyDisplayReplacementPropertyName="name"  p:required="true"
-                      p:label="FORMAT" p:labelPlacement="TOP" p:readOnly="@{!#isAddLine}">
+    </bean>
+
+
+    <!--This will be displayed for Copy from Catalog action-->
+    <bean id="Catalog-FormatOffering-New-Section" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="formatOfferingAddLine.formatId"  p:required="true"  p:label="FORMAT" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -226,26 +270,28 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatOfferingTypeForCreateCOTypeKeyValues"/>
                     </property>
                 </bean>
-               <bean parent="Uif-InputField" p:propertyName="gradeRosterLevelTypeKey"
-                      p:label="GRADE ROSTER LEVEL" p:required="true" p:labelPlacement="TOP" p:refreshWhenChangedPropertyNames="#lp.formatId" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
+                <bean parent="Uif-InputField" p:propertyName="formatOfferingAddLine.gradeRosterLevelTypeKey"
+                      p:label="GRADE ROSTER" p:required="true" p:labelPlacement="TOP" p:refreshWhenChangedPropertyNames="#dp.formatOfferingAddLine.formatId"
+                      p:finalizeMethodToCall="populateGradeRosterLevelTypesForAddLine">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
-                   <property name="optionsFinder">
+                    <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
                     </property>
+
                 </bean>
-               <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#lp.formatId"
-                      p:label="FINAL EXAM DRIVER ACTIVITY" p:required="true" p:labelPlacement="TOP" p:finalizeMethodToCall="populateFinalExamDriverTypes">
+                <bean parent="Uif-InputField" p:propertyName="formatOfferingAddLine.finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.formatOfferingAddLine.formatId"
+                      p:label="FINAL EXAM DRIVER" p:required="true" p:labelPlacement="TOP" p:finalizeMethodToCall="populateFinalExamDriverTypesForAddLine">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
-                   <property name="optionsFinder">
+                    <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
                     </property>
                 </bean>
-           </list>
-         </property>
+            </list>
+        </property>
     </bean>
 
     <!-- This is used to display a list of existing offerings in the current section. This will be displayed for Copy from Catalog action-->
