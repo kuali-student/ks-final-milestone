@@ -65,7 +65,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     private boolean editAuthz;
 
-    private boolean enableAddButton = true;
+    private boolean enableAddButton = false;
 
     public CourseOfferingManagementForm (){
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
