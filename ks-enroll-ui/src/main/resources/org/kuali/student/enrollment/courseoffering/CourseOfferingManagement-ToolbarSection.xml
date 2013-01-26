@@ -35,7 +35,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-ToolBar-Add" parent="KS-CourseOfferingManagement-ToolBar-Button" p:disabled="false">
+    <bean id="KS-CourseOfferingManagement-ToolBar-Add" parent="KS-CourseOfferingManagement-ToolBar-Button" p:disabled="@{enableAddButton}">
          <property name="actionLabel" value="Add Course"/>
          <property name="actionImage">
              <bean parent="Uif-Image" p:source="../ks-enroll/images/add.png"/>

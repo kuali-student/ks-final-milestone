@@ -28,6 +28,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private String coViewLinkWrapper = "View"; // temp var to hold/store the View Details Link
     private CourseOfferingEditWrapper courseOfferingEditWrapper = null;
     private String socState;
+    private String socStateKey;
 
     private boolean readOnly;
 
@@ -64,6 +65,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     private boolean editAuthz;
 
+    private boolean enableAddButton = true;
 
     public CourseOfferingManagementForm (){
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
@@ -321,5 +323,21 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public void setReadOnly(boolean readOnly) {
         this.readOnly = readOnly;
+    }
+
+    public boolean isEnableAddButton() {
+        return enableAddButton;
+    }
+
+    public void setEnableAddButton(boolean enableAddButton) {
+        this.enableAddButton = enableAddButton;
+    }
+
+    public String getSocStateKey() {
+        return socStateKey;
+    }
+
+    public void setSocStateKey(String socStateKey) {
+        this.socStateKey = socStateKey;
     }
 }

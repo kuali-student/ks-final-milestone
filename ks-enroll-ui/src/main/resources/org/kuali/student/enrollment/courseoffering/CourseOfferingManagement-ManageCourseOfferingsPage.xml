@@ -94,7 +94,6 @@
                 <bean parent="Uif-DataField"
                       p:label="GRADING"
                       p:propertyName="courseOfferingGradingOptionDisplay"/>
-                <bean name="enableAddButton" parent="Uif-InputField" p:propertyName="enableAddButton"/>
                 <bean name="enableApproveButton" parent="Uif-InputField" p:propertyName="enableApproveButton"/>
                 <bean name="enableSuspendButton" parent="Uif-InputField" p:propertyName="enableSuspendButton"/>
                 <bean name="enableCancelButton" parent="Uif-InputField" p:propertyName="enableCancelButton"/>
@@ -104,7 +103,6 @@
         </property>
         <property name="layoutManager.richTable.hiddenColumns">
             <set>
-              <value>enableAddButton</value>
               <value>enableApproveButton</value>
               <value>enableSuspendButton</value>
               <value>enableCancelButton</value>

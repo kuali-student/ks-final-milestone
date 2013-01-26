@@ -192,7 +192,6 @@
                 <bean parent="KS-Schedule-DisplayField" p:label="ROOM" p:messageText="@{#line.roomName}"/>
                 <bean parent="Uif-DataField" p:label="INSTRUCTOR" p:propertyName="firstInstructorDisplayName"/>
                 <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoInfo.maximumEnrollment"/>
-                <bean name="enableAddButton" parent="Uif-InputField" p:propertyName="enableAddButton"/>
                 <bean name="enableApproveButton" parent="Uif-InputField" p:propertyName="enableApproveButton"/>
                 <bean name="enableDraftButton" parent="Uif-InputField" p:propertyName="enableDraftButton"/>
                 <bean name="enableCopyButton" parent="Uif-InputField" p:propertyName="enableCopyButton"/>
@@ -204,7 +203,6 @@
         </property>
         <property name="layoutManager.richTable.hiddenColumns">
             <set>
-              <value>enableAddButton</value>
               <value>enableApproveButton</value>
               <value>enableDraftButton</value>
               <value>enableCopyButton</value>

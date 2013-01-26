@@ -45,12 +45,12 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     boolean isChecked = false;
 
     //hidden columns for toolbar
-    private boolean enableAddButton = true;
-    private boolean enableApproveButton = true;
-    private boolean enableSuspendButton = true;
-    private boolean enableCancelButton = true;
-    private boolean enableReinstateButton = true;
-    private boolean enableDeleteButton = true;
+    private boolean enableAddButton = false;
+    private boolean enableApproveButton = false;
+    private boolean enableSuspendButton = false;
+    private boolean enableCancelButton = false;
+    private boolean enableReinstateButton = false;
+    private boolean enableDeleteButton = false;
 
     public boolean isEnableAddButton() {
         return enableAddButton;

@@ -7,6 +7,9 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
@@ -58,7 +61,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     private CourseService courseService;
     private LRCService lrcService;
     private AtpService atpService;
-
+    private CourseOfferingSetService socService;
 
     public List<TermInfo> findTermByTermCode(String termCode) throws Exception {
         // TODO: Find sensible way to rewrap exception that acal service may throw
@@ -155,6 +158,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         if(courseOfferingIds.size() > 0){
 
             loadCourseOfferingsByIds(courseOfferingIds,form);
+            form.setSocStateKey(getSocStateKey(form.getTermInfo().getId()));
 
         } else {
             LOG.error("Error: Can't find any Course Offering for a Course Code: " + courseCode + " in term: " + termId);
@@ -489,6 +493,26 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             }
         }
     }
+    public String getSocStateKey (String termCode) {
+        try {
+            List<String> socIds = getSocService().getSocIdsByTerm(termCode, createContextInfo());
+            if (socIds != null) {
+                if (socIds.isEmpty()) {
+                    return null;
+                }
+                List<SocInfo> targetSocs = this.getSocService().getSocsByIds(socIds, createContextInfo());
+                for (SocInfo soc: targetSocs) {
+                    if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
+                        return soc.getStateKey();
+                    }
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
 
     public static String trimTrailing0(String creditValue){
         if (creditValue.indexOf(".0") > 0) {
@@ -544,5 +568,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             atpService = CourseOfferingResourceLoader.loadAtpService();
         }
         return atpService;
+    }
+
+    public CourseOfferingSetService getSocService() {
+        // If it hasn't been set by Spring, then look it up by GlobalResourceLoader
+        if (socService == null) {
+            socService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE,
+                                                                                    CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return socService;
     }
 }

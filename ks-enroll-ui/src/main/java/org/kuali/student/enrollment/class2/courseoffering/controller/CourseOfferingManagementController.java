@@ -186,6 +186,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     }
                     CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                     theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
+
+                    ToolbarUtil.processCoToolbarForDeptAdmin(theForm.getCourseOfferingResultList(), theForm);
                 } else { // just one course offering is returned
                     CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                     theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
@@ -253,6 +255,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     }
                     CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                     theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
+                    ToolbarUtil.processCoToolbarForDeptAdmin(theForm.getCourseOfferingResultList(), theForm);
                 } else { // just one course offering is returned
                     CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                     theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
@@ -336,6 +339,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     }
                     CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                     theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
+                    ToolbarUtil.processCoToolbarForDeptAdmin(theForm.getCourseOfferingResultList(), theForm);
                 } else { // just one course offering is returned
                     CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                     theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
@@ -421,6 +425,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                                 }
                                 CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                                 theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
+                                ToolbarUtil.processCoToolbarForDeptAdmin(theForm.getCourseOfferingResultList(), theForm);
                             } else { // just one course offering is returned
                                 CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                                 theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
@@ -486,8 +491,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         //Set SOC State
         //theForm.setSocState(getSocState(theForm.getTermInfo().getId()));
         theForm.setSocState(theForm.getCourseOfferingResultList().get(0).getCourseOfferingStateDisplay());
-
-        
+        ToolbarUtil.processAoToolbarForDeptAdmin(theForm.getActivityWrapperList(), theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 

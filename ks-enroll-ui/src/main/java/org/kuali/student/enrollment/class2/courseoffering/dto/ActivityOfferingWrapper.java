@@ -70,14 +70,13 @@ public class ActivityOfferingWrapper implements Serializable{
     private String adminOrg;
 
       //hidden columns for toolbar
-    private boolean enableAddButton = true;
-    private boolean enableApproveButton = true;
-    private boolean enableDraftButton = true;
-    private boolean enableCopyButton = true;
-    private boolean enableSuspendButton = true;
-    private boolean enableCancelButton = true;
-    private boolean enableReinstateButton = true;
-    private boolean enableDeleteButton = true;
+    private boolean enableApproveButton = false;
+    private boolean enableDraftButton = false;
+    private boolean enableCopyButton = false;
+    private boolean enableSuspendButton = false;
+    private boolean enableCancelButton = false;
+    private boolean enableReinstateButton = false;
+    private boolean enableDeleteButton = false;
 
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
@@ -101,14 +100,6 @@ public class ActivityOfferingWrapper implements Serializable{
         aoInfo = info;
         instructors = new ArrayList<OfferingInstructorWrapper>();
         seatpools = new ArrayList<SeatPoolWrapper>();
-    }
-
-    public boolean isEnableAddButton() {
-        return enableAddButton;
-    }
-
-    public void setEnableAddButton(boolean enableAddButton) {
-        this.enableAddButton = enableAddButton;
     }
 
     public boolean isEnableApproveButton() {
