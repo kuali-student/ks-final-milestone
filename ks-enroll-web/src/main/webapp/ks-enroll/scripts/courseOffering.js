@@ -1,5 +1,4 @@
 function handleToolbar(atpType) {
-    var enableAddButton = getSelector("enableAddButton");
     var enableApproveButton = getSelector("enableApproveButton");
     var enableSuspendButton = getSelector("enableSuspendButton");
     var enableCancelButton = getSelector("enableCancelButton");
@@ -8,7 +7,6 @@ function handleToolbar(atpType) {
     var enableCopyButton = getSelector("enableCopyButton");
     var enableDraftButton = getSelector("enableDraftButton");
 
-    var enableAddButtonVals=[];
     var enableApproveButtonVals=[];
     var enableSuspendButtonVals=[];
     var enableCancelButtonVals=[];
@@ -31,7 +29,6 @@ function handleToolbar(atpType) {
        var cellData = oTable.fnGetData(this);
        for(var i=0; i<cellData.length; i++)
        {
-           //findColumn(cellData[i], enableAddButton, enableAddButtonVals);
            findColumn(cellData[i], enableApproveButton, enableApproveButtonVals);
            findColumn(cellData[i], enableSuspendButton, enableSuspendButtonVals);
            findColumn(cellData[i], enableCancelButton, enableCancelButtonVals);
@@ -66,13 +63,51 @@ function handleButtons(buttonVals, ids) {
 
 function handleButton(arr, id) {
     if(jQuery.isEmptyObject(arr)){
-        jQuery("#" + id).attr("disabled", "disabled");
+        disableButton(id);
     } else{
-        if(jQuery.inArray("true", arr) != -1){
-            jQuery("#" + id).removeAttr("disabled");
-        } else{
-            jQuery("#" + id).attr("disabled", "disabled");
+        if(id == 'KS-CourseOfferingManagement-ToolBar-Copy-AO') {
+            //copy(AO) can have only one selection
+            if(arr.length > 1){
+                disableButton(id);
+            }else{
+                evaluateButton(arr, id);
+            }
+        }else{
+            evaluateButton(arr, id);
         }
+    }
+}
+
+function evaluateButton(arr, id){
+    if(jQuery.inArray("true", arr) != -1){
+        enableButton(id);
+    } else{
+        disableButton(id);
+    }
+}
+
+function enableButton(id){
+    jQuery("#" + id).removeAttr("disabled");
+    var img = jQuery("#" + id).find('img') ,
+           src = img.attr('src') ,
+           disable = /\_disabled\.jpg$/ ,
+           enable = /\.jpg$/ ;
+
+    if(src.match(disable)) {
+        img.attr('src', src.replace(disable, '.jpg'));
+    }
+
+}
+
+function disableButton(id){
+    jQuery("#" + id).attr("disabled", "disabled");
+    var img = jQuery("#" + id).find('img') ,
+           src = img.attr('src') ,
+           disable = /\_disabled\.jpg$/ ,
+           enable = /\.jpg$/ ;
+
+    if(src.match(enable)) {
+        img.attr('src', src.replace(enable, '_disabled.jpg'));
     }
 }
 
