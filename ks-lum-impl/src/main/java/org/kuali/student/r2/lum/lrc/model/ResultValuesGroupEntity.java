@@ -69,7 +69,7 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
     @CollectionTable(name = "KSEN_LRC_RVG_RESULT_VALUE", joinColumns =
     @JoinColumn(name = "RVG_ID"))
     private final Set<String> resultValueKeys = new HashSet<String>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval=true)
     private Set<ResultValuesGroupAttributeEntity> attributes;
 
     public ResultValuesGroupEntity() {

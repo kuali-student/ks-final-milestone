@@ -59,7 +59,7 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval=true)
     private Set<ResultValueAttributeEntity> attributes;
 
     public ResultValueEntity() {
