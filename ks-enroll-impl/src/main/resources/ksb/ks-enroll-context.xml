@@ -770,7 +770,7 @@
 
     <bean id="lrcServiceValidation"
           class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceValidationDecorator">
-        <property name="nextDecorator" ref="lrcPersistenceService" />
+        <property name="nextDecorator" ref="lrcServiceCache" />
         <property name="validator" ref="validator" />
     </bean>
 
