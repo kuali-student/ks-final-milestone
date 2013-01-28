@@ -43,6 +43,7 @@
                 <ref bean="KRMS-TestScore-Field" />
                 <ref bean="KRMS-TestName-Field" />
                 <ref bean="KRMS-Grade-Section" />
+                <ref bean ="KRMS-FreeForm-ConstantValue" />
             </list>
         </property>
     </bean>
@@ -82,11 +83,12 @@
     <bean id="KRMS-CreditHours-ConstantValue" parent="KRMS-Integer-ConstantValue-Parent" p:label="Credit Hours" />
 
     <!-- TextArea component -->
-    <bean id="KRMS-FreeForm-ConstantValue" parent="Uif-InputField" p:propertyName="proposition.proposition.parameters[0].value" p:showLabel="true" p:label="Text" p:required="true">
+    <bean id="KRMS-FreeForm-ConstantValue-parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.proposition.parameters[0].value" p:showLabel="true" p:label="Text" p:required="true">
         <property name="control">
             <bean parent="Uif-TextAreaControl" />
         </property>
     </bean>
+    <bean id="KRMS-FreeForm-ConstantValue" parent="KRMS-FreeForm-ConstantValue-parent" />
 
     <bean id="KRMS-SingleCourse-SuggestField-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.proposition.termParameter" p:label="Course" p:required="true">
         <property name="suggest">
@@ -105,7 +107,7 @@
     <bean id="KRMS-SingleCourse-SuggestField" parent="KRMS-SingleCourse-SuggestField-Parent" />
 
     <bean id="KRMS-MultiCourse-Section-Parent" parent="Uif-VerticalBoxSection" p:headerText="Courses">
-        <!--property name="header.style" value="font-size:12px;"/-->
+        <property name="header.headerTagStyle" value="font-size:13px;"/>
         <property name="instructionalText" value="Add courses, course sets, or course ranges to your course set. You may add any combination of courses, dynamic course ranges, or Course sets." />
         <property name="items">
             <list>
