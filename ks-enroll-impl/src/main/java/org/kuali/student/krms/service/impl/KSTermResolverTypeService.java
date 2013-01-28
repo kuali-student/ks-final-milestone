@@ -6,7 +6,7 @@ import org.kuali.rice.krms.framework.type.TermResolverTypeService;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.krms.termresolver.AdminOrgNumberTermResolver;
-import org.kuali.student.krms.termresolver.CompletedCourseNumberTermResolver;
+import org.kuali.student.krms.termresolver.NumberOfCompletedCoursesTermResolver;
 import org.kuali.student.krms.termresolver.CompletedCourseTermResolver;
 import org.kuali.student.krms.termresolver.FreeTextTermResolver;
 import org.kuali.student.krms.termresolver.GPATermResolver;
@@ -27,7 +27,6 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
 		
 		if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_COMPLETED_COURSE)) {
 			CompletedCourseTermResolver resolver = new CompletedCourseTermResolver();
-			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;
 		}else if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_FREE_TEXT)) {
 			FreeTextTermResolver resolver = new FreeTextTermResolver();
@@ -50,7 +49,7 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
 			resolver.setOrganizationService(organizationService);
 			return resolver;
 		}else if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_COMPLETED_COURSE)) {
-			CompletedCourseNumberTermResolver resolver = new CompletedCourseNumberTermResolver();
+			NumberOfCompletedCoursesTermResolver resolver = new NumberOfCompletedCoursesTermResolver();
 			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;
 		}

@@ -1,15 +1,11 @@
 package org.kuali.student.krms.termresolver;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.impl.repository.ContextBoService;
-import org.kuali.student.common.util.krms.RulesExecutionConstants;
-import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
-import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.krms.service.impl.KSTermResolverTypeService;
 import org.kuali.student.krms.util.KSKRMSExecutionConstants;
@@ -98,16 +94,16 @@ public class TestTermResolvers {
     }
 
     @Test
-    public void testCompletedCourseNumberTermResolver(){
+    public void testNumberOfCompletedCoursesTermResolver(){
         //Setup the term resolver
-        CompletedCourseNumberTermResolver termResolver = new CompletedCourseNumberTermResolver();
+        NumberOfCompletedCoursesTermResolver termResolver = new NumberOfCompletedCoursesTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
 
         //Add prerequisite
         resolvedPrereqs.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
 
         //Create parameters
-        parameters.put(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY, "DTC101,DTC102");
+        parameters.put(KSKRMSExecutionConstants.COURSE_CODES_TERM_PROPERTY, "DTC101,DTC102");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
@@ -124,7 +120,6 @@ public class TestTermResolvers {
     public void testCompletedCourseTermResolver(){
         //Setup the term resolver
         CompletedCourseTermResolver termResolver = new CompletedCourseTermResolver();
-        termResolver.setAcademicRecordService(academicRecordService);
 
         //Add prerequisite
         resolvedPrereqs.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);

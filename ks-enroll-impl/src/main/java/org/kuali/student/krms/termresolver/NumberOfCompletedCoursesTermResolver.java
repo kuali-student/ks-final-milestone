@@ -17,51 +17,24 @@ package org.kuali.student.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
-import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.krms.util.KSKRMSExecutionConstants;
-import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
 
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class CompletedCourseNumberTermResolver implements TermResolver<Integer> {
+public class NumberOfCompletedCoursesTermResolver extends AbstractCourseTermResolver implements TermResolver<Integer> {
 
     private AcademicRecordService academicRecordService;
-
-    private final static Set<String> prerequisites = new HashSet<String>(1);
-
-    static {
-        prerequisites.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
-    }
-    
-    public AcademicRecordService getAcademicRecordService() {
-        return academicRecordService;
-    }
-
-    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
-        this.academicRecordService = academicRecordService;
-    }
-
-    @Override
-    public Set<String> getPrerequisites() {
-        return prerequisites;
-    }
 
     @Override
     public String getOutput() {
@@ -70,7 +43,7 @@ public class CompletedCourseNumberTermResolver implements TermResolver<Integer> 
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
+        return Collections.singleton(KSKRMSExecutionConstants.COURSE_CODES_TERM_PROPERTY);
     }
 
     @Override
@@ -81,12 +54,34 @@ public class CompletedCourseNumberTermResolver implements TermResolver<Integer> 
 
     @Override
     public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+
+        String[] courseCodeArray = this.resolveCourseCodes(parameters);
+        if(courseCodeArray == null || courseCodeArray.length == 0){
+            return 0;
+        }
+
+        List<StudentCourseRecordInfo> recordInfoList = this.getCompletedCourseRecords(resolvedPrereqs, parameters);
+
+        int result = 0;
+        for (StudentCourseRecordInfo si : recordInfoList) {
+            for (String cc : courseCodeArray) {
+                if (cc.equals(si.getCourseCode())) {
+                    result++;
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private List<StudentCourseRecordInfo> getCompletedCourseRecords(Map<String, Object> resolvedPrereqs, Map<String, String> parameters){
+
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
         String personId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        String courseCodes = parameters.get(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
 
         List<StudentCourseRecordInfo> recordInfoList = null;
-        Integer result = 0;
+
         try {
             recordInfoList = academicRecordService.getCompletedCourseRecords(personId, context);
         } catch (InvalidParameterException e) {
@@ -101,25 +96,14 @@ public class CompletedCourseNumberTermResolver implements TermResolver<Integer> 
             throw new TermResolutionException(e.getMessage(), this, parameters);
         }
 
-        courseCodes.trim();
-        String[] courseCode = courseCodes.split(",");
+        return recordInfoList;
+    }
 
-        if(courseCodes.contains(",")) {
-            for(StudentCourseRecordInfo si : recordInfoList) {
-                for(String cc : courseCode) {
-                    if(cc.equals(si.getCourseCode())){
-                        result++;
-                    }
-                }
-            }
-        } else {
-            for(StudentCourseRecordInfo temp : recordInfoList) {
-                if(temp.getCourseCode().equals(courseCodes)){
-                    result++;
-                }
-            }
-        }
+    public AcademicRecordService getAcademicRecordService() {
+        return academicRecordService;
+    }
 
-        return result;
+    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
+        this.academicRecordService = academicRecordService;
     }
 }

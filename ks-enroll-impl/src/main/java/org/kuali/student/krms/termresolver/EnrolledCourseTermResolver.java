@@ -17,25 +17,16 @@ package org.kuali.student.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
-import org.kuali.student.common.util.krms.RulesExecutionConstants;
-import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
-import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.krms.util.KSKRMSExecutionConstants;
-import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
 
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -83,30 +74,18 @@ public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
 
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String personId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        String courseOfferingIds = parameters.get(KSKRMSExecutionConstants.COURSE_ID_TERM_PROPERTY);
 
+        String courseOfferingIds = parameters.get(KSKRMSExecutionConstants.COURSE_ID_TERM_PROPERTY);
         Boolean result = false;
-        List<CourseRegistrationInfo> recordInfoList = null;
-        try {
-            recordInfoList = courseRegistrationService.getCourseRegistrationsByStudent(personId, context);
-        } catch (InvalidParameterException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
-        } catch (MissingParameterException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
-        } catch (OperationFailedException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
-        } catch (PermissionDeniedException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
-        }
 
         courseOfferingIds.trim();
         String[] courseOfferingId = courseOfferingIds.split(",");
         int testNumber = 0;
 
+        List<CourseRegistrationInfo> registrationInfos = this.getCourseRegistrationsForStudent(resolvedPrereqs, parameters);
+
         if(courseOfferingIds.contains(",")) {
-            for(CourseRegistrationInfo cri : recordInfoList) {
+            for(CourseRegistrationInfo cri : registrationInfos) {
                 for(String cc : courseOfferingId) {
                     if(cc.equals(cri.getCourseOfferingId())){
                         testNumber++;
@@ -117,7 +96,7 @@ public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
                 result = true;
             }
         } else {
-            for(CourseRegistrationInfo temp : recordInfoList) {
+            for(CourseRegistrationInfo temp : registrationInfos) {
                 if(temp.getCourseOfferingId().equals(courseOfferingIds)){
                     result = true;
                 }
@@ -125,5 +104,30 @@ public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
         }
 
         return result;
+    }
+
+    private List<CourseRegistrationInfo> getCourseRegistrationsForStudent(Map<String, Object> resolvedPrereqs, Map<String, String> parameters){
+
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        String personId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+
+        List<CourseRegistrationInfo> registrationInfos = null;
+        try {
+            registrationInfos = this.getCourseRegistrationService().getCourseRegistrationsByStudent(personId, context);
+        } catch (InvalidParameterException e) {
+            throw createTermResolutionException(e.getMessage(), parameters);
+        } catch (MissingParameterException e) {
+            throw createTermResolutionException(e.getMessage(), parameters);
+        } catch (OperationFailedException e) {
+            throw createTermResolutionException(e.getMessage(), parameters);
+        } catch (PermissionDeniedException e) {
+            throw createTermResolutionException(e.getMessage(), parameters);
+        }
+
+        return registrationInfos;
+    }
+
+    private TermResolutionException createTermResolutionException(String message, Map<String, String> parameters){
+        return new TermResolutionException(message, this, parameters);
     }
 }

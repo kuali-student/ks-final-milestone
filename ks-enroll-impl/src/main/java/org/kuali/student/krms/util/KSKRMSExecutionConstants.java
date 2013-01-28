@@ -26,8 +26,6 @@ public class KSKRMSExecutionConstants {
     public static final Term enrolledCourseIdsTerm = new Term(STUDENT_ENROLLED_COURSE_IDS_TERM_NAME);
     public static final Term studentDeceasedTerm = new Term(STUDENT_DECEASED_TERM_NAME);
 
-    public static final String COURSE_SET_ID_TERM_PROPERTY = "courseSetIdProperty";
-    public static final String COURSE_ID_TERM_PROPERTY = "courseIdProperty";
     public static final String TEST_SET_ID_TERM_PROPERTY = "testSetIdProperty";
     public static final String MILESTONE_TYPE_TERM_PROPERTY = "milestoneTypeProperty";
     public static final String MILESTONE_ATP_KEY_TERM_PROPERTY = "milestoneAtpKeyProperty";
@@ -47,6 +45,9 @@ public class KSKRMSExecutionConstants {
     //
 	public static final String PERSON_ID_TERM_PROPERTY = "personIdProperty";
 	public static final String COURSE_CODE_TERM_PROPERTY = "courseCodeProperty";
+    public static final String COURSE_CODES_TERM_PROPERTY = "courseCodesProperty";
+    public static final String COURSE_ID_TERM_PROPERTY = "courseIdProperty";
+    public static final String COURSESET_ID_TERM_PROPERTY = "coursesetIdProperty";
 	public static final String TERM_ID_TERM_PROPERTY = "termIdProperty";
 	public static final String CALC_TYPE_KEY_TERM_PROPERTY = "calculationTypeKeyProperty";
     public static final String ORG_ID_TERM_PROPERTY = "orgIdProperty";
