@@ -32,6 +32,7 @@
     <impex.dataXMLDir>${project.basedir}/src/main/resources</impex.dataXMLDir>
     
     <!-- Override the paths for the meta-inf plugin to capture the generated sql locations -->
+    <sql.meta.input.base>${project.basedir}/src/main/resources</sql.meta.input.base>
     <sql.schema.include>impex/sql/${db.vendor}/${project.artifactId}.sql</sql.schema.include>
     <sql.data.include>impex/sql/${db.vendor}/K*.sql</sql.data.include>
     <sql.constraints.include>impex/sql/${db.vendor}/${project.artifactId}-constraints.sql</sql.constraints.include>
