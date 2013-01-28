@@ -17,7 +17,6 @@ package org.kuali.student.enrollment.class1.krms.controller;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -30,9 +29,6 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.api.KrmsApiServiceLocator;
 import org.kuali.rice.krms.api.engine.expression.ComparisonOperatorService;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
-import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
-import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
-import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
@@ -41,7 +37,6 @@ import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
-import org.kuali.rice.krms.impl.repository.ActionBo;
 import org.kuali.rice.krms.impl.repository.AgendaBo;
 import org.kuali.rice.krms.impl.repository.AgendaBoService;
 import org.kuali.rice.krms.impl.repository.AgendaItemBo;
@@ -54,7 +49,6 @@ import org.kuali.rice.krms.impl.repository.RuleBoService;
 import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.rice.krms.impl.repository.TermBoService;
 import org.kuali.rice.krms.impl.rule.AgendaEditorBusRule;
-import org.kuali.rice.krms.impl.ui.CompoundOpCodeNode;
 import org.kuali.rice.krms.impl.ui.SimplePropositionEditNode;
 import org.kuali.rice.krms.impl.ui.SimplePropositionNode;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
@@ -63,9 +57,7 @@ import org.kuali.student.enrollment.class1.krms.dto.CompoundStudentOpCodeNode;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
-import org.kuali.student.enrollment.class1.krms.dto.StudentAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.service.RuleStudentViewHelperService;
-import org.kuali.student.enrollment.class1.krms.service.impl.AgendaStudentEditorMaintainableImpl;
 import org.kuali.student.enrollment.class1.krms.service.impl.RuleStudentViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.krms.util.KsKrmsRepositoryServiceLocator;
 import org.kuali.student.enrollment.class1.krms.util.PropositionTreeUtil;
@@ -102,7 +94,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
     /**
      * This method updates the existing rule in the agenda.
      */
-    @RequestMapping(params = "methodToCall=" + "editRule")
+    @RequestMapping(params = "methodToCall=editRule")
     public ModelAndView editRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
         RuleEditor ruleEditor = getRuleEditor(form);
@@ -328,7 +320,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         }
     }
 
-    @RequestMapping(params = "methodToCall=" + "ajaxRefresh")
+    @RequestMapping(params = "methodToCall=ajaxRefresh")
     public ModelAndView ajaxRefresh(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -349,7 +341,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
      * Updates to the category call back to this method to set the categoryId appropriately
      * TODO: shouldn't this happen automatically?  We're taking it out of the form by hand here
      */
-    @RequestMapping(params = "methodToCall=" + "ajaxCategoryChangeRefresh")
+    @RequestMapping(params = "methodToCall=ajaxCategoryChangeRefresh")
     public ModelAndView ajaxCategoryChangeRefresh(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                                   HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -402,7 +394,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
     //
     // Rule Editor Controller methods
     //
-    @RequestMapping(params = "methodToCall=" + "copyRule")
+    @RequestMapping(params = "methodToCall=copyRule")
     public ModelAndView copyRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -422,7 +414,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
     /**
      * This method starts an edit proposition.
      */
-    @RequestMapping(params = "methodToCall=" + "goToEditProposition")
+    @RequestMapping(params = "methodToCall=goToEditProposition")
     public ModelAndView goToEditProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -485,7 +477,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=" + "addProposition")
+    @RequestMapping(params = "methodToCall=addProposition")
     public ModelAndView addProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -634,7 +626,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         return -1;
     }
 
-    @RequestMapping(params = "methodToCall=" + "movePropositionUp")
+    @RequestMapping(params = "methodToCall=movePropositionUp")
     public ModelAndView movePropositionUp(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -643,7 +635,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=" + "movePropositionDown")
+    @RequestMapping(params = "methodToCall=movePropositionDown")
     public ModelAndView movePropositionDown(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -702,7 +694,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         }
     }
 
-    @RequestMapping(params = "methodToCall=" + "movePropositionLeft")
+    @RequestMapping(params = "methodToCall=movePropositionLeft")
     public ModelAndView movePropositionLeft(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -740,7 +732,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=" + "movePropositionRight")
+    @RequestMapping(params = "methodToCall=movePropositionRight")
     public ModelAndView movePropositionRight(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -783,7 +775,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
      * Additionally, it puts a new blank simple proposition underneath the compound proposition
      * as a sibling to the selected proposition.
      */
-    @RequestMapping(params = "methodToCall=" + "togglePropositionSimpleCompound")
+    @RequestMapping(params = "methodToCall=togglePropositionSimpleCompound")
     public ModelAndView togglePropositionSimpleCompound(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                                         HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -833,7 +825,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
     }
 
 
-    @RequestMapping(params = "methodToCall=" + "cutProposition")
+    @RequestMapping(params = "methodToCall=cutProposition")
     public ModelAndView cutProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -845,7 +837,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=" + "pasteProposition")
+    @RequestMapping(params = "methodToCall=pasteProposition")
     public ModelAndView pasteProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                          HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -913,7 +905,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=" + "deleteProposition")
+    @RequestMapping(params = "methodToCall=deleteProposition")
     public ModelAndView deleteProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -946,7 +938,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=" + "updateCompoundOperator")
+    @RequestMapping(params = "methodToCall=updateCompoundOperator")
     public ModelAndView updateCompoundOperator(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                                HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -958,21 +950,21 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=" + "updateDescription")
+    @RequestMapping(params = "methodToCall=updateDescription")
     public ModelAndView updateDescription(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        PropositionEditor proposition = this.getProposition(form);
-        if (proposition != null) {
+        //PropositionEditor proposition = this.getProposition(form);
+        //if (proposition != null) {
             //String desc = proposition.getDescription().replaceAll("\\{[a-z]{2,}\\}", proposition.getTermParameter());
             //proposition.setDescription(desc);
-        }
+        //}
 
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=" + "retrieveAgenda")
+    @RequestMapping(params = "methodToCall=retrieveAgenda")
     public ModelAndView retrieveAgenda(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -1008,7 +1000,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=" + "retrieveRule")
+    @RequestMapping(params = "methodToCall=retrieveRule")
     public ModelAndView retrieveRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -1043,7 +1035,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
     }
 
-    @RequestMapping(params = "methodToCall=" + "updateProposition")
+    @RequestMapping(params = "methodToCall=updateProposition")
     public ModelAndView updateProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -1146,16 +1138,8 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         return KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService();
     }
 
-    public TermBoService getTermBoService() {
-        return KrmsRepositoryServiceLocator.getTermBoService();
-    }
-
     public ReferenceObjectBindingBoService getReferenceObjectBindingBoService() {
         return KsKrmsRepositoryServiceLocator.getReferenceObjectBindingBoService();
-    }
-
-    public AgendaBoService getAgendaBoService() {
-        return KrmsRepositoryServiceLocator.getAgendaBoService();
     }
 
 }

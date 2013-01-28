@@ -24,7 +24,6 @@ import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
@@ -57,7 +56,6 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -82,8 +80,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
 
     private transient SequenceAccessorService sequenceAccessorService;
 
-    private transient KrmsRetriever krmsRetriever = new KrmsRetriever();
-
     private ContextInfo getContextInfo() {
         if (null == contextInfo) {
             //TODO - get real ContextInfo
@@ -99,8 +95,8 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
      * @return the AgendaEditor
      */
     private RuleEditor getRuleEditor(Object model) {
-        MaintenanceDocumentForm MaintenanceDocumentForm = (MaintenanceDocumentForm) model;
-        return (RuleEditor) MaintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
+        MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
+        return (RuleEditor) maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
     }
 
 

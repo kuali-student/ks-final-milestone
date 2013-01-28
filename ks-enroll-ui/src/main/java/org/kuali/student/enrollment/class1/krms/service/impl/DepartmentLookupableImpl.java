@@ -43,6 +43,7 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class DepartmentLookupableImpl extends LookupableImpl {
+
     private OrganizationService organizationService;
     private ContextInfo contextInfo;
 
@@ -51,27 +52,17 @@ public class DepartmentLookupableImpl extends LookupableImpl {
 
         String shortName = fieldValues.get("shortName");
         String longName = fieldValues.get("longName");
-        String type = "kuali.org.Department";
+
         List<OrgInfo> displays = new ArrayList<OrgInfo>();
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+
         if (StringUtils.isNotBlank(longName) && !longName.isEmpty()) {
-        SearchParamInfo orgLNameParam = new SearchParamInfo();
-            orgLNameParam.setKey("org.queryParam.orgOptionalLongName");
-            orgLNameParam.getValues().add(longName);
-            queryParamValueList.add(orgLNameParam);
+            queryParamValueList.add(this.createSearchParamInfo(longName, "org.queryParam.orgOptionalLongName"));
+        } else if (StringUtils.isNotBlank(shortName) && !shortName.isEmpty()) {
+            queryParamValueList.add(this.createSearchParamInfo(shortName, "org.queryParam.orgOptionalShortName"));
         }
-        else if (StringUtils.isNotBlank(shortName) && !shortName.isEmpty()){
-            SearchParamInfo orgSNameParam = new SearchParamInfo();
-            orgSNameParam.setKey(" org.queryParam.orgOptionalShortName");
-            orgSNameParam.getValues().add(shortName);
-            queryParamValueList.add(orgSNameParam);
-        }
-        SearchParamInfo orgTypeParam = new SearchParamInfo();
-        orgTypeParam.setKey("org.queryParam.orgOptionalType");
-        List<String> orgTypeValues = new ArrayList<String>();
-        orgTypeValues.add(type);
-        orgTypeParam.setValues(orgTypeValues);
-        queryParamValueList.add(orgTypeParam);
+        queryParamValueList.add(this.createSearchParamInfo("kuali.org.Department", "org.queryParam.orgOptionalType"));
+
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("org.search.generic");
         searchRequest.setParams(queryParamValueList);
@@ -86,10 +77,9 @@ public class DepartmentLookupableImpl extends LookupableImpl {
                         display.setId(cell.getValue());
                     } else if ("org.resultColumn.orgOptionalLongName".equals(cell.getKey())) {
                         display.setLongName(cell.getValue());
+                    } else if ("org.resultColumn.orgShortName".equals(cell.getKey())) {
+                        display.setShortName(cell.getValue());
                     }
-                 else if ("org.resultColumn.orgShortName".equals(cell.getKey())) {
-                    display.setShortName(cell.getValue());
-                }
 
                 }
                 displays.add(display);
@@ -100,6 +90,12 @@ public class DepartmentLookupableImpl extends LookupableImpl {
         return displays;
     }
 
+    private SearchParamInfo createSearchParamInfo(String value, String searchKey){
+        SearchParamInfo searchParam = new SearchParamInfo();
+        searchParam.setKey(searchKey);
+        searchParam.getValues().add(value);
+        return searchParam;
+    }
 
     private ContextInfo getContextInfo() {
         if (null == contextInfo) {
@@ -107,8 +103,9 @@ public class DepartmentLookupableImpl extends LookupableImpl {
         }
         return contextInfo;
     }
-    private OrganizationService getOrganizationService(){
-        if(organizationService == null) {
+
+    private OrganizationService getOrganizationService() {
+        if (organizationService == null) {
             organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "organization", "OrganizationService"));
 
         }

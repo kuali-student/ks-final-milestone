@@ -22,16 +22,10 @@ import org.kuali.rice.krms.impl.repository.NaturalLanguageTemplateBoService;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageUsageBoService;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
 import org.kuali.rice.krms.impl.repository.PropositionParameterBo;
-import org.kuali.rice.krms.impl.repository.RuleBo;
-import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.rice.krms.impl.repository.TermSpecificationBo;
-import org.kuali.rice.krms.impl.ui.AgendaEditor;
-import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
-import org.kuali.rice.krms.impl.util.KrmsImplConstants;
 import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
-import org.kuali.student.enrollment.class1.krms.dto.StudentAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.service.RuleStudentViewHelperService;
 import org.kuali.student.enrollment.class1.krms.util.KsKrmsConstants;
 import org.kuali.student.enrollment.class1.krms.util.KsKrmsRepositoryServiceLocator;
@@ -274,8 +268,8 @@ public class RuleStudentViewHelperServiceImpl extends ViewHelperServiceImpl impl
      */
     public List<RemotableAttributeField> retrieveTermParameters(View view, Object model, Container container) {
 
-        MaintenanceDocumentForm MaintenanceDocumentForm = (MaintenanceDocumentForm) model;
-        RuleEditor ruleEditor = (RuleEditor) MaintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
+        MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
+        RuleEditor ruleEditor = (RuleEditor) maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
 
         List<RemotableAttributeField> results = new ArrayList<RemotableAttributeField>();
 
