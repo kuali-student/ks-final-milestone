@@ -17,9 +17,9 @@
     <module>ks-app-db</module>
   </modules>
   <properties>
-    <impex.password>KSMASTER</impex.password>
-    <impex.username>KSMASTER</impex.username>
-    <impex.schema>KSMASTER</impex.schema>
+    <impex.password>KSMASTER_20</impex.password>
+    <impex.username>KSMASTER_20</impex.username>
+    <impex.schema>KSMASTER_20</impex.schema>
     <impex.oracle.url>jdbc:oracle:thin:@localhost:1521:XE</impex.oracle.url>
     <impex.mysql.url>jdbc:mysql://localhost</impex.mysql.url>
     <impex.antCompatibilityMode>true</impex.antCompatibilityMode>
@@ -28,11 +28,17 @@
       Sql generation step of impex requires the schema file for impex xml to be in this location 
       and all the xml files are expected in src/main/resources, rather than the default of src/main/impex
     -->
-    <impex.schemaXMLFile>${basedir}/src/main/resources/schema.xml</impex.schemaXMLFile>
-    <impex.dataXMLDir>${basedir}/src/main/resources</impex.dataXMLDir>
+    <impex.schemaXMLFile>${project.basedir}/src/main/resources/schema.xml</impex.schemaXMLFile>
+    <impex.dataXMLDir>${project.basedir}/src/main/resources</impex.dataXMLDir>
+    
+    <!-- Override the paths for the meta-inf plugin to capture the generated sql locations -->
+    <sql.schema.include>impex/sql/${db.vendor}/${project.artifactId}.sql</sql.schema.include>
+    <sql.data.include>impex/sql/${db.vendor}/K*.sql</sql.data.include>
+    <sql.constraints.include>impex/sql/${db.vendor}/${project.artifactId}-constraints.sql</sql.constraints.include>
     
     <impex.basedir>${project.basedir}</impex.basedir>
     <impex.schema.name>${project.artifactId}</impex.schema.name>
+    <impex.mvn.sql>${project.basedir}/src/main/resources/impex/sql</impex.mvn.sql>
   </properties>
   <build>
     <pluginManagement>
@@ -176,6 +182,7 @@
                   <property>impex.basedir</property>
                   <property>impex.schema.name</property>
                   <property>plugin.impex.version</property>
+		  <property>impex.mvn.sql</property>
                 </properties>
               </configuration>
             </execution>
@@ -218,6 +225,17 @@
 	<impex.url>${impex.mysql.url}</impex.url>
         <impex.driver>${mysql.driver}</impex.driver>
       </properties>
+    </profile>
+    <profile>
+      <id>meta-inf</id>
+      <build>
+        <plugins>
+          <plugin>
+	    <groupId>org.kuali.maven.plugins</groupId>
+	    <artifactId>metainf-maven-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>
