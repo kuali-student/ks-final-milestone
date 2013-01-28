@@ -618,8 +618,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         // copy to lui
         LuiInfo lui = new LuiInfo();
         coTransformer.courseOffering2Lui(coInfo, lui, context);
+
+        //Default the effective date to the start date
+        lui.setEffectiveDate(term.getStartDate());
+
         // create it
         lui = luiService.createLui(courseId, termId, lui.getTypeKey(), lui, context);
+
         // transform it back to a course offering
         CourseOfferingInfo createdCo = new CourseOfferingInfo();
         new CourseOfferingTransformer().lui2CourseOffering(lui, createdCo, context);
@@ -899,7 +904,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             }
         }
         if (format == null) {
-            throw new DoesNotExistException(formatId);
+            throw new OperationFailedException("Error creating format offering. Format does not exist with id " + formatId);
         }
         // copy to lui
         LuiInfo lui = new LuiInfo();
