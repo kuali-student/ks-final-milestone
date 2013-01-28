@@ -67,5 +67,16 @@
                 </plugins>
             </build>
         </profile>
+	<profile>
+	    <id>ks-db</id>
+	    <build>
+	        <plugins>
+	            <plugin>
+	                <groupId>org.kuali.maven.plugins</groupId>
+			<artifactId>spring-maven-plugin</artifactId>
+	            </plugin>
+	        </plugins>
+	    </build>
+	</profile>
     </profiles>
 </project>
