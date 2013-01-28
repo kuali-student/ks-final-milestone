@@ -211,8 +211,8 @@
         <property name="headerText" value="Add Delivery Formats and Activities" />
         <property name="items">
             <list>
-                <ref bean="Catalog-FormatOffering-New-Section"/>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Add" p:methodToCall="addDeliveryFormatsAndActivities"/>
+                <!--<ref bean="Catalog-FormatOffering-New-Section"/>-->
+                <!--<bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Add" p:methodToCall="addDeliveryFormatsAndActivities"/>-->
                 <ref bean="Added-Delivery-Formats-And-Activity-List-Section"/>
             </list>
         </property>
@@ -220,13 +220,16 @@
 
     <!--This will be displayed for Copy from Catalog action-->
     <bean id="Added-Delivery-Formats-And-Activity-List-Section" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false"
-          p:layoutManager.renderSequenceField="false" p:renderAddLine="false">
+          p:layoutManager.renderSequenceField="false">
 <!--        <property name="headerText" value="Added Delivery Formats and Activities" />-->
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo" />
         <property name="propertyName" value="formatOfferingList" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.richTable.render" value="false" />
+        <property name="layoutManager.separateAddLine" value="true"/>
+        <property name="layoutManager.addLineGroup.layoutManager.numberOfColumns" value="3" />
+        <property name="addLineLabel.labelText" value=""/>
         <property name="items">
             <list>
                <bean parent="Uif-DataField" p:label="CODE" p:propertyName="shortName"/>
@@ -255,14 +258,9 @@
 
             </list>
         </property>
-    </bean>
-
-
-    <!--This will be displayed for Copy from Catalog action-->
-    <bean id="Catalog-FormatOffering-New-Section" parent="Uif-HorizontalBoxSubSection">
-        <property name="items">
+        <property name="addLineItems">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="formatOfferingAddLine.formatId"  p:required="true"  p:label="FORMAT" p:labelPlacement="TOP">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="formatId"  p:required="true"  p:label="FORMAT" p:forceSessionPersistence="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -270,7 +268,46 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatOfferingTypeForCreateCOTypeKeyValues"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="formatOfferingAddLine.gradeRosterLevelTypeKey"
+
+                 <bean parent="Uif-InputField-LabelTop" p:propertyName="gradeRosterLevelTypeKey" p:refreshWhenChangedPropertyNames="#lp.formatId" p:forceSessionPersistence="true"
+                      p:label="GRADE ROSTER LEVEL" p:required="true" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
+                    </property>
+
+                </bean>
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#lp.formatId" p:forceSessionPersistence="true"
+                      p:label="FINAL EXAM DRIVER ACTIVITY" p:required="true" p:finalizeMethodToCall="populateFinalExamDriverTypes">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
+                    </property>
+
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+
+    <!--This will be displayed for Copy from Catalog action-->
+    <!--<bean id="Catalog-FormatOffering-New-Section" parent="Uif-HorizontalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="formatId"  p:required="true"  p:label="FORMAT" p:labelPlacement="TOP">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatOfferingTypeForCreateCOTypeKeyValues"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="gradeRosterLevelTypeKey"
                       p:label="GRADE ROSTER" p:required="true" p:labelPlacement="TOP" p:refreshWhenChangedPropertyNames="#dp.formatOfferingAddLine.formatId"
                       p:finalizeMethodToCall="populateGradeRosterLevelTypesForAddLine">
                     <property name="control">
@@ -281,7 +318,7 @@
                     </property>
 
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="formatOfferingAddLine.finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.formatOfferingAddLine.formatId"
+                <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.formatOfferingAddLine.formatId"
                       p:label="FINAL EXAM DRIVER" p:required="true" p:labelPlacement="TOP" p:finalizeMethodToCall="populateFinalExamDriverTypesForAddLine">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
@@ -292,7 +329,7 @@
                 </bean>
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <!-- This is used to display a list of existing offerings in the current section. This will be displayed for Copy from Catalog action-->
     <bean id="KS-Catalog-ExistingOfferingsSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:readOnly="true">
