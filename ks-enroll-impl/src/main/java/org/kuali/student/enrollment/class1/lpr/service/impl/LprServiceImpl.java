@@ -912,4 +912,25 @@ public class LprServiceImpl implements LprService {
 
         return bulkStatusInfoList;
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.kuali.student.enrollment.lpr.service.LprService#validateLprTransaction
+     * (java.lang.String, java.lang.String, java.lang.String, java.lang.String,
+     * org.kuali.student.enrollment.lpr.dto.LprInfo,
+     * org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public List<ValidationResultInfo> validateLprTransaction(
+            String validationType, String luiId, String personId,
+            String lprTypeKey, LprInfo lprInfo, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("method not implemented");
+    }
+    
+    
 }
