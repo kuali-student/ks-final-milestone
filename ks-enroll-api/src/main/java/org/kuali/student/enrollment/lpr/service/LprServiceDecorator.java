@@ -233,4 +233,25 @@ public class LprServiceDecorator implements LprService {
     public LprInfo createLpr(String personId, String luiId, String lprTypeKey, LprInfo lprInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return getNextDecorator().createLpr(personId, luiId, lprTypeKey, lprInfo, contextInfo);
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.kuali.student.enrollment.lpr.service.LprService#validateLprTransaction
+     * (java.lang.String, java.lang.String, java.lang.String, java.lang.String,
+     * org.kuali.student.enrollment.lpr.dto.LprInfo,
+     * org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public List<ValidationResultInfo> validateLprTransaction(
+            String validationType, String luiId, String personId,
+            String lprTypeKey, LprInfo lprInfo, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        return getNextDecorator().validateLprTransaction(validationType, luiId, personId, lprTypeKey, lprInfo, contextInfo);
+    }
+    
+    
 }

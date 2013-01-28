@@ -770,6 +770,35 @@ public interface LprService {
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    
+    /**
+     * Validates the specific Lpr provided.
+     *
+     * @param validationType        Identifier of the extent of validation
+     * @param luiId                 the identifier of the lui
+     * @param personId              the identifier of the person
+     * @param lprTypeKey       the key to the type of the relationship
+     * @param lprInfo   lpr to be validated
+     * @param contextInfo               Context information containing the principalId and locale
+     *                              information about the caller of service operation
+     * @return list of validation results, list should be be zero length if no
+     *         validation results are generated
+     * @throws DoesNotExistException     lprInfo not found
+     * @throws InvalidParameterException invalid lprInfo
+     *                                   relationState
+     * @throws MissingParameterException missing lprInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ValidationResultInfo> validateLprTransaction(@WebParam(name = "validationType") String validationType,
+            @WebParam (name="luiId") String luiId,
+            @WebParam (name="personId") String personId,
+            @WebParam (name="lprTypeKey")  String lprTypeKey,
+            @WebParam(name = "lprInfo") LprInfo lprInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
     /**
      * Validate the LPR Transaction
      *
