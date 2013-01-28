@@ -7,6 +7,7 @@
   </parent>
   <groupId>org.kuali.student.db</groupId>
   <artifactId>ks-cfg-dbs</artifactId>
+  <version>2.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>KS DB Config</name>
   <description>Kuali Student Impex</description>
@@ -15,6 +16,21 @@
     <module>ks-bundled-db</module>
     <module>ks-app-db</module>
   </modules>
+  <properties>
+    <impex.password>KSMASTER</impex.password>
+    <impex.username>KSMASTER</impex.username>
+    <impex.schema>KSMASTER</impex.schema>
+    <impex.oracle.url>jdbc:oracle:thin:@localhost:1521:XE</impex.oracle.url>
+    <impex.mysql.url></impex.mysql.url>
+    <impex.antCompatibilityMode>true</impex.antCompatibilityMode>
+    
+    <!-- 
+      Sql generation step of impex requires the schema file for impex xml to be in this location 
+      and all the xml files are expected in src/main/resources, rather than the default of src/main/impex
+    -->
+    <impex.schemaXMLFile>${basedir}/src/main/resources/schema.xml</impex.schemaXMLFile>
+    <impex.dataXMLDir>${basedir}/src/main/resources</impex.dataXMLDir>
+  </properties>
   <build>
     <pluginManagement>
       <plugins>
@@ -65,6 +81,11 @@
               <artifactId>kuali-jdbc</artifactId>
               <version>${kuali.jdbc.version}</version>
             </dependency>
+	    <dependency>
+              <groupId>org.kuali.common</groupId>
+              <artifactId>kuali-util</artifactId>
+              <version>${kuali.util.version}</version>
+            </dependency>
             <dependency>
               <groupId>org.kuali.rice</groupId>
               <artifactId>rice-impex-server-bootstrap</artifactId>
@@ -82,11 +103,51 @@
               <version>${oracle.version}</version>
             </dependency>
 	    <dependency>
-	      <groupId>${project.parent.groupId}</groupId>
-	      <artifactId>${project.parent.artifactId}</artifactId>
+	      <groupId>org.kuali.student.deployments</groupId>
+	      <artifactId>ks-deployment-resources</artifactId>
 	      <version>${project.parent.version}</version>
 	    </dependency>
           </dependencies>
+        </plugin>
+	<plugin>
+          <groupId>org.kuali.maven.plugins</groupId>
+          <artifactId>maven-impex-plugin</artifactId>
+          <version>${plugin.impex.version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>mysql</groupId>
+              <artifactId>mysql-connector-java</artifactId>
+              <version>${mysql.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>com.oracle</groupId>
+              <artifactId>${oracle.artifact}</artifactId>
+              <version>${oracle.version}</version>
+            </dependency>
+          </dependencies>
+          <configuration>
+	    <username>${impex.username}</username>
+	    <password>${impex.password}</password>
+	    <url>${impex.url}</url>
+	    <schema>${impex.schema}</schema>
+	    
+	    <schemaXMLFile>${impex.schemaXMLFile}</schemaXMLFile>
+	    <dataXMLDir>${impex.dataXMLDir}</dataXMLDir>
+	    <outputDir>${project.build.directory}/impex/</outputDir>
+	    <antCompatibilityMode>${impex.antCompatibilityMode}</antCompatibilityMode>
+	    <includes>${impex.includedTables}</includes>
+	    <excludes>${impex.excludedTables}</excludes>
+          </configuration>
+          <executions>
+            <execution>
+	      <id>exportXML</id>
+	      <goals>
+                <goal>exportschema</goal>
+                <goal>exportdata</goal>
+		<goal>datadtd</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -96,6 +157,8 @@
       <id>oracle</id>
       <properties>
         <db.vendor>oracle</db.vendor>
+	<impex.url>${impex.oracle.url}</impex.url>
+        <impex.driver>${oracle.driver}</impex.driver>
       </properties>
     </profile>
     <profile>

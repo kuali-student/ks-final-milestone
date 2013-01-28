@@ -10,11 +10,26 @@
     <name>KS Bundled Impex</name>
     <description>Kuali Student Bundled Impex</description>
     <properties>
+      <impex.username>KSMASTER</impex.username>
+      <impex.password>KSMASTER</impex.password>
+      <impex.schema>KSMASTER</impex.schema>
+      <impex.oracle.url>jdbc:oracle:thin:@localhost:1521:XE</impex.oracle.url>
+      <impex.antCompatibilityMode>true</impex.antCompatibilityMode>
+      
+      <!-- 
+      Sql generation step of impex requires the schema file for impex xml to be in this location 
+      and all the xml files are expected in src/main/resources, rather than the default of src/main/impex
+      -->
+      <impex.schemaXMLFile>${basedir}/src/main/resources/schema.xml</impex.schemaXMLFile>
+      <impex.dataXMLDir>${basedir}/src/main/resources</impex.dataXMLDir>
+        <!--
         <ks.impex.username>KSBUNDLED</ks.impex.username>
         <ks.impex.password>KSBUNDLED</ks.impex.password>
         <scm.phase>process-resources</scm.phase>
+	-->
     </properties>
     <profiles>
+    <!--
         <profile>
             <id>ks-db</id>
             <build>
@@ -87,6 +102,7 @@
                 </plugins>
             </build>
         </profile>
+	-->
 	<profile>
 	  <id>build-master-db</id>
 	  <build>
@@ -94,6 +110,17 @@
 	      <plugin>
 	        <groupId>org.kuali.maven.plugins</groupId>
 		<artifactId>spring-maven-plugin</artifactId>
+	      </plugin>
+	    </plugins>
+	  </build>
+	</profile>
+	<profile>
+	  <id>impex-export-xml</id>
+	  <build>
+	    <plugins>
+	      <plugin>
+	        <groupId>org.kuali.maven.plugins</groupId>
+		<artifactId>maven-impex-plugin</artifactId>
 	      </plugin>
 	    </plugins>
 	  </build>

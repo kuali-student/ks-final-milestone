@@ -11,6 +11,7 @@
   <name>KS Deployments</name>
   <packaging>pom</packaging>
   <modules>
+    <module>ks-deployment-resources</module>
     <module>ks-cfg-dbs</module>
   </modules>
 </project>
