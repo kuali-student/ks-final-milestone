@@ -8,7 +8,7 @@
     <bean id="KS-CourseOfferingManagement-CO-ToolBarSection" parent="Uif-HorizontalBoxSection" p:render="true">
         <property name="items">
           <list>
-            <bean id="KS-CourseOfferingManagement-ToolBar-Add-CO" parent="KS-CourseOfferingManagement-ToolBar-Add" p:methodToCall="createCourseOffering" p:disabled="@{enableAddButton}"/>
+            <bean id="KS-CourseOfferingManagement-ToolBar-Add-CO" parent="KS-CourseOfferingManagement-ToolBar-Add" p:methodToCall="createCourseOffering" p:disabled="@{!enableAddButton}"/>
             <bean id="KS-CourseOfferingManagement-ToolBar-Approve-CO" parent="KS-CourseOfferingManagement-ToolBar-Approve"
                 p:preSubmitCall="return confirm('This will mark all checked Course Offerings as Ready for Scheduling')" p:methodToCall="approveCOs" />
             <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-CO" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendCOs" p:render="true"/>
