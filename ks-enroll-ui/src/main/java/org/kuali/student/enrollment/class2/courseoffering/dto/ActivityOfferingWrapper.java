@@ -72,7 +72,6 @@ public class ActivityOfferingWrapper implements Serializable{
       //hidden columns for toolbar
     private boolean enableApproveButton = false;
     private boolean enableDraftButton = false;
-    private boolean enableCopyButton = false;
     private boolean enableSuspendButton = false;
     private boolean enableCancelButton = false;
     private boolean enableReinstateButton = false;
@@ -116,14 +115,6 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setEnableDraftButton(boolean enableDraftButton) {
         this.enableDraftButton = enableDraftButton;
-    }
-
-    public boolean isEnableCopyButton() {
-        return enableCopyButton;
-    }
-
-    public void setEnableCopyButton(boolean enableCopyButton) {
-        this.enableCopyButton = enableCopyButton;
     }
 
     public boolean isEnableSuspendButton() {

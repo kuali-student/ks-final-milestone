@@ -169,7 +169,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false">
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" >
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
@@ -194,7 +194,6 @@
                 <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoInfo.maximumEnrollment"/>
                 <bean name="enableApproveButton" parent="Uif-InputField" p:propertyName="enableApproveButton"/>
                 <bean name="enableDraftButton" parent="Uif-InputField" p:propertyName="enableDraftButton"/>
-                <bean name="enableCopyButton" parent="Uif-InputField" p:propertyName="enableCopyButton"/>
                 <bean name="enableSuspendButton" parent="Uif-InputField" p:propertyName="enableSuspendButton"/>
                 <bean name="enableCancelButton" parent="Uif-InputField" p:propertyName="enableCancelButton"/>
                 <bean name="enableReinstateButton" parent="Uif-InputField" p:propertyName="enableReinstateButton" />
@@ -205,7 +204,6 @@
             <set>
               <value>enableApproveButton</value>
               <value>enableDraftButton</value>
-              <value>enableCopyButton</value>
               <value>enableSuspendButton</value>
               <value>enableCancelButton</value>
               <value>enableReinstateButton</value>

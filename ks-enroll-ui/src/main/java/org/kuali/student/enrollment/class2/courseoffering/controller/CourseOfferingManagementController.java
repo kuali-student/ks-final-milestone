@@ -1415,13 +1415,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 
-    @RequestMapping(params = "methodToCall=copyAOs")
-    public ModelAndView copyAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
-                                        @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-
-       return null;
-    }
-
     private void reloadActivityOffering(CourseOfferingManagementForm theForm) throws Exception {
           // Reload the AOs
         CourseOfferingInfo theCourseOffering = theForm.getTheCourseOffering();

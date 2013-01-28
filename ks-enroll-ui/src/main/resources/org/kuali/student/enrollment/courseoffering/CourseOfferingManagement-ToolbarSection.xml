@@ -26,7 +26,6 @@
                   p:performClientSideValidation="true" p:methodToCall="addActivityOfferings" p:disabled="@{!enableAddButton}"/>
             <bean id="KS-CourseOfferingManagement-ToolBar-Approve-AO" parent="KS-CourseOfferingManagement-ToolBar-Approve" p:methodToCall="approveAOs" />
             <bean id="KS-CourseOfferingManagement-ToolBar-Draft-AO" parent="KS-CourseOfferingManagement-ToolBar-Draft" p:methodToCall="draftAOs" />
-            <bean id="KS-CourseOfferingManagement-ToolBar-Copy-AO" parent="KS-CourseOfferingManagement-ToolBar-Copy" p:methodToCall="copyAOs" />
             <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-AO" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendAOs" p:render="true"/>
             <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-AO" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelAOs" p:render="true"/>
             <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-AO" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateAOs" p:render="true"/>

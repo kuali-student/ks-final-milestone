@@ -132,7 +132,6 @@ public class ToolbarUtil {
                     activityWrapper.setEnableSuspendButton(true);
                     activityWrapper.setEnableCancelButton(true);
                     activityWrapper.setEnableDeleteButton(true);
-                    activityWrapper.setEnableCopyButton(true);
                 }
 
                 if(StringUtils.equals(aoState, LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY)){
@@ -140,13 +139,11 @@ public class ToolbarUtil {
                     activityWrapper.setEnableCancelButton(true);
                     activityWrapper.setEnableDeleteButton(true);
                     activityWrapper.setEnableDraftButton(true);
-                    activityWrapper.setEnableCopyButton(true);
                 }
 
                 if(StringUtils.equals(aoState, LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY)){
                     activityWrapper.setEnableSuspendButton(true);
                     activityWrapper.setEnableCancelButton(true);
-                    activityWrapper.setEnableCopyButton(true);
                 }
             }
 
@@ -187,7 +184,6 @@ public class ToolbarUtil {
                     activityWrapper.setEnableSuspendButton(true);
                     activityWrapper.setEnableCancelButton(true);
                     activityWrapper.setEnableDeleteButton(true);
-                    activityWrapper.setEnableCopyButton(true);
                 }
 
                 if(StringUtils.equals(aoState, LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY)){
@@ -195,14 +191,12 @@ public class ToolbarUtil {
                     activityWrapper.setEnableCancelButton(true);
                     activityWrapper.setEnableDeleteButton(true);
                     activityWrapper.setEnableDraftButton(true);
-                    activityWrapper.setEnableCopyButton(true);
                 }
 
                 if(StringUtils.equals(aoState, LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY)){
                     activityWrapper.setEnableSuspendButton(true);
                     activityWrapper.setEnableCancelButton(true);
                     activityWrapper.setEnableDeleteButton(true);
-                    activityWrapper.setEnableCopyButton(true);
                 }
                 //TODO:   locked but mse not in progress
             }

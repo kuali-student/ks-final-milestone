@@ -12,14 +12,13 @@ function handleToolbar(atpType) {
     var enableCancelButtonVals=[];
     var enableReinstateButtonVals=[];
     var enableDeleteButtonVals=[];
-    var enableCopyButtonVals=[];
     var enableDraftButtonVals=[];
 
     var coEnableButtonVals=[enableApproveButtonVals,enableSuspendButtonVals, enableCancelButtonVals,
         enableReinstateButtonVals,enableDeleteButtonVals];
 
     var aoEnableButtonVals=[enableApproveButtonVals,enableSuspendButtonVals, enableCancelButtonVals,
-        enableReinstateButtonVals,enableDeleteButtonVals,enableCopyButtonVals,enableDraftButtonVals];
+        enableReinstateButtonVals,enableDeleteButtonVals,enableDraftButtonVals];
 
     var oTable = getDataTableHandle(atpType);
 
@@ -34,7 +33,6 @@ function handleToolbar(atpType) {
            findColumn(cellData[i], enableCancelButton, enableCancelButtonVals);
            findColumn(cellData[i], enableReinstateButton, enableReinstateButtonVals);
            findColumn(cellData[i], enableDeleteButton, enableDeleteButtonVals);
-           findColumn(cellData[i], enableCopyButton, enableCopyButtonVals);
            findColumn(cellData[i], enableDraftButton, enableDraftButtonVals);
        }
    });
@@ -47,8 +45,7 @@ function handleToolbar(atpType) {
     }else{
         var ids = ['KS-CourseOfferingManagement-ToolBar-Approve-AO', 'KS-CourseOfferingManagement-ToolBar-Suspend-AO',
                     'KS-CourseOfferingManagement-ToolBar-Cancel-AO', 'KS-CourseOfferingManagement-ToolBar-Reinstate-AO',
-                    'KS-CourseOfferingManagement-ToolBar-Delete-AO', 'KS-CourseOfferingManagement-ToolBar-Copy-AO',
-                    'KS-CourseOfferingManagement-ToolBar-Draft-AO'];
+                    'KS-CourseOfferingManagement-ToolBar-Delete-AO', 'KS-CourseOfferingManagement-ToolBar-Draft-AO'];
         handleButtons(aoEnableButtonVals, ids);
     }
 
@@ -65,16 +62,7 @@ function handleButton(arr, id) {
     if(jQuery.isEmptyObject(arr)){
         disableButton(id);
     } else{
-        if(id == 'KS-CourseOfferingManagement-ToolBar-Copy-AO') {
-            //copy(AO) can have only one selection
-            if(arr.length > 1){
-                disableButton(id);
-            }else{
-                evaluateButton(arr, id);
-            }
-        }else{
-            evaluateButton(arr, id);
-        }
+        evaluateButton(arr, id);
     }
 }
 
