@@ -21,7 +21,7 @@
     <impex.username>KSMASTER</impex.username>
     <impex.schema>KSMASTER</impex.schema>
     <impex.oracle.url>jdbc:oracle:thin:@localhost:1521:XE</impex.oracle.url>
-    <impex.mysql.url></impex.mysql.url>
+    <impex.mysql.url>jdbc:mysql://localhost</impex.mysql.url>
     <impex.antCompatibilityMode>true</impex.antCompatibilityMode>
     
     <!-- 
@@ -30,6 +30,9 @@
     -->
     <impex.schemaXMLFile>${basedir}/src/main/resources/schema.xml</impex.schemaXMLFile>
     <impex.dataXMLDir>${basedir}/src/main/resources</impex.dataXMLDir>
+    
+    <impex.basedir>${project.basedir}</impex.basedir>
+    <impex.schema.name>${project.artifactId}</impex.schema.name>
   </properties>
   <build>
     <pluginManagement>
@@ -149,10 +152,57 @@
             </execution>
           </executions>
         </plugin>
+	<plugin>
+          <groupId>org.kuali.maven.plugins</groupId>
+          <artifactId>mvn-maven-plugin</artifactId>
+          <version>${plugin.mvn.version}</version>
+          <executions>
+            <execution>
+              <id>sql</id>
+              <phase>process-resources</phase>
+              <goals>
+                <goal>mvn</goal>
+              </goals>
+              <configuration>
+                <args>
+                  <arg>process-resources</arg>
+		  <arg>-e</arg>
+		  <arg>-DantCompatibilityMode=${impex.antCompatibilityMode}</arg>
+                </args>
+                <poms>
+                  <param>classpath:org/kuali/common/deploy/mvn/impex-with-sql.xml</param>
+                </poms>
+                <properties>
+                  <property>impex.basedir</property>
+                  <property>impex.schema.name</property>
+                  <property>plugin.impex.version</property>
+                </properties>
+              </configuration>
+            </execution>
+          </executions>
+          <dependencies>
+            <dependency>
+              <groupId>org.kuali.common</groupId>
+              <artifactId>kuali-deploy</artifactId>
+              <version>${kuali.deploy.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
   <profiles>
+    <profile>
+      <id>build-master-db</id>
+      <build>
+        <plugins>
+	  <plugin>
+	    <groupId>org.kuali.maven.plugins</groupId>
+	    <artifactId>spring-maven-plugin</artifactId>
+	  </plugin>
+	</plugins>
+      </build>
+    </profile>
     <profile>
       <id>oracle</id>
       <properties>
@@ -165,6 +215,8 @@
       <id>mysql</id>
       <properties>
         <db.vendor>mysql</db.vendor>
+	<impex.url>${impex.mysql.url}</impex.url>
+        <impex.driver>${mysql.driver}</impex.driver>
       </properties>
     </profile>
   </profiles>
