@@ -252,7 +252,7 @@
     </bean>
 
     <bean id="empty_degree_audits" parent="Uif-HorizontalBoxGroup" p:style="padding: 10px;"
-          p:render="@{getAuditHtml() eq null ? true : false}" p:headerText="How to Use Degree Audit (DARS) for Academic Planning">
+          p:render="@{getAuditHtml() eq null ? true : false}" p:headerText="@{(howToUseDegreeAudit)}">
         <property name="header">
             <bean parent="Uif-HeaderFour" p:style="padding: 5px;"/>
         </property>
@@ -289,7 +289,7 @@
                 <bean id="audit_inf_text_1" parent="Uif-Message" p:style="padding: 5px;"
                       p:cssClasses="fl-font-size-100 ">
                     <property name="messageText"
-                              value="The Audit feature is disabled for non-students. We are unable to run a degree audit for you at this time."/>
+                              value="@{(theAuditFeatureDisabled)}"/>
                 </bean>
             </list>
         </property>
@@ -307,17 +307,17 @@
             <list>
                 <bean id="audit_info_header_1" parent="Uif-Message" p:style="padding: 5px;"
                       p:cssClasses="fl-font-size-130 fl-text-gray fl-text-bold myplan-carousel-list">
-                    <property name="messageText" value="Track Your Progress"/>
+                    <property name="messageText" value="@{(trackYourProgress)}"/>
                 </bean>
                 <bean id="audit_info_text_1" parent="Uif-Message" p:style="padding: 5px;"
                       p:cssClasses="fl-font-size-100 ">
                     <property name="messageText"
-                              value="Stay on top of your required credits and courses. DARS will compare your academic record with program requirements so that you know what&#39;s needed to complete your degree. "/>
+                              value="@{(stayOnTopOfUrRequired)}"/>
                 </bean>
                 <bean id="audit_info_footer_1" parent="Uif-Message" p:style="padding: 5px;"
                       p:cssClasses="fl-font-size-100 ">
                     <property name="messageText"
-                              value="Select your program from the menu above &amp; run DARS to see your academic progress now."/>
+                              value="@{(selectYourProgram)}"/>
                 </bean>
             </list>
         </property>
@@ -335,17 +335,17 @@
             <list>
                 <bean id="audit_info_header_2" parent="Uif-Message" p:style="padding: 5px;"
                       p:cssClasses="fl-font-size-130 fl-text-gray fl-text-bold ">
-                    <property name="messageText" value="Explore Programs and Minors"/>
+                    <property name="messageText" value="@{(exploreProgramsAndMinors)}"/>
                 </bean>
                 <bean id="audit_info_text_2" parent="Uif-Message" p:style="padding: 5px;"
                       p:cssClasses="fl-font-size-100 ">
                     <property name="messageText"
-                              value="Still deciding on a degree program? DARS can help you determine your academic progress towards any degree."/>
+                              value="@{(stillDeciding)}"/>
                 </bean>
                 <bean id="audit_info_footer_2" parent="Uif-Message" p:style="padding: 5px;"
                       p:cssClasses="fl-font-size-100 ">
                     <property name="messageText"
-                              value="Select a program from the menu above and run DARS to explore listed majors and more."/>
+                              value="@{(selectAProgramFrom)}"/>
                 </bean>
             </list>
         </property>
@@ -354,7 +354,7 @@
 
     <bean id="select_instruction" parent="Uif-Message" p:cssClasses="myplan-text-normal">
         <property name="messageText"
-                  value="Select your campus and choose a degree program or minor from the dropdown menu below. Audits may take 1-5 minutes to load. You can leave this page to browse MyPlan further while you wait."/>
+                  value="@{(selectYourCampus)}"/>
     </bean>
 
     <bean id="campus_params" parent="Uif-HorizontalFieldGroup">
@@ -464,12 +464,10 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:cssClasses="fl-text-gray fl-font-size-90">
-                    <property name="messageText" value="Some programs are not included in the degree program list for audit."/>
+                    <property name="messageText" value="@{(someProgramsNotIncluded)}"/>
                 </bean>
             </list>
         </property>
 
     </bean>
-
-
 </beans>

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the
  * "License"); you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,22 +15,6 @@
  */
 package org.kuali.student.myplan.audit.controller;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.namespace.QName;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -38,6 +22,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.myplan.audit.dto.AuditProgramInfo;
 import org.kuali.student.myplan.audit.dto.AuditReportInfo;
 import org.kuali.student.myplan.audit.form.DegreeAuditForm;
@@ -49,10 +34,14 @@ import org.kuali.student.myplan.plan.PlanConstants;
 import org.kuali.student.myplan.plan.util.AtpHelper;
 import org.kuali.student.myplan.utils.UserSessionHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.messages.dto.MessageInfo;
+import org.kuali.student.r2.common.messages.service.MessageService;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -68,6 +57,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 
 // http://localhost:8080/student/myplan/audit?methodToCall=audit&viewId=DegreeAudit-FormView
 
@@ -117,10 +123,10 @@ public class DegreeAuditController extends UifControllerBase {
                               HttpServletRequest request, HttpServletResponse response) {
         boolean systemKeyExists = true;
         try {
-        	// TODO: determine factory for context? /mwfyffe
-        	ContextInfo context = new ContextInfo();
+            // TODO: determine factory for context? /mwfyffe
+            ContextInfo context = new ContextInfo();
+            populateFormMessageMap(form, context);
             Map<String, String> campusMap = populateCampusMap(context);
-
             boolean isAuditServiceUp = Boolean.valueOf(request.getAttribute(DegreeAuditConstants.IS_AUDIT_SERVICE_UP).toString());
 
             Person user = GlobalVariables.getUserSession().getPerson();
@@ -317,11 +323,11 @@ public class DegreeAuditController extends UifControllerBase {
             logger.error("Search Failed to get the Organization Data ", e);
         } catch (InvalidParameterException e) {
             logger.error("Search Failed to get the Organization Data ", e);
-		} catch (OperationFailedException e) {
+        } catch (OperationFailedException e) {
             logger.error("Search Failed to get the Organization Data ", e);
-		} catch (PermissionDeniedException e) {
+        } catch (PermissionDeniedException e) {
             logger.error("Search Failed to get the Organization Data ", e);
-		}
+        }
         for (SearchResultRow row : searchResult.getRows()) {
 
             if (getCellValue(row, "org.resultColumn.orgShortName").equalsIgnoreCase("seattle")) {
@@ -338,6 +344,59 @@ public class DegreeAuditController extends UifControllerBase {
         return orgCampusTypes;
     }
 
+    public void populateFormMessageMap(DegreeAuditForm form , ContextInfo context) {
+        //Map <String, MessageInfo> mapMessageInfo = new HashMap <String, MessageInfo> ();
+        List <MessageInfo> listOfMessageInfo = new ArrayList <MessageInfo> ();
+        LocaleInfo localInfo = context.getLocale()  ;
+        localInfo.setLocaleLanguage(DegreeAuditServiceConstants.DEGREE_AUDIT_EN_US_LOCALE);
+        localInfo.setLocaleRegion(DegreeAuditServiceConstants.DEGREE_AUDIT_EN_US_LOCALE);
+        localInfo.setLocaleScript(DegreeAuditServiceConstants.DEGREE_AUDIT_EN_US_LOCALE);
+        localInfo.setLocaleVariant(DegreeAuditServiceConstants.DEGREE_AUDIT_EN_US_LOCALE);
+        //MessageService messageService = new MessageServiceDecorator();
+        MessageService messageService = KsapFrameworkServiceLocator.getMessageService();
+        try {
+            listOfMessageInfo = messageService.getMessagesByGroup(localInfo, DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_GROUP_NAME, context);
+            if ((listOfMessageInfo != null) && (! listOfMessageInfo.isEmpty())) {
+                Iterator<MessageInfo> iterator = listOfMessageInfo.iterator();
+                while (iterator.hasNext()) {
+                    MessageInfo messageInfo = (MessageInfo) iterator.next();
+                    if (messageInfo.getMessageKey().contains(DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_SELECT_A_PROGRAM_FROM)) {
+                             form.setSelectAProgramFrom(messageInfo.getValue());
+                    }else if (messageInfo.getMessageKey().contains(DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_HOW_TO_USE_DEGREE_AUDIT)) {
+                        form.setHowToUseDegreeAudit(messageInfo.getValue());
+                    }else if (messageInfo.getMessageKey().contains(DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_THE_AUDIT_FEATURE_DISABLED)) {
+                        form.setTheAuditFeatureDisabled(messageInfo.getValue());
+                    }else if (messageInfo.getMessageKey().contains(DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_TRACK_YOUR_PROGRESS)) {
+                        form.setTrackYourProgress(messageInfo.getValue());
+                    }else if (messageInfo.getMessageKey().contains(DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_STAY_ON_TOP_OF_YOUR_REQUIRED)) {
+                        form.setStayOnTopOfUrRequired(messageInfo.getValue());
+                    }else if (messageInfo.getMessageKey().contains(DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_SELECT_YOUR_PROGRAM)) {
+                        form.setSelectYourProgram(messageInfo.getValue());
+                    }else if (messageInfo.getMessageKey().contains(DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_EXPLORE_PROGRAMS_AND_MINORS)) {
+                        form.setExploreProgramsAndMinors(messageInfo.getValue());
+                    }else if (messageInfo.getMessageKey().contains(DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_STILL_DECIDING)) {
+                        form.setStillDeciding(messageInfo.getValue());
+                    }else if (messageInfo.getMessageKey().contains(DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_SELECT_YOUR_CAMPUS)) {
+                        form.setSelectYourCampus(messageInfo.getValue());
+                    }else if (messageInfo.getMessageKey().contains(DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_SOME_PROGRAMS_NOT_INCLUDED)) {
+                        form.setSomeProgramsNotIncluded(messageInfo.getValue());
+                    }
+                }
+
+            }
+
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (MissingParameterException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (OperationFailedException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
 
     public String getCellValue(SearchResultRow row, String key) {
         for (SearchResultCell cell : row.getCells()) {
@@ -380,5 +439,3 @@ public class DegreeAuditController extends UifControllerBase {
         return getUIFModelAndView(form, page);
     }
 }
-
-
