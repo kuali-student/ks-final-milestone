@@ -82,4 +82,11 @@ public class CourseOfferingConstants {
 
     //JSON string root key for customized breadcrumb
     public static final String BREADCRUMB_JSON_ROOT_KEY = "breadCrumb";
+
+    //toolbar matrix -- result/warning messages
+    public static final String ACTIVITYOFFERING_TOOLBAR_DELETE="info.enroll.activityoffering.toolbar.delete";
+    public static final String ACTIVITYOFFERING_TOOLBAR_DRAFT="info.enroll.activityoffering.toolbar.draft" ;
+    public static final String ACTIVITYOFFERING_TOOLBAR_APPROVED="info.enroll.activityoffering.toolbar.approved" ;
+    public static final String COURSEOFFERING_TOOLBAR_DELETE="info.enroll.courseoffering.toolbar.delete" ;
+    public static final String COURSEOFFERING_TOOLBAR_APPROVED="info.enroll.courseoffering.toolbar.approved" ;
 }

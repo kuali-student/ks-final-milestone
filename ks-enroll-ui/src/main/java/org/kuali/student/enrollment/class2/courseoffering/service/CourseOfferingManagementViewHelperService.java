@@ -34,4 +34,8 @@ public interface CourseOfferingManagementViewHelperService extends CO_AO_RG_View
 
     public void loadPreviousAndNextCourseOffering(CourseOfferingManagementForm form, CourseOfferingInfo courseOfferingInfo);
 
+    public List<ActivityOfferingWrapper> getActivityOfferingsByCourseOfferingId (String courseOfferingId, CourseOfferingManagementForm form) throws Exception;
+
+    public void approveCourseOfferings(CourseOfferingManagementForm form) throws Exception;
+
 }

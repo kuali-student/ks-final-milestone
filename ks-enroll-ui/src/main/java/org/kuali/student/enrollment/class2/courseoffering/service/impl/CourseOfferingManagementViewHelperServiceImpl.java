@@ -7,6 +7,8 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
+import org.kuali.student.enrollment.class2.courseoffering.util.ToolbarUtil;
+import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
@@ -378,6 +380,53 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         form.setActivityWrapperList(activityOfferingWrapperList);
     }
 
+    public List<ActivityOfferingWrapper> getActivityOfferingsByCourseOfferingId (String courseOfferingId, CourseOfferingManagementForm form) throws Exception{
+        List<ActivityOfferingInfo> activityOfferingInfoList;
+        List<ActivityOfferingWrapper> activityOfferingWrapperList;
+
+        try {
+            activityOfferingInfoList =_getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, createContextInfo());
+            activityOfferingWrapperList = new ArrayList<ActivityOfferingWrapper>(activityOfferingInfoList.size());
+
+            for (ActivityOfferingInfo info : activityOfferingInfoList) {
+                ActivityOfferingWrapper aoWrapper = new ActivityOfferingWrapper(info);
+                activityOfferingWrapperList.add(aoWrapper);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(String.format("Could not load AOs for course offering [%s].", courseOfferingId), e);
+        }
+        return activityOfferingWrapperList;
+    }
+
+    public void approveCourseOfferings(CourseOfferingManagementForm form) throws Exception{
+        List<CourseOfferingListSectionWrapper> coList = form.getCourseOfferingResultList();
+        ContextInfo contextInfo = createContextInfo();
+        boolean hasStateChangedAO = false;
+        for(CourseOfferingListSectionWrapper co : coList) {
+             if(co.isEnableApproveButton() && co.getIsChecked()) {
+                 List<ActivityOfferingWrapper> aos = getActivityOfferingsByCourseOfferingId(co.getCourseOfferingId(), form);
+                 if(aos != null && !aos.isEmpty()){
+                     ToolbarUtil.processAoToolbarForDeptAdmin(aos, form);
+                     for(ActivityOfferingWrapper ao : aos){
+                        if(ao.isEnableDeleteButton()){
+                            StatusInfo statusInfo = getCourseOfferingService().updateActivityOfferingState(ao.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
+                            if (!statusInfo.getIsSuccess()){
+                                GlobalVariables.getMessageMap().putError("manageCourseOfferingsPage", CourseOfferingConstants.COURSE_OFFERING_STATE_CHANGE_ERROR,co.getCourseOfferingCode(),statusInfo.getMessage());
+                            }
+                            //  Flag if any AOs can be state changed. This affects the error message whi.
+                            if (statusInfo.getIsSuccess()){
+                                hasStateChangedAO = true;
+                            }
+                        }
+                    }
+                }
+            }
+         }
+
+        if ( ! hasStateChangedAO) {
+            GlobalVariables.getMessageMap().putError("manageCourseOfferingsPage", CourseOfferingConstants.COURSEOFFERING_NONE_APPROVED);
+        }
+    }
     /**
      * Performs
      * @param aoList The list of AOs to evaluate.

@@ -14,7 +14,8 @@
             <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-CO" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendCOs" p:render="true"/>
             <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-CO" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelCOs"  p:render="true"/>
             <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-CO" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateCOs"  p:render="true"/>
-            <bean id="KS-CourseOfferingManagement-ToolBar-Delete-CO" parent="KS-CourseOfferingManagement-ToolBar-Delete" p:methodToCall="deleteCOs"/>
+            <bean id="KS-CourseOfferingManagement-ToolBar-Delete-CO" parent="KS-CourseOfferingManagement-ToolBar-Delete"
+                p:preSubmitCall="return confirm('Course Offerings in a Draft, Planned, Canceled, or Suspended State will be Deleted')" p:methodToCall="deleteCOs"/>
           </list>
         </property>
     </bean>

@@ -75,6 +75,7 @@ function evaluateButton(arr, id){
 }
 
 function enableButton(id){
+    jQuery("#" + id).removeClass('disabled');
     jQuery("#" + id).removeAttr("disabled");
     var img = jQuery("#" + id).find('img') ,
            src = img.attr('src') ,
@@ -88,6 +89,7 @@ function enableButton(id){
 }
 
 function disableButton(id){
+    jQuery("#" + id).addClass("disabled");
     jQuery("#" + id).attr("disabled", "disabled");
     var img = jQuery("#" + id).find('img') ,
            src = img.attr('src') ,
