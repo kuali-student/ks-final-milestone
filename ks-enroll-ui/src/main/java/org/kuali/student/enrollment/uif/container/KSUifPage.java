@@ -22,6 +22,7 @@ import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.container.PageGroup;
+import org.kuali.rice.krad.uif.service.ExpressionEvaluatorService;
 import org.kuali.rice.krad.uif.service.ViewService;
 import org.kuali.rice.krad.uif.util.ExpressionFunctions;
 import org.kuali.rice.krad.uif.view.FormView;
@@ -41,99 +42,77 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * KS page class that extends PageGroup to perform the customized breadcrumb generation.
  *
  * @author Kuali Student Team
  */
 public class KSUifPage extends PageGroup {
     private Map<String, Map<String,String>> breadCrumbConfigMap;
+    private transient ExpressionEvaluatorService expressionEvaluatorService;
 
     public KSUifPage() {
     }
 
+    /**
+     * During the page initialization, the overriden method firstly evaluates if there is
+     * a customized breadcrumb configured for the current page by checking the form property
+     * breadCrumbItemsMap. If there is, it iterates the breadCrumbItemsMap to evaluate any
+     * expressions in the map key by calling the rice service. And then it calls the utility
+     * method to generate the breadcrumb JSON string used to rewrite the default KRAD breadcrumb
+     * for the current page.
+     *
+     *
+     * @param view - view instance being rendered
+     * @param model - Object containing the view data
+     */
     @Override
     public void performInitialization(View view, Object model) {
         super.performInitialization(view, model);
         KSUifForm form = (KSUifForm) model;
+
+        //If the form property breadCrumbItemsMap is set (there is a customized breadcrumb for the current page),
+        //construct the breadcrumb JSON string
         if (form.getPageId()!=null && form.getBreadCrumbItemsMap()!=null
             && form.getBreadCrumbItemsMap().get(form.getPageId())!=null && !form.getBreadCrumbItemsMap().get(form.getPageId()).isEmpty()) {
             Map<String, String> breadCrumbItemsMapReplaced = new LinkedHashMap<String, String>(form.getBreadCrumbItemsMap().get(form.getPageId()).size());
+
+            // Iterates the breadcrumb map for the current page and evaluate any expressions in map keys
             for (Map.Entry<String, String> entry : form.getBreadCrumbItemsMap().get(form.getPageId()).entrySet()) {
                 if (hasExpression(entry.getKey())) {
-                    String mapKeyEvaluated = (String) evaluateExpression(form, form.getPostedView().getContext(), entry.getKey());
+                    String mapKeyEvaluated = (String)getExpressionEvaluatorService().evaluateExpression(form, form.getPostedView().getContext(), entry.getKey());
                     breadCrumbItemsMapReplaced.put(mapKeyEvaluated, entry.getValue());
                 } else {
                     breadCrumbItemsMapReplaced.put(entry.getKey(), entry.getValue());
                 }
             }
             form.getBreadCrumbItemsMap().put(form.getPageId(), breadCrumbItemsMapReplaced);
+
+            //generate the breadcrumb JSON string for the current page.
             KSUifUtils.constructBreadCrumbs(form);
         }
 
     }
 
+    /**
+     * During the phase of applying model to page, the overriden method firstly evaluates if
+     * page property breadCrumbConfigMap is set by the XML configuration. If it is, it means
+     * this is the entry page of the view and the method will set breadCrumbConfigMap to the
+     * form property breadCrumbItemsMap, which will be used for breadcrumb JSON string generation.
+     *
+     * @param view - view instance being rendered
+     * @param model - Object containing the view data
+     * @param parent - parent component
+     */
     @Override
     public void performApplyModel(View view, Object model, Component parent) {
         super.performApplyModel(view, model, parent);
-        KSUifForm form = (KSUifForm) model;
+
+        //if the breadCrumbConfigMap property is set by XML configuration, set this map
+        //to the form property breadCrumbItemsMap, which will hold breadcrumb item map
+        //for all the pages that has customized breadcrumbs configured in the current view
         if (breadCrumbConfigMap!=null && !breadCrumbConfigMap.isEmpty()) {
+            KSUifForm form = (KSUifForm) model;
             form.setBreadCrumbItemsMap(breadCrumbConfigMap);
-        }
-    }
-
-    public Object evaluateExpression(Object contextObject, Map<String, Object> evaluationParameters,
-                                     String expressionStr) {
-        StandardEvaluationContext context = new StandardEvaluationContext(contextObject);
-        context.setVariables(evaluationParameters);
-        addCustomFunctions(context);
-
-        // if expression contains placeholders remove before evaluating
-        if (StringUtils.startsWith(expressionStr, UifConstants.EL_PLACEHOLDER_PREFIX) && StringUtils.endsWith(
-                expressionStr, UifConstants.EL_PLACEHOLDER_SUFFIX)) {
-            expressionStr = StringUtils.removeStart(expressionStr, UifConstants.EL_PLACEHOLDER_PREFIX);
-            expressionStr = StringUtils.removeEnd(expressionStr, UifConstants.EL_PLACEHOLDER_SUFFIX);
-        }
-
-        ExpressionParser parser = new SpelExpressionParser();
-        Object result = null;
-        try {
-            Expression expression = parser.parseExpression(expressionStr);
-
-            result = expression.getValue(context);
-        } catch (Exception e) {
-            throw new RuntimeException("Exception evaluating expression: " + expressionStr, e);
-        }
-
-        return result;
-    }
-
-    protected void addCustomFunctions(StandardEvaluationContext context) {
-        try {
-            // TODO: possibly reflect ExpressionFunctions and add automatically
-            context.registerFunction("isAssignableFrom", ExpressionFunctions.class.getDeclaredMethod("isAssignableFrom",
-                    new Class[]{Class.class, Class.class}));
-            context.registerFunction("empty", ExpressionFunctions.class.getDeclaredMethod("empty",
-                    new Class[]{Object.class}));
-            context.registerFunction("emptyList", ExpressionFunctions.class.getDeclaredMethod("emptyList",
-                    new Class[]{List.class}));
-            context.registerFunction("listContains", ExpressionFunctions.class.getDeclaredMethod("listContains",
-                    new Class[]{List.class, Object[].class}));
-            context.registerFunction("getName", ExpressionFunctions.class.getDeclaredMethod("getName",
-                    new Class[]{Class.class}));
-            context.registerFunction("getParm", ExpressionFunctions.class.getDeclaredMethod("getParm",
-                    new Class[]{String.class, String.class, String.class}));
-            context.registerFunction("getParmInd", ExpressionFunctions.class.getDeclaredMethod("getParmInd",
-                    new Class[]{String.class, String.class, String.class}));
-            context.registerFunction("hasPerm", ExpressionFunctions.class.getDeclaredMethod("hasPerm",
-                    new Class[]{String.class, String.class}));
-            context.registerFunction("hasPermDtls", ExpressionFunctions.class.getDeclaredMethod("hasPermDtls",
-                    new Class[]{String.class, String.class, Map.class, Map.class}));
-            context.registerFunction("hasPermTmpl", ExpressionFunctions.class.getDeclaredMethod("hasPermTmpl",
-                    new Class[]{String.class, String.class, Map.class, Map.class}));
-            context.registerFunction("sequence", ExpressionFunctions.class.getDeclaredMethod("sequence",
-                    new Class[]{String.class}));
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException("Custom function for el expressions not found: " + e.getMessage(), e);
         }
     }
 
@@ -184,6 +163,15 @@ public class KSUifPage extends PageGroup {
     public void setBreadCrumbConfigMap(Map<String, Map<String,String>> breadCrumbConfigMap) {
         this.breadCrumbConfigMap = breadCrumbConfigMap;
     }
+
+    protected ExpressionEvaluatorService getExpressionEvaluatorService() {
+        if (this.expressionEvaluatorService == null) {
+            this.expressionEvaluatorService = KRADServiceLocatorWeb.getExpressionEvaluatorService();
+        }
+
+        return this.expressionEvaluatorService;
+    }
+
 
 
 }

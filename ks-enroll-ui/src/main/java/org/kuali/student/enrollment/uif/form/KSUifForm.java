@@ -22,14 +22,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * KS base form class contains properties that are shared among all the
- * KS forms. KS forms can extend it and it extends UifFormBase.
+ * KS form class that extends UifFormBase. It contains properties that are shared
+ * among all the KS forms.
  *
  * @author Kuali Student Team
  */
 public class KSUifForm extends UifFormBase {
-    private String breadCrumbJSON;
-    private Map<String,Map<String,String>> breadCrumbItemsMap;
+    private String breadCrumbJSON; //JSON string of customized breadcrumb of a page
+    private Map<String,Map<String,String>> breadCrumbItemsMap; //Map that storing breadcrumb maps for all the pages that have it configured in the current view
 
     public KSUifForm() {
         breadCrumbJSON = "";

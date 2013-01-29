@@ -99,6 +99,7 @@ public class KSUifUtils {
         if (form.getPageId() != null && form.getBreadCrumbItemsMap()!=null &&
             form.getBreadCrumbItemsMap().get(form.getPageId()) != null && !form.getBreadCrumbItemsMap().get(form.getPageId()).isEmpty()) {
             for (Map.Entry<String, String> entry : form.getBreadCrumbItemsMap().get(form.getPageId()).entrySet()) {
+                //if the map value is set for a breadcrumb item, construct the url for this item
                 if (entry.getValue() != null && !entry.getValue().isEmpty()) {
                     Properties urlParameters = new Properties();
                     urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, UifConstants.MethodToCallNames.START);
@@ -120,7 +121,6 @@ public class KSUifUtils {
 
                     //contruct the url for this breadcrumb item
                     breadCrumbItemUrl = UrlFactory.parameterizeUrl(controllerPath, urlParameters);
-
 
                     if (mapIndex == 0) {
                         JSONString = "{\"" + CourseOfferingConstants.BREADCRUMB_JSON_ROOT_KEY + "\": {\"" + entry.getKey() + "\": \"" + breadCrumbItemUrl + "\",";
@@ -146,6 +146,7 @@ public class KSUifUtils {
             }
         }
 
+        //set the generated breadcrumb JSON string to the form
         form.setBreadCrumbJSON(JSONString);
     }
 }
