@@ -83,6 +83,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="LuiInfo.effectiveDate" parent="LuiInfo.effectiveDate-parent"/>
 	<bean id="LuiInfo.effectiveDate-parent" abstract="true" parent="LuiInfo.effectiveDate-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
+        <!-- There is debate bout whether LUIs need this field -->
+        <property name="required" value="false"/>
 	</bean>
 
 	<bean id="LuiInfo.expirationDate" parent="LuiInfo.expirationDate-parent"/>
