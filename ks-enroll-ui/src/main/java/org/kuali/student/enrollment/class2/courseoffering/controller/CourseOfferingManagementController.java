@@ -490,9 +490,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         theForm.setEditAuthz(checkEditViewAuthz(theForm));
 
-        //Set SOC State
-        //theForm.setSocState(getSocState(theForm.getTermInfo().getId()));
-        theForm.setSocState(theForm.getCourseOfferingResultList().get(0).getCourseOfferingStateDisplay());
+        //Set SOC State - temporary display, to be removed after testing is finished
+        String socState = getSocState(theForm.getTermInfo().getId());
+        socState = (socState.substring(0,1)).toUpperCase() + socState.substring(1, socState.length());
+        theForm.setSocState(socState);
+
         ToolbarUtil.processAoToolbarForDeptAdmin(theForm.getActivityWrapperList(), theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
