@@ -490,7 +490,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         theForm.setEditAuthz(checkEditViewAuthz(theForm));
 
-        //Set SOC State - temporary display, to be removed after testing is finished
+        //TODO: Set SOC State - temporary display, to be removed after testing is finished
         String socState = getSocState(theForm.getTermInfo().getId());
         socState = (socState.substring(0,1)).toUpperCase() + socState.substring(1, socState.length());
         theForm.setSocState(socState);
