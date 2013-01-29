@@ -746,8 +746,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=cancelDeleteAOs")
     public ModelAndView cancelDeleteAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theForm.getTheCourseOffering(), theForm);
-        ToolbarUtil.processAoToolbarForDeptAdmin(theForm.getActivityWrapperList(), theForm);
+        reloadActivityOffering(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 
@@ -773,8 +772,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             throw new RuntimeException(e);
         }
 
-        getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theForm.getTheCourseOffering(), theForm);
-        ToolbarUtil.processAoToolbarForDeptAdmin(theForm.getActivityWrapperList(), theForm);
+        reloadActivityOffering(theForm);
+
         if(selectedAolist.size() > 0 && theForm.isSelectedIllegalAOInDeletion())  {
             GlobalVariables.getMessageMap().putWarningForSectionId("manageActivityOfferingsPage",
                     CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE);
@@ -1308,30 +1307,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public ModelAndView deleteCOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        List<CourseOfferingListSectionWrapper> coList = theForm.getCourseOfferingResultList();
-        List<CourseOfferingListSectionWrapper> qualifiedToDeleteList = new ArrayList<CourseOfferingListSectionWrapper>();
-
-         for(CourseOfferingListSectionWrapper co : coList) {
-             if(co.isEnableDeleteButton() && co.getIsChecked()) {
-                List<ActivityOfferingWrapper> aos = getViewHelperService(theForm).getActivityOfferingsByCourseOfferingId(co.getCourseOfferingId(), theForm);
-                if(aos != null && !aos.isEmpty()){
-                    ToolbarUtil.processAoToolbarForDeptAdmin(aos, theForm);
-                    for(ActivityOfferingWrapper ao : aos){
-                        if(!ao.isEnableDeleteButton()){
-                            break;
-                        }
-                    }
-                }
-                qualifiedToDeleteList.add(co);
-             }
-         }
-
-        if(!qualifiedToDeleteList.isEmpty()){
-            for(CourseOfferingListSectionWrapper co : qualifiedToDeleteList){
-                CourseOfferingResourceLoader.loadCourseOfferingService().deleteCourseOfferingCascaded(co.getCourseOfferingId(), ContextBuilder.loadContextInfo());
-            }
-        }
-
+        getViewHelperService(theForm).deleteCourseOfferings(theForm);
         reloadCourseOfferings(theForm);
         KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
@@ -1340,15 +1316,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=approveAOs")
     public ModelAndView approveAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-    //  Stop here if no AOs are selected.
-        if ( ! hasSelectedActivityOfferings(theForm)) {
-            GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage", CourseOfferingConstants.NO_AOS_SELECTED);
-            return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
-        }
 
-        getViewHelperService(theForm).changeActivityOfferingsState(theForm.getActivityWrapperList(), theForm.getTheCourseOffering(), CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION);
+        getViewHelperService(theForm).approveActivityOfferings(theForm);
         reloadActivityOffering(theForm);
-
+        KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_APPROVED);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 
@@ -1356,11 +1327,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public ModelAndView suspendAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-    //  Stop here if no AOs are selected.
-        if ( ! hasSelectedActivityOfferings(theForm)) {
-            GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage", CourseOfferingConstants.NO_AOS_SELECTED);
-            return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
-        }
         //TODO suspendAOs
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
@@ -1368,12 +1334,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=cancelAOs")
     public ModelAndView cancelAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-    //  Stop here if no AOs are selected.
-        if ( ! hasSelectedActivityOfferings(theForm)) {
-            GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage", CourseOfferingConstants.NO_AOS_SELECTED);
-            return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
-        }
-
         //TODO: cancelAOs
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
@@ -1381,12 +1341,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=reinstateAOs")
     public ModelAndView reinstateAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-
-    //  Stop here if no AOs are selected.
-        if ( ! hasSelectedActivityOfferings(theForm)) {
-            GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage", CourseOfferingConstants.NO_AOS_SELECTED);
-            return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
-        }
 
         //TODO: reinstateAOs
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
@@ -1424,15 +1378,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=draftAOs")
     public ModelAndView draftAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-
-        //  Stop here if no AOs are selected.
-        if ( ! hasSelectedActivityOfferings(theForm)) {
-            GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage", CourseOfferingConstants.NO_AOS_SELECTED);
-            return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
-        }
-
-        getViewHelperService(theForm).changeActivityOfferingsState(theForm.getActivityWrapperList(), theForm.getTheCourseOffering(), CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION);
+        getViewHelperService(theForm).draftActivityOfferings(theForm);
         reloadActivityOffering(theForm);
+        KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_DRAFT);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 
@@ -1449,7 +1397,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     }
 
     private void reloadCourseOfferings(CourseOfferingManagementForm theForm)  throws Exception{
-        getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(theForm.getTermInfo().getId(), theForm.getInputCode(),theForm);
+        getViewHelperService(theForm).loadCourseOfferingsByTermAndCourseCode(theForm.getTermInfo().getId(), theForm.getInputCode(),theForm);
+        //getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(theForm.getTermInfo().getId(), theForm.getInputCode(),theForm);
         ToolbarUtil.processCoToolbarForDeptAdmin(theForm.getCourseOfferingResultList(), theForm);
     }
     public CourseOfferingSetService getSocService() {

@@ -37,5 +37,8 @@ public interface CourseOfferingManagementViewHelperService extends CO_AO_RG_View
     public List<ActivityOfferingWrapper> getActivityOfferingsByCourseOfferingId (String courseOfferingId, CourseOfferingManagementForm form) throws Exception;
 
     public void approveCourseOfferings(CourseOfferingManagementForm form) throws Exception;
+    public void deleteCourseOfferings(CourseOfferingManagementForm form) throws Exception;
+    public void approveActivityOfferings(CourseOfferingManagementForm form) throws Exception;
+    public void draftActivityOfferings(CourseOfferingManagementForm form) throws Exception;
 
 }

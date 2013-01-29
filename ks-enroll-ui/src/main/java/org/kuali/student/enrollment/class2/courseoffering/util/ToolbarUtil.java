@@ -33,6 +33,7 @@ import java.util.List;
 public class ToolbarUtil {
     public static void processCoToolbarForDeptAdmin(List<CourseOfferingListSectionWrapper> coListWrapperList, CourseOfferingManagementForm form){
         String socState = form.getSocStateKey();
+        if(coListWrapperList != null && !coListWrapperList.isEmpty()){
         for(CourseOfferingListSectionWrapper coListWrapper : coListWrapperList){
             String coState = coListWrapper.getCourseOfferingStateKey();
             if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
@@ -75,10 +76,12 @@ public class ToolbarUtil {
                 }
             }
         }
+        }
     }
 
     public static void processCoToolbarForCentralAdmin(List<CourseOfferingListSectionWrapper> coListWrapperList, CourseOfferingManagementForm form){
         String socState = form.getSocStateKey();
+        if(coListWrapperList != null && !coListWrapperList.isEmpty()){
         for(CourseOfferingListSectionWrapper coListWrapper : coListWrapperList){
             String coState = coListWrapper.getCourseOfferingStateKey();
             if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
@@ -116,10 +119,12 @@ public class ToolbarUtil {
                     //all buttons disabled
             }
         }
+        }
     }
 
     public static void processAoToolbarForDeptAdmin(List<ActivityOfferingWrapper> activityWrapperList, CourseOfferingManagementForm form){
         String socState = form.getSocStateKey();
+        if(activityWrapperList != null && !activityWrapperList.isEmpty()){
         for(ActivityOfferingWrapper activityWrapper : activityWrapperList){
             String aoState = activityWrapper.getAoInfo().getStateKey();
             if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
@@ -164,10 +169,12 @@ public class ToolbarUtil {
                 }
             }
         }
+        }
     }
 
     public static void processAoToolbarForCentralAdmin(List<ActivityOfferingWrapper> activityWrapperList, CourseOfferingManagementForm form){
         String socState = form.getSocStateKey();
+        if(activityWrapperList != null && !activityWrapperList.isEmpty()){
         for(ActivityOfferingWrapper activityWrapper : activityWrapperList){
             String aoState = activityWrapper.getAoInfo().getStateKey();
             if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
@@ -206,6 +213,7 @@ public class ToolbarUtil {
                      //all buttons disabled
             }
         }
+    }
     }
 
 }

@@ -359,6 +359,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 throw new RuntimeException(e);
             }
         }
+
+        ToolbarUtil.processAoToolbarForDeptAdmin(form.getActivityWrapperList(), form);
     }
 
     public void loadActivityOfferingsByCourseOffering (CourseOfferingInfo theCourseOfferingInfo, CourseOfferingManagementForm form) throws Exception{
@@ -401,7 +403,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     public void approveCourseOfferings(CourseOfferingManagementForm form) throws Exception{
         List<CourseOfferingListSectionWrapper> coList = form.getCourseOfferingResultList();
         ContextInfo contextInfo = createContextInfo();
-        boolean hasStateChangedAO = false;
+        boolean hasStateChangedAO = true;
         for(CourseOfferingListSectionWrapper co : coList) {
              if(co.isEnableApproveButton() && co.getIsChecked()) {
                  List<ActivityOfferingWrapper> aos = getActivityOfferingsByCourseOfferingId(co.getCourseOfferingId(), form);
@@ -411,11 +413,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                         if(ao.isEnableDeleteButton()){
                             StatusInfo statusInfo = getCourseOfferingService().updateActivityOfferingState(ao.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
                             if (!statusInfo.getIsSuccess()){
-                                GlobalVariables.getMessageMap().putError("manageCourseOfferingsPage", CourseOfferingConstants.COURSE_OFFERING_STATE_CHANGE_ERROR,co.getCourseOfferingCode(),statusInfo.getMessage());
-                            }
-                            //  Flag if any AOs can be state changed. This affects the error message whi.
-                            if (statusInfo.getIsSuccess()){
-                                hasStateChangedAO = true;
+                                if ( hasStateChangedAO) hasStateChangedAO = false;
                             }
                         }
                     }
@@ -424,8 +422,80 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
          }
 
         if ( ! hasStateChangedAO) {
-            GlobalVariables.getMessageMap().putError("manageCourseOfferingsPage", CourseOfferingConstants.COURSEOFFERING_NONE_APPROVED);
+            GlobalVariables.getMessageMap().putError("manageCourseOfferingsPage", CourseOfferingConstants.COURSEOFFERING_TOOLBAR_APPROVED);
         }
+    }
+
+    public void deleteCourseOfferings(CourseOfferingManagementForm form) throws Exception {
+        List<CourseOfferingListSectionWrapper> coList = form.getCourseOfferingResultList();
+        List<CourseOfferingListSectionWrapper> qualifiedToDeleteList = new ArrayList<CourseOfferingListSectionWrapper>();
+        boolean hasDeletion = true;
+         for(CourseOfferingListSectionWrapper co : coList) {
+             if(co.isEnableDeleteButton() && co.getIsChecked()) {
+                List<ActivityOfferingWrapper> aos = getActivityOfferingsByCourseOfferingId(co.getCourseOfferingId(), form);
+                if(aos != null && !aos.isEmpty()){
+                    ToolbarUtil.processAoToolbarForDeptAdmin(aos, form);
+                    for(ActivityOfferingWrapper ao : aos){
+                        if(!ao.isEnableDeleteButton()){
+                            break;
+                        }
+                    }
+                }
+                qualifiedToDeleteList.add(co);
+             }
+         }
+
+        if(!qualifiedToDeleteList.isEmpty()){
+            for(CourseOfferingListSectionWrapper co : qualifiedToDeleteList){
+                StatusInfo statusInfo = getCourseOfferingService().deleteCourseOfferingCascaded(co.getCourseOfferingId(), ContextBuilder.loadContextInfo());
+                if (!statusInfo.getIsSuccess()){
+                   if ( hasDeletion) hasDeletion = false;
+                }
+            }
+        }
+
+        if ( ! hasDeletion) {
+            GlobalVariables.getMessageMap().putError("manageCourseOfferingsPage", CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE);
+        }
+    }
+
+    public void approveActivityOfferings(CourseOfferingManagementForm form) throws Exception{
+        List<ActivityOfferingWrapper> aoList = form.getActivityWrapperList();
+        boolean hasStateChangedAO = true;
+        ContextInfo contextInfo = createContextInfo();
+
+        for(ActivityOfferingWrapper ao : aoList) {
+             if(ao.isEnableApproveButton() && ao.getIsChecked()) {
+                StatusInfo statusInfo = getCourseOfferingService().updateActivityOfferingState(ao.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
+                if (!statusInfo.getIsSuccess()){
+                    if ( hasStateChangedAO) hasStateChangedAO = false;
+                }
+             }
+         }
+
+        if ( ! hasStateChangedAO) {
+            GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage", CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_APPROVED);
+        }
+    }
+
+    public void draftActivityOfferings(CourseOfferingManagementForm form) throws Exception{
+        List<ActivityOfferingWrapper> aoList = form.getActivityWrapperList();
+        boolean hasStateChangedAO = true;
+        ContextInfo contextInfo = createContextInfo();
+
+        for(ActivityOfferingWrapper ao : aoList) {
+             if(ao.isEnableDraftButton() && ao.getIsChecked()) {
+                StatusInfo statusInfo = getCourseOfferingService().updateActivityOfferingState(ao.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, contextInfo);
+                if (!statusInfo.getIsSuccess()){
+                    if ( hasStateChangedAO) hasStateChangedAO = false;
+                }
+             }
+         }
+
+        if ( ! hasStateChangedAO) {
+            GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage", CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_DRAFT);
+        }
+
     }
     /**
      * Performs
