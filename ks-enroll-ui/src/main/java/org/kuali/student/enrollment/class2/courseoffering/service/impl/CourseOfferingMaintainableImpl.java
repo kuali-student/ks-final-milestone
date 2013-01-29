@@ -22,7 +22,6 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.uif.UifConstants;
-import org.kuali.rice.krad.uif.control.CheckboxGroupControl;
 import org.kuali.rice.krad.uif.control.SelectControl;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -31,7 +30,6 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrap
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -210,25 +208,6 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
         }
 
         return results;
-    }
-
-    public void populateCrossCourseList(InputField field, MaintenanceDocumentForm form){
-
-        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-
-        CheckboxGroupControl control = (CheckboxGroupControl)field.getControl();
-
-        List<KeyValue> crossListedCos = new ArrayList<KeyValue>();
-
-        if (wrapper.getCoInfo().getCrossListings() != null && wrapper.getCoInfo().getCrossListings().size() > 0){
-            // Always include an option for Course
-            for(CourseOfferingCrossListingInfo courseInfo : wrapper.getCoInfo().getCrossListings())  {
-                crossListedCos.add(new ConcreteKeyValue(courseInfo.getId(), courseInfo.getCode()));
-            }
-         }
-
-        control.setOptions(crossListedCos);
-
     }
 
     protected TypeService getTypeService() {

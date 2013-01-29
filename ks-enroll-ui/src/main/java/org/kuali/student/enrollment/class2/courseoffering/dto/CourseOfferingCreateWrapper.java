@@ -28,8 +28,7 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     private List<ExistingCourseOffering> existingTermOfferings;
 
     private List<String> coListedCOs;
-    private boolean selectCoListCoEnabled;
-    private String selectiveColocationAllowed;
+    private Boolean selectCrossListingAllowed;
     private FormatOfferingInfo formatOfferingAddLine;
 
 
@@ -40,7 +39,6 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     public CourseOfferingCreateWrapper(){
         super();
         showTermOfferingLink = true;
-        selectCoListCoEnabled = true;
         formatOfferingList = new ArrayList<FormatOfferingInfo>();
         existingOfferingsInCurrentTerm = new ArrayList<ExistingCourseOffering>();
         existingTermOfferings = new ArrayList<ExistingCourseOffering>();
@@ -180,20 +178,21 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         this.coListedCOs = coListedCOs;
     }
 
-    public boolean isSelectCoListCoEnabled() {
-         if (null == selectiveColocationAllowed) {
-             selectiveColocationAllowed = ConfigContext.getCurrentContextConfig().getProperty("selective-colocation-allowed");
-        }
+    public boolean isSelectCrossListingAllowed() {
+         if (null == selectCrossListingAllowed) {
+             String selectiveColocationAllowed = ConfigContext.getCurrentContextConfig().getProperty("kuali.ks.enrollment.options.selective-crossListing-allowed");
+             if("false".equalsIgnoreCase(selectiveColocationAllowed)) {
+                 selectCrossListingAllowed = false;
+             } else {
+                 selectCrossListingAllowed = true;
+             };
+         }
 
-        if("false".equalsIgnoreCase(selectiveColocationAllowed)) {
-            return false;
-        };
-
-        return true;
+        return selectCrossListingAllowed;
     }
 
-    public void setSelectCoListCoEnabled(boolean selectCoListCoEnabled) {
-        this.selectCoListCoEnabled = selectCoListCoEnabled;
+    public void setSelectCrossListingAllowed(boolean selectCrossListingAllowed) {
+        this.selectCrossListingAllowed = selectCrossListingAllowed;
     }
 
     public FormatOfferingInfo getFormatOfferingAddLine() {

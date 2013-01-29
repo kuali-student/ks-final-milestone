@@ -6,6 +6,7 @@ import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -14,6 +15,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
@@ -68,7 +70,27 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                     courseOffering.setGradingOptionId(courseGradingOptions.get(0));
                 }
 
+                // create the crossListing data
+                if (courseInfo.getCrossListings() != null && courseInfo.getCrossListings().size() > 0) {
+                    if (wrapper.getCoListedCOs().size() > 0) {
+                        for (String CoId : wrapper.getCoListedCOs()) {
+                            for (CourseCrossListingInfo crossInfo : courseInfo.getCrossListings()) {
+                                if (crossInfo.getId().equalsIgnoreCase(CoId)) {
+                                    CourseOfferingCrossListingInfo crossListingInfo = new CourseOfferingCrossListingInfo();
+                                    crossListingInfo.setCode(crossInfo.getCode());
+                                    crossListingInfo.setCourseNumberSuffix(crossInfo.getCourseNumberSuffix());
+                                    crossListingInfo.setDepartmentOrgId (crossInfo.getDepartment());
+                                    crossListingInfo.setSubjectArea (crossInfo.getSubjectArea());
+                                    crossListingInfo.setId(crossInfo.getId());
+                                    courseOffering.getCrossListings().add(crossListingInfo);
+                                }
+                            }
+                        }
+                    }
+                }
+
                 CourseOfferingInfo info = getCourseOfferingService().createCourseOffering(courseInfo.getId(), wrapper.getTerm().getId(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, courseOffering, optionKeys, ContextUtils.createDefaultContextInfo());
+
                 wrapper.setCoInfo(info);
                 createFormatOffering(wrapper);
                 //FIXEM:create formatoffering relation
