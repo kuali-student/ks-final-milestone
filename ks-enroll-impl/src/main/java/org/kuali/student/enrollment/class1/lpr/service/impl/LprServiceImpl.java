@@ -603,8 +603,7 @@ public class LprServiceImpl implements LprService {
     @Override
     public List<LprTransactionInfo> getLprTransactionsByIds(List<String> lprIds, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        throw new UnsupportedOperationException("Operation not implemented");
     }
 
     @Override
@@ -624,8 +623,7 @@ public class LprServiceImpl implements LprService {
             lprTransInfos.add(lprTransEntity.toDto());
         }
         // return lprTransInfos;
-        return null;
-        // TODO Mezba - implement method
+        throw new UnsupportedOperationException("Operation not implemented");
     }
 
     @Transactional
@@ -831,8 +829,7 @@ public class LprServiceImpl implements LprService {
                                                            ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return null;
-        // TODO Mezba - implement method
+        throw new UnsupportedOperationException("Operation not implemented");
     }
 
     @Override
@@ -844,15 +841,13 @@ public class LprServiceImpl implements LprService {
                                                   ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;
-        // TODO Mezba - implement method
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
     public List<LprTransactionItemInfo> getLprTransactionItemsByLui(String luiId, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;
-        // TODO Mezba - implement method
+        throw new UnsupportedOperationException("Operation not implemented");
     }
 
     @Override
@@ -861,8 +856,7 @@ public class LprServiceImpl implements LprService {
             String atpId,
             ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;
-        // TODO Mezba - implement method
+        throw new UnsupportedOperationException("Operation not implemented");
     }
 
     @Override
@@ -870,8 +864,7 @@ public class LprServiceImpl implements LprService {
             String personId, String luiId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return null;
-        // TODO Mezba - implement method
+        throw new UnsupportedOperationException("Operation not implemented");
 
     }
 

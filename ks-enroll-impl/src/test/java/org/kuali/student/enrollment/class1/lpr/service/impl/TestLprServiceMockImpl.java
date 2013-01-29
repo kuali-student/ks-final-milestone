@@ -50,8 +50,10 @@ public class TestLprServiceMockImpl {
     public void setLprService(LprService lprService) {
         this.lprService = lprService;
     }
-    @Resource
+
+    @Resource(name = "LprService")
     private LprService lprService;
+
     public static String principalId = "123";
     public ContextInfo callContext = null;
 

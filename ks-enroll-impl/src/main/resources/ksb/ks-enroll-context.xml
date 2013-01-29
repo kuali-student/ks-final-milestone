@@ -50,7 +50,7 @@
 
   <bean id="gradingService" class="org.kuali.student.enrollment.class2.grading.service.impl.GradingServiceImpl"
     scope="singleton">
-    <property name="lprService" ref="lprServiceValidation" />
+    <property name="lprService" ref="LprService" />
     <property name="courseOfferingService" ref="CourseOfferingService" />
     <property name="gradeRosterAssembler" ref="gradeRosterAssembler" />
     <property name="gradeRosterEntryAssembler" ref="gradeRosterEntryAssembler" />
@@ -741,20 +741,23 @@
     <property name="lprTransactionItemDao" ref="lprTrasactionItemDao" />
   </bean>
 
-  <bean id="lprServiceValidation" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LprServiceValidationDecorator">
-    <property name="nextDecorator" ref="lprPersistenceService" />
-    <property name="validator" ref="validator" />
-  </bean>
+    <alias name="lprServiceValidationDecorator" alias="LprService"/>
+
+    <bean id="lprServiceValidationDecorator"
+          class="org.kuali.student.enrollment.class1.lpr.service.decorators.LprServiceValidationDecorator">
+        <property name="nextDecorator" ref="lprPersistenceService"/>
+        <property name="validator" ref="validator"/>
+    </bean>
 
     <bean id="ks.exp.LprService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
-                <property name="jaxWsService" value="true" />
-                <property name="service" ref="lprServiceValidation" />
-                <property name="serviceInterface" value="org.kuali.student.enrollment.lpr.service.LprService" />
-                <property name="localServiceName" value="LprService" />
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lpr" />
-                <property name="busSecurity" value="${ks.lum.bus.security}" />
+                <property name="jaxWsService" value="true"/>
+                <property name="service" ref="LprService"/>
+                <property name="serviceInterface" value="org.kuali.student.enrollment.lpr.service.LprService"/>
+                <property name="localServiceName" value="LprService"/>
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lpr"/>
+                <property name="busSecurity" value="${ks.lum.bus.security}"/>
             </bean>
         </property>
     </bean>
@@ -904,12 +907,12 @@
   </bean>
 
   <bean id="courseRegistrationImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
-    <property name="lprService" ref="lprServiceValidation" />
+    <property name="lprService" ref="LprService" />
     <property name="courseOfferingService" ref="CourseOfferingService" />
   </bean>
 
   <bean id="completedCoursesResolver" class="org.kuali.student.enrollment.class1.lrr.termresolver.CompletedCoursesResolver">
-    <property name="lprService" ref="lprServiceValidation" />
+    <property name="lprService" ref="LprService" />
     <property name="lrrService" ref="lrrPersistenceService" />
     <property name="luiService" ref="LuiService" />
   </bean>

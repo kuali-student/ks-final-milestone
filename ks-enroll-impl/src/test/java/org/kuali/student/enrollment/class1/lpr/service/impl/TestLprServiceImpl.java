@@ -52,10 +52,10 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
 		this.lprService = lprService;
 	}
 
-	@Resource
+    @Resource(name = "LprService")
 	private LprService lprService;
 
-	@Resource
+	@Resource(name = "lprDao")
 	private LprDao lprDao;
 
 	@Resource
