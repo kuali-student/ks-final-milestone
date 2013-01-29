@@ -4890,11 +4890,11 @@
         OBJ_ID="34c54990-9581-11e1-b0c4-0800200c9a66" SHRT_DESCR="SEA"
         SHRT_NAME="0" ST="Active" TYPE="kuali.org.type.campus" VER_NBR="0"/>
     <KSOR_ORG CREATETIME="20120501000000" EFF_DT="18610101000000"
-        ID="306" LNG_DESCR="Kuali Central campus" LNG_NAME="KCentral"
+        ID="311" LNG_DESCR="Kuali Central campus" LNG_NAME="KCentral"
         OBJ_ID="34c54991-9581-11e1-b0c4-0800200c9a66" SHRT_DESCR="BOT"
         SHRT_NAME="1" ST="Active" TYPE="kuali.org.type.campus" VER_NBR="0"/>
     <KSOR_ORG CREATETIME="20120501000000" EFF_DT="18610101000000"
-        ID="323" LNG_DESCR="Kuali South campus" LNG_NAME="KSouth"
+        ID="312" LNG_DESCR="Kuali South campus" LNG_NAME="KSouth"
         OBJ_ID="34c54992-9581-11e1-b0c4-0800200c9a66" SHRT_DESCR="TAC"
         SHRT_NAME="2" ST="Active" TYPE="kuali.org.type.campus" VER_NBR="0"/>
     <KSOR_ORG CREATETIME="20120501000000" EFF_DT="18610101000000"
