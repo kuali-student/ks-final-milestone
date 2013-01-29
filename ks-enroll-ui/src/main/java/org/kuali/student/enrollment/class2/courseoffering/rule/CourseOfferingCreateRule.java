@@ -39,7 +39,7 @@ public class CourseOfferingCreateRule extends MaintenanceDocumentRuleBase {
     }
 
     protected boolean validateRequiredFields(CourseOfferingCreateWrapper coWrapper){
-        if (coWrapper.getFormatOfferingList().isEmpty()){
+        if (coWrapper.getFormatOfferingWrappers().isEmpty()){
             GlobalVariables.getMessageMap().putError(CourseOfferingConstants.DELIVERY_FORMAT_SECTION_ID,CourseOfferingConstants.DELIVERY_FORMAT_REQUIRED_ERROR);
             return false;
         }

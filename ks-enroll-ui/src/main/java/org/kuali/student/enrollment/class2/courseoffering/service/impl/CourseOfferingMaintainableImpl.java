@@ -22,14 +22,17 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.control.CheckboxGroupControl;
 import org.kuali.rice.krad.uif.control.SelectControl;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -59,8 +62,11 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
      * This method is being called by KRAD to populate grade roster level types drop down. There would be no reference
      * for this method in the code as it has it's reference at the xml
      *
-     * @param field
-     * @param form
+     * If this is being called from Create CO, <code>FormatOfferingCreateWrapper</code> would be the one available at the context
+     * For Edit CO, <code>FormatOfferingInfo</code> would be available at the context
+     *
+     * @param field grade roster level field
+     * @param form maintenace form
      */
     @SuppressWarnings("unused")
     public void populateGradeRosterLevelTypes(InputField field, MaintenanceDocumentForm form){
@@ -69,7 +75,14 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
             return;
         }
 
-        FormatOfferingInfo formatOfferingInfo = (FormatOfferingInfo)field.getContext().get(UifConstants.ContextVariableNames.LINE);
+        FormatOfferingInfo formatOfferingInfo;
+        if (field.getContext().get(UifConstants.ContextVariableNames.LINE) instanceof FormatOfferingCreateWrapper) {
+            FormatOfferingCreateWrapper foWrapper = (FormatOfferingCreateWrapper)field.getContext().get(UifConstants.ContextVariableNames.LINE);
+            formatOfferingInfo = foWrapper.getFormatOfferingInfo();
+        } else {
+            formatOfferingInfo = (FormatOfferingInfo)field.getContext().get(UifConstants.ContextVariableNames.LINE);
+        }
+
         CourseOfferingWrapper wrapper = (CourseOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
         SelectControl control = (SelectControl)field.getControl();
@@ -90,45 +103,14 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
     }
 
     /**
-     * This method is being called by KRAD to populate grade roster level types drop down. There would be no reference
-     * for this method in the code as it has it's reference at the xml
-     *
-     * @param field
-     * @param form
-     */
-    @SuppressWarnings("unused")
-    public void populateGradeRosterLevelTypesForAddLine(InputField field, MaintenanceDocumentForm form){
-
-        if (field.isReadOnly()){
-            return;
-        }
-
-
-        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-        String formatOfferingId = wrapper.getFormatOfferingAddLine().getFormatId();
-
-        SelectControl control = (SelectControl)field.getControl();
-
-        List<KeyValue> gradeKeyValues = new ArrayList<KeyValue>();
-
-        if (StringUtils.isNotBlank(formatOfferingId)){
-            // Always include an option for Course
-            gradeKeyValues.add(new ConcreteKeyValue(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, CourseOfferingConstants.FORMAT_OFFERING_GRADE_ROSTER_LEVEL_COURSE_DISPLAY));
-            gradeKeyValues.addAll(collectActivityTypeKeyValues(wrapper.getCourse(), formatOfferingId, getTypeService(), ContextUtils.createDefaultContextInfo()));
-            control.setDisabled(false);
-        } else {
-            control.setDisabled(true);
-        }
-
-        control.setOptions(gradeKeyValues);
-
-    }
-    /**
      * This method is being called by KRAD to populate final exam driver types drop down. There would be no reference
      * for this method in the code as it has it's reference at the xml
      *
-     * @param field
-     * @param form
+     * If this is being called from Create CO, <code>FormatOfferingCreateWrapper</code> would be the one available at the context
+     * For Edit CO, <code>FormatOfferingInfo</code> would be available at the context
+     *
+     * @param field grade roster level field
+     * @param form maintenace form
      */
     @SuppressWarnings("unused")
     public void populateFinalExamDriverTypes(InputField field, MaintenanceDocumentForm form){
@@ -137,7 +119,13 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
             return;
         }
 
-        FormatOfferingInfo formatOfferingInfo = (FormatOfferingInfo)field.getContext().get(UifConstants.ContextVariableNames.LINE);
+        FormatOfferingInfo formatOfferingInfo;
+        if (field.getContext().get(UifConstants.ContextVariableNames.LINE) instanceof FormatOfferingCreateWrapper) {
+            FormatOfferingCreateWrapper foWrapper = (FormatOfferingCreateWrapper)field.getContext().get(UifConstants.ContextVariableNames.LINE);
+            formatOfferingInfo = foWrapper.getFormatOfferingInfo();
+        } else {
+            formatOfferingInfo = (FormatOfferingInfo)field.getContext().get(UifConstants.ContextVariableNames.LINE);
+        }
         CourseOfferingWrapper wrapper = (CourseOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
         SelectControl control = (SelectControl)field.getControl();
 
@@ -145,38 +133,6 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
 
         if (StringUtils.isNotBlank(formatOfferingInfo.getFormatId())){
             keyValues.addAll(collectActivityTypeKeyValues(wrapper.getCourse(), formatOfferingInfo.getFormatId(), getTypeService(), ContextUtils.createDefaultContextInfo()));
-            control.setDisabled(false);
-        } else {
-            control.setDisabled(true);
-        }
-
-        control.setOptions(keyValues);
-
-    }
-
-    /**
-     * This method is being called by KRAD to populate final exam driver types drop down. There would be no reference
-     * for this method in the code as it has it's reference at the xml
-     *
-     * @param field
-     * @param form
-     */
-    @SuppressWarnings("unused")
-    public void populateFinalExamDriverTypesForAddLine(InputField field, MaintenanceDocumentForm form){
-
-        if (field.isReadOnly()){
-            return;
-        }
-
-        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-        String formatOfferingId = wrapper.getFormatOfferingAddLine().getFormatId();
-
-        SelectControl control = (SelectControl)field.getControl();
-
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-
-        if (StringUtils.isNotBlank(formatOfferingId)){
-            keyValues.addAll(collectActivityTypeKeyValues(wrapper.getCourse(), formatOfferingId, getTypeService(), ContextUtils.createDefaultContextInfo()));
             control.setDisabled(false);
         } else {
             control.setDisabled(true);
@@ -208,6 +164,26 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
         }
 
         return results;
+    }
+
+    public void populateCrossCourseList(InputField field, MaintenanceDocumentForm form){
+
+        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+
+        CheckboxGroupControl control = (CheckboxGroupControl)field.getControl();
+
+        List<KeyValue> crossListedCos = new ArrayList<KeyValue>();
+
+        if (wrapper.getCoInfo().getCrossListings() != null && wrapper.getCoInfo().getCrossListings().size() > 0){
+            // Always include an option for Course
+            for(CourseOfferingCrossListingInfo courseInfo : wrapper.getCoInfo().getCrossListings())  {
+                crossListedCos.add(new ConcreteKeyValue(courseInfo.getId(), courseInfo.getCode()));
+            }
+         }
+
+        crossListedCos.add(new ConcreteKeyValue("1", "A"));
+        control.setOptions(crossListedCos);
+
     }
 
     protected TypeService getTypeService() {

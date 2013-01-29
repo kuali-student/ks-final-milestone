@@ -1,7 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,27 +23,31 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
 
     private int noOfTermOfferings;
 
-    private List<FormatOfferingInfo> formatOfferingList;
+    private List<FormatOfferingCreateWrapper> formatOfferingWrappers;
     private List<ExistingCourseOffering> existingOfferingsInCurrentTerm;
     private List<ExistingCourseOffering> existingTermOfferings;
 
     private List<String> coListedCOs;
     private Boolean selectCrossListingAllowed;
-    private FormatOfferingInfo formatOfferingAddLine;
 
 
     private boolean excludeCancelledActivityOfferings;
     private boolean excludeSchedulingInformation;
     private boolean excludeInstructorInformation;
 
+    private List<CourseJointCreateWrapper> jointCourses;
+    private boolean showJointOption;
+    private String jointCourseCodes;
+
     public CourseOfferingCreateWrapper(){
         super();
         showTermOfferingLink = true;
-        formatOfferingList = new ArrayList<FormatOfferingInfo>();
+        formatOfferingWrappers = new ArrayList<FormatOfferingCreateWrapper>();
         existingOfferingsInCurrentTerm = new ArrayList<ExistingCourseOffering>();
         existingTermOfferings = new ArrayList<ExistingCourseOffering>();
         coListedCOs = new ArrayList<String>();
-        formatOfferingAddLine = new FormatOfferingInfo();
+        jointCourses = new ArrayList<CourseJointCreateWrapper>();
+        showJointOption = false;
     }
 
     public String getTargetTermCode() {
@@ -138,14 +142,6 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         this.enableCreateButton = enableCreateButton;
     }
 
-    public List<FormatOfferingInfo> getFormatOfferingList() {
-        return formatOfferingList;
-    }
-
-    public void setFormatOfferingList(List<FormatOfferingInfo> formatOfferingList) {
-        this.formatOfferingList = formatOfferingList;
-    }
-
     public boolean isExcludeCancelledActivityOfferings() {
         return excludeCancelledActivityOfferings;
     }
@@ -195,12 +191,37 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         this.selectCrossListingAllowed = selectCrossListingAllowed;
     }
 
-    public FormatOfferingInfo getFormatOfferingAddLine() {
-        return formatOfferingAddLine;
+    public List<CourseJointCreateWrapper> getJointCourses() {
+        return jointCourses;
     }
 
-    public void setFormatOfferingAddLine(FormatOfferingInfo formatOfferingAddLine) {
-        this.formatOfferingAddLine = formatOfferingAddLine;
+
+    public void setJointCourses(List<CourseJointCreateWrapper> jointCourses) {
+        this.jointCourses = jointCourses;
+    }
+
+    public boolean isShowJointOption() {
+        return showJointOption;
+    }
+
+    public void setShowJointOption(boolean showJointOption) {
+        this.showJointOption = showJointOption;
+    }
+
+    public String getJointCourseCodes() {
+        return jointCourseCodes;
+    }
+
+    public void setJointCourseCodes(String jointCourseCodes) {
+        this.jointCourseCodes = jointCourseCodes;
+    }
+
+    public List<FormatOfferingCreateWrapper> getFormatOfferingWrappers() {
+        return formatOfferingWrappers;
+    }
+
+    public void setFormatOfferingWrappers(List<FormatOfferingCreateWrapper> formatOfferingWrappers) {
+        this.formatOfferingWrappers = formatOfferingWrappers;
     }
 
     public void clear(){
@@ -213,5 +234,9 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         setExcludeCancelledActivityOfferings(false);
         setExcludeSchedulingInformation(false);
         setExcludeInstructorInformation(false);
+        getFormatOfferingWrappers().clear();
+        getJointCourses().clear();
+        setJointCourseCodes(StringUtils.EMPTY);
+        setShowJointOption(false);
     }
 }

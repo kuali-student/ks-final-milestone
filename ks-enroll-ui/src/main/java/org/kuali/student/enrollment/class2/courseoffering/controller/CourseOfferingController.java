@@ -13,8 +13,11 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseJointCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering;
+import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingCreateWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
@@ -23,6 +26,7 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.uif.util.GrowlIcon;
+import org.kuali.student.enrollment.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -169,6 +173,8 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                 coWrapper.getExistingTermOfferings().add(co);
             }
 
+            CourseOfferingCreateMaintainableImpl maintainable = (CourseOfferingCreateMaintainableImpl)KSControllerHelper.getViewHelperService(form);
+            maintainable.loadCourseJointInfos(coWrapper);
             //Enable the create button
             coWrapper.setEnableCreateButton(true);
         } else {
@@ -214,50 +220,6 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
         wrapper.setShowCatalogLink(false);
         wrapper.setShowTermOfferingLink(true);
-
-        return getUIFModelAndView(form);
-    }
-
-
-    @RequestMapping(params = "methodToCall=addDeliveryFormatsAndActivities")
-    public ModelAndView addDeliveryFormatsAndActivities(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
-                                          @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-
-        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
-            FormatOfferingInfo formatOfferingInfo = (FormatOfferingInfo) wrapper.getFormatOfferingAddLine();
-//            CourseOfferingCreateWrapper coCreateWrapper = (CourseOfferingCreateWrapper) ((MaintenanceDocumentForm) model).getDocument().getNewMaintainableObject().getDataObject();
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        for (FormatInfo formatInfo : wrapper.getCourse().getFormats()) {
-            if (StringUtils.equals(formatInfo.getId(), formatOfferingInfo.getFormatId())) {
-                // TODO: fix R2 Format to include name and short name
-//                    formatOfferingInfo.setName("FIX ME!");
-//                    formatOfferingInfo.setShortName("FIX ME!");
-                //Bonnie: this is only a temporary walk-around solution.
-                //Still need to address the issue that FormatInfo does not include name and short name
-                try {
-                    List<ActivityInfo> activityInfos = formatInfo.getActivities();
-                    StringBuffer st = new StringBuffer();
-                    for (ActivityInfo activityInfo : activityInfos) {
-                        TypeInfo activityType = getTypeService().getType(activityInfo.getTypeKey(), contextInfo);
-                        st.append(activityType.getName() + "/");
-                    }
-                    String name = st.toString();
-                    name = name.substring(0, name.length() - 1);
-                    formatOfferingInfo.setName(name);
-                    formatOfferingInfo.setShortName(name);
-                } catch (Exception e) {
-                    //This was just swallowing the exception so a log entry was added
-                    LOG.error("An exception was thrown!", e);
-                }
-
-            }
-        }
-        // add the format to the list
-        FormatOfferingInfo newLine  = new FormatOfferingInfo(formatOfferingInfo);
-        newLine.setTermId(wrapper.getTargetTermCode());
-        newLine.setShortName(wrapper.getCatalogCourseCode());
-
-        wrapper.getFormatOfferingList().add(newLine);
 
         return getUIFModelAndView(form);
     }
@@ -319,6 +281,28 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         wrapper.setShowCatalogLink(true);
         wrapper.setShowTermOfferingLink(false);
+
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=markCourseForJointOffering")
+    public ModelAndView markCourseForJointOffering(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
+                                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+
+        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseJointCreateWrapper joint = (CourseJointCreateWrapper)getSelectedObject(form);
+
+        if (joint.isSelectedToJointlyOfferred()){
+            joint.setSelectedToJointlyOfferred(false);
+            String jointCodes = StringUtils.remove(wrapper.getJointCourseCodes(), ", " + joint.getCourseCode());
+            wrapper.setJointCourseCodes(jointCodes);
+            for (FormatOfferingCreateWrapper foWrapper : joint.getFormatOfferingWrappers()){
+                wrapper.getFormatOfferingWrappers().remove(foWrapper);
+            }
+        } else {
+            wrapper.setJointCourseCodes(wrapper.getJointCourseCodes() + ", " + joint.getCourseCode());
+            joint.setSelectedToJointlyOfferred(true);
+        }
 
         return getUIFModelAndView(form);
     }

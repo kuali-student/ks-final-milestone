@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingCreateWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 
@@ -31,10 +32,10 @@ public class FormatOfferingTypeForCreateCOTypeKeyValues extends AbstractFormatOf
         CourseOfferingCreateWrapper coWrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
         List<String> availableFormatTypes = new ArrayList<String>();
-        List <FormatOfferingInfo> formatOfferingList= coWrapper.getFormatOfferingList();
+        List <FormatOfferingCreateWrapper> formatOfferingList= coWrapper.getFormatOfferingWrappers();
 
-        for (FormatOfferingInfo formatOfferingInfo : formatOfferingList){
-            availableFormatTypes.add(formatOfferingInfo.getFormatId());
+        for (FormatOfferingCreateWrapper foWrapper : formatOfferingList){
+            availableFormatTypes.add(foWrapper.getFormatOfferingInfo().getFormatId());
         }
 
         return availableFormatTypes;

@@ -144,6 +144,7 @@
          <property name="items">
             <list>
                  <ref bean="KS-Catalog-CourseOfferingCodeSubSection"/>
+                 <ref bean="JointCourse-Section"/>
                  <ref bean="KS-Catalog-FormatOfferingSubSection-New"/>
                  <ref bean="KS-Catalog-ExistingOfferingsSubSection"/>
             </list>
@@ -206,10 +207,34 @@
         </property>
     </bean>
 
+    <bean id="JointCourse-Section" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:render="@{#dp.showJointOption}" p:renderAddLine="false" p:layoutManager.renderSequenceField="false">
+        <property name="headerText" value="Jointly Defined Courses"/>
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseJointCreateWrapper" />
+        <property name="propertyName" value="jointCourses" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.richTable.render" value="false" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="Code" p:propertyName="courseCode"/>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="courseTitle"/>
+                <bean parent="Uif-MessageField" p:label="Status" p:messageText="@{#lp.alreadyOffered ? 'Offered' : 'Not Offered'}"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="markCourseForJointOffering" p:actionLabel="@{!#lp.selectedToJointlyOfferred ? 'Create New' : 'Deselect'}" p:readOnly="@{!#lp.alreadyOffered}"/>
+                <!--<bean parent="Uif-MessageField" p:messageText="N/A" p:render="@{#lp.alreadyOffered}"/>-->
+            </list>
+        </property>
+    </bean>
+
+
     <bean id="KS-Catalog-FormatOfferingSubSection-New" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Add Delivery Formats and Activities" />
         <property name="items">
             <list>
+                <bean parent="Uif-MessageField" p:messageText="Changes made below will create delivery formats for: @{#dp.jointCourseCodes}" p:render="@{#dp.showJointOption}" p:style="background-color:#C8E4F7;font-weight:bold; padding-top:10px; padding-bottom:10px; padding-left:10px;"/>
                 <ref bean="Added-Delivery-Formats-And-Activity-List-Section"/>
             </list>
         </property>
@@ -218,11 +243,10 @@
     <!--This will be displayed for Copy from Catalog action-->
     <bean id="Added-Delivery-Formats-And-Activity-List-Section" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false"
           p:layoutManager.renderSequenceField="false">
-<!--        <property name="headerText" value="Added Delivery Formats and Activities" />-->
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo" />
-        <property name="propertyName" value="formatOfferingList" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingCreateWrapper" />
+        <property name="propertyName" value="formatOfferingWrappers" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="true" />
         <property name="layoutManager.richTable.render" value="false" />
         <property name="layoutManager.separateAddLine" value="true"/>
         <property name="layoutManager.addLineGroup.layoutManager">
@@ -231,10 +255,9 @@
         <property name="addLineLabel.labelText" value=""/>
         <property name="items">
             <list>
-               <bean parent="Uif-DataField" p:label="CODE" p:propertyName="shortName"/>
-                <bean parent="Uif-DataField" p:inquiry.render="false" p:label="FORMAT" p:propertyName="name"/>
-
-                 <bean parent="Uif-InputField" p:propertyName="gradeRosterLevelTypeKey"
+                 <bean parent="Uif-DataField" p:label="CODE" p:propertyName="courseCode"/>
+                 <bean parent="Uif-DataField" p:propertyName="activitesUI"  p:readOnly="true" p:label="FORMAT"/>
+                 <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.gradeRosterLevelTypeKey"
                       p:label="GRADE ROSTER LEVEL" p:required="true" p:labelPlacement="TOP"  p:finalizeMethodToCall="populateGradeRosterLevelTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
@@ -244,7 +267,7 @@
                     </property>
 
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey"
+                <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey"
                       p:label="FINAL EXAM DRIVER ACTIVITY" p:required="true" p:labelPlacement="TOP"  p:finalizeMethodToCall="populateFinalExamDriverTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
@@ -259,16 +282,16 @@
         </property>
         <property name="addLineItems">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="formatId"  p:required="true"  p:label="FORMAT" p:forceSessionPersistence="true">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="formatOfferingInfo.formatId"  p:required="true"  p:label="FORMAT" p:forceSessionPersistence="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatOfferingTypeForCreateCOTypeKeyValues"/>
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatOfferingTypeForCreateCOTypeKeyValues" p:addBlankOption="false"/>
                     </property>
                 </bean>
 
-                 <bean parent="Uif-InputField-LabelTop" p:propertyName="gradeRosterLevelTypeKey" p:refreshWhenChangedPropertyNames="#lp.formatId" p:forceSessionPersistence="true"
+                 <bean parent="Uif-InputField-LabelTop" p:propertyName="gradeRosterLevelTypeKey" p:refreshWhenChangedPropertyNames="#lp.formatOfferingInfo.formatId" p:forceSessionPersistence="true"
                       p:label="GRADE ROSTER LEVEL" p:required="true" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
@@ -278,7 +301,7 @@
                     </property>
 
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#lp.formatId" p:forceSessionPersistence="true"
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#lp.formatOfferingInfo.formatId" p:forceSessionPersistence="true"
                       p:label="FINAL EXAM DRIVER ACTIVITY" p:required="true" p:finalizeMethodToCall="populateFinalExamDriverTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
