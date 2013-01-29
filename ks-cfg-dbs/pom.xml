@@ -210,15 +210,16 @@
         <db.schema.3>ks-enroll-sql</db.schema.3>
 
         <!-- SQL resources -->
-        <sql.schema.1.list>classpath:META-INF/sql/oracle/${db.schema.1}-schema.resources</sql.schema.1.list>
-        <sql.schema.2.list>classpath:META-INF/sql/oracle/${db.schema.2}-schema.resources</sql.schema.2.list>
-        <sql.schema.3.list>classpath:META-INF/sql/oracle/${db.schema.3}-schema.resources</sql.schema.3.list>
-        <sql.data.1.list>classpath:META-INF/sql/oracle/${db.schema.1}-data.resources</sql.data.1.list>
-        <sql.data.2.list>classpath:META-INF/sql/oracle/${db.schema.2}-data.resources</sql.data.2.list>
-        <sql.data.3.list>classpath:META-INF/sql/oracle/${db.schema.3}-data.resources</sql.data.3.list>
-        <sql.constraints.1.list>classpath:META-INF/sql/oracle/${db.schema.1}-constraints.resources</sql.constraints.1.list>
-        <sql.constraints.2.list>classpath:META-INF/sql/oracle/${db.schema.2}-constraints.resources</sql.constraints.2.list>
-        <sql.constraints.3.list>classpath:META-INF/sql/oracle/${db.schema.3}-constraints.resources</sql.constraints.3.list>
+        <sql.resource.meta>classpath:META-INF/sql/oracle</sql.resource.meta>
+        <sql.schema.1.list>${sql.resource.meta}/${db.schema.1}-schema.resources</sql.schema.1.list>
+        <sql.schema.2.list>${sql.resource.meta}/${db.schema.2}-schema.resources</sql.schema.2.list>
+        <sql.schema.3.list>${sql.resource.meta}/${db.schema.3}-schema.resources</sql.schema.3.list>
+        <sql.data.1.list>${sql.resource.meta}/${db.schema.1}-data.resources</sql.data.1.list>
+        <sql.data.2.list>${sql.resource.meta}/${db.schema.2}-data.resources</sql.data.2.list>
+        <sql.data.3.list>${sql.resource.meta}/${db.schema.3}-data.resources</sql.data.3.list>
+        <sql.constraints.1.list>${sql.resource.meta}/${db.schema.1}-constraints.resources</sql.constraints.1.list>
+        <sql.constraints.2.list>${sql.resource.meta}/${db.schema.2}-constraints.resources</sql.constraints.2.list>
+        <sql.constraints.3.list>${sql.resource.meta}/${db.schema.3}-constraints.resources</sql.constraints.3.list>
 
         <!-- Controller properties -->
         <sql.schema.concurrent>sql.schema.1.list,sql.schema.2.list,sql.schema.3.list</sql.schema.concurrent>
