@@ -96,53 +96,56 @@ public class KSUifUtils {
         String JSONString = "";
         String breadCrumbItemUrl = "";
 
-        for (Map.Entry<String, String> entry : form.getBreadCrumbItemsMap().entrySet()) {
-            if (entry.getValue()!=null && !entry.getValue().isEmpty()) {
-                Properties urlParameters = new Properties();
-                urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, UifConstants.MethodToCallNames.START);
-                urlParameters.put(UifParameters.VIEW_ID, form.getViewId());
-                urlParameters.put(UifParameters.PAGE_ID, entry.getValue());
-                urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
-                urlParameters.put(UifConstants.UrlParams.FORM_KEY, form.getFormKey());
-                if(form.getFormHistory() != null)  {
-                    HistoryEntry tempCurrent = form.getFormHistory().getCurrent();
-                    form.getFormHistory().setCurrent(null);
-                    urlParameters.put(UifConstants.UrlParams.HISTORY, form.getFormHistory().getHistoryParameterString());
-                    //set the current back to form
-                    form.getFormHistory().setCurrent(tempCurrent);
-                }
+        if (form.getPageId() != null && form.getBreadCrumbItemsMap()!=null &&
+            form.getBreadCrumbItemsMap().get(form.getPageId()) != null && !form.getBreadCrumbItemsMap().get(form.getPageId()).isEmpty()) {
+            for (Map.Entry<String, String> entry : form.getBreadCrumbItemsMap().get(form.getPageId()).entrySet()) {
+                if (entry.getValue() != null && !entry.getValue().isEmpty()) {
+                    Properties urlParameters = new Properties();
+                    urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, UifConstants.MethodToCallNames.START);
+                    urlParameters.put(UifParameters.VIEW_ID, form.getViewId());
+                    urlParameters.put(UifParameters.PAGE_ID, entry.getValue());
+                    urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+                    urlParameters.put(UifConstants.UrlParams.FORM_KEY, form.getFormKey());
+                    if (form.getFormHistory() != null) {
+                        HistoryEntry tempCurrent = form.getFormHistory().getCurrent();
+                        form.getFormHistory().setCurrent(null);
+                        urlParameters.put(UifConstants.UrlParams.HISTORY, form.getFormHistory().getHistoryParameterString());
+                        //set the current back to form
+                        form.getFormHistory().setCurrent(tempCurrent);
+                    }
 
-                //strip the controller path from the form.formPostUrl
-                String[] formPostUrlElements = form.getFormPostUrl().split("/");
-                String controllerPath = formPostUrlElements[formPostUrlElements.length-1];
+                    //strip the controller path from the form.formPostUrl
+                    String[] formPostUrlElements = form.getFormPostUrl().split("/");
+                    String controllerPath = formPostUrlElements[formPostUrlElements.length - 1];
 
-                //contruct the url for this breadcrumb item
-                breadCrumbItemUrl = UrlFactory.parameterizeUrl(controllerPath, urlParameters);
+                    //contruct the url for this breadcrumb item
+                    breadCrumbItemUrl = UrlFactory.parameterizeUrl(controllerPath, urlParameters);
 
 
-                if (mapIndex == 0) {
-                    JSONString = "{\"" + CourseOfferingConstants.BREADCRUMB_JSON_ROOT_KEY + "\": {\"" + entry.getKey() + "\": \"" + breadCrumbItemUrl + "\",";
-                } else if (mapIndex == (form.getBreadCrumbItemsMap().entrySet().size()-1)) {
-                    JSONString += "\"" + entry.getKey() + "\":\"" + breadCrumbItemUrl + "\"}}";
+                    if (mapIndex == 0) {
+                        JSONString = "{\"" + CourseOfferingConstants.BREADCRUMB_JSON_ROOT_KEY + "\": {\"" + entry.getKey() + "\": \"" + breadCrumbItemUrl + "\",";
+                    } else if (mapIndex == (form.getBreadCrumbItemsMap().get(form.getPageId()).entrySet().size() - 1)) {
+                        JSONString += "\"" + entry.getKey() + "\":\"" + breadCrumbItemUrl + "\"}}";
+                    } else {
+                        JSONString += "\"" + entry.getKey() + "\":\"" + breadCrumbItemUrl + "\",";
+                    }
                 } else {
-                    JSONString += "\"" + entry.getKey() + "\":\"" + breadCrumbItemUrl + "\",";
+                    if (mapIndex == 0) {
+                        breadCrumbItemUrl = form.getFormHistory().getHomewardPath().get(0).getUrl();
+                        JSONString = "{\"" + CourseOfferingConstants.BREADCRUMB_JSON_ROOT_KEY + "\": {\"" + entry.getKey() + "\": \"" + breadCrumbItemUrl + "\",";
+                    } else if (mapIndex == (form.getBreadCrumbItemsMap().get(form.getPageId()).entrySet().size() - 1)) {
+                        breadCrumbItemUrl = "";
+                        JSONString += "\"" + entry.getKey() + "\":\"" + breadCrumbItemUrl + "\"}}";
+                    } else {
+                        breadCrumbItemUrl = "";
+                        JSONString += "\"" + entry.getKey() + "\":\"" + breadCrumbItemUrl + "\",";
+                    }
                 }
-            } else {
-                if (mapIndex == 0) {
-                    breadCrumbItemUrl = form.getFormHistory().getHomewardPath().get(0).getUrl();
-                    JSONString = "{\"" + CourseOfferingConstants.BREADCRUMB_JSON_ROOT_KEY + "\": {\"" + entry.getKey() + "\": \"" + breadCrumbItemUrl + "\",";
-                } else if (mapIndex == (form.getBreadCrumbItemsMap().entrySet().size()-1)) {
-                    breadCrumbItemUrl = "";
-                    JSONString += "\"" + entry.getKey() + "\":\"" + breadCrumbItemUrl + "\"}}";
-                } else {
-                    breadCrumbItemUrl = "";
-                    JSONString += "\"" + entry.getKey() + "\":\"" + breadCrumbItemUrl + "\",";
-                }
+
+                mapIndex++;
             }
-
-            mapIndex++;
         }
 
-            form.setBreadCrumbJSON(JSONString);
+        form.setBreadCrumbJSON(JSONString);
     }
 }

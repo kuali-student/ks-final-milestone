@@ -29,11 +29,10 @@ import java.util.Map;
  */
 public class KSUifForm extends UifFormBase {
     private String breadCrumbJSON;
-    private LinkedHashMap<String,String> breadCrumbItemsMap;
+    private Map<String,Map<String,String>> breadCrumbItemsMap;
 
     public KSUifForm() {
         breadCrumbJSON = "";
-        breadCrumbItemsMap = new LinkedHashMap<String,String>();
     }
 
     public String getBreadCrumbJSON() {
@@ -44,11 +43,11 @@ public class KSUifForm extends UifFormBase {
         this.breadCrumbJSON = breadCrumbJSON;
     }
 
-    public LinkedHashMap<String, String> getBreadCrumbItemsMap() {
+    public Map<String,Map<String,String>> getBreadCrumbItemsMap() {
         return breadCrumbItemsMap;
     }
 
-    public void setBreadCrumbItemsMap(LinkedHashMap<String, String> breadCrumbItemsMap) {
+    public void setBreadCrumbItemsMap(Map<String,Map<String,String>> breadCrumbItemsMap) {
         this.breadCrumbItemsMap = breadCrumbItemsMap;
     }
 }
