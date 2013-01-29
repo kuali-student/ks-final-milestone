@@ -3184,50 +3184,50 @@
                   ID="16FA-4833-B3B3-432F-9A8F-460C-219A-1B26" LOCALE="en_US"
                   MSG_ID="kuali.org.Message.Degree.Audit.Message.ID.howToUseDegreeAudit"
                   MSG_VALUE="How to Use Degree Audit (DARS) for Academic Planning"
-                  OBJ_ID="241E-C790-034D-42D4-9276-7D7E-BB74-9E7C" VER_NBR="1"/>
+                  OBJ_ID="241EC790034D-42D49276-7D7EBB749E7C" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="kuali.org.Message.Degree.Audit.Group.Name.Home.Page"
                   ID="0E7A-AD2D-D3CD-44AF-8B6C-A836-2763-C1AF" LOCALE="en_US"
                   MSG_ID="kuali.org.Message.Degree.Audit.Message.ID.theAuditFeatureDisabled"
                   MSG_VALUE="The Audit feature is disabled for non-students. We are unable to run a degree audit for you at this time."
-                  OBJ_ID="9EF4-9F84-AEF4-43B7-97F3-D1E9-11B2-12D7" VER_NBR="1"/>
+                  OBJ_ID="9EF49F84AEF4-43B797F3-D1E911B212D7" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="kuali.org.Message.Degree.Audit.Group.Name.Home.Page"
                   ID="0428-5632-F449-4477-90F3-CC0F-A913-0086" LOCALE="en_US"
                   MSG_ID="kuali.org.Message.Degree.Audit.Message.ID.trackYourProgress"
                   MSG_VALUE="Track Your Progress"
-                  OBJ_ID="7E79-CF39-5D5E-4DF3-BD36-5F96-B317-46F5" VER_NBR="1"/>
+                  OBJ_ID="7E79CF395D5E-4DF3BD36-5F96B31746F5" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="kuali.org.Message.Degree.Audit.Group.Name.Home.Page"
                   ID="0D5D-09DA-46FB-42BA-BF23-F617-2BCE-82E9" LOCALE="en_US"
                   MSG_ID="kuali.org.Message.Degree.Audit.Message.ID.stayOnTopOfUrRequired"
                   MSG_VALUE="Stay on top of your required credits and courses. DARS will compare your academic record with program requirements so that you know what&#39;s needed to complete your degree."
-                  OBJ_ID="662F-773F-824F-4514-B8A1-C66C-8D5E-8ACE" VER_NBR="1"/>
+                  OBJ_ID="662F773F824F-4514B8A1-C66C8D5E8ACE" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="kuali.org.Message.Degree.Audit.Group.Name.Home.Page"
                   ID="0E7E-9756-216B-4320-A53C-F263-0579-44A8" LOCALE="en_US"
                   MSG_ID="kuali.org.Message.Degree.Audit.Message.ID.selectYourProgram"
                   MSG_VALUE="Select your program from the menu above &amp; run DARS to see your academic progress now."
-                  OBJ_ID="E1AF-8BF5-C073-4FF1-85DE-9A21-9416-1705" VER_NBR="1"/>
+                  OBJ_ID="E1AF8BF5C073-4FF185DE-9A2194161705" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="kuali.org.Message.Degree.Audit.Group.Name.Home.Page"
                   ID="46CE-932D-07C7-4BED-AFC0-6263-ADCA-5C9D" LOCALE="en_US"
                   MSG_ID="kuali.org.Message.Degree.Audit.Message.ID.exploreProgramsAndMinors"
                   MSG_VALUE="Explore Programs and Minors"
-                  OBJ_ID="C75F-3C01-091F-46B1-B67E-DB0D-1B3F-5034" VER_NBR="1"/>
+                  OBJ_ID="C75F3C01091F-46B1B67E-DB0D1B3F5034" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="kuali.org.Message.Degree.Audit.Group.Name.Home.Page"
                   ID="06E9-9A03-1CF7-44C2-AB87-29CD-F14D-D269" LOCALE="en_US"
                   MSG_ID="kuali.org.Message.Degree.Audit.Message.ID.stillDeciding"
                   MSG_VALUE="Still deciding on a degree program? DARS can help you determine your academic progress towards any degree."
-                  OBJ_ID="B64B-EEB5-007D-42B4-9C86-F35E-8CD4-0EF8" VER_NBR="1"/>
+                  OBJ_ID="B64BEEB5007D-42B49C86-F35E8CD40EF8" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="kuali.org.Message.Degree.Audit.Group.Name.Home.Page"
                   ID="09DD-633C-9040-4BF4-B396-47A2-B88A-5CC0" LOCALE="en_US"
                   MSG_ID="kuali.org.Message.Degree.Audit.Message.ID.selectAProgramFrom"
                   MSG_VALUE="Select a program from the menu above and run DARS to explore listed majors and more."
-                  OBJ_ID="D5F1-DC51-CD39-4AFE-AF37-F4EA-0618-541A" VER_NBR="1"/>
+                  OBJ_ID="D5F1DC51CD39-4AFEAF37-F4EA0618541A" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="kuali.org.Message.Degree.Audit.Group.Name.Home.Page"
                   ID="7067-9D96-0850-4FC9-A9CA-FAC4-3AEF-529F" LOCALE="en_US"
                   MSG_ID="kuali.org.Message.Degree.Audit.Message.ID.selectYourCampus"
                   MSG_VALUE="Select your campus and choose a degree program or minor from the dropdown menu below. Audits may take 1-5 minutes to load. You can leave this page to browse MyPlan further while you wait."
-                  OBJ_ID="32C4-77CF-111B-45A9-A34B-9B60-B874-FC7E" VER_NBR="1"/>
+                  OBJ_ID="32C477CF111B-45A9A34B-9B60B874FC7E" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="kuali.org.Message.Degree.Audit.Group.Name.Home.Page"
                   ID="607E-9927-B5BF-48E8-801C-714A-198A-75A7" LOCALE="en_US"
                   MSG_ID="kuali.org.Message.Degree.Audit.Message.ID.someProgramsNotIncluded"
                   MSG_VALUE="Some programs are not included in the degree program list for audit."
-                  OBJ_ID="1D94-AC9D-CC62-4212-9708-8940-F65E-4DA4" VER_NBR="1"/>
+                  OBJ_ID="1D94AC9DCC62-42129708-8940F65E4DA4" VER_NBR="1"/>
 </dataset>
