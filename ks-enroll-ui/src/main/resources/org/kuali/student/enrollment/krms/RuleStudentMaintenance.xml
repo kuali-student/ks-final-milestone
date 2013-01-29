@@ -38,7 +38,6 @@
         <property name="headerText" value="Rule Editor"/>
         <property name="additionalScriptFiles">
             <list>
-                <value>krms/scripts/agendaTree.js</value>
                 <value>krms/scripts/ruleStudentTree.js</value>
                 <value>krms/scripts/requiredAlerts.js</value>
                 <value>krms/scripts/disableButtons.js</value>

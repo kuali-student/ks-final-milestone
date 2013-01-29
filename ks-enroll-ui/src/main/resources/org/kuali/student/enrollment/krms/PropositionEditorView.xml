@@ -157,6 +157,14 @@
         <property name="items">
             <list>
 
+                <!-- Hidden ID field -->
+                <bean parent="Uif-InputField" p:propertyName="proposition.id"
+                      p:showLabel="false" p:label="id" p:maxLength="255">
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl" p:cssClasses="hiddenId"/>
+                    </property>
+                </bean>
+
                 <!--Add the type droplist-->
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.typeId"
                       p:showLabel="true" p:label="Select rule type" p:maxLength="40">
