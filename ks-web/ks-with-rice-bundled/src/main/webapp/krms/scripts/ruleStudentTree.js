@@ -177,6 +177,12 @@ function initRuleTree(componentId){
             handlePropositionNodeClick(parentLiNode);
         });
 
+        // rule node clicks should set the selected item
+        jq('li.simplePropositionEditNode').click( function() {
+            var parentLiNode = jq(this).closest('li');
+            handlePropositionNodeClick(parentLiNode);
+        });
+
         // set type to 'logic' on logic nodes -- this prevents them from being selected
         jq('a.compoundOpCodeNode').each( function() {
             jq('#' + componentId).jstree('set_type', 'logic', this.parentNode);
