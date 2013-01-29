@@ -573,17 +573,6 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     public ModelAndView confirmReleaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
                                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         LOGGER.info("confirmReleaseToDepts ");
-
-        //Construct the JSON breadcrumb string to generate the customized breadcrumb to replace KRAD one
-        LinkedHashMap<String,String> breadCrumbItemsMap = new LinkedHashMap<String,String>();
-        breadCrumbItemsMap.put("Home", "");
-        breadCrumbItemsMap.put("Rollover Details", ROLLOVER_DETAILS_PAGEID);
-        String currentPage = (form.getRolloverTargetTermDesc()!=null ) ? form.getRolloverTargetTermDesc() + " Course Offerings" : "Unknown Term Course Offerings";
-        breadCrumbItemsMap.put(currentPage, "");
-
-        form.setBreadCrumbItemsMap(breadCrumbItemsMap);
-        KSUifUtils.constructBreadCrumbs(form);
-
         return getUIFModelAndView(form, ROLLOVER_CONFIRM_RELEASE);
     }
 
