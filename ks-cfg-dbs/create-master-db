@@ -1,4 +1,4 @@
 #!/bin/sh
 
-mvn initialize -Pmaster-db -N -Dkuali-jdbc.version=2.0.2-SNAPSHOT
+mvn initialize -Pmaster-db -N
 
