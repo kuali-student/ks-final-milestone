@@ -6,6 +6,11 @@
 
     <bean id="Agenda-Student-MaintenanceView" parent="KSMaintenanceView">
         <property name="headerText" value="Manage Enrollment Eligibility"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-enrollment-home</value>
+            </list>
+        </property>
         <property name="additionalScriptFiles">
             <list>
                 <value>krms/scripts/agendaTree.js</value>
@@ -65,25 +70,11 @@
                                 </property>
                             </bean>
 
-                            <bean parent="Uif-InputField-LabelTop">
-                                <property name="propertyName" value="activeSelections"/>
-                                <property name="label" value="Activate / Deactivate Rule"/>
-                                <property name="control">
-                                    <bean parent="Uif-VerticalCheckboxesControl">
-                                        <property name="options">
-                                            <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Canonical Rule"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Course Offering Rule"/>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </property>
-                            </bean>
-
                         </list>
                     </property>
                 </bean>
 
+                <ref bean="Prerequisite-Rule-Section"/>
                 <ref bean="Preview-Tree-Section"/>
 
                 <bean id="Enrollment-Eligibility-TabSection" parent="Uif-TabSection"
@@ -143,10 +134,80 @@
             </list>
         </property>
     </bean>
+    <bean id="KRMS-Links-Group" parent="Uif-LinkGroup"  >
+        <property name="linkSeparator" value="|"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-ActionLink">
+                    <property name="actionLabel" value="Edit"/>
+                    <property name="toolTip">
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Edit Prerequisite Rule"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-ActionLink">
+                    <property name="actionLabel" value="Copy"/>
+                    <property name="toolTip">
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Copy to other CO"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-ActionLink">
+                    <property name="actionLabel" value="Compare"/>
+                    <property name="toolTip">
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Compares CLU and CO Rules"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Prerequisite-Rule-Section"  parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection" p:headerText="Prerequisite Rule" >
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-enrollment-home</value>
+                        </list>
+                    </property>
+                    <property name="header.rightGroup">
+                        <bean parent="Uif-HeaderRightGroup">
+                            <property name="items">
+                                <list>
+                                    <ref bean="KRMS-Links-Group" />
+                                </list>
+                            </property>
+
+                        </bean>
+                    </property>
+
+                </bean>
+                <bean parent="Uif-InputField-LabelTop">
+                    <property name="propertyName" value="activeSelections"/>
+                    <property name="label" value="Activate / Deactivate Rule"/>
+                    <property name="control">
+                        <bean parent="Uif-VerticalCheckboxesControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Canonical Rule"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Course Offering Rule"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>rule-header</value>
+            </list>
+        </property>
+    </bean>
 
     <bean id="Preview-Tree-Section" parent="Uif-TreeSection">
-        <property name="headerText" value="Prerequisite Rule"/>
-        <!--<property name="instructionalText" value="Tree Instructional Text"/>-->
+        <property name="instructionalText" value="Conditions that will restrict student enrollment, addressing restrictions to majors,
+                            locations, credit level requirements, etc. or courses, with or without grade requirements,
+                            which a student must have completed in order to enroll."/>
         <property name="propertyName" value="previewTree"/>
         <property name="tree">
             <bean parent="RuleTreeWidget"/>

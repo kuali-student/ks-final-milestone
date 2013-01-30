@@ -74,3 +74,9 @@
 .rootNode {
     border-bottom: #000000 solid 2px;
 }
+
+.rule-header {
+      max-width: 36em;
+  }
+
+
