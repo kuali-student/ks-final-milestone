@@ -6,10 +6,18 @@ package org.kuali.student.common.test.util;
 
 import static org.junit.Assert.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.mortbay.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Helps create a dynamic 
@@ -17,6 +25,8 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
  */
 public class AttributeTester {
 
+    private static final Logger log = LoggerFactory.getLogger(AttributeTester.class);
+    
     public void add2ForCreate(List<AttributeInfo> expected) {
         AttributeInfo attr = new AttributeInfo();
         attr.setKey("attribute.key1");
@@ -73,6 +83,38 @@ public class AttributeTester {
             if (expected.getId() != null) {
                 assertEquals(i + "", expected.getId(), actual.getId());
             }
+            
+           if (log.isDebugEnabled()) {
+            
+                Transformer valueTransformer = new Transformer() {
+
+                    @Override
+                    public Object transform(Object input) {
+                        AttributeInfo attr = (AttributeInfo) input;
+                        return attr.getValue();
+                    }
+                };
+
+                if (!expected.getValue().equals(actual.getValue())) {
+
+                    /*
+                     * On miss match print out the values in each collection so we can get
+                     * a better sense of why the test failed..
+                     */
+                    Collection<String> actualValues = CollectionUtils.collect(
+                            actualSorted, valueTransformer);
+                    Collection<String> expectedValues = CollectionUtils
+                            .collect(expectedSorted, valueTransformer);
+
+                    log.debug("expected = "
+                            + StringUtils.join(expectedValues, ", ")
+                            + ", actual = "
+                            + StringUtils.join(actualValues, ", "));
+
+                }
+           }
+            
+            
             assertEquals(i + "", expected.getKey(), actual.getKey());
             assertEquals(i + "", expected.getValue(), actual.getValue());
         }
