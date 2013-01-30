@@ -2115,23 +2115,26 @@ public class PlanController extends UifControllerBase {
 			throw new RuntimeException("Could not retrieve plan items.", e);
 		}
 		/* check if any audits are ran ! if no plans found */
-		if (learningPlanList.size() == 0) {
-			String systemKey = UserSessionHelper.getAuditSystemKey();
-			Date startDate = new Date();
-			Date endDate = new Date();
-			ContextInfo contextInfo = new ContextInfo();
-			try {
-				auditReportInfoList = getDegreeAuditService()
-						.getAuditsForStudentInDateRange(systemKey, startDate,
-								endDate, contextInfo);
-			} catch (Exception e) {
-				throw new RuntimeException(
-						"Could not retrieve degreeaudit details", e);
-			}
-			if (auditReportInfoList.size() == 0) {
-				isNewUser = true;
-			}
-		}
+//		if (learningPlanList.size() == 0) {
+//			String systemKey = UserSessionHelper.getAuditSystemKey();
+//
+//
+//            Date startDate = new Date();
+//			Date endDate = new Date();
+//			ContextInfo contextInfo = new ContextInfo();
+//			try {
+//				auditReportInfoList = getDegreeAuditService()
+
+//						.getAuditsForStudentInDateRange(systemKey, startDate,
+//								endDate, contextInfo);
+//			} catch (Exception e) {
+//				throw new RuntimeException(
+//						"Could not retrieve degreeaudit details", e);
+//			}
+//			if (auditReportInfoList.size() == 0) {
+//				isNewUser = true;
+//			}
+//		}
 		return isNewUser;
 	}
 
