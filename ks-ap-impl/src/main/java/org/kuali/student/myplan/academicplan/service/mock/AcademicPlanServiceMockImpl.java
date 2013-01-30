@@ -1,6 +1,7 @@
 package org.kuali.student.myplan.academicplan.service.mock;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebParam;
@@ -10,6 +11,7 @@ import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemSetInfo;
 import org.kuali.student.myplan.academicplan.service.AcademicPlanService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -29,7 +31,19 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
 
     @Override
     public PlanItemInfo getPlanItem(@WebParam(name = "planItemId") String planItemId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        PlanItemInfo plan = new PlanItemInfo();
+        plan.setLearningPlanId("learningPlan1");
+        plan.setId(planItemId);
+        plan.setRefObjectId("0029a117-5691-418e-a11f-9ad46dc83d47");
+        String type = "";
+        plan.setRefObjectType( type );
+        List<String> atpList = new ArrayList<String>();
+        String atp = "19843";
+        atpList.add( atp );
+        plan.setPlanPeriods( atpList );
+        plan.setTypeKey("kuali.academicplan.item.planned");
+
+        return plan;
     }
 
     @Override
@@ -39,6 +53,12 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
 
     @Override
     public List<PlanItemInfo> getPlanItemsInPlan(@WebParam(name = "learningPlanId") String learningPlanId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        MetaInfo meta = new MetaInfo();
+        meta.setCreateId("create1");
+        meta.setCreateTime(new Date());
+        meta.setUpdateId("update1");
+        meta.setUpdateTime(new Date());
+        meta.setVersionInd("1");
         List<PlanItemInfo> list = new ArrayList<PlanItemInfo>();
         {
             PlanItemInfo plan = new PlanItemInfo();
@@ -47,13 +67,15 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
             plan.setDescr( richText );
             plan.setLearningPlanId( learningPlanId );
             // ENGL 101
-            String cluID = "059881be-4168-4f99-9e64-310c8c50ae7b";
+            String cluID = "0029a117-5691-418e-a11f-9ad46dc83d47";
             plan.setRefObjectId( cluID );
             String type = "";
             plan.setRefObjectType( type );
             List<String> atps = new ArrayList<String>();
-            atps.add("kuali.uw.atp.autumn2011");
+            atps.add("19843");
             plan.setPlanPeriods( atps );
+            plan.setTypeKey("kuali.academicplan.item.planned");
+            plan.setMeta(meta);
 
             plan.setId( "1" );
             list.add( plan );
@@ -65,70 +87,77 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
             plan.setDescr( richText );
             plan.setLearningPlanId( learningPlanId );
             // ENGL 101
-            String cluID = "059b348d-8547-46ca-86ab-8240576b46ac";
+            String cluID = "006319d2-f0ef-48d5-bae6-ddfad8a4126f";
             plan.setRefObjectId( cluID );
             String type = "";
             plan.setRefObjectType( type );
             List<String> atpList = new ArrayList<String>();
-            String atp = "atp2";
+            String atp = "19843";
             atpList.add( atp );
             plan.setPlanPeriods( atpList );
+            plan.setTypeKey("kuali.academicplan.item.planned");
+            plan.setMeta(meta);
 
             plan.setId( "2" );
             list.add( plan );
         }
         {
             PlanItemInfo plan = new PlanItemInfo();
-            plan.setId( "planItem1" );
+            plan.setId( "planItem3" );
             RichTextInfo richText = new RichTextInfo();
             plan.setDescr( richText );
             plan.setLearningPlanId( learningPlanId );
             // ENGL 101
-            String cluID = "05a2ec10-4c83-4f17-b3d1-938ffdab6ac6";
+            String cluID = "006c881f-2250-4844-8e57-c297049c61f3";
             plan.setRefObjectId( cluID );
             String type = "";
             plan.setRefObjectType( type );
             List<String> atps = new ArrayList<String>();
-            atps.add("kuali.uw.atp.autumn2011");
+            atps.add("19843");
             plan.setPlanPeriods( atps );
+            plan.setTypeKey("kuali.academicplan.item.backup");
+            plan.setMeta(meta);
 
             plan.setId( "1" );
             list.add( plan );
         }
         {
             PlanItemInfo plan = new PlanItemInfo();
-            plan.setId( "planItem1" );
+            plan.setId( "planItem4" );
             RichTextInfo richText = new RichTextInfo();
             plan.setDescr( richText );
             plan.setLearningPlanId( learningPlanId );
             // CHEM 101
-            String cluID = "05a9d09d-1d65-4c8b-a6d1-095baba5d7fe";
+            String cluID = "00ecf8e8-333c-41fd-877c-afd2845294e4";
             plan.setRefObjectId( cluID );
             String type = "";
             plan.setRefObjectType( type );
             List<String> atps = new ArrayList<String>();
-            atps.add("kuali.uw.atp.spring2011");
+            atps.add("19843");
             plan.setPlanPeriods( atps );
-
+            plan.setTypeKey("kuali.academicplan.item.planned");
+            plan.setMeta(meta);
             plan.setId( "1" );
             list.add( plan );
+
         }
         {
             PlanItemInfo plan = new PlanItemInfo();
-            plan.setId( "planItem1" );
+            plan.setId( "planItem5" );
             RichTextInfo richText = new RichTextInfo();
             plan.setDescr( richText );
             plan.setLearningPlanId( learningPlanId );
             // HIST 101
-            String cluID = "05a9d09d-1d65-4c8b-a6d1-095baba5d7fe";
+            String cluID = "011082d2-0822-4c55-a972-0c10c78dbcfa";
             plan.setRefObjectId( cluID );
             String type = "";
             plan.setRefObjectType( type );
             List<String> atps = new ArrayList<String>();
-            atps.add("kuali.uw.atp.winter2011");
+            atps.add("19843");
             plan.setPlanPeriods( atps );
+            plan.setTypeKey("kuali.academicplan.item.wishlist");
+            plan.setMeta(meta);
 
-            plan.setId( "1" );
             list.add( plan );
         }
 
@@ -163,8 +192,11 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
         List<LearningPlanInfo> list = new ArrayList<LearningPlanInfo>();
         LearningPlanInfo plan = new LearningPlanInfo();
         plan.setStudentId( studentId );
-        plan.setId( "learningPlan1" );
+        plan.setId("learningPlan1");
+        plan.setTypeKey(planTypeKey);
+        plan.setShared(false);
         list.add( plan );
+
         return list;
     }
 
@@ -180,15 +212,16 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
         RichTextInfo richText = new RichTextInfo();
         plan.setDescr( richText );
         // ENGL 101
-        String cluID = "05a2ec10-4c83-4f17-b3d1-938ffdab6ac6";
+        String cluID = "0114603e-418a-4ac8-bdff-e09ca09fae4a";
         plan.setRefObjectId( cluID );
         String type = "";
         plan.setRefObjectType( type );
         List<String> atps = new ArrayList<String>();
-        atps.add("kuali.uw.atp.autumn2011");
+        atps.add("19843");
         plan.setPlanPeriods( atps );
+        plan.setTypeKey("kuali.academicplan.item.planned");
 
-        plan.setId( "1" );
+        plan.setId("1");
 
 
         return plan;

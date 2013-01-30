@@ -98,10 +98,7 @@ public class PlanController extends UifControllerBase {
 	public AcademicRecordService getAcademicRecordService() {
 		if (this.academicRecordService == null) {
 			// TODO: Use constants for namespace.
-			this.academicRecordService = (AcademicRecordService) GlobalResourceLoader
-					.getService(new QName(
-							"http://student.kuali.org/wsdl/academicrecord",
-							"arService"));
+			this.academicRecordService = KsapFrameworkServiceLocator.getAcademicRecordService();
 		}
 		return this.academicRecordService;
 	}

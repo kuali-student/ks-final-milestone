@@ -40,7 +40,7 @@ public class AtpHelper {
 					.getAcademicCalendarService()
 					.searchForTerms(
 							QueryByCriteria.Builder.fromPredicates(equalIgnoreCase(
-									"query", PlanConstants.INPROGRESS)),
+									"atpState", PlanConstants.INPROGRESS)),
 							getContext());
 		} catch (Throwable t) {
 			if (t instanceof RuntimeException)
@@ -71,7 +71,7 @@ public class AtpHelper {
 					.getAcademicCalendarService()
 					.searchForTerms(
 							QueryByCriteria.Builder.fromPredicates(equalIgnoreCase(
-									"query", PlanConstants.PUBLISHED)),
+									"atpState", PlanConstants.PUBLISHED)),
 							getContext());
 		} catch (Throwable t) {
 			if (t instanceof RuntimeException)
@@ -83,7 +83,11 @@ public class AtpHelper {
 		}
 		assert scheduledTerms != null && scheduledTerms.size() > 1 : "No scheduled terms from acal service"
 				+ scheduledTerms;
-		return scheduledTerms.get(scheduledTerms.size() - 1).getId();
+        if(scheduledTerms != null && scheduledTerms.size()>1){
+		    return scheduledTerms.get(scheduledTerms.size() - 1).getId();
+        }
+        // Need to handle not finding scheduled terms
+        return "";
 	}
 
 	/**
@@ -246,7 +250,7 @@ public class AtpHelper {
 			AcademicCalendarService acal = KsapFrameworkServiceLocator
 					.getAcademicCalendarService();
 			planningTermInfo = acal.searchForTerms(QueryByCriteria.Builder
-					.fromPredicates(equalIgnoreCase("query",
+					.fromPredicates(equalIgnoreCase("atpState",
 							PlanConstants.PLANNING)), getContext());
 			comparingTerm = acal.getTerm(atpId, getContext());
 		} catch (Throwable t) {
@@ -276,7 +280,7 @@ public class AtpHelper {
 			AcademicCalendarService acal = KsapFrameworkServiceLocator
 					.getAcademicCalendarService();
 			inProgressTermInfo = acal.searchForTerms(QueryByCriteria.Builder
-					.fromPredicates(equalIgnoreCase("query",
+					.fromPredicates(equalIgnoreCase("atpState",
 							PlanConstants.INPROGRESS)), getContext());
 			comparingTerm = acal.getTerm(atpId, getContext());
 		} catch (Throwable t) {

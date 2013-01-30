@@ -5,6 +5,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 //import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.myplan.course.util.CourseSearchConstants;
@@ -33,8 +34,9 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
     public AcademicRecordService getAcademicRecordService() {
         if (this.academicRecordService == null) {
             //   TODO: Use constants for namespace.
-            this.academicRecordService = (AcademicRecordService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/academicrecord", "arService"));
+            this.academicRecordService = KsapFrameworkServiceLocator.getAcademicRecordService();
         }
+
         return this.academicRecordService;
     }
 

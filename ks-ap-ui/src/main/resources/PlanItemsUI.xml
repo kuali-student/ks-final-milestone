@@ -1263,12 +1263,14 @@
             </list>
         </property>
         <property name="validationMessages.displayMessages" value="false"/>
-        <property name="onDocumentReadyScript" value="
-            var user = jQuery.trim(jQuery('#hidden_new_user_flag').text());
-            if (user == 'true' &amp;&amp; !jQuery.cookie('new_user_cookie')) {
+        <!--
+        if (user == 'true' &amp;&amp; !jQuery.cookie('new_user_cookie')) {
                 jQuery.cookie('new_user_cookie', 'true');
                 showLightboxUrl('@{#ConfigProperties['myplan.getting.started.page']}');
             }
+        -->
+        <property name="onDocumentReadyScript" value="
+            var user = jQuery.trim(jQuery('#hidden_new_user_flag').text());
             var retrieveOptions = {};
             var sFocusAtpId = '';
             var aParams = window.location.search.replace('?','').split('&amp;');
@@ -1282,7 +1284,7 @@
             } else {
                 retrieveOptions = {viewId:'PlannedCourses-LookupView'};
             }
-            myplanRetrieveComponent('planned_mock_detail','planned_courses_detail','search','lookup', retrieveOptions, null, {message:'&lt;p&gt;&lt;img src=&quot;../ks-myplan/images/ajaxAuditRunning32.gif&quot; alt=&quot;loading...&quot; /&gt;&lt;/p&gt;&lt;p&gt;Please wait while we are fetching your plan...&lt;/p&gt;', fadeIn:0, fadeOut:0, overlayCSS:{backgroundColor:'#fff',opacity:0,cursor:'wait'}, css:{backgroundColor:'#fffdd7', border:'solid 1px #ffd14c', borderRadius:'15px','-webkit-border-radius':'15px','-moz-border-radius':'15px', width:'230px', textAlign:'center', padding:'20px'}});
+            myplanRetrieveComponent('planned_mock_detail','planned_courses_detail','search','lookup', retrieveOptions, null, {message:'&lt;p&gt;&lt;img src=&quot;@{#ConfigProperties['ks.myplan.externalizable.images.url']}ajaxAuditRunning32.gif&quot; alt=&quot;loading...&quot; /&gt;&lt;/p&gt;&lt;p&gt;Please wait while we are fetching your plan...&lt;/p&gt;', fadeIn:0, fadeOut:0, overlayCSS:{backgroundColor:'#fff',opacity:0,cursor:'wait'}, css:{backgroundColor:'#fffdd7', border:'solid 1px #ffd14c', borderRadius:'15px','-webkit-border-radius':'15px','-moz-border-radius':'15px', width:'230px', textAlign:'center', padding:'20px'}});
         "/>
         <property name="items">
             <list>
@@ -3101,7 +3103,7 @@
                                               p:cssClasses="myplan-text-gray" p:style="font-size:x-small;">
                                             <property name="message">
                                                 <bean parent="Uif-Message"
-                                                      p:messageText=" &quot;Shared&quot; plans are viewable by all UW advisers. &quot;Private&quot; plans are only viewable by you."/>
+                                                      p:messageText=" &quot;Shared&quot; plans are viewable by all advisers. &quot;Private&quot; plans are only viewable by you."/>
                                             </property>
                                         </bean>
                                         <bean id="academic_planner_share" parent="Uif-InputField"

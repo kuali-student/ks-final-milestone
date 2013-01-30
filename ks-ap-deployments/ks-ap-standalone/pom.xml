@@ -205,6 +205,11 @@
             <type>war</type>
         </dependency>
         <dependency>
+            <groupId>org.kuali.student.enroll</groupId>
+            <artifactId>ks-enroll-ui</artifactId>
+            <version>${ks.enroll.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-impl</artifactId>
             <version>${ks.core.version}</version>

@@ -117,7 +117,7 @@
                     <value>NATIVE:
                             SELECT attr.ATTR_VALUE,org.SHRT_DESCR
                             from KSOR_ORG org JOIN KSOR_ORG_ATTR attr on attr.OWNER=org.ID
-                            where TYPE='kuali.uw.org.type.curriculum' and attr.ATTR_NAME='org.abbreviation'
+                            where TYPE='kuali.org.type.curriculum' and attr.ATTR_NAME='org.abbreviation'
                     </value>
                 </entry>
             </map>
