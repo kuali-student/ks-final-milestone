@@ -34,6 +34,12 @@
         <property name="serviceName" value="MessageService"/>
     </bean>
 
+    <bean id="ksCoreTypeService"
+          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceNamespace" value="http://student.kuali.org/wsdl/type"/>
+        <property name="serviceName" value="TypeService"/>
+    </bean>
+
     <bean id="ksCoreAtpService"
           class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceNamespace" value="http://student.kuali.org/wsdl/atp"/>

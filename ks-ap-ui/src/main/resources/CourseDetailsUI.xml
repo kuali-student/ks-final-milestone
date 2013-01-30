@@ -274,7 +274,8 @@
                             </bean>
 
                             <!--Course Requisites-->
-                            <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.renderColon="false" p:style="padding-top: 10px;" p:group.validationMessages.render="false">
+                            <bean parent="Uif-HorizontalFieldGroup" p:render="@{dataObject.requisites ne null}"
+                            		p:fieldLabel.renderColon="false" p:style="padding-top: 10px;" p:group.validationMessages.render="false">
 
                                 <property name="items">
                                     <list>
@@ -310,7 +311,7 @@
                                                             </list>
                                                         </property>
                                                     </bean>
-                                                    <bean parent="Uif-Message" p:messageText="(Source: Course Catalog)">
+                                                    <bean parent="Uif-Message" p:messageText="(Source: @{dataObject.requisitesSourceMessage})">
                                                         <property name="cssClasses">
                                                             <list merge="true">
                                                                 <value>fl-font-size-90</value>
@@ -341,7 +342,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <!--Quarters-->
+                            <!--Terms-->
                             <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.renderColon="false" p:style="padding-top: 10px;" p:group.validationMessages.render="false">
 
                                 <property name="items">
@@ -354,7 +355,7 @@
                                             </property>
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-Label" p:labelText="Quarters"
+                                                    <bean parent="Uif-Label" p:labelText="Terms"
                                                           p:renderColon="false"/>
                                                     <ref bean="course_quarter_help_icon"/>
                                                 </list>
@@ -383,7 +384,7 @@
                                                                     </property>
                                                                 </bean>
                                                                 <bean parent="Uif-Message"
-                                                                      p:messageText="(Source: Time Schedule)">
+                                                                      p:messageText="(Source: @{dataObject.scheduledTermsSourceMessage})">
                                                                     <property name="cssClasses">
                                                                         <list merge="true">
                                                                             <value>fl-font-size-90</value>
@@ -411,7 +412,7 @@
                                                         <property name="items">
                                                             <list>
                                                                 <bean parent="Uif-Message"
-                                                                      p:messageText="Projected to be offered in "
+                                                                      p:messageText="@{dataObject.termsOfferedLabelMessage} "
                                                                       p:render="@{dataObject.termsOffered.size() gt 0 ? true : false}"
                                                                       p:style="margin: 0 0.33em 0 0;"/>
                                                                 <bean parent="Uif-DataField"
@@ -427,10 +428,10 @@
                                                                         </list>
                                                                     </property>
                                                                 </bean>
-                                                                <bean parent="Uif-Message" p:messageText="quarters"
+                                                                <bean parent="Uif-Message" p:messageText="@{dataObject.termsOfferedSuffixMessage}"
                                                                       p:render="@{dataObject.termsOffered.size() gt 0 ? true : false}"/>
                                                                 <bean parent="Uif-Message"
-                                                                      p:messageText="(Source: Course Catalog)">
+                                                                      p:messageText="(Source: @{dataObject.termsOfferedSourceMessage})">
                                                                     <property name="cssClasses">
                                                                         <list merge="true">
                                                                             <value>fl-font-size-90</value>

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -14,6 +15,8 @@ import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
 import org.kuali.student.myplan.academicplan.infc.LearningPlan;
@@ -39,6 +42,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -182,7 +186,29 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
 						.equals("9999"))
 			courseDetails.setLastEffectiveTerm(tn[0] + " " + tn[1]);
 
-		courseDetails.setTermsOffered(course.getTermsOffered());
+		List<String> cto = course.getTermsOffered();
+		if (cto != null) {
+			List<String> to = new java.util.ArrayList<String>();
+			try {
+				for (TypeInfo ti : KsapFrameworkServiceLocator.getTypeService()
+						.getTypesByKeys(
+								cto,
+								KsapFrameworkServiceLocator.getContext()
+										.getContextInfo()))
+					to.add(ti.getName());
+			} catch (DoesNotExistException e) {
+				throw new IllegalArgumentException("Type lookup error", e);
+			} catch (InvalidParameterException e) {
+				throw new IllegalArgumentException("Type lookup error", e);
+			} catch (MissingParameterException e) {
+				throw new IllegalArgumentException("Type lookup error", e);
+			} catch (OperationFailedException e) {
+				throw new IllegalStateException("Type lookup error", e);
+			} catch (PermissionDeniedException e) {
+				throw new IllegalStateException("Type lookup error", e);
+			}
+			courseDetails.setTermsOffered(to);
+		}
 
 		return courseDetails;
 	}
@@ -191,17 +217,23 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
 		CourseDetails courseDetails = retrieveCourseSummary(courseId, studentId);
 		courseDetails.setSummaryOnly(false);
 
-		// REVIEW LINE
-		CourseInfo course = null;
+		ContextInfo context = KsapFrameworkServiceLocator.getContext()
+				.getContextInfo();
+
+		CourseInfo course;
 		try {
 			course = KsapFrameworkServiceLocator.getCourseService().getCourse(
-					courseId,
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
+					courseId, context);
 		} catch (DoesNotExistException e) {
-			throw new RuntimeException(String.format("Course [%s] not found.",
-					courseId), e);
-		} catch (Exception e) {
-			throw new RuntimeException("Query failed.", e);
+			throw new IllegalArgumentException("Course lookup failure", e);
+		} catch (InvalidParameterException e) {
+			throw new IllegalArgumentException("Course lookup failure", e);
+		} catch (MissingParameterException e) {
+			throw new IllegalArgumentException("Course lookup failure", e);
+		} catch (OperationFailedException e) {
+			throw new IllegalStateException("Course lookup failure", e);
+		} catch (PermissionDeniedException e) {
+			throw new IllegalStateException("Course lookup failure", e);
 		}
 
 		// Campus Locations
@@ -215,47 +247,36 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
 
 		List<String> campusLocations = new ArrayList<String>();
 
-		for (String campus : getCampusLocationsOfferedIn(courseId,
-				KsapFrameworkServiceLocator.getContext().getContextInfo())) {
-
-			for (OrgInfo orgInfo : orgInfoList) {
-				if (campus.equalsIgnoreCase(orgInfo.getId())) {
+		for (String campus : getCampusLocationsOfferedIn(courseId, context))
+			for (OrgInfo orgInfo : orgInfoList)
+				if (campus.equalsIgnoreCase(orgInfo.getId()))
 					campusLocations.add(orgInfo.getLongName());
-					break;
-				}
-			}
-		}
-
 		courseDetails.setCampusLocations(campusLocations);
 
 		// Get only the abbre_val of gen ed requirements
 		List<String> abbrGenEdReqs = new ArrayList<String>();
 		List<AttributeInfo> abbrAttributes = course.getAttributes();
-		for (AttributeInfo entry : abbrAttributes) {
+		for (AttributeInfo entry : abbrAttributes)
 			if ("Y".equals(entry.getValue())
 					&& entry.getKey().startsWith(
-							CourseSearchConstants.GEN_EDU_REQUIREMENTS_PREFIX)) {
+							CourseSearchConstants.GEN_EDU_REQUIREMENTS_PREFIX))
 				abbrGenEdReqs.add(EnumerationHelper.getEnumAbbrValForCode(entry
 						.getKey()));
-			}
-		}
 		courseDetails.setAbbrGenEdRequirements(abbrGenEdReqs);
 
 		// Get general education requirements.
 		List<String> genEdReqs = new ArrayList<String>();
 		List<AttributeInfo> attributes = course.getAttributes();
-		for (AttributeInfo entry : attributes) {
+		for (AttributeInfo entry : attributes)
 			if ("Y".equals(entry.getValue())
 					&& entry.getKey().startsWith(
 							CourseSearchConstants.GEN_EDU_REQUIREMENTS_PREFIX)) {
 				EnumeratedValueInfo e = EnumerationHelper.getGenEdReqEnumInfo(
-						entry.getKey(), KsapFrameworkServiceLocator
-								.getContext().getContextInfo());
+						entry.getKey(), context);
 				String genEdText = String.format("%s (%s)", e.getValue(),
 						e.getAbbrevValue());
 				genEdReqs.add(genEdText);
 			}
-		}
 		courseDetails.setGenEdRequirements(genEdReqs);
 
 		/*
@@ -265,40 +286,24 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
 		 */
 		try {
 			// Fetch the available terms from the Academic Calendar Service.
-			List<TermInfo> termInfos = null;
-			try {
-				termInfos = KsapFrameworkServiceLocator
-						.getAcademicCalendarService()
-						.searchForTerms(
-								QueryByCriteria.Builder.fromPredicates(equalIgnoreCase(
-										"query", PlanConstants.PUBLISHED)),
-								KsapFrameworkServiceLocator.getContext()
-										.getContextInfo());
-			} catch (Exception e) {
-				LOG.error("Web service call failed.", e);
-				// Create an empty list to Avoid NPE below allowing the data
-				// object to be fully initialized.
-				termInfos = new ArrayList<TermInfo>();
-			}
+			CourseOfferingService cos = KsapFrameworkServiceLocator
+					.getCourseOfferingService();
+			Set<String> scheduledTermIds = new java.util.HashSet<String>();
+			for (CourseOffering co : cos.getCourseOfferingsByCourse(courseId,
+					context))
+				if (scheduledTermIds.contains(co.getTermId()))
+					continue;
+				else
+					scheduledTermIds.add(co.getTermId());
 
-			List<String> scheduledTerms = new ArrayList<String>();
-			for (TermInfo term : termInfos) {
-				String key = term.getId();
-				String subject = course.getSubjectArea();
-
-				List<String> offerings = KsapFrameworkServiceLocator
-						.getCourseOfferingService()
-						.getCourseOfferingIdsByTermAndSubjectArea(
-								key,
-								subject,
-								KsapFrameworkServiceLocator.getContext()
-										.getContextInfo());
-
-				if (offerings.contains(course.getCode())) {
-					scheduledTerms.add(term.getName());
-				}
-			}
-
+			List<String> scheduledTerms = new java.util.LinkedList<String>();
+			for (TermInfo ti : KsapFrameworkServiceLocator
+					.getAcademicCalendarService()
+					.searchForTerms(
+							QueryByCriteria.Builder.fromPredicates(equalIgnoreCase(
+									"query", PlanConstants.PUBLISHED)), context))
+				if (scheduledTermIds.contains(ti.getId()))
+					scheduledTerms.add(ti.getName());
 			courseDetails.setScheduledTerms(scheduledTerms);
 
 			AcademicPlanService academicPlanService = KsapFrameworkServiceLocator
@@ -355,27 +360,21 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
 				}
 			}
 		} catch (Exception e) {
-			LOG.error(
+			throw new IllegalArgumentException(
 					"Exception loading course offering for:" + course.getCode(),
 					e);
 		}
 
 		// Curriculum
+		StringBuilder curtitle = new StringBuilder();
+		curtitle.append(getTitle(course.getSubjectArea()));
 		String courseCode = courseDetails.getCode();
-		String subject = null;
-		String number = null;
-		if (courseCode != null) {
-			String[] splitStr = courseCode
-					.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-			subject = splitStr[0];
-			number = splitStr[1];
-			String temp = getTitle(subject);
-			StringBuffer value = new StringBuffer();
-			value = value.append(temp);
-			value = value.append(" (").append(subject.trim()).append(")");
+		if (courseCode != null)
+			curtitle.append(" (")
+					.append(courseCode.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)")[0]
+							.trim()).append(")");
+		courseDetails.setCurriculumTitle(curtitle.toString());
 
-			courseDetails.setCurriculumTitle(value.toString());
-		}
 		// If course not scheduled for future terms, Check for the last term
 		// when course was offered
 		if (courseDetails.getScheduledTerms().size() == 0) {
@@ -398,10 +397,25 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
 				throw new IllegalStateException("CO lookup failure", e);
 			}
 			if (courseOfferingInfo != null && courseOfferingInfo.size() > 0) {
-				String lastOffered = courseOfferingInfo.get(0).getTermId();
-				lastOffered = lastOffered.substring(0, 1).toUpperCase()
-						.concat(lastOffered.substring(1, lastOffered.length()));
-				courseDetails.setLastOffered(lastOffered);
+				TermInfo lo;
+				try {
+					lo = KsapFrameworkServiceLocator
+							.getAcademicCalendarService().getTerm(
+									courseOfferingInfo.get(0).getTermId(),
+									KsapFrameworkServiceLocator.getContext()
+											.getContextInfo());
+				} catch (DoesNotExistException e) {
+					throw new IllegalArgumentException("AC lookup failure", e);
+				} catch (InvalidParameterException e) {
+					throw new IllegalArgumentException("AC lookup failure", e);
+				} catch (MissingParameterException e) {
+					throw new IllegalArgumentException("AC lookup failure", e);
+				} catch (OperationFailedException e) {
+					throw new IllegalStateException("AC lookup failure", e);
+				} catch (PermissionDeniedException e) {
+					throw new IllegalStateException("AC lookup failure", e);
+				}
+				courseDetails.setLastOffered(lo.getName());
 			}
 		}
 		/*********

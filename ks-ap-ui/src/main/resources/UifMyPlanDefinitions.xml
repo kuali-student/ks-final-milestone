@@ -147,19 +147,15 @@
         <property name="cssFiles">
             <list merge="true">
                 <value>ks-myplan/css/myplan.css</value>
-                <value>ks-myplan/jquery-bubblepopup/jquery.bubblepopup.css</value>
                 <value>ks-myplan/jquery-ui/jquery-ui.css</value>
             </list>
         </property>
         <property name="scriptFiles">
             <list merge="true">
-                <value>https://use.typekit.net/jpx3dug.js</value>
                 <value>ks-myplan/scripts/myplan.widgets.js</value>
                 <value>ks-myplan/scripts/myplan.events.js</value>
                 <value>ks-myplan/plugins/jquery.subscribe.js</value>
                 <value>ks-myplan/plugins/polling.js</value>
-                <value>ks-myplan/jquery-bubblepopup/jquery.bubblepopup.js</value>
-                <value>ks-myplan/scripts/myplan.google.js</value>
             </list>
         </property>
     </bean>
@@ -172,17 +168,14 @@
             <list merge="true">
                 <value>ks-myplan/css/base.css</value>
                 <value>ks-myplan/css/myplan.css</value>
-                <value>ks-myplan/jquery-bubblepopup/jquery.bubblepopup.css</value>
                 <value>ks-myplan/jquery-ui/jquery-ui.css</value>
             </list>
         </property>
         <property name="scriptFiles">
             <list merge="true">
-                <value>https://use.typekit.net/jpx3dug.js</value>
                 <value>ks-myplan/scripts/myplan.widgets.js</value>
                 <value>ks-myplan/scripts/myplan.events.js</value>
                 <value>ks-myplan/plugins/jquery.subscribe.js</value>
-                <value>ks-myplan/jquery-bubblepopup/jquery.bubblepopup.min.js</value>
             </list>
         </property>
     </bean>

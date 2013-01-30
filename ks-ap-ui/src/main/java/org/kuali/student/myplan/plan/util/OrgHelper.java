@@ -134,7 +134,7 @@ public class OrgHelper {
 		for (SearchResultRow row : searchResult.getRows()) {
 			subjects.put(
 					getCellValue(row, "org.resultColumn.attrValue").trim(),
-					getCellValue(row, "org.resultColumn.name"));
+					getCellValue(row, "org.resultColumn.orgLongName"));
 
 		}
 		return subjects;

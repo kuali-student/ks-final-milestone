@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.ap.framework.context.KsapContext;
-import org.kuali.student.ap.framework.course.CourseSearchAdaptor;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -13,6 +12,7 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.myplan.academicplan.service.AcademicPlanService;
 import org.kuali.student.r2.common.messages.service.MessageService;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -54,12 +54,9 @@ public final class KsapFrameworkServiceLocator {
 	private static <T> T getLocalService(String serviceName) {
 		@SuppressWarnings("unchecked")
 		T rv = (T) SERVICE_CACHE.get(serviceName);
-		if (rv == null){
-            rv = GlobalResourceLoader.getService(serviceName);
-            if(rv!=null){
-			    SERVICE_CACHE.put(serviceName,rv);
-            }
-        }
+		if (rv == null)
+			SERVICE_CACHE.put(serviceName,
+					rv = GlobalResourceLoader.getService(serviceName));
 		assert rv != null : serviceName + " not defined in Rice";
 		return rv;
 	}
@@ -71,6 +68,15 @@ public final class KsapFrameworkServiceLocator {
 	 */
 	public static AtpService getAtpService() {
 		return getLocalService("ksCoreAtpService");
+	}
+
+	/**
+	 * Get the ks-core remote type service.
+	 * 
+	 * @return The ks-core remote type service.
+	 */
+	public static TypeService getTypeService() {
+		return getLocalService("ksCoreTypeService");
 	}
 
 	/**
@@ -152,15 +158,6 @@ public final class KsapFrameworkServiceLocator {
 	 */
 	public static KsapContext getContext() {
 		return getLocalService("ksapContext");
-	}
-
-	/**
-	 * Get the course search adaptor.
-	 * 
-	 * @return The course search adaptor.
-	 */
-	public static CourseSearchAdaptor getCourseSearchAdaptor() {
-		return getLocalService("ksapCourseSearchAdaptor");
 	}
 
 	/**

@@ -62,7 +62,7 @@ public class CampusSearch extends KeyValuesBase {
 		if (orgInfoList != null && orgInfoList.size() > 0) {
 			for (OrgInfo entry : orgInfoList) {
 				keyValues.add(new ConcreteKeyValue(entry.getId(), entry
-						.getLongName() + " campus"));
+						.getLongName()));
 			}
 		}
 		Collections.sort(keyValues, new Comparator<KeyValue>() {

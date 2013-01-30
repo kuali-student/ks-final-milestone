@@ -17,9 +17,6 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	<bean name="ksapCourseSearchAdaptor"
-			class="org.kuali.student.myplan.course.controller.DefaultCourseSearchAdaptor" />
-
     <bean id="courseSearchStrategy" class="org.kuali.student.myplan.course.controller.CourseSearchStrategyImpl"/>
 
     <bean id="coursePreReqSearch" class="org.kuali.student.myplan.course.service.CoursePreReqSearch">
@@ -40,7 +37,7 @@
         <property name="initializeDataDictionary" value="true"/>
         <property name="dataDictionaryPackages">
             <list>
-                <!-- Import these data dictionaries to allow the UI to use them -->
+               <!-- Import these data dictionaries to allow the UI to use them -->
                <!-- <value>classpath:ks-PlanItemInfo-dictionary.xml</value> -->
                 <value>classpath:ks-AuditReportInfo-dictionary.xml</value>
 

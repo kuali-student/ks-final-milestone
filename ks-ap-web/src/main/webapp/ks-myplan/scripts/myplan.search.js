@@ -190,7 +190,10 @@ function searchForCourses(id, parentId) {
                 type: "GET",
                 url: sSource,
                 data: aoData,
-                success: fnCallback,
+                success: function(data, textStatus, jqXHR) {
+                	fnCallback(data, textStatus, jqXHR);
+                    initBubblePopups();
+                },
                 statusCode: {
                     500: function() { showGrowl("500 Internal Server Error","Fatal Error"); }
                 }

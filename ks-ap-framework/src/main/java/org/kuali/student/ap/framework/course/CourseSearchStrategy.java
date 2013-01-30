@@ -7,6 +7,8 @@ import org.kuali.student.r2.core.search.infc.SearchResultRow;
 
 public interface CourseSearchStrategy {
 
+	CourseSearchForm createSearchForm();
+
 	String getCellValue(SearchResultRow row, String key);
 
 	Map<String, Credit> getCreditMap();

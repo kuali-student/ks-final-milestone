@@ -32,6 +32,7 @@ import org.kuali.student.myplan.academicplan.service.AcademicPlanService;
 import org.kuali.student.myplan.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.myplan.course.dataobject.CourseSearchItemImpl;
 import org.kuali.student.myplan.course.dataobject.FacetItem;
+import org.kuali.student.myplan.course.form.CourseSearchFormImpl;
 import org.kuali.student.myplan.course.util.CourseLevelFacet;
 import org.kuali.student.myplan.course.util.CourseSearchConstants;
 import org.kuali.student.myplan.course.util.CreditsFacet;
@@ -55,6 +56,7 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.kuali.student.r2.lum.clu.service.CluService;
 
 public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
@@ -64,6 +66,14 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	public static final String NO_CAMPUS = "-1";
 	private static final int MAX_HITS = 1000;
 	private static WeakReference<Map<String, Credit>> creditMapRef;
+
+	@Override
+	public CourseSearchForm createSearchForm() {
+		CourseSearchFormImpl rv = new CourseSearchFormImpl();
+		Set<String> o = getCampusLocations();
+		rv.setCampusSelect(new java.util.ArrayList<String>(o));
+		return rv;
+	}
 
 	public String getCellValue(SearchResultRow row, String key) {
 		for (SearchResultCell cell : row.getCells()) {
@@ -660,11 +670,60 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		this.hashMap = hashMap;
 	}
 
+	private Set<String> getCampusLocations() {
+		Set<String> campusLocations = getOrgTypeCache().get(
+				CourseSearchConstants.CAMPUS_LOCATION);
+		if (campusLocations == null) {
+			ContextInfo context = KsapFrameworkServiceLocator.getContext()
+					.getContextInfo();
+			List<Org> all = new java.util.ArrayList<Org>(OrgHelper.getOrgInfo(
+					CourseSearchConstants.CAMPUS_LOCATION,
+					CourseSearchConstants.ORG_QUERY_SEARCH_BY_TYPE_REQUEST,
+					CourseSearchConstants.ORG_TYPE_PARAM, context));
+			Set<String> alc = new java.util.LinkedHashSet<String>();
+			for (Org o : all)
+				alc.add(o.getId());
+			this.getOrgTypeCache().put(CourseSearchConstants.CAMPUS_LOCATION,
+					campusLocations = alc);
+		}
+		assert campusLocations != null : "Failed to build campus location cache";
+		return campusLocations;
+	}
+
+	private List<String> getDivisionCodes() {
+		ContextInfo context = KsapFrameworkServiceLocator.getContext()
+				.getContextInfo();
+		CluService cluService = KsapFrameworkServiceLocator.getCluService();
+		SearchRequestInfo request = new SearchRequestInfo(
+				"myplan.distinct.clu.divisions");
+		SearchResult result;
+		try {
+			result = cluService.search(request, context);
+		} catch (MissingParameterException e) {
+			throw new IllegalArgumentException("Error in CLU division search",
+					e);
+		} catch (InvalidParameterException e) {
+			throw new IllegalArgumentException("Error in CLU division search",
+					e);
+		} catch (OperationFailedException e) {
+			throw new IllegalArgumentException("Error in CLU division search",
+					e);
+		} catch (PermissionDeniedException e) {
+			throw new IllegalArgumentException("Error in CLU division search",
+					e);
+		}
+		List<? extends SearchResultRow> rr = result.getRows();
+		List<String> rv = new java.util.ArrayList<String>(rr.size());
+		for (SearchResultRow row : rr)
+			for (SearchResultCell cell : row.getCells())
+				rv.add(cell.getValue());
+		return rv;
+	}
+
 	@Override
 	public Map<String, String> fetchCourseDivisions() {
 		Map<String, String> map = new java.util.LinkedHashMap<String, String>();
-		for (String div : KsapFrameworkServiceLocator.getCourseSearchAdaptor()
-				.getDivisionCodes())
+		for (String div : getDivisionCodes())
 			// Store both trimmed and original, because source data
 			// is sometimes space padded.
 			map.put(div.trim().replaceAll("\\s+", ""), div);
@@ -673,23 +732,11 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
 	public void addCampusParams(List<SearchRequestInfo> requests,
 			CourseSearchForm form) {
-		Set<String> campusLocations = getOrgTypeCache().get(
-				CourseSearchConstants.CAMPUS_LOCATION);
-		if (campusLocations == null) {
-			List<Org> all = KsapFrameworkServiceLocator
-					.getCourseSearchAdaptor().getCampuses();
-			Set<String> alc = new java.util.HashSet<String>();
-			for (Org o : all)
-				alc.add(o.getId());
-			this.getOrgTypeCache().put(CourseSearchConstants.CAMPUS_LOCATION,
-					campusLocations = alc);
-		}
-		assert campusLocations != null : "Failed to build campus location cache";
-
 		List<String> sel = form.getCampusSelect();
 		if (sel == null)
 			sel = new java.util.ArrayList<String>(1);
 		Iterator<String> seli = sel.iterator();
+		Set<String> campusLocations = getCampusLocations();
 		while (seli.hasNext())
 			if (!campusLocations.contains(seli.next()))
 				seli.remove();

@@ -101,7 +101,7 @@ function openPopUp(id, getId, methodToCall, action, retrieveOptions, e, selector
     var popupOptionsDefault = {
         innerHtml:popupHtml.wrap("<div>").parent().clone().html(),
         themePath:'../ks-myplan/jquery-bubblepopup/jquerybubblepopup-theme/',
-        manageMouseEvents:true,
+        manageMouseEvents:false,
         selectable:true,
         tail:{align:'middle', hidden:false},
         position:'left',
@@ -126,8 +126,9 @@ function openPopUp(id, getId, methodToCall, action, retrieveOptions, e, selector
 
     fnCloseAllPopups();
 
-    popupBox.CreateBubblePopup({manageMouseEvents:false});
-    popupBox.ShowBubblePopup(popupSettings, false);
+    popupBox.SetBubblePopupOptions(popupSettings, true);
+    popupBox.SetBubblePopupInnerHtml(popupSettings.innerHTML, true);
+    popupBox.ShowBubblePopup();
     var popupBoxId = popupBox.GetBubblePopupID();
     popupBox.FreezeBubblePopup();
 
@@ -193,7 +194,7 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
     var popupOptionsDefault = {
         innerHtml:popupHtml.wrap("<div>").parent().clone().html(),
         themePath:'../ks-myplan/jquery-bubblepopup/jquerybubblepopup-theme/',
-        manageMouseEvents:true,
+        manageMouseEvents:false,
         selectable:true,
         tail:{align:'middle', hidden:false},
         position:'left',
@@ -218,8 +219,9 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
 
     fnCloseAllPopups();
 
-    popupBox.CreateBubblePopup({manageMouseEvents:false});
-    popupBox.ShowBubblePopup(popupSettings, false);
+    popupBox.SetBubblePopupOptions(popupSettings, true);
+    popupBox.SetBubblePopupInnerHtml(popupSettings.innerHTML, true);
+    popupBox.ShowBubblePopup();
     var popupBoxId = popupBox.GetBubblePopupID();
     popupBox.FreezeBubblePopup();
 
@@ -266,7 +268,7 @@ function openPopUpForm(id, getId, methodToCall, action, retrieveOptions, e, sele
     var popupOptionsDefault = {
         innerHtml:popupHtml.wrap("<div>").parent().clone().html(),
         themePath:'../ks-myplan/jquery-bubblepopup/jquerybubblepopup-theme/',
-        manageMouseEvents:true,
+        manageMouseEvents:false,
         selectable:true,
         tail:{align:'middle', hidden:false},
         position:'left',
@@ -291,8 +293,9 @@ function openPopUpForm(id, getId, methodToCall, action, retrieveOptions, e, sele
 
     fnCloseAllPopups();
 
-    popupBox.CreateBubblePopup({manageMouseEvents:false});
-    popupBox.ShowBubblePopup(popupSettings, false);
+    popupBox.SetBubblePopupOptions(popupSettings, true);
+    popupBox.SetBubblePopupInnerHtml(popupSettings.innerHTML, true);
+    popupBox.ShowBubblePopup();
     var popupBoxId = popupBox.GetBubblePopupID();
     popupBox.FreezeBubblePopup();
 
@@ -360,7 +363,7 @@ function openPlanItemPopUp(id, getId, retrieveOptions, e, selector, popupOptions
     var popupOptionsDefault = {
         innerHtml:popupHtml.wrap("<div>").parent().clone().html(),
         themePath:'../ks-myplan/jquery-bubblepopup/jquerybubblepopup-theme/',
-        manageMouseEvents:true,
+        manageMouseEvents:false,
         selectable:true,
         tail:{align:'middle', hidden:false},
         position:'left',
@@ -385,8 +388,9 @@ function openPlanItemPopUp(id, getId, retrieveOptions, e, selector, popupOptions
 
     fnCloseAllPopups();
 
-    popupBox.CreateBubblePopup({manageMouseEvents:false});
-    popupBox.ShowBubblePopup(popupSettings, false);
+    popupBox.SetBubblePopupOptions(popupSettings, true);
+    popupBox.SetBubblePopupInnerHtml(popupSettings.innerHTML, true);
+    popupBox.ShowBubblePopup();
     var popupBoxId = popupBox.GetBubblePopupID();
     fnPositionPopUp(popupBoxId);
     popupBox.FreezeBubblePopup();
@@ -448,7 +452,7 @@ function openDialog(sText, e, close) {
     var popupOptionsDefault = {
         innerHtml:dialogHtml.wrap("<div>").parent().clone().html(),
         themePath:'../ks-myplan/jquery-bubblepopup/jquerybubblepopup-theme/',
-        manageMouseEvents:true,
+        manageMouseEvents:false,
         selectable:true,
         tail:{hidden:true},
         position:'top',
@@ -465,8 +469,9 @@ function openDialog(sText, e, close) {
 
     fnCloseAllPopups();
 
-    popupBox.CreateBubblePopup({manageMouseEvents:false});
-    popupBox.ShowBubblePopup(popupOptionsDefault, false);
+    popupBox.SetBubblePopupOptions(popupSettings, true);
+    popupBox.SetBubblePopupInnerHtml(popupSettings.innerHTML, true);
+    popupBox.ShowBubblePopup();
     var popupBoxId = popupBox.GetBubblePopupID();
     popupBox.FreezeBubblePopup();
 
@@ -796,7 +801,8 @@ function fnPopoverSlider(showId, parentId, direction) {
 function fnCloseAllPopups() {
     if (jQuery("body").HasBubblePopup()) jQuery("body").RemoveBubblePopup();
     jQuery("div.jquerybubblepopup.jquerybubblepopup-myplan").remove();
-    jQuery(document).off();
+    // TODO remove after review: jQuery(document).off();
+    // KRAD 2.2.0 uses a global event handler to update popups
 }
 /*
  ######################################################################################
@@ -1230,7 +1236,7 @@ function openQuickAddPopUp(id, getId, retrieveOptions, e, selector, popupOptions
     var popupOptionsDefault = {
         innerHtml:popupHtml.wrap("<div>").parent().clone().html(),
         themePath:'../ks-myplan/jquery-bubblepopup/jquerybubblepopup-theme/',
-        manageMouseEvents:true,
+        manageMouseEvents:false,
         selectable:true,
         tail:{align:'middle', hidden:false},
         position:'left',
@@ -1255,8 +1261,9 @@ function openQuickAddPopUp(id, getId, retrieveOptions, e, selector, popupOptions
 
     fnCloseAllPopups();
 
-    popupBox.CreateBubblePopup({manageMouseEvents:false});
-    popupBox.ShowBubblePopup(popupSettings, false);
+    popupBox.SetBubblePopupOptions(popupSettings, true);
+    popupBox.SetBubblePopupInnerHtml(popupSettings.innerHTML, true);
+    popupBox.ShowBubblePopup();
     var popupBoxId = popupBox.GetBubblePopupID();
     fnPositionPopUp(popupBoxId);
     popupBox.FreezeBubblePopup();

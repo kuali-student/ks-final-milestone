@@ -19,6 +19,14 @@ public class CourseDetails extends CourseSummaryDetails {
     private String lastOffered;
 
     private List<String> campusLocations;
+
+    // TODO: tie to message service
+    private String scheduledTermsSourceMessage = "Time Schedule";
+    private String termsOfferedSourceMessage = "Course Catalog";
+    private String requisitesSourceMessage = "Course Catalog";
+    private String termsOfferedLabelMessage = "Projected to be offered in ";
+    private String termsOfferedSuffixMessage = "terms";
+    
     private List<String> scheduledTerms;
     private List<String> requisites;
     private List<String> genEdRequirements;
@@ -32,8 +40,32 @@ public class CourseDetails extends CourseSummaryDetails {
     private transient String savedItemId;
     private String savedItemDateCreated;
 
+    public String getScheduledTermsSourceMessage() {
+        // TODO: tie to message service
+		return scheduledTermsSourceMessage;
+	}
 
-    public String getLastOffered() {
+	public String getTermsOfferedSourceMessage() {
+	    // TODO: tie to message service
+		return termsOfferedSourceMessage;
+	}
+
+	public String getRequisitesSourceMessage() {
+	    // TODO: tie to message service
+		return requisitesSourceMessage;
+	}
+
+	public String getTermsOfferedLabelMessage() {
+	    // TODO: tie to message service
+		return termsOfferedLabelMessage;
+	}
+
+	public String getTermsOfferedSuffixMessage() {
+	    // TODO: tie to message service
+		return termsOfferedSuffixMessage;
+	}
+
+	public String getLastOffered() {
         return lastOffered;
     }
 

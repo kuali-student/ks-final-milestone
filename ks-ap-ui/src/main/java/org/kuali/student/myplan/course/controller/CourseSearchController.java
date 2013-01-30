@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -67,7 +68,7 @@ public class CourseSearchController extends UifControllerBase {
 
 	@Override
 	protected UifFormBase createInitialForm(HttpServletRequest request) {
-		return new CourseSearchFormImpl();
+		return (UifFormBase) searcher.createSearchForm();
 	}
 
 	@RequestMapping(value = "/course/{courseCd}", method = RequestMethod.GET)
@@ -95,8 +96,8 @@ public class CourseSearchController extends UifControllerBase {
 			for (int i = 0; i < splitStr.length; i++) {
 				splitBuff.append(splitStr[i]);
 			}
-			response.sendRedirect("/student/myplan/course?searchQuery="
-					+ splitBuff + "&searchTerm=any&campusSelect=" + campus);
+			response.sendRedirect("../course?searchQuery=" + splitBuff
+					+ "&searchTerm=any&campusSelect=" + campus);
 			return null;
 
 		}
@@ -129,14 +130,12 @@ public class CourseSearchController extends UifControllerBase {
 			courseId = searcher.getCellValue(row, "lu.resultColumn.cluId");
 		}
 		if (courseId.equalsIgnoreCase("")) {
-			response.sendRedirect(request.getContextPath()
-					+ "/myplan/course?searchQuery=" + courseCd
+			response.sendRedirect("../course?searchQuery=" + courseCd
 					+ "&searchTerm=any&campusSelect=" + campus);
 			return null;
 
 		}
-		response.sendRedirect(request.getContextPath()
-				+ "/myplan/inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId="
+		response.sendRedirect("../inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId="
 				+ courseId);
 		return null;
 	}
@@ -185,7 +184,7 @@ public class CourseSearchController extends UifControllerBase {
 		String termParam = request.getParameter("termParam");
 
 		// populating the form with the params
-		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchForm form = searcher.createSearchForm();
 		form.setSearchQuery(queryText);
 		form.setCampusSelect(campusParams);
 		form.setSearchTerm(termParam);
@@ -200,21 +199,26 @@ public class CourseSearchController extends UifControllerBase {
 			String status = "";
 			String scheduledAndOfferedTerms = mapper.writeValueAsString(item
 					.getScheduledAndOfferedTerms());
+			String cid = item.getCourseId().replace('.', '_');
 			if (item.getStatus().getLabel().length() > 0) {
-				status = "<span id=\\\"" + item.getCourseId()
-						+ "_status\\\" class=\\\""
+				status = "<span id=\\\"" + cid + "_status\\\" class=\\\""
 						+ item.getStatus().getLabel().toLowerCase() + "\\\">"
 						+ item.getStatus().getLabel() + "</span>";
 			} else if (UserSessionHelper.isAdviser()) {
-				status = "<span id=\\\"" + item.getCourseId() + "_status\\\">"
+				status = "<span id=\\\"" + cid + "_status\\\">"
 						+ CourseSearchItem.EMPTY_RESULT_VALUE_KEY + "</span>";
 			} else {
 				status = "<span id=\\\""
-						+ item.getCourseId()
-						+ "_status\\\"><input type=\\\"image\\\" title=\\\"Bookmark or Add to Plan\\\" src=\\\"/student/ks-myplan/images/pixel.gif\\\" alt=\\\"Bookmark or Add to Plan\\\" class=\\\"uif-field uif-imageField myplan-add\\\" data-courseid= \\\""
+						+ cid
+						+ "_status\\\"><input id=\\\""
+						+ cid
+						+ "_add_anchor\\\" type=\\\"image\\\" title=\\\"Bookmark or Add to Plan\\\" src=\\\""
+						+ ConfigContext.getCurrentContextConfig().getProperty(
+								"ks.myplan.externalizable.images.url")
+						+ "pixel.gif\\\" alt=\\\"Bookmark or Add to Plan\\\" class=\\\"uif-field uif-imageField myplan-add uif-tooltip\\\" data-courseid=\\\""
 						+ item.getCourseId()
 						+ "\\\"onclick=\\\"openMenu('"
-						+ item.getCourseId()
+						+ cid
 						+ "_add','add_course_items',null,event,null,'myplan-container-75',{tail:{align:'middle'},align:'middle',position:'right'},false);\\\" /></span>";
 
 			}
