@@ -1200,7 +1200,13 @@
     </bean>
 
     <!-- The REAL RoomServiceImpl -->
-    <alias name="roomServiceCache" alias="RoomService"/>
+    <alias name="roomServiceValidation" alias="RoomService"/>
+
+    <bean id="roomServiceValidation"
+          class="org.kuali.student.r2.core.room.service.decorators.RoomServiceValidationDecorator">
+        <property name="nextDecorator" ref="roomServiceCache" />
+        <property name="validator" ref="validator" />
+    </bean>
 
     <bean id="roomServiceCache" class="org.kuali.student.r2.core.room.service.decorators.RoomServiceCacheDecorator">
         <property name="cacheManager" ref="ksCacheManager"/>
