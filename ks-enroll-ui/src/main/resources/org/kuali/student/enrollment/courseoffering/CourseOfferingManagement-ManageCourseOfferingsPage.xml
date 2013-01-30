@@ -29,7 +29,6 @@
             <list>
                 <ref bean="KS-CourseOfferingManagement-CriteriaSection"/>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingResultSection"/>
-                <ref bean="KS-CourseOfferingManagement-CourseOfferingActionSection"/>
             </list>
         </property>
     </bean>
@@ -44,11 +43,7 @@
                       p:methodToCall="markSubjectCodeReadyForScheduling"
                       p:actionLabel="Approve Subject Code for Scheduling" p:disabled="@{#parent.readOnly}"/>
                 <ref bean="KS-CourseOfferingManagement-CO-ToolBarSection"/>
-                <bean parent="Uif-Label" p:labelText="Current Course Offerings" p:render="@{!courseOfferingResultList.empty}"/>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering" p:disabled="@{#parent.readOnly}" p:render="@{!courseOfferingResultList.empty}"/>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingListSection"/>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering" p:disabled="@{#parent.readOnly}"/>
-
             </list>
         </property>
     </bean>
@@ -72,7 +67,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" >
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:onChangeScript="handleToolbar('CO');">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
@@ -117,33 +112,8 @@
             <list>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" />
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{#line.isLegalToDelete()}" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCO" />
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="loadAOs" p:actionLabel="Manage" />
             </list>
-        </property>
-    </bean>
-
-    <bean id="KS-CourseOfferingManagement-CourseOfferingActionSection" parent="Uif-VerticalBoxSection" >
-        <property name="items">
-        <list>
-            <bean parent="Uif-HorizontalBoxSection">
-                <property name="items">
-                    <list>
-                        <bean id="KS-CourseOfferingManagement-CourseOfferingActionSection-Select" parent="Uif-InputField" p:propertyName="selectedOfferingAction" p:label="Selected Course Offering Actions" p:labelPlacement="TOP">
-                            <property name="readOnly" value="false"/>
-                            <property name="control">
-                                <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
-                            </property>
-                            <property name="optionsFinder">
-                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CourseOfferingActionsKeyValues"/>
-                            </property>
-                        </bean>
-                        <bean id="KS-CourseOfferingManagement-CourseOfferingActionSection-Go" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:disabled="@{#parent.readOnly}" p:methodToCall="selectedCOActions" p:style="margin-top: 18px;"
-                              p:preSubmitCall="return confirm('This will mark all checked Activity Offerings as Ready for Scheduling')" />
-                    </list>
-                </property>
-            </bean>
-        </list>
         </property>
     </bean>
 

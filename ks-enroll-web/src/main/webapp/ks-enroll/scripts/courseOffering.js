@@ -124,3 +124,9 @@ function findColumn(cellData, selector, arr){
         arr.push(jQuery(cellData).find(selector).val());
      }
 }
+
+function selectAllAOs(){
+    var table = jQuery("#KS-CourseOfferingManagement-ActivityOfferingListSection").find("table");
+    jQuery('td input:checkbox', table).attr('checked', 'checked');
+    handleToolbar('AO');
+}

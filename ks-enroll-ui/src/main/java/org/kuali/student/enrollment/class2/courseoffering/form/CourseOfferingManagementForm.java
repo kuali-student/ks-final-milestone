@@ -76,6 +76,10 @@ public class CourseOfferingManagementForm extends KSUifForm {
         setCourseOfferingCopyWrapper(null);
     }
 
+    public boolean isHasAO() {
+        return !activityWrapperList.isEmpty();
+    }
+
     public String getTermCode(){
         return termCode;
     }

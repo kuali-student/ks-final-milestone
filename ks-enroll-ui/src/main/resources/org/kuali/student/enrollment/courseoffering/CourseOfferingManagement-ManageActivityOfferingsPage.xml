@@ -46,7 +46,6 @@
                 <ref bean="KS-CourseOfferingManagement-AddActivityOfferingSection"/>
                 <ref bean="KS-CourseOfferingManagement-SelectAll"/>
                 <ref bean="KS-CourseOfferingManagement-ActivityOfferingListSection"/>
-                <ref bean="KS-CourseOfferingManagement-SelectedActivityOfferingSection"/>
             </list>
         </property>
     </bean>
@@ -83,7 +82,6 @@
                                     <bean parent="Uif-TextControl" p:size="3" p:disabled="@{!#root.editAuthz}"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Add" p:methodToCall="addActivityOfferings" p:style="margin-top: 18px;" p:disabled="@{#parent.readOnly}"/>
                         </list>
                     </property>
                 </bean>
@@ -140,7 +138,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-SelectAll" parent="Uif-ActionLink" p:methodToCall="selectAllActivityOfferings" p:actionLabel="Select All" p:disabled="@{#parent.readOnly}"/>
+    <bean id="KS-CourseOfferingManagement-SelectAll" parent="Uif-ActionLink" p:methodToCall="selectAllActivityOfferings" p:actionLabel="Select All" p:disabled="@{#parent.readOnly}" p:render="@{hasAO}"/>
 
     <bean id="KS-Schedule-DisplayField" parent="Uif-MessageField" p:cssClasses="font-light12" abstract="true">
         <property name="propertyReplacers">
@@ -169,7 +167,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" >
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:onChangeScript="handleToolbar('AO');">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
@@ -217,7 +215,6 @@
             <list>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy" />
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="confirmDelete" p:actionLabel="Delete" p:render = "@{#line.isLegalToDelete()}" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteAO" />
             </list>
         </property>
     </bean>
