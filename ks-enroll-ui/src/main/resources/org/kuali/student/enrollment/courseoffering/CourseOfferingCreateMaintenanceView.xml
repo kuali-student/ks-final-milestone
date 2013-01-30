@@ -82,6 +82,7 @@
                 <entry key="showTermOfferingLink" value="document.newMaintainableObject.dataObject.showTermOfferingLink"/>
                 <entry key="noOfTermOfferings" value="document.newMaintainableObject.dataObject.noOfTermOfferings"/>
                 <entry key="selectCrossListingAllowed" value="document.newMaintainableObject.dataObject.selectCrossListingAllowed"/>
+                <entry key="crossListedCo" value="document.newMaintainableObject.dataObject.crossListedCo"/>
             </map>
         </property>
     </bean>
@@ -197,7 +198,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CoListed-Checkbox-Group" parent="Uif-InputField"  p:propertyName="coListedCOs">
+    <bean id="KS-CoListed-Checkbox-Group" parent="Uif-InputField"  p:propertyName="coListedCOs" p:render="@{#crossListedCo}">
     <property name="label" value="Cross List As"/>
         <property name="control">
             <bean parent="Uif-HorizontalCheckboxesControl" p:readOnly="@{!#selectCrossListingAllowed}"/>
