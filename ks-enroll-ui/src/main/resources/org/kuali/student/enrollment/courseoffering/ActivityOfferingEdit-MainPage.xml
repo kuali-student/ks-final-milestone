@@ -154,7 +154,9 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-MainPage-SeatPool" parent="Uif-VerticalBoxSection">
-         <property name="items">
+        <property name="componentSecurity.viewAuthz" value="true"/>
+        <property name="componentSecurity.editAuthz" value="true"/>
+        <property name="items">
             <list>
                 <bean id="ActivityOffering-SeatpoolsSection" parent="Uif-TableCollectionSection"
                       p:layoutManager.numberOfColumns="6"
