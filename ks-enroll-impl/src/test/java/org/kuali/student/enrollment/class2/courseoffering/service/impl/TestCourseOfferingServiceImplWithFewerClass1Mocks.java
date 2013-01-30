@@ -1,10 +1,10 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.junit.runner.RunWith;
-import org.kuali.student.enrollment.class1.lrc.service.util.MockLrcTestDataLoader;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
 import org.kuali.student.enrollment.class2.acal.util.AcalTestDataLoader;
 import org.kuali.student.enrollment.class2.acal.util.MockAcalTestDataLoader;
+import org.kuali.student.lum.lrc.service.util.MockLrcTestDataLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

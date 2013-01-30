@@ -256,7 +256,7 @@
 
     <bean id="colocatedOfferingSetTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ColocatedOfferingSetTransformer"/>
 
-    <bean id="LrcService" class="org.kuali.student.enrollment.class1.lrc.service.impl.LrcServiceMockImpl"/>
+    <bean id="LrcService" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceMockImpl"/>
     <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
     <property name="courseService" ref="courseService" />
     <property name="acalService" ref="acalService" />
