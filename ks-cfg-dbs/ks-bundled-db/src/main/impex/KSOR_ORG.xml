@@ -4909,6 +4909,14 @@
               ID="315" LNG_DESCR="Kuali Admin campus" LNG_NAME="KAdmin"
               OBJ_ID="34c54992-9581-11e1-b0c4-0800200c9a66" SHRT_DESCR="KA"
               SHRT_NAME="2" ST="Active" TYPE="kuali.org.type.campus" VER_NBR="0"/>
+    <KSOR_ORG CREATETIME="20120501000000" EFF_DT="18610101000000"
+              ID="306" LNG_DESCR="Kuali Northwest campus" LNG_NAME="KNorthwest"
+              OBJ_ID="E8A714F4-48064841-B2A992D5-7564B386" SHRT_DESCR="KNW"
+              SHRT_NAME="0" ST="Active" TYPE="kuali.org.type.campus" VER_NBR="0"/>
+    <KSOR_ORG CREATETIME="20120501000000" EFF_DT="18610101000000"
+              ID="323" LNG_DESCR="Kuali Southeast campus" LNG_NAME="KSoutheast"
+              OBJ_ID="C308F3EB-CB7A4CCD-BDD59CBB-E618461C" SHRT_DESCR="KSE"
+              SHRT_NAME="1" ST="Active" TYPE="kuali.org.type.campus" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="19991231030000" ID="32" LNG_NAME="The Business School"
         OBJ_ID="9455C1E43C7C474199E418454A3FD831"
