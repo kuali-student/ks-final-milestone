@@ -10,6 +10,7 @@ import org.kuali.rice.krms.impl.repository.AgendaBo;
 import org.kuali.rice.krms.impl.repository.ContextBo;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
 import org.kuali.rice.krms.impl.repository.RuleBo;
+import org.kuali.rice.krms.impl.ui.AgendaEditor;
 import org.kuali.student.enrollment.class1.krms.form.TreeNode;
 
 import java.util.HashMap;
@@ -23,7 +24,7 @@ import java.util.Map;
  * Time: 3:45 PM
  * To change this template use File | Settings | File Templates.
  */
-public class RuleEditor extends PersistableBusinessObjectBase {
+public class RuleEditor extends AgendaEditor {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,30 +34,13 @@ public class RuleEditor extends PersistableBusinessObjectBase {
     private String ruleType;
     private List<String> activeSelections;
 
-    private AgendaBo agenda;
     private RuleBo rule;
-    private ContextBo context;
-    private String namespace;
-    private String contextName;
-
-    private String selectedPropositionId;
-    private String cutPropositionId;
-    private String copyRuleName;
-    private String oldContextId;
-    private String ruleEditorMessage;
-    private boolean addRuleInProgress = false;
-
-    private Map<String, String> customAttributesMap = new HashMap<String, String>();
-    private Map<String, String> customRuleAttributesMap = new HashMap<String, String>();
-    private Map<String, String> customRuleActionAttributesMap = new HashMap<String, String>();
 
     // for Rule editor display
     Tree<RuleEditorTreeNode, String> propositionTree;
 
     // for rule editor display
     private StringBuffer propositionSummaryBuffer;
-
-
 
     private  Tree<TreeNode, String> previewTree;
 
@@ -83,14 +67,6 @@ public class RuleEditor extends PersistableBusinessObjectBase {
 
     public void setRule(RuleBo rule) {
         this.rule = rule;
-    }
-
-    public AgendaBo getAgenda() {
-        return agenda;
-    }
-
-    public void setAgenda(AgendaBo agenda) {
-        this.agenda = agenda;
     }
 
     public String getCluId() {
@@ -133,130 +109,18 @@ public class RuleEditor extends PersistableBusinessObjectBase {
         this.activeSelections = activeSelections;
     }
 
-    /**
-     * @return the context
-     */
-    public ContextBo getContext() {
-        return this.context;
-    }
+    @Override
+    public void setAgenda(AgendaBo agenda) {
+        super.setAgenda(agenda);
 
-    /**
-     * @param context the context to set
-     */
-    public void setContext(ContextBo context) {
-        this.context = context;
-    }
-
-    public Map<String, String> getCustomAttributesMap() {
-        return customAttributesMap;
-    }
-
-    public void setCustomAttributesMap(Map<String, String> customAttributesMap) {
-        this.customAttributesMap = customAttributesMap;
-    }
-
-    public Map<String, String> getCustomRuleAttributesMap() {
-        return customRuleAttributesMap;
-    }
-
-    public void setCustomRuleAttributesMap(Map<String, String> customRuleAttributesMap) {
-        this.customRuleAttributesMap = customRuleAttributesMap;
-    }
-
-    public Map<String, String> getCustomRuleActionAttributesMap() {
-        return customRuleActionAttributesMap;
-    }
-
-    public void setCustomRuleActionAttributesMap(Map<String, String> customRuleActionAttributesMap) {
-        this.customRuleActionAttributesMap = customRuleActionAttributesMap;
-    }
-
-    /**
-     * @param copyRuleName the rule name from which to copy
-     */
-    public void setCopyRuleName(String copyRuleName) {
-        this.copyRuleName = copyRuleName;
-    }
-
-    /**
-     * @return the rule name from which to copy
-     */
-    public String getCopyRuleName() {
-        return copyRuleName;
-    }
-
-    /**
-     * @param oldContextId the contextId that the agenda currently has (i.e. before the next context change)
-     */
-    public void setOldContextId(String oldContextId) {
-        this.oldContextId = oldContextId;
-    }
-
-    /**
-     * @return the contextId that the agenda had before the context change
-     */
-    public String getOldContextId() {
-        return oldContextId;
-    }
-
-    /**
-     * @return the selectedPropositionId
-     */
-    public String getSelectedPropositionId() {
-        return this.selectedPropositionId;
-    }
-
-    /**
-     * @param selectedPropositionId the selectedPropositionId to set
-     */
-    public void setSelectedPropositionId(String selectedPropositionId) {
-        this.selectedPropositionId = selectedPropositionId;
-    }
-
-    /**
-     * @return the cutPropositionId
-     */
-    public String getCutPropositionId() {
-        return cutPropositionId;
-    }
-
-    public String getContextName() {
-        return contextName;
-    }
-
-    public void setContextName(String contextName) {
-        this.contextName = contextName;
-    }
-
-    public String getNamespace() {
-        return namespace;
-    }
-
-    public void setNamespace(String namespace) {
-        this.namespace = namespace;
-    }
-
-    public String getRuleEditorMessage() {
-        return this.ruleEditorMessage;
-    }
-
-    public void setRuleEditorMessage(String message) {
-        this.ruleEditorMessage = message;
-    }
-
-    public boolean isAddRuleInProgress() {
-        return addRuleInProgress;
-    }
-
-    public void setAddRuleInProgress(boolean addRuleInProgress) {
-        this.addRuleInProgress = addRuleInProgress;
-    }
-
-    /**
-     * @param cutPropositionId the cutPropositionId to set
-     */
-    public void setCutPropositionId(String cutPropositionId) {
-        this.cutPropositionId = cutPropositionId;
+        // set extra fields on AgendaEditor
+        if ((agenda != null) && (agenda.getContext() != null)){
+            this.setNamespace(agenda.getContext().getNamespace());
+            this.setContextName(agenda.getContext().getName());
+        } else {
+            this.setNamespace(null);
+            this.setContextName(null);
+        }
     }
 
     // Need to override this method since the actual persistable BO is wrapped inside dataObject.

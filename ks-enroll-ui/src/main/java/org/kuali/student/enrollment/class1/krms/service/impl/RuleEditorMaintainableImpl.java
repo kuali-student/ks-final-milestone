@@ -70,15 +70,11 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
 
     private static final long serialVersionUID = 1L;
 
-    private CluService cluService;
-
-    private ContextInfo contextInfo;
-
-    private static final Logger LOG = Logger.getLogger(RuleEditorMaintainableImpl.class);
+    private transient CluService cluService;
+    private transient ContextInfo contextInfo;
+    private transient SequenceAccessorService sequenceAccessorService;
 
     public static final String NEW_AGENDA_EDITOR_DOCUMENT_TEXT = "New Agenda Editor Document";
-
-    private transient SequenceAccessorService sequenceAccessorService;
 
     private ContextInfo getContextInfo() {
         if (null == contextInfo) {

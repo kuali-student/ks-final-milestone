@@ -24,12 +24,13 @@
 
     <bean id="RuleMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.RuleEditor"/>
-        <property name="maintainableClass"
-                  value="org.kuali.student.enrollment.class1.krms.service.impl.RuleEditorMaintainableImpl"/>
+        <property name="maintainableClass" value="org.kuali.student.enrollment.class1.krms.service.impl.RuleEditorMaintainableImpl"/>
         <property name="documentTypeName" value="RuleMaintenanceDocument"/>
+        <!--property name="documentAuthorizerClass" value="org.kuali.rice.krms.impl.authorization.AgendaEditorAuthorizer"/-->
+        <property name="businessRulesClass" value="org.kuali.rice.krms.impl.rule.AgendaEditorBusRule" />
         <property name="lockingKeys">
             <list>
-                <value>rule.id</value>
+                <value>agenda.id</value>
             </list>
         </property>
     </bean>

@@ -997,6 +997,11 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         ruleEditor.setAgenda(agenda);
         ruleEditor.setRuleType(null);
 
+        //Set the agenda on the old maintainable object because a new one is selected on the new maintainable.
+        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
+        RuleEditor oldRuleEditor = (RuleEditor)maintenanceForm.getDocument().getOldMaintainableObject().getDataObject();
+        oldRuleEditor.setAgenda(agenda);
+
         return getUIFModelAndView(form);
     }
 
