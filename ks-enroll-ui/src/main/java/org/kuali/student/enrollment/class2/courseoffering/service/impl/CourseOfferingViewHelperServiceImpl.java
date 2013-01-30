@@ -195,6 +195,8 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
                 // Rollover now runs asynchronously. KSENROLL-1545
                 // options.add(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY);
                 options.add(CourseOfferingSetServiceConstants.LOG_SUCCESSES_OPTION_KEY);
+                //Add this option to skip rollover if there is a new version
+                options.add(CourseOfferingSetServiceConstants.IF_NO_NEW_VERSION_OPTION_KEY);
                 socService.rolloverSoc(sourceSocId, targetTermId, options, context);
                 return true;
             }

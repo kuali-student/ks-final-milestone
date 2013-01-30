@@ -278,12 +278,12 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         // TODO: Not hard code "Active" but use a constant ... except these are R1 States
         if (optionKeys.contains(CourseOfferingSetServiceConstants.STILL_OFFERABLE_OPTION_KEY)) {
             if (!targetCourse.getStateKey().equals("Active")) {
-                throw new DataValidationErrorException("skipped because canonical course is no longer active");
+                throw new InvalidParameterException("skipped because canonical course is no longer active");
             }
         }
         if (optionKeys.contains(CourseOfferingSetServiceConstants.IF_NO_NEW_VERSION_OPTION_KEY)) {
             if (!sourceCourse.getId().equals(targetCourse.getId())) {
-                throw new DataValidationErrorException("skipped because there is a new version of the canonical course");
+                throw new InvalidParameterException("skipped because there is a new version of the canonical course");
             }
         }
         // Create the course offering
@@ -292,6 +292,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         List<FormatOfferingInfo> foInfos = coService.getFormatOfferingsByCourseOffering(sourceCo.getId(), context);
         int aoCount = 0;
         for (FormatOfferingInfo sourceFo : foInfos) {
+            //TODO FIXME if the  IF_NO_NEW_VERSION_OPTION_KEY is not set and the Course version is different,
+            // this call will always fail because the format from the old CO will never match the format on the new Course version
+            // Logic will need to be added that reconciles the formats based on activity types
             FormatOfferingInfo targetFo = _RCO_createTargetFormatOffering(sourceFo, targetCo, targetTermId, context);
 
             // Pass in some context attributes so these values don't need to be looked up again
