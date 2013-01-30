@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
     <bean id="Agenda-Student-MaintenanceView" parent="KSMaintenanceView">
         <property name="headerText" value="Manage Enrollment Eligibility"/>
@@ -84,7 +84,7 @@
                     </property>
                 </bean>
 
-                <ref bean="Proposition-Tree-Section"/>
+                <ref bean="Preview-Tree-Section"/>
 
                 <bean id="Enrollment-Eligibility-TabSection" parent="Uif-TabSection"
                       p:progressiveRender="@{#dp.ruleType ne null and #dp.ruleType ne '0'}">
@@ -144,23 +144,13 @@
         </property>
     </bean>
 
-    <bean id="Proposition-Tree-Section" parent="Uif-TreeSection">
+    <bean id="Preview-Tree-Section" parent="Uif-TreeSection">
         <property name="headerText" value="Prerequisite Rule"/>
-        <property name="instructionalText" value="Tree Instructional Text"/>
+        <!--<property name="instructionalText" value="Tree Instructional Text"/>-->
         <property name="propertyName" value="previewTree"/>
         <property name="tree">
-            <bean parent="RuleTreeWidget">
-                <property name="templateOptions">
-                    <map>
-                        <entry key="'plugins'"
-                               value="['themes','html_data', 'ui', 'crrm', 'dnd']"/>
-                        <entry key="'themes'"
-                               value="{'theme':'default','dots':'true','icons':'false'}"/>
-                        <entry key="'ui'" value="{ 'select_limit' : 1 }"/>
-                        <entry key="'dnd'" value="{ 'drag_target' : false, 'drop_target' : false }"/>
-                    </map>
-                </property>
-            </bean>
+            <bean parent="RuleTreeWidget"/>
+
         </property>
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">

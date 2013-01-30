@@ -46,3 +46,31 @@
 .uif-boxLayoutHorizontalItem {
      margin-right: 0px;
  }
+
+#Preview-Tree-Section .jstree-icon {
+    display: none;
+}
+
+#Preview-Tree-Section .uif-message {
+    margin-left: 15px;
+}
+
+#Preview-Tree-Section .jstree-leaf {
+    background-image: none;
+}
+#Preview-Tree-Section .jstree-open {
+    background-image: none;
+}
+
+#Preview-Tree-Section .ruleBlockSelected {
+    background-color: transparent !important;
+    border: none;
+}
+
+#Preview-Tree-Section .jstree-hovered {
+    background-color: transparent;
+}
+
+.rootNode {
+    border-bottom: #000000 solid 2px;
+}

@@ -274,6 +274,8 @@ public class RuleEditor extends AgendaEditor {
 
         Node<TreeNode, String> rootNode = new Node<TreeNode, String>();
         rootNode.setNodeLabel("root");
+        rootNode.setNodeType("rootNode");
+        rootNode.setData(new TreeNode("Rule:"));
         myTree.setRootElement(rootNode);
 
         if (rule != null){
@@ -285,17 +287,16 @@ public class RuleEditor extends AgendaEditor {
 
     private void buildPreviewTree(Node<TreeNode, String> currentNode, PropositionBo prop){
         if (prop != null) {
-            PropositionEditor propositionEditor = new PropositionEditor(prop);
             if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())){
                 Node<TreeNode, String> newNode = new Node<TreeNode, String>();
                 newNode.setNodeLabel(StringEscapeUtils.escapeHtml(prop.getDescription()));
-                TreeNode tNode = new TreeNode(propositionEditor.getDescription());
+                TreeNode tNode = new TreeNode(prop.getDescription());
                 newNode.setData(tNode);
                 currentNode.getChildren().add(newNode);
             } else if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())){
                 Node<TreeNode, String> newNode = new Node<TreeNode, String>();
                 newNode.setNodeLabel(StringEscapeUtils.escapeHtml(prop.getDescription()));
-                TreeNode tNode = new TreeNode(propositionEditor.getDescription());
+                TreeNode tNode = new TreeNode(prop.getDescription());
                 newNode.setData(tNode);
                 currentNode.getChildren().add(newNode);
 
@@ -314,11 +315,10 @@ public class RuleEditor extends AgendaEditor {
                         } else if (LogicalOperator.OR.getCode().equalsIgnoreCase(prop.getCompoundOpCode())){
                             opCodeLabel = "OR";
                         }
-                        Node<TreeNode, String> aNode = new Node<TreeNode, String>();
-                        aNode.setNodeLabel(opCodeLabel);
-                        aNode.setNodeType("ruleTreeNode compoundOpCodeNode");
-                        aNode.setData(new TreeNode(prop.getCompoundOpCode()));
-                        newNode.getChildren().add(aNode);
+                        Node<TreeNode, String> opNode = new Node<TreeNode, String>();
+                        opNode.setNodeLabel(opCodeLabel);
+                        opNode.setData(new TreeNode(prop.getCompoundOpCode()));
+                        newNode.getChildren().add(opNode);
                     }
                     first = false;
                     // call to build the childs node
