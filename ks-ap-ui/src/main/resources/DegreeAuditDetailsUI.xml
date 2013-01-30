@@ -363,7 +363,6 @@
                 <bean id="radio_campusParam" parent="Uif-InputField" p:propertyName="campusParam">
                     <property name="onChangeScript" value="
                         jQuery('button#degree_audit_run').attr('disabled', degreeAuditButton());
-                        updateProgramOptions();
                         setUrlHash('modified', 'yes');
                     "/>
                     <property name="control">
