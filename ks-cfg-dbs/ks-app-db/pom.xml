@@ -9,4 +9,42 @@
     <artifactId>ks-app-db</artifactId>
     <name>KS Application Impex</name>
     <description>Kuali Student Application Impex</description>
+    <profiles>
+        <profile>
+            <id>impex-export-xml</id>
+            <properties>
+                <impex.xml.includedTables>KS.*</impex.xml.includedTables>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.kuali.maven.plugins</groupId>
+                        <artifactId>maven-impex-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>impex-generate-sql</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.kuali.maven.plugins</groupId>
+                        <artifactId>mvn-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>meta-inf</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.kuali.maven.plugins</groupId>
+                        <artifactId>metainf-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
