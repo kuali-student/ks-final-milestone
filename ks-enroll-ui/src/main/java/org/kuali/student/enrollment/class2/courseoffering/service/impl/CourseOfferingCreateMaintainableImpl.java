@@ -2,10 +2,12 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseJointCreateWrapper;
@@ -16,11 +18,6 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListin
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -58,7 +55,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
 
                 createFormatOfferings(wrapper);
 
-                createJointOfferings(wrapper);
+                createJointCOs(wrapper);
 
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -74,8 +71,8 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                         CourseOfferingCrossListingInfo crossListingInfo = new CourseOfferingCrossListingInfo();
                         crossListingInfo.setCode(crossInfo.getCode());
                         crossListingInfo.setCourseNumberSuffix(crossInfo.getCourseNumberSuffix());
-                        crossListingInfo.setDepartmentOrgId (crossInfo.getDepartment());
-                        crossListingInfo.setSubjectArea (crossInfo.getSubjectArea());
+                        crossListingInfo.setDepartmentOrgId(crossInfo.getDepartment());
+                        crossListingInfo.setSubjectArea(crossInfo.getSubjectArea());
                         crossListingInfo.setId(crossInfo.getId());
                         crossListingInfo.setStateKey(crossInfo.getStateKey());
                         crossListingInfo.setTypeKey(crossInfo.getTypeKey());
@@ -168,7 +165,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      * @param wrapper CourseOfferingCreateWrapper
      * @throws Exception RuntimeException with cause as service exception
      */
-    protected void createJointOfferings(CourseOfferingCreateWrapper wrapper) throws Exception {
+    protected void createJointCOs(CourseOfferingCreateWrapper wrapper) throws Exception {
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
          for (CourseJointCreateWrapper jointWrapper : wrapper.getJointCourses()){
               CourseOfferingInfo coInfo = createCourseOfferingInfo(wrapper.getTerm().getId(), jointWrapper.getCourseInfo(), StringUtils.EMPTY, new CourseOfferingInfo());
@@ -197,19 +194,30 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
     }
 
 
+    /**
+     * This method loads the wrapper details for the joint courses
+     *
+     * @param wrapper CourseOfferingCreateWrapper
+     * @throws Exception throws one of the services exceptions
+     */
     public void loadCourseJointInfos(CourseOfferingCreateWrapper wrapper)
-    throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+    throws Exception {
+
         List<CourseJointInfo> joints = wrapper.getCourse().getJoints();
         wrapper.setShowJointOption(!joints.isEmpty());
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         wrapper.setJointCourseCodes(wrapper.getCourse().getCode());
 
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
         for (CourseJointInfo joint : joints) {
+
             CourseJointCreateWrapper jointCreateWrapper = new CourseJointCreateWrapper();
             CourseInfo jointCourse = getCourseService().getCourse(joint.getCourseId(),contextInfo);
             jointCreateWrapper.setCourseJointInfo(joint);
             jointCreateWrapper.setCourseInfo(jointCourse);
+
             List<CourseOfferingInfo> cos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(joint.getCourseId(),wrapper.getTerm().getId(),contextInfo);
+
             if (!cos.isEmpty()){
                 jointCreateWrapper.setAlreadyOffered(true);
             }
@@ -218,18 +226,21 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
 
     }
 
+    /**
+     * This is overridden from KRAD to implement creating the formats for the joint courses when the user
+     * creates delivery formats for the parent course. It should not be a problem overriding this
+     * method completely as we dont need any validation or pre/post event for this action
+     *
+     * @param view
+     * @param model
+     * @param collectionPath
+     */
     @Override
     public void processCollectionAddLine(View view, Object model, String collectionPath) {
         // get the collection group from the view
         CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(collectionPath);
         if (collectionGroup == null) {
             logAndThrowRuntime("Unable to get collection group component for path: " + collectionPath);
-        }
-
-        // get the collection instance for adding the new line
-        Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(model, collectionPath);
-        if (collection == null) {
-            logAndThrowRuntime("Unable to get collection property from model for path: " + collectionPath);
         }
 
         // now get the new line we need to add
@@ -242,6 +253,8 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         }
 
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)((MaintenanceDocumentForm)model).getDocument().getNewMaintainableObject().getDataObject();
+        FormatInfo formatToBeAdded = getMatchingFormatInfo(wrapper.getCourse(), addLine.getFormatId());
+
         for (CourseJointCreateWrapper joint : wrapper.getJointCourses()){
             if (joint.isSelectedToJointlyOfferred()){
                 FormatOfferingCreateWrapper foForJoint = new FormatOfferingCreateWrapper();
@@ -250,31 +263,42 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                 foForJoint.setCourseCode(joint.getCourseCode());
                 foForJoint.setFinalExamLevelTypeKey(formatOfferingWrapper.getFinalExamLevelTypeKey());
                 foForJoint.setGradeRosterLevelTypeKey(formatOfferingWrapper.getGradeRosterLevelTypeKey());
-                foForJoint.setFormatId(formatOfferingWrapper.getFormatId());
-                foForJoint.setActivitesUI(getActivityDisplayText(joint.getCourseInfo(),addLine.getFormatId()));
-                wrapper.getFormatOfferingWrappers().add(foForJoint);
+
+                //Look for a matching format at the joint course
+                FormatInfo formatInfo = getRelatedJointFormatInfo(formatToBeAdded,joint.getCourseInfo());
+                if (formatInfo == null){
+                    GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM,"There is no matching format to be added for joint course " + joint.getCourseCode());
+                } else {
+                    foForJoint.setFormatId(formatOfferingWrapper.getFormatId());
+                    foForJoint.setActivitesUI(getActivityTypeNames(joint.getCourseInfo(), formatInfo.getId()));
+                    wrapper.getFormatOfferingWrappers().add(0,foForJoint);
+                }
             }
         }
 
-        addLine.setActivitesUI(getActivityDisplayText(wrapper.getCourse(),addLine.getFormatId()));
+        addLine.setActivitesUI(getActivityTypeNames(wrapper.getCourse(), addLine.getFormatId()));
         addLine.setCourseCode(wrapper.getCourse().getCode());
-        wrapper.getFormatOfferingWrappers().add(addLine);
+        wrapper.getFormatOfferingWrappers().add(0,addLine);
     }
 
-    protected String getActivityDisplayText(CourseInfo courseInfo, String formatId){
+    /**
+     * Helper method to display a list of Activity type names at the UI
+     *
+     * @param courseInfo
+     * @param formatId
+     * @return
+     */
+    protected String getActivityTypeNames(CourseInfo courseInfo, String formatId){
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         StringBuffer activities = new StringBuffer();
 
         try {
-            for (FormatInfo formatInfo : courseInfo.getFormats()){
-                if (StringUtils.equals(formatInfo.getId(),formatId)){
-                    List<ActivityInfo> activityInfos = formatInfo.getActivities();
-                    for (ActivityInfo activityInfo : activityInfos) {
-                        TypeInfo activityType = getTypeService().getType(activityInfo.getTypeKey(), contextInfo);
-                        activities.append(activityType.getName() + "/");
-                    }
-                }
+            FormatInfo formatInfo = getMatchingFormatInfo(courseInfo,formatId);
+            List<ActivityInfo> activityInfos = formatInfo.getActivities();
+            for (ActivityInfo activityInfo : activityInfos) {
+                TypeInfo activityType = getTypeService().getType(activityInfo.getTypeKey(), contextInfo);
+                activities.append(activityType.getName() + "/");
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -283,9 +307,76 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         return StringUtils.removeEnd(activities.toString(),"/");
     }
 
-    @Override
-    protected void processAfterDeleteLine(View view, CollectionGroup collectionGroup, Object model, int lineIndex) {
+    /**
+     * This method returns a matching FormatInfo for a given id from a course info.
+     *
+     * @param courseInfo course info to look for a matching format
+     * @param formatId format id to match
+     * @return formatInfo
+     */
+    private FormatInfo getMatchingFormatInfo(CourseInfo courseInfo,String formatId){
+        for (FormatInfo formatInfo : courseInfo.getFormats()){
+            if (StringUtils.equals(formatInfo.getId(),formatId)){
+                return formatInfo;
+            }
+        }
+        return null;
+    }
 
+    /**
+     * This is overridden from KRAD to implement deleting the format from the joint courses. It should not be a problem
+     * overriding this method completely as we dont need any validation or pre/post event for this action
+     *
+     * @param view
+     * @param model
+     * @param collectionPath
+     * @param lineIndex
+     */
+    @Override
+    public void processCollectionDeleteLine(View view, Object model, String collectionPath, int lineIndex){
+        CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(collectionPath);
+        Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(model, collectionPath);
+        FormatOfferingCreateWrapper deleteLine = (FormatOfferingCreateWrapper)((List<Object>) collection).get(lineIndex);
+        if (deleteLine.isJointOffering()){
+            deleteLine.getJointCreateWrapper().getFormatOfferingWrappers().remove(deleteLine);
+        }
+        ((List<Object>) collection).remove(lineIndex);
+    }
+
+    /**
+     * This method iterates all the formats in a joint course to match with the user selected format from the parent/sister course.
+     *
+     * @param formatInfo
+     * @param jointCourseInfo
+     * @return formatInfo from joint course which matches the format being added by the user at the ui.
+     */
+    public FormatInfo getRelatedJointFormatInfo(FormatInfo formatInfo, CourseInfo jointCourseInfo){
+        for (FormatInfo formatFromJoint : jointCourseInfo.getFormats()){
+            if (StringUtils.equalsIgnoreCase(formatInfo.getTypeKey(),formatFromJoint.getTypeKey())){
+                if (!formatInfo.getActivities().isEmpty() && formatInfo.getActivities().size() == formatFromJoint.getActivities().size()){
+                    boolean isMatchFound = true;
+                    for (ActivityInfo activityInfo : formatInfo.getActivities()){
+                        if (!isMatchingJointActivityFound(formatFromJoint,activityInfo)){
+                            isMatchFound = false;
+                            break;
+                        }
+                    }
+                    if (isMatchFound){
+                        return formatFromJoint;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private boolean isMatchingJointActivityFound(FormatInfo jointCourseFormat, ActivityInfo activityInfo){
+        for (ActivityInfo activityFromJointCourse : jointCourseFormat.getActivities()){
+            if (!StringUtils.equals(activityInfo.getTypeKey(),activityFromJointCourse.getTypeKey())){
+                return false;
+            }
+        }
+        return true;
     }
 
 }

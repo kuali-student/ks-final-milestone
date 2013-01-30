@@ -249,9 +249,6 @@
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
         <property name="layoutManager.richTable.render" value="false" />
         <property name="layoutManager.separateAddLine" value="true"/>
-        <property name="layoutManager.addLineGroup.layoutManager">
-            <bean parent="Uif-HorizontalBoxLayout"/>
-        </property>
         <property name="addLineLabel.labelText" value=""/>
         <property name="items">
             <list>
