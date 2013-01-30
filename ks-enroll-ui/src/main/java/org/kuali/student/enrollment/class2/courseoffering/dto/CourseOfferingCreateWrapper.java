@@ -1,3 +1,18 @@
+/**
+ * Copyright 2013 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ *
+ */
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.StringUtils;
@@ -6,6 +21,11 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This is being used at the Create CO screen. This is a wrapper class to hold all the
+ * UI rendering properties and the service dtos related to courseoffering and formatoffering
+ *
+ */
 public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
 
     private String targetTermCode;
@@ -205,15 +225,30 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         return jointCourses;
     }
 
-
+    /**
+     * List of wrappers for the joint courses exists for a course
+     * @param jointCourses
+     */
+    @SuppressWarnings("unused")
     public void setJointCourses(List<CourseJointCreateWrapper> jointCourses) {
         this.jointCourses = jointCourses;
     }
 
+    /**
+     * This is used in the view xml to whether display the joint courses table or not
+     * @return
+     */
+    @SuppressWarnings("unused")
     public boolean isShowJointOption() {
         return showJointOption;
     }
 
+    /**
+     * To decide whether to display joint courses if exists sothat the joint course table
+     * will be displayed.
+     *
+     * @param showJointOption
+     */
     public void setShowJointOption(boolean showJointOption) {
         this.showJointOption = showJointOption;
     }
@@ -222,6 +257,12 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         return jointCourseCodes;
     }
 
+    /**
+     * This is a ui property to display all the course offering codes for
+     * which the user can create format offerings
+     *
+     * @param jointCourseCodes
+     */
     public void setJointCourseCodes(String jointCourseCodes) {
         this.jointCourseCodes = jointCourseCodes;
     }
@@ -230,10 +271,21 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         return formatOfferingWrappers;
     }
 
+    /**
+     * This collection is used to have a list of format offering wrappers
+     * which includes all the format offerings from joint courses.
+     *
+     * @param formatOfferingWrappers list of format offering wrappers
+     */
+    @SuppressWarnings("unused")
     public void setFormatOfferingWrappers(List<FormatOfferingCreateWrapper> formatOfferingWrappers) {
         this.formatOfferingWrappers = formatOfferingWrappers;
     }
 
+    /**
+     * Clears all the properties. This is needed to clear out all the previous ui data first
+     * before displaying the new data when the user clicks on the Show button
+     */
     public void clear(){
         setCourse(null);
         setShowAllSections(false);

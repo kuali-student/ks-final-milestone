@@ -1,3 +1,18 @@
+/**
+ * Copyright 2013 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ *
+ */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
@@ -258,7 +273,6 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
 
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)((MaintenanceDocumentForm)model).getDocument().getNewMaintainableObject().getDataObject();
         FormatInfo formatToBeAdded = getMatchingFormatInfo(wrapper.getCourse(), addLine.getFormatId());
-        addLine.setFormatInfo(formatToBeAdded);
 
         for (CourseJointCreateWrapper joint : wrapper.getJointCourses()){
             if (joint.isSelectedToJointlyOfferred()){
@@ -275,7 +289,6 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                     GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM,"There is no matching format to be added for joint course " + joint.getCourseCode());
                 } else {
                     foForJoint.setFormatId(formatInfo.getId());
-                    foForJoint.setFormatInfo(formatInfo);
                     foForJoint.setActivitesUI(getActivityTypeNames(joint.getCourseInfo(), formatInfo.getId()));
                     wrapper.getFormatOfferingWrappers().add(0,foForJoint);
                     joint.getFormatOfferingWrappers().add(foForJoint);
