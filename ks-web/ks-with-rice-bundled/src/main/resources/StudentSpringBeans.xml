@@ -61,6 +61,9 @@
                 <value>classpath:ks-ResultValueInfo-dictionary.xml</value>
                 <value>classpath:ks-ResultScaleInfo-dictionary.xml</value>
                 <value>classpath:ks-ResultValuesGroupInfo-dictionary.xml</value>
+                <value>classpath:ks-RoomInfo-dictionary.xml</value>
+                <value>classpath:ks-BuildingInfo-dictionary.xml</value>
+                <value>classpath:ks-RoomResponsibleOrgInfo-dictionary.xml</value>
 
                 <!-- KIM Attributes -->
                 <value>classpath:org/kuali/rice/student/bo/KualiStudentKimAttributes.xml</value>
