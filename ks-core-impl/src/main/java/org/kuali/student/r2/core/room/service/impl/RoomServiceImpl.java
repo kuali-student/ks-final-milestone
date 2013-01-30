@@ -413,7 +413,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     @Transactional(readOnly = true)
     public List<ValidationResultInfo> validateRoom(String validationTypeKey, String buildingId, String roomTypeKey, RoomInfo roomInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        return new ArrayList<ValidationResultInfo>();
     }
 
     /**
@@ -715,7 +715,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     @Transactional(readOnly = true)
     public List<ValidationResultInfo> validateBuilding(@WebParam(name = "buildingTypeKey") String buildingTypeKey, @WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "buildingInfo") BuildingInfo buildingInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        return new ArrayList<ValidationResultInfo>();
     }
 
     /**
@@ -1058,7 +1058,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     @Transactional(readOnly = true)
     public List<ValidationResultInfo> validateRoomResponsibleOrg(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "roomId") String roomId, @WebParam(name = "orgId") String orgId, @WebParam(name = "roomResponsibleOrgTypeKey") String roomResponsibleOrgTypeKey, @WebParam(name = "roomResponsibleOrgInfo") RoomResponsibleOrgInfo roomResponsibleOrgInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        return new ArrayList<ValidationResultInfo>();
     }
 
     /**
