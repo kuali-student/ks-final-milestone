@@ -314,5 +314,23 @@
                 <db.vendor>mysql</db.vendor>
             </properties>
         </profile>
+        <profile>
+            <id>ks-db</id>
+            <properties>
+                <!-- Schemas -->
+                <sql.meta.base>classpath:META-INF/sql/${db.vendor}/${project.artifactId}</sql.meta.base>
+
+                <!-- SQL resources -->
+                <sql.schema.1.list>${sql.meta.base}-schema.resources</sql.schema.1.list>
+
+                <sql.data.1.list>${sql.meta.base}-data.resources</sql.data.1.list>
+
+                <sql.constraints.1.list>${sql.meta.base}-constraints.resources</sql.constraints.1.list>
+
+                <sql.schema.concurrent>sql.schema.1.list</sql.schema.concurrent>
+                <sql.data.concurrent>sql.data.1.list</sql.data.concurrent>
+                <sql.constraints.concurrent>sql.constraints.1.list</sql.constraints.concurrent>
+            </properties>
+        </profile>
     </profiles>
 </project>
