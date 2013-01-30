@@ -29,6 +29,7 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
 
     private List<String> coListedCOs;
     private Boolean selectCrossListingAllowed;
+    private boolean crossListedCo;
 
 
     private boolean excludeCancelledActivityOfferings;
@@ -48,6 +49,7 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         coListedCOs = new ArrayList<String>();
         jointCourses = new ArrayList<CourseJointCreateWrapper>();
         showJointOption = false;
+        crossListedCo = false;
     }
 
     public String getTargetTermCode() {
@@ -187,6 +189,14 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         return selectCrossListingAllowed;
     }
 
+    public boolean isCrossListedCo() {
+        return crossListedCo;
+    }
+
+    public void setCrossListedCo(boolean crossListedCo) {
+        this.crossListedCo = crossListedCo;
+    }
+
     public void setSelectCrossListingAllowed(boolean selectCrossListingAllowed) {
         this.selectCrossListingAllowed = selectCrossListingAllowed;
     }
@@ -238,5 +248,6 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         getJointCourses().clear();
         setJointCourseCodes(StringUtils.EMPTY);
         setShowJointOption(false);
+        setCrossListedCo(false);
     }
 }
