@@ -161,6 +161,29 @@
            <constructor-arg value="classpath:ks-SeatPoolDefinitionInfo-dictionary.xml" />
        </bean>
 
+    <!--RoomService-->
+    <bean id="buildingInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-BuildingInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="roomInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-RoomInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="roomResponsibleOrgInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-RoomResponsibleOrgInfo-dictionary.xml" />
+    </bean>
+
+    <bean name="roomServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="buildingInfoDictionaryLocation" />
+                <bean parent="roomInfoDictionaryLocation"/>
+                <bean parent="roomResponsibleOrgInfoDictionaryLocation"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
     <bean name="courseOfferingServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
