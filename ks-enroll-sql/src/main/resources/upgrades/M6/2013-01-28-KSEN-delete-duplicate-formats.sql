@@ -1,6 +1,6 @@
 --String aggregation Function (needed to group formats by the activity types)
---create or replace type vcArray as table of varchar2(4000)
---/
+create or replace type vcArray as table of varchar2(4000)
+/
 
 create or replace type string_agg_type as object
     (
