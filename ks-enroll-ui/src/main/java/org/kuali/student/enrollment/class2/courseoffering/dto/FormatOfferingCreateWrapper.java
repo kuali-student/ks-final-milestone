@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
 
 /**
  * This class //TODO ...
@@ -30,6 +31,7 @@ public class FormatOfferingCreateWrapper {
     private String courseCode;
     private String activitesUI;
     private boolean isJointOffering;
+    private FormatInfo formatInfo;
 
     public FormatOfferingCreateWrapper(){
         formatOfferingInfo = new FormatOfferingInfo();
@@ -99,6 +101,14 @@ public class FormatOfferingCreateWrapper {
 
     public void setActivitesUI(String activitesUI) {
         this.activitesUI = activitesUI;
+    }
+
+    public FormatInfo getFormatInfo() {
+        return formatInfo;
+    }
+
+    public void setFormatInfo(FormatInfo formatInfo) {
+        this.formatInfo = formatInfo;
     }
 
 }

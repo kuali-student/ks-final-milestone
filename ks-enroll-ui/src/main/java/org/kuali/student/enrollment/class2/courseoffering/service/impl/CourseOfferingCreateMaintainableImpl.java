@@ -150,7 +150,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                 foWrapper.getFormatOfferingInfo().setTermId(wrapper.getCoInfo().getTermId());
                 foWrapper.getFormatOfferingInfo().setCourseOfferingId(wrapper.getCoInfo().getId());
                 try {
-                    FormatOfferingInfo createdFormatOffering = getCourseOfferingService().createFormatOffering(wrapper.getCoInfo().getId(), foWrapper.getFormatOfferingInfo().getFormatId(), foWrapper.getFormatOfferingInfo().getTypeKey(), foWrapper.getFormatOfferingInfo(), contextInfo);
+                    FormatOfferingInfo createdFormatOffering = getCourseOfferingService().createFormatOffering(wrapper.getCoInfo().getId(), foWrapper.getFormatId(), foWrapper.getFormatOfferingInfo().getTypeKey(), foWrapper.getFormatOfferingInfo(), contextInfo);
                     foWrapper.setFormatOfferingInfo(createdFormatOffering);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -166,22 +166,25 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      * @throws Exception RuntimeException with cause as service exception
      */
     protected void createJointCOs(CourseOfferingCreateWrapper wrapper) throws Exception {
+        LOG.debug("Creating Offerings for the joint courses.");
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
          for (CourseJointCreateWrapper jointWrapper : wrapper.getJointCourses()){
-              CourseOfferingInfo coInfo = createCourseOfferingInfo(wrapper.getTerm().getId(), jointWrapper.getCourseInfo(), StringUtils.EMPTY, new CourseOfferingInfo());
-              for (FormatOfferingCreateWrapper foWrapper : jointWrapper.getFormatOfferingWrappers()){
-                  foWrapper.getFormatOfferingInfo().setStateKey(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY);
-                  foWrapper.getFormatOfferingInfo().setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
-                  foWrapper.getFormatOfferingInfo().setTermId(wrapper.getCoInfo().getTermId());
-                  foWrapper.getFormatOfferingInfo().setCourseOfferingId(coInfo.getId());
-                  try {
-                      FormatOfferingInfo createdFormatOffering = getCourseOfferingService().createFormatOffering(coInfo.getId(), foWrapper.getFormatOfferingInfo().getFormatId(), foWrapper.getFormatOfferingInfo().getTypeKey(), foWrapper.getFormatOfferingInfo(), contextInfo);
-                      foWrapper.setFormatOfferingInfo(createdFormatOffering);
-                  } catch (Exception e) {
-                      throw new RuntimeException(e);
+             if (jointWrapper.isSelectedToJointlyOfferred()){
+                 LOG.debug("Creating offerings for the joint course " + jointWrapper.getCourseCode());
+                  CourseOfferingInfo coInfo = createCourseOfferingInfo(wrapper.getTerm().getId(), jointWrapper.getCourseInfo(), StringUtils.EMPTY, new CourseOfferingInfo());
+                  for (FormatOfferingCreateWrapper foWrapper : jointWrapper.getFormatOfferingWrappers()){
+                      foWrapper.getFormatOfferingInfo().setStateKey(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY);
+                      foWrapper.getFormatOfferingInfo().setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
+                      foWrapper.getFormatOfferingInfo().setTermId(wrapper.getCoInfo().getTermId());
+                      foWrapper.getFormatOfferingInfo().setCourseOfferingId(coInfo.getId());
+                      try {
+                          FormatOfferingInfo createdFormatOffering = getCourseOfferingService().createFormatOffering(coInfo.getId(), foWrapper.getFormatOfferingInfo().getFormatId(), foWrapper.getFormatOfferingInfo().getTypeKey(), foWrapper.getFormatOfferingInfo(), contextInfo);
+                          foWrapper.setFormatOfferingInfo(createdFormatOffering);
+                      } catch (Exception e) {
+                          throw new RuntimeException(e);
+                      }
                   }
-              }
-
+             }
          }
     }
 
@@ -219,6 +222,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
             List<CourseOfferingInfo> cos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(joint.getCourseId(),wrapper.getTerm().getId(),contextInfo);
 
             if (!cos.isEmpty()){
+                LOG.debug("For the joint course " + jointCourse.getCode() + ", it already has the offerings created.");
                 jointCreateWrapper.setAlreadyOffered(true);
             }
             wrapper.getJointCourses().add(jointCreateWrapper);
@@ -228,7 +232,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
 
     /**
      * This is overridden from KRAD to implement creating the formats for the joint courses when the user
-     * creates delivery formats for the parent course. It should not be a problem overriding this
+     * creates delivery formats. It should not be a problem overriding this
      * method completely as we dont need any validation or pre/post event for this action
      *
      * @param view
@@ -254,6 +258,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
 
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)((MaintenanceDocumentForm)model).getDocument().getNewMaintainableObject().getDataObject();
         FormatInfo formatToBeAdded = getMatchingFormatInfo(wrapper.getCourse(), addLine.getFormatId());
+        addLine.setFormatInfo(formatToBeAdded);
 
         for (CourseJointCreateWrapper joint : wrapper.getJointCourses()){
             if (joint.isSelectedToJointlyOfferred()){
@@ -269,9 +274,11 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                 if (formatInfo == null){
                     GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM,"There is no matching format to be added for joint course " + joint.getCourseCode());
                 } else {
-                    foForJoint.setFormatId(formatOfferingWrapper.getFormatId());
+                    foForJoint.setFormatId(formatInfo.getId());
+                    foForJoint.setFormatInfo(formatInfo);
                     foForJoint.setActivitesUI(getActivityTypeNames(joint.getCourseInfo(), formatInfo.getId()));
                     wrapper.getFormatOfferingWrappers().add(0,foForJoint);
+                    joint.getFormatOfferingWrappers().add(foForJoint);
                 }
             }
         }
@@ -279,6 +286,9 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         addLine.setActivitesUI(getActivityTypeNames(wrapper.getCourse(), addLine.getFormatId()));
         addLine.setCourseCode(wrapper.getCourse().getCode());
         wrapper.getFormatOfferingWrappers().add(0,addLine);
+
+        //Make a new instance for the add line
+        collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
     }
 
     /**
@@ -334,7 +344,6 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      */
     @Override
     public void processCollectionDeleteLine(View view, Object model, String collectionPath, int lineIndex){
-        CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(collectionPath);
         Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(model, collectionPath);
         FormatOfferingCreateWrapper deleteLine = (FormatOfferingCreateWrapper)((List<Object>) collection).get(lineIndex);
         if (deleteLine.isJointOffering()){

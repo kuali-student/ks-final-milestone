@@ -76,14 +76,21 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
         }
 
         FormatOfferingInfo formatOfferingInfo;
+        CourseInfo courseInfo;
+        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+
         if (field.getContext().get(UifConstants.ContextVariableNames.LINE) instanceof FormatOfferingCreateWrapper) {
             FormatOfferingCreateWrapper foWrapper = (FormatOfferingCreateWrapper)field.getContext().get(UifConstants.ContextVariableNames.LINE);
             formatOfferingInfo = foWrapper.getFormatOfferingInfo();
+            if (foWrapper.isJointOffering()){
+                courseInfo = foWrapper.getJointCreateWrapper().getCourseInfo();
+            } else {
+                courseInfo = wrapper.getCourse();
+            }
         } else {
             formatOfferingInfo = (FormatOfferingInfo)field.getContext().get(UifConstants.ContextVariableNames.LINE);
+            courseInfo = wrapper.getCourse();
         }
-
-        CourseOfferingWrapper wrapper = (CourseOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
         SelectControl control = (SelectControl)field.getControl();
 
@@ -92,7 +99,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
         if (StringUtils.isNotBlank(formatOfferingInfo.getFormatId())){
             // Always include an option for Course
             gradeKeyValues.add(new ConcreteKeyValue(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, CourseOfferingConstants.FORMAT_OFFERING_GRADE_ROSTER_LEVEL_COURSE_DISPLAY));
-            gradeKeyValues.addAll(collectActivityTypeKeyValues(wrapper.getCourse(), formatOfferingInfo.getFormatId(), getTypeService(), ContextUtils.createDefaultContextInfo()));
+            gradeKeyValues.addAll(collectActivityTypeKeyValues(courseInfo, formatOfferingInfo.getFormatId(), getTypeService(), ContextUtils.createDefaultContextInfo()));
             control.setDisabled(false);
         } else {
             control.setDisabled(true);
@@ -120,19 +127,28 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
         }
 
         FormatOfferingInfo formatOfferingInfo;
+        CourseInfo courseInfo;
+        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+
         if (field.getContext().get(UifConstants.ContextVariableNames.LINE) instanceof FormatOfferingCreateWrapper) {
             FormatOfferingCreateWrapper foWrapper = (FormatOfferingCreateWrapper)field.getContext().get(UifConstants.ContextVariableNames.LINE);
             formatOfferingInfo = foWrapper.getFormatOfferingInfo();
+            if (foWrapper.isJointOffering()){
+                courseInfo = foWrapper.getJointCreateWrapper().getCourseInfo();
+            } else {
+                courseInfo = wrapper.getCourse();
+            }
         } else {
             formatOfferingInfo = (FormatOfferingInfo)field.getContext().get(UifConstants.ContextVariableNames.LINE);
+            courseInfo = wrapper.getCourse();
         }
-        CourseOfferingWrapper wrapper = (CourseOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+
         SelectControl control = (SelectControl)field.getControl();
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         if (StringUtils.isNotBlank(formatOfferingInfo.getFormatId())){
-            keyValues.addAll(collectActivityTypeKeyValues(wrapper.getCourse(), formatOfferingInfo.getFormatId(), getTypeService(), ContextUtils.createDefaultContextInfo()));
+            keyValues.addAll(collectActivityTypeKeyValues(courseInfo, formatOfferingInfo.getFormatId(), getTypeService(), ContextUtils.createDefaultContextInfo()));
             control.setDisabled(false);
         } else {
             control.setDisabled(true);

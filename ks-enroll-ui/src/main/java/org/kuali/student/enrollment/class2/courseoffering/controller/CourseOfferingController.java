@@ -113,6 +113,8 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
         }
 
+        coWrapper.clear();
+
         if (matchingCourses.size() == 1 && term != null) {
             CourseInfo course = matchingCourses.get(0);
             coWrapper.setCourse(course);
@@ -188,7 +190,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                     GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Catalog Course Code");
                 }
             }
-            coWrapper.clear();
+
             coWrapper.setEnableCreateButton(false);
 
             return getUIFModelAndView(form);
@@ -282,6 +284,19 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
+    /**
+     * This will be called whenever the user selects/deselects a joint course. If user deselects a joint course, make sure
+     * it doesnt have associated formats. If exists, display a confirmation dialog with all the available formats.
+     *
+     * XML reference at CourseOfferingCreateMaintenanceView.xml
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(params = "methodToCall=markCourseForJointOffering")
     public ModelAndView markCourseForJointOffering(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
                                                @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
@@ -293,9 +308,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             joint.setSelectedToJointlyOfferred(false);
             String jointCodes = StringUtils.remove(wrapper.getJointCourseCodes(), ", " + joint.getCourseCode());
             wrapper.setJointCourseCodes(jointCodes);
-            for (FormatOfferingCreateWrapper foWrapper : joint.getFormatOfferingWrappers()){
-                wrapper.getFormatOfferingWrappers().remove(foWrapper);
-            }
+            wrapper.getFormatOfferingWrappers().removeAll(joint.getFormatOfferingWrappers());
         } else {
             wrapper.setJointCourseCodes(wrapper.getJointCourseCodes() + ", " + joint.getCourseCode());
             joint.setSelectedToJointlyOfferred(true);
