@@ -350,42 +350,42 @@
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Open View for ActivityOffering-MaintenanceView"
         NM="Open View for ActivityOffering-MaintenanceView"
-        NMSPC_CD="KS-ENR" OBJ_ID="D48745BDF307C84EE040760A4A455B98"
+        NMSPC_CD="KS-ENR" OBJ_ID="D48A6789F6C58A52E040760A4A451442"
         PERM_ID="10071" PERM_TMPL_ID="10006" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit View for ActivityOffering-MaintenanceView"
         NM="Edit View for ActivityOffering-MaintenanceView"
-        NMSPC_CD="KS-ENR" OBJ_ID="D48745BDF308C84EE040760A4A455B98"
+        NMSPC_CD="KS-ENR" OBJ_ID="D48A6789F6C68A52E040760A4A451442"
         PERM_ID="10072" PERM_TMPL_ID="10007" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to View Group for ActivityOfferingEdit-MainPage-SeatPool"
         NM="View Group for ActivityOfferingEdit-MainPage-SeatPool"
-        NMSPC_CD="KS-ENR" OBJ_ID="D48745BDF309C84EE040760A4A455B98"
-        PERM_ID="10073" PERM_TMPL_ID="10011" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D48A6789F6C78A52E040760A4A451442"
+        PERM_ID="10073" PERM_TMPL_ID="127" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit Group for ActivityOfferingEdit-MainPage-SeatPool"
         NM="Edit Group for ActivityOfferingEdit-MainPage-SeatPool"
-        NMSPC_CD="KS-ENR" OBJ_ID="D48745BDF30AC84EE040760A4A455B98"
-        PERM_ID="10074" PERM_TMPL_ID="10012" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D48A6789F6C88A52E040760A4A451442"
+        PERM_ID="10074" PERM_TMPL_ID="128" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Delete Course Offering"
         NM="Perform Action for Deleting Course Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D48745BDF34AC84EE040760A4A455B98"
+        NMSPC_CD="KS-ENR" OBJ_ID="D48A6789F7088A52E040760A4A451442"
         PERM_ID="10075" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Delete Activity Offering"
         NM="Perform Action for Deleting Activity Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D48745BDF34FC84EE040760A4A455B98"
+        NMSPC_CD="KS-ENR" OBJ_ID="D48A6789F70D8A52E040760A4A451442"
         PERM_ID="10076" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the Admin to Delete Course Offering"
         NM="Perform Action for Deleting Course Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D48745BDF354C84EE040760A4A455B98"
+        NMSPC_CD="KS-ENR" OBJ_ID="D48A6789F7128A52E040760A4A451442"
         PERM_ID="10077" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the Admin to Delete Activity Offering"
         NM="Perform Action for Deleting Activity Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D48745BDF358C84EE040760A4A455B98"
+        NMSPC_CD="KS-ENR" OBJ_ID="D48A6789F7168A52E040760A4A451442"
         PERM_ID="10078" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows users to access the Document Operation screen."
