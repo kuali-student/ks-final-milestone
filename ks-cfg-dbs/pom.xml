@@ -312,6 +312,7 @@
         <profile>
             <id>master-db</id>
             <properties>
+                <db.vendor>oracle</db.vendor>
                 <jdbc.master.username>KS_SPRING_DB</jdbc.master.username>
                 <oracle.master.dba.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</oracle.master.dba.url>
 
