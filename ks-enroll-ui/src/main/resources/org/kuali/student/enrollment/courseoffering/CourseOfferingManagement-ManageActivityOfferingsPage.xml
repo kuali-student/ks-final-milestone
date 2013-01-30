@@ -138,7 +138,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-SelectAll" parent="Uif-ActionLink" p:methodToCall="selectAllActivityOfferings" p:actionLabel="Select All" p:disabled="@{#parent.readOnly}" p:render="@{hasAO}"/>
+    <bean id="KS-CourseOfferingManagement-SelectAll" parent="Uif-ActionLink" p:onClickScript="selectAllAOs();return false;" p:actionLabel="Select All" p:disabled="@{#parent.readOnly}" p:render="@{hasAO}"/>
 
     <bean id="KS-Schedule-DisplayField" parent="Uif-MessageField" p:cssClasses="font-light12" abstract="true">
         <property name="propertyReplacers">
