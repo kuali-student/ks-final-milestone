@@ -108,6 +108,8 @@
         <property name="items">
             <list>
 
+                <bean parent="RuleStudentEditorView-TreeExpandCollapse"/>
+
                 <bean parent="Uif-GridGroup" p:style="margin-bottom: 5pt; margin-top:null 0em;">
                     <property name="items">
                         <list>
@@ -127,7 +129,6 @@
                             <!--bean id="RuleStudentEditorView-PropositionSummary"
                                   parent="RuleStudentEditorView-PropositionSummary-parent"
                                   p:forceSessionPersistence="true"/-->
-                            <bean parent="RuleStudentEditorView-TreeExpandCollapse"/>
                             <bean parent="Uif-Message" p:messageText="Click on rule to edit" p:style="font-weight:bold;margin-left: 2em;"/>
                             <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
                             <bean id="RuleStudentEditorView-Tree" parent="RuleStudentEditorView-Tree-parent"
@@ -192,8 +193,6 @@
 
     <bean id="RuleStudentEditorView-RuleTreeEditControls" parent="Uif-HorizontalBoxSection">
 
-        <property name="renderHeader" value="true"/>
-        <property name="headerText" value="Prerequisite Rule"/>
         <property name="onDocumentReadyScript" value="loadControlsInit();"/>
 
         <property name="items">
@@ -456,7 +455,13 @@
 
     <bean id="StudentSimplePropositionEditNodePrototype" class="org.kuali.rice.krad.uif.container.NodePrototype">
         <property name="labelPrototype">
-            <bean parent="Uif-Message"/>
+            <bean id="RuleMessage" parent="Uif-Message">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>rule-message</value>
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="dataGroupPrototype">
 

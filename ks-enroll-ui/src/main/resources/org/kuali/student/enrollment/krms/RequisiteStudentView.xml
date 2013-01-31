@@ -113,10 +113,6 @@
         </property>
     </bean>
 
-
-
-
-
     <bean id="Edit-With-Object-Section" parent="Uif-VerticalBoxSection"
           p:headerText="Edit with Object" p:header.render="false">
         <property name="items">

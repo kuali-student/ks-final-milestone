@@ -190,7 +190,7 @@ public class RuleEditor extends AgendaEditor {
                 Node<RuleEditorTreeNode, String> child = new Node<RuleEditorTreeNode, String>();
                 child.setNodeLabel(StringEscapeUtils.escapeHtml(prop.getDescription()));
                 if (prop.getEditMode()){
-                    child.setNodeLabel("");
+                    child.setNodeLabel("Define Rule");
                     child.setNodeType(SimpleStudentPropositionEditNode.NODE_TYPE);
                     SimpleStudentPropositionEditNode pNode = new SimpleStudentPropositionEditNode(propositionEditor);
                     child.setData(pNode);
@@ -282,6 +282,14 @@ public class RuleEditor extends AgendaEditor {
             PropositionBo prop = rule.getProposition();
             buildPreviewTree( rootNode, prop);
         }
+
+        //Underline the first node in the preview.
+        if ((rootNode.getChildren() != null) && (rootNode.getChildren().size() > 0)){
+            Node<TreeNode, String> firstNode = rootNode.getChildren().get(0);
+            firstNode.setNodeType("subruleHeader");
+            firstNode.setNodeLabel(firstNode.getNodeLabel() + ":");
+        }
+
         this.previewTree = myTree;
     }
 

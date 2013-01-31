@@ -44,20 +44,27 @@
 }
 
 .uif-boxLayoutHorizontalItem {
-     margin-right: 0px;
- }
+    margin-right: 0px;
+}
+
+#Preview-Tree-Section .jstree {
+    background-color: #F2F2F2;
+    border: 1px solid #D3D3D3;
+    max-width: 40em;
+}
+
+#Preview-Tree-Section .jstree-focused {
+    background: none;
+}
 
 #Preview-Tree-Section .jstree-icon {
     display: none;
 }
 
-#Preview-Tree-Section .uif-message {
-    margin-left: 15px;
-}
-
 #Preview-Tree-Section .jstree-leaf {
     background-image: none;
 }
+
 #Preview-Tree-Section .jstree-open {
     background-image: none;
 }
@@ -71,12 +78,36 @@
     background-color: transparent;
 }
 
+#Preview-Tree-Section .jstree > ul > li {
+    margin-left: 15px;
+    border-bottom: 0px;
+    padding-bottom: 5px;
+}
+
 .rootNode {
     border-bottom: #000000 solid 2px;
 }
 
+/* trying to make the tree not so cramped: */
+
+.jstree-default li.jstree-last {
+    margin-bottom: 5pt;
+}
+
+.jstree li {
+    margin-top 3pt;
+}
+
+.subruleHeader {
+    border-bottom: 1px solid #A8A6A6;
+    font-weight: normal;
+    width: 400px;
+}
+
 .rule-header {
-      max-width: 36em;
-  }
+    max-width: 36em;
+}
 
+.rule-message {
 
+}

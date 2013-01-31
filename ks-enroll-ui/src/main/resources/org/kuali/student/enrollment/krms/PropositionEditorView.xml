@@ -213,6 +213,12 @@
                 <ref bean="notadmitted.to.program" />
                 <ref bean="test.score.between.values" />
                 <ref bean="test.score" />
+
+                <!--Add button to update the preview-->
+                <bean id="update-button" parent="Uif-SecondaryActionButton-Small">
+                    <property name="actionLabel" value="Update"/>
+                    <property name="actionScript" value="alert('click');"/>
+                </bean>
                 
             </list>
         </property>
