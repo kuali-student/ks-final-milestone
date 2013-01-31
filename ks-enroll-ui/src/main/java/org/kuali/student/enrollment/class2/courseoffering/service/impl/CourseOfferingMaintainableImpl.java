@@ -76,30 +76,33 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
         }
 
         FormatOfferingInfo formatOfferingInfo;
-        CourseInfo courseInfo;
-        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseOfferingWrapper wrapper = (CourseOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseInfo courseInfo = wrapper.getCourse();
 
-        if (StringUtils.equals(field.getPropertyName(),"addLineFormatWrapper.gradeRosterLevelTypeKey")){
-            formatOfferingInfo = wrapper.getAddLineFormatWrapper().getFormatOfferingInfo();
-            courseInfo = wrapper.getCourse();
-        } else if (field.getContext().get(UifConstants.ContextVariableNames.LINE) instanceof FormatOfferingCreateWrapper) {
-            FormatOfferingCreateWrapper foWrapper = (FormatOfferingCreateWrapper)field.getContext().get(UifConstants.ContextVariableNames.LINE);
-            formatOfferingInfo = foWrapper.getFormatOfferingInfo();
-            if (foWrapper.isJointOffering()){
-                courseInfo = foWrapper.getJointCreateWrapper().getCourseInfo();
+        if (field.getContext().get(UifConstants.ContextVariableNames.LINE) instanceof FormatOfferingCreateWrapper) {
+            /**
+             * If the call is from create co, then there are two places from where this method is being called. From the 'Add format' section
+             * and from the format offering collections. For the 'add format' section, we're checking the property name to get the FO Wrapper
+             */
+            if (StringUtils.equals(field.getPropertyName(),"addLineFormatWrapper.gradeRosterLevelTypeKey")){
+                formatOfferingInfo = ((CourseOfferingCreateWrapper)wrapper).getAddLineFormatWrapper().getFormatOfferingInfo();
             } else {
-                courseInfo = wrapper.getCourse();
+                //This else is for the format offering collection.
+                FormatOfferingCreateWrapper foWrapper = (FormatOfferingCreateWrapper)field.getContext().get(UifConstants.ContextVariableNames.LINE);
+                formatOfferingInfo = foWrapper.getFormatOfferingInfo();
+                if (foWrapper.isJointOffering()){
+                    courseInfo = foWrapper.getJointCreateWrapper().getCourseInfo();
+                }
             }
         } else {
             formatOfferingInfo = (FormatOfferingInfo)field.getContext().get(UifConstants.ContextVariableNames.LINE);
-            courseInfo = wrapper.getCourse();
         }
 
         SelectControl control = (SelectControl)field.getControl();
 
         List<KeyValue> gradeKeyValues = new ArrayList<KeyValue>();
 
-        if (StringUtils.isNotBlank(formatOfferingInfo.getFormatId()) && courseInfo != null){
+        if (StringUtils.isNotBlank(formatOfferingInfo.getFormatId())){
             // Always include an option for Course
             gradeKeyValues.add(new ConcreteKeyValue(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, CourseOfferingConstants.FORMAT_OFFERING_GRADE_ROSTER_LEVEL_COURSE_DISPLAY));
             gradeKeyValues.addAll(collectActivityTypeKeyValues(courseInfo, formatOfferingInfo.getFormatId(), getTypeService(), ContextUtils.createDefaultContextInfo()));
@@ -130,23 +133,26 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
         }
 
         FormatOfferingInfo formatOfferingInfo;
-        CourseInfo courseInfo;
-        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseOfferingWrapper wrapper = (CourseOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseInfo courseInfo = wrapper.getCourse();
 
-        if (StringUtils.equals(field.getPropertyName(),"addLineFormatWrapper.finalExamLevelTypeKey")){
-            formatOfferingInfo = wrapper.getAddLineFormatWrapper().getFormatOfferingInfo();
-            courseInfo = wrapper.getCourse();
-        } else if (field.getContext().get(UifConstants.ContextVariableNames.LINE) instanceof FormatOfferingCreateWrapper) {
-            FormatOfferingCreateWrapper foWrapper = (FormatOfferingCreateWrapper)field.getContext().get(UifConstants.ContextVariableNames.LINE);
-            formatOfferingInfo = foWrapper.getFormatOfferingInfo();
-            if (foWrapper.isJointOffering()){
-                courseInfo = foWrapper.getJointCreateWrapper().getCourseInfo();
+        if (field.getContext().get(UifConstants.ContextVariableNames.LINE) instanceof FormatOfferingCreateWrapper) {
+            /**
+             * If the call is from create co, then there are two places from where this method is being called. From the 'Add format' section
+             * and from the format offering collections. For the 'add format' section, we're checking the property name to get the FO Wrapper
+             */
+            if (StringUtils.equals(field.getPropertyName(),"addLineFormatWrapper.finalExamLevelTypeKey")){
+                formatOfferingInfo = ((CourseOfferingCreateWrapper)wrapper).getAddLineFormatWrapper().getFormatOfferingInfo();
             } else {
-                courseInfo = wrapper.getCourse();
+                //This else is for the format offering collection.
+                FormatOfferingCreateWrapper foWrapper = (FormatOfferingCreateWrapper)field.getContext().get(UifConstants.ContextVariableNames.LINE);
+                formatOfferingInfo = foWrapper.getFormatOfferingInfo();
+                if (foWrapper.isJointOffering()){
+                    courseInfo = foWrapper.getJointCreateWrapper().getCourseInfo();
+                }
             }
         } else {
             formatOfferingInfo = (FormatOfferingInfo)field.getContext().get(UifConstants.ContextVariableNames.LINE);
-            courseInfo = wrapper.getCourse();
         }
 
         SelectControl control = (SelectControl)field.getControl();
