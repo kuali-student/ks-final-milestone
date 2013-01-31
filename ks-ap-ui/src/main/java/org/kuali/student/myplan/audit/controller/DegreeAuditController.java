@@ -130,7 +130,8 @@ public class DegreeAuditController extends UifControllerBase {
             boolean isAuditServiceUp = Boolean.valueOf(request.getAttribute(DegreeAuditConstants.IS_AUDIT_SERVICE_UP).toString());
 
             Person user = GlobalVariables.getUserSession().getPerson();
-            String systemKey = UserSessionHelper.getAuditSystemKey();
+            //String systemKey = UserSessionHelper.getAuditSystemKey();
+            String systemKey = UserSessionHelper.getStudentName();
             if (StringUtils.hasText(systemKey)) {
                 DegreeAuditService degreeAuditService = getDegreeAuditService();
                 String auditId = form.getAuditId();
@@ -138,10 +139,10 @@ public class DegreeAuditController extends UifControllerBase {
                 Date startDate = new Date();
                 Date endDate = new Date();
                 String programParam = null;
-                form.setCampusParam(campusMap.get("0"));
+                //form.setCampusParam(campusMap.get("0"));
                 logger.info("audit systemkey " + systemKey);
                 if (!isAuditServiceUp) {
-                    AtpHelper.addServiceError("programParamSeattle");
+                    AtpHelper.addServiceError("programParam_for_campus_310");
                 } else {
                     List<AuditReportInfo> auditReportInfoList = degreeAuditService.getAuditsForStudentInDateRange(systemKey, startDate, endDate, contextInfo);
                     if (auditId == null && auditReportInfoList.size() > 0) {
@@ -171,7 +172,7 @@ public class DegreeAuditController extends UifControllerBase {
 
                         String preparedFor = user.getLastName() + ", " + user.getFirstName();
                         html = html.replace("$$PreparedFor$$", preparedFor);
-                        form.setAuditHtml(html);
+                        //form.setAuditHtml(html);
 
 
                         /*Impl to set the default values for campusParam and programParam properties*/
@@ -187,13 +188,28 @@ public class DegreeAuditController extends UifControllerBase {
                                 form.setCampusParam(campusMap.get(String.valueOf(campusPrefix)));
                                 switch (campusPrefix) {
                                     case 0:
-                                        form.setProgramParamSeattle(auditProgramInfo.getProgramId());
+                                        form.setProgramParam_for_campus_310(auditProgramInfo.getProgramId());
                                         break;
                                     case 1:
-                                        form.setProgramParamBothell(auditProgramInfo.getProgramId());
+                                        form.setProgramParam_for_campus_311(auditProgramInfo.getProgramId());
                                         break;
                                     case 2:
-                                        form.setProgramParamTacoma(auditProgramInfo.getProgramId());
+                                        form.setProgramParam_for_campus_312(auditProgramInfo.getProgramId());
+                                        break;
+                                    case 3:
+                                        form.setProgramParam_for_campus_313(auditProgramInfo.getProgramId());
+                                        break;
+                                    case 4:
+                                        form.setProgramParam_for_campus_314(auditProgramInfo.getProgramId());
+                                        break;
+                                    case 5:
+                                        form.setProgramParam_for_campus_315(auditProgramInfo.getProgramId());
+                                        break;
+                                    case 6:
+                                        form.setProgramParam_for_campus_316(auditProgramInfo.getProgramId());
+                                        break;
+                                    case 7:
+                                        form.setProgramParam_for_campus_317(auditProgramInfo.getProgramId());
                                         break;
                                     default:
                                         break;
@@ -201,6 +217,7 @@ public class DegreeAuditController extends UifControllerBase {
 
                                 break;
                             }
+
                         }
                     }
                 }
@@ -212,7 +229,7 @@ public class DegreeAuditController extends UifControllerBase {
         } catch (Exception e) {
             e.printStackTrace();
             String[] params = {};
-            GlobalVariables.getMessageMap().putWarning("programParamSeattle", DegreeAuditConstants.TECHNICAL_PROBLEM, params);
+            GlobalVariables.getMessageMap().putWarning("programParam_for_campus_310", DegreeAuditConstants.TECHNICAL_PROBLEM, params);
         }
 
         return getUIFModelAndView(form);
@@ -235,15 +252,22 @@ public class DegreeAuditController extends UifControllerBase {
             if (StringUtils.hasText(regid)) {
                 DegreeAuditService degreeAuditService = getDegreeAuditService();
                 String programId = null;
-                if ("306".equals(form.getCampusParam())) {
-                    programId = form.getProgramParamSeattle();
-
-                } else if ("310".equals(form.getCampusParam())) {
-                    programId = form.getProgramParamBothell();
-
-                } else if ("323".equals(form.getCampusParam())) {
-                    programId = form.getProgramParamTacoma();
-
+                if ("310".equals(form.getCampusParam())) {
+                    programId = form.getProgramParam_for_campus_310();
+                } else if ("311".equals(form.getCampusParam())) {
+                    programId = form.getProgramParam_for_campus_311();
+                } else if ("312".equals(form.getCampusParam())) {
+                    programId = form.getProgramParam_for_campus_312();
+                } else if ("313".equals(form.getCampusParam())) {
+                    programId = form.getProgramParam_for_campus_313();
+                } else if ("314".equals(form.getCampusParam())) {
+                    programId = form.getProgramParam_for_campus_314();
+                } else if ("315".equals(form.getCampusParam())) {
+                    programId = form.getProgramParam_for_campus_315();
+                } else if ("316".equals(form.getCampusParam())) {
+                    programId = form.getProgramParam_for_campus_316();
+                } else if ("317".equals(form.getCampusParam())) {
+                    programId = form.getProgramParam_for_campus_317();
                 }
                 if (!programId.equalsIgnoreCase(DegreeAuditConstants.DEFAULT_KEY)) {
                     ContextInfo context = new ContextInfo();
@@ -265,20 +289,20 @@ public class DegreeAuditController extends UifControllerBase {
                     form.setAuditHtml(html);
                 } else {
                     String[] params = {};
-                    GlobalVariables.getMessageMap().putError("programParamSeattle", DegreeAuditConstants.AUDIT_RUN_FAILED, params);
+                    GlobalVariables.getMessageMap().putError("programParam_for_campus_310", DegreeAuditConstants.AUDIT_RUN_FAILED, params);
                     form.setAuditHtml(String.format(DegreeAuditConstants.AUDIT_FAILED_HTML, ConfigContext.getCurrentContextConfig().getProperty(DegreeAuditConstants.APPLICATION_URL)));
                 }
             }
 
         } catch (DataRetrievalFailureException e) {
             String[] params = {};
-            form.setCampusParam("306");
-            GlobalVariables.getMessageMap().putError("programParamSeattle", DegreeAuditConstants.NO_SYSTEM_KEY, params);
+            form.setCampusParam("310");
+            GlobalVariables.getMessageMap().putError("programParam_for_campus_310", DegreeAuditConstants.NO_SYSTEM_KEY, params);
 
         } catch (Exception e) {
             logger.error("Could not complete audit run");
             String[] params = {};
-            GlobalVariables.getMessageMap().putError("programParamSeattle", DegreeAuditConstants.AUDIT_RUN_FAILED, params);
+            GlobalVariables.getMessageMap().putError("programParam_for_campus_310", DegreeAuditConstants.AUDIT_RUN_FAILED, params);
             String errorMessage = getErrorMessageFromXml(e.getCause().getMessage());
             String html = String.format(DegreeAuditConstants.AUDIT_FAILED_HTML, ConfigContext.getCurrentContextConfig().getProperty(DegreeAuditConstants.APPLICATION_URL), errorMessage);
             form.setAuditHtml(html);
@@ -330,15 +354,19 @@ public class DegreeAuditController extends UifControllerBase {
         }
         for (SearchResultRow row : searchResult.getRows()) {
 
-            if (getCellValue(row, "org.resultColumn.orgShortName").equalsIgnoreCase("seattle")) {
-                orgCampusTypes.put("0", getCellValue(row, "org.resultColumn.orgId"));
-            }
-            if (getCellValue(row, "org.resultColumn.orgShortName").equalsIgnoreCase("bothell")) {
-                orgCampusTypes.put("1", getCellValue(row, "org.resultColumn.orgId"));
-            }
-            if (getCellValue(row, "org.resultColumn.orgShortName").equalsIgnoreCase("tacoma")) {
-                orgCampusTypes.put("2", getCellValue(row, "org.resultColumn.orgId"));
-            }
+//            if (getCellValue(row, "org.resultColumn.orgShortName").equalsIgnoreCase("seattle")) {
+//                orgCampusTypes.put("0", getCellValue(row, "org.resultColumn.orgId"));
+//            }
+//            if (getCellValue(row, "org.resultColumn.orgShortName").equalsIgnoreCase("bothell")) {
+//                orgCampusTypes.put("1", getCellValue(row, "org.resultColumn.orgId"));
+//            }
+//            if (getCellValue(row, "org.resultColumn.orgShortName").equalsIgnoreCase("tacoma")) {
+//                orgCampusTypes.put("2", getCellValue(row, "org.resultColumn.orgId"));
+//            }
+            String strCampusParam = getCellValue(row, "org.resultColumn.orgShortName");
+            String index = Character.toString(strCampusParam.charAt(strCampusParam.length()  - 1));
+            orgCampusTypes.put(index, getCellValue(row, "org.resultColumn.orgId"));
+            //orgCampusTypes.put(getCellValue("0", "org.resultColumn.orgShortName"), getCellValue(row, "org.resultColumn.orgId"));
 
         }
         return orgCampusTypes;
@@ -361,7 +389,7 @@ public class DegreeAuditController extends UifControllerBase {
                 while (iterator.hasNext()) {
                     MessageInfo messageInfo = (MessageInfo) iterator.next();
                     if (messageInfo.getMessageKey().contains(DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_SELECT_A_PROGRAM_FROM)) {
-                             form.setSelectAProgramFrom(messageInfo.getValue());
+                        form.setSelectAProgramFrom(messageInfo.getValue());
                     }else if (messageInfo.getMessageKey().contains(DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_HOW_TO_USE_DEGREE_AUDIT)) {
                         form.setHowToUseDegreeAudit(messageInfo.getValue());
                     }else if (messageInfo.getMessageKey().contains(DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_THE_AUDIT_FEATURE_DISABLED)) {
