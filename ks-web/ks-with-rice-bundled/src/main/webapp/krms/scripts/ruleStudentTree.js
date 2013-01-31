@@ -21,6 +21,10 @@ function getCutPropositionInput() {
     return jq('input[id="proposition_cut_control"]');
 }
 
+function getCopyPropositionInput() {
+    return jq('input[id="proposition_copy_control"]');
+}
+
 function getPropositionIdFromParentLi(parentLiNode) {
     return jq(parentLiNode).find('input.hiddenId').first().attr('value');
 }
@@ -54,10 +58,30 @@ function ajaxCutPropositionTree(controllerMethod, collectionGroupId) {
     ajaxCallPropositionTree(controllerMethod, collectionGroupId);
 }
 
+function ajaxCopyPropositionTree(controllerMethod, collectionGroupId) {
+    jq('a.ruleTreeNode').each( function() {
+        var propositionId = getPropositionIdFromParentLi(this.parentNode);
+        var selectedItemTracker = getSelectedPropositionInput();
+        var selectedItemId = selectedItemTracker.val();
+        var copyItemTracker = getCopyPropositionInput();
+
+        if (selectedItemId == propositionId) {
+            // simulate click, which will mark it
+            //jq(this).click();
+//            jq(this.parentNode).addClass('ruleCutSelected');
+//            jq(this.parentNode).removeClass('ruleBlockSelected');
+            copyItemTracker.val(propositionId);
+        }
+    });
+    ajaxCallPropositionTree(controllerMethod, collectionGroupId);
+}
+
 function ajaxPastePropositionTree(controllerMethod, collectionGroupId) {
     jq('a.ruleTreeNode').each( function() {
         jq(this.parentNode).removeClass('ruleCutSelected');
     });
+    var copyItemTracker = getCopyPropositionInput();
+    copyItemTracker.val(null);
     var cutItemTracker = getCutPropositionInput();
     cutItemTracker.val(null);
     ajaxCallPropositionTree(controllerMethod, collectionGroupId);
@@ -203,6 +227,15 @@ function initRuleTree(componentId){
             if ((typeof cutItemId !== "undefined") && (cutItemId == propositionId)) {
                 jq(this.parentNode).addClass('ruleCutSelected');
                 cutItemTracker.val(cutItemId);
+            } else {
+                jq(this.parentNode).removeClass('ruleCutSelected');
+            }
+
+            var copyItemTracker = getCopyPropositionInput();
+            var copyItemId = copyItemTracker.val();
+            if ((typeof copyItemId !== "undefined") && (copyItemId == propositionId)) {
+                jq(this.parentNode).addClass('ruleCutSelected');
+                copyItemTracker.val(copyItemId);
             } else {
                 jq(this.parentNode).removeClass('ruleCutSelected');
             }
