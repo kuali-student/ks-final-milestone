@@ -31,7 +31,7 @@
                   value="org.kuali.student.enrollment.class1.krms.service.impl.RuleStudentViewHelperServiceImpl"/>
         <property name="page.items">
             <list>
-                <ref bean="Requisites-ManageSection"/>
+                <ref bean="KS-Rules-ManageSection"/>
             </list>
         </property>
         <property name="page.footer.items">
@@ -39,7 +39,7 @@
         </property>
     </bean>
 
-    <bean id="Requisites-ManageSection" parent="Uif-VerticalBoxSection">
+    <bean id="KS-Rules-ManageSection" parent="Uif-VerticalBoxSection">
         <!--<property name="disclosure.render" value="false"/>-->
         <!--<property name="style" value="margin-bottom:0;"/>-->
         <property name="items">
@@ -57,7 +57,7 @@
                     </property>
                 </bean>
 
-                <bean id="RequisitesRuleType-ManageSection" parent="Uif-HorizontalBoxSection">
+                <bean id="KS-RuleType-Section" parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
 
@@ -74,15 +74,21 @@
                     </property>
                 </bean>
 
-                <ref bean="Prerequisite-Rule-Section"/>
-                <ref bean="Preview-Tree-Section"/>
+                <bean id="KS-RuleView-Section" parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="Prerequisite-Rule-Section"/>
+                            <ref bean="Preview-Tree-Section"/>
+                        </list>
+                    </property>
+                </bean>
 
-                <bean id="Enrollment-Eligibility-TabSection" parent="Uif-TabSection"
+                <bean id="KS-RuleEdit-TabSection" parent="Uif-TabSection"
                       p:progressiveRender="@{#dp.ruleType ne null and #dp.ruleType ne '0'}">
                     <property name="items">
                         <list>
-                            <bean parent="Edit-With-Object-Section" />
-                            <bean parent="Edit-With-Logic-Section" />
+                            <bean parent="KS-EditWithObject-EditSection" />
+                            <bean parent="KS-EditWithLogic-EditSection" />
                         </list>
                     </property>
                 </bean>
@@ -91,29 +97,7 @@
         </property>
     </bean>
 
-    <bean id="Preview-Section-Parent" parent="Uif-VerticalBoxSection"
-          p:headerText="Preview" p:header.render="false">
-        <property name="items">
-            <list>
-                <bean parent="Uif-Message" abstract="true" p:style="margin-bottom:1em;">
-                    <property name="messageText">
-                        <value>
-                            Conditions that will restrict student enrollment, addressing restrictions to majors,
-                            locations, credit level requirements, etc. or courses, with or without grade requirements,
-                            which a student must have completed in order to enroll.
-                        </value>
-                    </property>
-                </bean>
-                <bean parent="Uif-SecondaryActionButton-Small">
-                    <property name="actionLabel" value="See Example"/>
-                    <property name="actionScript" value="alert('click');"/>
-                </bean>
-                <!--<ref bean="propositionGroup"/>-->
-            </list>
-        </property>
-    </bean>
-
-    <bean id="Edit-With-Object-Section" parent="Uif-VerticalBoxSection"
+    <bean id="KS-EditWithObject-EditSection" parent="Uif-VerticalBoxSection"
           p:headerText="Edit with Object" p:header.render="false">
         <property name="items">
             <list>
@@ -122,7 +106,7 @@
         </property>
     </bean>
 
-    <bean id="Edit-With-Logic-Section" parent="Uif-VerticalBoxSection"
+    <bean id="KS-EditWithLogic-EditSection" parent="Uif-VerticalBoxSection"
           p:headerText="Edit with Logic" p:header.render="false">
         <property name="items">
             <list>
@@ -130,7 +114,8 @@
             </list>
         </property>
     </bean>
-    <bean id="KRMS-Links-Group" parent="Uif-LinkGroup"  >
+
+    <bean id="KS-RulePreview-Links" parent="Uif-LinkGroup"  >
         <property name="linkSeparator" value="|"/>
         <property name="items">
             <list>
@@ -159,7 +144,7 @@
     <bean id="Prerequisite-Rule-Section"  parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSection" p:headerText="Prerequisite Rule" >
+                <bean parent="Uif-HorizontalBoxSection" p:headerText="Rule" >
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ks-enrollment-home</value>
@@ -169,7 +154,7 @@
                         <bean parent="Uif-HeaderRightGroup">
                             <property name="items">
                                 <list>
-                                    <ref bean="KRMS-Links-Group" />
+                                    <ref bean="KS-RulePreview-Links" />
                                 </list>
                             </property>
 
@@ -215,15 +200,7 @@
                     <bean parent="Uif-Message"/>
                 </property>
                 <property name="dataGroupPrototype">
-                    <bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;">
-                        <!--<property name="items">-->
-                            <!--<list>-->
-                                <!--<bean parent="Uif-InputField"  p:propertyName="data" p:readOnlyDisplayReplacement="true"-->
-                                      <!--p:showLabel="false" p:label="id" p:maxLength="255"/>-->
-
-                            <!--</list>-->
-                        <!--</property>-->
-                    </bean>
+                    <bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;"/>
                 </property>
             </bean>
         </property>

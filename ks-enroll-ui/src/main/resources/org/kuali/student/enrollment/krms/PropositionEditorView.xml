@@ -157,6 +157,18 @@
         <property name="items">
             <list>
 
+                <ref bean="KS-PropositionEdit-DefineSection"/>
+                <ref bean="KS-PropositionEdit-DetailSection"/>
+                
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-PropositionEdit-DefineSection" parent="KS-PropositionEdit-DefineSection-parentBean"/>
+    <bean id="KS-PropositionEdit-DefineSection-parentBean" abstract="true" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+
                 <!-- Hidden ID field -->
                 <bean parent="Uif-InputField" p:propertyName="proposition.id"
                       p:showLabel="false" p:label="id" p:maxLength="255">
@@ -178,6 +190,15 @@
                         <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.PropositionTypeValuesFinder"/>
                     </property>
                 </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-PropositionEdit-DetailSection" parent="KS-PropositionEdit-DetailSection-parentBean"/>
+    <bean id="KS-PropositionEdit-DetailSection-parentBean" abstract="true" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
 
                 <!--Add all the available custom components-->
                 <ref bean="permission.instructor.required" />
@@ -219,7 +240,7 @@
                     <property name="actionLabel" value="Update"/>
                     <property name="actionScript" value="alert('click');"/>
                 </bean>
-                
+
             </list>
         </property>
     </bean>
