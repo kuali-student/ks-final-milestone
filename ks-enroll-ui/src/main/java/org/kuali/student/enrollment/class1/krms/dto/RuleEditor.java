@@ -214,7 +214,7 @@ public class RuleEditor extends AgendaEditor {
                     CompoundStudentPropositionEditNode pNode = new CompoundStudentPropositionEditNode(propositionEditor);
                     aNode.setData(pNode);
                 } else {
-                    aNode.setNodeType("ruleTreeNode");
+                    aNode.setNodeType(RuleEditorTreeNode.COMPOUND_NODE_TYPE);
                     RuleEditorTreeNode pNode = new RuleEditorTreeNode(propositionEditor);
                     aNode.setData(pNode);
                 }
