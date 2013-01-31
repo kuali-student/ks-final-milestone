@@ -310,5 +310,10 @@
     <!-- Use our own custom xml parser which also parses passwords -->
    	<bean id="enUserXmlService" class="org.kuali.rice.student.kew.xml.KSUserXmlServiceImpl" />
 
+    <bean id="userSessionService" class="org.kuali.student.myplan.utils.UserSessionServiceMockImpl"/>
+
+    <bean id="userSessionHelper" class="org.kuali.student.myplan.utils.UserSessionHelper" factory-method="createInstance">
+        <property name="userSessionService" ref="userSessionService"/>
+    </bean>
     <!-- End Service Declarations-->
 </beans>

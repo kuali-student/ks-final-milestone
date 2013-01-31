@@ -23,6 +23,7 @@ import org.kuali.student.r2.common.util.RichTextHelper;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ import java.util.Set;
 @MappedSuperclass
 public abstract class TypeEntity<T extends BaseAttributeEntity<?>> extends BaseTypeEntity implements AttributeOwner<T> {
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch= FetchType.EAGER)
 	private Set<T> attributes;
 
     @Column(name = "REF_OBJECT_URI")

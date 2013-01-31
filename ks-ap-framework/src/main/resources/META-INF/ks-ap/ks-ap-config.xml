@@ -18,8 +18,6 @@
 <config>
     <param name="module.name">ks-ap</param>
 
-    <param name="ks.myplan.externalizable.images.url">../ks-ap-web-webapp/ks-myplan/images/</param>
-
     <param name="db.vendor">oracle</param>
     <param name="jpa.vendor">hibernate</param>
 
