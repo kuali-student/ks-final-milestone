@@ -76,7 +76,8 @@
                     </property>
                 </bean>
 
-                <bean id="KS-RuleView-Section" parent="KS-VerticalBoxSection">
+                <bean id="KS-RuleView-Section" parent="KS-VerticalBoxSection"
+                      p:progressiveRender="@{#dp.ruleType ne null and #dp.ruleType ne '0'}">
                     <property name="headerText" value="Prerequisite Rule"/>
                     <property name="items">
                         <list>
