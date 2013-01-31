@@ -13,13 +13,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
-import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.enrollment.uif.util.GrowlIcon;
-import org.kuali.student.enrollment.uif.util.KSUifUtils;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
@@ -28,25 +21,37 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffe
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl;
-import org.kuali.student.enrollment.class2.courseoffering.util.*;
+import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.ToolbarUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.enrollment.uif.util.GrowlIcon;
+import org.kuali.student.enrollment.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
-import org.ow2.carol.jndi.intercept.operation.StringGetNameParserInterceptionContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -189,10 +194,14 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                     theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
 
+                    // set the cross listed data
+                    assignCrossListedInForm(theForm, coToShow);
+
                     ToolbarUtil.processCoToolbarForDeptAdmin(theForm.getCourseOfferingResultList(), theForm);
                 } else { // just one course offering is returned
                     CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                     theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
+                    assignCrossListedInForm(theForm, coToShow);
                     return _prepareManageAOsModelAndView(theForm, coToShow);
                 }
             }
@@ -492,7 +501,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         //TODO: Set SOC State - temporary display, to be removed after testing is finished
         String socState = getSocState(theForm.getTermInfo().getId());
-        socState = (socState.substring(0,1)).toUpperCase() + socState.substring(1, socState.length());
+        if(StringUtils.isNotBlank(socState))   {
+            socState = (socState.substring(0,1)).toUpperCase() + socState.substring(1, socState.length());
+        }
         theForm.setSocState(socState);
 
         ToolbarUtil.processAoToolbarForDeptAdmin(theForm.getActivityWrapperList(), theForm);
@@ -561,6 +572,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
             theForm.setCourseOfferingCode(theCourseOffering.getCourseOfferingCode());
             theForm.setInputCode(theCourseOffering.getCourseOfferingCode());
+            assignCrossListedInForm(theForm, theCourseOffering);
             return _prepareManageAOsModelAndView(theForm, theCourseOffering);
         }
         else{
@@ -1193,6 +1205,23 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseOfferingEditWrapper.class.getName());
         props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
         return props;
+    }
+
+    private void assignCrossListedInForm(CourseOfferingManagementForm form, CourseOfferingInfo coToShow){
+        form.setCrossListedCoCodes(StringUtils.EMPTY);
+        form.setCrossListedCo(false);
+
+        if (coToShow != null && coToShow.getCrossListings() != null && coToShow.getCrossListings().size() > 0) {
+            // Always include an option for Course
+            StringBuffer crossListedCodes = new StringBuffer();
+
+            for (CourseOfferingCrossListingInfo courseInfo : coToShow.getCrossListings()) {
+                crossListedCodes.append(courseInfo.getCode());
+                crossListedCodes.append(" ");
+            }
+            form.setCrossListedCoCodes(crossListedCodes.toString());
+            form.setCrossListedCo(true);
+        }
     }
 
     private Object _getSelectedObject(CourseOfferingManagementForm theForm, String actionLink){

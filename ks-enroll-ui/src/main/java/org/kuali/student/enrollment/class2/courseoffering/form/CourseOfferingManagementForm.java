@@ -1,14 +1,13 @@
 package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.uif.form.KSUifForm;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.uif.form.KSUifForm;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +31,9 @@ public class CourseOfferingManagementForm extends KSUifForm {
     private String socStateKey;
 
     private boolean readOnly;
+    private boolean crossListedCo = false;
+    private String  crossListedCoCodes;
+
 
     private List<ActivityOfferingWrapper> activityWrapperList;
     private List<ActivityOfferingWrapper> selectedToDeleteList;
@@ -344,5 +346,21 @@ public class CourseOfferingManagementForm extends KSUifForm {
 
     public void setSocStateKey(String socStateKey) {
         this.socStateKey = socStateKey;
+    }
+
+    public boolean isCrossListedCo() {
+        return crossListedCo;
+    }
+
+    public void setCrossListedCo(boolean crossListedCo) {
+        this.crossListedCo = crossListedCo;
+    }
+
+    public String getCrossListedCoCodes() {
+        return crossListedCoCodes;
+    }
+
+    public void setCrossListedCoCodes(String crossListedCoCodes) {
+        this.crossListedCoCodes = crossListedCoCodes;
     }
 }

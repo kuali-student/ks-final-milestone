@@ -19,7 +19,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -88,7 +87,6 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                         crossListingInfo.setCourseNumberSuffix(crossInfo.getCourseNumberSuffix());
                         crossListingInfo.setDepartmentOrgId(crossInfo.getDepartment());
                         crossListingInfo.setSubjectArea(crossInfo.getSubjectArea());
-                        crossListingInfo.setId(crossInfo.getId());
                         crossListingInfo.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
                         crossListingInfo.setTypeKey(crossInfo.getTypeKey());
                         coInfo.getCrossListings().add(crossListingInfo);
