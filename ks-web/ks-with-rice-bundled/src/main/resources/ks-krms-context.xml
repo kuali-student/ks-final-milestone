@@ -41,4 +41,7 @@
         <property name="attributeDefinitionService" ref="krmsAttributeDefinitionService"/>
     </bean>
 
+    <bean id="agendaTypeService" class="org.kuali.rice.krms.impl.type.AgendaTypeServiceImpl">
+    </bean>
+
 </beans>
