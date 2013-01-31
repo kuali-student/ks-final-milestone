@@ -33,8 +33,10 @@ import java.util.List;
  *
  */
 public class SimpleStudentPropositionNode extends RuleEditorTreeNode {
+
     private static final long serialVersionUID = -629088492909384804L;
-    public static final String NODE_TYPE = "ruleTreeNode simplePropositionNode";
+
+    public static final String NODE_TYPE = RuleEditorTreeNode.NODE_TYPE + " simple";
     protected String parameterDisplayString;
 
     // needed for inquiry view

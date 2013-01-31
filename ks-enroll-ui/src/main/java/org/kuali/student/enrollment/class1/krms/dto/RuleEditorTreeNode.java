@@ -12,7 +12,11 @@ import java.io.Serializable;
 public class RuleEditorTreeNode implements Serializable {
 
     private static final long serialVersionUID = 8038174553531544943L;
-    public static final String COMPOUND_NODE_TYPE = "ruleTreeNode compoundNode";
+
+    public static final String NODE_TYPE = "ruleTreeNode";
+
+    public static final String COMPOUND_NODE_TYPE = RuleEditorTreeNode.NODE_TYPE + " compound";
+
     protected PropositionEditor proposition;
 
     public RuleEditorTreeNode(){}

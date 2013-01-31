@@ -25,7 +25,7 @@ public class CompoundStudentPropositionEditNode extends RuleEditorTreeNode {
 
     private static final long serialVersionUID = -5650654824214437325L;
 
-    public static final String NODE_TYPE = "ruleTreeNode compoundPropositionEditNode";
+    public static final String NODE_TYPE = CompoundStudentOpCodeNode.NODE_TYPE + " editNode";
 
     public CompoundStudentPropositionEditNode(PropositionEditor proposition){
         super(proposition);

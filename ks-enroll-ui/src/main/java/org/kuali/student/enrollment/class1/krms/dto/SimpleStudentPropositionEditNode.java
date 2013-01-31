@@ -34,7 +34,7 @@ public class SimpleStudentPropositionEditNode extends RuleEditorTreeNode {
 
     private static final long serialVersionUID = -5650654824214437325L;
 
-    public static final String NODE_TYPE = "ruleTreeNode simplePropositionEditNode";
+    public static final String NODE_TYPE = SimpleStudentPropositionNode.NODE_TYPE + " editNode";
     protected String parameterDisplayString;
 
     public SimpleStudentPropositionEditNode(PropositionEditor proposition){

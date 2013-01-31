@@ -92,6 +92,10 @@
     padding: 10px;
 }
 
+#RuleStudentEditorView-Tree .compoundNode {
+    font-size: 1.6em;
+}
+
 .rootNode {
     border-bottom: #000000 solid 2px;
 }

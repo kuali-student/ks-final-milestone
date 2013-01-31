@@ -226,7 +226,7 @@ public class RuleEditor extends AgendaEditor {
                 // editMode has description as an editable field
                 if (prop.getEditMode()){
                     aNode.setNodeLabel("");
-                    aNode.setNodeType("ruleTreeNode editNode");
+                    aNode.setNodeType(CompoundStudentPropositionEditNode.NODE_TYPE);
                     CompoundStudentPropositionEditNode pNode = new CompoundStudentPropositionEditNode(propositionEditor);
                     aNode.setData(pNode);
                 } else {

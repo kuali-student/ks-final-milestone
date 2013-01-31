@@ -204,18 +204,18 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
     public void prepareForSave() {
         // set agenda attributes
         RuleEditor ruleEditor = (RuleEditor) getDataObject();
-        //agendaEditor.getAgenda().setAttributes(agendaEditor.getCustomAttributesMap());
+        ruleEditor.initPreviewTree();
     }
 
     @Override
     public void saveDataObject() {
-        RuleBo ruleBo = ((RuleEditor) getDataObject()).getRule();
+        /*RuleBo ruleBo = ((RuleEditor) getDataObject()).getRule();
 
         // handle saving new parameterized terms
         PropositionBo propositionBo = ruleBo.getProposition();
         if (propositionBo != null) {
             saveNewParameterizedTerms(propositionBo);
-        }
+        }*/
 
         AgendaBo agendaBo = ((RuleEditor) getDataObject()).getAgenda();
 

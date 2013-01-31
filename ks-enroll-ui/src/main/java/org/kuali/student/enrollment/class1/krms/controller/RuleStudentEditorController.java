@@ -38,7 +38,6 @@ import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.impl.repository.AgendaBo;
-import org.kuali.rice.krms.impl.repository.AgendaBoService;
 import org.kuali.rice.krms.impl.repository.AgendaItemBo;
 import org.kuali.rice.krms.impl.repository.ContextBoService;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
@@ -47,16 +46,15 @@ import org.kuali.rice.krms.impl.repository.ReferenceObjectBindingBoService;
 import org.kuali.rice.krms.impl.repository.RuleBo;
 import org.kuali.rice.krms.impl.repository.RuleBoService;
 import org.kuali.rice.krms.impl.repository.TermBo;
-import org.kuali.rice.krms.impl.repository.TermBoService;
 import org.kuali.rice.krms.impl.rule.AgendaEditorBusRule;
-import org.kuali.rice.krms.impl.ui.SimplePropositionEditNode;
-import org.kuali.rice.krms.impl.ui.SimplePropositionNode;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.rice.krms.impl.util.KrmsImplConstants;
 import org.kuali.student.enrollment.class1.krms.dto.CompoundStudentOpCodeNode;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
+import org.kuali.student.enrollment.class1.krms.dto.SimpleStudentPropositionEditNode;
+import org.kuali.student.enrollment.class1.krms.dto.SimpleStudentPropositionNode;
 import org.kuali.student.enrollment.class1.krms.service.RuleStudentViewHelperService;
 import org.kuali.student.enrollment.class1.krms.service.impl.RuleStudentViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.krms.util.KsKrmsRepositoryServiceLocator;
@@ -505,8 +503,8 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                     // move the existing simple proposition as the first compound component,
                     // then add a new blank simple prop as the second compound component.
                     if (parent == root &&
-                            (SimplePropositionNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()) ||
-                                    SimplePropositionEditNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()))) {
+                            (SimpleStudentPropositionNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()) ||
+                                    SimpleStudentPropositionEditNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()))) {
 
                         // create a new compound proposition
                         PropositionBo compound = PropositionBo.createCompoundPropositionBoStub(child.getData().getProposition().getProposition(), true);
@@ -515,8 +513,8 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                         ruleEditor.refreshPropositionTree(null);
                     }
                     // handle regular case of adding a simple prop to an existing compound prop
-                    else if (SimplePropositionNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()) ||
-                            SimplePropositionEditNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType())) {
+                    else if (SimpleStudentPropositionNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()) ||
+                            SimpleStudentPropositionEditNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType())) {
 
                         // build new Blank Proposition
                         PropositionBo blank = PropositionBo.createSimplePropositionBoStub(child.getData().getProposition().getProposition(), PropositionType.SIMPLE.getCode());
@@ -667,8 +665,8 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                 Node<RuleEditorTreeNode, String> child = children.get(index);
                 // if our selected node is a simple proposition, add a new one after
                 if (propIdMatches(child, selectedPropId)) {
-                    if (SimplePropositionNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()) ||
-                            SimplePropositionEditNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()) ||
+                    if (SimpleStudentPropositionNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()) ||
+                            SimpleStudentPropositionEditNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()) ||
                             RuleEditorTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(child.getNodeType())) {
 
                         if (((index > 0) && up) || ((index < (children.size() - 1) && !up))) {
@@ -683,7 +681,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
                             // insert it in the new spot
                             // redisplay the tree (editMode = true)
-                            boolean editMode = (SimplePropositionEditNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()));
+                            boolean editMode = (SimpleStudentPropositionEditNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()));
                             ruleEditor.refreshPropositionTree(editMode);
                         }
                     }
