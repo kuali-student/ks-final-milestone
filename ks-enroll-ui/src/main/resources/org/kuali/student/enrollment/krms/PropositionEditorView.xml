@@ -165,7 +165,8 @@
     </bean>
 
     <bean id="KS-PropositionEdit-DefineSection" parent="KS-PropositionEdit-DefineSection-parentBean"/>
-    <bean id="KS-PropositionEdit-DefineSection-parentBean" abstract="true" parent="Uif-VerticalBoxSection">
+    <bean id="KS-PropositionEdit-DefineSection-parentBean" abstract="true" parent="KS-VerticalBoxSubSection">
+        <property name="headerText" value="Define Rule"/>
         <property name="items">
             <list>
 
@@ -196,7 +197,8 @@
     </bean>
 
     <bean id="KS-PropositionEdit-DetailSection" parent="KS-PropositionEdit-DetailSection-parentBean"/>
-    <bean id="KS-PropositionEdit-DetailSection-parentBean" abstract="true" parent="Uif-VerticalBoxSection">
+    <bean id="KS-PropositionEdit-DetailSection-parentBean" abstract="true" parent="KS-VerticalBoxSubSection">
+        <property name="headerText" value="Add Rule Details"/>
         <property name="items">
             <list>
 
@@ -238,7 +240,7 @@
                 <!--Add button to update the preview-->
                 <bean id="update-button" parent="Uif-SecondaryActionButton-Small">
                     <property name="actionLabel" value="Update"/>
-                    <property name="actionScript" value="alert('click');"/>
+                    <property name="actionScript" value="ajaxSubmitForm('updatePreview', null, jQuery(this).data('submitdata'), null, null, null);"/>
                 </bean>
 
             </list>

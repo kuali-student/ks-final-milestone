@@ -74,11 +74,12 @@
                     </property>
                 </bean>
 
-                <bean id="KS-RuleView-Section" parent="Uif-VerticalBoxSection">
+                <bean id="KS-RuleView-Section" parent="KS-VerticalBoxSection">
+                    <property name="headerText" value="Prerequisite Rule"/>
                     <property name="items">
                         <list>
-                            <ref bean="Prerequisite-Rule-Section"/>
-                            <ref bean="Preview-Tree-Section"/>
+                            <ref bean="KS-RuleView-DateSection"/>
+                            <ref bean="KS-RuleView-PreviewSection"/>
                         </list>
                     </property>
                 </bean>
@@ -141,27 +142,11 @@
         </property>
     </bean>
 
-    <bean id="Prerequisite-Rule-Section"  parent="Uif-VerticalBoxSection">
+    <bean id="KS-RuleView-DateSection"  parent="KS-VerticalBoxSubSection">
+        <property name="headerText" value="Active Dates"/>
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSection" p:headerText="Rule" >
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ks-enrollment-home</value>
-                        </list>
-                    </property>
-                    <property name="header.rightGroup">
-                        <bean parent="Uif-HeaderRightGroup">
-                            <property name="items">
-                                <list>
-                                    <ref bean="KS-RulePreview-Links" />
-                                </list>
-                            </property>
 
-                        </bean>
-                    </property>
-
-                </bean>
                 <bean parent="Uif-InputField-LabelTop">
                     <property name="propertyName" value="activeSelections"/>
                     <property name="label" value="Activate / Deactivate Rule"/>
@@ -180,27 +165,44 @@
         </property>
         <property name="cssClasses">
             <list merge="true">
-                <value>rule-header</value>
+                <value>ks-rulesection-header</value>
             </list>
         </property>
     </bean>
 
-    <bean id="Preview-Tree-Section" parent="Uif-TreeSection">
-        <property name="instructionalText" value="Conditions that will restrict student enrollment, addressing restrictions to majors,
+    <bean id="KS-RuleView-PreviewSection" parent="KS-VerticalBoxSubSection">
+        <property name="headerText" value="Rule"/>
+        <property name="items">
+            <list>
+
+                <bean id="Preview-Tree-Section" parent="Uif-TreeSection">
+                    <property name="instructionalText" value="Conditions that will restrict student enrollment, addressing restrictions to majors,
                             locations, credit level requirements, etc. or courses, with or without grade requirements,
                             which a student must have completed in order to enroll."/>
-        <property name="propertyName" value="previewTree"/>
-        <property name="tree">
-            <bean parent="RuleTreeWidget"/>
-
+                    <property name="propertyName" value="previewTree"/>
+                    <property name="tree">
+                        <bean parent="RuleTreeWidget"/>
+                    </property>
+                    <property name="defaultNodePrototype">
+                        <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                            <property name="labelPrototype">
+                                <bean parent="Uif-Message"/>
+                            </property>
+                            <property name="dataGroupPrototype">
+                                <bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;"/>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
         </property>
-        <property name="defaultNodePrototype">
-            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
-                <property name="labelPrototype">
-                    <bean parent="Uif-Message"/>
-                </property>
-                <property name="dataGroupPrototype">
-                    <bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;"/>
+
+        <property name="header.rightGroup">
+            <bean parent="Uif-HeaderRightGroup">
+                <property name="items">
+                    <list>
+                        <ref bean="KS-RulePreview-Links" />
+                    </list>
                 </property>
             </bean>
         </property>
@@ -208,6 +210,30 @@
 
     <bean id="propositionGroup" parent="Uif-GridGroup">
         <property name="headerText" value="Rule"/>
+    </bean>
+
+    <bean id="KS-VerticalBoxSubSection"  parent="Uif-VerticalBoxSubSection">
+        <property name="header">
+            <bean parent="Uif-SubSectionHeader">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-rulesubsection</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-VerticalBoxSection"  parent="Uif-VerticalBoxSection">
+        <property name="header">
+            <bean parent="Uif-SectionHeader">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-rulesection</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
     </bean>
 
 </beans>

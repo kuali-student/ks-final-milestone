@@ -190,7 +190,7 @@ public class RuleEditor extends AgendaEditor {
                 Node<RuleEditorTreeNode, String> child = new Node<RuleEditorTreeNode, String>();
                 child.setNodeLabel(StringEscapeUtils.escapeHtml(prop.getDescription()));
                 if (prop.getEditMode()){
-                    child.setNodeLabel("Define Rule");
+                    child.setNodeLabel("");
                     child.setNodeType(SimpleStudentPropositionEditNode.NODE_TYPE);
                     SimpleStudentPropositionEditNode pNode = new SimpleStudentPropositionEditNode(propositionEditor);
                     child.setData(pNode);

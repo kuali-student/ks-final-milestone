@@ -1040,6 +1040,24 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
     }
 
+    @RequestMapping(params = "methodToCall=updatePreview")
+    public ModelAndView updatePreview(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
+        RuleEditor ruleEditor = getRuleEditor(form);
+
+        //Update the rule preview
+        ruleEditor.initPreviewTree();
+
+        //Reset the editing tree.
+        Node<RuleEditorTreeNode, String> root = ruleEditor.getPropositionTree().getRootElement();
+        resetEditModeOnPropositionTree(root);
+        ruleEditor.refreshPropositionTree(false);
+
+        return getUIFModelAndView(form);
+    }
+
     @RequestMapping(params = "methodToCall=updateProposition")
     public ModelAndView updateProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response)

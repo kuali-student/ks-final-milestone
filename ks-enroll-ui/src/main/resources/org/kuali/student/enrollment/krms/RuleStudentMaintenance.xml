@@ -131,7 +131,7 @@
                                   p:forceSessionPersistence="true"/-->
                             <bean parent="Uif-Message" p:messageText="Click on rule to edit" p:style="font-weight:bold;margin-left: 2em;"/>
                             <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
-                            <bean id="RuleStudentEditorView-Tree" parent="RuleStudentEditorView-Tree-parent"
+                            <bean id="RuleStudentEditorView-Tree" parent="KS-RulerEditor-TreeSection-parent"
                                   p:forceSessionPersistence="true"/>
                         </list>
                     </property>
@@ -360,9 +360,7 @@
         </property>
     </bean>
 
-    <bean id="Uif-Student-TreeSection" parent="Uif-TreeSection-parentBean"
-          class="org.kuali.rice.krad.uif.container.TreeGroup"/>
-    <bean id="RuleStudentEditorView-Tree-parent" parent="Uif-Student-TreeSection" p:disclosure.render="false"
+    <bean id="KS-RulerEditor-TreeSection-parent" parent="Uif-TreeSection" p:disclosure.render="false"
           p:header.render="false"
           p:style="float:left; margin-left: 2em;" p:forceSessionPersistence="true">
         <property name="propertyName" value="propositionTree"/>

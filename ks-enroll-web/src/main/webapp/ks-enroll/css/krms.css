@@ -84,6 +84,14 @@
     padding-bottom: 5px;
 }
 
+#RuleStudentEditorView-Tree .editModeNode {
+    border: 1px solid;
+    margin-bottom: 5px;
+    margin-left: 18px;
+    margin-right: 5px;
+    padding: 10px;
+}
+
 .rootNode {
     border-bottom: #000000 solid 2px;
 }
@@ -104,10 +112,21 @@
     width: 400px;
 }
 
-.rule-header {
-    max-width: 36em;
-}
-
 .rule-message {
 
+}
+
+.ks-rulesection {
+    border-bottom:solid 2px #000;
+    margin-bottom:5px;
+    margin-top:15px;
+    font-weight: bold;
+}
+
+.ks-rulesubsection {
+    border-bottom:solid 1px #000;
+    margin-bottom:5px;
+    margin-top:5px;
+    font-weight: bold;
+    max-width: 54em;
 }
