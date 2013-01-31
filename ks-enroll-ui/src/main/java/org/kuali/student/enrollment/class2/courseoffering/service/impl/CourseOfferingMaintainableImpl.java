@@ -59,14 +59,22 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
     private transient CourseService courseService;
 
     /**
-     * This method is being called by KRAD to populate grade roster level types drop down. There would be no reference
-     * for this method in the code as it has it's reference at the xml
+     * This method is being called by KRAD to populate grade roster level types drop down.
      *
-     * If this is being called from Create CO, <code>FormatOfferingCreateWrapper</code> would be the one available at the context
-     * For Edit CO, <code>FormatOfferingInfo</code> would be available at the context
+     * <p>
+     * In 'Create CO', we use a wrapper around <code>FormatOfferingInfo</code> to handle joint formats.
+     * In 'Edit CO', it's just <code>FormatOfferingInfo</code> at the collection
+     * </p>
+     *
+     * <p>There would be no reference for this method in the code as it has it's references at the following view xmls</p>
+     *      <ul>
+     *          <li>CourseOfferingCreateMaintenanceView.xml</li>
+     *          <li>CourseOfferingEditMaintenanceView.xml</li>
+     *      </ul>
      *
      * @param field grade roster level field
      * @param form maintenace form
+     * @see #populateFinalExamDriverTypes
      */
     @SuppressWarnings("unused")
     public void populateGradeRosterLevelTypes(InputField field, MaintenanceDocumentForm form){
@@ -79,7 +87,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
         CourseOfferingWrapper wrapper = (CourseOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
         CourseInfo courseInfo = wrapper.getCourse();
 
-        if (field.getContext().get(UifConstants.ContextVariableNames.LINE) instanceof FormatOfferingCreateWrapper) {
+        if (wrapper instanceof CourseOfferingCreateWrapper) {
             /**
              * If the call is from create co, then there are two places from where this method is being called. From the 'Add format' section
              * and from the format offering collections. For the 'add format' section, we're checking the property name to get the FO Wrapper
@@ -116,14 +124,22 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
     }
 
     /**
-     * This method is being called by KRAD to populate final exam driver types drop down. There would be no reference
-     * for this method in the code as it has it's reference at the xml
+     * This method is being called by KRAD to populate final exam driver types drop down.
      *
-     * If this is being called from Create CO, <code>FormatOfferingCreateWrapper</code> would be the one available at the context
-     * For Edit CO, <code>FormatOfferingInfo</code> would be available at the context
+     * <p>
+     * In 'Create CO', we use a wrapper around <code>FormatOfferingInfo</code> to handle joint formats.
+     * In 'Edit CO', it's just <code>FormatOfferingInfo</code> at the collection
+     * </p>
+     *
+     * <p>There would be no reference for this method in the code as it has it's references at the following view xmls</p>
+     *      <ul>
+     *          <li>CourseOfferingCreateMaintenanceView.xml</li>
+     *          <li>CourseOfferingEditMaintenanceView.xml</li>
+     *      </ul>
      *
      * @param field grade roster level field
      * @param form maintenace form
+     * @see #populateGradeRosterLevelTypes
      */
     @SuppressWarnings("unused")
     public void populateFinalExamDriverTypes(InputField field, MaintenanceDocumentForm form){
@@ -136,7 +152,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
         CourseOfferingWrapper wrapper = (CourseOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
         CourseInfo courseInfo = wrapper.getCourse();
 
-        if (field.getContext().get(UifConstants.ContextVariableNames.LINE) instanceof FormatOfferingCreateWrapper) {
+        if (wrapper instanceof CourseOfferingCreateWrapper) {
             /**
              * If the call is from create co, then there are two places from where this method is being called. From the 'Add format' section
              * and from the format offering collections. For the 'add format' section, we're checking the property name to get the FO Wrapper
