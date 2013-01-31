@@ -26,20 +26,33 @@ public class DegreeAuditConstants extends DegreeAuditServiceConstants {
     public static final String AUDIT_SUMMARY_VIEW = "degree_audits_list";
     public static final String TECHNICAL_PROBLEM = "myplan.text.error.technicalProblems";
     public static final String NO_SYSTEM_KEY="myplan.text.error.noSystemKey";
-    
+    public static final String DEGREE_AUDIT_INFO_SELECT_PROGRAM_BEFORE_SUBMIT = "myplan.text.warning.degree.audit.select.a.program";
     public static final String APPLICATION_URL="application.url";
+//
+//    public static final String AUDIT_FAILED_HTML =  "<div class=\"uif-validationMessages uif-groupValidationMessages uif-pageValidationMessages " +
+//                                                    "uif-pageValidationMessages-error\" style=\"\" data-messagesfor=\"degree_audit\"><h3 tabindex=\"0\" " +
+//                                                    "class=\"uif-pageValidationHeader\" id=\"pageValidationHeader\">" +
+//                                                    "<img class=\"uif-validationImage\" src=\"%s/krad/images/validation/error.png\" alt=\"Error\"> " +
+//                                                    "This page has 1 error</h3>" +
+//                                                    "<ul class=\"uif-validationMessagesList\" id=\"pageValidationList\" aria-labelledby=\"pageValidationHeader\">" +
+//                                                    "<li data-messageitemfor=\"select_programParam_for_campus_310\" class=\"uif-errorMessageItem\">" +
+//                                                    "Audit processing failed due to '%s'" +
+//                                                    "</li>" +
+//                                                    "</ul>" +
+//                                                    "<input name=\"script\" type=\"hidden\" data-role=\"script\" value=\"removeCookie();\"/></div>";
+
 
     public static final String AUDIT_FAILED_HTML =  "<div class=\"uif-validationMessages uif-groupValidationMessages uif-pageValidationMessages " +
-                                                    "uif-pageValidationMessages-error\" style=\"\" data-messagesfor=\"degree_audit\"><h3 tabindex=\"0\" " +
-                                                    "class=\"uif-pageValidationHeader\" id=\"pageValidationHeader\">" +
-                                                    "<img class=\"uif-validationImage\" src=\"%s/krad/images/validation/error.png\" alt=\"Error\"> " +
-                                                    "This page has 1 error</h3>" +
-                                                    "<ul class=\"uif-validationMessagesList\" id=\"pageValidationList\" aria-labelledby=\"pageValidationHeader\">" +
-                                                    "<li data-messageitemfor=\"select_programParam_for_campus_310\" class=\"uif-errorMessageItem\">" +
-                                                    "Audit processing failed due to '%s'" +
-                                                    "</li>" +
-                                                    "</ul>" +
-                                                    "<input name=\"script\" type=\"hidden\" data-role=\"script\" value=\"removeCookie();\"/></div>";
+            "uif-pageValidationMessages-error\" style=\"\" data-messagesfor=\"degree_audit\"><h3 tabindex=\"0\" " +
+            "class=\"uif-pageValidationHeader\" id=\"pageValidationHeader\">" +
+            "<img class=\"uif-validationImage\" src=\"%s/krad/images/validation/error.png\" alt=\"Error\"> " +
+            "This page has 1 error</h3>" +
+            "<ul class=\"uif-validationMessagesList\" id=\"pageValidationList\" aria-labelledby=\"pageValidationHeader\">" +
+            "<li data-messageitemfor=\"select_programParam\" class=\"uif-errorMessageItem\">" +
+            "Audit processing failed due to '%s'" +
+            "</li>" +
+            "</ul>" +
+            "<input name=\"script\" type=\"hidden\" data-role=\"script\" value=\"removeCookie();\"/></div>";
     public static final String IS_AUDIT_SERVICE_UP = "isAuditServiceRunning";
 
 

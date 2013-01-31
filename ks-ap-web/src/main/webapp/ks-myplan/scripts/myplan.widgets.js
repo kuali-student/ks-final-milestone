@@ -1003,40 +1003,43 @@ function removeCookie() {
 }
 
 function getAuditProgram(param) {
-    var id;
-    switch (parseFloat(jQuery("input[name='campusParam']:checked").val())) {
-        case 310:
-            id = 'select_programParam_for_campus_310_control';
-            break;
-        case 311:
-            id = 'select_programParam_for_campus_311_control';
-            break;
-        case 312:
-            id = 'select_programParam_for_campus_312_control';
-            break;
-        case 313:
-            id = 'select_programParam_for_campus_313_control';
-            break;
-        case 314:
-            id = 'select_programParam_for_campus_314_control';
-            break;
-        case 315:
-            id = 'select_programParam_for_campus_315_control';
-            break;
-        case 316:
-            id = 'select_programParam_for_campus_316_control';
-            break;
-        case 317:
-            id = 'select_programParam_for_campus_317_control';
-            break;
-        default:
-            id = null;
-    }
+    var id = 'select_programParam_control';
     if (param == 'id') {
         return jQuery('select#' + id).val();
     } else {
         return jQuery('select#' + id + ' option:selected').text();
     }
+
+//    var id;
+//    switch (parseFloat(jQuery("input[name='campusParam']:checked").val())) {
+//        case 310:
+//            id = 'select_programParam_for_campus_310_control';
+//            break;
+//        case 311:
+//            id = 'select_programParam_for_campus_311_control';
+//            break;
+//        case 312:
+//            id = 'select_programParam_for_campus_312_control';
+//            break;
+//        case 313:
+//            id = 'select_programParam_for_campus_313_control';
+//            break;
+//        case 314:
+//            id = 'select_programParam_for_campus_314_control';
+//            break;
+//        case 315:
+//            id = 'select_programParam_for_campus_315_control';
+//            break;
+//        case 316:
+//            id = 'select_programParam_for_campus_316_control';
+//            break;
+//        case 317:
+//            id = 'select_programParam_for_campus_317_control';
+//            break;
+//        default:
+//            id = null;
+//    }
+
 }
 
 function setPendingAudit(minutes) {

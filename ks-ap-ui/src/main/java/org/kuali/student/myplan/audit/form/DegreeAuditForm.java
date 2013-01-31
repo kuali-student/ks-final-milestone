@@ -6,19 +6,8 @@ import org.kuali.student.myplan.audit.service.DegreeAuditServiceConstants;
 public class DegreeAuditForm extends UifFormBase {
 
     private String auditHtml;
-    private String programParam_for_campus_310;
-    private String programParam_for_campus_311;
-    private String programParam_for_campus_312;
-    private String programParam_for_campus_313;
-    private String programParam_for_campus_314;
-    private String programParam_for_campus_315;
-    private String programParam_for_campus_316;
-    private String programParam_for_campus_317;
-
-    //private String programParamSeattle;
-//    private String programParamBothell;
-//    private String programParamTacoma;
     private String campusParam;
+    private String programParam;
     private String auditId;
     private String auditType = DegreeAuditServiceConstants.AUDIT_TYPE_KEY_DEFAULT;
 
@@ -33,68 +22,12 @@ public class DegreeAuditForm extends UifFormBase {
     private String selectYourCampus;
     private String someProgramsNotIncluded;
 
-    public String getProgramParam_for_campus_310() {
-        return programParam_for_campus_310;
+    public String getProgramParam() {
+        return programParam;
     }
 
-    public void setProgramParam_for_campus_310(String programParam_for_campus_310) {
-        this.programParam_for_campus_310 = programParam_for_campus_310;
-    }
-
-    public String getProgramParam_for_campus_311() {
-        return programParam_for_campus_311;
-    }
-
-    public void setProgramParam_for_campus_311(String programParam_for_campus_311) {
-        this.programParam_for_campus_311 = programParam_for_campus_311;
-    }
-
-    public String getProgramParam_for_campus_312() {
-        return programParam_for_campus_312;
-    }
-
-    public void setProgramParam_for_campus_312(String programParam_for_campus_312) {
-        this.programParam_for_campus_312 = programParam_for_campus_312;
-    }
-
-    public String getProgramParam_for_campus_313() {
-        return programParam_for_campus_313;
-    }
-
-    public void setProgramParam_for_campus_313(String programParam_for_campus_313) {
-        this.programParam_for_campus_313 = programParam_for_campus_313;
-    }
-
-    public String getProgramParam_for_campus_314() {
-        return programParam_for_campus_314;
-    }
-
-    public void setProgramParam_for_campus_314(String programParam_for_campus_314) {
-        this.programParam_for_campus_314 = programParam_for_campus_314;
-    }
-
-    public String getProgramParam_for_campus_315() {
-        return programParam_for_campus_315;
-    }
-
-    public void setProgramParam_for_campus_315(String programParam_for_campus_315) {
-        this.programParam_for_campus_315 = programParam_for_campus_315;
-    }
-
-    public String getProgramParam_for_campus_316() {
-        return programParam_for_campus_316;
-    }
-
-    public void setProgramParam_for_campus_316(String programParam_for_campus_316) {
-        this.programParam_for_campus_316 = programParam_for_campus_316;
-    }
-
-    public String getProgramParam_for_campus_317() {
-        return programParam_for_campus_317;
-    }
-
-    public void setProgramParam_for_campus_317(String programParam_for_campus_317) {
-        this.programParam_for_campus_317 = programParam_for_campus_317;
+    public void setProgramParam(String programParam) {
+        this.programParam = programParam;
     }
 
     public String getTheAuditFeatureDisabled() {

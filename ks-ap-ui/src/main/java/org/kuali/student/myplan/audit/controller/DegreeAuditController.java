@@ -186,34 +186,35 @@ public class DegreeAuditController extends UifControllerBase {
                             if (auditProgramInfo.getProgramTitle().equalsIgnoreCase(programParam)) {
                                 int campusPrefix = Integer.parseInt(auditProgramInfo.getProgramId().substring(0, 1));
                                 form.setCampusParam(campusMap.get(String.valueOf(campusPrefix)));
-                                switch (campusPrefix) {
-                                    case 0:
-                                        form.setProgramParam_for_campus_310(auditProgramInfo.getProgramId());
-                                        break;
-                                    case 1:
-                                        form.setProgramParam_for_campus_311(auditProgramInfo.getProgramId());
-                                        break;
-                                    case 2:
-                                        form.setProgramParam_for_campus_312(auditProgramInfo.getProgramId());
-                                        break;
-                                    case 3:
-                                        form.setProgramParam_for_campus_313(auditProgramInfo.getProgramId());
-                                        break;
-                                    case 4:
-                                        form.setProgramParam_for_campus_314(auditProgramInfo.getProgramId());
-                                        break;
-                                    case 5:
-                                        form.setProgramParam_for_campus_315(auditProgramInfo.getProgramId());
-                                        break;
-                                    case 6:
-                                        form.setProgramParam_for_campus_316(auditProgramInfo.getProgramId());
-                                        break;
-                                    case 7:
-                                        form.setProgramParam_for_campus_317(auditProgramInfo.getProgramId());
-                                        break;
-                                    default:
-                                        break;
-                                }
+                                form.setProgramParam(auditProgramInfo.getProgramId());
+//                                switch (campusPrefix) {
+//                                    case 0:
+//                                        form.setProgramParam_for_campus_310(auditProgramInfo.getProgramId());
+//                                        break;
+//                                    case 1:
+//                                        form.setProgramParam_for_campus_311(auditProgramInfo.getProgramId());
+//                                        break;
+//                                    case 2:
+//                                        form.setProgramParam_for_campus_312(auditProgramInfo.getProgramId());
+//                                        break;
+//                                    case 3:
+//                                        form.setProgramParam_for_campus_313(auditProgramInfo.getProgramId());
+//                                        break;
+//                                    case 4:
+//                                        form.setProgramParam_for_campus_314(auditProgramInfo.getProgramId());
+//                                        break;
+//                                    case 5:
+//                                        form.setProgramParam_for_campus_315(auditProgramInfo.getProgramId());
+//                                        break;
+//                                    case 6:
+//                                        form.setProgramParam_for_campus_316(auditProgramInfo.getProgramId());
+//                                        break;
+//                                    case 7:
+//                                        form.setProgramParam_for_campus_317(auditProgramInfo.getProgramId());
+//                                        break;
+//                                    default:
+//                                        break;
+//                                }
 
                                 break;
                             }
@@ -243,69 +244,74 @@ public class DegreeAuditController extends UifControllerBase {
             GlobalVariables.getMessageMap().putError("audit_report_section", PlanConstants.ERROR_KEY_ADVISER_ACCESS);
             return getUIFModelAndView(form);
         }
-        String auditID = null;
-        try {
-            Person user = GlobalVariables.getUserSession().getPerson();
-//            String studentId = user.getPrincipalId();
-//            String systemKey = UserSessionHelper.getAuditSystemKey();
-            String regid = UserSessionHelper.getStudentId();
-            if (StringUtils.hasText(regid)) {
-                DegreeAuditService degreeAuditService = getDegreeAuditService();
-                String programId = null;
-                if ("310".equals(form.getCampusParam())) {
-                    programId = form.getProgramParam_for_campus_310();
-                } else if ("311".equals(form.getCampusParam())) {
-                    programId = form.getProgramParam_for_campus_311();
-                } else if ("312".equals(form.getCampusParam())) {
-                    programId = form.getProgramParam_for_campus_312();
-                } else if ("313".equals(form.getCampusParam())) {
-                    programId = form.getProgramParam_for_campus_313();
-                } else if ("314".equals(form.getCampusParam())) {
-                    programId = form.getProgramParam_for_campus_314();
-                } else if ("315".equals(form.getCampusParam())) {
-                    programId = form.getProgramParam_for_campus_315();
-                } else if ("316".equals(form.getCampusParam())) {
-                    programId = form.getProgramParam_for_campus_316();
-                } else if ("317".equals(form.getCampusParam())) {
-                    programId = form.getProgramParam_for_campus_317();
-                }
-                if (!programId.equalsIgnoreCase(DegreeAuditConstants.DEFAULT_KEY)) {
-                    ContextInfo context = new ContextInfo();
-                    AuditReportInfo report = degreeAuditService.runAudit(regid, programId, form.getAuditType(), context);
-                    auditID = report.getAuditId();
-                    // TODO: For now we are getting the auditType from the end user. This needs to be remvoed before going live and hard coded to audit type key html
-                    AuditReportInfo auditReportInfo = degreeAuditService.getAuditReport(auditID, form.getAuditType(), context);
-                    InputStream in = auditReportInfo.getReport().getDataSource().getInputStream();
-                    StringWriter sw = new StringWriter();
+        String programParam = form.getProgramParam();
+        if ((programParam != null) && (!programParam.isEmpty())) {
+            String auditID = null;
+            try {
+                Person user = GlobalVariables.getUserSession().getPerson();
+    //            String studentId = user.getPrincipalId();
+    //            String systemKey = UserSessionHelper.getAuditSystemKey();
+                String regid = UserSessionHelper.getStudentId();
+                if (StringUtils.hasText(regid)) {
+                    DegreeAuditService degreeAuditService = getDegreeAuditService();
+                    String programId = form.getProgramParam();
+    //                if ("310".equals(form.getCampusParam())) {
+    //                    programId = form.getProgramParam_for_campus_310();
+    //                } else if ("311".equals(form.getCampusParam())) {
+    //                    programId = form.getProgramParam_for_campus_311();
+    //                } else if ("312".equals(form.getCampusParam())) {
+    //                    programId = form.getProgramParam_for_campus_312();
+    //                } else if ("313".equals(form.getCampusParam())) {
+    //                    programId = form.getProgramParam_for_campus_313();
+    //                } else if ("314".equals(form.getCampusParam())) {
+    //                    programId = form.getProgramParam_for_campus_314();
+    //                } else if ("315".equals(form.getCampusParam())) {
+    //                    programId = form.getProgramParam_for_campus_315();
+    //                } else if ("316".equals(form.getCampusParam())) {
+    //                    programId = form.getProgramParam_for_campus_316();
+    //                } else if ("317".equals(form.getCampusParam())) {
+    //                    programId = form.getProgramParam_for_campus_317();
+    //                }
+                    if (!programId.equalsIgnoreCase(DegreeAuditConstants.DEFAULT_KEY)) {
+                        ContextInfo context = new ContextInfo();
+                        AuditReportInfo report = degreeAuditService.runAudit(regid, programId, form.getAuditType(), context);
+                        auditID = report.getAuditId();
+                        // TODO: For now we are getting the auditType from the end user. This needs to be remvoed before going live and hard coded to audit type key html
+                        AuditReportInfo auditReportInfo = degreeAuditService.getAuditReport(auditID, form.getAuditType(), context);
+                        InputStream in = auditReportInfo.getReport().getDataSource().getInputStream();
+                        StringWriter sw = new StringWriter();
 
-                    int c = 0;
-                    while ((c = in.read()) != -1) {
-                        sw.append((char) c);
+                        int c = 0;
+                        while ((c = in.read()) != -1) {
+                            sw.append((char) c);
+                        }
+
+                        String html = sw.toString();
+                        String preparedFor = user.getLastName() + ", " + user.getFirstName();
+                        html = html.replace("$$PreparedFor$$", preparedFor);
+                        form.setAuditHtml(html);
+                    } else {
+                        String[] params = {};
+                        GlobalVariables.getMessageMap().putError("programParam_for_campus_310", DegreeAuditConstants.AUDIT_RUN_FAILED, params);
+                        form.setAuditHtml(String.format(DegreeAuditConstants.AUDIT_FAILED_HTML, ConfigContext.getCurrentContextConfig().getProperty(DegreeAuditConstants.APPLICATION_URL)));
                     }
-
-                    String html = sw.toString();
-                    String preparedFor = user.getLastName() + ", " + user.getFirstName();
-                    html = html.replace("$$PreparedFor$$", preparedFor);
-                    form.setAuditHtml(html);
-                } else {
-                    String[] params = {};
-                    GlobalVariables.getMessageMap().putError("programParam_for_campus_310", DegreeAuditConstants.AUDIT_RUN_FAILED, params);
-                    form.setAuditHtml(String.format(DegreeAuditConstants.AUDIT_FAILED_HTML, ConfigContext.getCurrentContextConfig().getProperty(DegreeAuditConstants.APPLICATION_URL)));
                 }
+
+            } catch (DataRetrievalFailureException e) {
+                String[] params = {};
+                form.setCampusParam("310");
+                GlobalVariables.getMessageMap().putError("programParam_for_campus_310", DegreeAuditConstants.NO_SYSTEM_KEY, params);
+
+            } catch (Exception e) {
+                logger.error("Could not complete audit run");
+                String[] params = {};
+                GlobalVariables.getMessageMap().putError("programParam_for_campus_310", DegreeAuditConstants.AUDIT_RUN_FAILED, params);
+                String errorMessage = getErrorMessageFromXml(e.getCause().getMessage());
+                String html = String.format(DegreeAuditConstants.AUDIT_FAILED_HTML, ConfigContext.getCurrentContextConfig().getProperty(DegreeAuditConstants.APPLICATION_URL), errorMessage);
+                form.setAuditHtml(html);
             }
-
-        } catch (DataRetrievalFailureException e) {
-            String[] params = {};
-            form.setCampusParam("310");
-            GlobalVariables.getMessageMap().putError("programParam_for_campus_310", DegreeAuditConstants.NO_SYSTEM_KEY, params);
-
-        } catch (Exception e) {
-            logger.error("Could not complete audit run");
-            String[] params = {};
-            GlobalVariables.getMessageMap().putError("programParam_for_campus_310", DegreeAuditConstants.AUDIT_RUN_FAILED, params);
-            String errorMessage = getErrorMessageFromXml(e.getCause().getMessage());
-            String html = String.format(DegreeAuditConstants.AUDIT_FAILED_HTML, ConfigContext.getCurrentContextConfig().getProperty(DegreeAuditConstants.APPLICATION_URL), errorMessage);
-            form.setAuditHtml(html);
+        }else{
+            GlobalVariables.getMessageMap().addGrowlMessage("", DegreeAuditConstants.DEGREE_AUDIT_INFO_SELECT_PROGRAM_BEFORE_SUBMIT);
         }
         return getUIFModelAndView(form);
     }
