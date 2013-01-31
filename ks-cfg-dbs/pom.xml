@@ -56,15 +56,16 @@
         <sql.meta.input.base>${project.basedir}/src/main/resources</sql.meta.input.base>
 
         <!-- Settings needed for separate executions of the meta-inf plugin -->
-        <sql.schema.include.oracle>impex/sql/oracle/${project.artifactId}.sql</sql.schema.include.oracle>
-        <sql.data.include.oracle>impex/sql/oracle/K*.sql</sql.data.include.oracle>
-        <sql.constraints.include.oracle>impex/sql/oracle/${project.artifactId}-constraints.sql</sql.constraints.include.oracle>
-        <sql.meta.output.base.oracle>${project.build.outputDirectory}/META-INF/sql/oracle/${project.artifactId}</sql.meta.output.base.oracle>
+        <metainf.schema.oracle>impex/sql/oracle/${project.artifactId}.sql</metainf.schema.oracle>
+        <metainf.data.oracle>impex/sql/oracle/K*.sql</metainf.data.oracle>
+        <metainf.constraints.oracle>impex/sql/oracle/${project.artifactId}-constraints.sql</metainf.constraints.oracle>
+        <metainf.schema.mysql>impex/sql/mysql/${project.artifactId}.sql</metainf.schema.mysql>
+        <metainf.data.mysql>impex/sql/mysql/K*.sql</metainf.data.mysql>
+        <metainf.constraints.mysql>impex/sql/mysql/${project.artifactId}-constraints.sql</metainf.constraints.mysql>
+        <!-- Base of output path for meta-inf files -->
+        <metainf.output.oracle>${project.build.outputDirectory}/META-INF/sql/oracle/${project.artifactId}</metainf.output.oracle>
+        <metainf.output.mysql>${project.build.outputDirectory}/META-INF/sql/mysql/${project.artifactId}</metainf.output.mysql>
 
-        <sql.schema.include.mysql>impex/sql/mysql/${project.artifactId}.sql</sql.schema.include.mysql>
-        <sql.data.include.mysql>impex/sql/mysql/K*.sql</sql.data.include.mysql>
-        <sql.constraints.include.mysql>impex/sql/mysql/${project.artifactId}-constraints.sql</sql.constraints.include.mysql>
-        <sql.meta.output.base.mysql>${project.build.outputDirectory}/META-INF/sql/mysql/${project.artifactId}</sql.meta.output.base.mysql>
         <spring.context.location>classpath:org/kuali/common/deploy/spring/db-developer-context.xml</spring.context.location>
     </properties>
     <build>
@@ -241,8 +242,8 @@
                                 <goal>metainf</goal>
                             </goals>
                             <configuration>
-                                <include>${sql.schema.include.oracle}</include>
-                                <outputFile>${sql.meta.output.base.oracle}-schema.resources</outputFile>
+                                <include>${metainf.schema.oracle}</include>
+                                <outputFile>${metainf.output.oracle}-schema.resources</outputFile>
                             </configuration>
                         </execution>
                         <execution>
@@ -251,8 +252,8 @@
                                 <goal>metainf</goal>
                             </goals>
                             <configuration>
-                                <include>${sql.data.include.oracle}</include>
-                                <outputFile>${sql.meta.output.base.oracle}-data.resources</outputFile>
+                                <include>${metainf.data.oracle}</include>
+                                <outputFile>${metainf.output.oracle}-data.resources</outputFile>
                             </configuration>
                         </execution>
                         <execution>
@@ -261,8 +262,8 @@
                                 <goal>metainf</goal>
                             </goals>
                             <configuration>
-                                <include>${sql.constraints.include.oracle}</include>
-                                <outputFile>${sql.meta.output.base.oracle}-constraints.resources</outputFile>
+                                <include>${metainf.constraints.oracle}</include>
+                                <outputFile>${metainf.output.oracle}-constraints.resources</outputFile>
                             </configuration>
                         </execution>
 
@@ -272,8 +273,8 @@
                                 <goal>metainf</goal>
                             </goals>
                             <configuration>
-                                <include>${sql.schema.include.mysql}</include>
-                                <outputFile>${sql.meta.output.base.mysql}-schema.resources</outputFile>
+                                <include>${metainf.schema.mysql}</include>
+                                <outputFile>${metainf.output.mysql}-schema.resources</outputFile>
                             </configuration>
                         </execution>
                         <execution>
@@ -282,8 +283,8 @@
                                 <goal>metainf</goal>
                             </goals>
                             <configuration>
-                                <include>${sql.data.include.mysql}</include>
-                                <outputFile>${sql.meta.output.base.mysql}-data.resources</outputFile>
+                                <include>${metainf.data.mysql}</include>
+                                <outputFile>${metainf.output.mysql}-data.resources</outputFile>
                             </configuration>
                         </execution>
                         <execution>
@@ -292,8 +293,8 @@
                                 <goal>metainf</goal>
                             </goals>
                             <configuration>
-                                <include>${sql.constraints.include.mysql}</include>
-                                <outputFile>${sql.meta.output.base.mysql}-constraints.resources</outputFile>
+                                <include>${metainf.constraints.mysql}</include>
+                                <outputFile>${metainf.output.mysql}-constraints.resources</outputFile>
                             </configuration>
                         </execution>
                     </executions>

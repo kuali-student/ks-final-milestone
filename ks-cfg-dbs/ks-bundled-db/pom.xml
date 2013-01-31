@@ -42,6 +42,17 @@
             </build>
         </profile>
         <profile>
+            <id>meta-inf</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.kuali.maven.plugins</groupId>
+                        <artifactId>metainf-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <!-- This profile builds the source database for impex from all developer Oracle sql files -->
             <id>materialize-db</id>
             <properties>
