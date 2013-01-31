@@ -63,7 +63,7 @@ import static org.junit.Assert.assertNotNull;
  * 
  * We can also go behind and check out the resultant database content for consistency.
  * 
- * @author ocleirig
+ * @author Kuali Student Team
  *
  */
 public class TestLprServiceTransactionallyImpl {
@@ -79,7 +79,7 @@ public class TestLprServiceTransactionallyImpl {
 		this.lprService = lprService;
 	}
 
-	@Resource
+	@Resource(name="LprService")
 	private LprService lprService;
 
 	@Resource
