@@ -89,7 +89,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                         crossListingInfo.setDepartmentOrgId(crossInfo.getDepartment());
                         crossListingInfo.setSubjectArea(crossInfo.getSubjectArea());
                         crossListingInfo.setId(crossInfo.getId());
-                        crossListingInfo.setStateKey(crossInfo.getStateKey());
+                        crossListingInfo.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
                         crossListingInfo.setTypeKey(crossInfo.getTypeKey());
                         coInfo.getCrossListings().add(crossListingInfo);
                     }

@@ -43,11 +43,12 @@ public class populateCrossCourseListKeyValues extends UifKeyValuesFinderBase imp
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         CourseInfo courseOffering = wrapper.getCourse();
 
-
         if (courseOffering != null && courseOffering.getCrossListings() != null && courseOffering.getCrossListings().size() > 0) {
             // Always include an option for Course
             for (CourseCrossListingInfo courseInfo : courseOffering.getCrossListings()) {
-                keyValues.add(new ConcreteKeyValue(courseInfo.getId(), courseInfo.getCode()));
+                if(courseInfo.getCode() != null)   {
+                    keyValues.add(new ConcreteKeyValue(courseInfo.getId(), courseInfo.getCode()));
+                }
             }
         }
         return keyValues;
