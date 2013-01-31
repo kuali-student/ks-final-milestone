@@ -224,7 +224,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="markCourseForJointOffering" p:actionLabel="@{!#lp.selectedToJointlyOfferred ? 'Create New' : 'Deselect'}" p:render="@{!#lp.alreadyOffered}"/>
+                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="markCourseForJointOffering" p:performClientSideValidation="false" p:actionLabel="@{!#lp.selectedToJointlyOfferred ? 'Create New' : 'Deselect'}" p:render="@{!#lp.alreadyOffered}"/>
             </list>
         </property>
     </bean>
@@ -234,70 +234,136 @@
         <property name="headerText" value="Add Delivery Formats and Activities" />
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="Changes made below will create delivery formats for: @{#dp.jointCourseCodes}" p:render="@{#dp.showJointOption}" p:style="background-color:#C8E4F7;font-weight:bold; padding-top:10px; padding-bottom:10px; padding-left:10px;"/>
+                <bean parent="Uif-MessageField" p:messageText="Changes made below will create delivery formats for: [b]@{#dp.jointCourseCodes}[/b]" p:render="@{#dp.showJointOption}" p:style="background-color:#C8E4F7; padding-top:10px; padding-bottom:10px; padding-left:10px;"/>
+                <bean parent="Uif-VerticalBoxSection" p:style="background-color:#f3f3f3; padding-top:10px; padding-bottom:10px; padding-left:10px; ">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean id="showCreateFormatLink" parent="Uif-ActionLink" p:methodToCall="showCreateFormatSection" p:style="font-weight:bold;" p:actionLabel="Add Formats" p:render="@{#dp.showJointOption and !#dp.showCreateFormatSection}"/>
+                                        <bean id="hideCreateFormatLink" parent="Uif-Message" p:messageText="Add Formats" p:style="font-weight:bold;" p:render="@{#dp.showJointOption and #dp.showCreateFormatSection}"/>
+                                        <bean parent="Uif-Message" p:messageText="  |  " p:style="font-weight:bold;" p:render="@{#dp.showJointOption}"/>
+                                        <bean id="showCopyFormatLink" parent="Uif-ActionLink" p:methodToCall="showCopyFromJointOffering" p:style="font-weight:bold;" p:actionLabel="Copy from Joint Offering" p:render="@{#dp.showJointOption and !#dp.showCopyFormatSection}"/>
+                                        <bean id="hideCopyFormatLink" parent="Uif-Message" p:messageText="Copy from Joint Offering" p:style="font-weight:bold;" p:render="@{#dp.showJointOption and #dp.showCopyFormatSection}"/>
+                                    </list>
+                                </property>
+                            </bean>
+                            <ref bean="KS-CreateFormatOffering"/>
+                            <ref bean="KS-copyFormatOffering-Section"/>
+                            <bean parent="Uif-PrimaryActionButton" p:methodToCall="addLine" p:actionLabel="Add" p:performClientSideValidation="true" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
+                                  p:onClickScript="writeHiddenToForm(&quot;actionParameters[actionType]&quot;, &quot;addLine&quot;);
+                                  writeHiddenToForm(&quot;actionParameters[actionEvent]&quot;, &quot;addLine&quot;);
+                                  writeHiddenToForm(&quot;actionParameters[selectedCollectionPath]&quot;, &quot;document.newMaintainableObject.dataObject.formatOfferingWrappers&quot;);"/>
+                        </list>
+                    </property>
+                </bean>
                 <ref bean="Added-Delivery-Formats-And-Activity-List-Section"/>
             </list>
         </property>
     </bean>
 
     <!--This will be displayed for Copy from Catalog action-->
-    <bean id="Added-Delivery-Formats-And-Activity-List-Section" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false"
-          p:layoutManager.renderSequenceField="false">
+    <bean id="Added-Delivery-Formats-And-Activity-List-Section" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:renderAddLine="false"
+          p:layoutManager.renderSequenceField="false" p:render="@{#dp.showCreateFormatSection}">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingCreateWrapper" />
         <property name="propertyName" value="formatOfferingWrappers" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
         <property name="layoutManager.richTable.render" value="false" />
-        <property name="layoutManager.separateAddLine" value="true"/>
-        <property name="addLineLabel.labelText" value=""/>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="deleteLine" p:ajaxSubmit="false" p:actionLabel="Delete" p:performClientSideValidation="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
+                                      p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);
+                                      writeHiddenToForm(&quot;actionParameters[selectedCollectionPath]&quot;, &quot;document.newMaintainableObject.dataObject.formatOfferingWrappers&quot;);"/>
+            </list>
+        </property>
         <property name="items">
             <list>
                  <bean parent="Uif-DataField" p:label="CODE" p:propertyName="courseCode"/>
                  <bean parent="Uif-DataField" p:propertyName="activitesUI"  p:readOnly="true" p:label="FORMAT"/>
                  <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.gradeRosterLevelTypeKey"
-                      p:label="GRADE ROSTER LEVEL" p:required="true" p:labelPlacement="TOP"  p:finalizeMethodToCall="populateGradeRosterLevelTypes">
+                      p:label="GRADE ROSTER LEVEL" p:required="true" p:labelPlacement="TOP" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
-                    </property>
-
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey"
-                      p:label="FINAL EXAM DRIVER ACTIVITY" p:required="true" p:labelPlacement="TOP"  p:finalizeMethodToCall="populateFinalExamDriverTypes">
+                      p:label="FINAL EXAM DRIVER ACTIVITY" p:required="true" p:labelPlacement="TOP" p:finalizeMethodToCall="populateFinalExamDriverTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
-                    </property>
-
                 </bean>
-
             </list>
         </property>
-        <property name="addLineItems">
+    </bean>
+
+    <bean id="KS-copyFormatOffering-Section" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:renderAddLine="false"
+              p:layoutManager.renderSequenceField="false" p:renderLineActions="false" p:render="@{#dp.showCopyFormatSection}">
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingCreateWrapper" />
+        <property name="propertyName" value="copyFromFormats" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="true" />
+        <property name="layoutManager.richTable.render" value="false" />
+        <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="formatOfferingInfo.formatId"  p:required="true"  p:label="FORMAT" p:forceSessionPersistence="true">
+                 <bean parent="Uif-DataField" p:label="CODE" p:propertyName="courseCode"/>
+                 <bean parent="Uif-DataField" p:propertyName="activitesUI"  p:readOnly="true" p:label="FORMAT"/>
+                 <bean parent="Uif-InputField" p:propertyName="gradeRosterLevelTypeKey"  p:readOnly="true" p:label="GRADE ROSTER LEVEL" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
+                    </property>
+                 </bean>
+                 <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey"  p:readOnly="true" p:label="FINAL EXAM DRIVER ACTIVITY" p:finalizeMethodToCall="populateFinalExamDriverTypes">
+                     <property name="control">
+                         <bean parent="Uif-DropdownControl"/>
+                     </property>
+                 </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CreateFormatOffering" parent="Uif-HorizontalBoxSection" p:render="@{#dp.showCreateFormatSection}">
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.formatId"  p:required="true"  p:label="FORMAT" p:forceSessionPersistence="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="cssClasses">
+                              <list merge="true">
+                                <value>ignoreValid</value>
+                              </list>
+                            </property>
+                        </bean>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatOfferingTypeForCreateCOTypeKeyValues" p:addBlankOption="false"/>
                     </property>
                 </bean>
 
-                 <bean parent="Uif-InputField-LabelTop" p:propertyName="gradeRosterLevelTypeKey" p:refreshWhenChangedPropertyNames="#lp.formatOfferingInfo.formatId" p:forceSessionPersistence="true"
+                 <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.gradeRosterLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
                       p:label="GRADE ROSTER LEVEL" p:required="true" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
+                        <bean parent="Uif-DropdownControl">
+                            <property name="cssClasses">
+                              <list merge="true">
+                                <value>ignoreValid</value>
+                              </list>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#lp.formatOfferingInfo.formatId" p:forceSessionPersistence="true"
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
                       p:label="FINAL EXAM DRIVER ACTIVITY" p:required="true" p:finalizeMethodToCall="populateFinalExamDriverTypes">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
+                        <bean parent="Uif-DropdownControl">
+                            <property name="cssClasses">
+                              <list merge="true">
+                                <value>ignoreValid</value>
+                              </list>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
 
@@ -305,6 +371,54 @@
         </property>
     </bean>
 
+    <!--<bean id="KS-copyFormatOffering" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:renderAddLine="false"
+              p:layoutManager.renderSequenceField="false">
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField-LabelTop" p:id="addLineFormatWrapper.formatId" p:propertyName="addLineFormatWrapper.formatId"  p:required="true"  p:label="FORMAT" p:forceSessionPersistence="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="cssClasses">
+                              <list merge="true">
+                                <value>ignoreValid</value>
+                              </list>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatOfferingTypeForCreateCOTypeKeyValues" p:addBlankOption="false"/>
+                    </property>
+                </bean>
+
+                 <bean parent="Uif-InputField-LabelTop" p:id="addLineFormatWrapper.gradeRosterLevelTypeKey" p:propertyName="addLineFormatWrapper.gradeRosterLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
+                      p:label="GRADE ROSTER LEVEL" p:required="true" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="cssClasses">
+                              <list merge="true">
+                                <value>ignoreValid</value>
+                              </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField-LabelTop" p:id="addLineFormatWrapper.finalExamLevelTypeKey" p:propertyName="addLineFormatWrapper.finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
+                      p:label="FINAL EXAM DRIVER ACTIVITY" p:required="true" p:finalizeMethodToCall="populateFinalExamDriverTypes">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="cssClasses">
+                              <list merge="true">
+                                <value>ignoreValid</value>
+                              </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>-->
 
     <!-- This is used to display a list of existing offerings in the current section. This will be displayed for Copy from Catalog action-->
     <bean id="KS-Catalog-ExistingOfferingsSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:readOnly="true">

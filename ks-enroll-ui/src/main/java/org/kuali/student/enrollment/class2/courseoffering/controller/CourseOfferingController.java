@@ -298,6 +298,28 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
+    @RequestMapping(params = "methodToCall=showCreateFormatSection")
+    public ModelAndView showCreateFormatSection(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
+                                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+
+        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        wrapper.setShowCreateFormatSection(true);
+        wrapper.setShowCopyFormatSection(false);
+
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=showCopyFromJointOffering")
+    public ModelAndView showCopyFromJointOffering(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
+                                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+
+        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        wrapper.setShowCreateFormatSection(false);
+        wrapper.setShowCopyFormatSection(true);
+
+        return getUIFModelAndView(form);
+    }
+
     /**
      * This will be called whenever the user selects/deselects a joint course. If user deselects a joint course, make sure
      * it doesnt have associated formats. If exists, display a confirmation dialog with all the available formats.

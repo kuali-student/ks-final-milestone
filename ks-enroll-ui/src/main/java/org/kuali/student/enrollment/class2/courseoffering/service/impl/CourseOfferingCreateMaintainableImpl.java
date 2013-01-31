@@ -240,6 +240,18 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                 LOG.debug("For the joint course " + jointCourse.getCode() + ", it already has the offerings created.");
                 jointCreateWrapper.setAlreadyOffered(true);
             }
+
+            for (CourseOfferingInfo co : cos) {
+                List<FormatOfferingInfo> formatOfferings = getCourseOfferingService().getFormatOfferingsByCourseOffering(co.getId(),contextInfo);
+                for (FormatOfferingInfo formatOffering : formatOfferings) {
+                    FormatOfferingCreateWrapper foWrapper = new FormatOfferingCreateWrapper();
+                    foWrapper.setCourseCode(co.getCourseOfferingCode());
+                    foWrapper.setFormatOfferingInfo(formatOffering);
+                    CourseInfo courseInfo = getCourseService().getCourse(co.getCourseId(),contextInfo);
+                    foWrapper.setActivitesUI(getActivityTypeNames(courseInfo,formatOffering.getFormatId()));
+                    wrapper.getCopyFromFormats().add(foWrapper);
+                }
+            }
             wrapper.getJointCourses().add(jointCreateWrapper);
         }
 
@@ -257,21 +269,23 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
     @Override
     public void processCollectionAddLine(View view, Object model, String collectionPath) {
         // get the collection group from the view
-        CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(collectionPath);
+        /*CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(collectionPath);
         if (collectionGroup == null) {
             logAndThrowRuntime("Unable to get collection group component for path: " + collectionPath);
-        }
-
-        // now get the new line we need to add
-        String addLinePath = collectionGroup.getAddLineBindingInfo().getBindingPath();
-        FormatOfferingCreateWrapper addLine = (FormatOfferingCreateWrapper)ObjectPropertyUtils.getPropertyValue(model, addLinePath);
-
-        FormatOfferingCreateWrapper formatOfferingWrapper = (FormatOfferingCreateWrapper)ObjectPropertyUtils.getPropertyValue(model, addLinePath);
-        if (formatOfferingWrapper == null) {
-            logAndThrowRuntime("Add line instance not found for path: " + addLinePath);
-        }
+        }*/
 
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)((MaintenanceDocumentForm)model).getDocument().getNewMaintainableObject().getDataObject();
+
+        // now get the new line we need to add
+//        String addLinePath = collectionGroup.getAddLineBindingInfo().getBindingPath();
+//        FormatOfferingCreateWrapper addLine = (FormatOfferingCreateWrapper)ObjectPropertyUtils.getPropertyValue(model, addLinePath);
+        FormatOfferingCreateWrapper addLine = wrapper.getAddLineFormatWrapper();
+
+       /* FormatOfferingCreateWrapper formatOfferingWrapper = (FormatOfferingCreateWrapper)ObjectPropertyUtils.getPropertyValue(model, addLinePath);
+        if (formatOfferingWrapper == null) {
+            logAndThrowRuntime("Add line instance not found for path: " + addLinePath);
+        }*/
+
         FormatInfo formatToBeAdded = getMatchingFormatInfo(wrapper.getCourse(), addLine.getFormatId());
 
         for (CourseJointCreateWrapper joint : wrapper.getJointCourses()){
@@ -280,8 +294,8 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                 foForJoint.setJointOffering(true);
                 foForJoint.setJointCreateWrapper(joint);
                 foForJoint.setCourseCode(joint.getCourseCode());
-                foForJoint.setFinalExamLevelTypeKey(formatOfferingWrapper.getFinalExamLevelTypeKey());
-                foForJoint.setGradeRosterLevelTypeKey(formatOfferingWrapper.getGradeRosterLevelTypeKey());
+                foForJoint.setFinalExamLevelTypeKey(addLine.getFinalExamLevelTypeKey());
+                foForJoint.setGradeRosterLevelTypeKey(addLine.getGradeRosterLevelTypeKey());
 
                 //Look for a matching format at the joint course
                 FormatInfo formatInfo = getRelatedJointFormatInfo(formatToBeAdded,joint.getCourseInfo());
@@ -299,9 +313,10 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         addLine.setActivitesUI(getActivityTypeNames(wrapper.getCourse(), addLine.getFormatId()));
         addLine.setCourseCode(wrapper.getCourse().getCode());
         wrapper.getFormatOfferingWrappers().add(0,addLine);
+        wrapper.setAddLineFormatWrapper(new FormatOfferingCreateWrapper());
 
         //Make a new instance for the add line
-        collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
+//        collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
     }
 
     /**

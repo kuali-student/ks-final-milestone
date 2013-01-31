@@ -79,7 +79,10 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
         CourseInfo courseInfo;
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
-        if (field.getContext().get(UifConstants.ContextVariableNames.LINE) instanceof FormatOfferingCreateWrapper) {
+        if (StringUtils.equals(field.getPropertyName(),"addLineFormatWrapper.gradeRosterLevelTypeKey")){
+            formatOfferingInfo = wrapper.getAddLineFormatWrapper().getFormatOfferingInfo();
+            courseInfo = wrapper.getCourse();
+        } else if (field.getContext().get(UifConstants.ContextVariableNames.LINE) instanceof FormatOfferingCreateWrapper) {
             FormatOfferingCreateWrapper foWrapper = (FormatOfferingCreateWrapper)field.getContext().get(UifConstants.ContextVariableNames.LINE);
             formatOfferingInfo = foWrapper.getFormatOfferingInfo();
             if (foWrapper.isJointOffering()){
@@ -96,7 +99,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
 
         List<KeyValue> gradeKeyValues = new ArrayList<KeyValue>();
 
-        if (StringUtils.isNotBlank(formatOfferingInfo.getFormatId())){
+        if (StringUtils.isNotBlank(formatOfferingInfo.getFormatId()) && courseInfo != null){
             // Always include an option for Course
             gradeKeyValues.add(new ConcreteKeyValue(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, CourseOfferingConstants.FORMAT_OFFERING_GRADE_ROSTER_LEVEL_COURSE_DISPLAY));
             gradeKeyValues.addAll(collectActivityTypeKeyValues(courseInfo, formatOfferingInfo.getFormatId(), getTypeService(), ContextUtils.createDefaultContextInfo()));
@@ -130,7 +133,10 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
         CourseInfo courseInfo;
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
-        if (field.getContext().get(UifConstants.ContextVariableNames.LINE) instanceof FormatOfferingCreateWrapper) {
+        if (StringUtils.equals(field.getPropertyName(),"addLineFormatWrapper.finalExamLevelTypeKey")){
+            formatOfferingInfo = wrapper.getAddLineFormatWrapper().getFormatOfferingInfo();
+            courseInfo = wrapper.getCourse();
+        } else if (field.getContext().get(UifConstants.ContextVariableNames.LINE) instanceof FormatOfferingCreateWrapper) {
             FormatOfferingCreateWrapper foWrapper = (FormatOfferingCreateWrapper)field.getContext().get(UifConstants.ContextVariableNames.LINE);
             formatOfferingInfo = foWrapper.getFormatOfferingInfo();
             if (foWrapper.isJointOffering()){
@@ -147,7 +153,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        if (StringUtils.isNotBlank(formatOfferingInfo.getFormatId())){
+        if (StringUtils.isNotBlank(formatOfferingInfo.getFormatId()) && courseInfo != null){
             keyValues.addAll(collectActivityTypeKeyValues(courseInfo, formatOfferingInfo.getFormatId(), getTypeService(), ContextUtils.createDefaultContextInfo()));
             control.setDisabled(false);
         } else {

@@ -60,6 +60,11 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     private boolean showJointOption;
     private String jointCourseCodes;
 
+    private FormatOfferingCreateWrapper addLineFormatWrapper;
+    private boolean showCreateFormatSection;
+    private boolean showCopyFormatSection;
+    private List<FormatOfferingCreateWrapper> copyFromFormats;
+
     public CourseOfferingCreateWrapper(){
         super();
         showTermOfferingLink = true;
@@ -70,6 +75,9 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         jointCourses = new ArrayList<CourseJointCreateWrapper>();
         showJointOption = false;
         crossListedCo = false;
+        addLineFormatWrapper = new FormatOfferingCreateWrapper();
+        copyFromFormats = new ArrayList<FormatOfferingCreateWrapper>();
+        showCreateFormatSection = true;
     }
 
     public String getTargetTermCode() {
@@ -282,6 +290,38 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         this.formatOfferingWrappers = formatOfferingWrappers;
     }
 
+    public FormatOfferingCreateWrapper getAddLineFormatWrapper() {
+        return addLineFormatWrapper;
+    }
+
+    public void setAddLineFormatWrapper(FormatOfferingCreateWrapper addLineFormatWrapper) {
+        this.addLineFormatWrapper = addLineFormatWrapper;
+    }
+
+    public boolean isShowCreateFormatSection() {
+        return showCreateFormatSection;
+    }
+
+    public void setShowCreateFormatSection(boolean showCreateFormatSection) {
+        this.showCreateFormatSection = showCreateFormatSection;
+    }
+
+    public boolean isShowCopyFormatSection() {
+        return showCopyFormatSection;
+    }
+
+    public void setShowCopyFormatSection(boolean showCopyFormatSection) {
+        this.showCopyFormatSection = showCopyFormatSection;
+    }
+
+    public List<FormatOfferingCreateWrapper> getCopyFromFormats() {
+        return copyFromFormats;
+    }
+
+    public void setCopyFromFormats(List<FormatOfferingCreateWrapper> copyFromFormats) {
+        this.copyFromFormats = copyFromFormats;
+    }
+
     /**
      * Clears all the properties. This is needed to clear out all the previous ui data first
      * before displaying the new data when the user clicks on the Show button
@@ -301,5 +341,7 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         setJointCourseCodes(StringUtils.EMPTY);
         setShowJointOption(false);
         setCrossListedCo(false);
+        setShowCopyFormatSection(false);
+        setShowCreateFormatSection(true);
     }
 }
