@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -200,6 +201,7 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
 		lpr.setCommitmentPercent("20.0");
 		lpr.setStateKey("kuali.courseoffering.");
 		lpr.setTypeKey("kuali.lpr.type.courseoffering.instructor.main");
+        lpr.setEffectiveDate(new Date());
 		LprInfo newLprInfo = lprService.createLpr("person-4", "lui-4",
 				"kuali.lpr.type.courseoffering.instructor.main", lpr,
 				callContext);
