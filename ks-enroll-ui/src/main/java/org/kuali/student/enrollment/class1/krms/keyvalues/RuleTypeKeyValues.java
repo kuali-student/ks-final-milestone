@@ -40,7 +40,7 @@ public class RuleTypeKeyValues extends UifKeyValuesFinderBase implements Seriali
          //Use Type Type Relation to get Rule Types
         try {
             List<TypeTypeRelation> typeTypeRelationList = getTypeTypeRelationBoService().findTypeTypeRelationsByFromType(agendaTypeId);
-
+            keyValues.add(new ConcreteKeyValue("0","Select One"));
             for (TypeTypeRelation typeTypeRelation : typeTypeRelationList) {
                 NaturalLanguageTemplate template = null;
                 try{

@@ -35,7 +35,7 @@ public class RequisiteAgendaTypeKeyValues extends UifKeyValuesFinderBase impleme
         //Use KRMS Type Repository Service to get Agenda Types
         try {
             List<TypeTypeRelation> typeTypeRelationList = getTypeTypeRelationBoService().findTypeTypeRelationsByFromType(agendaId);
-
+            keyValues.add(new ConcreteKeyValue("0","Select One"));
             for (TypeTypeRelation typeTypeRelation : typeTypeRelationList) {
                 NaturalLanguageTemplate template = null;
                 try{

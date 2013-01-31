@@ -53,7 +53,7 @@
                               p:onChangeScript="ajaxSubmitForm('retrieveAgenda', null, jQuery(this).data('submitdata'), null, null, null);"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.RequisiteAgendaTypeKeyValues"/>
+                        <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.RequisiteAgendaTypeKeyValues" p:addBlankOption="false"/>
                     </property>
                 </bean>
 
@@ -62,11 +62,13 @@
                         <list>
 
                             <bean parent="Uif-InputField-LabelTop" p:label="Select Rule" p:propertyName="ruleType"
-                                  p:optionsFinderClass="org.kuali.student.enrollment.class1.krms.keyvalues.RuleTypeKeyValues"
                                   p:refreshWhenChangedPropertyNames="#dp.agendaType">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"
                                           p:onChangeScript="ajaxSubmitForm('retrieveRule', null, jQuery(this).data('submitdata'), null, null, null);"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.RuleTypeKeyValues" p:addBlankOption="false"/>
                                 </property>
                             </bean>
 
