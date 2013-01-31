@@ -380,30 +380,11 @@
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSection"
-                      p:progressiveRender="campusParam eq '306'" p:disclosure.render="false">
-                    <property name="items">
-                        <list>
-                            <bean id="select_programParam_seattle" parent="Uif-InputField"
-                                  p:propertyName="programParamSeattle" p:validationMessages.render="false">
-                                <property name="control">
-                                    <bean parent="Uif-DropdownControl">
-                                        <property name="onChangeScript"
-                                                  value="jQuery('button#degree_audit_run').attr('disabled', degreeAuditButton());"/>
-                                    </bean>
-                                </property>
-                                <property name="optionsFinder">
-                                    <bean class="org.kuali.student.myplan.audit.util.DegreeAuditRunProgramParam"/>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-HorizontalBoxSection"
                       p:progressiveRender="campusParam eq '310'" p:disclosure.render="false">
                     <property name="items">
                         <list>
-                            <bean id="select_programParam_bothell" parent="Uif-InputField"
-                                  p:propertyName="programParamBothell" p:validationMessages.render="false"
+                            <bean id="select_programParam_for_campus_310" parent="Uif-InputField"
+                                  p:propertyName="programParam_for_campus_310" p:validationMessages.render="false"
                                   p:width="auto">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
@@ -419,11 +400,11 @@
                     </property>
                 </bean>
                 <bean parent="Uif-HorizontalBoxSection"
-                      p:progressiveRender="campusParam eq '323'" p:disclosure.render="false">
+                      p:progressiveRender="campusParam eq '311'" p:disclosure.render="false">
                     <property name="items">
                         <list>
-                            <bean id="select_programParam_tacoma" parent="Uif-InputField"
-                                  p:propertyName="programParamTacoma" p:validationMessages.render="false"
+                            <bean id="select_programParam_for_campus_311" parent="Uif-InputField"
+                                  p:propertyName="programParam_for_campus_311" p:validationMessages.render="false"
                                   p:width="auto">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
@@ -438,6 +419,126 @@
                         </list>
                     </property>
                 </bean>
+                <bean parent="Uif-HorizontalBoxSection"
+                      p:progressiveRender="campusParam eq '312'" p:disclosure.render="false">
+                    <property name="items">
+                        <list>
+                            <bean id="select_programParam_for_campus_312" parent="Uif-InputField"
+                                  p:propertyName="programParam_for_campus_312" p:validationMessages.render="false"
+                                  p:width="auto">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="onChangeScript"
+                                                  value="jQuery('button#degree_audit_run').attr('disabled', degreeAuditButton());"/>
+                                    </bean>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.myplan.audit.util.DegreeAuditRunProgramParam"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                            <bean parent="Uif-HorizontalBoxSection"
+                                  p:progressiveRender="campusParam eq '313'" p:disclosure.render="false">
+                                <property name="items">
+                                    <list>
+                                        <bean id="select_programParam_for_campus_313" parent="Uif-InputField"
+                                              p:propertyName="programParam_for_campus_313" p:validationMessages.render="false"
+                                              p:width="auto">
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl">
+                                                    <property name="onChangeScript"
+                                                              value="jQuery('button#degree_audit_run').attr('disabled', degreeAuditButton());"/>
+                                                </bean>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.myplan.audit.util.DegreeAuditRunProgramParam"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-HorizontalBoxSection"
+                                  p:progressiveRender="campusParam eq '314'" p:disclosure.render="false">
+                                <property name="items">
+                                    <list>
+                                        <bean id="select_programParam_for_campus_314" parent="Uif-InputField"
+                                              p:propertyName="programParam_for_campus_314" p:validationMessages.render="false"
+                                              p:width="auto">
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl">
+                                                    <property name="onChangeScript"
+                                                              value="jQuery('button#degree_audit_run').attr('disabled', degreeAuditButton());"/>
+                                                </bean>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.myplan.audit.util.DegreeAuditRunProgramParam"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-HorizontalBoxSection"
+                                  p:progressiveRender="campusParam eq '315'" p:disclosure.render="false">
+                                <property name="items">
+                                    <list>
+                                        <bean id="select_programParam_for_campus_315" parent="Uif-InputField"
+                                              p:propertyName="programParam_for_campus_315" p:validationMessages.render="false"
+                                              p:width="auto">
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl">
+                                                    <property name="onChangeScript"
+                                                              value="jQuery('button#degree_audit_run').attr('disabled', degreeAuditButton());"/>
+                                                </bean>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.myplan.audit.util.DegreeAuditRunProgramParam"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                                        <bean parent="Uif-HorizontalBoxSection"
+                                              p:progressiveRender="campusParam eq '316'" p:disclosure.render="false">
+                                            <property name="items">
+                                                <list>
+                                                    <bean id="select_programParam_for_campus_316" parent="Uif-InputField"
+                                                          p:propertyName="programParam_for_campus_316" p:validationMessages.render="false"
+                                                          p:width="auto">
+                                                        <property name="control">
+                                                            <bean parent="Uif-DropdownControl">
+                                                                <property name="onChangeScript"
+                                                                          value="jQuery('button#degree_audit_run').attr('disabled', degreeAuditButton());"/>
+                                                            </bean>
+                                                        </property>
+                                                        <property name="optionsFinder">
+                                                            <bean class="org.kuali.student.myplan.audit.util.DegreeAuditRunProgramParam"/>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-HorizontalBoxSection"
+                                              p:progressiveRender="campusParam eq '317'" p:disclosure.render="false">
+                                            <property name="items">
+                                                <list>
+                                                    <bean id="select_programParam_for_campus_317" parent="Uif-InputField"
+                                                          p:propertyName="programParam_for_campus_317" p:validationMessages.render="false"
+                                                          p:width="auto">
+                                                        <property name="control">
+                                                            <bean parent="Uif-DropdownControl">
+                                                                <property name="onChangeScript"
+                                                                          value="jQuery('button#degree_audit_run').attr('disabled', degreeAuditButton());"/>
+                                                            </bean>
+                                                        </property>
+                                                        <property name="optionsFinder">
+                                                            <bean class="org.kuali.student.myplan.audit.util.DegreeAuditRunProgramParam"/>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
                 <ref bean="degree_audit_run"/>
             </list>
         </property>

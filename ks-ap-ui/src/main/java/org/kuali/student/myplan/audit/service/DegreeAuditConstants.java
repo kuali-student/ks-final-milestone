@@ -35,7 +35,7 @@ public class DegreeAuditConstants extends DegreeAuditServiceConstants {
                                                     "<img class=\"uif-validationImage\" src=\"%s/krad/images/validation/error.png\" alt=\"Error\"> " +
                                                     "This page has 1 error</h3>" +
                                                     "<ul class=\"uif-validationMessagesList\" id=\"pageValidationList\" aria-labelledby=\"pageValidationHeader\">" +
-                                                    "<li data-messageitemfor=\"select_programParam_seattle\" class=\"uif-errorMessageItem\">" +
+                                                    "<li data-messageitemfor=\"select_programParam_for_campus_310\" class=\"uif-errorMessageItem\">" +
                                                     "Audit processing failed due to '%s'" +
                                                     "</li>" +
                                                     "</ul>" +

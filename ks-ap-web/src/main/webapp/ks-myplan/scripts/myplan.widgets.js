@@ -1005,14 +1005,29 @@ function removeCookie() {
 function getAuditProgram(param) {
     var id;
     switch (parseFloat(jQuery("input[name='campusParam']:checked").val())) {
-        case 306:
-            id = 'select_programParam_seattle_control';
-            break;
         case 310:
-            id = 'select_programParam_bothell_control';
+            id = 'select_programParam_for_campus_310_control';
             break;
-        case 323:
-            id = 'select_programParam_tacoma_control';
+        case 311:
+            id = 'select_programParam_for_campus_311_control';
+            break;
+        case 312:
+            id = 'select_programParam_for_campus_312_control';
+            break;
+        case 313:
+            id = 'select_programParam_for_campus_313_control';
+            break;
+        case 314:
+            id = 'select_programParam_for_campus_314_control';
+            break;
+        case 315:
+            id = 'select_programParam_for_campus_315_control';
+            break;
+        case 316:
+            id = 'select_programParam_for_campus_316_control';
+            break;
+        case 317:
+            id = 'select_programParam_for_campus_317_control';
             break;
         default:
             id = null;
@@ -1050,7 +1065,7 @@ function setPendingAudit(minutes) {
                     }
                 },
                 statusCode:{
-                    200: function() { window.location = 'audit?methodToCall=runAudit&viewId=DegreeAudit-FormView'; }
+                    500: function() { /*sessionExpired();*/ }
                     }
             });
         }

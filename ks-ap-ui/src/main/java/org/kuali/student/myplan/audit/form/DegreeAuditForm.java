@@ -6,9 +6,18 @@ import org.kuali.student.myplan.audit.service.DegreeAuditServiceConstants;
 public class DegreeAuditForm extends UifFormBase {
 
     private String auditHtml;
-    private String programParamSeattle;
-    private String programParamBothell;
-    private String programParamTacoma;
+    private String programParam_for_campus_310;
+    private String programParam_for_campus_311;
+    private String programParam_for_campus_312;
+    private String programParam_for_campus_313;
+    private String programParam_for_campus_314;
+    private String programParam_for_campus_315;
+    private String programParam_for_campus_316;
+    private String programParam_for_campus_317;
+
+    //private String programParamSeattle;
+//    private String programParamBothell;
+//    private String programParamTacoma;
     private String campusParam;
     private String auditId;
     private String auditType = DegreeAuditServiceConstants.AUDIT_TYPE_KEY_DEFAULT;
@@ -23,6 +32,70 @@ public class DegreeAuditForm extends UifFormBase {
     private String selectAProgramFrom;
     private String selectYourCampus;
     private String someProgramsNotIncluded;
+
+    public String getProgramParam_for_campus_310() {
+        return programParam_for_campus_310;
+    }
+
+    public void setProgramParam_for_campus_310(String programParam_for_campus_310) {
+        this.programParam_for_campus_310 = programParam_for_campus_310;
+    }
+
+    public String getProgramParam_for_campus_311() {
+        return programParam_for_campus_311;
+    }
+
+    public void setProgramParam_for_campus_311(String programParam_for_campus_311) {
+        this.programParam_for_campus_311 = programParam_for_campus_311;
+    }
+
+    public String getProgramParam_for_campus_312() {
+        return programParam_for_campus_312;
+    }
+
+    public void setProgramParam_for_campus_312(String programParam_for_campus_312) {
+        this.programParam_for_campus_312 = programParam_for_campus_312;
+    }
+
+    public String getProgramParam_for_campus_313() {
+        return programParam_for_campus_313;
+    }
+
+    public void setProgramParam_for_campus_313(String programParam_for_campus_313) {
+        this.programParam_for_campus_313 = programParam_for_campus_313;
+    }
+
+    public String getProgramParam_for_campus_314() {
+        return programParam_for_campus_314;
+    }
+
+    public void setProgramParam_for_campus_314(String programParam_for_campus_314) {
+        this.programParam_for_campus_314 = programParam_for_campus_314;
+    }
+
+    public String getProgramParam_for_campus_315() {
+        return programParam_for_campus_315;
+    }
+
+    public void setProgramParam_for_campus_315(String programParam_for_campus_315) {
+        this.programParam_for_campus_315 = programParam_for_campus_315;
+    }
+
+    public String getProgramParam_for_campus_316() {
+        return programParam_for_campus_316;
+    }
+
+    public void setProgramParam_for_campus_316(String programParam_for_campus_316) {
+        this.programParam_for_campus_316 = programParam_for_campus_316;
+    }
+
+    public String getProgramParam_for_campus_317() {
+        return programParam_for_campus_317;
+    }
+
+    public void setProgramParam_for_campus_317(String programParam_for_campus_317) {
+        this.programParam_for_campus_317 = programParam_for_campus_317;
+    }
 
     public String getTheAuditFeatureDisabled() {
         return theAuditFeatureDisabled;
@@ -112,29 +185,13 @@ public class DegreeAuditForm extends UifFormBase {
         this.auditId = auditId;
     }
 
-    public String getProgramParamSeattle() {
-        return programParamSeattle;
-    }
-
-    public void setProgramParamSeattle(String programParamSeattle) {
-        this.programParamSeattle = programParamSeattle;
-    }
-
-    public String getProgramParamBothell() {
-        return programParamBothell;
-    }
-
-    public void setProgramParamBothell(String programParamBothell) {
-        this.programParamBothell = programParamBothell;
-    }
-
-    public String getProgramParamTacoma() {
-        return programParamTacoma;
-    }
-
-    public void setProgramParamTacoma(String programParamTacoma) {
-        this.programParamTacoma = programParamTacoma;
-    }
+//    public String getProgramParamSeattle() {
+//        return programParamSeattle;
+//    }
+//
+//    public void setProgramParamSeattle(String programParamSeattle) {
+//        this.programParamSeattle = programParamSeattle;
+//    }
 
     public String getCampusParam() {
         return campusParam;

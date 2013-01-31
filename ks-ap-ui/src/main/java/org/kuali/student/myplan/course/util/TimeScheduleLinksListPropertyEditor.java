@@ -16,16 +16,6 @@ package org.kuali.student.myplan.course.util;
  */
 
 
-import java.beans.PropertyEditorSupport;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -37,6 +27,15 @@ import org.kuali.student.myplan.plan.util.EnumerationHelper;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
+
+import javax.xml.namespace.QName;
+import java.beans.PropertyEditorSupport;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class TimeScheduleLinksListPropertyEditor extends PropertyEditorSupport implements Serializable {
 
@@ -262,11 +261,28 @@ public class TimeScheduleLinksListPropertyEditor extends PropertyEditorSupport i
                         .append(".html#");
                         //.append(".html?external=true&dialogMode=true#");
 
-                if (campusLocationString.equals("Seattle")) { //Seattle
+//                if (campusLocationString.equals("Seattle")) { //Seattle
+//                    urlBuilder.append(curriculumCode.toLowerCase().replaceAll("\\s", ""));
+//                } else if (campusLocationString.equals("Bothell")) { //Bothell
+//                    urlBuilder.append(curriculumCode.toLowerCase().replaceAll("\\s", ""));
+//                } else if (campusLocationString.equals("Tacoma")) { //Tacoma
+//                    urlBuilder.append(curriculumCode.toLowerCase().replaceAll("\\s", ""));
+//                }
+                if (campusLocationString.equals("campus_310")) { //campus_310
                     urlBuilder.append(curriculumCode.toLowerCase().replaceAll("\\s", ""));
-                } else if (campusLocationString.equals("Bothell")) { //Bothell
+                } else if (campusLocationString.equals("campus_311")) { //campus_311
                     urlBuilder.append(curriculumCode.toLowerCase().replaceAll("\\s", ""));
-                } else if (campusLocationString.equals("Tacoma")) { //Tacoma
+                } else if (campusLocationString.equals("campus_312")) { //campus_312
+                    urlBuilder.append(curriculumCode.toLowerCase().replaceAll("\\s", ""));
+                } else if (campusLocationString.equals("campus_313")) { //campus_313
+                    urlBuilder.append(curriculumCode.toLowerCase().replaceAll("\\s", ""));
+                } else if (campusLocationString.equals("campus_314")) { //campus_314
+                    urlBuilder.append(curriculumCode.toLowerCase().replaceAll("\\s", ""));
+                } else if (campusLocationString.equals("campus_315")) { //campus_315
+                    urlBuilder.append(curriculumCode.toLowerCase().replaceAll("\\s", ""));
+                } else if (campusLocationString.equals("campus_316")) { //campus_316
+                    urlBuilder.append(curriculumCode.toLowerCase().replaceAll("\\s", ""));
+                } else if (campusLocationString.equals("campus_317")) { //campus_317
                     urlBuilder.append(curriculumCode.toLowerCase().replaceAll("\\s", ""));
                 }
 
