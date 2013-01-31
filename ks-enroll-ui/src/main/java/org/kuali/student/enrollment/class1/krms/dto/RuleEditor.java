@@ -32,6 +32,7 @@ public class RuleEditor extends AgendaEditor {
     private String courseName;
     private String agendaType;
     private String ruleType;
+    private String copyPropositionId;
     private List<String> activeSelections;
 
     private RuleBo rule;
@@ -59,6 +60,7 @@ public class RuleEditor extends AgendaEditor {
         this.setRuleEditorMessage(null);
         this.setSelectedPropositionId(null);
         this.setCutPropositionId(null);
+        this.setCopyPropositionId(null);
     }
 
     public RuleBo getRule() {
@@ -107,6 +109,20 @@ public class RuleEditor extends AgendaEditor {
 
     public void setActiveSelections(List<String> activeSelections) {
         this.activeSelections = activeSelections;
+    }
+
+    /**
+     * @return the copyPropositionId
+     */
+    public String getCopyPropositionId() {
+        return copyPropositionId;
+    }
+
+    /**
+     * @param copyPropositionId the copyPropositionId to set
+     */
+    public void setCopyPropositionId(String copyPropositionId) {
+        this.copyPropositionId = copyPropositionId;
     }
 
     @Override

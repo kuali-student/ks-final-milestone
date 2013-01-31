@@ -824,7 +824,6 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-
     @RequestMapping(params = "methodToCall=cutProposition")
     public ModelAndView cutProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response)
@@ -833,6 +832,18 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         RuleEditor ruleEditor = getRuleEditor(form);
         String selectedPropId = ruleEditor.getSelectedPropositionId();
         ruleEditor.setCutPropositionId(selectedPropId);
+
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=copyProposition")
+    public ModelAndView copyProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
+        RuleEditor ruleEditor = getRuleEditor(form);
+        String selectedPropId = ruleEditor.getSelectedPropositionId();
+        ruleEditor.setCopyPropositionId(selectedPropId);
 
         return getUIFModelAndView(form);
     }
@@ -847,11 +858,12 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
         // get selected id
         String cutPropId = ruleEditor.getCutPropositionId();
+        String copyPropId = ruleEditor.getCopyPropositionId();
         String selectedPropId = ruleEditor.getSelectedPropositionId();
 
         if (StringUtils.isNotBlank(selectedPropId) && selectedPropId.equals(cutPropId)) {
             // do nothing; can't paste to itself
-        } else {
+        } else if(StringUtils.isNotBlank(cutPropId)) {
 
             // proposition tree root
             Node<RuleEditorTreeNode, String> root = ruleEditor.getPropositionTree().getRootElement();
@@ -899,8 +911,57 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 //                boolean editMode = (SimpleStudentPropositionEditNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()));
                 ruleEditor.refreshPropositionTree(false);
             }
+        }  else if(StringUtils.isNotBlank(copyPropId)) {
+
+            // proposition tree root
+            Node<RuleEditorTreeNode, String> root = ruleEditor.getPropositionTree().getRootElement();
+
+            if (StringUtils.isNotBlank(selectedPropId) && StringUtils.isNotBlank(copyPropId)) {
+                Node<RuleEditorTreeNode, String> parentNode = PropositionTreeUtil.findParentPropositionNode(root, selectedPropId);
+                PropositionBo newParent;
+                if (parentNode == root) {
+                    // special case
+                    // build new top level compound proposition,
+                    // add existing as first child
+                    // then paste cut node as 2nd child
+                    newParent = PropositionBo.createCompoundPropositionBoStub2(
+                            root.getChildren().get(0).getData().getProposition().getProposition());
+                    newParent.setEditMode(true);
+                    rule.setProposition(newParent);
+                } else {
+                    newParent = parentNode.getData().getProposition().getProposition();
+                }
+                PropositionBo oldParent = PropositionTreeUtil.findParentPropositionNode(root, copyPropId).getData().getProposition().getProposition();
+
+                PropositionBo workingProp = null;
+                // get from old
+                if (oldParent != null) {
+                    List<PropositionBo> children = oldParent.getCompoundComponents();
+                    for (int index = 0; index < children.size(); index++) {
+                        if (copyPropId.equalsIgnoreCase(children.get(index).getId())) {
+                            workingProp = oldParent.getCompoundComponents().get(index);
+                            break;
+                        }
+                    }
+                }
+
+                // add to new
+                if (newParent != null && workingProp != null) {
+                    List<PropositionBo> children = newParent.getCompoundComponents();
+                    for (int index = 0; index < children.size(); index++) {
+                        if (selectedPropId.equalsIgnoreCase(children.get(index).getId())) {
+                            children.add(index + 1, workingProp);
+                            break;
+                        }
+                    }
+                }
+                // TODO: determine edit mode.
+//                boolean editMode = (SimpleStudentPropositionEditNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()));
+                ruleEditor.refreshPropositionTree(false);
+            }
         }
         ruleEditor.setCutPropositionId(null);
+        ruleEditor.setCopyPropositionId(null);
         // call the super method to avoid the agenda tree being reloaded from the db
         return getUIFModelAndView(form);
     }
@@ -934,7 +995,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             ruleEditor.getRule().setProposition(null);
         }
 
-        ruleEditor.getRule().refreshPropositionTree(false);
+        ruleEditor.refreshPropositionTree(false);
         return getUIFModelAndView(form);
     }
 

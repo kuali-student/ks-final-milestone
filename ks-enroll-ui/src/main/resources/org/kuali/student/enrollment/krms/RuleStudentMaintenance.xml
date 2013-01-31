@@ -41,7 +41,7 @@
             <list>
                 <value>krms/scripts/ruleStudentTree.js</value>
                 <value>krms/scripts/requiredAlerts.js</value>
-                <value>krms/scripts/disableButtons.js</value>
+                <value>krms/scripts/disableStudentButtons.js</value>
                 <value>krms/scripts/countdownInputs.js</value>
             </list>
         </property>
@@ -178,6 +178,12 @@
                         <bean parent="Uif-HiddenControl"/>
                     </property>
                 </bean>
+                <bean id="proposition_copy" parent="Uif-InputField" p:propertyName="copyPropositionId"
+                      p:showLabel="false">
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl"/>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
@@ -294,7 +300,7 @@
                         <list>
                             <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('copy');
                                 if (enabled) {
-                                ajaxCutPropositionTree('copyProposition', 'RuleStudentEditorView-Tree');}"
+                                ajaxCopyPropositionTree('copyProposition', 'RuleStudentEditorView-Tree');}"
                                   p:actionLabel="Copy" p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');" p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
                                 <property name="actionImage">
                                     <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconCopy.png"
