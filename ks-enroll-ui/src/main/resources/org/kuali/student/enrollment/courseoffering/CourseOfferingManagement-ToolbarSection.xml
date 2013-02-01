@@ -131,7 +131,7 @@
         <property name="actionImagePlacement" value="TOP"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>toolbar-button</value>
+                <value>tree-bar-button</value>
             </list>
         </property>
     </bean>
