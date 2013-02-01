@@ -10,6 +10,8 @@
   <description>Kuali Student Bundled Impex</description>
   <properties>
     <jdbc.username>KSBUNDLED</jdbc.username>
+
+    <!-- Used by the impex-export-xml profile -->
     <impex.xml.includedTables>KR.*,KS.*</impex.xml.includedTables>
   </properties>
   <profiles>
@@ -30,32 +32,37 @@
         <db.ks.enroll.schema>ks-enroll-sql</db.ks.enroll.schema>
         <db.ks.rice.schema>ks-rice-sql</db.ks.rice.schema>
 
-        <!-- SQL resources -->
+        <!-- SQL resource path fragments -->
         <sql.meta.base>classpath:META-INF/sql/oracle</sql.meta.base>
+        <sql.suffix.schema>schema.resources</sql.suffix.schema>
+        <sql.suffix.data>data.resources</sql.suffix.data>
+        <sql.suffix.constraints>constraints.resources</sql.suffix.constraints>
+        <sql.suffix.upgrades>upgrades.resources</sql.suffix.upgrades>
 
+        <!-- SQL resources -->
         <sql.schema.1>classpath:sql/oracle/${db.rice.baseline.schema}.sql</sql.schema.1>
-        <sql.schema.2.list>${sql.meta.base}/${db.ks.core.schema}-schema.resources</sql.schema.2.list>
-        <sql.schema.3.list>${sql.meta.base}/${db.ks.lum.schema}-schema.resources</sql.schema.3.list>
-        <sql.schema.4.list>${sql.meta.base}/${db.ks.enroll.schema}-schema.resources</sql.schema.4.list>
-        <sql.schema.5.list>${sql.meta.base}/${db.ks.rice.schema}-schema.resources</sql.schema.5.list>
+        <sql.schema.2.list>${sql.meta.base}/${db.ks.core.schema}-${sql.suffix.schema}</sql.schema.2.list>
+        <sql.schema.3.list>${sql.meta.base}/${db.ks.lum.schema}-${sql.suffix.schema}</sql.schema.3.list>
+        <sql.schema.4.list>${sql.meta.base}/${db.ks.enroll.schema}-${sql.suffix.schema}</sql.schema.4.list>
+        <sql.schema.5.list>${sql.meta.base}/${db.ks.rice.schema}-${sql.suffix.schema}</sql.schema.5.list>
 
-        <sql.data.1.list>${db.rice.baseline.schema}-data.resources</sql.data.1.list>
-        <sql.data.2.list>${sql.meta.base}/${db.ks.core.schema}-data.resources</sql.data.2.list>
-        <sql.data.3.list>${sql.meta.base}/${db.ks.lum.schema}-data.resources</sql.data.3.list>
-        <sql.data.4.list>${sql.meta.base}/${db.ks.enroll.schema}-data.resources</sql.data.4.list>
-        <sql.data.5.list>${sql.meta.base}/${db.ks.rice.schema}-data.resources</sql.data.5.list>
+        <sql.data.1.list>${db.rice.baseline.schema}-${sql.suffix.data}</sql.data.1.list>
+        <sql.data.2.list>${sql.meta.base}/${db.ks.core.schema}-${sql.suffix.data}</sql.data.2.list>
+        <sql.data.3.list>${sql.meta.base}/${db.ks.lum.schema}-${sql.suffix.data}</sql.data.3.list>
+        <sql.data.4.list>${sql.meta.base}/${db.ks.enroll.schema}-${sql.suffix.data}</sql.data.4.list>
+        <sql.data.5.list>${sql.meta.base}/${db.ks.rice.schema}-${sql.suffix.data}</sql.data.5.list>
 
-        <sql.constraints.1>classpath:sql/oracle/${db.rice.baseline.schema}-constraints.sql</sql.constraints.1>
-        <sql.constraints.2.list>${sql.meta.base}/${db.ks.core.schema}-constraints.resources</sql.constraints.2.list>
-        <sql.constraints.3.list>${sql.meta.base}/${db.ks.lum.schema}-constraints.resources</sql.constraints.3.list>
-        <sql.constraints.4.list>${sql.meta.base}/${db.ks.enroll.schema}-constraints.resources</sql.constraints.4.list>
-        <sql.constraints.5.list>${sql.meta.base}/${db.ks.rice.schema}-constraints.resources</sql.constraints.5.list>
+        <sql.constraints.1>classpath:sql/oracle/${db.rice.baseline.schema}-${sql.suffix.constraints}</sql.constraints.1>
+        <sql.constraints.2.list>${sql.meta.base}/${db.ks.core.schema}-${sql.suffix.constraints}</sql.constraints.2.list>
+        <sql.constraints.3.list>${sql.meta.base}/${db.ks.lum.schema}-${sql.suffix.constraints}</sql.constraints.3.list>
+        <sql.constraints.4.list>${sql.meta.base}/${db.ks.enroll.schema}-${sql.suffix.constraints}</sql.constraints.4.list>
+        <sql.constraints.5.list>${sql.meta.base}/${db.ks.rice.schema}-${sql.suffix.constraints}</sql.constraints.5.list>
 
         <!-- Run upgrade scripts, after all baseline scripts have been applied -->
-        <sql.other.1.list>${sql.meta.base}/${db.ks.core.schema}-upgrades.resources</sql.other.1.list>
-        <sql.other.2.list>${sql.meta.base}/${db.ks.rice.schema}-upgrades.resources</sql.other.2.list>
-        <sql.other.3.list>${sql.meta.base}/${db.ks.lum.schema}-upgrades.resources</sql.other.3.list>
-        <sql.other.4.list>${sql.meta.base}/${db.ks.enroll.schema}-upgrades.resources</sql.other.4.list>
+        <sql.other.1.list>${sql.meta.base}/${db.ks.core.schema}-${sql.suffix.upgrades}</sql.other.1.list>
+        <sql.other.2.list>${sql.meta.base}/${db.ks.rice.schema}-${sql.suffix.upgrades}</sql.other.2.list>
+        <sql.other.3.list>${sql.meta.base}/${db.ks.lum.schema}-${sql.suffix.upgrades}</sql.other.3.list>
+        <sql.other.4.list>${sql.meta.base}/${db.ks.enroll.schema}-${sql.suffix.upgrades}</sql.other.4.list>
 
         <!-- Controller properties -->
         <sql.schema.concurrent>sql.schema.1,sql.schema.2.list,sql.schema.3.list,sql.schema.4.list,sql.schema.5.list</sql.schema.concurrent>
