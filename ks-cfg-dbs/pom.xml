@@ -66,7 +66,7 @@
         <metainf.output.oracle>${project.build.outputDirectory}/META-INF/sql/oracle/${project.artifactId}</metainf.output.oracle>
         <metainf.output.mysql>${project.build.outputDirectory}/META-INF/sql/mysql/${project.artifactId}</metainf.output.mysql>
 
-        <spring.context.location>classpath:org/kuali/common/deploy/spring/db-developer-context.xml</spring.context.location>
+
     </properties>
     <build>
         <pluginManagement>
@@ -82,7 +82,7 @@
                                 <goal>load</goal>
                             </goals>
                             <configuration>
-                                <location>${spring.context.location}</location>
+                                <location>${plugin.spring.context.db}</location>
                                 <propertiesBeanName>deploy.mavenProperties</propertiesBeanName>
                             </configuration>
                         </execution>
