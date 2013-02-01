@@ -17,7 +17,9 @@
     <module>ks-app-db</module>
   </modules>
   <properties>
-    <jdbc.source.db.username>KS_SPRING_DB</jdbc.source.db.username>
+    <!-- Set this to something that is unique per KS branch -->
+    <db.branch.qualifier>_SPRING</db.qualifier>
+    <jdbc.source.db.username>KS_SOURCE</jdbc.source.db.username>
 
     <jdbc.password>${jdbc.username}</jdbc.password>
 
