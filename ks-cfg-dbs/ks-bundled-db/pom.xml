@@ -10,6 +10,7 @@
   <description>Kuali Student Bundled Impex</description>
   <properties>
     <jdbc.username>KSBUNDLED</jdbc.username>
+    <impex.xml.includedTables>KR.*,KS.*</impex.xml.includedTables>
   </properties>
   <profile>
     <!-- This profile builds the full KS database from the "system of record" set of Oracle sql files checked into SCM -->
