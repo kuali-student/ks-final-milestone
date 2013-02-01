@@ -989,35 +989,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     }
 
     /*
-     * Method used to pick the selected AO actions
-     */
-    @RequestMapping(params = "methodToCall=selectedAoActions")
-    public ModelAndView selectedAoActions(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
-                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        //  Stop here if no AOs are selected.
-        if ( ! hasSelectedActivityOfferings(theForm)) {
-            GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage", CourseOfferingConstants.NO_AOS_SELECTED);
-            return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
-        }
-
-        if (StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_DELETE_ACTION)){
-            return confirmDelete(theForm, result, request, response);
-        }
-
-        if (StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION) ||
-            StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)) {
-            getViewHelperService(theForm).changeActivityOfferingsState(theForm.getActivityWrapperList(), theForm.getTheCourseOffering(), theForm.getSelectedOfferingAction());
-        }
-
-        // Reload the AOs
-        CourseOfferingInfo theCourseOffering = theForm.getTheCourseOffering();
-        getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
-        getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm, theCourseOffering);
-
-        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
-    }
-
-    /*
      *  Determine if any COs were check-boxed.
      *  @return True if any COs where selected. Otherwise, false.
      */
@@ -1031,24 +1002,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             }
         }
         return isSelected;
-    }
-
-    @RequestMapping(params = "methodToCall=selectedCOActions")
-    public ModelAndView selectedCOActions(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
-                                          @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        //  Stop here if no COs are selected.
-        if ( ! hasSelectedCourseOfferings(theForm)) {
-            GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage", CourseOfferingConstants.COURSEOFFERING_NONE_SELECTED);
-            return getUIFModelAndView(theForm);
-        }
-
-        if (StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)) {
-            getViewHelperService(theForm).markCourseOfferingsForScheduling(theForm.getCourseOfferingResultList());
-            getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(theForm.getTermInfo().getId(), theForm.getInputCode(),theForm);
-        }
-
-        return getUIFModelAndView(theForm);
-
     }
 
     /*

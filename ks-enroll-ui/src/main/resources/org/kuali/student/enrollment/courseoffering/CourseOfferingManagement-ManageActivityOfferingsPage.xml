@@ -218,28 +218,4 @@
             </list>
         </property>
     </bean>
-
-    <bean id="KS-CourseOfferingManagement-SelectedActivityOfferingSection" parent="Uif-VerticalBoxSection" >
-        <property name="items">
-        <list>
-            <bean parent="Uif-HorizontalBoxSection">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-InputField" p:propertyName="selectedOfferingAction" p:label="Selected Offering Actions" p:labelPlacement="TOP" >
-                            <property name="readOnly" value="false"/>
-                            <property name="control">
-                                <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
-                            </property>
-                            <property name="optionsFinder">
-                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ActivityOfferingActionsKeyValues"/>
-                            </property>
-                        </bean>
-                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="selectedAoActions" p:style="margin-top: 18px;" p:disabled="@{#parent.readOnly}"/>
-                    </list>
-                </property>
-            </bean>
-        </list>
-        </property>
-    </bean>
-
 </beans>
