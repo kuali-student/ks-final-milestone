@@ -12,6 +12,5 @@
     <description>Kuali Student Rice Impex</description>
     <properties>
         <jdbc.username>KSRICE</jdbc.username>
-        <jdbc.password>KSRICE</jdbc.password>
     </properties>
 </project>

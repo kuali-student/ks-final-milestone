@@ -11,6 +11,5 @@
     <description>Kuali Student Application Impex</description>
     <properties>
         <jdbc.username>KSAPP</jdbc.username>
-        <jdbc.password>KSAPP</jdbc.password>
     </properties>
 </project>
