@@ -1,3 +1,6 @@
+
+KS_SOURCE_DB_SPRING
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
@@ -19,7 +22,7 @@
   <properties>
     <!-- Set this to something that is unique per KS branch -->
     <db.branch.qualifier>_SPRING</db.branch.qualifier>
-    <jdbc.source.db.username>KSSOURCE${db.branch.qualifier}</jdbc.source.db.username>
+    <jdbc.source.db.username>KS_SOURCE_DB${db.branch.qualifier}</jdbc.source.db.username>
 
     <jdbc.password>${jdbc.username}</jdbc.password>
 
@@ -52,7 +55,6 @@
     <!-- This property holds the top of the output folder for the sql generation plugin -->
     <impex.mvn.sql>${project.basedir}/src/main/resources/impex/sql</impex.mvn.sql>
     <!-- End Impex SQL Generation Properties -->
-
 
     <!-- Override the paths for the meta-inf plugin to capture the generated sql locations -->
     <sql.meta.input.base>${project.basedir}/src/main/resources</sql.meta.input.base>
