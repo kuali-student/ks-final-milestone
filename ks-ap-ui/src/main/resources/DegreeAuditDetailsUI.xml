@@ -362,8 +362,6 @@
             <list>
                 <bean id="radio_campusParam" parent="Uif-InputField" p:propertyName="campusParam">
                     <property name="onChangeScript" value="
-                    jQuery('#empty_degree_audits');
-                     jQuery('#program_params');
                         jQuery('button#degree_audit_run').attr('disabled', degreeAuditButton());
                         setUrlHash('modified', 'yes');
                     "/>
@@ -393,6 +391,8 @@
                                     <bean parent="Uif-DropdownControl">
                                         <property name="onChangeScript"
                                                   value="jQuery('button#degree_audit_run').attr('disabled', degreeAuditButton());"/>
+                                        <property name="onDocumentReadyScript"
+                                        value="jQuery('button#degree_audit_run').attr('disabled', degreeAuditButton());"/>
                                     </bean>
                                 </property>
                                 <property name="optionsFinder">

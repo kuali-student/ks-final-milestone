@@ -8,6 +8,7 @@ public class DegreeAuditConstants extends DegreeAuditServiceConstants {
 
     public static final String DEFAULT_KEY="default";
     public static final String DEFAULT_VALUE="Select a degree program or minor";
+    public static final String SELECT_CAMPUS_TO_POPULATE_ITS_RELATED_PROGRAMS="Select a campus (from above) to populate its related programs.";
     public static final String AUDIT_PARAM_ID = "auditId";
     public static final String AUDIT_PARAM_TYPE = "auditType";
     public static final String AUDIT_EMPTY_PAGE = "degree_audit_empty_page";

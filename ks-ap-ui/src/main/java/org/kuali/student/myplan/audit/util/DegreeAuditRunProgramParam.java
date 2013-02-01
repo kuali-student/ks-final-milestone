@@ -73,7 +73,7 @@ public class DegreeAuditRunProgramParam extends UifKeyValuesFinderBase implement
                 logger.error("DegreeAuditRunProgramParam.getKeyValues(): No Values for programs found");
             }
         }  else{
-            keyValues.add(new ConcreteKeyValue("", DegreeAuditConstants.DEFAULT_VALUE));
+            keyValues.add(new ConcreteKeyValue("", DegreeAuditConstants.SELECT_CAMPUS_TO_POPULATE_ITS_RELATED_PROGRAMS));
         }
         return keyValues;
     }
