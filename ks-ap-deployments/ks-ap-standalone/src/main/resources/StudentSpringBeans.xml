@@ -315,5 +315,10 @@
     <bean id="userSessionHelper" class="org.kuali.student.myplan.utils.UserSessionHelper" factory-method="createInstance">
         <property name="userSessionService" ref="userSessionService"/>
     </bean>
+    <bean id="atpHelperService" class="org.kuali.student.myplan.plan.util.AtpHelperServiceMockImpl"/>
+
+    <bean id="atpHelper" class="org.kuali.student.myplan.plan.util.AtpHelper" factory-method="createInstance">
+        <property name="atpHelperService" ref="atpHelperService"/>
+    </bean>
     <!-- End Service Declarations-->
 </beans>
