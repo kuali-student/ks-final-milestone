@@ -19,7 +19,7 @@
   <properties>
     <!-- Set this to something that is unique per KS branch -->
     <db.branch.qualifier>_SPRING</db.branch.qualifier>
-    <jdbc.source.db.username>KS_SOURCE</jdbc.source.db.username>
+    <jdbc.source.db.username>KS_SOURCE${db.branch.qualifier}</jdbc.source.db.username>
 
     <jdbc.password>${jdbc.username}</jdbc.password>
 
