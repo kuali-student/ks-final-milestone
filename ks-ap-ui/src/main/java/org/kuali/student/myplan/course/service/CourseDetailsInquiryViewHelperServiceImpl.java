@@ -301,7 +301,7 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
 					.getAcademicCalendarService()
 					.searchForTerms(
 							QueryByCriteria.Builder.fromPredicates(equalIgnoreCase(
-									"query", PlanConstants.PUBLISHED)), context))
+									"atpState", PlanConstants.PUBLISHED)), context))
 				if (scheduledTermIds.contains(ti.getId()))
 					scheduledTerms.add(ti.getName());
 			courseDetails.setScheduledTerms(scheduledTerms);

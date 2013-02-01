@@ -135,6 +135,9 @@ public class AtpHelperServiceMockImpl implements AtpHelperService{
     @Override
     public String[] atpIdToTermNameAndYear(String atpId) {
         AtpInfo atp;
+        if(StringUtils.isEmpty(atpId)){
+            atpId="19843";
+        }
         try {
             atp = KsapFrameworkServiceLocator.getAtpService().getAtp(atpId,
                     getContext());

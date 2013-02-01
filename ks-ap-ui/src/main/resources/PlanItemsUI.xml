@@ -1284,7 +1284,7 @@
             } else {
                 retrieveOptions = {viewId:'PlannedCourses-LookupView'};
             }
-            myplanRetrieveComponent('planned_mock_detail','planned_courses_detail','search','lookup', retrieveOptions, null, {message:'&lt;p&gt;&lt;img src=&quot;@{#ConfigProperties['ks.myplan.externalizable.images.url']}ajaxAuditRunning32.gif&quot; alt=&quot;loading...&quot; /&gt;&lt;/p&gt;&lt;p&gt;Please wait while we are fetching your plan...&lt;/p&gt;', fadeIn:0, fadeOut:0, overlayCSS:{backgroundColor:'#fff',opacity:0,cursor:'wait'}, css:{backgroundColor:'#fffdd7', border:'solid 1px #ffd14c', borderRadius:'15px','-webkit-border-radius':'15px','-moz-border-radius':'15px', width:'230px', textAlign:'center', padding:'20px'}});
+            myplanRetrieveComponent('planned_mock_detail','planned_courses_detail','search','lookup', retrieveOptions, null, {message:'&lt;p&gt;&lt;img src=&quot;../ks-myplan/images/ajaxAuditRunning32.gif&quot; alt=&quot;loading...&quot; /&gt;&lt;/p&gt;&lt;p&gt;Please wait while we are fetching your plan...&lt;/p&gt;', fadeIn:0, fadeOut:0, overlayCSS:{backgroundColor:'#fff',opacity:0,cursor:'wait'}, css:{backgroundColor:'#fffdd7', border:'solid 1px #ffd14c', borderRadius:'15px','-webkit-border-radius':'15px','-moz-border-radius':'15px', width:'230px', textAlign:'center', padding:'20px'}});
         "/>
         <property name="items">
             <list>
@@ -1403,7 +1403,7 @@
                                               p:actionScript="" p:title="Previous Academic Year" p:style="margin:0;">
                                             <property name="actionImage">
                                                 <bean parent="Uif-Image"
-                                                      p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif"
+                                                      p:source="../ks-myplan/images/pixel.gif"
                                                       p:style="margin:0;"/>
                                             </property>
                                             <property name="cssClasses">
@@ -1431,7 +1431,7 @@
                                               p:title="Next Academic Year" p:style="margin:0;">
                                             <property name="actionImage">
                                                 <bean parent="Uif-Image"
-                                                      p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif"
+                                                      p:source="../ks-myplan/images/pixel.gif"
                                                       p:style="margin:0;"/>
                                             </property>
                                             <property name="cssClasses">
@@ -2493,7 +2493,7 @@
     <bean id="addToPlanButton" p:id="addToPlanButton" parent="Uif-PrimaryActionButton-Small" p:actionLabel="Add to Plan" p:actionImagePlacement="RIGHT">
         <property name="actionScript" value="fnPopoverSlider('add_planned_course_fields', 'course_popover_group', 'left');"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif">
+            <bean parent="Uif-Image" p:source="../ks-myplan/images/pixel.gif">
                 <property name="cssClasses">
                     <list merge="true">
                         <value>rightArrowSmall</value>

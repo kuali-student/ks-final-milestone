@@ -157,7 +157,7 @@ function openPopUp(id, getId, methodToCall, action, retrieveOptions, e, selector
             component = jQuery("#" + getId, htmlContent);
         } else {
             eval(jQuery("input[data-for='plan_item_action_response_page']", htmlContent).val().replace("#plan_item_action_response_page", "body"));
-            var sError = '<img src="../images/pixel.gif" alt="" class="icon"><span class="message">' + jQuery('body').data('validationMessages').serverErrors[0] + '</span>';
+            var sError = '<img src="../ks-myplan/images/pixel.gif" alt="" class="icon"><span class="message">' + jQuery('body').data('validationMessages').serverErrors[0] + '</span>';
             component = jQuery("<div />").html(sError).addClass("myplan-feedback error").width(175);
         }
         elementToBlock.unblock({onUnblock:function () {
@@ -325,7 +325,7 @@ function openPopUpForm(id, getId, methodToCall, action, retrieveOptions, e, sele
             var planForm = jQuery('<form />').attr("id", id + "_form").attr("action", "plan").attr("method", "post");
         } else {
             eval(jQuery("input[data-for='plan_item_action_response_page']", htmlContent).val().replace("#plan_item_action_response_page", "body"));
-            var sError = '<img src="../images/pixel.gif" alt="" class="icon"><span class="message">' + jQuery('body').data('validationMessages').serverErrors[0] + '</span>';
+            var sError = '<img src="../ks-myplan/images/pixel.gif" alt="" class="icon"><span class="message">' + jQuery('body').data('validationMessages').serverErrors[0] + '</span>';
             component = jQuery("<div />").html(sError).addClass("myplan-feedback error").width(175);
         }
         elementToBlock.unblock({onUnblock:function () {
@@ -421,7 +421,7 @@ function openPlanItemPopUp(id, getId, retrieveOptions, e, selector, popupOptions
             var planForm = jQuery('<form />').attr("id", id + "_form").attr("action", "plan").attr("method", "post");
         } else {
             eval(jQuery("input[data-for='plan_item_action_response_page']", htmlContent).val().replace("#plan_item_action_response_page", "body"));
-            var sError = '<img src="../images/pixel.gif" alt="" class="icon"><span class="message">' + jQuery('body').data('validationMessages').serverErrors[0] + '</span>';
+            var sError = '<img src="../ks-myplan/images/pixel.gif" alt="" class="icon"><span class="message">' + jQuery('body').data('validationMessages').serverErrors[0] + '</span>';
             component = jQuery("<div />").html(sError).addClass("myplan-feedback error").width(175);
         }
         elementToBlock.unblock({onUnblock:function () {
@@ -533,7 +533,7 @@ function myplanAjaxSubmitPlanItem(id, type, methodToCall, e, bDialog) {
         elementToBlock.unblock();
         switch (status) {
             case 'success':
-                var oMessage = { 'message':'<img src="../images/pixel.gif" alt="" class="icon"><span class="message">' + jQuery('body').data('validationMessages').serverInfo[0] + '</span>', 'cssClass':'myplan-feedback success' };
+                var oMessage = { 'message':'<img src="../ks-myplan/images/pixel.gif" alt="" class="icon"><span class="message">' + jQuery('body').data('validationMessages').serverInfo[0] + '</span>', 'cssClass':'myplan-feedback success' };
                 var json = jQuery.parseJSON(jQuery.trim(jQuery("span#json_events_item_key", htmlContent).text()));
                 for (var key in json) {
                     if (json.hasOwnProperty(key)) {
@@ -543,7 +543,7 @@ function myplanAjaxSubmitPlanItem(id, type, methodToCall, e, bDialog) {
                 setUrlHash('modified', 'yes');
                 break;
             case 'error':
-                var oMessage = { 'message':'<img src="../images/pixel.gif" alt="" class="icon"><span class="message">' + jQuery('body').data('validationMessages').serverErrors[0] + '</span>', 'cssClass':'myplan-feedback error' };
+                var oMessage = { 'message':'<img src="../ks-myplan/images/pixel.gif" alt="" class="icon"><span class="message">' + jQuery('body').data('validationMessages').serverErrors[0] + '</span>', 'cssClass':'myplan-feedback error' };
                 if (!bDialog) {
                     var sContent = jQuery("<div />").append(oMessage.message).addClass("myplan-feedback error").css({"background-color":"#fff"});
                     var sHtml = jQuery("<div />").append('<div class="uif-headerField uif-sectionHeaderField"><h3 class="uif-header">' + targetText + '</h3></div>').append(sContent);

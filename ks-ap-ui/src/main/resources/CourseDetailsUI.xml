@@ -136,7 +136,7 @@
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="Add to Plan" p:id="@{dataObject.courseId}_addPlannedCourse" p:actionImagePlacement="RIGHT">
                     <property name="actionImage">
-                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif">
+                        <bean parent="Uif-Image" p:source="../ks-myplan/images/pixel.gif">
                             <property name="cssClasses">
                                 <list merge="true">
                                     <value>rightArrowLarge</value>

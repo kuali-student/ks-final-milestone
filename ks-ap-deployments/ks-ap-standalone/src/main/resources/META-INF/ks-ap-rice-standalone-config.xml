@@ -76,9 +76,6 @@
     <!-- Application Code -->
     <param name="app.code">ks-ap-rice-standalone</param>
 
-    <!-- MyPlan Image folder -->
-    <param name="ks.myplan.externalizable.images.url">../ks-ap-standalone-webapp/ks-myplan/images/</param>
-
     <!-- Id of the Application -->
     <param name="application.id">RICE</param>
 

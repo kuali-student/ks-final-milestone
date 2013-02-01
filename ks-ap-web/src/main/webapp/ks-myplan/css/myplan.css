@@ -7,7 +7,7 @@ body {
     /*color: #333;
     font: normal 13px/20px Arial, Helvetica, Verdana, sans-serif;
     background: #ffffff; /*Default background*/
-    padding: 0 !important;*/
+    padding: 0 !important;
 }
 strong {
     font-weight: 700;
@@ -103,7 +103,7 @@ a:focus {
 }
 /*Header Background*/
 #applicationHeader {
-    border-top:solid 5px #39275b;
+   /* border-top:solid 5px #39275b;*/
     /*background: url('../images/myplan_header_bkgrd.png') repeat-x;
     color: #615f5f;*/
     position: relative;
@@ -312,7 +312,7 @@ button.uif-secondaryActionButton {
     font-size: 14px;
     font-weight: bold;
     font-family: "museo-sans", Arial, Helvetica, Verdana, sans-serif;
-    color: #39275b;
+    /*color: #39275b;*/
     text-decoration: none;
 
     padding: 6px 21px;
@@ -533,6 +533,7 @@ input.myplan-add:hover {
     line-height: 1.8em;
     display: inline-block;
 }
+/* Seasonal colors */
 .AU .FA {
     background: #FFCCCC !important;
 }
@@ -635,6 +636,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     background: none;
     border: none;
 }
+/* Tab header yellow */
 .myplan-carousel-list ul li > .uif-group > .uif-header h4 {
     display:block;
     white-space:nowrap;
@@ -645,14 +647,14 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     -webkit-border-radius: 5px 5px 0px 0px;
     -moz-border-radius: 5px 5px 0px 0px;
 
-    background-color: #ede1c1;
+   /* background-color: #ede1c1;
     background-image: -ms-linear-gradient(top, #ede1c1 0%, #efd89e 100%);
     background-image: -moz-linear-gradient(center top, #ede1c1 0%, #efd89e 100%);
     background-image: -o-linear-gradient(top, #ede1c1 0%, #efd89e 100%);
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ede1c1), color-stop(1, #efd89e));
     background-image: -webkit-linear-gradient(top, #ede1c1 0%, #efd89e 100%);
     background-image: linear-gradient(to bottom, #ede1c1 0%, #efd89e 100%);
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ede1c1', endColorstr='#efd89e');
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ede1c1', endColorstr='#efd89e');*/
 }
 .myplan-carousel-list ul li > .uif-group > .uif-header h4 .uif-headerText-span {
     color: #555;
@@ -660,27 +662,29 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     text-transform: uppercase;
     text-shadow: 0px 1px 0px #fcffff;
 }
+/*Planner Calendar other terms*/
 .myplan-carousel-list ul li > .uif-group.myplan-term-past > .uif-header h4 {
     border: solid 1px #cccccc;
     background-color: #dedede;
-    background-image: -ms-linear-gradient(top, #dedede 0%, #cccccc 100%);
+   /* background-image: -ms-linear-gradient(top, #dedede 0%, #cccccc 100%);
     background-image: -moz-linear-gradient(center top, #dedede 0%, #cccccc 100%);
     background-image: -o-linear-gradient(top, #dedede 0%, #cccccc 100%);
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #dedede), color-stop(1, #cccccc));
     background-image: -webkit-linear-gradient(top, #dedede 0%, #cccccc 100%);
     background-image: linear-gradient(to bottom, #dedede 0%, #cccccc 100%);
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dedede', endColorstr='#cccccc');
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dedede', endColorstr='#cccccc');*/
 }
+/* Planner Calendar current term */
 .myplan-carousel-list ul li > .uif-group.myplan-term-current > .uif-header h4 {
     border: solid 1px #432f69;
-    background-color: #5c428e;
-    background-image: -ms-linear-gradient(top, #5c428e 0%, #3b295f 100%);
-    background-image: -moz-linear-gradient(center top, #5c428e 0%, #3b295f 100%);
-    background-image: -o-linear-gradient(top, #5c428e 0%, #3b295f 100%);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #5c428e), color-stop(1, #3b295f));
-    background-image: -webkit-linear-gradient(top, #5c428e 0%, #3b295f 100%);
-    background-image: linear-gradient(to bottom, #5c428e 0%, #3b295f 100%);
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5c428e', endColorstr='#3b295f');
+    /*background-color: #5c428e;*/
+    /*background-image: -ms-linear-gradient(top, #5c428e 0%, #3b295f 100%);*/
+    /*background-image: -moz-linear-gradient(center top, #5c428e 0%, #3b295f 100%);*/
+    /*background-image: -o-linear-gradient(top, #5c428e 0%, #3b295f 100%);*/
+    /*background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #5c428e), color-stop(1, #3b295f));*/
+    /*background-image: -webkit-linear-gradient(top, #5c428e 0%, #3b295f 100%);*/
+    /*background-image: linear-gradient(to bottom, #5c428e 0%, #3b295f 100%);*/
+    /*filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5c428e', endColorstr='#3b295f');*/
 }
 .myplan-carousel-list ul li > .uif-group.myplan-term-current > .uif-header h4 .uif-headerText-span {
     color: #f9f7f7;
@@ -817,8 +821,8 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     cursor: pointer;
 }
 .myplan-carousel-list .myplan-carousel-term-total {
-    background: #f6ebcd;
-    color: #39275b;
+    /*background: #f6ebcd;*/
+    /*color: #39275b;*/
     font-size: 12px;
     height: 26px;
     line-height: 26px;
