@@ -39,7 +39,7 @@
                         <property name="propertyReplacers">
                             <list>
                                 <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                                      p:condition="@{#{ T(org.kuali.student.myplan.utils.UserSessionHelper).isAdviser() }}">
+                                      p:condition="@{#{ T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isAdviser() }}">
                                     <property name="replacement">
                                         <list>
                                             <bean parent="Uif-Message" p:style="margin:0; display:none;" p:messageText="Testing" > </bean>
@@ -532,7 +532,7 @@
                         <property name="propertyReplacers">
                             <list>
                                 <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                                      p:condition="T(org.kuali.student.myplan.utils.UserSessionHelper).isAdviser()">
+                                      p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isAdviser()">
                                     <property name="replacement">
                                         <list>
                                             <bean id="leave_message_button" parent="Uif-PrimaryActionButton-Small" p:actionLabel="Leave a Message" p:style="margin:5px;">

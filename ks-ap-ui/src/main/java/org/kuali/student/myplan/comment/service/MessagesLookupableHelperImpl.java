@@ -10,9 +10,9 @@ import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.myplan.comment.dataobject.MessageDataObject;
 import org.kuali.student.myplan.main.service.MyPlanLookupableImpl;
-import org.kuali.student.myplan.utils.UserSessionHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.constants.CommentServiceConstants;
@@ -29,7 +29,7 @@ public class MessagesLookupableHelperImpl extends MyPlanLookupableImpl {
 			Map<String, String> fieldValues, boolean unbounded) {
 		// TODO: factory for context /mwfyffe
 		ContextInfo context = new ContextInfo();
-		String studentId = UserSessionHelper.getStudentId();
+		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
 		List<MessageDataObject> messages;
 		try {
 			messages = getCommentQueryHelper().getMessages(studentId, context);

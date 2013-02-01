@@ -11,8 +11,8 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.myplan.plan.PlanConstants;
 
 /**
  * Assembles a list of published terms.

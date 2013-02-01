@@ -1,12 +1,12 @@
 package org.kuali.student.myplan.course.util;
 
-import org.apache.log4j.Logger;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.myplan.plan.util.AtpHelper;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,9 +32,9 @@ public class AcademicTermMessageEditor extends CollectionListPropertyEditor {
         while (i.hasNext()) {
             String term = (String) i.next();
             String[] splitStr = term.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-            String atpId = AtpHelper.getAtpIdFromTermAndYear(splitStr[0].trim(), splitStr[1].trim());
+            String atpId = KsapFrameworkServiceLocator.getAtpHelper().getAtpIdFromTermAndYear(splitStr[0].trim(), splitStr[1].trim());
             List<TermInfo> scheduledTerms = null;
-            String currentTerm = AtpHelper.getCurrentAtpId();
+			String currentTerm = KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId();
             if (atpId.compareToIgnoreCase(currentTerm) >= 0) {
                 sb = sb.append("<dd>").append("You're currently enrolled in this course for ")
                         .append("<a href=plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=")

@@ -154,6 +154,7 @@
             <list merge="true">
                 <value>ks-myplan/scripts/myplan.widgets.js</value>
                 <value>ks-myplan/scripts/myplan.events.js</value>
+                <value>ks-myplan/plugins/jquery-1.8.1.js</value>
                 <value>ks-myplan/plugins/jquery.subscribe.js</value>
                 <value>ks-myplan/plugins/polling.js</value>
             </list>
@@ -323,6 +324,10 @@
 
     </bean>
 
+   	<bean id="myplan_dialog_anchor" parent="Uif-Image"
+   		p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif"
+   		p:cssClasses="uif-tooltip" />
+   	
     <bean id="myplan_section" parent="Uif-VerticalBoxSubSection" p:style="width: 230px; margin: 0;">
         <property name="header.render" value="false"/>
         <property name="cssClasses">
@@ -364,7 +369,7 @@
         <property name="propertyReplacers">
             <list>
                 <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                      p:condition="T(org.kuali.student.myplan.utils.UserSessionHelper).isStudent()">
+                      p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isStudent()">
                     <property name="replacement">
                         <list>
                             <ref bean="watch_list"/>

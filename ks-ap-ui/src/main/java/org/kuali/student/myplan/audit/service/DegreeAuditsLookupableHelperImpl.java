@@ -1,22 +1,24 @@
 package org.kuali.student.myplan.audit.service;
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.student.myplan.audit.dataobject.DegreeAuditItem;
-import org.kuali.student.myplan.audit.dto.AuditReportInfo;
-import org.kuali.student.myplan.audit.form.DegreeAuditForm;
-import org.kuali.student.myplan.audit.util.DegreeAuditDataObjectHelper;
-import org.kuali.student.myplan.course.service.CourseDetailsInquiryViewHelperServiceImpl;
-
-import org.apache.log4j.Logger;
-import org.kuali.student.myplan.main.service.MyPlanLookupableImpl;
-import org.kuali.student.myplan.utils.UserSessionHelper;
-import org.springframework.dao.DataRetrievalFailureException;
-import org.springframework.web.servlet.ModelAndView;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
-import java.util.*;
+
+import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.myplan.audit.dataobject.DegreeAuditItem;
+import org.kuali.student.myplan.audit.dto.AuditReportInfo;
+import org.kuali.student.myplan.audit.util.DegreeAuditDataObjectHelper;
+import org.kuali.student.myplan.course.service.CourseDetailsInquiryViewHelperServiceImpl;
+import org.kuali.student.myplan.main.service.MyPlanLookupableImpl;
+import org.springframework.dao.DataRetrievalFailureException;
 
 public class DegreeAuditsLookupableHelperImpl extends MyPlanLookupableImpl {
 
@@ -28,7 +30,7 @@ public class DegreeAuditsLookupableHelperImpl extends MyPlanLookupableImpl {
     protected List<DegreeAuditItem> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         String studentId = null;
         try {
-            studentId = UserSessionHelper.getAuditSystemKey();
+            studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getAuditSystemKey();
         } catch (DataRetrievalFailureException e) {
             List<DegreeAuditItem> degreeAuditItems = new ArrayList<DegreeAuditItem>();
             return degreeAuditItems;

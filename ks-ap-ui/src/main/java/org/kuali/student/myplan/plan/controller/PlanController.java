@@ -16,7 +16,6 @@
 package org.kuali.student.myplan.plan.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -39,6 +38,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
@@ -55,11 +55,8 @@ import org.kuali.student.myplan.comment.service.CommentQueryHelper;
 import org.kuali.student.myplan.course.dataobject.CourseDetails;
 import org.kuali.student.myplan.course.service.CourseDetailsInquiryViewHelperServiceImpl;
 import org.kuali.student.myplan.course.util.CourseSearchConstants;
-import org.kuali.student.myplan.plan.PlanConstants;
 import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
 import org.kuali.student.myplan.plan.form.PlanForm;
-import org.kuali.student.myplan.plan.util.AtpHelper;
-import org.kuali.student.myplan.utils.UserSessionHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -90,23 +87,6 @@ public class PlanController extends UifControllerBase {
 
 	// Java to JSON outputter.
 	private transient ObjectMapper mapper = new ObjectMapper();
-
-	// Used for getting the term and year from Atp
-	private transient AtpHelper atpHelper;
-	private transient AcademicRecordService academicRecordService;
-
-	public AcademicRecordService getAcademicRecordService() {
-		if (this.academicRecordService == null) {
-			// TODO: Use constants for namespace.
-			this.academicRecordService = KsapFrameworkServiceLocator.getAcademicRecordService();
-		}
-		return this.academicRecordService;
-	}
-
-	public void setAcademicRecordService(
-			AcademicRecordService academicRecordService) {
-		this.academicRecordService = academicRecordService;
-	}
 
 	@Override
 	protected PlanForm createInitialForm(HttpServletRequest request) {
@@ -189,7 +169,8 @@ public class PlanController extends UifControllerBase {
 						CourseSearchConstants.IS_ACADEMIC_RECORD_SERVICE_UP)
 						.toString())) {
 			isServiceStatusOK = false;
-			AtpHelper.addServiceError("planItemId");
+			KsapFrameworkServiceLocator.getAtpHelper().addServiceError(
+					"planItemId");
 		}
 		boolean isAuditServiceUp = Boolean.valueOf(request.getAttribute(
 				DegreeAuditConstants.IS_AUDIT_SERVICE_UP).toString());
@@ -244,9 +225,9 @@ public class PlanController extends UifControllerBase {
 						 * equal to planning term
 						 */
 						if (!planForm.isSetToPlanning()) {
-							planForm.setSetToPlanning(AtpHelper
-									.isAtpSetToPlanning(planItem
-											.getPlanPeriods().get(0)));
+							planForm.setSetToPlanning(KsapFrameworkServiceLocator
+									.getAtpHelper().isAtpSetToPlanning(
+											planItem.getPlanPeriods().get(0)));
 						}
 						planForm.setAtpId(planItem.getPlanPeriods().get(0));
 					} else {
@@ -275,8 +256,10 @@ public class PlanController extends UifControllerBase {
 		// properties are available to be displayed on the form.
 		try {
 			planForm.setCourseDetails(getCourseDetailsInquiryService()
-					.retrieveCourseDetails(planForm.getCourseId(),
-							UserSessionHelper.getStudentId()));
+					.retrieveCourseDetails(
+							planForm.getCourseId(),
+							KsapFrameworkServiceLocator.getUserSessionHelper()
+									.getStudentId()));
 		} catch (RuntimeException e) {
 			CourseDetails courseDetails = new CourseDetails();
 			planForm.setCourseDetails(courseDetails);
@@ -298,8 +281,9 @@ public class PlanController extends UifControllerBase {
 			 * planning term
 			 */
 			if (!planForm.isSetToPlanning()) {
-				planForm.setSetToPlanning(AtpHelper.isAtpSetToPlanning(planForm
-						.getAcadRecAtpId()));
+				planForm.setSetToPlanning(KsapFrameworkServiceLocator
+						.getAtpHelper().isAtpSetToPlanning(
+								planForm.getAcadRecAtpId()));
 			}
 
 		}
@@ -315,7 +299,7 @@ public class PlanController extends UifControllerBase {
 		// TODO: factory for context /mwfyffe
 		ContextInfo context = new ContextInfo();
 
-		if (UserSessionHelper.isAdviser()) {
+		if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
 			return doAdviserAccessError(form, "Adviser Access Denied", null);
 		}
 
@@ -377,7 +361,7 @@ public class PlanController extends UifControllerBase {
 		planItem.setTypeKey(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP);
 		try {
 			getAcademicPlanService().updatePlanItem(planItemId, planItem,
-					UserSessionHelper.makeContextInfoInstance());
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (Exception e) {
 			return doOperationFailedError(form, "Could not update plan item.",
 					e);
@@ -397,8 +381,8 @@ public class PlanController extends UifControllerBase {
 		form.setJavascriptEvents(events);
 
 		// Pass the ATP name in the params.
-		String[] params = { AtpHelper.atpIdToTermName(planItem.getPlanPeriods()
-				.get(0)) };
+		String[] params = { KsapFrameworkServiceLocator.getAtpHelper()
+				.atpIdToTermName(planItem.getPlanPeriods().get(0)) };
 		return doPlanActionSuccess(form,
 				PlanConstants.SUCCESS_KEY_PLANNED_ITEM_MARKED_BACKUP, params);
 	}
@@ -411,7 +395,7 @@ public class PlanController extends UifControllerBase {
 		// TODO: factory for context /mwfyffe
 		ContextInfo context = new ContextInfo();
 
-		if (UserSessionHelper.isAdviser()) {
+		if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
 			return doAdviserAccessError(form, "Adviser Access Denied", null);
 		}
 
@@ -474,7 +458,7 @@ public class PlanController extends UifControllerBase {
 		// Update
 		try {
 			getAcademicPlanService().updatePlanItem(planItemId, planItem,
-					UserSessionHelper.makeContextInfoInstance());
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (Exception e) {
 			return doOperationFailedError(form, "Could not udpate plan item.",
 					e);
@@ -493,8 +477,8 @@ public class PlanController extends UifControllerBase {
 
 		form.setJavascriptEvents(events);
 
-		String[] params = { AtpHelper.atpIdToTermName(planItem.getPlanPeriods()
-				.get(0)) };
+		String[] params = { KsapFrameworkServiceLocator.getAtpHelper()
+				.atpIdToTermName(planItem.getPlanPeriods().get(0)) };
 		return doPlanActionSuccess(form,
 				PlanConstants.SUCCESS_KEY_PLANNED_ITEM_MARKED_PLANNED, params);
 	}
@@ -507,7 +491,7 @@ public class PlanController extends UifControllerBase {
 		// TODO: factory for context /mwfyffe
 		ContextInfo context = new ContextInfo();
 
-		if (UserSessionHelper.isAdviser()) {
+		if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
 			return doAdviserAccessError(form, "Adviser Access Denied", null);
 		}
 		/**
@@ -546,7 +530,8 @@ public class PlanController extends UifControllerBase {
 			return doOperationFailedError(form, "Unable to process request.", e);
 		}
 		// Can't validate further up because the new ATP ID can be "other".
-		if (!AtpHelper.isAtpIdFormatValid(newAtpIds.get(0))) {
+		if (!KsapFrameworkServiceLocator.getAtpHelper().isAtpIdFormatValid(
+				newAtpIds.get(0))) {
 			return doOperationFailedError(form,
 					String.format("ATP ID [%s] was not formatted properly.",
 							newAtpIds.get(0)), null);
@@ -589,8 +574,10 @@ public class PlanController extends UifControllerBase {
 		}
 
 		if (existingPlanItem != null) {
-			String[] params = { courseDetails.getCode(),
-					AtpHelper.atpIdToTermName(newAtpIds.get(0)) };
+			String[] params = {
+					courseDetails.getCode(),
+					KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(
+							newAtpIds.get(0)) };
 			return doErrorPage(form,
 					PlanConstants.ERROR_KEY_PLANNED_ITEM_ALREADY_EXISTS, params);
 		}
@@ -616,7 +603,8 @@ public class PlanController extends UifControllerBase {
 		}
 
 		// Validate: Adding to historical term.
-		if (!AtpHelper.isAtpSetToPlanning(newAtpIds.get(0))) {
+		if (!KsapFrameworkServiceLocator.getAtpHelper().isAtpSetToPlanning(
+				newAtpIds.get(0))) {
 			return doCannotChangeHistoryError(form);
 		}
 
@@ -627,7 +615,7 @@ public class PlanController extends UifControllerBase {
 
 		try {
 			getAcademicPlanService().updatePlanItem(planItem.getId(), planItem,
-					UserSessionHelper.makeContextInfoInstance());
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (Exception e) {
 			return doOperationFailedError(form, "Could not udpate plan item.",
 					e);
@@ -658,9 +646,10 @@ public class PlanController extends UifControllerBase {
 		form.setJavascriptEvents(events);
 
 		String atpId = planItem.getPlanPeriods().get(0);
-		String link = makeLinkToAtp(atpId, AtpHelper.atpIdToTermName(atpId));
-		String[] params = { AtpHelper.atpIdToTermName(planItem.getPlanPeriods()
-				.get(0)) };
+		String link = makeLinkToAtp(atpId, KsapFrameworkServiceLocator
+				.getAtpHelper().atpIdToTermName(atpId));
+		String[] params = { KsapFrameworkServiceLocator.getAtpHelper()
+				.atpIdToTermName(planItem.getPlanPeriods().get(0)) };
 		return doPlanActionSuccess(form,
 				PlanConstants.SUCCESS_KEY_PLANNED_ITEM_MOVED, params);
 	}
@@ -685,7 +674,7 @@ public class PlanController extends UifControllerBase {
 		// TODO: factory for context /mwfyffe
 		ContextInfo context = new ContextInfo();
 
-		if (UserSessionHelper.isAdviser()) {
+		if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
 			return doAdviserAccessError(form, "Adviser Access Denied", null);
 		}
 		/**
@@ -723,7 +712,8 @@ public class PlanController extends UifControllerBase {
 		}
 
 		// Can't validate further up because the new ATP ID can be "other".
-		if (!AtpHelper.isAtpIdFormatValid(newAtpIds.get(0))) {
+		if (!KsapFrameworkServiceLocator.getAtpHelper().isAtpIdFormatValid(
+				newAtpIds.get(0))) {
 			return doOperationFailedError(form,
 					String.format("ATP ID [%s] was not formatted properly.",
 							newAtpIds.get(0)), null);
@@ -766,8 +756,10 @@ public class PlanController extends UifControllerBase {
 		}
 
 		if (existingPlanItem != null) {
-			String[] params = { courseDetails.getCode(),
-					AtpHelper.atpIdToTermName(newAtpIds.get(0)) };
+			String[] params = {
+					courseDetails.getCode(),
+					KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(
+							newAtpIds.get(0)) };
 			return doErrorPage(form,
 					PlanConstants.ERROR_KEY_PLANNED_ITEM_ALREADY_EXISTS, params);
 		}
@@ -789,7 +781,8 @@ public class PlanController extends UifControllerBase {
 		}
 
 		// Validate: Adding to historical term.
-		if (!AtpHelper.isAtpSetToPlanning(newAtpIds.get(0))) {
+		if (!KsapFrameworkServiceLocator.getAtpHelper().isAtpSetToPlanning(
+				newAtpIds.get(0))) {
 			return doCannotChangeHistoryError(form);
 		}
 
@@ -833,8 +826,10 @@ public class PlanController extends UifControllerBase {
 		form.setJavascriptEvents(events);
 
 		String atpId = planItem.getPlanPeriods().get(0);
-		String link = makeLinkToAtp(atpId, AtpHelper.atpIdToTermName(atpId));
-		String[] params = { AtpHelper.atpIdToTermName(atpId) };
+		String link = makeLinkToAtp(atpId, KsapFrameworkServiceLocator
+				.getAtpHelper().atpIdToTermName(atpId));
+		String[] params = { KsapFrameworkServiceLocator.getAtpHelper()
+				.atpIdToTermName(atpId) };
 		return doPlanActionSuccess(form,
 				PlanConstants.SUCCESS_KEY_PLANNED_ITEM_COPIED, params);
 	}
@@ -847,7 +842,7 @@ public class PlanController extends UifControllerBase {
 		// TODO: factory for context /mwfyffe
 		ContextInfo context = new ContextInfo();
 
-		if (UserSessionHelper.isAdviser()) {
+		if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
 			return doAdviserAccessError(form, "Adviser Access Denied", null);
 		}
 		/**
@@ -879,7 +874,8 @@ public class PlanController extends UifControllerBase {
 		} catch (RuntimeException e) {
 			return doOperationFailedError(form, "Unable to process request.", e);
 		}
-		if (!AtpHelper.isAtpIdFormatValid(newAtpIds.get(0))) {
+		if (!KsapFrameworkServiceLocator.getAtpHelper().isAtpIdFormatValid(
+				newAtpIds.get(0))) {
 			// return doOperationFailedError(form,
 			// String.format("ATP ID [%s] was not formatted properly.",
 			// newAtpIds.get(0)), null);
@@ -943,7 +939,8 @@ public class PlanController extends UifControllerBase {
 		}
 
 		// Validate: Adding to historical term.
-		if (!AtpHelper.isAtpSetToPlanning(newAtpIds.get(0))) {
+		if (!KsapFrameworkServiceLocator.getAtpHelper().isAtpSetToPlanning(
+				newAtpIds.get(0))) {
 			return doCannotChangeHistoryError(form);
 		}
 
@@ -977,8 +974,10 @@ public class PlanController extends UifControllerBase {
 
 			try {
 				planItem = getAcademicPlanService().updatePlanItem(
-						planItem.getId(), planItem,
-						UserSessionHelper.makeContextInfoInstance());
+						planItem.getId(),
+						planItem,
+						KsapFrameworkServiceLocator.getContext()
+								.getContextInfo());
 			} catch (Exception e) {
 				return doOperationFailedError(form,
 						"Unable MetaENtito update wishlist plan item.", e);
@@ -1009,10 +1008,12 @@ public class PlanController extends UifControllerBase {
 		// Populate the form.
 		form.setJavascriptEvents(events);
 
-		String link = makeLinkToAtp(newAtpIds.get(0),
-				AtpHelper.atpIdToTermName(planItem.getPlanPeriods().get(0)));
-		String[] params = { AtpHelper.atpIdToTermName(planItem.getPlanPeriods()
-				.get(0)) };
+		String link = makeLinkToAtp(
+				newAtpIds.get(0),
+				KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(
+						planItem.getPlanPeriods().get(0)));
+		String[] params = { KsapFrameworkServiceLocator.getAtpHelper()
+				.atpIdToTermName(planItem.getPlanPeriods().get(0)) };
 		return doPlanActionSuccess(form,
 				PlanConstants.SUCCESS_KEY_PLANNED_ITEM_ADDED, params);
 	}
@@ -1023,7 +1024,7 @@ public class PlanController extends UifControllerBase {
 	public ModelAndView academicPlanner(
 			@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
 			HttpServletRequest httprequest, HttpServletResponse httpresponse) {
-		if (UserSessionHelper.isAdviser()) {
+		if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
 			String[] params = {};
 			return doErrorPage(form, PlanConstants.ERROR_KEY_ADVISER_ACCESS,
 					params);
@@ -1187,7 +1188,7 @@ public class PlanController extends UifControllerBase {
 		// TODO: factory for context /mwfyffe
 		ContextInfo context = new ContextInfo();
 
-		if (UserSessionHelper.isAdviser()) {
+		if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
 			return doAdviserAccessError(form, "Adviser Access Denied", null);
 		}
 
@@ -1259,7 +1260,7 @@ public class PlanController extends UifControllerBase {
 		// TODO: factory for context /mwfyffe
 		ContextInfo context = new ContextInfo();
 
-		if (UserSessionHelper.isAdviser()) {
+		if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
 			return doAdviserAccessError(form, "Adviser Access Denied", null);
 		}
 
@@ -1296,7 +1297,7 @@ public class PlanController extends UifControllerBase {
 		try {
 			// Delete the plan item
 			getAcademicPlanService().deletePlanItem(planItemId,
-					UserSessionHelper.makeContextInfoInstance());
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (Exception e) {
 			return doOperationFailedError(form, "Could not delete plan item", e);
 		}
@@ -1374,11 +1375,6 @@ public class PlanController extends UifControllerBase {
 	private ModelAndView doOperationFailedError(PlanForm form,
 			String errorMessage, Exception e) {
 		String[] params = {};
-		if (e != null) {
-			logger.error(errorMessage, e);
-		} else {
-			logger.error(errorMessage);
-		}
 		return doErrorPage(form, errorMessage,
 				PlanConstants.ERROR_KEY_OPERATION_FAILED, params, e);
 	}
@@ -1416,12 +1412,15 @@ public class PlanController extends UifControllerBase {
 			CourseDetails courseDetails) {
 		/*
 		 * String[] t = {"?", "?"}; try { t =
-		 * AtpHelper.atpIdToTermNameAndYear(atpId); } catch (RuntimeException e)
-		 * { logger.error("Could not convert ATP ID to a term and year.", e); }
+		 * KsapFrameworkServiceLocator.getAtpHelper
+		 * ().atpIdToTermNameAndYear(atpId); } catch (RuntimeException e) {
+		 * logger.error("Could not convert ATP ID to a term and year.", e); }
 		 * String term = t[0] + " " + t[1];
 		 */
-		String[] params = { courseDetails.getCode(),
-				AtpHelper.atpIdToTermName(atpId) };
+		String[] params = {
+				courseDetails.getCode(),
+				KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(
+						atpId) };
 		return doErrorPage(form,
 				PlanConstants.ERROR_KEY_PLANNED_ITEM_ALREADY_EXISTS, params);
 	}
@@ -1513,7 +1512,7 @@ public class PlanController extends UifControllerBase {
 
 		try {
 			newPlanItem = getAcademicPlanService().createPlanItem(pii,
-					UserSessionHelper.makeContextInfoInstance());
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (Exception e) {
 			logger.error("Could not create plan item.", e);
 			throw new RuntimeException("Could not create plan item.", e);
@@ -2051,9 +2050,11 @@ public class PlanController extends UifControllerBase {
 	private List<StudentCourseRecordInfo> getAcadRecs(String studentID) {
 		List<StudentCourseRecordInfo> studentCourseRecordInfos = new ArrayList<StudentCourseRecordInfo>();
 		try {
-			studentCourseRecordInfos = getAcademicRecordService()
-					.getCompletedCourseRecords(studentID,
-							PlanConstants.CONTEXT_INFO);
+			studentCourseRecordInfos = KsapFrameworkServiceLocator
+					.getAcademicRecordService().getCompletedCourseRecords(
+							studentID,
+							KsapFrameworkServiceLocator.getContext()
+									.getContextInfo());
 
 		} catch (Exception e) {
 			logger.error("Query to fetch Academic records failed with SWS");
@@ -2075,8 +2076,9 @@ public class PlanController extends UifControllerBase {
 					termsOffered = m.group(1).substring(0, 2).toUpperCase()
 							+ " " + m.group(2);
 				}
-				String atp = AtpHelper.getAtpIdFromTermAndYear(
-						splitStr[0].trim(), splitStr[1].trim());
+				String atp = KsapFrameworkServiceLocator.getAtpHelper()
+						.getAtpIdFromTermAndYear(splitStr[0].trim(),
+								splitStr[1].trim());
 
 				if (courseDetails.getPlannedList() != null) {
 					for (PlanItemDataObject plan : courseDetails
@@ -2103,7 +2105,8 @@ public class PlanController extends UifControllerBase {
 
 	private boolean isNewUser() {
 		boolean isNewUser = false;
-		String studentId = UserSessionHelper.getStudentId();
+		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper()
+				.getStudentId();
 		List<LearningPlanInfo> learningPlanList = new ArrayList<LearningPlanInfo>();
 		List<AuditReportInfo> auditReportInfoList = new ArrayList<AuditReportInfo>();
 		try {
@@ -2115,26 +2118,27 @@ public class PlanController extends UifControllerBase {
 			throw new RuntimeException("Could not retrieve plan items.", e);
 		}
 		/* check if any audits are ran ! if no plans found */
-//		if (learningPlanList.size() == 0) {
-//			String systemKey = UserSessionHelper.getAuditSystemKey();
-//
-//
-//            Date startDate = new Date();
-//			Date endDate = new Date();
-//			ContextInfo contextInfo = new ContextInfo();
-//			try {
-//				auditReportInfoList = getDegreeAuditService()
+		// if (learningPlanList.size() == 0) {
+		// String systemKey =
+		// KsapFrameworkServiceLocator.getUserSessionHelper().getAuditSystemKey();
+		//
+		//
+		// Date startDate = new Date();
+		// Date endDate = new Date();
+		// ContextInfo contextInfo = new ContextInfo();
+		// try {
+		// auditReportInfoList = getDegreeAuditService()
 
-//						.getAuditsForStudentInDateRange(systemKey, startDate,
-//								endDate, contextInfo);
-//			} catch (Exception e) {
-//				throw new RuntimeException(
-//						"Could not retrieve degreeaudit details", e);
-//			}
-//			if (auditReportInfoList.size() == 0) {
-//				isNewUser = true;
-//			}
-//		}
+		// .getAuditsForStudentInDateRange(systemKey, startDate,
+		// endDate, contextInfo);
+		// } catch (Exception e) {
+		// throw new RuntimeException(
+		// "Could not retrieve degreeaudit details", e);
+		// }
+		// if (auditReportInfoList.size() == 0) {
+		// isNewUser = true;
+		// }
+		// }
 		return isNewUser;
 	}
 
@@ -2146,17 +2150,6 @@ public class PlanController extends UifControllerBase {
 							DegreeAuditServiceConstants.SERVICE_NAME));
 		}
 		return degreeAuditService;
-	}
-
-	public synchronized AtpHelper getAtpHelper() {
-		if (this.atpHelper == null) {
-			this.atpHelper = new AtpHelper();
-		}
-		return atpHelper;
-	}
-
-	public void setAtpHelper(AtpHelper atpHelper) {
-		this.atpHelper = atpHelper;
 	}
 
 	public AcademicPlanService getAcademicPlanService() {

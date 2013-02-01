@@ -4,7 +4,9 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.ap.framework.context.AtpHelper;
 import org.kuali.student.ap.framework.context.KsapContext;
+import org.kuali.student.ap.framework.context.UserSessionHelper;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -54,12 +56,12 @@ public final class KsapFrameworkServiceLocator {
 	private static <T> T getLocalService(String serviceName) {
 		@SuppressWarnings("unchecked")
 		T rv = (T) SERVICE_CACHE.get(serviceName);
-        if (rv == null){
-            rv = GlobalResourceLoader.getService(serviceName);
-            if(rv!=null){
-                SERVICE_CACHE.put(serviceName,rv);
-            }
-        }
+		if (rv == null) {
+			rv = GlobalResourceLoader.getService(serviceName);
+			if (rv != null) {
+				SERVICE_CACHE.put(serviceName, rv);
+			}
+		}
 		assert rv != null : serviceName + " not defined in Rice";
 		return rv;
 	}
@@ -164,9 +166,27 @@ public final class KsapFrameworkServiceLocator {
 	}
 
 	/**
+	 * Get the user session helper.
+	 * 
+	 * @return The user session helper.
+	 */
+	public static UserSessionHelper getUserSessionHelper() {
+		return getLocalService("ksapUserSessionHelper");
+	}
+
+	/**
+	 * Get the ATP helper.
+	 * 
+	 * @return The ATP help.
+	 */
+	public static AtpHelper getAtpHelper() {
+		return getLocalService("ksapAtpHelper");
+	}
+
+	/**
 	 * Get the academic plan service.
 	 * 
-	 * @return The adacemic plan service.
+	 * @return The academic plan service.
 	 */
 	public static AcademicPlanService getAcademicPlanService() {
 		return getLocalService("academicPlanService");
@@ -175,7 +195,7 @@ public final class KsapFrameworkServiceLocator {
 	/**
 	 * Get the course search strategy.
 	 * 
-	 * @reteurn The course search strategy.
+	 * @return The course search strategy.
 	 */
 	public static CourseSearchStrategy getCourseSearchStrategy() {
 		return getLocalService("courseSearchStrategy");

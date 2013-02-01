@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -26,15 +27,12 @@ import org.kuali.student.myplan.academicplan.service.AcademicPlanServiceConstant
 import org.kuali.student.myplan.course.dataobject.CourseDetails;
 import org.kuali.student.myplan.course.util.CourseSearchConstants;
 import org.kuali.student.myplan.course.util.CreditsFormatter;
-import org.kuali.student.myplan.plan.PlanConstants;
 import org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
-import org.kuali.student.myplan.plan.util.AtpHelper;
 import org.kuali.student.myplan.plan.util.DateFormatHelper;
 import org.kuali.student.myplan.plan.util.EnumerationHelper;
 import org.kuali.student.myplan.plan.util.OrgHelper;
 import org.kuali.student.myplan.utils.CourseLinkBuilder;
-import org.kuali.student.myplan.utils.UserSessionHelper;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -114,7 +112,7 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
 	@Override
 	public CourseDetails retrieveDataObject(
 			@SuppressWarnings("rawtypes") Map fieldValues) {
-		String studentId = UserSessionHelper.getStudentId();
+		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
 		return retrieveCourseDetails(
 				(String) fieldValues.get(PlanConstants.PARAM_COURSE_ID),
 				studentId);
@@ -182,7 +180,7 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
 		String et = course.getEndTerm();
 		String[] tn;
 		if (et != null
-				&& !(tn = AtpHelper.atpIdToTermNameAndYear(et))[1]
+				&& !(tn = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermNameAndYear(et))[1]
 						.equals("9999"))
 			courseDetails.setLastEffectiveTerm(tn[0] + " " + tn[1]);
 
@@ -462,7 +460,7 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
 				academicRecordDataObjectList.add(academicRecordDataObject);
 				if (courseDetails.getCourseId().equalsIgnoreCase(
 						studentInfo.getId())) {
-					String[] str = AtpHelper.atpIdToTermNameAndYear(studentInfo
+					String[] str = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermNameAndYear(studentInfo
 							.getTermName());
 					courseDetails.getAcademicTerms().add(str[0] + " " + str[1]);
 				}
@@ -507,9 +505,9 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
 				"myplan.course.getCampusLocations");
 		searchRequest.addParam("cluId", courseId);
 		// TODO: Fix when version issue for course is addressed
-		// searchRequest.addParam("currentTerm", AtpHelper.getCurrentAtpId());
+		// searchRequest.addParam("currentTerm", KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId());
 		searchRequest.addParam("lastScheduledTerm",
-				AtpHelper.getLastScheduledAtpId());
+				KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId());
 		SearchResult searchResult = null;
 		try {
 			searchResult = KsapFrameworkServiceLocator.getCluService().search(

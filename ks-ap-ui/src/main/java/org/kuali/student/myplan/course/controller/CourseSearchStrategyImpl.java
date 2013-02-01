@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
@@ -39,8 +40,6 @@ import org.kuali.student.myplan.course.util.CreditsFacet;
 import org.kuali.student.myplan.course.util.CurriculumFacet;
 import org.kuali.student.myplan.course.util.GenEduReqFacet;
 import org.kuali.student.myplan.course.util.TermsFacet;
-import org.kuali.student.myplan.plan.PlanConstants;
-import org.kuali.student.myplan.plan.util.AtpHelper;
 import org.kuali.student.myplan.plan.util.EnumerationHelper;
 import org.kuali.student.myplan.plan.util.OrgHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -1055,8 +1054,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	}
 
 	private void addVersionDateParam(List<SearchRequestInfo> searchRequests) {
-		// String currentTerm = AtpHelper.getCurrentAtpId();
-		String lastScheduledTerm = AtpHelper.getLastScheduledAtpId();
+		// String currentTerm = KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId();
+		String lastScheduledTerm = KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId();
 		for (SearchRequestInfo searchRequest : searchRequests) {
 			// searchRequest.addParam("currentTerm", currentTerm);
 			searchRequest.addParam("lastScheduledTerm", lastScheduledTerm);

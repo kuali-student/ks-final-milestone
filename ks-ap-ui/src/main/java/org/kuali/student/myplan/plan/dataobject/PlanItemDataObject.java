@@ -1,11 +1,10 @@
 package org.kuali.student.myplan.plan.dataobject;
 
-import org.kuali.student.myplan.academicplan.infc.PlanItem;
-import org.kuali.student.myplan.course.dataobject.CourseDetails;
-import org.kuali.student.myplan.plan.util.AtpHelper;
-
 import java.util.Date;
 import java.util.List;
+
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.myplan.academicplan.infc.PlanItem;
 
 public class PlanItemDataObject {
 
@@ -28,7 +27,7 @@ public class PlanItemDataObject {
         // At the application level we are only dealing with single ATP per plan item
         if (item.getPlanPeriods() != null && item.getPlanPeriods().size() > 0) {
             itemDO.setAtp(item.getPlanPeriods().get(0));
-            String[] termYear = AtpHelper.atpIdToTermAndYear(itemDO.getAtp());
+			String[] termYear = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermAndYear(itemDO.getAtp());
             itemDO.setYear(Integer.valueOf(termYear[1]));
             itemDO.setTerm(termYear[0]);
         }

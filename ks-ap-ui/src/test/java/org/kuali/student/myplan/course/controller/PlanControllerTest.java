@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.myplan.plan.PlanConstants;
+import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.myplan.plan.controller.PlanController;
 import org.kuali.student.myplan.plan.form.PlanForm;
 import org.kuali.rice.krad.UserSession;

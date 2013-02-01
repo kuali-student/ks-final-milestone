@@ -18,8 +18,8 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.myplan.course.dataobject.CourseDetails;
-import org.kuali.student.myplan.plan.PlanConstants;
 
 import java.util.Map;
 

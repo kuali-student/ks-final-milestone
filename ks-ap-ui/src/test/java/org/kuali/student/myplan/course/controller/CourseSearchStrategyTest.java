@@ -11,9 +11,9 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.myplan.course.form.CourseSearchFormImpl;
-import org.kuali.student.myplan.plan.util.AtpHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -294,7 +294,7 @@ public class CourseSearchStrategyTest {
 		assertEquals("310", param.getValues().get(0));
 		param = params.get(2);
 		assertEquals("lastScheduledTerm", param.getKey());
-		assertEquals(AtpHelper.getLastScheduledAtpId(), param.getValues()
+		assertEquals(KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId(), param.getValues()
 				.get(0));
 
 		request = requests.get(2);
@@ -309,7 +309,7 @@ public class CourseSearchStrategyTest {
 		assertEquals("310", param.getValues().get(0));
 		param = params.get(2);
 		assertEquals("lastScheduledTerm", param.getKey());
-		assertEquals(AtpHelper.getLastScheduledAtpId(), param.getValues()
+		assertEquals(KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId(), param.getValues()
 				.get(0));
 	}
 
@@ -383,7 +383,7 @@ public class CourseSearchStrategyTest {
 		assertEquals("310", param.getValues().get(0));
 		param = params.get(3);
 		assertEquals("lastScheduledTerm", param.getKey());
-		assertEquals(AtpHelper.getLastScheduledAtpId(), param.getValues()
+		assertEquals(KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId(), param.getValues()
 				.get(0));
 
 	}
@@ -510,7 +510,7 @@ public class CourseSearchStrategyTest {
 		assertEquals("310", param.getValues().get(0));
 		param = params.get(2);
 		assertEquals("lastScheduledTerm", param.getKey());
-		assertEquals(AtpHelper.getLastScheduledAtpId(), param.getValues()
+		assertEquals(KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId(), param.getValues()
 				.get(0));
 
 		request = requests.get(1);
@@ -525,7 +525,7 @@ public class CourseSearchStrategyTest {
 		assertEquals("310", param.getValues().get(0));
 		param = params.get(2);
 		assertEquals("lastScheduledTerm", param.getKey());
-		assertEquals(AtpHelper.getLastScheduledAtpId(), param.getValues()
+		assertEquals(KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId(), param.getValues()
 				.get(0));
 
 		request = requests.get(2);
@@ -540,7 +540,7 @@ public class CourseSearchStrategyTest {
 		assertEquals("310", param.getValues().get(0));
 		param = params.get(2);
 		assertEquals("lastScheduledTerm", param.getKey());
-		assertEquals(AtpHelper.getLastScheduledAtpId(), param.getValues()
+		assertEquals(KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId(), param.getValues()
 				.get(0));
 
 		request = requests.get(3);
@@ -555,7 +555,7 @@ public class CourseSearchStrategyTest {
 		assertEquals("310", param.getValues().get(0));
 		param = params.get(2);
 		assertEquals("lastScheduledTerm", param.getKey());
-		assertEquals(AtpHelper.getLastScheduledAtpId(), param.getValues()
+		assertEquals(KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId(), param.getValues()
 				.get(0));
 	}
 
@@ -581,7 +581,7 @@ public class CourseSearchStrategyTest {
 	 * assertEquals("campuses", param.getKey()); assertEquals("310",
 	 * param.getValues().get(0)); param = params.get(2);
 	 * assertEquals("lastScheduledTerm", param.getKey());
-	 * assertEquals(AtpHelper.getLastScheduledAtpId(), param.getValues()
+	 * assertEquals(KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId(), param.getValues()
 	 * .get(0));
 	 * 
 	 * request = requests.get(1); params = request.getParams();
@@ -592,7 +592,7 @@ public class CourseSearchStrategyTest {
 	 * assertEquals("campuses", param.getKey()); assertEquals("310",
 	 * param.getValues().get(0)); param = params.get(2);
 	 * assertEquals("lastScheduledTerm", param.getKey());
-	 * assertEquals(AtpHelper.getLastScheduledAtpId(), param.getValues()
+	 * assertEquals(KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId(), param.getValues()
 	 * .get(0));
 	 * 
 	 * request = requests.get(2); params = request.getParams();
@@ -603,7 +603,7 @@ public class CourseSearchStrategyTest {
 	 * assertEquals("campuses", param.getKey()); assertEquals("310",
 	 * param.getValues().get(0)); param = params.get(2);
 	 * assertEquals("lastScheduledTerm", param.getKey());
-	 * assertEquals(AtpHelper.getLastScheduledAtpId(), param.getValues()
+	 * assertEquals(KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId(), param.getValues()
 	 * .get(0));
 	 * 
 	 * request = requests.get(3); params = request.getParams();
@@ -614,7 +614,7 @@ public class CourseSearchStrategyTest {
 	 * assertEquals("campuses", param.getKey()); assertEquals("310",
 	 * param.getValues().get(0)); param = params.get(2);
 	 * assertEquals("lastScheduledTerm", param.getKey());
-	 * assertEquals(AtpHelper.getLastScheduledAtpId(), param.getValues()
+	 * assertEquals(KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId(), param.getValues()
 	 * .get(0));
 	 * 
 	 * request = requests.get(4); params = request.getParams();
@@ -625,7 +625,7 @@ public class CourseSearchStrategyTest {
 	 * assertEquals("campuses", param.getKey()); assertEquals("310",
 	 * param.getValues().get(0)); param = params.get(2);
 	 * assertEquals("lastScheduledTerm", param.getKey());
-	 * assertEquals(AtpHelper.getLastScheduledAtpId(), param.getValues()
+	 * assertEquals(KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId(), param.getValues()
 	 * .get(0));
 	 * 
 	 * request = requests.get(5); params = request.getParams();
@@ -636,7 +636,7 @@ public class CourseSearchStrategyTest {
 	 * assertEquals("campuses", param.getKey()); assertEquals("310",
 	 * param.getValues().get(0)); param = params.get(2);
 	 * assertEquals("lastScheduledTerm", param.getKey());
-	 * assertEquals(AtpHelper.getLastScheduledAtpId(), param.getValues()
+	 * assertEquals(KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId(), param.getValues()
 	 * .get(0));
 	 * 
 	 * }

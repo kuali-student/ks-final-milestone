@@ -1,28 +1,25 @@
 package org.kuali.student.myplan.utils;
 
-import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.uif.control.UifKeyValuesFinder;
-import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
-import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.myplan.course.dataobject.CourseDetails;
-import org.kuali.student.myplan.course.util.CourseSearchConstants;
-import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
-import org.kuali.student.myplan.plan.dataobject.PlannedTerm;
-import org.kuali.student.myplan.plan.form.PlanForm;
-import org.kuali.student.myplan.plan.util.AtpHelper;
-
-import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
+
+import javax.xml.namespace.QName;
+
+import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.myplan.course.dataobject.CourseDetails;
+import org.kuali.student.myplan.course.util.CourseSearchConstants;
+import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
+import org.kuali.student.myplan.plan.form.PlanForm;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 
 /**
  * Assembles a list of published terms.
@@ -78,7 +75,7 @@ public class AddPlanPublishedTermsListBuilder extends UifKeyValuesFinderBase {
                 if (m.matches()) {
                     termsOffered = m.group(1).substring(0, 2).toUpperCase() + " " + m.group(2);
                 }
-                String atp = AtpHelper.getAtpIdFromTermAndYear(splitStr[0].trim(), splitStr[1].trim());
+                String atp = KsapFrameworkServiceLocator.getAtpHelper().getAtpIdFromTermAndYear(splitStr[0].trim(), splitStr[1].trim());
 
                 if (courseDetails.getPlannedList()!=null){
                 for(PlanItemDataObject plan:courseDetails.getPlannedList()) {

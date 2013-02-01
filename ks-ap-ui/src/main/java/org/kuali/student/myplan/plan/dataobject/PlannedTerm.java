@@ -1,8 +1,8 @@
 package org.kuali.student.myplan.plan.dataobject;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.myplan.course.dataobject.CourseDetails;
-import org.kuali.student.myplan.plan.PlanConstants;
 import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
 
 import java.util.ArrayList;

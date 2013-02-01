@@ -1,65 +1,77 @@
 package org.kuali.student.myplan.plan.util;
 
-import org.apache.log4j.Logger;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 
 /**
  * Assembles a list of published terms.
  */
 public class TermsListBuilder extends KeyValuesBase {
 
-    private final Logger logger = Logger.getLogger(TermsListBuilder.class);
+	private static final long serialVersionUID = 4456030609113645225L;
 
-    private static int futureTermsCount = 6;
+	private static int futureTermsCount = 6;
 
-    private static String atpTerm1 = "1";
-    private static String atpTerm2 = "2";
-    private static String atpTerm3 = "3";
-    private static String atpTerm4 = "4";
-
-    /**
-     * Build and returns the list of available terms.
-     *
-     * @return A List of available terms as KeyValue items.
-     */
-    @Override
-    public List<KeyValue> getKeyValues() {
-
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        String minTerm = AtpHelper.getCurrentAtpId();
-        String[] minTerms = AtpHelper.atpIdToTermAndYear(minTerm);
-        int maximumYear = Integer.parseInt(minTerms[1]) + futureTermsCount;
-        int maximumQuarter = Integer.parseInt(minTerms[0]);
-        if (maximumQuarter == 4) {
-            maximumQuarter = 3;
-        } else {
-            maximumQuarter = maximumQuarter++;
-        }
-        String maxTerm = AtpHelper.getAtpFromNumTermAndYear(String.valueOf(maximumQuarter), String.valueOf(maximumYear));
-        String[] maxTerms = AtpHelper.atpIdToTermAndYear(maxTerm);
-        int minYear = Integer.parseInt(minTerms[1]);
-        String term1 = "";
-        String term2 = "";
-        String term3 = "";
-        String term4 = "";
-        for (int i = 0; !term4.equalsIgnoreCase(maxTerm); i++) {
-            term1 = AtpHelper.getAtpFromNumTermAndYear(atpTerm4, String.valueOf(minYear));
-            keyValues.add(new ConcreteKeyValue(term1, AtpHelper.atpIdToTermName(term1)));
-            minYear++;
-            term2 = AtpHelper.getAtpFromNumTermAndYear(atpTerm1, String.valueOf(minYear));
-            keyValues.add(new ConcreteKeyValue(term2, AtpHelper.atpIdToTermName(term2)));
-            term3 = AtpHelper.getAtpFromNumTermAndYear(atpTerm2, String.valueOf(minYear));
-            keyValues.add(new ConcreteKeyValue(term3, AtpHelper.atpIdToTermName(term3)));
-            term4 = AtpHelper.getAtpFromNumTermAndYear(atpTerm3, String.valueOf(minYear));
-            keyValues.add(new ConcreteKeyValue(term4, AtpHelper.atpIdToTermName(term4)));
-        }
-        return keyValues;
-    }
+	/**
+	 * Build and returns the list of available terms.
+	 * 
+	 * @return A List of available terms as KeyValue items.
+	 */
+	@Override
+	public List<KeyValue> getKeyValues() {
+		ContextInfo context = KsapFrameworkServiceLocator.getContext()
+				.getContextInfo();
+		AtpService atpService = KsapFrameworkServiceLocator.getAtpService();
+		Calendar c = Calendar.getInstance();
+		try {
+			c.setTime(atpService.getAtp(
+					KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId(), context)
+					.getStartDate());
+		} catch (DoesNotExistException e) {
+			throw new IllegalArgumentException("ATP lookup failure", e);
+		} catch (InvalidParameterException e) {
+			throw new IllegalArgumentException("ATP lookup failure", e);
+		} catch (MissingParameterException e) {
+			throw new IllegalArgumentException("ATP lookup failure", e);
+		} catch (OperationFailedException e) {
+			throw new IllegalStateException("ATP lookup failure", e);
+		} catch (PermissionDeniedException e) {
+			throw new IllegalStateException("ATP lookup failure", e);
+		}
+		c.add(Calendar.DATE, -1);
+		Date startDate = c.getTime();
+		c.setTime(new Date());
+		c.add(Calendar.YEAR, futureTermsCount);
+		Date endDate = c.getTime();
+		List<KeyValue> keyValues = new java.util.ArrayList<KeyValue>();
+		try {
+			for (AtpInfo atp : atpService.getAtpsByDates(startDate, endDate,
+					context))
+				keyValues.add(new ConcreteKeyValue(atp.getId(), atp.getName()));
+		} catch (InvalidParameterException e) {
+			throw new IllegalArgumentException("ATP lookup failure", e);
+		} catch (MissingParameterException e) {
+			throw new IllegalArgumentException("ATP lookup failure", e);
+		} catch (OperationFailedException e) {
+			throw new IllegalStateException("ATP lookup failure", e);
+		} catch (PermissionDeniedException e) {
+			throw new IllegalStateException("ATP lookup failure", e);
+		}
+		return keyValues;
+	}
 
 }
-

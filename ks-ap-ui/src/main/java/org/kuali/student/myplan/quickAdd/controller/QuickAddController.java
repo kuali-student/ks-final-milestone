@@ -24,6 +24,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -34,12 +35,8 @@ import org.kuali.student.myplan.academicplan.infc.PlanItem;
 import org.kuali.student.myplan.course.controller.CourseSearchController;
 import org.kuali.student.myplan.course.dataobject.CourseDetails;
 import org.kuali.student.myplan.course.service.CourseDetailsInquiryViewHelperServiceImpl;
-import org.kuali.student.myplan.plan.PlanConstants;
-import org.kuali.student.myplan.plan.util.AtpHelper;
 import org.kuali.student.myplan.quickAdd.QuickAddConstants;
 import org.kuali.student.myplan.quickAdd.form.QuickAddForm;
-import org.kuali.student.myplan.utils.UserSessionHelper;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -103,7 +100,7 @@ public class QuickAddController extends UifControllerBase {
 		QuickAddForm searchForm = (QuickAddForm) form;
 		if (StringUtils.hasText(searchForm.getAtpId())
 				&& StringUtils.hasText(searchForm.getPlanType())) {
-			String termYear = AtpHelper.atpIdToTermName(searchForm.getAtpId());
+			String termYear = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(searchForm.getAtpId());
 			if (searchForm.getPlanType().equalsIgnoreCase(
 					QuickAddConstants.PLANNED_TYPE)) {
 				termYear = termYear + QuickAddConstants.PLAN;
@@ -203,7 +200,7 @@ public class QuickAddController extends UifControllerBase {
 			HttpServletResponse response) {
 
 		String[] parameters = {};
-		if (UserSessionHelper.isAdviser()) {
+		if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
 			return doAdviserAccessError(form, "Adviser Access Denied",
 					QuickAddConstants.ACCESS_DENIED, null);
 		}
@@ -238,9 +235,9 @@ public class QuickAddController extends UifControllerBase {
 				try {
 					req.addParam("number", number);
 					req.addParam("subject", subject.trim());
-					req.addParam("currentTerm", AtpHelper.getCurrentAtpId());
+					req.addParam("currentTerm", KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId());
 					req.addParam("lastScheduledTerm",
-							AtpHelper.getLastScheduledAtpId());
+							KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId());
 
 					res = KsapFrameworkServiceLocator.getCluService().search(
 							req,
@@ -310,7 +307,7 @@ public class QuickAddController extends UifControllerBase {
 					PlanConstants.ERROR_KEY_OPERATION_FAILED, e,
 					new String[] {});
 		}
-		if (!AtpHelper.isAtpIdFormatValid(newAtpIds.get(0))) {
+		if (!KsapFrameworkServiceLocator.getAtpHelper().isAtpIdFormatValid(newAtpIds.get(0))) {
 			return doOperationFailedError(form,
 					String.format("ATP ID [%s] was not formatted properly.",
 							newAtpIds.get(0)),
@@ -318,7 +315,7 @@ public class QuickAddController extends UifControllerBase {
 					new String[] {});
 		}
 
-		String studentId = UserSessionHelper.getStudentId();
+		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
 
 		LearningPlan plan = null;
 		try {
@@ -358,7 +355,7 @@ public class QuickAddController extends UifControllerBase {
 		CourseDetails courseDetails = null;
 		try {
 			courseDetails = courseDetailsInquiryService.retrieveCourseSummary(
-					courseId, UserSessionHelper.getStudentId());
+					courseId, KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId());
 		} catch (Exception e) {
 			return doOperationFailedError(form,
 					"Unable to retrieve Course Details.",
@@ -383,7 +380,7 @@ public class QuickAddController extends UifControllerBase {
 		}
 
 		// Validate: Adding to historical term.
-		if (!AtpHelper.isAtpSetToPlanning(newAtpIds.get(0))) {
+		if (!KsapFrameworkServiceLocator.getAtpHelper().isAtpSetToPlanning(newAtpIds.get(0))) {
 			return doCannotChangeHistoryError(form);
 		}
 
@@ -419,7 +416,7 @@ public class QuickAddController extends UifControllerBase {
 			try {
 				planItem = KsapFrameworkServiceLocator.getAcademicPlanService()
 						.updatePlanItem(planItem.getId(), planItem,
-								UserSessionHelper.makeContextInfoInstance());
+								KsapFrameworkServiceLocator.getContext().getContextInfo());
 			} catch (Exception e) {
 				return doOperationFailedError(form,
 						"Unable MetaENtito update wishlist plan item.",
@@ -451,7 +448,7 @@ public class QuickAddController extends UifControllerBase {
 
 		// Populate the form.
 		form.setJavascriptEvents(events);
-		String[] params = { AtpHelper.atpIdToTermName(planItem.getPlanPeriods()
+		String[] params = { KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(planItem.getPlanPeriods()
 				.get(0)) };
 		return doPlanActionSuccess(form,
 				PlanConstants.SUCCESS_KEY_PLANNED_ITEM_ADDED, params);
@@ -485,7 +482,7 @@ public class QuickAddController extends UifControllerBase {
 			if (courseDetails == null) {
 				courseDetails = courseDetailsInquiryService
 						.retrieveCourseSummary(planItem.getRefObjectId(),
-								UserSessionHelper.getStudentId());
+								KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId());
 			}
 			// Serialize course details into a string of JSON.
 			courseDetailsAsJson = mapper.writeValueAsString(courseDetails);
@@ -513,7 +510,7 @@ public class QuickAddController extends UifControllerBase {
 
 	protected PlanItemInfo getPlannedOrBackupPlanItem(String courseId,
 			String atpId) {
-		String studentId = UserSessionHelper.getStudentId();
+		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
 		LearningPlan learningPlan = getLearningPlan(studentId);
 		if (learningPlan == null) {
 			throw new RuntimeException(String.format(
@@ -680,7 +677,7 @@ public class QuickAddController extends UifControllerBase {
 		try {
 			newPlanItem = KsapFrameworkServiceLocator.getAcademicPlanService()
 					.createPlanItem(pii,
-							UserSessionHelper.makeContextInfoInstance());
+							KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (Exception e) {
 			LOG.error("Could not create plan item.", e);
 			throw new RuntimeException("Could not create plan item.", e);
@@ -737,7 +734,7 @@ public class QuickAddController extends UifControllerBase {
 						if (atp.equalsIgnoreCase(termId)) {
 							CourseDetails courseDetails = courseDetailsInquiryService
 									.retrieveCourseSummary(courseID,
-											UserSessionHelper.getStudentId());
+											KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId());
 							if (courseDetails != null
 									&& !courseDetails.getCredit().contains(".")) {
 								String[] str = courseDetails.getCredit().split(
@@ -925,7 +922,7 @@ public class QuickAddController extends UifControllerBase {
 			throw new RuntimeException("Course Id was empty.");
 		}
 
-		String studentId = UserSessionHelper.getStudentId();
+		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
 		LearningPlan learningPlan = getLearningPlan(studentId);
 		if (learningPlan == null) {
 			throw new RuntimeException(String.format(
@@ -1163,12 +1160,12 @@ public class QuickAddController extends UifControllerBase {
 			CourseDetails courseDetails) {
 		/*
 		 * String[] t = {"?", "?"}; try { t =
-		 * AtpHelper.atpIdToTermNameAndYear(atpId); } catch (RuntimeException e)
+		 * KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermNameAndYear(atpId); } catch (RuntimeException e)
 		 * { logger.error("Could not convert ATP ID to a term and year.", e); }
 		 * String term = t[0] + " " + t[1];
 		 */
 		String[] params = { courseDetails.getCode(),
-				AtpHelper.atpIdToTermName(atpId) };
+				KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(atpId) };
 		return doErrorPage(form,
 				PlanConstants.ERROR_KEY_PLANNED_ITEM_ALREADY_EXISTS, params);
 	}

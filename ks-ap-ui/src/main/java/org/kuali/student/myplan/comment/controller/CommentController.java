@@ -36,13 +36,13 @@ import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.myplan.comment.CommentConstants;
 import org.kuali.student.myplan.comment.dataobject.CommentDataObject;
 import org.kuali.student.myplan.comment.dataobject.MessageDataObject;
 import org.kuali.student.myplan.comment.form.CommentForm;
 import org.kuali.student.myplan.comment.service.CommentQueryHelper;
 import org.kuali.student.myplan.service.MyPlanMailService;
-import org.kuali.student.myplan.utils.UserSessionHelper;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -83,8 +83,8 @@ public class CommentController extends UifControllerBase {
 		Person user = GlobalVariables.getUserSession().getPerson();
 		String principleId = user.getPrincipalId();
 		CommentForm commentForm = (CommentForm) form;
-		commentForm.setStudentName(UserSessionHelper.getStudentName());
-		commentForm.setPersonName(UserSessionHelper.getName(principleId));
+		commentForm.setStudentName(KsapFrameworkServiceLocator.getUserSessionHelper().getStudentName());
+		commentForm.setPersonName(KsapFrameworkServiceLocator.getUserSessionHelper().getName(principleId));
 		if (commentForm.getMessageId() != null) {
 			MessageDataObject messageDataObject = null;
 			try {
@@ -148,7 +148,7 @@ public class CommentController extends UifControllerBase {
 		 * message
 		 */
 		/*
-		 * if (!UserSessionHelper.isAdviser() ||
+		 * if (!KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser() ||
 		 * !principleId.equalsIgnoreCase(commentInfo.getReferenceId())) {
 		 * String[] params = {}; return doErrorPage(form,
 		 * CommentConstants.ADVISER_ACCESS_ERROR, params); }
@@ -173,7 +173,7 @@ public class CommentController extends UifControllerBase {
 							context);
 		} catch (Exception e) {
 			form.setSubject(messageInfo.getAttributeValue("subject"));
-			form.setFrom(UserSessionHelper.getName(messageInfo
+			form.setFrom(KsapFrameworkServiceLocator.getUserSessionHelper().getName(messageInfo
 					.getAttributeValue("createdBy")));
 			form.setBody(messageInfo.getCommentText().getPlain());
 			form.setComments(new ArrayList<CommentDataObject>());
@@ -207,16 +207,16 @@ public class CommentController extends UifControllerBase {
 		fromId = principleId;
 		String messageLink = ConfigContext.getCurrentContextConfig()
 				.getProperty(CommentConstants.MESSAGE_LINK);
-		if (UserSessionHelper.isAdviser()) {
-			toId = UserSessionHelper.getStudentId();
-			toName = UserSessionHelper.getStudentName();
+		if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
+			toId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
+			toName = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentName();
 			toName = toName.substring(0, toName.indexOf(" ")).trim();
 
 		} else {
 			// Get the created by user Id from the message.
 			toId = messageInfo
 					.getAttributeValue(CommentConstants.CREATED_BY_USER_ATTRIBUTE_NAME);
-			toName = UserSessionHelper.getName(toId);
+			toName = KsapFrameworkServiceLocator.getUserSessionHelper().getName(toId);
 			toName = toName.substring(0, toName.indexOf(" ")).trim();
 			messageLink = ConfigContext.getCurrentContextConfig().getProperty(
 					CommentConstants.ADVISER_MESSAGE_LINK)
@@ -224,8 +224,8 @@ public class CommentController extends UifControllerBase {
 
 		}
 
-		fromName = UserSessionHelper.getName(fromId);
-		toAddress = UserSessionHelper.getMailAddress(toId);
+		fromName = KsapFrameworkServiceLocator.getUserSessionHelper().getName(fromId);
+		toAddress = KsapFrameworkServiceLocator.getUserSessionHelper().getMailAddress(toId);
 		if (toAddress == null) {
 			String[] params = {};
 			return doErrorPage(form, CommentConstants.EMPTY_TO_ADDRESS, params,
@@ -281,9 +281,9 @@ public class CommentController extends UifControllerBase {
 		 * Add this int the if condition to check if the user in session and the
 		 * user for which the message is added are equal.
 		 * !form.getStudentId().equalsIgnoreCase
-		 * (UserSessionHelper.getStudentId())
+		 * (KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId())
 		 */
-		if (!UserSessionHelper.isAdviser()) {
+		if (!KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
 			String[] params = {};
 			return doErrorPage(form, CommentConstants.ADVISER_ACCESS_ERROR,
 					params, CommentConstants.MESSAGE_RESPONSE_PAGE,
@@ -327,7 +327,7 @@ public class CommentController extends UifControllerBase {
 		/* rtiBody.setFormatted(form.getBody()); */
 		ci.setCommentText(rtiBody);
 
-		String studentPrincipleId = UserSessionHelper.getStudentId();
+		String studentPrincipleId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
 
 		try {
 			getCommentService()
@@ -336,7 +336,7 @@ public class CommentController extends UifControllerBase {
 							context);
 		} catch (Exception e) {
 			logger.error("Could not add Message ", e);
-			form.setStudentName(UserSessionHelper.getStudentName());
+			form.setStudentName(KsapFrameworkServiceLocator.getUserSessionHelper().getStudentName());
 			String[] params = {};
 			return doErrorPage(form, CommentConstants.SPECIAL_CHARACTERS_ERROR,
 					params, CommentConstants.MESSAGE_RESPONSE_PAGE,
@@ -357,10 +357,10 @@ public class CommentController extends UifControllerBase {
 			logger.error("Could not find the properties file" + e);
 
 		}
-		String studentName = UserSessionHelper.getStudentName();
+		String studentName = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentName();
 		studentName = studentName.substring(0, studentName.indexOf(" ")).trim();
-		String adviserName = UserSessionHelper.getName(principleId);
-		String toAddress = UserSessionHelper.getMailAddress(studentPrincipleId);
+		String adviserName = KsapFrameworkServiceLocator.getUserSessionHelper().getName(principleId);
+		String toAddress = KsapFrameworkServiceLocator.getUserSessionHelper().getMailAddress(studentPrincipleId);
 		if (toAddress == null) {
 			String[] params = {};
 			return doErrorPage(form, CommentConstants.EMPTY_TO_ADDRESS, params,

@@ -37,8 +37,6 @@ import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.myplan.course.form.CourseSearchFormImpl;
 import org.kuali.student.myplan.course.util.CampusSearch;
 import org.kuali.student.myplan.course.util.CourseSearchConstants;
-import org.kuali.student.myplan.plan.util.AtpHelper;
-import org.kuali.student.myplan.utils.UserSessionHelper;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -117,9 +115,9 @@ public class CourseSearchController extends UifControllerBase {
 		try {
 			searchRequest.addParam("number", number);
 			searchRequest.addParam("subject", subject.trim());
-			searchRequest.addParam("currentTerm", AtpHelper.getCurrentAtpId());
+			searchRequest.addParam("currentTerm", KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId());
 			searchRequest.addParam("lastScheduledTerm",
-					AtpHelper.getLastScheduledAtpId());
+					KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId());
 			searchResult = KsapFrameworkServiceLocator.getCluService().search(
 					searchRequest,
 					KsapFrameworkServiceLocator.getContext().getContextInfo());
@@ -165,7 +163,7 @@ public class CourseSearchController extends UifControllerBase {
 		if (!Boolean.valueOf(request.getAttribute(
 				CourseSearchConstants.IS_ACADEMIC_CALENDER_SERVICE_UP)
 				.toString())) {
-			AtpHelper.addServiceError("searchTerm");
+			KsapFrameworkServiceLocator.getAtpHelper().addServiceError("searchTerm");
 		}
 		super.start(form, result, request, response);
 		return getUIFModelAndView(form);
@@ -174,7 +172,7 @@ public class CourseSearchController extends UifControllerBase {
 	@RequestMapping(value = "/course/search")
 	public void getJsonResponse(HttpServletResponse response,
 			HttpServletRequest request) throws IOException {
-		String user = UserSessionHelper.getStudentId();
+		String user = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
 
 		// Params from the Url
 		String queryText = request.getParameter("queryText");
@@ -204,7 +202,7 @@ public class CourseSearchController extends UifControllerBase {
 				status = "<span id=\\\"" + cid + "_status\\\" class=\\\""
 						+ item.getStatus().getLabel().toLowerCase() + "\\\">"
 						+ item.getStatus().getLabel() + "</span>";
-			} else if (UserSessionHelper.isAdviser()) {
+			} else if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
 				status = "<span id=\\\"" + cid + "_status\\\">"
 						+ CourseSearchItem.EMPTY_RESULT_VALUE_KEY + "</span>";
 			} else {
@@ -217,7 +215,9 @@ public class CourseSearchController extends UifControllerBase {
 								"ks.myplan.externalizable.images.url")
 						+ "pixel.gif\\\" alt=\\\"Bookmark or Add to Plan\\\" class=\\\"uif-field uif-imageField myplan-add uif-tooltip\\\" data-courseid=\\\""
 						+ item.getCourseId()
-						+ "\\\"onclick=\\\"openMenu('"
+						+ "\\\" data-coursexid=\\\""
+						+ cid
+						+ "\\\" onclick=\\\"openMenu('"
 						+ cid
 						+ "_add','add_course_items',null,event,null,'myplan-container-75',{tail:{align:'middle'},align:'middle',position:'right'},false);\\\" /></span>";
 
@@ -283,8 +283,9 @@ public class CourseSearchController extends UifControllerBase {
 		else
 			return Collections.emptyList();
 
-		request.addParam("lastScheduledTerm", AtpHelper.getLastScheduledAtpId());
-		request.addParam("currentTerm", AtpHelper.getCurrentAtpId());
+		request.addParam("lastScheduledTerm", KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId());
+		request.addParam("currentTerm", KsapFrameworkServiceLocator
+				.getAtpHelper().getCurrentAtpId());
 		SearchResult searchResult;
 		try {
 			if ((searchResult = KsapFrameworkServiceLocator.getCluService()

@@ -10,15 +10,14 @@ import javax.xml.namespace.QName;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.myplan.course.util.CourseSearchConstants;
-import org.kuali.student.myplan.plan.PlanConstants;
 import org.kuali.student.myplan.plan.dataobject.FullPlanItemsDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedTerm;
-import org.kuali.student.myplan.plan.util.AtpHelper;
-import org.kuali.student.myplan.utils.UserSessionHelper;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -56,9 +55,9 @@ public class FullPlanItemsLookupableHelperImpl extends PlanItemLookupableHelperB
         if (!Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_CALENDER_SERVICE_UP).toString())
                 || !Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_RECORD_SERVICE_UP).toString())) {
             isServiceStatusOK=false;
-            AtpHelper.addServiceError("qtrYear");
+            KsapFrameworkServiceLocator.getAtpHelper().addServiceError("qtrYear");
         }
-        String studentId = UserSessionHelper.getStudentId();
+		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
         /*************PlannedCourseList**************/
         List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();
         try {
@@ -92,8 +91,8 @@ public class FullPlanItemsLookupableHelperImpl extends PlanItemLookupableHelperB
                 size--;
             }
 
-            String[] minYear = AtpHelper.atpIdToTermNameAndYear(plannedTermList.get(0).getAtpId());
-            String[] maxYear = AtpHelper.atpIdToTermNameAndYear(plannedTermList.get(plannedTermList.size() - 1).getAtpId());
+            String[] minYear = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermNameAndYear(plannedTermList.get(0).getAtpId());
+            String[] maxYear = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermNameAndYear(plannedTermList.get(plannedTermList.size() - 1).getAtpId());
             StringBuffer yearRange = new StringBuffer();
             yearRange = yearRange.append(minYear[1]).append("-").append(maxYear[1]);
             fullPlanItemsDataObject.setYearRange(yearRange.toString());

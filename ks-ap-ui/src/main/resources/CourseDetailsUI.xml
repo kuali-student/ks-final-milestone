@@ -19,12 +19,11 @@
      limitations under the License.
     -->
     <bean id="CourseDetails-InquiryView" parent="MyPlanInquiryView">
-        <property name="headerText" value="Course Details"/>
+        <property name="headerText" value="@{dataObject.code} @{dataObject.courseTitle} (@{dataObject.credit})"/>
         <property name="dataObjectClassName" value="org.kuali.student.myplan.course.dataobject.CourseDetails"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.myplan.course.service.CourseDetailsInquiryViewHelperServiceImpl"/>
         <property name="page.header.render" value="false"/>
-        <property name="header.render" value="false"/>
         <property name="footer.render" value="false"/>
         <property name="singlePageView" value="true"/>
         <property name="cssClasses">
@@ -37,8 +36,7 @@
         </property>
         <property name="Items">
             <list>
-                <bean parent="Uif-Page" p:id="course_details_page"
-                      p:headerText="@{dataObject.code} @{dataObject.courseTitle} (@{dataObject.credit})">
+                <bean parent="Uif-Page" p:id="course_details_page">
                     <property name="layoutManager">
                         <bean parent="Uif-HorizontalBoxLayout"/>
                     </property>
@@ -134,7 +132,7 @@
                           });"/>
         <property name="items">
             <list>
-                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Add to Plan" p:id="@{dataObject.courseId}_addPlannedCourse" p:actionImagePlacement="RIGHT">
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Add to Plan" p:id="@{dataObject.courseIdXmlSafe}_addPlannedCourse" p:actionImagePlacement="RIGHT">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:source="../ks-myplan/images/pixel.gif">
                             <property name="cssClasses">
@@ -148,7 +146,7 @@
                         value="openPlanItemPopUp('@{dataObject.courseId}','add_dialog_page',{courseId:'@{dataObject.courseId}',pageId:'add_dialog_page', moveCourse:'false'},e,null,{tail:{hidden:true},position:'right',align:'top'});"/>
                 </bean>
                 <bean parent="Uif-SecondaryActionButton" p:actionLabel="Bookmark Course"
-                      p:id="@{dataObject.courseId}_addSavedCourse"
+                      p:id="@{dataObject.courseIdXmlSafe}_addSavedCourse"
                       p:render="@{dataObject.inSavedCourseList ? false : true}">
                     <property name="onDocumentReadyScript"
                               value="
@@ -164,7 +162,7 @@
                                       }
                                   });"/>
                     <property name="actionScript"
-                              value="myPlanAjaxPlanItemMove('@{dataObject.courseId}', 'courseId', 'addSavedCourse', e);"/>
+                              value="myPlanAjaxPlanItemMove('@{dataObject.courseId}', '@{dataObject.courseIdXmlSafe}', 'courseId', 'addSavedCourse', e);"/>
                 </bean>
                 <bean parent="Uif-LinkGroup" p:id="@{dataObject.courseId}_bookmarked"
                       p:render="@{dataObject.savedItemId ne null and dataObject.plannedList eq null and dataObject.backupList eq null and dataObject.academicTerms.size() eq 0 ? true : false}"
@@ -198,7 +196,7 @@
         <property name="propertyReplacers">
             <list>
                 <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                      p:condition="T(org.kuali.student.myplan.utils.UserSessionHelper).isAdviser()">
+                      p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isAdviser()">
                     <property name="replacement">
                         <list>
                             <ref bean="course_adviser_actions_message"/>

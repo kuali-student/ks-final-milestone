@@ -1,26 +1,23 @@
 package org.kuali.student.myplan.plan.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-//import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.myplan.course.util.CourseSearchConstants;
-import org.kuali.student.myplan.plan.PlanConstants;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedTerm;
-import org.kuali.student.myplan.plan.util.AtpHelper;
-import org.kuali.student.myplan.utils.UserSessionHelper;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.namespace.QName;
-import java.util.*;
-import java.util.List;
 
 /**
  * Produce a list of planned course items.
@@ -60,13 +57,13 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
     protected List<PlannedTerm> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String focusAtpId =request.getParameter(PlanConstants.FOCUS_ATP_ID_KEY);
-        String studentId = UserSessionHelper.getStudentId();
+        String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
         boolean isServiceStatusOK=true;
         /*Setting the Warning message if isServiceStatusOK is false*/
         if (!Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_CALENDER_SERVICE_UP).toString())
                 || !Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_RECORD_SERVICE_UP).toString())) {
             isServiceStatusOK=false;
-           AtpHelper.addServiceError("qtrYear");
+           KsapFrameworkServiceLocator.getAtpHelper().addServiceError("qtrYear");
         }
         String[] params = {};
         if(!isServiceStatusOK){

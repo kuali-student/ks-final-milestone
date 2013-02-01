@@ -28,6 +28,10 @@ public class CourseSummaryDetails {
 		this.courseId = courseId;
 	}
 
+	public String getCourseIdXmlSafe() {
+		return getCourseId() == null ? null : getCourseId().replace('.', '_');
+	}
+
 	public String getCode() {
 		return code;
 	}
