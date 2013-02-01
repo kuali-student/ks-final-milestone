@@ -10,6 +10,8 @@
   <description>Kuali Student Rice Impex</description>
   <properties>
     <jdbc.username>KSRICE</jdbc.username>
+
+    <!-- Used by the impex-export-xml profile -->
     <impex.xml.includedTables>KR.*</impex.xml.includedTables>
   </properties>
 </project>

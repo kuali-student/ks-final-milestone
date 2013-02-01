@@ -10,6 +10,8 @@
   <description>Kuali Student Application Impex</description>
   <properties>
     <jdbc.username>KSAPP</jdbc.username>
+
+    <!-- Used by the impex-export-xml profile -->
     <impex.xml.includedTables>KS.*</impex.xml.includedTables>
   </properties>
 </project>
