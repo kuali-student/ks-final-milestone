@@ -52,7 +52,7 @@
         <sql.data.4.list>${sql.meta.base}/${db.ks.enroll.schema}-${sql.suffix.data}</sql.data.4.list>
         <sql.data.5.list>${sql.meta.base}/${db.ks.rice.schema}-${sql.suffix.data}</sql.data.5.list>
 
-        <sql.constraints.1>classpath:sql/oracle/${db.rice.baseline.schema}-${sql.suffix.constraints}</sql.constraints.1>
+        <sql.constraints.1>classpath:sql/oracle/${db.rice.baseline.schema}-constraints.sql</sql.constraints.1>
         <sql.constraints.2.list>${sql.meta.base}/${db.ks.core.schema}-${sql.suffix.constraints}</sql.constraints.2.list>
         <sql.constraints.3.list>${sql.meta.base}/${db.ks.lum.schema}-${sql.suffix.constraints}</sql.constraints.3.list>
         <sql.constraints.4.list>${sql.meta.base}/${db.ks.enroll.schema}-${sql.suffix.constraints}</sql.constraints.4.list>
