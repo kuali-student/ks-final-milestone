@@ -406,10 +406,10 @@
                 <sql.constraints.5.list>${sql.meta.base}/${db.ks.rice.schema}-constraints.resources</sql.constraints.5.list>
 
                 <!-- Run upgrade scripts in the constraints list, after all baseline scripts have been applied -->
-                <sql.constraints.6.list>${sql.meta.base}/${db.ks.core.schema}-upgrades.resources</sql.constraints.6.list>
-                <sql.constraints.7.list>${sql.meta.base}/${db.ks.rice.schema}-upgrades.resources</sql.constraints.7.list>
-                <sql.constraints.8.list>${sql.meta.base}/${db.ks.lum.schema}-upgrades.resources</sql.constraints.8.list>
-                <sql.constraints.9.list>${sql.meta.base}/${db.ks.enroll.schema}-upgrades.resources</sql.constraints.9.list>
+                <sql.other.1.list>${sql.meta.base}/${db.ks.core.schema}-upgrades.resources</sql.other.1.list>
+                <sql.other.2.list>${sql.meta.base}/${db.ks.rice.schema}-upgrades.resources</sql.other.2.list>
+                <sql.other.3.list>${sql.meta.base}/${db.ks.lum.schema}-upgrades.resources</sql.other.3.list>
+                <sql.other.4.list>${sql.meta.base}/${db.ks.enroll.schema}-upgrades.resources</sql.other.4.list>
 
                 <!-- Controller properties -->
                 <sql.schema.concurrent>sql.schema.1,sql.schema.2.list,sql.schema.3.list,sql.schema.4.list,sql.schema.5.list</sql.schema.concurrent>
@@ -417,7 +417,8 @@
                 <sql.data.sequential>sql.data.1.list,sql.data.5.list</sql.data.sequential>
                 <sql.constraints.order>concurrent,sequential</sql.constraints.order>
                 <sql.constraints.concurrent>sql.constraints.2.list,sql.constraints.3.list,sql.constraints.4.list</sql.constraints.concurrent>
-                <sql.constraints.sequential>sql.constraints.1,sql.constraints.5.list,sql.constraints.6.list,sql.constraints.7.list,sql.constraints.8.list,sql.constraints.9.list</sql.constraints.sequential>
+                <sql.constraints.sequential>sql.constraints.1,sql.constraints.5.list</sql.constraints.sequential>
+                <sql.other.sequential>sql.other.1.list,sql.other.2.list,sql.other.3.list,sql.other.4.list</sql.other.sequential>
             </properties>
             <build>
                 <plugins>
