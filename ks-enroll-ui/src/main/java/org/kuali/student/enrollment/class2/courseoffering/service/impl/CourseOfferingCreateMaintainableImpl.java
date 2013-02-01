@@ -47,10 +47,34 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * View helper service to deal with all the create course offering presentation.
+ *
+ * @see org.kuali.student.enrollment.class2.courseoffering.controller.CourseOfferingController
+ */
 public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintainableImpl implements CourseOfferingMaintainable {
 
     private static final Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingCreateMaintainableImpl.class);
 
+    /**
+     * Sets a default maintenace document description and if term code exists in the request parameter, set it to the wrapper.
+     * When 'Create CO' is called from manage co screen, we pass in the term code.
+     *
+     * @param document
+     * @param requestParameters
+     */
+    @Override
+    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        document.getDocumentHeader().setDocumentDescription("Course Offering");
+        if (requestParameters.get("targetTermCode") != null && requestParameters.get("targetTermCode").length != 0){
+            ((CourseOfferingCreateWrapper)document.getNewMaintainableObject().getDataObject()).setTargetTermCode(requestParameters.get("targetTermCode")[0]);
+        }
+    }
+
+    /**
+     * Overrides from KRAD to handle saving the DTOs
+     *
+     */
     @Override
     public void saveDataObject() {
 
@@ -175,7 +199,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      * This method creates all the Course Offerings for joint courses.
      *
      * @param wrapper CourseOfferingCreateWrapper
-     * @throws Exception RuntimeException with cause as service exception
+     * @throws
      */
     protected void createJointCOs(CourseOfferingCreateWrapper wrapper) throws Exception {
         LOG.debug("Creating Offerings for the joint courses.");
@@ -198,14 +222,6 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                   }
              }
          }
-    }
-
-    @Override
-    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-        document.getDocumentHeader().setDocumentDescription("Course Offering");
-        if (requestParameters.get("targetTermCode") != null && requestParameters.get("targetTermCode").length != 0){
-            ((CourseOfferingCreateWrapper)document.getNewMaintainableObject().getDataObject()).setTargetTermCode(requestParameters.get("targetTermCode")[0]);
-        }
     }
 
 
@@ -258,6 +274,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
     }
 
     /**
+     * Adds a format offering. This handles creating format offerings for all the selected joint courses as well.
      *
      * @param wrapper
      */
@@ -300,7 +317,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
     }
 
     /**
-     * This method copies all the selected joing format offerings and creates format offering for the
+     * This method copies all the selected joint format offerings and creates format offering for the
      * main course as well as for the selected joint courses.
      *
      * @param wrapper course offering wrapper
@@ -373,7 +390,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      * @param formatInfo
      * @return
      */
-    protected String getActivityTypeNames(FormatInfo formatInfo){
+    private String getActivityTypeNames(FormatInfo formatInfo){
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         StringBuffer activities = new StringBuffer();
@@ -459,6 +476,14 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         return null;
     }
 
+    /**
+     * This method checks whether any one of the activities in a format matches with the passed in
+     * activity by comparing its type.
+     *
+     * @param jointCourseFormat
+     * @param activityInfo
+     * @return
+     */
     private boolean isMatchingJointActivityFound(FormatInfo jointCourseFormat, ActivityInfo activityInfo){
         for (ActivityInfo activityFromJointCourse : jointCourseFormat.getActivities()){
             if (!StringUtils.equals(activityInfo.getTypeKey(),activityFromJointCourse.getTypeKey())){
@@ -468,6 +493,12 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         return true;
     }
 
+    /**
+     * Returns the Name for a type key.
+     *
+     * @param typeKey
+     * @return
+     */
     private String getTypeName(String typeKey){
         try{
             TypeInfo typeInfo = getTypeService().getType(typeKey,ContextUtils.createDefaultContextInfo());

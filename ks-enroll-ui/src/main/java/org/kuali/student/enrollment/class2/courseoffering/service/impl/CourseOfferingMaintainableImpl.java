@@ -51,6 +51,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Base view helper service for both create and edit course offering presentations.
+ *
+ */
 public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl implements CourseOfferingMaintainable {
 
     private transient CourseOfferingService courseOfferingService;

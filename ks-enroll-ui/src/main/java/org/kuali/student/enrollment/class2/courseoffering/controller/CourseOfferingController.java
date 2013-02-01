@@ -103,9 +103,13 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     private transient SearchService searchService;
     private transient TypeService typeService;
 
+    /**
+     * Initial method called when requesting a new view instance.
+     *
+     */
     @Override
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
-                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) {
         if (form.getView() != null) {
             String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
             checkViewAuthorization(form, methodToCall);
@@ -117,17 +121,9 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
     /**
      * This is called when the user clicks on the <i>'show'</i> button after entering the term and course code.
-     *
-     * @param form
-     * @param result
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
      */
     @RequestMapping(params = "methodToCall=loadCourseCatalog")
-    public ModelAndView loadCourseCatalog(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
-                                          @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+    public ModelAndView loadCourseCatalog(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, HttpServletRequest request) throws Exception {
 
         CourseOfferingCreateWrapper coWrapper = ((CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject());
         String courseCode = coWrapper.getCatalogCourseCode();
@@ -247,16 +243,9 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     /**
      * This is mapped to the <i>'Create from Catalog'</i> link
      *
-     * @param form
-     * @param result
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
      */
     @RequestMapping(params = "methodToCall=createFromCatalog")
-    public ModelAndView createFromCatalog(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
-                                          @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+    public ModelAndView createFromCatalog(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
 
@@ -269,16 +258,9 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     /**
      * This is mapped to the <i>'Copy from existing'</i> link
      *
-     * @param form
-     * @param result
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
      */
     @RequestMapping(params = "methodToCall=copyExistingCourseOffering")
-    public ModelAndView copyExistingCourseOffering(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
-                                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+    public ModelAndView copyExistingCourseOffering(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
         CourseOfferingInfo existingCO = ((ExistingCourseOffering) KSControllerHelper.getSelectedCollectionItem(form)).getCourseOfferingInfo();
         CourseOfferingCreateWrapper createWrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
@@ -327,8 +309,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     }
 
     @RequestMapping(params = "methodToCall=createFromTermOffering")
-    public ModelAndView createFromTermOffering(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
-                                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+    public ModelAndView createFromTermOffering(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         wrapper.setShowCatalogLink(true);
@@ -341,16 +322,9 @@ public class CourseOfferingController extends MaintenanceDocumentController {
      * This is mapped to the link to to toggle between creating a new format offering or
      * copy from existing joint format offerings.
      *
-     * @param form
-     * @param result
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
      */
     @RequestMapping(params = "methodToCall=showCreateFormatSection")
-    public ModelAndView showCreateFormatSection(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
-                                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+    public ModelAndView showCreateFormatSection(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         wrapper.setShowCreateFormatSection(true);
@@ -363,16 +337,9 @@ public class CourseOfferingController extends MaintenanceDocumentController {
      * This is mapped to the link to to toggle between creating a new format offering or
      * copy from existing joint format offerings.
      *
-     * @param form
-     * @param result
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
      */
     @RequestMapping(params = "methodToCall=showCopyFromJointOffering")
-    public ModelAndView showCopyFromJointOffering(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
-                                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+    public ModelAndView showCopyFromJointOffering(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         wrapper.setShowCreateFormatSection(false);
@@ -387,16 +354,9 @@ public class CourseOfferingController extends MaintenanceDocumentController {
      *
      * XML reference at CourseOfferingCreateMaintenanceView.xml
      *
-     * @param form
-     * @param result
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
      */
     @RequestMapping(params = "methodToCall=markCourseForJointOffering")
-    public ModelAndView markCourseForJointOffering(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
-                                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+    public ModelAndView markCourseForJointOffering(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         JointCourseWrapper joint = (JointCourseWrapper)KSControllerHelper.getSelectedCollectionItem(form);
@@ -418,16 +378,9 @@ public class CourseOfferingController extends MaintenanceDocumentController {
      * Mapped to the <i>'Add'</i> button at the format section. This either copies from the user selected joint
      * offerings or create a new format.
      *
-     * @param form
-     * @param result
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
      */
     @RequestMapping(params = "methodToCall=addFormat")
-        public ModelAndView addFormat(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
-                                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+        public ModelAndView addFormat(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
         CourseOfferingCreateMaintainableImpl maintainable = (CourseOfferingCreateMaintainableImpl)KSControllerHelper.getViewHelperService(form);
