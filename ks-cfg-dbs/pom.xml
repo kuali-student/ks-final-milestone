@@ -17,7 +17,7 @@
     <module>ks-app-db</module>
   </modules>
   <properties>
-    <jdbc.master.username>KS_SPRING_DB</jdbc.master.username>
+    <jdbc.source.db.username>KS_SPRING_DB</jdbc.source.db.username>
 
     <jdbc.password>${jdbc.username}</jdbc.password>
 
@@ -30,9 +30,9 @@
     <!-- All impex configurations need to have Ant compatibility mode -->
     <impex.antCompatibilityMode>true</impex.antCompatibilityMode>
     <!-- Impex properties with the prefix 'impex.xml' are used in the xml generation step of impex -->
-    <impex.xml.password>${jdbc.master.username}</impex.xml.password>
-    <impex.xml.username>${jdbc.master.username}</impex.xml.username>
-    <impex.xml.schema>${jdbc.master.username}</impex.xml.schema>
+    <impex.xml.password>${jdbc.source.db.username}</impex.xml.password>
+    <impex.xml.username>${jdbc.source.db.username}</impex.xml.username>
+    <impex.xml.schema>${jdbc.source.db.username}</impex.xml.schema>
     <impex.xml.url>${oracle.dba.url}</impex.xml.url>
     <impex.xml.dateFormat>yyyyMMddHHmmss</impex.xml.dateFormat>
     <!--
