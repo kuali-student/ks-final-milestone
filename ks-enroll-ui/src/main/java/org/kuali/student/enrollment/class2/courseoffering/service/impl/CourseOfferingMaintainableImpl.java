@@ -28,7 +28,7 @@ import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingCreateWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -96,7 +96,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
                 formatOfferingInfo = ((CourseOfferingCreateWrapper)wrapper).getAddLineFormatWrapper().getFormatOfferingInfo();
             } else {
                 //This else is for the format offering collection.
-                FormatOfferingCreateWrapper foWrapper = (FormatOfferingCreateWrapper)field.getContext().get(UifConstants.ContextVariableNames.LINE);
+                FormatOfferingWrapper foWrapper = (FormatOfferingWrapper)field.getContext().get(UifConstants.ContextVariableNames.LINE);
                 formatOfferingInfo = foWrapper.getFormatOfferingInfo();
                 if (foWrapper.isJointOffering()){
                     courseInfo = foWrapper.getJointCreateWrapper().getCourseInfo();
@@ -161,7 +161,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
                 formatOfferingInfo = ((CourseOfferingCreateWrapper)wrapper).getAddLineFormatWrapper().getFormatOfferingInfo();
             } else {
                 //This else is for the format offering collection.
-                FormatOfferingCreateWrapper foWrapper = (FormatOfferingCreateWrapper)field.getContext().get(UifConstants.ContextVariableNames.LINE);
+                FormatOfferingWrapper foWrapper = (FormatOfferingWrapper)field.getContext().get(UifConstants.ContextVariableNames.LINE);
                 formatOfferingInfo = foWrapper.getFormatOfferingInfo();
                 if (foWrapper.isJointOffering()){
                     courseInfo = foWrapper.getJointCreateWrapper().getCourseInfo();

@@ -19,16 +19,16 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 
 /**
- * This is a wrapper class for format offering. This wrapper can represent a format offering
+ * Wrapper class around {@link FormatOfferingInfo}. This wrapper can represent a format offering
  * for a regular course as well as the joint courses. This is used in displaying the format
- * offerings at the create co ui.
+ * offerings at the create co screen.
  *
  * @author Kuali Student Team
  */
-public class FormatOfferingCreateWrapper {
+public class FormatOfferingWrapper {
 
     private FormatOfferingInfo formatOfferingInfo;
-    private CourseJointCreateWrapper jointCreateWrapper;
+    private JointCourseWrapper jointCreateWrapper;
     private String courseCode;
     private FormatInfo formatInfo;
 
@@ -39,12 +39,18 @@ public class FormatOfferingCreateWrapper {
     private String gradeRosterUI;
     private String finalExamUI;
 
-    public FormatOfferingCreateWrapper(){
+    public FormatOfferingWrapper(){
         formatOfferingInfo = new FormatOfferingInfo();
         isJointOffering = false;
     }
 
-    public FormatOfferingCreateWrapper(FormatInfo formatInfo,String courseCode,CourseJointCreateWrapper jointCreateWrapper){
+    /**
+     *
+     * @param formatInfo format info associated with this wrapper
+     * @param courseCode course code of the associated format
+     * @param jointCreateWrapper joint course wrapper
+     */
+    public FormatOfferingWrapper(FormatInfo formatInfo, String courseCode, JointCourseWrapper jointCreateWrapper){
         this();
         this.formatInfo = formatInfo;
         this.courseCode = courseCode;
@@ -78,11 +84,11 @@ public class FormatOfferingCreateWrapper {
      *
      * @return jointCreateWrapper joint course wrapper
      */
-    public CourseJointCreateWrapper getJointCreateWrapper() {
+    public JointCourseWrapper getJointCreateWrapper() {
         return jointCreateWrapper;
     }
 
-    public void setJointCreateWrapper(CourseJointCreateWrapper jointCreateWrapper) {
+    public void setJointCreateWrapper(JointCourseWrapper jointCreateWrapper) {
         this.jointCreateWrapper = jointCreateWrapper;
     }
 
@@ -181,34 +187,77 @@ public class FormatOfferingCreateWrapper {
         this.activitesUI = activitesUI;
     }
 
+    /**
+     *
+     * @see #setSelectedToCopy(boolean)
+     * @return
+     */
     public boolean isSelectedToCopy() {
         return selectedToCopy;
     }
 
+    /**
+     * If user selects a format offering to copy, this flag will be set.
+     * @param selectedToCopy whether it's selected or not to copy
+     */
+    @SuppressWarnings("unused")
     public void setSelectedToCopy(boolean selectedToCopy) {
         this.selectedToCopy = selectedToCopy;
     }
 
+    /**
+     * @see #setFormatInfo(org.kuali.student.r2.lum.course.dto.FormatInfo)
+     * @return
+     */
     public FormatInfo getFormatInfo() {
         return formatInfo;
     }
 
+    /**
+     * Format dto associated with a format offering.
+     *
+     * @param formatInfo
+     */
     public void setFormatInfo(FormatInfo formatInfo) {
         this.formatInfo = formatInfo;
     }
 
+    /**
+     *
+     * @see #setGradeRosterUI(String)
+     * @return
+     */
+    @SuppressWarnings("unused")
     public String getGradeRosterUI() {
         return gradeRosterUI;
     }
 
+    /**
+     * Grade Roster text to display at the ui. This is a activity type name.
+     *
+     * This is set at {@link org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl::loadCourseJointInfos()}
+     *
+     * @param gradeRosterUI
+     */
     public void setGradeRosterUI(String gradeRosterUI) {
         this.gradeRosterUI = gradeRosterUI;
     }
 
+    /**
+     * @see #setFinalExamUI(String)
+     * @return
+     */
+    @SuppressWarnings("unused")
     public String getFinalExamUI() {
         return finalExamUI;
     }
 
+    /**
+     * Final Exam driver text to display at the ui. This is set at
+     * {@link org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl::loadCourseJointInfos()}
+     *
+     * @param finalExamUI
+     */
     public void setFinalExamUI(String finalExamUI) {
         this.finalExamUI = finalExamUI;
     }

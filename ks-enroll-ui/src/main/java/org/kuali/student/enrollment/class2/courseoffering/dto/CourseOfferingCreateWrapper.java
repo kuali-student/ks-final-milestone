@@ -22,9 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is being used at the Create CO screen. This is a wrapper class to hold all the
- * UI rendering properties and the service dtos related to courseoffering and formatoffering
+ * Wrapper class around {@link org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo} to hold all
+ * the details related to a course offering used at the presentation layer. This is used to handle the ui
+ * needs at the Create Co screen
  *
+ * @see JointCourseWrapper
+ * @see FormatOfferingWrapper
  */
 public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
 
@@ -41,9 +44,7 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
 
     private String courseOfferingSuffix;
 
-    private int noOfTermOfferings;
-
-    private List<FormatOfferingCreateWrapper> formatOfferingWrappers;
+    private List<FormatOfferingWrapper> formatOfferingWrappers;
     private List<ExistingCourseOffering> existingOfferingsInCurrentTerm;
     private List<ExistingCourseOffering> existingTermOfferings;
 
@@ -56,27 +57,27 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     private boolean excludeSchedulingInformation;
     private boolean excludeInstructorInformation;
 
-    private List<CourseJointCreateWrapper> jointCourses;
+    private List<JointCourseWrapper> jointCourses;
     private boolean showJointOption;
     private String jointCourseCodes;
 
-    private FormatOfferingCreateWrapper addLineFormatWrapper;
+    private FormatOfferingWrapper addLineFormatWrapper;
     private boolean showCreateFormatSection;
     private boolean showCopyFormatSection;
-    private List<FormatOfferingCreateWrapper> copyFromFormats;
+    private List<FormatOfferingWrapper> copyFromFormats;
 
     public CourseOfferingCreateWrapper(){
         super();
         showTermOfferingLink = true;
-        formatOfferingWrappers = new ArrayList<FormatOfferingCreateWrapper>();
+        formatOfferingWrappers = new ArrayList<FormatOfferingWrapper>();
         existingOfferingsInCurrentTerm = new ArrayList<ExistingCourseOffering>();
         existingTermOfferings = new ArrayList<ExistingCourseOffering>();
         coListedCOs = new ArrayList<String>();
-        jointCourses = new ArrayList<CourseJointCreateWrapper>();
+        jointCourses = new ArrayList<JointCourseWrapper>();
         showJointOption = false;
         crossListedCo = false;
-        addLineFormatWrapper = new FormatOfferingCreateWrapper();
-        copyFromFormats = new ArrayList<FormatOfferingCreateWrapper>();
+        addLineFormatWrapper = new FormatOfferingWrapper();
+        copyFromFormats = new ArrayList<FormatOfferingWrapper>();
         showCreateFormatSection = true;
     }
 
@@ -136,6 +137,11 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         this.courseOfferingSuffix = courseOfferingSuffix;
     }
 
+    /**
+     * Reference at the view xml
+     * @return
+     */
+    @SuppressWarnings("unused")
     public boolean isShowAllSections() {
         return showAllSections;
     }
@@ -160,10 +166,20 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         this.existingTermOfferings = existingTermOfferings;
     }
 
+    /**
+     * Reference at the view xml
+     * @return
+     */
+    @SuppressWarnings("unused")
     public int getNoOfTermOfferings() {
         return getExistingTermOfferings().size();
     }
 
+    /**
+     * Reference at the view xml
+     * @return
+     */
+    @SuppressWarnings("unused")
     public boolean isEnableCreateButton() {
         return enableCreateButton;
     }
@@ -229,7 +245,7 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         this.selectCrossListingAllowed = selectCrossListingAllowed;
     }
 
-    public List<CourseJointCreateWrapper> getJointCourses() {
+    public List<JointCourseWrapper> getJointCourses() {
         return jointCourses;
     }
 
@@ -238,7 +254,7 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
      * @param jointCourses
      */
     @SuppressWarnings("unused")
-    public void setJointCourses(List<CourseJointCreateWrapper> jointCourses) {
+    public void setJointCourses(List<JointCourseWrapper> jointCourses) {
         this.jointCourses = jointCourses;
     }
 
@@ -261,6 +277,10 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         this.showJointOption = showJointOption;
     }
 
+    /**
+     * @see #setJointCourses(java.util.List)
+     * @return
+     */
     public String getJointCourseCodes() {
         return jointCourseCodes;
     }
@@ -275,7 +295,11 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         this.jointCourseCodes = jointCourseCodes;
     }
 
-    public List<FormatOfferingCreateWrapper> getFormatOfferingWrappers() {
+    /**
+     * @see #setFormatOfferingWrappers(java.util.List)
+     * @return
+     */
+    public List<FormatOfferingWrapper> getFormatOfferingWrappers() {
         return formatOfferingWrappers;
     }
 
@@ -286,39 +310,93 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
      * @param formatOfferingWrappers list of format offering wrappers
      */
     @SuppressWarnings("unused")
-    public void setFormatOfferingWrappers(List<FormatOfferingCreateWrapper> formatOfferingWrappers) {
+    public void setFormatOfferingWrappers(List<FormatOfferingWrapper> formatOfferingWrappers) {
         this.formatOfferingWrappers = formatOfferingWrappers;
     }
 
-    public FormatOfferingCreateWrapper getAddLineFormatWrapper() {
+    /**
+     * @see #setAddLineFormatWrapper(FormatOfferingWrapper)
+     * @return
+     */
+    public FormatOfferingWrapper getAddLineFormatWrapper() {
         return addLineFormatWrapper;
     }
 
-    public void setAddLineFormatWrapper(FormatOfferingCreateWrapper addLineFormatWrapper) {
+    /**
+     * This is a format offering wrapper used to handle the new format offering add logic
+     * at the ui.
+     *
+     * @param addLineFormatWrapper
+     */
+    public void setAddLineFormatWrapper(FormatOfferingWrapper addLineFormatWrapper) {
         this.addLineFormatWrapper = addLineFormatWrapper;
     }
 
+    /**
+     *
+     * @see #setShowCreateFormatSection(boolean)
+     * @return
+     */
     public boolean isShowCreateFormatSection() {
         return showCreateFormatSection;
     }
 
+    /**
+     * Whether to display the <i>'Add Formats'</i> link at the ui.
+     *
+     * <p>
+     *     Please note, if the course doesnt have any joint courses associated with
+     *     this course, the copy link wont show up at the ui.
+     * </p>
+     *
+     * @see #setShowCopyFormatSection(boolean)
+     * @param showCreateFormatSection
+     */
     public void setShowCreateFormatSection(boolean showCreateFormatSection) {
         this.showCreateFormatSection = showCreateFormatSection;
     }
 
+    /**
+     * @see #setShowCreateFormatSection(boolean)
+     * @return
+     */
+    @SuppressWarnings("unused")
     public boolean isShowCopyFormatSection() {
         return showCopyFormatSection;
     }
 
+    /**
+     * This is a flag whether to display the <i>'Copy From Joints'</i> link at the UI.
+     * If allowed, user can copy existing format offerings to create new ones.
+     *
+     * <p>
+     *     Please note, if the course doesnt have any joint courses associated with
+     *     this course, the copy link wont show up at the ui.
+     * </p>
+     *
+     * @see #setShowCreateFormatSection(boolean)
+     * @param showCopyFormatSection
+     */
     public void setShowCopyFormatSection(boolean showCopyFormatSection) {
         this.showCopyFormatSection = showCopyFormatSection;
     }
 
-    public List<FormatOfferingCreateWrapper> getCopyFromFormats() {
+    /**
+     *
+     * @see #setCopyFromFormats(java.util.List)
+     * @return
+     */
+    public List<FormatOfferingWrapper> getCopyFromFormats() {
         return copyFromFormats;
     }
 
-    public void setCopyFromFormats(List<FormatOfferingCreateWrapper> copyFromFormats) {
+    /**
+     * List of existing format offerings from which users can create new formatofferings
+     * for other joint courses or regular course.
+     *
+     * @param copyFromFormats list of format offering wrappers
+     */
+    public void setCopyFromFormats(List<FormatOfferingWrapper> copyFromFormats) {
         this.copyFromFormats = copyFromFormats;
     }
 

@@ -36,7 +36,15 @@
         </property>
     </bean>
 
-    <!-- Maintenace View-->
+    <!--
+        This view mapped to the path '/courseOffering' at CourseOfferingController.
+        UX at:
+            1. http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Course_Offering/v17/start.html
+            2. http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Complex%20Course%20Offerings/Sandbox/start.html (For CCO)
+        HLDS at:
+            https://wiki.kuali.org/display/STUDENT/KS+ENR+HLDS+-+Manage+Complex+Course+Offerings+%28Part+1%29
+    -->
+
     <bean id="KS-CourseOffering-Create-MaintenanceView" parent="KSMaintenanceView">
         <property name="id" value="createCourseOfferingPage"/>
         <property name="headerText" value="Create Course Offering"/>
@@ -211,7 +219,7 @@
     <bean id="KS-Catalog-JointCourse-Section" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" 
           p:render="@{#dp.showJointOption}" p:renderAddLine="false" p:layoutManager.renderSequenceField="false">
         <property name="headerText" value="Jointly Defined Courses"/>
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseJointCreateWrapper" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper" />
         <property name="propertyName" value="jointCourses" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
@@ -264,7 +272,7 @@
 
     <bean id="KS-Catalog-ExistingFormatOfferings" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:renderAddLine="false"
           p:layoutManager.renderSequenceField="false">
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingCreateWrapper" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper" />
         <property name="propertyName" value="formatOfferingWrappers" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
@@ -291,7 +299,7 @@
 
     <bean id="KS-Catalog-CopyFormatOffering" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:renderAddLine="false"
               p:layoutManager.renderSequenceField="false" p:renderLineActions="false" p:render="@{#dp.showCopyFormatSection}">
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingCreateWrapper" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper" />
         <property name="propertyName" value="copyFromFormats" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
@@ -359,55 +367,6 @@
             </list>
         </property>
     </bean>
-
-    <!--<bean id="KS-copyFormatOffering" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:renderAddLine="false"
-              p:layoutManager.renderSequenceField="false">
-        <property name="disclosure.render" value="false"/>
-        <property name="items">
-            <list>
-                <bean parent="Uif-InputField-LabelTop" p:id="addLineFormatWrapper.formatId" p:propertyName="addLineFormatWrapper.formatId"  p:required="true"  p:label="FORMAT" p:forceSessionPersistence="true">
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl">
-                            <property name="cssClasses">
-                              <list merge="true">
-                                <value>ignoreValid</value>
-                              </list>
-                            </property>
-                        </bean>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatOfferingTypeForCreateCOTypeKeyValues" p:addBlankOption="false"/>
-                    </property>
-                </bean>
-
-                 <bean parent="Uif-InputField-LabelTop" p:id="addLineFormatWrapper.gradeRosterLevelTypeKey" p:propertyName="addLineFormatWrapper.gradeRosterLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
-                      p:label="GRADE ROSTER LEVEL" p:required="true" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl">
-                            <property name="cssClasses">
-                              <list merge="true">
-                                <value>ignoreValid</value>
-                              </list>
-                            </property>
-                        </bean>
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField-LabelTop" p:id="addLineFormatWrapper.finalExamLevelTypeKey" p:propertyName="addLineFormatWrapper.finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
-                      p:label="FINAL EXAM DRIVER ACTIVITY" p:required="true" p:finalizeMethodToCall="populateFinalExamDriverTypes">
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl">
-                            <property name="cssClasses">
-                              <list merge="true">
-                                <value>ignoreValid</value>
-                              </list>
-                            </property>
-                        </bean>
-                    </property>
-                </bean>
-
-            </list>
-        </property>
-    </bean>-->
 
     <!-- This is used to display a list of existing offerings in the current section. This will be displayed for Copy from Catalog action-->
     <bean id="KS-Catalog-ExistingOfferingsSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:readOnly="true">

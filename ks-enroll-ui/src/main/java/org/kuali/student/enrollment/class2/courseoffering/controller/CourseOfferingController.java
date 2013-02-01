@@ -21,16 +21,14 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
-import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseJointCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering;
+import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -76,12 +74,23 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.List;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
 
+/**
+ * This is the controller class what handles all the requests (actions) from the <i>'create course offering'</i> ui.
+ * <p>
+ *      Wireframes at {@link http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Course_Offering/v17/start.html} and
+ *      {@link http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Complex%20Course%20Offerings/Sandbox/start.html}
+ * </p>
+ *
+ * @see CourseOfferingCreateWrapper
+ * @see JointCourseWrapper
+ * @see org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper
+ * @see CourseOfferingCreateMaintainableImpl
+ */
 @Controller
 @RequestMapping(value = "/courseOffering")
 public class CourseOfferingController extends MaintenanceDocumentController {
@@ -106,6 +115,16 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         return super.start(form, result, request, response);
     }
 
+    /**
+     * This is called when the user clicks on the <i>'show'</i> button after entering the term and course code.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(params = "methodToCall=loadCourseCatalog")
     public ModelAndView loadCourseCatalog(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
                                           @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
@@ -225,6 +244,16 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         return gradingOption;
     }
 
+    /**
+     * This is mapped to the <i>'Create from Catalog'</i> link
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(params = "methodToCall=createFromCatalog")
     public ModelAndView createFromCatalog(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
                                           @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
@@ -237,11 +266,21 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
+    /**
+     * This is mapped to the <i>'Copy from existing'</i> link
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(params = "methodToCall=copyExistingCourseOffering")
     public ModelAndView copyExistingCourseOffering(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
                                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        CourseOfferingInfo existingCO = ((ExistingCourseOffering) getSelectedObject(form)).getCourseOfferingInfo();
+        CourseOfferingInfo existingCO = ((ExistingCourseOffering) KSControllerHelper.getSelectedCollectionItem(form)).getCourseOfferingInfo();
         CourseOfferingCreateWrapper createWrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
 
         List<String> optionKeys = new ArrayList<String>();
@@ -298,6 +337,17 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
+    /**
+     * This is mapped to the link to to toggle between creating a new format offering or
+     * copy from existing joint format offerings.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(params = "methodToCall=showCreateFormatSection")
     public ModelAndView showCreateFormatSection(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
                                                @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
@@ -309,6 +359,17 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
+    /**
+     * This is mapped to the link to to toggle between creating a new format offering or
+     * copy from existing joint format offerings.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(params = "methodToCall=showCopyFromJointOffering")
     public ModelAndView showCopyFromJointOffering(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
                                                @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
@@ -338,7 +399,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                                                @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
-        CourseJointCreateWrapper joint = (CourseJointCreateWrapper)getSelectedObject(form);
+        JointCourseWrapper joint = (JointCourseWrapper)KSControllerHelper.getSelectedCollectionItem(form);
 
         if (joint.isSelectedToJointlyOfferred()){
             joint.setSelectedToJointlyOfferred(false);
@@ -354,6 +415,8 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     }
 
     /**
+     * Mapped to the <i>'Add'</i> button at the format section. This either copies from the user selected joint
+     * offerings or create a new format.
      *
      * @param form
      * @param result
@@ -406,28 +469,6 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             throw new RuntimeException(e);
         }
 
-    }
-
-    private Object getSelectedObject(MaintenanceDocumentForm theForm) {
-        String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-        if (StringUtils.isBlank(selectedCollectionPath)) {
-            throw new RuntimeException("Selected collection was not set");
-        }
-
-        int selectedLineIndex = -1;
-        String selectedLine = theForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        if (StringUtils.isNotBlank(selectedLine)) {
-            selectedLineIndex = Integer.parseInt(selectedLine);
-        }
-
-        if (selectedLineIndex == -1) {
-            throw new RuntimeException("Selected line index was not set");
-        }
-
-        Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(theForm, selectedCollectionPath);
-        Object selectedObject = ((List<Object>) collection).get(selectedLineIndex);
-
-        return selectedObject;
     }
 
     protected AcademicCalendarService getAcademicCalendarService() {
