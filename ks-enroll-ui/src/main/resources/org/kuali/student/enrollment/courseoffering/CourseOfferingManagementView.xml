@@ -43,6 +43,7 @@
         <property name="additionalCssFiles">
             <list merge="true">
                 <value>ks-enroll/css/acal.css</value>
+                <value>ks-enroll/css/krms.css</value>
             </list>
         </property>
         <property name="preloadPoolSize" value="3"/>
