@@ -15,7 +15,6 @@
     <!-- This profile builds the full KS database from the "system of record" set of Oracle sql files checked into SCM -->
     <id>source-db</id>
     <properties>
-      <spring.forceMojoExecution>true</spring.forceMojoExecution>
       <db.vendor>oracle</db.vendor>
       <jdbc.username>${jdbc.source.db.username}</jdbc.username>
       <oracle.dba.username>master</oracle.dba.username>
