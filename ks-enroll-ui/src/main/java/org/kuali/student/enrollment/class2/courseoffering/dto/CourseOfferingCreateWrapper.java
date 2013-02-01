@@ -343,5 +343,6 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         setCrossListedCo(false);
         setShowCopyFormatSection(false);
         setShowCreateFormatSection(true);
+        getCopyFromFormats().clear();
     }
 }

@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
 
 /**
  * This is a wrapper class for format offering. This wrapper can represent a format offering
@@ -29,14 +30,30 @@ public class FormatOfferingCreateWrapper {
     private FormatOfferingInfo formatOfferingInfo;
     private CourseJointCreateWrapper jointCreateWrapper;
     private String courseCode;
-    private String activitesUI;
+    private FormatInfo formatInfo;
+
     private boolean isJointOffering;
+    private boolean selectedToCopy;
+
+    private String activitesUI;
+    private String gradeRosterUI;
+    private String finalExamUI;
 
     public FormatOfferingCreateWrapper(){
         formatOfferingInfo = new FormatOfferingInfo();
         isJointOffering = false;
     }
 
+    public FormatOfferingCreateWrapper(FormatInfo formatInfo,String courseCode,CourseJointCreateWrapper jointCreateWrapper){
+        this();
+        this.formatInfo = formatInfo;
+        this.courseCode = courseCode;
+        this.formatOfferingInfo.setFormatId(formatInfo.getId());
+        this.jointCreateWrapper = jointCreateWrapper;
+        if (jointCreateWrapper != null){
+            this.isJointOffering = true;
+        }
+    }
 
     /**
      * Returns the <code>FormatOfferingInfo</code> dto for this wrapper
@@ -162,6 +179,38 @@ public class FormatOfferingCreateWrapper {
      */
     public void setActivitesUI(String activitesUI) {
         this.activitesUI = activitesUI;
+    }
+
+    public boolean isSelectedToCopy() {
+        return selectedToCopy;
+    }
+
+    public void setSelectedToCopy(boolean selectedToCopy) {
+        this.selectedToCopy = selectedToCopy;
+    }
+
+    public FormatInfo getFormatInfo() {
+        return formatInfo;
+    }
+
+    public void setFormatInfo(FormatInfo formatInfo) {
+        this.formatInfo = formatInfo;
+    }
+
+    public String getGradeRosterUI() {
+        return gradeRosterUI;
+    }
+
+    public void setGradeRosterUI(String gradeRosterUI) {
+        this.gradeRosterUI = gradeRosterUI;
+    }
+
+    public String getFinalExamUI() {
+        return finalExamUI;
+    }
+
+    public void setFinalExamUI(String finalExamUI) {
+        this.finalExamUI = finalExamUI;
     }
 
 }

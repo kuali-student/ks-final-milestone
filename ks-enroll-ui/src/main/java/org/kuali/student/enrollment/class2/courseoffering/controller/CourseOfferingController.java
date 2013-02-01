@@ -353,6 +353,33 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
+    /**
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=addFormat")
+        public ModelAndView addFormat(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
+                                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+
+        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseOfferingCreateMaintainableImpl maintainable = (CourseOfferingCreateMaintainableImpl)KSControllerHelper.getViewHelperService(form);
+
+        //If the user creates a new format
+        if (wrapper.isShowCreateFormatSection()){
+            maintainable.addFormatOffering(wrapper);
+        } else { //If the user copies from existing joint formats
+            maintainable.copyJointFormatOfferings(wrapper);
+        }
+
+        return getUIFModelAndView(form);
+    }
+
+
     private TermInfo getTerm(String termCode) {
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         List<Predicate> pList = new ArrayList<Predicate>();

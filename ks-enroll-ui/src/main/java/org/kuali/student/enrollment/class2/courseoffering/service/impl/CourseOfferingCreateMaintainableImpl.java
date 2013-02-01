@@ -23,7 +23,6 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseJointCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingCreateWrapper;
@@ -246,7 +245,10 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                     foWrapper.setCourseCode(co.getCourseOfferingCode());
                     foWrapper.setFormatOfferingInfo(formatOffering);
                     CourseInfo courseInfo = getCourseService().getCourse(co.getCourseId(),contextInfo);
-                    foWrapper.setActivitesUI(getActivityTypeNames(courseInfo,formatOffering.getFormatId()));
+                    foWrapper.setFormatInfo(getFormatInfo(courseInfo,formatOffering.getFormatId()));
+                    foWrapper.setActivitesUI(getActivityTypeNames(foWrapper.getFormatInfo()));
+                     foWrapper.setGradeRosterUI(getTypeName(formatOffering.getGradeRosterLevelTypeKey()));
+                     foWrapper.setFinalExamUI(getTypeName(formatOffering.getFinalExamLevelTypeKey()));
                     wrapper.getCopyFromFormats().add(foWrapper);
                 }
             }
@@ -256,35 +258,14 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
     }
 
     /**
-     * This is overridden from KRAD to implement creating the formats for the joint courses when the user
-     * creates delivery formats. It should not be a problem overriding this
-     * method completely as we dont need any validation or pre/post event for this action
      *
-     * @param view
-     * @param model
-     * @param collectionPath
+     * @param wrapper
      */
-    @Override
-    public void processCollectionAddLine(View view, Object model, String collectionPath) {
-        // get the collection group from the view
-        /*CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(collectionPath);
-        if (collectionGroup == null) {
-            logAndThrowRuntime("Unable to get collection group component for path: " + collectionPath);
-        }*/
+    public void addFormatOffering(CourseOfferingCreateWrapper wrapper){
 
-        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)((MaintenanceDocumentForm)model).getDocument().getNewMaintainableObject().getDataObject();
-
-        // now get the new line we need to add
-//        String addLinePath = collectionGroup.getAddLineBindingInfo().getBindingPath();
-//        FormatOfferingCreateWrapper addLine = (FormatOfferingCreateWrapper)ObjectPropertyUtils.getPropertyValue(model, addLinePath);
         FormatOfferingCreateWrapper addLine = wrapper.getAddLineFormatWrapper();
 
-       /* FormatOfferingCreateWrapper formatOfferingWrapper = (FormatOfferingCreateWrapper)ObjectPropertyUtils.getPropertyValue(model, addLinePath);
-        if (formatOfferingWrapper == null) {
-            logAndThrowRuntime("Add line instance not found for path: " + addLinePath);
-        }*/
-
-        FormatInfo formatToBeAdded = getMatchingFormatInfo(wrapper.getCourse(), addLine.getFormatId());
+        FormatInfo formatToBeAdded = getFormatInfo(wrapper.getCourse(), addLine.getFormatId());
 
         for (CourseJointCreateWrapper joint : wrapper.getJointCourses()){
             if (joint.isSelectedToJointlyOfferred()){
@@ -296,41 +277,108 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                 foForJoint.setGradeRosterLevelTypeKey(addLine.getGradeRosterLevelTypeKey());
 
                 //Look for a matching format at the joint course
-                FormatInfo formatInfo = getRelatedJointFormatInfo(formatToBeAdded,joint.getCourseInfo());
+                FormatInfo formatInfo = getMatchingFormatInfo(joint.getCourseInfo(), formatToBeAdded);
                 if (formatInfo == null){
                     GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM,"There is no matching format to be added for joint course " + joint.getCourseCode());
                 } else {
+                    foForJoint.setFormatInfo(formatInfo);
                     foForJoint.setFormatId(formatInfo.getId());
-                    foForJoint.setActivitesUI(getActivityTypeNames(joint.getCourseInfo(), formatInfo.getId()));
+                    foForJoint.setActivitesUI(getActivityTypeNames(formatInfo));
+
                     wrapper.getFormatOfferingWrappers().add(0,foForJoint);
                     joint.getFormatOfferingWrappers().add(foForJoint);
                 }
             }
         }
 
-        addLine.setActivitesUI(getActivityTypeNames(wrapper.getCourse(), addLine.getFormatId()));
+        FormatInfo formatInfo = getFormatInfo(wrapper.getCourse(),addLine.getFormatId());
+        addLine.setActivitesUI(getActivityTypeNames(formatInfo));
+        addLine.setFormatInfo(formatInfo);
         addLine.setCourseCode(wrapper.getCourse().getCode());
         wrapper.getFormatOfferingWrappers().add(0,addLine);
         wrapper.setAddLineFormatWrapper(new FormatOfferingCreateWrapper());
+    }
 
-        //Make a new instance for the add line
-//        collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
+    /**
+     * This method copies all the selected joing format offerings and creates format offering for the
+     * main course as well as for the selected joint courses.
+     *
+     * @param wrapper course offering wrapper
+     */
+    public void copyJointFormatOfferings(CourseOfferingCreateWrapper wrapper){
+
+        //Iterate all the joint formats and look for the selected format to copy
+         for(FormatOfferingCreateWrapper foWrapper : wrapper.getCopyFromFormats()){
+
+             if (foWrapper.isSelectedToCopy()){
+                 //For a joint format, find a matching format from the course
+                 FormatInfo matchedFormat = getMatchingFormatInfo(wrapper.getCourse(),foWrapper.getFormatInfo());
+                 boolean shouldCreateFO = true;
+
+                 if (matchedFormat != null){
+                     //If match found, make sure FOs doesnt exists already for that format
+                     for (FormatOfferingCreateWrapper existingFormat : wrapper.getFormatOfferingWrappers()){
+                         if (StringUtils.equals(existingFormat.getFormatId(),matchedFormat.getId())){
+                             shouldCreateFO = false;
+                             GlobalVariables.getMessageMap().putError("KS-Catalog-FormatOfferingSubSection-New", RiceKeyConstants.ERROR_CUSTOM,"Already selected format exists for the course " + wrapper.getCourse().getCode());
+                             break;
+                         }
+                     }
+                 }
+
+                 if (shouldCreateFO){
+                      FormatOfferingCreateWrapper newFormatOffering = new FormatOfferingCreateWrapper(matchedFormat,wrapper.getCourse().getCode(),null);
+                      newFormatOffering.setGradeRosterLevelTypeKey(foWrapper.getGradeRosterLevelTypeKey());
+                      newFormatOffering.setFinalExamLevelTypeKey(foWrapper.getFinalExamLevelTypeKey());
+                      //As the formats are same, activities must be same.. To avoid service calls, just copy the activity types from joint format
+                      newFormatOffering.setActivitesUI(foWrapper.getActivitesUI());
+                      wrapper.getFormatOfferingWrappers().add(0,newFormatOffering);
+                 }
+
+                 //Iterate all the selected joint course and create a format for that as well.
+                 for (CourseJointCreateWrapper jointWrapper : wrapper.getJointCourses()){
+                     if (jointWrapper.isSelectedToJointlyOfferred()){
+                        //For a joint format, find a matching format for the course
+                         matchedFormat = getMatchingFormatInfo(jointWrapper.getCourseInfo(),foWrapper.getFormatInfo());
+
+                         shouldCreateFO = true;
+
+                         if (matchedFormat != null){
+                             for (FormatOfferingCreateWrapper existingFormat : wrapper.getFormatOfferingWrappers()){
+                                  if (StringUtils.equals(existingFormat.getFormatId(),matchedFormat.getId())){
+                                      shouldCreateFO = false;
+                                      GlobalVariables.getMessageMap().putError("KS-Catalog-FormatOfferingSubSection-New", RiceKeyConstants.ERROR_CUSTOM,"Already selected format exists for the joint course " + jointWrapper.getCourseInfo().getCode());
+                                      break;
+                                  }
+                              }
+                             if (shouldCreateFO){
+                                 FormatOfferingCreateWrapper newFormatOffering = new FormatOfferingCreateWrapper(matchedFormat,jointWrapper.getCourseCode(),jointWrapper);
+                                   newFormatOffering.setGradeRosterLevelTypeKey(foWrapper.getGradeRosterLevelTypeKey());
+                                   newFormatOffering.setFinalExamLevelTypeKey(foWrapper.getFinalExamLevelTypeKey());
+                                   //As the formats are same, activities must be same.. To avoid service calls, just copy the activity types from joint format
+                                   newFormatOffering.setActivitesUI(foWrapper.getActivitesUI());
+                                   jointWrapper.getFormatOfferingWrappers().add(newFormatOffering);
+                                   wrapper.getFormatOfferingWrappers().add(0,newFormatOffering);
+                             }
+                         }
+                     }
+                 }
+             }
+         }
     }
 
     /**
      * Helper method to display a list of Activity type names at the UI
      *
-     * @param courseInfo
-     * @param formatId
+     * @param formatInfo
      * @return
      */
-    protected String getActivityTypeNames(CourseInfo courseInfo, String formatId){
+    protected String getActivityTypeNames(FormatInfo formatInfo){
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         StringBuffer activities = new StringBuffer();
 
         try {
-            FormatInfo formatInfo = getMatchingFormatInfo(courseInfo,formatId);
             List<ActivityInfo> activityInfos = formatInfo.getActivities();
             for (ActivityInfo activityInfo : activityInfos) {
                 TypeInfo activityType = getTypeService().getType(activityInfo.getTypeKey(), contextInfo);
@@ -350,7 +398,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      * @param formatId format id to match
      * @return formatInfo
      */
-    private FormatInfo getMatchingFormatInfo(CourseInfo courseInfo,String formatId){
+    private FormatInfo getFormatInfo(CourseInfo courseInfo, String formatId){
         for (FormatInfo formatInfo : courseInfo.getFormats()){
             if (StringUtils.equals(formatInfo.getId(),formatId)){
                 return formatInfo;
@@ -379,25 +427,31 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
     }
 
     /**
-     * This method iterates all the formats in a joint course to match with the user selected format from the parent/sister course.
+     * This method iterates all the <code>FormatInfo</code> in a <code>CourseInfo</code> to match with the passed it <code>FormatInfo</code>.
      *
-     * @param formatInfo
-     * @param jointCourseInfo
+     * <p>
+     *     There is no id match here. It simply iterates all the formats and match the activities count and type. If all the
+     *     activity types matches, it returns that <code>FormatInfo</code>
+     * </p>
+     *
+     * @param courseInfoToSearch course info to search for a matching format
+     * @param formatInfoToMatchWith format info to match with
+     *
      * @return formatInfo from joint course which matches the format being added by the user at the ui.
      */
-    public FormatInfo getRelatedJointFormatInfo(FormatInfo formatInfo, CourseInfo jointCourseInfo){
-        for (FormatInfo formatFromJoint : jointCourseInfo.getFormats()){
-            if (StringUtils.equalsIgnoreCase(formatInfo.getTypeKey(),formatFromJoint.getTypeKey())){
-                if (!formatInfo.getActivities().isEmpty() && formatInfo.getActivities().size() == formatFromJoint.getActivities().size()){
+    public FormatInfo getMatchingFormatInfo(CourseInfo courseInfoToSearch, FormatInfo formatInfoToMatchWith){
+        for (FormatInfo searchFormat : courseInfoToSearch.getFormats()){
+            if (StringUtils.equalsIgnoreCase(formatInfoToMatchWith.getTypeKey(),searchFormat.getTypeKey())){
+                if (!formatInfoToMatchWith.getActivities().isEmpty() && formatInfoToMatchWith.getActivities().size() == searchFormat.getActivities().size()){
                     boolean isMatchFound = true;
-                    for (ActivityInfo activityInfo : formatInfo.getActivities()){
-                        if (!isMatchingJointActivityFound(formatFromJoint,activityInfo)){
+                    for (ActivityInfo activityInfo : formatInfoToMatchWith.getActivities()){
+                        if (!isMatchingJointActivityFound(searchFormat,activityInfo)){
                             isMatchFound = false;
                             break;
                         }
                     }
                     if (isMatchFound){
-                        return formatFromJoint;
+                        return searchFormat;
                     }
                 }
             }
@@ -412,6 +466,16 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
             }
         }
         return true;
+    }
+
+    private String getTypeName(String typeKey){
+        try{
+            TypeInfo typeInfo = getTypeService().getType(typeKey,ContextUtils.createDefaultContextInfo());
+            return typeInfo.getName();
+         } catch (Exception e){
+             //Throwing a runtime as we use this method to get the type name only for the ui purpose..
+             throw new RuntimeException(e);
+         }
     }
 
 }
