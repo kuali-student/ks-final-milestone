@@ -374,14 +374,7 @@
         <oracle.dba.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</oracle.dba.url>
 
         <!-- Schemas -->
-        <!--
-          Prefix the Rice schema with ks for now, to make it explicitly clear that the related .resources files
-          were generated internally by KS until such time as the Rice jars contain proper .resources natively.
-          Proper .resources files for Rice are present in both the 2.2 and 2.3 release lines of Rice. So after
-          the next Rice upgrade for KS, the ks prefix here should be able to be dropped in favor of the .resources
-          bundled into the Rice software.
-        -->
-        <db.rice.baseline.schema>ks-rice-impex-server-bootstrap</db.rice.baseline.schema>
+        <db.rice.baseline.schema>rice-impex-server-bootstrap</db.rice.baseline.schema>
         <db.ks.core.schema>ks-core-sql</db.ks.core.schema>
         <db.ks.lum.schema>ks-lum-sql</db.ks.lum.schema>
         <db.ks.enroll.schema>ks-enroll-sql</db.ks.enroll.schema>
@@ -395,19 +388,20 @@
         <sql.suffix.upgrades>upgrades.resources</sql.suffix.upgrades>
 
         <!-- SQL resources -->
-        <sql.schema.1.list>${sql.meta.base}/${db.rice.baseline.schema}-${sql.suffix.schema}</sql.schema.1.list>
+        <sql.schema.1>classpath:sql/${db.vendor}/${db.rice.baseline.schema}.sql</sql.schema.1>
         <sql.schema.2.list>${sql.meta.base}/${db.ks.core.schema}-${sql.suffix.schema}</sql.schema.2.list>
         <sql.schema.3.list>${sql.meta.base}/${db.ks.lum.schema}-${sql.suffix.schema}</sql.schema.3.list>
         <sql.schema.4.list>${sql.meta.base}/${db.ks.enroll.schema}-${sql.suffix.schema}</sql.schema.4.list>
         <sql.schema.5.list>${sql.meta.base}/${db.ks.rice.schema}-${sql.suffix.schema}</sql.schema.5.list>
 
-        <sql.data.1.list>${sql.meta.base}/${db.rice.baseline.schema}-${sql.suffix.data}</sql.data.1.list>
+        <!-- The "ks-" prefix here should get removed after the next Rice upgrade since the Rice jar will contain the -data.resources file natively -->
+        <sql.data.1.list>${sql.meta.base}/ks-${db.rice.baseline.schema}-${sql.suffix.data}</sql.data.1.list>
         <sql.data.2.list>${sql.meta.base}/${db.ks.core.schema}-${sql.suffix.data}</sql.data.2.list>
         <sql.data.3.list>${sql.meta.base}/${db.ks.lum.schema}-${sql.suffix.data}</sql.data.3.list>
         <sql.data.4.list>${sql.meta.base}/${db.ks.enroll.schema}-${sql.suffix.data}</sql.data.4.list>
         <sql.data.5.list>${sql.meta.base}/${db.ks.rice.schema}-${sql.suffix.data}</sql.data.5.list>
 
-        <sql.constraints.1.list>${sql.meta.base}/${db.rice.baseline.schema}-${sql.suffix.constraints}</sql.constraints.1.list>
+        <sql.constraints.1>classpath:sql/${db.vendor}/${db.rice.baseline.schema}-constraints.sql</sql.constraints.1>
         <sql.constraints.2.list>${sql.meta.base}/${db.ks.core.schema}-${sql.suffix.constraints}</sql.constraints.2.list>
         <sql.constraints.3.list>${sql.meta.base}/${db.ks.lum.schema}-${sql.suffix.constraints}</sql.constraints.3.list>
         <sql.constraints.4.list>${sql.meta.base}/${db.ks.enroll.schema}-${sql.suffix.constraints}</sql.constraints.4.list>
