@@ -51,6 +51,7 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     private List<String> coListedCOs;
     private Boolean selectCrossListingAllowed;
     private boolean crossListedCo;
+    private String displayStringCoListedCOs;
 
 
     private boolean excludeCancelledActivityOfferings;
@@ -244,6 +245,15 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     public void setSelectCrossListingAllowed(boolean selectCrossListingAllowed) {
         this.selectCrossListingAllowed = selectCrossListingAllowed;
     }
+
+    public String getDisplayStringCoListedCOs() {
+        return displayStringCoListedCOs;
+    }
+
+    public void setDisplayStringCoListedCOs(String displayStringCoListedCOs) {
+        this.displayStringCoListedCOs = displayStringCoListedCOs;
+    }
+
 
     public List<JointCourseWrapper> getJointCourses() {
         return jointCourses;

@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -42,14 +43,19 @@ public class populateCrossCourseListKeyValues extends UifKeyValuesFinderBase imp
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         CourseInfo courseOffering = wrapper.getCourse();
-
+        wrapper.setDisplayStringCoListedCOs(StringUtils.EMPTY);
         if (courseOffering != null && courseOffering.getCrossListings() != null && courseOffering.getCrossListings().size() > 0) {
+            StringBuffer crossListedCodes = new StringBuffer();
+
             // Always include an option for Course
             for (CourseCrossListingInfo courseInfo : courseOffering.getCrossListings()) {
                 if(courseInfo.getCode() != null)   {
                     keyValues.add(new ConcreteKeyValue(courseInfo.getId(), courseInfo.getCode()));
+                    crossListedCodes.append(courseInfo.getCode());
+                    crossListedCodes.append(" ");
                 }
             }
+            wrapper.setDisplayStringCoListedCOs(crossListedCodes.toString());
         }
         return keyValues;
     }

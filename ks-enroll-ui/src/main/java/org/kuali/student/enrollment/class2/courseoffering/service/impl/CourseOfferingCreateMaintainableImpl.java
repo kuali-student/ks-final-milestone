@@ -100,11 +100,30 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         }
     }
 
-    protected void loadCrossListedCOs(CourseOfferingCreateWrapper wrapper, CourseOfferingInfo coInfo){
-        if (wrapper.getCoListedCOs().size() > 0) {
-            for (String CoId : wrapper.getCoListedCOs()) {
-                for (CourseCrossListingInfo crossInfo : wrapper.getCourse().getCrossListings()) {
-                    if (crossInfo.getId().equalsIgnoreCase(CoId)) {
+    protected void loadCrossListedCOs(CourseOfferingCreateWrapper wrapper, CourseOfferingInfo coInfo) {
+        if (wrapper.isSelectCrossListingAllowed()) {
+            if (wrapper.getCoListedCOs().size() > 0) {
+                for (String CoId : wrapper.getCoListedCOs()) {
+                    for (CourseCrossListingInfo crossInfo : wrapper.getCourse().getCrossListings()) {
+                        if (crossInfo.getId().equalsIgnoreCase(CoId)) {
+                            CourseOfferingCrossListingInfo crossListingInfo = new CourseOfferingCrossListingInfo();
+                            crossListingInfo.setCode(crossInfo.getCode());
+                            crossListingInfo.setCourseNumberSuffix(crossInfo.getCourseNumberSuffix());
+                            crossListingInfo.setDepartmentOrgId(crossInfo.getDepartment());
+                            crossListingInfo.setSubjectArea(crossInfo.getSubjectArea());
+                            crossListingInfo.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
+                            crossListingInfo.setTypeKey(crossInfo.getTypeKey());
+                            coInfo.getCrossListings().add(crossListingInfo);
+                        }
+                    }
+                }
+            }
+        } else {
+            // get all the crosslisted COs
+            CourseInfo courseOffering = wrapper.getCourse();
+            if (courseOffering != null && courseOffering.getCrossListings() != null && courseOffering.getCrossListings().size() > 0) {
+                for (CourseCrossListingInfo crossInfo : courseOffering.getCrossListings()) {
+                    if (crossInfo.getCode() != null) {
                         CourseOfferingCrossListingInfo crossListingInfo = new CourseOfferingCrossListingInfo();
                         crossListingInfo.setCode(crossInfo.getCode());
                         crossListingInfo.setCourseNumberSuffix(crossInfo.getCourseNumberSuffix());

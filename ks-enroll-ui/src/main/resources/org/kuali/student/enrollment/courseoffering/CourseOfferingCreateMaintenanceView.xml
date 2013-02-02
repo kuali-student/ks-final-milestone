@@ -199,6 +199,7 @@
                                 </property>
                             </bean>
                             <ref bean="KS-CoListed-Checkbox-Group"/>
+                            <ref bean="KS-CoListed-CO-Codes-display"/>
                          </list>
                     </property>
                 </bean>
@@ -206,10 +207,13 @@
         </property>
     </bean>
 
+    <bean id="KS-CoListed-CO-Codes-display" parent="Uif-DataField" p:label="Cross List As" p:propertyName="displayStringCoListedCOs"
+          p:render="@{#crossListedCo and !#selectCrossListingAllowed}"/>
+
     <bean id="KS-CoListed-Checkbox-Group" parent="Uif-InputField"  p:propertyName="coListedCOs" p:render="@{#crossListedCo}">
     <property name="label" value="Cross List As"/>
         <property name="control">
-            <bean parent="Uif-HorizontalCheckboxesControl" p:readOnly="@{!#selectCrossListingAllowed}"/>
+            <bean parent="Uif-HorizontalCheckboxesControl" p:render="@{#selectCrossListingAllowed}"/>
         </property>
         <property name="optionsFinder">
             <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.populateCrossCourseListKeyValues" p:addBlankOption="false" />
