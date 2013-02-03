@@ -23,6 +23,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +63,13 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
             CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) primaryDataObjectOrDocument;
             if (theForm.getSocState() != null) {
                 attributes.put("socState", theForm.getSocState());
+            }
+            Date termClassStartDate = theForm.getTermClassStartDate();
+            if (termClassStartDate != null) {
+                Date now = new Date();
+                if (now.before(termClassStartDate)) {
+                    attributes.put("termClassStartDateLater", "true");
+                }
             }
         }
         super.addPermissionDetails(primaryDataObjectOrDocument, attributes);    //To change body of overridden methods use File | Settings | File Templates.
