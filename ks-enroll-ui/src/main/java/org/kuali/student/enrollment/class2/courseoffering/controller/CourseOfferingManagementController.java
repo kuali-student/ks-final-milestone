@@ -162,6 +162,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             if( termList.size() == 1) {
                 // Get THE term
                 theForm.setTermInfo(termList.get(0));
+                theForm.setTermClassStartDate(termList.get(0).getStartDate());
             } else {
                 LOG.error("Error: Found more than one Term for term code: " + termCode);
                 GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
@@ -235,6 +236,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             if( termList.size() == 1) {
                 // Get THE term
                 theForm.setTermInfo(termList.get(0));
+                theForm.setTermClassStartDate(termList.get(0).getStartDate());
             } else {
                 LOG.error("Error: Found more than one Term for term code: " + termCode);
                 GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
@@ -317,6 +319,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             if( termList.size() == 1) {
                 // Get THE term
                 theForm.setTermInfo(termList.get(0));
+                theForm.setTermClassStartDate(termList.get(0).getStartDate());
             } else {
                 LOG.error("Error: Found more than one Term for term code: " + termCode);
                 GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
@@ -418,6 +421,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 if (termList.size() == 1) {
                     // Get THE term
                     theForm.setTermInfo(termList.get(0));
+                    theForm.setTermClassStartDate(termList.get(0).getStartDate());
                     //load all courseofferings based on subject Code
                     String inputCode = theForm.getInputCode();
                     if (!StringUtils.isEmpty(inputCode)) {
