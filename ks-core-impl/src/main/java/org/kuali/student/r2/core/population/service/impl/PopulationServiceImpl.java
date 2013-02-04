@@ -281,7 +281,8 @@ public class PopulationServiceImpl implements PopulationService {
 
     @Override
     public List<ValidationResultInfo> validatePopulation(String validationTypeKey, PopulationInfo populationInfo,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("validatePopulation");
+        //throw new UnsupportedOperationException("validatePopulation");
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -307,7 +308,8 @@ public class PopulationServiceImpl implements PopulationService {
 
     @Override
     public List<ValidationResultInfo> validatePopulationRule(String validationTypeKey, PopulationRuleInfo populationInfo,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("validatePopulationRule");
+        //throw new UnsupportedOperationException("validatePopulationRule");
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override

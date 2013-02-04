@@ -34,6 +34,7 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
 import java.util.ArrayList;
@@ -277,6 +278,17 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         typeArrays.add(new String[]{"kuali.atp.atp.relation.includes", "includes", "Includes", TypeServiceConstants.REF_OBJECT_URI_TYPE_TYPE_RELATION});
         typeArrays.add(new String[]{"kuali.atp.atp.relation.associated", "associated", "Associated", TypeServiceConstants.REF_OBJECT_URI_TYPE_TYPE_RELATION});
 
+        //Population
+        typeArrays.add(new String[]{"kuali.population.rule.type.person", "Population person", "Population person", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
+        typeArrays.add(new String[]{"kuali.population.rule.type.rule", "Population rule", "Population rule", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
+        typeArrays.add(new String[]{"kuali.population.rule.type.search", "Population search", "Population search", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
+        typeArrays.add(new String[]{"kuali.population.rule.type.union", "Population union", "Population union", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
+        typeArrays.add(new String[]{"kuali.population.rule.type.intersection", "Population intersection", "Population intersection", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
+        typeArrays.add(new String[]{"kuali.population.rule.type.exclusion", "Population exclusion", "Population exclusion", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
+        typeArrays.add(new String[]{"kuali.population.type.population", "Population population", "Population population", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
+        typeArrays.add(new String[]{"kuali.population.type.student", "Population student", "Population student", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
+        typeArrays.add(new String[]{"kuali.population.type.population.category", "Population category", "Population category", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE});
+
         for (String[] typeArray : typeArrays) {
             createTypeInfo(typeArray[0], typeArray[1], typeArray[2], typeArray[3]);
         }
@@ -487,6 +499,42 @@ public class TypeServiceMockImpl implements TypeService, MockService {
             associate(allowedArray[0], allowedArray[1], allowedArray[2], allowedArray[3], allowedArray[4], allowedArray[5]);
         }
 
+        // Population Rule Types Grouping
+
+        Set<TypeInfo> populationRuleGroup = new HashSet<TypeInfo>();
+        TypeInfo populationRuleGroupType = createTypeInfo("kuali.population.rule.type.rule", "Group for Population Rule", "Group for Population Rule", PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE);
+
+        populationRuleGroup.add(getType("kuali.population.rule.type.person"));
+        populationRuleGroup.add(getType("kuali.population.rule.type.rule"));
+        populationRuleGroup.add(getType("kuali.population.rule.type.search"));
+        populationRuleGroup.add(getType("kuali.population.rule.type.union"));
+        populationRuleGroup.add(getType("kuali.population.rule.type.intersection"));
+        populationRuleGroup.add(getType("kuali.population.rule.type.exclusion"));
+
+        for (TypeInfo type : populationRuleGroup) {
+            createTypeTypeRelationInfo(populationRuleGroupType, type);
+        }
+
+        // Population Types Grouping
+        Set<TypeInfo> populationGroup = new HashSet<TypeInfo>();
+        TypeInfo populationGroupType = createTypeInfo("kuali.population.population.type", "Group for Population", "Group for Population", PopulationServiceConstants.REF_OBJECT_URI_POPULATION);
+
+        populationGroup.add(getType("kuali.population.type.population"));
+        populationGroup.add(getType("kuali.population.type.student"));
+
+        for (TypeInfo type : populationGroup) {
+            createTypeTypeRelationInfo(populationGroupType, type);
+        }
+
+        //PopulationCategory type
+        Set<TypeInfo> populationCategoryGroup = new HashSet<TypeInfo>();
+        TypeInfo populationCategoryGroupType = createTypeInfo("kuali.population.population.category.type", "Group for Population Category", "Group for Population Category", PopulationServiceConstants.REF_OBJECT_URI_POPULATION);
+
+        populationCategoryGroup.add(getType("kuali.population.type.population.category"));
+
+        for (TypeInfo type : populationCategoryGroup) {
+            createTypeTypeRelationInfo(populationCategoryGroupType, type);
+        }
     }
 
     private TypeInfo createTypeInfo(String typeKey, String typeName, String descr, String refObjectUri) {
