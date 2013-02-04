@@ -31,10 +31,12 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.impl.repository.ActionBo;
 import org.kuali.rice.krms.impl.repository.AgendaBo;
 import org.kuali.rice.krms.impl.repository.AgendaItemBo;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
+import org.kuali.rice.krms.impl.repository.ReferenceObjectBindingBoService;
 import org.kuali.rice.krms.impl.repository.RuleBo;
 import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.rice.krms.impl.repository.TermParameterBo;
@@ -44,6 +46,7 @@ import org.kuali.rice.krms.impl.util.KrmsRetriever;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
 import org.kuali.student.enrollment.class1.krms.service.AgendaStudentEditorMaintainable;
+import org.kuali.student.enrollment.class1.krms.util.KsKrmsRepositoryServiceLocator;
 import org.kuali.student.enrollment.class1.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.mock.utilities.TestHelper;
@@ -95,15 +98,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
         return (RuleEditor) maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
     }
 
-
-    /**
-     * This only supports a single action within a rule.
-     */
-    //public List<RemotableAttributeField> retrieveRuleCustomAttributes(View view, Object model, Container container) {
-    //    AgendaEditor agendaEditor = getAgendaEditor(model);
-    //    return krmsRetriever.retrieveRuleCustomAttributes(agendaEditor);
-    //}
-
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
         Object dataObject = null;
@@ -115,7 +109,22 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
         ruleEditor.setCluId(cluId);
 
         //Populate the agenda. Should be retrieved based on agenda type passed as parameter.
-        ruleEditor.setAgenda(new AgendaBo());
+        List<ReferenceObjectBinding> refObjects = getReferenceObjectBindingBoService().findReferenceObjectBindingsByReferenceObject(cluId);
+        for (ReferenceObjectBinding refObject : refObjects) {
+            if ("Agenda".equals(refObject.getKrmsDiscriminatorType())) {
+
+                AgendaBo agenda = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(AgendaBo.class, refObject.getKrmsObjectId());
+                if (agenda != null) {
+                    ruleEditor.setAgenda(agenda);
+                    break;
+                }
+
+            }
+        }
+
+        if (ruleEditor.getAgenda() == null) {
+            ruleEditor.setAgenda(new AgendaBo());
+        }
 
         //Retrieve the Clu information
         CluInfo cluInfo = null;
@@ -139,36 +148,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
             ruleEditor.setCourseName(courseNameBuilder.toString());
         }
 
-        try {
-
-            RuleBo rule = null;
-            String ruleId = dataObjectKeys.get("id");
-
-            if (ruleId != null) {
-                rule = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(RuleBo.class, ruleId);
-            }
-
-            if (KRADConstants.MAINTENANCE_COPY_ACTION.equals(getMaintenanceAction())) {
-                String dateTimeStamp = (new Date()).getTime() + "";
-                String newRuleName = AgendaItemBo.COPY_OF_TEXT + rule.getName() + " " + dateTimeStamp;
-
-                RuleBo copiedRule = rule.copyRule(newRuleName);
-
-                document.getDocumentHeader().setDocumentDescription(NEW_AGENDA_EDITOR_DOCUMENT_TEXT);
-                document.setFieldsClearedOnCopy(true);
-                ruleEditor.setRule(copiedRule);
-            } else {
-                ruleEditor.setRule(rule);
-            }
-
-            dataObject = ruleEditor;
-        } catch (ClassNotPersistenceCapableException ex) {
-            if (!document.getOldMaintainableObject().isExternalBusinessObject()) {
-                throw new RuntimeException("Data Object Class: " + getDataObjectClass() +
-                        " is not persistable and is not externalizable - configuration error");
-            }
-            // otherwise, let fall through
-        }
+        dataObject = ruleEditor;
 
         return dataObject;
     }
@@ -363,5 +343,9 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
             cluService = (CluService) GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return cluService;
+    }
+
+    public ReferenceObjectBindingBoService getReferenceObjectBindingBoService() {
+        return KsKrmsRepositoryServiceLocator.getReferenceObjectBindingBoService();
     }
 }

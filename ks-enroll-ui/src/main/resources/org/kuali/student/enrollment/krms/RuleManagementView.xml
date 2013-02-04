@@ -47,7 +47,7 @@
 
                 <bean parent="Uif-PageHeader" p:headerText="@{#dp.courseName}"/>
 
-                <bean parent="Uif-InputField-LabelTop" p:label="Select Agenda" p:propertyName="agendaType">
+                <!--bean parent="Uif-InputField-LabelTop" p:label="Select Agenda" p:propertyName="agendaType">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"
                               p:onChangeScript="ajaxSubmitForm('retrieveAgenda', null, jQuery(this).data('submitdata'), null, null, null);"/>
@@ -55,24 +55,15 @@
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.RequisiteAgendaTypeKeyValues" p:addBlankOption="false"/>
                     </property>
-                </bean>
+                </bean-->
 
-                <bean id="KS-RuleType-Section" parent="Uif-HorizontalBoxSection">
-                    <property name="items">
-                        <list>
-
-                            <bean parent="Uif-InputField-LabelTop" p:label="Select Rule" p:propertyName="ruleType"
-                                  p:refreshWhenChangedPropertyNames="#dp.agendaType">
-                                <property name="control">
-                                    <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"
-                                          p:onChangeScript="ajaxSubmitForm('retrieveRule', null, jQuery(this).data('submitdata'), null, null, null);"/>
-                                </property>
-                                <property name="optionsFinder">
-                                    <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.RuleTypeKeyValues" p:addBlankOption="false"/>
-                                </property>
-                            </bean>
-
-                        </list>
+                <bean parent="Uif-InputField-LabelTop" p:label="Select Rule" p:propertyName="ruleType">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"
+                                p:onChangeScript="ajaxSubmitForm('retrieveRule', null, jQuery(this).data('submitdata'), null, null, null);"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.RuleTypeKeyValues" p:addBlankOption="false"/>
                     </property>
                 </bean>
 

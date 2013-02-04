@@ -30,7 +30,7 @@ public class RuleEditor extends AgendaEditor {
 
     private String cluId;
     private String courseName;
-    private String agendaType;
+
     private String ruleType;
     private String copyPropositionId;
     private List<String> activeSelections;
@@ -88,11 +88,10 @@ public class RuleEditor extends AgendaEditor {
     }
 
     public String getAgendaType() {
-        return agendaType;
-    }
-
-    public void setAgendaType(String agendaType) {
-        this.agendaType = agendaType;
+        if (this.getAgenda() != null){
+            return this.getAgenda().getTypeId();
+        }
+        return null;
     }
 
     public String getRuleType() {

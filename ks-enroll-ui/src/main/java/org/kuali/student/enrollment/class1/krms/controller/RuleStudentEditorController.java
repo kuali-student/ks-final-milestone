@@ -1023,47 +1023,6 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=retrieveAgenda")
-    public ModelAndView retrieveAgenda(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                       HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-
-        AgendaBo agenda = null;
-        RuleEditor ruleEditor = getRuleEditor(form);
-        Node<RuleEditorTreeNode, String> root = ruleEditor.getPropositionTree().getRootElement();
-
-        ruleEditor.clearRule();
-        resetEditModeOnPropositionTree(root);
-
-        List<ReferenceObjectBinding> refObjects = getReferenceObjectBindingBoService().findReferenceObjectBindingsByReferenceObject(ruleEditor.getCluId());
-        for (ReferenceObjectBinding refObject : refObjects) {
-            if ("Agenda".equals(refObject.getKrmsDiscriminatorType())) {
-
-                AgendaBo refagenda = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(AgendaBo.class, refObject.getKrmsObjectId());
-                if ((refagenda != null) || (refagenda.getTypeId().equals(ruleEditor.getAgendaType()))) {
-                    agenda = refagenda;
-                    break;
-                }
-
-            }
-        }
-
-        if (agenda == null) {
-            agenda = new AgendaBo();
-            agenda.setTypeId(ruleEditor.getAgendaType());
-        }
-
-        ruleEditor.setAgenda(agenda);
-        ruleEditor.setRuleType(null);
-
-        //Set the agenda on the old maintainable object because a new one is selected on the new maintainable.
-        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
-        RuleEditor oldRuleEditor = (RuleEditor)maintenanceForm.getDocument().getOldMaintainableObject().getDataObject();
-        oldRuleEditor.setAgenda(agenda);
-
-        return getUIFModelAndView(form);
-    }
-
     @RequestMapping(params = "methodToCall=retrieveRule")
     public ModelAndView retrieveRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response)
@@ -1218,10 +1177,6 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
     public KrmsTypeRepositoryService getKrmsTypeRepositoryService() {
         return KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService();
-    }
-
-    public ReferenceObjectBindingBoService getReferenceObjectBindingBoService() {
-        return KsKrmsRepositoryServiceLocator.getReferenceObjectBindingBoService();
     }
 
 }
