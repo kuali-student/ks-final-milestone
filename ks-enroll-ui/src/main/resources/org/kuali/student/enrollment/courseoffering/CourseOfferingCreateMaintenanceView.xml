@@ -328,7 +328,7 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.formatId"  p:required="true"  p:label="FORMAT" p:forceSessionPersistence="true">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.formatId"  p:required="true" p:label="FORMAT" p:forceSessionPersistence="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl">
                             <property name="cssClasses">
@@ -355,7 +355,7 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.gradeRosterLevelTypeKey" p:forceSessionPersistence="true"
                       p:label="FINAL EXAM DRIVER ACTIVITY" p:required="true" p:finalizeMethodToCall="populateFinalExamDriverTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl">

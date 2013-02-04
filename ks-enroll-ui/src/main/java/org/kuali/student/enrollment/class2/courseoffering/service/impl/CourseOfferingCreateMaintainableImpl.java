@@ -315,7 +315,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                 //Look for a matching format at the joint course
                 FormatInfo formatInfo = getMatchingFormatInfo(joint.getCourseInfo(), formatToBeAdded);
                 if (formatInfo == null){
-                    GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM,"There is no matching format to be added for joint course " + joint.getCourseCode());
+                    GlobalVariables.getMessageMap().putInfo("KS-Catalog-FormatOfferingSubSection-New", RiceKeyConstants.ERROR_CUSTOM,"There is no matching format to be added for joint course " + joint.getCourseCode());
                 } else {
                     foForJoint.setFormatInfo(formatInfo);
                     foForJoint.setFormatId(formatInfo.getId());
