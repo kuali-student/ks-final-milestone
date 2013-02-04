@@ -328,8 +328,9 @@
     <!--<alias name="viewPermissionTypeService" alias="ksViewPermissionTypeService"/>-->
     <bean id="ksViewPermissionTypeService" class="org.kuali.student.enroll.kim.permission.type.KSViewPermissionTypeServiceImpl"/>
     <bean id="ksViewActionPermissionTypeService" class="org.kuali.student.enroll.kim.permission.type.KSViewActionPermissionTypeServiceImpl"/>
+    <bean id="ksViewFieldPermissionTypeService" class="org.kuali.student.enroll.kim.permission.type.KSViewFieldPermissionTypeServiceImpl"/>
+
     <alias name="viewEditModePermissionTypeService" alias="ksViewEditModePermissionTypeService"/>
-    <alias name="viewFieldPermissionTypeService" alias="ksViewFieldPermissionTypeService"/>
     <alias name="viewGroupPermissionTypeService" alias="ksViewGroupPermissionTypeService"/>
     <alias name="viewWidgetPermissionTypeService" alias="ksViewWidgetPermissionTypeService"/>
     <!-- alias name="viewActionPermissionTypeService" alias="ksViewActionPermissionTypeService"/-->
