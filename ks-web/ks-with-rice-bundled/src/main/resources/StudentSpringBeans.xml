@@ -176,13 +176,15 @@
                 <value>classpath:org/kuali/student/enrollment/krms/RuleStudentMaintenance.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/AgendaStudentEditorView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/AgendaStudentLookupView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/krms/RequisiteStudentView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/krms/RuleStudentView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/RuleManagementView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/KrmsComponentsView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/DepartmentLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/TestSetLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/CourseRangeView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/KRMSCourseLookupView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/AgendaManagementView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/COAgendaManagement-SearchInputPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/COAgendaManagement-ManageAgendasPage.xml</value>
                 
                 <!-- Type -->
                 <value>classpath:org/kuali/student/enrollment/type/TypeVerificationView.xml</value>
