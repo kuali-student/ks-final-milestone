@@ -198,6 +198,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     assignCrossListedInForm(theForm, coToShow);
 
                     ToolbarUtil.processCoToolbarForDeptAdmin(theForm.getCourseOfferingResultList(), theForm);
+                    //ToolbarUtil.processCoToolbarForCentralAdmin(theForm.getCourseOfferingResultList(), theForm);
                 } else { // just one course offering is returned
                     CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                     theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());

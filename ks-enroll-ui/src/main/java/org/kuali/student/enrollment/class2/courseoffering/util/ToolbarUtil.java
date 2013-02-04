@@ -81,15 +81,17 @@ public class ToolbarUtil {
 
     public static void processCoToolbarForCentralAdmin(List<CourseOfferingListSectionWrapper> coListWrapperList, CourseOfferingManagementForm form){
         String socState = form.getSocStateKey();
+        String socSchedulingState = form.getSocSchedulingStateKey();
         if(coListWrapperList != null && !coListWrapperList.isEmpty()){
         for(CourseOfferingListSectionWrapper coListWrapper : coListWrapperList){
             String coState = coListWrapper.getCourseOfferingStateKey();
             if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
                     StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
                     StringUtils.equals(socState, CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY) ||
-                    StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) ||
                     StringUtils.equals(socState, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY) ||
-                    StringUtils.equals(socState, CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY)){
+                    StringUtils.equals(socState, CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY) ||
+                    (StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
+                     !StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS))){
                 form.setEnableAddButton(true);
                 if(StringUtils.equals(coState, LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY)){
                     if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY)){
@@ -111,11 +113,11 @@ public class ToolbarUtil {
                     coListWrapper.setEnableCancelButton(true);
                     coListWrapper.setEnableDeleteButton(true);
                 }
-                //TODO:   locked but mse not in progress
             }
 
-            if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY)){
-               //TODO: locked & mse in progress
+            if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY) ||
+                    (StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
+                     StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS))){
                     //all buttons disabled
             }
         }
@@ -174,15 +176,17 @@ public class ToolbarUtil {
 
     public static void processAoToolbarForCentralAdmin(List<ActivityOfferingWrapper> activityWrapperList, CourseOfferingManagementForm form){
         String socState = form.getSocStateKey();
+        String socSchedulingState = form.getSocSchedulingStateKey();
         if(activityWrapperList != null && !activityWrapperList.isEmpty()){
         for(ActivityOfferingWrapper activityWrapper : activityWrapperList){
             String aoState = activityWrapper.getAoInfo().getStateKey();
             if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
                     StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
                     StringUtils.equals(socState, CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY) ||
-                    StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) ||
                     StringUtils.equals(socState, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY) ||
-                    StringUtils.equals(socState, CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY)){
+                    StringUtils.equals(socState, CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY) ||
+                    (StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
+                    !StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS))){
                 form.setEnableAddButton(true);
                 if(StringUtils.equals(aoState, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY)){
                     if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY)){
@@ -205,11 +209,11 @@ public class ToolbarUtil {
                     activityWrapper.setEnableCancelButton(true);
                     activityWrapper.setEnableDeleteButton(true);
                 }
-                //TODO:   locked but mse not in progress
             }
 
-            if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY)){
-                //TODO: locked & mse in progress
+            if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY) ||
+                    (StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
+                     StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS))){
                      //all buttons disabled
             }
         }

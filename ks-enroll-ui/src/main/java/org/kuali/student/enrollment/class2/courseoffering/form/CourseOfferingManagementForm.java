@@ -29,6 +29,7 @@ public class CourseOfferingManagementForm extends KSUifForm {
     private CourseOfferingEditWrapper courseOfferingEditWrapper = null;
     private String socState;
     private String socStateKey;
+    private String socSchedulingStateKey;
 
     private boolean readOnly;
     private boolean crossListedCo = false;
@@ -346,6 +347,14 @@ public class CourseOfferingManagementForm extends KSUifForm {
 
     public void setSocStateKey(String socStateKey) {
         this.socStateKey = socStateKey;
+    }
+
+    public String getSocSchedulingStateKey() {
+        return socSchedulingStateKey;
+    }
+
+    public void setSocSchedulingStateKey(String socSchedulingStateKey) {
+        this.socSchedulingStateKey = socSchedulingStateKey;
     }
 
     public boolean isCrossListedCo() {

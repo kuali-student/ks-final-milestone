@@ -160,8 +160,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         if(courseOfferingIds.size() > 0){
 
             loadCourseOfferingsByIds(courseOfferingIds,form);
-            form.setSocStateKey(getSocStateKey(form.getTermInfo().getId()));
-
+            setSocStateKeys(form);
         } else {
             LOG.error("Error: Can't find any Course Offering for a Course Code: " + courseCode + " in term: " + termId);
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Code", courseCode, termId);
@@ -612,25 +611,20 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             }
         }
     }
-    public String getSocStateKey (String termCode) {
-        try {
-            List<String> socIds = getSocService().getSocIdsByTerm(termCode, createContextInfo());
-            if (socIds != null) {
-                if (socIds.isEmpty()) {
-                    return null;
-                }
-                List<SocInfo> targetSocs = this.getSocService().getSocsByIds(socIds, createContextInfo());
-                for (SocInfo soc: targetSocs) {
-                    if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
-                        return soc.getStateKey();
-                    }
+
+    public void setSocStateKeys (CourseOfferingManagementForm form) throws Exception{
+        String termCode = form.getTermInfo().getId();
+        List<String> socIds = getSocService().getSocIdsByTerm(termCode, createContextInfo());
+        if (socIds != null && !socIds.isEmpty()) {
+            List<SocInfo> targetSocs = this.getSocService().getSocsByIds(socIds, createContextInfo());
+            for (SocInfo soc: targetSocs) {
+                if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
+                    form.setSocStateKey(soc.getStateKey());
+                    form.setSocSchedulingStateKey(soc.getSchedulingStateKey());
+                    return;
                 }
             }
-            return null;
-        } catch (Exception e) {
-            return null;
         }
-
     }
 
     public static String trimTrailing0(String creditValue){
