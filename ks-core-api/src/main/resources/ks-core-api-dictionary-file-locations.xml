@@ -267,6 +267,23 @@
         </constructor-arg>
     </bean>
 
+    <!--Population Service-->
+    <bean id="populationInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-PopulationInfo-dictionary.xml" />
+    </bean>
+    <bean id="populationRuleInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-PopulationRuleInfo-dictionary.xml" />
+    </bean>
+    <bean name="populationServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="populationInfoDictionaryLocation" />
+                <bean parent="populationRuleInfoDictionaryLocation" />
+            </list>
+        </constructor-arg>
+    </bean>
+
+
     <!--THIS IS USED BY RICE DATA DICTIONARY SERVICE
      and the Global Student Dictionary Service, dataDictionaryServiceForAllUsedByRice
      that is used in the rice dictionary validation service impl -->
@@ -306,6 +323,8 @@
                 <bean parent="socInfoDictionaryLocation"/>
                 <bean parent="socRolloverResultInfoDictionaryLocation"/>
                 <bean parent="socRolloverResultItemInfoDictionaryLocation" />
+                <bean parent="populationInfoDictionaryLocation" />
+                <bean parent="populationRuleInfoDictionaryLocation" />
             </list>
         </constructor-arg>
     </bean>
