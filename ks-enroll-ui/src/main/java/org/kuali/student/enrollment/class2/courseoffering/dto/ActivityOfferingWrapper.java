@@ -13,6 +13,7 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ActivityOfferingWrapper implements Serializable{
@@ -34,6 +35,8 @@ public class ActivityOfferingWrapper implements Serializable{
     private String termName;
 
     private String formatOfferingName;
+
+    private Date termRegStartDate;
 
     // Tanveer 06/27/2012
     private String waitListLevelTypeKey;
@@ -649,4 +652,11 @@ public class ActivityOfferingWrapper implements Serializable{
         this.adminOrg=adminOrg;
     }
 
+    public Date getTermRegStartDate() {
+        return termRegStartDate;
+    }
+
+    public void setTermRegStartDate(Date termRegStartDate) {
+        this.termRegStartDate = termRegStartDate;
+    }
 }
