@@ -64,11 +64,12 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
             if (theForm.getSocState() != null) {
                 attributes.put("socState", theForm.getSocState());
             }
-            Date termClassStartDate = theForm.getTermClassStartDate();
-            if (termClassStartDate != null) {
-                Date now = new Date();
-                if (now.before(termClassStartDate)) {
-                    attributes.put("termClassStartDateLater", "true");
+            if (theForm.getTermInfo() != null) {
+                if (theForm.getTermInfo().getStartDate() != null) {
+                   Date now = new Date();
+                   if (now.before(theForm.getTermInfo().getStartDate())) {
+                      attributes.put("termClassStartDateLater", "true");
+                    }
                 }
             }
         }
