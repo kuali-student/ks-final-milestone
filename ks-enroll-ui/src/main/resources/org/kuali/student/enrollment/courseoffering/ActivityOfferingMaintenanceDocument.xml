@@ -49,7 +49,8 @@
         </property>
     </bean>
 
-    <bean id="ActivityOffering-MaintenanceView" parent="KSMaintenanceView" p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView}" p:entryPageId="ActivityOfferingEdit-MainPage">
+    <bean id="ActivityOffering-MaintenanceView" parent="KSMaintenanceView" p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView}"
+          p:entryPageId="ActivityOfferingEdit-MainPage" p:id="ActivityOffering-MaintenanceView">
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
