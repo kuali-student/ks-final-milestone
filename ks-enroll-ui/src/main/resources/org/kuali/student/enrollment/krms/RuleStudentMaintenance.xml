@@ -133,6 +133,23 @@
                             <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
                             <bean id="RuleStudentEditorView-Tree" parent="KS-RulerEditor-TreeSection-parent"
                                   p:forceSessionPersistence="true"/>
+                            <!--Add button to update the preview-->
+                            <bean id="PropEditButtonPanel" parent="Uif-HorizontalBoxGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean id="update-button" parent="Uif-SecondaryActionButton-Small">
+                                            <property name="actionLabel" value="Update"/>
+                                            <property name="actionScript"
+                                                      value="ajaxSubmitForm('updatePreview', null, jQuery(this).data('submitdata'), null, null, null);"/>
+                                        </bean>
+                                        <bean id="cancel-button" parent="Uif-ActionLink" p:style="margin-left: 0.5em;margin-top: 0.3em;">
+                                            <property name="actionLabel" value="Cancel"/>
+                                            <property name="methodToCall"
+                                                      value="cancelEdit"/>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
@@ -234,8 +251,8 @@
 
                             <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('addparent');
                                 if (enabled) {
-                                ajaxCallPropositionTree('goToEditProposition', 'RuleStudentEditorView-TreeGroup');}"
-                                p:actionLabel="Group" p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');" p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
+                                ajaxCallPropositionTree('togglePropositionSimpleCompound', 'RuleStudentEditorView-TreeGroup');}"
+                                  p:actionLabel="Group" p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');" p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
                                 <property name="actionImage">
                                     <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconGroup.png"
                                         p:altText="Add Parent"/>

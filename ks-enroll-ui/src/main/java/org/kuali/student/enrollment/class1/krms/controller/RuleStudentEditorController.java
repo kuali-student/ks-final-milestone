@@ -41,7 +41,6 @@ import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
 import org.kuali.student.enrollment.class1.krms.dto.SimpleStudentPropositionEditNode;
 import org.kuali.student.enrollment.class1.krms.dto.SimpleStudentPropositionNode;
-import org.kuali.student.enrollment.class1.krms.dto.TemplateInfo;
 import org.kuali.student.enrollment.class1.krms.service.RuleViewHelperService;
 import org.kuali.student.enrollment.class1.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.uif.util.KSControllerHelper;
@@ -56,7 +55,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Controller for the Test UI Page
@@ -573,7 +571,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
                 // create a new compound proposition
                 PropositionBo compound = PropositionBo.createCompoundPropositionBoStub(propBo, true);
-                compound.setDescription("New Compound Proposition " + UUID.randomUUID().toString());
+                compound.setDescription("New Compound Proposition ");
                 compound.setEditMode(false);
 
                 if (parent.getData() == null) { // SPECIAL CASE: this is the only proposition in the tree
@@ -591,11 +589,14 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                     }
 
                     parentBo.getCompoundComponents().set(propIndex, compound);
+                    compound.getCompoundComponents().get(1).setEditMode(true);
+                    ruleEditor.setSelectedPropositionId(compound.getCompoundComponents().get(1).getId());
                 }
             }
         }
 
-        ruleEditor.getRule().refreshPropositionTree(true);
+        ruleEditor.refreshPropositionTree(true);
+        ruleEditor.initPreviewTree();
         return getUIFModelAndView(form);
     }
 
@@ -844,6 +845,21 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
         //Update the rule preview
         ruleEditor.initPreviewTree();
+
+        //Reset the editing tree.
+        Node<RuleEditorTreeNode, String> root = ruleEditor.getPropositionTree().getRootElement();
+        resetEditModeOnPropositionTree(root);
+        ruleEditor.refreshPropositionTree(false);
+
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=cancelEdit")
+    public ModelAndView cancelEdit(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
+        RuleEditor ruleEditor = getRuleEditor(form);
 
         //Reset the editing tree.
         Node<RuleEditorTreeNode, String> root = ruleEditor.getPropositionTree().getRootElement();

@@ -237,11 +237,7 @@
                 <ref bean="test.score.between.values" />
                 <ref bean="test.score" /-->
 
-                <!--Add button to update the preview-->
-                <bean id="update-button" parent="Uif-SecondaryActionButton-Small">
-                    <property name="actionLabel" value="Update"/>
-                    <property name="actionScript" value="ajaxSubmitForm('updatePreview', null, jQuery(this).data('submitdata'), null, null, null);"/>
-                </bean>
+
 
             </list>
         </property>
