@@ -141,18 +141,3 @@ WHERE
         AND up.NMSPC_CD='KS-ENR'--permission namespace
     )
 /
-
--- temporarily added by Bonnie to fix the problem in KSENROLL-5073
--- temporarily to switch back to use krad permission template
-UPDATE
-    KRIM_PERM_T
-SET PERM_TMPL_ID=
-    ( SELECT perm_tmpl_id FROM krim_perm_tmpl_t where nm = 'View Group' and nmspc_cd = 'KR-KRAD')
-WHERE NM='View Group for ActivityOfferingEdit-MainPage-SeatPool'
-/
-UPDATE
-    KRIM_PERM_T
-SET PERM_TMPL_ID=
-   ( SELECT perm_tmpl_id FROM krim_perm_tmpl_t where nm = 'Edit Group' and nmspc_cd = 'KR-KRAD')
-WHERE NM='Edit Group for ActivityOfferingEdit-MainPage-SeatPool'
-/
