@@ -21,6 +21,8 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.enrollment.uif.util.GrowlIcon;
+import org.kuali.student.enrollment.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -360,6 +362,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         }
 
         ToolbarUtil.processAoToolbarForDeptAdmin(form.getActivityWrapperList(), form);
+        KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_SUCCESS);
     }
 
     public void loadActivityOfferingsByCourseOffering (CourseOfferingInfo theCourseOfferingInfo, CourseOfferingManagementForm form) throws Exception{
@@ -402,17 +405,19 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     public void approveCourseOfferings(CourseOfferingManagementForm form) throws Exception{
         List<CourseOfferingListSectionWrapper> coList = form.getCourseOfferingResultList();
         ContextInfo contextInfo = createContextInfo();
-        boolean hasStateChangedAO = true;
+        int checked = 0;
+        int enabled = 0;
         for(CourseOfferingListSectionWrapper co : coList) {
-             if(co.isEnableApproveButton() && co.getIsChecked()) {
-                 List<ActivityOfferingWrapper> aos = getActivityOfferingsByCourseOfferingId(co.getCourseOfferingId(), form);
-                 if(aos != null && !aos.isEmpty()){
-                     ToolbarUtil.processAoToolbarForDeptAdmin(aos, form);
-                     for(ActivityOfferingWrapper ao : aos){
-                        if(ao.isEnableDeleteButton()){
-                            StatusInfo statusInfo = getCourseOfferingService().updateActivityOfferingState(ao.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
-                            if (!statusInfo.getIsSuccess()){
-                                if ( hasStateChangedAO) hasStateChangedAO = false;
+            if(co.getIsChecked()){
+                checked++;
+                 if(co.isEnableApproveButton()) {
+                     enabled++;
+                     List<ActivityOfferingWrapper> aos = getActivityOfferingsByCourseOfferingId(co.getCourseOfferingId(), form);
+                     if(aos != null && !aos.isEmpty()){
+                         ToolbarUtil.processAoToolbarForDeptAdmin(aos, form);
+                         for(ActivityOfferingWrapper ao : aos){
+                            if(ao.isEnableDeleteButton()){
+                                getCourseOfferingService().updateActivityOfferingState(ao.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
                             }
                         }
                     }
@@ -420,79 +425,106 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             }
          }
 
-        if ( ! hasStateChangedAO) {
-            GlobalVariables.getMessageMap().putError("manageCourseOfferingsPage", CourseOfferingConstants.COURSEOFFERING_TOOLBAR_APPROVED);
+        if(checked > enabled){
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_APPROVED);
+        }else{
+            if(enabled == 1){
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_APPROVED_1_SUCCESS);
+            }else {
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_APPROVED_N_SUCCESS);
+            }
         }
     }
 
     public void deleteCourseOfferings(CourseOfferingManagementForm form) throws Exception {
         List<CourseOfferingListSectionWrapper> coList = form.getCourseOfferingResultList();
-        List<CourseOfferingListSectionWrapper> qualifiedToDeleteList = new ArrayList<CourseOfferingListSectionWrapper>();
-        boolean hasDeletion = true;
+        int checked = 0;
+        int enabled = 0;
+
          for(CourseOfferingListSectionWrapper co : coList) {
-             if(co.isEnableDeleteButton() && co.getIsChecked()) {
-                List<ActivityOfferingWrapper> aos = getActivityOfferingsByCourseOfferingId(co.getCourseOfferingId(), form);
-                if(aos != null && !aos.isEmpty()){
-                    ToolbarUtil.processAoToolbarForDeptAdmin(aos, form);
-                    for(ActivityOfferingWrapper ao : aos){
-                        if(!ao.isEnableDeleteButton()){
-                            break;
+             boolean hasDeletion = true;
+             if(co.getIsChecked()){
+                 checked++;
+                 if(co.isEnableDeleteButton() ) {
+                    List<ActivityOfferingWrapper> aos = getActivityOfferingsByCourseOfferingId(co.getCourseOfferingId(), form);
+                    if(aos != null && !aos.isEmpty()){
+                        ToolbarUtil.processAoToolbarForDeptAdmin(aos, form);
+                        for(ActivityOfferingWrapper ao : aos){
+                            if(!ao.isEnableDeleteButton()){
+                                hasDeletion = false;
+                                break;
+                            }
                         }
                     }
-                }
-                qualifiedToDeleteList.add(co);
+
+                    if(hasDeletion){
+                        enabled++;
+                        getCourseOfferingService().deleteCourseOfferingCascaded(co.getCourseOfferingId(), ContextBuilder.loadContextInfo());
+                    }
+                 }
              }
          }
 
-        if(!qualifiedToDeleteList.isEmpty()){
-            for(CourseOfferingListSectionWrapper co : qualifiedToDeleteList){
-                StatusInfo statusInfo = getCourseOfferingService().deleteCourseOfferingCascaded(co.getCourseOfferingId(), ContextBuilder.loadContextInfo());
-                if (!statusInfo.getIsSuccess()){
-                   if ( hasDeletion) hasDeletion = false;
-                }
+        if(checked > enabled){
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE);
+        }else{
+            if(enabled == 1){
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE_1_SUCCESS);
+            }else {
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE_N_SUCCESS);
             }
-        }
-
-        if ( ! hasDeletion) {
-            GlobalVariables.getMessageMap().putError("manageCourseOfferingsPage", CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE);
         }
     }
 
     public void approveActivityOfferings(CourseOfferingManagementForm form) throws Exception{
         List<ActivityOfferingWrapper> aoList = form.getActivityWrapperList();
-        boolean hasStateChangedAO = true;
         ContextInfo contextInfo = createContextInfo();
-
+        int checked = 0;
+        int enabled = 0;
         for(ActivityOfferingWrapper ao : aoList) {
-             if(ao.isEnableApproveButton() && ao.getIsChecked()) {
-                StatusInfo statusInfo = getCourseOfferingService().updateActivityOfferingState(ao.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
-                if (!statusInfo.getIsSuccess()){
-                    if ( hasStateChangedAO) hasStateChangedAO = false;
-                }
-             }
+            if(ao.getIsChecked()){
+                checked++;
+                 if(ao.isEnableApproveButton()) {
+                     enabled++;
+                    getCourseOfferingService().updateActivityOfferingState(ao.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
+                 }
+            }
          }
 
-        if ( ! hasStateChangedAO) {
-            GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage", CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_APPROVED);
+        if(checked > enabled){
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_APPROVED);
+        }else{
+            if(enabled == 1){
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_APPROVED_1_SUCCESS);
+            }else {
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_APPROVED_N_SUCCESS);
+            }
         }
     }
 
     public void draftActivityOfferings(CourseOfferingManagementForm form) throws Exception{
         List<ActivityOfferingWrapper> aoList = form.getActivityWrapperList();
-        boolean hasStateChangedAO = true;
         ContextInfo contextInfo = createContextInfo();
-
+        int checked = 0;
+        int enabled = 0;
         for(ActivityOfferingWrapper ao : aoList) {
-             if(ao.isEnableDraftButton() && ao.getIsChecked()) {
-                StatusInfo statusInfo = getCourseOfferingService().updateActivityOfferingState(ao.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, contextInfo);
-                if (!statusInfo.getIsSuccess()){
-                    if ( hasStateChangedAO) hasStateChangedAO = false;
-                }
+             if(ao.getIsChecked()){
+                 checked++;
+                 if(ao.isEnableDraftButton()) {
+                     enabled++;
+                    getCourseOfferingService().updateActivityOfferingState(ao.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, contextInfo);
+                 }
              }
          }
 
-        if ( ! hasStateChangedAO) {
-            GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage", CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_DRAFT);
+        if(checked > enabled){
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_DRAFT);
+        }else{
+            if(enabled == 1){
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_DRAFT_1_SUCCESS);
+            }else {
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_DRAFT_N_SUCCESS);
+            }
         }
 
     }

@@ -792,6 +792,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE);
         }
 
+        if(selectedAolist.size() > 1){
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_DELETE_N_SUCCESS );
+        }else{
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_DELETE_1_SUCCESS);
+        }
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
 
     }
@@ -1110,7 +1115,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         theForm.setFormatIdForNewAO(null);
         theForm.setActivityIdForNewAO(null);
         theForm.setNoOfActivityOfferings(null);
-
+        //KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_SUCCESS);
         return getUIFModelAndView(theForm);
 
     }
@@ -1256,7 +1261,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         getViewHelperService(theForm).approveCourseOfferings(theForm);
         reloadCourseOfferings(theForm);
 
-        KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_APPROVED);
+        //KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_APPROVED);
         return getUIFModelAndView(theForm);
     }
 
@@ -1292,7 +1297,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         getViewHelperService(theForm).deleteCourseOfferings(theForm);
         reloadCourseOfferings(theForm);
-        KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
 
@@ -1302,7 +1306,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         getViewHelperService(theForm).approveActivityOfferings(theForm);
         reloadActivityOffering(theForm);
-        KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_APPROVED);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 
@@ -1336,12 +1339,17 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         List<ActivityOfferingWrapper> aoList = theForm.getActivityWrapperList();
         List<ActivityOfferingWrapper> selectedIndexList = theForm.getSelectedToDeleteList();
         boolean bNoDeletion = false;
+        int checked = 0;
+        int enabled = 0;
 
         selectedIndexList.clear();
         for(ActivityOfferingWrapper ao : aoList) {
+
             if(ao.isEnableDeleteButton() && ao.getIsChecked()) {
                 selectedIndexList.add(ao);
+                enabled++;
             } else if (ao.getIsChecked()){
+                checked++;
                 if (!bNoDeletion) {
                     bNoDeletion = true;
                 }
@@ -1355,6 +1363,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             }
         }
 
+        if(checked > enabled){
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_DELETE);
+        }
+
         return getUIFModelAndView(theForm, CourseOfferingConstants.AO_DELETE_CONFIRM_PAGE);
     }
 
@@ -1363,7 +1375,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         getViewHelperService(theForm).draftActivityOfferings(theForm);
         reloadActivityOffering(theForm);
-        KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_DRAFT);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 
