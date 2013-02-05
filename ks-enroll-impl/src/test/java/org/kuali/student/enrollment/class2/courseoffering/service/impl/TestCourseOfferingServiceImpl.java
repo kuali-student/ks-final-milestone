@@ -615,15 +615,19 @@ public class TestCourseOfferingServiceImpl {
         ColocatedOfferingSetInfo info = createColocatedOfferingSet();
         ColocatedOfferingSetInfo created = coService.createColocatedOfferingSet("test.type.key",info,callContext);
 
-        List<String> colos = coService.getColocatedOfferingSetIdsForActivityOffering(info.getActivityOfferingIds().get(0),callContext);
+        List<ColocatedOfferingSetInfo> colos = coService.getColocatedOfferingSetsByActivityOffering(info.getActivityOfferingIds().get(0),callContext);
         assertNotNull(colos);
         assertEquals(1,colos.size());
+        ColocatedOfferingSetInfo pulledColo = colos.get(0);
+        assertEquals(info.getMaximumEnrollment(), pulledColo.getMaximumEnrollment());
+        assertEquals(info.getIsMaxEnrollmentShared(), pulledColo.getIsMaxEnrollmentShared());
+        assertEquals(info.getName(), pulledColo.getName());
 
-        colos = coService.getColocatedOfferingSetIdsByType("test.type.key",callContext);
-        assertNotNull(colos);
-        assertEquals(1,colos.size());
+        List<String> coloIds = coService.getColocatedOfferingSetIdsByType("test.type.key",callContext);
+        assertNotNull(coloIds);
+        assertEquals(1,coloIds.size());
 
-        List<String> coloIds = new ArrayList<String>();
+        coloIds = new ArrayList<String>();
         coloIds.add(created.getId());
 
         List<ColocatedOfferingSetInfo> coloInfos = coService.getColocatedOfferingSetsByIds(coloIds,callContext);

@@ -3161,15 +3161,17 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
-    public List<String> getColocatedOfferingSetIdsForActivityOffering(String activityOfferingId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ColocatedOfferingSetInfo> getColocatedOfferingSetsByActivityOffering(String activityOfferingId,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<LuiSetInfo> luiSetInfos = getLuiService().getLuiSetsByLui(activityOfferingId,contextInfo);
-        List<String> colocatedOfferingSetIds = new ArrayList<String>();
+        List<ColocatedOfferingSetInfo> colocatedOfferingSets = new ArrayList<ColocatedOfferingSetInfo>();
 
         for (LuiSetInfo luiSetInfo : luiSetInfos) {
-            colocatedOfferingSetIds.add(luiSetInfo.getId());
+            ColocatedOfferingSetInfo coLo = new ColocatedOfferingSetInfo();
+            getColocatedOfferingSetTransformer().luiSet2ColocatedOfferingSet(luiSetInfo,coLo);
+            colocatedOfferingSets.add(coLo);
         }
 
-        return colocatedOfferingSetIds;
+        return colocatedOfferingSets;
     }
 
     @Override
