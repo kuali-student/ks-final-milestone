@@ -26,6 +26,11 @@
                 <ref bean="KRMS-Tree-Section"/>
             </list>
         </property>
+        <property name="dialogs">
+            <list>
+                <bean id="myCourseRangeLightBox" parent="KRMS-CourseRangeLightBox"/>
+            </list>
+        </property>
         <property name="additionalScriptFiles">
             <list merge="true">
                 <value>ks-enroll/scripts/common.js</value>

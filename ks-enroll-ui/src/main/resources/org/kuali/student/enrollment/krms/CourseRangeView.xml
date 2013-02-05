@@ -21,7 +21,7 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Add Course Range" p:onClickScript="e.preventDefault();closeLightbox();return false;" />
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:onClickScript="e.preventDefault();closeLightbox();return false;" />
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel"  p:actionScript="jQuery.fancybox.close();" />
                     </list>
                 </property>
             </bean>
