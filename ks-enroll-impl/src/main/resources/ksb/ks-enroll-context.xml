@@ -44,6 +44,7 @@
   <alias name="holdServiceValidation" alias="HoldService" />
   <alias name="courseRegistrationServiceValidator" alias="CourseRegistrationService" />
   <alias name="processServiceValidationDecorator" alias="ProcessService" />
+  <alias name="schedulingServiceValidationDecorator" alias="SchedulingService" />
 
 
 
@@ -466,7 +467,7 @@
         <property name="courseService" ref="courseServiceImpl" />
         <property name="acalService" ref="acalService" />
         <property name="coService" ref="CourseOfferingService" />
-        <property name="schedulingService" ref="schedulingServiceValidationDecorator"/>
+        <property name="schedulingService" ref="SchedulingService"/>
     </bean>
 
 
@@ -1199,7 +1200,7 @@
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
-                <property name="service" ref="schedulingServiceValidationDecorator" />
+                <property name="service" ref="SchedulingService" />
                 <property name="serviceInterface" value="org.kuali.student.r2.core.scheduling.service.SchedulingService" />
                 <property name="localServiceName" value="SchedulingService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/scheduling" />
