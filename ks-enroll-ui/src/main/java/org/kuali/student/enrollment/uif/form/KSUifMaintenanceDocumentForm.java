@@ -12,29 +12,25 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by David Yin on 1/16/13
+ * Created by David Yin on 2/3/13
  */
 package org.kuali.student.enrollment.uif.form;
 
-import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * KS form class that extends UifFormBase. It contains properties that are shared
- * among all the KS forms.
+ * This class //TODO ...
  *
  * @author Kuali Student Team
  */
-public class KSUifForm extends UifFormBase {
+public class KSUifMaintenanceDocumentForm extends MaintenanceDocumentForm {
     private String breadCrumbJSON; //JSON string of customized breadcrumb of a page
     private Map<String,Map<String,String>> breadCrumbItemsMap; //Map that storing breadcrumb maps for all the pages that have it configured in the current view
-    private String homeUrl;
-    private Map<String, Map<String, String>> previousFormsMap;
 
-    public KSUifForm() {
-        //breadCrumbJSON = "";
+    public KSUifMaintenanceDocumentForm() {
+        breadCrumbJSON = "";
     }
 
     public String getBreadCrumbJSON() {
@@ -51,21 +47,5 @@ public class KSUifForm extends UifFormBase {
 
     public void setBreadCrumbItemsMap(Map<String,Map<String,String>> breadCrumbItemsMap) {
         this.breadCrumbItemsMap = breadCrumbItemsMap;
-    }
-
-    public String getHomeUrl() {
-        return homeUrl;
-    }
-
-    public void setHomeUrl(String homeUrl) {
-        this.homeUrl = homeUrl;
-    }
-
-    public Map<String, Map<String, String>> getPreviousFormsMap() {
-        return previousFormsMap;
-    }
-
-    public void setPreviousFormsMap(Map<String, Map<String, String>> previousFormsMap) {
-        this.previousFormsMap = previousFormsMap;
     }
 }

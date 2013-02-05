@@ -35,7 +35,8 @@
         </property>
     </bean>
 
-    <bean id="KSFormView" abstract="true" parent="Uif-FormView">
+    <bean id="KSFormView" parent="KSFormView-parentBean"/>
+    <bean id="KSFormView-parentBean" class="org.kuali.student.enrollment.uif.view.KSFormView" parent="Uif-FormView" abstract="true">
         <property name="theme">
             <bean parent="KSTheme"/>
         </property>
@@ -85,7 +86,7 @@
             <bean parent="KSTheme"/>
         </property>
         <property name="header.rightGroup.items">      <!-- In KS, document overview section not needed(document status, create time, doc number etc)-->
-          <list/>
+            <list/>
         </property>
         <property name="page.header.lowerGroup.items">   <!-- Also, expandall/collapseall not needed-->
             <list/>
@@ -102,23 +103,23 @@
         <property name="items">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
-                                                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                 <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="cancel"
-                                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
             </list>
         </property>
     </bean>
 
     <bean id="KSGroup" abstract="true" parent="Uif-VerticalBoxSection">
-      <property name="disclosure">
-        <bean parent="KSDisclosure"/>
-      </property>
+        <property name="disclosure">
+            <bean parent="KSDisclosure"/>
+        </property>
     </bean>
 
 
     <bean id="KSDisclosure" abstract="true" parent="Uif-Disclosure-parentBean">
-      <property name="collapseImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_collapse-back-ks.png"/>
-      <property name="expandImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_expand-back-ks.png"/>
+        <property name="collapseImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_collapse-back-ks.png"/>
+        <property name="expandImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_expand-back-ks.png"/>
     </bean>
 
 
@@ -130,18 +131,18 @@
     </bean>
 
     <bean id="KSHeader_Empty" parent="Uif-HeaderOne">
-      <property name="items">
-          <list/>
-      </property>
+        <property name="items">
+            <list/>
+        </property>
     </bean>
 
     <bean id="KSInputField" abstract="true" parent="Uif-InputField"
           p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="labelTop"
           p:labelPlacement="TOP" p:fieldLabel.requiredMessagePlacement="LEFT"
           p:instructionalMessage.render="false" >
-          <property name="instructionalMessage">
-              <bean parent="Uif-InstructionalMessage"/>
-          </property>
+        <property name="instructionalMessage">
+            <bean parent="Uif-InstructionalMessage"/>
+        </property>
     </bean>
 
     <bean id="KS-Link" parent="Uif-Link">
@@ -217,6 +218,6 @@
 
     <!-- Added by David Yin -->
     <!-- For breadcrumb customization -->
-    <bean id="KS-Uif-Page" parent="KS-Uif-Page-parentBean"/>
-    <bean id="KS-Uif-Page-parentBean" class="org.kuali.student.enrollment.uif.container.KSUifPage" parent="Uif-Page" />
+    <!--<bean id="KS-Uif-Page" parent="KS-Uif-Page-parentBean" abstract="true" />
+    <bean id="KS-Uif-Page-parentBean" class="org.kuali.student.enrollment.uif.container.KSUifPage" parent="Uif-Page" abstract="true" />-->
 </beans>
