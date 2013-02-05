@@ -40,5 +40,13 @@
                 <module>ks-enroll-ksink</module>
             </modules>
         </profile>
+        <profile>
+            <id>skip-lum-enroll-wars</id>
+            <modules>
+                <module>ks-enroll-impl</module>
+                <module>ks-enroll-ui</module>
+                <module>ks-enroll-ksink</module>
+            </modules>
+        </profile>
     </profiles>
 </project>
