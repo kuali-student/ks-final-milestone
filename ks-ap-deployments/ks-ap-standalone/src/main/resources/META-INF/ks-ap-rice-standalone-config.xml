@@ -28,6 +28,8 @@
     <param name="module.name">ks-ap-standalone</param>
     <param name="application.id">ks</param>
 
+    <param name="ks.myplan.externalizable.images.url">../ks-myplan/images/</param>
+
     <!-- used to show KS links in Rice Portal -->
     <param name="portal.show.sample.app">true</param>
 

@@ -16,11 +16,8 @@ package org.kuali.student.myplan.course.util;
  */
 
 import org.apache.log4j.Logger;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
+import org.kuali.student.ap.framework.context.CourseSearchConstants;
 
-import java.beans.PropertyEditorSupport;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.regex.Matcher;

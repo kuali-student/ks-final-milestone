@@ -19,11 +19,12 @@ package org.kuali.student.myplan.course.util;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.myplan.course.dataobject.CourseDetails;
-import org.kuali.student.myplan.plan.util.EnumerationHelper;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
@@ -243,7 +244,7 @@ public class TimeScheduleLinksListPropertyEditor extends PropertyEditorSupport i
                 if (!instCd.isEmpty()) {
 
                     if (!this.getHashMap().containsKey(CourseSearchConstants.COURSE_OFFERING_INSTITUTE)) {
-                        enumeratedValueInfoList = EnumerationHelper.getEnumerationValueInfoList(CourseSearchConstants.COURSE_OFFERING_INSTITUTE);
+                        enumeratedValueInfoList =  KsapFrameworkServiceLocator.getEnumerationHelper().getEnumerationValueInfoList(CourseSearchConstants.COURSE_OFFERING_INSTITUTE);
 
                     } else {
                         enumeratedValueInfoList = hashMap.get(CourseSearchConstants.COURSE_OFFERING_INSTITUTE);

@@ -5,7 +5,9 @@ import java.util.Map;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.ap.framework.context.AtpHelper;
+import org.kuali.student.ap.framework.context.EnumerationHelper;
 import org.kuali.student.ap.framework.context.KsapContext;
+import org.kuali.student.ap.framework.context.OrgHelper;
 import org.kuali.student.ap.framework.context.UserSessionHelper;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
@@ -182,6 +184,24 @@ public final class KsapFrameworkServiceLocator {
 	public static AtpHelper getAtpHelper() {
 		return getLocalService("ksapAtpHelper");
 	}
+
+    /**
+     * Get the Enumeration helper.
+     *
+     * @return The Enumeration help.
+     */
+    public static EnumerationHelper getEnumerationHelper(){
+        return getLocalService("ksapEnumerationHelper");
+    }
+
+    /**
+     * Get the Org helper.
+     *
+     * @return The Org help.
+     */
+    public static OrgHelper getOrgHelper(){
+        return getLocalService("ksapOrgHelper");
+    }
 
 	/**
 	 * Get the academic plan service.

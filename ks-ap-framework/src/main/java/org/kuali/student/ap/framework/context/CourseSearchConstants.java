@@ -1,4 +1,4 @@
-package org.kuali.student.myplan.course.util;
+package org.kuali.student.ap.framework.context;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 

@@ -5,9 +5,9 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.myplan.audit.form.DegreeAuditForm;
 import org.kuali.student.myplan.audit.service.DegreeAuditConstants;
-import org.kuali.student.myplan.plan.util.OrgHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 
@@ -49,7 +49,7 @@ public class DegreeAuditRunProgramParam extends UifKeyValuesFinderBase implement
         if ((campusParam != null) && (!campusParam.isEmpty())) {
             degreeAuditForm.setProgramParam("");
             ContextInfo context = new ContextInfo();
-            List <OrgInfo> orgInfoList = OrgHelper.getOrgInfo(DegreeAuditConstants.PROGRAM_TYPE_KEY, DegreeAuditConstants.ORG_QUERY_SEARCH_BY_TYPE_REQUEST, DegreeAuditConstants.ORG_QUERY_PARAM, context);
+            List <OrgInfo> orgInfoList = KsapFrameworkServiceLocator.getOrgHelper().getOrgInfo(DegreeAuditConstants.PROGRAM_TYPE_KEY, DegreeAuditConstants.ORG_QUERY_SEARCH_BY_TYPE_REQUEST, DegreeAuditConstants.ORG_QUERY_PARAM, context);
 
             if (orgInfoList != null && orgInfoList.size() > 0) {
                 for (OrgInfo entry : orgInfoList) {

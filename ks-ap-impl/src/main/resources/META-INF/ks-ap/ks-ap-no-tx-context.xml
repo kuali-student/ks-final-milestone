@@ -17,13 +17,19 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-    <bean id="academicPlanServicePersistence" class="org.kuali.student.myplan.academicplan.service.mock.AcademicPlanServiceMockImpl">
-        <!--<property name="learningPlanDao" ref="learningPlanDao"/>
+    <bean id="courseSearchStrategy" class="org.kuali.student.myplan.course.controller.CourseSearchStrategyImpl"/>
+
+    <bean id="coursePreReqSearch" class="org.kuali.student.myplan.course.service.CoursePreReqSearch">
+        <property name="cluService" ref="ksLumCluService"/>
+    </bean>
+
+    <bean id="academicPlanServicePersistence" class="org.kuali.student.myplan.academicplan.service.AcademicPlanServiceImpl">
+        <property name="learningPlanDao" ref="learningPlanDao"/>
         <property name="learningPlanTypeDao" ref="learningPlanTypeDao"/>
         <property name="planItemDao" ref="planItemDao"/>
         <property name="planItemTypeDao" ref="planItemTypeDao"/>
         <property name="courseService" ref="ksLumCourseService"/>
-        <property name="atpService" ref="ksCoreAtpService" />-->
+        <property name="atpService" ref="ksCoreAtpService" />
     </bean>
 
     <bean id="academicPlanServiceValidator" class="org.kuali.student.myplan.academicplan.service.AcademicPlanServiceValidationDecorator">

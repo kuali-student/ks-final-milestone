@@ -8,9 +8,9 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.myplan.course.dataobject.FacetItem;
-import org.kuali.student.myplan.plan.util.EnumerationHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 
@@ -62,9 +62,9 @@ public class GenEduReqFacet extends AbstractFacet {
 				}
 				if (isNewFacetKey(FACET_KEY_DELIMITER + key
 						+ FACET_KEY_DELIMITER)) {
-					EnumeratedValueInfo e = EnumerationHelper
-							.getGenEdReqEnumInfo(EnumerationHelper
-									.getEnumCodeForAbbrVal(key), context);
+					EnumeratedValueInfo e =  KsapFrameworkServiceLocator.getEnumerationHelper()
+							.getGenEdReqEnumInfo( KsapFrameworkServiceLocator.getEnumerationHelper()
+                                    .getEnumCodeForAbbrVal(key), context);
 					if (e == null)
 						continue;
 					key = e.getAbbrevValue();

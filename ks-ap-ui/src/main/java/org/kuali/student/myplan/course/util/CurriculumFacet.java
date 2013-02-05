@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.myplan.course.dataobject.FacetItem;
-import org.kuali.student.myplan.plan.util.OrgHelper;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -112,7 +112,7 @@ public class CurriculumFacet extends AbstractFacet {
 		HashMap<String, Map<String, String>> h = getHashMap();
 		if ((subjects = h.get(CourseSearchConstants.SUBJECT_AREA)) == null)
 			h.put(CourseSearchConstants.SUBJECT_AREA,
-					subjects = OrgHelper.getTrimmedSubjectAreas());
+					subjects = KsapFrameworkServiceLocator.getOrgHelper().getTrimmedSubjectAreas());
 		return subjects.get(display);
 	}
 

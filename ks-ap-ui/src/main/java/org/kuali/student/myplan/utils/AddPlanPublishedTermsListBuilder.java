@@ -16,7 +16,7 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.myplan.course.dataobject.CourseDetails;
-import org.kuali.student.myplan.course.util.CourseSearchConstants;
+import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
 import org.kuali.student.myplan.plan.form.PlanForm;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;

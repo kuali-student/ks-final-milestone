@@ -205,6 +205,7 @@ public class PlannedTermsHelperBase {
 			// won't be correct.
 			int i = 0;
 			for (PlannedTerm pt : perfectPlannedTerms) {
+                if(pt.getAtpId().isEmpty()) continue;
 				String[] qy = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermAndYear(pt.getAtpId());
 				if (qy[0].equals(focusQuarterYear[0])
 						&& qy[1].equals(focusQuarterYear[1])) {
@@ -389,6 +390,7 @@ public class PlannedTermsHelperBase {
 					break;
 				}
 				index--;
+                if(index<0) break;
 			}
 		}
 		index = 0;

@@ -25,13 +25,10 @@ import org.kuali.student.myplan.academicplan.infc.PlanItem;
 import org.kuali.student.myplan.academicplan.service.AcademicPlanService;
 import org.kuali.student.myplan.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.myplan.course.dataobject.CourseDetails;
-import org.kuali.student.myplan.course.util.CourseSearchConstants;
+import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.myplan.course.util.CreditsFormatter;
 import org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
-import org.kuali.student.myplan.plan.util.DateFormatHelper;
-import org.kuali.student.myplan.plan.util.EnumerationHelper;
-import org.kuali.student.myplan.plan.util.OrgHelper;
 import org.kuali.student.myplan.utils.CourseLinkBuilder;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -40,6 +37,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
@@ -235,11 +233,11 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
 		}
 
 		// Campus Locations
-		List<OrgInfo> orgInfoList = OrgHelper.getOrgInfo(
-				CourseSearchConstants.CAMPUS_LOCATION,
-				CourseSearchConstants.ORG_QUERY_SEARCH_BY_TYPE_REQUEST,
-				CourseSearchConstants.ORG_TYPE_PARAM,
-				KsapFrameworkServiceLocator.getContext().getContextInfo());
+		List<OrgInfo> orgInfoList = KsapFrameworkServiceLocator.getOrgHelper().getOrgInfo(
+                CourseSearchConstants.CAMPUS_LOCATION,
+                CourseSearchConstants.ORG_QUERY_SEARCH_BY_TYPE_REQUEST,
+                CourseSearchConstants.ORG_TYPE_PARAM,
+                KsapFrameworkServiceLocator.getContext().getContextInfo());
 		getCampusLocationCache().put(CourseSearchConstants.CAMPUS_LOCATION,
 				orgInfoList);
 
@@ -258,8 +256,8 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
 			if ("Y".equals(entry.getValue())
 					&& entry.getKey().startsWith(
 							CourseSearchConstants.GEN_EDU_REQUIREMENTS_PREFIX))
-				abbrGenEdReqs.add(EnumerationHelper.getEnumAbbrValForCode(entry
-						.getKey()));
+				abbrGenEdReqs.add( KsapFrameworkServiceLocator.getEnumerationHelper().getEnumAbbrValForCode(entry
+                        .getKey()));
 		courseDetails.setAbbrGenEdRequirements(abbrGenEdReqs);
 
 		// Get general education requirements.
@@ -269,8 +267,8 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
 			if ("Y".equals(entry.getValue())
 					&& entry.getKey().startsWith(
 							CourseSearchConstants.GEN_EDU_REQUIREMENTS_PREFIX)) {
-				EnumeratedValueInfo e = EnumerationHelper.getGenEdReqEnumInfo(
-						entry.getKey(), context);
+				EnumeratedValueInfo e =  KsapFrameworkServiceLocator.getEnumerationHelper().getGenEdReqEnumInfo(
+                        entry.getKey(), context);
 				String genEdText = String.format("%s (%s)", e.getValue(),
 						e.getAbbrevValue());
 				genEdReqs.add(genEdText);
@@ -335,7 +333,7 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
 									.getId());
 							String dateStr = planItemInPlanTemp.getMeta()
 									.getCreateTime().toString();
-							dateStr = DateFormatHelper.getDateFomatted(dateStr);
+							dateStr = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(DateFormatters.DEFAULT_DATE_FORMATTER.parse(dateStr.substring(0,10)));
 							courseDetails.setSavedItemDateCreated(dateStr);
 						} else if (planItemInPlanTemp.getTypeKey().equals(
 								PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)) {
@@ -484,7 +482,7 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
 		String titleValue = null;
 		Map<String, String> subjects = new HashMap<String, String>();
 		if (!this.getHashMap().containsKey(CourseSearchConstants.SUBJECT_AREA)) {
-			subjects = OrgHelper.getTrimmedSubjectAreas();
+			subjects = KsapFrameworkServiceLocator.getOrgHelper().getTrimmedSubjectAreas();
 			getHashMap().put(CourseSearchConstants.SUBJECT_AREA, subjects);
 
 		} else {
@@ -524,8 +522,8 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
 
 		if (searchResult != null) {
 			for (SearchResultRow row : searchResult.getRows()) {
-				campusLocations.add(OrgHelper.getCellValue(row,
-						"lu.resultColumn.campusVal"));
+				campusLocations.add(KsapFrameworkServiceLocator.getOrgHelper().getCellValue(row,
+                        "lu.resultColumn.campusVal"));
 			}
 		}
 		return campusLocations;

@@ -25,6 +25,12 @@
 	<bean name="ksapUserSessionHelper"
 		class="org.kuali.student.ap.framework.context.support.DefaultUserSessionHelper" />
 
+    <bean name="ksapEnumerationHelper"
+          class="org.kuali.student.ap.framework.context.support.DefaultEnumerationHelper" />
+
+    <bean name="ksapOrgHelper"
+          class="org.kuali.student.ap.framework.context.support.DefaultOrgHelper" />
+
     <import resource="classpath:META-INF/ks-ap/ks-core-client.xml" />
     <import resource="classpath:META-INF/ks-ap/ks-enroll-client.xml" />
     <import resource="classpath:META-INF/ks-ap/ks-lum-client.xml" />

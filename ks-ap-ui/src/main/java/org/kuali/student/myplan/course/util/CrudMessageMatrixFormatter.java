@@ -13,7 +13,7 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.myplan.course.dataobject.CourseDetails;
 import org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
-import org.kuali.student.myplan.plan.util.DateFormatHelper;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 
 /**
  * Created by IntelliJ IDEA.
@@ -171,7 +171,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 
                 for (PlanItemDataObject pl : planItemDataObjects) {
                     String[] str = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermNameAndYear(pl.getAtp());
-                    String date = DateFormatHelper.getDateFomatted(pl.getDateAdded().toString());
+                    String date = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(DateFormatters.DEFAULT_DATE_FORMATTER.parse(pl.getDateAdded().toString().substring(0,10)));
                     if (planItemsMap.containsKey(date)) {
                         StringBuffer sbuf = new StringBuffer();
                         sbuf = sbuf.append(planItemsMap.get(date)).append(",").append(str[0]).append(" ").append(str[1]);

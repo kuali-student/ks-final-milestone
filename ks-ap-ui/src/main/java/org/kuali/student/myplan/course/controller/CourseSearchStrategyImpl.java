@@ -35,13 +35,11 @@ import org.kuali.student.myplan.course.dataobject.CourseSearchItemImpl;
 import org.kuali.student.myplan.course.dataobject.FacetItem;
 import org.kuali.student.myplan.course.form.CourseSearchFormImpl;
 import org.kuali.student.myplan.course.util.CourseLevelFacet;
-import org.kuali.student.myplan.course.util.CourseSearchConstants;
+import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.myplan.course.util.CreditsFacet;
 import org.kuali.student.myplan.course.util.CurriculumFacet;
 import org.kuali.student.myplan.course.util.GenEduReqFacet;
 import org.kuali.student.myplan.course.util.TermsFacet;
-import org.kuali.student.myplan.plan.util.EnumerationHelper;
-import org.kuali.student.myplan.plan.util.OrgHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -449,7 +447,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			if (genEdsOut.length() != 0) {
 				genEdsOut.append(", ");
 			}
-			req = EnumerationHelper.getEnumAbbrValForCode(req);
+			req = KsapFrameworkServiceLocator.getEnumerationHelper().getEnumAbbrValForCode(req);
 			/* Doing this to fix a bug in IE8 which is trimming off the I&S as I */
 			if (req.contains("&")) {
 				req = req.replace("&", "&amp;");
@@ -675,10 +673,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		if (campusLocations == null) {
 			ContextInfo context = KsapFrameworkServiceLocator.getContext()
 					.getContextInfo();
-			List<Org> all = new java.util.ArrayList<Org>(OrgHelper.getOrgInfo(
-					CourseSearchConstants.CAMPUS_LOCATION,
-					CourseSearchConstants.ORG_QUERY_SEARCH_BY_TYPE_REQUEST,
-					CourseSearchConstants.ORG_TYPE_PARAM, context));
+			List<Org> all = new java.util.ArrayList<Org>(KsapFrameworkServiceLocator.getOrgHelper().getOrgInfo(
+                    CourseSearchConstants.CAMPUS_LOCATION,
+                    CourseSearchConstants.ORG_QUERY_SEARCH_BY_TYPE_REQUEST,
+                    CourseSearchConstants.ORG_TYPE_PARAM, context));
 			Set<String> alc = new java.util.LinkedHashSet<String>();
 			for (Org o : all)
 				alc.add(o.getId());
@@ -937,7 +935,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 						requests.add(request0);
 						if (!this.getHashMap().containsKey(
 								CourseSearchConstants.SUBJECT_AREA)) {
-							subjects = OrgHelper.getSubjectAreas();
+							subjects = KsapFrameworkServiceLocator.getOrgHelper().getSubjectAreas();
 							getHashMap().put(
 									CourseSearchConstants.SUBJECT_AREA,
 									subjects);
@@ -993,7 +991,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
 							if (!this.getHashMap().containsKey(
 									CourseSearchConstants.SUBJECT_AREA)) {
-								subjects = OrgHelper.getSubjectAreas();
+								subjects = KsapFrameworkServiceLocator.getOrgHelper().getSubjectAreas();
 								getHashMap().put(
 										CourseSearchConstants.SUBJECT_AREA,
 										subjects);

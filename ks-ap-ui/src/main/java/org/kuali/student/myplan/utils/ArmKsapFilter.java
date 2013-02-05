@@ -10,7 +10,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import org.kuali.student.myplan.audit.service.DegreeAuditConstants;
-import org.kuali.student.myplan.course.util.CourseSearchConstants;
+import org.kuali.student.ap.framework.context.CourseSearchConstants;
 
 public class ArmKsapFilter implements Filter {
 
