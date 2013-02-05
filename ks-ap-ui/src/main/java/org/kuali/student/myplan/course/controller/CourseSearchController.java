@@ -27,6 +27,7 @@ import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -248,11 +249,13 @@ public class CourseSearchController extends UifControllerBase {
 							.append(URLEncoder.encode(e.getKey(), "UTF-8"))
 							.append('=')
 							.append(URLEncoder.encode(e.getValue(), "UTF-8"));
+			String jcn = StringEscapeUtils.escapeJavaScript(StringEscapeUtils
+					.escapeHtml(courseName));
 			jsonString.append("\\").append("\" target=\\").append("\"_self\\")
-					.append("\" title=\\").append("\"").append(courseName)
+					.append("\" title=\\").append("\"").append(jcn)
 					.append("\\").append("\"").append(" class=\\")
 					.append("\"myplan-text-ellipsis\\").append("\">")
-					.append(courseName).append("</a>\"").append(",\"")
+					.append(jcn).append("</a>\"").append(",\"")
 					.append(item.getCredit()).append("\",")
 					.append(scheduledAndOfferedTerms).append(",\"")
 					.append(item.getGenEduReq()).append("\",\"").append(status)
