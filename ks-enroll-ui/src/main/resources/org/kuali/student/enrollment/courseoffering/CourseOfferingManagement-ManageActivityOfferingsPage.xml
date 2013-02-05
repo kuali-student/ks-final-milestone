@@ -19,7 +19,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <bean id="KS-CourseOfferingManagement-ManageActivityOfferingsPage" parent="KS-Uif-Page" p:disclosure.render="false"
+    <bean id="KS-CourseOfferingManagement-ManageActivityOfferingsPage" parent="Uif-Page" p:disclosure.render="false"
           p:id="manageActivityOfferingsPage" p:onDocumentReadyScript="replaceBreadCrumbs('@{breadCrumbJSON}');">
         <property name="items">
             <list>

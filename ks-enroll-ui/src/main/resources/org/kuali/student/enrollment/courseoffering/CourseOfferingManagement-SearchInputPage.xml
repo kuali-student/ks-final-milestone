@@ -20,19 +20,10 @@
      limitations under the License.
     -->
 
-    <bean id="KS-CourseOfferingManagement-SearchInputPage" parent="KS-Uif-Page" p:disclosure.render="false"
+    <bean id="KS-CourseOfferingManagement-SearchInputPage" parent="Uif-Page" p:disclosure.render="false"
           p:id="searchInputPage">
-        <property name="breadCrumbConfigMap">
-            <map>
-                <entry key="manageActivityOfferingsPage">
-                    <map key-type="java.lang.String">
-                        <entry key="Home" value=""/>
-                        <entry key="Manage Course Offerings" value="manageCourseOfferingsPage"/>
-                        <entry key="@{theCourseOffering.courseOfferingCode}" value=""/>
-                    </map>
-                </entry>
-            </map>
-        </property>
+
+
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSection">

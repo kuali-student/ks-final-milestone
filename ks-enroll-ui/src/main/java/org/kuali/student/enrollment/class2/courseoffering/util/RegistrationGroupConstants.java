@@ -23,5 +23,6 @@ public class RegistrationGroupConstants {
 
     public static final String RG_CONTROLLER_PATH = "registrationGroupManagement";
     public static final String RG_VIEW = "manageRegistrationGroupsView";
+    public static final String RG_PAGE = "manageRegistrationGroupsPage";
 
 }

@@ -83,6 +83,16 @@ public class CourseOfferingConstants {
     //JSON string root key for customized breadcrumb
     public static final String BREADCRUMB_JSON_ROOT_KEY = "breadCrumb";
 
+    //Map keys for params of customized breadcrumb generation of multiple views
+    public static final String BREADCRUMB_PREVIOUS_CONTROLLER_PATH_KEY = "previousControllerPath";
+    public static final String BREADCRUMB_PREVIOUS_VIEW_ID_KEY = "previousViewId";
+    public static final String BREADCRUMB_PREVIOUS_HOME_URL_KEY = "previousHomeUrl";
+    public static final String BREADCRUMB_PREVIOUS_FORM_HISTORY_KEY = "previousFormHistory";
+    public static final String BREADCRUMB_PREVIOUS_FORMKEY_KEY = "previousFormKey";
+
+    public static final String MANAGE_CO_CONTROLLER_PATH = "courseOfferingManagement";
+    public static final String MANAGE_CO_VIEW_ID = "courseOfferingManagementView";
+
     //toolbar matrix -- result/warning messages
     public static final String ACTIVITYOFFERING_TOOLBAR_DELETE="info.enroll.activityoffering.toolbar.delete";
     public static final String ACTIVITYOFFERING_TOOLBAR_DRAFT="info.enroll.activityoffering.toolbar.draft" ;

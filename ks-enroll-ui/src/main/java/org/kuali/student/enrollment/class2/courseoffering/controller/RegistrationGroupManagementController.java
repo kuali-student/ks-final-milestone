@@ -22,6 +22,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
@@ -116,6 +117,10 @@ public class RegistrationGroupManagementController extends UifControllerBase {
         }catch (Exception e){
             LOG.error("Got exception when loading 'Manage Registration Groups'", e);
         }
+
+        //populate the previousFormsMap of the form. The map contains info about the previous view to generate customized breadcrumb
+        KSUifUtils.populationPreviousFormsMap(request, theForm);
+
         return super.start(theForm, result, request, response);
     }
 

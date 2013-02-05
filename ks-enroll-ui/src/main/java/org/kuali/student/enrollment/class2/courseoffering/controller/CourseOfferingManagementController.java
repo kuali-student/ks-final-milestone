@@ -520,10 +520,19 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
         urlParameters.put("coInfo.id", theCourseOfferingInfo.getId());
         urlParameters.put(UifParameters.VIEW_ID, RegistrationGroupConstants.RG_VIEW);
+        urlParameters.put(UifParameters.PAGE_ID, RegistrationGroupConstants.RG_PAGE);
         urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
 //        urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         urlParameters.put("withinPortal", BooleanUtils.toStringTrueFalse(theForm.isWithinPortal()));
         String controllerPath = RegistrationGroupConstants.RG_CONTROLLER_PATH;
+
+        //set the redirection param to carry over view information to RG view for customized breadcrumb generation
+        urlParameters.put(CourseOfferingConstants.BREADCRUMB_PREVIOUS_CONTROLLER_PATH_KEY, CourseOfferingConstants.MANAGE_CO_CONTROLLER_PATH);
+        urlParameters.put(CourseOfferingConstants.BREADCRUMB_PREVIOUS_VIEW_ID_KEY, CourseOfferingConstants.MANAGE_CO_VIEW_ID);
+        urlParameters.put(CourseOfferingConstants.BREADCRUMB_PREVIOUS_HOME_URL_KEY, theForm.getFormHistory().getHomewardPath().get(0).getUrl());
+        urlParameters.put(CourseOfferingConstants.BREADCRUMB_PREVIOUS_FORM_HISTORY_KEY, theForm.getFormHistory().getHistoryParameterString());
+        urlParameters.put(CourseOfferingConstants.BREADCRUMB_PREVIOUS_FORMKEY_KEY, theForm.getFormKey());
+
         return super.performRedirect(theForm,controllerPath, urlParameters);
 
     }
