@@ -55,6 +55,15 @@
             </modules>
         </profile>
         <profile>
+            <id>skip-deployment-wars</id>
+            <modules>
+                <module>ks-ap-impl</module>
+                <module>ks-ap-framework</module>
+                <module>ks-ap-ui</module>
+                <module>ks-ap-web</module>
+            </modules>
+        </profile>
+        <profile>
             <id>skip-all-wars</id>
             <modules>
                 <module>ks-ap-impl</module>

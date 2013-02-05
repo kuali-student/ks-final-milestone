@@ -1,3 +1,8 @@
+/* This function may be redefined to add additional inputs to forms before posting */
+function ksapAddPostOptionsToForm(tempForm) {
+	return tempForm;
+}
+
 function readUrlHash(key) {
     var aHash = window.location.hash.replace('#', '').split('&');
     var oHash = {};
@@ -412,6 +417,7 @@ function openPlanItemPopUp(xid, getId, retrieveOptions, e, selector, popupOption
     var tempFormInputs = '<div style="display:none;"><input type="hidden" name="viewId" value="PlannedCourse-FormView" />';
     jQuery.each(retrieveOptions, function (name, value) {
         tempFormInputs += '<input type="hidden" name="' + name + '" value="' + value + '" />';
+    	tempFormInputs = ksapAddPostOptionsToForm(tempFormInputs);
     });
     tempFormInputs += '</div>';
     jQuery(tempForm).append(tempFormInputs);
@@ -619,6 +625,7 @@ function myPlanAjaxPlanItemMove(id, xid, type, methodToCall, e) {
     fnCloseAllPopups();
     jQuery("form#" + id + "_form").remove();
 }
+
 /*
  ######################################################################################
  Function: Retrieve component content through ajax
@@ -628,6 +635,7 @@ function myplanRetrieveComponent(id, getId, methodToCall, action, retrieveOption
     var tempForm = '<form id="' + id + '_form" action="' + action + '" method="post" style="display:none;">'; //jQuery('<form />').attr("id", id + "_form").attr("action", action).attr("method", "post").hide();
     jQuery.each(retrieveOptions, function (name, value) {
         tempForm += '<input type="hidden" name="' + name + '" value="' + value + '" />';
+        tempForm = ksapAddPostOptionsToForm(tempForm);
     });
     tempForm += '</form>';
     jQuery("body").append(tempForm);

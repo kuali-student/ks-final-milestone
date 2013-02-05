@@ -16,11 +16,13 @@
 package org.kuali.student.myplan.course.controller;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -115,9 +117,11 @@ public class CourseSearchController extends UifControllerBase {
 		try {
 			searchRequest.addParam("number", number);
 			searchRequest.addParam("subject", subject.trim());
-			searchRequest.addParam("currentTerm", KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId());
+			searchRequest.addParam("currentTerm", KsapFrameworkServiceLocator
+					.getAtpHelper().getCurrentAtpId());
 			searchRequest.addParam("lastScheduledTerm",
-					KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId());
+					KsapFrameworkServiceLocator.getAtpHelper()
+							.getLastScheduledAtpId());
 			searchResult = KsapFrameworkServiceLocator.getCluService().search(
 					searchRequest,
 					KsapFrameworkServiceLocator.getContext().getContextInfo());
@@ -163,7 +167,8 @@ public class CourseSearchController extends UifControllerBase {
 		if (!Boolean.valueOf(request.getAttribute(
 				CourseSearchConstants.IS_ACADEMIC_CALENDER_SERVICE_UP)
 				.toString())) {
-			KsapFrameworkServiceLocator.getAtpHelper().addServiceError("searchTerm");
+			KsapFrameworkServiceLocator.getAtpHelper().addServiceError(
+					"searchTerm");
 		}
 		super.start(form, result, request, response);
 		return getUIFModelAndView(form);
@@ -172,7 +177,8 @@ public class CourseSearchController extends UifControllerBase {
 	@RequestMapping(value = "/course/search")
 	public void getJsonResponse(HttpServletResponse response,
 			HttpServletRequest request) throws IOException {
-		String user = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
+		String user = KsapFrameworkServiceLocator.getUserSessionHelper()
+				.getStudentId();
 
 		// Params from the Url
 		String queryText = request.getParameter("queryText");
@@ -202,7 +208,8 @@ public class CourseSearchController extends UifControllerBase {
 				status = "<span id=\\\"" + cid + "_status\\\" class=\\\""
 						+ item.getStatus().getLabel().toLowerCase() + "\\\">"
 						+ item.getStatus().getLabel() + "</span>";
-			} else if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
+			} else if (KsapFrameworkServiceLocator.getUserSessionHelper()
+					.isAdviser()) {
 				status = "<span id=\\\"" + cid + "_status\\\">"
 						+ CourseSearchItem.EMPTY_RESULT_VALUE_KEY + "</span>";
 			} else {
@@ -233,8 +240,15 @@ public class CourseSearchController extends UifControllerBase {
 					.append("\",\"")
 					.append(" <a href=\\")
 					.append("\"inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId=")
-					.append(item.getCourseId()).append("\\")
-					.append("\" target=\\").append("\"_self\\")
+					.append(item.getCourseId());
+			Map<String, String> ap = form.getAdditionalParams();
+			if (ap != null)
+				for (Entry<String, String> e : ap.entrySet())
+					jsonString.append('&')
+							.append(URLEncoder.encode(e.getKey(), "UTF-8"))
+							.append('=')
+							.append(URLEncoder.encode(e.getValue(), "UTF-8"));
+			jsonString.append("\\").append("\" target=\\").append("\"_self\\")
 					.append("\" title=\\").append("\"").append(courseName)
 					.append("\\").append("\"").append(" class=\\")
 					.append("\"myplan-text-ellipsis\\").append("\">")
@@ -283,7 +297,8 @@ public class CourseSearchController extends UifControllerBase {
 		else
 			return Collections.emptyList();
 
-		request.addParam("lastScheduledTerm", KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId());
+		request.addParam("lastScheduledTerm", KsapFrameworkServiceLocator
+				.getAtpHelper().getLastScheduledAtpId());
 		request.addParam("currentTerm", KsapFrameworkServiceLocator
 				.getAtpHelper().getCurrentAtpId());
 		SearchResult searchResult;

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.cxf.common.util.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -24,15 +23,23 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 
+/**
+ * Helper methods for dealing with ATPs.
+ */
 public class DefaultAtpHelper implements AtpHelper {
 
-	private ContextInfo getContext() {
+	private static ContextInfo getContext() {
 		return KsapFrameworkServiceLocator.getContext().getContextInfo();
 	}
 
+	/**
+	 * Query the Academic Calendar Service, determine the current ATP, and
+	 * return the ID.
+	 * 
+	 * @return The ID of the current ATP.
+	 */
 	@Override
 	public String getCurrentAtpId() {
-
 		List<TermInfo> inProgressTerms;
 		try {
 			inProgressTerms = KsapFrameworkServiceLocator
@@ -51,11 +58,18 @@ public class DefaultAtpHelper implements AtpHelper {
 		}
 		assert inProgressTerms != null && inProgressTerms.size() > 1 : "No in-progress terms from acal service"
 				+ inProgressTerms;
-		if (inProgressTerms != null && inProgressTerms.size() > 1)
-			return inProgressTerms.iterator().next().getId();
-		return "";
+		return inProgressTerms.iterator().next().getId();
 	}
 
+	/**
+	 * Query the Academic Calendar Service for terms that have offering's
+	 * published, determine the last ATP, and return its ID.
+	 * 
+	 * @return The ID of the last scheduled ATP.
+	 * @throws RuntimeException
+	 *             if the query fails or if the return data set doesn't make
+	 *             sense.
+	 */
 	@Override
 	public String getLastScheduledAtpId() {
 		List<TermInfo> scheduledTerms;
@@ -76,17 +90,15 @@ public class DefaultAtpHelper implements AtpHelper {
 		}
 		assert scheduledTerms != null && scheduledTerms.size() > 1 : "No scheduled terms from acal service"
 				+ scheduledTerms;
-		if (scheduledTerms != null && scheduledTerms.size() > 1) {
-			return scheduledTerms.get(scheduledTerms.size() - 1).getId();
-		}
-		// Need to handle not finding scheduled terms
-		return "";
+		return scheduledTerms.get(scheduledTerms.size() - 1).getId();
 	}
 
+	/**
+	 * Gets the ATP ID of the first ATP in the current academic year.
+	 */
 	@Override
 	public String getFirstAtpIdOfAcademicYear(String atpId) {
 		String[] termYear = atpIdToTermAndYear(atpId);
-
 		String year = termYear[0];
 		String term = termYear[1];
 
@@ -103,6 +115,7 @@ public class DefaultAtpHelper implements AtpHelper {
 	/**
 	 * Returns an String[] {term, year} given an ATP ID.
 	 */
+	@Override
 	public String[] atpIdToTermAndYear(String atpId) {
 		AtpInfo atp;
 		try {
@@ -138,6 +151,12 @@ public class DefaultAtpHelper implements AtpHelper {
 		return new String[] { term, year };
 	}
 
+	/**
+	 * Converts an ATP ID to a Term and Year ... "kuali.uw.atp.1991.1" ->
+	 * {"Autumn", "1991"}
+	 * 
+	 * @return A String array containing a term and year.
+	 */
 	@Override
 	public String[] atpIdToTermNameAndYear(String atpId) {
 		AtpInfo atp;
@@ -163,6 +182,7 @@ public class DefaultAtpHelper implements AtpHelper {
 		return new String[] { term, year };
 	}
 
+	@Override
 	public String getAtpIdFromTermAndYear(String term, String year) {
 		String ts = term == null ? "" : term.toUpperCase();
 		final String termNum;
@@ -213,25 +233,31 @@ public class DefaultAtpHelper implements AtpHelper {
 		}
 		assert atps != null && atps.size() == 1 : "Expected exactly one term for "
 				+ type + " and date " + cal.getTime();
-		if (atps != null && atps.size() > 0) {
-			return atps.get(0).getId();
-		}
-		return "";
+		return atps.get(0).getId();
 	}
 
+	/**
+	 * Gets term name as "Spring 2012" given an ATP ID.
+	 * 
+	 * @return
+	 */
 	@Override
 	public String atpIdToTermName(String atpId) {
 		String[] termYear = atpIdToTermNameAndYear(atpId);
 		return (termYear[0] + " " + termYear[1]);
 	}
 
+	/**
+	 * Returns true if an ATP is considered present or greater in the context of
+	 * WHAT? Otherwise, false.
+	 * 
+	 * @param atpId
+	 * @return
+	 */
 	@Override
 	public boolean isAtpSetToPlanning(String atpId) {
 		List<TermInfo> planningTermInfo;
 		TermInfo comparingTerm;
-		if (StringUtils.isEmpty(atpId)) {
-			return false;
-		}
 		try {
 			AcademicCalendarService acal = KsapFrameworkServiceLocator
 					.getAcademicCalendarService();
@@ -248,21 +274,21 @@ public class DefaultAtpHelper implements AtpHelper {
 					"Unexpected error in ATP ID lookup", t);
 		}
 		assert planningTermInfo != null && planningTermInfo.size() >= 1 : "Expected at least one planning term";
-		if (planningTermInfo != null && planningTermInfo.size() >= 1) {
-			return comparingTerm.getStartDate().after(
-					planningTermInfo.get(0).getStartDate());
-		}
-		return false;
+		return comparingTerm.getStartDate().after(
+				planningTermInfo.get(0).getStartDate());
 	}
 
+	/**
+	 * Returns true if an ATP is considered present or greater in the context of
+	 * WHAT? Otherwise, false.
+	 * 
+	 * @param atpId
+	 * @return
+	 */
 	@Override
 	public boolean isAtpCompletedTerm(String atpId) {
-		if (StringUtils.isEmpty(atpId)) {
-			return false;
-		}
 		List<TermInfo> inProgressTermInfo;
 		TermInfo comparingTerm;
-
 		try {
 			AcademicCalendarService acal = KsapFrameworkServiceLocator
 					.getAcademicCalendarService();
@@ -279,18 +305,12 @@ public class DefaultAtpHelper implements AtpHelper {
 					"Unexpected error in ATP ID lookup", t);
 		}
 		assert inProgressTermInfo != null && inProgressTermInfo.size() >= 1 : "Expected at least one in progress term";
-		if (inProgressTermInfo != null && inProgressTermInfo.size() >= 1) {
-			return comparingTerm.getStartDate().before(
-					inProgressTermInfo.get(0).getStartDate());
-		}
-		return false;
+		return comparingTerm.getStartDate().before(
+				inProgressTermInfo.get(0).getStartDate());
 	}
 
 	@Override
 	public boolean isAtpIdFormatValid(String atpId) {
-		if (StringUtils.isEmpty(atpId)) {
-			return false;
-		}
 		try {
 			return KsapFrameworkServiceLocator.getAcademicCalendarService()
 					.getTerm(atpId, getContext()) != null;
@@ -305,4 +325,5 @@ public class DefaultAtpHelper implements AtpHelper {
 		GlobalVariables.getMessageMap().putWarning(propertyName,
 				PlanConstants.ERROR_TECHNICAL_PROBLEMS, params);
 	}
+
 }
