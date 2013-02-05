@@ -12,7 +12,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Container;
-import org.kuali.rice.krad.uif.field.FieldGroup;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -130,7 +129,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
                 //Retrieve the name of the xml component to display for the proposition type.
                 TemplateInfo template = this.getTemplateForType(propEditor.getType());
 
-                if (template.getDisplay() != null){
+                if (template != null && template.getDisplay() != null){
                     Component component = ComponentFactory.getNewComponentInstance(template.getDisplay());
                     view.assignComponentIds(component);
 
