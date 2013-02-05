@@ -79,7 +79,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
 
     public static final String NEW_AGENDA_EDITOR_DOCUMENT_TEXT = "New Agenda Editor Document";
 
-    private ContextInfo getContextInfo() {
+    protected ContextInfo getContextInfo() {
         if (null == contextInfo) {
             //TODO - get real ContextInfo
             contextInfo = TestHelper.getContext1();
@@ -96,61 +96,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
     private RuleEditor getRuleEditor(Object model) {
         MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
         return (RuleEditor) maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
-    }
-
-    @Override
-    public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
-        Object dataObject = null;
-
-        // Since the dataObject is a wrapper class we need to build it and populate with the agenda bo.
-        RuleEditor ruleEditor = new RuleEditor();
-
-        String cluId = dataObjectKeys.get("cluId");
-        ruleEditor.setCluId(cluId);
-
-        //Populate the agenda. Should be retrieved based on agenda type passed as parameter.
-        List<ReferenceObjectBinding> refObjects = getReferenceObjectBindingBoService().findReferenceObjectBindingsByReferenceObject(cluId);
-        for (ReferenceObjectBinding refObject : refObjects) {
-            if ("Agenda".equals(refObject.getKrmsDiscriminatorType())) {
-
-                AgendaBo agenda = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(AgendaBo.class, refObject.getKrmsObjectId());
-                if (agenda != null) {
-                    ruleEditor.setAgenda(agenda);
-                    break;
-                }
-
-            }
-        }
-
-        if (ruleEditor.getAgenda() == null) {
-            ruleEditor.setAgenda(new AgendaBo());
-        }
-
-        //Retrieve the Clu information
-        CluInfo cluInfo = null;
-        if (cluId != null) {
-            try {
-                cluInfo = getCluService().getClu(cluId, getContextInfo());
-            } catch (Exception e) {
-                //TODO: Add Exception handling.
-            }
-        }
-
-        //Populate Clu Identification Information
-        if (cluInfo != null) {
-            CluIdentifierInfo cluIdentInfo = cluInfo.getOfficialIdentifier();
-            StringBuilder courseNameBuilder = new StringBuilder();
-            courseNameBuilder.append(cluIdentInfo.getDivision());
-            courseNameBuilder.append(" ");
-            courseNameBuilder.append(cluIdentInfo.getSuffixCode());
-            courseNameBuilder.append(" - ");
-            courseNameBuilder.append(cluIdentInfo.getLongName());
-            ruleEditor.setCourseName(courseNameBuilder.toString());
-        }
-
-        dataObject = ruleEditor;
-
-        return dataObject;
     }
 
     /**

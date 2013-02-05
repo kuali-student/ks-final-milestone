@@ -15,49 +15,34 @@
  */
 package org.kuali.student.enrollment.class1.krms.controller;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.rice.krms.api.KrmsApiServiceLocator;
-import org.kuali.rice.krms.api.engine.expression.ComparisonOperatorService;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
-import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
-import org.kuali.rice.krms.api.repository.term.TermDefinition;
-import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
-import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
-import org.kuali.rice.krms.impl.repository.AgendaBo;
 import org.kuali.rice.krms.impl.repository.AgendaItemBo;
 import org.kuali.rice.krms.impl.repository.ContextBoService;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
-import org.kuali.rice.krms.impl.repository.ReferenceObjectBindingBoService;
 import org.kuali.rice.krms.impl.repository.RuleBo;
 import org.kuali.rice.krms.impl.repository.RuleBoService;
-import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.rice.krms.impl.rule.AgendaEditorBusRule;
-import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
-import org.kuali.rice.krms.impl.util.KrmsImplConstants;
 import org.kuali.student.enrollment.class1.krms.dto.CompoundStudentOpCodeNode;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
 import org.kuali.student.enrollment.class1.krms.dto.SimpleStudentPropositionEditNode;
 import org.kuali.student.enrollment.class1.krms.dto.SimpleStudentPropositionNode;
-import org.kuali.student.enrollment.class1.krms.service.RuleStudentViewHelperService;
-import org.kuali.student.enrollment.class1.krms.service.impl.RuleStudentViewHelperServiceImpl;
-import org.kuali.student.enrollment.class1.krms.util.KsKrmsRepositoryServiceLocator;
+import org.kuali.student.enrollment.class1.krms.dto.TemplateInfo;
+import org.kuali.student.enrollment.class1.krms.service.RuleViewHelperService;
 import org.kuali.student.enrollment.class1.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.uif.util.KSControllerHelper;
 import org.kuali.student.krms.KRMSConstants;
@@ -69,13 +54,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -97,7 +77,8 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
         RuleEditor ruleEditor = getRuleEditor(form);
 
-        if (!validateProposition(ruleEditor.getRule().getProposition(), ruleEditor.getRule().getNamespace())) {
+        RuleViewHelperService viewHelper = (RuleViewHelperService) KSControllerHelper.getViewHelperService(form);
+        if (!viewHelper.validateProposition(ruleEditor.getRule().getProposition(), ruleEditor.getRule().getNamespace())) {
             form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "AgendaStudentEditorView-EditRule-Page");
             // NOTICE short circuit method on invalid proposition
             return super.navigate(form, result, request, response);
@@ -112,210 +93,6 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "AgendaStudentEditorView-EditRule-Page");
         }
         return super.navigate(form, result, request, response);
-    }
-
-    /**
-     * Validate the given proposition and its children.  Note that this method is side-effecting,
-     * when errors are detected with the proposition, errors are added to the error map.
-     *
-     * @param proposition the proposition to validate
-     * @param namespace   the namespace of the parent rule
-     * @return true if the proposition and its children (if any) are considered valid
-     */
-    // TODO also wire up to proposition for faster feedback to the user
-    private boolean validateProposition(PropositionBo proposition, String namespace) {
-        boolean result = true;
-
-        if (proposition != null) { // Null props are allowed.
-
-            if (StringUtils.isBlank(proposition.getCompoundOpCode())) {
-                // then this is a simple proposition, validate accordingly
-
-                result &= validateSimpleProposition(proposition, namespace);
-
-            } else {
-                // this is a compound proposition (or it should be)
-                List<PropositionBo> compoundComponents = proposition.getCompoundComponents();
-
-                if (!CollectionUtils.isEmpty(proposition.getParameters())) {
-                    GlobalVariables.getMessageMap().putError(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                            "error.rule.proposition.compound.invalidParameter", proposition.getDescription());
-                    result &= false;
-                }
-
-                // recurse
-                if (!CollectionUtils.isEmpty(compoundComponents)) for (PropositionBo childProp : compoundComponents) {
-                    result &= validateProposition(childProp, namespace);
-                }
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Validate the given simple proposition.  Note that this method is side-effecting,
-     * when errors are detected with the proposition, errors are added to the error map.
-     *
-     * @param proposition the proposition to validate
-     * @param namespace   the namespace of the parent rule
-     * @return true if the proposition is considered valid
-     */
-    private boolean validateSimpleProposition(PropositionBo proposition, String namespace) {
-        boolean result = true;
-
-        String propConstant = null;
-        if (proposition.getParameters().get(1) != null) {
-            propConstant = proposition.getParameters().get(1).getValue();
-        }
-        String operator = null;
-        if (proposition.getParameters().get(2) != null) {
-            operator = proposition.getParameters().get(2).getValue();
-        }
-
-        String termId = null;
-        if (proposition.getParameters().get(0) != null) {
-            termId = proposition.getParameters().get(0).getValue();
-        }
-        // Simple proposition requires all of propConstant, termId and operator to be specified
-        if (StringUtils.isBlank(termId)) {
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                    "error.rule.proposition.simple.blankField", proposition.getDescription(), "Term");
-            result &= false;
-        } else {
-            result = validateTerm(proposition, namespace);
-        }
-        if (StringUtils.isBlank(operator)) {
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                    "error.rule.proposition.simple.blankField", proposition.getDescription(), "Operator");
-            result &= false;
-        }
-        if (StringUtils.isBlank(propConstant) && !operator.endsWith("null")) { // ==null and !=null operators have blank values.
-            GlobalVariables.getMessageMap().putErrorForSectionId(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                    "error.rule.proposition.simple.blankField", proposition.getDescription(), "Value");
-            result &= false;
-        } else if (operator.endsWith("null")) { // ==null and !=null operators have blank values.
-            if (propConstant != null) {
-                proposition.getParameters().get(1).setValue(null);
-            }
-        } else if (!StringUtils.isBlank(termId)) {
-            // validate that the constant value is comparable against the term
-            String termType = lookupTermType(termId);
-            ComparisonOperatorService comparisonOperatorService = KrmsApiServiceLocator.getComparisonOperatorService();
-            if (comparisonOperatorService.canCoerce(termType, propConstant)) {
-                if (comparisonOperatorService.coerce(termType, propConstant) == null) { // HMM, what if we wanted a rule that
-                    // checked a null value?
-                    GlobalVariables.getMessageMap().putError(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                            "error.rule.proposition.simple.invalidValue", proposition.getDescription(), propConstant);
-                    result &= false;
-                }
-            }
-        }
-
-        if (!CollectionUtils.isEmpty(proposition.getCompoundComponents())) {
-            GlobalVariables.getMessageMap().putError(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                    "error.rule.proposition.simple.hasChildren", proposition.getDescription());
-            result &= false; // simple prop should not have compound components
-        }
-        return result;
-    }
-
-    /**
-     * Validate the term in the given simple proposition.  Note that this method is side-effecting,
-     * when errors are detected with the proposition, errors are added to the error map.
-     *
-     * @param proposition the proposition with the term to validate
-     * @param namespace   the namespace of the parent rule
-     * @return true if the proposition's term is considered valid
-     */
-    private boolean validateTerm(PropositionBo proposition, String namespace) {
-        boolean result = true;
-
-        String termId = proposition.getParameters().get(0).getValue();
-        if (termId.startsWith(KrmsImplConstants.PARAMETERIZED_TERM_PREFIX)) {
-            // validate parameterized term
-
-            // is the term name non-blank
-            if (StringUtils.isBlank(proposition.getNewTermDescription())) {
-                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                        "error.rule.proposition.simple.emptyTermName", proposition.getDescription());
-                result &= false;
-            } else { // check if the term name is unique
-
-                Map<String, String> criteria = new HashMap<String, String>();
-
-                criteria.put("description", proposition.getNewTermDescription());
-                criteria.put("specification.namespace", namespace);
-
-                Collection<TermBo> matchingTerms =
-                        KRADServiceLocator.getBusinessObjectService().findMatching(TermBo.class, criteria);
-
-                if (!CollectionUtils.isEmpty(matchingTerms)) {
-                    // this is a Warning -- maybe it should be an error?
-                    GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                            "warning.rule.proposition.simple.duplicateTermName", proposition.getDescription());
-                }
-            }
-
-            String termSpecificationId = termId.substring(KrmsImplConstants.PARAMETERIZED_TERM_PREFIX.length());
-
-            TermResolverDefinition termResolverDefinition =
-                    RuleStudentViewHelperServiceImpl.getSimplestTermResolver(termSpecificationId, namespace);
-
-            if (termResolverDefinition == null) {
-                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                        "error.rule.proposition.simple.invalidTerm", proposition.getDescription());
-                result &= false;
-            } else {
-                List<String> parameterNames = new ArrayList<String>(termResolverDefinition.getParameterNames());
-                Collections.sort(parameterNames);
-                for (String parameterName : parameterNames) {
-                    if (!proposition.getTermParameters().containsKey(parameterName) ||
-                            StringUtils.isBlank(proposition.getTermParameters().get(parameterName))) {
-                        GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                                "error.rule.proposition.simple.missingTermParameter", proposition.getDescription());
-                        result &= false;
-                        break;
-                    }
-                }
-            }
-
-        } else {
-            //validate normal term
-            TermDefinition termDefinition = KrmsRepositoryServiceLocator.getTermBoService().getTerm(termId);
-            if (termDefinition == null) {
-                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                        "error.rule.proposition.simple.invalidTerm", proposition.getDescription());
-            } else if (!namespace.equals(termDefinition.getSpecification().getNamespace())) {
-                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                        "error.rule.proposition.simple.invalidTerm", proposition.getDescription());
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Lookup the {@link org.kuali.rice.krms.api.repository.term.TermSpecificationDefinitionContract} type.
-     *
-     * @param key krms_term_t key
-     * @return String the krms_term_spec_t TYP for the given krms_term_t key given
-     */
-    private String lookupTermType(String key) {
-        TermSpecificationDefinition termSpec = null;
-        if (key.startsWith(KrmsImplConstants.PARAMETERIZED_TERM_PREFIX)) {
-            String termSpecificationId = key.substring(KrmsImplConstants.PARAMETERIZED_TERM_PREFIX.length());
-            termSpec = KrmsRepositoryServiceLocator.getTermBoService().getTermSpecificationById(termSpecificationId);
-        } else {
-            TermDefinition term = KrmsRepositoryServiceLocator.getTermBoService().getTerm(key);
-            if (term != null) {
-                termSpec = term.getSpecification();
-            }
-        }
-        if (termSpec != null) {
-            return termSpec.getType();
-        } else {
-            return null;
-        }
     }
 
     @RequestMapping(params = "methodToCall=ajaxRefresh")
@@ -448,7 +225,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             ruleEditor.refreshPropositionTree(null);
         }
 
-        PropositionEditor proposition = this.getProposition(form);
+        PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
         if (!PropositionType.COMPOUND.getCode().equalsIgnoreCase(proposition.getProposition().getPropositionTypeCode())) {
 
             String propositionTypeId = proposition.getProposition().getTypeId();
@@ -457,7 +234,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                 proposition.setTermSpecId(null);
             } else {
 
-                RuleStudentViewHelperService viewHelper = (RuleStudentViewHelperService) KSControllerHelper.getViewHelperService(form);
+                RuleViewHelperService viewHelper = (RuleViewHelperService) KSControllerHelper.getViewHelperService(form);
 
                 KrmsTypeDefinition type = this.getKrmsTypeRepositoryService().getTypeById(propositionTypeId);
                 if (type != null) {
@@ -1081,7 +858,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        PropositionEditor proposition = this.getProposition(form);
+        PropositionEditor proposition = PropositionTreeUtil.getProposition(this.getRuleEditor(form));
         configureProposition(form, proposition);
 
         return getUIFModelAndView(form);
@@ -1102,14 +879,13 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                 return;
             }
 
-            RuleStudentViewHelperService viewHelper = (RuleStudentViewHelperService) KSControllerHelper.getViewHelperService(form);
+            RuleViewHelperService viewHelper = (RuleViewHelperService) KSControllerHelper.getViewHelperService(form);
 
             KrmsTypeDefinition type = this.getKrmsTypeRepositoryService().getTypeById(propositionTypeId);
             if (type != null) {
-                proposition.setType(type.getName());
 
+                proposition.setType(type.getName());
                 proposition.getProposition().setDescription(viewHelper.getTranslatedNaturalLanguage(propositionTypeId));
-                setValueForProposition(proposition, "");
 
                 //Set the term spec
                 String termSpecId = viewHelper.getTermSpecIdForType(type.getName());
@@ -1122,6 +898,8 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                 String defaultValue = viewHelper.getValueForType(type.getName());
                 if (!"n".equals(defaultValue)) {
                     setValueForProposition(proposition, defaultValue);
+                } else {
+                    setValueForProposition(proposition, "");
                 }
 
             }
@@ -1137,43 +915,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         proposition.getProposition().getParameters().get(1).setValue(value);
     }
 
-    /**
-     * @param form
-     * @return the {@link org.kuali.rice.krms.impl.repository.PropositionBo} from the form
-     */
-    private PropositionEditor getProposition(UifFormBase form) {
-        RuleEditor ruleEditor = getRuleEditor(form);
 
-        if (ruleEditor != null) {
-            String selectedPropId = ruleEditor.getSelectedPropositionId();
-            return findProposition(ruleEditor.getPropositionTree().getRootElement(), selectedPropId);
-        }
-
-        return null;
-    }
-
-    private PropositionEditor findProposition(Node<RuleEditorTreeNode, String> currentNode, String selectedPropId) {
-
-        if (selectedPropId == null) {
-            return null;
-        }
-
-        // if it's in children, we have the parent
-        for (Node<RuleEditorTreeNode, String> child : currentNode.getChildren()) {
-            PropositionEditor proposition = child.getData().getProposition();
-            if (selectedPropId.equalsIgnoreCase(proposition.getProposition().getId())) {
-                return proposition;
-            } else {
-                // if not found check grandchildren
-                proposition = findProposition(child, selectedPropId);
-                if (proposition != null) {
-                    return proposition;
-                }
-            }
-        }
-
-        return null;
-    }
 
     public KrmsTypeRepositoryService getKrmsTypeRepositoryService() {
         return KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService();

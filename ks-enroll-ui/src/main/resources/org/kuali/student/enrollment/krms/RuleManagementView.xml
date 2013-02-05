@@ -28,7 +28,7 @@
         <property name="viewName" value="AgendaWithRuleView"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.RuleEditor"/>
         <property name="viewHelperServiceClass"
-                  value="org.kuali.student.enrollment.class1.krms.service.impl.RuleStudentViewHelperServiceImpl"/>
+                  value="org.kuali.student.enrollment.class1.krms.service.impl.RuleViewHelperServiceImpl"/>
         <property name="page.items">
             <list>
                 <ref bean="KS-Rules-ManageSection"/>
@@ -111,7 +111,7 @@
     </bean>
 
     <bean id="KS-RulePreview-Links" parent="Uif-LinkGroup"  >
-        <property name="linkSeparator" value="|"/>
+        <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
                 <bean parent="Uif-ActionLink">

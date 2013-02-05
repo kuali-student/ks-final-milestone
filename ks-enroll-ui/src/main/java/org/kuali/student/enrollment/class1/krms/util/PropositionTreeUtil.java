@@ -2,7 +2,9 @@ package org.kuali.student.enrollment.class1.krms.util;
 
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
+import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
 
 import java.util.List;
@@ -74,6 +76,43 @@ public class PropositionTreeUtil {
             }
         }
         return result;
+    }
+
+    /**
+     * @param form
+     * @return the {@link org.kuali.rice.krms.impl.repository.PropositionBo} from the form
+     */
+    public static PropositionEditor getProposition(RuleEditor ruleEditor) {
+
+        if (ruleEditor != null) {
+            String selectedPropId = ruleEditor.getSelectedPropositionId();
+            return findProposition(ruleEditor.getPropositionTree().getRootElement(), selectedPropId);
+        }
+
+        return null;
+    }
+
+    private static PropositionEditor findProposition(Node<RuleEditorTreeNode, String> currentNode, String selectedPropId) {
+
+        if (selectedPropId == null) {
+            return null;
+        }
+
+        // if it's in children, we have the parent
+        for (Node<RuleEditorTreeNode, String> child : currentNode.getChildren()) {
+            PropositionEditor proposition = child.getData().getProposition();
+            if (selectedPropId.equalsIgnoreCase(proposition.getProposition().getId())) {
+                return proposition;
+            } else {
+                // if not found check grandchildren
+                proposition = findProposition(child, selectedPropId);
+                if (proposition != null) {
+                    return proposition;
+                }
+            }
+        }
+
+        return null;
     }
 
 }

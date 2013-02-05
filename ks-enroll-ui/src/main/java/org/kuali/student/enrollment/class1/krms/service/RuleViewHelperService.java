@@ -1,5 +1,7 @@
 package org.kuali.student.enrollment.class1.krms.service;
 
+import org.kuali.rice.krms.impl.repository.PropositionBo;
+
 /**
  * Created with IntelliJ IDEA.
  * User: SW
@@ -7,10 +9,12 @@ package org.kuali.student.enrollment.class1.krms.service;
  * Time: 11:51 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface RuleStudentViewHelperService extends TemplateResolverService {
+public interface RuleViewHelperService extends TemplateResolverService {
 
     public String getTermSpecIdForType(String type);
 
     public String getTranslatedNaturalLanguage(String typeId);
+
+    public boolean validateProposition(PropositionBo proposition, String namespace);
 
 }

@@ -1,5 +1,7 @@
 package org.kuali.student.enrollment.class1.krms.service;
 
+import org.kuali.student.enrollment.class1.krms.dto.TemplateInfo;
+
 /**
  * Created with IntelliJ IDEA.
  * User: SW
@@ -9,11 +11,12 @@ package org.kuali.student.enrollment.class1.krms.service;
  */
 public interface TemplateResolverService {
 
+    public TemplateInfo getTemplateForType(String type);
+
     public String getTermSpecNameForType(String type);
 
     public String getOperationForType(String type);
 
     public String getValueForType(String type);
-
 
 }

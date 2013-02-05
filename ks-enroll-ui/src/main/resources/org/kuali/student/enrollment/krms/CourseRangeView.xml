@@ -8,7 +8,7 @@
         <property name="id" value="krmsCourseRangeView"/>
         <property name="headerText" value="Course Range"/>
         <property name="formClass" value="org.kuali.student.enrollment.class1.krms.form.KrmsComponentsForm"/>
-        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.RuleStudentViewHelperServiceImpl"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.RuleViewHelperServiceImpl"/>
         <property name="singlePageView" value="true"/>
         <property name="page">
             <bean parent="Uif-Page"/>

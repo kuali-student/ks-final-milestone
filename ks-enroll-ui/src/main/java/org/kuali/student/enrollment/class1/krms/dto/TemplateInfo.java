@@ -16,23 +16,19 @@
  */
 package org.kuali.student.enrollment.class1.krms.dto;
 
+import org.kuali.rice.krad.uif.container.Group;
+
 /**
  * @author Christoff
  * Date: 2013/01/10
  */
 public class TemplateInfo {
-    private String type;
+
     private String termSpecName;
     private String operator;
     private String value;
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
+    private String display;
 
     public String getTermSpecName() {
         return termSpecName;
@@ -56,5 +52,13 @@ public class TemplateInfo {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getDisplay() {
+        return display;
+    }
+
+    public void setDisplay(String display) {
+        this.display = display;
     }
 }
