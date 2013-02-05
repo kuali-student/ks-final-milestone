@@ -81,4 +81,46 @@
         REF_OBJ_ID="02711400-c66d-4ecb-aca5-565118f167cf"
         REF_OBJ_TYPE_KEY="kuali.lu.type.CreditCourse"
         TYPE_ID="kuali.academicplan.item.planned" VER_NBR="0"/>
+    <KSPL_LRNG_PLAN_ITEM CREATEID="admin" CREATETIME="20130204120000"
+                         ID="planItem1" PLAN_ID="testPlan1"
+                         REF_OBJ_ID="0029a117-5691-418e-a11f-9ad46dc83d47"
+                         REF_OBJ_TYPE_KEY="kuali.lu.type.CreditCourse"
+                         TYPE_ID="kuali.academicplan.item.planned" VER_NBR="0"
+                         RT_DESCR_ID="testItem1"/>
+    <KSPL_LRNG_PLAN_ITEM CREATEID="admin" CREATETIME="20130204120000"
+                         ID="planItem2" PLAN_ID="testPlan1"
+                         REF_OBJ_ID="006319d2-f0ef-48d5-bae6-ddfad8a4126f"
+                         REF_OBJ_TYPE_KEY="kuali.lu.type.CreditCourse"
+                         TYPE_ID="kuali.academicplan.item.planned" VER_NBR="0"
+                         RT_DESCR_ID="testItem2"/>
+    <KSPL_LRNG_PLAN_ITEM CREATEID="admin" CREATETIME="20130204120000"
+                         ID="planItem3" PLAN_ID="testPlan1"
+                         REF_OBJ_ID="006c881f-2250-4844-8e57-c297049c61f3"
+                         REF_OBJ_TYPE_KEY="kuali.lu.type.CreditCourse"
+                         TYPE_ID="kuali.academicplan.item.planned" VER_NBR="0"
+                         RT_DESCR_ID="testItem3"/>
+    <KSPL_LRNG_PLAN_ITEM CREATEID="admin" CREATETIME="20130204120000"
+                         ID="planItem4" PLAN_ID="testPlan1"
+                         REF_OBJ_ID="00ecf8e8-333c-41fd-877c-afd2845294e4"
+                         REF_OBJ_TYPE_KEY="kuali.lu.type.CreditCourse"
+                         TYPE_ID="kuali.academicplan.item.planned" VER_NBR="0"
+                         RT_DESCR_ID="testItem4"/>
+    <KSPL_LRNG_PLAN_ITEM CREATEID="admin" CREATETIME="20130204120000"
+                         ID="planItem5" PLAN_ID="testPlan1"
+                         REF_OBJ_ID="011082d2-0822-4c55-a972-0c10c78dbcfa"
+                         REF_OBJ_TYPE_KEY="kuali.lu.type.CreditCourse"
+                         TYPE_ID="kuali.academicplan.item.planned" VER_NBR="0"
+                         RT_DESCR_ID="testItem5"/>
+    <KSPL_LRNG_PLAN_ITEM CREATEID="admin" CREATETIME="20130204120000"
+                         ID="planItem6" PLAN_ID="testPlan1"
+                         REF_OBJ_ID="0114603e-418a-4ac8-bdff-e09ca09fae4a"
+                         REF_OBJ_TYPE_KEY="kuali.lu.type.CreditCourse"
+                         TYPE_ID="kuali.academicplan.item.wishlist" VER_NBR="0"
+                         RT_DESCR_ID="testItem6"/>
+    <KSPL_LRNG_PLAN_ITEM CREATEID="admin" CREATETIME="20130204120000"
+                         ID="planItem7" PLAN_ID="testPlan1"
+                         REF_OBJ_ID="0115005f-e17e-4144-9793-4aaff68623a8"
+                         REF_OBJ_TYPE_KEY="kuali.lu.type.CreditCourse"
+                         TYPE_ID="kuali.academicplan.item.backup" VER_NBR="0"
+                         RT_DESCR_ID="testItem7"/>
 </dataset>

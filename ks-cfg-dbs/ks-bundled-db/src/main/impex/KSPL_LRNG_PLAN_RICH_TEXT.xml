@@ -14,4 +14,7 @@
     <KSPL_LRNG_PLAN_RICH_TEXT
         FORMATTED="&lt;p>Student 2 Learning Plan 2&lt;/p>" ID="lp4-Desc"
         PLAIN="Student 2 Learning Plan 2" VER_NBR="0"/>
+    <KSPL_LRNG_PLAN_RICH_TEXT
+            FORMATTED="&lt;p>Admin Learning Plan Test&lt;/p>" ID="testPlan1Desc"
+            PLAIN="Admin Learning Plan Test" VER_NBR="0"/>
 </dataset>

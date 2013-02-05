@@ -29,6 +29,12 @@
             </modules>
         </profile>
         <profile>
+            <id>skip-lum-enroll-wars</id>
+            <modules>
+                <module>ks-cfg-dbs</module>
+            </modules>
+        </profile>
+        <profile>
             <id>web-only</id>
             <modules>
                 <module>ks-web</module>

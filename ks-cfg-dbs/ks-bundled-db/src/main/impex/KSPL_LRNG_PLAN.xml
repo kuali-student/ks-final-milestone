@@ -14,4 +14,7 @@
     <KSPL_LRNG_PLAN CREATEID="student2" CREATETIME="20120714123107"
         ID="lp4" OBJ_ID="obj-lp4" RT_DESCR_ID="lp4-Desc" SHARED="1"
         STUDENT_ID="student2" TYPE_ID="kuali.academicplan.type.plan" VER_NBR="0"/>
+    <KSPL_LRNG_PLAN CREATEID="admin" CREATETIME="20130204120000"
+        ID="testPlan1" OBJ_ID="obj-lp5" RT_DESCR_ID="testPlan1Desc" SHARED="1"
+        STUDENT_ID="admin" TYPE_ID="kuali.academicplan.type.plan" VER_NBR="0"/>
 </dataset>
