@@ -43,7 +43,7 @@
                 <ref bean="KRMS-TestScore-Field" />
                 <ref bean="KRMS-TestName-Field" />
                 <ref bean="KRMS-Grade-Section" />
-                <ref bean ="KRMS-FreeForm-ConstantValue" />
+                <ref bean="KRMS-FreeForm-InputField" />
             </list>
         </property>
     </bean>
