@@ -362,7 +362,11 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         }
 
         ToolbarUtil.processAoToolbarForDeptAdmin(form.getActivityWrapperList(), form);
-        KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_SUCCESS);
+        if(noOfActivityOfferings == 1){
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS);
+        } else {
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS);
+        }
     }
 
     public void loadActivityOfferingsByCourseOffering (CourseOfferingInfo theCourseOfferingInfo, CourseOfferingManagementForm form) throws Exception{

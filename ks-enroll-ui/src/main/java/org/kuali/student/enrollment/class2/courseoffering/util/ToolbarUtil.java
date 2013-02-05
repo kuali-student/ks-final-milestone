@@ -32,14 +32,15 @@ import java.util.List;
  */
 public class ToolbarUtil {
     public static void processCoToolbarForDeptAdmin(List<CourseOfferingListSectionWrapper> coListWrapperList, CourseOfferingManagementForm form){
-        form.setEnableAddButton(false);
         String socState = form.getSocStateKey();
+        processAddForDeptAdmin(form, socState);
+
         if(coListWrapperList != null && !coListWrapperList.isEmpty()){
         for(CourseOfferingListSectionWrapper coListWrapper : coListWrapperList){
             String coState = coListWrapper.getCourseOfferingStateKey();
             if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
                 StringUtils.equals(socState, CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY)){
-                form.setEnableAddButton(true);
+                //form.setEnableAddButton(true);
                 if(StringUtils.equals(coState, LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY)){
                     if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY)){
                         coListWrapper.setEnableApproveButton(true);
@@ -81,9 +82,10 @@ public class ToolbarUtil {
     }
 
     public static void processCoToolbarForCentralAdmin(List<CourseOfferingListSectionWrapper> coListWrapperList, CourseOfferingManagementForm form){
-        form.setEnableAddButton(false);
         String socState = form.getSocStateKey();
         String socSchedulingState = form.getSocSchedulingStateKey();
+        processAddForCentralAdmin(form, socState, socSchedulingState);
+
         if(coListWrapperList != null && !coListWrapperList.isEmpty()){
         for(CourseOfferingListSectionWrapper coListWrapper : coListWrapperList){
             String coState = coListWrapper.getCourseOfferingStateKey();
@@ -94,7 +96,7 @@ public class ToolbarUtil {
                     StringUtils.equals(socState, CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY) ||
                     (StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
                      !StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS))){
-                form.setEnableAddButton(true);
+                //form.setEnableAddButton(true);
                 if(StringUtils.equals(coState, LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY)){
                     if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY)){
                         coListWrapper.setEnableApproveButton(true);
@@ -126,15 +128,24 @@ public class ToolbarUtil {
         }
     }
 
-    public static void processAoToolbarForDeptAdmin(List<ActivityOfferingWrapper> activityWrapperList, CourseOfferingManagementForm form){
+    public static void processAddForDeptAdmin(CourseOfferingManagementForm form, String socState){
         form.setEnableAddButton(false);
+        if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
+            StringUtils.equals(socState, CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY)){
+            form.setEnableAddButton(true);
+        }
+    }
+
+    public static void processAoToolbarForDeptAdmin(List<ActivityOfferingWrapper> activityWrapperList, CourseOfferingManagementForm form){
         String socState = form.getSocStateKey();
+        processAddForDeptAdmin(form, socState);
+
         if(activityWrapperList != null && !activityWrapperList.isEmpty()){
         for(ActivityOfferingWrapper activityWrapper : activityWrapperList){
             String aoState = activityWrapper.getAoInfo().getStateKey();
             if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
                 StringUtils.equals(socState, CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY)){
-                form.setEnableAddButton(true);
+                //form.setEnableAddButton(true);
                 if(StringUtils.equals(aoState, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY)){
                     if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY)){
                         activityWrapper.setEnableApproveButton(true);
@@ -177,10 +188,24 @@ public class ToolbarUtil {
         }
     }
 
-    public static void processAoToolbarForCentralAdmin(List<ActivityOfferingWrapper> activityWrapperList, CourseOfferingManagementForm form){
+    private static void processAddForCentralAdmin(CourseOfferingManagementForm form, String socState, String socSchedulingState) {
         form.setEnableAddButton(false);
+        if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
+           StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
+           StringUtils.equals(socState, CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY) ||
+           StringUtils.equals(socState, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY) ||
+           StringUtils.equals(socState, CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY) ||
+           (StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
+           !StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS))){
+            form.setEnableAddButton(true);
+        }
+    }
+
+    public static void processAoToolbarForCentralAdmin(List<ActivityOfferingWrapper> activityWrapperList, CourseOfferingManagementForm form){
         String socState = form.getSocStateKey();
         String socSchedulingState = form.getSocSchedulingStateKey();
+        processAddForCentralAdmin(form, socState, socSchedulingState);
+
         if(activityWrapperList != null && !activityWrapperList.isEmpty()){
         for(ActivityOfferingWrapper activityWrapper : activityWrapperList){
             String aoState = activityWrapper.getAoInfo().getStateKey();
@@ -191,7 +216,7 @@ public class ToolbarUtil {
                     StringUtils.equals(socState, CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY) ||
                     (StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
                     !StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS))){
-                form.setEnableAddButton(true);
+                //form.setEnableAddButton(true);
                 if(StringUtils.equals(aoState, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY)){
                     if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY)){
                         activityWrapper.setEnableApproveButton(true);
