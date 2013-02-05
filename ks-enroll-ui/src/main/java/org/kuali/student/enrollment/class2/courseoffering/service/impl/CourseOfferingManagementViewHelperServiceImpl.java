@@ -361,7 +361,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             }
         }
 
-        ToolbarUtil.processAoToolbarForDeptAdmin(form.getActivityWrapperList(), form);
+        ToolbarUtil.processAoToolbarForUser(form.getActivityWrapperList(), form);
         if(noOfActivityOfferings == 1){
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS);
         } else {
@@ -418,7 +418,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                      enabled++;
                      List<ActivityOfferingWrapper> aos = getActivityOfferingsByCourseOfferingId(co.getCourseOfferingId(), form);
                      if(aos != null && !aos.isEmpty()){
-                         ToolbarUtil.processAoToolbarForDeptAdmin(aos, form);
+                         ToolbarUtil.processAoToolbarForUser(aos, form);
                          for(ActivityOfferingWrapper ao : aos){
                             if(ao.isEnableDeleteButton()){
                                 getCourseOfferingService().updateActivityOfferingState(ao.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
@@ -452,7 +452,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                  if(co.isEnableDeleteButton() ) {
                     List<ActivityOfferingWrapper> aos = getActivityOfferingsByCourseOfferingId(co.getCourseOfferingId(), form);
                     if(aos != null && !aos.isEmpty()){
-                        ToolbarUtil.processAoToolbarForDeptAdmin(aos, form);
+                        ToolbarUtil.processAoToolbarForUser(aos, form);
                         for(ActivityOfferingWrapper ao : aos){
                             if(!ao.isEnableDeleteButton()){
                                 hasDeletion = false;

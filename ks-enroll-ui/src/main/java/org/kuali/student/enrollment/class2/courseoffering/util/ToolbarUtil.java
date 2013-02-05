@@ -16,14 +16,18 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.util;
 
-import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class contains mehtods to handle CO and AO toolbars matrix
@@ -31,222 +35,129 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class ToolbarUtil {
-    public static void processCoToolbarForDeptAdmin(List<CourseOfferingListSectionWrapper> coListWrapperList, CourseOfferingManagementForm form){
+    private static PermissionService permissionService = getPermissionService();
+    
+    public static void processCoToolbarForUser(List<CourseOfferingListSectionWrapper> coListWrapperList, CourseOfferingManagementForm form){
         String socState = form.getSocStateKey();
-        processAddForDeptAdmin(form, socState);
+        socState = socState.substring(socState.lastIndexOf('.')+1);
 
-        if(coListWrapperList != null && !coListWrapperList.isEmpty()){
-        for(CourseOfferingListSectionWrapper coListWrapper : coListWrapperList){
-            String coState = coListWrapper.getCourseOfferingStateKey();
-            if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
-                StringUtils.equals(socState, CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY)){
-                //form.setEnableAddButton(true);
-                if(StringUtils.equals(coState, LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY)){
-                    if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY)){
-                        coListWrapper.setEnableApproveButton(true);
-                    }
-                    coListWrapper.setEnableSuspendButton(true);
-                    coListWrapper.setEnableCancelButton(true);
-                    coListWrapper.setEnableDeleteButton(true);
-                }
+        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
-                if(StringUtils.equals(coState, LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)){
-                    coListWrapper.setEnableSuspendButton(true);
-                    coListWrapper.setEnableCancelButton(true);
-                    coListWrapper.setEnableDeleteButton(true);
-                }
+        //Check if the user can add based on soc state
+        Map<String,String> permissionDetails = new HashMap<String,String>();
+        Map<String,String> roleQualifications = new HashMap<String,String>();
 
-                if(StringUtils.equals(coState, LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)){
-                    coListWrapper.setEnableSuspendButton(true);
-                    coListWrapper.setEnableCancelButton(true);
-                }
+        //ToDo, add role qualifiers for org/subject/etc. (Refactor so qualification resolving is done in a single place)
+        roleQualifications.put("org", form.getAdminOrg());
 
-            }
+        permissionDetails.put("socState",socState);
 
-            if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
-                    StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) ||
-                    StringUtils.equals(socState, CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY) ||
-                    StringUtils.equals(socState, CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY)) {
-                    //all buttons disabled
+        permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, form.getViewId());
 
-            }
-
-            if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY)) {
-                if(StringUtils.equals(coState, LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY) ||
-                        StringUtils.equals(coState, LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)){
-                    coListWrapper.setEnableDeleteButton(true);
-                }
-            }
-        }
-        }
-    }
-
-    public static void processCoToolbarForCentralAdmin(List<CourseOfferingListSectionWrapper> coListWrapperList, CourseOfferingManagementForm form){
-        String socState = form.getSocStateKey();
-        String socSchedulingState = form.getSocSchedulingStateKey();
-        processAddForCentralAdmin(form, socState, socSchedulingState);
-
-        if(coListWrapperList != null && !coListWrapperList.isEmpty()){
-        for(CourseOfferingListSectionWrapper coListWrapper : coListWrapperList){
-            String coState = coListWrapper.getCourseOfferingStateKey();
-            if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
-                    StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
-                    StringUtils.equals(socState, CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY) ||
-                    StringUtils.equals(socState, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY) ||
-                    StringUtils.equals(socState, CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY) ||
-                    (StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
-                     !StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS))){
-                //form.setEnableAddButton(true);
-                if(StringUtils.equals(coState, LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY)){
-                    if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY)){
-                        coListWrapper.setEnableApproveButton(true);
-                    }
-                    coListWrapper.setEnableSuspendButton(true);
-                    coListWrapper.setEnableCancelButton(true);
-                    coListWrapper.setEnableDeleteButton(true);
-                }
-
-                if(StringUtils.equals(coState, LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)){
-                    coListWrapper.setEnableSuspendButton(true);
-                    coListWrapper.setEnableCancelButton(true);
-                    coListWrapper.setEnableDeleteButton(true);
-                }
-
-                if(StringUtils.equals(coState, LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)){
-                    coListWrapper.setEnableSuspendButton(true);
-                    coListWrapper.setEnableCancelButton(true);
-                    coListWrapper.setEnableDeleteButton(true);
-                }
-            }
-
-            if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY) ||
-                    (StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
-                     StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS))){
-                    //all buttons disabled
-            }
-        }
-        }
-    }
-
-    public static void processAddForDeptAdmin(CourseOfferingManagementForm form, String socState){
-        form.setEnableAddButton(false);
-        if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
-            StringUtils.equals(socState, CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY)){
+        permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT,"addCO");
+        if(permissionService.isAuthorizedByTemplate(principalId,"KS-ENR",KimConstants.PermissionTemplateNames.PERFORM_ACTION,permissionDetails,roleQualifications)){
             form.setEnableAddButton(true);
         }
+
+        if(coListWrapperList != null && !coListWrapperList.isEmpty()){
+
+            for(CourseOfferingListSectionWrapper coListWrapper : coListWrapperList){
+                String coState = coListWrapper.getCourseOfferingStateKey();
+                coState = coState.substring(coState.lastIndexOf('.')+1);
+
+                permissionDetails.put("coState", coState);
+
+                //TODO put in business logic so you can't cancel a canceled state, approve approved state etc...
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "approveCO");
+                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                    coListWrapper.setEnableApproveButton(true);
+                }
+
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "reinstateCO");
+                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                    coListWrapper.setEnableReinstateButton(true);
+                }
+
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "suspendCO");
+                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                    coListWrapper.setEnableSuspendButton(true);
+                }
+
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "cancelCO");
+                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                    coListWrapper.setEnableCancelButton(true);
+                }
+
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "deleteCO");
+                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                    coListWrapper.setEnableDeleteButton(true);
+                }
+            }
+        }
     }
 
-    public static void processAoToolbarForDeptAdmin(List<ActivityOfferingWrapper> activityWrapperList, CourseOfferingManagementForm form){
+    public static void processAoToolbarForUser(List<ActivityOfferingWrapper> activityWrapperList, CourseOfferingManagementForm form){
+        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+
         String socState = form.getSocStateKey();
-        processAddForDeptAdmin(form, socState);
+        socState = socState.substring(socState.lastIndexOf('.')+1);
 
-        if(activityWrapperList != null && !activityWrapperList.isEmpty()){
-        for(ActivityOfferingWrapper activityWrapper : activityWrapperList){
-            String aoState = activityWrapper.getAoInfo().getStateKey();
-            if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
-                StringUtils.equals(socState, CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY)){
-                //form.setEnableAddButton(true);
-                if(StringUtils.equals(aoState, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY)){
-                    if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY)){
-                        activityWrapper.setEnableApproveButton(true);
-                    }
-                    activityWrapper.setEnableSuspendButton(true);
-                    activityWrapper.setEnableCancelButton(true);
-                    activityWrapper.setEnableDeleteButton(true);
-                }
+        //Check if the user can add based on soc state
+        Map<String,String> permissionDetails = new HashMap<String,String>();
+        Map<String,String> roleQualifications = new HashMap<String,String>();
 
-                if(StringUtils.equals(aoState, LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY)){
-                    activityWrapper.setEnableSuspendButton(true);
-                    activityWrapper.setEnableCancelButton(true);
-                    activityWrapper.setEnableDeleteButton(true);
-                    activityWrapper.setEnableDraftButton(true);
-                }
+        //ToDo, add role qualifiers for org/subject/etc. (Refactor so qualification resolving is done in a single place)
+        roleQualifications.put("org", form.getAdminOrg());
 
-                if(StringUtils.equals(aoState, LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY)){
-                    activityWrapper.setEnableSuspendButton(true);
-                    activityWrapper.setEnableCancelButton(true);
-                }
-            }
+        permissionDetails.put("socState", socState);
 
-            if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
-                    StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) ||
-                    StringUtils.equals(socState, CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY) ||
-                    StringUtils.equals(socState, CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY)) {
-                    //all buttons disabled
-            }
+        permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, form.getViewId());
 
-            if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY)) {
-                if(StringUtils.equals(aoState, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY)){
-                    activityWrapper.setEnableDeleteButton(true);
-                }
-                if(StringUtils.equals(aoState, LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY)){
-                    activityWrapper.setEnableDraftButton(true);
-                    activityWrapper.setEnableDeleteButton(true);
-                }
-            }
-        }
-        }
-    }
-
-    private static void processAddForCentralAdmin(CourseOfferingManagementForm form, String socState, String socSchedulingState) {
-        form.setEnableAddButton(false);
-        if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
-           StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
-           StringUtils.equals(socState, CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY) ||
-           StringUtils.equals(socState, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY) ||
-           StringUtils.equals(socState, CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY) ||
-           (StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
-           !StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS))){
+        permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT,"addCO");
+        if(permissionService.isAuthorizedByTemplate(principalId,"KS-ENR",KimConstants.PermissionTemplateNames.PERFORM_ACTION,permissionDetails,roleQualifications)){
             form.setEnableAddButton(true);
         }
-    }
-
-    public static void processAoToolbarForCentralAdmin(List<ActivityOfferingWrapper> activityWrapperList, CourseOfferingManagementForm form){
-        String socState = form.getSocStateKey();
-        String socSchedulingState = form.getSocSchedulingStateKey();
-        processAddForCentralAdmin(form, socState, socSchedulingState);
-
         if(activityWrapperList != null && !activityWrapperList.isEmpty()){
-        for(ActivityOfferingWrapper activityWrapper : activityWrapperList){
-            String aoState = activityWrapper.getAoInfo().getStateKey();
-            if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
-                    StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
-                    StringUtils.equals(socState, CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY) ||
-                    StringUtils.equals(socState, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY) ||
-                    StringUtils.equals(socState, CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY) ||
-                    (StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
-                    !StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS))){
-                //form.setEnableAddButton(true);
-                if(StringUtils.equals(aoState, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY)){
-                    if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY)){
-                        activityWrapper.setEnableApproveButton(true);
-                    }
-                    activityWrapper.setEnableSuspendButton(true);
+            for(ActivityOfferingWrapper activityWrapper : activityWrapperList){
+
+                //Only use the last part of the state key to make it clearer in the config
+                String aoState = activityWrapper.getAoInfo().getStateKey();
+                aoState = aoState.substring(aoState.lastIndexOf('.')+1);
+
+                permissionDetails.put("aoState", aoState);
+                //TODO put in business logic so you can't cancel a canceled state, approve approved state etc...
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "cancelAO");
+                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
                     activityWrapper.setEnableCancelButton(true);
+                }
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "approveAO");
+                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                    activityWrapper.setEnableApproveButton(true);
+                }
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "reinstateAO");
+                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                    activityWrapper.setEnableReinstateButton(true);
+                }
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "deleteAO");
+                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
                     activityWrapper.setEnableDeleteButton(true);
                 }
-
-                if(StringUtils.equals(aoState, LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY)){
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "suspendAO");
+                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
                     activityWrapper.setEnableSuspendButton(true);
-                    activityWrapper.setEnableCancelButton(true);
-                    activityWrapper.setEnableDeleteButton(true);
+                }
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "setDraftAO");
+                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
                     activityWrapper.setEnableDraftButton(true);
                 }
-
-                if(StringUtils.equals(aoState, LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY)){
-                    activityWrapper.setEnableSuspendButton(true);
-                    activityWrapper.setEnableCancelButton(true);
-                    activityWrapper.setEnableDeleteButton(true);
-                }
-            }
-
-            if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY) ||
-                    (StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
-                     StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS))){
-                     //all buttons disabled
             }
         }
     }
-    }
 
+    private static PermissionService getPermissionService() {
+        if(permissionService==null){
+            permissionService = KimApiServiceLocator.getPermissionService();
+        }
+        return permissionService;
+    }
 }

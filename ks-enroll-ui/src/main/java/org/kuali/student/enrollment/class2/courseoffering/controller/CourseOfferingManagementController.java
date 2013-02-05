@@ -197,7 +197,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     // set the cross listed data
                     assignCrossListedInForm(theForm, coToShow);
 
-                    ToolbarUtil.processCoToolbarForDeptAdmin(theForm.getCourseOfferingResultList(), theForm);
+                    ToolbarUtil.processCoToolbarForUser(theForm.getCourseOfferingResultList(), theForm);
                     //ToolbarUtil.processCoToolbarForCentralAdmin(theForm.getCourseOfferingResultList(), theForm);
                 } else { // just one course offering is returned
                     CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
@@ -267,7 +267,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     }
                     CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                     theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
-                    ToolbarUtil.processCoToolbarForDeptAdmin(theForm.getCourseOfferingResultList(), theForm);
+
+                    ToolbarUtil.processCoToolbarForUser(theForm.getCourseOfferingResultList(), theForm);
                 } else { // just one course offering is returned
                     CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                     theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
@@ -351,7 +352,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     }
                     CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                     theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
-                    ToolbarUtil.processCoToolbarForDeptAdmin(theForm.getCourseOfferingResultList(), theForm);
+                    ToolbarUtil.processCoToolbarForUser(theForm.getCourseOfferingResultList(), theForm);
                 } else { // just one course offering is returned
                     CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                     theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
@@ -437,7 +438,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                                 }
                                 CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                                 theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
-                                ToolbarUtil.processCoToolbarForDeptAdmin(theForm.getCourseOfferingResultList(), theForm);
+                                ToolbarUtil.processCoToolbarForUser(theForm.getCourseOfferingResultList(), theForm);
                             } else { // just one course offering is returned
                                 CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                                 theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
@@ -507,7 +508,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
         theForm.setSocState(socState);
 
-        ToolbarUtil.processAoToolbarForDeptAdmin(theForm.getActivityWrapperList(), theForm);
+        ToolbarUtil.processAoToolbarForUser(theForm.getActivityWrapperList(), theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 
@@ -935,7 +936,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         try {
             getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(termId, subjectCode, theForm);
-            ToolbarUtil.processCoToolbarForDeptAdmin(theForm.getCourseOfferingResultList(), theForm);
+            ToolbarUtil.processCoToolbarForUser(theForm.getCourseOfferingResultList(), theForm);
         } catch (Exception e) {
             LOG.error("Could not load course offerings.", e);
         }
@@ -1394,13 +1395,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
     private void loadActivityOfferings(CourseOfferingInfo theCourseOffering, CourseOfferingManagementForm theForm) throws Exception{
         getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
-        ToolbarUtil.processAoToolbarForDeptAdmin(theForm.getActivityWrapperList(), theForm);
+        ToolbarUtil.processAoToolbarForUser(theForm.getActivityWrapperList(), theForm);
     }
 
     private void reloadCourseOfferings(CourseOfferingManagementForm theForm)  throws Exception{
         getViewHelperService(theForm).loadCourseOfferingsByTermAndCourseCode(theForm.getTermInfo().getId(), theForm.getInputCode(),theForm);
         //getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(theForm.getTermInfo().getId(), theForm.getInputCode(),theForm);
-        ToolbarUtil.processCoToolbarForDeptAdmin(theForm.getCourseOfferingResultList(), theForm);
+        ToolbarUtil.processCoToolbarForUser(theForm.getCourseOfferingResultList(), theForm);
     }
     public CourseOfferingSetService getSocService() {
         // If it hasn't been set by Spring, then look it up by GlobalResourceLoader
