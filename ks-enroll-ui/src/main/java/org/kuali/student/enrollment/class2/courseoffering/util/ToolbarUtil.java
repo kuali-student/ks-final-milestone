@@ -32,6 +32,7 @@ import java.util.List;
  */
 public class ToolbarUtil {
     public static void processCoToolbarForDeptAdmin(List<CourseOfferingListSectionWrapper> coListWrapperList, CourseOfferingManagementForm form){
+        form.setEnableAddButton(false);
         String socState = form.getSocStateKey();
         if(coListWrapperList != null && !coListWrapperList.isEmpty()){
         for(CourseOfferingListSectionWrapper coListWrapper : coListWrapperList){
@@ -80,6 +81,7 @@ public class ToolbarUtil {
     }
 
     public static void processCoToolbarForCentralAdmin(List<CourseOfferingListSectionWrapper> coListWrapperList, CourseOfferingManagementForm form){
+        form.setEnableAddButton(false);
         String socState = form.getSocStateKey();
         String socSchedulingState = form.getSocSchedulingStateKey();
         if(coListWrapperList != null && !coListWrapperList.isEmpty()){
@@ -125,6 +127,7 @@ public class ToolbarUtil {
     }
 
     public static void processAoToolbarForDeptAdmin(List<ActivityOfferingWrapper> activityWrapperList, CourseOfferingManagementForm form){
+        form.setEnableAddButton(false);
         String socState = form.getSocStateKey();
         if(activityWrapperList != null && !activityWrapperList.isEmpty()){
         for(ActivityOfferingWrapper activityWrapper : activityWrapperList){
@@ -175,6 +178,7 @@ public class ToolbarUtil {
     }
 
     public static void processAoToolbarForCentralAdmin(List<ActivityOfferingWrapper> activityWrapperList, CourseOfferingManagementForm form){
+        form.setEnableAddButton(false);
         String socState = form.getSocStateKey();
         String socSchedulingState = form.getSocSchedulingStateKey();
         if(activityWrapperList != null && !activityWrapperList.isEmpty()){

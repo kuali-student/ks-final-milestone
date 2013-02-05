@@ -1260,8 +1260,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         getViewHelperService(theForm).approveCourseOfferings(theForm);
         reloadCourseOfferings(theForm);
-
-        //KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_APPROVED);
         return getUIFModelAndView(theForm);
     }
 
