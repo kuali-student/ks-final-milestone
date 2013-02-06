@@ -22,6 +22,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
+import org.kuali.student.enrollment.uif.form.KSUifForm;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 import java.util.List;
@@ -32,7 +33,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class KrmsComponentsForm extends UifFormBase {
+public class KrmsComponentsForm extends KSUifForm {
 
     private PropositionEditor proposition;
 
