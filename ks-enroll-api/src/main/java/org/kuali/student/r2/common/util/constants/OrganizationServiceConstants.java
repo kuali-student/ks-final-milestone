@@ -67,4 +67,11 @@ public class OrganizationServiceConstants {
     public static final String ORGANIZATION_UNIVERSITY_SUPPORT_TYPE_KEY = "kuali.org.UniversitySupport";
     public static final String ORGANIZATION_SUB_DEPARTMENT_TYPE_KEY = "kuali.org.SubDepartment";
     public static final String ORGANIZATION_INSTITUTION_TYPE_KEY = "kuali.org.Institution";
+    public static final String ORGANIZATION_SUBJECT_CODE_TYPE_KEY = "kuali.org.SubjectCode"; // KSENROLL-5112
+
+    /**
+     * Org-Org types (https://wiki.kuali.org/display/STUDENT/Organization+Service+Types+and+States)
+     * KSENROLL-5112
+     */
+    public static final String ORG_ORG_SUBJECT_CODE_TO_ORG_TYPE_KEY = "kuali.org.org.relation.type.subjectcode2org";
 }
