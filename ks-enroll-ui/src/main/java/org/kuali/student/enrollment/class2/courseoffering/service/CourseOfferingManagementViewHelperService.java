@@ -18,11 +18,9 @@ public interface CourseOfferingManagementViewHelperService extends CO_AO_RG_View
      */
     public List<TermInfo> findTermByTermCode(String termCode) throws Exception;
 
-    public List<CourseOfferingInfo> findCourseOfferingsByTermAndCourseOfferingCode (String termCode, String courseOfferingCode, CourseOfferingManagementForm form) throws Exception;
-
-    public void loadCourseOfferingsByTermAndSubjectCode (String termId, String subjectCode, CourseOfferingManagementForm form) throws Exception;
-
     public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, CourseOfferingManagementForm form) throws Exception;
+
+    public void loadCourseOfferingsByTermAndSubjectCode(String termId, String subjectCode, CourseOfferingManagementForm form) throws Exception;
 
     public void loadActivityOfferingsByCourseOffering (CourseOfferingInfo theCourseOfferingInfo, CourseOfferingManagementForm form) throws Exception;
 

@@ -29,20 +29,26 @@ import java.io.Serializable;
  */
 public class CourseOfferingListSectionWrapper implements Serializable{
 
-    String courseOfferingId;
-    String courseOfferingCode;
-    String courseOfferingDesc;
-    String courseOfferingStateKey;
-    String courseOfferingStateDisplay;
-    String courseOfferingCreditOptionKey;
-    String courseOfferingGradingOptionKey;
-    String courseOfferingCreditOptionDisplay;
-    String courseOfferingGradingOptionDisplay;
-    String subjectArea;
+    private String courseOfferingId;
+    private String courseOfferingCode;
+    private String courseOfferingDesc;
+    private String courseOfferingStateKey;
+    private String courseOfferingStateDisplay;
+    private String courseOfferingCreditOptionKey;
+    private String courseOfferingGradingOptionKey;
+    private String courseOfferingCreditOptionDisplay;
+    private String courseOfferingGradingOptionDisplay;
+    private String subjectArea;
 
+    private String[] alternateCOCodes;
 
-    boolean isLegalToDelete = true;
-    boolean isChecked = false;
+    private boolean isCrossListed;
+
+    private boolean isLegalToDelete = true;
+    private boolean isChecked = false;
+
+    public CourseOfferingListSectionWrapper(){
+    }
 
     //hidden columns for toolbar
     private boolean enableAddButton = false;
@@ -207,6 +213,59 @@ public class CourseOfferingListSectionWrapper implements Serializable{
 
     public void setCourseOfferingGradingOptionDisplay(String courseOfferingGradingOptionDisplay) {
         this.courseOfferingGradingOptionDisplay = courseOfferingGradingOptionDisplay;
+    }
+
+
+    /**
+     * @see #setCrossListed(boolean)
+     * @return
+     */
+    public boolean isCrossListed() {
+        return isCrossListed;
+    }
+
+    /**
+     * Sets true is this wrapper is for a cross listed course
+     *
+     * @param crossListed
+     */
+    public void setCrossListed(boolean crossListed) {
+        isCrossListed = crossListed;
+    }
+
+    /**
+     * @see #setAlternateCOCodes(String[])
+     * @return
+     */
+    public String[] getAlternateCOCodes() {
+        return alternateCOCodes;
+    }
+
+    /**
+     * List of alternate Course offering codes (either cross list or owner).
+     * @param alternateCOCodes
+     */
+    public void setAlternateCOCodes(String[] alternateCOCodes) {
+        this.alternateCOCodes = alternateCOCodes;
+    }
+
+    /**
+     * This method returns a list of crosslisted/official course code for a course. This will
+     * be displayed as the tooltip (if crosslisted cos exists) at Manage CO screen.
+     *
+     * @return
+     */
+    @SuppressWarnings("unused")
+    public String getCrossListedCodesUI(){
+        StringBuffer buffer = new StringBuffer();
+        if (alternateCOCodes != null && alternateCOCodes.length > 0){
+            buffer.append("This course is crosslisted with:<br>");
+            for (String code : alternateCOCodes){
+                buffer.append(code + "<br>");
+            }
+        }
+
+        return StringUtils.removeEnd(buffer.toString(),"<br>");
     }
 }
 

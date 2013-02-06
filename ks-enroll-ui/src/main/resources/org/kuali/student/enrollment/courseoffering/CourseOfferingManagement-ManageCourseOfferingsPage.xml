@@ -77,6 +77,11 @@
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="courseOfferingId" />
                     </property>
                 </bean>
+                <bean parent="Uif-ImageField" p:hidden="@{#lp.crossListedCodesUI.isEmpty()}" p:width="" p:height="" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png">
+                    <property name="toolTip">
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.crossListedCodesUI}"/>
+                      </property>
+                </bean>
                 <bean parent="Uif-DataField"
                       p:label="STATUS"
                       p:propertyName="courseOfferingStateDisplay"/>
@@ -110,9 +115,9 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" />
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="loadAOs" p:actionLabel="Manage" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" p:render="@{!#lp.crossListed}"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" p:render="@{!#lp.crossListed}"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="loadAOs" p:actionLabel="Manage" p:render="@{!#lp.crossListed}"/>
             </list>
         </property>
     </bean>

@@ -299,9 +299,6 @@ public class CourseOfferingManagementForm extends KSUifForm {
     public void setCourseOfferingResultList(List<CourseOfferingListSectionWrapper> courseOfferingResultList) {
         this.courseOfferingResultList = courseOfferingResultList;
     }
-    public void clearCourseOfferingResultList(){
-        this.courseOfferingResultList = courseOfferingResultListEmpty;
-    }
 
     public CourseOfferingEditWrapper getCourseOfferingEditWrapper() {
         return courseOfferingEditWrapper;

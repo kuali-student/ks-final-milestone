@@ -1,11 +1,6 @@
 package org.kuali.student.enrollment.class1.krms.service;
 
 import org.kuali.student.enrollment.class1.krms.form.AgendaManagementForm;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
-import org.kuali.student.enrollment.class2.courseoffering.service.CO_AO_RG_ViewHelperService;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 import java.util.List;

@@ -165,13 +165,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             } else {
                 LOG.error("Error: Found more than one Term for term code: " + termCode);
                 GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
-                theForm.clearCourseOfferingResultList();
+                theForm.getCourseOfferingResultList().clear();
                 return getUIFModelAndView(theForm);
              }
         } else {
             LOG.error("Error: Can't find any Term for term code: " + termCode);
             GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, termCode);
-            theForm.clearCourseOfferingResultList();
+            theForm.getCourseOfferingResultList().clear();
             return getUIFModelAndView(theForm);
         }
 
@@ -216,7 +216,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         } else {
             LOG.error("Error: Course Code search field can't be empty");
             GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Offering", inputCode, termCode);
-            theForm.clearCourseOfferingResultList();
+            theForm.getCourseOfferingResultList().clear();
             theForm.setActivityWrapperList(null);
 
             return getUIFModelAndView(theForm);
@@ -239,13 +239,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             } else {
                 LOG.error("Error: Found more than one Term for term code: " + termCode);
                 GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
-                theForm.clearCourseOfferingResultList();
+                theForm.getCourseOfferingResultList().clear();
                 return getUIFModelAndView(theForm);
             }
         } else {
             LOG.error("Error: Can't find any Term for term code: " + termCode);
             GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, termCode);
-            theForm.clearCourseOfferingResultList();
+            theForm.getCourseOfferingResultList().clear();
             return getUIFModelAndView(theForm);
         }
 
@@ -293,7 +293,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         } else {
             LOG.error("Error: Course Code search field can't be empty");
             GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Offering", inputCode, termCode);
-            theForm.clearCourseOfferingResultList();
+            theForm.getCourseOfferingResultList().clear();
             theForm.setActivityWrapperList(null);
 
             return getUIFModelAndView(theForm);
@@ -322,14 +322,14 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             } else {
                 LOG.error("Error: Found more than one Term for term code: " + termCode);
                 GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
-                theForm.clearCourseOfferingResultList();
+                theForm.getCourseOfferingResultList().clear();
 //                return getUIFModelAndView(theForm);
                 //return "";
             }
         } else {
             LOG.error("Error: Can't find any Term for term code: " + termCode);
             GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, termCode);
-            theForm.clearCourseOfferingResultList();
+            theForm.getCourseOfferingResultList().clear();
 //            return getUIFModelAndView(theForm);
            // return "";
         }
@@ -391,7 +391,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         } else {
             LOG.error("Error: Course Code search field can't be empty");
             GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Offering", inputCode, termCode);
-            theForm.clearCourseOfferingResultList();
+            theForm.getCourseOfferingResultList().clear();
             theForm.setActivityWrapperList(null);
 
 //            return getUIFModelAndView(theForm);
@@ -544,7 +544,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(theForm.getPreviousCourseOffering());
 
-        theForm.clearCourseOfferingResultList();
+        theForm.getCourseOfferingResultList().clear();
         theForm.setCourseOfferingEditWrapper(wrapper);
         theForm.setTheCourseOffering(theForm.getPreviousCourseOffering());
         theForm.setInputCode(wrapper.getCoInfo().getCourseOfferingCode());
@@ -561,7 +561,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(theForm.getNextCourseOffering());
 
-        theForm.clearCourseOfferingResultList();
+        theForm.getCourseOfferingResultList().clear();
         theForm.setCourseOfferingEditWrapper(wrapper);
         theForm.setTheCourseOffering(theForm.getNextCourseOffering());
         theForm.setInputCode(wrapper.getCoInfo().getCourseOfferingCode());
