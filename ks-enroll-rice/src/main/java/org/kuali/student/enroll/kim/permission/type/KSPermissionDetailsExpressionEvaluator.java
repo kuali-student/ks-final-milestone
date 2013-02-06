@@ -1,5 +1,8 @@
 package org.kuali.student.enroll.kim.permission.type;
 
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
 import org.kuali.rice.kim.api.permission.Permission;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
@@ -20,6 +23,15 @@ import java.util.Map;
 public class KSPermissionDetailsExpressionEvaluator {
 
     private static ExpressionParser parser = new SpelExpressionParser();
+
+    //TODO make the caching more configurable
+    static{
+        CacheManager singletonManager = CacheManager.create();
+        singletonManager.addCache(new Cache("KSPermissionDetailsExpressionEvaluator", 300, false, false, 120, 0));
+    }
+
+    static Cache expressionCache = CacheManager.getInstance().getCache("KSPermissionDetailsExpressionEvaluator");
+
     public static final String PERMISSION_EXPRESSION = "permissionExpression";
 
     public static List<Permission> performPermissionMatches(Map<String, String> requestedDetails,
@@ -41,7 +53,7 @@ public class KSPermissionDetailsExpressionEvaluator {
                 }
 
                 //Parse the expression
-                Expression exp = parser.parseExpression(permission.getAttributes().get(PERMISSION_EXPRESSION));//TODO cache the parsed expressions
+                Expression exp = getExpression(permission.getAttributes().get(PERMISSION_EXPRESSION));
 
                 if(!exp.getValue(ctx, Boolean.class)){
                     //If the expression resolves to false then remove from the list of matched permissions
@@ -51,5 +63,17 @@ public class KSPermissionDetailsExpressionEvaluator {
         }
 
         return matchedPermissions;
+    }
+
+    protected static Expression getExpression(String expressionStr){
+        Element cachedResult = expressionCache.get(expressionStr);
+        Object result;
+        if(cachedResult==null){
+            result = parser.parseExpression(expressionStr);
+            expressionCache.put(new Element(expressionStr,result));
+        }else{
+            result = cachedResult.getObjectValue();
+        }
+        return (Expression)result;
     }
 }
