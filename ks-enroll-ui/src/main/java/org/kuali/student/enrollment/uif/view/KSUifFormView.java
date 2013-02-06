@@ -34,11 +34,11 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class KSFormView extends FormView {
+public class KSUifFormView extends FormView {
     private Map<String, Map<String,String>> breadCrumbConfigMap;
     private transient ExpressionEvaluatorService expressionEvaluatorService;
 
-    public KSFormView() {
+    public KSUifFormView() {
 
     }
 

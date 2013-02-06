@@ -1,18 +1,18 @@
 package org.kuali.student.enrollment.class1.krms.form;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.uif.form.KSUifForm;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AgendaManagementForm extends KSUifForm {
+public class AgendaManagementForm extends UifFormBase {
     //for authorization purpose
     private String adminOrg;
 
