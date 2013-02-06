@@ -4,13 +4,17 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.dto.LuiSetInfo;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
@@ -26,11 +30,17 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The structure of this class should be re-evaluated after partial-colocation redesign is completed.  Compare design to
+ * the approach taken in {@link CourseOfferingTransformer}, particularly notice that this transformer employs static
+ * methods in lieu of instance methods.  ~Brandon Gresham, 6FEB2013
+ */
 public class ActivityOfferingTransformer {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ActivityOfferingTransformer.class);
     /**
@@ -49,7 +59,7 @@ public class ActivityOfferingTransformer {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public static List<ActivityOfferingInfo> luis2AOs(List<LuiInfo> luiInfos, LprService lprService, SchedulingService schedulingService, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    public static List<ActivityOfferingInfo> luis2AOs(List<LuiInfo> luiInfos, LprService lprService, SchedulingService schedulingService, LuiService luiService, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         if (luiInfos == null || luiInfos.isEmpty())
             return new ArrayList<ActivityOfferingInfo>(0);
 
@@ -109,7 +119,7 @@ public class ActivityOfferingTransformer {
         }
 
         for (LuiInfo luiInfo : luiInfos) {
-            aoInfos.add(lui2Activity(luiInfo, luiToInstructorsMap, scheduleIdToScheduleMap, luiToScheduleRequestsMap));
+            aoInfos.add(lui2Activity(luiInfo, luiToInstructorsMap, scheduleIdToScheduleMap, luiToScheduleRequestsMap, luiService, context));
         }
 
 
@@ -130,7 +140,9 @@ public class ActivityOfferingTransformer {
     public static ActivityOfferingInfo lui2Activity(LuiInfo lui,
                                                     Map<String, List<OfferingInstructorInfo>> luiToInstructorsMap,
                                                     Map<String, ScheduleInfo> scheduleIdToScheduleMap,
-                                                    Map<String, List<ScheduleRequestInfo>> luiToScheduleRequestsMap) {
+                                                    Map<String, List<ScheduleRequestInfo>> luiToScheduleRequestsMap,
+                                                    LuiService luiService,
+                                                    ContextInfo contextInfo ) throws PermissionDeniedException, InvalidParameterException, MissingParameterException, OperationFailedException {
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
         ao.setId(lui.getId());
         ao.setMeta(lui.getMeta());
@@ -144,6 +156,7 @@ public class ActivityOfferingTransformer {
         ao.setMaximumEnrollment(lui.getMaximumEnrollment());
         ao.setScheduleId(lui.getScheduleId());
         ao.setActivityOfferingURL(lui.getReferenceURL());
+        ao.setIsPartOfColocatedOfferingSet( isPartOfColocatedOfferingSet( lui, luiService, contextInfo ) );
 
         if (lui.getOfficialIdentifier() != null){
             ao.setActivityCode(lui.getOfficialIdentifier().getCode());
@@ -232,7 +245,7 @@ public class ActivityOfferingTransformer {
         return ao;
     }
 
-    public static void lui2Activity(ActivityOfferingInfo ao, LuiInfo lui, LprService lprService, SchedulingService schedulingService, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    public static void lui2Activity(ActivityOfferingInfo ao, LuiInfo lui, LprService lprService, SchedulingService schedulingService, LuiService luiService, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         ao.setId(lui.getId());
         ao.setMeta(lui.getMeta());
         ao.setStateKey(lui.getStateKey());
@@ -245,6 +258,7 @@ public class ActivityOfferingTransformer {
         ao.setMaximumEnrollment(lui.getMaximumEnrollment());
         ao.setScheduleId(lui.getScheduleId());
         ao.setActivityOfferingURL(lui.getReferenceURL());
+        ao.setIsPartOfColocatedOfferingSet( isPartOfColocatedOfferingSet( lui, luiService, context ) );
 
         if (lui.getOfficialIdentifier() != null){
             ao.setActivityCode(lui.getOfficialIdentifier().getCode());
@@ -413,6 +427,25 @@ public class ActivityOfferingTransformer {
         info.setTypeKey(typeKey);
         lui.getLuiCodes().add(info);
         return info;
+    }
+
+    private static boolean isPartOfColocatedOfferingSet( LuiInfo lui, LuiService luiService, ContextInfo context )
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+    {
+        if( lui == null ) {
+            throw new NullPointerException( "lui cannot be null" );
+        }
+        if( luiService == null ) {
+            throw new NullPointerException( "luiService cannot be null" );
+        }
+        if( context == null ) {
+            throw new NullPointerException( "context cannot be null" );
+        }
+
+        List<LuiSetInfo> result = luiService.getLuiSetsByLui( lui.getId(), context );
+        if( result != null && !result.isEmpty() ) return true;
+
+        return false;
     }
 
 }

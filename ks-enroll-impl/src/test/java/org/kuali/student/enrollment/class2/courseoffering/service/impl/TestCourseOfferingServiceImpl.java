@@ -8,12 +8,14 @@ import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.test.util.AttributeTester;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.lrc.service.util.MockLrcTestDataLoader;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -47,6 +49,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -497,6 +500,9 @@ public class TestCourseOfferingServiceImpl {
             }
             assertTrue(foundActivityId);
 
+            ActivityOffering createdAo = coService.getActivityOffering(retrieved.getId(), callContext);
+            assertFalse(createdAo.getIsPartOfColocatedOfferingSet());
+
         } catch (Exception ex) {
             log.fatal("Exception from serviceCall", ex);
 
@@ -576,6 +582,9 @@ public class TestCourseOfferingServiceImpl {
         assertEquals(1,created.getActivityOfferingIds().size());
         assertEquals(1,created.getAttributes().size());
 
+        ActivityOffering createdAo = coService.getActivityOffering(created.getActivityOfferingIds().get(0), callContext);
+        assertNotNull(createdAo);
+        assertTrue(createdAo.getIsPartOfColocatedOfferingSet());
     }
 
     @Test

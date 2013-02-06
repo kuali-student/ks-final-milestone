@@ -985,7 +985,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             OperationFailedException, PermissionDeniedException {
         LuiInfo lui = luiService.getLui(activityOfferingId, context);
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
-        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, context);
+        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, luiService, context);
 
         _populateActivityOfferingRelationships(ao, context);
         return ao;
@@ -1036,7 +1036,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
             for (LuiInfo lui : luiInfos) {
                 ActivityOfferingInfo ao = new ActivityOfferingInfo();
-                ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, contextInfo);
+                ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, luiService, contextInfo);
                 _populateActivityOfferingRelationships(ao, contextInfo);
                 results.add(ao);
             }
@@ -1087,7 +1087,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         // Find all related luis to the course Offering
         List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(formatOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, contextInfo);
-        activityOfferings = ActivityOfferingTransformer.luis2AOs(luis, lprService, schedulingService, contextInfo);
+        activityOfferings = ActivityOfferingTransformer.luis2AOs(luis, lprService, schedulingService, luiService, contextInfo);
 
         for (ActivityOfferingInfo ao : activityOfferings) {
             //Filter out only course offerings (the relation type seems to vague to only hold format offerings)
@@ -1149,7 +1149,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     private ActivityOfferingInfo _cAO_initActivityOffering(CourseOfferingInfo co, FormatOfferingInfo fo, LuiInfo lui, LuiLuiRelationInfo luiRel, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
-        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, context);
+        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, luiService, context);
         ao.setFormatOfferingId(luiRel.getLuiId());
         ao.setCourseOfferingId(co.getId());
         ao.setFormatOfferingName(fo.getShortName());
@@ -1484,7 +1484,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         // rebuild activity to return it
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
-        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, context);
+        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, luiService, context);
         FormatOfferingInfo foInfo = this.getFormatOffering(activityOfferingInfo.getFormatOfferingId(), context);
         CourseOfferingInfo coInfo = this.getCourseOffering(foInfo.getCourseOfferingId(), context);
         ao.setFormatOfferingId(foInfo.getId());
