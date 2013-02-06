@@ -115,17 +115,16 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
         try {
             ResultValuesGroupInfo rvg = getLrcService().getResultValuesGroup(rvgKey, contextInfo);
             if (!rvg.getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
-                throw new OperationFailedException("Calculated key does not point to a FIXED RVG: " + rvgKey);
+                throw new OperationFailedException("Calculated key["+rvgKey+"] does not point to a FIXED RVG: Expected["+rvg.getTypeKey()+"]:Actual[" + LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED +"]");
             }
             if (!rvg.getResultScaleKey().equals(scaleKey)) {
-                throw new OperationFailedException("Calculated key does not point to an RVG of the expected scale key: " + rvgKey);
+                throw new OperationFailedException("Calculated key["+rvgKey+"] does not point to an RVG of the expected scale key: Expected["+rvg.getResultScaleKey()+"]:Actual[" + scaleKey +"]");
             }
             if (rvg.getResultValueKeys().size() != 1) {
-                throw new OperationFailedException("Calculated key does not point to an RVG with a single value: " + rvgKey);
+                throw new OperationFailedException("Calculated key["+rvgKey+"] does not point to an RVG with a single value: " + rvgKey);
             }
             if (!rvg.getResultValueKeys().get(0).equals(valueKey)) {
-                throw new OperationFailedException("Calculated key does not point to an RVG with the expected value key : " +
-                        rvgKey);
+                throw new OperationFailedException("Calculated key["+rvgKey+"] does not point to an RVG with the expected value key : Expected["+rvg.getResultValueKeys().get(0)+"]:Actual[" + valueKey +"]");
             }
             return rvg;
         } catch (DoesNotExistException ex) {
