@@ -39,7 +39,7 @@ public class ToolbarUtil {
     
     public static void processCoToolbarForUser(List<CourseOfferingListSectionWrapper> coListWrapperList, CourseOfferingManagementForm form){
         String socState = form.getSocStateKey();
-        socState = socState.substring(socState.lastIndexOf('.')+1);
+        socState = socState==null?null:socState.substring(socState.lastIndexOf('.')+1);
 
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
@@ -100,7 +100,7 @@ public class ToolbarUtil {
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
         String socState = form.getSocStateKey();
-        socState = socState.substring(socState.lastIndexOf('.')+1);
+        socState = socState==null?null:socState.substring(socState.lastIndexOf('.')+1);
 
         //Check if the user can add based on soc state
         Map<String,String> permissionDetails = new HashMap<String,String>();
