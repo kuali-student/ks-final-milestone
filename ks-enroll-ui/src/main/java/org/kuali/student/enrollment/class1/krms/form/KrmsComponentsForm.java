@@ -37,6 +37,10 @@ public class KrmsComponentsForm extends KSUifForm {
 
     private PropositionEditor proposition;
 
+    private String field1;
+
+    private String field2;
+
     private Tree<TreeNode, String> tree1;
 
     public PropositionEditor getProposition() {
@@ -45,6 +49,22 @@ public class KrmsComponentsForm extends KSUifForm {
 
     public void setProposition(PropositionEditor proposition) {
         this.proposition = proposition;
+    }
+
+    public String getField1() {
+        return field1;
+    }
+
+    public void setField1(String field) {
+        this.field1 = field;
+    }
+
+    public String getField2() {
+        return field2;
+    }
+
+    public void setField2(String field) {
+        this.field2 = field;
     }
 
     /**
