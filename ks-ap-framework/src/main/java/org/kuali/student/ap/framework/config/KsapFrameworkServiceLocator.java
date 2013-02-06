@@ -1,8 +1,5 @@
 package org.kuali.student.ap.framework.config;
 
-import java.util.Hashtable;
-import java.util.Map;
-
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.ap.framework.context.AtpHelper;
 import org.kuali.student.ap.framework.context.EnumerationHelper;
@@ -21,6 +18,10 @@ import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManage
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.program.service.ProgramService;
+
+import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * Convenience factory for acquiring KSAP provided service.
@@ -220,5 +221,14 @@ public final class KsapFrameworkServiceLocator {
 	public static CourseSearchStrategy getCourseSearchStrategy() {
 		return getLocalService("courseSearchStrategy");
 	}
+
+    /**
+     * Get the program service.
+     *
+     * @return The program service impl.
+     */
+    public static ProgramService getProgramService() {
+        return getLocalService("programServiceImpl");
+    }
 
 }
