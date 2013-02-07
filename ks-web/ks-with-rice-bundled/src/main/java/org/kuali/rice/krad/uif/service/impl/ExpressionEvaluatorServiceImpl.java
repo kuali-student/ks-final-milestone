@@ -39,6 +39,7 @@ import org.springframework.expression.common.TemplateParserContext;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -62,28 +63,65 @@ public class ExpressionEvaluatorServiceImpl implements ExpressionEvaluatorServic
 
     Cache expressionCache = CacheManager.getInstance().getCache("ExpressionEvaluatorServiceCache");
 
+    private static Method isAssignableFrom;
+    private static Method empty;
+    private static Method emptyList;
+    private static Method listContains;
+    private static Method getName;
+    private static Method getParm;
+    private static Method getParmInd;
+    private static Method hasPerm;
+    private static Method hasPermDtls;
+    private static Method hasPermTmpl;
+    private static Method sequence;
+
+    static{
+        try{
+            isAssignableFrom = ExpressionFunctions.class.getDeclaredMethod("isAssignableFrom", new Class[]{Class.class, Class.class});
+            empty = ExpressionFunctions.class.getDeclaredMethod("empty", new Class[]{Object.class});
+            emptyList = ExpressionFunctions.class.getDeclaredMethod("emptyList", new Class[]{List.class});
+            listContains = ExpressionFunctions.class.getDeclaredMethod("listContains", new Class[]{List.class, Object[].class});
+            getName = ExpressionFunctions.class.getDeclaredMethod("getName", new Class[]{Class.class});
+            getParm = ExpressionFunctions.class.getDeclaredMethod("getParm", new Class[]{String.class, String.class, String.class});
+            getParmInd = ExpressionFunctions.class.getDeclaredMethod("getParmInd", new Class[]{String.class, String.class, String.class});
+            hasPerm = ExpressionFunctions.class.getDeclaredMethod("hasPerm", new Class[]{String.class, String.class});
+            hasPermDtls = ExpressionFunctions.class.getDeclaredMethod("hasPermDtls", new Class[]{String.class, String.class, Map.class, Map.class});
+            hasPermTmpl = ExpressionFunctions.class.getDeclaredMethod("hasPermTmpl", new Class[]{String.class, String.class, Map.class, Map.class});
+            sequence = ExpressionFunctions.class.getDeclaredMethod("sequence", new Class[]{String.class});
+        }catch(NoSuchMethodException e){
+            LOG.error("Custom function for el expressions not found: " + e.getMessage());
+            throw new RuntimeException("Custom function for el expressions not found: " + e.getMessage(), e);
+        }
+    }
+
     /**
      * @see org.kuali.rice.krad.uif.service.ExpressionEvaluatorService#evaluateExpressionsOnConfigurable(org.kuali.rice.krad.uif.view.View,
      *      org.kuali.rice.krad.datadictionary.uif.UifDictionaryBean, Object,
      *      java.util.Map<String,Object>)
      */
     public void evaluateExpressionsOnConfigurable(View view, UifDictionaryBean expressionConfigurable,
-            Object contextObject, Map<String, Object> evaluationParameters) {
+                                                  StandardEvaluationContext context) {
         if ((expressionConfigurable instanceof Component) || (expressionConfigurable instanceof LayoutManager)) {
-            evaluatePropertyReplacers(view, expressionConfigurable, contextObject, evaluationParameters);
+            evaluatePropertyReplacers(view, expressionConfigurable, context);
         }
-        evaluatePropertyExpressions(view, expressionConfigurable, contextObject, evaluationParameters);
+        evaluatePropertyExpressions(view, expressionConfigurable, context);
     }
 
+    public void evaluateExpressionsOnConfigurable(View view, UifDictionaryBean expressionConfigurable,
+                                                  Object contextObject, Map<String, Object> evaluationParameters) {
+        evaluateExpressionsOnConfigurable(view, expressionConfigurable, getContext(contextObject,evaluationParameters));
+    }
+
+    public String evaluateExpressionTemplate(Object contextObject, Map<String, Object> evaluationParameters,
+                                             String expressionTemplate) {
+        return evaluateExpressionTemplate(getContext(contextObject,evaluationParameters),expressionTemplate);
+    }
     /**
      * @see org.kuali.rice.krad.uif.service.ExpressionEvaluatorService#evaluateExpressionTemplate(Object,
      *      java.util.Map, String)
      */
-    public String evaluateExpressionTemplate(Object contextObject, Map<String, Object> evaluationParameters,
-            String expressionTemplate) {
-        StandardEvaluationContext context = new StandardEvaluationContext(contextObject);
-        context.setVariables(evaluationParameters);
-        addCustomFunctions(context);
+    public String evaluateExpressionTemplate(StandardEvaluationContext context,
+                                             String expressionTemplate) {
 
         String result = null;
         try {
@@ -103,15 +141,17 @@ public class ExpressionEvaluatorServiceImpl implements ExpressionEvaluatorServic
         return result;
     }
 
+    public Object evaluateExpression(Object contextObject, Map<String, Object> evaluationParameters,
+                                     String expressionStr) {
+        return evaluateExpression(getContext(contextObject,evaluationParameters),expressionStr);
+    }
+
     /**
      * @see org.kuali.rice.krad.uif.service.ExpressionEvaluatorService#evaluateExpression(Object,
      *      java.util.Map, String)
      */
-    public Object evaluateExpression(Object contextObject, Map<String, Object> evaluationParameters,
+    public Object evaluateExpression(StandardEvaluationContext context,
             String expressionStr) {
-        StandardEvaluationContext context = new StandardEvaluationContext(contextObject);
-        context.setVariables(evaluationParameters);
-        addCustomFunctions(context);
 
         // if expression contains placeholders remove before evaluating
         if (StringUtils.startsWith(expressionStr, UifConstants.EL_PLACEHOLDER_PREFIX) && StringUtils.endsWith(
@@ -132,6 +172,13 @@ public class ExpressionEvaluatorServiceImpl implements ExpressionEvaluatorServic
         }
 
         return result;
+    }
+
+    public StandardEvaluationContext getContext(Object contextObject, Map<String, Object> evaluationParameters){
+        StandardEvaluationContext context = new StandardEvaluationContext(contextObject);
+        context.setVariables(evaluationParameters);
+        addCustomFunctions(context);
+        return context;
     }
 
     private Expression getTemplateExpression(String expressionTemplate) {
@@ -166,34 +213,19 @@ public class ExpressionEvaluatorServiceImpl implements ExpressionEvaluatorServic
      * @param context - context instance to register functions to
      */
     protected void addCustomFunctions(StandardEvaluationContext context) {
-        try {
             // TODO: possibly reflect ExpressionFunctions and add automatically
-            context.registerFunction("isAssignableFrom", ExpressionFunctions.class.getDeclaredMethod("isAssignableFrom",
-                    new Class[]{Class.class, Class.class}));
-            context.registerFunction("empty", ExpressionFunctions.class.getDeclaredMethod("empty",
-                    new Class[]{Object.class}));
-            context.registerFunction("emptyList", ExpressionFunctions.class.getDeclaredMethod("emptyList",
-                    new Class[]{List.class}));
-            context.registerFunction("listContains", ExpressionFunctions.class.getDeclaredMethod("listContains",
-                    new Class[]{List.class, Object[].class}));
-            context.registerFunction("getName", ExpressionFunctions.class.getDeclaredMethod("getName",
-                    new Class[]{Class.class}));
-            context.registerFunction("getParm", ExpressionFunctions.class.getDeclaredMethod("getParm",
-                    new Class[]{String.class, String.class, String.class}));
-            context.registerFunction("getParmInd", ExpressionFunctions.class.getDeclaredMethod("getParmInd",
-                    new Class[]{String.class, String.class, String.class}));
-            context.registerFunction("hasPerm", ExpressionFunctions.class.getDeclaredMethod("hasPerm",
-                    new Class[]{String.class, String.class}));
-            context.registerFunction("hasPermDtls", ExpressionFunctions.class.getDeclaredMethod("hasPermDtls",
-                    new Class[]{String.class, String.class, Map.class, Map.class}));
-            context.registerFunction("hasPermTmpl", ExpressionFunctions.class.getDeclaredMethod("hasPermTmpl",
-                    new Class[]{String.class, String.class, Map.class, Map.class}));
-            context.registerFunction("sequence", ExpressionFunctions.class.getDeclaredMethod("sequence",
-                    new Class[]{String.class}));
-        } catch (NoSuchMethodException e) {
-            LOG.error("Custom function for el expressions not found: " + e.getMessage());
-            throw new RuntimeException("Custom function for el expressions not found: " + e.getMessage(), e);
-        }
+        context.registerFunction("isAssignableFrom", isAssignableFrom);
+        context.registerFunction("empty", empty);
+        context.registerFunction("emptyList", emptyList);
+        context.registerFunction("listContains", listContains);
+        context.registerFunction("getName", getName);
+        context.registerFunction("getParm", getParm);
+        context.registerFunction("getParmInd", getParmInd);
+        context.registerFunction("hasPerm", hasPerm);
+        context.registerFunction("hasPermDtls", hasPermDtls);
+        context.registerFunction("hasPermTmpl", hasPermTmpl);
+        context.registerFunction("sequence", sequence);
+
     }
 
     /**
@@ -205,11 +237,10 @@ public class ExpressionEvaluatorServiceImpl implements ExpressionEvaluatorServic
      * @param expressionConfigurable - expressionConfigurable instance with property replacers list, should be either a
      * component or layout
      * manager
-     * @param contextObject - context for el evaluation
-     * @param evaluationParameters - parameters for el evaluation
+     * @param context - context for el evaluation
      */
-    protected void evaluatePropertyReplacers(View view, UifDictionaryBean expressionConfigurable, Object contextObject,
-            Map<String, Object> evaluationParameters) {
+    protected void evaluatePropertyReplacers(View view, UifDictionaryBean expressionConfigurable,
+                                             StandardEvaluationContext context) {
         List<PropertyReplacer> replacers = null;
         if (Component.class.isAssignableFrom(expressionConfigurable.getClass())) {
             replacers = ((Component) expressionConfigurable).getPropertyReplacers();
@@ -221,7 +252,7 @@ public class ExpressionEvaluatorServiceImpl implements ExpressionEvaluatorServic
             String expression = propertyReplacer.getCondition();
             String adjustedExpression = replaceBindingPrefixes(view, expressionConfigurable, expression);
 
-            String conditionEvaluation = evaluateExpressionTemplate(contextObject, evaluationParameters,
+            String conditionEvaluation = evaluateExpressionTemplate(context,
                     adjustedExpression);
             boolean conditionSuccess = Boolean.parseBoolean(conditionEvaluation);
             if (conditionSuccess) {
@@ -229,6 +260,10 @@ public class ExpressionEvaluatorServiceImpl implements ExpressionEvaluatorServic
                         propertyReplacer.getReplacement());
             }
         }
+    }
+    protected void evaluatePropertyReplacers(View view, UifDictionaryBean expressionConfigurable, Object contextObject,
+                                             Map<String, Object> evaluationParameters) {
+        evaluatePropertyReplacers(view,expressionConfigurable,getContext(contextObject,evaluationParameters));
     }
 
     /**
@@ -242,11 +277,10 @@ public class ExpressionEvaluatorServiceImpl implements ExpressionEvaluatorServic
      *
      * @param view - view instance that is being rendered
      * @param expressionConfigurable - object instance to evaluate expressions for
-     * @param contextObject - object providing the default context for expressions
-     * @param evaluationParameters - map of additional parameters that may be used within the expressions
+     * @param context - object providing the default context for expressions
      */
     protected void evaluatePropertyExpressions(View view, UifDictionaryBean expressionConfigurable,
-            Object contextObject, Map<String, Object> evaluationParameters) {
+                                               StandardEvaluationContext context) {
         Map<String, String> propertyExpressions = expressionConfigurable.getPropertyExpressions();
         for (Entry<String, String> propertyExpression : propertyExpressions.entrySet()) {
             String propertyName = propertyExpression.getKey();
@@ -268,10 +302,10 @@ public class ExpressionEvaluatorServiceImpl implements ExpressionEvaluatorServic
             if (StringUtils.startsWith(adjustedExpression, UifConstants.EL_PLACEHOLDER_PREFIX) && StringUtils.endsWith(
                     adjustedExpression, UifConstants.EL_PLACEHOLDER_SUFFIX) && (StringUtils.countMatches(
                     adjustedExpression, UifConstants.EL_PLACEHOLDER_PREFIX) == 1)) {
-                propertyValue = evaluateExpression(contextObject, evaluationParameters, adjustedExpression);
+                propertyValue = evaluateExpression(context, adjustedExpression);
             } else {
                 // treat as string template
-                propertyValue = evaluateExpressionTemplate(contextObject, evaluationParameters, adjustedExpression);
+                propertyValue = evaluateExpressionTemplate(context, adjustedExpression);
             }
 
             // if property name has the special indicator then we need to add the expression result to the property
@@ -290,6 +324,11 @@ public class ExpressionEvaluatorServiceImpl implements ExpressionEvaluatorServic
                 ObjectPropertyUtils.setPropertyValue(expressionConfigurable, propertyName, propertyValue);
             }
         }
+    }
+
+    protected void evaluatePropertyExpressions(View view, UifDictionaryBean expressionConfigurable,
+                                               Object contextObject, Map<String, Object> evaluationParameters) {
+        evaluatePropertyExpressions(view,expressionConfigurable,getContext(contextObject,evaluationParameters));
     }
 
     /**
