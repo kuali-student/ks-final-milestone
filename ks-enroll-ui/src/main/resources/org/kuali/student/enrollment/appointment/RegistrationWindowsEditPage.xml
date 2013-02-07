@@ -306,17 +306,20 @@
                     <!--</property>-->
                 <!--</bean>-->
                 <bean parent="Uif-InputField"  p:label="Max #"  p:propertyName="appointmentWindowInfo.maxAppointmentsPerSlot"
-                      p:refreshWhenChangedPropertyNames="#lp.windowTypeKey"  p:required="@{#lp.windowTypeKey =='kuali.appointment.window.type.slotted.max'}"
-                      p:readOnly = "@{#lp.windowTypeKey !='kuali.appointment.window.type.slotted.max' or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"  p:style="font-weight:bold;">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5" />
-                    </property>
-                </bean>
+                		    p:progressiveRender="@{#lp.windowTypeKey =='kuali.appointment.window.type.slotted.max'}"
+                             p:required="@{#lp.windowTypeKey =='kuali.appointment.window.type.slotted.max'}"
+                             p:style="font-weight:bold;"                             
+                        >
+                <property name="control">
+                    <bean parent="Uif-TextControl" p:size="5" />
+                </property>
+            </bean>
 
                 <!-- bean entry for dropdown Appt rule type-->
-                <bean parent="Uif-InputField" p:label="Appt. Rule Type/Interval" p:propertyName="slotRuleEnumType" p:style="font-weight:bold;"  p:refreshWhenChangedPropertyNames="#lp.windowTypeKey"
+                <bean parent="Uif-InputField" p:label="Appt. Rule Type/Interval" p:propertyName="slotRuleEnumType" p:style="font-weight:bold;"
+                      p:progressiveRender="@{#lp.appointmentWindowInfo.stateKey!='kuali.appointment.window.state.assigned' and #lp.windowTypeKey !='kuali.appointment.window.type.one.slot'}"
                       p:required="@{#lp.windowTypeKey !='kuali.appointment.window.type.one.slot' and #lp.windowTypeKey !='' }"
-                      p:readOnly="@{#lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned' or #lp.windowTypeKey =='kuali.appointment.window.type.one.slot'}" >
+                       >
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
