@@ -431,7 +431,7 @@ public class LuiServiceMockImpl
 
     @Override
     public List<LuiSetInfo> getLuiSetsByLui(String luiId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
+        return new ArrayList<LuiSetInfo>();
     }
 
     @Override
