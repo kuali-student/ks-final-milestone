@@ -43,19 +43,27 @@ public class KSPermissionDetailsExpressionEvaluator {
 
             //Check if the permission has the 'permissionExpression' attribute. If so, evaluate the expression
             if(permission.getAttributes().containsKey(PERMISSION_EXPRESSION)){
+                String cacheKey=permission.getName() + requestedDetails.toString();
+                Element cachedResult = expressionCache.get(cacheKey);
+                Boolean result;
+                if(cachedResult==null){
+                    //Create a context with the permission details as the root
+                    StandardEvaluationContext ctx = new StandardEvaluationContext(requestedDetails);
 
-                //Create a context with the permission details as the root
-                StandardEvaluationContext ctx = new StandardEvaluationContext(requestedDetails);
+                    //Add the map details as variables in the context so we can use #var instead of ['var']
+                    for(Map.Entry<String,String> entry:requestedDetails.entrySet()){
+                        ctx.setVariable(entry.getKey(), entry.getValue());
+                    }
 
-                //Add the map details as variables in the context so we can use #var instead of ['var']
-                for(Map.Entry<String,String> entry:requestedDetails.entrySet()){
-                    ctx.setVariable(entry.getKey(), entry.getValue());
+                    //Parse the expression
+                    Expression exp = parser.parseExpression(permission.getAttributes().get(PERMISSION_EXPRESSION));
+                    result = exp.getValue(ctx, Boolean.class);
+                    expressionCache.put(new Element(cacheKey,result));
+                }else{
+                    result = (Boolean)cachedResult.getObjectValue();
                 }
 
-                //Parse the expression
-                Expression exp = getExpression(permission.getAttributes().get(PERMISSION_EXPRESSION));
-
-                if(!exp.getValue(ctx, Boolean.class)){
+                if(!result){
                     //If the expression resolves to false then remove from the list of matched permissions
                     iter.remove();
                 }
@@ -65,15 +73,15 @@ public class KSPermissionDetailsExpressionEvaluator {
         return matchedPermissions;
     }
 
-    protected static Expression getExpression(String expressionStr){
-        Element cachedResult = expressionCache.get(expressionStr);
-        Object result;
-        if(cachedResult==null){
-            result = parser.parseExpression(expressionStr);
-            expressionCache.put(new Element(expressionStr,result));
-        }else{
-            result = cachedResult.getObjectValue();
-        }
-        return (Expression)result;
-    }
+//    protected static Expression getExpression(String expressionStr){
+//        Element cachedResult = expressionCache.get(expressionStr);
+//        Object result;
+//        if(cachedResult==null){
+//            result = parser.parseExpression(expressionStr);
+//            expressionCache.put(new Element(expressionStr,result));
+//        }else{
+//            result = cachedResult.getObjectValue();
+//        }
+//        return (Expression)result;
+//    }
 }
