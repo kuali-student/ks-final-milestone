@@ -1811,6 +1811,18 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
     }
 
     @Override
+    public StatusInfo changeColocatedOfferingSetState(String colocatedOfferingSetId, String nextStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        ColocatedOfferingSetInfo colocatedOfferingSetInfo = colocatedOfferingSetMap.get(colocatedOfferingSetId);
+        if (colocatedOfferingSetInfo == null) {
+            throw new DoesNotExistException(colocatedOfferingSetId);
+        }
+
+        colocatedOfferingSetInfo.setStateKey(nextStateKey);
+
+        return successStatus();
+    }
+
+    @Override
     public StatusInfo deleteColocatedOfferingSet(String colocatedOfferingSetId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (colocatedOfferingSetMap.remove(colocatedOfferingSetId) == null) {
             throw new DoesNotExistException(colocatedOfferingSetId);

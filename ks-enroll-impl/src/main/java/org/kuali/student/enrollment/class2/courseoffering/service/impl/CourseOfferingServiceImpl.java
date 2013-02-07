@@ -3156,6 +3156,20 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public StatusInfo changeColocatedOfferingSetState(String colocatedOfferingSetId,
+                                                      String nextStateKey,
+                                                      ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Not implemented");
+    }
+
+
+    @Override
     public StatusInfo deleteColocatedOfferingSet(String colocatedOfferingSetId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getLuiService().deleteLuiSet(colocatedOfferingSetId,contextInfo);
     }

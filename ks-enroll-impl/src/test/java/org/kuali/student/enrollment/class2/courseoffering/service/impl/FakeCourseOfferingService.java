@@ -624,6 +624,11 @@ class FakeCourseOfferingService implements CourseOfferingService {
     }
 
     @Override
+    public StatusInfo changeColocatedOfferingSetState(String colocatedOfferingSetId, String nextStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
     public StatusInfo deleteColocatedOfferingSet(String colocatedOfferingSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new RuntimeException("Not implemented");
     }

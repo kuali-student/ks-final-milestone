@@ -581,6 +581,11 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
+    public StatusInfo changeColocatedOfferingSetState(String colocatedOfferingSetId, String nextStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().changeColocatedOfferingSetState(colocatedOfferingSetId, nextStateKey,contextInfo);
+    }
+
+    @Override
     public StatusInfo deleteColocatedOfferingSet(String colocatedOfferingSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteColocatedOfferingSet(colocatedOfferingSetId,contextInfo);
     }
