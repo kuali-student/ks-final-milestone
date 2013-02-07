@@ -72,7 +72,9 @@ public class PlanConstants extends AcademicPlanServiceConstants {
     /*Query keys for getting the termInfos from the academic calender*/
     public static final String PLANNING="PLANNING";
     public static final String INPROGRESS="INPROGRESS";
-    public static final String PUBLISHED="PUBLISHED";
+    public static final String PUBLISHED="kuali.atp.state.Official";
+    public static final String[] EXCLUDE_CALENDAR_TYPES =
+            {"kuali.atp.type.HolidayCalendar","kuali.atp.type.AcademicCalendar"};
 
     public static final String WITHDRAWN_GRADE="W";
     

@@ -58,9 +58,9 @@
                 closingDelay: 500
             }, true, false);
         "/>
-        <!--<property name="toolTip">
+        <property name="toolTip">
           <bean parent="MyPlan-Tooltip" p:tooltipContent="A completed quarter you registered for."/>
-        </property>-->
+        </property>
     </bean>
 
     <bean id="registered_help_icon" parent="MyPlanHelpImage"
@@ -81,9 +81,9 @@
                 closingDelay: 500
             }, true, false);
         "/>
-        <!--<property name="toolTip">
+        <property name="toolTip">
           <bean parent="MyPlan-Tooltip" p:tooltipContent="A course you have enrolled in for current or future academic quarter(s)."/>
-        </property>-->
+        </property>
     </bean>
 
     <bean id="planned_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayPlannedHelp ? true : false}">
@@ -103,9 +103,9 @@
                 closingDelay: 500
             }, true, false);
         "/>
-        <!--<property name="toolTip">
+        <property name="toolTip">
             <bean parent="MyPlan-Tooltip" p:tooltipContent="A course you added to your plan for a specific quarter, but have not or cannot yet register for. MyPlan allows you to create an academic plan, but does not register you.  Check the Time Schedule to verify that your planned courses will be offered that quarter."/>
-        </property>-->
+        </property>
     </bean>
 
     <bean id="backup_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayBackupHelp ? true : false}">
@@ -125,9 +125,9 @@
                 closingDelay: 500
             }, true, false);
         "/>
-        <!--<property name="toolTip">
+        <property name="toolTip">
           <bean parent="MyPlan-Tooltip" p:tooltipContent="A course you&#39;re considering in case a planned course is not available or is full."/>
-        </property>-->
+        </property>
     </bean>
 
     <bean id="total_credits_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayCreditsHelp ? true : false}">
@@ -153,10 +153,10 @@
                     closingDelay: 500
                 }, true, false);
             "/>
-        <!--<property name="toolTip">
+        <property name="toolTip">
           <bean parent="MyPlan-Tooltip" p:tooltipContent="The total number of credits attempted for a completed quarter. Check your transcript to verify earned credits.">
           </bean>
-        </property>-->
+        </property>
     </bean>
 
     <bean id="course_requisite_help_icon" parent="MyPlanHelpImage">

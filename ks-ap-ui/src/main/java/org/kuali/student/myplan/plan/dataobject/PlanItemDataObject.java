@@ -125,4 +125,7 @@ public class PlanItemDataObject {
     public void setAtpIds(List<String> atpIds) {
         this.atpIds = atpIds;
     }
+    public String getIdXmlSafe() {
+        return getId() == null ? null : getId().replace('.', '_');
+    }
 }

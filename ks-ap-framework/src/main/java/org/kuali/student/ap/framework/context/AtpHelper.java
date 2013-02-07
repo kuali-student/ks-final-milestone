@@ -42,8 +42,18 @@ public interface AtpHelper {
      */
     String[] atpIdToTermNameAndYear(String atpId);
 
+    /**
+     * Converts the term and year into a atp id ... {"Autumn", "1991"} -> "19914"
+     *
+     * @return A string holding the atp id.
+     */
     String getAtpIdFromTermAndYear(String term, String year);
 
+    /**
+     * Converts the term and year into a atp id ... {"1", "1991"} -> "19911"
+     *
+     * @return
+     */
     String getAtpFromNumTermAndYear(String term, String year) ;
 
     /**
@@ -63,15 +73,23 @@ public interface AtpHelper {
     boolean isAtpSetToPlanning(String atpId);
 
     /**
-     * Returns  if an ATP is considered present or greater in the context of
-     * WHAT? Otherwise, false.
+     * Returns true if an ATP is considered present or greater in the context of
+     * the current term's atp. Otherwise, false.
      *
      * @param atpId
      * @return
      */
     boolean isAtpCompletedTerm(String atpId);
 
+    /**
+     * Checks if the atp id passed in is valid to the form being sent in.
+     *
+     * @return True if the atp passes validation, false otherwise
+     */
     boolean isAtpIdFormatValid(String atpId);
 
+    /**
+     * Adds an error to the page
+     */
     void addServiceError(String propertyName);
 }

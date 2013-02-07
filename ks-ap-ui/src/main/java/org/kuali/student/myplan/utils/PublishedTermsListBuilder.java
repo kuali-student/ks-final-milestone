@@ -75,8 +75,14 @@ public class PublishedTermsListBuilder extends KeyValuesBase {
 		if (termInfos != null) {
 			// Add the individual term items.
 			for (TermInfo ti : termInfos) {
-				keyValues.add(new ConcreteKeyValue(ti.getId(), ti.getName()
-						+ suffix));
+                boolean include = true;
+                for(String excludeType : PlanConstants.EXCLUDE_CALENDAR_TYPES){
+                    if(ti.getTypeKey().equalsIgnoreCase(excludeType)){
+                        include=false;
+                        break;
+                    }
+                }
+                if(include) keyValues.add(new ConcreteKeyValue(ti.getId(), ti.getName() + suffix));
 			}
 		}
 
