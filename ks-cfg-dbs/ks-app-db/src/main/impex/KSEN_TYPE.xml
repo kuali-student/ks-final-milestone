@@ -2196,6 +2196,13 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/organization/OrgInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/organization/OrganizationService"
         TYPE_KEY="kuali.org.SubDepartment" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20130207000000"
+        DESCR_FORMATTED="Subject Code (Organization Type)"
+        DESCR_PLAIN="Subject Code (Organization Type)"
+        NAME="Subject Code"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/organization/OrgInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/organization/OrganizationService"
+        TYPE_KEY="kuali.org.SubjectCode" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20121220000000"
         DESCR_FORMATTED="Testing Service (Organization Type)"
         DESCR_PLAIN="Testing Service (Organization Type)"
@@ -2210,6 +2217,13 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/organization/OrgInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/organization/OrganizationService"
         TYPE_KEY="kuali.org.UniversitySupport" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20130207000000"
+        DESCR_FORMATTED="Subject Code To Org (Org-Org Type)"
+        DESCR_PLAIN="Subject Code To Org (Org-Org Type)"
+        NAME="Subject Code To Org (Org-Org Type)"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/organization/OrgInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/organization/OrganizationService"
+        TYPE_KEY="kuali.org.org.relation.type.subjectcode2org" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
         DESCR_FORMATTED="A list of populations (childPopulationIds) and the reference population (referencePopulationId) must be supplied; results of the reference populations (e.g., all students) less the populations represented in the list (not in) determine the membership"
         DESCR_PLAIN="A list of populations (childPopulationIds) and the reference population (referencePopulationId) must be supplied; results of the reference populations (e.g., all students) less the populations represented in the list (not in) determine the membership"
