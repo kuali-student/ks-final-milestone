@@ -39,8 +39,9 @@ function calculatePercent(jqObject){
     var seatsTotal = 0;
     var maxEnrollValue = 0;
 
-    // 2 different calculations: when on Edit page and when on View page, unfortunately IDs set up differently by KRAD
+    // 3 different calculations: when on Edit page and when on View page, unfortunately IDs set up differently by KRAD
     var maxEnrollView = jQuery('span[id=maximumEnrollment]');
+    var maxEnroll =  jQuery('#maximumEnrollment_control');
 
     if (maxEnrollView.length > 0) { // View page
         maxEnrollValue = maxEnrollView.text().trim();
@@ -62,8 +63,30 @@ function calculatePercent(jqObject){
             }
         });
         seatpoolCount.text(count);
+    } else if ( maxEnrollView.length == 0 && maxEnroll.hasClass("uif-readOnlyContent") ) { // View page
+        maxEnrollValue = maxEnrollView.text().trim();
+        if (maxEnrollValue == "") {
+            maxEnrollValue = maxEnroll.text().trim();
+        }
+        var rows = jQuery('span[id^=seatLimit_line]');
+        rows.each(function () {
+            var id = jQuery(this).attr('id');
+            if(id.indexOf("_control") != -1) {
+                var num = id.substring(14,15);
+                var elemPct = jQuery('#seatLimitPercent_line' + num + ' span[class=uif-message]');
+                var seatsNum = jQuery(this).text().trim();
+                count += 1;
+                if (maxEnrollValue != "" && maxEnrollValue != 0 && seatsNum != "") {
+                    seatsTotal = parseInt(seatsTotal) + parseInt(seatsNum);
+                    var result = (seatsNum / maxEnrollValue) * 100;
+                    elemPct.text(Math.round(result) + "%");
+                } else {
+                    elemPct.text("");
+                }
+            }
+        });
+        seatpoolCount.text(count);
     } else { // Edit page (different IDs)
-        var maxEnroll =  jQuery('#maximumEnrollment_control');
         maxEnrollValue = maxEnroll.val();
         var rows = jQuery("[id^='seatLimit_line']");
         rows.each(function () {
