@@ -55,8 +55,31 @@ public class TermsFacet extends AbstractFacet {
 				&& 0 != course.getTermInfoList().size()) {
 			for (String term : course.getTermInfoList()) {
 				// Title-case the term name.
-				String termName = PROJECTED_TERM_PREFIX
-						+ term.substring(0, 2).toUpperCase();
+				String termName;
+				try {
+					termName = PROJECTED_TERM_PREFIX
+							+ KsapFrameworkServiceLocator
+									.getTypeService()
+									.getType(
+											term,
+											KsapFrameworkServiceLocator
+													.getContext()
+													.getContextInfo())
+									.getName().substring(0, 2).toUpperCase();
+				} catch (DoesNotExistException e) {
+					throw new IllegalArgumentException("Invalid term type "
+							+ term, e);
+				} catch (InvalidParameterException e) {
+					throw new IllegalArgumentException("Invalid term type "
+							+ term, e);
+				} catch (MissingParameterException e) {
+					throw new IllegalArgumentException("Invalid term type "
+							+ term, e);
+				} catch (OperationFailedException e) {
+					throw new IllegalStateException("Type lookup error", e);
+				} catch (PermissionDeniedException e) {
+					throw new IllegalStateException("Type lookup error", e);
+				}
 				String key = FACET_KEY_DELIMITER + termName
 						+ FACET_KEY_DELIMITER;
 
@@ -183,6 +206,7 @@ public class TermsFacet extends AbstractFacet {
 	}
 
 	private enum TermOrder {
-		AU, WI, SP, SU
+		FA, AU, WI, SP, SU
 	}
+	
 }

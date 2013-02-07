@@ -16,20 +16,21 @@
 package org.kuali.student.myplan.course.controller;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.log4j.Logger;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -59,13 +60,15 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/course/**")
 public class CourseSearchController extends UifControllerBase {
 
+	private static final Logger LOG = Logger
+			.getLogger(CourseSearchController.class);
+
 	private CourseSearchStrategy searcher = KsapFrameworkServiceLocator
 			.getCourseSearchStrategy();
 
 	private CampusSearch campusSearch = new CampusSearch();
 
-	// Java to JSON outputter.
-	private transient ObjectMapper mapper = new ObjectMapper();
+	private ObjectMapper mapper = new ObjectMapper();
 
 	@Override
 	protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -198,86 +201,26 @@ public class CourseSearchController extends UifControllerBase {
 		List<CourseSearchItem> courses = searcher.courseSearch(form, user);
 
 		// Building the Json String
-		StringBuilder jsonString = new StringBuilder();
-		jsonString = jsonString.append("{ \"aaData\":[");
+		ArrayNode aaData = mapper.createArrayNode();
 		for (CourseSearchItem item : courses) {
-			String status = "";
-			String scheduledAndOfferedTerms = mapper.writeValueAsString(item
-					.getScheduledAndOfferedTerms());
-			String cid = item.getCourseId().replace('.', '_');
-			if (item.getStatus().getLabel().length() > 0) {
-				status = "<span id=\\\"" + cid + "_status\\\" class=\\\""
-						+ item.getStatus().getLabel().toLowerCase() + "\\\">"
-						+ item.getStatus().getLabel() + "</span>";
-			} else if (KsapFrameworkServiceLocator.getUserSessionHelper()
-					.isAdviser()) {
-				status = "<span id=\\\"" + cid + "_status\\\">"
-						+ CourseSearchItem.EMPTY_RESULT_VALUE_KEY + "</span>";
-			} else {
-				status = "<span id=\\\""
-						+ cid
-						+ "_status\\\"><input id=\\\""
-						+ cid
-						+ "_add_anchor\\\" type=\\\"image\\\" title=\\\"Bookmark or Add to Plan\\\" src=\\\""
-						+ ConfigContext.getCurrentContextConfig().getProperty(
-								"ks.myplan.externalizable.images.url")
-						+ "pixel.gif\\\" alt=\\\"Bookmark or Add to Plan\\\" class=\\\"uif-field uif-imageField myplan-add uif-tooltip\\\" data-courseid=\\\""
-						+ item.getCourseId()
-						+ "\\\" data-coursexid=\\\""
-						+ cid
-						+ "\\\" onclick=\\\"openMenu('"
-						+ cid
-						+ "_add','add_course_items',null,event,null,'myplan-container-75',{tail:{align:'middle'},align:'middle',position:'right'},false);\\\" /></span>";
-
-			}
-			String courseName = "";
-			if (item.getCourseName() != null) {
-				courseName = item.getCourseName().replace("\"", "'");
-			}
-
-			jsonString = jsonString
-					.append("[\"")
-					.append(item.getCode())
-					.append("\",\"")
-					.append(" <a href=\\")
-					.append("\"inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId=")
-					.append(item.getCourseId());
-			Map<String, String> ap = form.getAdditionalParams();
-			if (ap != null)
-				for (Entry<String, String> e : ap.entrySet())
-					jsonString.append('&')
-							.append(URLEncoder.encode(e.getKey(), "UTF-8"))
-							.append('=')
-							.append(URLEncoder.encode(e.getValue(), "UTF-8"));
-			String jcn = StringEscapeUtils.escapeJavaScript(StringEscapeUtils
-					.escapeHtml(courseName));
-			jsonString.append("\\").append("\" target=\\").append("\"_self\\")
-					.append("\" title=\\").append("\"").append(jcn)
-					.append("\\").append("\"").append(" class=\\")
-					.append("\"myplan-text-ellipsis\\").append("\">")
-					.append(jcn).append("</a>\"").append(",\"")
-					.append(item.getCredit()).append("\",")
-					.append(scheduledAndOfferedTerms).append(",\"")
-					.append(item.getGenEduReq()).append("\",\"").append(status)
-					.append("\",\"").append(item.getTermsFacetKeys())
-					.append("\",\"").append(item.getGenEduReqFacetKeys())
-					.append("\",\"").append(item.getCreditsFacetKeys())
-					.append("\",\"").append(item.getCourseLevelFacetKeys())
-					.append("\",\"").append(item.getCurriculumFacetKeys())
-					.append("\"]").append(", ");
+			ArrayNode cs = mapper.createArrayNode();
+			for (String col : item.getSearchColumns())
+				cs.add(col);
+			aaData.add(cs);
 		}
-		String jsonStr = null;
-		if (!jsonString.toString().equalsIgnoreCase("{ \"aaData\":[")) {
-			jsonStr = jsonString.substring(0, jsonString.lastIndexOf(","));
-		} else {
-			jsonStr = jsonString.toString();
-		}
-		jsonStr = jsonStr + "]" + "}";
+		ObjectNode json = mapper.createObjectNode();
+		json.put("aaData", aaData);
+		String jsonString = mapper.writeValueAsString(json);
+		if (LOG.isDebugEnabled())
+			LOG.debug("JSON output : "
+					+ (jsonString.length() < 16384 ? jsonString : jsonString
+							.substring(0, 16384)));
+
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "No-cache");
 		response.setHeader("Cache-Control", "No-store");
 		response.setHeader("Cache-Control", "max-age=0");
-		response.getWriter().println(jsonStr);
+		response.getWriter().println(jsonString);
 	}
 
 	@RequestMapping(params = "methodToCall=searchForCourses")

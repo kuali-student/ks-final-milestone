@@ -1,7 +1,6 @@
 package org.kuali.student.ap.framework.course;
 
 import java.util.List;
-import java.util.Map;
 
 public interface CourseSearchForm {
 
@@ -19,6 +18,4 @@ public interface CourseSearchForm {
 
 	void setSearchTerm(String searchTerm);
 
-	Map<String, String> getAdditionalParams();
-	
 }

@@ -6,8 +6,8 @@
 body {
     /*color: #333;
     font: normal 13px/20px Arial, Helvetica, Verdana, sans-serif;
-    background: #ffffff; /*Default background */
-    padding: 0 !important;
+    background: #ffffff; /*Default background * /
+    padding: 0 !important;*/
 }
 strong {
     font-weight: 700;
@@ -534,7 +534,7 @@ input.myplan-add:hover {
     display: inline-block;
 }
 /* Seasonal colors */
-.AU .FA {
+.AU, .FA {
     background: #FFCCCC !important;
 }
 .WI{

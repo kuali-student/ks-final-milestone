@@ -1,12 +1,18 @@
 package org.kuali.student.myplan.course.dataobject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.myplan.course.util.CollectionListPropertyEditorHtmlListType;
@@ -183,14 +189,15 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 			termsListItem.addAttribute("class", "projected");
 			Element termListElement = termsListItem.addElement(listType
 					.getListElementName()); // dl
-			for (String termId : termInfoList) {
+			for (String atpTypeKey : termInfoList) {
 				Element scheduledListItem = termListElement.addElement(listType
 						.getListItemElementName()); // dd
 				String term;
 				try {
 					term = KsapFrameworkServiceLocator
-							.getAtpService()
-							.getAtp(termId,
+							.getTypeService()
+							.getType(
+									atpTypeKey,
 									KsapFrameworkServiceLocator.getContext()
 											.getContextInfo()).getName();
 				} catch (DoesNotExistException e) {
@@ -350,8 +357,133 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 		scheduledTermsList.add(term);
 	}
 
+	/**
+	 * Override to provide additional GET parameters on the course inquiry link.
+	 * 
+	 * <p>
+	 * Escaping should not be performed by this method.
+	 * </p>
+	 * 
+	 * @return Additional GET parameters to send on the course inquiry link.
+	 */
+	protected Map<String, String> getInquiryParams() {
+		return Collections.emptyMap();
+	}
+
+	/**
+	 * Form a link to the course details inquiry page related to this search
+	 * item.
+	 * 
+	 * @return A link to the course details inquiry page related to this search
+	 *         item.
+	 */
+	protected String getInquiryLink() {
+		Element iqlink = DocumentHelper.createElement("a");
+		StringBuilder url = new StringBuilder();
+		url.append("inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId=");
+		try {
+			url.append(URLEncoder.encode(getCourseId(), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			throw new IllegalStateException("UTF-8 is unsupported", e);
+		}
+		Map<String, String> ap = getInquiryParams();
+		if (ap != null)
+			for (Entry<String, String> e : ap.entrySet())
+				try {
+					url.append('&')
+							.append(URLEncoder.encode(e.getKey(), "UTF-8"))
+							.append('=')
+							.append(URLEncoder.encode(e.getValue(), "UTF-8"));
+				} catch (UnsupportedEncodingException ex) {
+					throw new IllegalStateException("UTF-8 is unsupported", ex);
+				}
+		iqlink.addAttribute("href", url.toString());
+		iqlink.addAttribute("target", "_self");
+		iqlink.addAttribute("title", getCourseName());
+		iqlink.addAttribute("class", "myplan-text-ellipsis");
+		iqlink.setText(getCourseName());
+		return iqlink.asXML();
+	}
+
+	/**
+	 * Get HTML content for the status column in the search results for this
+	 * item.
+	 * 
+	 * @return HTML content for the status column in the search results for this
+	 *         item.
+	 */
+	protected String getStatusColumn() {
+		assert getCourseId() != null;
+		String cid = getCourseId().replace('.', '_');
+		String statusLabel = getStatus().getLabel();
+
+		Element stsp = DocumentHelper.createElement("span");
+		stsp.addAttribute("id", cid + "_status");
+		if (statusLabel.length() > 0) {
+			stsp.addAttribute("class", statusLabel.toLowerCase());
+			stsp.setText(statusLabel);
+		} else if (KsapFrameworkServiceLocator.getUserSessionHelper()
+				.isAdviser()) {
+			stsp.setText(CourseSearchItem.EMPTY_RESULT_VALUE_KEY);
+		} else {
+			String imagePath = ConfigContext.getCurrentContextConfig()
+					.getProperty("ks.myplan.externalizable.images.url");
+			Element addAnchor = stsp.addElement("input");
+			addAnchor.addAttribute("id", cid + "_add_anchor");
+			addAnchor.addAttribute("class",
+					"uif-field uif-imageField myplan-add");
+			addAnchor.addAttribute("type", "image");
+			addAnchor.addAttribute("title", "Bookmark or Add to Plan");
+			addAnchor.addAttribute("alt", "Bookmark or Add to Plan");
+			addAnchor.addAttribute("src", imagePath + "pixel.gif");
+			addAnchor.addAttribute("data-courseid", courseId);
+			addAnchor.addAttribute("data-coursexid", cid);
+			StringBuilder openMenu = new StringBuilder("openMenu('");
+			openMenu.append(cid);
+			openMenu.append("_add','add_course_items',null,event,null,'myplan-container-75',");
+			openMenu.append("{tail:{align:'middle'},align:'middle',position:'right'},false)");
+			addAnchor.addAttribute("onclick", openMenu.toString());
+		}
+		return stsp.asXML();
+	}
+
+	/**
+	 * Convert a set of facet keys to a string for passing as a column in the
+	 * results for this item.
+	 * 
+	 * @param facetKeys
+	 *            The facet keys related to this item.
+	 * @return A string for passing as a column in the results.
+	 */
+	protected String facetString(Set<String> facetKeys) {
+		StringBuilder sb = new StringBuilder();
+		sb.append('[');
+		boolean first = true;
+		for (String m : facetKeys) {
+			if (first)
+				first = false;
+			else
+				sb.append(',');
+			sb.append(m);
+		}
+		sb.append(']');
+		return sb.toString();
+	}
+
+	@Override
+	public String[] getSearchColumns() {
+		return new String[] { getCode(), getInquiryLink(), getCredit(),
+				getScheduledAndOfferedTerms(), getGenEduReq(),
+				getStatusColumn(), facetString(getTermsFacetKeys()),
+				facetString(getGenEduReqFacetKeys()),
+				facetString(getCreditsFacetKeys()),
+				facetString(getCourseLevelFacetKeys()),
+				facetString(getCurriculumFacetKeys()), };
+	}
+
 	@Override
 	public String toString() {
 		return String.format("%s: %s", getCode(), getCourseId());
 	}
+	
 }

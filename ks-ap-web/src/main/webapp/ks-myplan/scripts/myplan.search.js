@@ -3,6 +3,7 @@ var oFacets = new Object();
 
 var oProjectedTermOrder = {
     "AU":1,
+    "FA":1,
     "WI":2,
     "SP":3,
     "SU":4
@@ -12,7 +13,8 @@ var oScheduledTermOrder = {
     "WI":1,
     "SP":2,
     "SU":3,
-    "AU":4
+    "AU":4,
+    "FA":4
 };
 
 
@@ -128,6 +130,59 @@ jQuery.fn.iterateSorted = function(sorter, print) {
     }
 }(jQuery));
 
+function ksapCourseSearchColumns() {
+	return [ {
+		'sTitle' : 'Code',
+		'bSortable' : true,
+		'bSearchable' : false,
+		'sClass' : 'myplan-text-nowrap sortable',
+		'sWidth' : '73px',
+		'sType' : 'string'
+	}, {
+		'sTitle' : 'Course Name',
+		'bSortable' : true,
+		'bSearchable' : false,
+		'sClass' : 'sortable',
+		'sWidth' : '170px'
+	}, {
+		'sTitle' : 'Credits',
+		'bSortable' : false,
+		'bSearchable' : false,
+		'sWidth' : '34px'
+	}, {
+		'sTitle' : 'Terms Offered',
+		'bSortable' : false,
+		'bSearchable' : false,
+		'sClass' : 'myplan-data-list',
+		'sWidth' : '76px'
+	}, {
+		'sTitle' : 'Gen Edu Req',
+		'bSortable' : false,
+		'bSearchable' : false,
+		'sWidth' : '66px'
+	}, {
+		'sTitle' : '',
+		'bSortable' : false,
+		'bSearchable' : false,
+		'sClass' : 'myplan-status-column',
+		'sWidth' : '69px'
+	}, {
+		'bVisible' : false
+	}, {
+		'bVisible' : false
+	}, {
+		'bVisible' : false
+	}, {
+		'bVisible' : false
+	}, {
+		'bVisible' : false
+	} ];
+}
+
+function ksapCourseSearchTableWidth() {
+	return 548;
+}
+
 function searchForCourses(id, parentId) {
     var results = jQuery("#" + parentId); // course_search_results_panel
     results.fadeOut("fast");
@@ -141,19 +196,7 @@ function searchForCourses(id, parentId) {
     oTable = jQuery("#" + id).dataTable({
         aLengthMenu: [20,50,100],
         aaSorting : [],
-        aoColumns: [
-            {'sTitle':'Code', 'bSortable':true, 'bSearchable':false, 'sClass':'myplan-text-nowrap sortable', 'sWidth':'73px', 'sType': 'string'},
-            {'sTitle':'Course Name', 'bSortable':true, 'bSearchable':false, 'sClass':'sortable', 'sWidth':'170px'},
-            {'sTitle':'Credits', 'bSortable':false, 'bSearchable':false, 'sWidth':'34px'},
-            {'sTitle':'Terms Offered', 'bSortable':false, 'bSearchable':false, 'sClass':'myplan-data-list', 'sWidth':'76px'},
-            {'sTitle':'Gen Edu Req', 'bSortable':false, 'bSearchable':false, 'sWidth':'66px'},
-            {'sTitle':'', 'bSortable':false, 'bSearchable':false, 'sClass':'myplan-status-column', 'sWidth':'69px'},
-            {'bVisible':false},
-            {'bVisible':false},
-            {'bVisible':false},
-            {'bVisible':false},
-            {'bVisible':false}
-        ],
+        aoColumns: ksapCourseSearchColumns(),
         bAutoWidth: false,
         bDeferRender: true,
         bDestroy: true,
@@ -178,7 +221,7 @@ function searchForCourses(id, parentId) {
         fnInitComplete: function(oSettings, json) {
             oTable.fnDraw();
             results.fadeIn("fast");
-            results.find("table#" + id).width(548);
+            results.find("table#" + id).width(ksapCourseSearchTableWidth());
             jQuery(".myplan-facets-group .uif-disclosureContent .uif-boxLayout").each(function() {
                 jQuery(this).empty();
             });
@@ -192,7 +235,9 @@ function searchForCourses(id, parentId) {
                 data: aoData,
                 success: function(data, textStatus, jqXHR) {
                 	fnCallback(data, textStatus, jqXHR);
-                    initBubblePopups();
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                	showGrowl(textStatus + " " + errorThrown, "Search Error");
                 },
                 statusCode: {
                     500: function() { showGrowl("500 Internal Server Error","Fatal Error"); }

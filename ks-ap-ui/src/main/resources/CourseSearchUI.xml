@@ -13,9 +13,10 @@
          express or implied. See the License for the specific language governing permissions
          and limitations under the License. -->
 
-
-    <bean id="CourseSearch-FormView" parent="MyPlanFormView">
+    <bean id="CourseSearch-FormView" parent="CourseSearch-FormView-parent">
         <property name="id" value="CourseSearch-FormView"/>
+    </bean>
+    <bean id="CourseSearch-FormView-parent" parent="MyPlanFormView">
         <property name="headerText" value="Find Courses"/>
         <property name="entryPageId" value="course_search"/>
         <property name="cssClasses">
@@ -88,6 +89,35 @@
         </property>
     </bean>
 
+    <bean id="course_search_criteria_input" parent="course_search_criteria_input-parent" />
+    <bean id="course_search_criteria_input-parent" parent="Uif-TextControl"
+    		p:watermarkText="e.g. COM, Math 124, ENGL 1XX, sun">
+        <property name="onDocumentReadyScript" value="
+        	if (jQuery('#text_searchQuery_control').val() != '') {
+          var sb = jQuery('button.course-search-submit');
+                sb.attr('disabled', false);
+                sb.removeClass('disabled');
+        		sb.click();
+        	}"/>
+        <property name="onLoadScript" value="jQuery(this).blur();"/>
+        <property name="onKeyUpScript" value="
+         var sb = jQuery('button.course-search-submit');
+            if (jQuery(this).val().length > 0) {
+                sb.attr('disabled', false);
+                sb.removeClass('disabled');
+            } else {
+                sb.attr('disabled', true);
+                sb.addClass('disabled');
+            }"/>
+        <property name="onKeyPressScript" value="
+            var code = (e.keyCode ? e.keyCode : e.which);
+            if (code == 13) {
+                e.preventDefault ? e.preventDefault() : e.returnValue = false;
+                jQuery('button.course-search-submit').click();
+            }
+        "/>
+    </bean>
+
     <!-- Group for Search Input Fields -->
     <bean id="course_search_fields" parent="Uif-HorizontalFieldGroup" p:style="margin:0 0 20px 0;" p:group.validationMessages.render="false">
         <property name="items">
@@ -95,33 +125,7 @@
                 <bean id="text_searchQuery" parent="Uif-InputField" p:propertyName="searchQuery" p:label="Search for"
                       p:fieldLabel.renderColon="false">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:watermarkText="e.g. COM, Math 124, ENGL 1XX, sun">
-
-                            <property name="onDocumentReadyScript" value="
-                            	if (jQuery('#text_searchQuery_control').val() != '') {
-		                            var sb = jQuery('button.course-search-submit');
-                                    sb.attr('disabled', false);
-                                    sb.removeClass('disabled');
-                            		sb.click();
-                            	}"/>
-                            <property name="onLoadScript" value="jQuery(this).blur();"/>
-                            <property name="onKeyUpScript" value="
-	                            var sb = jQuery('button.course-search-submit');
-                                if (jQuery(this).val().length > 0) {
-                                    sb.attr('disabled', false);
-                                    sb.removeClass('disabled');
-                                } else {
-                                    sb.attr('disabled', true);
-                                    sb.addClass('disabled');
-                                }"/>
-                            <property name="onKeyPressScript" value="
-                                var code = (e.keyCode ? e.keyCode : e.which);
-                                if (code == 13) {
-                                    e.preventDefault ? e.preventDefault() : e.returnValue = false;
-                                    jQuery('button.course-search-submit').click();
-                                }
-                            "/>
-                        </bean>
+                    	<ref bean="course_search_criteria_input" />
                     </property>
                 </bean>
                 <bean id="select_searchTerm" parent="Uif-InputField" p:propertyName="searchTerm" p:label="in"
@@ -140,6 +144,8 @@
                             <property name="additionalListItemsTop">
                                 <map>
                                     <entry key="any" value="Any term"/>
+                                    <entry key="projected" value="Projected terms only"/>
+                                    <entry key="scheduled" value="Scheduled terms only"/>
                                 </map>
                             </property>
                         </bean>
@@ -190,7 +196,8 @@
         </property>
     </bean>
 
-    <bean id="course_search_results" parent="Uif-DataTable" p:style="width: 548px; margin:0;">
+    <bean id="course_search_results" parent="course_search_results-parent" />
+    <bean id="course_search_results-parent" parent="Uif-DataTable" p:style="width: 548px; margin:0;">
          <!-- p:ajaxSource="@{#ConfigProperties['courseSearchBaseUrl']}/search/course/@{searchQuery}/@{searchTerm}/@{campusSelect}">-->
         <property name="cssClasses">
             <list merge="true">
@@ -285,12 +292,13 @@
         </property>
         <property name="items">
             <list>
-                <ref bean="facet_quarter"/>
-                <ref bean="facet_genedureq"/>
-                <ref bean="facet_credits"/>
-                <ref bean="facet_level"/>
-                <ref bean="facet_curriculum"/>
-                <ref bean="add_course_items"/>
+                <ref bean="facet_quarter" />
+                <ref bean="facet_genedureq" />
+                <ref bean="facet_credits" />
+                <ref bean="facet_level" />
+                <ref bean="facet_curriculum" />
+                <ref bean="add_course_items" />
+                <ref bean="course_quick_detail" />
             </list>
         </property>
     </bean>
@@ -421,6 +429,52 @@
                               value="myPlanAjaxPlanItemMove(jQuery(this).data('courseid'),jQuery(this).data('coursexid'),'courseId','addSavedCourse',e);"/>
                 </bean>
 
+            </list>
+        </property>
+    </bean>
+
+    <!--Add Course Menu-->
+    <bean id="course_quick_detail" parent="Uif-VerticalBoxSubSection"
+    		p:cssClasses="myplan-quick-detail" p:style="margin: 0;">
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.renderColon="false" p:group.validationMessages.render="false">
+                    <property name="items">
+                        <list>
+			                <bean parent="Uif-HorizontalBoxGroup" p:validationMessages.render="false">
+			                    <property name="cssClasses">
+			                        <list merge="true">
+			                            <value>myplan-course-detail-label</value>
+			                        </list>
+			                    </property>
+			                    <property name="items">
+			                        <list>
+			                            <bean parent="Uif-Label" p:labelText="Hello"
+			                                  p:renderColon="false"/>
+			
+			                        </list>
+			                    </property>
+			                </bean>
+			                <bean parent="Uif-HorizontalBoxGroup" p:validationMessages.render="false">
+			                    <property name="cssClasses">
+			                        <list merge="true">
+			                            <value>myplan-course-detail-field</value>
+			                        </list>
+			                    </property>
+			                    <property name="items">
+			                        <list>
+			                            <bean parent="Uif-Message" p:messageText="__KSAP__HELLO__" />
+			                        </list>
+			                    </property>
+			                </bean>
+			            </list>
+			        </property>
+			    </bean>
+                <bean parent="Uif-Link" p:target="" p:href="__KSAP__INQUIRYURL__"
+                      p:linkText="Full details..."
+                      p:title="Course Details"
+                      p:style="margin:0;" />
             </list>
         </property>
     </bean>

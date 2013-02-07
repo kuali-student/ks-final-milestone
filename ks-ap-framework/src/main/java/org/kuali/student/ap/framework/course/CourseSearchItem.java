@@ -107,6 +107,8 @@ public interface CourseSearchItem {
 
     String getGenEduReq();
 
+    String[] getSearchColumns();
+
     void setGenEduReq(String genEduReq);
 
 	void setCurriculumFacetKeys(Set<String> curriculumFacetKeys);

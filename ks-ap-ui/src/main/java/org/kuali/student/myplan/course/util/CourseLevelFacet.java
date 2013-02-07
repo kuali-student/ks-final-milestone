@@ -59,7 +59,7 @@ public class CourseLevelFacet extends AbstractFacet {
 		}
 		courseFacetSet.add(level);
 
-		key = FACET_KEY_DELIMITER + key + FACET_KEY_DELIMITER;
+		key = FACET_KEY_DELIMITER + level + FACET_KEY_DELIMITER;
 
 		// Code the item with the facet key.
 		Set<String> keys = new HashSet<String>();

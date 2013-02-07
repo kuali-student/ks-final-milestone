@@ -15,7 +15,6 @@
 package org.kuali.student.myplan.course.form;
 
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.framework.course.CourseSearchForm;
@@ -28,7 +27,6 @@ public class CourseSearchFormImpl extends UifFormBase implements
 	private String searchQuery;
 	private String searchTerm = SEARCH_TERM_ANY_ITEM;
 	private List<String> campusSelect;
-	private Map<String, String> additionalParams;
 
 	@Override
 	public List<String> getCampusSelect() {
@@ -55,15 +53,6 @@ public class CourseSearchFormImpl extends UifFormBase implements
 
 	public void setSearchTerm(String searchTerm) {
 		this.searchTerm = searchTerm;
-	}
-
-	@Override
-	public Map<String, String> getAdditionalParams() {
-		return additionalParams;
-	}
-
-	public void setAdditionalParams(Map<String, String> additionalParams) {
-		this.additionalParams = additionalParams;
 	}
 
 }

@@ -223,7 +223,9 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
     }
 
     fnCloseAllPopups();
-
+    
+    popupBox.addClass("uif-tooltip");
+    initBubblePopups();
     popupBox.SetBubblePopupOptions(popupSettings, true);
     popupBox.SetBubblePopupInnerHtml(popupSettings.innerHTML, true);
     popupBox.ShowBubblePopup();
@@ -245,6 +247,12 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
             jQuery("#" + nlid).attr("data-" + key, value);
         });
     });
+    var tc = jQuery("#" + id + "_popup"); 
+	var ic = tc.html(); 
+    jQuery.each(popupBox.data(), function (key, value) {
+    	ic = eval("ic.replace(/__KSAP__"+key+"__/gi,'"+value+"')");
+    });
+    tc.html(ic);
 
     if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").append('<img src="../ks-myplan/images/btnClose.png" class="myplan-popup-close"/>');
 
@@ -862,7 +870,7 @@ function fnBuildTitle(aView) {
     var sText = 'Academic Year';
     var aFirst = jQuery.trim(jQuery(aView[0]).find("div:hidden[id^='plan_base_atpId']").text()).split(".");
     var aLast = jQuery.trim(jQuery(aView[aView.length - 1]).find("div:hidden[id^='plan_base_atpId']").text()).split(".");
-    jQuery("#planned_courses_detail .myplan-plan-header").html(sText + ' ' + 'Fall ' + aFirst[0].substring(0,4) + '-' +'Summer '+ aLast[0].substring(0,4));
+    jQuery("#planned_courses_detail .myplan-plan-header").html(sText + ' ' + aFirst[3] + '-' + aLast[3]);
 }
 /*
  ######################################################################################
