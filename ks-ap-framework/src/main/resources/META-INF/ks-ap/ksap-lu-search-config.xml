@@ -541,10 +541,10 @@
                         JOIN attr.owner clu
                         JOIN clu.officialIdentifier ident
                         WHERE
-                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                       <!-- clu.expectedFirstAtp &lt;= :lastScheduledTerm-->
                         <!--AND clu.lastAtp &gt;= :currentTerm-->
-                        AND clu.lastAtp &gt;= :lastScheduledTerm
-                        AND
+                        <!--AND clu.lastAtp &gt;= :lastScheduledTerm-->
+                        <!--AND-->
                         ident.division = :division
                         AND
                         attr.name = 'course.campus'

@@ -67,8 +67,8 @@ public class CurriculumFacet extends AbstractFacet {
 	 */
 	@Override
 	public void process(CourseSearchItem course) {
-
-		String subject;
+        String subject = course.getSubject();
+		/*String subject;
 		try {
 			subject = KsapFrameworkServiceLocator
 					.getOrganizationService()
@@ -85,7 +85,7 @@ public class CurriculumFacet extends AbstractFacet {
 			throw new IllegalStateException("ORG lookup error", e);
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("ORG lookup error", e);
-		}
+		}*/
 
 		if (subject == null || subject.equals("")) {
 			subject = unknownFacetKey;

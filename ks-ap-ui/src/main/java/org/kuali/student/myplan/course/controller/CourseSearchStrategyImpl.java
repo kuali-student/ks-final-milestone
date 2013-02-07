@@ -266,10 +266,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		course.setCode(getCellValue(row, "course.code"));
 
 		Credit credit = getCreditByID(getCellValue(row, "course.credits"));
-		course.setCreditMin(credit.getMin());
-		course.setCreditMax(credit.getMax());
-		course.setCreditType(credit.getType());
-		course.setCredit(credit.getDisplay());
+		course.setCreditMin(0);//credit.getMin());
+		course.setCreditMax(0);//credit.getMax());
+		course.setCreditType(CourseSearchItemImpl.CreditType.unknown);//credit.getType());
+		course.setCredit("");//credit.getDisplay());
 
 		LOG.info("End of method getCourseInfo of CourseSearchController:"
 				+ System.currentTimeMillis());
@@ -331,7 +331,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		List<TermInfo> terms;
 		try {
 			terms = atpService.searchForTerms(QueryByCriteria.Builder
-					.fromPredicates(equalIgnoreCase("query",
+					.fromPredicates(equalIgnoreCase("atpState",
 							PlanConstants.PUBLISHED)),
 					KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (InvalidParameterException e) {
@@ -608,7 +608,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			CourseSearchItem course = getCourseInfo(hit.courseID);
 			if (isCourseOffered(form, course)) {
 				loadScheduledTerms(course);
-				loadTermsOffered(course);
+				//loadTermsOffered(course);              //myplan.course.info.atp -> wrong search
 				loadGenEduReqs(course);
 				String courseId = course.getCourseId();
 				if (courseStatusMap.containsKey(courseId)) {
