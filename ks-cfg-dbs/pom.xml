@@ -85,7 +85,6 @@ the names of these properties are fixed to what the plugin supports -->
                             </goals>
                             <configuration>
                                 <location>${plugin.spring.context.db}</location>
-                                <propertiesBeanName>deploy.mavenProperties</propertiesBeanName>
                             </configuration>
                         </execution>
                     </executions>
@@ -354,6 +353,9 @@ the names of these properties are fixed to what the plugin supports -->
         </profile>
         <profile>
             <id>impex-generate-sql</id>
+            <properties>
+
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -363,6 +365,10 @@ the names of these properties are fixed to what the plugin supports -->
                     <plugin>
                         <groupId>org.kuali.maven.plugins</groupId>
                         <artifactId>metainf-maven-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.kuali.maven.plugins</groupId>
+                        <artifactId>spring-maven-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>
