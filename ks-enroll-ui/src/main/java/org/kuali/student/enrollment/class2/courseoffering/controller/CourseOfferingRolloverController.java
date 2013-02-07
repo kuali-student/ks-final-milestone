@@ -545,7 +545,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                 form.setSocReleasedToDepts(true);
             } else {
                 // It's draft, so change to state to open
-                _getSocService().updateSocState(socInfo.getId(), CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY, new ContextInfo());
+                _getSocService().changeSocState(socInfo.getId(), CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY, new ContextInfo());
                 form.setSocReleasedToDepts(true);
             }
             // Do a refresh of the data on rollover details

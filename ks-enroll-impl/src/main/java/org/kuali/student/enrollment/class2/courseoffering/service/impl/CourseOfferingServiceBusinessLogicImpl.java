@@ -666,7 +666,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 for (ValidationResultInfo validation: validations) {
                     if (validation.isWarn()) {
                         // If any validation is an error, then make this invalid
-                        coService.updateRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, contextInfo);
+                        coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, contextInfo);
                         break;
                     }
                 }

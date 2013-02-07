@@ -1872,7 +1872,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
     }
 
     @Override
-    public StatusInfo updateCourseOfferingState(
+    public StatusInfo changeCourseOfferingState(
             String courseOfferingId,
             String nextStateKey,
              ContextInfo contextInfo)
@@ -1894,12 +1894,12 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             return successStatus();
 
         } catch (Exception e) {
-            throw new OperationFailedException("updateCourseOfferingState (id=" + courseOfferingId + ", nextStateKey=" + nextStateKey, e);
+            throw new OperationFailedException("changeCourseOfferingState (id=" + courseOfferingId + ", nextStateKey=" + nextStateKey, e);
         }
     }
 
     @Override
-    public StatusInfo updateFormatOfferingState(
+    public StatusInfo changeFormatOfferingState(
             String formatOfferingId,
             String nextStateKey,
              ContextInfo contextInfo)
@@ -1919,12 +1919,12 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             return successStatus();
 
         } catch (Exception e) {
-            throw new OperationFailedException("updateFormatOfferingState (id=" + formatOfferingId + ", nextStateKey=" + nextStateKey, e);
+            throw new OperationFailedException("changeFormatOfferingState (id=" + formatOfferingId + ", nextStateKey=" + nextStateKey, e);
         }
     }
 
     @Override
-    public StatusInfo updateActivityOfferingState(
+    public StatusInfo changeActivityOfferingState(
             String activityOfferingId,
             String nextStateKey,
              ContextInfo contextInfo)
@@ -1946,12 +1946,12 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             return successStatus();
 
         } catch (Exception e) {
-            throw new OperationFailedException("updateActivityOfferingState (id=" + activityOfferingId + ", nextStateKey=" + nextStateKey, e);
+            throw new OperationFailedException("changeActivityOfferingState (id=" + activityOfferingId + ", nextStateKey=" + nextStateKey, e);
         }
     }
 
     @Override
-    public StatusInfo updateRegistrationGroupState(
+    public StatusInfo changeRegistrationGroupState(
             String registrationGroupId,
             String nextStateKey,
              ContextInfo contextInfo)
@@ -1972,12 +1972,12 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             return successStatus();
 
         } catch (Exception e) {
-            throw new OperationFailedException("updateRegistrationGroupState (id=" + registrationGroupId + ", nextStateKey=" + nextStateKey, e);
+            throw new OperationFailedException("changeRegistrationGroupState (id=" + registrationGroupId + ", nextStateKey=" + nextStateKey, e);
         }
     }
 
     @Override
-    public StatusInfo updateActivityOfferingClusterState(
+    public StatusInfo changeActivityOfferingClusterState(
             String activityOfferingClusterId,
             String nextStateKey,
              ContextInfo contextInfo)
@@ -1998,12 +1998,12 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             return successStatus();
 
         } catch (Exception e) {
-            throw new OperationFailedException("updateActivityOfferingClusterState (id=" + activityOfferingClusterId + ", nextStateKey=" + nextStateKey, e);
+            throw new OperationFailedException("changeActivityOfferingClusterState (id=" + activityOfferingClusterId + ", nextStateKey=" + nextStateKey, e);
         }
     }
 
     @Override
-    public StatusInfo updateSeatPoolDefinitionState(
+    public StatusInfo changeSeatPoolDefinitionState(
             String seatPoolDefinitionId,
             String nextStateKey,
              ContextInfo contextInfo)
@@ -2024,7 +2024,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             return successStatus();
 
         } catch (Exception e) {
-            throw new OperationFailedException("updateSeatPoolDefinitionState (id=" + seatPoolDefinitionId + ", nextStateKey=" + nextStateKey, e);
+            throw new OperationFailedException("changeSeatPoolDefinitionState (id=" + seatPoolDefinitionId + ", nextStateKey=" + nextStateKey, e);
         }
     }
 

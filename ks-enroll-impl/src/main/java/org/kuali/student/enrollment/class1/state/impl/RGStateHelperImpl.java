@@ -50,7 +50,7 @@ public class RGStateHelperImpl  implements StateHelper {
     public StatusInfo updateState(String id, String nextStateKey, ContextInfo contextInfo) {
         StatusInfo si = null;
         try {
-            si = getCourseOfferingService().updateRegistrationGroupState(id, nextStateKey, contextInfo);
+            si = getCourseOfferingService().changeRegistrationGroupState(id, nextStateKey, contextInfo);
             si.setSuccess(true);
         } catch (Exception e) {
             si.setSuccess(false);

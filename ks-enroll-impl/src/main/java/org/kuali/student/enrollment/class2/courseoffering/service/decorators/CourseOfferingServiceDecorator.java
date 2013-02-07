@@ -604,63 +604,63 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public StatusInfo updateCourseOfferingState(
+    public StatusInfo changeCourseOfferingState(
             String courseOfferingId,
             String nextStateKey,
             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return getNextDecorator().updateCourseOfferingState(courseOfferingId, nextStateKey, contextInfo);
+        return getNextDecorator().changeCourseOfferingState(courseOfferingId, nextStateKey, contextInfo);
     }
 
     @Override
-    public StatusInfo updateFormatOfferingState(
+    public StatusInfo changeFormatOfferingState(
             String formatOfferingId,
             String nextStateKey,
             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return getNextDecorator().updateFormatOfferingState(formatOfferingId, nextStateKey, contextInfo);
+        return getNextDecorator().changeFormatOfferingState(formatOfferingId, nextStateKey, contextInfo);
     }
 
     @Override
-    public StatusInfo updateActivityOfferingState(
+    public StatusInfo changeActivityOfferingState(
             String activityOfferingId,
             String nextStateKey,
             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return getNextDecorator().updateActivityOfferingState(activityOfferingId, nextStateKey, contextInfo);
+        return getNextDecorator().changeActivityOfferingState(activityOfferingId, nextStateKey, contextInfo);
     }
 
     @Override
-    public StatusInfo updateRegistrationGroupState(
+    public StatusInfo changeRegistrationGroupState(
             String registrationGroupId,
             String nextStateKey,
             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return getNextDecorator().updateRegistrationGroupState(registrationGroupId, nextStateKey, contextInfo);
+        return getNextDecorator().changeRegistrationGroupState(registrationGroupId, nextStateKey, contextInfo);
     }
 
     @Override
-    public StatusInfo updateActivityOfferingClusterState(
+    public StatusInfo changeActivityOfferingClusterState(
             String activityOfferingClusterId,
             String nextStateKey,
             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return getNextDecorator().updateActivityOfferingClusterState(activityOfferingClusterId, nextStateKey, contextInfo);
+        return getNextDecorator().changeActivityOfferingClusterState(activityOfferingClusterId, nextStateKey, contextInfo);
     }
 
     @Override
-    public StatusInfo updateSeatPoolDefinitionState(
+    public StatusInfo changeSeatPoolDefinitionState(
             String seatPoolDefinitionId,
             String nextStateKey,
             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return getNextDecorator().updateSeatPoolDefinitionState(seatPoolDefinitionId, nextStateKey, contextInfo);
+        return getNextDecorator().changeSeatPoolDefinitionState(seatPoolDefinitionId, nextStateKey, contextInfo);
     }
 
     @Override

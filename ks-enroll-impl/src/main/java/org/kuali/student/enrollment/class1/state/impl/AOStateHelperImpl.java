@@ -35,7 +35,7 @@ public class AOStateHelperImpl implements StateHelper {
     public StatusInfo updateState(String id, String nextStateKey, ContextInfo contextInfo) {
         StatusInfo si = null;
         try {
-            si = getCourseOfferingService().updateActivityOfferingState(id, nextStateKey, contextInfo);
+            si = getCourseOfferingService().changeActivityOfferingState(id, nextStateKey, contextInfo);
             si.setSuccess(true);
         } catch (Exception e) {
             si.setSuccess(false);

@@ -196,7 +196,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
         SocInfo copy = new SocInfo(socInfo);
         SocInfo old = this.getSoc(socInfo.getId(), context);
         if (!socInfo.getStateKey().equals(old.getStateKey())) {
-            throw new ReadOnlyException ("state key can only be changed by calling updateSocState");
+            throw new ReadOnlyException ("state key can only be changed by calling changeSocState");
         }
         if ( ! old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
             throw new VersionMismatchException(old.getMeta().getVersionInd());
@@ -661,9 +661,9 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     }
 
     @Override
-    public StatusInfo updateSocState(String socId,
-            String nextStateKey,
-             ContextInfo contextInfo)
+    public StatusInfo changeSocState(String socId,
+                                     String nextStateKey,
+                                     ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -688,7 +688,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
             return newStatus();
 
         } catch (Exception e) {
-            throw new OperationFailedException("updateSocState (id=" + socId + ", nextStateKey=" + nextStateKey, e);
+            throw new OperationFailedException("changeSocState (id=" + socId + ", nextStateKey=" + nextStateKey, e);
         }
     }
 
@@ -718,7 +718,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
                         if (! hasAOStateChange) {
                             hasAOStateChange = true;
                         }
-                        StatusInfo statusInfo = coService.updateActivityOfferingState(ao.getId(), aoOfferedKey, contextInfo);
+                        StatusInfo statusInfo = coService.changeActivityOfferingState(ao.getId(), aoOfferedKey, contextInfo);
                         if ( ! statusInfo.getIsSuccess()) {
                             LOG.error(String.format("State change failed for AO [%s]: %s", ao.getId(), statusInfo.getMessage()));
                         } else {
@@ -727,7 +727,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
                             }
                         }
                         //  Change the FO state to offered.
-                        statusInfo = coService.updateFormatOfferingState(ao.getFormatOfferingId(), foOfferedKey, contextInfo);
+                        statusInfo = coService.changeFormatOfferingState(ao.getFormatOfferingId(), foOfferedKey, contextInfo);
                         if ( ! statusInfo.getIsSuccess()) {
                             LOG.error(String.format("State change failed for FO [%s]: %s", ao.getFormatOfferingId(), statusInfo.getMessage()));
                         }  else {
@@ -744,7 +744,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
 
                // If an AO changed state then state change the CO.
                if (hasAOStateChange) {
-                    coService.updateCourseOfferingState(coId, LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY, contextInfo);
+                    coService.changeCourseOfferingState(coId, LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY, contextInfo);
                     if (LOG.isDebugEnabled()) {
                         LOG.debug(String.format("Updating CO [%s] state to [%s].", coId, LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
                     }
@@ -754,7 +754,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     }
 
     @Override
-    public StatusInfo updateSocRolloverResultState(
+    public StatusInfo changeSocRolloverResultState(
             String socRolloverResultId,
             String nextStateKey,
              ContextInfo contextInfo)
@@ -775,12 +775,12 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
             return newStatus();
 
         } catch (Exception e) {
-            throw new OperationFailedException("updateSocRolloverResultState (id=" + socRolloverResultId + ", nextStateKey=" + nextStateKey, e);
+            throw new OperationFailedException("changeSocRolloverResultState (id=" + socRolloverResultId + ", nextStateKey=" + nextStateKey, e);
         }
     }
 
     @Override
-    public StatusInfo updateSocRolloverResultItemState(
+    public StatusInfo changeSocRolloverResultItemState(
             String socRolloverResultItemId,
             String nextStateKey,
              ContextInfo contextInfo)
@@ -803,7 +803,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
             return newStatus();
 
         } catch (Exception e) {
-            throw new OperationFailedException("updateSocRolloverResultItemState (id=" + socRolloverResultItemId + ", nextStateKey=" + nextStateKey, e);
+            throw new OperationFailedException("changeSocRolloverResultItemState (id=" + socRolloverResultItemId + ", nextStateKey=" + nextStateKey, e);
         }
     }
 

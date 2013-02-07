@@ -52,7 +52,7 @@ public class FOStateHelperImpl implements StateHelper {
     public StatusInfo updateState(String id, String nextStateKey, ContextInfo contextInfo) {
         StatusInfo si = null;
         try {
-            si = getCourseOfferingService().updateFormatOfferingState(id, nextStateKey, contextInfo);
+            si = getCourseOfferingService().changeFormatOfferingState(id, nextStateKey, contextInfo);
             si.setSuccess(true);
         } catch (Exception e) {
             si.setSuccess(false);

@@ -679,7 +679,7 @@ class FakeCourseOfferingService implements CourseOfferingService {
     }
 
     @Override
-    public StatusInfo updateCourseOfferingState(
+    public StatusInfo changeCourseOfferingState(
             String courseOfferingId,
             String nextStateKey,
             ContextInfo contextInfo)
@@ -690,7 +690,7 @@ class FakeCourseOfferingService implements CourseOfferingService {
     }
 
     @Override
-    public StatusInfo updateFormatOfferingState(
+    public StatusInfo changeFormatOfferingState(
             String formatOfferingId,
             String nextStateKey,
             ContextInfo contextInfo)
@@ -701,7 +701,7 @@ class FakeCourseOfferingService implements CourseOfferingService {
     }
 
     @Override
-    public StatusInfo updateActivityOfferingState(
+    public StatusInfo changeActivityOfferingState(
             String activityOfferingId,
             String nextStateKey,
             ContextInfo contextInfo)
@@ -712,7 +712,7 @@ class FakeCourseOfferingService implements CourseOfferingService {
     }
 
     @Override
-    public StatusInfo updateRegistrationGroupState(
+    public StatusInfo changeRegistrationGroupState(
             String registrationGroupId,
             String nextStateKey,
             ContextInfo contextInfo)
@@ -723,7 +723,7 @@ class FakeCourseOfferingService implements CourseOfferingService {
     }
 
     @Override
-    public StatusInfo updateActivityOfferingClusterState(
+    public StatusInfo changeActivityOfferingClusterState(
             String activityOfferingClusterId,
             String nextStateKey,
             ContextInfo contextInfo)
@@ -734,7 +734,7 @@ class FakeCourseOfferingService implements CourseOfferingService {
     }
 
     @Override
-    public StatusInfo updateSeatPoolDefinitionState(
+    public StatusInfo changeSeatPoolDefinitionState(
             String seatPoolDefinitionId,
             String nextStateKey,
             ContextInfo contextInfo)

@@ -193,7 +193,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         } catch (ReadOnlyException ex) {
             // expected
         }
-        StatusInfo status = this.socService.updateSocState(orig.getId(), CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY, callContext);
+        StatusInfo status = this.socService.changeSocState(orig.getId(), CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY, callContext);
         assertEquals(Boolean.TRUE, status.getIsSuccess());
         info = this.socService.getSoc(orig.getId(), callContext);
         assertNotSame(orig, info);

@@ -35,7 +35,7 @@ public class COStateHelperImpl implements StateHelper {
         public StatusInfo updateState(String id, String nextStateKey, ContextInfo contextInfo) {
             StatusInfo si = null;
             try {
-                si = getCourseOfferingService().updateCourseOfferingState(id, nextStateKey, contextInfo);
+                si = getCourseOfferingService().changeCourseOfferingState(id, nextStateKey, contextInfo);
                 si.setSuccess(true);
             } catch (Exception e) {
                 si.setSuccess(false);

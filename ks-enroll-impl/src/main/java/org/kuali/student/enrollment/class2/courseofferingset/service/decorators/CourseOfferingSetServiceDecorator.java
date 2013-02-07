@@ -349,35 +349,35 @@ public class CourseOfferingSetServiceDecorator implements CourseOfferingSetServi
     }
 
 	@Override
-	public StatusInfo updateSocState(@WebParam(name = "socId") String socId,
+	public StatusInfo changeSocState(@WebParam(name = "socId") String socId,
 			@WebParam(name = "nextStateKey") String nextStateKey,
 			@WebParam(name = "contextInfo") ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return getNextDecorator().updateSocState(socId, nextStateKey, contextInfo);
+		return getNextDecorator().changeSocState(socId, nextStateKey, contextInfo);
 	}
 
 	@Override
-	public StatusInfo updateSocRolloverResultState(
+	public StatusInfo changeSocRolloverResultState(
 			@WebParam(name = "socId") String socId,
 			@WebParam(name = "nextStateKey") String nextStateKey,
 			@WebParam(name = "contextInfo") ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return getNextDecorator().updateSocRolloverResultState(socId, nextStateKey, contextInfo);
+		return getNextDecorator().changeSocRolloverResultState(socId, nextStateKey, contextInfo);
 	}
 
 	@Override
-	public StatusInfo updateSocRolloverResultItemState(
+	public StatusInfo changeSocRolloverResultItemState(
 			@WebParam(name = "socId") String socId,
 			@WebParam(name = "nextStateKey") String nextStateKey,
 			@WebParam(name = "contextInfo") ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return getNextDecorator().updateSocRolloverResultState(socId, nextStateKey, contextInfo);
+		return getNextDecorator().changeSocRolloverResultState(socId, nextStateKey, contextInfo);
 	}
 
     @Override

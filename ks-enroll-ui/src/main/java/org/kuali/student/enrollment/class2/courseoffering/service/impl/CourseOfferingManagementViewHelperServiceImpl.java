@@ -401,7 +401,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                          ToolbarUtil.processAoToolbarForUser(aos, form);
                          for(ActivityOfferingWrapper ao : aos){
                             if(ao.isEnableDeleteButton()){
-                                getCourseOfferingService().updateActivityOfferingState(ao.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
+                                getCourseOfferingService().changeActivityOfferingState(ao.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
                             }
                         }
                     }
@@ -470,7 +470,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 checked++;
                  if(ao.isEnableApproveButton()) {
                      enabled++;
-                    getCourseOfferingService().updateActivityOfferingState(ao.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
+                    getCourseOfferingService().changeActivityOfferingState(ao.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
                  }
             }
          }
@@ -496,7 +496,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                  checked++;
                  if(ao.isEnableDraftButton()) {
                      enabled++;
-                    getCourseOfferingService().updateActivityOfferingState(ao.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, contextInfo);
+                    getCourseOfferingService().changeActivityOfferingState(ao.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, contextInfo);
                  }
              }
          }
@@ -544,7 +544,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     if (StringUtils.equals(wrapper.getAoInfo().getStateKey(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY)){
                         wrapper.getAoInfo().setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
                         wrapper.setStateName(draftState.getName());
-                        getCourseOfferingService().updateActivityOfferingState(wrapper.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, contextInfo);
+                        getCourseOfferingService().changeActivityOfferingState(wrapper.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, contextInfo);
                         if ( ! hasStateChangedAO) hasStateChangedAO = true;
                     } else {
                         if ( ! hasBadStateWarning) hasBadStateWarning = true;
@@ -554,7 +554,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     if (StringUtils.equals(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, wrapper.getAoInfo().getStateKey())) {
                         wrapper.getAoInfo().setStateKey(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
                         wrapper.setStateName(approvedState.getName());
-                        getCourseOfferingService().updateActivityOfferingState(wrapper.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
+                        getCourseOfferingService().changeActivityOfferingState(wrapper.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
                         if ( ! hasStateChangedAO) hasStateChangedAO = true;
                     } else {
                         if ( ! hasBadStateWarning) hasBadStateWarning = true;
@@ -603,7 +603,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 for (ActivityOfferingInfo activityOfferingInfo : activityOfferingInfos) {
                     boolean isAOStateDraft = StringUtils.equals(activityOfferingInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
                     if (isAOStateDraft) {
-                        StatusInfo statusInfo = getCourseOfferingService().updateActivityOfferingState(activityOfferingInfo.getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
+                        StatusInfo statusInfo = getCourseOfferingService().changeActivityOfferingState(activityOfferingInfo.getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
                         if (!statusInfo.getIsSuccess()){
                             GlobalVariables.getMessageMap().putError("manageCourseOfferingsPage", CourseOfferingConstants.COURSE_OFFERING_STATE_CHANGE_ERROR,coWrapper.getCourseOfferingCode(),statusInfo.getMessage());
                         }

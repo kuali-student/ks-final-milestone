@@ -334,7 +334,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         CourseOfferingSetPublishingHelper mpeHelper =  new CourseOfferingSetPublishingHelper();
         try {
             //  First state change the SOC to state "publishing"
-            getCourseOfferingSetService().updateSocState(socForm.getSocInfo().getId(), CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY, contextInfo);
+            getCourseOfferingSetService().changeSocState(socForm.getSocInfo().getId(), CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY, contextInfo);
             //  Then kick off the runner.
             mpeHelper.startMassPublishingEvent(socForm.getSocInfo().getId(), new ArrayList<String>(), contextInfo);
         } catch (Exception e) {
@@ -371,7 +371,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         }
 
         try {
-            StatusInfo status = getCourseOfferingSetService().updateSocState(socInfo.getId(), stateKey, createContextInfo());
+            StatusInfo status = getCourseOfferingSetService().changeSocState(socInfo.getId(), stateKey, createContextInfo());
 
             if (status.getIsSuccess()){
                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, message);
@@ -414,7 +414,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
         try {
             //  First state change the SOC to state "inprogress".
-            getCourseOfferingSetService().updateSocState(socForm.getSocInfo().getId(),CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, contextInfo);
+            getCourseOfferingSetService().changeSocState(socForm.getSocInfo().getId(), CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, contextInfo);
 
             // Then kick off the mass scheduling event.
             List<String> optionKeys = new ArrayList<String>();

@@ -700,7 +700,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             return activityOfferingInfo;
         }
         else {
-            StatusInfo statusInfo = coService.updateActivityOfferingState(activityOfferingInfo.getId(), aoNextState, context);
+            StatusInfo statusInfo = coService.changeActivityOfferingState(activityOfferingInfo.getId(), aoNextState, context);
             if (!statusInfo.getIsSuccess()){
                 throw new OperationFailedException("Error updating Activity offering state to " + aoNextState + " " + statusInfo);
             }

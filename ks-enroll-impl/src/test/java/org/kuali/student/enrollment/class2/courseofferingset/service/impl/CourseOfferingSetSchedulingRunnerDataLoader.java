@@ -155,9 +155,9 @@ public class CourseOfferingSetSchedulingRunnerDataLoader extends CourseOfferingS
         FormatOfferingInfo fo = coService.getFormatOffering(ao.getFormatOfferingId(), context);
         CourseOfferingInfo co = coService.getCourseOffering(fo.getCourseOfferingId(), context);
 
-        coService.updateActivityOfferingState(ao.getId(), aoState, context);
-        coService.updateFormatOfferingState(fo.getId(), foState, context);
-        coService.updateCourseOfferingState(co.getId(), coState, context);
+        coService.changeActivityOfferingState(ao.getId(), aoState, context);
+        coService.changeFormatOfferingState(fo.getId(), foState, context);
+        coService.changeCourseOfferingState(co.getId(), coState, context);
     }
 
     private void loadTypes() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, AlreadyExistsException, ReadOnlyException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
@@ -255,8 +255,8 @@ public class CourseOfferingSetSchedulingRunnerDataLoader extends CourseOfferingS
         setSocId(info.getId());
 
         //  Do state changes so that log entries are correct and state is correct for scheduling.
-        socService.updateSocState(info.getId(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY, context);
-        socService.updateSocState(info.getId(), CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, context);
+        socService.changeSocState(info.getId(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY, context);
+        socService.changeSocState(info.getId(), CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, context);
 
         // days of week M W F
         CourseOfferingSetSchedulingRunnerDataLoader.DOW_M_W_F.add(Calendar.MONDAY);

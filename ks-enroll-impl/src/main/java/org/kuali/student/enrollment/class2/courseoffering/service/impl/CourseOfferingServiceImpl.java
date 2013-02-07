@@ -668,7 +668,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         //Move this to the validation decorator once we get the validations working
         if (!StringUtils.equals(lui.getStateKey(),coInfo.getStateKey())){
-            throw new OperationFailedException("Changing the CourseOffering state is not supported with updateCourseOffering(). Please call updateCourseOfferingState() for state changes.");
+            throw new OperationFailedException("Changing the CourseOffering state is not supported with updateCourseOffering(). Please call changeCourseOfferingState() for state changes.");
         }
         // copy fields and update
         courseOfferingTransformer.courseOffering2Lui(coInfo, lui, context);
@@ -1884,7 +1884,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         // Throw exception if a state change is attempted
         if (!registrationGroupInfo.getStateKey().equals(lui.getStateKey())) {
-            throw new ReadOnlyException("state key can only be changed by calling updateRegistrationGroupState");
+            throw new ReadOnlyException("state key can only be changed by calling changeRegistrationGroupState");
         }
         //TO DO: Check that the Registration code is unique within a CO. If it is a duplicate, do not change it
 
@@ -2552,7 +2552,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ActivityOfferingClusterEntity activityOfferingClusterEntity = activityOfferingClusterDao.find(activityOfferingClusterId);
         if (null != activityOfferingClusterEntity) {
             if (!activityOfferingClusterEntity.getActivityOfferingClusterState().equals(activityOfferingClusterInfo.getStateKey())) {
-                throw new ReadOnlyException("state key can only be changed by calling updateActivityOfferingClusterState");
+                throw new ReadOnlyException("state key can only be changed by calling changeActivityOfferingClusterState");
             }
             FormatOfferingInfo foInfo = getFormatOffering(formatOfferingId, contextInfo);
             _verifyAOSetsInCluster(foInfo, activityOfferingClusterInfo, contextInfo);
@@ -3135,7 +3135,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         LuiSetInfo luiSetInfo = getLuiService().getLuiSet(colocatedOfferingSetId,contextInfo);
 
         if (!StringUtils.equals(luiSetInfo.getStateKey(),colocatedOfferingSetInfo.getStateKey())){
-            throw new OperationFailedException("Changing the ColocatedOfferingset state is not supported with updateColocatedOfferingSet(). Please call updateCourseOfferingState() for state changes.");
+            throw new OperationFailedException("Changing the ColocatedOfferingset state is not supported with updateColocatedOfferingSet(). Please call changeCourseOfferingState() for state changes.");
         }
 
         LuiSetInfo luiSetInfoToUpdate = new LuiSetInfo();
@@ -3189,7 +3189,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
-    public StatusInfo updateCourseOfferingState(String courseOfferingId, String nextStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public StatusInfo changeCourseOfferingState(String courseOfferingId, String nextStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         LuiInfo lui = luiService.getLui(courseOfferingId, contextInfo);
@@ -3228,7 +3228,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo updateFormatOfferingState(
+    public StatusInfo changeFormatOfferingState(
             String formatOfferingId,
             String nextStateKey,
              ContextInfo contextInfo)
@@ -3264,7 +3264,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo updateActivityOfferingState(
+    public StatusInfo changeActivityOfferingState(
             String activityOfferingId,
             String nextStateKey,
             ContextInfo contextInfo)
@@ -3300,7 +3300,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo updateRegistrationGroupState(
+    public StatusInfo changeRegistrationGroupState(
             String registrationGroupId,
             String nextStateKey,
             ContextInfo contextInfo)
@@ -3349,7 +3349,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo updateActivityOfferingClusterState(
+    public StatusInfo changeActivityOfferingClusterState(
             String activityOfferingClusterId,
             String nextStateKey,
             ContextInfo contextInfo)
@@ -3380,7 +3380,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo updateSeatPoolDefinitionState(
+    public StatusInfo changeSeatPoolDefinitionState(
             String seatPoolDefinitionId,
             String nextStateKey,
              ContextInfo contextInfo)

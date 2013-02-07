@@ -122,7 +122,7 @@ public class CourseOfferingSetPublishingHelper {
                 LOG.warn(String.format("Changing SOC state back to [%s].", CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY));
                 StatusInfo statusInfo = null;
                 try {
-                    statusInfo = socService.updateSocState(socId, CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY, context);
+                    statusInfo = socService.changeSocState(socId, CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY, context);
                 } catch (Exception e) {
                     LOG.error(String.format("Unable to change SOC state back to [%s]. The SOC state will have to be manually updated to recover.",
                         CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY));
@@ -140,7 +140,7 @@ public class CourseOfferingSetPublishingHelper {
             //  Set SOC scheduling state to "published".
             LOG.warn(String.format("Updating SOC [%s] state to [%s].", socId, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY));
             context.setCurrentDate(new Date());
-            StatusInfo statusInfo = socService.updateSocState(socId, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY, context);
+            StatusInfo statusInfo = socService.changeSocState(socId, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY, context);
             if ( ! statusInfo.getIsSuccess()) {
                 throw new RuntimeException(String.format("State changed failed for SOC [%s]: %s", socId, statusInfo.getMessage()));
             }

@@ -47,7 +47,7 @@ public class SOCStateHelperImpl implements StateHelper {
     public StatusInfo updateState(String entityId, String nextStateKey, ContextInfo context) {
         StatusInfo si = null;
         try {
-            si = getCourseOfferingSetService().updateSocState(entityId, nextStateKey, context);
+            si = getCourseOfferingSetService().changeSocState(entityId, nextStateKey, context);
             si.setSuccess(true);
         } catch (Exception e) {
             si.setSuccess(false);

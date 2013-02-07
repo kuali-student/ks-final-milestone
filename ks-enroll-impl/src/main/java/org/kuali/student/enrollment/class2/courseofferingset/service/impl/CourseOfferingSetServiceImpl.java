@@ -585,7 +585,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             throw new DoesNotExistException(id);
         }
         if (!entity.getSocState().equals (info.getStateKey())) {
-            throw new ReadOnlyException ("state key can only be changed by calling updateSocState");
+            throw new ReadOnlyException ("state key can only be changed by calling changeSocState");
         }
         entity.fromDTO(info);
 
@@ -715,9 +715,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo updateSocState(String socId,
-            String nextStateKey,
-             ContextInfo contextInfo)
+    public StatusInfo changeSocState(String socId,
+                                     String nextStateKey,
+                                     ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -772,7 +772,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
 
     @Override
-    public StatusInfo updateSocRolloverResultState(
+    public StatusInfo changeSocRolloverResultState(
             String socId,
             String nextStateKey,
              ContextInfo contextInfo)
@@ -783,7 +783,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
 
     @Override
-    public StatusInfo updateSocRolloverResultItemState(
+    public StatusInfo changeSocRolloverResultItemState(
             String socId,
             String nextStateKey,
              ContextInfo contextInfo)

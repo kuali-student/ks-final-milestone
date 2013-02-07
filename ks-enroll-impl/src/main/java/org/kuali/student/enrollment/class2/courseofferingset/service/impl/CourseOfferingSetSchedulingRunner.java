@@ -120,7 +120,7 @@ public class CourseOfferingSetSchedulingRunner implements Runnable {
 
             // set the scheduling status of the SoC to completed
             contextInfo.setCurrentDate(new Date());
-            socService.updateSocState(socId, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED, contextInfo);
+            socService.changeSocState(socId, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED, contextInfo);
 
         } catch (Exception e) {
             // When SoC failed state is created, set SoC scheduling state as failed here

@@ -62,7 +62,7 @@ public class TestCourseOfferingSetServiceJpaPersistenceImpl extends TestCourseOf
 
         //  Update SOC with scheduling state "completed"
         callContext.setCurrentDate(new Date());
-        StatusInfo status = socService.updateSocState(info.getId(), CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED, callContext);
+        StatusInfo status = socService.changeSocState(info.getId(), CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED, callContext);
         assertTrue(status.getIsSuccess());
 
         SocInfo updated = socService.getSoc(info.getId(), callContext);
@@ -89,7 +89,7 @@ public class TestCourseOfferingSetServiceJpaPersistenceImpl extends TestCourseOf
         assertNull(info.getPublishingCompleted());
 
         //  Update SOC with a state of publishing
-        StatusInfo status = socService.updateSocState(info.getId(), CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY, callContext);
+        StatusInfo status = socService.changeSocState(info.getId(), CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY, callContext);
         assertTrue(status.getIsSuccess());
 
         SocInfo updated = socService.getSoc(info.getId(), callContext);
@@ -100,7 +100,7 @@ public class TestCourseOfferingSetServiceJpaPersistenceImpl extends TestCourseOf
         assertNull(updated.getPublishingCompleted());
 
         //  Now update the SOC state to published
-        status = socService.updateSocState(info.getId(), CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY, callContext);
+        status = socService.changeSocState(info.getId(), CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY, callContext);
         assertTrue(status.getIsSuccess());
 
         updated = socService.getSoc(info.getId(), callContext);

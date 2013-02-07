@@ -173,7 +173,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
             if (!targetSoc.getStateKey().equals(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY))
             // Make it draft in the new term            
             // Persist the draft state
-            this._getSocService().updateSocState(targetSoc.getId(), CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY, context);
+            this._getSocService().changeSocState(targetSoc.getId(), CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY, context);
         }
 
 

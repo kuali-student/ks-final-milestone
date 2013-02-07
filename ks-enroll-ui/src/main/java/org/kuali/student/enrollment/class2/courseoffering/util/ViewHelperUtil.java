@@ -170,7 +170,7 @@ public class ViewHelperUtil {
 
             if (newFoState != null && !StringUtils.equals(oldFoState, newFoState)) {
                 fo.setStateKey(newFoState);
-                StatusInfo statusInfo = coService.updateFormatOfferingState(fo.getId(), newFoState, context);
+                StatusInfo statusInfo = coService.changeFormatOfferingState(fo.getId(), newFoState, context);
                 if (!statusInfo.getIsSuccess()){
                      throw new RuntimeException(statusInfo.getMessage());
                 }
