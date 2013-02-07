@@ -31,18 +31,28 @@
 
 
     <bean id="KS-CourseOfferingManagement-ActivityOfferingResultSection" p:id="ActivityOfferingResultSection" parent="Uif-VerticalBoxSection">
-        <property name="headerText" value="@{theCourseOffering.courseOfferingCode} - @{theCourseOffering.courseOfferingTitle} (@{theCourseOffering.creditCnt} Credits, SOC State: @{socState})" />
+        <property name="headerText" value="@{courseOfferingCodeUI} - @{courseOfferingTitleUI} (@{theCourseOffering.creditCnt} Credits, SOC State: @{socState})" />
         <property name="disclosure.render" value="false"/>
         <property name="header.cssClasses">
           <list merge="true">
             <value>ks-borderBottom</value>
           </list>
         </property>
+        <property name="header.lowerGroup">
+          <bean parent="Uif-HeaderLowerGroup">
+            <property name="style" value="margin-bottom:px;"/>
+            <property name="items">
+              <list>
+                  <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{alternateCourseOfferingCodesUI}" p:render="@{alternateCourseOfferingCodesUI != ''}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
+              </list>
+            </property>
+          </bean>
+        </property>
         <property name="items">
             <list>
-
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingLinks"/>
                 <ref bean="KS-CourseOfferingManagement-AO-ToolBarSection"/>
+                <bean parent="Uif-MessageField" p:render="@{crossListedCO}" p:messageText="You do not have permission to edit this course. Contact the owning department for more information.[br][b]Owner:[/b] @{coOwningDeptName}" p:style="background-color:#C8E4F7; padding-top:4px; padding-bottom:4px;"/>
                 <ref bean="KS-CourseOfferingManagement-AddActivityOfferingSection"/>
                 <ref bean="KS-CourseOfferingManagement-SelectAll"/>
                 <ref bean="KS-CourseOfferingManagement-ActivityOfferingListSection"/>
@@ -50,7 +60,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-AddActivityOfferingSection" parent="Uif-VerticalBoxSection" >
+    <bean id="KS-CourseOfferingManagement-AddActivityOfferingSection" parent="Uif-VerticalBoxSection" p:render="@{!crossListedCO}">
         <property name="disclosure.render" value="false"/>
         <property name="headerText" value="Add Activity Offering"/>
         <property name="items">
@@ -91,7 +101,7 @@
     <bean id="KS-CourseOfferingManagement-CourseOfferingLinks" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-LinkGroup" >
+                <bean parent="Uif-LinkGroup" p:render="@{!crossListedCO}">
                     <property name="items">
                         <list>
                             <bean parent="Uif-HorizontalBoxSection">
@@ -138,7 +148,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-SelectAll" parent="Uif-ActionLink" p:onClickScript="selectAllAOs();return false;" p:actionLabel="Select All" p:disabled="@{#parent.readOnly}" p:render="@{hasAO}"/>
+    <bean id="KS-CourseOfferingManagement-SelectAll" parent="Uif-ActionLink" p:onClickScript="selectAllAOs();return false;" p:actionLabel="Select All" p:disabled="@{#parent.readOnly}" p:render="@{hasAO and !crossListedCO}"/>
 
     <bean id="KS-Schedule-DisplayField" parent="Uif-MessageField" p:cssClasses="font-light12" abstract="true">
         <property name="propertyReplacers">
@@ -150,7 +160,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ActivityOfferingListSection" parent="Uif-TableCollectionSection"
-          p:layoutManager.numberOfColumns="3"  p:renderAddLine="false" p:onDocumentReadyScript="removeColumns(@{#parent.readOnly}, [1], 'KS-CourseOfferingManagement-ActivityOfferingListSection');">
+          p:layoutManager.numberOfColumns="3"  p:readOnly="@{crossListedCO}" p:renderAddLine="false" p:onDocumentReadyScript="removeColumns(@{#parent.readOnly}, [1], 'KS-CourseOfferingManagement-ActivityOfferingListSection');">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="activityWrapperList" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />

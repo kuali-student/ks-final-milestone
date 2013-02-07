@@ -200,10 +200,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     ToolbarUtil.processCoToolbarForUser(theForm.getCourseOfferingResultList(), theForm);
                     //ToolbarUtil.processCoToolbarForCentralAdmin(theForm.getCourseOfferingResultList(), theForm);
                 } else { // just one course offering is returned
-                    CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
-                    theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
+                    CourseOfferingListSectionWrapper coListWrapper = theForm.getCourseOfferingResultList().get(0);
+                    CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(coListWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+//                    theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
                     assignCrossListedInForm(theForm, coToShow);
-                    return _prepareManageAOsModelAndView(theForm, coToShow);
+                    return _prepareManageAOsModelAndView(theForm, coListWrapper, coToShow);
                 }
             }
             //
@@ -270,9 +271,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
                     ToolbarUtil.processCoToolbarForUser(theForm.getCourseOfferingResultList(), theForm);
                 } else { // just one course offering is returned
-                    CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+                    CourseOfferingListSectionWrapper coListWrapper = theForm.getCourseOfferingResultList().get(0);
+                    CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(coListWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                     theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
-                    return _prepareManageAOsModelAndView(theForm, coToShow);
+                    return _prepareManageAOsModelAndView(theForm, coListWrapper, coToShow);
                 }
                 ModelAndView mav = new ModelAndView("pages/courseOfferingResult");
                 List<CourseOfferingListSectionWrapper> wrapper = theForm.getCourseOfferingResultList();
@@ -483,14 +485,33 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return "";
     }
 
-    private ModelAndView _prepareManageAOsModelAndView(CourseOfferingManagementForm theForm, CourseOfferingInfo coToShow) throws Exception {
+    private ModelAndView _prepareManageAOsModelAndView(CourseOfferingManagementForm theForm, CourseOfferingListSectionWrapper colistWrapper, CourseOfferingInfo coToShow) throws Exception {
+
+        boolean isCrossListed = colistWrapper.isCrossListed();
+
         CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(coToShow);
+        wrapper.setCrossListed(isCrossListed);
+        wrapper.setAlternateCOCodes(colistWrapper.getAlternateCOCodes());
+
+        theForm.setCourseOfferingCodeUI(colistWrapper.getCourseOfferingCode());
+        theForm.setCourseOfferingTitleUI(colistWrapper.getCourseOfferingDesc());
+        theForm.setCrossListedCO(isCrossListed);
+
+        if (colistWrapper.getAlternateCOCodes() != null){
+            String alternateCOCodes = "";
+            for (String alternateCO : colistWrapper.getAlternateCOCodes()){
+                alternateCOCodes = alternateCOCodes + alternateCO + ", ";
+            }
+            theForm.setAlternateCourseOfferingCodesUI(StringUtils.removeEnd(alternateCOCodes,", "));
+        }
 
         theForm.setCourseOfferingEditWrapper(wrapper);
         theForm.setTheCourseOffering(coToShow);
         //Pull out the org ids and pass in the first one as the adminOrg
         List<String> orgIds = coToShow.getUnitsDeploymentOrgIds();
         if(orgIds !=null && !orgIds.isEmpty()){
+            OrgInfo org = getOrganizationService().getOrg(orgIds.get(0),ContextUtils.createDefaultContextInfo());
+            theForm.setCoOwningDeptName(org.getShortName());
             theForm.setAdminOrg(orgIds.get(0));
         }
         theForm.setFormatIdForNewAO(null);
@@ -582,9 +603,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             CourseOfferingInfo theCourseOffering = getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
 
             theForm.setCourseOfferingCode(theCourseOffering.getCourseOfferingCode());
-            theForm.setInputCode(theCourseOffering.getCourseOfferingCode());
+//            theForm.setInputCode(theCourseOffering.getCourseOfferingCode());
             assignCrossListedInForm(theForm, theCourseOffering);
-            return _prepareManageAOsModelAndView(theForm, theCourseOffering);
+            return _prepareManageAOsModelAndView(theForm, coWrapper, theCourseOffering);
         }
         else{
             //TODO log error
@@ -733,7 +754,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         CourseOfferingInfo theCourseOffering = theForm.getTheCourseOffering();
         String subjectCode = theCourseOffering.getSubjectArea();
         String termId = theForm.getTermInfo().getId();
-        theForm.setInputCode(subjectCode);
+//        theForm.setInputCode(subjectCode);
         getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(termId, subjectCode, theForm);
         theForm.setSubjectCode(subjectCode);
         String longNameDescr = getOrgNameDescription(theForm.getSubjectCode());
@@ -1149,7 +1170,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         CourseOfferingManagementViewHelperServiceImpl helperService = (CourseOfferingManagementViewHelperServiceImpl) theForm.getView().getViewHelperService();
         //  State change all of the AOs associated with all CourseOfferings related to the course code. Passing false so that the isChecked() flag is ignored.
         helperService.markCourseOfferingsForScheduling(theForm.getCourseOfferingResultList(), false);
-        getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(theForm.getTermInfo().getId(), theForm.getInputCode(),theForm);
+        getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(theForm.getTermInfo().getId(), theForm.getInputCode(), theForm);
         return getUIFModelAndView(theForm);
     }
 
@@ -1177,8 +1198,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     }
 
     private void assignCrossListedInForm(CourseOfferingManagementForm form, CourseOfferingInfo coToShow){
-        form.setCrossListedCoCodes(StringUtils.EMPTY);
-        form.setCrossListedCo(false);
+        form.setAlternateCourseOfferingCodesUI(StringUtils.EMPTY);
+        form.setCrossListedCO(false);
 
         if (coToShow != null && coToShow.getCrossListings() != null && coToShow.getCrossListings().size() > 0) {
             // Always include an option for Course
@@ -1188,8 +1209,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 crossListedCodes.append(courseInfo.getCode());
                 crossListedCodes.append(" ");
             }
-            form.setCrossListedCoCodes(crossListedCodes.toString());
-            form.setCrossListedCo(true);
+            form.setAlternateCourseOfferingCodesUI(crossListedCodes.toString());
+            form.setCrossListedCO(true);
         }
     }
 

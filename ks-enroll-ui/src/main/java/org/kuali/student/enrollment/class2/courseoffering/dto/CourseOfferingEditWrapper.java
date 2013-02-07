@@ -56,6 +56,10 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     private String termName;
 
+    private String[] alternateCOCodes;
+
+    private boolean isCrossListed;
+
     public CourseOfferingEditWrapper(){
         super();
         formatOfferingList = new ArrayList<FormatOfferingInfo>();
@@ -237,6 +241,58 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
             adminOrgMap.put("org",org);
         }
         return  adminOrgMap;
+    }
+
+    /**
+     * @see #setAlternateCOCodes(String[])
+     * @return
+     */
+    public String[] getAlternateCOCodes() {
+        return alternateCOCodes;
+    }
+
+    /**
+     * List of alternate Course offering codes (either cross list or owner).
+     * @param alternateCOCodes
+     */
+    public void setAlternateCOCodes(String[] alternateCOCodes) {
+        this.alternateCOCodes = alternateCOCodes;
+    }
+
+    /**
+     * This method returns a list of crosslisted/official course code for a course. This will
+     * be displayed as the tooltip (if crosslisted cos exists) at Manage CO screen.
+     *
+     * @return
+     */
+    @SuppressWarnings("unused")
+    public String getCrossListedCodesUI(){
+        StringBuffer buffer = new StringBuffer();
+        if (alternateCOCodes != null && alternateCOCodes.length > 0){
+            buffer.append("This course is crosslisted with:<br>");
+            for (String code : alternateCOCodes){
+                buffer.append(code + "<br>");
+            }
+        }
+
+        return StringUtils.removeEnd(buffer.toString(),"<br>");
+    }
+
+    /**
+     * @see #setCrossListed(boolean)
+     * @return
+     */
+    public boolean isCrossListed() {
+        return isCrossListed;
+    }
+
+    /**
+     * Sets true is this wrapper is for a cross listed course
+     *
+     * @param crossListed
+     */
+    public void setCrossListed(boolean crossListed) {
+        isCrossListed = crossListed;
     }
 }
 

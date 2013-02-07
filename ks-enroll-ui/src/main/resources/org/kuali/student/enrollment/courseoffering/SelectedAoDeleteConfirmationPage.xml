@@ -52,7 +52,7 @@
                     <property name="disclosure.render" value="false"/>
                     <property name="items" >
                         <list>
-                            <bean parent="Uif-DataField" p:label="Crosslisted as:" p:propertyName="crossListedCoCodes" p:fieldLabel.renderColon="false" p:readOnly="true" p:render="@{crossListedCo}"/>
+                            <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{alternateCourseOfferingCodesUI}" p:render="@{crossListedCO}"/>
                             <bean parent="Uif-DataField" p:label="Term:" p:propertyName="theCourseOffering.termId" p:fieldLabel.renderColon="false" p:readOnly="true"/>
                          </list>
                     </property>
@@ -67,7 +67,7 @@
                         <list>
                             <bean parent="Uif-Message"
                                   p:messageText="Warning: This is a crosslisted course."
-                                  p:style="background-color:#FFEE99; font-size: 110%" p:colSpan="2" p:render="@{crossListedCo}"/>
+                                  p:style="background-color:#FFEE99; font-size: 110%" p:colSpan="2" p:render="@{crossListedCO}"/>
                             <bean parent="Uif-Message"
                                   p:messageText="Warning: You are about to permanently delete the following activity offering(s) from this course offering."
                                   p:style="background-color:#FFEE99; font-size: 110%" p:colSpan="2"/>

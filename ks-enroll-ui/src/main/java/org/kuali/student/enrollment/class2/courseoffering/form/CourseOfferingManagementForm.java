@@ -32,8 +32,11 @@ public class CourseOfferingManagementForm extends KSUifForm {
     private String socSchedulingStateKey;
 
     private boolean readOnly;
-    private boolean crossListedCo = false;
-    private String  crossListedCoCodes;
+    private boolean isCrossListedCO;
+    private String alternateCourseOfferingCodesUI;
+    private String courseOfferingCodeUI;
+    private String courseOfferingTitleUI;
+    private String coOwningDeptName;
 
 
     private List<ActivityOfferingWrapper> activityWrapperList;
@@ -354,19 +357,48 @@ public class CourseOfferingManagementForm extends KSUifForm {
         this.socSchedulingStateKey = socSchedulingStateKey;
     }
 
-    public boolean isCrossListedCo() {
-        return crossListedCo;
+    public boolean isCrossListedCO() {
+        return isCrossListedCO;
     }
 
-    public void setCrossListedCo(boolean crossListedCo) {
-        this.crossListedCo = crossListedCo;
+    public void setCrossListedCO(boolean crossListedCO) {
+        this.isCrossListedCO = crossListedCO;
     }
 
-    public String getCrossListedCoCodes() {
-        return crossListedCoCodes;
+    @SuppressWarnings("unused")
+    public String getAlternateCourseOfferingCodesUI() {
+        if (alternateCourseOfferingCodesUI == null){
+            return "";
+        } else {
+            return alternateCourseOfferingCodesUI;
+        }
     }
 
-    public void setCrossListedCoCodes(String crossListedCoCodes) {
-        this.crossListedCoCodes = crossListedCoCodes;
+    public void setAlternateCourseOfferingCodesUI(String alternateCourseOfferingCodesUI) {
+        this.alternateCourseOfferingCodesUI = alternateCourseOfferingCodesUI;
+    }
+
+    public String getCourseOfferingCodeUI() {
+        return courseOfferingCodeUI;
+    }
+
+    public void setCourseOfferingCodeUI(String courseOfferingCodeUI) {
+        this.courseOfferingCodeUI = courseOfferingCodeUI;
+    }
+
+    public String getCourseOfferingTitleUI() {
+        return courseOfferingTitleUI;
+    }
+
+    public void setCourseOfferingTitleUI(String courseOfferingTitleUI) {
+        this.courseOfferingTitleUI = courseOfferingTitleUI;
+    }
+
+    public String getCoOwningDeptName() {
+        return coOwningDeptName;
+    }
+
+    public void setCoOwningDeptName(String coOwningDeptName) {
+        this.coOwningDeptName = coOwningDeptName;
     }
 }
