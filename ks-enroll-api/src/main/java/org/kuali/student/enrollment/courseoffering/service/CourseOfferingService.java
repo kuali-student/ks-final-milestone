@@ -648,10 +648,10 @@ public interface CourseOfferingService
     public CourseOfferingInfo updateCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "courseOfferingInfo") CourseOfferingInfo courseOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /**
-     * Updates the state of an existing CourseOffering into another state
+     * Changes the state of an existing CourseOffering into another state
      * provided that it is valid to do so.
      *
-     * @param courseOfferingId Id of the CourseOffering to be updated.
+     * @param courseOfferingId Id of the CourseOffering to be changed.
      * @param nextStateKey     The State Key into which the identified
      *                         courseOffering will be placed if the operation
      *                         succeeds.
@@ -666,7 +666,7 @@ public interface CourseOfferingService
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo updateCourseOfferingState(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo changeCourseOfferingState(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Updates an existing CourseOffering from its canonical. This should
@@ -841,10 +841,10 @@ public interface CourseOfferingService
 
 
     /**
-     * Updates the state of an existing FormatOffering to another state provided
+     * Changes the state of an existing FormatOffering to another state provided
      * that it is valid to do so.
      *
-     * @param formatOfferingId Id of the FormatOffering to be updated.
+     * @param formatOfferingId Id of the FormatOffering to be changed.
      * @param nextStateKey     The State Key into which the identified
      *                         FormatOffering will be placed if the operation
      *                         succeeds.
@@ -859,7 +859,7 @@ public interface CourseOfferingService
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo updateFormatOfferingState(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo changeFormatOfferingState(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Validates a format offering. Depending on the value of validationType,
@@ -1363,10 +1363,10 @@ public interface CourseOfferingService
 
 
     /**
-     * Updates the state of an existing ActivityOffering to another state
+     * Changes the state of an existing ActivityOffering to another state
      * provided that it is valid to do so.
      *
-     * @param activityOfferingId Id of the ActivityOffering to be updated.
+     * @param activityOfferingId Id of the ActivityOffering to be changed.
      * @param nextStateKey       The State Key into which the identified
      *                           ActivityOffering will be placed if the
      *                           operation succeeds.
@@ -1381,7 +1381,7 @@ public interface CourseOfferingService
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo updateActivityOfferingState(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo changeActivityOfferingState(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Deletes an existing ActivityOffering. Deleting an activity will also
@@ -1803,10 +1803,10 @@ public interface CourseOfferingService
     public RegistrationGroupInfo updateRegistrationGroup(@WebParam(name = "registrationGroupId") String registrationGroupId, @WebParam(name = "registrationGroupInfo") RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /**
-     * Updates the state of an existing RegistrationGroup to another state
+     * Changes the state of an existing RegistrationGroup to another state
      * provided that it is valid to do so.
      *
-     * @param registrationGroupId Id of the RegistrationGroup to be updated.
+     * @param registrationGroupId Id of the RegistrationGroup to be changed.
      * @param nextStateKey        The State Key into which the identified
      *                            RegistrationGroup will be placed if the
      *                            operation succeeds.
@@ -1821,7 +1821,7 @@ public interface CourseOfferingService
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo updateRegistrationGroupState(@WebParam(name = "registrationGroupId") String registrationGroupId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo changeRegistrationGroupState(@WebParam(name = "registrationGroupId") String registrationGroupId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Deletes an existing Registration Group. Removes the relationship to the
@@ -2081,11 +2081,11 @@ public interface CourseOfferingService
     public ActivityOfferingClusterInfo updateActivityOfferingCluster(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "activityOfferingClusterInfo") ActivityOfferingClusterInfo activityOfferingClusterInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /**
-     * Updates the state of an existing ActivityOfferingCluster to another state
+     * Changes the state of an existing ActivityOfferingCluster to another state
      * provided that it is valid to do so.
      *
      * @param activityOfferingClusterId Id of the ActivityOfferingCluster to be
-     *                                  updated.
+     *                                  changed.
      * @param nextStateKey              The State Key into which the identified
      *                                  ActivityOfferingCluster will be placed
      *                                  if the operation succeeds.
@@ -2100,7 +2100,7 @@ public interface CourseOfferingService
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo updateActivityOfferingClusterState(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo changeActivityOfferingClusterState(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Deletes an activity offering cluster  based on the identifier
@@ -2348,10 +2348,10 @@ public interface CourseOfferingService
     public SeatPoolDefinitionInfo updateSeatPoolDefinition(@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId, @WebParam(name = "seatPoolDefinitionInfo") SeatPoolDefinitionInfo seatPoolDefinitionInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /**
-     * Updates the state of an existing SeatPoolDefinition to another state
+     * Changes the state of an existing SeatPoolDefinition to another state
      * provided that it is valid to do so.
      *
-     * @param seatPoolDefinitionId Id of the SeatPoolDefinition to be updated.
+     * @param seatPoolDefinitionId Id of the SeatPoolDefinition to be changed.
      * @param nextStateKey         The State Key into which the identified
      *                             SeatPoolDefinition will be placed if the
      *                             operation succeeds.
@@ -2366,7 +2366,7 @@ public interface CourseOfferingService
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo updateSeatPoolDefinitionState(@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo changeSeatPoolDefinitionState(@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Validate a seat pool definition
