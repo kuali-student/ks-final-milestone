@@ -464,7 +464,6 @@ public class TestCourseOfferingServiceImplWithMocks {
             assertEquals( luiSetTypeKey, luiService.getLuiSet( id, callContext ).getTypeKey() );
         }
         assertEquals( 1, luiService.getLuiSetIdsByType( "test.alternate.lui.set.type.key.test", callContext ).size() );
-
     }
 
 }

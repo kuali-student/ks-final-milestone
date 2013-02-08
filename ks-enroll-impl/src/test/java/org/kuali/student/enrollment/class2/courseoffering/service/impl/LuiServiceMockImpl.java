@@ -388,6 +388,7 @@ public class LuiServiceMockImpl
     @Override
     public LuiSetInfo getLuiSet(String luiSetId,  ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
         if( luiSetId == null || luiSetId.trim().isEmpty() ) throw new InvalidParameterException( "luiSetId must be provided" );
         luiSetId = luiSetId.trim();
 
