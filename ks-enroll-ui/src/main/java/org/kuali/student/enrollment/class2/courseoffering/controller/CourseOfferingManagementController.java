@@ -940,6 +940,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID, theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo().getId());
             urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, ActivityOfferingWrapper.class.getName());
             urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+
+            KSUifUtils.setBreadcrumbRedirectUrlParams(urlParameters, theForm);
+
             return super.performRedirect(theForm, "activityOffering", urlParameters);
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");

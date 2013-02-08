@@ -14,7 +14,9 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.ActivityOfferingForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
+import org.kuali.student.enrollment.uif.form.KSUifMaintenanceDocumentForm;
 import org.kuali.student.enrollment.uif.util.KSControllerHelper;
+import org.kuali.student.enrollment.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -52,6 +54,9 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
 //            form.setEditAuthz(checkEditViewAuthz(form));
         }
         setupMaintenance(form, request, KRADConstants.MAINTENANCE_EDIT_ACTION);
+
+        //populate the previousFormsMap of the form. The map contains info about the previous view to generate customized breadcrumb
+        KSUifUtils.populationPreviousFormsMap(request, (KSUifMaintenanceDocumentForm)form);
 
         return getUIFModelAndView(form);
     }

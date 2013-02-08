@@ -20,7 +20,7 @@
      limitations under the License.
     -->
 
-    <bean id="ActivityOfferingEdit-MainPage" parent="Uif-Page" p:id="ActivityOfferingEdit-MainPage">
+    <bean id="ActivityOfferingEdit-MainPage" parent="Uif-Page" p:id="ActivityOfferingEdit-MainPage" p:onDocumentReadyScript="replaceBreadCrumbs('@{breadCrumbJSON}');">
         <property name="items">
             <list>
                 <bean parent="Uif-HeaderFour" p:headerText="@{document.newMaintainableObject.dataObject.courseOfferingCode} - @{document.newMaintainableObject.dataObject.courseOfferingTitle} (@{document.newMaintainableObject.dataObject.credits} Credits)"/>

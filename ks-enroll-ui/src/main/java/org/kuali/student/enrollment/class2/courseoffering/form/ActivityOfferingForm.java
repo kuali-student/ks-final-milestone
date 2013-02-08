@@ -5,6 +5,7 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.uif.form.KSUifMaintenanceDocumentForm;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
 /**
@@ -14,7 +15,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
  * Time: 4:27 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ActivityOfferingForm extends MaintenanceDocumentForm {
+public class ActivityOfferingForm extends KSUifMaintenanceDocumentForm {
 
     public static final String MAIN_PAGE = "ActivityOfferingEdit-MainPage";
     public static final String SCHEDULE_PAGE = "ActivityOfferingEdit-SchedulePage";

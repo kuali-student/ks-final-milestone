@@ -49,7 +49,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOffering-MaintenanceView" parent="KSMaintenanceView" p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView}"
+    <bean id="ActivityOffering-MaintenanceView" parent="KSUifMaintenanceView" p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView}"
           p:entryPageId="ActivityOfferingEdit-MainPage" p:id="ActivityOffering-MaintenanceView">
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
@@ -60,6 +60,19 @@
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />
         <property name="singlePageView" value="false"/>
+
+        <property name="breadCrumbConfigMap">
+            <map>
+                <entry key="ActivityOfferingEdit-MainPage">
+                    <map key-type="java.lang.String">
+                        <entry key="Home" value=""/>
+                        <entry key="Manage Course Offerings" value="courseOfferingManagementView:manageCourseOfferingsPage"/>
+                        <entry key="@{document.newMaintainableObject.dataObject.courseOfferingCode} - @{document.newMaintainableObject.dataObject.courseOfferingTitle} (@{document.newMaintainableObject.dataObject.activityCode})" value=""/>
+                    </map>
+                </entry>
+            </map>
+        </property>
+
         <property name="additionalCssFiles">
             <list merge="true">
                 <value>ks-enroll/css/activityOffering.css</value>
