@@ -67,25 +67,17 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:onChangeScript="handleToolbar('CO');">
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:onChangeScript="handleToolbar('CO');" p:hidden="@{#lp.crossListed}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
                 </bean>
                 <bean parent="Uif-DataField" p:propertyName="courseOfferingCode">
                     <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" >
-                            <property name="inquiryParameters">
-                              <map>
-                                  <entry key="courseOfferingId" value="courseOfferingId"/>
-                                  <entry key="alternateCoursesExists" value="alternateCourseExists"/>
-                                  <entry key="courseOfferingCode" value="courseOfferingCode"/>
-                              </map>
-                            </property>
-                        </bean>
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"  p:inquiryParameters="courseOfferingId" />
                     </property>
                 </bean>
-                <bean parent="Uif-ImageField" p:hidden="@{#lp.crossListedCodesUI.isEmpty()}" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png">
+                <bean parent="Uif-ImageField" p:hidden="@{#lp.alternateCOCodes.isEmpty()}" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png">
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.crossListedCodesUI}"/>
                       </property>

@@ -20,6 +20,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This wrapper is used to display a list of {@link org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo} at
@@ -40,7 +42,7 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     private String courseOfferingGradingOptionDisplay;
     private String subjectArea;
 
-    private String[] alternateCOCodes;
+    private List<String> alternateCOCodes;
 
     private boolean isCrossListed;
 
@@ -48,6 +50,7 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     private boolean isChecked = false;
 
     public CourseOfferingListSectionWrapper(){
+        this.alternateCOCodes = new ArrayList<String>();
     }
 
     //hidden columns for toolbar
@@ -234,10 +237,10 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     }
 
     /**
-     * @see #setAlternateCOCodes(String[])
+     * @see #setAlternateCOCodes(List<String>)
      * @return
      */
-    public String[] getAlternateCOCodes() {
+    public List<String> getAlternateCOCodes() {
         return alternateCOCodes;
     }
 
@@ -245,7 +248,7 @@ public class CourseOfferingListSectionWrapper implements Serializable{
      * List of alternate Course offering codes (either cross list or owner).
      * @param alternateCOCodes
      */
-    public void setAlternateCOCodes(String[] alternateCOCodes) {
+    public void setAlternateCOCodes(List<String> alternateCOCodes) {
         this.alternateCOCodes = alternateCOCodes;
     }
 
@@ -258,26 +261,13 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     @SuppressWarnings("unused")
     public String getCrossListedCodesUI(){
         StringBuffer buffer = new StringBuffer();
-        if (alternateCOCodes != null && alternateCOCodes.length > 0){
-            buffer.append("This course is crosslisted with:<br>");
-            for (String code : alternateCOCodes){
-                buffer.append(code + "<br>");
-            }
+        buffer.append("This course is crosslisted with:<br>");
+        for (String code : alternateCOCodes){
+            buffer.append(code + "<br>");
         }
 
         return StringUtils.removeEnd(buffer.toString(),"<br>");
     }
 
-    /**
-     * This method is here only to support the course offering inquiry.
-     * @return
-     */
-    public boolean isAlternateCoursesExists(){
-        if (alternateCOCodes != null && alternateCOCodes.length > 0){
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
 

@@ -23,6 +23,8 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Base class for all the wrappers around CourseOfferingInfo.
@@ -40,7 +42,7 @@ public class CourseOfferingWrapper implements Serializable{
 
     private String courseOfferingId;
     private boolean isCrossListed;
-    private String[] alternateCOCodes;
+    private List<String> alternateCOCodes;
     private String coOwningDeptName;
 
     public CourseOfferingWrapper(){
@@ -53,6 +55,7 @@ public class CourseOfferingWrapper implements Serializable{
      */
     public CourseOfferingWrapper(CourseOfferingInfo courseOfferingInfo){
         this.courseOfferingInfo = courseOfferingInfo;
+        this.alternateCOCodes = new ArrayList<String>();
     }
 
     /**
@@ -65,11 +68,15 @@ public class CourseOfferingWrapper implements Serializable{
      * @param alternateCOCodes
      * @param courseOfferingId
      */
-    public CourseOfferingWrapper(boolean isCrossListed, String courseOfferingCode, String courseOfferingDesc,String[] alternateCOCodes,String courseOfferingId){
+    public CourseOfferingWrapper(boolean isCrossListed, String courseOfferingCode, String courseOfferingDesc,List<String> alternateCOCodes,String courseOfferingId){
         this.isCrossListed = isCrossListed;
         this.courseOfferingCode = courseOfferingCode;
         this.courseOfferingDesc = courseOfferingDesc;
-        this.alternateCOCodes = alternateCOCodes;
+        if (alternateCOCodes == null){
+            this.alternateCOCodes = new ArrayList<String>();
+        } else {
+            this.alternateCOCodes = alternateCOCodes;
+        }
         this.courseOfferingId = courseOfferingId;
     }
 
@@ -143,9 +150,17 @@ public class CourseOfferingWrapper implements Serializable{
     }
 
     /**
+     *
+     * @param alternateCOCodes
+     */
+    public void setAlternateCOCodes(List<String> alternateCOCodes) {
+        this.alternateCOCodes = alternateCOCodes;
+    }
+
+    /**
      * @return
      */
-    public String[] getAlternateCOCodes() {
+    public List<String> getAlternateCOCodes() {
         return alternateCOCodes;
     }
 
@@ -166,10 +181,8 @@ public class CourseOfferingWrapper implements Serializable{
    @SuppressWarnings("unused")
    public String getAlternateCOCodesUIList(){
        StringBuffer buffer = new StringBuffer();
-       if (alternateCOCodes != null && alternateCOCodes.length > 0){
-           for (String code : alternateCOCodes){
-               buffer.append(code + ", ");
-           }
+       for (String code : alternateCOCodes){
+           buffer.append(code + ", ");
        }
 
        return StringUtils.removeEnd(buffer.toString(), ", ");
@@ -185,10 +198,8 @@ public class CourseOfferingWrapper implements Serializable{
    @SuppressWarnings("unused")
    public String getAlternateCOCodesUITooltip(){
        StringBuffer buffer = new StringBuffer();
-       if (alternateCOCodes != null && alternateCOCodes.length > 0){
-           for (String code : alternateCOCodes){
-               buffer.append(code + "<br>");
-           }
+       for (String code : alternateCOCodes){
+           buffer.append(code + "<br>");
        }
 
        return StringUtils.removeEnd(buffer.toString(), "<br>");

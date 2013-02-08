@@ -68,6 +68,7 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_ViewHelperServiceImpl implements CourseOfferingManagementViewHelperService{
@@ -216,7 +217,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     coListWrapper.setCrossListed(BooleanUtils.toBoolean(value));
                 }
                 else if(CourseOfferingManagementSearchImpl.SearchResultColumns.CROSS_LISTED_COURSES.equals(cellInfo.getKey())){
-                    coListWrapper.setAlternateCOCodes(StringUtils.split(value, ","));
+                    coListWrapper.setAlternateCOCodes(Arrays.asList(StringUtils.split(value, ",")));
                 }
 
             }
@@ -242,6 +243,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
             searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.SUBJECT_AREA, form.getSubjectCode());
             searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, form.getTermInfo().getId());
+            searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.CROSS_LIST_SEARCH_ENABLED, BooleanUtils.toStringTrueFalse(true));
 
             SearchResultInfo searchResult = getSearchService().search(searchRequest, contextInfo);
             List<CourseOfferingWrapper> availableCOs = new ArrayList<CourseOfferingWrapper>();
@@ -252,7 +254,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 String courseOfferingId = "";
                 String courseOfferingDesc = "";
                 boolean isCrossListed = false;
-                String[] alternateCodes = null;
+                List<String> alternateCodes = null;
 
                 for(SearchResultCellInfo cellInfo : row.getCells()){
 
@@ -274,7 +276,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                         isCrossListed = BooleanUtils.toBoolean(value);
                     }
                     else if(CourseOfferingManagementSearchImpl.SearchResultColumns.CROSS_LISTED_COURSES.equals(cellInfo.getKey())){
-                        alternateCodes = StringUtils.split(value, ",");
+                        alternateCodes = Arrays.asList(StringUtils.split(value, ","));
                     }
 
                 }

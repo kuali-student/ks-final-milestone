@@ -59,6 +59,7 @@
                                     <list>
                                         <!--<bean parent="Uif-DataField" p:label="ID" p:propertyName="coInfo.id" />-->
                                         <bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingCode" />
+                                        <bean parent="Uif-DataField" p:label="Cross listed as" p:propertyName="alternateCOCodesUIList" p:render="@{dataObject.alternateCOCodesUIList != ''}"/>
                                         <bean parent="Uif-DataField" p:propertyName="coInfo.courseNumberSuffix" />
                                         <bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingTitle" />
                                         <bean parent="Uif-DataField" p:propertyName="termName" p:label="Term"/>

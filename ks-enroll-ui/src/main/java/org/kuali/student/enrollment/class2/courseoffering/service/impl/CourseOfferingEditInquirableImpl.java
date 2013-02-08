@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
@@ -233,6 +234,12 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             }
             */
 
+            /**
+             * Sets the cross listed infos
+             */
+            for (CourseOfferingCrossListingInfo crossListingInfo : coInfo.getCrossListings()){
+                formObject.getAlternateCOCodes().add(crossListingInfo.getCode());
+            }
             return formObject;
         } catch (Exception e) {
             throw new RuntimeException(e);
