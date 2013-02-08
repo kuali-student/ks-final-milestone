@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+  Copyright 2004-2013 The Kuali Foundation
+
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.opensource.org/licenses/ecl2.php
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- Resolve placeholders using Maven properties -->
+    <context:property-placeholder properties-ref="mavenProperties" />
+
+    <bean id="conversion.launcher.oracle" class="org.kuali.common.jdbc.launcher.springframework.SpringContextDirectoryConverter">
+        <property name="inputSqlFolder" value="${project.basedir}/src/main/resources/impex/sql/oracle"/>
+        <property name="includedFilePattern" value="*.sql"/>
+        <property name="excludedFilePattern" value="${project.artifactId}-*.sql"/>
+        <property name="sqlConverter" ref="converter.oracle"/>
+        <property name="postConversionProcessor" ref="replacingPostProcessor"/>
+    </bean>
+
+    <bean id="converter.oracle" class="org.kuali.common.jdbc.convert.ImpexOracleInsertMerge"/>
+
+    <bean id="conversion.launcher.mysql" class="org.kuali.common.jdbc.launcher.springframework.SpringContextDirectoryConverter">
+        <property name="inputSqlFolder" value="${project.basedir}/src/main/resources/impex/sql/mysql"/>
+        <property name="includedFilePattern" value="*.sql"/>
+        <property name="excludedFilePattern" value="${project.artifactId}-*.sql"/>
+        <property name="sqlConverter" ref="converter.mysql"/>
+        <property name="postConversionProcessor" ref="replacingPostProcessor"/>
+    </bean>
+
+    <bean id="converter.mysql" class="org.kuali.common.jdbc.convert.ImpexMySqlInsertMerge"/>
+
+    <bean id="replacingPostProcessor" class="org.kuali.common.jdbc.convert.ReplaceWithConvertedProcessor"/>
+
+    <bean id="executor" class="org.kuali.common.util.execute.ExecutablesExecutable" init-method="execute">
+        <property name="executables">
+            <list>
+                <ref bean="conversion.launcher.oracle"/>
+                <ref bean="conversion.launcher.mysql"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>
