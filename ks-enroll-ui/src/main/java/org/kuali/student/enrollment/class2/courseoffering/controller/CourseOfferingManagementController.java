@@ -151,6 +151,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=show")
     public ModelAndView show(@ModelAttribute("KualiForm") CourseOfferingManagementForm form) throws Exception {
 
+        form.setInputCode(form.getInputCode().toUpperCase());
         getViewHelperService(form).populateTerm(form);
 
         if (GlobalVariables.getMessageMap().getErrorCount() > 1){
@@ -203,6 +204,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public ModelAndView ajaxShow(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
+        theForm.setInputCode(theForm.getInputCode().toUpperCase());
         getViewHelperService(theForm).populateTerm(theForm);
 
         if (GlobalVariables.getMessageMap().getErrorCount() > 1){
@@ -269,6 +271,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public void jsonShow(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                  @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
+        theForm.setInputCode(theForm.getInputCode().toUpperCase());
         //First, find TermInfo based on termCode
         StringBuilder jsonString = new StringBuilder();
         jsonString = jsonString.append("{ \"tableData\":[");
