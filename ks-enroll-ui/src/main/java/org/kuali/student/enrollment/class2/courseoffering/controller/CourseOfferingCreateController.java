@@ -23,9 +23,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering;
 import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper;
@@ -63,13 +61,11 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,8 +88,8 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
  * @see CourseOfferingCreateMaintainableImpl
  */
 @Controller
-@RequestMapping(value = "/courseOffering")
-public class CourseOfferingController extends MaintenanceDocumentController {
+@RequestMapping(value = "/courseOfferingCreate")
+public class CourseOfferingCreateController extends CourseOfferingBaseController {
 
     private CluService cluService;
     private CourseService courseService;
@@ -102,22 +98,6 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     private transient LRCService lrcService;
     private transient SearchService searchService;
     private transient TypeService typeService;
-
-    /**
-     * Initial method called when requesting a new view instance.
-     *
-     */
-    @Override
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                              HttpServletRequest request, HttpServletResponse response) {
-        if (form.getView() != null) {
-            String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
-            checkViewAuthorization(form, methodToCall);
-
-        }
-
-        return super.start(form, result, request, response);
-    }
 
     /**
      * This is called when the user clicks on the <i>'show'</i> button after entering the term and course code.

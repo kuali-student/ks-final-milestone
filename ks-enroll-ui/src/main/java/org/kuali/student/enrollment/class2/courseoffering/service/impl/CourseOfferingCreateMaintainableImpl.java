@@ -50,7 +50,7 @@ import java.util.Map;
 /**
  * View helper service to deal with all the create course offering presentation.
  *
- * @see org.kuali.student.enrollment.class2.courseoffering.controller.CourseOfferingController
+ * @see org.kuali.student.enrollment.class2.courseoffering.controller.CourseOfferingCreateController
  */
 public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintainableImpl implements CourseOfferingMaintainable {
 

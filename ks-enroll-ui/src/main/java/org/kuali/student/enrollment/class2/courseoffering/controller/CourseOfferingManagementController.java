@@ -975,7 +975,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         CourseOfferingInfo theCourseOfferingInfo = theForm.getTheCourseOffering();
         Properties urlParameters = _buildCOURLParameters(theCourseOfferingInfo,KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
-        String controllerPath = KRADConstants.Maintenance.REQUEST_MAPPING_MAINTENANCE;
+        String controllerPath = CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE;
         return super.performRedirect(theForm,controllerPath, urlParameters);
     }
 
@@ -992,7 +992,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             CourseOfferingListSectionWrapper coWrapper =  (CourseOfferingListSectionWrapper)selectedObject;
             CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
             urlParameters = _buildCOURLParameters(courseOfferingInfo,KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
-            String controllerPath = KRADConstants.Maintenance.REQUEST_MAPPING_MAINTENANCE;
+            String controllerPath = CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE;
             return super.performRedirect(theForm,controllerPath, urlParameters);
         } else if(selectedObject instanceof ActivityOfferingWrapper) {
 
@@ -1161,8 +1161,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
         props.put("targetTermCode", termCode);
         props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, "org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper");
-
-         return super.performRedirect(theForm, "courseOffering", props);
+        String controllerPath = CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_CREATE_MAINTENANCE;
+        return super.performRedirect(theForm, controllerPath, props);
     }
 
     @RequestMapping(params = "methodToCall=markSubjectCodeReadyForScheduling")
