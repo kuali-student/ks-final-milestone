@@ -21,9 +21,8 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.service.ExpressionEvaluatorService;
-import org.kuali.rice.krad.uif.view.FormView;
+import org.kuali.rice.krad.uif.view.MaintenanceDocumentView;
 import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.uif.form.KSUifForm;
 import org.kuali.student.enrollment.uif.form.KSUifMaintenanceDocumentForm;
 import org.kuali.student.enrollment.uif.util.KSUifUtils;
@@ -32,49 +31,53 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * This class extends FormView and can be used to hold any properties that can be
+ * This class extends MaintenanceDocumentView and can be used to hold any properties that can be
  * shared among all the forms that extend it.
  *
  * @author Kuali Student Team
  */
-public class KSUifFormView extends FormView {
+public class KSUifMaintenanceView extends MaintenanceDocumentView {
     private Map<String, Map<String,String>> breadCrumbConfigMap;
     private transient ExpressionEvaluatorService expressionEvaluatorService;
 
-    public KSUifFormView() {
+    public KSUifMaintenanceView() {
 
     }
 
     /**
      * During the phase of applying model to page, the overriden method firstly evaluates if
      * page property breadCrumbConfigMap is set by the XML configuration. If it is, it means
-     * this is the entry page of the view and the method will set breadCrumbConfigMap to the
+     * this view has customized breadcrumb configured and the method will set breadCrumbConfigMap to the
      * form property breadCrumbItemsMap, which will be used for breadcrumb JSON string generation.
      *
      * @param view - view instance being rendered
      * @param model - Object containing the view data
      * @param parent - parent component
      */
-
     @Override
     public void performApplyModel(View view, Object model, Component parent) {
         super.performApplyModel(view, model, parent);
-        KSUifForm form = (KSUifForm) model;
-
+        KSUifMaintenanceDocumentForm form = (KSUifMaintenanceDocumentForm) model;
+        String pageId="";
         //if the breadCrumbConfigMap property is set by XML configuration, set this map
         //to the form property breadCrumbItemsMap, which will hold breadcrumb item map
         //for all the pages that has customized breadcrumbs configured in the current view
-        if (breadCrumbConfigMap != null && !breadCrumbConfigMap.isEmpty()) {
+        if (breadCrumbConfigMap!=null && !breadCrumbConfigMap.isEmpty()) {
             form.setBreadCrumbItemsMap(breadCrumbConfigMap);
 
+            if (form.getPageId() != null) {
+                pageId = form.getPageId();
+            } else if (view.getCurrentPageId() != null) {
+                pageId = view.getCurrentPageId();
+            }
             //If the form property breadCrumbItemsMap is set (there is a customized breadcrumb for the current page),
             //construct the breadcrumb JSON string
-            if (form.getPageId() != null && form.getBreadCrumbItemsMap() != null && form.getBreadCrumbItemsMap().get(form.getPageId()) != null
-                    && !form.getBreadCrumbItemsMap().get(form.getPageId()).isEmpty()) {
-                Map<String, String> breadCrumbItemsMapReplaced = new LinkedHashMap<String, String>(form.getBreadCrumbItemsMap().get(form.getPageId()).size());
+            if (pageId != null && form.getBreadCrumbItemsMap() != null && form.getBreadCrumbItemsMap().get(pageId) != null
+                    && !form.getBreadCrumbItemsMap().get(pageId).isEmpty()) {
+                Map<String, String> breadCrumbItemsMapReplaced = new LinkedHashMap<String, String>(form.getBreadCrumbItemsMap().get(pageId).size());
 
                 // Iterates the breadcrumb map for the current page and evaluate any expressions in map keys
-                for (Map.Entry<String, String> entry : form.getBreadCrumbItemsMap().get(form.getPageId()).entrySet()) {
+                for (Map.Entry<String, String> entry : form.getBreadCrumbItemsMap().get(pageId).entrySet()) {
                     if (KSUifUtils.hasExpression(entry.getKey())) {
                         String mapKeyEvaluated = "";
                         if (StringUtils.startsWith(entry.getKey(), UifConstants.EL_PLACEHOLDER_PREFIX) && StringUtils.endsWith(
@@ -90,15 +93,14 @@ public class KSUifFormView extends FormView {
                         breadCrumbItemsMapReplaced.put(entry.getKey(), entry.getValue());
                     }
                 }
-                form.getBreadCrumbItemsMap().put(form.getPageId(), breadCrumbItemsMapReplaced);
+                form.getBreadCrumbItemsMap().put(pageId, breadCrumbItemsMapReplaced);
 
                 //generate the breadcrumb JSON string for the current page.
+                form.setPageId(pageId);
                 KSUifUtils.constructBreadCrumbs(form);
             }
         }
-
     }
-
 
     public Map<String, Map<String,String>> getBreadCrumbConfigMap() {
         return breadCrumbConfigMap;
@@ -115,6 +117,4 @@ public class KSUifFormView extends FormView {
 
         return this.expressionEvaluatorService;
     }
-
-
 }

@@ -28,6 +28,8 @@ import java.util.Map;
 public class KSUifMaintenanceDocumentForm extends MaintenanceDocumentForm {
     private String breadCrumbJSON; //JSON string of customized breadcrumb of a page
     private Map<String,Map<String,String>> breadCrumbItemsMap; //Map that storing breadcrumb maps for all the pages that have it configured in the current view
+    private String homeUrl;
+    private Map<String, Map<String, String>> previousFormsMap;
 
     public KSUifMaintenanceDocumentForm() {
         breadCrumbJSON = "";
@@ -47,5 +49,21 @@ public class KSUifMaintenanceDocumentForm extends MaintenanceDocumentForm {
 
     public void setBreadCrumbItemsMap(Map<String,Map<String,String>> breadCrumbItemsMap) {
         this.breadCrumbItemsMap = breadCrumbItemsMap;
+    }
+
+    public String getHomeUrl() {
+        return homeUrl;
+    }
+
+    public void setHomeUrl(String homeUrl) {
+        this.homeUrl = homeUrl;
+    }
+
+    public Map<String, Map<String, String>> getPreviousFormsMap() {
+        return previousFormsMap;
+    }
+
+    public void setPreviousFormsMap(Map<String, Map<String, String>> previousFormsMap) {
+        this.previousFormsMap = previousFormsMap;
     }
 }
