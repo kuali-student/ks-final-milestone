@@ -32,6 +32,7 @@ import org.kuali.student.r2.common.exceptions.*;
 import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,7 @@ public class LuiServiceMockImpl
 
     private Map<String, LuiInfo> luis = new LinkedHashMap<String, LuiInfo>();
     private Map<String, LuiLuiRelationInfo> luiLuiRelations = new LinkedHashMap<String, LuiLuiRelationInfo>();
+    private Map<String, LuiSetInfo> luiSets = new LinkedHashMap<String, LuiSetInfo>();
 
     @Override
     public void clear() {
@@ -386,19 +388,43 @@ public class LuiServiceMockImpl
     @Override
     public LuiSetInfo getLuiSet(String luiSetId,  ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
+        if( luiSetId == null || luiSetId.trim().isEmpty() ) throw new InvalidParameterException( "luiSetId must be provided" );
+        luiSetId = luiSetId.trim();
+
+        if( contextInfo == null ) throw new InvalidParameterException( "contextInfo must be provided" );
+
+        if( !this.luiSets.containsKey(luiSetId) ) throw new DoesNotExistException( "luiSetId not found: " + luiSetId );
+
+        return this.luiSets.get( luiSetId );
     }
 
     @Override
     public List<LuiSetInfo> getLuiSetsByIds(List<String> luiSetIds,  ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
+        if( luiSetIds == null || luiSetIds.isEmpty() ) throw new InvalidParameterException( "luiSetIds must be provided" );
+
+        if( contextInfo == null ) throw new InvalidParameterException( "contextInfo must be provided" );
+
+        List<LuiSetInfo> result = new ArrayList<LuiSetInfo>();
+        for( String id : luiSetIds ) {
+            if( !this.luiSets.containsKey(id) ) throw new DoesNotExistException( "luiSetId not found: " + id );
+            result.add( this.luiSets.get(id) );
+        }
+
+        return result;
     }
 
     @Override
     public List<String> getLuiIdsFromLuiSet(String luiSetId,  ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
+        if( luiSetId == null || luiSetId.trim().isEmpty() ) throw new InvalidParameterException( "luiSetId must be provided" );
+        luiSetId = luiSetId.trim();
+
+        if( contextInfo == null ) throw new InvalidParameterException( "contextInfo must be provided" );
+
+        if( !this.luiSets.containsKey( luiSetId ) ) throw new DoesNotExistException( "luiSetId not found: " + luiSetId );
+
+        return this.luiSets.get( luiSetId ).getLuiIds();
     }
 
     @Override
@@ -412,7 +438,26 @@ public class LuiServiceMockImpl
     public LuiSetInfo createLuiSet( String luiSetTypeKey,  LuiSetInfo luiSetInfo,
                                     ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, UnsupportedActionException {
-        throw new RuntimeException("Not implemented");
+        if( luiSetTypeKey == null || luiSetTypeKey.trim().isEmpty() ) throw new InvalidParameterException( "luiSetTypeKey must be provided" );
+        luiSetTypeKey = luiSetTypeKey.trim();
+
+        if( luiSetInfo == null ) throw new InvalidParameterException( "luiSetInfo must be provided" );
+
+        LuiSetInfo created = new LuiSetInfo();
+        created.setId( UUIDHelper.genStringUUID(luiSetInfo.getId()) );
+        created.setDescr(luiSetInfo.getDescr());
+        created.setStateKey(luiSetInfo.getStateKey());
+        created.setTypeKey(luiSetTypeKey);
+        created.setName(luiSetInfo.getName());
+        created.setLuiIds( luiSetInfo.getLuiIds() );
+        created.setEffectiveDate( luiSetInfo.getEffectiveDate() );
+        created.setExpirationDate( luiSetInfo.getExpirationDate() );
+        created.setMeta( luiSetInfo.getMeta() );
+        created.setAttributes( luiSetInfo.getAttributes() );
+
+        this.luiSets.put( created.getId(), created );
+
+        return created;
     }
 
     @Override
@@ -420,22 +465,69 @@ public class LuiServiceMockImpl
                                     ContextInfo contextInfo)
             throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, UnsupportedActionException, VersionMismatchException {
-        throw new RuntimeException("Not implemented");
+        if( luiSetId == null || luiSetId.trim().isEmpty() ) throw new InvalidParameterException( "luiSetId must be provided" );
+        luiSetId = luiSetId.trim();
+
+        if( contextInfo == null ) throw new InvalidParameterException( "contextInfo must be provided" );
+
+        if( !this.luiSets.containsKey(luiSetId) ) throw new DoesNotExistException( "luiSetId not found: " + luiSetId );
+
+        return this.luiSets.put( luiSetId, luiSetInfo );
     }
 
     @Override
     public StatusInfo deleteLuiSet(String luiSetId,  ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
+        if( luiSetId == null || luiSetId.trim().isEmpty() ) throw new InvalidParameterException( "luiSetId must be provided" );
+        luiSetId = luiSetId.trim();
+
+        if( contextInfo == null ) throw new InvalidParameterException( "contextInfo must be provided" );
+
+        if( !this.luiSets.containsKey(luiSetId) ) throw new DoesNotExistException( "luiSetId not found: " + luiSetId );
+
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(false);
+        if( this.luiSets.remove( luiSetId ) != null ) {
+            statusInfo.setSuccess(true);
+        }
+
+        return statusInfo;
     }
 
     @Override
     public List<LuiSetInfo> getLuiSetsByLui(String luiId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return new ArrayList<LuiSetInfo>();
+        if( luiId == null || luiId.trim().isEmpty() ) throw new InvalidParameterException( "luiId must be provided" );
+        luiId = luiId.trim();
+
+        if( contextInfo == null ) throw new InvalidParameterException( "contextInfo must be provided" );
+
+        List<LuiSetInfo> result = new ArrayList<LuiSetInfo>();
+        Iterator<String> it = this.luiSets.keySet().iterator();
+        while( it.hasNext() ) {
+            String key = it.next();
+            LuiSetInfo value = this.luiSets.get(key);
+            if( value.getLuiIds().contains(luiId)) result.add(value);
+        }
+
+        return result;
     }
 
     @Override
     public List<String> getLuiSetIdsByType(String luiSetTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
+        if( luiSetTypeKey == null || luiSetTypeKey.trim().isEmpty() ) throw new InvalidParameterException( "luiSetTypeKey must be provided" );
+        luiSetTypeKey = luiSetTypeKey.trim();
+
+        if( contextInfo == null ) throw new InvalidParameterException( "contextInfo must be provided" );
+
+        List<String> result = new ArrayList<String>();
+        Iterator<String> it = this.luiSets.keySet().iterator();
+        while( it.hasNext() ) {
+            String key = it.next();
+            LuiSetInfo value = this.luiSets.get(key);
+            if( value.getTypeKey().equals(luiSetTypeKey) ) result.add(key);
+        }
+
+        return result;
     }
+
 }

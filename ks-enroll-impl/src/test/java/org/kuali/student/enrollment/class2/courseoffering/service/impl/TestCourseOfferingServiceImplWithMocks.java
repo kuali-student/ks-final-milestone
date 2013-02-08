@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
 import org.kuali.student.enrollment.class2.acal.util.AcalTestDataLoader;
 import org.kuali.student.enrollment.class2.acal.util.MockAcalTestDataLoader;
@@ -12,9 +13,13 @@ import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.lui.dto.LuiSetInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.lum.lrc.service.util.MockLrcTestDataLoader;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
@@ -41,10 +46,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -358,4 +365,106 @@ public class TestCourseOfferingServiceImplWithMocks {
         return info;
 
     }
+
+
+    @Test
+    public void testLuiServiceLuiSetMethods() throws Throwable {
+        System.out.println("starting tests...");
+
+        String luiSetTypeKey = "test.lui.set.type.key.test";
+        LuiSetInfo luiSetInfo = new LuiSetInfo();
+        RichTextInfo descr = new RichTextInfo();
+        descr.setPlain( "descr" );
+        luiSetInfo.setDescr( descr );
+        luiSetInfo.setStateKey( "test.lui.set.state.key.test" );
+        luiSetInfo.setTypeKey( luiSetTypeKey );
+        luiSetInfo.setName( "name" );
+        luiSetInfo.setEffectiveDate( new Date() );
+        luiSetInfo.setExpirationDate( new Date() );
+        luiSetInfo.setMeta( new MetaInfo() );
+        luiSetInfo.setAttributes( new ArrayList<AttributeInfo>() );
+
+        // create
+        LuiSetInfo created = luiService.createLuiSet( luiSetTypeKey, luiSetInfo, callContext );
+        assertNotNull(created);
+        assertTrue(UUIDHelper.isUUID(created.getId()));
+
+        // read
+        LuiSetInfo retrieved = luiService.getLuiSet( created.getId(), callContext );
+        assertNotNull( retrieved );
+        assertEquals( created.getId(), retrieved.getId() );
+
+        // update
+        retrieved.setName( "updated_name");
+        LuiSetInfo replaced = luiService.updateLuiSet( created.getId(), retrieved, callContext );
+        LuiSetInfo updated = luiService.getLuiSet( created.getId(), callContext );
+        assertNotNull(replaced);
+        assertNotNull(updated);
+        assertEquals(created.getId(), replaced.getId());
+        assertEquals( created.getId(), updated.getId() );
+        assertEquals( created.getName(), replaced.getName() );
+        assertEquals( retrieved.getName(), updated.getName() );
+
+        // delete
+        StatusInfo deleteStatus = luiService.deleteLuiSet( created.getId(), callContext );
+        assertNotNull(deleteStatus);
+        assertTrue(deleteStatus.getIsSuccess());
+        try {
+            retrieved = luiService.getLuiSet(created.getId(), callContext);
+            fail("should have thrown DoesNotExistException");
+        } catch (DoesNotExistException ex) {
+            // expected
+        }
+
+        // bulk operation -- get a bunch of luis using a list of their ids
+        List<String> createdLuiSetIds = new ArrayList<String>();
+        createdLuiSetIds.add(luiService.createLuiSet(luiSetTypeKey, luiSetInfo, callContext).getId());
+        createdLuiSetIds.add( luiService.createLuiSet( luiSetTypeKey, luiSetInfo, callContext ).getId() );
+        createdLuiSetIds.add( luiService.createLuiSet( luiSetTypeKey, luiSetInfo, callContext ).getId() );
+        List<LuiSetInfo> bulkRetrieved_luiSets = luiService.getLuiSetsByIds( createdLuiSetIds, callContext );
+        assertNotNull( bulkRetrieved_luiSets );
+        assertTrue( bulkRetrieved_luiSets.size() == 3 );
+        for( LuiSetInfo r : bulkRetrieved_luiSets ) {
+            assertTrue( createdLuiSetIds.contains(r.getId()) );
+        }
+
+        // bulk operation -- get the list of lui-ids of a lui-set
+        List<String> luiIds = new ArrayList<String>();
+        luiIds.add( UUIDHelper.genStringUUID() );
+        luiIds.add( UUIDHelper.genStringUUID() );
+        luiSetInfo.setLuiIds( luiIds );
+        created = luiService.createLuiSet( luiSetTypeKey, luiSetInfo, callContext );
+        List<String> bulkRetrieved_luiIds = luiService.getLuiIdsFromLuiSet( created.getId(), callContext );
+        assertNotNull(bulkRetrieved_luiIds);
+        assertEquals(luiIds.size(), bulkRetrieved_luiIds.size());
+        assertTrue( bulkRetrieved_luiIds.containsAll(luiIds) );
+
+        // bulk operation -- get a list of lui-ids that contain a specific lui-id
+        String targetLuiId = UUIDHelper.genStringUUID();
+        List<String> targetLuiIdsList = new ArrayList<String>();
+        targetLuiIdsList.add(targetLuiId);
+        luiSetInfo.setLuiIds( targetLuiIdsList );
+        // create a bunch of lui-sets containing references to that lui-id
+        List<LuiSetInfo> bulkCreated_luiSets = new ArrayList<LuiSetInfo>();
+        bulkCreated_luiSets.add( luiService.createLuiSet( luiSetTypeKey, luiSetInfo, callContext ) );
+        bulkCreated_luiSets.add( luiService.createLuiSet( luiSetTypeKey, luiSetInfo, callContext ) );
+        bulkCreated_luiSets.add( luiService.createLuiSet( luiSetTypeKey, luiSetInfo, callContext ) );
+        bulkRetrieved_luiSets = luiService.getLuiSetsByLui( targetLuiId, callContext );
+        assertNotNull( bulkRetrieved_luiSets );
+        assertEquals( 3, bulkRetrieved_luiSets.size() );
+        for( LuiSetInfo luiSet : bulkRetrieved_luiSets ) {
+            assertTrue( luiSet.getLuiIds().contains( targetLuiId ) );
+        }
+
+        // bulk operation -- get a list of lui-set ids by lui-set type
+        luiService.createLuiSet( "test.alternate.lui.set.type.key.test", luiSetInfo, callContext );
+        bulkRetrieved_luiIds = luiService.getLuiSetIdsByType( luiSetTypeKey, callContext );
+        assertEquals( 7, bulkRetrieved_luiIds.size() );
+        for( String id : bulkRetrieved_luiIds ) {
+            assertEquals( luiSetTypeKey, luiService.getLuiSet( id, callContext ).getTypeKey() );
+        }
+        assertEquals( 1, luiService.getLuiSetIdsByType( "test.alternate.lui.set.type.key.test", callContext ).size() );
+
+    }
+
 }
