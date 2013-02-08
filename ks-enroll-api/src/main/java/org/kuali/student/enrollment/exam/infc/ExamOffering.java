@@ -34,18 +34,6 @@ public interface ExamOffering extends IdEntity {
     public String getCanonicalExamId();
 
     /**
-     * A format offering this exam offering is tied to
-     * @return a format offering id if this exam is tied to one, else null
-     */
-    public String getFormatOfferingId();
-
-    /**
-     * A course offering this exam offering is tied to
-     * @return a course offering id if this exam is tied to one, else null
-     */
-    public String getCourseOfferingId();
-
-    /**
      * A schedule id if this exam offering is scheduled and thus has a schedule.
      *
      * No value will exist until the scheduling process has been completed for this exam offering.

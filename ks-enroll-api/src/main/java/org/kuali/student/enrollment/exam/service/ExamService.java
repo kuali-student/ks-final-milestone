@@ -119,7 +119,7 @@ public interface ExamService {
                 PermissionDeniedException;
 
     /**
-     * Retrieve a list of final ExamOfferings by ActivityOffering.
+     * Retrieve a list of ExamOfferings by ActivityOffering.
      *
      * @param activityOfferingId    the identifier for the activity offering.
      * @param contextInfo           information containing the principalId and
@@ -132,8 +132,8 @@ public interface ExamService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ExamOfferingInfo> getFinalExamOfferingsByActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId,
-                                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<ExamOfferingInfo> getExamOfferingsByActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId,
+                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
