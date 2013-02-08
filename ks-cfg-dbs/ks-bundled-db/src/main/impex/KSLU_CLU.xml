@@ -10,8 +10,7 @@
         LUTYPE_ID="kuali.lu.type.CreditCourseFormatShell"
         OBJ_ID="6c92b777-5204-4731-95a9-89be587c5875" SEQ_NUM="1"
         ST="Active" UPDATETIME="20110810000000"
-        VER_IND_ID="5d763742-15e2-40a4-82e9-ed1b1c066330" VER_NBR="0"
-        OFFIC_CLU_ID="6841114a-2ccc-48b1-baef-8c89bab93d48"/>
+        VER_IND_ID="5d763742-15e2-40a4-82e9-ed1b1c066330" VER_NBR="0"/>
     <KSLU_CLU ATP_DUR_TYP_KEY="kuali.atp.duration.Semester"
         CAN_CREATE_LUI="0" CLU_INTSTY_QTY="3"
         CLU_INTSTY_TYPE="kuali.atp.duration.week"
@@ -22,8 +21,7 @@
         LUTYPE_ID="kuali.lu.type.activity.Lecture"
         OBJ_ID="0c23b75a-5d70-40b5-a654-da96331715ab" SEQ_NUM="1"
         ST="Active" TM_QUANTITY="1" UPDATETIME="20110810000000"
-        VER_IND_ID="d6b551ff-e7da-493e-8760-4054dfb03109" VER_NBR="0"
-        OFFIC_CLU_ID="68542e86-e8ee-4c87-89b2-09642f9483b5"/>
+        VER_IND_ID="d6b551ff-e7da-493e-8760-4054dfb03109" VER_NBR="0"/>
     <KSLU_CLU ACCT_ID="1c27c56d-64a5-49af-901f-5487226fc07a"
         CAN_CREATE_LUI="0" CREATETIME="20120509235455"
         CURR_VER_START="20120509235455" DEF_ENRL_EST="0"
@@ -34,7 +32,7 @@
         IS_HAZR_DISBLD_STU="0" LAST_ATP="20122"
         LUTYPE_ID="kuali.lu.type.CreditCourse"
         OBJ_ID="2ed166ae-a677-44b7-9ff9-662d0e1e8e17"
-        OFFIC_CLU_ID="686ca2db-e992-4c16-bd1e-e6160350c56c"
+        OFFIC_CLU_ID="6841114a-2ccc-48b1-baef-8c89bab93d48"
         RT_DESCR_ID="c68580c9-90ef-4dbd-8cba-9f226dfbdf1e" SEQ_NUM="1"
         ST="ACTIVE" UPDATETIME="20120509235455"
         VER_IND_ID="5e51bc77-c1a2-4862-b665-44635d588f7c" VER_NBR="0"/>
@@ -46,8 +44,7 @@
         LUTYPE_ID="kuali.lu.type.CreditCourseFormatShell"
         OBJ_ID="0ef28cf4-c3c3-4081-90d4-f1222d072021" SEQ_NUM="1"
         ST="Active" UPDATETIME="20110810000000"
-        VER_IND_ID="3a568fce-7288-482d-b00f-8d2c8a604bd3" VER_NBR="0"
-        OFFIC_CLU_ID="687f01ea-f106-4e5f-9978-e26ef7124de7"/>
+        VER_IND_ID="3a568fce-7288-482d-b00f-8d2c8a604bd3" VER_NBR="0"/>
     <KSLU_CLU CAN_CREATE_LUI="0" CREATEID="admin"
         CREATETIME="20101214103431" CURR_VER_START="20101214103431"
         DEF_ENRL_EST="0" DEF_MAX_ENRL="0" HAS_EARLY_DROP_DEDLN="0"
@@ -56,8 +53,7 @@
         LUTYPE_ID="kuali.lu.type.CreditCourseFormatShell"
         OBJ_ID="fbcc1d69-691d-4091-b077-278be88a33e4" SEQ_NUM="1"
         ST="Active" UPDATEID="admin" UPDATETIME="20101214103647"
-        VER_IND_ID="f6a69a43-2840-404f-8725-2ecaf4d80f7a" VER_NBR="4"
-        OFFIC_CLU_ID="68afa8bc-b151-4d70-8e75-5bb651a88d90"/>
+        VER_IND_ID="f6a69a43-2840-404f-8725-2ecaf4d80f7a" VER_NBR="4"/>
     <KSLU_CLU CAN_CREATE_LUI="0" CREATETIME="20120509234738"
         CURR_VER_START="20120509234738" DEF_ENRL_EST="0"
         DEF_MAX_ENRL="0" HAS_EARLY_DROP_DEDLN="0"
@@ -65,9 +61,7 @@
         IS_HAZR_DISBLD_STU="0" LUTYPE_ID="kuali.lu.type.activity.quiz"
         OBJ_ID="fd300e8e-e979-4a75-a22c-9f7147647630" SEQ_NUM="1"
         ST="ACTIVE" UPDATETIME="20120509234738"
-        VER_IND_ID="a3ea509a-4484-4104-af4a-f374d21d5da1" VER_NBR="0"
-        OFFIC_CLU_ID="68b60dd3-1566-4312-98ef-d5a829d882c0"/>
-
+        VER_IND_ID="a3ea509a-4484-4104-af4a-f374d21d5da1" VER_NBR="0"/>
     <KSLU_CLU CAN_CREATE_LUI="0" CREATETIME="20101210172138"
         CURR_VER_START="20101210172138" DEF_ENRL_EST="0"
         DEF_MAX_ENRL="0" HAS_EARLY_DROP_DEDLN="0"
@@ -76,8 +70,7 @@
         LUTYPE_ID="kuali.lu.type.CreditCourseFormatShell"
         OBJ_ID="1de09260-72c2-45eb-8bd5-4a650cbf7271" SEQ_NUM="1"
         ST="Active" UPDATETIME="20101210172138"
-        VER_IND_ID="67ee1252-53ed-4377-bd7e-6c61cb212298" VER_NBR="0"
-         OFFIC_CLU_ID="68c27346-b69b-460c-8aea-b388c50b511e"/>
+        VER_IND_ID="67ee1252-53ed-4377-bd7e-6c61cb212298" VER_NBR="0"/>
     <KSLU_CLU ATP_DUR_TYP_KEY="kuali.atp.duration.Semester"
         CAN_CREATE_LUI="0" CLU_INTSTY_QTY="2"
         CLU_INTSTY_TYPE="kuali.atp.duration.week"
