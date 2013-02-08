@@ -34,12 +34,8 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
 
     private String multipleCourseType;
     private String gradeScale;
-    private String searchByCourseRange;
-    private String subjectCode;
-    private String courseNumberRange;
 
-    private Date effectiveFrom;
-    private Date effectiveTo;
+
 
     private String newTermDescription = "new term " + UUID.randomUUID().toString();
     private String parameterDisplayString;
@@ -116,46 +112,6 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
 
     public void setGradeScale(String gradeScale) {
         this.gradeScale = gradeScale;
-    }
-
-    public String getSearchByCourseRange() {
-        return searchByCourseRange;
-    }
-
-    public void setSearchByCourseRange(String searchByCourseRange) {
-        this.searchByCourseRange = searchByCourseRange;
-    }
-
-    public String getSubjectCode() {
-        return subjectCode;
-    }
-
-    public void setSubjectCode(String subjectCode) {
-        this.subjectCode = subjectCode;
-    }
-
-    public String getCourseNumberRange() {
-        return courseNumberRange;
-    }
-
-    public void setCourseNumberRange(String courseNumberRange) {
-        this.courseNumberRange = courseNumberRange;
-    }
-
-    public Date getEffectiveFrom() {
-        return effectiveFrom;
-    }
-
-    public void setEffectiveFrom(Date effectiveFrom) {
-        this.effectiveFrom = effectiveFrom;
-    }
-
-    public Date getEffectiveTo() {
-        return effectiveTo;
-    }
-
-    public void setEffectiveTo(Date effectiveTo) {
-        this.effectiveTo = effectiveTo;
     }
 
     /**

@@ -134,3 +134,23 @@
     font-weight: bold;
     max-width: 54em;
 }
+
+.ks-stackedCollectionLayout {
+    padding: 0px;
+    background-image: none;
+}
+
+.ks-stackedCollectionItem {
+    border: 1px solid #B2B2B2;
+    margin-bottom: 5px !important;
+    padding: 5px !important;
+    background-color: transparent !important;
+}
+
+.ks-stackedActionItem {
+    margin: 0px !important;
+}
+
+.ks-collectionAddItem {
+    border: none !important;
+}

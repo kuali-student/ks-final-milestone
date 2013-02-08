@@ -11,6 +11,7 @@ import org.kuali.rice.krms.impl.repository.RuleBo;
 import org.kuali.rice.krms.impl.ui.AgendaEditor;
 import org.kuali.student.enrollment.class1.krms.form.TreeNode;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,6 +31,14 @@ public class RuleEditor extends AgendaEditor {
     private String ruleType;
     private String copyPropositionId;
     private List<String> activeSelections;
+
+    //Course Range Dialog.
+    private String searchByCourseRange;
+    private String subjectCode;
+    private String courseNumberRange;
+    private String learningObjective;
+    private Date effectiveFrom;
+    private Date effectiveTo;
 
     private RuleBo rule;
 
@@ -104,6 +113,54 @@ public class RuleEditor extends AgendaEditor {
 
     public void setActiveSelections(List<String> activeSelections) {
         this.activeSelections = activeSelections;
+    }
+
+    public String getSearchByCourseRange() {
+        return searchByCourseRange;
+    }
+
+    public void setSearchByCourseRange(String searchByCourseRange) {
+        this.searchByCourseRange = searchByCourseRange;
+    }
+
+    public String getSubjectCode() {
+        return subjectCode;
+    }
+
+    public void setSubjectCode(String subjectCode) {
+        this.subjectCode = subjectCode;
+    }
+
+    public String getCourseNumberRange() {
+        return courseNumberRange;
+    }
+
+    public void setCourseNumberRange(String courseNumberRange) {
+        this.courseNumberRange = courseNumberRange;
+    }
+
+    public String getLearningObjective() {
+        return learningObjective;
+    }
+
+    public void setLearningObjective(String learningObjective) {
+        this.learningObjective = learningObjective;
+    }
+
+    public Date getEffectiveFrom() {
+        return effectiveFrom;
+    }
+
+    public void setEffectiveFrom(Date effectiveFrom) {
+        this.effectiveFrom = effectiveFrom;
+    }
+
+    public Date getEffectiveTo() {
+        return effectiveTo;
+    }
+
+    public void setEffectiveTo(Date effectiveTo) {
+        this.effectiveTo = effectiveTo;
     }
 
     /**

@@ -16,15 +16,21 @@
  */
 package org.kuali.student.enrollment.class1.krms.form;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
+import org.kuali.rice.krms.impl.ui.TermParameter;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
+import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
+import org.kuali.student.enrollment.class1.krms.dto.UITestObject;
 import org.kuali.student.enrollment.uif.form.KSUifForm;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -42,6 +48,36 @@ public class KrmsComponentsForm extends KSUifForm {
     private String field2;
 
     private Tree<TreeNode, String> tree1;
+
+    private List<TermParameter> list6 = new ArrayList<TermParameter>();
+
+    private RuleEditor rule = new RuleEditor();
+
+    public KrmsComponentsForm(){
+        list6.add(this.createTermParameter("MATH100"));
+        list6.add(this.createTermParameter("BIOL100"));
+        list6.add(this.createTermParameter("CCJM100"));
+    }
+
+    private TermParameter createTermParameter(String parm){
+        TermParameter parameter = new TermParameter();
+        parameter.setParameter(parm);
+        return parameter;
+    }
+
+    /**
+     * @return the list6
+     */
+    public List<TermParameter> getList6() {
+        return this.list6;
+    }
+
+    /**
+     * @param list6 the list6 to set
+     */
+    public void setList6(List<TermParameter> list6) {
+        this.list6 = list6;
+    }
 
     public PropositionEditor getProposition() {
         return proposition;
@@ -65,6 +101,54 @@ public class KrmsComponentsForm extends KSUifForm {
 
     public void setField2(String field) {
         this.field2 = field;
+    }
+
+    public String getSearchByCourseRange() {
+        return this.getRule().getSearchByCourseRange();
+    }
+
+    public void setSearchByCourseRange(String searchByCourseRange) {
+        this.getRule().setSearchByCourseRange(searchByCourseRange);
+    }
+
+    public String getSubjectCode() {
+        return this.getRule().getSubjectCode();
+    }
+
+    public void setSubjectCode(String subjectCode) {
+        this.getRule().setSubjectCode(subjectCode);
+    }
+
+    public String getCourseNumberRange() {
+        return this.getRule().getCourseNumberRange();
+    }
+
+    public void setCourseNumberRange(String courseNumberRange) {
+        this.setCourseNumberRange(courseNumberRange);
+    }
+
+    public String getLearningObjective() {
+        return this.getRule().getLearningObjective();
+    }
+
+    public void setLearningObjective(String learningObjective) {
+        this.getRule().setLearningObjective(learningObjective);
+    }
+
+    public Date getEffectiveFrom() {
+        return this.getRule().getEffectiveFrom();
+    }
+
+    public void setEffectiveFrom(Date effectiveFrom) {
+        this.getRule().setEffectiveFrom(effectiveFrom);
+    }
+
+    public Date getEffectiveTo() {
+        return this.getRule().getEffectiveTo();
+    }
+
+    public void setEffectiveTo(Date effectiveTo) {
+        this.getRule().setEffectiveTo(effectiveTo);
     }
 
     /**
@@ -113,4 +197,7 @@ public class KrmsComponentsForm extends KSUifForm {
         return new Node<TreeNode, String>(treeNode, label);
     }
 
+    public RuleEditor getRule() {
+        return rule;
+    }
 }
