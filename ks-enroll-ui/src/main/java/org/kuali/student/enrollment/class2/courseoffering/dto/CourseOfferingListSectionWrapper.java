@@ -22,8 +22,8 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import java.io.Serializable;
 
 /**
- * This class is a wrapper object used in the manage course offering page. It is meant to be small and only contain
- * items needed for the search results row.
+ * This wrapper is used to display a list of {@link org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo} at
+ * Manage CO View.
  *
  * @author Kuali Student Team
  */
@@ -266,6 +266,18 @@ public class CourseOfferingListSectionWrapper implements Serializable{
         }
 
         return StringUtils.removeEnd(buffer.toString(),"<br>");
+    }
+
+    /**
+     * This method is here only to support the course offering inquiry.
+     * @return
+     */
+    public boolean isAlternateCoursesExists(){
+        if (alternateCOCodes != null && alternateCOCodes.length > 0){
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 

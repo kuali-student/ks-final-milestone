@@ -74,10 +74,18 @@
                 </bean>
                 <bean parent="Uif-DataField" p:propertyName="courseOfferingCode">
                     <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="courseOfferingId" />
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" >
+                            <property name="inquiryParameters">
+                              <map>
+                                  <entry key="courseOfferingId" value="courseOfferingId"/>
+                                  <entry key="alternateCoursesExists" value="alternateCourseExists"/>
+                                  <entry key="courseOfferingCode" value="courseOfferingCode"/>
+                              </map>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-ImageField" p:hidden="@{#lp.crossListedCodesUI.isEmpty()}" p:width="" p:height="" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png">
+                <bean parent="Uif-ImageField" p:hidden="@{#lp.crossListedCodesUI.isEmpty()}" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png">
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.crossListedCodesUI}"/>
                       </property>

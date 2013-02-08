@@ -45,15 +45,15 @@
             <list>
                 <bean id="KS-SelectedAoDeleteConfirmation-Message" parent="Uif-VerticalBoxSection">
                     <property name="headerText"
-                              value="@{courseOfferingCode} - @{theCourseOffering.courseOfferingTitle}"/>
+                              value="@{courseOfferingCode} - @{currentCourseOfferingWrapper.courseOfferingTitle}"/>
                     <property name="header">
                         <bean parent="Uif-HeaderFour"/>
                     </property>
                     <property name="disclosure.render" value="false"/>
                     <property name="items" >
                         <list>
-                            <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{alternateCourseOfferingCodesUI}" p:render="@{crossListedCO}"/>
-                            <bean parent="Uif-DataField" p:label="Term:" p:propertyName="theCourseOffering.termId" p:fieldLabel.renderColon="false" p:readOnly="true"/>
+                            <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{currentCourseOfferingWrapper.alternateCOCodesUITooltip}" p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != ''}"/>
+                            <bean parent="Uif-DataField" p:label="Term:" p:propertyName="currentCourseOfferingWrapper.termId" p:fieldLabel.renderColon="false" p:readOnly="true"/>
                          </list>
                     </property>
                 </bean>
@@ -67,7 +67,7 @@
                         <list>
                             <bean parent="Uif-Message"
                                   p:messageText="Warning: This is a crosslisted course."
-                                  p:style="background-color:#FFEE99; font-size: 110%" p:colSpan="2" p:render="@{crossListedCO}"/>
+                                  p:style="background-color:#FFEE99; font-size: 110%" p:colSpan="2" p:render="@{crossListed}"/>
                             <bean parent="Uif-Message"
                                   p:messageText="Warning: You are about to permanently delete the following activity offering(s) from this course offering."
                                   p:style="background-color:#FFEE99; font-size: 110%" p:colSpan="2"/>

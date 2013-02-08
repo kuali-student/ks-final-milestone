@@ -24,6 +24,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
@@ -67,8 +68,6 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_ViewHelperServiceImpl implements CourseOfferingManagementViewHelperService{
@@ -83,18 +82,34 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     private AtpService atpService;
     private CourseOfferingSetService socService;
 
-    public List<TermInfo> findTermByTermCode(String termCode) throws Exception {
-        // TODO: Find sensible way to rewrap exception that acal service may throw
-        // Find the term (alas, I think it does approximate search)
+
+    /**
+     * This method fetches the <code>TermInfo</code> and validate for exact match
+     *
+     * @param form
+     * @throws Exception
+     */
+    public void populateTerm(CourseOfferingManagementForm form) throws Exception {
+
+        String termCode = form.getTermCode();
+
+        form.getCourseOfferingResultList().clear();
+
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        // TODO: How does one get rid of hard-coding "atpCode"?
         qbcBuilder.setPredicates(PredicateFactory.equal("atpCode", termCode));
 
         QueryByCriteria criteria = qbcBuilder.build();
 
-        // Do search.  In ideal case, terms returns one element, which is the desired term.
-        AcademicCalendarService acalService = _getAcalService();
-        return acalService.searchForTerms(criteria, createContextInfo());
+        List<TermInfo> terms = getAcalService().searchForTerms(criteria, createContextInfo());
+
+        if (terms.isEmpty()){
+            GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, termCode);
+        } else if (terms.size() > 1){
+            GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
+        } else {
+            form.setTermInfo(terms.get(0));
+        }
+
     }
 
     /**
@@ -121,6 +136,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
     }
 
+    /**
+     * This method loads all the course offerings for a term and subject area/code.
+     *
+     * @param termId term id
+     * @param subjectCode subject area
+     * @param form course offering management form
+     * @throws Exception
+     */
     public void loadCourseOfferingsByTermAndSubjectCode(String termId, String subjectCode, CourseOfferingManagementForm form) throws Exception {
 
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
@@ -137,6 +160,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
     }
 
+    /**
+     * This method fetches all the course offerings for a term and course/subject code.
+     *
+     * @see CourseOfferingManagementSearchImpl Actual CO search happens here
+     * @param searchRequest
+     * @param form
+     * @throws Exception
+     */
     protected void loadCourseOfferings(SearchRequestInfo searchRequest,CourseOfferingManagementForm form) throws Exception {
 
         ContextInfo contextInfo = createContextInfo();
@@ -195,47 +226,79 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         setSocStateKeys(form);
     }
 
-    private String getGradingOption(String gradingOptionId) throws Exception {
-        String gradingOption = "";
-        if(StringUtils.isNotBlank(gradingOptionId)){
-            ResultValuesGroupInfo rvg = getLrcService().getResultValuesGroup(gradingOptionId, createContextInfo());
-            if(rvg!= null && StringUtils.isNotBlank(rvg.getName())){
-                gradingOption = rvg.getName();
-            }
-        }
-        return gradingOption;
-    }
 
-    public void loadPreviousAndNextCourseOffering(CourseOfferingManagementForm form, CourseOfferingInfo courseOfferingInfo){
+    /**
+     * This method loads the previous and next course offerings for navigation purpose.
+     *
+     * @param form
+     */
+    public void loadPreviousAndNextCourseOffering(CourseOfferingManagementForm form){
         try{
             ContextInfo contextInfo = createContextInfo();
-            List<String> coIds = getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(courseOfferingInfo.getTermId(),courseOfferingInfo.getSubjectArea(), contextInfo);
-            List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByIds(coIds, contextInfo);
 
-            Collections.sort(courseOfferingInfos, new Comparator<CourseOfferingInfo>() {
-                @Override
-                public int compare(CourseOfferingInfo o1, CourseOfferingInfo o2) {
-                    if (o1.getCourseOfferingCode().length() == o2.getCourseOfferingCode().length()) {
-                        return o1.getCourseOfferingCode().compareTo(o2.getCourseOfferingCode());
-                    } else {
-                        return o1.getCourseOfferingCode().length() - o2.getCourseOfferingCode().length();
+            /**
+             * Get all the course offerings for a term and subject area.
+             */
+            SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
+            searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.SUBJECT_AREA, form.getSubjectCode());
+            searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, form.getTermInfo().getId());
+
+            SearchResultInfo searchResult = getSearchService().search(searchRequest, contextInfo);
+            List<CourseOfferingWrapper> availableCOs = new ArrayList<CourseOfferingWrapper>();
+
+            for (SearchResultRowInfo row : searchResult.getRows()) {
+
+                String courseOfferingCode = "";
+                String courseOfferingId = "";
+                String courseOfferingDesc = "";
+                boolean isCrossListed = false;
+                String[] alternateCodes = null;
+
+                for(SearchResultCellInfo cellInfo : row.getCells()){
+
+                    String value = StringUtils.EMPTY;
+                    if(cellInfo.getValue() != null)  {
+                        value = new String(cellInfo.getValue());
                     }
+
+                    if(CourseOfferingManagementSearchImpl.SearchResultColumns.CODE.equals(cellInfo.getKey())){
+                        courseOfferingCode = value;
+                    }
+                    else if(CourseOfferingManagementSearchImpl.SearchResultColumns.CO_ID.equals(cellInfo.getKey())){
+                        courseOfferingId = value;
+                    }
+                    else if(CourseOfferingManagementSearchImpl.SearchResultColumns.DESC.equals(cellInfo.getKey())){
+                        courseOfferingDesc = value;
+                    }
+                    else if(CourseOfferingManagementSearchImpl.SearchResultColumns.IS_CROSS_LISTED.equals(cellInfo.getKey())){
+                        isCrossListed = BooleanUtils.toBoolean(value);
+                    }
+                    else if(CourseOfferingManagementSearchImpl.SearchResultColumns.CROSS_LISTED_COURSES.equals(cellInfo.getKey())){
+                        alternateCodes = StringUtils.split(value, ",");
+                    }
+
                 }
-            });
 
-            for (CourseOfferingInfo offeringInfo : courseOfferingInfos) {
-                if (StringUtils.equals(courseOfferingInfo.getId(),offeringInfo.getId())){
-                    int currentIndex = courseOfferingInfos.indexOf(offeringInfo);
-                    form.setInputCode(offeringInfo.getCourseOfferingCode());
+                CourseOfferingWrapper coWrapper = new CourseOfferingWrapper(isCrossListed,courseOfferingCode,courseOfferingDesc,alternateCodes,courseOfferingId);
+                availableCOs.add(coWrapper);
+            }
+
+            /**
+             * Find the current course offering index and set the previous and next course offerings if exists.
+             */
+            for (CourseOfferingWrapper coWrapper : availableCOs) {
+                if (StringUtils.equals(coWrapper.getCourseOfferingCode(),form.getCurrentCourseOfferingWrapper().getCourseOfferingCode())){
+                    int currentIndex = availableCOs.indexOf(coWrapper);
+                    form.setInputCode(coWrapper.getCourseOfferingCode());
                     if (currentIndex > 0){
-                        form.setPreviousCourseOffering(courseOfferingInfos.get(currentIndex-1));
+                        form.setPreviousCourseOfferingWrapper(availableCOs.get(currentIndex-1));
                     }else{
-                        form.setPreviousCourseOffering(null);
+                        form.setPreviousCourseOfferingWrapper(null);
                     }
-                    if (currentIndex < courseOfferingInfos.size()-1){
-                        form.setNextCourseOffering(courseOfferingInfos.get(currentIndex+1));
+                    if (currentIndex < availableCOs.size()-1){
+                        form.setNextCourseOfferingWrapper(availableCOs.get(currentIndex+1));
                     }else{
-                        form.setNextCourseOffering(null);
+                        form.setNextCourseOfferingWrapper(null);
                     }
                     break;
                 }
@@ -250,7 +313,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         String termcode;
         FormatInfo format = null;
         CourseInfo course;
-        CourseOfferingInfo courseOffering = form.getTheCourseOffering();
+        CourseOfferingInfo courseOffering = form.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
 
         ContextInfo contextInfo = createContextInfo();
 
@@ -513,7 +576,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
     }
     /**
-     * Performs
      * @param aoList The list of AOs to evaluate.
      * @param selectedAction The state change action to perform.
      * @throws Exception
@@ -659,7 +721,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         return coService;
     }
 
-    private AcademicCalendarService _getAcalService() {
+    private AcademicCalendarService getAcalService() {
         if (acalService == null) {
             acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE,
                     AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));

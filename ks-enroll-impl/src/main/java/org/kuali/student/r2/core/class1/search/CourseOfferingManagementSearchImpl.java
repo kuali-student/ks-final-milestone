@@ -169,6 +169,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
             query = query + "  AND ident.code like '" + courseCode + "%' ";
         }
 
+        query = query + " ORDER BY ident.code";
         /**
          * Search for the course offerings first for a term and subjectarea/coursecode
          */
@@ -194,6 +195,13 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
             row.addCell(SearchResultColumns.CO_ID,courseOfferingId);
             row.addCell(SearchResultColumns.SUBJECT_AREA,(String)result[i++]);
 
+            String luiIdentifierType = (String)result[i++];
+            boolean isCrossListed = false;
+            if (StringUtils.equals(luiIdentifierType,LuiServiceConstants.LUI_IDENTIFIER_CROSSLISTED_TYPE_KEY)){
+                isCrossListed = true;
+            }
+            row.addCell(SearchResultColumns.IS_CROSS_LISTED,"" + isCrossListed);
+
             if (enableCrossListSearch){
                 /**
                  * For cross list search, hold all the luis in a map for faster retrieval later when we search for the
@@ -207,12 +215,6 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                 }
                 matchingRowList.add(row);
                 luiCode.add(coCode);
-                String luiIdentifierType = (String)result[i++];
-                boolean isCrossListed = false;
-                if (StringUtils.equals(luiIdentifierType,LuiServiceConstants.LUI_IDENTIFIER_CROSSLISTED_TYPE_KEY)){
-                    isCrossListed = true;
-                }
-                row.addCell(SearchResultColumns.IS_CROSS_LISTED,"" + isCrossListed);
             }
 
         }

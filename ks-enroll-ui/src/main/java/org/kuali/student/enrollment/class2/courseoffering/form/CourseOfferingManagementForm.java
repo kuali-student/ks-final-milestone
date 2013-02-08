@@ -1,11 +1,9 @@
 package org.kuali.student.enrollment.class2.courseoffering.form;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.uif.form.KSUifForm;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
@@ -13,36 +11,57 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseOfferingManagementForm extends KSUifForm {
+
     //for authorization purpose
     private String adminOrg;
 
     private String termCode;
     private TermInfo termInfo;
-    private String courseOfferingCode;
+
+    /**
+     * @see #setSubjectCode(String)
+     */
     private String subjectCode;
+
+    /**
+     * @see #setSubjectCodeDescription(String)
+     */
     private String subjectCodeDescription;
-    private String radioSelection;
+
+    /**
+     * This is the user entered field data when they search for Course/Activity Offerings.
+     * For a term and subjectArea/CourseOffering code, search will be performed.
+     */
     private String inputCode;
+
     private String selectedOfferingAction;
-    private CourseOfferingInfo theCourseOffering;
     private String coViewLinkWrapper = "View"; // temp var to hold/store the View Details Link
-    private CourseOfferingEditWrapper courseOfferingEditWrapper = null;
+
+    /**
+     * To display the soc state
+     */
     private String socState;
+
+    /**
+     * This is being used in authz to decide the toolbar permissions.
+     */
     private String socStateKey;
+
+    /**
+     * FIXME: Dont think we're using this property at view xml
+     */
     private String socSchedulingStateKey;
 
     private boolean readOnly;
-    private boolean isCrossListedCO;
-    private String alternateCourseOfferingCodesUI;
-    private String courseOfferingCodeUI;
-    private String courseOfferingTitleUI;
-    private String coOwningDeptName;
-
 
     private List<ActivityOfferingWrapper> activityWrapperList;
+
+    /**
+     * FIXME: Cant we have a flag at the ActivityOfferingWrapper to handle whether the AO is selected to delete or not?
+     * I dont think we need a seperate list to handle that - courseOfferingCopyWrapper
+     */
     private List<ActivityOfferingWrapper> selectedToDeleteList;
     private CourseOfferingCopyWrapper courseOfferingCopyWrapper;
-
 
     /**
      * The courseOfferingResultList once created is unmodifiable. This had to be done because various
@@ -59,10 +78,9 @@ public class CourseOfferingManagementForm extends KSUifForm {
     private String activityIdForNewAO;
     private String noOfActivityOfferings;
 
-    private CourseOfferingInfo previousCourseOffering;
-    private CourseOfferingInfo nextCourseOffering;
-    private String previousCourseOfferingCodeUI;
-    private String nextCourseOfferingCodeUI;
+    private CourseOfferingWrapper currentCourseOfferingWrapper;
+    private CourseOfferingWrapper previousCourseOfferingWrapper;
+    private CourseOfferingWrapper nextCourseOfferingWrapper;
 
     private String toBeScheduledCourseOfferingsUI;
     private int toBeScheduledCourseOfferingsCount;
@@ -102,28 +120,25 @@ public class CourseOfferingManagementForm extends KSUifForm {
         this.termInfo = termInfo;
     }
     
-    public String getCourseOfferingCode(){
-        return courseOfferingCode;
-    }
-
-    public void setCourseOfferingCode(String courseOfferingCode){
-        this.courseOfferingCode = courseOfferingCode;
-    }
-    
+    /**
+     * Returns the Subject (Org) code.
+     *
+     * @see #setSubjectCode(String)
+     * @return
+     */
     public String getSubjectCode(){
         return subjectCode;
     }
-    
+
+    /**
+     * Sets the subject code (Org Code). Based on this code, subject are description will be displayed
+     * for CO search,
+     *
+     * @see #setSubjectCodeDescription(String)
+     * @param subjectCode
+     */
     public void setSubjectCode(String subjectCode) {
         this.subjectCode = subjectCode;
-    }
-    
-    public String getRadioSelection(){
-        return radioSelection;
-    } 
-    
-    public void setRadioSelection(String radioSelection){
-        this.radioSelection = radioSelection;
     }
     
     public String getInputCode(){
@@ -140,14 +155,6 @@ public class CourseOfferingManagementForm extends KSUifForm {
 
     public void setSelectedOfferingAction(String selectedOfferingAction) {
         this.selectedOfferingAction = selectedOfferingAction;
-    }
-
-    public CourseOfferingInfo getTheCourseOffering(){
-        return theCourseOffering;
-    }
-
-    public void setTheCourseOffering(CourseOfferingInfo theCourseOffering)  {
-        this.theCourseOffering = theCourseOffering;
     }
 
     public String getNoOfActivityOfferings() {
@@ -206,54 +213,24 @@ public class CourseOfferingManagementForm extends KSUifForm {
         this.courseOfferingCopyWrapper = courseOfferingCopyWrapper;
     }
 
-    public String getPreviousCourseOfferingCodeUI() {
-        return previousCourseOfferingCodeUI;
-    }
-
-    public void setPreviousCourseOfferingCodeUI(String previousCourseOfferingCodeUI) {
-        this.previousCourseOfferingCodeUI = previousCourseOfferingCodeUI;
-    }
-
-    public String getNextCourseOfferingCodeUI() {
-        return nextCourseOfferingCodeUI;
-    }
-
-    public void setNextCourseOfferingCodeUI(String nextCourseOfferingCodeUI) {
-        this.nextCourseOfferingCodeUI = nextCourseOfferingCodeUI;
-    }
-
-    public CourseOfferingInfo getPreviousCourseOffering() {
-        return previousCourseOffering;
-    }
-
-    public void setPreviousCourseOffering(CourseOfferingInfo previousCourseOffering) {
-        this.previousCourseOffering = previousCourseOffering;
-        if (previousCourseOffering != null){
-            setPreviousCourseOfferingCodeUI(previousCourseOffering.getCourseOfferingCode());
-        }else{
-            setPreviousCourseOfferingCodeUI(StringUtils.EMPTY);
-        }
-    }
-
-    public CourseOfferingInfo getNextCourseOffering() {
-        return nextCourseOffering;
-    }
-
+    /**
+     * This has its ref at view xml.
+     *
+     * @see #setSubjectCodeDescription(String)
+     * @return
+     */
+    @SuppressWarnings("unused")
     public String getSubjectCodeDescription() {
         return subjectCodeDescription;
     }
 
+    /**
+     * Sets the subject code. This will be displayed when the result set is only Course Offerings
+     *
+     * @param subjectCodeDescription
+     */
     public void setSubjectCodeDescription(String subjectCodeDescription) {
         this.subjectCodeDescription = subjectCodeDescription;
-    }
-
-    public void setNextCourseOffering(CourseOfferingInfo nextCourseOffering) {
-        this.nextCourseOffering = nextCourseOffering;
-        if (nextCourseOffering != null){
-            setNextCourseOfferingCodeUI(nextCourseOffering.getCourseOfferingCode());
-        }else{
-            setNextCourseOfferingCodeUI(StringUtils.EMPTY);
-        }
     }
 
     public String getToBeScheduledCourseOfferingsUI() {
@@ -299,17 +276,11 @@ public class CourseOfferingManagementForm extends KSUifForm {
     public List<CourseOfferingListSectionWrapper> getCourseOfferingResultList() {
         return courseOfferingResultList;
     }
+
     public void setCourseOfferingResultList(List<CourseOfferingListSectionWrapper> courseOfferingResultList) {
         this.courseOfferingResultList = courseOfferingResultList;
     }
 
-    public CourseOfferingEditWrapper getCourseOfferingEditWrapper() {
-        return courseOfferingEditWrapper;
-    }
-
-    public void setCourseOfferingEditWrapper(CourseOfferingEditWrapper courseOfferingEditWrapper) {
-        this.courseOfferingEditWrapper = courseOfferingEditWrapper;
-    }
     public boolean getEditAuthz(){
         return editAuthz;
     }
@@ -357,48 +328,27 @@ public class CourseOfferingManagementForm extends KSUifForm {
         this.socSchedulingStateKey = socSchedulingStateKey;
     }
 
-    public boolean isCrossListedCO() {
-        return isCrossListedCO;
+    public CourseOfferingWrapper getPreviousCourseOfferingWrapper() {
+        return previousCourseOfferingWrapper;
     }
 
-    public void setCrossListedCO(boolean crossListedCO) {
-        this.isCrossListedCO = crossListedCO;
+    public void setPreviousCourseOfferingWrapper(CourseOfferingWrapper previousCourseOfferingWrapper) {
+        this.previousCourseOfferingWrapper = previousCourseOfferingWrapper;
     }
 
-    @SuppressWarnings("unused")
-    public String getAlternateCourseOfferingCodesUI() {
-        if (alternateCourseOfferingCodesUI == null){
-            return "";
-        } else {
-            return alternateCourseOfferingCodesUI;
-        }
+    public CourseOfferingWrapper getNextCourseOfferingWrapper() {
+        return nextCourseOfferingWrapper;
     }
 
-    public void setAlternateCourseOfferingCodesUI(String alternateCourseOfferingCodesUI) {
-        this.alternateCourseOfferingCodesUI = alternateCourseOfferingCodesUI;
+    public void setNextCourseOfferingWrapper(CourseOfferingWrapper nextCourseOfferingWrapper) {
+        this.nextCourseOfferingWrapper = nextCourseOfferingWrapper;
     }
 
-    public String getCourseOfferingCodeUI() {
-        return courseOfferingCodeUI;
+    public CourseOfferingWrapper getCurrentCourseOfferingWrapper() {
+        return currentCourseOfferingWrapper;
     }
 
-    public void setCourseOfferingCodeUI(String courseOfferingCodeUI) {
-        this.courseOfferingCodeUI = courseOfferingCodeUI;
-    }
-
-    public String getCourseOfferingTitleUI() {
-        return courseOfferingTitleUI;
-    }
-
-    public void setCourseOfferingTitleUI(String courseOfferingTitleUI) {
-        this.courseOfferingTitleUI = courseOfferingTitleUI;
-    }
-
-    public String getCoOwningDeptName() {
-        return coOwningDeptName;
-    }
-
-    public void setCoOwningDeptName(String coOwningDeptName) {
-        this.coOwningDeptName = coOwningDeptName;
+    public void setCurrentCourseOfferingWrapper(CourseOfferingWrapper currentCourseOfferingWrapper) {
+        this.currentCourseOfferingWrapper = currentCourseOfferingWrapper;
     }
 }

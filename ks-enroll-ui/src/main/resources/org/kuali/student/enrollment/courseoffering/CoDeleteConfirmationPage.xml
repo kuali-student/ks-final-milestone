@@ -46,14 +46,14 @@
                 <bean parent="Uif-Space"/>
                 <bean id="KS-coDeleteConfirmation-Message" parent="Uif-VerticalBoxSection">
                     <property name="headerText"
-                              value="@{courseOfferingCode} - @{theCourseOffering.courseOfferingTitle}"/>
+                              value="@{currentCourseOfferingWrapper.courseOfferingCode} - @{currentCourseOfferingWrapper.courseOfferingTitle}"/>
                     <property name="header">
                         <bean parent="Uif-HeaderFour"/>
                     </property>
                     <property name="disclosure.render" value="false"/>
                     <property name="items" >
                         <list>
-                            <bean parent="Uif-DataField" p:label="Term:" p:propertyName="theCourseOffering.termId" p:fieldLabel.renderColon="false" p:readOnly="true"/>
+                            <bean parent="Uif-DataField" p:label="Term:" p:propertyName="currentCourseOfferingWrapper.termId" p:fieldLabel.renderColon="false" p:readOnly="true"/>
                         </list>
                     </property>
                 </bean>

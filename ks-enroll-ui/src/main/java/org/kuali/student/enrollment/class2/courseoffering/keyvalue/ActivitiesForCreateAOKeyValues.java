@@ -52,7 +52,7 @@ public class ActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase imple
 
         keyValues.add(new ConcreteKeyValue("", "Select Activity Type"));
         String formatId = coForm.getFormatIdForNewAO();
-        String courseId = coForm.getTheCourseOffering().getCourseId();
+        String courseId = coForm.getCurrentCourseOfferingWrapper().getCourseOfferingId();
 
         if(!StringUtils.isEmpty(formatId)) {
             try {

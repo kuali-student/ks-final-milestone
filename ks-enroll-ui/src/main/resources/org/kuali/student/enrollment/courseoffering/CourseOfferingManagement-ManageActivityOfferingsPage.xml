@@ -31,7 +31,7 @@
 
 
     <bean id="KS-CourseOfferingManagement-ActivityOfferingResultSection" p:id="ActivityOfferingResultSection" parent="Uif-VerticalBoxSection">
-        <property name="headerText" value="@{courseOfferingCodeUI} - @{courseOfferingTitleUI} (@{theCourseOffering.creditCnt} Credits, SOC State: @{socState})" />
+        <property name="headerText" value="@{currentCourseOfferingWrapper.courseOfferingCode} - @{currentCourseOfferingWrapper.courseOfferingDesc} (@{currentCourseOfferingWrapper.creditCnt} Credits, SOC State: @{socState})" />
         <property name="disclosure.render" value="false"/>
         <property name="header.cssClasses">
           <list merge="true">
@@ -43,7 +43,7 @@
             <property name="style" value="margin-bottom:px;"/>
             <property name="items">
               <list>
-                  <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{alternateCourseOfferingCodesUI}" p:render="@{alternateCourseOfferingCodesUI != ''}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
+                  <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{currentCourseOfferingWrapper.alternateCOCodesUITooltip}" p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != ''}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
               </list>
             </property>
           </bean>
@@ -52,7 +52,7 @@
             <list>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingLinks"/>
                 <ref bean="KS-CourseOfferingManagement-AO-ToolBarSection"/>
-                <bean parent="Uif-MessageField" p:render="@{crossListedCO}" p:messageText="You do not have permission to edit this course. Contact the owning department for more information.[br][b]Owner:[/b] @{coOwningDeptName}" p:style="background-color:#C8E4F7; padding-top:4px; padding-bottom:4px;"/>
+                <bean parent="Uif-MessageField" p:render="@{currentCourseOfferingWrapper.crossListed}" p:messageText="You do not have permission to edit this course. Contact the owning department for more information.[br][b]Owner:[/b] @{currentCourseOfferingWrapper.coOwningDeptName}" p:style="background-color:#C8E4F7; padding-top:4px; padding-bottom:4px;"/>
                 <ref bean="KS-CourseOfferingManagement-AddActivityOfferingSection"/>
                 <ref bean="KS-CourseOfferingManagement-SelectAll"/>
                 <ref bean="KS-CourseOfferingManagement-ActivityOfferingListSection"/>
@@ -60,7 +60,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-AddActivityOfferingSection" parent="Uif-VerticalBoxSection" p:render="@{!crossListedCO}">
+    <bean id="KS-CourseOfferingManagement-AddActivityOfferingSection" parent="Uif-VerticalBoxSection" p:render="@{!currentCourseOfferingWrapper.crossListed}">
         <property name="disclosure.render" value="false"/>
         <property name="headerText" value="Add Activity Offering"/>
         <property name="items">
@@ -101,7 +101,7 @@
     <bean id="KS-CourseOfferingManagement-CourseOfferingLinks" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-LinkGroup" p:render="@{!crossListedCO}">
+                <bean parent="Uif-LinkGroup" p:render="@{!currentCourseOfferingWrapper.crossListed}">
                     <property name="items">
                         <list>
                             <bean parent="Uif-HorizontalBoxSection">
@@ -109,7 +109,7 @@
                                     <list>
                                         <bean parent="Uif-DataField" p:propertyName="coViewLinkWrapper" p:defaultValue="View">
                                             <property name="inquiry">
-                                                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="theCourseOffering.id" />
+                                                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="currentCourseOfferingWrapper.courseOfferingId" />
                                             </property>
                                         </bean>
                                         <bean parent="Uif-HorizontalBoxSection" >
@@ -120,8 +120,8 @@
                                                     <bean parent="Uif-Label" p:labelText="|" p:renderColon="false"/>
                                                     <bean parent="Uif-ActionLink" p:methodToCall="editTheCO" p:actionLabel="Edit" p:disabled="@{#parent.readOnly}"/>
                                                     <bean parent="Uif-Label" p:labelText="|" p:renderColon="false"/>
-                                                    <bean parent="Uif-ActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:disabled="@{#parent.readOnly}" p:render = "@{theCourseOffering.stateKey eq 'kuali.lui.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.planned'  or theCourseOffering.stateKey eq 'kuali.lui.activity.offering.state.offered' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.offered'}" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCO" />
-                                                    <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render = "@{theCourseOffering.stateKey eq 'kuali.lui.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.planned'  or theCourseOffering.stateKey eq 'kuali.lui.activity.offering.state.offered' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.offered'}"/>
+                                                    <bean parent="Uif-ActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:disabled="@{#parent.readOnly}" p:render = "@{currentCourseOfferingWrapper.stateKey eq 'kuali.lui.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.planned'  or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.activity.offering.state.offered' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.offered'}" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCO" />
+                                                    <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render = "@{currentCourseOfferingWrapper.stateKey eq 'kuali.lui.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.planned'  or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.activity.offering.state.offered' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.offered'}"/>
                                                     <bean parent="Uif-ActionLink" p:methodToCall="manageRegGroups" p:actionLabel="Manage Registration Groups" p:disabled="@{#parent.readOnly}"/>
                                                 </list>
                                             </property>
@@ -136,11 +136,11 @@
                 <bean parent="Uif-LinkGroup" p:style="float:right">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-ActionLink" p:methodToCall="loadPreviousCO" p:actionLabel="&lt; @{previousCourseOfferingCodeUI}" p:render="@{!previousCourseOfferingCodeUI?.empty}"/>
-                            <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{!previousCourseOfferingCodeUI?.empty}"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="loadPreviousCO" p:actionLabel="&lt; @{previousCourseOfferingWrapper != null ? previousCourseOfferingWrapper.courseOfferingCode : ''}" p:render="@{previousCourseOfferingWrapper != null}"/>
+                            <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{previousCourseOfferingWrapper != null}"/>
                             <bean parent="Uif-ActionLink" p:methodToCall="loadCOs" p:actionLabel="List All" />
-                            <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{!nextCourseOfferingCodeUI?.empty}"/>
-                            <bean parent="Uif-ActionLink" p:methodToCall="loadNextCO" p:actionLabel="@{nextCourseOfferingCodeUI} &gt;" p:render="@{!nextCourseOfferingCodeUI?.empty}"/>
+                            <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{nextCourseOfferingWrapper != null}"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="loadNextCO" p:actionLabel="@{nextCourseOfferingWrapper != null ? nextCourseOfferingWrapper.courseOfferingCode : ''} &gt;" p:render="@{nextCourseOfferingWrapper != null}"/>
                         </list>
                     </property>
                 </bean>
@@ -148,7 +148,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-SelectAll" parent="Uif-ActionLink" p:onClickScript="selectAllAOs();return false;" p:actionLabel="Select All" p:disabled="@{#parent.readOnly}" p:render="@{hasAO and !crossListedCO}"/>
+    <bean id="KS-CourseOfferingManagement-SelectAll" parent="Uif-ActionLink" p:onClickScript="selectAllAOs();return false;" p:actionLabel="Select All" p:disabled="@{#parent.readOnly}" p:render="@{hasAO and !currentCourseOfferingWrapper.crossListed}"/>
 
     <bean id="KS-Schedule-DisplayField" parent="Uif-MessageField" p:cssClasses="font-light12" abstract="true">
         <property name="propertyReplacers">
@@ -160,7 +160,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ActivityOfferingListSection" parent="Uif-TableCollectionSection"
-          p:layoutManager.numberOfColumns="3"  p:readOnly="@{crossListedCO}" p:renderAddLine="false" p:onDocumentReadyScript="removeColumns(@{#parent.readOnly}, [1], 'KS-CourseOfferingManagement-ActivityOfferingListSection');">
+          p:layoutManager.numberOfColumns="3"  p:readOnly="@{currentCourseOfferingWrapper.crossListed}" p:renderAddLine="false" p:onDocumentReadyScript="removeColumns(@{#parent.readOnly}, [1], 'KS-CourseOfferingManagement-ActivityOfferingListSection');">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="activityWrapperList" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />

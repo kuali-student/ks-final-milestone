@@ -64,7 +64,6 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
     private LRCService lrcService;
     private OrganizationService organizationService;
     private transient AcademicCalendarService acalService;
-    //private static TypeService typeService;
 
     @Override
     public Object retrieveDataObject(Map<String, String> parameters) {
@@ -75,7 +74,7 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             coInfoId = parameters.get("id");
         }
         if(coInfoId == null || "".equals(coInfoId)){
-            coInfoId = parameters.get("theCourseOffering.id");
+            coInfoId = parameters.get("currentCourseOfferingWrapper.courseOfferingId");
         }
         if(coInfoId == null || "".equals(coInfoId)){
             coInfoId = parameters.get("courseOfferingId");

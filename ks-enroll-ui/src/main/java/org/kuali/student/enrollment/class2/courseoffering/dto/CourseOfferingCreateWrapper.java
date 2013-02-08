@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +69,6 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     private List<FormatOfferingWrapper> copyFromFormats;
 
     public CourseOfferingCreateWrapper(){
-        super();
         showTermOfferingLink = true;
         formatOfferingWrappers = new ArrayList<FormatOfferingWrapper>();
         existingOfferingsInCurrentTerm = new ArrayList<ExistingCourseOffering>();
@@ -432,5 +432,13 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         setShowCopyFormatSection(false);
         setShowCreateFormatSection(true);
         getCopyFromFormats().clear();
+    }
+
+    public void setCoInfo(CourseOfferingInfo info){
+        setCourseOfferingInfo(info);
+    }
+
+    public CourseOfferingInfo getCoInfo(){
+        return getCourseOfferingInfo();
     }
 }

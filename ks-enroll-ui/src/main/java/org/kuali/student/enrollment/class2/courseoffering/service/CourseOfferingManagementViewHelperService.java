@@ -9,14 +9,8 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import java.util.List;
 
 public interface CourseOfferingManagementViewHelperService extends CO_AO_RG_ViewHelperService{
-    /**
-     *
-     * @param termCode Each institution uses a code to represent a term.  At UW, the code appears to be three letters
-     *                 followed by a 4-digit year, e.g., FAL2011, WIN2011, etc.
-     * @return List of terms which match the term code (should be a list of one TermInfo)
-     * @throws Exception
-     */
-    public List<TermInfo> findTermByTermCode(String termCode) throws Exception;
+
+    public void populateTerm(CourseOfferingManagementForm form) throws Exception;
 
     public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, CourseOfferingManagementForm form) throws Exception;
 
@@ -30,7 +24,7 @@ public interface CourseOfferingManagementViewHelperService extends CO_AO_RG_View
 
     public void markCourseOfferingsForScheduling(List<CourseOfferingListSectionWrapper> coWrappers) throws Exception;
 
-    public void loadPreviousAndNextCourseOffering(CourseOfferingManagementForm form, CourseOfferingInfo courseOfferingInfo);
+    public void loadPreviousAndNextCourseOffering(CourseOfferingManagementForm form);
 
     public List<ActivityOfferingWrapper> getActivityOfferingsByCourseOfferingId (String courseOfferingId, CourseOfferingManagementForm form) throws Exception;
 

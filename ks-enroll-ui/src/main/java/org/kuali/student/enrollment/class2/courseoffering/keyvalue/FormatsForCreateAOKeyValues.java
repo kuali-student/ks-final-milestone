@@ -47,7 +47,7 @@ public class FormatsForCreateAOKeyValues extends UifKeyValuesFinderBase implemen
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "Select Format Type"));
-        CourseOfferingInfo selectedCourseOffering = coForm.getTheCourseOffering();
+        CourseOfferingInfo selectedCourseOffering = coForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
 
         try {
             String courseOfferingId = selectedCourseOffering.getId();

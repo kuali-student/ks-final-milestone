@@ -142,13 +142,12 @@ public class CourseOfferingControllerUtil {
     public static void _prepareManageAOsModelAndView(CourseOfferingManagementForm theForm, CourseOfferingInfo coToShow) throws Exception {
         CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(coToShow);
 
-        theForm.setCourseOfferingEditWrapper(wrapper);
-        theForm.setTheCourseOffering(coToShow);
+        theForm.getCurrentCourseOfferingWrapper().setCourseOfferingInfo(coToShow);
         theForm.setFormatIdForNewAO(null);
         theForm.setActivityIdForNewAO(null);
         theForm.setNoOfActivityOfferings(null);
         getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(coToShow, theForm);
-        getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm, coToShow);
+        getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm);
     }
 
     public static Object _getSelectedObject(RegistrationGroupManagementForm theForm, String actionLink){
