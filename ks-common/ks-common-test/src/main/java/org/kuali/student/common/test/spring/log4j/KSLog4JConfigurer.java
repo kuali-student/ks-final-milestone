@@ -15,12 +15,11 @@
  */
 package org.kuali.student.common.test.spring.log4j;
 
-import java.io.FileNotFoundException;
-
-import org.kuali.student.common.log4j.TestConfigureLog4jOverride;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Log4jConfigurer;
+
+import java.io.FileNotFoundException;
 
 /**
  * 
