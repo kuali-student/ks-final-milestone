@@ -49,10 +49,6 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     private boolean isLegalToDelete = true;
     private boolean isChecked = false;
 
-    public CourseOfferingListSectionWrapper(){
-        this.alternateCOCodes = new ArrayList<String>();
-    }
-
     //hidden columns for toolbar
     private boolean enableAddButton = false;
     private boolean enableApproveButton = false;
@@ -60,6 +56,23 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     private boolean enableCancelButton = false;
     private boolean enableReinstateButton = false;
     private boolean enableDeleteButton = false;
+
+    private String crossListedCoList;
+
+    List<ActivityOfferingWrapper> aoToBeDeletedList;
+
+    public CourseOfferingListSectionWrapper () {
+        this.alternateCOCodes = new ArrayList<String>();
+        aoToBeDeletedList =  new ArrayList<ActivityOfferingWrapper>();
+    }
+
+    public List<ActivityOfferingWrapper> getAoToBeDeletedList() {
+        return aoToBeDeletedList;
+    }
+
+    public void setAoToBeDeletedList(List<ActivityOfferingWrapper> aoToBeDeletedList) {
+        this.aoToBeDeletedList = aoToBeDeletedList;
+    }
 
     public boolean isEnableAddButton() {
         return enableAddButton;
@@ -192,6 +205,14 @@ public class CourseOfferingListSectionWrapper implements Serializable{
 
     public void setSubjectArea(String subjectArea) {
         this.subjectArea = subjectArea;
+    }
+
+    public String getCrossListedCoList() {
+        return crossListedCoList;
+    }
+
+    public void setCrossListedCoList(String crossListedCoList) {
+        this.crossListedCoList = crossListedCoList;
     }
 
     public String getCourseOfferingStateDisplay() {

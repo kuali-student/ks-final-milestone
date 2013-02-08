@@ -63,6 +63,9 @@ public class CourseOfferingManagementForm extends KSUifForm {
     private List<ActivityOfferingWrapper> selectedToDeleteList;
     private CourseOfferingCopyWrapper courseOfferingCopyWrapper;
 
+    private boolean isCrossListedCO;
+    private List<CourseOfferingListSectionWrapper> selectedCoToDeleteList;
+    private int totalAOsToBeDeleted = 0;
     /**
      * The courseOfferingResultList once created is unmodifiable. This had to be done because various
      * methods were illegally modifying the list throughout the app and it took me forever to track down.
@@ -97,6 +100,7 @@ public class CourseOfferingManagementForm extends KSUifForm {
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
         courseOfferingResultList = new ArrayList<CourseOfferingListSectionWrapper>();
         courseOfferingResultListEmpty = new ArrayList<CourseOfferingListSectionWrapper>();
+        selectedCoToDeleteList = new ArrayList<CourseOfferingListSectionWrapper>();
         setCourseOfferingCopyWrapper(null);
     }
 
@@ -350,5 +354,29 @@ public class CourseOfferingManagementForm extends KSUifForm {
 
     public void setCurrentCourseOfferingWrapper(CourseOfferingWrapper currentCourseOfferingWrapper) {
         this.currentCourseOfferingWrapper = currentCourseOfferingWrapper;
+    }
+
+    public List<CourseOfferingListSectionWrapper> getSelectedCoToDeleteList() {
+        return selectedCoToDeleteList;
+    }
+
+    public void setSelectedCoToDeleteList(List<CourseOfferingListSectionWrapper> selectedCoToDeleteList) {
+        this.selectedCoToDeleteList = selectedCoToDeleteList;
+    }
+
+    public int getTotalAOsToBeDeleted() {
+        return totalAOsToBeDeleted;
+    }
+
+    public void setTotalAOsToBeDeleted(int totalAOsToBeDeleted) {
+        this.totalAOsToBeDeleted = totalAOsToBeDeleted;
+    }
+
+    public boolean isCrossListedCO() {
+        return isCrossListedCO;
+    }
+
+    public void setCrossListedCO(boolean crossListedCO) {
+        this.isCrossListedCO = crossListedCO;
     }
 }

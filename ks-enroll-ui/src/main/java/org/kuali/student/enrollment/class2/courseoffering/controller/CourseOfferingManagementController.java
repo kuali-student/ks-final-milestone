@@ -831,75 +831,54 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     /*
      * Method used to delete a Course Offering with all Draft activity Offerings
      */
-    @RequestMapping(params = "methodToCall=deleteCo")
-    public ModelAndView deleteCo(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) {
-        CourseOfferingInfo  theCourseOffering = theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
-        if (theCourseOffering == null) {
-            throw new RuntimeException("No Course Offering selected!");
-        }
+    @RequestMapping(params = "methodToCall=deleteBulkCos")
+    public ModelAndView deleteBulkCos(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+        List<CourseOfferingListSectionWrapper> coList = theForm.getSelectedCoToDeleteList();
+        int checked = 0;
+        int enabled = 0;
 
-        String termId = theCourseOffering.getTermId();
-        String subjectCode = theCourseOffering.getSubjectArea();
-        //  Load AOs
-        if (theForm.getActivityWrapperList().isEmpty()) {
-            try {
-                getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
-            } catch (Exception e) {
-                LOG.error(String.format("Could not get AOs for Course offering [%s].", theCourseOffering.getCourseOfferingCode()));
-                throw new RuntimeException(e);
-            }
-        }
+        for (CourseOfferingListSectionWrapper co : coList) {
+            boolean hasDeletion = true;
+            if (co.getIsChecked()) {
+                checked++;
+                if (co.isEnableDeleteButton()) {
+                    List<ActivityOfferingWrapper> aos = co.getAoToBeDeletedList();
+                    if (aos != null && !aos.isEmpty()) {
+                        for (ActivityOfferingWrapper ao : aos) {
+                            if (!ao.isEnableDeleteButton()) {
+                                hasDeletion = false;
+                                break;
+                            }
+                        }
+                    }
 
-        try {
-            for (ActivityOfferingWrapper ao : theForm.getActivityWrapperList()) {
-                // Verify AO status
-                if ( ! ao.isLegalToDelete()) {
-                    LOG.error(String.format("Course Offering [%s] cannot be deleted because Activity Offering [%s] is in an invalid state for deleting.",
-                        theCourseOffering.getCourseOfferingCode(), ao.getActivityCode()));
-                    GlobalVariables.getMessageMap().putErrorForSectionId(CourseOfferingConstants.MANAGE_CO_LIST_SECTION,
-                            CourseOfferingConstants.COURSEOFFERING_INVALID_AO_STATE_FOR_DELETE);
-                    return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
+                    if (hasDeletion) {
+                        enabled++;
+                        CourseOfferingResourceLoader.loadCourseOfferingService().deleteCourseOfferingCascaded(co.getCourseOfferingId(), ContextBuilder.loadContextInfo());
+                    }
                 }
             }
-            CourseOfferingResourceLoader.loadCourseOfferingService().deleteCourseOfferingCascaded(theCourseOffering.getId(), ContextBuilder.loadContextInfo());
-            // Reload existing COs
-            getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(termId, subjectCode, theForm);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
 
+        if (checked > enabled) {
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE);
+        } else {
+            if (enabled == 1) {
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE_1_SUCCESS);
+            } else {
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE_N_SUCCESS);
+            }
+        }
+
+        reloadCourseOfferings(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
 
     /*
      * Method used to delete a Course Offering with all Draft activity Offerings
      */
-    @RequestMapping(params = "methodToCall=cancelDeleteCo")
-    public ModelAndView cancelDeleteCo(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) {
-        CourseOfferingInfo  theCourseOffering = theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
-        if(theCourseOffering == null) {
-            throw new RuntimeException("No Course Offering selected!");
-        }
-
-        String termId = theCourseOffering.getTermId();
-        String subjectCode = theCourseOffering.getSubjectArea();
-        // load all the activity offerings
-        if (theForm.getActivityWrapperList().isEmpty()) {
-            try {
-                getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-
-        try {
-            getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(termId, subjectCode, theForm);
-            ToolbarUtil.processCoToolbarForUser(theForm.getCourseOfferingResultList(), theForm);
-        } catch (Exception e) {
-            LOG.error("Could not load course offerings.", e);
-        }
-
+    @RequestMapping(params = "methodToCall=cancelDeleteBulkCos")
+    public ModelAndView cancelDeleteBulkCos(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) {
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
 
@@ -1136,14 +1115,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         form.setAlternateCourseOfferingCodesUI(StringUtils.EMPTY);
         form.setCrossListedCO(false);
 
-        if (coToShow != null && coToShow.getCrossListings() != null && coToShow.getCrossListings().size() > 0) {
-            // Always include an option for Course
-            StringBuffer crossListedCodes = new StringBuffer();
 
-            for (CourseOfferingCrossListingInfo courseInfo : coToShow.getCrossListings()) {
-                crossListedCodes.append(courseInfo.getCode());
-                crossListedCodes.append(" ");
-            }
+        String crossListedCodes = ViewHelperUtil.createTheCrossListedCos(coToShow);
+        if(crossListedCodes != null && crossListedCodes.length() > 1) {
             form.setAlternateCourseOfferingCodesUI(crossListedCodes.toString());
             form.setCrossListedCO(true);
         }
@@ -1260,8 +1234,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         getViewHelperService(theForm).deleteCourseOfferings(theForm);
-        reloadCourseOfferings(theForm);
-        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
+        //reloadCourseOfferings(theForm);
+        return getUIFModelAndView(theForm, CourseOfferingConstants.CO_DELETE_CONFIRM_PAGE);
     }
 
     @RequestMapping(params = "methodToCall=approveAOs")

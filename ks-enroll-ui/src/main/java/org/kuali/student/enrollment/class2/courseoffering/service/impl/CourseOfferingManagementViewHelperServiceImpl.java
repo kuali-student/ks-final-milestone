@@ -31,7 +31,6 @@ import org.kuali.student.enrollment.class2.courseoffering.service.transformer.Co
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ToolbarUtil;
-import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -489,8 +488,11 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         List<CourseOfferingListSectionWrapper> coList = form.getCourseOfferingResultList();
         int checked = 0;
         int enabled = 0;
+        List<CourseOfferingListSectionWrapper> qualifiedToDeleteList = form.getSelectedCoToDeleteList();
+        qualifiedToDeleteList.clear();
 
-         for(CourseOfferingListSectionWrapper co : coList) {
+        int totalAos = 0;
+        for(CourseOfferingListSectionWrapper co : coList) {
              boolean hasDeletion = true;
              if(co.getIsChecked()){
                  checked++;
@@ -502,19 +504,29 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                             if(!ao.isEnableDeleteButton()){
                                 hasDeletion = false;
                                 break;
+                            } else {
+                                co.getAoToBeDeletedList().add(ao);
                             }
                         }
                     }
+                     totalAos = totalAos + co.getAoToBeDeletedList().size();
+                     if(co.getAlternateCOCodes() != null && co.getAlternateCOCodes().size() > 0) {
+                         co.setCrossListed(true);
+                         form.setCrossListedCO(true);
+                     }
+                     qualifiedToDeleteList.add(co);
 
-                    if(hasDeletion){
+                     if(hasDeletion){
                         enabled++;
-                        getCourseOfferingService().deleteCourseOfferingCascaded(co.getCourseOfferingId(), ContextBuilder.loadContextInfo());
+//                        getCourseOfferingService().deleteCourseOfferingCascaded(co.getCourseOfferingId(), ContextBuilder.loadContextInfo());
                     }
                  }
              }
          }
+        form.setTotalAOsToBeDeleted(totalAos);
 
-        if(checked > enabled){
+
+ /*       if(checked > enabled){
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE);
         }else{
             if(enabled == 1){
@@ -523,6 +535,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE_N_SUCCESS);
             }
         }
+*/
     }
 
     public void approveActivityOfferings(CourseOfferingManagementForm form) throws Exception{
