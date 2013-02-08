@@ -27,10 +27,7 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
@@ -46,6 +43,8 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -232,11 +231,11 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             //check duplication
             MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
             CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-            List<OfferingInstructorWrapper> instructors = coEditWrapper.getInstructors();
+            List<OfferingInstructorInfo> instructors = coEditWrapper.getCoInfo().getInstructors();
             if(instructors != null && !instructors.isEmpty()){
-                for(OfferingInstructorWrapper thisInst : instructors){
-                    if(instructorInfo.getPersonId().equals(thisInst.getOfferingInstructorInfo().getPersonId())){
-                        GlobalVariables.getMessageMap().putErrorForSectionId("KS-CourseOfferingEdit-PersonnelSection", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_DUPLICATE, instructorInfo.getPersonId());
+                for(OfferingInstructorInfo thisInst : instructors){
+                    if(instructorInfo.getPersonId().equals(thisInst.getPersonId())){
+                        GlobalVariables.getMessageMap().putErrorForSectionId("KS-CourseOfferingEdit-PersonnelTableSection", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_DUPLICATE, instructorInfo.getPersonId());
                         return false;
                     }
                 }

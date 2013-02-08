@@ -508,7 +508,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
-                <bean id="KS-ActivityOffering-PersonnelSection" parent="Uif-TableCollectionSection"
+                <bean id="KS-CourseOfferingEdit-PersonnelTableSection" parent="Uif-TableCollectionSection"
                       p:layoutManager.numberOfColumns="6"
                       p:layoutManager.style="width: 100%; display:block;">
                     <property name="headerText" value="Affiliated Personnel" />
