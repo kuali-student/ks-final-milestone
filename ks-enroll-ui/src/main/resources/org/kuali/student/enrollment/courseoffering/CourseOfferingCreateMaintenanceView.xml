@@ -53,7 +53,7 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl" />
         <property name="singlePageView" value="true"/>
         <property name="authorizer">
-            <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
+            <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
         <property name="items">
             <list>
