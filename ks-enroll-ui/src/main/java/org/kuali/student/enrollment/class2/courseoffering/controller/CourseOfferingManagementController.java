@@ -878,7 +878,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
      * Method used to delete a Course Offering with all Draft activity Offerings
      */
     @RequestMapping(params = "methodToCall=cancelDeleteBulkCos")
-    public ModelAndView cancelDeleteBulkCos(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) {
+    public ModelAndView cancelDeleteBulkCos(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+        reloadCourseOfferings(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
 

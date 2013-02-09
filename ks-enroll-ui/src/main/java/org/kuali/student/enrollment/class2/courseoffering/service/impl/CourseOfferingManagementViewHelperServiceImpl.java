@@ -492,6 +492,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         qualifiedToDeleteList.clear();
 
         int totalAos = 0;
+        form.setCrossListedCO(false);
         for(CourseOfferingListSectionWrapper co : coList) {
              boolean hasDeletion = true;
              if(co.getIsChecked()){
@@ -510,6 +511,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                         }
                     }
                      totalAos = totalAos + co.getAoToBeDeletedList().size();
+                     co.setCrossListed(false);
                      if(co.getAlternateCOCodes() != null && co.getAlternateCOCodes().size() > 0) {
                          co.setCrossListed(true);
                          form.setCrossListedCO(true);
@@ -518,7 +520,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
                      if(hasDeletion){
                         enabled++;
-//                        getCourseOfferingService().deleteCourseOfferingCascaded(co.getCourseOfferingId(), ContextBuilder.loadContextInfo());
                     }
                  }
              }

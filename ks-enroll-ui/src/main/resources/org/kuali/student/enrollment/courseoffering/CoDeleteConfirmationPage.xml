@@ -99,6 +99,17 @@
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+<!--
+        <property name="layoutManager.rowDetailsGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="KS-CourseOfferingManagement-DeletedAoListSection" p:propertyName="aoToBeDeletedList"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+-->
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false">
@@ -107,7 +118,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-DataField" p:label="COURSE" p:propertyName="courseOfferingCode"/>
-                <bean parent="Uif-ImageField" p:hidden="@{#lp.crossListedCodesUI.isEmpty()}" p:width="" p:height="" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png">
+                <bean parent="Uif-ImageField" p:hidden="@{#lp.alternateCOCodes.isEmpty()}" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png">
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.crossListedCodesUI}"/>
                     </property>
@@ -116,14 +127,18 @@
                 <bean parent="Uif-DataField" p:label="CREDITS" p:propertyName="courseOfferingCreditOptionDisplay"/>
             </list>
         </property>
- <!--       <property name="subCollections">
+
+<!--
+        <property name="subCollections">
             <list>
                 <ref bean="KS-CourseOfferingManagement-DeletedAoListSection"/>
             </list>
-        </property>-->
+        </property>
+-->
+
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-DeletedAoListSection" parent="Uif-TableSubCollection-WithinSection"     p:layoutManager.numberOfColumns="10"
+    <bean id="KS-CourseOfferingManagement-DeletedAoListSection" parent="Uif-TableSubCollection-WithinSection"     p:layoutManager.numberOfColumns="8"
           p:renderAddLine="false" p:renderLineActions="false">
         <property name="headerText" value="Activities"/>
         <property name="collectionObjectClass"
