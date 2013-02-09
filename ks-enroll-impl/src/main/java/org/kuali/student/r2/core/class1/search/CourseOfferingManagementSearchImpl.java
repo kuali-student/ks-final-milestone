@@ -27,12 +27,10 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.util.SearchRequestHelper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +45,8 @@ import java.util.Map;
 public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHardwiredImpl {
 
     private GenericEntityDao genericEntityDao;
+
+    private static final String OWNER_UI_SUFFIX = " (Owner)";
 
     public static final class SearchParameters {
         public static final String COURSE_CODE = "courseCode";
@@ -65,7 +65,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         public static final String SUBJECT_AREA = "subjectArea";
         public static final String IS_CROSS_LISTED = "isCrossListedCode";
         public static final String CROSS_LISTED_COURSES = "crossListedCodes";
-        
+
     }
     public static final TypeInfo CO_MANAGEMENT_SEARCH;
 
@@ -116,20 +116,20 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         }
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-
-        String courseCode = requestHelper.getParamAsString(SearchParameters.COURSE_CODE);
-        String subjectArea = requestHelper.getParamAsString(SearchParameters.SUBJECT_AREA);
-        String atpId = requestHelper.getParamAsString(SearchParameters.ATP_ID);
+        long start = System.currentTimeMillis();
+        String searchCourseCode = requestHelper.getParamAsString(SearchParameters.COURSE_CODE);
+        String searchSubjectArea = requestHelper.getParamAsString(SearchParameters.SUBJECT_AREA);
+        String searchAtpId = requestHelper.getParamAsString(SearchParameters.ATP_ID);
         boolean enableCrossListSearch = BooleanUtils.toBoolean(requestHelper.getParamAsString(SearchParameters.CROSS_LIST_SEARCH_ENABLED));
 
         SearchResultInfo resultInfo = new SearchResultInfo();
         resultInfo.setStartAt(0);
 
-        if (StringUtils.isBlank(atpId)){
+        if (StringUtils.isBlank(searchAtpId)){
             throw new MissingParameterException("Term code is required to search course offerings");
         }
 
-        if (StringUtils.isBlank(courseCode) && StringUtils.isBlank(subjectArea)){
+        if (StringUtils.isBlank(searchCourseCode) && StringUtils.isBlank(searchSubjectArea)){
             throw new MissingParameterException("Either Course code or subject area must be set to search course offerings");
         }
 
@@ -151,7 +151,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                         "    ResultValuesGroupEntity lrc_rvg2  " +
                         "WHERE" +
                         "    lui.id = ident.lui.id" +
-                        "    AND lui.atpId = '" + atpId + "' " +
+                        "    AND lui.atpId = '" + searchAtpId + "' " +
                         "    AND lrc_rvg1.id = lui_rvg1" +
                         "    AND lrc_rvg1.resultScaleId LIKE 'kuali.result.scale.credit.%'    " +
                         "    AND lrc_rvg2.id = lui_rvg2" +
@@ -159,31 +159,33 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                         //Exclude these two types that can cause duplicates.
                         // audit and passfail are moved into different fields, after that there can be only one grading option
                         // of Satisfactory, Letter, or Percentage
-                        "    AND lrc_rvg2 NOT IN ('kuali.resultComponent.grade.audit','kuali.resultComponent.grade.passFail') ";
+                        "    AND lrc_rvg2 NOT IN ('kuali.resultComponent.grade.audit','kuali.resultComponent.grade.passFail') " +
+                        "    AND ident.lui.id IN (SELECT ident_subquery.lui.id FROM LuiIdentifierEntity ident_subquery WHERE ";
 
-        if (StringUtils.isNotBlank(subjectArea)){
-            query = query + " AND ident.division='" + subjectArea + "'  ";
+        if (StringUtils.isNotBlank(searchSubjectArea)){
+            if (StringUtils.isBlank(searchCourseCode)){
+                query = query + " ident_subquery.division = '" + searchSubjectArea + "' ";
+            } else {
+                query = query + " ident_subquery.division = '" + searchSubjectArea + "' AND " + " ident_subquery.code like '" + searchCourseCode + "%' ";
+            }
+        } else {
+            query = query + " ident_subquery.code like '" + searchCourseCode + "%' ";
         }
 
-        if (StringUtils.isNotBlank(courseCode)){
-            query = query + "  AND ident.code like '" + courseCode + "%' ";
-        }
+        query = query + ") ORDER BY ident.code";
 
-        query = query + " ORDER BY ident.code";
         /**
          * Search for the course offerings first for a term and subjectarea/coursecode
          */
         List<Object[]> results = genericEntityDao.getEm().createQuery(query).getResultList();
-
         resultInfo.setTotalResults(results.size());
         resultInfo.setStartAt(0);
 
-        List<String> luiCode = new ArrayList<String>();
-        Map<String,List<SearchResultRowInfo>> luiIds2ResultRow = new HashMap<String, List<SearchResultRowInfo>>();
+        Map<String,String> luiIds2ResultRow = new HashMap<String, String>();
 
         for (Object[] result : results) {
             SearchResultRowInfo row = new SearchResultRowInfo();
-            resultInfo.getRows().add(row);
+
             int i=0;
             String coCode = (String)result[i++];
             row.addCell(SearchResultColumns.CODE,coCode);
@@ -193,72 +195,70 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
             row.addCell(SearchResultColumns.GRADING_OPTION,(String)result[i++]);
             String courseOfferingId = (String)result[i++];
             row.addCell(SearchResultColumns.CO_ID,courseOfferingId);
-            row.addCell(SearchResultColumns.SUBJECT_AREA,(String)result[i++]);
+            String division = (String)result[i++];
+            row.addCell(SearchResultColumns.SUBJECT_AREA,division);
 
             String luiIdentifierType = (String)result[i++];
+
             boolean isCrossListed = false;
             if (StringUtils.equals(luiIdentifierType,LuiServiceConstants.LUI_IDENTIFIER_CROSSLISTED_TYPE_KEY)){
                 isCrossListed = true;
             }
             row.addCell(SearchResultColumns.IS_CROSS_LISTED,"" + isCrossListed);
 
+            /**
+             * If the row matches with the user entered subject area/course course, add it to the result
+             * list.
+             */
+            if (StringUtils.isNotBlank(searchSubjectArea)){
+                if (StringUtils.equals(searchSubjectArea,division)){
+                    resultInfo.getRows().add(row);
+                }
+            } else {
+                if (StringUtils.startsWith(searchCourseCode,division)){
+                    resultInfo.getRows().add(row);
+                }
+            }
+
             if (enableCrossListSearch){
-                /**
-                 * For cross list search, hold all the luis in a map for faster retrieval later when we search for the
-                 * official/crosslisted courses. As there may be same lui exists for multiple courses, group together
-                 * all those in a list.
-                 */
-                List<SearchResultRowInfo> matchingRowList = luiIds2ResultRow.get(courseOfferingId);
-                if (matchingRowList == null){
-                    matchingRowList = new ArrayList<SearchResultRowInfo>();
-                    luiIds2ResultRow.put(courseOfferingId,matchingRowList);
+                String alternateCodes = luiIds2ResultRow.get(courseOfferingId);
+                String currentCode = getAlternateCodeUI(coCode,luiIdentifierType);
+                if (!StringUtils.contains(alternateCodes,currentCode)){
+                    String buildAlternateCodes = StringUtils.defaultString(alternateCodes) + currentCode;
+                    luiIds2ResultRow.put(courseOfferingId,buildAlternateCodes + ",");
                 }
-                matchingRowList.add(row);
-                luiCode.add(coCode);
             }
 
         }
 
-        /**
-         * Search for the crosslisted/official course codes for the already fetched luis
-         */
-        if (!luiIds2ResultRow.isEmpty()){
-            //Get all the other related lui identifiers for the already fetched luis (excluding the already fetched lui codes)
-            List<String> luiIds = new ArrayList<String>(luiIds2ResultRow.keySet());
-            query = "SELECT ident.lui.id,ident.code,ident.type FROM LuiIdentifierEntity ident where ident.lui.id IN (" + commaString(luiIds) + ") " +
-                                    " AND ident.code NOT IN (" + commaString(luiCode) + ") ORDER BY ident.code asc , ident.type desc";
+        if (enableCrossListSearch){
 
-            results = genericEntityDao.getEm().createQuery(query, Object[].class).getResultList();
+            /**
+             * If the result needs all the alternate code, iterate all the result set rows and look for
+             * the matching Lui. If found, get all the alternate code and add it to the existing result
+             * set.
+             */
+            for (SearchResultRowInfo row : resultInfo.getRows()){
 
-            for (Object[] result : results) {
-                int i=0;
-                String luiId = (String)result[i++];
-                String luiAlternateCode = (String)result[i++];
-                String luiIdentifierType = (String)result[i++];
+                String courseOfferingCode = row.getCells().get(0).getValue();
+                String courseOfferingId = row.getCells().get(5).getValue();
+                boolean isCrossListed = BooleanUtils.toBoolean(row.getCells().get(7).getValue());
 
-                List<SearchResultRowInfo> matchingRows = luiIds2ResultRow.get(luiId);
-                SearchResultCellInfo cell;
+                String alternateCodes = luiIds2ResultRow.get(courseOfferingId);
 
-                for (SearchResultRowInfo row : matchingRows){
-                    //This cell size check is to make sure the column already exists. If not, create one.
-                    if (row.getCells().size() == 8){
-                        row.addCell(SearchResultColumns.CROSS_LISTED_COURSES,getAlternateCodeUI(luiAlternateCode,luiIdentifierType));
-                    } else {
-                        cell = row.getCells().get(8);
-
-                        String cellData = cell.getValue();
-                        if (StringUtils.isNotBlank(cellData)){
-                            cellData = cellData + "," + getAlternateCodeUI(luiAlternateCode,luiIdentifierType);
-                        } else {
-                            cellData = getAlternateCodeUI(luiAlternateCode,luiIdentifierType);
-                        }
-                        cell.setValue(cellData);
-                    }
+                if (!isCrossListed){
+                    alternateCodes = StringUtils.remove(alternateCodes,courseOfferingCode + OWNER_UI_SUFFIX);
+                } else {
+                    alternateCodes = StringUtils.remove(alternateCodes,courseOfferingCode);
                 }
+
+                row.addCell(SearchResultColumns.CROSS_LISTED_COURSES,alternateCodes);
+
             }
         }
 
-        luiIds2ResultRow.clear();
+        long end = System.currentTimeMillis();
+        System.out.println("******TIME TAKEN TO SEARCH CO FOR (Subject Area=" + searchSubjectArea + ",Term=" + searchAtpId + ",Course=" + searchCourseCode + ")*************"+(end-start) + " ms");
 
         resultInfo.setStartAt(0);
         return resultInfo;
@@ -273,7 +273,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
      */
     protected String getAlternateCodeUI(String luiAlternateCode,String luiIdentifierType){
         if (StringUtils.equals(luiIdentifierType,LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY)){
-            return luiAlternateCode + " (Owner)";
+            return luiAlternateCode + OWNER_UI_SUFFIX;
         } else {
             return luiAlternateCode;
         }
