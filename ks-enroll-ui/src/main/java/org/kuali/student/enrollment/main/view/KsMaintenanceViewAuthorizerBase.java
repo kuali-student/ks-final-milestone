@@ -23,12 +23,15 @@ import org.kuali.rice.krad.uif.widget.Widget;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.ActivityOfferingForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl;
 
 import java.util.Collection;
@@ -63,6 +66,17 @@ public class KsMaintenanceViewAuthorizerBase extends MaintenanceViewAuthorizerBa
                     attributes.put("org",wrapper.getAdminOrg());
                 }
 
+            }
+        }
+        if (primaryDataObjectOrDocument !=null && primaryDataObjectOrDocument instanceof MaintenanceDocumentForm) {
+            MaintenanceDocumentForm mntnForm = (MaintenanceDocumentForm)primaryDataObjectOrDocument;
+            MaintenanceDocument document = mntnForm.getDocument();
+            if(document != null && document.getNewMaintainableObject() instanceof CourseOfferingCreateMaintainableImpl) {
+                CourseOfferingCreateMaintainableImpl theForm = (CourseOfferingCreateMaintainableImpl)document.getNewMaintainableObject();
+                CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) theForm.getDataObject();
+                if(wrapper.getAdminOrg() != null){
+                    attributes.put("org",wrapper.getAdminOrg());
+                }
             }
         }
 
@@ -187,9 +201,15 @@ public class KsMaintenanceViewAuthorizerBase extends MaintenanceViewAuthorizerBa
 
         if (permissionExistsByTemplate(model, "KS-ENR",
                 KimConstants.PermissionTemplateNames.EDIT_VIEW, additionalPermissionDetails)) {
-            return isAuthorizedByTemplate(model, "KS-ENR",
-                    KimConstants.PermissionTemplateNames.EDIT_VIEW, user.getPrincipalId(), additionalPermissionDetails,
-                    null) && canEdit(documentForm.getDocument(), user);
+            if (getDocumentAuthorizer() != null) {
+                return isAuthorizedByTemplate(model, "KS-ENR",
+                        KimConstants.PermissionTemplateNames.EDIT_VIEW, user.getPrincipalId(), additionalPermissionDetails,
+                        null) && canEdit(documentForm.getDocument(), user);
+            } else {
+                return isAuthorizedByTemplate(model, "KS-ENR",
+                        KimConstants.PermissionTemplateNames.EDIT_VIEW, user.getPrincipalId(), additionalPermissionDetails,
+                        null);
+            }
         }
 
         return super.canEditView(view, model, user) && canEdit(documentForm.getDocument(), user);
