@@ -68,6 +68,8 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     private boolean showCopyFormatSection;
     private List<FormatOfferingWrapper> copyFromFormats;
 
+    String adminOrg;
+
     public CourseOfferingCreateWrapper(){
         showTermOfferingLink = true;
         formatOfferingWrappers = new ArrayList<FormatOfferingWrapper>();
@@ -408,6 +410,17 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
      */
     public void setCopyFromFormats(List<FormatOfferingWrapper> copyFromFormats) {
         this.copyFromFormats = copyFromFormats;
+    }
+
+    /*
+    *  @param adminOrg
+     */
+    public String getAdminOrg(){
+        return adminOrg;
+    }
+
+    public void setAdminOrg(String adminOrg){
+        this.adminOrg=adminOrg;
     }
 
     /**
