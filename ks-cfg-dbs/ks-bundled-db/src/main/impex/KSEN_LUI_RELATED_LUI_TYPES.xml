@@ -2827,10 +2827,6 @@
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="59471aa3-b59f-468c-8c0b-c230d1f65013" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
-        LUI_ID="597f91d3-49e7-49ae-9062-7bbf3dd5b0f5" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.discussion"/>
-    <KSEN_LUI_RELATED_LUI_TYPES
-        LUI_ID="597f91d3-49e7-49ae-9062-7bbf3dd5b0f5" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
-    <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="598873d7-4605-438e-85cc-a0ab1875a4e0" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lab"/>
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="598873d7-4605-438e-85cc-a0ab1875a4e0" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
