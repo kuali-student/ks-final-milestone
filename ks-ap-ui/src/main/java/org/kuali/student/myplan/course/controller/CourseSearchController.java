@@ -438,9 +438,14 @@ public class CourseSearchController extends UifControllerBase {
 					+ nFacetCols;
 
 			// Reset the count on all facet state leaf nodes to 0
-			for (Map<String, FacetState> fm : facetState)
-				for (Entry<String, FacetState> fce : fm.entrySet())
-					fce.getValue().count = 0;
+			boolean all[] = new boolean[facetState.size()];
+			Arrays.fill(all, true);
+			for (int i = 0; i < facetState.size(); i++)
+				for (FacetState fs : facetState.get(i).values()) {
+					fs.count = 0;
+					if (all[i])
+						all[i] = fs.checked;
+				}
 
 			// Iterate search results
 			for (SearchInfo row : searchResults) {
@@ -453,13 +458,20 @@ public class CourseSearchController extends UifControllerBase {
 				// identify filtered rows before counting
 				boolean filtered = false;
 				for (int i = 0; !filtered && i < nFacetCols; i++) {
-					// Find one match for one checked facet on this row
-					boolean hasOne = false;
-					for (String fci : row.facetColumns[i])
-						if (!hasOne && getFacetState(fci, i).checked)
-							hasOne = true;
-					assert !filtered : "filtered state changed";
-					filtered = !hasOne;
+					if (row.facetColumns[i].length == 0)
+						// When there are no values on this facet column, filter
+						// unless all is checked on the column
+						filtered = !all[i];
+					else {
+						// Filter unless there is at least one match for one
+						// checked facet on this row
+						boolean hasOne = false;
+						for (String fci : row.facetColumns[i])
+							if (!hasOne && getFacetState(fci, i).checked)
+								hasOne = true;
+						assert !filtered : "filtered state changed";
+						filtered = !hasOne;
+					}
 				}
 				if (!filtered)
 					// count all cells in all non-filtered rows
@@ -907,33 +919,38 @@ public class CourseSearchController extends UifControllerBase {
 	public void getJsonResponse(HttpServletResponse response,
 			HttpServletRequest request) throws IOException {
 
-		SessionSearchInfo table = getSearchResults(request);
-		SearchInfo firstRow = table.searchResults.iterator().next();
-
-		// Parse and validate incoming jQuery datatables inputs
+		// Parse incoming jQuery datatables inputs
 		final DataTablesInputs dataTablesInputs = new DataTablesInputs(request);
 		if (LOG.isDebugEnabled())
 			LOG.debug(dataTablesInputs);
-		assert table != null;
-		assert table.searchResults.isEmpty()
-				|| dataTablesInputs.iColumns >= firstRow.item
-						.getSearchColumns().length : firstRow.item
-				.getSearchColumns().length + " > " + dataTablesInputs.iColumns;
-		assert table.searchResults.isEmpty()
-				|| dataTablesInputs.iColumns >= firstRow.sortColumns.length : firstRow.sortColumns.length
-				+ " > " + dataTablesInputs.iColumns;
-		assert table.searchResults.isEmpty()
-				|| dataTablesInputs.iColumns >= firstRow.facetColumns.length : firstRow.facetColumns.length
-				+ " > " + dataTablesInputs.iColumns;
-		assert table.searchResults.isEmpty()
-				|| dataTablesInputs.iColumns == firstRow.facetColumns.length
-				|| dataTablesInputs.iColumns == firstRow.sortColumns.length
-				|| dataTablesInputs.iColumns == firstRow.item
-						.getSearchColumns().length : "Max("
-				+ firstRow.facetColumns.length + ","
-				+ firstRow.sortColumns.length + ","
-				+ firstRow.item.getSearchColumns().length + ") != "
-				+ dataTablesInputs.iColumns;
+		SessionSearchInfo table = getSearchResults(request);
+
+		if (table.searchResults != null && !table.searchResults.isEmpty()) {
+			SearchInfo firstRow = table.searchResults.iterator().next();
+			// Validate incoming jQuery datatables inputs
+			assert table != null;
+			assert table.searchResults.isEmpty()
+					|| dataTablesInputs.iColumns >= firstRow.item
+							.getSearchColumns().length : firstRow.item
+					.getSearchColumns().length
+					+ " > "
+					+ dataTablesInputs.iColumns;
+			assert table.searchResults.isEmpty()
+					|| dataTablesInputs.iColumns >= firstRow.sortColumns.length : firstRow.sortColumns.length
+					+ " > " + dataTablesInputs.iColumns;
+			assert table.searchResults.isEmpty()
+					|| dataTablesInputs.iColumns >= firstRow.facetColumns.length : firstRow.facetColumns.length
+					+ " > " + dataTablesInputs.iColumns;
+			assert table.searchResults.isEmpty()
+					|| dataTablesInputs.iColumns == firstRow.facetColumns.length
+					|| dataTablesInputs.iColumns == firstRow.sortColumns.length
+					|| dataTablesInputs.iColumns == firstRow.item
+							.getSearchColumns().length : "Max("
+					+ firstRow.facetColumns.length + ","
+					+ firstRow.sortColumns.length + ","
+					+ firstRow.item.getSearchColumns().length + ") != "
+					+ dataTablesInputs.iColumns;
+		}
 
 		// DataTables search filter is tied to facet click state on the front
 		// end, but is only loosely coupled on the server side.

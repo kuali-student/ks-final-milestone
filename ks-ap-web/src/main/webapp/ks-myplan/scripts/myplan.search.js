@@ -378,7 +378,7 @@ function fnGenerateFacetGroup(i, obj, sorter) {
 		var jAll = jQuery('<li />').attr("title", "All")
 				.addClass("all checked").html('<a href="#">All</a>').click(
 						function(e) {
-							fnFacetFilter('All', i, e);
+							fnClickFacet('All', i, e);
 						});
 		jFacets.find(".all ul").append(jAll);
 	}
