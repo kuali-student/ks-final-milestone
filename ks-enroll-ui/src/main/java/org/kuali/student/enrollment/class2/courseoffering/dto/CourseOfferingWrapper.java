@@ -18,9 +18,11 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,9 +46,15 @@ public class CourseOfferingWrapper implements Serializable{
     private boolean isCrossListed;
     private List<String> alternateCOCodes;
     private String coOwningDeptName;
+    /**
+     * Usage of this property only in create and edit CO screens. Basically, this is whether to
+     * allow the user to select cross lists or not. If it's false, then the cross
+     * lists will be added to all the alternate codes.
+     */
+    private Boolean selectCrossListingAllowed;
 
     public CourseOfferingWrapper(){
-
+        alternateCOCodes = new ArrayList<String>();
     }
 
     /**
@@ -201,10 +209,14 @@ public class CourseOfferingWrapper implements Serializable{
        for (String code : alternateCOCodes){
            buffer.append(code + "<br>");
        }
-
        return StringUtils.removeEnd(buffer.toString(), "<br>");
    }
 
+    /**
+     * This method returns the course offering id.
+     *
+     * @return
+     */
     public String getCourseOfferingId() {
         if (StringUtils.isNotBlank(courseOfferingId)){
             return courseOfferingId;
@@ -217,14 +229,61 @@ public class CourseOfferingWrapper implements Serializable{
         return getCourseOfferingInfo().getId();
     }
 
+    /**
+     *
+     * @see #setCoOwningDeptName(String)
+     * @return
+     */
     @SuppressWarnings("unused")
     public String getCoOwningDeptName() {
         return coOwningDeptName;
     }
 
+    /**
+     * This property is used to indicate the user which department owns the owner course
+     * of a cross listed course.
+     *
+     * @param coOwningDeptName
+     */
     public void setCoOwningDeptName(String coOwningDeptName) {
         this.coOwningDeptName = coOwningDeptName;
     }
 
+    /**
+     * This method returns a list of comma seperated alternate course codes.
+     * This is used in create and edit course offerings screen.
+     * @return
+     */
+    @SuppressWarnings("unused")
+    public String getCrossListedCourseCodes(){
+        StringBuilder builder = new StringBuilder();
+        if (course != null){
+            for (CourseCrossListing crossListing : course.getCrossListings()){
+                builder.append(crossListing.getCode() + ", ");
+            }
+        }
+        return StringUtils.removeEnd(builder.toString(), ", ");
+    }
+
+    /**
+     * This method returns whether alternate code selection is allowed or not.
+     * This method reads the configuration property <code>kuali.ks.enrollment.options.selective-crossListing-allowed</code>
+     * and returns its value (true/false). This is to allow the institutional configuration to decide whether the users
+     * should be allowed to pick alternate codes or just select all the alternate codes by default.
+     *
+     * @return boolean based on the configured property
+     */
+    public boolean isSelectCrossListingAllowed() {
+         if (selectCrossListingAllowed == null) {
+             String selectiveColocationAllowed = ConfigContext.getCurrentContextConfig().getProperty("kuali.ks.enrollment.options.selective-crossListing-allowed");
+             if("false".equalsIgnoreCase(selectiveColocationAllowed)) {
+                 selectCrossListingAllowed = false;
+             } else {
+                 selectCrossListingAllowed = true;
+             };
+         }
+
+        return true;
+    }
 
 }

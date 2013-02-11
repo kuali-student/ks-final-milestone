@@ -49,10 +49,9 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     private List<ExistingCourseOffering> existingOfferingsInCurrentTerm;
     private List<ExistingCourseOffering> existingTermOfferings;
 
-    private List<String> coListedCOs;
-    private Boolean selectCrossListingAllowed;
+//    private List<String> coListedCOs;
     private boolean crossListedCo;
-    private String displayStringCoListedCOs;
+//    private String displayStringCoListedCOs;
 
 
     private boolean excludeCancelledActivityOfferings;
@@ -75,7 +74,7 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         formatOfferingWrappers = new ArrayList<FormatOfferingWrapper>();
         existingOfferingsInCurrentTerm = new ArrayList<ExistingCourseOffering>();
         existingTermOfferings = new ArrayList<ExistingCourseOffering>();
-        coListedCOs = new ArrayList<String>();
+//        coListedCOs = new ArrayList<String>();
         jointCourses = new ArrayList<JointCourseWrapper>();
         showJointOption = false;
         crossListedCo = false;
@@ -215,26 +214,13 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         this.excludeInstructorInformation = excludeInstructorInformation;
     }
 
-    public List<String> getCoListedCOs() {
+    /*public List<String> getCoListedCOs() {
         return coListedCOs;
     }
 
     public void setCoListedCOs(List<String> coListedCOs) {
         this.coListedCOs = coListedCOs;
-    }
-
-    public boolean isSelectCrossListingAllowed() {
-         if (null == selectCrossListingAllowed) {
-             String selectiveColocationAllowed = ConfigContext.getCurrentContextConfig().getProperty("kuali.ks.enrollment.options.selective-crossListing-allowed");
-             if("false".equalsIgnoreCase(selectiveColocationAllowed)) {
-                 selectCrossListingAllowed = false;
-             } else {
-                 selectCrossListingAllowed = true;
-             };
-         }
-
-        return selectCrossListingAllowed;
-    }
+    }*/
 
     public boolean isCrossListedCo() {
         return crossListedCo;
@@ -244,17 +230,13 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         this.crossListedCo = crossListedCo;
     }
 
-    public void setSelectCrossListingAllowed(boolean selectCrossListingAllowed) {
-        this.selectCrossListingAllowed = selectCrossListingAllowed;
-    }
-
-    public String getDisplayStringCoListedCOs() {
+    /*public String getDisplayStringCoListedCOs() {
         return displayStringCoListedCOs;
     }
 
     public void setDisplayStringCoListedCOs(String displayStringCoListedCOs) {
         this.displayStringCoListedCOs = displayStringCoListedCOs;
-    }
+    }*/
 
 
     public List<JointCourseWrapper> getJointCourses() {
@@ -445,13 +427,7 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         setShowCopyFormatSection(false);
         setShowCreateFormatSection(true);
         getCopyFromFormats().clear();
+        getAlternateCOCodes().clear();
     }
 
-    public void setCoInfo(CourseOfferingInfo info){
-        setCourseOfferingInfo(info);
-    }
-
-    public CourseOfferingInfo getCoInfo(){
-        return getCourseOfferingInfo();
-    }
 }

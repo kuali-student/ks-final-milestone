@@ -181,12 +181,12 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     public boolean isLegalToDelete() {
 
-        if (getCoInfo() != null &&
-            StringUtils.equals(getCoInfo().getStateKey(), LuiServiceConstants.LUI_DRAFT_STATE_KEY) ||
-            StringUtils.equals(getCoInfo().getStateKey(), LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY) ||
-            StringUtils.equals(getCoInfo().getStateKey(), LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)||
-            StringUtils.equals(getCoInfo().getStateKey(), LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY) ||
-            StringUtils.equals(getCoInfo().getStateKey(), LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY) ) {
+        if (getCourseOfferingInfo() != null &&
+            StringUtils.equals(getCourseOfferingInfo().getStateKey(), LuiServiceConstants.LUI_DRAFT_STATE_KEY) ||
+            StringUtils.equals(getCourseOfferingInfo().getStateKey(), LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY) ||
+            StringUtils.equals(getCourseOfferingInfo().getStateKey(), LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)||
+            StringUtils.equals(getCourseOfferingInfo().getStateKey(), LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY) ||
+            StringUtils.equals(getCourseOfferingInfo().getStateKey(), LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY) ) {
             return true;
         }
 
@@ -236,15 +236,6 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
         }
         return  adminOrgMap;
     }
-
-    public void setCoInfo(CourseOfferingInfo info){
-        setCourseOfferingInfo(info);
-    }
-
-    public CourseOfferingInfo getCoInfo(){
-        return getCourseOfferingInfo();
-    }
-
 
 }
 

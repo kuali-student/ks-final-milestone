@@ -30,7 +30,7 @@
         <property name="objectLabel" value="Course Offering"/>
         <property name="primaryKeys">
             <list>
-                <value>coInfo.id</value>
+                <value>courseOfferingInfo.id</value>
             </list>
         </property>
     </bean>
@@ -57,44 +57,44 @@
                                   p:layoutManager.applyDefaultCellWidths="false">
                                 <property name="items">
                                     <list>
-                                        <!--<bean parent="Uif-DataField" p:label="ID" p:propertyName="coInfo.id" />-->
-                                        <bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingCode" />
+                                        <!--<bean parent="Uif-DataField" p:label="ID" p:propertyName="courseOfferingInfo.id" />-->
+                                        <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.courseOfferingCode" />
                                         <bean parent="Uif-DataField" p:label="Cross listed as" p:propertyName="alternateCOCodesUIList" p:render="@{dataObject.alternateCOCodesUIList != ''}"/>
-                                        <bean parent="Uif-DataField" p:propertyName="coInfo.courseNumberSuffix" />
-                                        <bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingTitle" />
+                                        <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.courseNumberSuffix" />
+                                        <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.courseOfferingTitle" />
                                         <bean parent="Uif-DataField" p:propertyName="termName" p:label="Term"/>
-                                        <bean parent="Uif-DataField" p:propertyName="coInfo.creditCnt" />
+                                        <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.creditCnt" />
 
                                         <!--<bean parent="Uif-DataField" p:label="Grading Option" p:propertyName="selectedGradingOptionName" />-->
-                                        <bean parent="Uif-InputField" p:propertyName="coInfo.gradingOptionId" p:label="Grading Options">
+                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.gradingOptionId" p:label="Grading Options">
                                             <property name="optionsFinder">
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.GradingOptionsKeyValues" />
                                             </property>
                                         </bean>
 
                                         <!-- displays "[]" when empty, not desired
-                                        <bean parent="Uif-InputField" p:propertyName="coInfo.studentRegistrationOptionIds" p:label="Student Registration Options" p:render="@{#dp.studentRegOptions.empty}">
+                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.studentRegistrationOptionIds" p:label="Student Registration Options" p:render="@{#dp.studentRegOptions.empty}">
                                             <property name="optionsFinder">
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.StudentRegistrationOptionsKeyValues" p:addBlankOption="false"/>
                                             </property>
                                         </bean>
                                         -->
                                         <bean parent="Uif-DataField" p:propertyName="selectedStudentRegOpts" p:label="Student Registration Options" />
-                                        <bean parent="Uif-DataField" p:propertyName="coInfo.finalExamType" />
-                                        <bean parent="Uif-MessageField" p:label="Waited Listed" p:messageText="@{(dataObject.coInfo.hasWaitlist eq null or !dataObject.coInfo.hasWaitlist) ? 'NO':'YES'}"/>
+                                        <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.finalExamType" />
+                                        <bean parent="Uif-MessageField" p:label="Waited Listed" p:messageText="@{(dataObject.courseOfferingInfo.hasWaitlist eq null or !dataObject.courseOfferingInfo.hasWaitlist) ? 'NO':'YES'}"/>
 
-                                        <bean parent="Uif-InputField" p:propertyName="coInfo.waitlistLevelTypeKey" p:label="Waitlist Level" p:inquiry.render="false" p:fieldLabel.renderColon="true" p:labelPlacement="LEFT" p:render="@{!(dataObject.coInfo.waitlistLevelTypeKey eq null) and (dataObject.coInfo.hasWaitlist)}" >
+                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.waitlistLevelTypeKey" p:label="Waitlist Level" p:inquiry.render="false" p:fieldLabel.renderColon="true" p:labelPlacement="LEFT" p:render="@{!(dataObject.courseOfferingInfo.waitlistLevelTypeKey eq null) and (dataObject.courseOfferingInfo.hasWaitlist)}" >
                                             <property name="optionsFinder">
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistLevelOptionsKeyValues"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField" p:propertyName="coInfo.waitlistTypeKey" p:label="Waitlist Type" p:inquiry.render="false" p:fieldLabel.renderColon="true" p:labelPlacement="LEFT" p:render="@{!(dataObject.coInfo.waitlistTypeKey eq null) and (dataObject.coInfo.hasWaitlist)}" >
+                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.waitlistTypeKey" p:label="Waitlist Type" p:inquiry.render="false" p:fieldLabel.renderColon="true" p:labelPlacement="LEFT" p:render="@{!(dataObject.courseOfferingInfo.waitlistTypeKey eq null) and (dataObject.courseOfferingInfo.hasWaitlist)}" >
                                             <property name="optionsFinder">
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistTypeOptionsKeyValues"/>
                                             </property>
                                         </bean>
 
-                                        <bean parent="Uif-MessageField" p:label="Honors Flag" p:messageText="@{(dataObject.coInfo.isHonorsOffering eq null or !dataObject.coInfo.isHonorsOffering) ? 'NO':'YES'}" />
+                                        <bean parent="Uif-MessageField" p:label="Honors Flag" p:messageText="@{(dataObject.courseOfferingInfo.isHonorsOffering eq null or !dataObject.courseOfferingInfo.isHonorsOffering) ? 'NO':'YES'}" />
 
 
                                     </list>
@@ -119,17 +119,17 @@
                                             </property>
                                         </bean>
                                         <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey"
-                                              p:label="Final Exam Driver" p:render="@{#dp.coInfo.finalExamType eq 'STANDARD'}">
+                                              p:label="Final Exam Driver" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}">
                                             <property name="optionsFinder">
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CourseOfferingTypeKeyValues"/>
                                             </property>
                                         </bean>
                                         <bean parent="Uif-MessageField" p:label="Final Exam Driver"
                                               p:messageText="Alternate exam for this offering"
-                                              p:render="@{#dp.coInfo.finalExamType eq 'ALTERNATE'}" />
+                                              p:render="@{#dp.courseOfferingInfo.finalExamType eq 'ALTERNATE'}" />
                                         <bean parent="Uif-MessageField" p:label="Final Exam Driver"
                                               p:messageText="No final exam for this offering"
-                                              p:render="@{#dp.coInfo.finalExamType eq 'NONE'}" />
+                                              p:render="@{#dp.courseOfferingInfo.finalExamType eq 'NONE'}" />
                                     </list>
                                 </property>
                             </bean>
@@ -182,10 +182,19 @@
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
-        <property name="headerText" value="Edit @{document.oldMaintainableObject.dataObject.coInfo.courseOfferingCode} - @{document.oldMaintainableObject.dataObject.coInfo.courseOfferingTitle} (@{document.oldMaintainableObject.dataObject.coInfo.creditCnt} Credits)"/>
+        <property name="headerText" value="Edit @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode} - @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingTitle} (@{document.oldMaintainableObject.dataObject.courseOfferingInfo.creditCnt} Credits)"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
        <!-- <property name="render" value="@{#hasPermDtls('KS-ENR','Open Views for KS-CourseOfferingEditWrapper-EditMaintenanceView',null,document.oldMaintainableObject.dataObject.adminOrg)}" /> -->
-
+        <property name="header.lowerGroup">
+          <bean parent="Uif-HeaderLowerGroup">
+            <property name="style" value="margin-bottom:px;"/>
+            <property name="items">
+              <list>
+                  <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{#dp.crossListedCourseCodes}" p:render="@{#dp.crossListedCourseCodes != ''}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
+              </list>
+            </property>
+          </bean>
+        </property>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />
         <property name="page.items">
             <list>
@@ -225,7 +234,7 @@
                                     <list>
                                         <bean parent="Uif-InputField" p:propertyName="course.code" p:showLabel="false"
                                               p:readOnly="true" />
-                                        <bean parent="Uif-InputField" p:propertyName="coInfo.courseNumberSuffix"  p:showLabel="false" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.courseNumberSuffix"  p:showLabel="false" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:watermarkText="Suffix" p:size="5" />
                                             </property>
@@ -235,12 +244,23 @@
                             </bean>
                         </list>
                     </property>
-                </bean>        
+                </bean>
+                <ref bean="KS-COEditListed-Checkbox-Group"/>
+                <!--<ref bean="KS-COEditListed-CO-Codes-display"/>-->
                 <ref bean="KS-GradingAndRegOptions"/>
             </list>
         </property>
     </bean>
 
+    <bean id="KS-COEditListed-Checkbox-Group" parent="Uif-InputField"  p:propertyName="alternateCOCodes" p:readOnlyDisplayReplacementPropertyName="alternateCOCodesUIList" p:readOnly="@{!#dp.selectCrossListingAllowed}" p:render="@{!#dp.crossListedCourseCodes.isEmpty()}">
+        <property name="label" value="Cross List As"/>
+        <property name="control">
+            <bean parent="Uif-HorizontalCheckboxesControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.populateCrossCourseListKeyValues" p:addBlankOption="false" />
+        </property>
+    </bean>
 
     <bean id="KS-GradingAndRegOptions" parent="Uif-HorizontalBoxSubSection">
         <property name="items">
@@ -254,7 +274,7 @@
     <bean id="KS-CourseOfferingEdit-GradingOptions" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="coInfo.gradingOptionId" p:label="Grading Options" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.gradingOptionId" p:label="Grading Options" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl"/>
                     </property>
@@ -269,7 +289,7 @@
         <property name="items">
             <list>
                 <!-- Commented out - List of checkboxes seem to break in KRAD 2.2M3 so had to replace with individual checkboxes -->
-                <!--<bean parent="Uif-InputField-LabelTop" p:propertyName="coInfo.studentRegistrationGradingOptions"-->
+                <!--<bean parent="Uif-InputField-LabelTop" p:propertyName="courseOfferingInfo.studentRegistrationGradingOptions"-->
                 <!--p:label="Student Registration Options" p:render="@{!#dp.studentRegOptions.empty}"-->
                 <!-->-->
                 <!--<property name="control">-->
@@ -381,7 +401,7 @@
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="coInfo.finalExamType" p:label="Final Exams" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                            <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.finalExamType" p:label="Final Exams" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                                 <property name="control">
                                     <bean parent="Uif-VerticalRadioControl"/>
                                 </property>
@@ -401,7 +421,7 @@
     </bean>
 
 
-    <bean id="KS-CourseOfferingEdit-DeliveryFormats" parent="Uif-HorizontalBoxSubSection" p:refreshWhenChangedPropertyNames="#dp.coInfo.finalExamType" p:header.headerText="Delivery Formats" p:header.headerLevel="Uif-HeaderOne" p:header.style="font-weight:bold;">
+    <bean id="KS-CourseOfferingEdit-DeliveryFormats" parent="Uif-HorizontalBoxSubSection" p:refreshWhenChangedPropertyNames="#dp.courseOfferingInfo.finalExamType" p:header.headerText="Delivery Formats" p:header.headerLevel="Uif-HeaderOne" p:header.style="font-weight:bold;">
         <property name="instructionalText" value="Add the delivery formats to be used for this course offering"/>
         <property name="items">
             <list>
@@ -447,7 +467,7 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey" p:label="FINAL EXAM DRIVER ACTIVITY"
-                                  p:labelPlacement="TOP" p:required="true" p:render="@{#dp.coInfo.finalExamType eq 'STANDARD'}" p:refreshWhenChangedPropertyNames="#lp.formatId" p:finalizeMethodToCall="populateFinalExamDriverTypes">
+                                  p:labelPlacement="TOP" p:required="true" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}" p:refreshWhenChangedPropertyNames="#lp.formatId" p:finalizeMethodToCall="populateFinalExamDriverTypes">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" />
                                 </property>
@@ -455,8 +475,8 @@
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Alternate exam for this offering" p:render="@{#dp.coInfo.finalExamType eq 'ALTERNATE'}" />
-                            <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="No final exam for this offering" p:render="@{#dp.coInfo.finalExamType eq 'NONE'}" />
+                            <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Alternate exam for this offering" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'ALTERNATE'}" />
+                            <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="No final exam for this offering" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'NONE'}" />
                         </list>
                     </property>
                 </bean>
@@ -471,27 +491,27 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField-LabelTop" p:propertyName="coInfo.hasWaitlist" p:label="Waitlists" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                            <bean parent="Uif-InputField-LabelTop" p:propertyName="courseOfferingInfo.hasWaitlist" p:label="Waitlists" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                                 <property name="control">
                                     <bean parent="Uif-CheckboxControl">
                                         <property name="checkboxLabel" value="This course offering has a waitlist"/>
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-HorizontalBoxSection" p:refreshWhenChangedPropertyNames="#dp.coInfo.hasWaitlist">
+                            <bean parent="Uif-HorizontalBoxSection" p:refreshWhenChangedPropertyNames="#dp.courseOfferingInfo.hasWaitlist">
                                 <property name="items">
                                     <list>
-                                       <bean parent="Uif-InputField" p:propertyName="coInfo.waitlistLevelTypeKey" p:label="Waitlist Level" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                       <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.waitlistLevelTypeKey" p:label="Waitlist Level" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                                             <property name="control">
-                                                <bean parent="Uif-VerticalRadioControl" p:disabled="@{!#dp.coInfo.hasWaitlist}"/>
+                                                <bean parent="Uif-VerticalRadioControl" p:disabled="@{!#dp.courseOfferingInfo.hasWaitlist}"/>
                                             </property>
                                             <property name="optionsFinder">
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistLevelOptionsKeyValues" />
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField" p:label="Waitlist Type" p:propertyName="coInfo.waitlistTypeKey" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                        <bean parent="Uif-InputField" p:label="Waitlist Type" p:propertyName="courseOfferingInfo.waitlistTypeKey" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                                             <property name="control">
-                                                <bean parent="Uif-DropdownControl" p:disabled="@{!#dp.coInfo.hasWaitlist}"/>
+                                                <bean parent="Uif-DropdownControl" p:disabled="@{!#dp.courseOfferingInfo.hasWaitlist}"/>
                                             </property>
                                             <property name="optionsFinder">
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistTypeOptionsKeyValues" />
@@ -517,7 +537,7 @@
                       p:layoutManager.style="width: 100%; display:block;">
                     <property name="headerText" value="Affiliated Personnel" />
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo" />
-                    <property name="propertyName" value="coInfo.instructors" />
+                    <property name="propertyName" value="courseOfferingInfo.instructors" />
                     <property name="layoutManager.renderSequenceField" value="false" />
                     <property name="layoutManager.separateAddLine" value="false" />
                     <property name="layoutManager.richTable.render" value="false" />
@@ -613,7 +633,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText=""/>
-                <bean parent="Uif-InputField" p:propertyName="coInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
                             <property name="checkboxLabel" value="This is an Honors Course"/>
@@ -635,7 +655,7 @@
         <property name="documentAuthorizerClass" value="org.kuali.student.enrollment.main.view.KsMaintenanceAuthorizerBase"/>
         <property name="lockingKeys">
             <list>
-                <value>coInfo.id</value>
+                <value>courseOfferingInfo.id</value>
             </list>
         </property>
     </bean>

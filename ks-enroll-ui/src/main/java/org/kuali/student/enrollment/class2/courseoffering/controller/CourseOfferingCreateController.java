@@ -154,12 +154,6 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                 coWrapper.setShowAllSections(true);
                 coWrapper.setShowCatalogLink(false);
                 coWrapper.setShowTermOfferingLink(true);
-                if(!course.getCrossListings().isEmpty())  {
-                    for(CourseCrossListingInfo crossListingInfo : course.getCrossListings()) {
-                        coWrapper.getCoListedCOs().add(crossListingInfo.getCode());
-                    }
-                    coWrapper.setCrossListedCo(true);
-                }
 
                 coWrapper.getExistingTermOfferings().clear();
                 coWrapper.getExistingOfferingsInCurrentTerm().clear();

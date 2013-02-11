@@ -32,6 +32,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWr
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -102,7 +103,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 unitDeploymentOrgIds.add(orgWrapper.getId());
             }
 
-            CourseOfferingInfo coInfo = coEditWrapper.getCoInfo();
+            CourseOfferingInfo coInfo = coEditWrapper.getCourseOfferingInfo();
             coInfo.setUnitsDeploymentOrgIds(unitDeploymentOrgIds);
 
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
@@ -152,6 +153,9 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 coInfo.getStudentRegistrationGradingOptions().remove(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
             }
 
+            //Save cross lists
+            loadCrossListedCOs(coEditWrapper,coInfo);
+
             getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, contextInfo);
 
             // check for changes to states in CO and related FOs (may happen in the case of deleted FOs)
@@ -166,7 +170,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
     private void updateFormatOfferings(CourseOfferingEditWrapper coEditWrapper) throws Exception{
         List<FormatOfferingInfo> updatedFormatOfferingList = new ArrayList<FormatOfferingInfo>();
         List<FormatOfferingInfo> formatOfferingList = coEditWrapper.getFormatOfferingList();
-        CourseOfferingInfo coInfo = coEditWrapper.getCoInfo();
+        CourseOfferingInfo coInfo = coEditWrapper.getCourseOfferingInfo();
         List <String> currentFOIds = getExistingFormatOfferingIds(coInfo.getId());
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         if (formatOfferingList != null && !formatOfferingList.isEmpty())  {
@@ -231,7 +235,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             //check duplication
             MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
             CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-            List<OfferingInstructorInfo> instructors = coEditWrapper.getCoInfo().getInstructors();
+            List<OfferingInstructorInfo> instructors = coEditWrapper.getCourseOfferingInfo().getInstructors();
             if(instructors != null && !instructors.isEmpty()){
                 for(OfferingInstructorInfo thisInst : instructors){
                     if(instructorInfo.getPersonId().equals(thisInst.getPersonId())){
@@ -292,7 +296,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
             if (getDataObject() instanceof CourseOfferingEditWrapper){
                 //0. get credit count from CourseInfo
-                CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(dataObjectKeys.get("coInfo.id"), contextInfo);
+                CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(dataObjectKeys.get("courseOfferingInfo.id"), contextInfo);
                 CourseInfo courseInfo = getCourseService().getCourse(coInfo.getCourseId(), contextInfo);
 
                 //1. set CourseOfferingInfo
@@ -457,6 +461,11 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                             "User '" + user.getPrincipalName() + "' is not authorized to open view", null);
                 }
 
+
+                //Cross listing
+                for (CourseOfferingCrossListingInfo crossListingInfo : coInfo.getCrossListings()){
+                    formObject.getAlternateCOCodes().add(crossListingInfo.getCode());
+                }
                 return formObject;
             }
         } catch (Exception e) {

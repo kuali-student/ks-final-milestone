@@ -88,7 +88,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                 loadCrossListedCOs(wrapper,coInfo);
 
                 CourseOfferingInfo createdCOInfo = createCourseOfferingInfo(wrapper.getTerm().getId(), wrapper.getCourse(), wrapper.getCourseOfferingSuffix(),coInfo);
-                wrapper.setCoInfo(createdCOInfo);
+                wrapper.setCourseOfferingInfo(createdCOInfo);
 
                 createFormatOfferings(wrapper);
 
@@ -96,44 +96,6 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
 
             } catch (Exception e) {
                 throw new RuntimeException(e);
-            }
-        }
-    }
-
-    protected void loadCrossListedCOs(CourseOfferingCreateWrapper wrapper, CourseOfferingInfo coInfo) {
-        if (wrapper.isSelectCrossListingAllowed()) {
-            if (wrapper.getCoListedCOs().size() > 0) {
-                for (String CoId : wrapper.getCoListedCOs()) {
-                    for (CourseCrossListingInfo crossInfo : wrapper.getCourse().getCrossListings()) {
-                        if (crossInfo.getId().equalsIgnoreCase(CoId)) {
-                            CourseOfferingCrossListingInfo crossListingInfo = new CourseOfferingCrossListingInfo();
-                            crossListingInfo.setCode(crossInfo.getCode());
-                            crossListingInfo.setCourseNumberSuffix(crossInfo.getCourseNumberSuffix());
-                            crossListingInfo.setDepartmentOrgId(crossInfo.getDepartment());
-                            crossListingInfo.setSubjectArea(crossInfo.getSubjectArea());
-                            crossListingInfo.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
-                            crossListingInfo.setTypeKey(crossInfo.getTypeKey());
-                            coInfo.getCrossListings().add(crossListingInfo);
-                        }
-                    }
-                }
-            }
-        } else {
-            // get all the crosslisted COs
-            CourseInfo courseOffering = wrapper.getCourse();
-            if (courseOffering != null && courseOffering.getCrossListings() != null && courseOffering.getCrossListings().size() > 0) {
-                for (CourseCrossListingInfo crossInfo : courseOffering.getCrossListings()) {
-                    if (crossInfo.getCode() != null) {
-                        CourseOfferingCrossListingInfo crossListingInfo = new CourseOfferingCrossListingInfo();
-                        crossListingInfo.setCode(crossInfo.getCode());
-                        crossListingInfo.setCourseNumberSuffix(crossInfo.getCourseNumberSuffix());
-                        crossListingInfo.setDepartmentOrgId(crossInfo.getDepartment());
-                        crossListingInfo.setSubjectArea(crossInfo.getSubjectArea());
-                        crossListingInfo.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
-                        crossListingInfo.setTypeKey(crossInfo.getTypeKey());
-                        coInfo.getCrossListings().add(crossListingInfo);
-                    }
-                }
             }
         }
     }
@@ -202,10 +164,10 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
             if (!foWrapper.isJointOffering()){
                 foWrapper.getFormatOfferingInfo().setStateKey(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY);
                 foWrapper.getFormatOfferingInfo().setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
-                foWrapper.getFormatOfferingInfo().setTermId(wrapper.getCoInfo().getTermId());
-                foWrapper.getFormatOfferingInfo().setCourseOfferingId(wrapper.getCoInfo().getId());
+                foWrapper.getFormatOfferingInfo().setTermId(wrapper.getCourseOfferingInfo().getTermId());
+                foWrapper.getFormatOfferingInfo().setCourseOfferingId(wrapper.getCourseOfferingInfo().getId());
                 try {
-                    FormatOfferingInfo createdFormatOffering = getCourseOfferingService().createFormatOffering(wrapper.getCoInfo().getId(), foWrapper.getFormatId(), foWrapper.getFormatOfferingInfo().getTypeKey(), foWrapper.getFormatOfferingInfo(), contextInfo);
+                    FormatOfferingInfo createdFormatOffering = getCourseOfferingService().createFormatOffering(wrapper.getCourseOfferingInfo().getId(), foWrapper.getFormatId(), foWrapper.getFormatOfferingInfo().getTypeKey(), foWrapper.getFormatOfferingInfo(), contextInfo);
                     foWrapper.setFormatOfferingInfo(createdFormatOffering);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -230,7 +192,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                   for (FormatOfferingWrapper foWrapper : jointWrapper.getFormatOfferingWrappers()){
                       foWrapper.getFormatOfferingInfo().setStateKey(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY);
                       foWrapper.getFormatOfferingInfo().setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
-                      foWrapper.getFormatOfferingInfo().setTermId(wrapper.getCoInfo().getTermId());
+                      foWrapper.getFormatOfferingInfo().setTermId(wrapper.getCourseOfferingInfo().getTermId());
                       foWrapper.getFormatOfferingInfo().setCourseOfferingId(coInfo.getId());
                       try {
                           FormatOfferingInfo createdFormatOffering = getCourseOfferingService().createFormatOffering(coInfo.getId(), foWrapper.getFormatOfferingInfo().getFormatId(), foWrapper.getFormatOfferingInfo().getTypeKey(), foWrapper.getFormatOfferingInfo(), contextInfo);

@@ -1106,7 +1106,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     private Properties _buildCOURLParameters(CourseOfferingInfo courseOfferingInfo, String methodToCall){
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-        props.put("coInfo.id", courseOfferingInfo.getId());
+        props.put("courseOfferingInfo.id", courseOfferingInfo.getId());
         props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseOfferingEditWrapper.class.getName());
         props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
         return props;
