@@ -19,6 +19,8 @@ package org.kuali.student.enrollment.class1.krms.controller;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
+import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
+import org.kuali.student.enrollment.class1.krms.dto.RulePreviewer;
 import org.kuali.student.enrollment.class1.krms.form.KrmsComponentsForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -52,8 +54,9 @@ public class KrmsComponentsController extends UifControllerBase {
                               HttpServletRequest request, HttpServletResponse response) {
         KrmsComponentsForm uiTestForm = (KrmsComponentsForm) form;
 
-        uiTestForm.setProposition(new PropositionEditor());
-
+//        uiTestForm.setProposition(new PropositionEditor());
+//        uiTestForm.setRuleEditor(new RuleEditor());
+//        uiTestForm.setRulePreviewer(new RulePreviewer());
         return getUIFModelAndView(uiTestForm);
     }
 

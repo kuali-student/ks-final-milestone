@@ -107,25 +107,24 @@
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink">
-                    <property name="actionLabel" value="Edit"/>
+                <bean parent="Uif-Link" p:linkText="Edit">
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Edit Prerequisite Rule"/>
                     </property>
                 </bean>
-                <bean parent="Uif-ActionLink">
-                    <property name="actionLabel" value="Copy"/>
+                <bean parent="Uif-Link" p:linkText="Copy">
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Copy to other CO"/>
                     </property>
                 </bean>
-                <bean parent="Uif-ActionLink">
-                    <property name="actionLabel" value="Compare"/>
+                <bean parent="Uif-Link" p:linkText="Compare" p:onClickScript="e.preventDefault();showLightboxUrl('@{#ConfigProperties['application.url']}/kr-krad/krmsComponents?viewId=krmsCompareRulesView&amp;methodToCall=start');" >
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Compares CLU and CO Rules"/>
                     </property>
                 </bean>
+
             </list>
+
         </property>
     </bean>
 
