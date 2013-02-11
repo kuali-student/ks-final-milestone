@@ -154,3 +154,7 @@
 .ks-collectionAddItem {
     border: none !important;
 }
+
+.ruleCopySelected {
+    background-color:#F4E271 !important; border: 1px dashed goldenrod;
+}
