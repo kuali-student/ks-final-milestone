@@ -1,3 +1,10 @@
+/**
+ * handle toolbar and make buttons enabled/disabled based on values stored in the hiddenColumns
+ * @param divId -- section contains hiddencolumns
+ * @param hiddenColumns -- each hiddenColumn has true/false value
+ * @param bottons -- button id in the toolbar
+ */
+
 function handleToolbar(divId, hiddenColumns, bottons){
     var hiddenColumnsMap = new Object();
     var buttonsMap = new Object();

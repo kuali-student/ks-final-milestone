@@ -1,3 +1,10 @@
+/**
+ * Configure toolbar on Manage CO page.  Each hiddenColumn matches with one button.  hiddenColumns and bottons are in the same order.
+ * divId -- The section contains hiddencolumns
+ * hiddenColumns -- each row of CO list contains hiddenColumns storing values processed in server side.
+ * buttons -- buttons on the toolbar
+ * Notes: hiddenColumns and buttons are in the same order.
+ */
 function handleCOToolbar(){
     var divId = "KS-CourseOfferingManagement-CourseOfferingListSection";
 
@@ -10,6 +17,13 @@ function handleCOToolbar(){
     handleToolbar(divId, hiddenColumns, bottons);
 }
 
+/**
+ * Configure toolbar on Manage AO page.  Each hiddenColumn matches with one button.  hiddenColumns and buttons are in the same order.
+  * divId -- The section contains hiddencolumns
+  * hiddenColumns -- each row of AO list contains hiddenColumns storing values processed in server side.
+  * buttons -- buttons on the toolbar
+  * Notes: hiddenColumns and buttons are in the same order.
+ */
 function handleAOToolbar(){
     var divId = "KS-CourseOfferingManagement-ActivityOfferingListSection";
 
