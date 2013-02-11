@@ -31669,18 +31669,6 @@ INSERT INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('0445321e-7f01-416e-a0d7-1dac4ad0f7d9','kuali.creditType.credit.degree.3.0')
 /
 INSERT INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('3c465ce8-7bfd-4f6d-b00c-8aff0b0df3f4','kuali.resultComponent.grade.letter')
-/
-INSERT INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('3c465ce8-7bfd-4f6d-b00c-8aff0b0df3f4','kuali.resultComponent.grade.audit')
-/
-INSERT INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('3c465ce8-7bfd-4f6d-b00c-8aff0b0df3f4','kuali.resultComponent.grade.passFail')
-/
-INSERT INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('3c465ce8-7bfd-4f6d-b00c-8aff0b0df3f4','kuali.creditType.credit.degree.3.0')
-/
-INSERT INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('1c879bd5-3385-4ef4-9ae2-576096bddae5','kuali.resultComponent.grade.letter')
 /
 INSERT INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
