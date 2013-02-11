@@ -104,6 +104,14 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             throw new RuntimeException("Form object passed into start method was not of expected type CourseOfferingRolloverManagementForm. Got " + form.getClass().getSimpleName());
         }
         CourseOfferingRolloverManagementForm theForm = (CourseOfferingRolloverManagementForm) form;
+
+        // check view authorization
+        // TODO: this needs to be invoked for each request
+        if (form.getView() != null) {
+            String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
+            checkViewAuthorization(theForm, methodToCall);
+        }
+
         Map paramMap = request.getParameterMap();
         if (paramMap.containsKey("pageId")) {
             String pageId = ((String[]) paramMap.get("pageId"))[0];

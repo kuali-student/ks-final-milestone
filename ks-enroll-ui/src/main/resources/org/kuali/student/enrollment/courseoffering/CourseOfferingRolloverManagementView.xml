@@ -24,6 +24,10 @@
           p:entryPageId="selectTermForRolloverDetails"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingViewHelperServiceImpl"
           p:formClass="org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm">
+            <property name="authorizer">
+                <bean class="org.kuali.rice.krad.uif.view.ViewAuthorizerBase"/>
+            </property>
+
             <property name="header">
                 <bean parent="Uif-HeaderOne"/>
             </property>
