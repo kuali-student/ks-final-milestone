@@ -185,7 +185,7 @@ public class CourseSearchControllerTest {
 	@Test
 	public void testIsCourseOffered() throws Throwable {
 		CourseSearchForm form = new CourseSearchFormImpl();
-		CourseSearchItem course = new CourseSearchItemImpl();
+		CourseSearchItemImpl course = new CourseSearchItemImpl();
 		CourseSearchStrategy strategy = KsapFrameworkServiceLocator
 				.getCourseSearchStrategy();
 
@@ -271,7 +271,7 @@ public class CourseSearchControllerTest {
 		// termInfo.setExpirationDate(null);
 		termInfos.add("autumn");
 
-		CourseSearchItem courseSearchItem = new CourseSearchItemImpl();
+		CourseSearchItemImpl courseSearchItem = new CourseSearchItemImpl();
 		courseSearchItem.setCourseId("74995ac1-8d2a-45f2-a408-056cb929f8a7");
 		courseSearchItem.setCode("CHEM   110");
 		courseSearchItem.setNumber("110");

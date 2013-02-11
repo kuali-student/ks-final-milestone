@@ -193,11 +193,22 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
         }
     }
 
+    var popupBox;
+    var target = (e.currentTarget) ? e.currentTarget : e.srcElement;
+    if (selector === null) {
+        popupBox = jQuery(target);
+    } else {
+        popupBox = jQuery(target).parents(selector);
+    }
 
-    var popupHtml = jQuery('<div />').attr("id", id + "_popup").attr("class", popupClasses).html(jQuery("#" + getId).html());
+    var popupHtml = jQuery('<div />').attr("id", id + "_popup").attr("class", popupClasses)
+    		.html(jQuery("#" + getId).html()).wrap("<div>").parent().clone().html();
+    jQuery.each(popupBox.data(), function (key, value) {
+    	popupHtml = eval("popupHtml.replace(/__KSAP__"+key+"__/gi,'"+value+"')");
+    });
 
     var popupOptionsDefault = {
-        innerHtml:popupHtml.wrap("<div>").parent().clone().html(),
+        innerHtml:popupHtml,
         themePath:'../ks-myplan/jquery-bubblepopup/jquerybubblepopup-theme/',
         manageMouseEvents:false,
         selectable:true,
@@ -213,14 +224,6 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
     };
 
     var popupSettings = jQuery.extend(popupOptionsDefault, popupOptions);
-
-    var popupBox;
-    var target = (e.currentTarget) ? e.currentTarget : e.srcElement;
-    if (selector === null) {
-        popupBox = jQuery(target);
-    } else {
-        popupBox = jQuery(target).parents(selector);
-    }
 
     fnCloseAllPopups();
     
@@ -247,12 +250,6 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
             jQuery("#" + nlid).attr("data-" + key, value);
         });
     });
-    var tc = jQuery("#" + id + "_popup"); 
-	var ic = tc.html(); 
-    jQuery.each(popupBox.data(), function (key, value) {
-    	ic = eval("ic.replace(/__KSAP__"+key+"__/gi,'"+value+"')");
-    });
-    tc.html(ic);
 
     if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").append('<img src="../ks-myplan/images/btnClose.png" class="myplan-popup-close"/>');
 

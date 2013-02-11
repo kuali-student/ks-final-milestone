@@ -58,6 +58,21 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 
 	private List<String> termInfoList;
 
+	/**
+	 * Lazy initialized column data for supporting server side result caching.
+	 */
+	private transient String[] searchColumns;
+
+	/**
+	 * Lazy initialized column data for supporting server side result caching.
+	 */
+	private transient String[] sortColumns;
+
+	/**
+	 * Lazy initialized column data for supporting server side result caching.
+	 */
+	private transient String[][] facetColumns;
+
 	public String getCourseId() {
 		return courseId;
 	}
@@ -455,35 +470,37 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	 *            The facet keys related to this item.
 	 * @return A string for passing as a column in the results.
 	 */
-	protected String facetString(Set<String> facetKeys) {
-		StringBuilder sb = new StringBuilder();
-		sb.append('[');
-		boolean first = true;
-		for (String m : facetKeys) {
-			if (first)
-				first = false;
-			else
-				sb.append(',');
-			sb.append(m);
-		}
-		sb.append(']');
-		return sb.toString();
+	protected String[] facetString(Set<String> facetKeys) {
+		return facetKeys.toArray(new String[facetKeys.size()]);
 	}
 
 	@Override
 	public String[] getSearchColumns() {
-		return new String[] { getCode(), getInquiryLink(), getCredit(),
+		return searchColumns == null ? searchColumns = new String[] {
+				getCode(), getInquiryLink(), getCredit(),
 				getScheduledAndOfferedTerms(), getGenEduReq(),
-				getStatusColumn(), facetString(getTermsFacetKeys()),
+				getStatusColumn(), } : searchColumns;
+	}
+
+	@Override
+	public String[] getSortColumns() {
+		return sortColumns == null ? sortColumns = new String[] { getCode(),
+				getCourseName() } : sortColumns;
+	}
+
+	@Override
+	public String[][] getFacetColumns() {
+		return facetColumns == null ? facetColumns = new String[][] {
+				facetString(getTermsFacetKeys()),
 				facetString(getGenEduReqFacetKeys()),
 				facetString(getCreditsFacetKeys()),
 				facetString(getCourseLevelFacetKeys()),
-				facetString(getCurriculumFacetKeys()), };
+				facetString(getCurriculumFacetKeys()), } : facetColumns;
 	}
 
 	@Override
 	public String toString() {
 		return String.format("%s: %s", getCode(), getCourseId());
 	}
-	
+
 }

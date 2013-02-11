@@ -55,4 +55,51 @@ public class CourseSearchFormImpl extends UifFormBase implements
 		this.searchTerm = searchTerm;
 	}
 
+	@Override
+	public String toString() {
+		return "CourseSearchFormImpl [searchQuery=" + searchQuery
+				+ ", searchTerm=" + searchTerm + ", campusSelect="
+				+ campusSelect + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((campusSelect == null) ? 0 : campusSelect.hashCode());
+		result = prime * result
+				+ ((searchQuery == null) ? 0 : searchQuery.hashCode());
+		result = prime * result
+				+ ((searchTerm == null) ? 0 : searchTerm.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CourseSearchFormImpl other = (CourseSearchFormImpl) obj;
+		if (campusSelect == null) {
+			if (other.campusSelect != null)
+				return false;
+		} else if (!campusSelect.equals(other.campusSelect))
+			return false;
+		if (searchQuery == null) {
+			if (other.searchQuery != null)
+				return false;
+		} else if (!searchQuery.equals(other.searchQuery))
+			return false;
+		if (searchTerm == null) {
+			if (other.searchTerm != null)
+				return false;
+		} else if (!searchTerm.equals(other.searchTerm))
+			return false;
+		return true;
+	}
+
 }

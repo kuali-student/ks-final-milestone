@@ -10,6 +10,7 @@ import java.util.Set;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
+import org.kuali.student.myplan.course.dataobject.CourseSearchItemImpl;
 import org.kuali.student.myplan.course.dataobject.FacetItem;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -41,6 +42,10 @@ public class CurriculumFacet extends AbstractFacet {
 
 	private HashSet<String> curriculumFacetSet = new HashSet<String>();
 
+	public Set<String> getFacetSet() {
+		return curriculumFacetSet;
+	}
+
 	@Override
 	public List<FacetItem> getFacetItems() {
 		String[] list = curriculumFacetSet.toArray(new String[0]);
@@ -67,8 +72,7 @@ public class CurriculumFacet extends AbstractFacet {
 	 */
 	@Override
 	public void process(CourseSearchItem course) {
-        String subject = course.getSubject();
-		/*String subject;
+		String subject;
 		try {
 			subject = KsapFrameworkServiceLocator
 					.getOrganizationService()
@@ -85,7 +89,7 @@ public class CurriculumFacet extends AbstractFacet {
 			throw new IllegalStateException("ORG lookup error", e);
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("ORG lookup error", e);
-		}*/
+		}
 
 		if (subject == null || subject.equals("")) {
 			subject = unknownFacetKey;
@@ -98,7 +102,7 @@ public class CurriculumFacet extends AbstractFacet {
 		// Code the item with the facet key.
 		Set<String> keys = new HashSet<String>();
 		keys.add(key);
-		course.setCurriculumFacetKeys(keys);
+		((CourseSearchItemImpl) course).setCurriculumFacetKeys(keys);
 	}
 
 	/**
@@ -112,7 +116,8 @@ public class CurriculumFacet extends AbstractFacet {
 		HashMap<String, Map<String, String>> h = getHashMap();
 		if ((subjects = h.get(CourseSearchConstants.SUBJECT_AREA)) == null)
 			h.put(CourseSearchConstants.SUBJECT_AREA,
-					subjects = KsapFrameworkServiceLocator.getOrgHelper().getTrimmedSubjectAreas());
+					subjects = KsapFrameworkServiceLocator.getOrgHelper()
+							.getTrimmedSubjectAreas());
 		return subjects.get(display);
 	}
 

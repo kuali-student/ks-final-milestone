@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
+import org.kuali.student.myplan.course.dataobject.CourseSearchItemImpl;
 import org.kuali.student.myplan.course.dataobject.FacetItem;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -138,7 +139,7 @@ public class TermsFacet extends AbstractFacet {
 		}
 
 		// Add the set of keys to the courseSearchItem.
-		course.setTermsFacetKeys(facetKeys);
+		((CourseSearchItemImpl) course).setTermsFacetKeys(facetKeys);
 	}
 
 	/**

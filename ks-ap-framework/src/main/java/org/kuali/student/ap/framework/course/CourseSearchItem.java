@@ -1,11 +1,17 @@
 package org.kuali.student.ap.framework.course;
 
 import java.util.List;
-import java.util.Set;
 
+/**
+ * Bean interface represeting a search row in KSAP course search from the
+ * ks-ap-ui module perspective.
+ * 
+ * @author Mark Fyffe <mwfyffe@indiana.edu>
+ * @version ks-ap-framework-0.3
+ */
 public interface CourseSearchItem {
-	
-    static final String EMPTY_RESULT_VALUE_KEY = "&mdash;";
+
+	static final String EMPTY_RESULT_VALUE_KEY = "&mdash;";
 
 	enum CreditType {
 		fixed, range, multiple, unknown
@@ -25,112 +31,112 @@ public interface CourseSearchItem {
 		}
 	}
 
-    String getCourseId();
+	/**
+	 * Get the course ID (CLU ID) for the search item.
+	 * 
+	 * @return The CLU ID for this search item.
+	 */
+	String getCourseId();
 
-    void setCourseId(String courseId);
+	/**
+	 * Get the subject area ORG identifier.
+	 * 
+	 * @return The subject area ORG identifier.
+	 */
+	String getSubject();
 
-    String getNumber();
+	/**
+	 * Get the course code (catalog number).
+	 * 
+	 * @return The course code.
+	 */
+	String getCode();
 
-    void setNumber(String number);
+	/**
+	 * Get the course level (100, 200, 300, etc), for use with CourseLevelFacet.
+	 * 
+	 * @return The course level.
+	 */
+	String getLevel();
 
-    String getSubject();
+	/**
+	 * Get the credits minimum value, for use with CreditsFacet.
+	 * 
+	 * @return The credits minimum value.
+	 */
+	float getCreditMin();
 
-    void setSubject(String subject);
+	/**
+	 * Get the credits maximum value, for use with CreditsFacet.
+	 * 
+	 * @return The credits maximum value.
+	 */
+	float getCreditMax();
 
-    String getCode();
+	/**
+	 * Get the credit type for use with CreditsFacet.
+	 * 
+	 * @return The credit type.
+	 */
+	CreditType getCreditType();
 
-    void setCode(String code);
+	/**
+	 * Get the general education requirements for this course, for use with
+	 * GenEduReqFacet.
+	 * 
+	 * @return The gen ed requirements for this course.
+	 */
+	String getGenEduReq();
 
-    String getLevel();
+	/**
+	 * Get the HTML data to present in the individual table cells related to
+	 * this search item.
+	 * 
+	 * @return The HTML data representing this course for presentation by
+	 *         DataTables. This length of this array must be less than or equal
+	 *         to the number of columns configured on the search table in the
+	 *         front end.
+	 * 
+	 * @see CourseSearchUI.xml
+	 * @see myplan.search.js
+	 */
+	String[] getSearchColumns();
 
-    void setLevel(String level);
+	/**
+	 * Get contextual data to use for sorting related to this search item.
+	 * 
+	 * @return The data to use for sorting search items. This length of this
+	 *         array must be less than or equal to the number of columns
+	 *         configured on the search table in the front end, and a non-null
+	 *         value must be present in the array at the index corresponding to
+	 *         each of the columns defined as sortable in DataTables on the
+	 *         front end.
+	 * 
+	 * @see CourseSearchUI.xml
+	 * @see myplan.search.js
+	 */
+	String[] getSortColumns();
 
-    String getCourseName();
-
-    void setCourseName(String courseName);
-
-	String getScheduledAndOfferedTerms();
-
-    String getCredit();
-
-    void setCredit(String credit);
-
-    float getCreditMin();
-
-    void setCreditMin(float creditMin);
-
-    float getCreditMax();
-
-    void setCreditMax(float creditMax);
-
-    CreditType getCreditType();
-
-    void setCreditType(CreditType creditType);
-
-	PlanState getStatus();
-
-	void setStatus(PlanState status);
-
-	boolean isStatusSaved();
-
-	boolean isStatusInPlan();
-
-	boolean isStatusUnplanned();
-
-	Set<String> getCurriculumFacetKeys();
-
-	Set<String> getCourseLevelFacetKeys();
-
-	Set<String> getGenEduReqFacetKeys();
-
-	Set<String> getTermsFacetKeys();
-
-	Set<String> getScheduledFacetKeys();
-
-	Set<String> getCreditsFacetKeys();
-
-	Set<String> getQuartersFacetKeys();
-
-	String getCourseLevelFacetKey();
-
-	String getCurriculumFacetKey();
-
-	String getGenEduReqFacetKey();
-
-	String getTermsFacetKey();
-
-	String getScheduledFacetKey();
-
-	String getCreditsFacetKey();
-
-	String getQuartersFacetKey();
-
-    String getGenEduReq();
-
-    String[] getSearchColumns();
-
-    void setGenEduReq(String genEduReq);
-
-	void setCurriculumFacetKeys(Set<String> curriculumFacetKeys);
-
-	void setCourseLevelFacetKeys(Set<String> courseLevelFacetKeys);
-
-	void setGenEduReqFacetKeys(Set<String> genEduReqFacetKeys);
-
-	void setTermsFacetKeys(Set<String> termsFacetKeys);
-
-	void setScheduledFacetKeys(Set<String> scheduledFacetKeys);
-
-	void setCreditsFacetKeys(Set<String> creditsFacetKeys);
+	/**
+	 * Get contextual data to use for building search facets related to this
+	 * search item.
+	 * 
+	 * @return The data to use for matching the search items. This length of
+	 *         this array must be less than or equal to the number of columns
+	 *         configured on the search table in the front end, and a non-null
+	 *         value must be present in the array at the index corresponding to
+	 *         each of the columns defined as searchable in DataTables on the
+	 *         front end. Note that facet columns do not need to line up with
+	 *         search columns; since the front end never deals with facets
+	 *         directly, there is not need for the cells to match.
+	 * 
+	 * @see CourseSearchUI.xml
+	 * @see myplan.search.js
+	 */
+	String[][] getFacetColumns();
 
 	List<String> getTermInfoList();
 
-	void setTermInfoList(List<String> termInfoList);
-
 	List<String> getScheduledTermsList();
-
-	void setScheduledTerms(List<String> scheduledTermsList);
-
-	void addScheduledTerm(String term);
 
 }

@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
@@ -35,7 +36,6 @@ import org.kuali.student.myplan.course.dataobject.CourseSearchItemImpl;
 import org.kuali.student.myplan.course.dataobject.FacetItem;
 import org.kuali.student.myplan.course.form.CourseSearchFormImpl;
 import org.kuali.student.myplan.course.util.CourseLevelFacet;
-import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.myplan.course.util.CreditsFacet;
 import org.kuali.student.myplan.course.util.CurriculumFacet;
 import org.kuali.student.myplan.course.util.GenEduReqFacet;
@@ -231,7 +231,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		return credit == null ? getCreditMap().get("u") : credit;
 	}
 
-	private CourseSearchItem getCourseInfo(String courseId) {
+	private CourseSearchItemImpl getCourseInfo(String courseId) {
 		LOG.info("Start of method getCourseInfo of CourseSearchController:"
 				+ System.currentTimeMillis());
 
@@ -257,7 +257,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			return new CourseSearchItemImpl();
 
 		SearchResultRow row = result.getRows().get(0);
-		CourseSearchItem course = new CourseSearchItemImpl();
+		CourseSearchItemImpl course = new CourseSearchItemImpl();
 		course.setCourseId(courseId);
 		course.setSubject(getCellValue(row, "course.subject"));
 		course.setNumber(getCellValue(row, "course.number"));
@@ -266,10 +266,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		course.setCode(getCellValue(row, "course.code"));
 
 		Credit credit = getCreditByID(getCellValue(row, "course.credits"));
-		course.setCreditMin(0);//credit.getMin());
-		course.setCreditMax(0);//credit.getMax());
-		course.setCreditType(CourseSearchItemImpl.CreditType.unknown);//credit.getType());
-		course.setCredit("");//credit.getDisplay());
+		course.setCreditMin(credit.getMin());
+		course.setCreditMax(credit.getMax());
+		course.setCreditType(credit.getType());
+		course.setCredit(credit.getDisplay());
 
 		LOG.info("End of method getCourseInfo of CourseSearchController:"
 				+ System.currentTimeMillis());
@@ -322,7 +322,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
 	// Load scheduled terms.
 	// Fetch the available terms from the Academic Calendar Service.
-	private void loadScheduledTerms(CourseSearchItem course) {
+	private void loadScheduledTerms(CourseSearchItemImpl course) {
 		LOG.info("Start of method loadScheduledTerms of CourseSearchController:"
 				+ System.currentTimeMillis());
 		AcademicCalendarService atpService = KsapFrameworkServiceLocator
@@ -379,7 +379,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				+ System.currentTimeMillis());
 	}
 
-	private void loadTermsOffered(CourseSearchItem course) {
+	private void loadTermsOffered(CourseSearchItemImpl course) {
 		LOG.info("Start of method loadTermsOffered of CourseSearchController:"
 				+ System.currentTimeMillis());
 		String courseId = course.getCourseId();
@@ -447,7 +447,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			if (genEdsOut.length() != 0) {
 				genEdsOut.append(", ");
 			}
-			req = KsapFrameworkServiceLocator.getEnumerationHelper().getEnumAbbrValForCode(req);
+			req = KsapFrameworkServiceLocator.getEnumerationHelper()
+					.getEnumAbbrValForCode(req);
 			/* Doing this to fix a bug in IE8 which is trimming off the I&S as I */
 			if (req.contains("&")) {
 				req = req.replace("&", "&amp;");
@@ -457,7 +458,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		return genEdsOut.toString();
 	}
 
-	private void loadGenEduReqs(CourseSearchItem course) {
+	private void loadGenEduReqs(CourseSearchItemImpl course) {
 		LOG.info("Start of method loadGenEduReqs of CourseSearchController:"
 				+ System.currentTimeMillis());
 		String courseId = course.getCourseId();
@@ -605,10 +606,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		List<CourseSearchItem> courseList = new ArrayList<CourseSearchItem>();
 		Map<String, CourseSearchItem.PlanState> courseStatusMap = getCourseStatusMap(studentId);
 		for (Hit hit : hits) {
-			CourseSearchItem course = getCourseInfo(hit.courseID);
+			CourseSearchItemImpl course = getCourseInfo(hit.courseID);
 			if (isCourseOffered(form, course)) {
 				loadScheduledTerms(course);
-				//loadTermsOffered(course);              //myplan.course.info.atp -> wrong search
+				loadTermsOffered(course);
 				loadGenEduReqs(course);
 				String courseId = course.getCourseId();
 				if (courseStatusMap.containsKey(courseId)) {
@@ -673,10 +674,14 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		if (campusLocations == null) {
 			ContextInfo context = KsapFrameworkServiceLocator.getContext()
 					.getContextInfo();
-			List<Org> all = new java.util.ArrayList<Org>(KsapFrameworkServiceLocator.getOrgHelper().getOrgInfo(
-                    CourseSearchConstants.CAMPUS_LOCATION,
-                    CourseSearchConstants.ORG_QUERY_SEARCH_BY_TYPE_REQUEST,
-                    CourseSearchConstants.ORG_TYPE_PARAM, context));
+			List<Org> all = new java.util.ArrayList<Org>(
+					KsapFrameworkServiceLocator
+							.getOrgHelper()
+							.getOrgInfo(
+									CourseSearchConstants.CAMPUS_LOCATION,
+									CourseSearchConstants.ORG_QUERY_SEARCH_BY_TYPE_REQUEST,
+									CourseSearchConstants.ORG_TYPE_PARAM,
+									context));
 			Set<String> alc = new java.util.LinkedHashSet<String>();
 			for (Org o : all)
 				alc.add(o.getId());
@@ -935,7 +940,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 						requests.add(request0);
 						if (!this.getHashMap().containsKey(
 								CourseSearchConstants.SUBJECT_AREA)) {
-							subjects = KsapFrameworkServiceLocator.getOrgHelper().getSubjectAreas();
+							subjects = KsapFrameworkServiceLocator
+									.getOrgHelper().getSubjectAreas();
 							getHashMap().put(
 									CourseSearchConstants.SUBJECT_AREA,
 									subjects);
@@ -991,7 +997,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
 							if (!this.getHashMap().containsKey(
 									CourseSearchConstants.SUBJECT_AREA)) {
-								subjects = KsapFrameworkServiceLocator.getOrgHelper().getSubjectAreas();
+								subjects = KsapFrameworkServiceLocator
+										.getOrgHelper().getSubjectAreas();
 								getHashMap().put(
 										CourseSearchConstants.SUBJECT_AREA,
 										subjects);
@@ -1052,8 +1059,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	}
 
 	private void addVersionDateParam(List<SearchRequestInfo> searchRequests) {
-		// String currentTerm = KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId();
-		String lastScheduledTerm = KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId();
+		// String currentTerm =
+		// KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId();
+		String lastScheduledTerm = KsapFrameworkServiceLocator.getAtpHelper()
+				.getLastScheduledAtpId();
 		for (SearchRequestInfo searchRequest : searchRequests) {
 			// searchRequest.addParam("currentTerm", currentTerm);
 			searchRequest.addParam("lastScheduledTerm", lastScheduledTerm);

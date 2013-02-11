@@ -5,7 +5,6 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.myplan.course.dataobject.CourseSearchItemImpl;
 import org.kuali.student.myplan.course.dataobject.FacetItem;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,10 +17,10 @@ public class GenEduReqFacetTest {
     @Test
     public void testGetFacetItems() throws Exception {
         GenEduReqFacet facet = new GenEduReqFacet();
-        CourseSearchItem course1 = new CourseSearchItemImpl();
+        CourseSearchItemImpl course1 = new CourseSearchItemImpl();
         course1.setGenEduReq("ABC");
         facet.process( course1 );
-        CourseSearchItem course2 = new CourseSearchItemImpl();
+        CourseSearchItemImpl course2 = new CourseSearchItemImpl();
         course2.setGenEduReq("XYZ");
         facet.process( course2 );
 
@@ -39,7 +38,7 @@ public class GenEduReqFacetTest {
     public void testProcess() throws Exception {
 
         GenEduReqFacet facet = new GenEduReqFacet();
-        CourseSearchItem course = new CourseSearchItemImpl();
+		CourseSearchItemImpl course = new CourseSearchItemImpl();
         course.setGenEduReq( "ABC" );
         facet.process( course );
 

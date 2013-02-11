@@ -7,7 +7,6 @@ import static junit.framework.Assert.assertTrue;
 import java.util.Set;
 
 import org.junit.Test;
-import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.myplan.course.dataobject.CourseSearchItemImpl;
 
 
@@ -16,10 +15,10 @@ public class CurriculumFacetTest {
    /* @Test
     public void testGetFacetItems() throws Exception {
         CurriculumFacet facet = new CurriculumFacet();
-        CourseSearchItem course1 = new CourseSearchItem();
+        CourseSearchItemImpl course1 = new CourseSearchItem();
         course1.setSubject("A S");
         facet.process(course1);
-        CourseSearchItem course2 = new CourseSearchItem();
+        CourseSearchItemImpl course2 = new CourseSearchItem();
         course2.setSubject("XYZ");
         facet.process(course2);
         HashMap<String, Map<String,String>> hashMap = new HashMap<String, Map<String,String>>();
@@ -48,7 +47,7 @@ public class CurriculumFacetTest {
     public void testProcess() throws Exception {
 
         CurriculumFacet facet = new CurriculumFacet();
-        CourseSearchItem course = new CourseSearchItemImpl();
+        CourseSearchItemImpl course = new CourseSearchItemImpl();
         course.setSubject("ABC");
         facet.process(course);
 

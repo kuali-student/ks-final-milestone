@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
+import org.kuali.student.myplan.course.dataobject.CourseSearchItemImpl;
 import org.kuali.student.myplan.course.dataobject.FacetItem;
 
 /**
@@ -64,6 +65,6 @@ public class CourseLevelFacet extends AbstractFacet {
 		// Code the item with the facet key.
 		Set<String> keys = new HashSet<String>();
 		keys.add(key);
-		course.setCourseLevelFacetKeys(keys);
+		((CourseSearchItemImpl) course).setCourseLevelFacetKeys(keys);
 	}
 }

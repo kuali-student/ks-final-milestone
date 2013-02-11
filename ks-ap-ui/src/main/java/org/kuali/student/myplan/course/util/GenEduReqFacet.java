@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
+import org.kuali.student.myplan.course.dataobject.CourseSearchItemImpl;
 import org.kuali.student.myplan.course.dataobject.FacetItem;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
@@ -62,9 +63,12 @@ public class GenEduReqFacet extends AbstractFacet {
 				}
 				if (isNewFacetKey(FACET_KEY_DELIMITER + key
 						+ FACET_KEY_DELIMITER)) {
-					EnumeratedValueInfo e =  KsapFrameworkServiceLocator.getEnumerationHelper()
-							.getGenEdReqEnumInfo( KsapFrameworkServiceLocator.getEnumerationHelper()
-                                    .getEnumCodeForAbbrVal(key), context);
+					EnumeratedValueInfo e = KsapFrameworkServiceLocator
+							.getEnumerationHelper().getGenEdReqEnumInfo(
+									KsapFrameworkServiceLocator
+											.getEnumerationHelper()
+											.getEnumCodeForAbbrVal(key),
+									context);
 					if (e == null)
 						continue;
 					key = e.getAbbrevValue();
@@ -80,7 +84,7 @@ public class GenEduReqFacet extends AbstractFacet {
 				facetKeys.add(FACET_KEY_DELIMITER + key + FACET_KEY_DELIMITER);
 			}
 		}
-		item.setGenEduReqFacetKeys(facetKeys);
+		((CourseSearchItemImpl) item).setGenEduReqFacetKeys(facetKeys);
 	}
 
 }

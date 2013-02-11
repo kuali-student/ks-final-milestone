@@ -231,12 +231,13 @@
             <map merge="true">
                 <entry key="oLanguage"
                        value="{
-                            'sLengthMenu':'Show _MENU_',
-                            'sEmptyTable':'0 results found (bean sEmptyTable)',
-                            'sZeroRecords':'0 results found (bean sZeroRecords)',
-                            'sInfo':'Showing _START_-_END_ of _TOTAL_ results',
-                            'sInfoFiltered':''
-                       }"/>
+							'sEmptyTable' : '&lt;div class=&quot;myplan-course-search-empty&quot;&gt;&lt;p class=&quot;fl-font-size-130&quot;&gt;We couldn\'t find anything matching your search.&lt;/p&gt;&lt;p&gt;A few suggestions:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Check your spelling&lt;/li&gt;&lt;li&gt;Try a more general search (Any quarter, ENGL 1xx)&lt;/li&gt;&lt;li&gt;Use at least 3 characters&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;',
+							'sInfo' : 'Showing _START_-_END_ of _TOTAL_ results',
+							'sInfoEmpty' : '0 results found',
+							'sInfoFiltered' : '',
+							'sLengthMenu' : 'Show _MENU_',
+							'sZeroRecords' : '0 results found'
+						}"/>
                 <entry key="iDisplayLength" value="20"/>
                 <entry key="aLengthMenu" value="[ 20, 50, 100 ]"/>
                 <entry key="sDom" value="ilrtSp"/>
@@ -248,20 +249,7 @@
                 <entry key="bStateSave" value="true"/>
                 <entry key="bSortClasses" value="false"/>
                 <entry key="aaSorting" value="[]"/>
-                <entry key="aoColumns"
-                       value="[
-                            {'sTitle':'Code','bSortable':true, 'bSearchable':false, 'sClass':'myplan-text-nowrap', 'sWidth':'73px'},
-                            {'sTitle':'Course Name','bSortable':true, 'bSearchable':false, 'sWidth':'170px'},
-                            {'sTitle':'Credits','bSortable':false, 'bSearchable':false, 'sWidth':'34px'},
-                            {'sTitle':'Terms Offered', 'bSortable':false, 'bSearchable':false, 'sClass':'myplan-data-list', 'sWidth':'76px'},
-                            {'sTitle':'Gen Edu Req', 'bSortable':false, 'bSearchable':false, 'sWidth':'66px'},
-                            {'sTitle':'', 'bSortable':false, 'bSearchable':false, 'sClass':'myplan-status-column', 'sWidth':'69px'},
-                            {'sTitle':'facetQuarter', 'bVisible':false},
-                            {'sTitle':'facetGenEduReq', 'bVisible':false},
-                            {'sTitle':'facetCredits', 'bVisible':false},
-                            {'sTitle':'facetLevel', 'bVisible':false},
-                            {'sTitle':'facetCurriculum', 'bVisible':false}
-                        ]"/>
+                <entry key="aoColumnDefs" value="{}"/>
                 <entry key="fnDrawCallback"
                        value="function() {
                             if (Math.ceil((this.fnSettings().fnRecordsDisplay()) / this.fnSettings()._iDisplayLength) > 1)  {
@@ -324,10 +312,10 @@
         <property name="onDocumentReadyScript" value="
             jq('#facet_quarter')
                 .subscribe('GENERATE_FACETS', function(){
-                    fnGenerateFacetGroup(6, this, terms);
+                    fnGenerateFacetGroup(0, this, terms);
                 })
-                .subscribe('UPDATE_FACETS', function(data){
-                    fnUpdateFacetList(data, 6, this);
+                .subscribe('UPDATE_FACETS', function(){
+                    fnUpdateFacetList(0, this);
                 });
         "/>
     </bean>
@@ -343,10 +331,10 @@
         <property name="onDocumentReadyScript" value="
             jq('#facet_genedureq')
                 .subscribe('GENERATE_FACETS', function(){
-                    fnGenerateFacetGroup(7, this, alpha);
+                    fnGenerateFacetGroup(1, this, alpha);
                 })
-                .subscribe('UPDATE_FACETS', function(data){
-                    fnUpdateFacetList(data, 7, this);
+                .subscribe('UPDATE_FACETS', function(){
+                    fnUpdateFacetList(1, this);
                 });
         "/>
     </bean>
@@ -362,10 +350,10 @@
         <property name="onDocumentReadyScript" value="
             jq('#facet_credits')
                 .subscribe('GENERATE_FACETS', function(){
-                    fnGenerateFacetGroup(8, this, numeric);
+                    fnGenerateFacetGroup(2, this, numeric);
                 })
-                .subscribe('UPDATE_FACETS', function(data){
-                    fnUpdateFacetList(data, 8, this);
+                .subscribe('UPDATE_FACETS', function(){
+                    fnUpdateFacetList(2, this);
                 });
         "/>
     </bean>
@@ -381,10 +369,10 @@
         <property name="onDocumentReadyScript" value="
             jq('#facet_level')
                 .subscribe('GENERATE_FACETS', function(){
-                    fnGenerateFacetGroup(9, this, numeric);
+                    fnGenerateFacetGroup(3, this, numeric);
                 })
-                .subscribe('UPDATE_FACETS', function(data){
-                    fnUpdateFacetList(data, 9, this);
+                .subscribe('UPDATE_FACETS', function(){
+                    fnUpdateFacetList(3, this);
                 });
         "/>
     </bean>
@@ -400,10 +388,10 @@
         <property name="onDocumentReadyScript" value="
             jq('#facet_curriculum')
                 .subscribe('GENERATE_FACETS', function(){
-                    fnGenerateFacetGroup(10, this, alpha);
+                    fnGenerateFacetGroup(4, this, alpha);
                 })
-                .subscribe('UPDATE_FACETS', function(data){
-                    fnUpdateFacetList(data, 10, this);
+                .subscribe('UPDATE_FACETS', function(){
+                    fnUpdateFacetList(4, this);
                 });
         "/>
     </bean>
@@ -433,12 +421,20 @@
         </property>
     </bean>
 
-    <!--Add Course Menu-->
+    <!-- Course Quick Details Menu
+
+    	NOTE: Text like "__KSAP__FOO__" will be replaced by openMenu() with data from the
+    	HTML5 data-foo attribute on the popup box element.  This allows course details to
+    	be passed in statically instead of relying on a server call for "quick" details.
+
+    -->
     <bean id="course_quick_detail" parent="Uif-VerticalBoxSubSection"
     		p:cssClasses="myplan-quick-detail" p:style="margin: 0;">
         <property name="hidden" value="true"/>
+        <property name="headerText" value="__KSAP__COURSEHEADER__" />
         <property name="items">
             <list>
+                <bean parent="Uif-Message" p:messageText="__KSAP__DESCRIPTION__" />
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.renderColon="false" p:group.validationMessages.render="false">
                     <property name="items">
                         <list>
@@ -450,7 +446,7 @@
 			                    </property>
 			                    <property name="items">
 			                        <list>
-			                            <bean parent="Uif-Label" p:labelText="Hello"
+			                            <bean parent="Uif-Label" p:labelText="Requisites"
 			                                  p:renderColon="false"/>
 			
 			                        </list>
@@ -464,13 +460,46 @@
 			                    </property>
 			                    <property name="items">
 			                        <list>
-			                            <bean parent="Uif-Message" p:messageText="__KSAP__HELLO__" />
+			                            <bean parent="Uif-Message" p:messageText="__KSAP__REQUISITES__" />
 			                        </list>
 			                    </property>
 			                </bean>
 			            </list>
 			        </property>
 			    </bean>
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.renderColon="false" p:group.validationMessages.render="false">
+                    <property name="items">
+                        <list>
+			                <bean parent="Uif-HorizontalBoxGroup" p:validationMessages.render="false">
+			                    <property name="cssClasses">
+			                        <list merge="true">
+			                            <value>myplan-course-detail-label</value>
+			                        </list>
+			                    </property>
+			                    <property name="items">
+			                        <list>
+			                            <bean parent="Uif-Label" p:labelText="Projected for "
+			                                  p:renderColon="false"/>
+			
+			                        </list>
+			                    </property>
+			                </bean>
+			                <bean parent="Uif-HorizontalBoxGroup" p:validationMessages.render="false">
+			                    <property name="cssClasses">
+			                        <list merge="true">
+			                            <value>myplan-course-detail-field</value>
+			                        </list>
+			                    </property>
+			                    <property name="items">
+			                        <list>
+			                            <bean parent="Uif-Message" p:messageText="__KSAP__TERMSOFFERED__" />
+			                        </list>
+			                    </property>
+			                </bean>
+			            </list>
+			        </property>
+			    </bean>
+                <bean parent="Uif-Message" p:messageText="__KSAP__SECTIONS__" />
                 <bean parent="Uif-Link" p:target="" p:href="__KSAP__INQUIRYURL__"
                       p:linkText="Full details..."
                       p:title="Course Details"
