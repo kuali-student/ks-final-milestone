@@ -3309,10 +3309,6 @@
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="69be46a5-34a2-423e-8e4f-27a9c795c173" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
-        LUI_ID="69c47496-52a9-4270-88d8-d67042188def" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.discussion"/>
-    <KSEN_LUI_RELATED_LUI_TYPES
-        LUI_ID="69c47496-52a9-4270-88d8-d67042188def" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
-    <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="69d75f4e-b08b-42b6-8386-50dc9c87a2dc" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.discussion"/>
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="69d75f4e-b08b-42b6-8386-50dc9c87a2dc" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
@@ -4564,10 +4560,6 @@
         LUI_ID="8d171b94-a999-4f64-a6d3-c89469d0ea0c" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="8d4c9db9-1b97-4bcc-a45c-26e7bcb33299" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lab"/>
-    <KSEN_LUI_RELATED_LUI_TYPES
-        LUI_ID="8d5d807f-7628-4a92-9aca-664f9ed1386a" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.discussion"/>
-    <KSEN_LUI_RELATED_LUI_TYPES
-        LUI_ID="8d5d807f-7628-4a92-9aca-664f9ed1386a" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="8d60755f-729b-4643-b974-9cdd14c8cd84" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES

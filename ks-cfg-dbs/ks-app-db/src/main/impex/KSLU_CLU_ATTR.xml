@@ -25823,6 +25823,10 @@
         ID="67fdcd3d-d0da-4cc0-8ffc-68ac04e61a7d"
         OBJ_ID="fb8d9b6a-0612-49d3-92be-38822ba54408"
         OWNER="30374a85-e0f9-4334-af56-8538f277f142" VER_NBR="2"/>
+    <KSLU_CLU_ATTR ATTR_NAME="calculatedContactHours" ATTR_VALUE="0"
+        ID="6800c4bd-b3c6-4567-82d8-99bdef9a7dbf"
+        OBJ_ID="4d7bf0dd-2726-425b-b806-06f361bdee7e"
+        OWNER="a9a5d288-8c66-49ff-9ab8-1e54bf9632bf" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="calculatedContactHours" ATTR_VALUE="45"
         ID="68095aaf-72c6-459c-877c-6e583becc84a"
         OBJ_ID="a5e715a9-2dfc-4c39-8ed3-98cd6263c71b"
@@ -27843,6 +27847,10 @@
         ID="6fe86f5f-f563-4815-9dd2-b08956543ba9"
         OBJ_ID="83688065-94c3-45c4-bbc3-e15b3d169cd3"
         OWNER="6b087bae-a00c-4099-aac8-526448ac556d" VER_NBR="0"/>
+    <KSLU_CLU_ATTR ATTR_NAME="credits" ATTR_VALUE="3"
+        ID="6feae95e-1d24-420e-b840-8b5eca30d896"
+        OBJ_ID="3960967e-b775-4295-bfba-af7077422de1"
+        OWNER="cc2be650-87cf-44a0-bff3-f66147b22d89" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="credits" ATTR_VALUE="3"
         ID="6fec3f01-7114-4838-8f5d-2aeee5f68cf1"
         OBJ_ID="508ce93c-d9c4-4a0e-8fcf-473ae826a89c"
@@ -54348,6 +54356,10 @@
         ID="d32c51b2-ae24-49d3-b774-9fb66b3a446c"
         OBJ_ID="f851316b-f9d8-47d9-8d51-ec8a788585a4"
         OWNER="88061dd9-e263-41da-a008-7415b2b0dfb5" VER_NBR="0"/>
+    <KSLU_CLU_ATTR ATTR_NAME="credits" ATTR_VALUE="0"
+        ID="d3407bd4-a3ae-48fc-8023-92511e3244aa"
+        OBJ_ID="4d6f0029-e88d-430b-a6ef-4e212b6894db"
+        OWNER="a9a5d288-8c66-49ff-9ab8-1e54bf9632bf" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="passFail" ATTR_VALUE="true"
         ID="d34b3cb5-fd0e-4867-b5bf-d0e5468275cb"
         OBJ_ID="7c9b518a-36d9-4462-b9ad-85231476928a"
@@ -56469,6 +56481,10 @@
         ID="dada41a6-72de-493a-b964-aa028921e4f3"
         OBJ_ID="3c118755-5373-43c1-9197-de353b16c17f"
         OWNER="fdc7800d-45f6-4c40-80c8-c530bebbb628" VER_NBR="1"/>
+    <KSLU_CLU_ATTR ATTR_NAME="calculatedContactHours" ATTR_VALUE="45"
+        ID="dadc8bc8-0474-4097-b2ec-419cd6b1e215"
+        OBJ_ID="0edb5a6b-a92e-4b80-9211-2679a6d5aa33"
+        OWNER="cc2be650-87cf-44a0-bff3-f66147b22d89" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="semesterType"
         ATTR_VALUE="semesterType.standard"
         ID="dadcfde0-6192-4130-877f-4085cf63f24f"
