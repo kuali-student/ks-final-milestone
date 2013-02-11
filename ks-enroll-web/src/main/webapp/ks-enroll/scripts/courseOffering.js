@@ -1,130 +1,29 @@
-function handleToolbar(atpType) {
-    var enableApproveButton = getSelector("enableApproveButton");
-    var enableSuspendButton = getSelector("enableSuspendButton");
-    var enableCancelButton = getSelector("enableCancelButton");
-    var enableReinstateButton = getSelector("enableReinstateButton");
-    var enableDeleteButton = getSelector("enableDeleteButton");
-    var enableCopyButton = getSelector("enableCopyButton");
-    var enableDraftButton = getSelector("enableDraftButton");
+function handleCOToolbar(){
+    var divId = "KS-CourseOfferingManagement-CourseOfferingListSection";
 
-    var enableApproveButtonVals=[];
-    var enableSuspendButtonVals=[];
-    var enableCancelButtonVals=[];
-    var enableReinstateButtonVals=[];
-    var enableDeleteButtonVals=[];
-    var enableDraftButtonVals=[];
+    var hiddenColumns=['enableApproveButton', 'enableSuspendButton', 'enableCancelButton', 'enableReinstateButton', 'enableDeleteButton'];
 
-    var coEnableButtonVals=[enableApproveButtonVals,enableSuspendButtonVals, enableCancelButtonVals,
-        enableReinstateButtonVals,enableDeleteButtonVals];
+    var bottons = ['KS-CourseOfferingManagement-ToolBar-Approve-CO', 'KS-CourseOfferingManagement-ToolBar-Suspend-CO',
+                   'KS-CourseOfferingManagement-ToolBar-Cancel-CO', 'KS-CourseOfferingManagement-ToolBar-Reinstate-CO',
+                   'KS-CourseOfferingManagement-ToolBar-Delete-CO'];
 
-    var aoEnableButtonVals=[enableApproveButtonVals,enableSuspendButtonVals, enableCancelButtonVals,
-        enableReinstateButtonVals,enableDeleteButtonVals,enableDraftButtonVals];
-
-    var oTable = getDataTableHandle(atpType);
-
-    var selectedRows =  jQuery(oTable.fnGetNodes()).filter(':has(:input:checkbox:checked)');
-
-   jQuery(selectedRows).each(function(){
-       var cellData = oTable.fnGetData(this);
-       for(var i=0; i<cellData.length; i++)
-       {
-           findColumn(cellData[i], enableApproveButton, enableApproveButtonVals);
-           findColumn(cellData[i], enableSuspendButton, enableSuspendButtonVals);
-           findColumn(cellData[i], enableCancelButton, enableCancelButtonVals);
-           findColumn(cellData[i], enableReinstateButton, enableReinstateButtonVals);
-           findColumn(cellData[i], enableDeleteButton, enableDeleteButtonVals);
-           findColumn(cellData[i], enableDraftButton, enableDraftButtonVals);
-       }
-   });
-
-    if(atpType == 'CO'){
-        var ids = ['KS-CourseOfferingManagement-ToolBar-Approve-CO', 'KS-CourseOfferingManagement-ToolBar-Suspend-CO',
-                    'KS-CourseOfferingManagement-ToolBar-Cancel-CO', 'KS-CourseOfferingManagement-ToolBar-Reinstate-CO',
-                    'KS-CourseOfferingManagement-ToolBar-Delete-CO'];
-        handleButtons(coEnableButtonVals, ids);
-    }else{
-        var ids = ['KS-CourseOfferingManagement-ToolBar-Approve-AO', 'KS-CourseOfferingManagement-ToolBar-Suspend-AO',
-                    'KS-CourseOfferingManagement-ToolBar-Cancel-AO', 'KS-CourseOfferingManagement-ToolBar-Reinstate-AO',
-                    'KS-CourseOfferingManagement-ToolBar-Delete-AO', 'KS-CourseOfferingManagement-ToolBar-Draft-AO'];
-        handleButtons(aoEnableButtonVals, ids);
-    }
-
+    handleToolbar(divId, hiddenColumns, bottons);
 }
 
-function handleButtons(buttonVals, ids) {
-    for(var i=0; i<buttonVals.length; i++)
-   {
-       handleButton(buttonVals[i], ids[i]);
-   }
-}
+function handleAOToolbar(){
+    var divId = "KS-CourseOfferingManagement-ActivityOfferingListSection";
 
-function handleButton(arr, id) {
-    if(jQuery.isEmptyObject(arr)){
-        disableButton(id);
-    } else{
-        evaluateButton(arr, id);
-    }
-}
+    var hiddenColumns=['enableApproveButton', 'enableSuspendButton', 'enableCancelButton', 'enableReinstateButton', 'enableDeleteButton', 'enableDraftButton'];
 
-function evaluateButton(arr, id){
-    if(jQuery.inArray("true", arr) != -1){
-        enableButton(id);
-    } else{
-        disableButton(id);
-    }
-}
+    var buttons = ['KS-CourseOfferingManagement-ToolBar-Approve-AO', 'KS-CourseOfferingManagement-ToolBar-Suspend-AO',
+                   'KS-CourseOfferingManagement-ToolBar-Cancel-AO', 'KS-CourseOfferingManagement-ToolBar-Reinstate-AO',
+                   'KS-CourseOfferingManagement-ToolBar-Delete-AO', 'KS-CourseOfferingManagement-ToolBar-Draft-AO'];
 
-function enableButton(id){
-    jQuery("#" + id).removeClass('disabled');
-    jQuery("#" + id).removeAttr("disabled");
-    var img = jQuery("#" + id).find('img') ,
-           src = img.attr('src') ,
-           disable = /\_disabled\.png$/;
-
-    if(src.match(disable)) {
-        img.attr('src', src.replace(disable, '_enabled.png'));
-    }
-
-}
-
-function disableButton(id){
-    jQuery("#" + id).addClass("disabled");
-    jQuery("#" + id).attr("disabled", "disabled");
-    var img = jQuery("#" + id).find('img') ,
-           src = img.attr('src') ,
-           enable = /\_enabled\.png$/ ;
-
-    if(src.match(enable)) {
-        img.attr('src', src.replace(enable, '_disabled.png'));
-    }
-}
-
-function getDataTableHandle(atpType){
-    var divId;
-
-    if(atpType == 'CO'){
-        divId ="KS-CourseOfferingManagement-CourseOfferingListSection";
-    }else {
-        divId = "KS-CourseOfferingManagement-ActivityOfferingListSection";
-    }
-
-    var id = jQuery("#" + divId).find("table").attr('id');
-    var oTable = jQuery("#" + id).dataTable();
-    return oTable;
-}
-
-function getSelector(name){
-    return "input[name$='" + name +"']";
-}
-
-function findColumn(cellData, selector, arr){
-    if(jQuery(cellData).find(selector).val() == 'true' || jQuery(cellData).find(selector).val() == 'false'){
-        arr.push(jQuery(cellData).find(selector).val());
-     }
+    handleToolbar(divId, hiddenColumns, buttons)
 }
 
 function selectAllAOs(){
     var table = jQuery("#KS-CourseOfferingManagement-ActivityOfferingListSection").find("table");
     jQuery('td input:checkbox', table).attr('checked', 'checked');
-    handleToolbar('AO');
+    handleAOToolbar();
 }
