@@ -25,6 +25,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,15 @@ public class ToolbarUtil {
         //ToDo, add role qualifiers for org/subject/etc. (Refactor so qualification resolving is done in a single place)
         roleQualifications.put("org", form.getAdminOrg());
 
-        permissionDetails.put("socState",socState);
+        permissionDetails.put("socState", socState);
+
+        //Check if the user can add based on classes start date
+        if (form.getTermInfo().getStartDate() != null) {
+            Date now = new Date();
+            if (now.before(form.getTermInfo().getStartDate())) {
+                permissionDetails.put("termClassStartDateLater", "true");
+            }
+        }
 
         permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, form.getViewId());
 
