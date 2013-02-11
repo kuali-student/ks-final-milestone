@@ -185,6 +185,7 @@
                 <value>classpath:org/kuali/student/enrollment/krms/AgendaManagementView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/COAgendaManagement-SearchInputPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/COAgendaManagement-ManageAgendasPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/CompareRulesLinkView.xml</value>
                 
                 <!-- Type -->
                 <value>classpath:org/kuali/student/enrollment/type/TypeVerificationView.xml</value>
