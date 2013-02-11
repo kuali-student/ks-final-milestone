@@ -15,6 +15,7 @@
  */
 package org.kuali.student.common.test.spring.log4j;
 
+import org.mortbay.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Log4jConfigurer;
@@ -35,6 +36,16 @@ import java.io.FileNotFoundException;
  */
 public final class KSLog4JConfigurer {
 
+    /**
+     * Default name for the refresh value property key
+     */
+    public static final String LOG4J_PROPERTIES_REFRESH = "log4j.properties.refresh";
+    
+    /**
+     * Default name for the log4j.properties property key
+     */
+    public static final String LOG4J_PROPERTIES = "log4j.properties";
+
     private KSLog4JConfigurer() {
         // intentionally private
     }
@@ -50,7 +61,7 @@ public final class KSLog4JConfigurer {
      */
     public static final Logger getLogger(Class<?> clazz) {
         
-        return getLogger(clazz, "log4j.properties");
+        return getLogger(clazz, LOG4J_PROPERTIES, LOG4J_PROPERTIES_REFRESH);
     }
 
     /**
@@ -63,22 +74,47 @@ public final class KSLog4JConfigurer {
      * @return the initialized org.slf4j.Logger for the class specified.
      */
     public static final Logger getLogger(Class<?> clazz,
-            String systemPropertyName) {
+            String systemPropertyName, String refreshPropertyName) {
 
         String log4jconfig = System.getProperty(systemPropertyName);
+        
+        Long refreshInterval;
+        
+        try {
+            refreshInterval = Long.valueOf(System.getProperty(refreshPropertyName));
+        } catch (NumberFormatException e1) {
+            refreshInterval = null;
+        }
 
         boolean exception = false;
 
-        if (log4jconfig != null)
+        if (log4jconfig != null) {
             try {
-                Log4jConfigurer.initLogging(log4jconfig, 35);
+                
+                if (refreshInterval != null) {
+                    Log4jConfigurer.initLogging(log4jconfig, refreshInterval);
+                }
+                else {
+                    Log4jConfigurer.initLogging(log4jconfig);
+                }
+                
             } catch (FileNotFoundException e) {
 
                 exception = true;
             }
+        }
 
         Logger log = LoggerFactory.getLogger(clazz);
 
+        if (log.isDebugEnabled()) {
+            
+            if (refreshInterval != null) 
+                log.debug(String.format("Log4jConfigurer.initLogging(log4jconfig=%s, refreshInterval=%s)", log4jconfig, refreshInterval));
+            else
+                log.debug(String.format("Log4jConfigurer.initLogging(log4jconfig=%s)", log4jconfig));
+                
+        }
+        
         if (exception)
             log.error("Missing Configuration File: " + log4jconfig
                     + ", For system property: " + systemPropertyName);
