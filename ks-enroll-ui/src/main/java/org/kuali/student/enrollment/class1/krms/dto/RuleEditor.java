@@ -363,11 +363,9 @@ public class RuleEditor extends AgendaEditor {
     public Tree<TreeNode, String> getPreviewTree() {
         if (this.rulePreviewer == null){
             rulePreviewer  = new RulePreviewer();
-        }
-
-        if (this.rulePreviewer.getPreviewTree() == null){
             initPreviewTree();
         }
+
         return this.rulePreviewer.getPreviewTree();
     }
 
