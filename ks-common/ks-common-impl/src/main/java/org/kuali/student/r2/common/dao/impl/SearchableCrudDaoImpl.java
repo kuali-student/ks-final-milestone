@@ -245,11 +245,7 @@ public class SearchableCrudDaoImpl {
 			    if((queryParamValue==null||queryParamValue instanceof Collection && ((Collection<?>)queryParamValue).isEmpty())&&"list".equals(paramDataType)){
 			    	queryParamValue = "";
 			    }
-                try{
 			    query.setParameter(searchParam.getKey().replace(".", "_"), queryParamValue);
-                }catch(Exception e){
-
-                }
 			}
 		}
 
