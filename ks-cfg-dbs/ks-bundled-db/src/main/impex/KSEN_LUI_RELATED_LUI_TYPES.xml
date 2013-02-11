@@ -139,8 +139,6 @@
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="0495eaf0-853d-42a9-8276-9335d6e88ebe" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
-        LUI_ID="04a0db7e-52df-45d6-9ebd-4106b5bf1f83" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
-    <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="04a1f7c5-c01f-4751-99d6-626c7297f9d1" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="04b09503-7391-49c2-88b8-e6665a7b3d9c" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
@@ -839,8 +837,6 @@
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="1aec7b76-2cdc-40c5-bf4d-bd1397f296a4" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
-        LUI_ID="1af1f750-7caa-40ec-a9e3-411fb3151dac" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
-    <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="1b0f0e38-1b6e-4211-9d5c-c6f39b5fadba" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="1b16c57f-f5ec-4a8c-9c7b-de0cb1fe6d4e" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
@@ -1287,8 +1283,6 @@
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="27a94083-954f-4041-ac6f-4708446e8ae5" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
-        LUI_ID="27d61661-a32f-47ad-a6f3-d8c83b5e463c" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
-    <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="27ebdc97-70b3-4a69-b93f-3071f83ca369" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="280b21a6-0793-411a-bfca-0fd4302d5331" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
@@ -1509,8 +1503,6 @@
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="2fae2426-5b7f-42ad-a3f8-f3dea9661842" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
-        LUI_ID="2fb34d4c-f24f-40f7-bc59-88b60125aa0c" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
-    <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="2fdcc8d2-cd2c-4530-ba54-06e1a4960f22" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.discussion"/>
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="2fdcc8d2-cd2c-4530-ba54-06e1a4960f22" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
@@ -1666,8 +1658,6 @@
         LUI_ID="346612cf-5f14-4093-af21-600953b4ee11" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="346c9621-b86f-4ddb-82a3-e98b2772bf05" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
-    <KSEN_LUI_RELATED_LUI_TYPES
-        LUI_ID="347fa6c5-3378-4b5f-95ae-b4615e8373c4" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="34b1ca9e-3577-4ffc-9c32-464f5c39bf4c" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
@@ -2204,8 +2194,6 @@
         LUI_ID="467d1f8f-ffd5-4d11-b919-583bdb6fbb79" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="46b6f249-8ce8-4421-8971-cfba76dd3e69" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
-    <KSEN_LUI_RELATED_LUI_TYPES
-        LUI_ID="46b82223-0380-4995-84ff-51b1bf74d07f" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="46d5aa04-24a1-4c74-aa69-516432c5a409" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
@@ -3182,10 +3170,6 @@
         LUI_ID="65f80af4-aafc-4bb1-bd4d-6a307d4bf42c" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="65ff526a-2e51-489e-aaf5-45fc0899a269" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
-    <KSEN_LUI_RELATED_LUI_TYPES
-        LUI_ID="6619435b-10df-4e55-9957-c2d5add48aa0" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.discussion"/>
-    <KSEN_LUI_RELATED_LUI_TYPES
-        LUI_ID="6619435b-10df-4e55-9957-c2d5add48aa0" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="663dd554-4056-4141-bc95-1c3e3d266126" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
@@ -4992,8 +4976,6 @@
         LUI_ID="9b06367a-6397-48db-a3bb-836a33d731ee" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="9b5580cf-b56b-4656-8e1e-86cf256bebec" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
-    <KSEN_LUI_RELATED_LUI_TYPES
-        LUI_ID="9b645c3f-17a1-4323-857a-48cbced78b52" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="9b7c59b8-bb3e-421d-9d61-e91a018db28f" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.discussion"/>
     <KSEN_LUI_RELATED_LUI_TYPES
@@ -7958,8 +7940,6 @@
         LUI_ID="f761881a-3d4d-4951-91d1-38c72208dffd" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.discussion"/>
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="f761881a-3d4d-4951-91d1-38c72208dffd" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
-    <KSEN_LUI_RELATED_LUI_TYPES
-        LUI_ID="f768b929-e3ae-4b8b-b7bb-8102e2f89a55" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="f76c3237-4f89-4be0-bd90-edea5cb14602" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
