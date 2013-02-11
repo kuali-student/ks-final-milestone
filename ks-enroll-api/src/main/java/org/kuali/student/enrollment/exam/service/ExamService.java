@@ -13,6 +13,7 @@ package org.kuali.student.enrollment.exam.service;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.exam.dto.ExamInfo;
 import org.kuali.student.enrollment.exam.dto.ExamOfferingInfo;
+import org.kuali.student.enrollment.exam.dto.FormatOfferingExamOfferingRelationInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -437,4 +438,114 @@ public interface ExamService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException;
+
+    /**
+     * Validates an FormatOfferingExamOfferingRelation.
+     *
+     * @param validationTypeKey                         the identifier for the validation Type
+     * @param formatOfferingExamOfferingTypeKey         the identifier of the FormatOfferingExamOfferingRelation type to be validated
+     * @param formatOfferingExamOfferingRelationInfo    the FormatOfferingExamOfferingRelation record to be validated
+     * @param contextInfo                               information containing the principalId and
+     *                                                  locale information about the caller of
+     *                                                  service operation
+     * @return a list of validation results or an empty list if validation succeeded
+     * @throws DoesNotExistException        validationTypeKey or formatOfferingExamOfferingTypeKey is not found
+     * @throws InvalidParameterException    formatOfferingExamOfferingRelationInfo or contextInfo is not valid
+     * @throws MissingParameterException    validationTypeKey, formatOfferingExamOfferingTypeKey, formatOfferingExamOfferingRelationInfo, or
+     *                                      contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     */
+    public List<ValidationResultInfo> validateFormatOfferingExamOffering(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                                         @WebParam(name = "formatOfferingExamOfferingTypeKey") String formatOfferingExamOfferingTypeKey,
+                                                                         @WebParam(name = "formatOfferingExamOfferingRelationInfo") FormatOfferingExamOfferingRelationInfo formatOfferingExamOfferingRelationInfo,
+                                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Creates a new FormatOfferingExamOfferingRelation.
+     *
+     * @param formatOfferingExamOfferingTypeKey         a unique identifier for the Type of the new FormatOfferingExamOfferingRelation
+     * @param formatOfferingExamOfferingRelationInfo    the data with which to create the FormatOfferingExamOfferingRelation
+     * @param contextInfo                               information containing the principalId and locale
+     *                                                  information about the caller of service operation
+     * @return the new FormatOfferingExamOfferingRelation created
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException formatOfferingExamOfferingTypeKey does not exist or is not supported
+     * @throws InvalidParameterException formatOfferingExamOfferingRelationInfo or contextInfo is not valid
+     * @throws MissingParameterException formatOfferingExamOfferingTypeKey, formatOfferingExamOfferingRelationInfo, or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information designated as read only
+     */
+    public ExamInfo createFormatOfferingExamOffering(@WebParam(name = "formatOfferingExamOfferingTypeKey") String formatOfferingExamOfferingTypeKey,
+                                                     @WebParam(name = "formatOfferingExamOfferingRelationInfo") FormatOfferingExamOfferingRelationInfo formatOfferingExamOfferingRelationInfo,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     * Updates an existing FormatOfferingExamOfferingRelation.
+     *
+     * @param formatOfferingExamOfferingRelationId      the identifier for the FormatOfferingExamOfferingRelation to be updated
+     * @param formatOfferingExamOfferingRelationInfo    the new data for the FormatOfferingExamOffering
+     * @param contextInfo   information containing the principalId and locale
+     *        information about the caller of service operation
+     * @return the updated object
+     * @throws DataValidationErrorException supplied data is invalid (xml)
+     * @throws DoesNotExistException formatOfferingExamOfferingRelationId is not found
+     * @throws InvalidParameterException formatOfferingExamOfferingRelationInfo or contextInfo is not valid
+     * @throws MissingParameterException formatOfferingExamOfferingRelationId, formatOfferingExamOfferingRelationInfo or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt was made to change information designated as read only
+     * @throws VersionMismatchException an optimistic locking failure or the action was attempted on an out
+     * of data version
+     */
+    public ExamInfo updateFormatOfferingExamOfferingRelation (@WebParam(name = "formatOfferingExamOfferingRelationId") String formatOfferingExamOfferingRelationId,
+                                                              @WebParam(name = "formatOfferingExamOfferingRelationInfo") FormatOfferingExamOfferingRelationInfo formatOfferingExamOfferingRelationInfo,
+                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException;
+
+    /**
+     * Deletes an existing FormatOfferingExamOfferingRelation.
+     *
+     * @param formatOfferingExamOfferingRelationId  the identifier for the FormatOfferingExamOfferingRelation to be deleted
+     * @param contextInfo                           information containing the principalId and locale
+     *                                              information about the caller of service operation
+     * @return the status of the operation
+     *
+     * @throws DoesNotExistException examId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException formatOfferingExamOfferingRelationId, or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StatusInfo deleteFormatOfferingExamOfferingRelation(@WebParam(name = "formatOfferingExamOfferingRelationId") String formatOfferingExamOfferingRelationId,
+                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
 }
