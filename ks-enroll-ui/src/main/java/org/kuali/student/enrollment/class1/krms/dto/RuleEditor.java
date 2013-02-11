@@ -12,7 +12,9 @@ import org.kuali.rice.krms.impl.ui.AgendaEditor;
 import org.kuali.student.enrollment.class1.krms.form.TreeNode;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -31,6 +33,9 @@ public class RuleEditor extends AgendaEditor {
     private String ruleType;
     private String copyPropositionId;
     private List<String> activeSelections;
+    private Integer counter;
+    private PropositionEditor propositionEditor;
+    private Map<String, String> propositionAlpha;
 
     //Course Range Dialog.
     private String searchByCourseRange;
@@ -50,13 +55,17 @@ public class RuleEditor extends AgendaEditor {
 
     private transient RulePreviewer rulePreviewer;
 
+    private String[] alpha = new String[]{"A","B","C","D","E","F","G","H","I"};
+
     public RuleEditor() {
         rule = new RuleBo();
+        propositionAlpha = new HashMap<String, String>();
     }
 
     public RuleEditor(RuleBo rule) {
         super();
         this.rule = rule;
+        propositionAlpha = new HashMap<String, String>();
     }
 
     public void clearRule(){
@@ -113,6 +122,14 @@ public class RuleEditor extends AgendaEditor {
 
     public void setActiveSelections(List<String> activeSelections) {
         this.activeSelections = activeSelections;
+    }
+
+    public Map<String, String> getPropositionAlpha() {
+        return propositionAlpha;
+    }
+
+    public void setPropositionAlpha(Map<String, String> propositionAlpha) {
+        this.propositionAlpha = propositionAlpha;
     }
 
     public String getSearchByCourseRange() {
@@ -222,6 +239,7 @@ public class RuleEditor extends AgendaEditor {
 
     public Tree refreshPropositionTree(Boolean editMode){
         Tree myTree = new Tree<RuleEditorTreeNode, String>();
+        counter = 0;
 
         Node<RuleEditorTreeNode, String> rootNode = new Node<RuleEditorTreeNode, String>();
         myTree.setRootElement(rootNode);
@@ -256,7 +274,13 @@ public class RuleEditor extends AgendaEditor {
                 // Simple Proposition
                 // add a node for the description display with a child proposition node
                 Node<RuleEditorTreeNode, String> child = new Node<RuleEditorTreeNode, String>();
-                child.setNodeLabel(StringEscapeUtils.escapeHtml(prop.getDescription()));
+
+                if(!propositionAlpha.containsKey(prop.getId())) {
+                    propositionAlpha.put(prop.getId(), alpha[counter]);
+                    counter++;
+                }
+
+                child.setNodeLabel(StringEscapeUtils.escapeHtml(propositionAlpha.get(prop.getId()) + ". " + prop.getDescription()));
                 if (prop.getEditMode()){
                     child.setNodeLabel("");
                     child.setNodeType(SimpleStudentPropositionEditNode.NODE_TYPE);
@@ -274,7 +298,13 @@ public class RuleEditor extends AgendaEditor {
                 // Compound Proposition
                 propositionSummaryBuffer.append(" ( ");
                 Node<RuleEditorTreeNode, String> aNode = new Node<RuleEditorTreeNode, String>();
-                aNode.setNodeLabel(StringEscapeUtils.escapeHtml(prop.getDescription()));
+
+                if(!propositionAlpha.containsKey(prop.getId())) {
+                    propositionAlpha.put(prop.getId(), alpha[counter]);
+                    counter++;
+                }
+
+                aNode.setNodeLabel(StringEscapeUtils.escapeHtml((propositionAlpha.get(prop.getId()) + ". " + prop.getDescription())));
                 // editMode has description as an editable field
                 if (prop.getEditMode()){
                     aNode.setNodeLabel("");
@@ -345,4 +375,7 @@ public class RuleEditor extends AgendaEditor {
         this.rulePreviewer.initPreviewTree(this.rule);
     }
 
+    public String getAlpha(int index) {
+        return alpha[index];
+    }
 }
