@@ -40,6 +40,14 @@
             <version>${ks.core.version}</version>
             <!--            <scope>provided</scope>-->
         </dependency>
+        
+          <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-common-impl</artifactId>
+            <version>${ks.core.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
         <!-- Add to be able to use LuDao on CluService as per discussion with Kamal -->
         <dependency>
             <groupId>org.kuali.student.core</groupId>
