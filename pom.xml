@@ -14,5 +14,6 @@
     <modules>
         <module>ks-deployment-resources</module>
         <module>ks-cfg-dbs</module>
+	    <module>ks-dbs</module>
     </modules>
 </project>
