@@ -128,15 +128,9 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         if (matchingCourses.size() == 1 && term != null) {
             CourseInfo course = matchingCourses.get(0);
 
-            //Get all the course offerings in a term
-            List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(), term.getId(), contextInfo);
-
             // set organization ID and check if the user can edit the course
-            if (!courseOfferingInfos.isEmpty()) {
-                List<String> orgIds = courseOfferingInfos.get(0).getUnitsDeploymentOrgIds();
-                if(!orgIds.isEmpty()){
-                    coWrapper.setAdminOrg(orgIds.get(0));
-                }
+            if (!course.getUnitsContentOwner().isEmpty()) {
+                coWrapper.setAdminOrg(course.getUnitsContentOwner().get(0));
             }
             Person user = GlobalVariables.getUserSession().getPerson();
             boolean canEditView = form.getView().getAuthorizer().canEditView(form.getView(), form, user);
@@ -148,6 +142,8 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
                 return getUIFModelAndView(form);
             } else {
+                //Get all the course offerings in a term
+                List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(), term.getId(), contextInfo);
 
                 coWrapper.setCourse(course);
                 coWrapper.setCreditCount(ViewHelperUtil.trimTrailing0(getLrcService().getResultValue(course.getCreditOptions().get(0).getResultValueKeys().get(0), contextInfo).getValue()));
