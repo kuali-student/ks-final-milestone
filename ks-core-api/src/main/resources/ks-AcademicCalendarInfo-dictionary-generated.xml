@@ -191,7 +191,7 @@ this calendar.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="AcademicCalendarInfo.startDate-generated" abstract="true" parent="BaseKuali.startDate">
+	<bean id="AcademicCalendarInfo.startDate-generated" abstract="true" parent="BaseKuali.date">
 		<property name="name" value="startDate"/>
 		<property name="shortLabel" value="Start Date"/>
 		<property name="summary">
@@ -214,7 +214,7 @@ expiration date.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="AcademicCalendarInfo.endDate-generated" abstract="true" parent="BaseKuali.endDate">
+	<bean id="AcademicCalendarInfo.endDate-generated" abstract="true" parent="BaseKuali.date">
 		<property name="name" value="endDate"/>
 		<property name="shortLabel" value="End Date"/>
 		<property name="summary">
