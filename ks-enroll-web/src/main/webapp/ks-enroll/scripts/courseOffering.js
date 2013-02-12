@@ -3,7 +3,7 @@
  * divId -- The section contains hiddencolumns
  * hiddenColumns -- each row of CO list contains hiddenColumns storing values processed in server side.
  * buttons -- buttons on the toolbar
- * Notes: hiddenColumns and buttons are in the same order.
+ * Note: hiddenColumns and buttons are in the same order.
  */
 function handleCOToolbar(){
     var divId = "KS-CourseOfferingManagement-CourseOfferingListSection";
@@ -22,7 +22,7 @@ function handleCOToolbar(){
   * divId -- The section contains hiddencolumns
   * hiddenColumns -- each row of AO list contains hiddenColumns storing values processed in server side.
   * buttons -- buttons on the toolbar
-  * Notes: hiddenColumns and buttons are in the same order.
+  * Note: hiddenColumns and buttons are in the same order.
  */
 function handleAOToolbar(){
     var divId = "KS-CourseOfferingManagement-ActivityOfferingListSection";

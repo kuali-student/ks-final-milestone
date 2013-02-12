@@ -1,5 +1,5 @@
 /**
- * handle toolbar and make buttons enabled/disabled based on values stored in the hiddenColumns
+ * handle toolbar to make buttons enabled/disabled based on values stored in the hiddenColumns
  * @param divId -- section contains hiddencolumns
  * @param hiddenColumns -- each hiddenColumn has true/false value
  * @param bottons -- button id in the toolbar
@@ -26,10 +26,7 @@ function processToolbar(divId, hiddenColumnsMap, buttonsMap){
        var cellData = oTable.fnGetData(this);
        for(var i=0; i<cellData.length; i++)
        {
-           var celld=cellData[i];
            for(var key in hiddenColumnsMap){
-               var col = hiddenColumnsMap[key];
-               var val = jQuery(cellData[i]).find(key).val();
                if(jQuery(cellData[i]).find(key).val() == 'true' || jQuery(cellData[i]).find(key).val() == 'false'){
                    hiddenColumnsMap[key].push(jQuery(cellData[i]).find(key).val());
                }
