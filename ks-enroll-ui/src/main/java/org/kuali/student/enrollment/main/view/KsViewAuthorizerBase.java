@@ -61,9 +61,12 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
     protected void addPermissionDetails(Object primaryDataObjectOrDocument, Map<String, String> attributes) {
         if (primaryDataObjectOrDocument !=null && primaryDataObjectOrDocument instanceof CourseOfferingManagementForm) {
             CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) primaryDataObjectOrDocument;
-            if (theForm.getSocState() != null) {
-                attributes.put("socState", theForm.getSocState());
-            }
+            // permission based on socState
+            String socState = theForm.getSocStateKey();
+            socState = socState==null?null:socState.substring(socState.lastIndexOf('.')+1);
+            attributes.put("socState", socState);
+
+            // permission based on term class start date
             if (theForm.getTermInfo() != null) {
                 if (theForm.getTermInfo().getStartDate() != null) {
                    Date now = new Date();
