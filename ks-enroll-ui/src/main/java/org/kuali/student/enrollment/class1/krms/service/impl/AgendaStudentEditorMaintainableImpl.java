@@ -42,11 +42,11 @@ import org.kuali.rice.krms.impl.repository.PropositionBo;
 import org.kuali.rice.krms.impl.repository.RuleBo;
 import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.rice.krms.impl.repository.TermParameterBo;
+import org.kuali.rice.krms.impl.ui.AgendaEditor;
 import org.kuali.rice.krms.impl.ui.KrmsMaintenanceConstants;
 import org.kuali.rice.krms.impl.util.KrmsImplConstants;
 import org.kuali.rice.krms.impl.util.KrmsRetriever;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
-import org.kuali.student.enrollment.class1.krms.dto.StudentAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.service.AgendaStudentEditorMaintainable;
 import org.kuali.student.enrollment.uif.service.impl.KSMaintainableImpl;
 
@@ -84,7 +84,7 @@ public class AgendaStudentEditorMaintainableImpl extends KSMaintainableImpl impl
 
 
     public List<RemotableAttributeField> retrieveAgendaCustomAttributes(View view, Object model, Container container) {
-        StudentAgendaEditor agendaEditor = getAgendaEditor(model);
+        AgendaEditor agendaEditor = getAgendaEditor(model);
         return krmsRetriever.retrieveAgendaCustomAttributes(agendaEditor);
     }
 
@@ -138,9 +138,9 @@ public class AgendaStudentEditorMaintainableImpl extends KSMaintainableImpl impl
      * @param model the MaintenanceDocumentForm
      * @return the AgendaEditor
      */
-    private StudentAgendaEditor getAgendaEditor(Object model) {
+    private AgendaEditor getAgendaEditor(Object model) {
         MaintenanceDocumentForm MaintenanceDocumentForm = (MaintenanceDocumentForm)model;
-        return (StudentAgendaEditor)MaintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
+        return (AgendaEditor)MaintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
     }
 
 
@@ -148,7 +148,7 @@ public class AgendaStudentEditorMaintainableImpl extends KSMaintainableImpl impl
      *  This only supports a single action within a rule.
      */
     public List<RemotableAttributeField> retrieveRuleCustomAttributes(View view, Object model, Container container) {
-        StudentAgendaEditor agendaEditor = getAgendaEditor((MaintenanceDocumentForm) model);
+        AgendaEditor agendaEditor = getAgendaEditor((MaintenanceDocumentForm) model);
         return krmsRetriever.retrieveRuleCustomAttributes(agendaEditor);
     }
 
@@ -158,8 +158,8 @@ public class AgendaStudentEditorMaintainableImpl extends KSMaintainableImpl impl
 
         try {
             // Since the dataObject is a wrapper class we need to build it and populate with the agenda bo.
-            StudentAgendaEditor agendaEditor = new StudentAgendaEditor();
-            AgendaBo agenda = getLookupService().findObjectBySearch(((StudentAgendaEditor) getDataObject()).getAgenda().getClass(), dataObjectKeys);
+            AgendaEditor agendaEditor = new AgendaEditor();
+            AgendaBo agenda = getLookupService().findObjectBySearch(((AgendaEditor) getDataObject()).getAgenda().getClass(), dataObjectKeys);
             if (KRADConstants.MAINTENANCE_COPY_ACTION.equals(getMaintenanceAction())) {
                 String dateTimeStamp = (new Date()).getTime() + "";
                 String newAgendaName = AgendaItemBo.COPY_OF_TEXT + agenda.getName() + " " + dateTimeStamp;
@@ -221,13 +221,13 @@ public class AgendaStudentEditorMaintainableImpl extends KSMaintainableImpl impl
     @Override
     public void prepareForSave() {
         // set agenda attributes
-        StudentAgendaEditor agendaEditor = (StudentAgendaEditor) getDataObject();
+        AgendaEditor agendaEditor = (AgendaEditor) getDataObject();
         agendaEditor.getAgenda().setAttributes(agendaEditor.getCustomAttributesMap());
     }
 
     @Override
     public void saveDataObject() {
-        AgendaBo agendaBo = ((StudentAgendaEditor) getDataObject()).getAgenda();
+        AgendaBo agendaBo = ((AgendaEditor) getDataObject()).getAgenda();
 
         // handle saving new parameterized terms
         for (AgendaItemBo agendaItem : agendaBo.getItems()) {
@@ -300,7 +300,7 @@ public class AgendaStudentEditorMaintainableImpl extends KSMaintainableImpl impl
             isOldDataObjectInExistence = false;
         } else {
             // dataObject contains a non persistable wrapper - use agenda from the wrapper object instead
-            Map<String, ?> keyFieldValues = getDataObjectMetaDataService().getPrimaryKeyFieldValues(((StudentAgendaEditor) getDataObject()).getAgenda());
+            Map<String, ?> keyFieldValues = getDataObjectMetaDataService().getPrimaryKeyFieldValues(((AgendaEditor) getDataObject()).getAgenda());
             for (Object keyValue : keyFieldValues.values()) {
                 if (keyValue == null) {
                     isOldDataObjectInExistence = false;
@@ -367,7 +367,7 @@ public class AgendaStudentEditorMaintainableImpl extends KSMaintainableImpl impl
 
     @Override
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        StudentAgendaEditor agendaEditor = getAgendaEditor(model);
+        AgendaEditor agendaEditor = getAgendaEditor(model);
         if (addLine instanceof ActionBo) {
             ((ActionBo) addLine).setNamespace(agendaEditor.getAgendaItemLine().getRule().getNamespace());
         }

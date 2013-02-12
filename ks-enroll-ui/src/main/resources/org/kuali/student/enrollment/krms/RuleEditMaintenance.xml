@@ -26,7 +26,6 @@
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.RuleEditor"/>
         <property name="maintainableClass" value="org.kuali.student.enrollment.class1.krms.service.impl.CORuleEditorMaintainableImpl"/>
         <property name="documentTypeName" value="RuleMaintenanceDocument"/>
-        <!--property name="documentAuthorizerClass" value="org.kuali.rice.krms.impl.authorization.AgendaEditorAuthorizer"/-->
         <property name="businessRulesClass" value="org.kuali.rice.krms.impl.rule.AgendaEditorBusRule" />
         <property name="lockingKeys">
             <list>
@@ -35,7 +34,7 @@
         </property>
     </bean>
 
-    <bean id="RuleBo-Student-MaintenanceView" parent="KSMaintenanceView">
+    <!--bean id="RuleBo-Student-MaintenanceView" parent="KSMaintenanceView">
         <property name="headerText" value="Rule Editor"/>
         <property name="additionalScriptFiles">
             <list>
@@ -80,28 +79,9 @@
                 <bean id="propositionSection" parent="propositionStudentSection-parent"/>
             </list>
         </property>
-    </bean>
+    </bean-->
 
-    <bean name="ruleCustomAttributes" parent="Uif-GridSection" p:colSpan="2" p:layoutManager.numberOfColumns="2"
-          p:refreshWhenChangedPropertyNames="document.newMaintainableObject.dataObject.rule.typeId"
-          p:style="padding: 0px; border-style: hidden;">
-        <property name="items">
-            <list>
-                <bean parent="Uif-InputField" p:propertyName="rule.typeId" p:label="Type" p:required="false">
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.rice.krms.impl.repository.RuleTypeValuesFinder"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-RemotableFieldsPlaceholderConfig" p:propertyName="customRuleAttributesMap"
-                      p:fetchingMethodToCall="retrieveRuleCustomAttributes"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean name="propositionStudentSection-parent" parent="Uif-VerticalBoxGroup"
+    <bean name="KS-EditWithObject-EditGroup" parent="Uif-VerticalBoxGroup"
           p:style="border: 1px solid #999999; padding: 5px; margin: 5px; background: white; margin-top:null ">
         <property name="headerText" value="Proposition Tree"/>
 
@@ -126,9 +106,6 @@
                     <property name="items">
                         <list>
                             <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
-                            <!--bean id="RuleStudentEditorView-PropositionSummary"
-                                  parent="RuleStudentEditorView-PropositionSummary-parent"
-                                  p:forceSessionPersistence="true"/-->
                             <bean parent="Uif-Message" p:messageText="Click on rule to edit" p:style="font-weight:bold;margin-left: 2em;"/>
                             <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
                             <bean id="RuleStudentEditorView-Tree" parent="KS-RulerEditor-TreeSection-parent"
@@ -156,17 +133,6 @@
             </list>
         </property>
     </bean>
-
-    <bean id="RuleStudentEditorView-PropositionSummary-parent" parent="Uif-HorizontalBoxGroup" p:renderHeader="false">
-        <property name="disclosure.render" value="false"/>
-        <property name="items">
-            <list>
-                <bean parent="Uif-Message" p:messageText="@{#dp.propositionSummary}"/>
-            </list>
-        </property>
-
-    </bean>
-
 
     <bean id="RuleStudentEditorView-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup" p:showLabel="false">
         <property name="items">
@@ -205,7 +171,7 @@
         </property>
     </bean>
 
-    <bean id="RuleEditorView-Button" parent="Uif-Action" p:actionImagePlacement="TOP" p:style="font-size: 10px"
+    <bean id="KS-RuleEditorView-Button" parent="Uif-Action" p:actionImagePlacement="TOP" p:style="font-size: 10px"
           abstract="true">
         <property name="cssClasses">
             <list merge="true">
@@ -223,7 +189,7 @@
                 <bean parent="Uif-HorizontalBoxGroup" p:style="padding-right: 20px; padding-left:20px">
                     <property name="items">
                         <list>
-                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('add');
+                            <bean parent="KS-RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('add');
                                 if (enabled) {
                                 ajaxCallPropositionTree('addProposition', 'RuleStudentEditorView-Tree');}"
                                 p:actionLabel="Add Requisite" p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');" p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
@@ -239,7 +205,7 @@
                                 </property>
                             </bean>
 
-                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('edit');
+                            <bean parent="KS-RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('edit');
                                 if (enabled) {
                                 ajaxCallPropositionTree('goToEditProposition', 'RuleStudentEditorView-TreeGroup');}"
                                   p:actionLabel="Edit" p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');" p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
@@ -249,7 +215,7 @@
                                 </property>
                             </bean>
 
-                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('addparent');
+                            <bean parent="KS-RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('addparent');
                                 if (enabled) {
                                 ajaxCallPropositionTree('togglePropositionSimpleCompound', 'RuleStudentEditorView-TreeGroup');}"
                                   p:actionLabel="Group" p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');" p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
@@ -265,7 +231,7 @@
                 <bean parent="Uif-HorizontalBoxGroup" p:style="padding-right: 20px">
                     <property name="items">
                         <list>
-                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('left');
+                            <bean parent="KS-RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('left');
                                 if (enabled) {
                                 ajaxCallPropositionTree('movePropositionLeft', 'RuleStudentEditorView-TreeGroup');}"
                                 p:actionLabel="Move Left" p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');" p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
@@ -276,7 +242,7 @@
                                 </property>
                             </bean>
 
-                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('right');
+                            <bean parent="KS-RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('right');
                                 if (enabled) {
                                 ajaxCallPropositionTree('movePropositionRight', 'RuleStudentEditorView-TreeGroup');}"
                                 p:actionLabel="Move Right" p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');" p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
@@ -287,7 +253,7 @@
                                 </property>
                             </bean>
 
-                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('up');
+                            <bean parent="KS-RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('up');
                                 if (enabled) {
                                 ajaxCallPropositionTree('movePropositionUp', 'RuleStudentEditorView-TreeGroup');}"
                                 p:actionLabel="Move Up" p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');" p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
@@ -298,7 +264,7 @@
                                 </property>
                             </bean>
 
-                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('down');
+                            <bean parent="KS-RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('down');
                                 if (enabled) {
                                 ajaxCallPropositionTree('movePropositionDown', 'RuleStudentEditorView-TreeGroup');}"
                                 p:actionLabel="Move Down" p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');" p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
@@ -315,7 +281,7 @@
                 <bean parent="Uif-HorizontalBoxGroup" p:style="padding-right: 20px">
                     <property name="items">
                         <list>
-                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('copy');
+                            <bean parent="KS-RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('copy');
                                 if (enabled) {
                                 ajaxCopyPropositionTree('copyProposition', 'RuleStudentEditorView-Tree');}"
                                   p:actionLabel="Copy" p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');" p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
@@ -330,7 +296,7 @@
                                 </property>
                             </bean>
 
-                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('cut');
+                            <bean parent="KS-RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('cut');
                                 if (enabled) {
                                 ajaxCutPropositionTree('cutProposition', 'RuleStudentEditorView-Tree');}"
                                   p:actionLabel="Cut" p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');" p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
@@ -345,7 +311,7 @@
                                 </property>
                             </bean>
 
-                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('paste');
+                            <bean parent="KS-RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('paste');
                                 if (enabled) {
                                 ajaxCallPropositionTree('pasteProposition', 'RuleStudentEditorView-TreeGroup');}"
                                 p:actionLabel="Paste" p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');" p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
@@ -361,7 +327,7 @@
                                 </property>
                             </bean>
 
-                            <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('delete');
+                            <bean parent="KS-RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('delete');
                                 if (enabled) {
                                 ajaxCallPropositionTree('deleteProposition', 'RuleStudentEditorView-TreeGroup');}"
                                 p:actionLabel="Delete" p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');" p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');"> <!-- Horiz whitespace -->
@@ -406,25 +372,25 @@
         <property name="nodePrototypeMap">
             <map key-type="java.lang.Class">
                 <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode) }">
-                    <bean parent="StudentRuleTreeNodePrototype"/>
+                    <bean parent="KS-RuleTreeNodePrototype"/>
                 </entry>
-                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.SimpleStudentPropositionNode) }">
-                    <bean parent="StudentSimplePropositionNodePrototype"/>
+                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.KSSimplePropositionNode) }">
+                    <bean parent="KS-SimplePropositionNodePrototype"/>
                 </entry>
-                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.SimpleStudentPropositionEditNode) }">
-                    <bean parent="StudentSimplePropositionEditNodePrototype"/>
+                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.KSSimplePropositionEditNode) }">
+                    <bean parent="KS-SimplePropositionEditNodePrototype"/>
                 </entry>
-                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.CompoundStudentOpCodeNode) }">
-                    <bean parent="StudentCompoundOpCodeNodePrototype"/>
+                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.KSCompoundOpCodeNode) }">
+                    <bean parent="KS-CompoundOpCodeNodePrototype"/>
                 </entry>
-                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.CompoundStudentPropositionEditNode) }">
-                    <bean parent="StudentCompoundPropositionEditNodePrototype"/>
+                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.KSCompoundPropositionEditNode) }">
+                    <bean parent="KS-CompoundPropositionEditNodePrototype"/>
                 </entry>
             </map>
         </property>
     </bean>
 
-    <bean id="StudentRuleTreeNodePrototype" class="org.kuali.rice.krad.uif.container.NodePrototype">
+    <bean id="KS-RuleTreeNodePrototype" class="org.kuali.rice.krad.uif.container.NodePrototype">
         <property name="labelPrototype">
             <bean parent="Uif-Message"/>
         </property>
@@ -451,10 +417,7 @@
         </property>
     </bean>
 
-    <bean id="StudentSimplePropositionNodePrototype" class="org.kuali.rice.krad.uif.container.NodePrototype">
-        <property name="labelPrototype">
-            <bean parent="Uif-Message"/>
-        </property>
+    <bean id="KS-SimplePropositionNodePrototype" parent="RuleTreeNodePrototype">
         <property name="dataGroupPrototype">
             <bean parent="Uif-HorizontalBoxGroup">
                 <property name="items">
@@ -474,7 +437,7 @@
         </property>
     </bean>
 
-    <bean id="StudentSimplePropositionEditNodePrototype" class="org.kuali.rice.krad.uif.container.NodePrototype">
+    <bean id="KS-SimplePropositionEditNodePrototype" parent="SimplePropositionEditNodePrototype">
         <property name="labelPrototype">
             <bean id="RuleMessage" parent="Uif-Message">
                 <property name="cssClasses">
@@ -493,32 +456,7 @@
         </property>
     </bean>
 
-    <bean id="selectedNodeQuickActions" parent="Uif-HorizontalFieldGroup" p:cssClasses="actionReveal">
-        <property name="items">
-            <list>
-                <bean parent="Uif-ActionImage"
-                      p:actionScript="ajaxCallPropositionTree('goToEditProposition', 'RuleStudentEditorView-TreeGroup');">
-                    <property name="actionImage">
-                        <bean parent="Uif-Image" p:source="../krms/images/edit.png"
-                              p:altText="Edit"/>
-                    </property>
-                </bean>
-
-                <bean parent="Uif-ActionImage"
-                      p:actionScript="ajaxCallPropositionTree('togglePropositionSimpleCompound', 'RuleStudentEditorView-TreeGroup');">
-                    <property name="actionImage">
-                        <bean parent="Uif-Image" p:source="../krms/images/node-parent-and-child.png"
-                              p:altText="Add Parent"/>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="StudentCompoundOpCodeNodePrototype" class="org.kuali.rice.krad.uif.container.NodePrototype">
-        <property name="labelPrototype">
-            <bean parent="Uif-Message"/>
-        </property>
+    <bean id="KS-CompoundOpCodeNodePrototype" parent="CompoundOpCodeNodePrototype">
         <property name="dataGroupPrototype">
             <bean parent="Uif-HorizontalBoxGroup"> <!--p:style="padding-bottom: 10pt;">-->
                 <property name="items">
@@ -538,10 +476,7 @@
         </property>
     </bean>
 
-    <bean id="StudentCompoundPropositionEditNodePrototype" class="org.kuali.rice.krad.uif.container.NodePrototype">
-        <property name="labelPrototype">
-            <bean parent="Uif-Message"/>
-        </property>
+    <bean id="KS-CompoundPropositionEditNodePrototype" parent="CompoundPropositionEditNodePrototype">
         <property name="dataGroupPrototype">
             <bean parent="Uif-HorizontalBoxGroup">
                 <property name="items">
@@ -552,6 +487,7 @@
                                 <bean parent="Uif-HiddenControl" p:cssClasses="hiddenId"/>
                             </property>
                         </bean>
+
                         <bean parent="Uif-InputField" p:propertyName="proposition.description"
                               p:constraintText="size 100"
                               p:showLabel="false" p:label="description" p:maxLength="255" p:style="margin-left: 12pt">
@@ -562,65 +498,9 @@
                             </property>
                         </bean>
 
-                        <!--bean parent="Uif-ActionImage"
-                              p:actionScript="ajaxCallPropositionTree('goToEditProposition', 'RuleStudentEditorView-Tree');">
-                            <property name="actionImage">
-                                <bean parent="Uif-Image" p:source="../krms/images/edit.png"
-                                      p:altText="Edit" p:cssClasses="actionReveal"/>
-                            </property>
-                        </bean-->
-
                     </list>
                 </property>
             </bean>
-        </property>
-    </bean>
-
-    <bean name="ruleAttributesSection" parent="ruleAttributesSection-parent"/>
-    <bean name="ruleAttributesSection-parent" parent="Uif-VerticalBoxSection">
-
-        <!-- TODO: temporarily disabling attribute group rendering: -->
-        <property name="render">
-            <value>false</value>
-        </property>
-
-        <property name="headerText" value="Rule Attributes"/>
-        <property name="disclosure.render" value="true"/>
-        <property name="disclosure.defaultOpen" value="false"/>
-        <property name="items">
-            <list>
-                <bean name="ruleAttributeTable" parent="Uif-TableCollectionSection"
-                      p:layoutManager.numberOfColumns="2">
-                    <property name="headerText" value="Rule Attributes"/>
-                    <property name="collectionObjectClass"
-                              value="org.kuali.rice.krms.impl.repository.RuleAttributeBo"/>
-                    <property name="propertyName" value="rule.attributeBos"/>
-                    <property name="renderAddLine" value="false"/>
-                    <property name="renderLineActions" value="false"/>
-                    <property name="disclosure.render" value="false"/>
-                    <property name="header.render" value="false"/>
-                    <property name="layoutManager.renderSequenceField" value="false"/>
-                    <property name="layoutManager.useShortLabels" value="true"/>
-                    <property name="layoutManager.repeatHeader" value="false"/>
-                    <property name="layoutManager.applyAlternatingRowStyles" value="true"/>
-                    <property name="layoutManager.applyDefaultCellWidths" value="false"/>
-                    <property name="layoutManager.richTable.disableTableSort" value="true"/>
-                    <property name="layoutManager.richTable">
-                        <ref bean="Uif-ScrollableRichTable"/>
-                    </property>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-InputField" p:propertyName="rule.attributeDefinition.name"
-                                  p:readOnly="true">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="20" p:readOnly="true" p:style="border: 0"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="rule.value"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
         </property>
     </bean>
 

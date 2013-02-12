@@ -21,13 +21,13 @@ package org.kuali.student.enrollment.class1.krms.dto;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  *
  */
-public class CompoundStudentPropositionEditNode extends RuleEditorTreeNode {
+public class KSCompoundPropositionEditNode extends RuleEditorTreeNode {
 
     private static final long serialVersionUID = -5650654824214437325L;
 
-    public static final String NODE_TYPE = CompoundStudentOpCodeNode.NODE_TYPE + " editNode";
+    public static final String NODE_TYPE = KSCompoundOpCodeNode.NODE_TYPE + " editNode";
 
-    public CompoundStudentPropositionEditNode(PropositionEditor proposition){
+    public KSCompoundPropositionEditNode(PropositionEditor proposition){
         super(proposition);
     }
     

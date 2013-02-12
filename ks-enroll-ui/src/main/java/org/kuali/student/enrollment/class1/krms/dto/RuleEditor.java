@@ -3,13 +3,13 @@ package org.kuali.student.enrollment.class1.krms.dto;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
-import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.impl.repository.AgendaBo;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
 import org.kuali.rice.krms.impl.repository.RuleBo;
 import org.kuali.rice.krms.impl.ui.AgendaEditor;
 import org.kuali.student.enrollment.class1.krms.form.TreeNode;
+import org.kuali.student.enrollment.class1.krms.util.AlphaIterator;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -33,9 +33,6 @@ public class RuleEditor extends AgendaEditor {
     private String ruleType;
     private String copyPropositionId;
     private List<String> activeSelections;
-    private Integer counter;
-    private PropositionEditor propositionEditor;
-    private Map<String, String> propositionAlpha;
 
     //Course Range Dialog.
     private String searchByCourseRange;
@@ -48,24 +45,20 @@ public class RuleEditor extends AgendaEditor {
     private RuleBo rule;
 
     // for Rule editor display
-    Tree<RuleEditorTreeNode, String> propositionTree;
+    private transient Tree<RuleEditorTreeNode, String> propositionTree;
 
-    // for rule editor display
-    private StringBuffer propositionSummaryBuffer;
-
-    private transient RulePreviewer rulePreviewer;
-
-    private String[] alpha = new String[]{"A","B","C","D","E","F","G","H","I"};
+    // for Rule Preview display
+    private transient LogicRuleViewer rulePreviewer;
+    private Map<String, String> propositionAlpha = new HashMap<String, String>();
+    private AlphaIterator alpha = new AlphaIterator();
 
     public RuleEditor() {
         rule = new RuleBo();
-        propositionAlpha = new HashMap<String, String>();
     }
 
     public RuleEditor(RuleBo rule) {
         super();
         this.rule = rule;
-        propositionAlpha = new HashMap<String, String>();
     }
 
     public void clearRule(){
@@ -83,6 +76,7 @@ public class RuleEditor extends AgendaEditor {
 
     public void setRule(RuleBo rule) {
         this.rule = rule;
+        this.refreshPropositionTree();
     }
 
     public String getCluId() {
@@ -214,13 +208,6 @@ public class RuleEditor extends AgendaEditor {
         getPersistenceService().refreshAllNonUpdatingReferences(this.getAgenda());
     }
 
-    public String getPropositionSummary(){
-        if (this.propositionTree == null) {
-            this.propositionTree = refreshPropositionTree(false);
-        }
-        return propositionSummaryBuffer.toString();
-    }
-
     /**
      * This method is used by the RuleEditor to display the proposition in tree form.
      *
@@ -228,7 +215,7 @@ public class RuleEditor extends AgendaEditor {
      */
     public Tree getPropositionTree() {
         if (this.propositionTree == null){
-            this.propositionTree = refreshPropositionTree(false);
+            this.propositionTree = refreshPropositionTree();
         }
         return this.propositionTree;
     }
@@ -237,17 +224,15 @@ public class RuleEditor extends AgendaEditor {
         this.propositionTree = tree;
     }
 
-    public Tree refreshPropositionTree(Boolean editMode){
+    public Tree refreshPropositionTree(){
         Tree myTree = new Tree<RuleEditorTreeNode, String>();
-        counter = 0;
 
         Node<RuleEditorTreeNode, String> rootNode = new Node<RuleEditorTreeNode, String>();
         myTree.setRootElement(rootNode);
 
-        propositionSummaryBuffer = new StringBuffer();
         if (rule != null){
             PropositionBo prop = rule.getProposition();
-            buildPropTree( rootNode, prop, editMode );
+            buildPropTree( rootNode, prop);
         }
 
         this.propositionTree = myTree;
@@ -258,12 +243,8 @@ public class RuleEditor extends AgendaEditor {
      * This method builds a propositionTree recursively walking through the children of the proposition.
      * @param sprout - parent tree node
      * @param prop - PropositionBo for which to make the tree node
-     * @param editMode - Boolean determines the node type used to represent the proposition
-     *     false: create a view only node text control
-     *     true: create an editable node with multiple controls
-     *     null:  use the proposition.editMode property to determine the node type
      */
-    private void buildPropTree( Node sprout, PropositionBo prop, Boolean editMode){
+    private void buildPropTree( Node sprout, PropositionBo prop){
         // Depending on the type of proposition (simple/compound), and the editMode,
         // Create a treeNode of the appropriate type for the node and attach it to the
         // sprout parameter passed in.
@@ -275,43 +256,31 @@ public class RuleEditor extends AgendaEditor {
                 // add a node for the description display with a child proposition node
                 Node<RuleEditorTreeNode, String> child = new Node<RuleEditorTreeNode, String>();
 
-                if(!propositionAlpha.containsKey(prop.getId())) {
-                    propositionAlpha.put(prop.getId(), alpha[counter]);
-                    counter++;
-                }
-
-                child.setNodeLabel(StringEscapeUtils.escapeHtml(propositionAlpha.get(prop.getId()) + ". " + prop.getDescription()));
+                // Simple Proposition add a node for the description display with a child proposition node
                 if (prop.getEditMode()){
-                    child.setNodeLabel("");
-                    child.setNodeType(SimpleStudentPropositionEditNode.NODE_TYPE);
-                    SimpleStudentPropositionEditNode pNode = new SimpleStudentPropositionEditNode(propositionEditor);
+                    child.setNodeType(KSSimplePropositionEditNode.NODE_TYPE);
+                    KSSimplePropositionEditNode pNode = new KSSimplePropositionEditNode(propositionEditor);
                     child.setData(pNode);
                 } else {
-                    child.setNodeType(SimpleStudentPropositionNode.NODE_TYPE);
-                    SimpleStudentPropositionNode pNode = new SimpleStudentPropositionNode(propositionEditor);
+                    child.setNodeLabel(this.buildNodeLabel(prop));
+                    child.setNodeType(KSSimplePropositionNode.NODE_TYPE);
+                    KSSimplePropositionNode pNode = new KSSimplePropositionNode(propositionEditor);
                     child.setData(pNode);
                 }
                 sprout.getChildren().add(child);
-                propositionSummaryBuffer.append(propositionEditor.getParameterDisplayString());
             }
             else if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())){
                 // Compound Proposition
-                propositionSummaryBuffer.append(" ( ");
                 Node<RuleEditorTreeNode, String> aNode = new Node<RuleEditorTreeNode, String>();
 
-                if(!propositionAlpha.containsKey(prop.getId())) {
-                    propositionAlpha.put(prop.getId(), alpha[counter]);
-                    counter++;
-                }
-
-                aNode.setNodeLabel(StringEscapeUtils.escapeHtml((propositionAlpha.get(prop.getId()) + ". " + prop.getDescription())));
                 // editMode has description as an editable field
                 if (prop.getEditMode()){
                     aNode.setNodeLabel("");
-                    aNode.setNodeType(CompoundStudentPropositionEditNode.NODE_TYPE);
-                    CompoundStudentPropositionEditNode pNode = new CompoundStudentPropositionEditNode(propositionEditor);
+                    aNode.setNodeType(KSCompoundPropositionEditNode.NODE_TYPE);
+                    KSCompoundPropositionEditNode pNode = new KSCompoundPropositionEditNode(propositionEditor);
                     aNode.setData(pNode);
                 } else {
+                    aNode.setNodeLabel(this.buildNodeLabel(prop));
                     aNode.setNodeType(RuleEditorTreeNode.COMPOUND_NODE_TYPE);
                     RuleEditorTreeNode pNode = new RuleEditorTreeNode(propositionEditor);
                     aNode.setData(pNode);
@@ -329,11 +298,21 @@ public class RuleEditor extends AgendaEditor {
                     }
                     first = false;
                     // call to build the childs node
-                    buildPropTree(aNode, child, editMode);
+                    buildPropTree(aNode, child);
                 }
-                propositionSummaryBuffer.append(" ) ");
             }
         }
+    }
+
+    private String buildNodeLabel(PropositionBo prop){
+        //Add the proposition with alpha code in the map if it doesn't already exist.
+        if(!propositionAlpha.containsKey(prop.getId())) {
+            propositionAlpha.put(prop.getId(), (String)alpha.next());
+        }
+
+        //Build the node label.
+        String prefix = "<b>" + propositionAlpha.get(prop.getId()) + ".</b> ";
+        return prefix + StringEscapeUtils.escapeHtml(prop.getDescription());
     }
 
     /**
@@ -345,24 +324,16 @@ public class RuleEditor extends AgendaEditor {
      * @return
      */
     private void addOpCodeNode(Node currentNode, PropositionEditor prop){
-        String opCodeLabel = "";
-
-        if (LogicalOperator.AND.getCode().equalsIgnoreCase(prop.getCompoundOpCode())){
-            opCodeLabel = "AND";
-        } else if (LogicalOperator.OR.getCode().equalsIgnoreCase(prop.getCompoundOpCode())){
-            opCodeLabel = "OR";
-        }
-        propositionSummaryBuffer.append(" "+opCodeLabel+" ");
         Node<RuleEditorTreeNode, String> aNode = new Node<RuleEditorTreeNode, String>();
         aNode.setNodeLabel("");
         aNode.setNodeType("ruleTreeNode compoundOpCodeNode");
-        aNode.setData(new CompoundStudentOpCodeNode(prop));
+        aNode.setData(new KSCompoundOpCodeNode(prop));
         currentNode.getChildren().add(aNode);
     }
 
     public Tree<TreeNode, String> getPreviewTree() {
         if (this.rulePreviewer == null){
-            rulePreviewer  = new RulePreviewer();
+            rulePreviewer  = new LogicRuleViewer();
             initPreviewTree();
         }
 
@@ -370,10 +341,7 @@ public class RuleEditor extends AgendaEditor {
     }
 
     public void initPreviewTree(){
-        this.rulePreviewer.initPreviewTree(this.rule);
+        this.rulePreviewer.initPreviewTree(this);
     }
 
-    public String getAlpha(int index) {
-        return alpha[index];
-    }
 }

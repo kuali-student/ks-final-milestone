@@ -89,7 +89,7 @@
           p:headerText="Edit with Object" p:header.render="false">
         <property name="items">
             <list>
-                <bean parent="propositionStudentSection-parent" p:style=""/>
+                <bean parent="KS-EditWithObject-EditGroup"/>
             </list>
         </property>
     </bean>

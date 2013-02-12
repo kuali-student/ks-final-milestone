@@ -38,48 +38,7 @@ public class PropositionTreeUtil {
         return bingo;
     }
 
-    public static PropositionEditor findPropositionEditor(String propositionId, Tree<RuleEditorTreeNode, String> propositionTree) {
-        if (propositionId != null && propositionTree != null) {
-            List<Node<RuleEditorTreeNode, String>> nodeList = propositionTree.toList();
-            if (nodeList != null) {
-                for (Node<RuleEditorTreeNode, String> node : nodeList) {
-                    RuleEditorTreeNode ruleEditorTreeNode = node.getData();
-                    if (ruleEditorTreeNode != null) {
-                        PropositionEditor propositionEditor = ruleEditorTreeNode.getProposition();
-                        if (propositionId.equals(propositionEditor.getProposition().getId())) {
-                            return propositionEditor;
-                        }
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
     /**
-     * Find and return the node containing the proposition that is in currently in edit mode
-     *
-     * @param node the node to start searching from (typically the root)
-     * @return the node that is currently being edited, if any.  Otherwise, null.
-     */
-    public static Node<RuleEditorTreeNode, String> findEditedProposition(Node<RuleEditorTreeNode, String> node) {
-        Node<RuleEditorTreeNode, String> result = null;
-        if (node.getData() != null && node.getData().getProposition() != null && node.getData().getProposition().getProposition()
-                .getEditMode()) {
-            result = node;
-        } else {
-            for (Node<RuleEditorTreeNode, String> child : node.getChildren()) {
-                result = findEditedProposition(child);
-                if (result != null) {
-                    break;
-                }
-            }
-        }
-        return result;
-    }
-
-    /**
-     * @param form
      * @return the {@link org.kuali.rice.krms.impl.repository.PropositionBo} from the form
      */
     public static PropositionEditor getProposition(RuleEditor ruleEditor) {
@@ -113,6 +72,65 @@ public class PropositionTreeUtil {
         }
 
         return null;
+    }
+
+    /**
+     * Find and return the node containing the proposition that is in currently in edit mode
+     *
+     * @param node the node to start searching from (typically the root)
+     * @return the node that is currently being edited, if any.  Otherwise, null.
+     */
+    public static Node<RuleEditorTreeNode, String> findEditedProposition(Node<RuleEditorTreeNode, String> node) {
+        Node<RuleEditorTreeNode, String> result = null;
+        if (node.getData() != null && node.getData().getProposition() != null && node.getData().getProposition().getProposition()
+                .getEditMode()) {
+            result = node;
+        } else {
+            for (Node<RuleEditorTreeNode, String> child : node.getChildren()) {
+                result = findEditedProposition(child);
+                if (result != null) {
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    public static void resetEditModeOnPropositionTree(RuleEditor ruleEditor) {
+        Node<RuleEditorTreeNode, String> root = ruleEditor.getPropositionTree().getRootElement();
+        resetEditModeOnPropositionTree(root);
+    }
+
+    /**
+     * disable edit mode for all Nodes beneath and including the passed in Node
+     *
+     * @param currentNode
+     */
+    public static void resetEditModeOnPropositionTree(Node<RuleEditorTreeNode, String> currentNode) {
+        if (currentNode.getData() != null) {
+            RuleEditorTreeNode dataNode = currentNode.getData();
+            dataNode.getProposition().getProposition().setEditMode(false);
+        }
+        List<Node<RuleEditorTreeNode, String>> children = currentNode.getChildren();
+        for (Node<RuleEditorTreeNode, String> child : children) {
+            resetEditModeOnPropositionTree(child);
+        }
+    }
+
+    public static Node<RuleEditorTreeNode, String> findPropositionTreeNode(Node<RuleEditorTreeNode, String> currentNode, String selectedPropId) {
+        Node<RuleEditorTreeNode, String> bingo = null;
+        if (currentNode.getData() != null) {
+            RuleEditorTreeNode dataNode = currentNode.getData();
+            if (selectedPropId.equalsIgnoreCase(dataNode.getProposition().getProposition().getId())) {
+                return currentNode;
+            }
+        }
+        List<Node<RuleEditorTreeNode, String>> children = currentNode.getChildren();
+        for (Node<RuleEditorTreeNode, String> child : children) {
+            bingo = findPropositionTreeNode(child, selectedPropId);
+            if (bingo != null) break;
+        }
+        return bingo;
     }
 
 }

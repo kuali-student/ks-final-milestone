@@ -57,18 +57,15 @@ public class RulePreviewer {
 
     private void buildPreviewTree(Node<TreeNode, String> currentNode, PropositionBo prop){
         if (prop != null) {
-            if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())){
-                Node<TreeNode, String> newNode = new Node<TreeNode, String>();
-                newNode.setNodeLabel(StringEscapeUtils.escapeHtml(prop.getDescription()));
-                TreeNode tNode = new TreeNode(prop.getDescription());
-                newNode.setData(tNode);
-                currentNode.getChildren().add(newNode);
-            } else if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())){
-                Node<TreeNode, String> newNode = new Node<TreeNode, String>();
-                newNode.setNodeLabel(StringEscapeUtils.escapeHtml(prop.getDescription()));
-                TreeNode tNode = new TreeNode(prop.getDescription());
-                newNode.setData(tNode);
-                currentNode.getChildren().add(newNode);
+
+            Node<TreeNode, String> newNode = new Node<TreeNode, String>();
+            newNode.setNodeLabel(this.buildNodeLabel(prop));
+
+            TreeNode tNode = new TreeNode(prop.getDescription());
+            newNode.setData(tNode);
+            currentNode.getChildren().add(newNode);
+
+            if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())){
 
                 boolean first = true;
                 List <PropositionBo> nodeChildren = prop.getCompoundComponents();
@@ -78,15 +75,13 @@ public class RulePreviewer {
                     // add an opcode node in between each of the children.
                     if (!first){
                         //addOpCodeNode(newNode, propositionEditor);
-                        String opCodeLabel = "";
-
-                        if (LogicalOperator.AND.getCode().equalsIgnoreCase(prop.getCompoundOpCode())){
-                            opCodeLabel = "AND";
-                        } else if (LogicalOperator.OR.getCode().equalsIgnoreCase(prop.getCompoundOpCode())){
-                            opCodeLabel = "OR";
-                        }
                         Node<TreeNode, String> opNode = new Node<TreeNode, String>();
-                        opNode.setNodeLabel(opCodeLabel);
+                        if (LogicalOperator.AND.getCode().equalsIgnoreCase(prop.getCompoundOpCode())){
+                            opNode.setNodeLabel("AND");
+                        } else if (LogicalOperator.OR.getCode().equalsIgnoreCase(prop.getCompoundOpCode())){
+                            opNode.setNodeLabel("OR");
+                        }
+
                         opNode.setData(new TreeNode(prop.getCompoundOpCode()));
                         newNode.getChildren().add(opNode);
                     }
@@ -97,5 +92,9 @@ public class RulePreviewer {
             }
 
         }
+    }
+
+    protected String buildNodeLabel(PropositionBo prop){
+        return StringEscapeUtils.escapeHtml(prop.getDescription());
     }
 }

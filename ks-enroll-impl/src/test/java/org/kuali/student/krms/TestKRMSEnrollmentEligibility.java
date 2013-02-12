@@ -99,8 +99,8 @@ public class TestKRMSEnrollmentEligibility {
 		
 		
 	}
-	
-	
+
+
 	@Test
 	public void testCompletedCourseBetweenTermsProposition() throws DoesNotExistException, OperationFailedException {
 	    

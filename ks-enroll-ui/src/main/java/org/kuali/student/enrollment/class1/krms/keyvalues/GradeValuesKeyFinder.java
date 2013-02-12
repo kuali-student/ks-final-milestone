@@ -58,7 +58,7 @@ public class GradeValuesKeyFinder extends UifKeyValuesFinderBase {
             Object dataObject = maintenanceForm.getDocument().getNewMaintainableObject().getDataObject();
             if (dataObject instanceof RuleEditor) {
                 RuleEditor ruleEditor = (RuleEditor) dataObject;
-                PropositionEditor propositionEditor = PropositionTreeUtil.findPropositionEditor(ruleEditor.getSelectedPropositionId(), ruleEditor.getPropositionTree()) ;
+                PropositionEditor propositionEditor = PropositionTreeUtil.getProposition(ruleEditor) ;
                 if (propositionEditor != null){
                     gradeScale = propositionEditor.getGradeScale();
                 }

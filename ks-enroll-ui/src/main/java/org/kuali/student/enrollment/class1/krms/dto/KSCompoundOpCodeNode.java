@@ -23,15 +23,15 @@ import org.kuali.rice.krms.impl.repository.PropositionBo;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  *
  */
-public class CompoundStudentOpCodeNode extends RuleEditorTreeNode {
+public class KSCompoundOpCodeNode extends RuleEditorTreeNode {
 
     private static final long serialVersionUID = -6069336457169968200L;
 
     // needed for inquiry view
-    public CompoundStudentOpCodeNode() {
+    public KSCompoundOpCodeNode() {
     }
 
-    public CompoundStudentOpCodeNode(PropositionEditor proposition){
+    public KSCompoundOpCodeNode(PropositionEditor proposition){
         super(proposition);
    }
 }
