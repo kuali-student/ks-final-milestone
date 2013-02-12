@@ -46,6 +46,8 @@ import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -70,6 +72,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     private transient RoomService roomService;
     private transient PopulationService populationService;
     private transient SeatPoolUtilityService seatPoolUtilityService = new SeatPoolUtilityServiceImpl();
+    private transient CourseService courseService;
 
     private static final String SCHEDULE_HELPER = "scheduleHelper";
 
@@ -227,6 +230,11 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 throw new AuthorizationException(user.getPrincipalName(), "open", null,
                         "User '" + user.getPrincipalName() + "' is not authorized to open view", null);
             }
+
+
+            //get Course details
+            CourseInfo courseInfo = getCourseService().getCourse(courseOfferingInfo.getCourseId(),contextInfo);
+            wrapper.setCourse(courseInfo);
 
             return wrapper;
         } catch (Exception e) {
@@ -452,6 +460,13 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             courseOfferingService = CourseOfferingResourceLoader.loadCourseOfferingService();
         }
         return courseOfferingService;
+    }
+
+    protected CourseService getCourseService() {
+        if (courseService == null) {
+            courseService = CourseOfferingResourceLoader.loadCourseService();
+        }
+        return courseService;
     }
 
     private AcademicCalendarService getAcademicCalendarService() {

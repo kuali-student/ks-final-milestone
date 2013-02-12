@@ -10,6 +10,8 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -79,6 +81,9 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean enableCancelButton = false;
     private boolean enableReinstateButton = false;
     private boolean enableDeleteButton = false;
+
+    //This is needed to display the cross listed courses
+    private CourseInfo course;
 
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
@@ -658,5 +663,29 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setTermRegStartDate(Date termRegStartDate) {
         this.termRegStartDate = termRegStartDate;
+    }
+
+    public CourseInfo getCourse() {
+        return course;
+    }
+
+    public void setCourse(CourseInfo course) {
+        this.course = course;
+    }
+
+    /**
+     * This method returns a list of comma seperated alternate course codes.
+     * This is used in create and edit course offerings screen.
+     * @return
+     */
+    @SuppressWarnings("unused")
+    public String getCrossListedCourseCodes(){
+        StringBuilder builder = new StringBuilder();
+        if (course != null){
+            for (CourseCrossListing crossListing : course.getCrossListings()){
+                builder.append(crossListing.getCode() + ", ");
+            }
+        }
+        return StringUtils.removeEnd(builder.toString(), ", ");
     }
 }
