@@ -430,8 +430,17 @@
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo" />
                     <property name="propertyName" value="formatOfferingList" />
                     <property name="layoutManager.renderSequenceField" value="false" />
+                    <property name="layoutManager.separateAddLine" value="true" />
                     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
                     <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                    <property name="layoutManager.addLineGroup">
+                      <bean parent="Uif-CollectionHorizontalBoxItem" p:style="background-color:#f3f3f3; padding-top:10px; padding-left:10px;">
+                          <property name="header">
+                            <bean parent="Uif-HeaderFour"/>
+                          </property>
+                      </bean>
+                    </property>
+                    <property name="addLineLabel.labelText" value=""/>
                     <property name="layoutManager.richTable.render" value="false" />
                     <property name="addLineActions">
                       <list>
