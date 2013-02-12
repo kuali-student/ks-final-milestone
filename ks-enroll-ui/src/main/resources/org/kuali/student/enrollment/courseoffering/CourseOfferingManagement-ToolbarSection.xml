@@ -80,7 +80,7 @@
     <bean id="KS-CourseOfferingManagement-ToolBar-Add" parent="KS-CourseOfferingManagement-ToolBar-Button">
          <property name="actionLabel" value="Add Course"/>
          <property name="actionImage">
-             <bean parent="Uif-Image" p:source="@{enableAddButton? '../ks-enroll/images/add_enabled.png':'../ks-enroll/images/add_disabled.png'}"/>
+             <bean parent="Uif-Image" p:source="@{enableAddButton ? #ConfigProperties['ks.externalizable.images.url']+'/add_enabled.png' : #ConfigProperties['ks.externalizable.images.url']+'/add_disabled.png'}"/>
          </property>
      </bean>
 
