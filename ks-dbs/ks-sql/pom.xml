@@ -142,15 +142,16 @@
                     <artifactId>maven-resources-plugin</artifactId>
                     <executions>
                         <execution>
+                            <id>copy-data-sql</id>
                             <goals>
                                 <goal>copy-resources</goal>
                             </goals>
-                            <phase>initialize</phase>
+                            <phase>process-resources</phase>
                             <configuration>
-                                <outputDirectory>${project.basedir}/src/main/resources</outputDirectory>
+                                <outputDirectory>${project.basedir}/src/main/resources/impex/sql/${db.vendor}</outputDirectory>
                                 <resources>
                                     <resource>
-                                        <directory>${project.parent.basedir}/${sql.generation.sourceDataModule}/src/main/resources</directory>
+                                        <directory>${project.parent.basedir}/${sql.generation.sourceDataModule}/src/main/resources/impex/sql/${db.vendor}</directory>
                                         <include>${sql.generation.dataFileFilter}</include>
                                     </resource>
                                 </resources>
@@ -163,7 +164,7 @@
                     <artifactId>spring-maven-plugin</artifactId>
                     <executions>
                         <execution>
-                            <id>convertSql</id>
+                            <id>convert-sql</id>
                             <phase>process-resources</phase>
                             <goals>
                                 <goal>load</goal>
@@ -251,8 +252,16 @@
                         <artifactId>mvn-maven-plugin</artifactId>
                     </plugin>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                    </plugin>
+                    <plugin>
                         <groupId>org.kuali.maven.plugins</groupId>
                         <artifactId>metainf-maven-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.kuali.maven.plugins</groupId>
+                        <artifactId>spring-maven-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>
