@@ -66,7 +66,7 @@
                                         <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.creditCnt" />
 
                                         <!--<bean parent="Uif-DataField" p:label="Grading Option" p:propertyName="selectedGradingOptionName" />-->
-                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.gradingOptionId" p:label="Grading Options">
+                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.gradingOptionId" p:id="gradingOptionId" p:label="Grading Options" p:componentSecurity.editAuthz="true">
                                             <property name="optionsFinder">
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.GradingOptionsKeyValues" />
                                             </property>
@@ -274,7 +274,7 @@
     <bean id="KS-CourseOfferingEdit-GradingOptions" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.gradingOptionId" p:label="Grading Options" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.gradingOptionId" p:id="gradingOptionId" p:label="Grading Options" p:fieldLabel.renderColon="false" p:labelPlacement="TOP" p:componentSecurity.editAuthz="true">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl"/>
                     </property>
