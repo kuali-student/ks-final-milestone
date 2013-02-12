@@ -249,17 +249,8 @@
                 <entry key="bStateSave" value="true"/>
                 <entry key="bSortClasses" value="false"/>
                 <entry key="aaSorting" value="[]"/>
-                <entry key="aoColumnDefs"
+                <entry key="aoColumns"
                 	value="[{
-						'aTargets' : [ 0, 1 ],
-						'bSortable' : true,
-						'bSearchable' : true,
-					}, {
-						'aTargets' : [ 2, 3, 4 ],
-						'bSortable' : false,
-						'bSearchable' : true,
-					}, {
-						'aTargets' : [ 5 ],
 						'bSortable' : false,
 						'bSearchable' : false,
 					}]"/>
@@ -325,7 +316,7 @@
         <property name="onDocumentReadyScript" value="
             jq('#facet_quarter')
                 .subscribe('GENERATE_FACETS', function(){
-                    fnGenerateFacetGroup(0, this, terms);
+                    fnGenerateFacetGroup(0, this);
                 })
                 .subscribe('UPDATE_FACETS', function(){
                     fnUpdateFacetList(0, this);
@@ -344,7 +335,7 @@
         <property name="onDocumentReadyScript" value="
             jq('#facet_genedureq')
                 .subscribe('GENERATE_FACETS', function(){
-                    fnGenerateFacetGroup(1, this, alpha);
+                    fnGenerateFacetGroup(1, this);
                 })
                 .subscribe('UPDATE_FACETS', function(){
                     fnUpdateFacetList(1, this);
@@ -363,7 +354,7 @@
         <property name="onDocumentReadyScript" value="
             jq('#facet_credits')
                 .subscribe('GENERATE_FACETS', function(){
-                    fnGenerateFacetGroup(2, this, numeric);
+                    fnGenerateFacetGroup(2, this);
                 })
                 .subscribe('UPDATE_FACETS', function(){
                     fnUpdateFacetList(2, this);
@@ -382,7 +373,7 @@
         <property name="onDocumentReadyScript" value="
             jq('#facet_level')
                 .subscribe('GENERATE_FACETS', function(){
-                    fnGenerateFacetGroup(3, this, numeric);
+                    fnGenerateFacetGroup(3, this);
                 })
                 .subscribe('UPDATE_FACETS', function(){
                     fnUpdateFacetList(3, this);
@@ -401,7 +392,7 @@
         <property name="onDocumentReadyScript" value="
             jq('#facet_curriculum')
                 .subscribe('GENERATE_FACETS', function(){
-                    fnGenerateFacetGroup(4, this, alpha);
+                    fnGenerateFacetGroup(4, this);
                 })
                 .subscribe('UPDATE_FACETS', function(){
                     fnUpdateFacetList(4, this);

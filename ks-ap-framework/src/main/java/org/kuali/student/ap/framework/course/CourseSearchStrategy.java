@@ -1,5 +1,6 @@
 package org.kuali.student.ap.framework.course;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -25,4 +26,7 @@ public interface CourseSearchStrategy {
 
 	String extractDivisions(Map<String, String> divisionMap, String query,
 			List<String> divisions, boolean isSpaceAllowed);
+	
+	List<Comparator<String>> getFacetSort();
+	
 }

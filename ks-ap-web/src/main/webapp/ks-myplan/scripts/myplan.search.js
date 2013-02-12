@@ -1,4 +1,7 @@
-// Override to redefine course search table width 
+var oTable;
+var oFacets = new Object();
+
+// Override to redefine course search table width
 function ksapCourseSearchTableWidth() {
 	return 548;
 }
@@ -6,161 +9,42 @@ function ksapCourseSearchTableWidth() {
 // Override to redefine course search columns
 function ksapCourseSearchColumns() {
 	return [ {
-		'aTargets' : [ 0, 1 ],
 		'bSortable' : true,
 		'bSearchable' : true,
-	}, {
-		'aTargets' : [ 2, 3, 4 ],
-		'bSortable' : false,
-		'bSearchable' : true,
-	}, {
-		'aTargets' : [ 5 ],
-		'bSortable' : false,
-		'bSearchable' : false,
-	}, {
-		'aTargets' : [ 0 ],
 		'sTitle' : 'Code',
 		'sClass' : 'myplan-text-nowrap sortable',
 		'sWidth' : '73px',
 		'sType' : 'string'
 	}, {
-		'aTargets' : [ 1 ],
+		'bSortable' : true,
+		'bSearchable' : true,
 		'sTitle' : 'Course Name',
 		'sClass' : 'sortable',
 		'sWidth' : '170px'
 	}, {
-		'aTargets' : [ 2 ],
+		'bSortable' : false,
+		'bSearchable' : true,
 		'sTitle' : 'Credits',
 		'sWidth' : '34px'
 	}, {
-		'aTargets' : [ 3 ],
+		'bSortable' : false,
+		'bSearchable' : true,
 		'sTitle' : 'Terms Offered',
 		'sClass' : 'myplan-data-list',
 		'sWidth' : '76px'
 	}, {
-		'aTargets' : [ 4 ],
+		'bSortable' : false,
+		'bSearchable' : true,
 		'sTitle' : 'Gen Edu Req',
 		'sWidth' : '66px'
 	}, {
-		'aTargets' : [ 5 ],
+		'bSortable' : false,
+		'bSearchable' : false,
 		'sTitle' : '',
 		'sClass' : 'myplan-status-column',
 		'sWidth' : '69px'
 	} ];
 }
-
-var oTable;
-var oFacets = new Object();
-
-var oProjectedTermOrder = {
-	"AU" : 1,
-	"FA" : 1,
-	"WI" : 2,
-	"SP" : 3,
-	"SU" : 4
-};
-
-var oScheduledTermOrder = {
-	"WI" : 1,
-	"SP" : 2,
-	"SU" : 3,
-	"AU" : 4,
-	"FA" : 4
-};
-
-Object.size = function(obj) {
-	var size = 0, key;
-	for (key in obj) {
-		if (obj.hasOwnProperty(key))
-			size++;
-	}
-	return size;
-};
-
-function numeric(a, b) {
-	if (parseInt(a) > parseInt(b))
-		return 1;
-	else if (parseInt(a) < parseInt(b))
-		return -1;
-	else
-		return 0;
-}
-
-function alpha(a, b) {
-	// Unknown is always last.
-	if (a == 'Unknown' || a == 'None')
-		return 1;
-	if (b == 'Unknown' || b == 'None')
-		return -1;
-	if (a > b)
-		return 1;
-	else if (a < b)
-		return -1;
-	else
-		return 0;
-}
-
-function terms(a, b) {
-	// Unknown is always last.
-	if (a == 'Unknown' || a == 'None')
-		return 1;
-	if (b == 'Unknown' || b == 'None')
-		return -1;
-
-	// If the facet items that end with a year are scheduled terms and should
-	// precede terms.
-	var bYearA = a.match(/.*\d{2}$/gi);
-	var bYearB = b.match(/.*\d{2}$/gi);
-
-	// Two scheduled terms.
-	if (bYearA && bYearB) {
-		var sTermA = a.replace(/\d{2}/gi, "").replace(" ", "").toUpperCase();
-		var sTermB = b.replace(/\d{2}/gi, "").replace(" ", "").toUpperCase();
-		var iYearA = parseInt(a.replace(/\D*/gi, ""));
-		var iYearB = parseInt(b.replace(/\D*/gi, ""));
-
-		if (iYearA != iYearB) {
-			if (iYearA < iYearB)
-				return -1;
-			return 1;
-		} else {
-			if (oScheduledTermOrder[sTermA] < oScheduledTermOrder[sTermB])
-				return -1;
-			else if (oScheduledTermOrder[sTermA] > oScheduledTermOrder[sTermB])
-				return 1;
-			else
-				return 0;
-		}
-	}
-
-	if (bYearA && !bYearB)
-		return -1;
-	if (!bYearA && bYearB)
-		return 1;
-
-	// Two terms.
-	if (!bYearA && !bYearB) {
-		var sTermA = a.replace("Projected ", "").toUpperCase();
-		var sTermB = b.replace("Projected ", "").toUpperCase();
-		if (oProjectedTermOrder[sTermA] < oProjectedTermOrder[sTermB])
-			return -1;
-		else if (oProjectedTermOrder[sTermA] > oProjectedTermOrder[sTermB])
-			return 1;
-		else
-			return 0;
-	}
-}
-
-jQuery.fn.iterateSorted = function(sorter, print) {
-	var keys = [];
-	jQuery.each(this[0], function(key) {
-		keys.push(key);
-	});
-	keys.sort(sorter);
-	for ( var i = 0; i < keys.length; i++) {
-		print(keys[i]);
-	}
-};
 
 /**
  * Perform a course search.
@@ -187,7 +71,7 @@ function searchForCourses(id, parentId) {
 					{
 						aLengthMenu : [ 20, 50, 100 ],
 						aaSorting : [],
-						aoColumnDefs : ksapCourseSearchColumns(),
+						aoColumns : ksapCourseSearchColumns(),
 						bAutoWidth : false,
 						bDeferRender : true,
 						bDestroy : true,
@@ -336,10 +220,11 @@ function fnClickFacet(sFilter, i, e) {
 				oTable.fnFilter('', i, true, false);
 			else {
 				// Build filter regex query
-				var ofl = oFacets.aFacetState[i];
+				var oData = oFacets.aFacetState[i];
 				var aSelections = [];
-				for ( var key in ofl)
-					if (ofl.hasOwnProperty(key) && ofl[key].checked === true)
+				for ( var key in oData)
+					if (oData.hasOwnProperty(key)
+							&& oData[key].checked === true)
 						aSelections.push(";" + key + ";");
 				oTable.fnFilter(aSelections.join('|'), i, true, false);
 			}
@@ -370,10 +255,17 @@ function fnClickFacet(sFilter, i, e) {
  * @param sorter
  *            Function to use for sorting facet keys.
  */
-function fnGenerateFacetGroup(i, obj, sorter) {
+function fnGenerateFacetGroup(i, obj) {
 	var oData = oFacets.aFacetState[i];
 	var jFacets = obj.find(".uif-disclosureContent .uif-boxLayout");
-	if (Object.size(oData) > 1) {
+	var bOne = false; // exactly one facet value
+	var bMore = false; // more than one facet value
+	for (key in oData)
+		if (bMore)
+			continue;
+		else if (oData.hasOwnProperty(key))
+			bMore = !(bOne = !bOne);
+	if (bMore) {
 		jFacets.append(jQuery('<div class="all"><ul /></div>'));
 		var jAll = jQuery('<li />').attr("title", "All")
 				.addClass("all checked").html('<a href="#">All</a>').click(
@@ -383,18 +275,17 @@ function fnGenerateFacetGroup(i, obj, sorter) {
 		jFacets.find(".all ul").append(jAll);
 	}
 	jFacets.append(jQuery('<div class="facets"><ul /></div>'));
-	jQuery(oData).iterateSorted(
-			sorter,
-			function(key) {
-				var jItem = jQuery('<li />').data("facetkey", key).html(
-						'<a href="#">' + key + '</a><span>(' + oData[key].count
-								+ ')</span>').click(function(e) {
-					fnClickFacet(key, i, e);
-				});
-				if (Object.size(oData) == 1)
-					jItem.addClass("static");
-				jFacets.find(".facets ul").append(jItem);
-			});
+	var ful = jFacets.find(".facets ul");
+	for (key in oData) {
+		var jItem = jQuery('<li />').data("facetkey", key).html(
+				'<a href="#">' + key + '</a><span>(' + oData[key].count
+						+ ')</span>').click(function(e) {
+			fnClickFacet(jQuery(this).data("facetkey"), i, e);
+		});
+		if (bOne)
+			jItem.addClass("static");
+		ful.append(jItem);
+	}
 }
 
 /**
@@ -414,11 +305,11 @@ function fnUpdateFacetList(i, obj) {
 	// Update the style on the 'All' facet option (checked if none in the group
 	// are selected, not checked if any are selected)
 	var bAll = true;
-	var ofl = oFacets.aFacetState[i];
-	for ( var key in ofl)
+	var oData = oFacets.aFacetState[i];
+	for ( var key in oData)
 		if (!bAll)
 			continue;
-		else if (ofl.hasOwnProperty(key) && !ofl[key].checked)
+		else if (oData.hasOwnProperty(key) && !oData[key].checked)
 			bAll = false;
 	if (bAll)
 		obj.find("ul li.all").addClass("checked");
@@ -427,8 +318,8 @@ function fnUpdateFacetList(i, obj) {
 	// Update the style (checked/not checked) on facet links and the count view
 	obj.find("li").not(".all").each(function() {
 		var key = jQuery(this).data("facetkey");
-		if (ofl.hasOwnProperty(key)) {
-			var oFcb = ofl[jQuery(this).data("facetkey")];
+		if (oData.hasOwnProperty(key)) {
+			var oFcb = oData[key];
 			if (!bAll && oFcb.checked)
 				jQuery(this).addClass("checked");
 			else

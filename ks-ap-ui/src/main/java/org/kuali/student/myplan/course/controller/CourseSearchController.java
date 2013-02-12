@@ -364,11 +364,14 @@ public class CourseSearchController extends UifControllerBase {
 				facetState = Collections.emptyList();
 			else {
 				int nFacetColumns = searchResults.iterator().next().facetColumns.length;
+				assert nFacetColumns == searcher.getFacetSort().size() : nFacetColumns
+						+ " != " + searcher.getFacetSort().size();
 				List<Map<String, FacetState>> facetStateMap = new java.util.ArrayList<Map<String, FacetState>>(
 						nFacetColumns);
 				for (int i = 0; i < nFacetColumns; i++)
 					facetStateMap
-							.add(new java.util.LinkedHashMap<String, FacetState>());
+							.add(new java.util.TreeMap<String, FacetState>(
+									searcher.getFacetSort().get(i)));
 				for (SearchInfo row : searchResults) {
 					// Validate that the number of facet columns is uniform
 					// across all search rows
@@ -491,6 +494,7 @@ public class CourseSearchController extends UifControllerBase {
 		 *            The facet column the click is related to.
 		 */
 		private void facetClick(String key, int i) {
+			LOG.debug("Facet click " + key + " " + i);
 			Map<String, FacetState> fsm = facetState.get(i);
 			if ("All".equals(key))
 				for (FacetState fs : fsm.values())
@@ -542,6 +546,7 @@ public class CourseSearchController extends UifControllerBase {
 		}
 
 		private void facetClickAll() {
+			LOG.debug("Facet click all");
 			if (oneClick) {
 				for (int i = 0; i < facetState.size(); i++)
 					for (FacetState fs : facetState.get(i).values())
@@ -978,8 +983,8 @@ public class CourseSearchController extends UifControllerBase {
 		String jsonString = mapper.writeValueAsString(json);
 		if (LOG.isDebugEnabled())
 			LOG.debug("JSON output : "
-					+ (jsonString.length() < 512 ? jsonString : jsonString
-							.substring(0, 512)));
+					+ (jsonString.length() < 8192 ? jsonString : jsonString
+							.substring(0, 8192)));
 
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "No-cache");
@@ -1020,8 +1025,8 @@ public class CourseSearchController extends UifControllerBase {
 		String jsonString = mapper.writeValueAsString(oFacets);
 		if (LOG.isDebugEnabled())
 			LOG.debug("JSON output : "
-					+ (jsonString.length() < 512 ? jsonString : jsonString
-							.substring(0, 512)));
+					+ (jsonString.length() < 8192 ? jsonString : jsonString
+							.substring(0, 8192)));
 
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "No-cache");
