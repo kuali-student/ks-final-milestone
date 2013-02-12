@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ks-ap-api</artifactId>
-		<version>0.2.1-KSAP-SNAPSHOT</version>
+		<version>0.3.4-KSAP-SNAPSHOT</version>
     <name>KSAP API</name>
     <description>KSAP API</description>
 
