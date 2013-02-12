@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.util.ArrayList;
@@ -55,6 +56,8 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
     private String gradingOption;
 
     private String termName;
+
+    private SocInfo socInfo;
 
     public CourseOfferingEditWrapper(){
         formatOfferingList = new ArrayList<FormatOfferingInfo>();
@@ -235,6 +238,14 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
             adminOrgMap.put("org",org);
         }
         return  adminOrgMap;
+    }
+
+    public SocInfo getSocInfo() {
+        return socInfo;
+    }
+
+    public void setSocInfo(SocInfo socInfo) {
+        this.socInfo = socInfo;
     }
 
 }
