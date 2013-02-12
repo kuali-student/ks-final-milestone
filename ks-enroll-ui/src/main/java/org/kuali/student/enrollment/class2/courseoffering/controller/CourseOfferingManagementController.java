@@ -605,7 +605,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         newWrapper.setGrading(getGradingOption(courseOffering.getGradingOptionId()));
         copyWrapper.getExistingOfferingsInCurrentTerm().add(newWrapper);
         // reload the COs
-        getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(copyWrapper.getTermId(), theForm.getSubjectCode(), theForm);
+        reloadCourseOfferings(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
 
@@ -695,6 +695,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         String termId = form.getTermInfo().getId();
         form.setInputCode(form.getSubjectCode());
         getViewHelperService(form).loadCourseOfferingsByTermAndSubjectCode(termId, form.getSubjectCode(), form);
+
 //        form.setSubjectCode(subjectCode);
         String longNameDescr = getOrgNameDescription(form.getSubjectCode());
         form.setSubjectCodeDescription(longNameDescr);
@@ -702,6 +703,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         //side effect of the authorization.
 //        form.setTheCourseOffering(null);
         form.setCurrentCourseOfferingWrapper(null);
+        ToolbarUtil.processCoToolbarForUser(form.getCourseOfferingResultList(), form);
         return getUIFModelAndView(form, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
 
@@ -715,7 +717,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             CourseOfferingResourceLoader.loadCourseOfferingService().copyActivityOffering(selectedAO.getAoInfo().getId(), ContextBuilder.loadContextInfo());
 
             //reload AOs including the new one just created
-            getViewHelperService(form).loadActivityOfferingsByCourseOffering(form.getCurrentCourseOfferingWrapper().getCourseOfferingInfo(), form);
+            reloadActivityOffering(form);
         }catch (Exception e){
             throw new RuntimeException(e);
         }

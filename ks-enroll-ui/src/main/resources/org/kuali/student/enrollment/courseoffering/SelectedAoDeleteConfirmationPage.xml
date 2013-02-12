@@ -45,7 +45,7 @@
             <list>
                 <bean id="KS-SelectedAoDeleteConfirmation-Message" parent="Uif-VerticalBoxSection">
                     <property name="headerText"
-                              value="@{courseOfferingCode} - @{currentCourseOfferingWrapper.courseOfferingTitle}"/>
+                              value="@{courseOfferingCopyWrapper.courseOfferingCode} - @{currentCourseOfferingWrapper.courseOfferingTitle}"/>
                     <property name="header">
                         <bean parent="Uif-HeaderFour"/>
                     </property>
