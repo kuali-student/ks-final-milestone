@@ -5,17 +5,24 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!--
+        UX : http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Complex%20Course%20Offerings/Sandbox/start.html
+            CO: 4.0. AO:4.3
+
+        These are HorizontalBoxSections containing toolbar in manage CO and AO pages.
+    -->
+
     <bean id="KS-CourseOfferingManagement-CO-ToolBarSection" parent="Uif-HorizontalBoxSection">
         <property name="items">
           <list>
-            <bean parent="Uif-HorizontalBoxGroup" p:style="padding-right: 20px">
+            <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                 <property name="items">
                     <list>
                         <bean id="KS-CourseOfferingManagement-ToolBar-Add-CO" parent="KS-CourseOfferingManagement-ToolBar-Add" p:methodToCall="createCourseOffering" p:disabled="@{!enableAddButton}"/>
                     </list>
                 </property>
             </bean>
-            <bean parent="Uif-HorizontalBoxGroup" p:style="padding-right: 20px">
+            <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                 <property name="items">
                     <list>
                         <bean id="KS-CourseOfferingManagement-ToolBar-Approve-CO" parent="KS-CourseOfferingManagement-ToolBar-Approve"
@@ -23,12 +30,12 @@
                     </list>
                 </property>
             </bean>
-            <bean parent="Uif-HorizontalBoxGroup" p:style="padding-right: 20px">
+            <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                 <property name="items">
                     <list>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-CO" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendCOs" p:render="true"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-CO" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelCOs"  p:render="true"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-CO" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateCOs"  p:render="true"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-CO" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendCOs"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-CO" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelCOs"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-CO" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateCOs"/>
                         <bean id="KS-CourseOfferingManagement-ToolBar-Delete-CO" parent="KS-CourseOfferingManagement-ToolBar-Delete"  p:methodToCall="deleteCOs"/>
                     </list>
                 </property>
@@ -40,7 +47,7 @@
     <bean id="KS-CourseOfferingManagement-AO-ToolBarSection" parent="Uif-HorizontalBoxSection" p:render="@{!currentCourseOfferingWrapper.crossListed}">
         <property name="items">
           <list>
-            <bean parent="Uif-HorizontalBoxGroup" p:style="padding-right: 20px">
+            <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                 <property name="items">
                     <list>
                         <bean id="KS-CourseOfferingManagement-ToolBar-Add-AO" parent="KS-CourseOfferingManagement-ToolBar-Add" p:actionLabel="Add Activity"
@@ -48,7 +55,7 @@
                     </list>
                 </property>
             </bean>
-            <bean parent="Uif-HorizontalBoxGroup" p:style="padding-right: 20px">
+            <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                 <property name="items">
                     <list>
                         <bean id="KS-CourseOfferingManagement-ToolBar-Approve-AO" parent="KS-CourseOfferingManagement-ToolBar-Approve" p:methodToCall="approveAOs" p:render="@{hasAO}"/>
@@ -56,7 +63,7 @@
                     </list>
                 </property>
             </bean>
-            <bean parent="Uif-HorizontalBoxGroup" p:style="padding-right: 20px">
+            <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                 <property name="items">
                     <list>
                         <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-AO" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendAOs" p:render="@{hasAO}"/>
@@ -73,56 +80,56 @@
     <bean id="KS-CourseOfferingManagement-ToolBar-Add" parent="KS-CourseOfferingManagement-ToolBar-Button">
          <property name="actionLabel" value="Add Course"/>
          <property name="actionImage">
-             <bean parent="Uif-Image" p:source="@{enableAddButton? '../ks-enroll/images/add_enabled.png':'../ks-enroll/images/add_disabled.png'}"/>
+             <bean parent="Uif-Image" p:source="@{enableAddButton? '@{#ConfigProperties[&quot;ks.externalizable.images.url&quot;]}/add_enabled.png':'@{#ConfigProperties[&quot;ks.externalizable.images.url&quot;]}/add_disabled.png'}"/>
          </property>
      </bean>
 
      <bean id="KS-CourseOfferingManagement-ToolBar-Approve" parent="KS-CourseOfferingManagement-ToolBar-Button">
          <property name="actionLabel" value="Approve"/>
          <property name="actionImage">
-             <bean parent="Uif-Image" p:source="../ks-enroll/images/approve_disabled.png"/>
+             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/approve_disabled.png"/>
          </property>
      </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Suspend" parent="KS-CourseOfferingManagement-ToolBar-Button">
         <property name="actionLabel" value="Suspend"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="../ks-enroll/images/suspend_disabled.png"/>
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/suspend_disabled.png"/>
         </property>
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Cancel" parent="KS-CourseOfferingManagement-ToolBar-Button">
          <property name="actionLabel" value="Cancel"/>
          <property name="actionImage">
-             <bean parent="Uif-Image" p:source="../ks-enroll/images/cancel_disabled.png"/>
+             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cancel_disabled.png"/>
          </property>
      </bean>
 
      <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate" parent="KS-CourseOfferingManagement-ToolBar-Button">
          <property name="actionLabel" value="Reinstate"/>
          <property name="actionImage">
-             <bean parent="Uif-Image" p:source="../ks-enroll/images/reinstate_disabled.png"/>
+             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/reinstate_disabled.png"/>
          </property>
      </bean>
 
      <bean id="KS-CourseOfferingManagement-ToolBar-Delete" parent="KS-CourseOfferingManagement-ToolBar-Button">
          <property name="actionLabel" value="Delete"/>
          <property name="actionImage">
-             <bean parent="Uif-Image" p:source="../ks-enroll/images/delete_disabled.png"/>
+             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/delete_disabled.png"/>
          </property>
      </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Draft" parent="KS-CourseOfferingManagement-ToolBar-Button">
         <property name="actionLabel" value="Set as Draft"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="../ks-enroll/images/draft_disabled.png"/>
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/draft_disabled.png"/>
         </property>
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Copy" parent="KS-CourseOfferingManagement-ToolBar-Button">
         <property name="actionLabel" value="Copy"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="../ks-enroll/images/copy_disabled.png"/>
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/copy_disabled.png"/>
         </property>
     </bean>
 
@@ -134,4 +141,6 @@
             </list>
         </property>
     </bean>
+
+    <bean id="KS-HorizontalBoxGroup-WithRPadding" parent="Uif-HorizontalBoxGroup" p:style="padding-right: 20px" />
 </beans>
