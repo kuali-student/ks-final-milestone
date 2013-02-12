@@ -22,6 +22,9 @@
         NM="kuali.krms.rule.type.course.academicReadiness.coreq"
         NMSPC_CD="KS-SYS" SRVC_NM="ruleTypeService" TYP_ID="10006" VER_NBR="0"/>
     <KRMS_TYP_T ACTV="Y"
+        NM="kuali.krms.rule.type.course.academicReadiness.prereq"
+        NMSPC_CD="KS-SYS" SRVC_NM="ruleTypeService" TYP_ID="10007" VER_NBR="0"/>
+    <KRMS_TYP_T ACTV="Y"
         NM="kuali.krms.rule.type.course.recommendedPreparation"
         NMSPC_CD="KS-SYS" SRVC_NM="ruleTypeService" TYP_ID="10008" VER_NBR="0"/>
     <KRMS_TYP_T ACTV="Y"

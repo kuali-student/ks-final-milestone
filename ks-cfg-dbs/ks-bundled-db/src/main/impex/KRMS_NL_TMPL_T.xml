@@ -179,6 +179,8 @@
         TMPL="Antirequisite" TYP_ID="10005" VER_NBR="0"/>
     <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10062" NL_USAGE_ID="10004"
         TMPL="Corequisite" TYP_ID="10006" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10063" NL_USAGE_ID="10004"
+        TMPL="Prerequisite" TYP_ID="10007" VER_NBR="0"/>
     <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10064" NL_USAGE_ID="10004"
         TMPL="Student Eligibility" TYP_ID="10009" VER_NBR="0"/>
     <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10065" NL_USAGE_ID="10004"
