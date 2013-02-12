@@ -1,0 +1,261 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.kuali.student.db</groupId>
+        <artifactId>ks-dbs</artifactId>
+        <version>2.0.0-spring-db-SNAPSHOT</version>
+    </parent>
+    <groupId>org.kuali.student.db</groupId>
+    <artifactId>ks-sql</artifactId>
+    <version>2.0.0-spring-db-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>KS SQL</name>
+    <description>Kuali Student SQL</description>
+    <modules>
+        <module>ks-sql-oracle</module>
+        <module>ks-sql-mysql</module>
+    </modules>
+    <properties>
+        <!-- Settings needed for separate executions of the meta-inf plugin -->
+        <metainf.schema>impex/sql/${db.vendor}/${sql.generation.xmlModule}.sql</metainf.schema>
+        <metainf.data>impex/sql/${db.vendor}/K*.sql</metainf.data>
+        <metainf.constraints>impex/sql/${db.vendor}/${sql.generation.xmlModule}-constraints.sql</metainf.constraints>
+        <!-- Base of output path for meta-inf files -->
+        <metainf.output>${project.build.outputDirectory}/META-INF/sql/${db.vendor}/${project.artifactId}</metainf.output>
+
+        <sql.generation.basedir>${project.basedir}</sql.generation.basedir>
+        <!-- This property holds the top of the output folder for the sql generation plugin -->
+        <sql.generation.outputDir>${project.basedir}/src/main/resources/impex/sql</sql.generation.outputDir>
+
+        <sql.generation.xmlModule>ks-impex-${sql.generation.moduleName}-db</sql.generation.xmlModule>
+        <sql.generation.xmlModulePath>${project.basedir}/../../../ks-impex/ks-impex-${sql.generation.moduleName}-db</sql.generation.xmlModulePath>
+
+        <sql.generation.pom>classpath:org/kuali/common/deploy/mvn/impex-with-sql-plus-meta.xml</sql.generation.pom>
+
+        <!-- Override the paths for the meta-inf plugin to capture the generated sql locations -->
+        <sql.meta.input.base>${project.basedir}/src/main/resources</sql.meta.input.base>
+
+        <!-- The name of the module that generates the data sql used by all other modules.
+            ks-sql-*-app-db and ks-sql-*-rice-db copy matching data sql files from this source module.
+         -->
+        <sql.generation.sourceDataModule>ks-sql-${db.vendor}-bundled-db</sql.generation.sourceDataModule>
+
+        <!-- Spring context that converts generated sql into batch inserts -->
+        <sql.convert.context>classpath:org/kuali/common/jdbc/sql-conversion-${db.vendor}-context.xml</sql.convert.context>
+
+        <!--- TEMP DO NOT KEEP TODO -->
+        <kuali-deploy.version>2.1.2</kuali-deploy.version>
+    </properties>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.kuali.maven.plugins</groupId>
+                    <artifactId>mvn-maven-plugin</artifactId>
+                    <version>${plugin.mvn.version}</version>
+                    <executions>
+                        <execution>
+                            <id>sql</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>mvn</goal>
+                            </goals>
+                            <configuration>
+                                <args>
+                                    <arg>process-resources</arg>
+                                    <arg>-e</arg>
+                                    <arg>-DantCompatibilityMode=${impex.antCompatibilityMode}</arg>
+                                    <arg>-Dimpex.oracle.phase=${sql.oracle.generationPhase}</arg>
+                                    <arg>-Dimpex.mysql.phase=${sql.mysql.generationPhase}</arg>
+                                    <arg>-Dimpex.ant.dir=${sql.generation.xmlModulePath}/src/main/resources</arg>
+                                    <arg>-Dimpex.basedir=${sql.generation.basedir}</arg>
+                                    <arg>-Dimpex.schema.name=${sql.generation.xmlModule}</arg>
+                                    <arg>-Dimpex.mvn.sql=${sql.generation.outputDir}</arg>
+                                    <arg>-Dimpex.context.path=${sql.generation.xmlModule}/target/reports/context.datadtd.properties</arg>
+                                    <arg>-Dimpex.report.file=report.${project.artifactId}.datadtd.generation</arg>
+                                    <arg>-Dimpex.mvn.dtd=${sql.generation.xmlModulePath}/target/generated-impex/${sql.generation.xmlModule}.dtd</arg>
+                                </args>
+                                <poms>
+                                    <param>${sql.generation.pom}</param>
+                                </poms>
+                            </configuration>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.kuali.common</groupId>
+                            <artifactId>kuali-deploy</artifactId>
+                            <version>${kuali-deploy.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.kuali.student.deployments</groupId>
+                            <artifactId>ks-deployment-resources</artifactId>
+                            <version>${ks.deployments.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>org.kuali.maven.plugins</groupId>
+                    <artifactId>metainf-maven-plugin</artifactId>
+                    <configuration>
+                        <baseDir>${project.basedir}/src/main/resources</baseDir>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>schema</id>
+                            <goals>
+                                <goal>metainf</goal>
+                            </goals>
+                            <phase>process-resources</phase>
+                            <configuration>
+                                <include>${metainf.schema}</include>
+                                <outputFile>${metainf.output}-schema.resources</outputFile>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>data</id>
+                            <goals>
+                                <goal>metainf</goal>
+                            </goals>
+                            <phase>process-resources</phase>
+                            <configuration>
+                                <include>${metainf.data}</include>
+                                <outputFile>${metainf.output}-data.resources</outputFile>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>constraints</id>
+                            <goals>
+                                <goal>metainf</goal>
+                            </goals>
+                            <phase>process-resources</phase>
+                            <configuration>
+                                <include>${metainf.constraints}</include>
+                                <outputFile>${metainf.output}-constraints.resources</outputFile>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>copy-resources</goal>
+                            </goals>
+                            <phase>initialize</phase>
+                            <configuration>
+                                <outputDirectory>${project.basedir}/src/main/resources</outputDirectory>
+                                <resources>
+                                    <resource>
+                                        <directory>${project.parent.basedir}/${sql.generation.sourceDataModule}/src/main/resources</directory>
+                                        <include>${sql.generation.dataFileFilter}</include>
+                                    </resource>
+                                </resources>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.kuali.maven.plugins</groupId>
+                    <artifactId>spring-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>convertSql</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>load</goal>
+                            </goals>
+                            <configuration>
+                                <location>${sql.convert.context}</location>
+                            </configuration>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.kuali.common</groupId>
+                            <artifactId>kuali-deploy</artifactId>
+                            <version>${kuali-deploy.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.kuali.common</groupId>
+                            <artifactId>kuali-jdbc</artifactId>
+                            <version>${kuali-jdbc.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.kuali.common</groupId>
+                            <artifactId>kuali-util</artifactId>
+                            <version>${kuali-util.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+    <profiles>
+        <profile>
+            <id>db</id>
+            <properties>
+                <!-- Schemas -->
+                <sql.meta.base>classpath:META-INF/sql/${db.vendor}/${project.artifactId}</sql.meta.base>
+
+                <!-- SQL resources -->
+                <sql.schema.list>${sql.meta.base}-schema.resources</sql.schema.list>
+                <sql.data.list>${sql.meta.base}-data.resources</sql.data.list>
+                <sql.constraints.list>${sql.meta.base}-constraints.resources</sql.constraints.list>
+
+                <!-- Controller properties -->
+                <sql.schema.concurrent>sql.schema.list</sql.schema.concurrent>
+                <sql.data.concurrent>sql.data.list</sql.data.concurrent>
+                <sql.constraints.concurrent>sql.constraints.list</sql.constraints.concurrent>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.kuali.maven.plugins</groupId>
+                        <artifactId>spring-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>impex-generate-sql</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.kuali.maven.plugins</groupId>
+                        <artifactId>mvn-maven-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.kuali.maven.plugins</groupId>
+                        <artifactId>metainf-maven-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.kuali.maven.plugins</groupId>
+                        <artifactId>spring-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>impex-generate-sql-copy-data</id>
+            <properties>
+                <sql.generation.pom>classpath:org/kuali/common/deploy/mvn/impex-schema-only-plus-meta.xml</sql.generation.pom>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.kuali.maven.plugins</groupId>
+                        <artifactId>mvn-maven-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.kuali.maven.plugins</groupId>
+                        <artifactId>metainf-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
