@@ -105,6 +105,7 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
             holidayInfo.setStartDate(holidayWrapper.getStartDate());
             holidayInfo.setName(holidayWrapper.getTypeName());
             holidayInfo.setStartDate(getStartDateWithUpdatedTime(holidayWrapper,true));
+            holidayInfo.setTypeKey(holidayWrapper.getTypeKey());
             setHolidayEndDate(holidayWrapper);
 
             if (StringUtils.isBlank(holidayInfo.getId())){
