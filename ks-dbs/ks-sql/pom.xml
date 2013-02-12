@@ -42,7 +42,8 @@
         <sql.generation.sourceDataModule>ks-sql-${db.vendor}-bundled-db</sql.generation.sourceDataModule>
 
         <!-- Spring context that converts generated sql into batch inserts -->
-        <sql.convert.context>classpath:org/kuali/common/jdbc/sql-conversion-${db.vendor}-context.xml</sql.convert.context>
+        <sql.convert.context>classpath:org/kuali/common/jdbc/sql-conversion-configurable-context.xml</sql.convert.context>
+        <sql.convert.vendor>${db.vendor}</sql.convert.vendor>
 
         <!--- TEMP DO NOT KEEP TODO -->
         <kuali-deploy.version>2.1.2</kuali-deploy.version>
@@ -258,10 +259,6 @@
                     <plugin>
                         <groupId>org.kuali.maven.plugins</groupId>
                         <artifactId>metainf-maven-plugin</artifactId>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.kuali.maven.plugins</groupId>
-                        <artifactId>spring-maven-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>
