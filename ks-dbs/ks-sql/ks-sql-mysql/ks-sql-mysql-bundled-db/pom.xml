@@ -13,6 +13,7 @@
     <name>KS SQL MySQL Bunlded</name>
     <description>Kuali Student SQL MySQL Bundled Config</description>
     <properties>
+        <jdbc.username>KSBUNDLED${db.branch.qualifier}</jdbc.username>
         <sql.generation.moduleName>bundled</sql.generation.moduleName>
         <sql.generation.dataFileFilter>K*.sql</sql.generation.dataFileFilter>
     </properties>

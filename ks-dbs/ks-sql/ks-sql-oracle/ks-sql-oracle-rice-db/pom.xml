@@ -13,6 +13,7 @@
     <name>KS SQL Oracle Rice</name>
     <description>Kuali Student SQL Oracle Rice Config</description>
     <properties>
+        <jdbc.username>KSRICE${db.branch.qualifier}</jdbc.username>
         <sql.generation.moduleName>rice</sql.generation.moduleName>
         <sql.generation.dataFileFilter>KR*.sql</sql.generation.dataFileFilter>
     </properties>

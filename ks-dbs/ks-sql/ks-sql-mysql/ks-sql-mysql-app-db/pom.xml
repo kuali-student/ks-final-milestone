@@ -13,6 +13,7 @@
     <name>KS SQL MySQL App</name>
     <description>Kuali Student SQL MySQL App Config</description>
     <properties>
+        <jdbc.username>KSAPP${db.branch.qualifier}</jdbc.username>
         <sql.generation.moduleName>app</sql.generation.moduleName>
         <sql.generation.dataFileFilter>KS*.sql</sql.generation.dataFileFilter>
     </properties>
