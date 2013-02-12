@@ -3588,9 +3588,6 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BSCI440','BSCI','7ad36fdb-2921-4b11-8de9-84cc53298cba','Mammalian Physiology','400','d9d8a5fd-fc44-4b31-ba88-44b2628f2740','MAMMALIAN PHYSIOLOGY','Superseded','440','kuali.lu.type.CreditCourse.identifier.official',3)
 /
-INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('WMST453','WMST','7af7c341-c45c-4ad1-852e-705d44c5164c','Victorian Women in England, France, and the United States','400','35579495-7756-4cd3-a7b4-5f27d1b7590a','VICTORIAN WOMEN','Superseded','453','kuali.lu.type.CreditCourse.identifier.official',2)
-/
 INSERT INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('1105B','7afb6762-aa0f-40a4-a9bb-a55f2172b6d1','c9e06712-400c-4468-ba75-471539e8bc42','Spanish Language & Literature w/ Business','Active','kuali.lu.type.program.identifier.diploma',0)
 /
@@ -5066,9 +5063,6 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('PHYS272','PHYS','b07b6dc8-b782-4a97-92ca-1f5856992af0','Introductory Physics:  Thermodynamics, Electricity, and Magnetism','200','11337f4e-cf70-4fc2-9b86-83a7ae20ea26','INTRO:THERM ELEC&MAG','Superseded','272','kuali.lu.type.CreditCourse.identifier.official',4)
-/
-INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('WMST453','WMST','b07c4c02-846e-411c-ae0b-f00b622b60c7','Victorian Women in England, France, and the United States','400','a7ba3717-e4d9-4ec7-8fed-950a3e8e85f7','VICTORIAN WOMEN','Active','453','kuali.lu.type.CreditCourse.identifier.official',6)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('HIST314','HIST','b08d5925-95a3-4454-ab42-f59fc20b0bde','Crisis and Change in the Middle East and Africa','300','d42d5348-c75f-476d-aa56-fc4f20555529','CR+CH M EAST+AFRCA','Superseded','314','kuali.lu.type.CreditCourse.identifier.official',2)
