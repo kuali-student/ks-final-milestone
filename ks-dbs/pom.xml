@@ -26,6 +26,9 @@
         <!-- All impex configurations need to have Ant compatibility mode -->
         <impex.antCompatibilityMode>true</impex.antCompatibilityMode>
 
+        <!-- Set this to something that is unique per KS branch -->
+        <db.branch.qualifier>_SPRING</db.branch.qualifier>
+
     </properties>
     <build>
         <pluginManagement>
