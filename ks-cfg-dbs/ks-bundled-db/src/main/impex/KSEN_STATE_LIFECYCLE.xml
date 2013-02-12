@@ -81,6 +81,10 @@
         DESCR_PLAIN="kuali.lpr.lifecycle.instructor.course.assignment state lifecycle"
         ID="kuali.lpr.lifecycle.instructor.course.assignment"
         NAME="kuali.lpr.lifecycle.instructor.course.assignment" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="1" CREATETIME="20130125093600"
+        DESCR_FORMATTED="kuali.luiset.lifecycle state lifecycle"
+        DESCR_PLAIN="kuali.luiset.lifecycle state lifecycle"
+        ID="kuali.luiset.lifecycle" NAME="kuali.luiset.lifecycle" VER_NBR="0"/>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="19700101000000"
         DESCR_PLAIN="kuali milestone state process"
@@ -116,6 +120,26 @@
         ID="kuali.process.process.lifecycle"
         NAME="kuali.process.process.lifecycle" VER_NBR="1"/>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20121215000000"
+        DESCR_FORMATTED="Lifecycle for building"
+        DESCR_PLAIN="Lifecycle for building"
+        ID="kuali.room.building.lifecycle" NAME="Lifecycle for building" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20121215000000"
+        DESCR_FORMATTED="Lifecycle for facility"
+        DESCR_PLAIN="Lifecycle for facility"
+        ID="kuali.room.facility.lifecycle" NAME="Lifecycle for facility" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20121217000000"
+        DESCR_FORMATTED="Lifecycle for Room Responsible Org"
+        DESCR_PLAIN="Lifecycle for Room Responsible Org"
+        ID="kuali.room.responsible.org.lifecycle"
+        NAME="Lifecycle for Room Responsible Org" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20121215000000" DESCR_FORMATTED="Lifecycle for room"
+        DESCR_PLAIN="Lifecycle for room" ID="kuali.room.room.lifecycle"
+        NAME="Lifecycle for room" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="20120813000000"
         DESCR_FORMATTED="kuali.scheduling.schedule.request.lifecycle state lifecycle"
         DESCR_PLAIN="kuali.scheduling.schedule.request.lifecycle state lifecycle"
@@ -139,4 +163,22 @@
         DESCR_PLAIN="Set of Courses Scheduling State Lifecycle"
         ID="kuali.soc.scheduling.process"
         NAME="kuali.soc.scheduling.process" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20121102000000"
+        DESCR_FORMATTED="State Change Lifecycle"
+        DESCR_PLAIN="state change lifecycle"
+        ID="kuali.state.change.lifecycle"
+        NAME="kuali.state.change.lifecycle" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20121102000000"
+        DESCR_FORMATTED="State constraint Lifecycle"
+        DESCR_PLAIN="state constraint lifecycle"
+        ID="kuali.state.constraint.lifecycle"
+        NAME="kuali.state.constraint.lifecycle" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20121102000000"
+        DESCR_FORMATTED="State Propagation Lifecycle"
+        DESCR_PLAIN="state Propagation lifecycle"
+        ID="kuali.state.propagation.lifecycle"
+        NAME="kuali.state.propagation.lifecycle" VER_NBR="1"/>
 </dataset>
