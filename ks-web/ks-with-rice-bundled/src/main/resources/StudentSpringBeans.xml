@@ -64,6 +64,12 @@
                 <value>classpath:ks-RoomInfo-dictionary.xml</value>
                 <value>classpath:ks-BuildingInfo-dictionary.xml</value>
                 <value>classpath:ks-RoomResponsibleOrgInfo-dictionary.xml</value>
+                <value>classpath:ks-AcademicCalendarInfo-dictionary.xml</value>
+                <value>classpath:ks-HolidayCalendarInfo-dictionary.xml</value>
+                <value>classpath:ks-TermInfo-dictionary.xml</value>
+                <value>classpath:ks-HolidayInfo-dictionary.xml</value>
+                <value>classpath:ks-KeyDateInfo-dictionary.xml</value>
+
 
                 <!-- KIM Attributes -->
                 <value>classpath:org/kuali/rice/student/bo/KualiStudentKimAttributes.xml</value>
