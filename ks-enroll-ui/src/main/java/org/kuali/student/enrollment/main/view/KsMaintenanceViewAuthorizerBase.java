@@ -147,10 +147,11 @@ public class KsMaintenanceViewAuthorizerBase extends MaintenanceViewAuthorizerBa
             roleQualifications.putAll(componentSecurity.getAdditionalRoleQualifiers());
         }
 
-        // Permission for Activity Offering form
+        // Permissions based on socState (for CO and AO), and term registration start date (for AO)
         if (component instanceof Field) {
             if (dataObjectForContext instanceof ActivityOfferingWrapper) {
                 ActivityOfferingWrapper theForm = (ActivityOfferingWrapper) dataObjectForContext;
+                // Term Registration Start Date
                 Date termRegStartDate = theForm.getTermRegStartDate();
                 if (termRegStartDate != null) {
                     Date now = new Date();
@@ -158,6 +159,17 @@ public class KsMaintenanceViewAuthorizerBase extends MaintenanceViewAuthorizerBa
                         permissionDetails.put("termRegStartDateLater", "true");
                     }
                 }
+                // SOC State
+                String socState = theForm.getSocInfo().getStateKey();
+                socState = socState==null?null:socState.substring(socState.lastIndexOf('.')+1);
+                permissionDetails.put("socState", socState);
+            }
+            if (dataObjectForContext instanceof CourseOfferingEditWrapper) {
+                CourseOfferingEditWrapper theForm = (CourseOfferingEditWrapper) dataObjectForContext;
+                // SOC State
+                String socState = theForm.getSocInfo().getStateKey();
+                socState = socState==null?null:socState.substring(socState.lastIndexOf('.')+1);
+                permissionDetails.put("socState", socState);
             }
         }
 
