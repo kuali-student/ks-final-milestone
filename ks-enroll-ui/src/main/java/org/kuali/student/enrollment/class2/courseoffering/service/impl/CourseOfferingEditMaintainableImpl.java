@@ -37,10 +37,13 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
@@ -77,6 +80,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
     private transient OrganizationService organizationService;
     private transient LRCService lrcService;
     private transient AcademicCalendarService acalService;
+    private transient CourseOfferingSetService courseOfferingSetService;
 
     //TODO : implement the functionality for Personnel section and its been delayed now since the backend implementation is not yet ready (06/06/2012).
 
@@ -447,6 +451,17 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 String termStartEnd = termInfo.getName() + " (" + termStartDate + " to " +termEndDate + ")";
                 formObject.setTermStartEnd(termStartEnd);
 
+                // Set socInfo
+                List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(coInfo.getTermId(), ContextUtils.createDefaultContextInfo());
+                 if (socIds != null && !socIds.isEmpty()){
+                    //For M5, it should have only one SOC
+                    if (socIds.size() > 1){
+                        throw new RuntimeException("More than one SOC found for a term");
+                    }
+                    SocInfo soc = getCourseOfferingSetService().getSoc(socIds.get(0),ContextUtils.createDefaultContextInfo());
+                    formObject.setSocInfo(soc);
+                }
+
                 document.getNewMaintainableObject().setDataObject(formObject);
                 document.getOldMaintainableObject().setDataObject(formObject);
                 document.getDocumentHeader().setDocumentDescription("Edit CO - " + coInfo.getCourseOfferingCode());
@@ -506,6 +521,13 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acal", "AcademicCalendarService"));
         }
         return this.acalService;
+    }
+
+    protected CourseOfferingSetService getCourseOfferingSetService(){
+        if (courseOfferingSetService == null){
+            courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return courseOfferingSetService;
     }
 
 }
