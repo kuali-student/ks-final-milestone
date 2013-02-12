@@ -9,7 +9,7 @@
     <groupId>org.kuali.student.db</groupId>
     <artifactId>ks-sql-mysql-bundled-db</artifactId>
     <version>2.0.0-spring-db-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <name>KS SQL MySQL Bunlded</name>
     <description>Kuali Student SQL MySQL Bundled Config</description>
     <properties>
