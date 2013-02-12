@@ -1499,7 +1499,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<ValidationResultInfo> validateAcademicCalendar(String validationTypeKey, String academicCalendarTypeKey, AcademicCalendarInfo academicCalendarInfo, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -1606,7 +1606,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<ValidationResultInfo> validateHolidayCalendar(String validationTypeKey, String holidayCalendarTypeKey, HolidayCalendarInfo holidayCalendarInfo, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -1696,7 +1696,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<ValidationResultInfo> validateKeyDate(String validationTypeKey, String termId, String keyDateTypeKey, KeyDateInfo keyDateInfo, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -2084,7 +2084,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<ValidationResultInfo> validateHoliday(String validationTypeKey, String holidayCalendarId, String holidayTypeKey, HolidayInfo holidayInfo, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override

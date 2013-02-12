@@ -946,8 +946,16 @@
          <entry key="kuali.atp:kuali.milestone" value-ref="atpToMilestoneRelatedObjectHelper"/>
      </util:map>
 
+    <alias name="acalServiceValidation" alias="acalService"/>
+
+    <bean id="acalServiceValidation"
+          class="org.kuali.student.r2.core.acal.service.decorators.AcademicCalendarServiceValidationDecorator">
+        <property name="nextDecorator" ref="acalServiceCalculation" />
+        <property name="validator" ref="validator" />
+    </bean>
+
     <!-- necessary to use ACSCalculationDecorator's copyHolidayCalendar() -->
-    <bean id="acalService" class="org.kuali.student.r2.core.acal.service.decorators.AcademicCalendarServiceCalculationDecorator">
+    <bean id="acalServiceCalculation" class="org.kuali.student.r2.core.acal.service.decorators.AcademicCalendarServiceCalculationDecorator">
         <property name="atpService" ref="atpServiceClient" />
         <property name="nextDecorator" ref="acalServiceImpl" />
     </bean>
