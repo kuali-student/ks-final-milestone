@@ -18,7 +18,7 @@ function handleToolbar(divId, hiddenColumns, bottons){
 }
 
 function processToolbar(divId, hiddenColumnsMap, buttonsMap){
-    var oTable = getDataTableHandle(divId);
+    var oTable = getDataTableFromDiv(divId);
 
     var selectedRows =  jQuery(oTable.fnGetNodes()).filter(':has(:input:checkbox:checked)');
 
@@ -41,7 +41,7 @@ function getSelector(name){
     return "input[name$='" + name +"']";
 }
 
-function getDataTableHandle(divId){
+function getDataTableFromDiv(divId){
     var id = jQuery("#" + divId).find("table").attr('id');
     var oTable = jQuery("#" + id).dataTable();
     return oTable;
