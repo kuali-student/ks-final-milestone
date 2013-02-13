@@ -1,11 +1,11 @@
-package org.kuali.student.enrollment.class1.krms.util;
+package org.kuali.student.krms.naturallanguage.util;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageTemplateBoService;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageUsageBoService;
 import org.kuali.rice.krms.impl.repository.ReferenceObjectBindingBoService;
-import org.kuali.student.enrollment.class1.krms.service.TemplateResolverService;
+import org.kuali.student.krms.service.TemplateResolverService;
 
 import javax.xml.namespace.QName;
 

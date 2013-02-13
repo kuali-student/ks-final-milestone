@@ -15,8 +15,8 @@
 
 package org.kuali.student.krms.naturallanguage;
 
-import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.rice.krms.impl.repository.TermBo;
+import org.kuali.rice.krms.impl.repository.TermParameterBo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
@@ -43,73 +43,45 @@ public abstract class AbstractContext<T> implements Context<T> {
 	 */
 	protected final static String FIELDS_TOKEN = "fields";
 
-	/*private StatementService statementService;
-
-	public void setStatementService(StatementService statementService) {
-		this.statementService = statementService;
-	}
-
-	private void validateReqComponentFields(ReqComponentInfo reqComponent) throws OperationFailedException {
-		try {
-			ReqComponentTypeInfo reqComponentType = statementService.getReqComponentType(reqComponent.getType());
-			Set<String> set = new HashSet<String>();
-			for(ReqCompFieldTypeInfo fieldType : reqComponentType.getReqCompFieldTypeInfos()) {
-				set.add(fieldType.getFieldDescriptor().getId());
-			}
-			
-			for(ReqCompFieldInfo field : reqComponent.getReqCompFields()) {
-				if(!set.contains(field.getType())) {
-					throw new OperationFailedException("Invalid field type: " + field.getType());
-				}
-			}
-		} catch (Exception e) {
-			throw new OperationFailedException(e.getMessage(), e);
-		}
-	}*/
-	
 	/**
-     * Gets requirement component fields as a map.
+     * Gets term parameters values as a map.
      * 
-     * @param reqComponent Requirement component
+     * @param term
      * @return Map of requirement component fields
      */
-	protected Map<String, String> getReqComponentFieldMap(ReqComponentInfo reqComponent) throws OperationFailedException {
-		//validateReqComponentFields(reqComponent);
-		List<ReqCompFieldInfo> fields = reqComponent.getReqCompFields();
+	protected Map<String, String> getTermParameterMap(TermBo term) throws OperationFailedException {
+		List<TermParameterBo> parameters = term.getParameters();
         Map<String, String> map = new HashMap<String, String>();
-        for (ReqCompFieldInfo field : fields) {
-            String type = field.getType();
-            String value = field.getValue();
-            map.put(type, value);
+        for (TermParameterBo parameter : parameters) {
+            String name = parameter.getName();
+            String value = parameter.getValue();
+            map.put(name, value);
         }
         return map;
     }
 
     /**
-     * Gets the value of the ReqCompFieldInfo key. 
-     * See {@link org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo#getKey()}
+     * Gets the value of the ReqCompFieldInfo key.
      *
-     * @param reqComponent Requirement component
+     * @param term
      * @param key <code>ReqCompFieldInfo</code> key
      * @return Value of <code>ReqCompFieldInfo</code>
      */
-	protected String getReqComponentFieldValue(ReqComponentInfo reqComponent, String key) throws OperationFailedException {
-        return getReqComponentFieldMap(reqComponent).get(key);
+	protected String getTermParameterValue(TermBo term, String key) throws OperationFailedException {
+        return getTermParameterMap(term).get(key);
     }
 
     /**
      * Creates the context map (template data) for the requirement component.
      * Also, adds the field token map to the context map.
      *
-     *
-     *
-     * @param reqComponent Requirement component
+     * @param term Requirement component
      * @param contextInfo
      * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException If CLU, CluSet or relation does not exist
      */
-    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent, ContextInfo contextInfo) throws OperationFailedException {
+    public Map<String, Object> createContextMap(TermBo term, ContextInfo contextInfo) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
-        contextMap.put(FIELDS_TOKEN, getReqComponentFieldMap(reqComponent));
+        contextMap.put(FIELDS_TOKEN, getTermParameterMap(term));
         return contextMap;
     }
 }

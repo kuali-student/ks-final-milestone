@@ -1,8 +1,8 @@
-package org.kuali.student.enrollment.class1.krms.service.impl;
+package org.kuali.student.krms.service.impl;
 
 import org.kuali.rice.krms.framework.engine.expression.ComparisonOperator;
-import org.kuali.student.enrollment.class1.krms.dto.TemplateInfo;
-import org.kuali.student.enrollment.class1.krms.service.TemplateResolverService;
+import org.kuali.student.krms.dto.TemplateInfo;
+import org.kuali.student.krms.service.TemplateResolverService;
 
 import java.util.Map;
 

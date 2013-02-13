@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class1.krms.util;
+package org.kuali.student.krms.naturallanguage.util;
 
 /**
  * Created with IntelliJ IDEA.

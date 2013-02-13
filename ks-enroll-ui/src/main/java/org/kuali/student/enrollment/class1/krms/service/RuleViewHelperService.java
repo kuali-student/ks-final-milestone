@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class1.krms.service;
 
 import org.kuali.rice.krms.impl.repository.PropositionBo;
+import org.kuali.student.krms.service.TemplateResolverService;
 
 /**
  * Created with IntelliJ IDEA.

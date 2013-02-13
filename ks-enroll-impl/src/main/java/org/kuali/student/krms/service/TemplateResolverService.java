@@ -1,6 +1,6 @@
-package org.kuali.student.enrollment.class1.krms.service;
+package org.kuali.student.krms.service;
 
-import org.kuali.student.enrollment.class1.krms.dto.TemplateInfo;
+import org.kuali.student.krms.dto.TemplateInfo;
 
 /**
  * Created with IntelliJ IDEA.

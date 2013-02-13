@@ -18,8 +18,6 @@ package org.kuali.student.krms.naturallanguage.translators;
 import org.apache.log4j.Logger;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
 import org.kuali.student.krms.naturallanguage.NaturalLanguageTranslator;
-import org.kuali.student.r1.core.statement.entity.ReqComponent;
-import org.kuali.student.r1.core.statement.entity.Statement;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
@@ -44,7 +42,7 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	/**
 	 * Sets the requirement component translator.
 	 *
-	 * @param reqComponentTranslator Requirement component translator
+	 * @param propositionTranslator Requirement component translator
 	 */
 	public void setPropositionTranslator(final PropositionTranslator propositionTranslator) {
 		this.propositionTranslator = propositionTranslator;
