@@ -251,7 +251,7 @@ function initRuleTree(componentId){
                 );
             }).val(jq(this).val());
 
-            ajaxCallPropositionTree('updateCompoundOperator', 'RuleStudentEditorView-PropositionSummary');
+            ajaxCallPropositionTree('updateCompoundOperator', 'RuleStudentEditorView-Tree');
         })
 
     });
