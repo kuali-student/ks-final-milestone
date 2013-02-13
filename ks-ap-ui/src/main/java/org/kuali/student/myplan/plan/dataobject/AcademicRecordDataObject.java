@@ -1,6 +1,9 @@
 package org.kuali.student.myplan.plan.dataobject;
 
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.myplan.course.dataobject.ActivityOfferingItem;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,10 +19,12 @@ public class AcademicRecordDataObject {
     private transient String courseId;
     private transient String courseTitle;
     private transient String courseCode;
+    private transient String activityCode;
     private transient String atpId;
     private transient String grade;
     private transient String credit;
     private transient boolean isRepeated;
+    private transient List<ActivityOfferingItem> activityOfferingItemList;
 
     public AcademicRecordDataObject() {
         uuid = UUIDHelper.genStringUUID();
@@ -91,5 +96,21 @@ public class AcademicRecordDataObject {
 
     public void setCourseId(String courseId) {
         this.courseId = courseId;
+    }
+
+    public List<ActivityOfferingItem> getActivityOfferingItemList() {
+        return activityOfferingItemList;
+    }
+
+    public void setActivityOfferingItemList(List<ActivityOfferingItem> activityOfferingItemList) {
+        this.activityOfferingItemList = activityOfferingItemList;
+    }
+
+    public String getActivityCode() {
+        return activityCode;
+    }
+
+    public void setActivityCode(String activityCode) {
+        this.activityCode = activityCode;
     }
 }

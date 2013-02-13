@@ -426,10 +426,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		course.setCode(getCellValue(row, "course.code"));
 
 		Credit credit = getCreditByID(getCellValue(row, "course.credits"));
-		course.setCreditMin(credit.getMin());
-		course.setCreditMax(credit.getMax());
-		course.setCreditType(credit.getType());
-		course.setCredit(credit.getDisplay());
+		course.setCreditMin(0);//credit.getMin());
+		course.setCreditMax(0);//credit.getMax());
+		course.setCreditType(CourseSearchItem.CreditType.unknown);//credit.getType());
+        course.setCredit("");//credit.getDisplay());
 
 		LOG.info("End of method getCourseInfo of CourseSearchController:"
 				+ System.currentTimeMillis());
@@ -734,7 +734,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
 		// Update facet info and code the item.
 		for (CourseSearchItem course : courses) {
-			curriculumFacet.process(course);
+			//curriculumFacet.process(course);
 			courseLevelFacet.process(course);
 			genEduReqFacet.process(course);
 			creditsFacet.process(course);
@@ -769,7 +769,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			CourseSearchItemImpl course = getCourseInfo(hit.courseID);
 			if (isCourseOffered(form, course)) {
 				loadScheduledTerms(course);
-				loadTermsOffered(course);
+				//loadTermsOffered(course);
 				loadGenEduReqs(course);
 				String courseId = course.getCourseId();
 				if (courseStatusMap.containsKey(courseId)) {

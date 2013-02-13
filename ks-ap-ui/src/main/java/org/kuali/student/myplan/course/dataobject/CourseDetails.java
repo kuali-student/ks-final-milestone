@@ -1,9 +1,11 @@
 package org.kuali.student.myplan.course.dataobject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hsqldb.lib.StringUtil;
 import org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
 import org.springframework.util.StringUtils;
@@ -26,11 +28,12 @@ public class CourseDetails extends CourseSummaryDetails {
     private String requisitesSourceMessage = "Course Catalog";
     private String termsOfferedLabelMessage = "Projected to be offered in ";
     private String termsOfferedSuffixMessage = "terms";
-    
+
     private List<String> scheduledTerms;
     private List<String> requisites;
     private List<String> genEdRequirements;
     private List<String> abbrGenEdRequirements;
+
 
     // Plan related information
     private transient List<PlanItemDataObject> plannedList;
@@ -40,10 +43,12 @@ public class CourseDetails extends CourseSummaryDetails {
     private transient String savedItemId;
     private String savedItemDateCreated;
 
+    private List<CourseOfferingDetails> courseOfferingDetails;
+
     public String getScheduledTermsSourceMessage() {
         // TODO: tie to message service
-		return scheduledTermsSourceMessage;
-	}
+        return scheduledTermsSourceMessage;
+    }
 
 	public String getTermsOfferedSourceMessage() {
 	    // TODO: tie to message service
@@ -65,7 +70,7 @@ public class CourseDetails extends CourseSummaryDetails {
 		return termsOfferedSuffixMessage;
 	}
 
-	public String getLastOffered() {
+    public String getLastOffered() {
         return lastOffered;
     }
 
@@ -88,6 +93,9 @@ public class CourseDetails extends CourseSummaryDetails {
 
 
     public List<String> getGenEdRequirements() {
+        if (genEdRequirements == null) {
+            genEdRequirements = new ArrayList<String>();
+        }
         return genEdRequirements;
     }
 
@@ -96,6 +104,9 @@ public class CourseDetails extends CourseSummaryDetails {
     }
 
     public List<String> getAbbrGenEdRequirements() {
+        if (abbrGenEdRequirements == null) {
+            abbrGenEdRequirements = new ArrayList<String>();
+        }
         return abbrGenEdRequirements;
     }
 
@@ -104,6 +115,9 @@ public class CourseDetails extends CourseSummaryDetails {
     }
 
     public List<String> getRequisites() {
+        if (requisites == null) {
+            requisites = new ArrayList<String>();
+        }
         return requisites;
     }
 
@@ -112,6 +126,9 @@ public class CourseDetails extends CourseSummaryDetails {
     }
 
     public List<String> getCampusLocations() {
+        if (campusLocations == null) {
+            campusLocations = new ArrayList<String>();
+        }
         return campusLocations;
     }
 
@@ -120,6 +137,9 @@ public class CourseDetails extends CourseSummaryDetails {
     }
 
     public List<String> getScheduledTerms() {
+        if(scheduledTerms == null) {
+            scheduledTerms = new ArrayList<String>();
+        }
         return scheduledTerms;
     }
 
@@ -128,6 +148,9 @@ public class CourseDetails extends CourseSummaryDetails {
     }
 
     public List<PlanItemDataObject> getPlannedList() {
+        if( plannedList == null ) {
+            plannedList = new ArrayList<PlanItemDataObject>();
+        }
         return plannedList;
     }
 
@@ -136,6 +159,9 @@ public class CourseDetails extends CourseSummaryDetails {
     }
 
     public List<PlanItemDataObject> getBackupList() {
+        if (backupList == null) {
+            backupList = new ArrayList<PlanItemDataObject>();
+        }
         return backupList;
     }
 
@@ -160,6 +186,9 @@ public class CourseDetails extends CourseSummaryDetails {
     }
 
     public List<AcademicRecordDataObject> getAcadRecList() {
+        if( acadRecList == null ) {
+            acadRecList = new ArrayList<AcademicRecordDataObject>();
+        }
         return acadRecList;
     }
 
@@ -195,11 +224,25 @@ public class CourseDetails extends CourseSummaryDetails {
 
 
     public List<String> getAcademicTerms() {
+        if (academicTerms == null) {
+            academicTerms = new ArrayList<String>();
+        }
         return academicTerms;
     }
 
     public void setAcademicTerms(List<String> academicTerms) {
         this.academicTerms = academicTerms;
+    }
+
+    public List<CourseOfferingDetails> getCourseOfferingDetails() {
+        if (courseOfferingDetails == null) {
+            courseOfferingDetails = new ArrayList<CourseOfferingDetails>();
+        }
+        return courseOfferingDetails;
+    }
+
+    public void setCourseOfferingDetails(List<CourseOfferingDetails> courseOfferingDetails) {
+        this.courseOfferingDetails = courseOfferingDetails;
     }
 
 

@@ -4,6 +4,8 @@ import org.kuali.student.myplan.academicplan.service.AcademicPlanServiceConstant
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.lum.clu.CLUConstants;
 
+import java.util.regex.Pattern;
+
 public class PlanConstants extends AcademicPlanServiceConstants {
 
     public static final String PARAM_COURSE_ID = "courseId";
@@ -15,6 +17,7 @@ public class PlanConstants extends AcademicPlanServiceConstants {
     public static final String PLAN_PAGE_ID = "planned_courses_detail_page";
 
     public static final String COURSE_TYPE = CLUConstants.CLU_TYPE_CREDIT_COURSE;
+    public static final String SECTION_TYPE = "kuali.lu.type.CourseSection";
 
     // CRUD operations positive feedback.
     public static final String SUCCESS_KEY = "myplan.text.success";
@@ -56,7 +59,7 @@ public class PlanConstants extends AcademicPlanServiceConstants {
     //  Global context info for use in service methods which need caching, but don't use the context argument.
     public static final ContextInfo CONTEXT_INFO = new ContextInfo();
 
-    //public static final String TERM_ID_PREFIX = "kuali.uw.atp.";
+    //public static final String TERM_ID_PREFIX = "kuali.atp.";
     public static final String FOCUS_ATP_ID_KEY = "focusAtpId";
 
     //  {atp} will be replaced by an ATP ID and {label} will be replaced with the link text at runtime.
@@ -77,7 +80,7 @@ public class PlanConstants extends AcademicPlanServiceConstants {
             {"kuali.atp.type.HolidayCalendar","kuali.atp.type.AcademicCalendar"};
 
     public static final String WITHDRAWN_GRADE="W";
-    
+
     /*Course Credit Types*/
     public static final String RANGE="-";
     public static final String MULTIPLE=",";

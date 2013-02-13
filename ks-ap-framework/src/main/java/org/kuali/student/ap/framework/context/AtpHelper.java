@@ -1,5 +1,9 @@
 package org.kuali.student.ap.framework.context;
 
+import org.kuali.student.enrollment.acal.dto.TermInfo;
+
+import java.util.List;
+
 /**
  * Provides access to common ATP functionality.
  */
@@ -35,7 +39,7 @@ public interface AtpHelper {
     String[] atpIdToTermAndYear(String atpId);
 
     /**
-     * Converts an ATP ID to a Term and Year ... "kuali.uw.atp.1991.1" ->
+     * Converts an ATP ID to a Term and Year ... "kuali.atp.1991.1" ->
      * {"Autumn", "1991"}
      *
      * @return A String array containing a term and year.
@@ -92,4 +96,69 @@ public interface AtpHelper {
      * Adds an error to the page
      */
     void addServiceError(String propertyName);
+
+    /**
+     * Converts Kuali ATP ids into a YearTerm object.
+     *
+     * eg "kuali.atp.2012.1" becomes year = 2012, term = 1
+     *
+     * @param atp
+     * @return
+     */
+    public YearTerm atpToYearTerm(String atp) ;
+
+    /**
+     * Converts quarter string into a YearTerm object.
+     *
+     * eg "Winter 2012" becomes year = 2012, term = 1
+     *
+     * @param text
+     * @return
+     */
+    public YearTerm termToYearTerm(String text);
+
+    /**
+     * Converts quarter string into a YearTerm object.
+     *
+     * eg "Winter","2012" becomes year = 2012, term = 1
+     *
+     * @param
+     * @return
+     */
+    public YearTerm quarterYearToYearTerm(String quarter, String year);
+
+    /**
+     * Determines whether a course is in a specific term.
+     *
+     * @param atp
+     * @param course
+     * @return
+     */
+    public boolean isCourseOfferedInTerm(String atp, String course);
+
+    /**
+     * Gets a list of published terms.
+     *
+     * @return
+     */
+    public List<String> getPublishedTerms();
+
+    /**
+     * Gets the first term of the published terms
+     * @return
+     */
+    public String getFirstPlanTerm();
+
+    /**
+     * Returns whether the atp id passed in exists or not
+     * @param atpId
+     * @return
+     */
+    public boolean doesAtpExist(String atpId);
+
+    /**
+     * Creates a atp id using the actual date and then returns a term info with the id filled in.
+     * @return
+     */
+    List<TermInfo> populateAtpIdFromCalender();
 }

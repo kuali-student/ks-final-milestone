@@ -16,6 +16,8 @@ public class PlannedCourseDataObject implements Comparable {
 
     private transient PlanItemDataObject planItemDataObject;
     private transient CourseDetails courseDetails;
+    private transient boolean showAlert;
+    private transient boolean timeScheduleOpen;
 
     public CourseDetails getCourseDetails() {
         return courseDetails;
@@ -33,9 +35,26 @@ public class PlannedCourseDataObject implements Comparable {
         this.planItemDataObject = planItemDataObject;
     }
 
+
+    public boolean isShowAlert() {
+        return showAlert;
+    }
+
+    public void setShowAlert(boolean showAlert) {
+        this.showAlert = showAlert;
+    }
+
     @Override
     public int compareTo( Object object ) {
         PlannedCourseDataObject that = (PlannedCourseDataObject) object;
         return this.getPlanItemDataObject().getDateAdded().compareTo( that.getPlanItemDataObject().getDateAdded() ) * -1;
+    }
+
+    public boolean isTimeScheduleOpen() {
+        return timeScheduleOpen;
+    }
+
+    public void setTimeScheduleOpen(boolean timeScheduleOpen) {
+        this.timeScheduleOpen = timeScheduleOpen;
     }
 }

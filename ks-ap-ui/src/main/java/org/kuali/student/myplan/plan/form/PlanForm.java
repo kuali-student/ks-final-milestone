@@ -54,6 +54,8 @@ public class PlanForm extends UifFormBase {
 
     private String courseId;
 
+    private String sectionCode;
+
     //Flag Used for student to hide or un hide
     // plan view to adviser
     private String enableAdviserView=PlanConstants.LEARNING_PLAN_ITEM_SHARED_TRUE_KEY;
@@ -62,6 +64,8 @@ public class PlanForm extends UifFormBase {
 
     //  Form fields.
     private String atpId;
+
+    private String termName;
 
     private boolean other = false;
 
@@ -89,6 +93,10 @@ public class PlanForm extends UifFormBase {
 
     private boolean newUser;
 
+    private boolean courseInPlan;
+
+    private boolean courseInBackup;
+
     public int getBookmarkedCount() {
         return bookmarkedCount;
     }
@@ -113,10 +121,13 @@ public class PlanForm extends UifFormBase {
         this.setToPlanning = setToPlanning;
     }
 
+    public String getTermName() {
+        return termName;
+    }
 
-
-
-
+    public void setTermName(String termName) {
+        this.termName = termName;
+    }
 
     /**
      * A list of javascript events as:
@@ -246,6 +257,30 @@ public class PlanForm extends UifFormBase {
 
     public void setNewUser(boolean newUser) {
         this.newUser = newUser;
+    }
+
+    public String getSectionCode() {
+        return sectionCode;
+    }
+
+    public void setSectionCode(String sectionCode) {
+        this.sectionCode = sectionCode;
+    }
+
+    public boolean isCourseInPlan() {
+        return courseInPlan;
+    }
+
+    public void setCourseInPlan(boolean courseInPlan) {
+        this.courseInPlan = courseInPlan;
+    }
+
+    public boolean isCourseInBackup() {
+        return courseInBackup;
+    }
+
+    public void setCourseInBackup(boolean courseInBackup) {
+        this.courseInBackup = courseInBackup;
     }
 
     /**

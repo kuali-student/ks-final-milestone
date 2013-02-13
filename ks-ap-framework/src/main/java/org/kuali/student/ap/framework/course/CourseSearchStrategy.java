@@ -28,5 +28,5 @@ public interface CourseSearchStrategy {
 			List<String> divisions, boolean isSpaceAllowed);
 	
 	List<Comparator<String>> getFacetSort();
-	
+
 }

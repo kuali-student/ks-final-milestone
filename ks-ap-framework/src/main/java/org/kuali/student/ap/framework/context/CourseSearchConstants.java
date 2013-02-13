@@ -2,6 +2,8 @@ package org.kuali.student.ap.framework.context;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -33,13 +35,19 @@ public class CourseSearchConstants {
 
     public static final Pattern TERM_PATTERN = Pattern.compile("([a-zA-Z]+)[\\s]+[0-9][0-9]([0-9][0-9])");
 
+    public static final Pattern ATP_REGEX = Pattern.compile("kuali\\.atp\\.([0-9]{4})\\.([1-4])");
+    public static final String ATP_FORMAT = "%d%d";
+
+    public static List<String> TERM_ID_LIST = Arrays.asList("winter", "spring", "summer", "autumn");
+    public static List<String> TERM_LABELS_LIST = Arrays.asList("Winter", "Spring", "Summer", "Autumn");
+
     public static final String SUBJECT_AREA = "kuali.lu.subjectArea";
 
     public static final String CAMPUS_LOCATION = "kuali.org.type.campus";
 
     public static final String TIME_SCHEDULE_KEY = "TimeScheduleLinkAbbreviation";
 
-    public static final String COURSE_OFFERING_INSTITUTE = "kuali.uw.course.offering.institute";
+    public static final String COURSE_OFFERING_INSTITUTE = "kuali.course.offering.institute";
 
     public static final String ORG_QUERY_SEARCH_BY_TYPE_REQUEST = "org.search.orgInfoByType";
 
