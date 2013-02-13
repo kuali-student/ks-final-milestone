@@ -7,11 +7,11 @@ import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.student.krms.termresolver.AdminOrgNumberTermResolver;
+import org.kuali.student.krms.termresolver.FreeFormTextTermResolver;
 import org.kuali.student.krms.termresolver.NumberOfCompletedCoursesTermResolver;
 import org.kuali.student.krms.termresolver.CompletedCourseTermResolver;
 import org.kuali.student.krms.termresolver.EnrolledCourseNumberTermResolver;
 import org.kuali.student.krms.termresolver.EnrolledCourseTermResolver;
-import org.kuali.student.krms.termresolver.FreeTextTermResolver;
 import org.kuali.student.krms.termresolver.GPATermResolver;
 import org.kuali.student.krms.termresolver.NumberOfCreditsTermResolver;
 import org.kuali.student.krms.termresolver.ScoreTermResolver;
@@ -110,7 +110,7 @@ public class KSKRMSTestKRMSServices {
 	public void testFreeTextTermResolver() {
 		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_FREE_TEXT);
 		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<FreeTextTermResolver> termResolverInstance = (TermResolver<FreeTextTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
+			TermResolver<FreeFormTextTermResolver> termResolverInstance = (TermResolver<FreeFormTextTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
 
 			Map<String, String> parameters = new HashMap<String, String>();
 			parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234106");

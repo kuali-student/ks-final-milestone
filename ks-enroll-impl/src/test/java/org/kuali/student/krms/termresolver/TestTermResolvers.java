@@ -187,17 +187,17 @@ public class TestTermResolvers {
     @Test
     public void testFreeTextTermResolver(){
         //Setup the term resolver
-        FreeTextTermResolver termResolver = new FreeTextTermResolver();
+        FreeFormTextTermResolver termResolverForm = new FreeFormTextTermResolver();
 
         //Create parameters
         parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
 
         //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+        validateTermResolver(termResolverForm, resolvedPrereqs, parameters,
                 KSKRMSExecutionConstants.FREE_TEXT_TERM_NAME);
 
         //Evaluate term Resolver
-        Boolean result =  termResolver.resolve(resolvedPrereqs,parameters );
+        Boolean result =  termResolverForm.resolve(resolvedPrereqs,parameters );
 
         assertNotNull(result);
         assertTrue(result);

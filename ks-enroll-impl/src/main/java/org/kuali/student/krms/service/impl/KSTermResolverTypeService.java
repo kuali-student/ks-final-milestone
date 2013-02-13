@@ -6,9 +6,9 @@ import org.kuali.rice.krms.framework.type.TermResolverTypeService;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.krms.termresolver.AdminOrgNumberTermResolver;
+import org.kuali.student.krms.termresolver.FreeFormTextTermResolver;
 import org.kuali.student.krms.termresolver.NumberOfCompletedCoursesTermResolver;
 import org.kuali.student.krms.termresolver.CompletedCourseTermResolver;
-import org.kuali.student.krms.termresolver.FreeTextTermResolver;
 import org.kuali.student.krms.termresolver.GPATermResolver;
 import org.kuali.student.krms.termresolver.NumberOfCreditsTermResolver;
 import org.kuali.student.krms.termresolver.ScoreTermResolver;
@@ -29,9 +29,9 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
 			CompletedCourseTermResolver resolver = new CompletedCourseTermResolver();
 			return resolver;
 		}else if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_FREE_TEXT)) {
-			FreeTextTermResolver resolver = new FreeTextTermResolver();
+			FreeFormTextTermResolver resolverForm = new FreeFormTextTermResolver();
 			//resolver.setAcademicRecordService(acadRecordService); Does not exist
-			return resolver;
+			return resolverForm;
 		}else if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_GPA)) {
 			GPATermResolver resolver = new GPATermResolver();
 			resolver.setAcademicRecordService(acadRecordService);

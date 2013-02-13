@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class FreeTextTermResolver implements TermResolver<Boolean> {
+public class FreeFormTextTermResolver implements TermResolver<Boolean> {
 
     private final static Set<String> prerequisites = new HashSet<String>(1);
 
