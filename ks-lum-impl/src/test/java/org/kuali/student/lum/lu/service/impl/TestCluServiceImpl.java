@@ -16,7 +16,6 @@
 package org.kuali.student.lum.lu.service.impl;
 
 import edu.emory.mathcs.backport.java.util.Collections;
-import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
@@ -94,7 +93,6 @@ import static org.junit.Assert.fail;
 public class TestCluServiceImpl extends AbstractServiceTest {
     @Client(value = "org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl", additionalContextFile = "classpath:clu-additional-context.xml")
     public CluService client;
-    final Logger LOG = Logger.getLogger(TestCluServiceImpl.class);
 
     @Test
     public void testClu() throws DoesNotExistException,
@@ -1791,7 +1789,6 @@ public class TestCluServiceImpl extends AbstractServiceTest {
             }
         });
         assertNotNull(clus);
-        LOG.warn(clus.getRows().size());
     }
 
     @Test
