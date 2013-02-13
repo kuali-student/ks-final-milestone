@@ -2090,10 +2090,6 @@
         ID="0896a92d-7b2f-4955-a6b0-ab63bc5ca586"
         OBJ_ID="3b374e61-b94e-495f-807f-393cafe1d010"
         OWNER="CLUID-HIST799-198001000000" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="activityTotalContactHours" ATTR_VALUE="45"
-        ID="0896ad39-a2d8-4f09-81b8-422bd155716e"
-        OBJ_ID="752a4b37-42c4-4c6b-ae41-f27c1b742ad7"
-        OWNER="2925f7b7-9d3a-4532-90ec-ea22056ce4a2" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="audit" ATTR_VALUE="true"
         ID="08a03e94-9531-41e6-bf60-3d602374dd82"
         OBJ_ID="98c8e225-8a49-4c89-896e-55082ec7b0e5"
@@ -2421,10 +2417,6 @@
         ID="0a1f8c8c-6769-46c5-8fd3-615d5b76fa32"
         OBJ_ID="3bc010e0-c8a0-4ec0-b72c-1a0de15b13ac"
         OWNER="ec06665e-f585-4c92-a69c-4d6c6e9490de" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="passFail" ATTR_VALUE="false"
-        ID="0a1fdf4c-1b16-4cab-a791-c73aa7d57ade"
-        OBJ_ID="d183ce76-8341-49ae-aba9-685e31c9e414"
-        OWNER="2925f7b7-9d3a-4532-90ec-ea22056ce4a2" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="finalExamStatus" ATTR_VALUE="STD"
         ID="0a32f360-feb0-4b00-bb5c-f1a4835889d6"
         OBJ_ID="39de29b9-8dfe-4ce9-9f0a-746f3dc974ae"
@@ -2558,10 +2550,6 @@
         ID="0abd2a21-8b05-4037-a90f-879aa76a5e0f"
         OBJ_ID="f1e6519e-67fc-4d78-9728-8c82eff78b00"
         OWNER="63e96d71-6603-4a5f-92b9-015659fc787f" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="activityTotalContactHours" ATTR_VALUE="45"
-        ID="0abdf44c-b45d-4019-af11-ced64b68dc54"
-        OBJ_ID="0a511343-71fd-4269-8c72-de23624424b3"
-        OWNER="CLUID-WMST453-200008000000" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="activityTotalCredits" ATTR_VALUE="3"
         ID="0ac091cc-b668-4ceb-be97-9d06320dc2f9"
         OBJ_ID="92f7fd96-41c6-473d-8893-81b689437f2e"
@@ -4127,10 +4115,6 @@
         ID="10e106c7-b10d-47dd-8c51-252ae4d70e96"
         OBJ_ID="ef346621-d759-4eaa-9628-bf4c67a3ece8"
         OWNER="cc1fbb7a-84bd-45cc-9c37-0348e9945346" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="audit" ATTR_VALUE="false"
-        ID="10e6b0d3-d721-4a2a-81ed-c6ecf0648919"
-        OBJ_ID="1bdea450-b02a-4a4c-b0fd-b602bb319cad"
-        OWNER="CLUID-WMST453-200008000000" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="finalExamStatus" ATTR_VALUE="STD"
         ID="10e8d1f9-91ce-47ac-bf3a-41f3da610ce8"
         OBJ_ID="a7be61fd-5a44-4fc8-b98a-e9bbc0822095"
@@ -5169,10 +5153,6 @@
         ID="14e6a405-2a68-4c99-bf8b-6c8b093b1f03"
         OBJ_ID="ac94695d-651e-458b-a604-62049766b94f"
         OWNER="CLUID-CHEM648-198001000000" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="audit" ATTR_VALUE="false"
-        ID="14f0da33-83ff-4af4-bacf-0ad08e80612f"
-        OBJ_ID="234e8d4f-307d-46b8-8210-0596b84963a3"
-        OWNER="2925f7b7-9d3a-4532-90ec-ea22056ce4a2" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="credits" ATTR_VALUE="3"
         ID="14f1cfc2-48ec-40b8-896e-de4db41368b3"
         OBJ_ID="eab411d9-a0fc-4acd-8e1e-14faa6cb64e0"
@@ -7947,10 +7927,6 @@
         ID="1fd9fbe1-ec79-4aa9-b86a-906927910e28"
         OBJ_ID="982724ac-de3e-4109-a2c4-0bad6fe8b1a7"
         OWNER="c5fa7f08-fc34-495c-9dba-37278cb5bfec" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="retirementRationale"
-        ID="1fddfe21-a3d8-4101-90f5-229062267efa"
-        OBJ_ID="f3e98bbc-b1df-43e0-9ee9-0dbbfe80ffb4"
-        OWNER="2925f7b7-9d3a-4532-90ec-ea22056ce4a2" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="audit" ATTR_VALUE="true"
         ID="1fe2e16b-ff2e-44da-885e-1813888372a8"
         OBJ_ID="1f4485af-07f9-42d3-9808-c63f8f807792"
@@ -8087,10 +8063,6 @@
         ID="2050fa4c-e9d9-4d2a-a183-f6045016bf58"
         OBJ_ID="9faa1ae2-7b9e-481d-a3e4-6ad6b3966b0f"
         OWNER="f412687c-6cdc-4e2e-b0de-92b25dedaace" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="finalExamStatus" ATTR_VALUE="STD"
-        ID="2058d665-6133-4175-8c1a-04ac09163cd8"
-        OBJ_ID="5598b436-1d02-4026-810d-cd2f48337dfb"
-        OWNER="2925f7b7-9d3a-4532-90ec-ea22056ce4a2" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="passFail" ATTR_VALUE="true"
         ID="205b6d74-2e37-4c12-9ff8-42f4db986411"
         OBJ_ID="2b92abcc-a1be-425e-af07-d976199ad2ca"
@@ -8437,10 +8409,6 @@
         ID="21e2c070-5b9f-4645-b352-d37ddb377ece"
         OBJ_ID="26a62c02-a089-41c5-b8f9-992d013542a2"
         OWNER="2bbd5fb9-e81b-41b8-b91a-40be8fe4b14a" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="calculatedContactHours" ATTR_VALUE="0"
-        ID="21e39983-cb65-4cb7-b5f3-f5184391039f"
-        OBJ_ID="e4305715-8a8f-43ee-8d4b-1c7980d6dbd7"
-        OWNER="99dab254-5155-4f48-912e-42db5337df5e" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="repeatableIfContentDiffers"
         ATTR_VALUE="false" ID="21e4ca87-0358-4a46-baed-27a2bb85af4f"
         OBJ_ID="1c01b7e6-4b87-4aa6-b195-34aa5a17f1d4"
@@ -10500,10 +10468,6 @@
         ID="2a9ff762-4cfb-4f1c-bdcd-2575951d3cf3"
         OBJ_ID="0468798f-1bd5-4e7c-82ee-479180c1c0ef"
         OWNER="d03a478b-57aa-43ac-86c7-3b3da25fae8f" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="activityTypeExplanation" ATTR_VALUE="."
-        ID="2aa7b952-6018-4470-bbf4-2b3ba1d68f47"
-        OBJ_ID="0f39fc0d-c861-4bf5-8989-883ac200c610"
-        OWNER="CLUID-WMST453-200008000000" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="lastTermOffered"
         ATTR_VALUE="kuali.atp.1991Summer2"
         ID="2aa9ec34-4763-433d-9f29-bc39241b3a49"
@@ -13813,10 +13777,6 @@
         ID="387ea1af-3c73-403f-9c1f-2bd5d96e01a8"
         OBJ_ID="dfddf142-92f4-473f-82ce-41a41338e6ae"
         OWNER="79cb36dd-96a7-4f9e-8d4b-ef6223cb343a" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="activityTypeExplanation" ATTR_VALUE="."
-        ID="38883383-bf68-46d4-a018-83765941157c"
-        OBJ_ID="6251ba40-4b1f-4907-8d17-752b03df1ba3"
-        OWNER="2925f7b7-9d3a-4532-90ec-ea22056ce4a2" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="activityTotalCredits" ATTR_VALUE="3"
         ID="38885a42-056f-4fc6-bc08-37a5c455dcc0"
         OBJ_ID="65434564-509e-4f0e-936f-3c565a89e1d9"
@@ -14999,10 +14959,6 @@
         ID="3d4a4275-91f5-4299-9bfa-619de9ffb070"
         OBJ_ID="de9aad88-b58a-409e-baef-87d6b78b3aa3"
         OWNER="CLUID-HIST329-200801000000" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="calculatedContactHours" ATTR_VALUE="45"
-        ID="3d4c9c61-c10d-4633-ac9c-c0a3623314af"
-        OBJ_ID="f25a6c19-9972-4c9e-8110-f94de3124280"
-        OWNER="4d20cb89-9559-420f-b7bd-0beaafe17675" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="repeatableIfContentDiffers"
         ATTR_VALUE="false" ID="3d537544-da72-438b-b2c7-5d0357b28540"
         OBJ_ID="7747fa92-22d6-47b2-bd3b-ec531066fd4b"
@@ -16344,10 +16300,6 @@
         ID="42af02ba-1ec5-45da-8e2d-bba21a8c5c40"
         OBJ_ID="e69183a6-57b0-4ecd-9cc5-ba1d77ffb1b6"
         OWNER="58fb10e3-f1df-4e6b-b667-633b1a95afe6" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="activityTotalCredits" ATTR_VALUE="3"
-        ID="42b06d97-c154-4539-a7e5-41a5e1d40a6e"
-        OBJ_ID="b70085b9-b0e0-4663-92d4-e6fd439ba676"
-        OWNER="CLUID-WMST453-200008000000" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="semesterType"
         ATTR_VALUE="semesterType.standard"
         ID="42b5a200-ff69-4ecb-aaea-11fb401abc5e"
@@ -17211,10 +17163,6 @@
         ID="46a0f37c-464c-456a-9678-664392fc3578"
         OBJ_ID="9c6a517e-cd86-43fc-a0ea-acac5ba2daf0"
         OWNER="932406da-ccd6-4e12-a160-9c8b77cc0358" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="credits" ATTR_VALUE="0"
-        ID="46a8f8f0-752d-4da0-ac5d-93d2cb8adb45"
-        OBJ_ID="e02045c1-2fde-455b-a711-56cd7c37a360"
-        OWNER="99dab254-5155-4f48-912e-42db5337df5e" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="activityTotalContactHours" ATTR_VALUE="60"
         ID="46abcb8d-0ef5-4af2-b896-833283ff86fe"
         OBJ_ID="80c7f35f-462c-45bf-a96d-318f849332b2"
@@ -20278,6 +20226,10 @@
         ID="529e76c6-04a3-4e80-a615-f48e58bb0965"
         OBJ_ID="ba746352-957d-46a7-bbbc-aeecee6f56fa"
         OWNER="169e8b19-b8ce-439c-9dd5-d4e2bce9c5cf" VER_NBR="0"/>
+    <KSLU_CLU_ATTR ATTR_NAME="calculatedContactHours" ATTR_VALUE="45"
+        ID="52a1876e-239e-42ab-ba80-aceacc6e5c08"
+        OBJ_ID="acfe7ef1-7c70-434a-a33c-8090c488ff7f"
+        OWNER="527ea66b-b533-4ea9-a768-8e224c3811d6" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="finalExamStatus" ATTR_VALUE="STD"
         ID="52a8e44d-26aa-4317-a800-bf0870290495"
         OBJ_ID="7fc7517b-d78b-439e-a287-b8ebebc50b8e"
@@ -20471,10 +20423,6 @@
         ID="536be229-ca94-4aea-8fa6-fd95a11bacf4"
         OBJ_ID="12485742-0813-4c0e-9aba-a50628419341"
         OWNER="CLUID-CHEM624-198001000000" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="finalExamStatus" ATTR_VALUE="STD"
-        ID="536ea166-4e34-421b-97a1-8280c53c07cb"
-        OBJ_ID="16682500-4a7a-42ad-8dad-0e0ac37f26f2"
-        OWNER="CLUID-WMST453-200008000000" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="repeatableIfContentDiffers"
         ATTR_VALUE="false" ID="53706c80-e301-4eb6-b8e9-4048ebba1ac6"
         OBJ_ID="e517f12b-4c4e-46dc-9476-48fc3ee92f92"
@@ -20922,10 +20870,6 @@
         ID="553c8d6f-dedc-4f9c-bd25-db1d79d7b8ee"
         OBJ_ID="f7ea7243-17cf-43ac-8643-4707e3bfa2d7"
         OWNER="9b1e2be1-45b5-4918-95ef-438c259e06ec" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="calculatedContactHours" ATTR_VALUE="45"
-        ID="553e0e51-7e05-43a3-a895-4dc5b2d448f5"
-        OBJ_ID="c583709f-b34b-492e-9f20-fdf78844551c"
-        OWNER="b68dd1a7-4c91-42fe-b634-39794c3b22d4" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="credits" ATTR_VALUE="1.5"
         ID="5540b045-2f24-4b19-bf1b-6deba01cae39"
         OBJ_ID="9dbee773-f39a-4fe2-8fb6-6e62980d9410"
@@ -25100,10 +25044,6 @@
         ID="65551659-9430-4ff6-a781-34c8d9ff8d21"
         OBJ_ID="5f3b5ff0-a948-4309-acf0-2321bcb6fde3"
         OWNER="60506abf-5ace-4b76-91f2-d9d528a43dfb" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="passFail" ATTR_VALUE="false"
-        ID="6558527e-0643-4bc3-8952-a4bac12b0d5a"
-        OBJ_ID="fbfe814a-67d9-46cb-af89-9ccd108405c9"
-        OWNER="CLUID-WMST453-200008000000" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="activityTypeExplanation" ATTR_VALUE="."
         ID="655ab466-38ae-4980-9dd0-9b4984dac711"
         OBJ_ID="43581a80-778e-4846-ab98-9e3aa4b54198"
@@ -25823,10 +25763,6 @@
         ID="67fdcd3d-d0da-4cc0-8ffc-68ac04e61a7d"
         OBJ_ID="fb8d9b6a-0612-49d3-92be-38822ba54408"
         OWNER="30374a85-e0f9-4334-af56-8538f277f142" VER_NBR="2"/>
-    <KSLU_CLU_ATTR ATTR_NAME="calculatedContactHours" ATTR_VALUE="0"
-        ID="6800c4bd-b3c6-4567-82d8-99bdef9a7dbf"
-        OBJ_ID="4d7bf0dd-2726-425b-b806-06f361bdee7e"
-        OWNER="a9a5d288-8c66-49ff-9ab8-1e54bf9632bf" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="calculatedContactHours" ATTR_VALUE="45"
         ID="68095aaf-72c6-459c-877c-6e583becc84a"
         OBJ_ID="a5e715a9-2dfc-4c39-8ed3-98cd6263c71b"
@@ -27137,10 +27073,6 @@
         ID="6d0d7cb4-a5fd-4a01-984f-1c384d1ecb7d"
         OBJ_ID="4b206071-6f25-43e8-945f-2e4bb73a3520"
         OWNER="CLUID-WMST698-199008000000" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="activityTotalCredits" ATTR_VALUE="3"
-        ID="6d0e85c4-c1a9-452d-ae09-0d4b65730f53"
-        OBJ_ID="f402a576-7544-4584-9c5b-1c229f812e87"
-        OWNER="2925f7b7-9d3a-4532-90ec-ea22056ce4a2" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="semesterType"
         ATTR_VALUE="semesterType.standard"
         ID="6d177768-e4d7-404f-a3d5-3ee90d299bd2"
@@ -27847,10 +27779,6 @@
         ID="6fe86f5f-f563-4815-9dd2-b08956543ba9"
         OBJ_ID="83688065-94c3-45c4-bbc3-e15b3d169cd3"
         OWNER="6b087bae-a00c-4099-aac8-526448ac556d" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="credits" ATTR_VALUE="3"
-        ID="6feae95e-1d24-420e-b840-8b5eca30d896"
-        OBJ_ID="3960967e-b775-4295-bfba-af7077422de1"
-        OWNER="cc2be650-87cf-44a0-bff3-f66147b22d89" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="credits" ATTR_VALUE="3"
         ID="6fec3f01-7114-4838-8f5d-2aeee5f68cf1"
         OBJ_ID="508ce93c-d9c4-4a0e-8fcf-473ae826a89c"
@@ -30441,11 +30369,6 @@
         ID="79892e04-7616-437d-b663-82f2998d1074"
         OBJ_ID="f37c44a2-809d-40cc-af89-7bb9ced3c37d"
         OWNER="2dbce063-9ebf-4808-976f-0fd7b2ca0be9" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="lastTermOffered"
-        ATTR_VALUE="kuali.atp.2002Winter"
-        ID="799043ec-b114-43c0-b434-20f954e19cbd"
-        OBJ_ID="1bb7867f-364a-4319-8945-0e11c41d4f2a"
-        OWNER="CLUID-WMST453-200008000000" VER_NBR="1"/>
     <KSLU_CLU_ATTR ATTR_NAME="activityTotalContactHours" ATTR_VALUE="45"
         ID="7994f961-1276-4cdb-833b-74446b66e069"
         OBJ_ID="e9ad0690-2dd6-4612-ab72-1a047f77a0e3"
@@ -40977,11 +40900,6 @@
         OBJ_ID="BAD1831906094C64E04400144FEC0416"
         OWNER="CLUID-WMST452-199501000000" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="creditGrantedFor"
-        ATTR_VALUE="HIST493 or WMST453"
-        ID="BAD18319060A4C64E04400144FEC0416"
-        OBJ_ID="BAD18319060B4C64E04400144FEC0416"
-        OWNER="2925f7b7-9d3a-4532-90ec-ea22056ce4a2" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="creditGrantedFor"
         ATTR_VALUE="HIST492 or WMST456"
         ID="BAD1831906104C64E04400144FEC0416"
         OBJ_ID="BAD1831906114C64E04400144FEC0416"
@@ -42137,10 +42055,6 @@
         ID="a19cc2dd-3908-43a9-9f23-588480e53b72"
         OBJ_ID="81b4206b-7b30-4d65-99a4-1bf87b71be4e"
         OWNER="80ae67c0-b091-4d29-b25a-a64f7c72257e" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="credits" ATTR_VALUE="3"
-        ID="a19e8779-8ead-4c2c-99fe-eb973fed2b07"
-        OBJ_ID="8f0ac250-651c-4470-9aff-9aec25d3d374"
-        OWNER="4d20cb89-9559-420f-b7bd-0beaafe17675" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="activityTypeExplanation" ATTR_VALUE="."
         ID="a19f31e1-f9e9-4ff9-ab28-02a74a5a088d"
         OBJ_ID="a3f0d130-133f-40e5-bc81-087993b2ec51"
@@ -42644,10 +42558,6 @@
         ID="a354de8d-1b61-4e1a-b6a7-b2111d7563c6"
         OBJ_ID="3e0c0ce8-43d3-4b99-a23d-5efd15cee64d"
         OWNER="b0b63e86-4936-4bbe-98ab-b22dcde16074" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="credits" ATTR_VALUE="0"
-        ID="a356191c-1a16-4a08-b9c0-5185364b4849"
-        OBJ_ID="33b2e6e7-3175-47c4-a687-55bd3c19a9aa"
-        OWNER="b4bc3689-2a06-40df-9a40-788b07a06dae" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="credits" ATTR_VALUE="1"
         ID="a3615fd0-fdf4-4a95-b56d-cf9f94c301ac"
         OBJ_ID="de9d1cec-b92d-4199-95c1-a44ec1306c55"
@@ -45768,10 +45678,6 @@
         ID="afc3eb6d-7956-4ea7-9981-cd712f2f62e2"
         OBJ_ID="b074b5c2-1bfc-497d-8f90-613177ceceb0"
         OWNER="CLUID-HIST280-198001198905" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="calculatedContactHours" ATTR_VALUE="45"
-        ID="afc98454-d93c-4a3b-84f1-fed9f147bd94"
-        OBJ_ID="04f2808a-7d42-4508-9b9b-83922deb1942"
-        OWNER="87ad4b5c-8298-4007-a52f-cc67bd30542e" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="creditGrantedFor"
         ATTR_VALUE="WMST255 or ENGL250"
         ID="afcf3651-4f3b-4bfe-8e93-008263fcb9af"
@@ -47275,10 +47181,6 @@
         ID="b60857d3-968f-4bf2-89e9-a9473f889eb0"
         OBJ_ID="8bcbe4a5-34ed-4581-be83-21328e4e0c6a"
         OWNER="7871b938-5273-4e57-99cd-268e68557622" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="credits" ATTR_VALUE="3"
-        ID="b610947a-a06c-4348-9375-fc25fad92c4c"
-        OBJ_ID="7c9e1f85-6ab4-4ec8-819e-607f899289a9"
-        OWNER="87ad4b5c-8298-4007-a52f-cc67bd30542e" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="activityTypeExplanation" ATTR_VALUE="."
         ID="b614de9e-a299-4d90-94b8-62cbc8141e3e"
         OBJ_ID="c64a6549-d4ca-472e-aad2-b1f54a42c0fc"
@@ -51958,11 +51860,6 @@
         ID="c9a58958-225e-4fd4-9822-dceb2087e7cd"
         OBJ_ID="25b85249-d90c-4ff7-8646-ab84cc015d92"
         OWNER="5964acb4-94b3-4a48-b401-061c5dec6548" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="semesterType"
-        ATTR_VALUE="semesterType.standard"
-        ID="c9ae025e-da0a-41c1-b79e-b2e86c6611ed"
-        OBJ_ID="fbe9f22c-9537-49ff-ac47-d02cda337cf3"
-        OWNER="2925f7b7-9d3a-4532-90ec-ea22056ce4a2" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="activityTypeExplanation" ATTR_VALUE="."
         ID="c9b023cf-9d48-4dce-ba14-825189852277"
         OBJ_ID="ceac7f22-c61e-4bbb-9e1c-5dee255e1332"
@@ -53064,11 +52961,6 @@
         ID="ce39ec47-3666-49f1-9170-a21381826907"
         OBJ_ID="b48197e2-bb07-4b75-b2c5-0b8c96c5f2a0"
         OWNER="de7dee18-061d-472a-b226-363880ecd223" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="semesterType"
-        ATTR_VALUE="semesterType.standard"
-        ID="ce3fe6c2-741e-4405-b429-196121a79232"
-        OBJ_ID="05cdb954-dae1-4bd5-a24d-439f5ad08d62"
-        OWNER="CLUID-WMST453-200008000000" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="activityTotalCredits" ATTR_VALUE="3"
         ID="ce400b09-4718-4a10-9cad-3fdd846c308d"
         OBJ_ID="1d342240-79a7-4a85-ab5d-dac10c35308c"
@@ -54356,10 +54248,6 @@
         ID="d32c51b2-ae24-49d3-b774-9fb66b3a446c"
         OBJ_ID="f851316b-f9d8-47d9-8d51-ec8a788585a4"
         OWNER="88061dd9-e263-41da-a008-7415b2b0dfb5" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="credits" ATTR_VALUE="0"
-        ID="d3407bd4-a3ae-48fc-8023-92511e3244aa"
-        OBJ_ID="4d6f0029-e88d-430b-a6ef-4e212b6894db"
-        OWNER="a9a5d288-8c66-49ff-9ab8-1e54bf9632bf" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="passFail" ATTR_VALUE="true"
         ID="d34b3cb5-fd0e-4867-b5bf-d0e5468275cb"
         OBJ_ID="7c9b518a-36d9-4462-b9ad-85231476928a"
@@ -55727,6 +55615,10 @@
         ATTR_VALUE="true" ID="d7e73f3b-2876-4fd8-b80a-5f6b34dc1431"
         OBJ_ID="d2ed087c-1eff-48d3-8e44-b6a40cfcb2c4"
         OWNER="0fd71585-b967-49f6-bd5a-6b7137070a0d" VER_NBR="0"/>
+    <KSLU_CLU_ATTR ATTR_NAME="credits" ATTR_VALUE="3"
+        ID="d7e8a289-a870-484d-9913-d33eadf113f3"
+        OBJ_ID="59fbdfa3-fc5a-46d3-88f5-efcc58d919c1"
+        OWNER="527ea66b-b533-4ea9-a768-8e224c3811d6" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="audit" ATTR_VALUE="true"
         ID="d7eb68ac-2629-4f10-aea1-49bfc36d2e36"
         OBJ_ID="f2fb5c17-ecfb-4419-81e9-312a2edefd36"
@@ -56481,10 +56373,6 @@
         ID="dada41a6-72de-493a-b964-aa028921e4f3"
         OBJ_ID="3c118755-5373-43c1-9197-de353b16c17f"
         OWNER="fdc7800d-45f6-4c40-80c8-c530bebbb628" VER_NBR="1"/>
-    <KSLU_CLU_ATTR ATTR_NAME="calculatedContactHours" ATTR_VALUE="45"
-        ID="dadc8bc8-0474-4097-b2ec-419cd6b1e215"
-        OBJ_ID="0edb5a6b-a92e-4b80-9211-2679a6d5aa33"
-        OWNER="cc2be650-87cf-44a0-bff3-f66147b22d89" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="semesterType"
         ATTR_VALUE="semesterType.standard"
         ID="dadcfde0-6192-4130-877f-4085cf63f24f"
@@ -56859,10 +56747,6 @@
         ATTR_VALUE="&lt;null>" ID="dc661f81-7042-469c-a950-8137248b15bc"
         OBJ_ID="91c510eb-62ed-41fa-ab40-2893615da098"
         OWNER="a32eb6e2-3860-4f3f-bc58-894243c4a85e" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="calculatedContactHours" ATTR_VALUE="0"
-        ID="dc67d94a-b541-4be8-a11b-0abe33d8e3ce"
-        OBJ_ID="25cd18bf-d262-4bf6-b88a-1a56d031324a"
-        OWNER="b4bc3689-2a06-40df-9a40-788b07a06dae" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="audit" ATTR_VALUE="false"
         ID="dc6afa2e-46ea-4025-ba54-882c1570f177"
         OBJ_ID="c82832d8-7fa9-4e1f-a3e8-b75359baab3e"
@@ -59149,10 +59033,6 @@
         ID="e5bfc6c6-0e07-4079-bac5-28e76df35b6b"
         OBJ_ID="4a698dc3-e490-4a02-954d-4b0dff2f1bd7"
         OWNER="c5b323f8-aa49-4da2-8dea-7416ae3f41ec" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="lastTermOffered"
-        ID="e5c18d7d-081b-4658-be85-350d78ec096f"
-        OBJ_ID="85d75c0a-0af4-4bc5-b0f4-a56b06ca2ff6"
-        OWNER="2925f7b7-9d3a-4532-90ec-ea22056ce4a2" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="activityTotalContactHours" ATTR_VALUE="75"
         ID="e5c7cfd0-98e2-4a38-aa17-e225d0c1a5ba"
         OBJ_ID="2cd983fd-7a61-4198-a6c0-736d756efbfa"
@@ -62849,10 +62729,6 @@
         ID="f470f4b9-41d3-44da-8772-53d771e9c3e5"
         OBJ_ID="ed6076f0-c15e-41f9-a129-421475775129"
         OWNER="CLUID-HIST360-198001000000" VER_NBR="0"/>
-    <KSLU_CLU_ATTR ATTR_NAME="credits" ATTR_VALUE="3"
-        ID="f472bb0a-c180-4487-8bbb-179d18e6c1bc"
-        OBJ_ID="85628a27-514d-4d6a-82bc-e22534971796"
-        OWNER="b68dd1a7-4c91-42fe-b634-39794c3b22d4" VER_NBR="0"/>
     <KSLU_CLU_ATTR ATTR_NAME="calculatedContactHours" ATTR_VALUE="45"
         ID="f474d861-fefc-42ba-9cba-a82246bc0bf5"
         OBJ_ID="ee47a7a7-ab5c-44aa-8914-1db5bd37800a"

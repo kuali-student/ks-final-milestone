@@ -6464,12 +6464,6 @@
         OBJ_ID="d9d8a5fd-fc44-4b31-ba88-44b2628f2740"
         SHRT_NAME="MAMMALIAN PHYSIOLOGY" ST="Superseded" SUFX_CD="440"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
-    <KSLU_CLU_IDENT CD="WMST453" DIVISION="WMST"
-        ID="7af7c341-c45c-4ad1-852e-705d44c5164c"
-        LNG_NAME="Victorian Women in England, France, and the United States"
-        LVL="400" OBJ_ID="35579495-7756-4cd3-a7b4-5f27d1b7590a"
-        SHRT_NAME="VICTORIAN WOMEN" ST="Superseded" SUFX_CD="453"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="1105B" ID="7afb6762-aa0f-40a4-a9bb-a55f2172b6d1"
         OBJ_ID="c9e06712-400c-4468-ba75-471539e8bc42"
         SHRT_NAME="Spanish Language &amp; Literature w/ Business"
@@ -9175,12 +9169,6 @@
         SHRT_NAME="INTRO:THERM ELEC&amp;MAG" ST="Superseded"
         SUFX_CD="272"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
-    <KSLU_CLU_IDENT CD="WMST453" DIVISION="WMST"
-        ID="b07c4c02-846e-411c-ae0b-f00b622b60c7"
-        LNG_NAME="Victorian Women in England, France, and the United States"
-        LVL="400" OBJ_ID="a7ba3717-e4d9-4ec7-8fed-950a3e8e85f7"
-        SHRT_NAME="VICTORIAN WOMEN" ST="Active" SUFX_CD="453"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="6"/>
     <KSLU_CLU_IDENT CD="HIST314" DIVISION="HIST"
         ID="b08d5925-95a3-4454-ab42-f59fc20b0bde"
         LNG_NAME="Crisis and Change in the Middle East and Africa"
