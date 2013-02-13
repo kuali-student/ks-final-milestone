@@ -200,6 +200,8 @@
         <profile>
             <id>db</id>
             <properties>
+                <db.populate.phase>initialize</db.populate.phase>
+
                 <!-- Schemas -->
                 <sql.meta.base>classpath:META-INF/sql/${db.vendor}/${project.artifactId}</sql.meta.base>
 

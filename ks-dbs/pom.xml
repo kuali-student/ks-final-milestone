@@ -29,6 +29,8 @@
         <!-- Set this to something that is unique per KS branch -->
         <db.branch.qualifier>_SPRING</db.branch.qualifier>
 
+        <db.populate.phase>none</db.populate.phase>
+
     </properties>
     <build>
         <pluginManagement>
@@ -36,11 +38,10 @@
                 <plugin>
                     <groupId>org.kuali.maven.plugins</groupId>
                     <artifactId>spring-maven-plugin</artifactId>
-                    <inherited>false</inherited>
                     <executions>
                         <execution>
                             <id>load</id>
-                            <phase>initialize</phase>
+                            <phase>${db.populate.phase}</phase>
                             <goals>
                                 <goal>load</goal>
                             </goals>
