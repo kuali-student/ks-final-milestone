@@ -16,6 +16,7 @@
 package org.kuali.student.krms.naturallanguage.translators;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.krms.impl.repository.PropositionBo;
 import org.kuali.student.krms.naturallanguage.NaturalLanguageTranslator;
 import org.kuali.student.r1.core.statement.entity.ReqComponent;
 import org.kuali.student.r1.core.statement.entity.Statement;
@@ -31,8 +32,7 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 
 	private final static Logger logger = Logger.getLogger(NaturalLanguageTranslatorImpl.class);
 	
-	private ReqComponentTranslator reqComponentTranslator;
-	private StatementTranslator statementTranslator;
+	private PropositionTranslator propositionTranslator;
 
 	/**
 	 * Constructs a new natural language translator in the
@@ -46,33 +46,25 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 *
 	 * @param reqComponentTranslator Requirement component translator
 	 */
-	public void setReqComponentTranslator(final ReqComponentTranslator reqComponentTranslator) {
-		this.reqComponentTranslator = reqComponentTranslator;
+	public void setPropositionTranslator(final PropositionTranslator propositionTranslator) {
+		this.propositionTranslator = propositionTranslator;
 	}
 
-	/**
-	 * Sets the statement translator.
-	 *
-	 * @param statementTranslator Statement translator
-	 */
-	public void setStatementTranslator(final StatementTranslator statementTranslator) {
-		this.statementTranslator = statementTranslator;
-	}
 
 	/**
 	 * Translates a requirement component in the default language locale for a
 	 * specific natural language, usuage type (context) into natural language.
 	 *
-	 * @param reqComponent Requirement component to be translated
+	 * @param proposition Requirement component to be translated
 	 * @param nlUsageTypeKey Natural language usage type key (context)
 	 * @return Natural language requirement translation
 	 * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException Requirement component id does not exists
 	 * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
 	 */
-	public synchronized String translateReqComponent(final ReqComponent reqComponent, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-		String nl = this.reqComponentTranslator.translate(reqComponent, nlUsageTypeKey);
+	public synchronized String translateProposition(final PropositionBo proposition, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+		String nl = this.propositionTranslator.translate(proposition, nlUsageTypeKey);
 		if(logger.isInfoEnabled()) {
-			logger.info("ReqComponent translation="+nl);
+			logger.info("Proposition translation="+nl);
 		}
 		return nl;
 	}
@@ -82,65 +74,25 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 * usuage type (context) and language locale (e.g. 'en' for English,
 	 * 'de' for German) into natural language.
 	 *
-	 * @param reqComponent Requirement component to be translated
+	 * @param proposition Requirement component to be translated
 	 * @param nlUsageTypeKey Natural language usage type key (context)
 	 * @param language Translation language
 	 * @return
 	 * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
 	 * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
 	 */
-	public synchronized String translateReqComponent(final ReqComponent reqComponent, final String nlUsageTypeKey, final String language) throws DoesNotExistException, OperationFailedException {
+	public synchronized String translateProposition(final PropositionBo proposition, final String nlUsageTypeKey, final String language) throws DoesNotExistException, OperationFailedException {
 		String nl = null;
 		if(language == null) {
-			nl = this.reqComponentTranslator.translate(reqComponent, nlUsageTypeKey);
+			nl = this.propositionTranslator.translate(proposition, nlUsageTypeKey);
 		} else {
-			nl = this.reqComponentTranslator.translate(reqComponent, nlUsageTypeKey, language);
+			nl = this.propositionTranslator.translate(proposition, nlUsageTypeKey, language);
 		}
 		if(logger.isInfoEnabled()) {
-			logger.info("ReqComponent translation="+nl);
+			logger.info("Proposition translation="+nl);
 		}
 		return nl;
 	}
 
-	/**
-	 * Translates a statement for a specific natural language,
-	 * usuage type (context) into natural language.
-	 *
-	 * @param statement Statement to be translated
-	 * @param nlUsageTypeKey Natural language usage type key (context)
-	 * @return Natural language statement translation
-	 * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException CLU does not exists
-	 * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Translation fails
-	 */
-	public synchronized String translateStatement(final Statement statement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-		String nl = this.statementTranslator.translate(statement, nlUsageTypeKey);
-		if(logger.isInfoEnabled()) {
-			logger.info("Statement translation="+nl);
-		}
-		return nl;
-	}
 
-	/**
-	 * Translates a statement for a specific natural language,
-	 * usuage type (context) and language locale into natural language.
-	 *
-	 * @param statement Statement to be translated
-	 * @param nlUsageTypeKey Natural language usage type key (context)
-	 * @param language Translation language
-	 * @return Natural language statement translation
-	 * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException CLU id does not exists
-	 * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Translation fails
-	 */
-	public synchronized String translateStatement(Statement statement, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException {
-		String nl = null;
-		if(language == null) {
-			nl = this.statementTranslator.translate(statement, nlUsageTypeKey);
-		} else {
-			nl = this.statementTranslator.translate(statement, nlUsageTypeKey, language);
-		}
-		if(logger.isInfoEnabled()) {
-			logger.info("Statement translation="+nl);
-		}
-		return nl;
-	}
 }

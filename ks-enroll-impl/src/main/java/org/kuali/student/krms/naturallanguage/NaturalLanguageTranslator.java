@@ -15,6 +15,7 @@
 
 package org.kuali.student.krms.naturallanguage;
 
+import org.kuali.rice.krms.impl.repository.PropositionBo;
 import org.kuali.student.r1.core.statement.entity.ReqComponent;
 import org.kuali.student.r1.core.statement.entity.Statement;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -29,50 +30,27 @@ public interface NaturalLanguageTranslator {
 	 * Translates a requirement component for a specific natural language 
 	 * usuage type (context) into natural language.
 	 * 
-	 * @param reqComponent Requirement component to be translated
+	 * @param proposition Requirement component to be translated
 	 * @param nlUsageTypeKey Natural language usage type key (context)
 	 * @return Natural language requirement translation
 	 * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException Requirement component id does not exists
 	 * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
 	 */
-	public String translateReqComponent(ReqComponent reqComponent, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException;
+	public String translateProposition(PropositionBo proposition, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException;
 
 	/**
 	 * Translates a requirement component for a specific natural language
 	 * usuage type (context) and language locale (e.g. 'en' for English,
 	 * 'de' for German) into natural language.
 	 *
-	 * @param reqComponent Requirement component to be translated
+	 * @param proposition Requirement component to be translated
 	 * @param nlUsageTypeKey Natural language usage type key (context)
 	 * @param language Translation language
 	 * @return
 	 * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
 	 * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
 	 */
-	public String translateReqComponent(ReqComponent reqComponent, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException;
+	public String translateProposition(PropositionBo proposition, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException;
 
-	/**
-	 * Translates a statement in the default language locale for a specific
-	 * natural language usuage type (context) into natural language.
-	 *
-	 * @param statement Statement to be translated
-	 * @param nlUsageTypeKey Natural language usage type key (context)
-	 * @return Natural language statement translation
-	 * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException CLU id does not exists
-	 * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Translation fails
-	 */
-	public String translateStatement(Statement statement, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException;
 
-	/**
-	 * Translates a statement for a specific natural language
-	 * usuage type (context) and language locale into natural language.
-	 *
-	 * @param statement Statement to be translated
-	 * @param nlUsageTypeKey Natural language usage type key (context)
-	 * @param language Translation language
-	 * @return Natural language statement translation
-	 * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException CLU id does not exists
-	 * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Translation fails
-	 */
-	public String translateStatement(Statement statement, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException;
 }
