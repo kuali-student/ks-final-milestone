@@ -1208,11 +1208,6 @@
         ID="2cc851a3-5029-453c-801e-04ddf882170d"
         OBJ_ID="e31a939d-d3b2-4df5-a2a5-87f258b7dba8" VER_NBR="0"/>
     <KSLU_CLU_SET_JN_CLU
-        CLU_SET_ID="375ab6aa-b37e-4cb4-928f-b2ae928f3335"
-        CLU_VER_IND_ID="550e6b4f-8634-4fba-aa09-6d4470dba404"
-        ID="2d2f8506-ad5a-4872-ba74-ff293cafc04c"
-        OBJ_ID="44fb275c-027b-45e5-8357-030a90c2c354" VER_NBR="0"/>
-    <KSLU_CLU_SET_JN_CLU
         CLU_SET_ID="51d0480d-8e16-46f0-994e-39688ceb2f4e"
         CLU_VER_IND_ID="0ef99423-4957-4de4-83df-4872f2d1eadd"
         ID="2d436e69-065a-4c65-820f-a7dc19b55392"
@@ -1487,11 +1482,6 @@
         CLU_VER_IND_ID="8e45fdcc-d495-42c2-9684-4ae21ae660a6"
         ID="39b210f1-cd82-4826-9307-fc9850292cd9"
         OBJ_ID="8c750630-4753-4c2b-9016-84d75b68d336" VER_NBR="0"/>
-    <KSLU_CLU_SET_JN_CLU
-        CLU_SET_ID="d89fe369-9a3b-44af-bf65-753565e51f55"
-        CLU_VER_IND_ID="2762166a-f646-4532-bf8f-660284f40723"
-        ID="3a3065e5-1433-460e-a6b4-1a5bd0180b3c"
-        OBJ_ID="990bcca5-50c1-4fab-aa58-e635e5fabffa" VER_NBR="0"/>
     <KSLU_CLU_SET_JN_CLU
         CLU_SET_ID="2e943947-a148-4794-bd08-baf75af53a35"
         CLU_VER_IND_ID="b7a9eb2f-e811-4b0e-9f0d-aad6dae84bae"
@@ -2673,11 +2663,6 @@
         ID="618b848e-fba8-4bd4-9b5e-593e7433439e"
         OBJ_ID="1c716410-bc29-4d5c-80a4-5feef3a2b5c6" VER_NBR="0"/>
     <KSLU_CLU_SET_JN_CLU
-        CLU_SET_ID="fc35f9fc-2d6d-421e-8239-85eb639b8f48"
-        CLU_VER_IND_ID="2762166a-f646-4532-bf8f-660284f40723"
-        ID="62054063-f41a-4f14-8dca-c49156bcf598"
-        OBJ_ID="a32f3270-432f-454f-b6ae-dad02d509955" VER_NBR="0"/>
-    <KSLU_CLU_SET_JN_CLU
         CLU_SET_ID="51d0480d-8e16-46f0-994e-39688ceb2f4e"
         CLU_VER_IND_ID="f66b0d04-e2df-4009-90a5-ff864cdb30b6"
         ID="6283cc93-d5c6-4a9e-b2ea-0b60a4973bc2"
@@ -3062,11 +3047,6 @@
         CLU_VER_IND_ID="28095b14-38d5-48eb-b13f-f0ad9ccb6aa3"
         ID="7356d57b-73fd-42e5-861a-6c16f019e2df"
         OBJ_ID="7bbdb372-b99e-4662-b429-6ac20812a0bd" VER_NBR="0"/>
-    <KSLU_CLU_SET_JN_CLU
-        CLU_SET_ID="ea24a638-4913-4029-a598-c77fb5840d98"
-        CLU_VER_IND_ID="2762166a-f646-4532-bf8f-660284f40723"
-        ID="742a454c-eabf-490b-af15-c96682334efb"
-        OBJ_ID="ad8762ec-403b-4f04-95d9-5bbf28194702" VER_NBR="0"/>
     <KSLU_CLU_SET_JN_CLU
         CLU_SET_ID="51d0480d-8e16-46f0-994e-39688ceb2f4e"
         CLU_VER_IND_ID="ccdc0050-fac9-4336-a996-0634aabaf5c2"
@@ -4413,11 +4393,6 @@
         ID="a42aeb5a-041f-46ed-854e-9a64d8612f05"
         OBJ_ID="7b82ff9c-c9d2-45fb-9edb-3022eca0121b" VER_NBR="0"/>
     <KSLU_CLU_SET_JN_CLU
-        CLU_SET_ID="19a9f491-1b54-4c8f-ae35-2aaaeab011a2"
-        CLU_VER_IND_ID="2762166a-f646-4532-bf8f-660284f40723"
-        ID="a4c0462e-a19f-4592-b4fc-a117428d3a1e"
-        OBJ_ID="17a28de6-2b16-4f4e-8a54-961610745964" VER_NBR="0"/>
-    <KSLU_CLU_SET_JN_CLU
         CLU_SET_ID="c861a73a-b285-46a3-a554-141f7c57e676"
         CLU_VER_IND_ID="5d686f0b-a299-4cc3-8b71-9b839da077ab"
         ID="a4f18eb0-7f90-4b03-85a3-11b7c750d460"
@@ -5378,11 +5353,6 @@
         ID="c88522e2-2122-4d34-b413-8b9bd044847a"
         OBJ_ID="68b3d1f8-b46b-46a1-8970-01887b35b918" VER_NBR="0"/>
     <KSLU_CLU_SET_JN_CLU
-        CLU_SET_ID="59bb6da9-e6dc-4ff8-82ea-3c398ea08f08"
-        CLU_VER_IND_ID="35b33801-8ca0-4287-9d71-395b3f7a0f37"
-        ID="c8a77ca6-005a-4068-b5e2-25936ed107a1"
-        OBJ_ID="6ea055f4-a14e-4ed5-a64b-557f91a04a19" VER_NBR="0"/>
-    <KSLU_CLU_SET_JN_CLU
         CLU_SET_ID="fc35f9fc-2d6d-421e-8239-85eb639b8f48"
         CLU_VER_IND_ID="ee99fefc-541c-4cb2-b18c-77dcd43784c5"
         ID="c8fcc0b6-9cf4-4c37-a618-53281a25b6ec"
@@ -5432,11 +5402,6 @@
         CLU_VER_IND_ID="f02351a1-26ca-4395-9b4c-38f0edd64035"
         ID="cac7ccd8-33e7-4d01-bd73-725ed4652d19"
         OBJ_ID="f0c914ca-6167-42e2-98d8-8bb6a137c1bf" VER_NBR="0"/>
-    <KSLU_CLU_SET_JN_CLU
-        CLU_SET_ID="eb2a67b7-39ea-47f0-95e5-9e0155dcf8d2"
-        CLU_VER_IND_ID="2762166a-f646-4532-bf8f-660284f40723"
-        ID="cade5eb2-7ea9-4342-9edc-a4a5acfd2505"
-        OBJ_ID="eff847ac-5f4e-4907-a7a7-4c8b140da457" VER_NBR="0"/>
     <KSLU_CLU_SET_JN_CLU
         CLU_SET_ID="c853d15c-4e02-430f-8796-3b23c8107d0b"
         CLU_VER_IND_ID="e0f3434a-0b44-4e50-a8e0-4b268749d714"
