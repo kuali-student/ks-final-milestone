@@ -31,6 +31,9 @@ import org.kuali.student.enrollment.class2.courseoffering.service.transformer.Co
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ToolbarUtil;
+import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
+import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -42,9 +45,11 @@ import org.kuali.student.enrollment.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -53,6 +58,9 @@ import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImp
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentDisplayInfo;
+import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -68,6 +76,7 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_ViewHelperServiceImpl implements CourseOfferingManagementViewHelperService{
@@ -490,53 +499,77 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         int enabled = 0;
         List<CourseOfferingListSectionWrapper> qualifiedToDeleteList = form.getSelectedCoToDeleteList();
         qualifiedToDeleteList.clear();
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         int totalAos = 0;
         form.setCrossListedCO(false);
-        for(CourseOfferingListSectionWrapper co : coList) {
-             boolean hasDeletion = true;
-             if(co.getIsChecked()){
-                 checked++;
-                 if(co.isEnableDeleteButton() ) {
-                    List<ActivityOfferingWrapper> aos = getActivityOfferingsByCourseOfferingId(co.getCourseOfferingId(), form);
-                    if(aos != null && !aos.isEmpty()){
-                        ToolbarUtil.processAoToolbarForUser(aos, form);
-                        for(ActivityOfferingWrapper ao : aos){
-                            if(!ao.isEnableDeleteButton()){
-                                hasDeletion = false;
-                                break;
-                            } else {
-                                co.getAoToBeDeletedList().add(ao);
+        for (CourseOfferingListSectionWrapper co : coList) {
+            boolean hasDeletion = true;
+            if (co.getIsChecked()) {
+                checked++;
+                if (co.isEnableDeleteButton()) {
+                    List<ActivityOfferingDisplayWrapper> aoDisplayWrapperList = new ArrayList<ActivityOfferingDisplayWrapper>();
+                    List<ActivityOfferingDisplayInfo> aoDisplayInfoList = getCourseOfferingService().getActivityOfferingDisplaysForCourseOffering(co.getCourseOfferingId(), contextInfo);
+
+                    co.setCoHasAoToDelete(true);
+                    if(aoDisplayInfoList.isEmpty()) {
+                        co.setCoHasAoToDelete(false);
+                    }
+
+                    if (aoDisplayInfoList != null && !aoDisplayInfoList.isEmpty()) {
+                        for (ActivityOfferingDisplayInfo aoDisplayInfo : aoDisplayInfoList) {
+
+                            ActivityOfferingDisplayWrapper aoDisplayWrapper = new ActivityOfferingDisplayWrapper();
+                            aoDisplayWrapper.setAoDisplayInfo(aoDisplayInfo);
+
+                            // Adding Information (icons)
+                            String information = "";
+                            if (aoDisplayInfo.getIsHonorsOffering() != null && aoDisplayInfo.getIsHonorsOffering()) {
+                                information = "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HONORS_COURSE_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_ACTIVITY + "\"> ";
                             }
+                            aoDisplayWrapper.setInformation(information);
+
+                            if (aoDisplayInfo.getScheduleDisplay() != null && !aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().isEmpty()) {
+                                //TODO handle TBA state
+                                //ScheduleComponentDisplay scheduleComponentDisplay = aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().get(0);
+                                List<ScheduleComponentDisplayInfo> scheduleComponentDisplays = (List<ScheduleComponentDisplayInfo>) aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays();
+                                for (ScheduleComponentDisplay scheduleComponentDisplay : scheduleComponentDisplays) {
+                                    if (scheduleComponentDisplay.getBuilding() != null) {
+                                        aoDisplayWrapper.setBuildingName(scheduleComponentDisplay.getBuilding().getBuildingCode(), true);
+                                    }
+                                    if (scheduleComponentDisplay.getRoom() != null) {
+                                        aoDisplayWrapper.setRoomName(scheduleComponentDisplay.getRoom().getRoomCode(), true);
+                                    }
+                                    if (!scheduleComponentDisplay.getTimeSlots().isEmpty()) {
+                                        if (scheduleComponentDisplay.getTimeSlots().get(0).getStartTime() != null) {
+                                            aoDisplayWrapper.setStartTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getStartTime().getMilliSeconds()), true);
+                                        }
+                                        if (scheduleComponentDisplay.getTimeSlots().get(0).getEndTime() != null) {
+                                            aoDisplayWrapper.setEndTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getEndTime().getMilliSeconds()), true);
+                                        }
+                                        aoDisplayWrapper.setDaysDisplayName(getDays(scheduleComponentDisplay.getTimeSlots().get(0).getWeekdays()), true);
+                                    }
+                                }
+                            }
+                            co.getAoToBeDeletedList().add(aoDisplayWrapper);
+                        }
+
+                        totalAos = totalAos + co.getAoToBeDeletedList().size();
+                        co.setCrossListed(false);
+                        if (co.getAlternateCOCodes() != null && co.getAlternateCOCodes().size() > 0) {
+                            co.setCrossListed(true);
+                            form.setCrossListedCO(true);
                         }
                     }
-                     totalAos = totalAos + co.getAoToBeDeletedList().size();
-                     co.setCrossListed(false);
-                     if(co.getAlternateCOCodes() != null && co.getAlternateCOCodes().size() > 0) {
-                         co.setCrossListed(true);
-                         form.setCrossListedCO(true);
-                     }
-                     qualifiedToDeleteList.add(co);
+                    qualifiedToDeleteList.add(co);
 
-                     if(hasDeletion){
+                    if (hasDeletion) {
                         enabled++;
                     }
-                 }
-             }
-         }
-        form.setTotalAOsToBeDeleted(totalAos);
-
-
- /*       if(checked > enabled){
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE);
-        }else{
-            if(enabled == 1){
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE_1_SUCCESS);
-            }else {
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE_N_SUCCESS);
-            }
+                }
+           }
+            form.setTotalAOsToBeDeleted(totalAos);
         }
-*/
     }
 
     public void approveActivityOfferings(CourseOfferingManagementForm form) throws Exception{
@@ -743,6 +776,61 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return acalService;
+    }
+
+    private String millisToTime(Long milliseconds){
+        if(milliseconds == null){
+            return null;
+        }
+        final Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(milliseconds);
+        return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(cal.getTime());
+
+    }
+
+    private String convertIntoDaysDisplay(int day) {
+        String dayOfWeek;
+        switch (day) {
+            case 1:
+                dayOfWeek = SchedulingServiceConstants.SUNDAY_TIMESLOT_DISPLAY_DAY_CODE;
+                break;
+            case 2:
+                dayOfWeek = SchedulingServiceConstants.MONDAY_TIMESLOT_DISPLAY_DAY_CODE;
+                break;
+            case 3:
+                dayOfWeek = SchedulingServiceConstants.TUESDAY_TIMESLOT_DISPLAY_DAY_CODE;
+                break;
+            case 4:
+                dayOfWeek = SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DISPLAY_DAY_CODE;
+                break;
+            case 5:
+                dayOfWeek = SchedulingServiceConstants.THURSDAY_TIMESLOT_DISPLAY_DAY_CODE;
+                break;
+            case 6:
+                dayOfWeek = SchedulingServiceConstants.FRIDAY_TIMESLOT_DISPLAY_DAY_CODE;
+                break;
+            case 7:
+                dayOfWeek = SchedulingServiceConstants.SATURDAY_TIMESLOT_DISPLAY_DAY_CODE;
+                break;
+            default:
+                dayOfWeek = StringUtils.EMPTY;
+        }
+        // TODO implement TBA when service stores it.
+        return dayOfWeek;
+    }
+
+    private String getDays(List<Integer> intList) {
+
+        StringBuilder sb = new StringBuilder();
+        if(intList == null){
+            return sb.toString();
+        }
+
+        for(Integer d : intList) {
+            sb.append(convertIntoDaysDisplay(d));
+        }
+
+        return sb.toString();
     }
 
     public CourseOfferingService getCourseOfferingService() {

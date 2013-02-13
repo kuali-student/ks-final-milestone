@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.io.Serializable;
@@ -59,19 +60,28 @@ public class CourseOfferingListSectionWrapper implements Serializable{
 
     private String crossListedCoList;
 
-    List<ActivityOfferingWrapper> aoToBeDeletedList;
+    List<ActivityOfferingDisplayWrapper> aoToBeDeletedList;
+    private boolean coHasAoToDelete = true;
 
     public CourseOfferingListSectionWrapper () {
         this.alternateCOCodes = new ArrayList<String>();
-        aoToBeDeletedList =  new ArrayList<ActivityOfferingWrapper>();
+        aoToBeDeletedList =  new ArrayList<ActivityOfferingDisplayWrapper>();
     }
 
-    public List<ActivityOfferingWrapper> getAoToBeDeletedList() {
+    public List<ActivityOfferingDisplayWrapper> getAoToBeDeletedList() {
         return aoToBeDeletedList;
     }
 
-    public void setAoToBeDeletedList(List<ActivityOfferingWrapper> aoToBeDeletedList) {
+    public void setAoToBeDeletedList(List<ActivityOfferingDisplayWrapper> aoToBeDeletedList) {
         this.aoToBeDeletedList = aoToBeDeletedList;
+    }
+
+    public boolean isCoHasAoToDelete() {
+        return coHasAoToDelete;
+    }
+
+    public void setCoHasAoToDelete(boolean coHasAoToDelete) {
+        this.coHasAoToDelete = coHasAoToDelete;
     }
 
     public boolean isEnableAddButton() {

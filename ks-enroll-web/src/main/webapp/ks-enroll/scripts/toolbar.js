@@ -47,6 +47,13 @@ function getDataTableFromDiv(divId){
     return oTable;
 }
 
+
+function getDataTableHandle(divId){
+    var id = jQuery("#" + divId).attr('id');
+    var oTable = jQuery("#" + id).dataTable();
+    return oTable;
+}
+
 function handleButtons(hiddenColumnsMap, buttonsMap) {
    for(var key in hiddenColumnsMap)
    {
