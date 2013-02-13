@@ -50,6 +50,8 @@ public class CourseOfferingWrapper implements Serializable{
      * Usage of this property only in create and edit CO screens. Basically, this is whether to
      * allow the user to select cross lists or not. If it's false, then the cross
      * lists will be added to all the alternate codes.
+     *
+     * @see #isSelectCrossListingAllowed()
      */
     private Boolean selectCrossListingAllowed;
 
