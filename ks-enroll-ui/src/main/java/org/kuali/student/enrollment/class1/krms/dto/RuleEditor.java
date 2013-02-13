@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class1.krms.dto;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
+import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.impl.repository.AgendaBo;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
@@ -51,7 +52,7 @@ public class RuleEditor extends AgendaEditor {
     private transient LogicRuleViewer rulePreviewer;
     private Map<String, String> propositionAlpha = new HashMap<String, String>();
     private AlphaIterator alpha = new AlphaIterator();
-
+   
     public RuleEditor() {
         rule = new RuleBo();
     }
@@ -226,10 +227,10 @@ public class RuleEditor extends AgendaEditor {
 
     public Tree refreshPropositionTree(){
         Tree myTree = new Tree<RuleEditorTreeNode, String>();
-
+        
         Node<RuleEditorTreeNode, String> rootNode = new Node<RuleEditorTreeNode, String>();
-        myTree.setRootElement(rootNode);
-
+        myTree.setRootElement(rootNode);        
+        
         if (rule != null){
             PropositionBo prop = rule.getProposition();
             buildPropTree( rootNode, prop);
@@ -272,7 +273,7 @@ public class RuleEditor extends AgendaEditor {
             else if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())){
                 // Compound Proposition
                 Node<RuleEditorTreeNode, String> aNode = new Node<RuleEditorTreeNode, String>();
-
+                
                 // editMode has description as an editable field
                 if (prop.getEditMode()){
                     aNode.setNodeLabel("");
@@ -299,7 +300,7 @@ public class RuleEditor extends AgendaEditor {
                     first = false;
                     // call to build the childs node
                     buildPropTree(aNode, child);
-                }
+                }            
             }
         }
     }
@@ -343,5 +344,4 @@ public class RuleEditor extends AgendaEditor {
     public void initPreviewTree(){
         this.rulePreviewer.initPreviewTree(this);
     }
-
 }

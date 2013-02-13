@@ -51,6 +51,8 @@ public final class KRMSConstants {
     public static final String STUDENT_LOOKUP_VIEW = "StudentLookupView";
     public static final String STUDENT_INQUIRY_VIEW = "StudentInquiryView";
 
+    public static final String PROP_COMP_DEFAULT_DESCR = "Must meet all of the following";
+
     public final static class WebPaths {
         public static final String AGENDA_STUDENT_INQUIRY_PATH = "krmsAgendaStudentInquiry";
         public static final String AGENDA_STUDENT_EDITOR_PATH = "krmsAgendaStudentEditor";

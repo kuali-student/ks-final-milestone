@@ -264,6 +264,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
                         // create a new compound proposition
                         PropositionBo compound = PropositionBo.createCompoundPropositionBoStub(child.getData().getProposition().getProposition(), true);
+                        compound.setDescription(KRMSConstants.PROP_COMP_DEFAULT_DESCR);
                         // don't set compound.setEditMode(true) as the Simple Prop in the compound prop is the only prop in edit mode
                         rule.setProposition(compound);
                     }
@@ -492,7 +493,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
                 // create a new compound proposition
                 PropositionBo compound = PropositionBo.createCompoundPropositionBoStub(propBo, true);
-                compound.setDescription("New Compound Proposition ");
+                compound.setDescription(KRMSConstants.PROP_COMP_DEFAULT_DESCR);
                 compound.setEditMode(false);
 
                 if (parent.getData() == null) { // SPECIAL CASE: this is the only proposition in the tree

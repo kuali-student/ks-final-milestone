@@ -55,19 +55,24 @@ public class PropositionTreeUtil {
 
         if (selectedPropId == null) {
             return null;
+        } else if(selectedPropId.isEmpty()) {
+            PropositionEditor proposition = currentNode.getChildren().get(0).getData().getProposition();
+            return proposition;
         }
 
         // if it's in children, we have the parent
         for (Node<RuleEditorTreeNode, String> child : currentNode.getChildren()) {
             PropositionEditor proposition = child.getData().getProposition();
-            if (selectedPropId.equalsIgnoreCase(proposition.getProposition().getId())) {
+            if (proposition.getProposition().getPropositionTypeCode() == "S" && proposition.getProposition().getEditMode()) {
                 return proposition;
-            } else {
+            } else if(!proposition.getProposition().getEditMode()) {
                 // if not found check grandchildren
                 proposition = findProposition(child, selectedPropId);
                 if (proposition != null) {
                     return proposition;
                 }
+            } else if(selectedPropId.equalsIgnoreCase(proposition.getProposition().getId())){
+                return proposition;
             }
         }
 
