@@ -35,10 +35,7 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
     private String multipleCourseType;
     private String gradeScale;
 
-
-
     private String newTermDescription = "new term " + UUID.randomUUID().toString();
-    private String parameterDisplayString;
 
     public PropositionEditor() {
         super();
@@ -114,51 +111,4 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
         this.gradeScale = gradeScale;
     }
 
-    /**
-     * @return the parameterDisplayString
-     */
-    public String getParameterDisplayString() {
-        setupParameterDisplayString();
-
-        return proposition.getParameterDisplayString();
-    }
-
-    private void setupParameterDisplayString(){
-        if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(proposition.getPropositionTypeCode())){
-            // Simple Propositions should have 3 parameters ordered in reverse polish notation.
-            // TODO: enhance to get term names for term type parameters.
-            List<PropositionParameterBo> parameters = getParameters();
-            if (parameters != null && parameters.size() == 3){
-                StringBuilder sb = new StringBuilder();
-                String valueDisplay = getParamValue(parameters.get(1));
-                sb.append(getParamValue(parameters.get(0))).append(" ").append(getParamValue(parameters.get(2)));
-                if (valueDisplay != null) { // !=null and =null operators values will be null and should not be displayed
-                    sb.append(" ").append(valueDisplay);
-                }
-                proposition.setParameterDisplayString(sb.toString());
-            } else {
-                // should not happen
-            }
-        }
-    }
-
-    private String getParamValue(PropositionParameterBo prop){
-        if (PropositionParameterType.TERM.getCode().equalsIgnoreCase(prop.getParameterType())){
-            String termName = "";
-            String termId = prop.getValue();
-            if (termId != null && termId.length()>0){
-                TermBo term = getBoService().findBySinglePrimaryKey(TermBo.class,termId);
-                if (term != null && term.getSpecification() != null){
-                    termName = term.getSpecification().getName();
-                }
-            }
-            return termName;
-        } else {
-            return prop.getValue();
-        }
-    }
-
-    public BusinessObjectService getBoService() {
-        return KRADServiceLocator.getBusinessObjectService();
-    }
 }

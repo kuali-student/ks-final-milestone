@@ -41,7 +41,7 @@ import java.util.List;
  */
 public class KrmsComponentsForm extends KSUifForm {
 
-    private PropositionEditor proposition;
+    private PropositionEditor proposition = new PropositionEditor();
 
     private String field1;
 
