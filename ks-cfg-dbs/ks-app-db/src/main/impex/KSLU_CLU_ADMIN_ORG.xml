@@ -2703,11 +2703,6 @@
         OBJ_ID="67ffe000-f94e-4190-ac3a-7b88bcd6a701"
         ORG_ID="3213375036"
         TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
-    <KSLU_CLU_ADMIN_ORG CLU_ID="CLUID-WMST255-199501000000"
-        ID="6310d1e3-ac62-4fc3-b55f-2036ac736c90" IS_PR="0"
-        OBJ_ID="907cbb5c-96fd-4c6f-9e4e-6378d0b9bb6f"
-        ORG_ID="4014660630"
-        TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="01ff5e23-f44a-41fc-8ba7-330c72aa33b6"
         ID="63acffe1-f77f-4326-a5b0-c101d693ac68" IS_PR="0"
         OBJ_ID="f6e30a4a-02fa-45d1-9313-8a5ff600907f"
@@ -3507,11 +3502,6 @@
         OBJ_ID="4a0bbf95-9581-4b7c-9b50-1975ee08b182"
         ORG_ID="3213375036"
         TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
-    <KSLU_CLU_ADMIN_ORG CLU_ID="CLUID-WMST212-199501000000"
-        ID="85096e53-1dce-4652-a9a1-9ee699887cc8" IS_PR="0"
-        OBJ_ID="7eb99364-296d-40e5-9b85-f80cedd86bec"
-        ORG_ID="4014660630"
-        TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="CLUID-BSCI215-201112201112"
         ID="8565fa2d-3952-4b92-bc58-fa8c8851df4d" IS_PR="0"
         OBJ_ID="f57433bc-65a8-4dff-bde6-198356dbc292" ORG_ID="576639460"
@@ -3804,11 +3794,6 @@
         ID="8e9f378a-e083-4848-ae54-92fb456159f7" IS_PR="0"
         OBJ_ID="5e943702-922c-4b39-a007-1b15d704d059" ORG_ID="576639460"
         TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
-    <KSLU_CLU_ADMIN_ORG CLU_ID="e3572495-675d-4fde-a65a-6ae28424b067"
-        ID="8ea7eac6-e36b-465b-98d7-74c27fd97c73" IS_PR="0"
-        OBJ_ID="23060a70-061a-43f0-bbe0-2a6b456e7c9f"
-        ORG_ID="4014660630"
-        TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="76980c2e-71ce-439b-bdcb-841824caf801"
         ID="8eaa4ba3-d562-4884-81eb-4fcd22385256" IS_PR="0"
         OBJ_ID="975cd595-db18-44f4-8a7a-19470a2bdea2" ORG_ID="9012742"
@@ -3984,11 +3969,6 @@
         OBJ_ID="a3f74a23-1f33-453a-a670-1ae8a1657270"
         ORG_ID="3213375036"
         TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
-    <KSLU_CLU_ADMIN_ORG CLU_ID="2414e027-78f6-476f-bb94-921b7e69b27e"
-        ID="9520d92d-4177-44f0-ba36-a338f72b2820" IS_PR="0"
-        OBJ_ID="d040321e-c032-4fa1-8ac8-dd40905e3434"
-        ORG_ID="4014660630"
-        TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="CLUID-ENGL689-198901000000"
         ID="95390c99-55fd-4cc2-8d66-a6b1fb54ad94" IS_PR="0"
         OBJ_ID="36a957ff-cda5-4c0a-89d0-d25532f380b1"
@@ -4011,11 +3991,6 @@
     <KSLU_CLU_ADMIN_ORG CLU_ID="1c0fe33d-2233-4659-8a06-3adc8f6a17e1"
         ID="96f3ff59-edf3-440a-9517-7bbfc27051b4" IS_PR="0"
         OBJ_ID="4847fb0f-53b2-43e3-88a1-b2ed7826d489" ORG_ID="576639460"
-        TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
-    <KSLU_CLU_ADMIN_ORG CLU_ID="fee8ad1c-5ff4-42a4-9811-95fa7a307063"
-        ID="9726d578-5868-430f-90fa-b22fa9854c9a" IS_PR="0"
-        OBJ_ID="00e0e7d3-c4b3-4c4d-b557-aa1e780a6d0f"
-        ORG_ID="4014660630"
         TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="8cd7b2f6-fead-4ae2-92a5-340b66165577"
         ID="97544160-5346-410b-b714-787fdd67e66b" IS_PR="0"
@@ -4243,11 +4218,6 @@
         ID="a207a672-34a4-4c02-9e9c-5d6f05688598" IS_PR="0"
         OBJ_ID="f5334632-fbd3-4da4-9fa0-8f655eae0abc"
         ORG_ID="2677933260"
-        TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
-    <KSLU_CLU_ADMIN_ORG CLU_ID="CLUID-WMST444-199501000000"
-        ID="a20ec555-f0f3-4f6e-b79b-099f10364137" IS_PR="0"
-        OBJ_ID="23e3858d-7532-4a1a-abc2-246e030d87d0"
-        ORG_ID="4014660630"
         TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="e0795bc0-60c5-431a-81d2-791f5df0a778"
         ID="a22fd9b7-ae6c-4ab0-a654-526afd32d65d" IS_PR="0"
@@ -4671,11 +4641,6 @@
         OBJ_ID="b472bb54-b1d2-4bc6-a74d-3c2ac29957ac"
         ORG_ID="2677933260"
         TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
-    <KSLU_CLU_ADMIN_ORG CLU_ID="b10602a8-adcb-4525-9389-0a846ab32ad8"
-        ID="b26580a3-ea30-40af-bd04-d13f20e5d37d" IS_PR="0"
-        OBJ_ID="1c16fc60-6279-4bca-aff4-5f369531fe44"
-        ORG_ID="4014660630"
-        TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="2d69d93d-c0c4-4e76-bfa4-0ed5828cdac9"
         ID="b285a06a-887a-4763-a5a4-8ff4eec90af6" IS_PR="0"
         OBJ_ID="86b61069-5d08-4e89-88ac-2ba12888dbde" ORG_ID="9012742"
@@ -4684,11 +4649,6 @@
         ID="b29e8fcc-a069-4b96-bcff-a70a74fa2445" IS_PR="0"
         OBJ_ID="46652d2a-fda0-46da-9c39-a89cf7e6599d"
         ORG_ID="2677933260"
-        TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
-    <KSLU_CLU_ADMIN_ORG CLU_ID="e4b1fff8-17a4-4ffd-88b2-ae37a3345df4"
-        ID="b36b98a2-3c9a-4164-9347-e27fef77e770" IS_PR="0"
-        OBJ_ID="c1832c94-e540-45f4-b68d-16d523607bb0"
-        ORG_ID="4014660630"
         TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="CLUID-ENGL349-200208000000"
         ID="b38c7e87-1520-4bef-b3b8-7a68b08aec04" IS_PR="0"
@@ -5023,11 +4983,6 @@
     <KSLU_CLU_ADMIN_ORG CLU_ID="00da4a2b-2edb-488c-a7d0-89d5790f107f"
         ID="c02a9d84-af4a-4e93-a3a1-f2bfd0349a0d" IS_PR="0"
         OBJ_ID="bf9db295-66b6-4110-9262-446d8e72c51e" ORG_ID="9012742"
-        TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
-    <KSLU_CLU_ADMIN_ORG CLU_ID="CLUID-WMST456-200308200308"
-        ID="c02bcdaa-c3b2-4b40-b86d-b90ea03ae644" IS_PR="0"
-        OBJ_ID="af3c61b2-86df-4267-9890-47c6cf5eff0a"
-        ORG_ID="4014660630"
         TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="34f44841-1a19-4928-af58-7ce9b594a865"
         ID="c0a69c24-b7db-49ea-940f-42ecadc79aa0" IS_PR="0"
@@ -6372,11 +6327,6 @@
     <KSLU_CLU_ADMIN_ORG CLU_ID="CLUID-BSCI473-199908000000"
         ID="f34bb5a3-31a2-457f-bafc-93bcac9c1dad" IS_PR="0"
         OBJ_ID="2392dc0a-1eed-48bf-b0c1-077d31175330" ORG_ID="576639460"
-        TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
-    <KSLU_CLU_ADMIN_ORG CLU_ID="42f86258-0aa4-4e9b-a330-929343759486"
-        ID="f375f869-d1b0-4776-991a-d4c7ab740d1e" IS_PR="0"
-        OBJ_ID="158a1eca-a20a-472e-b8fc-5308e1986f07"
-        ORG_ID="4014660630"
         TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="CLUID-HIST285-198001000000"
         ID="f3932a32-88e4-44e4-94bd-f927eb468144" IS_PR="0"

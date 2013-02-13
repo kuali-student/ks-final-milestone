@@ -528,12 +528,6 @@
         OBJ_ID="da3947ec-1309-4c84-8c5b-222063c46edb"
         SHRT_NAME="Mathematics" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
-    <KSLU_CLU_IDENT CD="WMST255" DIVISION="WMST"
-        ID="090e9b5a-c0f1-48db-a53d-97274df8b7f9"
-        LNG_NAME="Introduction to Literature by Women" LVL="200"
-        OBJ_ID="53c3bc49-eaca-4c7e-bf14-04d67ac2cea1"
-        SHRT_NAME="INTRO LIT BY WOMEN" ST="NotApproved" SUFX_CD="255"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="2299W" ID="093102c2-2a38-428c-9c54-d269c273c05c"
         OBJ_ID="5dcf988b-2961-4102-aa52-6b2a22eb3d8b"
         SHRT_NAME="Environmental Sci&amp;Pol-Wildlife Ecology &amp; Mgmt"
@@ -1164,13 +1158,6 @@
         OBJ_ID="c27b815e-62cc-4199-b9d1-76c1eadcf477"
         SHRT_NAME="NUCLEAR PHYSICS" ST="Superseded" SUFX_CD="441"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
-    <KSLU_CLU_IDENT CD="WMST456" DIVISION="WMST"
-        ID="13c57c2e-7e83-4406-a869-bc832fe11635"
-        LNG_NAME="Women and Society in the Middle East" LVL="400"
-        OBJ_ID="ff3188fe-12f6-497d-ad9d-f2ae8664cdb0"
-        SHRT_NAME="WOMEN &amp; SOCIETY MID EAST" ST="Superseded"
-        SUFX_CD="456"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="HIST373" DIVISION="HIST"
         ID="13dff171-681e-49ef-b602-ceed1772498e"
         LNG_NAME="Jews in Early Modern Times 1450-1750" LVL="300"
@@ -1286,12 +1273,6 @@
         OBJ_ID="7c564e76-5bf2-442f-b1c7-bb9b1c32691b"
         SHRT_NAME="Environmental Sci &amp; Tech: Soil &amp; Watershed Science"
         ST="Active" TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
-    <KSLU_CLU_IDENT CD="WMST212" DIVISION="WMST"
-        ID="158b7360-9081-4d0c-836c-b147794cb109"
-        LNG_NAME="Women in Western Europe 1750-Present" LVL="200"
-        OBJ_ID="448cb47e-62d6-4fbd-bad0-b16da4d5976f"
-        SHRT_NAME="WMN EUROPE 1750-PRESENT" ST="Active" SUFX_CD="212"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="EDLPM" ID="1596b1a5-ba82-4841-851f-e773dda422b7"
         LNG_NAME="Education Leadership and Policy Studies (Master's)"
         OBJ_ID="30e29b9e-99ca-46cc-a9e6-ffdf9c78aaf6"
@@ -1896,13 +1877,6 @@
         OBJ_ID="2a4c3c5f-0488-4204-a1f2-4f26474e2cc7"
         SHRT_NAME="Master of Chemical &amp; Life Sciences" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
-    <KSLU_CLU_IDENT CD="WMST456" DIVISION="WMST"
-        ID="23be2a3a-10fe-4a98-a270-78338f3a84dc"
-        LNG_NAME="Women and Society in the Middle East" LVL="400"
-        OBJ_ID="3acd6cf7-505c-41c9-929d-4e59cc0a8ecb"
-        SHRT_NAME="WOMEN &amp; SOCIETY MID EAST" ST="Active"
-        SUFX_CD="456"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="ENGL212" DIVISION="ENGL"
         ID="23e7e9a4-88e8-47a1-99aa-ee427dd8869e"
         LNG_NAME="English Literature From 1800 to the Present" LVL="200"
@@ -4786,13 +4760,6 @@
     <KSLU_CLU_IDENT ID="59f57d10-6cfc-4a43-9c3f-72e33beec4bf"
         OBJ_ID="b574c744-d946-4750-b56e-36e6e607fab8" ST="Active"
         TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="4"/>
-    <KSLU_CLU_IDENT CD="WMST456" DIVISION="WMST"
-        ID="5a0d113d-9830-4c47-8c64-06a08afbf0b5"
-        LNG_NAME="Women and Society in the Middle East" LVL="400"
-        OBJ_ID="a14f881f-5db6-4bfd-9114-be665c4ed8bc"
-        SHRT_NAME="WOMEN &amp; SOCIETY MID EAST" ST="Superseded"
-        SUFX_CD="456"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="PHYS798" DIVISION="PHYS"
         ID="5a133fd4-0f77-4163-8661-1300a9f45b71"
         LNG_NAME="Special Problems in Advanced Physics" LVL="700"
@@ -5688,12 +5655,6 @@
     <KSLU_CLU_IDENT CD="10080" ID="6bbffce8-3d62-4119-b3d2-6c9600db13af"
         OBJ_ID="c1a6b81b-3f3d-4fc2-ae8f-8bd824a65e6c" SHRT_NAME="Dance"
         ST="Active" TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
-    <KSLU_CLU_IDENT CD="WMST444" DIVISION="WMST"
-        ID="6c04093b-fa81-457e-b464-1769e7c896f2"
-        LNG_NAME="Feminist Critical Theory" LVL="400"
-        OBJ_ID="b5f89bd3-8b66-479c-ade9-77ca9595bd83"
-        SHRT_NAME="FEMINIST CRITICAL THEORY" ST="Active" SUFX_CD="444"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="CRWRM" ID="6c0f4552-65b1-4ae3-acd5-3439d0e5b887"
         OBJ_ID="4541b14c-006a-496a-a7a9-345d4fd29363"
         SHRT_NAME="Creative Writing" ST="Active"
@@ -7300,12 +7261,6 @@
         OBJ_ID="20b1408a-eefc-45e8-8736-de5f8ae8d713"
         SHRT_NAME="Music (Strings Performance Option)" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
-    <KSLU_CLU_IDENT CD="WMST255" DIVISION="WMST"
-        ID="8ba30efe-b683-4170-a4be-aaaeda19c266"
-        LNG_NAME="Introduction to Literature by Women" LVL="200"
-        OBJ_ID="52f26d1b-8073-4828-bb28-cbe313582aa6"
-        SHRT_NAME="INTRO LIT BY WOMEN" ST="Superseded" SUFX_CD="255"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="BSCI420" DIVISION="BSCI"
         ID="8bbf3939-179e-4166-b770-94b34f37fe16"
         LNG_NAME="Cell Biology Lectures" LVL="400"
@@ -9181,12 +9136,6 @@
         OBJ_ID="7c74f11e-cd30-4c3d-935b-bd685db479e9"
         SHRT_NAME="HIST RSRCH &amp; MTHDS" ST="Superseded" SUFX_CD="220"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
-    <KSLU_CLU_IDENT CD="WMST255" DIVISION="WMST"
-        ID="b133dc30-90bb-4119-80a4-1b72aa6d7468"
-        LNG_NAME="Reading Women Writing" LVL="200"
-        OBJ_ID="d223bfbb-e4d5-4c56-a7f8-71f78bf5bae1"
-        SHRT_NAME="READING WOMEN WRITING" ST="Active" SUFX_CD="255"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="14"/>
     <KSLU_CLU_IDENT CD="ENGL280" DIVISION="ENGL"
         ID="b14a5f18-eb52-4e46-a79d-628f243d26f0"
         LNG_NAME="Introduction to the English Language" LVL="200"
@@ -11046,12 +10995,6 @@
     <KSLU_CLU_IDENT ID="d645444a-30fb-4cd9-b646-564aed632c07"
         OBJ_ID="3d545c7e-812c-47f9-b40c-78d893ffd33c" ST="Active"
         TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="5"/>
-    <KSLU_CLU_IDENT CD="WMST255" DIVISION="WMST"
-        ID="d6897783-cb52-41d5-92fb-d178971531fb"
-        LNG_NAME="Introduction to Literature by Women" LVL="200"
-        OBJ_ID="ad3ce555-6d2a-47a0-9452-74851f8c8e93"
-        SHRT_NAME="INTRO LIT BY WOMEN" ST="Superseded" SUFX_CD="255"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="6"/>
     <KSLU_CLU_IDENT CD="01010" ID="d68c4443-ccc2-4f68-937f-801892ae7fd6"
         OBJ_ID="412261ab-48f4-40ea-b4e8-35f16dc02ed1"
         SHRT_NAME="Agricultural Science and Technology" ST="Active"
@@ -11065,13 +11008,6 @@
         OBJ_ID="35458411-37f8-44e1-8183-6497cc43b5e6"
         SHRT_NAME="American Studies" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
-    <KSLU_CLU_IDENT CD="WMST456" DIVISION="WMST"
-        ID="d6ff900e-aa39-4e48-ad03-7268c69f9470"
-        LNG_NAME="Women and Society in the Middle East" LVL="400"
-        OBJ_ID="47498e23-5381-44a6-9b08-6cde9301fb34"
-        SHRT_NAME="WOMEN &amp; SOCIETY MID EAST" ST="Superseded"
-        SUFX_CD="456"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="HIST333" DIVISION="HIST"
         ID="d705b514-510b-440b-9e2e-f5235171af45"
         LNG_NAME="The European Reformations" LVL="300"
