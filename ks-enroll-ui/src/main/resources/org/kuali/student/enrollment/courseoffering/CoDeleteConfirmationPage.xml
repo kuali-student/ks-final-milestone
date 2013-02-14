@@ -143,7 +143,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-DeletedAoListSection" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="9" >
+    <bean id="KS-CourseOfferingManagement-DeletedAoListSection" parent="Uif-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="9" >
         <property name="headerText" value="Activities"/>
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper"/>
