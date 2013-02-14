@@ -37,7 +37,7 @@ import java.util.List;
 public class CompareRuleForm extends KSUifForm {
 
 
-    private String cluId;
+    private String ruleId;
     private RuleEditor ruleEditor = new RuleEditor();
     private  Tree<TreeNode, String> cmRule;
 
@@ -45,12 +45,12 @@ public class CompareRuleForm extends KSUifForm {
     public RuleEditor getRuleEditor() {
         return ruleEditor;
     }
-    public String getCluId() {
-        return cluId;
+    public String getRuleId() {
+        return ruleId;
     }
 
-    public void setCluId(String cluId) {
-        this.cluId = cluId;
+    public void setRuleId(String ruleId) {
+        this.ruleId = ruleId;
     }
 
     public Tree<TreeNode, String> getCmRule() {
