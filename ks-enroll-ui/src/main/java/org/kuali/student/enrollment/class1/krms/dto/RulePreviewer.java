@@ -22,7 +22,7 @@ public class RulePreviewer {
 
     private static final long serialVersionUID = 1L;
 
-    private  Tree<TreeNode, String> previewTree = new Tree<TreeNode, String>();
+    private  Tree<TreeNode, String> previewTree;
 
     public RulePreviewer() {
     }

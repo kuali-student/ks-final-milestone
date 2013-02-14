@@ -40,6 +40,7 @@
         <property name="dialogs">
             <list>
                 <bean id="myCourseRangeLightBox" parent="KRMS-CourseRangeLightBox"/>
+                <bean id="myCompareRuleLightBox" parent="KS-Compare-Prerequisite-Rule"/>
             </list>
         </property>
     </bean>
@@ -117,7 +118,8 @@
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Copy to other CO"/>
                     </property>
                 </bean>
-                <bean parent="Uif-Link" p:linkText="Compare" p:onClickScript="e.preventDefault();showLightboxUrl('@{#ConfigProperties['application.url']}/kr-krad/krmsComponents?viewId=krmsCompareRulesView&amp;methodToCall=start');" >
+                <bean parent="Uif-ActionLink"  p:actionLabel="Compare" p:actionScript="showLightboxComponent('myCompareRuleLightBox');">
+                      <!--p:onClickScript="e.preventDefault();showLightboxUrl('@{#ConfigProperties['application.url']}/kr-krad/compareRule?viewId=krmsCompareRulesView&amp;methodToCall=start&amp;overrideKeys=ruleId&amp;ruleId=@{#dp.rule.id}');" >-->
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Compares CLU and CO Rules"/>
                     </property>
@@ -160,26 +162,7 @@
         <property name="headerText" value="Rule"/>
         <property name="items">
             <list>
-
-                <bean id="Preview-Tree-Section" parent="Uif-TreeSection">
-                    <property name="instructionalText" value="Conditions that will restrict student enrollment, addressing restrictions to majors,
-                            locations, credit level requirements, etc. or courses, with or without grade requirements,
-                            which a student must have completed in order to enroll."/>
-                    <property name="propertyName" value="previewTree"/>
-                    <property name="tree">
-                        <bean parent="RuleTreeWidget"/>
-                    </property>
-                    <property name="defaultNodePrototype">
-                        <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
-                            <property name="labelPrototype">
-                                <bean parent="Uif-Message"/>
-                            </property>
-                            <property name="dataGroupPrototype">
-                                <bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;"/>
-                            </property>
-                        </bean>
-                    </property>
-                </bean>
+                <ref bean="Preview-Tree-Section" />
             </list>
         </property>
 
@@ -193,6 +176,26 @@
             </bean>
         </property>
     </bean>
+    <bean id="Preview-Tree-Section-parent" parent="Uif-TreeSection">
+        <property name="instructionalText" value="Conditions that will restrict student enrollment, addressing restrictions to majors,
+                            locations, credit level requirements, etc. or courses, with or without grade requirements,
+                            which a student must have completed in order to enroll."/>
+        <property name="propertyName" value="previewTree"/>
+        <property name="tree">
+            <bean parent="RuleTreeWidget"/>
+        </property>
+        <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;"/>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="Preview-Tree-Section" parent="Preview-Tree-Section-parent" />
 
     <bean id="propositionGroup" parent="Uif-GridGroup">
         <property name="headerText" value="Rule"/>
@@ -211,6 +214,91 @@
     </bean>
 
     <bean id="KS-VerticalBoxSection"  parent="Uif-VerticalBoxSection">
+        <property name="header">
+            <bean parent="Uif-SectionHeader">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-rulesection</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+   <!--Compare Link-->
+    <bean id="KS-CLURule-PreviewSection-parent" parent="Uif-VerticalBoxSubSection">
+        <property name="headerText" value="CLU Rule"/>
+        <property name="items">
+            <list>
+                <bean id="PreviewCLU-Tree-Section" parent="Uif-TreeSection" p:style="width: 400px;">
+                    <property name="propertyName" value="previewTree"/>
+                    <property name="tree">
+                        <bean parent="RuleTreeWidget"/>
+                    </property>
+                    <property name="defaultNodePrototype">
+                        <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                            <property name="labelPrototype">
+                                <bean parent="Uif-Message"/>
+                            </property>
+                            <property name="dataGroupPrototype">
+                                <bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;"/>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-CLURule-PreviewSection" parent="KS-CLURule-PreviewSection-parent" />
+
+    <bean id="KS-CORule-PreviewSection-parent" parent="Uif-VerticalBoxSubSection">
+        <property name="headerText" value="CO Rule"/>
+        <property name="items">
+            <list>
+
+                <bean id="PreviewCO-Tree-Section" parent="Uif-TreeSection" p:style="width: 400px;">
+                    <property name="propertyName" value="previewTree"/>
+                    <property name="tree">
+                        <bean parent="RuleTreeWidget"/>
+                    </property>
+                    <property name="defaultNodePrototype">
+                        <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                            <property name="labelPrototype">
+                                <bean parent="Uif-Message"/>
+                            </property>
+                            <property name="dataGroupPrototype">
+                                <bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;"/>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-CORule-PreviewSection" parent="KS-CORule-PreviewSection-parent" />
+
+    <bean id="KS-Compare-PrerequisiteRule-parent" parent="KS-HorizontalBoxSection">
+        <property name="hidden" value="true"/>
+        <property name="headerText" value="Prerequisite Rule"/>
+        <property name="items">
+            <list>
+                <ref bean="KS-CLURule-PreviewSection" />
+                <ref bean="KS-CORule-PreviewSection" />
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel"  p:actionScript="jQuery.fancybox.close();" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="KS-Compare-Prerequisite-Rule" parent="KS-Compare-PrerequisiteRule-parent" />
+
+    <bean id="KS-HorizontalBoxSection"  parent="Uif-HorizontalBoxSection">
         <property name="header">
             <bean parent="Uif-SectionHeader">
                 <property name="cssClasses">
