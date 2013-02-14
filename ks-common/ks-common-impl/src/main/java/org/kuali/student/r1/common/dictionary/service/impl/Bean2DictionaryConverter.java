@@ -60,7 +60,7 @@ public class Bean2DictionaryConverter
   {
 	  // Debuggin System.out.println(pd.getName());
 //    if (MetaInfo.class.equals (pd.getPropertyType ()))
-    if (Meta.class.equals (pd.getPropertyType ()))
+    if (Meta.class.isAssignableFrom(pd.getPropertyType()))
     {
       return true;
     }
