@@ -256,7 +256,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
                         crossListingInfo.setDepartmentOrgId(crossInfo.getDepartment());
                         crossListingInfo.setSubjectArea(crossInfo.getSubjectArea());
                         crossListingInfo.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
-                        crossListingInfo.setTypeKey(crossInfo.getTypeKey());
+                        crossListingInfo.setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_CROSSLISTED_TYPE_KEY);
                         coInfo.getCrossListings().add(crossListingInfo);
                     }
                 }
@@ -271,7 +271,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
                 crossListingInfo.setDepartmentOrgId(crossInfo.getDepartment());
                 crossListingInfo.setSubjectArea(crossInfo.getSubjectArea());
                 crossListingInfo.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
-                crossListingInfo.setTypeKey(crossInfo.getTypeKey());
+                crossListingInfo.setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_CROSSLISTED_TYPE_KEY);
                 coInfo.getCrossListings().add(crossListingInfo);
             }
         }
