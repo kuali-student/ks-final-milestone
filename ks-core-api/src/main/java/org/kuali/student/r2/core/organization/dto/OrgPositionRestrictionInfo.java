@@ -79,7 +79,7 @@ public class OrgPositionRestrictionInfo extends HasAttributesAndMetaInfo
      * Constructs a new OrgPositionRestrictionInfo from an
      * OrgPositionRestriction.
      *
-     * @param orgPositionRestriction the OrgPositionRestriction to copy
+     * @param restriction the OrgPositionRestriction to copy
      */
     public OrgPositionRestrictionInfo(OrgPositionRestriction restriction) {
         super(restriction);

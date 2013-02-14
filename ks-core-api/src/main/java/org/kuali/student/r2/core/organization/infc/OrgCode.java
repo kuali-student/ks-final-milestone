@@ -16,19 +16,20 @@
 
 package org.kuali.student.r2.core.organization.infc;
 
-import org.kuali.student.r2.common.infc.KeyNamelessEntity;
+import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.RichText;
 
 /**
  * Detailed information about organization codes.
  *
  * Changes: use name of entity for OrgCode.value.
+ * Changes: Added ID, type, and state
  *
  * @author tom
  */ 
 
 public interface OrgCode
-    extends KeyNamelessEntity {
+    extends IdNamelessEntity {
     
     /**
      * The code value.
@@ -42,6 +43,15 @@ public interface OrgCode
      * The description of the code.
      * 
      * @name Description
+     * @deprecated Please use the type description instead.
      */
+    @Deprecated
     public RichText getDescr ();
+
+    /**
+     * @deprecated Please use the typeKey instead.
+     * @return the typeKey
+     */
+    @Deprecated
+    public String getKey();
 }
