@@ -25,10 +25,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -57,6 +59,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -71,6 +75,201 @@ public class CourseSearchController extends UifControllerBase {
 	 */
 	private static final String RESULTS_ATTR = CourseSearchController.class
 			.getName() + ".results";
+
+	/**
+	 * HTTP session attribute key for holding trending state.
+	 */
+	private static final String TRSTATE_ATTR = CourseSearchController.class
+			.getName() + ".trendingState";
+
+	/**
+	 * Keyed mapping of DataTables search column order by facet id. This column
+	 * order is fully internal to this controller class, and is used to tie
+	 * faceted searches columns on the search item.
+	 * 
+	 * @see #FACET_COLUMNS_REVERSE
+	 * @see #getFacetValues(HttpServletResponse, HttpServletRequest)
+	 */
+	private static final Map<String, Integer> FACET_COLUMNS;
+
+	/**
+	 * Ordered list of facet column ids by DataTables column order. This column
+	 * order is fully internal to this controller class, and is used to tie
+	 * faceted searches columns on the search item.
+	 * 
+	 * @see #FACET_COLUMNS
+	 * @see #getFacetValues(HttpServletResponse, HttpServletRequest)
+	 */
+	private static final List<String> FACET_COLUMNS_REVERSE;
+
+	/**
+	 * Internal count of trending search keywords.
+	 */
+	private static final TrendingState TRENDING = new TrendingState();
+
+	/**
+	 * Initialize internal facet column order.
+	 */
+	static {
+		Set<String> facetKeys = KsapFrameworkServiceLocator
+				.getCourseSearchStrategy().getFacetSort().keySet();
+		Map<String, Integer> m = new java.util.HashMap<String, Integer>(
+				facetKeys.size());
+		List<String> l = new java.util.ArrayList<String>(facetKeys.size());
+		for (String fk : facetKeys) {
+			m.put(fk, l.size());
+			l.add(fk);
+		}
+		FACET_COLUMNS = Collections.synchronizedMap(Collections
+				.unmodifiableMap(m));
+		FACET_COLUMNS_REVERSE = Collections.synchronizedList(Collections
+				.unmodifiableList(l));
+	}
+
+	/**
+	 * Trending search state controller.
+	 * 
+	 * <p>
+	 * This class monitors keywords by relevance score in search results
+	 * continuously as search results report keyword sets.
+	 * </p>
+	 * 
+	 * <p>
+	 * TODO: evaluate moving to a public framework class.
+	 * </p>
+	 * 
+	 * @see CourseSearchItem#getKeywords()
+	 */
+	private static class TrendingState {
+
+		/**
+		 * Keyword count tracking map.
+		 */
+		private final Map<String, Long> count = Collections
+				.synchronizedMap(new java.util.HashMap<String, Long>(256));
+
+		/**
+		 * Handle to the last reported array of search keywords.
+		 * 
+		 * <p>
+		 * This field is populated via the order parameter
+		 * {@link #trend(String[], Map)} when non-null, and may be expected to
+		 * be truncated to a relatively small size (32) prior to being
+		 * populated.
+		 * </p>
+		 * 
+		 * @see SessionSearchInfo#SessionSearchInfo(HttpServletRequest,
+		 *      CourseSearchStrategy, FormKey, CourseSearchForm, String)
+		 */
+		private String[] related;
+
+		/**
+		 * Record trending keywords related to an active search.
+		 * 
+		 * @param order
+		 *            The keywords to record as trending, in order of relevance
+		 *            to the active search. This parameter should be truncated
+		 *            before sending.
+		 * @param keywordCount
+		 *            Mapping of keywords counts to use as increment values for
+		 *            the trending score. It is expected that order represents a
+		 *            subset of the this map's keys.
+		 */
+		private void trend(String[] order, Map<String, Integer> keywordCount) {
+			if (order.length == 0)
+				return;
+			long topCount = keywordCount.get(order[0]).longValue();
+			if (topCount == 0L)
+				return;
+			for (String key : related = order) {
+				Integer c = keywordCount.get(key);
+				assert c != null : key;
+				synchronized (count) {
+					Long tsc = count.get(key);
+					if (tsc == null)
+						tsc = 0L;
+					tsc += c.longValue() * 100L / topCount;
+					count.put(key, tsc);
+				}
+			}
+		}
+
+		private void purge() {
+			if (count.size() > 128) {
+				String[] tsk;
+				synchronized (count) {
+					tsk = count.keySet().toArray(new String[count.size()]);
+				}
+				Arrays.sort(tsk, new Comparator<String>() {
+					@Override
+					public int compare(String o1, String o2) {
+						Long fs1 = count.get(o1);
+						Long fs2 = count.get(o2);
+						if (fs1 == fs2)
+							return 0;
+						if (fs1 == null)
+							return -1;
+						if (fs2 == null)
+							return 1;
+						return fs1.compareTo(fs2);
+					}
+				});
+				for (int i = 0; i < tsk.length && count.size() > 128; i++)
+					count.remove(tsk[i]);
+			}
+		}
+
+		private Set<String> top(int n, Set<String> rv) {
+			purge();
+			rv = rv == null ? new java.util.LinkedHashSet<String>(n) : rv;
+			int rn = (n - rv.size()) / 3;
+			if (related != null)
+				for (int i = 0; i < related.length && i < rn; i++)
+					rv.add(related[i]);
+			if (LOG.isDebugEnabled())
+				LOG.debug("Trending " + n + " related terms " + rv);
+			String[] sk;
+			synchronized (count) {
+				sk = count.keySet().toArray(new String[count.size()]);
+			}
+			// Sort by relevance for trending
+			Arrays.sort(sk, new Comparator<String>() {
+				@Override
+				public int compare(String o1, String o2) {
+					Long n1 = count.get(o1);
+					Long n2 = count.get(o2);
+					if (n1 == n2)
+						return 0;
+					if (n1 == null)
+						return 1;
+					if (n2 == null)
+						return -1;
+					return -n1.compareTo(n2);
+				}
+			});
+			// Truncate results
+			for (int i = 0; rv.size() < n && i < sk.length; i++)
+				rv.add(sk[i]);
+			if (LOG.isDebugEnabled())
+				LOG.debug("Trending " + n + " top count " + rv);
+			return rv;
+		}
+	}
+
+	private static TrendingState getSessionTendingState(
+			HttpServletRequest request) {
+		HttpSession sess = request.getSession();
+		TrendingState rv = (TrendingState) sess.getAttribute(TRSTATE_ATTR);
+		if (rv == null)
+			sess.setAttribute(TRSTATE_ATTR, rv = new TrendingState());
+		return rv;
+	}
+
+	private static void trend(HttpServletRequest request, String[] order,
+			Map<String, Integer> keywordCount) {
+		TRENDING.trend(order, keywordCount);
+		getSessionTendingState(request).trend(order, keywordCount);
+	}
 
 	/**
 	 * Opaque key representing a unique search form.
@@ -133,6 +332,10 @@ public class CourseSearchController extends UifControllerBase {
 
 	/**
 	 * Input command processor for supporting DataTables server-side processing.
+	 * 
+	 * <p>
+	 * TODO: Evaluate moving to a public class in KRAD.
+	 * </p>
 	 * 
 	 * @see <a
 	 *      href="http://datatables.net/usage/server-side">http://datatables.net/usage/server-side</a>
@@ -241,6 +444,9 @@ public class CourseSearchController extends UifControllerBase {
 	private static class FacetState implements Serializable {
 		private static final long serialVersionUID = 1719950239861974273L;
 
+		private FacetState() {
+		}
+
 		private boolean checked = true;
 		private int count;
 	}
@@ -257,7 +463,7 @@ public class CourseSearchController extends UifControllerBase {
 
 		private final CourseSearchItem item;
 		private final String[] sortColumns;
-		private final String[][] facetColumns;
+		private final Map<String, String[]> facetColumns;
 
 		private SearchInfo(CourseSearchItem item) {
 			this.item = item;
@@ -269,7 +475,7 @@ public class CourseSearchController extends UifControllerBase {
 		public String toString() {
 			return "SearchInfo [searchColumns=" + item.getCourseId()
 					+ ", sortColumns=" + Arrays.toString(sortColumns)
-					+ ", facetColumns=" + Arrays.toString(facetColumns) + "]";
+					+ ", facetColumns=" + facetColumns + "]";
 		}
 	}
 
@@ -277,6 +483,10 @@ public class CourseSearchController extends UifControllerBase {
 	 * Session-bound search results cache. This object backs the facet and data
 	 * table result views on the KSAP course search front-end. Up to three
 	 * searches are stored in the HTTP session via these objects.
+	 * 
+	 * <p>
+	 * TODO: Evaluate moving to a generic framework class in KRAD.
+	 * </p>
 	 */
 	private static class SessionSearchInfo {
 
@@ -293,7 +503,14 @@ public class CourseSearchController extends UifControllerBase {
 		/**
 		 * The calculated facet state.
 		 */
-		private final List<Map<String, FacetState>> facetState;
+		private final Map<String, Map<String, FacetState>> facetState;
+
+		/**
+		 * Pruned facet state - this shared state keeps a count of all facets
+		 * values that were pruned from display due to size limits and relevance
+		 * scoring.
+		 */
+		private final FacetState pruned = new FacetState();
 
 		/**
 		 * The oneClick flag records whether or not any facet state leaf nodes
@@ -329,8 +546,9 @@ public class CourseSearchController extends UifControllerBase {
 		 * @see CourseSearchController#getFacetValues(HttpServletResponse,
 		 *      HttpServletRequest)
 		 */
-		private SessionSearchInfo(CourseSearchStrategy searcher,
-				FormKey formKey, CourseSearchForm form, String principalName) {
+		private SessionSearchInfo(HttpServletRequest request,
+				CourseSearchStrategy searcher, FormKey formKey,
+				CourseSearchForm form, String principalName) {
 			// Verify that form key data matches the actual search form
 			assert (formKey.searchQuery == null && form.getSearchQuery() == null)
 					|| (formKey.searchQuery != null && (formKey.searchQuery
@@ -361,28 +579,31 @@ public class CourseSearchController extends UifControllerBase {
 
 			// Calculate initial facet state when search results are non-empty
 			if (searchResults.isEmpty())
-				facetState = Collections.emptyList();
+				facetState = Collections.emptyMap();
 			else {
-				int nFacetColumns = searchResults.iterator().next().facetColumns.length;
-				assert nFacetColumns == searcher.getFacetSort().size() : nFacetColumns
-						+ " != " + searcher.getFacetSort().size();
-				List<Map<String, FacetState>> facetStateMap = new java.util.ArrayList<Map<String, FacetState>>(
-						nFacetColumns);
-				for (int i = 0; i < nFacetColumns; i++)
-					facetStateMap
-							.add(new java.util.TreeMap<String, FacetState>(
-									searcher.getFacetSort().get(i)));
+				Map<String, String[]> facetColumns = searchResults.get(0).facetColumns;
+				assert facetColumns.size() == searcher.getFacetSort().size() : facetColumns
+						.size() + " != " + searcher.getFacetSort().size();
+				Map<String, Map<String, FacetState>> facetStateMap = new java.util.HashMap<String, Map<String, FacetState>>(
+						facetColumns.size());
+				for (String fk : facetColumns.keySet())
+					facetStateMap.put(fk,
+							new java.util.HashMap<String, FacetState>());
+				final Map<String, Integer> kwc = new java.util.HashMap<String, Integer>();
+				// Generate initial counts, unabridged and unordered
 				for (SearchInfo row : searchResults) {
 					// Validate that the number of facet columns is uniform
 					// across all search rows
 					assert row.facetColumns != null
-							|| row.facetColumns.length == nFacetColumns : row.facetColumns == null ? "null"
-							: row.facetColumns.length + " != " + nFacetColumns;
+							|| row.facetColumns.size() == facetColumns.size() : row.facetColumns == null ? "null"
+							: row.facetColumns.size() + " != "
+									+ facetColumns.size();
 					// Update facet counts for all columns, creating pre-checked
 					// state nodes as needed
-					for (int i = 0; i < nFacetColumns; i++) {
-						Map<String, FacetState> fm = facetStateMap.get(i);
-						for (String key : row.facetColumns[i]) {
+					for (Entry<String, Map<String, FacetState>> fce : facetStateMap
+							.entrySet()) {
+						Map<String, FacetState> fm = fce.getValue();
+						for (String key : row.facetColumns.get(fce.getKey())) {
 							assert key.startsWith(";") && key.endsWith(";")
 									&& key.length() >= 3 : key;
 							String facetKey = key
@@ -393,13 +614,76 @@ public class CourseSearchController extends UifControllerBase {
 							fs.count++;
 						}
 					}
+					for (String kw : row.item.getKeywords()) {
+						Integer kwi = kwc.get(kw);
+						if (kwi == null)
+							kwc.put(kw, 1);
+						else
+							kwc.put(kw, kwi + 1);
+					}
 				}
-				for (int i = 0; i < nFacetColumns; i++)
-					facetStateMap.set(i, Collections
-							.synchronizedMap(Collections
-									.unmodifiableMap(facetStateMap.get(i))));
-				facetState = Collections.synchronizedList(Collections
-						.unmodifiableList(facetStateMap));
+				// Post-process based on calculated totals and per-column rules
+				for (String fk : facetColumns.keySet()) {
+					final Map<String, FacetState> fm = facetStateMap.get(fk);
+					Map<String, FacetState> nfm;
+					if (fm.isEmpty())
+						// Discard superfluous empty map references
+						facetStateMap.put(fk, nfm = Collections.emptyMap());
+					else {
+						// Establish facet key order
+						String[] sk = fm.keySet()
+								.toArray(new String[fm.size()]);
+						// Sort by relevance for trending
+						Arrays.sort(sk, new Comparator<String>() {
+							@Override
+							public int compare(String o1, String o2) {
+								FacetState fs1 = fm.get(o1);
+								FacetState fs2 = fm.get(o2);
+								return fs1.count == fs2.count ? 0
+										: fs1.count < fs2.count ? 1 : -1;
+							}
+						});
+						// Truncate results to show only the 50 most relevant
+						// words in the facet
+						sk = Arrays.copyOf(sk, Math.min(sk.length, 50));
+						// Sort according to strategy definitions
+						Arrays.sort(sk, searcher.getFacetSort().get(fk));
+						nfm = new java.util.LinkedHashMap<String, FacetState>(
+								sk.length);
+						for (String k : sk) {
+							assert k != null : fk;
+							// Insert truncated facet keys in order
+							nfm.put(k, fm.get(k));
+						}
+
+						// Seal the map for synchronized use
+						facetStateMap.put(fk, Collections
+								.synchronizedMap(Collections
+										.unmodifiableMap(nfm)));
+					}
+				}
+				facetState = Collections.synchronizedMap(Collections
+						.unmodifiableMap(facetStateMap));
+
+				// Establish keyword relevance order
+				String[] sk = kwc.keySet().toArray(new String[kwc.size()]);
+				// Sort by relevance for trending
+				Arrays.sort(sk, new Comparator<String>() {
+					@Override
+					public int compare(String o1, String o2) {
+						Integer i1 = kwc.get(o1);
+						Integer i2 = kwc.get(o2);
+						if (i1 == i2)
+							return 0;
+						if (i1 == null)
+							return 1;
+						if (i2 == null)
+							return -1;
+						return -i1.compareTo(i2);
+					}
+				});
+				sk = Arrays.copyOf(sk, Math.min(sk.length, 32));
+				trend(request, sk, kwc);
 			}
 		}
 
@@ -408,20 +692,20 @@ public class CourseSearchController extends UifControllerBase {
 		 * 
 		 * @param key
 		 *            The facet column value to use as the facet key.
-		 * @param col
-		 *            The facet column index number.
+		 * @param facetId
+		 *            The facet id.
 		 * @return The facet state associated with the indicated column value.
 		 */
-		private FacetState getFacetState(String key, int col) {
-			Map<String, FacetState> fm = facetState.get(col);
+		private FacetState getFacetState(String key, String facetId) {
+			Map<String, FacetState> fm = facetState.get(facetId);
 			assert key.startsWith(";") && key.endsWith(";")
 					&& key.length() >= 3 : key;
 			String facetKey = key.substring(1, key.length() - 1);
 			FacetState fs = fm.get(facetKey);
-			assert fs != null : col + " " + facetKey;
 			if (fs == null)
-				fm.put(facetKey, fs = new FacetState());
-			return fs;
+				return pruned;
+			else
+				return fs;
 		}
 
 		/**
@@ -436,18 +720,20 @@ public class CourseSearchController extends UifControllerBase {
 
 			// Determine the number of facet columns - this should be uniform
 			// across the facet state table and the facet columns in each row
-			int nFacetCols = searchResults.iterator().next().facetColumns.length;
-			assert facetState.size() == nFacetCols : facetState.size() + " != "
-					+ nFacetCols;
+			Map<String, String[]> facetCols = searchResults.get(0).facetColumns;
+			assert facetState.size() == facetCols.size() : facetState.size()
+					+ " != " + facetCols.size();
 
 			// Reset the count on all facet state leaf nodes to 0
-			boolean all[] = new boolean[facetState.size()];
-			Arrays.fill(all, true);
-			for (int i = 0; i < facetState.size(); i++)
-				for (FacetState fs : facetState.get(i).values()) {
+			pruned.count = 0;
+			Map<String, Boolean> all = new java.util.HashMap<String, Boolean>(
+					facetState.size());
+			for (Entry<String, Map<String, FacetState>> fse : facetState
+					.entrySet())
+				for (FacetState fs : fse.getValue().values()) {
 					fs.count = 0;
-					if (all[i])
-						all[i] = fs.checked;
+					if (!Boolean.FALSE.equals(all.get(fse.getKey())))
+						all.put(fse.getKey(), fs.checked);
 				}
 
 			// Iterate search results
@@ -455,22 +741,25 @@ public class CourseSearchController extends UifControllerBase {
 
 				// Validate facet column count matches facet table size
 				assert row.facetColumns != null
-						|| row.facetColumns.length == nFacetCols : row.facetColumns == null ? "null"
-						: row.facetColumns.length + " != " + nFacetCols;
+						|| row.facetColumns.size() == facetCols.size() : row.facetColumns == null ? "null"
+						: row.facetColumns.size() + " != " + facetCols.size();
 
 				// identify filtered rows before counting
 				boolean filtered = false;
-				for (int i = 0; !filtered && i < nFacetCols; i++) {
-					if (row.facetColumns[i].length == 0)
+				for (Entry<String, String[]> fce : facetCols.entrySet()) {
+					if (filtered)
+						continue;
+					String fk = fce.getKey();
+					if (row.facetColumns.get(fk).length == 0)
 						// When there are no values on this facet column, filter
 						// unless all is checked on the column
-						filtered = !all[i];
+						filtered = Boolean.FALSE.equals(all.get(fk));
 					else {
 						// Filter unless there is at least one match for one
 						// checked facet on this row
 						boolean hasOne = false;
-						for (String fci : row.facetColumns[i])
-							if (!hasOne && getFacetState(fci, i).checked)
+						for (String fci : row.facetColumns.get(fk))
+							if (!hasOne && getFacetState(fci, fk).checked)
 								hasOne = true;
 						assert !filtered : "filtered state changed";
 						filtered = !hasOne;
@@ -478,10 +767,13 @@ public class CourseSearchController extends UifControllerBase {
 				}
 				if (!filtered)
 					// count all cells in all non-filtered rows
-					for (int i = 0; i < nFacetCols; i++)
-						for (String fci : row.facetColumns[i])
-							getFacetState(fci, i).count++;
+					for (Entry<String, String[]> fce : row.facetColumns
+							.entrySet())
+						for (String fci : fce.getValue())
+							getFacetState(fci, fce.getKey()).count++;
 			}
+			if (LOG.isDebugEnabled())
+				LOG.debug("Pruned facet entry " + pruned.count);
 		}
 
 		/**
@@ -490,12 +782,12 @@ public class CourseSearchController extends UifControllerBase {
 		 * 
 		 * @param key
 		 *            The facet key clicked. May be 'All'.
-		 * @param i
+		 * @param fcol
 		 *            The facet column the click is related to.
 		 */
-		private void facetClick(String key, int i) {
-			LOG.debug("Facet click " + key + " " + i);
-			Map<String, FacetState> fsm = facetState.get(i);
+		private void facetClick(String key, String fcol) {
+			LOG.debug("Facet click " + key + " " + fcol);
+			Map<String, FacetState> fsm = facetState.get(fcol);
 			if ("All".equals(key))
 				for (FacetState fs : fsm.values())
 					fs.checked = true;
@@ -507,7 +799,7 @@ public class CourseSearchController extends UifControllerBase {
 				// checked on the browser, in which case no other boxes
 				// in the group appear to be checked.
 				boolean all = true;
-				for (FacetState ifs : facetState.get(i).values())
+				for (FacetState ifs : fsm.values())
 					if (!all)
 						continue;
 					else
@@ -520,18 +812,18 @@ public class CourseSearchController extends UifControllerBase {
 							assert fs == null : fs + " " + fe;
 							fs = fe.getValue();
 						}
-					assert fs != null : i + " " + key;
+					assert fs != null : fcol + " " + key;
 					oneClick = true;
 				} else {
 					// when all are not checked, toggle the clicked box
-					fs = facetState.get(i).get(key);
-					assert fs != null : i + " " + key;
+					fs = facetState.get(fcol).get(key);
+					assert fs != null : fcol + " " + key;
 					// Update checked status of facet
 					if (!(fs.checked = !fs.checked))
 						oneClick = true;
 					// unchecking the last box in the group, check all
 					boolean none = true;
-					for (FacetState ifs : facetState.get(i).values())
+					for (FacetState ifs : facetState.get(fcol).values())
 						if (!none)
 							continue;
 						else
@@ -548,8 +840,9 @@ public class CourseSearchController extends UifControllerBase {
 		private void facetClickAll() {
 			LOG.debug("Facet click all");
 			if (oneClick) {
-				for (int i = 0; i < facetState.size(); i++)
-					for (FacetState fs : facetState.get(i).values())
+				for (Entry<String, Map<String, FacetState>> fse : facetState
+						.entrySet())
+					for (FacetState fs : fse.getValue().values())
 						fs.checked = true;
 				updateFacetCounts();
 				oneClick = false;
@@ -604,7 +897,7 @@ public class CourseSearchController extends UifControllerBase {
 					public boolean hasNext() {
 						// break column loop once row has been removed,
 						// or when all columns have been seen
-						return !removed && j < current.facetColumns.length - 1;
+						return !removed && j < current.facetColumns.size() - 1;
 					}
 
 					@Override
@@ -622,7 +915,10 @@ public class CourseSearchController extends UifControllerBase {
 							searchString = dataTablesInputs.sSearch;
 							searchPattern = dataTablesInputs.patSearch;
 						}
-						return current.facetColumns[j];
+						// Here is where data tables column # is tied to inernal
+						// facet column order.
+						return current.facetColumns.get(FACET_COLUMNS_REVERSE
+								.get(j));
 					}
 
 					@Override
@@ -680,16 +976,19 @@ public class CourseSearchController extends UifControllerBase {
 				@Override
 				public String toString() {
 					return "Iter [current="
-							+ Arrays.toString(current.facetColumns[j])
+							+ Arrays.toString(current.facetColumns
+									.get(FACET_COLUMNS_REVERSE.get(j)))
 							+ ", removed=" + removed + ", searchString="
 							+ searchString + ", searchPattern=" + searchPattern
-							+ ", j=" + j + "]";
+							+ ", j=" + j + " (" + FACET_COLUMNS_REVERSE.get(j)
+							+ ")]";
 				}
 			}
 			Iter li = new Iter();
-			while (li.hasNext()) {
+			while (li.hasNext()) { // filter search results
 				SearchInfo ln = li.next();
-				assert ln == li.current;
+				// li maintains its own handle to the row
+				assert ln == li.current; // ln is otherwise unused
 				for (String[] cell : li.facets()) {
 					if (li.isSearchable()) {
 						if (li.searchString == null
@@ -745,6 +1044,20 @@ public class CourseSearchController extends UifControllerBase {
 
 			return filteredResults;
 		}
+	}
+
+	/**
+	 * Get a list of the 10 most commonly seen search keywords.
+	 * 
+	 * @return The 10 most commonly seen search keywords.
+	 */
+	static Set<String> getCurrentTrend() {
+		return TRENDING.top(
+				10,
+				getSessionTendingState(
+						((ServletRequestAttributes) RequestContextHolder
+								.getRequestAttributes()).getRequest()).top(6,
+						null));
 	}
 
 	private CourseSearchStrategy searcher = KsapFrameworkServiceLocator
@@ -807,7 +1120,7 @@ public class CourseSearchController extends UifControllerBase {
 			results.put(
 					k, // The back-end search happens here --------V
 					(table = results.remove(k)) == null ? table = new SessionSearchInfo(
-							searcher, k, form, user) : table);
+							request, searcher, k, form, user) : table);
 		}
 		return table;
 	}
@@ -944,14 +1257,16 @@ public class CourseSearchController extends UifControllerBase {
 					|| dataTablesInputs.iColumns >= firstRow.sortColumns.length : firstRow.sortColumns.length
 					+ " > " + dataTablesInputs.iColumns;
 			assert table.searchResults.isEmpty()
-					|| dataTablesInputs.iColumns >= firstRow.facetColumns.length : firstRow.facetColumns.length
-					+ " > " + dataTablesInputs.iColumns;
+					|| dataTablesInputs.iColumns >= firstRow.facetColumns
+							.size() : firstRow.facetColumns.size() + " > "
+					+ dataTablesInputs.iColumns;
 			assert table.searchResults.isEmpty()
-					|| dataTablesInputs.iColumns == firstRow.facetColumns.length
+					|| dataTablesInputs.iColumns == firstRow.facetColumns
+							.size()
 					|| dataTablesInputs.iColumns == firstRow.sortColumns.length
 					|| dataTablesInputs.iColumns == firstRow.item
 							.getSearchColumns().length : "Max("
-					+ firstRow.facetColumns.length + ","
+					+ firstRow.facetColumns.size() + ","
 					+ firstRow.sortColumns.length + ","
 					+ firstRow.item.getSearchColumns().length + ") != "
 					+ dataTablesInputs.iColumns;
@@ -997,12 +1312,13 @@ public class CourseSearchController extends UifControllerBase {
 	public void getFacetValues(HttpServletResponse response,
 			HttpServletRequest request) throws IOException {
 		SessionSearchInfo table = getSearchResults(request);
+		assert table.facetState != null;
 
 		// Update click state based on inputs - see myplan.search.js
 		String fclick = request.getParameter("fclick");
 		String fcol = request.getParameter("fcol");
 		if (fclick != null && fcol != null)
-			table.facetClick(fclick, Integer.parseInt(fcol));
+			table.facetClick(fclick, fcol);
 		else
 			table.facetClickAll();
 
@@ -1013,10 +1329,14 @@ public class CourseSearchController extends UifControllerBase {
 		ArrayNode aCampus = oFacets.putArray("aCampus");
 		for (String c : table.formKey.campusSelect)
 			aCampus.add(c);
-		ArrayNode aFacetState = oFacets.putArray("aFacetState");
-		for (Map<String, FacetState> row : table.facetState) {
-			ObjectNode ofm = aFacetState.addObject();
-			for (Entry<String, FacetState> fse : row.entrySet()) {
+		ObjectNode oSearchColumn = oFacets.putObject("oSearchColumn");
+		for (Entry<String, Integer> fce : FACET_COLUMNS.entrySet())
+			oSearchColumn.put(fce.getKey(), fce.getValue());
+		ObjectNode oFacetState = oFacets.putObject("oFacetState");
+		for (Entry<String, Map<String, FacetState>> row : table.facetState
+				.entrySet()) {
+			ObjectNode ofm = oFacetState.putObject(row.getKey());
+			for (Entry<String, FacetState> fse : row.getValue().entrySet()) {
 				ObjectNode ofs = ofm.putObject(fse.getKey());
 				ofs.put("checked", fse.getValue().checked);
 				ofs.put("count", fse.getValue().count);

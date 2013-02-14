@@ -1,17 +1,28 @@
 package org.kuali.student.ap.framework.course;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
- * Bean interface represeting a search row in KSAP course search from the
+ * Bean interface representing a search row in KSAP course search from the
  * ks-ap-ui module perspective.
  * 
- * @author Mark Fyffe <mwfyffe@indiana.edu>
  * @version ks-ap-framework-0.3
  */
 public interface CourseSearchItem {
 
 	static final String EMPTY_RESULT_VALUE_KEY = "&mdash;";
+
+	static final Set<String> NOISE_WORDS = new java.util.HashSet<String>(
+			Arrays.asList("THE", "AND", "BUT", "PUT", "FOR", "ALL", "ALSO",
+					"ARE", "BETWEEN", "BOTH", "DAY", "EACH", "HALL", "WHO",
+					"WHAT", "WHERE", "WHICH", "WHY", "HOW", "HIS", "HERS",
+					"THEN", "THAN", "THAT", "THEREFORE", "THEIR", "WHICHEVER",
+					"WHOM", "IN", "OUT", "NORTH", "SOUTH", "EAST", "WEST",
+					"TOPICS", "EMPHASIS", "COURSE", "EMPHASIS", "INTRO",
+					"INTRODUCTION"));
 
 	enum CreditType {
 		fixed, range, multiple, unknown
@@ -133,10 +144,27 @@ public interface CourseSearchItem {
 	 * @see CourseSearchUI.xml
 	 * @see myplan.search.js
 	 */
-	String[][] getFacetColumns();
+	Map<String, String[]> getFacetColumns();
 
+	/**
+	 * Get the list of term ATP type IDs for which this course is projected.
+	 * 
+	 * @return The list of term ATP type IDs for which this course is projected.
+	 */
 	List<String> getTermInfoList();
 
+	/**
+	 * Get the list of term ATP -IDs for which this course is scheduled.
+	 * 
+	 * @return The list of term ATP IDs for which this course is scheduled.
+	 */
 	List<String> getScheduledTermsList();
+
+	/**
+	 * Get a list of keywords for use with the trending searches feature.
+	 * 
+	 * @return A list of keywords for use with the trending searches feature.
+	 */
+	List<String> getKeywords();
 
 }

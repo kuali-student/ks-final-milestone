@@ -1,5 +1,14 @@
 package org.kuali.student.myplan.course.service;
 
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
@@ -30,7 +39,6 @@ import org.kuali.student.myplan.plan.controller.PlanController;
 import org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
 import org.kuali.student.myplan.utils.CourseLinkBuilder;
-import org.kuali.student.myplan.utils.TimeStringMillisConverter;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -51,20 +59,10 @@ import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
-import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
 
 @SuppressWarnings("deprecation")
 public class CourseDetailsInquiryViewHelperServiceImpl extends
@@ -607,15 +605,16 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
                                 TimeOfDay startInfo = timeSlot.getStartTime();
                                 TimeOfDay endInfo = timeSlot.getEndTime();
                                 if (startInfo != null && endInfo != null) {
-                                    long startTimeMillis = startInfo.getMilliSeconds();
-                                    String startTime = TimeStringMillisConverter.millisToStandardTime(startTimeMillis);
-
-                                    long endTimeMillis = endInfo.getMilliSeconds();
-                                    String endTime = TimeStringMillisConverter.millisToStandardTime(endTimeMillis);
-
-                                    String time = startTime + " - " + endTime;
-
-                                    meeting.setTime(time);
+                                	// TODO: commit TimeStringMillisConverter
+//                                    long startTimeMillis = startInfo.getMilliSeconds();
+//                                    String startTime = TimeStringMillisConverter.millisToStandardTime(startTimeMillis);
+//
+//                                    long endTimeMillis = endInfo.getMilliSeconds();
+//                                    String endTime = TimeStringMillisConverter.millisToStandardTime(endTimeMillis);
+//
+//                                    String time = startTime + " - " + endTime;
+//
+//                                    meeting.setTime(time);
                                 }
                                 meetingDetailsList.add(meeting);
                             }

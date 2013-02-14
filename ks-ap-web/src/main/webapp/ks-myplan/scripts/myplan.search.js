@@ -6,7 +6,17 @@ function ksapCourseSearchTableWidth() {
 	return 548;
 }
 
-// Override to redefine course search columns
+/**
+ * Override this method to redefine course search columns.
+ * 
+ * <p>
+ * NOTE: Display fields and search fields do not work on the same data on the
+ * back end. There need to be enough columns defined to accommodate the largest
+ * of these two lists. Column order for search fields (facets) is internal to
+ * CourseSearchController
+ * 
+ * @returns aoColumns Value for DataTables.
+ */
 function ksapCourseSearchColumns() {
 	return [ {
 		'bSortable' : true,
@@ -39,11 +49,18 @@ function ksapCourseSearchColumns() {
 		'sWidth' : '66px'
 	}, {
 		'bSortable' : false,
-		'bSearchable' : false,
+		'bSearchable' : true,
 		'sTitle' : '',
 		'sClass' : 'myplan-status-column',
 		'sWidth' : '69px'
 	} ];
+}
+
+function doCourseSearch(crit) {
+	jQuery("input#text_searchQuery_control").each(function() {
+		jQuery(this).val(crit);
+	    jQuery('button.course-search-submit').click();
+	});
 }
 
 /**
@@ -109,6 +126,9 @@ function searchForCourses(id, parentId) {
 							results.fadeIn("fast");
 							results.find("table#" + id).width(
 									ksapCourseSearchTableWidth());
+							jQuery("#trending_summary").each(function() {
+					            myplanRetrieveComponent('trending_summary','trending_summary','search','lookup',{viewId:'Trending-LookupView'});
+							});
 						},
 						fnServerData : function(sSource, aoData, fnCallback) {
 							jQuery
@@ -177,8 +197,7 @@ function fnLoadFacets(sQuery, sTerm, aCampus) {
 							.each(function() {
 								jQuery(this).empty();
 							});
-					if (oFacets.aFacetState.length > 0)
-						jQuery.publish("GENERATE_FACETS");
+					jQuery.publish("GENERATE_FACETS");
 					hideLoading(jQuery("#course_search_results_facets"));
 				},
 				error : function(jqXHR, textStatus, errorThrown) {
@@ -204,23 +223,23 @@ function fnLoadFacets(sQuery, sTerm, aCampus) {
  * @param e
  *            The JS click event.
  */
-function fnClickFacet(sFilter, i, e) {
+function fnClickFacet(sFilter, fcol, e) {
 	stopEvent(e);
 	jQuery.ajax({
 		dataType : 'json',
 		type : "GET",
 		url : 'course/facetValues?queryText=' + escape(oFacets.sQuery)
 				+ '&termParam=' + oFacets.sTerm + '&campusParam='
-				+ oFacets.aCampus + '&fclick=' + sFilter + '&fcol=' + i,
+				+ oFacets.aCampus + '&fclick=' + sFilter + '&fcol=' + fcol,
 		success : function(data, textStatus, jqXHR) {
+			var i = data.oSearchColumn[fcol];
 			oFacets = data;
-			if (oFacets.aFacetState.length > 0)
-				jQuery.publish("UPDATE_FACETS");
+			jQuery.publish("UPDATE_FACETS");
 			if (sFilter === 'All')
 				oTable.fnFilter('', i, true, false);
 			else {
 				// Build filter regex query
-				var oData = oFacets.aFacetState[i];
+				var oData = oFacets.oFacetState[fcol];
 				var aSelections = [];
 				for ( var key in oData)
 					if (oData.hasOwnProperty(key)
@@ -255,8 +274,9 @@ function fnClickFacet(sFilter, i, e) {
  * @param sorter
  *            Function to use for sorting facet keys.
  */
-function fnGenerateFacetGroup(i, obj) {
-	var oData = oFacets.aFacetState[i];
+function fnGenerateFacetGroup(obj) {
+	var fcol = obj.attr("id");
+	var oData = oFacets.oFacetState[fcol];
 	var jFacets = obj.find(".uif-disclosureContent .uif-boxLayout");
 	var bOne = false; // exactly one facet value
 	var bMore = false; // more than one facet value
@@ -267,21 +287,24 @@ function fnGenerateFacetGroup(i, obj) {
 			bMore = !(bOne = !bOne);
 	if (bMore) {
 		jFacets.append(jQuery('<div class="all"><ul /></div>'));
-		var jAll = jQuery('<li />').attr("title", "All")
+		var jAll = jQuery('<li />').attr("title", "All").data("facetid", fcol)
 				.addClass("all checked").html('<a href="#">All</a>').click(
 						function(e) {
-							fnClickFacet('All', i, e);
+							var t = jQuery(this);
+							fnClickFacet('All', t.data("facetid"), e);
 						});
 		jFacets.find(".all ul").append(jAll);
 	}
 	jFacets.append(jQuery('<div class="facets"><ul /></div>'));
 	var ful = jFacets.find(".facets ul");
 	for (key in oData) {
-		var jItem = jQuery('<li />').data("facetkey", key).html(
-				'<a href="#">' + key + '</a><span>(' + oData[key].count
-						+ ')</span>').click(function(e) {
-			fnClickFacet(jQuery(this).data("facetkey"), i, e);
-		});
+		var jItem = jQuery('<li />').data("facetkey", key)
+				.data("facetid", fcol).html(
+						'<a href="#">' + key + '</a><span>(' + oData[key].count
+								+ ')</span>').click(function(e) {
+					var t = jQuery(this);
+					fnClickFacet(t.data("facetkey"), t.data("facetid"), e);
+				});
 		if (bOne)
 			jItem.addClass("static");
 		ful.append(jItem);
@@ -301,11 +324,11 @@ function fnGenerateFacetGroup(i, obj) {
  * @param obj
  *            A handle to the facet group div element.
  */
-function fnUpdateFacetList(i, obj) {
+function fnUpdateFacetList(obj) {
 	// Update the style on the 'All' facet option (checked if none in the group
 	// are selected, not checked if any are selected)
 	var bAll = true;
-	var oData = oFacets.aFacetState[i];
+	var oData = oFacets.oFacetState[obj.attr("id")];
 	for ( var key in oData)
 		if (!bAll)
 			continue;

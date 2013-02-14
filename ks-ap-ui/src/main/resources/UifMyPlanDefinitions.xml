@@ -361,8 +361,9 @@
         </property>
         <property name="items">
             <list>
-                <ref bean="watch_list"/>
-                <ref bean="non_student_degree_audits_list"/>
+                <ref bean="watch_list" />
+                <ref bean="non_student_degree_audits_list" />
+                <ref bean="trending" />
             </list>
         </property>
         <property name="propertyReplacers">
@@ -371,8 +372,9 @@
                       p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isStudent()">
                     <property name="replacement">
                         <list>
-                            <ref bean="watch_list"/>
-                            <ref bean="degree_audits_list"/>
+                            <ref bean="watch_list" />
+                            <ref bean="degree_audits_list" />
+			                <ref bean="trending" />
                         </list>
                     </property>
                 </bean>
@@ -456,6 +458,24 @@
             }).subscribe('AUDIT_COMPLETE', function(data){
                 myplanRetrieveComponent('degree_audits_summary','degree_audits_summary','search','lookup',{viewId:'DegreeAuditsSummary-LookupView'});
             });
+        "/>
+    </bean>
+
+    <bean id="trending" parent="Uif-VerticalBoxGroup" p:headerText="Trending">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-trending</value>
+                <value>myplan-stacked-list</value>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderSix"/>
+        </property>
+        <property name="onDocumentReadyScript" value="
+            myplanRetrieveComponent('trending','trending_summary','search','lookup',{viewId:'Trending-LookupView'});
+            window.setInterval(function(){
+            	myplanRetrieveComponent('trending_summary','trending_summary','search','lookup',{viewId:'Trending-LookupView'})
+            },120000);
         "/>
     </bean>
 

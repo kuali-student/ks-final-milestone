@@ -3,6 +3,7 @@ package org.kuali.student.myplan.course.dataobject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -58,6 +59,8 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 
 	private List<String> termInfoList;
 
+	private List<String> keywords;
+
 	/**
 	 * Lazy initialized column data for supporting server side result caching.
 	 */
@@ -71,7 +74,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	/**
 	 * Lazy initialized column data for supporting server side result caching.
 	 */
-	private transient String[][] facetColumns;
+	private transient Map<String, String[]> facetColumns;
 
 	public String getCourseId() {
 		return courseId;
@@ -462,6 +465,37 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 		return stsp.asXML();
 	}
 
+	@Override
+	public List<String> getKeywords() {
+		if (keywords == null) {
+			List<String> kws = new java.util.LinkedList<String>();
+			for (String kw : getCourseName().split("\\s+")) {
+				StringBuilder kwsb = new StringBuilder(kw);
+				int dig = 0;
+				boolean wild = false;
+				for (int c = 0; c < kwsb.length(); c++) {
+					char kwc = kwsb.charAt(c);
+					if (wild = wild || kwc == '-' || kwc == '*' || kwc == '#')
+						continue;
+					if (!Character.isLetterOrDigit(kwc))
+						kwsb.deleteCharAt(c);
+					else if (Character.isDigit(kwc) || kwc == 'x' || kwc == 'X')
+						dig++;
+				}
+				if (wild)
+					continue;
+				String searchTerm = kwsb.toString().trim().toUpperCase();
+				if (searchTerm.length() - dig >= 5
+						&& !Character.isDigit(searchTerm.charAt(0))
+						&& !NOISE_WORDS.contains(searchTerm)
+						&& !kws.contains(searchTerm))
+					kws.add(searchTerm);
+			}
+			keywords = kws;
+		}
+		return keywords;
+	}
+
 	/**
 	 * Convert a set of facet keys to a string for passing as a column in the
 	 * results for this item.
@@ -470,7 +504,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	 *            The facet keys related to this item.
 	 * @return A string for passing as a column in the results.
 	 */
-	protected String[] facetString(Set<String> facetKeys) {
+	protected String[] facetString(Collection<String> facetKeys) {
 		return facetKeys.toArray(new String[facetKeys.size()]);
 	}
 
@@ -489,13 +523,23 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	}
 
 	@Override
-	public String[][] getFacetColumns() {
-		return facetColumns == null ? facetColumns = new String[][] {
-				facetString(getTermsFacetKeys()),
-				facetString(getGenEduReqFacetKeys()),
-				facetString(getCreditsFacetKeys()),
-				facetString(getCourseLevelFacetKeys()),
-				facetString(getCurriculumFacetKeys()), } : facetColumns;
+	public Map<String, String[]> getFacetColumns() {
+		if (facetColumns == null) {
+			Map<String, String[]> m = new java.util.LinkedHashMap<String, String[]>(
+					6);
+			m.put("facet_quarter", facetString(getTermsFacetKeys()));
+			m.put("facet_genedureq", facetString(getGenEduReqFacetKeys()));
+			m.put("facet_credits", facetString(getCreditsFacetKeys()));
+			m.put("facet_level", facetString(getCourseLevelFacetKeys()));
+			m.put("facet_curriculum", facetString(getCurriculumFacetKeys()));
+			Set<String> kwf = new java.util.LinkedHashSet<String>();
+			for (String kw : getKeywords())
+				kwf.add(';' + kw + ';');
+			m.put("facet_keywords", facetString(kwf));
+			facetColumns = Collections.synchronizedMap(Collections
+					.unmodifiableMap(m));
+		}
+		return facetColumns;
 	}
 
 	@Override

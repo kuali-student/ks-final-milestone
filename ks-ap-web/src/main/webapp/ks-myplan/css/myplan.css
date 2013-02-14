@@ -21,6 +21,9 @@ strong {
 .jquerybubblepopup {
     z-index: 200 !important;
 }
+td.jquerybubblepopup-innerHtml {
+	background-color : white;
+}
 .myplan-view h1,
 .myplan-view h2,
 .myplan-view h3,

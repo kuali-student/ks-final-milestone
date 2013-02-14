@@ -14,7 +14,11 @@
  */
 package org.kuali.student.myplan.course.form;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.framework.course.CourseSearchForm;

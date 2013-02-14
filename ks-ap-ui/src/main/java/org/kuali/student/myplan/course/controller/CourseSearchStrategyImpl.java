@@ -60,7 +60,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	private static final Logger LOG = Logger
 			.getLogger(CourseSearchStrategyImpl.class);
 
-	private static final List<Comparator<String>> FACET_SORT;
+	private static final Map<String, Comparator<String>> FACET_SORT;
 	private static final int MAX_HITS = 1000;
 	private static WeakReference<Map<String, Credit>> creditMapRef;
 
@@ -213,15 +213,17 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	public static final String NO_CAMPUS = "-1";
 
 	static {
-		List<Comparator<String>> l = new java.util.ArrayList<Comparator<String>>(
-				5);
-		l.add(TERMS); // Quarters
-		l.add(ALPHA); // Gen Ed
-		l.add(NUMERIC); // Credits
-		l.add(NUMERIC); // Level
-		l.add(ALPHA); // Curriculum
-		FACET_SORT = Collections.unmodifiableList(Collections
-				.synchronizedList(l));
+		// Related to CourseSearchUI.xml definitions
+		Map<String, Comparator<String>> l = new java.util.LinkedHashMap<String, Comparator<String>>(
+				6);
+		l.put("facet_quarter", TERMS);
+		l.put("facet_genedureq", ALPHA);
+		l.put("facet_credits", NUMERIC);
+		l.put("facet_level", NUMERIC);
+		l.put("facet_curriculum", ALPHA);
+		l.put("facet_keywords", ALPHA);
+		FACET_SORT = Collections
+				.unmodifiableMap(Collections.synchronizedMap(l));
 	}
 
 	@Override
@@ -426,10 +428,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		course.setCode(getCellValue(row, "course.code"));
 
 		Credit credit = getCreditByID(getCellValue(row, "course.credits"));
-		course.setCreditMin(0);//credit.getMin());
-		course.setCreditMax(0);//credit.getMax());
-		course.setCreditType(CourseSearchItem.CreditType.unknown);//credit.getType());
-        course.setCredit("");//credit.getDisplay());
+		course.setCreditMin(credit.getMin());
+		course.setCreditMax(credit.getMax());
+		course.setCreditType(credit.getType());
+		course.setCredit(credit.getDisplay());
 
 		LOG.info("End of method getCourseInfo of CourseSearchController:"
 				+ System.currentTimeMillis());
@@ -734,7 +736,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
 		// Update facet info and code the item.
 		for (CourseSearchItem course : courses) {
-			//curriculumFacet.process(course);
+			curriculumFacet.process(course);
 			courseLevelFacet.process(course);
 			genEduReqFacet.process(course);
 			creditsFacet.process(course);
@@ -769,7 +771,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			CourseSearchItemImpl course = getCourseInfo(hit.courseID);
 			if (isCourseOffered(form, course)) {
 				loadScheduledTerms(course);
-				//loadTermsOffered(course);
+				loadTermsOffered(course);
 				loadGenEduReqs(course);
 				String courseId = course.getCourseId();
 				if (courseStatusMap.containsKey(courseId)) {
@@ -1266,7 +1268,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	}
 
 	@Override
-	public List<Comparator<String>> getFacetSort() {
+	public Map<String, Comparator<String>> getFacetSort() {
 		return FACET_SORT;
 	}
 

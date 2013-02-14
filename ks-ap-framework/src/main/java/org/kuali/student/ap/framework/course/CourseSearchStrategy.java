@@ -6,10 +6,27 @@ import java.util.Map;
 
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 
+/**
+ * Strategy interface for specifying course search behavior.
+ */
 public interface CourseSearchStrategy {
 
+	/**
+	 * Create a new instance of the course search form.
+	 * 
+	 * @return A new instance of the course search form.
+	 */
 	CourseSearchForm createSearchForm();
 
+	/**
+	 * Get a specific cell value for a search row.
+	 * 
+	 * @param row
+	 *            The search result row.
+	 * @param key
+	 *            The column key.
+	 *            @
+	 */
 	String getCellValue(SearchResultRow row, String key);
 
 	Map<String, Credit> getCreditMap();
@@ -26,7 +43,7 @@ public interface CourseSearchStrategy {
 
 	String extractDivisions(Map<String, String> divisionMap, String query,
 			List<String> divisions, boolean isSpaceAllowed);
-	
-	List<Comparator<String>> getFacetSort();
+
+	Map<String, Comparator<String>> getFacetSort();
 
 }
