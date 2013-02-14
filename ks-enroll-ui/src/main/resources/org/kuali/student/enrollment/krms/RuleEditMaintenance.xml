@@ -81,6 +81,27 @@
         </property>
     </bean-->
 
+    <bean name="KS-EditWithLogic-EditGroup" parent="Uif-VerticalBoxGroup"
+          p:style="border: 1px solid #999999; padding: 5px; margin: 5px; background: white; margin-top:0px ">
+        <property name="items">
+            <list>
+                <bean parent="LogicInputSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="LogicInputSection" parent="Uif-VerticalBoxSubSection" abstract="true" p:cssClasses="editModeNode">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="logicArea">
+                    <property name="control">
+                        <bean parent="Uif-MediumTextAreaControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
     <bean name="KS-EditWithObject-EditGroup" parent="Uif-VerticalBoxGroup"
           p:style="border: 1px solid #999999; padding: 5px; margin: 5px; background: white; margin-top:null ">
         <property name="headerText" value="Proposition Tree"/>

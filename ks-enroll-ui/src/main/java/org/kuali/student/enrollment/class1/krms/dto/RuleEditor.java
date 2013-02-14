@@ -43,6 +43,16 @@ public class RuleEditor extends AgendaEditor {
     private Date effectiveFrom;
     private Date effectiveTo;
 
+    public String getLogicArea() {
+        return logicArea;
+    }
+
+    public void setLogicArea(String logicArea) {
+        this.logicArea = logicArea;
+    }
+
+    private String logicArea;
+
     private RuleBo rule;
 
     // for Rule editor display
