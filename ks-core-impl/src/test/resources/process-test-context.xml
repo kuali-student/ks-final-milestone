@@ -70,7 +70,7 @@
     </bean>
 
     <bean id="debugMode" class="java.lang.Boolean">
-        <constructor-arg value="true" />
+        <constructor-arg value="false" />
     </bean>
 
     <!-- Default JPA EntityManagerFactory -->
