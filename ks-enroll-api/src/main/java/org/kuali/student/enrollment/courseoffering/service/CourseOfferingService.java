@@ -2678,6 +2678,34 @@ public interface CourseOfferingService
             VersionMismatchException;
 
     /**
+     * Updates the state of an existing ColocatedOfferingSetState into another state
+     * provided that it is valid to do so.
+     *
+     * @param colocatedOfferingSetId     Id of the ColocatedOfferingSetState to be updated.
+     * @param nextStateKey     The State Key into which the identified
+     *                         colocatedOfferingSet will be placed if the operation
+     *                         succeeds.
+     * @param contextInfo      Context information containing the principalId
+     *                         and locale information about the caller of
+     *                         service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     the identified CourseOffering does not
+     *                                   exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo changeColocatedOfferingSetState(@WebParam(name = "colocatedOfferingSetId") String colocatedOfferingSetId,
+                                                 @WebParam(name = "nextStateKey") String nextStateKey,
+                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      * Removes a ColocatedOfferingSet.
      *
      * @param colocatedOfferingSetId  ColocatedOfferingSet  identifier
