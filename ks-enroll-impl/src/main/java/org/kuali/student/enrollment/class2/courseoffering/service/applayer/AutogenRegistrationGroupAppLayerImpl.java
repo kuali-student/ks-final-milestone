@@ -44,7 +44,6 @@ import java.util.Map;
 public class AutogenRegistrationGroupAppLayerImpl implements AutogenRegistrationGroupAppLayer {
     CourseOfferingService coService;
 
-
     @Override
     public ActivityOfferingClusterInfo createDefaultCluster(String foId, ContextInfo context)
             throws PermissionDeniedException,
@@ -151,16 +150,42 @@ public class AutogenRegistrationGroupAppLayerImpl implements AutogenRegistration
         }
         // Also, check for trivial case of the source/target AOC being identical
         if (sourceAocId.equals(targetAocId)) {
-            return null;
+            return null; // exit if same
         }
         setWithAoId.getActivityOfferingIds().remove(aoId); // Delete the AO ID
         // This will delete RGs
         coService.updateActivityOfferingCluster(aoInfo.getFormatOfferingId(), sourceAocId, sourceAoc, context);
         // Now, add the AO ID to the target AOC
+        boolean inserted = false;
         for (ActivityOfferingSetInfo set: targetAoc.getActivityOfferingSets()) {
-
+            // Pick first AO set with matching type
+            if (set.getActivityOfferingType().equals(aoInfo.getTypeKey())) {
+                if (set.getActivityOfferingIds().contains(aoId)) {
+                    throw new OperationFailedException("aoId already exists in target AOC--shouldn't happen");
+                }
+                set.getActivityOfferingIds().add(aoId);
+                inserted = true;
+                break;
+            }
         }
+        if (!inserted) {
+            // Didn't actually add it
+            throw new OperationFailedException("Unable to find AO set in target AOC with correct type: " + aoInfo.getTypeKey());
+        }
+        // update target AOC
+        ActivityOfferingClusterInfo updated =
+                coService.updateActivityOfferingCluster(aoInfo.getFormatOfferingId(), targetAocId, targetAoc, context);
+        // Generate missing RGs
+        StatusInfo statusInfo =
+                coService.generateRegistrationGroupsForCluster(updated.getId(), context);
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void deleteActivityOfferingClusterCascaded(String aocId, ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+                   OperationFailedException, DoesNotExistException {
+        StatusInfo status = coService.deleteActivityOfferingClusterCascaded(aocId, context);
     }
 
 

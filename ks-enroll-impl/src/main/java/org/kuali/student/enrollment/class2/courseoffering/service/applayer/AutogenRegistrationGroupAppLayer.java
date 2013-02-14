@@ -45,7 +45,9 @@ public interface AutogenRegistrationGroupAppLayer {
                    DoesNotExistException, ReadOnlyException, DataValidationErrorException;
 
     /**
-     * This creates and adds an AO to an AOC, generating RGs as needed
+     * User Story 3: I need the system to automatically create reg groups when I create an AO (via add or copy)
+     *               to eliminate the need to manually create them
+     * This creates an AO, then adds the created AO to an AOC, generating RGs as needed
      * @param aoInfo The AO to be created and added to the AOC
      * @param aocId The ID of the activity offering cluster
      * @param context
@@ -56,6 +58,8 @@ public interface AutogenRegistrationGroupAppLayer {
                    OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException;
 
     /**
+     * User Story 5: I need the system to automatically delete all associated registration groups when I delete
+     *               an AO from an AOC
      * A pass-through to the deleteActivityOfferingCascaded.
      * @param aocId
      * @param context
@@ -66,19 +70,40 @@ public interface AutogenRegistrationGroupAppLayer {
                    OperationFailedException, DoesNotExistException;
 
     /**
+     * User Story 6: As a user, I need the system to automatically create/delete all associated registration
+     *               groups when I move an Activity from one AOC to another
      * Moves an AO from a source AOC to a target AOC.  Assumption is each AO Set in an AOC has a unique AO type,
      * i.e., no two AO sets within an AOC can have the same type.
-     * @param aoId
-     * @param sourceAocId
-     * @param targetAocId
+     * @param aoId The id of the AO to be moved from source AOC to target AOC
+     * @param sourceAocId The AOC where aoId is currently (and to be removed)
+     * @param targetAocId The AOC where aoId should be placed
      * @param context
-     * @return
+     * @return TBD
      * @throws PermissionDeniedException
      * @throws MissingParameterException
      * @throws InvalidParameterException
      * @throws OperationFailedException
      * @throws DoesNotExistException
      */
-    List<RegistrationGroupInfo> moveActivityOffering(String aoId, String sourceAocId, String targetAocId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException;
+    List<RegistrationGroupInfo> moveActivityOffering(String aoId, String sourceAocId, String targetAocId, ContextInfo context)
+            throws  PermissionDeniedException,
+                    DataValidationErrorException,
+                    DoesNotExistException,
+                    InvalidParameterException,
+                    MissingParameterException,
+                    OperationFailedException,
+                    ReadOnlyException,
+                    VersionMismatchException;
 
+    /**
+     * User Story 7: As a user, I need the system to automatically delete all AOs when I delete an
+     *               AOC so I don’t have to delete all the AOs first
+     * This is a pass-through to service call deleteActivityOfferingClusterCascaded
+     * @param aocId The ID of the AOC to delete
+     *
+     */
+    void deleteActivityOfferingClusterCascaded(String aocId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+                   MissingParameterException, OperationFailedException,
+                   PermissionDeniedException;
 }
