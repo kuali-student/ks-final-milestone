@@ -28,7 +28,6 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.ToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
-import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -845,10 +844,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             if (co.getIsChecked()) {
                 checked++;
                 if (co.isEnableDeleteButton()) {
-                    List<ActivityOfferingDisplayWrapper> aos = co.getAoToBeDeletedList();
-                    if (aos != null && !aos.isEmpty()) {
-                        CourseOfferingResourceLoader.loadCourseOfferingService().deleteCourseOfferingCascaded(co.getCourseOfferingId(), ContextBuilder.loadContextInfo());
-                    }
+                    CourseOfferingResourceLoader.loadCourseOfferingService().deleteCourseOfferingCascaded(co.getCourseOfferingId(), ContextBuilder.loadContextInfo());
                 }
             }
         }
