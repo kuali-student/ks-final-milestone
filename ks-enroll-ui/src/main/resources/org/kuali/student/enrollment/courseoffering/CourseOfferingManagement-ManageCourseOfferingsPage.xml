@@ -72,7 +72,7 @@
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:propertyName="courseOfferingCode">
+                <bean parent="Uif-DataField" p:propertyName="courseOfferingCode" p:label="CODE">
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"  p:inquiryParameters="courseOfferingId" />
                     </property>
