@@ -2,6 +2,7 @@ package org.kuali.student.krms.naturallanguage.config.context;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.rice.krms.impl.repository.TermParameterBo;
@@ -21,8 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Daos( { @Dao(value = "org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql") })
-@PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
+//@Daos( { @Dao(value = "org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql") })
+//@PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
+@Ignore
 public class CluContextImplTest extends AbstractServiceTest {
 
     @Client(value = "org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl", additionalContextFile = "classpath:clu-additional-context.xml")
