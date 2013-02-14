@@ -7,7 +7,7 @@
     <bean id="KRMS-CompareRules-View" parent="KSFormView">
         <property name="id" value="krmsCompareRulesView"/>
         <property name="headerText" value="Compare CLU and CO Rules"/>
-        <property name="formClass" value="org.kuali.student.enrollment.class1.krms.dto.RuleEditor"/>
+        <property name="formClass" value="org.kuali.student.enrollment.class1.krms.form.CompareRuleForm"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.RuleViewHelperServiceImpl"/>
         <property name="singlePageView" value="true"/>
         <property name="viewName" value="krmsCompareRulesView"/>
@@ -29,10 +29,9 @@
         </property>
         <property name="items">
             <list>
-                <ref bean="KS-Compare-Prerequisite-Rule" />
+                <!--<ref bean="KS-Compare-Prerequisite-Rule" />-->
             </list>
         </property>
-
         <property name="additionalScriptFiles">
             <list>
                 <value>ks-enroll/scripts/common.js</value>
@@ -46,17 +45,18 @@
         <property name="additionalCssFiles">
             <list>
                 <value>ks-enroll/css/krms.css</value>
+                <value>ks-enroll/css/krms-lightbox.css</value>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-CLURule-PreviewSection-parent" parent="Uif-VerticalBoxSubSection">
-        <property name="headerText" value="CLU Rule"/>
-        <property name="items">
-            <list>
+    <!--<bean id="KS-CLURule-PreviewSection-parent" parent="Uif-VerticalBoxSubSection">-->
+        <!--<property name="headerText" value="CLU Rule"/>-->
+        <!--<property name="items">-->
+            <!--<list>-->
 
-                <!--<bean id="PreviewCLU-Tree-Section" parent="Uif-TreeSection">-->
-                    <!--<property name="propertyName" value="rulePreviewer.previewTree"/>-->
+                <!--<bean id="PreviewCLU-Tree-Section" parent="Uif-TreeSection" p:style="width: 400px;">-->
+                    <!--<property name="propertyName" value="ruleEditor.previewTree"/>-->
                     <!--<property name="tree">-->
                         <!--<bean parent="RuleTreeWidget"/>-->
                     <!--</property>-->
@@ -71,18 +71,18 @@
                         <!--</bean>-->
                     <!--</property>-->
                 <!--</bean>-->
-            </list>
-        </property>
-    </bean>
-    <bean id="KS-CLURule-PreviewSection" parent="KS-CLURule-PreviewSection-parent" />
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <!--<bean id="KS-CLURule-PreviewSection" parent="KS-CLURule-PreviewSection-parent" />-->
 
-    <bean id="KS-CORule-PreviewSection-parent" parent="Uif-VerticalBoxSubSection">
-    <property name="headerText" value="CO Rule"/>
-    <property name="items">
-        <list>
+    <!--<bean id="KS-CORule-PreviewSection-parent" parent="Uif-VerticalBoxSubSection">-->
+    <!--<property name="headerText" value="CO Rule"/>-->
+    <!--<property name="items">-->
+        <!--<list>-->
 
-            <!--<bean id="PreviewCO-Tree-Section" parent="Uif-TreeSection">-->
-                <!--<property name="propertyName" value="rulePreviewer.previewTree"/>-->
+            <!--<bean id="PreviewCO-Tree-Section" parent="Uif-TreeSection" p:style="width: 400px;">-->
+                <!--<property name="propertyName" value="cmRule"/>-->
                 <!--<property name="tree">-->
                     <!--<bean parent="RuleTreeWidget"/>-->
                 <!--</property>-->
@@ -97,33 +97,33 @@
                     <!--</bean>-->
                 <!--</property>-->
             <!--</bean>-->
-        </list>
-    </property>
-    </bean>
-    <bean id="KS-CORule-PreviewSection" parent="KS-CORule-PreviewSection-parent" />
+        <!--</list>-->
+    <!--</property>-->
+    <!--</bean>-->
+    <!--<bean id="KS-CORule-PreviewSection" parent="KS-CORule-PreviewSection-parent" />-->
 
-        <bean id="KS-Compare-PrerequisiteRule-parent" parent="KS-HorizontalBoxSection">
-        <property name="headerText" value="Prerequisite Rule"/>
-        <property name="items">
-            <list>
-                <ref bean="KS-CLURule-PreviewSection" />
-                <ref bean="KS-CORule-PreviewSection" />
-            </list>
-        </property>
+        <!--<bean id="KS-Compare-PrerequisiteRule-parent" parent="KS-HorizontalBoxSection">-->
+        <!--<property name="headerText" value="Prerequisite Rule"/>-->
+        <!--<property name="items">-->
+            <!--<list>-->
+                <!--<ref bean="KS-CLURule-PreviewSection" />-->
+                <!--<ref bean="KS-CORule-PreviewSection" />-->
+            <!--</list>-->
+        <!--</property>-->
 
-    </bean>
-    <bean id="KS-Compare-Prerequisite-Rule" parent="KS-Compare-PrerequisiteRule-parent" />
+    <!--</bean>-->
+    <!--<bean id="KS-Compare-Prerequisite-Rule" parent="KS-Compare-PrerequisiteRule-parent" />-->
 
-    <bean id="KS-HorizontalBoxSection"  parent="Uif-HorizontalBoxSection">
-        <property name="header">
-            <bean parent="Uif-SectionHeader">
-                <property name="cssClasses">
-                    <list merge="true">
-                        <value>ks-rulesection</value>
-                    </list>
-                </property>
-            </bean>
-        </property>
-    </bean>
+    <!--<bean id="KS-HorizontalBoxSection"  parent="Uif-HorizontalBoxSection">-->
+        <!--<property name="header">-->
+            <!--<bean parent="Uif-SectionHeader">-->
+                <!--<property name="cssClasses">-->
+                    <!--<list merge="true">-->
+                        <!--<value>ks-rulesection</value>-->
+                    <!--</list>-->
+                <!--</property>-->
+            <!--</bean>-->
+        <!--</property>-->
+    <!--</bean>-->
 
 </beans>
