@@ -22,7 +22,8 @@ public interface CourseSearchItem {
 					"THEN", "THAN", "THAT", "THEREFORE", "THEIR", "WHICHEVER",
 					"WHOM", "IN", "OUT", "NORTH", "SOUTH", "EAST", "WEST",
 					"TOPICS", "EMPHASIS", "COURSE", "EMPHASIS", "INTRO",
-					"INTRODUCTION"));
+					"INTRODUCTION", "ISSUES", "SKILLS", "STUDENTS", "INCLUDE",
+					"STUDY"));
 
 	enum CreditType {
 		fixed, range, multiple, unknown
