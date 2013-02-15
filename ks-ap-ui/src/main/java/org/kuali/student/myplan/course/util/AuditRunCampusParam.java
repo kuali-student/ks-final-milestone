@@ -13,6 +13,7 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 
 /**
@@ -46,20 +47,30 @@ public class AuditRunCampusParam extends KeyValuesBase {
         if (blankOption) {
             keyValues.add(new ConcreteKeyValue("", ""));
         }
-        List<OrgInfo> orgInfoList = new ArrayList<OrgInfo>();
-        try {
-            if (!this.getHashMap().containsKey(CourseSearchConstants.CAMPUS_LOCATION)) {
-                orgInfoList = KsapFrameworkServiceLocator.getOrgHelper().getOrgInfo(CourseSearchConstants.CAMPUS_LOCATION, CourseSearchConstants.ORG_QUERY_SEARCH_BY_TYPE_REQUEST, CourseSearchConstants.ORG_TYPE_PARAM, context);
-                getHashMap().put(CourseSearchConstants.CAMPUS_LOCATION, orgInfoList);
-            } else {
-                orgInfoList = getHashMap().get(CourseSearchConstants.CAMPUS_LOCATION);
-            }
-        } catch (Exception e) {
-            logger.error("No Values for campuses found", e);
-        }
-        if (orgInfoList != null && orgInfoList.size() > 0) {
-            for (OrgInfo entry : orgInfoList) {
-                keyValues.add(new ConcreteKeyValue(entry.getId(), entry.getLongName() + " campus"));
+//        List<OrgInfo> orgInfoList = new ArrayList<OrgInfo>();
+//        try {
+//            if (!this.getHashMap().containsKey(CourseSearchConstants.CAMPUS_LOCATION)) {
+//                orgInfoList = KsapFrameworkServiceLocator.getOrgHelper().getOrgInfo(CourseSearchConstants.CAMPUS_LOCATION, CourseSearchConstants.ORG_QUERY_SEARCH_BY_TYPE_REQUEST, CourseSearchConstants.ORG_TYPE_PARAM, context);
+//                getHashMap().put(CourseSearchConstants.CAMPUS_LOCATION, orgInfoList);
+//            } else {
+//                orgInfoList = getHashMap().get(CourseSearchConstants.CAMPUS_LOCATION);
+//            }
+//        } catch (Exception e) {
+//            logger.error("No Values for campuses found", e);
+//        }
+//        if (orgInfoList != null && orgInfoList.size() > 0) {
+//            for (OrgInfo entry : orgInfoList) {
+//                keyValues.add(new ConcreteKeyValue(entry.getId(), entry.getLongName() + " campus"));
+//            }
+//        }
+        List <EnumeratedValueInfo> enumeratedValueInfoList = KsapFrameworkServiceLocator.getEnumerationHelper().getEnumerationValueInfoList("kuali.lu.campusLocation");
+        if (enumeratedValueInfoList != null && enumeratedValueInfoList.size() > 0) {
+            for (EnumeratedValueInfo entry : enumeratedValueInfoList) {
+                if (entry.getCode().equals("AL")) {
+                    keyValues.add(new ConcreteKeyValue(entry.getCode(), entry.getValue() + " campuses"));
+                }else{
+                    keyValues.add(new ConcreteKeyValue(entry.getCode(), entry.getValue() + " campus"));
+                }
             }
         }
         Collections.sort(keyValues,

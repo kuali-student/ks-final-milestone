@@ -40,6 +40,11 @@
         <filter-class>org.kuali.student.myplan.utils.ArmKsapFilter</filter-class>
     </filter>
 
+    <!-- Filter to overriding Service checks -->
+    <filter>
+        <filter-name>DefaultKsapContext</filter-name>
+        <filter-class>org.kuali.student.ap.framework.context.support.DefaultKsapContext$Filter</filter-class>
+    </filter>
 
     <!-- Start KRAD Defaults-->
 
@@ -397,6 +402,12 @@
     <!-- Filter on myplan servlet -->
     <filter-mapping>
         <filter-name>ArmKsapFilter</filter-name>
+        <servlet-name>myplan</servlet-name>
+    </filter-mapping>
+
+    <!-- Filter on myplan servlet -->
+    <filter-mapping>
+        <filter-name>DefaultKsapContext</filter-name>
         <servlet-name>myplan</servlet-name>
     </filter-mapping>
 

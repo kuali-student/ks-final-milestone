@@ -9,14 +9,18 @@ import java.util.Set;
 
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
+import org.kuali.student.ap.framework.context.KsapContext;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.myplan.course.dataobject.CourseSearchItemImpl;
 import org.kuali.student.myplan.course.dataobject.FacetItem;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 
 /**
  * Logic for building list of FacetItems and coding CourseSearchItems.
@@ -72,13 +76,20 @@ public class CurriculumFacet extends AbstractFacet {
 	 */
 	@Override
 	public void process(CourseSearchItem course) {
-		String subject;
+        String subject = null;
+        String orgId = "ORGID-" + course.getSubject();
+        KsapContext ksapContext = KsapFrameworkServiceLocator.getContext();
+        ContextInfo contextInfo = ksapContext.getContextInfo();
+        OrganizationService  organizationService = KsapFrameworkServiceLocator.getOrganizationService();
+        OrgInfo orgInfo = null;
 		try {
-			subject = KsapFrameworkServiceLocator
-					.getOrganizationService()
-					.getOrg(course.getSubject(),
-							KsapFrameworkServiceLocator.getContext()
-									.getContextInfo()).getShortName();
+            orgInfo =    organizationService.getOrg(orgId, contextInfo) ;
+            subject = orgInfo.getShortName();
+//			subject = KsapFrameworkServiceLocator
+//					.getOrganizationService()
+//					.getOrg(course.getSubject(),
+//							KsapFrameworkServiceLocator.getContext()
+//									.getContextInfo()).getShortName();
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("ORG lookup error", e);
 		} catch (InvalidParameterException e) {
