@@ -59,7 +59,7 @@
                     <argLine>-Xms256m -Xmx512m</argLine>
                 </configuration>
             </plugin>
-            <!--  this will allow us to access core tests inside of ks-enroll by specifying the dependency type of test-jar -->
+            <!--  this will allow us to access lum tests inside of ks-enroll by specifying the dependency type of test-jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
