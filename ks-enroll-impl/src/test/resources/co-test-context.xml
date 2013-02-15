@@ -215,6 +215,8 @@
     <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>
     <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceMockDataImpl"/>
 
+  <alias alias="CourseOfferingService" name="coService" />
+  
   <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
     <property name="luiService" ref="luiService" />
     <property name="rgAssembler" ref="rgAssembler" />

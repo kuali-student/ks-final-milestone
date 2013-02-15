@@ -84,6 +84,19 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
  */
 public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwareDataLoader {
 
+    public static final String CHEM123_COURSE_ID = "CLU-1";
+    
+    public static final String CHEM123_COURSE_OFFERING_ID = "CO-1";
+    
+    public static final String CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID = "CO-1:LEC-AND-LAB";
+    
+    public static final String ENG101_COURSE_ID = "CLU-2";
+    
+    public static final String ENG101_COURSE_OFFERING_ID = "CO-2";
+    
+    public static final String ENG101_LEC_ONLY_FORMAT_OFFERING_ID = "CO-2:LEC-ONLY";
+    
+    
     @Resource
     protected AcademicCalendarService acalService;
 

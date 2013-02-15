@@ -354,6 +354,9 @@ public final class CourseOfferingServiceTestDataUtils {
     }
 
     public static CourseOfferingInfo createCourseOffering(CourseInfo canonicalCourse, String termId, String courseOfferingStateKey) {
+        return createCourseOffering(canonicalCourse, termId, courseOfferingStateKey, 1000, 100);
+    }
+    public static CourseOfferingInfo createCourseOffering(CourseInfo canonicalCourse, String termId, String courseOfferingStateKey, Integer maximumEnrollment, Integer minimumEnrollment) {
         CourseOfferingInfo orig = new CourseOfferingInfo();
         // this is the canonical course id
         orig.setCourseId(canonicalCourse.getId());
@@ -393,15 +396,26 @@ public final class CourseOfferingServiceTestDataUtils {
                 LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
         orig.getStudentRegistrationGradingOptions().add(
                 LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE);
+        
+        orig.setMaximumEnrollment(maximumEnrollment);
+        orig.setMinimumEnrollment(minimumEnrollment);
 
         return orig;
 
     }
+    
     public static CourseOfferingInfo createCourseOffering(
             CourseInfo canonicalCourse, String termId) {
+        
+        return createCourseOffering(canonicalCourse, termId, 1000, 100);
+    }
+    
+    public static CourseOfferingInfo createCourseOffering(
+            CourseInfo canonicalCourse, String termId, Integer maximumEnrollment, Integer minimumEnrollment) {
         // default to the first state in the lifecycle, presently DRAFT.
-       return createCourseOffering(canonicalCourse, termId, LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_STATE_KEYS[0]);
+       CourseOfferingInfo co = createCourseOffering(canonicalCourse, termId, LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_STATE_KEYS[0], maximumEnrollment, minimumEnrollment);
 
+       return co;
        
     }
 
