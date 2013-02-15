@@ -516,8 +516,10 @@
         OBJ_ID="0d42ffe4-92e0-4875-ba3e-292cacf594ae"
         SHRT_NAME="PRE-CANDIDACY RESEARCH" ST="Active" SUFX_CD="898"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="14"/>
-    <KSLU_CLU_IDENT ID="08dc2f9b-6d4a-453c-a64a-36f2a45dc344"
+    <KSLU_CLU_IDENT CD="WMST444" DIVISION="WMST"
+        ID="08dc2f9b-6d4a-453c-a64a-36f2a45dc344"
         OBJ_ID="40b72c16-dc88-4dfb-ade3-105bf98fb4aa" ST="Active"
+        SUFX_CD="444"
         TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="09100" ID="08ec8742-c7bd-4fce-bff3-91d2f1a8dc83"
         LNG_NAME="Engineering: Mechanical"
@@ -6192,8 +6194,10 @@
         OBJ_ID="5aa33f41-1a83-45c1-b1cf-46d3cd7f6160"
         SHRT_NAME="Mathematics of Advanced Industrial Technology"
         ST="Active" TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
-    <KSLU_CLU_IDENT ID="763413dd-7c2e-477b-8ab0-3a9465c316b0"
+    <KSLU_CLU_IDENT CD="WMST212" DIVISION="WMST"
+        ID="763413dd-7c2e-477b-8ab0-3a9465c316b0"
         OBJ_ID="6ed3b5b5-c82a-4b50-a6d7-709113387141" ST="Active"
+        SUFX_CD="212"
         TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="15050" ID="763b506c-8797-49d0-9e5e-f87a0493cba1"
         OBJ_ID="50cc8a16-379c-4c5e-ad3e-06e090345370"
@@ -10989,8 +10993,10 @@
         OBJ_ID="e7b5e1c2-f518-4ac6-b11f-2bf3d10fb221"
         SHRT_NAME="Mathematics" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
-    <KSLU_CLU_IDENT ID="d6022b1a-5acc-4dfc-952e-05d9edac718c"
+    <KSLU_CLU_IDENT CD="WMST453" DIVISION="WMST"
+        ID="d6022b1a-5acc-4dfc-952e-05d9edac718c"
         OBJ_ID="1cbe13e4-bb50-49df-90f9-f9211db23247" ST="Active"
+        SUFX_CD="453"
         TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="5"/>
     <KSLU_CLU_IDENT ID="d645444a-30fb-4cd9-b646-564aed632c07"
         OBJ_ID="3d545c7e-812c-47f9-b40c-78d893ffd33c" ST="Active"
@@ -12323,8 +12329,10 @@
         OBJ_ID="27419b19-8b11-42fe-a78e-ddcf83f12746"
         SHRT_NAME="Physics" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
-    <KSLU_CLU_IDENT ID="f59dcc69-8f60-4cf6-8c0e-f27e848a0048"
+    <KSLU_CLU_IDENT CD="WMST456" DIVISION="WMST"
+        ID="f59dcc69-8f60-4cf6-8c0e-f27e848a0048"
         OBJ_ID="3200fb80-24ba-49dc-932a-962cac5b7588" ST="Active"
+        SUFX_CD="456"
         TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="ENGL471" DIVISION="ENGL"
         ID="f5b07a53-1873-4d56-ba61-e722c53a9adb"
