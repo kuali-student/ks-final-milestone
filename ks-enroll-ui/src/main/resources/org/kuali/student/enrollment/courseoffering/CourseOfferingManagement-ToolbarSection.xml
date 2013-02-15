@@ -25,8 +25,7 @@
             <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                 <property name="items">
                     <list>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Approve-CO" parent="KS-CourseOfferingManagement-ToolBar-Approve"
-                            p:preSubmitCall="return confirm('This will mark all checked Course Offerings as Ready for Scheduling')" p:methodToCall="approveCOs" />
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Approve-CO" parent="KS-CourseOfferingManagement-ToolBar-Approve" p:methodToCall="approveCOs" />
                     </list>
                 </property>
             </bean>

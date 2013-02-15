@@ -118,4 +118,11 @@ public class CourseOfferingConstants {
     //controller path
     public static final String CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE = "courseOffering";
     public static final String CONTROLLER_PATH_COURSEOFFERING_CREATE_MAINTENANCE = "courseOfferingCreate";
+
+    /**
+         * These are the confirm dialog bean ids used in Manage CO/AO view.
+         */
+    public static class ConfirmDialogs{
+        public static final String APRROVE_CO = "approveCODialog";
+    }
 }

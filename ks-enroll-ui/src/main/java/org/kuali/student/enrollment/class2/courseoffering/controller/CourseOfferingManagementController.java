@@ -1188,8 +1188,20 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=approveCOs")
     public ModelAndView approveCOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        getViewHelperService(theForm).approveCourseOfferings(theForm);
-        reloadCourseOfferings(theForm);
+        String dialogName = CourseOfferingConstants.ConfirmDialogs.APRROVE_CO;
+
+        if (!hasDialogBeenAnswered(dialogName, theForm)) {
+            return showDialog(dialogName, theForm, request, response);
+        }
+
+        boolean dialogAnswer = getBooleanDialogResponse(dialogName, theForm, request, response);
+        theForm.getDialogManager().resetDialogStatus(dialogName);
+
+        if (dialogAnswer) {
+            getViewHelperService(theForm).approveCourseOfferings(theForm);
+            reloadCourseOfferings(theForm);
+        }
+
         return getUIFModelAndView(theForm);
     }
 
