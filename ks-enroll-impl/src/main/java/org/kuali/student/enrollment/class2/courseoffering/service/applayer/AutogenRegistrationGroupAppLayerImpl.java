@@ -16,12 +16,23 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.applayer;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -31,10 +42,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.dto.StatusInfo;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * This class //TODO ...
@@ -42,8 +49,10 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class AutogenRegistrationGroupAppLayerImpl implements AutogenRegistrationGroupAppLayer {
-    CourseOfferingService coService;
 
+    @Resource (name="CourseOfferingService")
+    private CourseOfferingService coService;
+    
     @Override
     public ActivityOfferingClusterInfo createDefaultCluster(String foId, ContextInfo context)
             throws PermissionDeniedException,
@@ -102,7 +111,7 @@ public class AutogenRegistrationGroupAppLayerImpl implements AutogenRegistration
         ActivityOfferingClusterInfo updated =
                 coService.updateActivityOfferingCluster(cluster.getFormatOfferingId(), cluster.getId(), cluster, context);
         // Note: this may generate RGs that do NOT include the AO just added
-        StatusInfo status =
+        List<BulkStatusInfo> status =
                 coService.generateRegistrationGroupsForCluster(updated.getId(), context);
         return null; // TODO: Fix this
     }
@@ -176,7 +185,7 @@ public class AutogenRegistrationGroupAppLayerImpl implements AutogenRegistration
         ActivityOfferingClusterInfo updated =
                 coService.updateActivityOfferingCluster(aoInfo.getFormatOfferingId(), targetAocId, targetAoc, context);
         // Generate missing RGs
-        StatusInfo statusInfo =
+        List<BulkStatusInfo> statusInfo =
                 coService.generateRegistrationGroupsForCluster(updated.getId(), context);
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -188,5 +197,185 @@ public class AutogenRegistrationGroupAppLayerImpl implements AutogenRegistration
         StatusInfo status = coService.deleteActivityOfferingClusterCascaded(aocId, context);
     }
 
+    /* (non-Javadoc)
+     * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegistrationGroupAppLayer#getMaxEnrollmentByCourseOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public Integer getSeatCountByCourseOffering(String courseOfferingId,
+            ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException {
+        
+        try {
+            CourseOfferingInfo co = coService.getCourseOffering(courseOfferingId, contextInfo);
+            
+            return co.getMaximumEnrollment();
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException("getSeatCountByCourseOffering (courseOfferingId=" + courseOfferingId + "): failed", e);
+        } catch (InvalidParameterException e) {
+            throw new OperationFailedException("getSeatCountByCourseOffering (courseOfferingId=" + courseOfferingId + "): failed", e);
+        } catch (MissingParameterException e) {
+            throw new OperationFailedException("getSeatCountByCourseOffering (courseOfferingId=" + courseOfferingId + "): failed", e);
+        }
+        
+//        try {
+//            List<ActivityOfferingInfo> aos = coService.getActivityOfferingsByCourseOffering(courseOfferingId, contextInfo);
+//            
+//            return computeMaxEnrollment(aos);
+//        } catch (DoesNotExistException e) {
+//           throw new OperationFailedException("getSeatCountByCourseOffering (courseOfferingId=" + courseOfferingId + "): failed", e);
+//           
+//        } catch (InvalidParameterException e) {
+//            throw new OperationFailedException("getSeatCountByCourseOffering (courseOfferingId=" + courseOfferingId + "): failed", e);
+//        } catch (MissingParameterException e) {
+//            throw new OperationFailedException("getSeatCountByCourseOffering (courseOfferingId=" + courseOfferingId + "): failed", e);
+//        }
+    }
+    
+   
+    /* (non-Javadoc)
+     * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegistrationGroupAppLayer#getMaxEnrollmentByActivityOfferingCluster(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public Integer getSeatCountByActivityOfferingCluster(String aocId,
+            ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException {
+        
+        try {
+            
+            List<ActivityOfferingInfo> aos = coService.getActivityOfferingsByCluster(aocId, contextInfo);
+            
+            Map<String, ActivityOfferingInfo>aoMap = new HashMap<String, ActivityOfferingInfo>();
+            
+            for (ActivityOfferingInfo activityOfferingInfo : aos) {
+                
+                aoMap.put(activityOfferingInfo.getId(), activityOfferingInfo);
+                
+            }
+            
+            ActivityOfferingClusterInfo aoc = coService.getActivityOfferingCluster(aocId, contextInfo);
+            
+            List<ActivityOfferingSetInfo> aoSets = aoc.getActivityOfferingSets();
+            
+            int maxAOCEnrollment = Integer.MAX_VALUE;
+            
+            for (ActivityOfferingSetInfo activityOfferingSetInfo : aoSets) {
+                
+                int maxActivityTypeEnrollment = computeMaxEnrollment(activityOfferingSetInfo.getActivityOfferingIds(), aoMap);
+                
+                if (maxActivityTypeEnrollment < maxAOCEnrollment)
+                    maxAOCEnrollment = maxActivityTypeEnrollment;
+            }
+            
+            FormatOfferingInfo fo = coService.getFormatOffering(aoc.getFormatOfferingId(), contextInfo);
+            
+            CourseOfferingInfo co = coService.getCourseOffering(fo.getCourseOfferingId(), contextInfo);
+            
+            int maxCOEnrollment = co.getMaximumEnrollment();
+            
+            // This assumes that the seat count for an aoc is the smallest ao.maxEnrollment number in this cluster.
+            List<RegistrationGroupInfo> rgs = coService.getRegistrationGroupsByActivityOfferingCluster(aocId, contextInfo);
+   
+            
+            
+            int maxAOEnrollment = computeMaxEnrollment(aos);
+            
+            // cap is the smaller of the CO or AO or AOC enrollment limit
+            int maxEnrollment = Math.min(Math.min(maxCOEnrollment, maxAOEnrollment), maxAOCEnrollment);
+            
+            int minEnrollment = Integer.MAX_VALUE;
+            
+            for (RegistrationGroupInfo registrationGroupInfo : rgs) {
+                
+                List<ActivityOfferingInfo>rgAOList = new ArrayList<ActivityOfferingInfo>();
+                
+                for (String aoId : registrationGroupInfo.getActivityOfferingIds()) {
+                    rgAOList.add(aoMap.get(aoId));
+                }
+                
+                int currentSeats = computeMaxEnrollment(rgAOList);
+                
+                if (minEnrollment > currentSeats)
+                    minEnrollment = currentSeats;
+                
+            }
 
+            // actual seats can be smaller but not larger than max enrollment. 
+            return Math.min(minEnrollment, maxEnrollment);
+            
+            
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException("getSeatCountByActivityOfferingCluster (aocId=" + aocId + "): failed", e);
+        } catch (InvalidParameterException e) {
+            throw new OperationFailedException("getSeatCountByActivityOfferingCluster (aocId=" + aocId + "): failed", e);
+        } catch (MissingParameterException e) {
+            throw new OperationFailedException("getSeatCountByActivityOfferingCluster (aocId=" + aocId + "): failed", e);
+        }
+        
+    }
+
+    
+    private Integer computeMaxEnrollment(List<String>aoIds, Map<String, ActivityOfferingInfo>aoMap) {
+        
+        List<ActivityOfferingInfo>aoList = new ArrayList<ActivityOfferingInfo>();
+        
+        for (String aoId : aoIds) {
+            aoList.add(aoMap.get(aoId));
+        }
+       
+        
+        return computeMaxEnrollment(aoList);
+        
+    }
+    /*
+     * The maxEnrollment of a list of Activity Offering's is the smallest max enrollment number.
+     * 
+     * This method will extract that number.
+     * 
+     */
+    private Integer computeMaxEnrollment(List<ActivityOfferingInfo>aos) {
+        
+        int minEnrollment = Integer.MAX_VALUE;
+        
+        for (ActivityOfferingInfo activityOfferingInfo : aos) {
+            
+            Integer maxEnrollment = activityOfferingInfo.getMaximumEnrollment();
+            
+            if (maxEnrollment != null) {
+                
+                if (minEnrollment > maxEnrollment)
+                    minEnrollment = maxEnrollment;
+            }
+        }
+        
+        if (minEnrollment == Integer.MAX_VALUE) {
+            // a data error that none of the AO's have a max enrollment specified
+            return null;
+        }
+        else
+            return minEnrollment;
+
+    }
+    /* (non-Javadoc)
+     * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegistrationGroupAppLayer#getMaxEnrollmentByRegistrationGroup(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public Integer getSeatCountByRegistrationGroup(
+            String registrationGroupId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException {
+        
+        try {
+            RegistrationGroupInfo rg = coService.getRegistrationGroup(registrationGroupId, contextInfo);
+            
+            List<ActivityOfferingInfo> aos = coService.getActivityOfferingsByIds(rg.getActivityOfferingIds(), contextInfo);
+
+            
+            
+            return computeMaxEnrollment(aos);
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException("getSeatCountByRegistrationGroup (registrationGroupId=" + registrationGroupId + "): failed", e);
+        } catch (InvalidParameterException e) {
+            throw new OperationFailedException("getSeatCountByRegistrationGroup (registrationGroupId=" + registrationGroupId + "): failed", e);
+        } catch (MissingParameterException e) {
+            throw new OperationFailedException("getSeatCountByRegistrationGroup (registrationGroupId=" + registrationGroupId + "): failed", e);
+        }
+    }
+    
+    
 }

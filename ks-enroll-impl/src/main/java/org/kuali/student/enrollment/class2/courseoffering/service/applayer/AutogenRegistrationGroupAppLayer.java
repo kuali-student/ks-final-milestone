@@ -106,4 +106,51 @@ public interface AutogenRegistrationGroupAppLayer {
             throws DoesNotExistException, InvalidParameterException,
                    MissingParameterException, OperationFailedException,
                    PermissionDeniedException;
+
+    /**
+     * User Story 8: As a user, I want to view counts of seats so that I can ensure I have the right numbers of seats to support my business needs.
+     * 
+     * Compute the maximum number of seats for the Activity Offerings within the given Course Offering specified by courseOfferingId.
+     * 
+     * @param courseOfferingId
+     * @param contextInfo Context information containing the
+     *                                  principalId and locale information about
+     *                                  the caller of service operation
+     * @return the max number of seats in the Course Offering.
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure has occurred
+     */
+    
+    public Integer getSeatCountByCourseOffering (String courseOfferingId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException;
+    
+    /**
+     * User Story 8: As a user, I want to view counts of seats so that I can ensure I have the right numbers of seats to support my business needs.
+     * 
+     * Compute the maximum number of seats for Activity Offering's within the Activity Offering Cluster specified by aocId.
+     * 
+     * @param aocId
+     * @param contextInfo Context information containing the
+     *                                  principalId and locale information about
+     *                                  the caller of service operation
+     * @return the max number of seats in the Activity Offering Cluster.
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure has occurred
+     */
+    public Integer getSeatCountByActivityOfferingCluster (String aocId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException;
+    
+    /**
+     * User Story 8: As a user, I want to view counts of seats so that I can ensure I have the right numbers of seats to support my business needs.
+     * 
+     * Compute the maximum number of seats for Activity Offerings within the Registration Group specified by registrationGroupId.
+     * 
+     * @param registrationGroupId
+     * @param contextInfo Context information containing the
+     *                                  principalId and locale information about
+     *                                  the caller of service operation
+     * @return the max number of seats in the Registration Group
+     * @throws PermissionDeniedException unable to complete request
+     * @throws OperationFailedException an authorization failure has occurred
+     */
+    public Integer getSeatCountByRegistrationGroup (String registrationGroupId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException;
+
 }
