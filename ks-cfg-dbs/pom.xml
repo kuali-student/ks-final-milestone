@@ -448,6 +448,9 @@ the names of these properties are fixed to what the plugin supports -->
                     <plugin>
                         <groupId>org.kuali.maven.plugins</groupId>
                         <artifactId>spring-maven-plugin</artifactId>
+                        <configuration>
+                          <propertiesBeanName>deploy.mavenProperties</propertiesBeanName>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
