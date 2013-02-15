@@ -22,6 +22,7 @@ import javax.jws.WebParam;
 
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -67,7 +68,7 @@ public interface CourseOfferingServiceBusinessLogic {
      * 
      * @param formatOfferingId The identifier of the format offering to generate registration groups for.
      * @param contextInfo Context information containing the principalId and locale information about the caller of service operation 
-     * @return status of the operation (success, failed) 
+     * @return status of the operation (success, failed) for each Registration Group created. 
      * @throws DoesNotExistException The formatOfferingId does not refer to an existing FormatOffering.
      * @throws InvalidParameterException The formatOfferingId or context is invalid.
      * @throws MissingParameterException the formatOfferingId or context is missing.
@@ -75,7 +76,7 @@ public interface CourseOfferingServiceBusinessLogic {
      * @throws PermissionDeniedException authorization failure
      * @throws DataValidationErrorException verification of any of the underlying Activity Offering Cluster's failed.
      */
-	public StatusInfo generateRegistrationGroupsForFormatOffering(
+	public List<BulkStatusInfo> generateRegistrationGroupsForFormatOffering(
 			String formatOfferingId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -90,7 +91,7 @@ public interface CourseOfferingServiceBusinessLogic {
      * @param contextInfo               Context information containing the
      *                                  principalId and locale information about
      *                                  the caller of service operation
-     * @return status of the operation (success, failed)
+     * @return status of the operation (success, failed) for each Registration Group created.
 	 * @throws DoesNotExistException     activityOfferingClusterId does not
      *                                   exist
 	 * @throws DataValidationErrorException verification of the Activity Offering Cluster failed.
@@ -101,6 +102,6 @@ public interface CourseOfferingServiceBusinessLogic {
 	 * @throws PermissionDeniedException an authorization failure has occurred
      * @impl Does 'delta' generation: Creates only new RGs
      */
-    public StatusInfo generateRegistrationGroupsForCluster(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<BulkStatusInfo> generateRegistrationGroupsForCluster(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 }
