@@ -719,8 +719,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             List<AgendaItemBo> agendaItems = ruleEditor.getAgenda().getItems();
             for (AgendaItemBo agendaItem : agendaItems) {
 
-                //if ((agendaItem.getRule() != null) && (agendaItem.getRule().getTypeId().equals(ruleEditor.getRuleType()))) {
-                if ((agendaItem.getRule() != null) && (agendaItem.getRule().getTypeId().equals("10007"))) {
+                if ((agendaItem.getRule() != null) && (agendaItem.getRule().getTypeId().equals(ruleEditor.getRuleType()))) {
                     rule = agendaItem.getRule();
                     break;
                 }
