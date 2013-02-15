@@ -15,6 +15,17 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -37,6 +48,7 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.KeyNameInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
@@ -65,16 +77,6 @@ import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
-
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         MockService {
@@ -1042,80 +1044,98 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         return successStatus();
     }
 
+    
+  private BulkStatusInfo bulkDeleteRegistrationGroup(RegistrationGroupInfo regGroup, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        
+        StatusInfo status = deleteRegistrationGroup(regGroup.getId(), context);
+
+        BulkStatusInfo bulkStatus = new BulkStatusInfo();
+        
+        bulkStatus.setId(regGroup.getId());
+        bulkStatus.setSuccess(status.getIsSuccess());
+        bulkStatus.setMessage("Registration Group Deleted");
+        
+        return bulkStatus;
+    }
+    
     @Override
-    public StatusInfo deleteRegistrationGroupsByFormatOffering(
+    public List<BulkStatusInfo> deleteRegistrationGroupsByFormatOffering(
             String formatOfferingId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
+        List<BulkStatusInfo> rgChanges = new ArrayList<BulkStatusInfo>();
         List<RegistrationGroupInfo> rgs;
         try {
             rgs = getRegistrationGroupsByFormatOffering(formatOfferingId, context);
 
             for (RegistrationGroupInfo rg : rgs) {
 
-                try {
-                    deleteRegistrationGroup(rg.getId(), context);
-                } catch (DoesNotExistException e) {
-                    return failStatus();
-                }
-
+                   rgChanges.add(bulkDeleteRegistrationGroup(rg, context));
             }
 
-        } catch (DoesNotExistException e1) {
-            return failStatus();
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException("deleteRegistrationGroupsByFormatOffering (formatOfferingId=" + formatOfferingId + "): failed.", e);
         }
 
-
-        return successStatus();
+        return rgChanges;
     }
 
     @Override
-    public StatusInfo deleteGeneratedRegistrationGroupsByFormatOffering(
+    public List<BulkStatusInfo>  deleteGeneratedRegistrationGroupsByFormatOffering(
             String formatOfferingId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         List<RegistrationGroupInfo> rgs;
+        List<BulkStatusInfo> rgChanges = new ArrayList<BulkStatusInfo>();
+        
+        
         try {
             rgs = getRegistrationGroupsByFormatOffering(formatOfferingId, context);
 
             for (RegistrationGroupInfo rg : rgs) {
 
                 if (rg.getIsGenerated()) {
-                    try {
-                        deleteRegistrationGroup(rg.getId(), context);
-                    } catch (DoesNotExistException e) {
-                        return failStatus();
-                    }
+                    rgChanges.add(bulkDeleteRegistrationGroup(rg, context));
                 }
 
             }
 
-        } catch (DoesNotExistException e1) {
-            return failStatus();
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException("deleteGeneratedRegistrationGroupsByFormatOffering (formatOfferingId=" + formatOfferingId + "): failed", e);
         }
 
 
-        return successStatus();
+        return rgChanges;
     }
 
     @Override
-    public StatusInfo deleteRegistrationGroupsForCluster(String activityOfferingClusterId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<BulkStatusInfo> deleteRegistrationGroupsForCluster(String activityOfferingClusterId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        Iterator<RegistrationGroupInfo> rgIter = this.registrationGroupMap.values().iterator();
-
-        while (rgIter.hasNext()) {
-
-            RegistrationGroupInfo rg = rgIter.next();
-
-            if (rg.getActivityOfferingClusterId().equals(activityOfferingClusterId))
-                rgIter.remove();
+        // copy list to avoid concurrent modification exceptions
+        Collection<RegistrationGroupInfo>groups = new ArrayList<RegistrationGroupInfo> (this.registrationGroupMap.values());
+        
+        List<BulkStatusInfo> rgChanges = new ArrayList<BulkStatusInfo>();
+        
+       for (RegistrationGroupInfo rg : groups) {
+        
+            if (rg.getActivityOfferingClusterId().equals(activityOfferingClusterId)) {
+                
+                try {
+                    rgChanges.add(bulkDeleteRegistrationGroup(rg, contextInfo));
+                } catch (DoesNotExistException e) {
+                    throw new OperationFailedException("Bulk Delete Failed", e);
+                }
+            }
+        }
+                
+        return rgChanges;
+        
+        
         }
 
-        return successStatus();
-
-    }
+   
 
     @Override
     public List<ValidationResultInfo> verifyRegistrationGroup(String registrationGroupId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -1845,7 +1865,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
     }
 
     @Override
-    public StatusInfo generateRegistrationGroupsForFormatOffering(
+    public List<BulkStatusInfo> generateRegistrationGroupsForFormatOffering(
             String formatOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -2091,7 +2111,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     
     @Override
-    public StatusInfo generateRegistrationGroupsForCluster(
+    public List<BulkStatusInfo> generateRegistrationGroupsForCluster(
             String activityOfferingClusterId,
              ContextInfo contextInfo)
             throws DoesNotExistException, 

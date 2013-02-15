@@ -18,6 +18,7 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -456,8 +457,9 @@ public class TestCourseOfferingServiceImplM4 {
             coServiceImpl.createActivityOfferingCluster("Lui-6", CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY, _createAOC(), contextInfo);
 
             //generate RG
-            StatusInfo status = coServiceImpl.generateRegistrationGroupsForFormatOffering("Lui-6", contextInfo);
-            assertEquals(true, status.getIsSuccess());
+            List<BulkStatusInfo> status = coServiceImpl.generateRegistrationGroupsForFormatOffering("Lui-6", contextInfo);
+            assertNotNull(status);
+            Assert.assertEquals(2, status.size()); 
 
             //test RG generation was successful
             List<RegistrationGroupInfo> rgList = coServiceImpl.getRegistrationGroupsByFormatOffering("Lui-6", contextInfo);

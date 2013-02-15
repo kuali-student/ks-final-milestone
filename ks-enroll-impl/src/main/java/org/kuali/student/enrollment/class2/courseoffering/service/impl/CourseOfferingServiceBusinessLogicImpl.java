@@ -521,11 +521,12 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     */
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo generateRegistrationGroupsForFormatOffering(String formatOfferingId, ContextInfo contextInfo)
+    public List<BulkStatusInfo> generateRegistrationGroupsForFormatOffering(String formatOfferingId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
                    MissingParameterException, OperationFailedException,
                    PermissionDeniedException, DataValidationErrorException {
 
+        List<BulkStatusInfo>rgChanges = new ArrayList<BulkStatusInfo>();
         // check for any existing registration groups
         _initServices();
 
@@ -539,16 +540,16 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
         for (String aocId : aocIdList) {
             try {
-                StatusInfo status = generateRegistrationGroupsForCluster(aocId, contextInfo);
-                generated = status.getIsSuccess();
+                List<BulkStatusInfo> changes = generateRegistrationGroupsForCluster(aocId, contextInfo);
+                
+                rgChanges.addAll(changes);
             } catch (Exception e) {
                 throw new OperationFailedException("formatOfferingId = " + formatOfferingId + ": failed to generate reg groups for activityOfferingClusterId = " + aocId, e);
             }
         }
 
-        StatusInfo success = new StatusInfo();
-        success.setSuccess(generated);
-        return success;
+       
+        return rgChanges;
     }
 
     private void _gRGFC_basicValidate(String activityOfferingClusterId, ContextInfo contextInfo)
@@ -617,9 +618,10 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     public static final String FIRST_REG_GROUP_CODE = "firstRegGroupCode";
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo generateRegistrationGroupsForCluster(String activityOfferingClusterId, ContextInfo contextInfo)
+    public List<BulkStatusInfo> generateRegistrationGroupsForCluster(String activityOfferingClusterId, ContextInfo contextInfo)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
                    MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<BulkStatusInfo> rgChanges = new ArrayList<BulkStatusInfo>();
         // Initializes coService
         _initServices();
 
@@ -659,6 +661,17 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
             try {
                 RegistrationGroupInfo rgInfo = coService.createRegistrationGroup(cluster.getFormatOfferingId(), cluster.getId(), LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg, contextInfo);
+                
+                BulkStatusInfo status  = new BulkStatusInfo();
+                
+                status.setId(rgInfo.getId());
+                
+                status.setSuccess(Boolean.TRUE);
+                
+                status.setMessage("Created Registration Group");
+                
+                rgChanges.add(status);
+                
                 // Now determine if this registration group is in a valid state
                 List<ValidationResultInfo> validations =
                         coService.verifyRegistrationGroup(rgInfo.getId(), contextInfo);
@@ -677,9 +690,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             }
         }
 
-        StatusInfo success = new StatusInfo();
-        success.setSuccess(true);
-        return success;
+        return rgChanges;
     }
 
     private Map<String, List<String>> _extractActivityOfferingMap(List<ActivityOfferingSetInfo> activityOfferingSets) {

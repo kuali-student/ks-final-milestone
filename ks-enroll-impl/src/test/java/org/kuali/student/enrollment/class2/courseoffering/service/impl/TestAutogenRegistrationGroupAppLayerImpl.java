@@ -30,8 +30,8 @@ import org.kuali.student.common.test.spring.log4j.KSLog4JConfigurer;
 import org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegistrationGroupAppLayer;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupChangesInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -44,11 +44,8 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * A test case for the autogen rg app layer helper.
@@ -114,9 +111,9 @@ public class TestAutogenRegistrationGroupAppLayerImpl {
         defaultAoc = coService.createActivityOfferingCluster(CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY, defaultAoc, contextInfo);
 
         // Create a Registration Group
-        RegistrationGroupChangesInfo generatedStatus = coService.generateRegistrationGroupsForCluster(defaultAoc.getId(), contextInfo);
+        List<BulkStatusInfo> generatedStatus = coService.generateRegistrationGroupsForCluster(defaultAoc.getId(), contextInfo);
         
-        Assert.assertEquals(6,  generatedStatus.getTotalCreatedRegistrationGroups().intValue());
+        Assert.assertEquals(6,  generatedStatus.size());
         
         
         Integer aocSeatCount = appLayer.getSeatCountByActivityOfferingCluster(defaultAoc.getId(), contextInfo);

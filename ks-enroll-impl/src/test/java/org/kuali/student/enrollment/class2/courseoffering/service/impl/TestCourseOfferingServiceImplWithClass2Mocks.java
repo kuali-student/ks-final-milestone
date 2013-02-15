@@ -15,20 +15,27 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.rice.core.api.config.property.Config;
-import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
+import org.kuali.student.common.test.spring.log4j.KSLog4JConfigurer;
 import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.common.test.util.ListOfStringTester;
 import org.kuali.student.common.test.util.MetaTester;
-import org.kuali.student.enrollment.class2.acal.util.AcalTestDataLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
@@ -39,6 +46,7 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -64,20 +72,9 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.slf4j.Logger;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import javax.annotation.Resource;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * @author ocleirig
@@ -89,7 +86,7 @@ import static org.junit.Assert.fail;
 @ContextConfiguration(locations = {"classpath:co-test-with-class2-mock-context.xml"})
 public class TestCourseOfferingServiceImplWithClass2Mocks {
 
-    private static final Logger log = Logger
+    private static final Logger log = KSLog4JConfigurer
             .getLogger(TestCourseOfferingServiceImplWithClass2Mocks.class);
 
     @Resource
@@ -123,26 +120,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
     }
 
 
-    protected Config getTestHarnessConfig() {
-        Config config = new JAXBConfigImpl(getConfigLocations(), System.getProperties());
-        try {
-            config.parseConfig();
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-        return config;
-    }
-
-    /**
-     * Subclasses may override this method to customize the location(s) of the Rice configuration.
-     * By default it is: classpath:META-INF/" + getModuleName().toLowerCase() + "-test-config.xml"
-     * @return List of config locations to add to this tests config location.
-     */
-    protected List<String> getConfigLocations() {
-        List<String> configLocations = new ArrayList<String>();
-//        configLocations.add(getRiceMasterDefaultConfigFile());
-        return configLocations;
-    }
+  
 
     public static String principalId = "123";
     public ContextInfo callContext = null;
@@ -150,9 +128,6 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
     @Before
     public void setup() throws Exception {
 
-
-        Config config = getTestHarnessConfig();
-        ConfigContext.init(config);
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
 
@@ -305,11 +280,12 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
         createDefaultActivityOfferingCluster(formatOfferingId);
 
-        StatusInfo status = coService
+        List<BulkStatusInfo> status = coService
                 .generateRegistrationGroupsForFormatOffering(
                         formatOfferingId, callContext);
 
-        Assert.assertTrue(status.getIsSuccess());
+        Assert.assertNotNull(status);
+        Assert.assertEquals(6, status.size());
 
         List<RegistrationGroupInfo> rgList = coService.getRegistrationGroupsByFormatOffering("CO-1:LEC-AND-LAB", callContext);
 
@@ -326,12 +302,13 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
         assertEquals(0, rgList.size());
 
-        StatusInfo status = coService
+        List<BulkStatusInfo> status = coService
                 .generateRegistrationGroupsForFormatOffering(
                         "CO-1:LEC-AND-LAB", callContext);
 
 
-        Assert.assertTrue(status.getIsSuccess());
+        Assert.assertNotNull(status);
+        Assert.assertEquals(6, status.size());
 
         rgList = coService.getRegistrationGroupsByFormatOffering("CO-1:LEC-AND-LAB", callContext);
 
@@ -366,7 +343,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
         status = coService.deleteGeneratedRegistrationGroupsByFormatOffering("CO-1:LEC-AND-LAB", callContext);
 
-        assertTrue("Failed to delete existing generated registration groups", status.getIsSuccess());
+        assertTrue("Failed to delete existing generated registration groups", status.size() > 0);
 
         status = coService
                 .generateRegistrationGroupsForFormatOffering(
@@ -836,13 +813,13 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
         assertTrue("No dependent objects exist for CO-2", dependantObjects);
 
 
-        StatusInfo status = coService.generateRegistrationGroupsForFormatOffering("CO-2:LEC-ONLY", callContext);
+        List<BulkStatusInfo> rgStatus = coService.generateRegistrationGroupsForFormatOffering("CO-2:LEC-ONLY", callContext);
 
         List<RegistrationGroupInfo> rgs = coService.getRegistrationGroupsByFormatOffering("CO-2:LEC-ONLY", callContext);
 
         assertTrue(rgs.size() > 0);
 
-        status = coService.deleteCourseOfferingCascaded("CO-2", callContext);
+        StatusInfo status = coService.deleteCourseOfferingCascaded("CO-2", callContext);
 
         assertTrue(status.getIsSuccess());
 
@@ -980,7 +957,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
             assertEquals(1, activities.get(0).getInstructors().size());
         } catch (Exception ex) {
-            log.fatal("Exception from serviceCall", ex);
+            log.error("Exception from serviceCall", ex);
 
             fail("Exception from service call :" + ex.getMessage());
         }
