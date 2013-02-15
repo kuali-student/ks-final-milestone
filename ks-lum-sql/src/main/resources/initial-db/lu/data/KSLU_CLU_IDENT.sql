@@ -288,8 +288,8 @@ INSERT INTO KSLU_CLU_IDENT (ID,OBJ_ID,ST,TYPE,VER_NBR)
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('CHEM898','CHEM','08db1f2f-7266-45a8-8927-07142ff1f314','Pre-Candidacy Research','800','0d42ffe4-92e0-4875-ba3e-292cacf594ae','PRE-CANDIDACY RESEARCH','Active','898','kuali.lu.type.CreditCourse.identifier.official',14)
 /
-INSERT INTO KSLU_CLU_IDENT (ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('08dc2f9b-6d4a-453c-a64a-36f2a45dc344','40b72c16-dc88-4dfb-ade3-105bf98fb4aa','Active','kuali.lu.type.CreditCourse.identifier.crosslisting',3)
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,SUFX_CD,ID,OBJ_ID,ST,TYPE,VER_NBR)
+  VALUES ('WMST444', 'WMST','444', 08dc2f9b-6d4a-453c-a64a-36f2a45dc344','40b72c16-dc88-4dfb-ade3-105bf98fb4aa','Active','kuali.lu.type.CreditCourse.identifier.crosslisting',3)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('09100','08ec8742-c7bd-4fce-bff3-91d2f1a8dc83','Engineering: Mechanical','ad5bde9e-40c3-4022-8af3-e48e42eabf91','Mechanical Engineering','Active','kuali.lu.type.program.identifier.official',0)
@@ -3441,8 +3441,8 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
 INSERT INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('MAITM','7631afbc-e752-4085-a5c7-684f7ee8c53c','5aa33f41-1a83-45c1-b1cf-46d3cd7f6160','Mathematics of Advanced Industrial Technology','Active','kuali.lu.type.program.identifier.diploma',0)
 /
-INSERT INTO KSLU_CLU_IDENT (ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('763413dd-7c2e-477b-8ab0-3a9465c316b0','6ed3b5b5-c82a-4b50-a6d7-709113387141','Active','kuali.lu.type.CreditCourse.identifier.crosslisting',5)
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,SUFX_CD,ID,OBJ_ID,ST,TYPE,VER_NBR)
+  VALUES ('WMST212','WMST','212',763413dd-7c2e-477b-8ab0-3a9465c316b0','6ed3b5b5-c82a-4b50-a6d7-709113387141','Active','kuali.lu.type.CreditCourse.identifier.crosslisting',5)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('15050','763b506c-8797-49d0-9e5e-f87a0493cba1','50cc8a16-379c-4c5e-ad3e-06e090345370','Linguistics','Active','kuali.lu.type.program.identifier.diploma',0)
@@ -6084,8 +6084,8 @@ INSERT INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
 INSERT INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('MATHD','d5e24de9-d28f-4d57-96b7-a7554de19605','Mathematics (Doctoral)','e7b5e1c2-f518-4ac6-b11f-2bf3d10fb221','Mathematics','Active','kuali.lu.type.program.identifier.official',0)
 /
-INSERT INTO KSLU_CLU_IDENT (ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('d6022b1a-5acc-4dfc-952e-05d9edac718c','1cbe13e4-bb50-49df-90f9-f9211db23247','Active','kuali.lu.type.CreditCourse.identifier.crosslisting',5)
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,SUFX_CD,ID,OBJ_ID,ST,TYPE,VER_NBR)
+  VALUES ('WMST453','WMST','453','d6022b1a-5acc-4dfc-952e-05d9edac718c','1cbe13e4-bb50-49df-90f9-f9211db23247','Active','kuali.lu.type.CreditCourse.identifier.crosslisting',5)
 /
 INSERT INTO KSLU_CLU_IDENT (ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('d645444a-30fb-4cd9-b646-564aed632c07','3d545c7e-812c-47f9-b40c-78d893ffd33c','Active','kuali.lu.type.CreditCourse.identifier.crosslisting',5)
@@ -6822,8 +6822,8 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
 INSERT INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('PHYSD','f572a93e-dd8f-4e78-b41a-828e68487e21','Physics (Doctoral)','27419b19-8b11-42fe-a78e-ddcf83f12746','Physics','Active','kuali.lu.type.program.identifier.official',0)
 /
-INSERT INTO KSLU_CLU_IDENT (ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('f59dcc69-8f60-4cf6-8c0e-f27e848a0048','3200fb80-24ba-49dc-932a-962cac5b7588','Active','kuali.lu.type.CreditCourse.identifier.crosslisting',4)
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,SUFX_CD,ID,OBJ_ID,ST,TYPE,VER_NBR)
+  VALUES ('WMST456','WMST','456',f59dcc69-8f60-4cf6-8c0e-f27e848a0048','3200fb80-24ba-49dc-932a-962cac5b7588','Active','kuali.lu.type.CreditCourse.identifier.crosslisting',4)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENGL471','ENGL','f5b07a53-1873-4d56-ba61-e722c53a9adb','African-American Literature:  1910-1945','400','8f6152f1-a76b-48f5-a9f0-97ac7ef46bd5','AFR-AM LIT:1910-45','Superseded','471','kuali.lu.type.CreditCourse.identifier.official',2)
