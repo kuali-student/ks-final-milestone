@@ -1598,6 +1598,7 @@ table.myplan-course-search-results-datatable .blockUI {
 .jquerybubblepopup-myplan .jquerybubblepopup-innerHtml {
     padding: 5px;
     overflow: hidden;
+    background: #ffffff;
 }
 .jquerybubblepopup-myplan .jquerybubblepopup-innerHtml .uif-headerText {
     text-transform: none;

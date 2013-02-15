@@ -1465,7 +1465,102 @@ function autoCompleteText(atpId) {
     jQuery(document).ajaxStart(jQuery.unblockUI).ajaxStop(jQuery.unblockUI);
 
 }
+function showDataTableDetail(actionComponent, tableId, useImages) {
+    var oTable = null;
+    var tables = jQuery.fn.dataTable.fnTables();
+    jQuery(tables).each(function () {
+        var dataTable = jQuery(this).dataTable();
+        if (jQuery(actionComponent).closest(dataTable).length) {
+            oTable = dataTable;
+        }
+    });
 
+    if (oTable != null) {
+        var nTr = jQuery(actionComponent).parents('tr')[0];
+        if (useImages && jQuery(actionComponent).find("img").length) {
+            jQuery(actionComponent).find("img").hide();
+        } else {
+            jQuery(actionComponent).hide();
+        }
+        var newRow = oTable.fnOpen(nTr, actionComponent, "uif-rowDetails");
+        var detailsId = jQuery(newRow).find(".uif-group").first().attr("id");
+        jQuery(newRow).find(".uif-group").first().attr("id", detailsId + "_details")
+        jQuery(newRow).find("a").each(function () {
+            var linkId = jQuery(this).attr("id");
+            jQuery(this).siblings("input[data-for='" + linkId + "']").removeAttr("script").attr("name", "script").val(function (index, value) {
+                return value.replace("'" + linkId + "'", "'" + linkId + "_details'");
+            });
+            jQuery(this).attr("id", linkId + "_details");
+        });
+        runHiddenScripts(detailsId + "_details");
+        jQuery(newRow).find(".uif-group").first().show();
+    }
+}
+
+function expandDataTableDetail(actionComponent, tableId, useImages, expandText, collapseText) {
+    var oTable = null;
+    var tables = jQuery.fn.dataTable.fnTables();
+    jQuery(tables).each(function () {
+        var dataTable = jQuery(this).dataTable();
+        //ensure the dataTable is the one that contains the action that was clicked
+        if (jQuery(actionComponent).closest(dataTable).length) {
+            oTable = dataTable;
+        }
+    });
+
+    if (oTable != null) {
+        var nTr = jQuery(actionComponent).parents('tr')[0];
+        if (oTable.fnIsOpen(nTr)) {
+            if (useImages && jQuery(actionComponent).find("img").length) {
+                jQuery(actionComponent).find("img").replaceWith(detailsOpenImage.clone());
+            }
+            if (expandText) {
+                jQuery(actionComponent).text(expandText);
+            }
+            jQuery(nTr).next().first().find(".uif-group").first().slideUp(function () {
+                oTable.fnClose(nTr);
+            });
+        }
+        else {
+            if (useImages && jQuery(actionComponent).find("img").length) {
+                jQuery(actionComponent).find("img").replaceWith(detailsCloseImage.clone());
+            }
+            if (collapseText) {
+                jQuery(actionComponent).text(collapseText);
+            }
+            var newRow = oTable.fnOpen(nTr, actionComponent, "uif-rowDetails");
+            var detailsId = jQuery(newRow).find(".uif-group").first().attr("id");
+            jQuery(newRow).find(".uif-group").first().attr("id", detailsId + "_details")
+            jQuery(newRow).find("a").each(function () {
+                var linkId = jQuery(this).attr("id");
+                jQuery(this).siblings("input[data-for='" + linkId + "']").removeAttr("script").attr("name", "script").val(function (index, value) {
+                    return value.replace("'" + linkId + "'", "'" + linkId + "_details'");
+                });
+                jQuery(this).attr("id", linkId + "_details");
+            });
+            runHiddenScripts(detailsId + "_details");
+            jQuery(newRow).find(".uif-group").first().slideDown();
+        }
+    }
+}
+
+function expandHiddenSubcollection(actionComponent, expandText, collapseText) {
+    var subcollection = jQuery(actionComponent).closest('.uif-group.uif-collectionItem').children('.uif-boxLayout').children('.uif-subCollection');
+
+    if (subcollection.is(":visible")) {
+        subcollection.slideUp(250, function() {
+            if (expandText) {
+                jQuery(actionComponent).text(expandText);
+            }
+        });
+    } else {
+        subcollection.slideDown(250, function() {
+            if (collapseText) {
+                jQuery(actionComponent).text(collapseText);
+            }
+        });
+    }
+}
 
 
 

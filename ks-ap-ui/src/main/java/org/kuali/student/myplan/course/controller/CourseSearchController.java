@@ -1177,7 +1177,7 @@ public class CourseSearchController extends UifControllerBase {
 							RESULTS_ATTR,
 							results = Collections
 									.synchronizedMap(new java.util.LinkedHashMap<FormKey, SessionSearchInfo>()));
-		SessionSearchInfo table;
+		SessionSearchInfo table=null;
 		// Synchronize on the result table to constrain sessions to
 		// one back-end search at a time
 		synchronized (results) {
@@ -1187,10 +1187,14 @@ public class CourseSearchController extends UifControllerBase {
 				ei.next();
 				ei.remove();
 			}
+            try{
 			results.put(
 					k, // The back-end search happens here --------V
 					(table = results.remove(k)) == null ? table = new SessionSearchInfo(
 							request, searcher, k, form, user) : table);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
 		}
 		return table;
 	}

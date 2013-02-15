@@ -333,8 +333,7 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
                     scheduledTermIds.add(co.getTermId());
 
             List<String> scheduledTerms = new java.util.LinkedList<String>();
-            for (TermInfo ti : KsapFrameworkServiceLocator
-                    .getAcademicCalendarService()
+            for (TermInfo ti : getAcademicCalendarService()
                     .searchForTerms(
                             QueryByCriteria.Builder.fromPredicates(equalIgnoreCase(
                                     "atpState", PlanConstants.PUBLISHED)), context))
@@ -428,8 +427,7 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
         if (courseDetails.getScheduledTerms().size() == 0) {
             List<CourseOfferingInfo> courseOfferingInfo = null;
             try {
-                courseOfferingInfo = KsapFrameworkServiceLocator
-                        .getCourseOfferingService().getCourseOfferingsByCourse(
+                courseOfferingInfo = getCourseOfferingService().getCourseOfferingsByCourse(
                                 courseId,
                                 KsapFrameworkServiceLocator.getContext()
                                         .getContextInfo());
@@ -447,8 +445,7 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
             if (courseOfferingInfo != null && courseOfferingInfo.size() > 0) {
                 TermInfo lo;
                 try {
-                    lo = KsapFrameworkServiceLocator
-                            .getAcademicCalendarService().getTerm(
+                    lo =getAcademicCalendarService().getTerm(
                                     courseOfferingInfo.get(0).getTermId(),
                                     KsapFrameworkServiceLocator.getContext()
                                             .getContextInfo());
@@ -559,7 +556,7 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
             for (CourseOfferingInfo courseInfo : courseOfferingInfoList) {
                 // Activity offerings come back as a list, the first item is primary, the remaining are secondary
 
-                String courseOfferingID = courseInfo.getCourseId();
+                String courseOfferingID = courseInfo.getId();
                 List<ActivityOfferingDisplayInfo> aodiList = cos.getActivityOfferingDisplaysForCourseOffering(courseOfferingID, CourseSearchConstants.CONTEXT_INFO);
                 boolean primary = true;
 
@@ -620,29 +617,30 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
                             }
                         }
                     }
+                    if(aodi.getAttributes()!=null){
+                        for (AttributeInfo attrib : aodi.getAttributes()) {
+                            String key = attrib.getKey();
+                            String value = attrib.getValue();
+                            if ("SLN".equalsIgnoreCase(key)) {
+                                activity.setSln(value);
+                                continue;
+                            }
+                            Boolean flag = Boolean.valueOf(value);
+                            if ("ServiceLearning".equalsIgnoreCase(key)) {
+                                activity.setServiceLearning(flag);
+                            } else if ("ResearchCredit".equalsIgnoreCase(key)) {
+                                activity.setResearch(flag);
+                            } else if ("DistanceLearning".equalsIgnoreCase(key)) {
+                                activity.setDistanceLearning(flag);
+                            } else if ("JointSections".equalsIgnoreCase(key)) {
+                                activity.setJointOffering(flag);
+                            } else if ("Writing".equalsIgnoreCase(key)) {
+                                activity.setWritingSection(flag);
+                            } else if ("FinancialAidEligible".equalsIgnoreCase(key)) {
+                                activity.setIneligibleForFinancialAid(flag);
+                            }
 
-                    for (AttributeInfo attrib : aodi.getAttributes()) {
-                        String key = attrib.getKey();
-                        String value = attrib.getValue();
-                        if ("SLN".equalsIgnoreCase(key)) {
-                            activity.setSln(value);
-                            continue;
                         }
-                        Boolean flag = Boolean.valueOf(value);
-                        if ("ServiceLearning".equalsIgnoreCase(key)) {
-                            activity.setServiceLearning(flag);
-                        } else if ("ResearchCredit".equalsIgnoreCase(key)) {
-                            activity.setResearch(flag);
-                        } else if ("DistanceLearning".equalsIgnoreCase(key)) {
-                            activity.setDistanceLearning(flag);
-                        } else if ("JointSections".equalsIgnoreCase(key)) {
-                            activity.setJointOffering(flag);
-                        } else if ("Writing".equalsIgnoreCase(key)) {
-                            activity.setWritingSection(flag);
-                        } else if ("FinancialAidEligible".equalsIgnoreCase(key)) {
-                            activity.setIneligibleForFinancialAid(flag);
-                        }
-
                     }
                     activity.setEnrollRestriction(true);
                     activity.setEnrollOpen(true);
@@ -812,7 +810,6 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
 
     protected CourseOfferingService getCourseOfferingService() {
         if (this.courseOfferingService == null) {
-            //   TODO: Use constants for namespace.
             this.courseOfferingService = KsapFrameworkServiceLocator.getCourseOfferingService();
         }
         return this.courseOfferingService;

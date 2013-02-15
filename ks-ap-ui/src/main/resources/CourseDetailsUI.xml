@@ -22,7 +22,7 @@
         <property name="headerText" value="Course Details"/>
         <property name="dataObjectClassName" value="org.kuali.student.myplan.course.dataobject.CourseDetails"/>
         <property name="viewHelperServiceClass"
-                  value="org.kuali.student.myplan.course.service.CourseDetailsInquiryViewHelperServiceImpl"/>
+                  value="org.kuali.student.myplan.course.service.CourseDetailsInquiryViewHelperServiceImplMock"/>
         <property name="page.header.render" value="false"/>
         <property name="header.render" value="false"/>
         <property name="footer.render" value="false"/>
@@ -954,7 +954,7 @@
                                                                 <bean parent="Uif-Message" p:messageText="Service learning" p:render="@{#line.serviceLearning}"/>
                                                                 <bean parent="Uif-Message" p:messageText="New course" p:render="@{#line.newThisYear}"/>
                                                                 <bean parent="Uif-Message" p:messageText="May not be eligible for Financial Aid" p:render="@{#line.ineligibleForFinancialAid}"/>
-                                                                <bean parent="Uif-Message" p:messageText="--"
+                                                                <bean parent="Uif-Message" p:messageText="None"
                                                                       p:render="@{#line.gradingOption eq null AND
                                                                                  !#line.distanceLearning AND
                                                                                  !#line.honorsSection AND
@@ -983,23 +983,15 @@
                                                 </list>
                                             </property>
                                         </bean>
-                                        <!--<bean parent="Uif-LinkField" p:label="Additional Details" p:fieldLabel.renderColon="false" p:labelPlacement="TOP" p:style="margin:0;">
-                                            <property name="cssClasses">
-                                                <list merge="true">
-                                                    <value>uif-field</value>
-                                                    <value>@{#line.enrollOpen ? 'open':'closed'}</value>
-                                                </list>
-                                            </property>
-                                            <property name="link">
-                                                <bean parent="Uif-Link" p:linkText="@{#line.details}" p:href="http://sdb.admin.washington.edu/textbooks/query.asp?qtr=Winter&amp;sln1=11944" p:target="_blank" p:style="margin:0;"/>
-                                            </property>
-                                        </bean>-->
                                     </list>
                                 </property>
                             </bean>
                         </list>
                     </property>
                 </bean>
+<!--
+                Displays the Class type and the credits its worth
+-->
                 <bean parent="Uif-HorizontalFieldGroup" p:label="Type (Credit)" p:group.validationMessages.render="false">
                     <property name="items">
                         <list>
@@ -1008,25 +1000,15 @@
                         </list>
                     </property>
                 </bean>
+<!--
+                Displays the room and building information for the class
+-->
                 <bean parent="Uif-DataField" p:label="Meeting Time" p:propertyName="meetingDetailsList" p:escapeHtmlInPropertyValue="false">
                     <property name="propertyEditor" ref="meeting_building_link_formatter"/>
                 </bean>
-
-
-                <!-- <bean parent="Uif-HorizontalFieldGroup" p:label="Location" p:group.validationMessages.render="false">
-                   <property name="items">
-                       <list>
-                           Building code NOC means not on campus, map only applies to Seattle campus
-                           Building code may start with an asterisk to represent a TBD
-                           <bean parent="Uif-Link" p:linkText="@{#line.locationBuilding}" p:href="http://uw.edu/maps/?@{#line.locationBuilding}" p:target="_blank" p:style="margin-right:0.33em;"
-                                 p:render="@{#line.locationBuilding ne 'NOC' AND !#line.locationBuilding.startsWith('*')}"/>  AND #line.campus.toLowerCase() eq 'seattle'
-                           <bean parent="Uif-Message" p:messageText="@{#line.locationBuilding}" p:style="margin-right:0.33em;"
-                                 p:render="@{#line.locationBuilding eq 'NOC' OR #line.locationBuilding.startsWith('*')}"/> #line.campus.toLowerCase() ne 'seattle'
-                           <bean parent="Uif-Message" p:messageText="@{#line.locationRoom}" p:style="margin:0;"
-                                 p:render="@{#line.locationBuilding ne 'NOC' AND !#line.locationBuilding.startsWith('*')}"/>
-                       </list>
-                   </property>
-               </bean> -->
+<!--
+                Displays the sln for the class with its link
+-->
                 <bean parent="Uif-HorizontalFieldGroup" p:label="SLN" p:group.validationMessages.render="false">
                     <property name="items">
                         <list>
@@ -1034,6 +1016,9 @@
                         </list>
                     </property>
                 </bean>
+<!--
+                Displays whether there are any restrictions to the class with a link to more details, dashes if not
+-->
                 <bean parent="Uif-HorizontalFieldGroup" p:label="ENRL RESTR" p:group.validationMessages.render="false">
                     <property name="items">
                         <list>
@@ -1043,6 +1028,9 @@
                         </list>
                     </property>
                 </bean>
+<!--
+                Displays the number currently enrolled vs the number of seats
+-->
                 <bean parent="Uif-HorizontalFieldGroup" p:label="ENRL / Limit" p:group.validationMessages.render="false">
                     <property name="items">
                         <list>
@@ -1051,7 +1039,10 @@
                         </list>
                     </property>
                 </bean>
-                <bean p:id="@{dataObject.courseId}-@{#line.code}" parent="Uif-ImageField" p:label="Add" p:altText="Add" p:title="Add" p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif" p:render="@{#line.planned eq false ? true : false}">
+<!--
+                Displays add options if class is not in the plan
+-->
+                <bean p:id="@{dataObject.courseId}-@{#line.code}" parent="Uif-ImageField" p:label="Add" p:altText="Add" p:title="Add" p:source="../ks-myplan/images/pixel.gif" p:render="@{#line.planned eq false ? true : false}">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-add</value>
@@ -1060,6 +1051,9 @@
                     </property>
                     <property name="onClickScript" value="openPlanItemPopUp('@{dataObject.courseId}','add_section_dialog_page',{courseId:'@{dataObject.courseId}',sectionCode:'@{#line.code}',termYear:'@{#line.atpId}',pageId:'add_section_dialog_page', moveCourse:'false'},e,null,{tail:{hidden:true},position:'right',align:'top'});"/>
                 </bean>
+<!--
+                Displays InPlan is the class is already part of the learning plan
+-->
                 <bean parent="Uif-MessageField" p:fieldLabel.render="false" p:render="@{#line.planned eq true ? true : false}">
                     <property name="message">
 
