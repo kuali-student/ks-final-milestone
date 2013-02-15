@@ -47,6 +47,11 @@ public class StateServiceCacheDecorator extends StateServiceDecorator {
 
 
         } catch (ObjectExistsException e) {
+            //Add LifecycleInfo Map to cache
+            lifecycleInfoMap = new HashMap<String, LifecycleInfo>();
+
+            //Add StateInfo Map to cache
+            stateInfoMap = new HashMap<String, StateInfo>();
         }
     }
 
