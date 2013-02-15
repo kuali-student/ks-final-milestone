@@ -3,8 +3,10 @@ package org.kuali.student.enrollment.class2.courseoffering.service.applayer;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -53,7 +55,7 @@ public interface AutogenRegistrationGroupAppLayer {
      * @param context
      * @return List of RGs created
      */
-    List<RegistrationGroupInfo> createActivityOffering(ActivityOfferingInfo aoInfo, String aocId, ContextInfo context)
+    List<BulkStatusInfo> createActivityOffering(ActivityOfferingInfo aoInfo, String aocId, ContextInfo context)
             throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException,
                    OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException;
 
@@ -63,9 +65,9 @@ public interface AutogenRegistrationGroupAppLayer {
      * A pass-through to the deleteActivityOfferingCascaded.
      * @param aocId
      * @param context
-     * @return
+     * Doesn't return anything for now.  If we need something, can always modify the return type
      */
-    List<RegistrationGroupInfo> deleteActivityOfferingCascaded(String aoId, String aocId, ContextInfo context)
+    void deleteActivityOfferingCascaded(String aoId, String aocId, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
                    OperationFailedException, DoesNotExistException;
 
@@ -85,7 +87,7 @@ public interface AutogenRegistrationGroupAppLayer {
      * @throws OperationFailedException
      * @throws DoesNotExistException
      */
-    List<RegistrationGroupInfo> moveActivityOffering(String aoId, String sourceAocId, String targetAocId, ContextInfo context)
+    List<BulkStatusInfo> moveActivityOffering(String aoId, String sourceAocId, String targetAocId, ContextInfo context)
             throws  PermissionDeniedException,
                     DataValidationErrorException,
                     DoesNotExistException,
@@ -102,10 +104,10 @@ public interface AutogenRegistrationGroupAppLayer {
      * @param aocId The ID of the AOC to delete
      *
      */
-    void deleteActivityOfferingClusterCascaded(String aocId, ContextInfo context)
+    void deleteActivityOfferingCluster(String aocId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
-                   MissingParameterException, OperationFailedException,
-                   PermissionDeniedException;
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException, DependentObjectsExistException;
 
     /**
      * User Story 8: As a user, I want to view counts of seats so that I can ensure I have the right numbers of seats to support my business needs.

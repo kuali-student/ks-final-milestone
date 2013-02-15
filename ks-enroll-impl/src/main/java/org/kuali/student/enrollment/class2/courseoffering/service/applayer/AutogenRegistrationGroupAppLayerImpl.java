@@ -34,6 +34,7 @@ import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -87,7 +88,7 @@ public class AutogenRegistrationGroupAppLayerImpl implements AutogenRegistration
     }
 
     @Override
-    public List<RegistrationGroupInfo> createActivityOffering(ActivityOfferingInfo aoInfo, String aocId, ContextInfo context)
+    public List<BulkStatusInfo> createActivityOffering(ActivityOfferingInfo aoInfo, String aocId, ContextInfo context)
             throws PermissionDeniedException, DataValidationErrorException,
             InvalidParameterException, ReadOnlyException, OperationFailedException,
             MissingParameterException, DoesNotExistException, VersionMismatchException {
@@ -113,21 +114,20 @@ public class AutogenRegistrationGroupAppLayerImpl implements AutogenRegistration
         // Note: this may generate RGs that do NOT include the AO just added
         List<BulkStatusInfo> status =
                 coService.generateRegistrationGroupsForCluster(updated.getId(), context);
-        return null; // TODO: Fix this
+        return status;
     }
 
     @Override
-    public List<RegistrationGroupInfo> deleteActivityOfferingCascaded(String aoId,
-                                                                      String aocId,
-                                                                      ContextInfo context)
+    public void deleteActivityOfferingCascaded(String aoId,
+                                               String aocId,
+                                               ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
                    OperationFailedException, DoesNotExistException {
         StatusInfo status = coService.deleteActivityOfferingCascaded(aoId, context);
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<RegistrationGroupInfo> moveActivityOffering(String aoId,
+    public List<BulkStatusInfo> moveActivityOffering(String aoId,
                                                             String sourceAocId,
                                                             String targetAocId,
                                                             ContextInfo context)
@@ -185,16 +185,21 @@ public class AutogenRegistrationGroupAppLayerImpl implements AutogenRegistration
         ActivityOfferingClusterInfo updated =
                 coService.updateActivityOfferingCluster(aoInfo.getFormatOfferingId(), targetAocId, targetAoc, context);
         // Generate missing RGs
-        List<BulkStatusInfo> statusInfo =
+        List<BulkStatusInfo> created =
                 coService.generateRegistrationGroupsForCluster(updated.getId(), context);
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return created;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public void deleteActivityOfferingClusterCascaded(String aocId, ContextInfo context)
+    public void deleteActivityOfferingCluster(String aocId, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
-                   OperationFailedException, DoesNotExistException {
+            OperationFailedException, DoesNotExistException, DependentObjectsExistException {
+        List<ActivityOfferingInfo> aoInfos = coService.getActivityOfferingsByCluster(aocId, context);
         StatusInfo status = coService.deleteActivityOfferingClusterCascaded(aocId, context);
+        // Delete each AO
+        for (ActivityOfferingInfo aoInfo: aoInfos) {
+            coService.deleteActivityOffering(aoInfo.getId(), context);
+        }
     }
 
     /* (non-Javadoc)
