@@ -484,6 +484,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException,
             VersionMismatchException, DependentObjectsExistException, ReadOnlyException {
+
         ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
         CluInfo clu = createCluInfo();
 
@@ -2894,7 +2895,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testVersioning() throws ParseException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, IllegalVersionSequencingException, ReadOnlyException {
+    public void testVersioning() throws ParseException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, IllegalVersionSequencingException, ReadOnlyException, DependentObjectsExistException {
         ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 
         CluInfo clu = createCluInfo();
@@ -2932,6 +2933,13 @@ public class TestCluServiceImpl extends AbstractServiceTest {
         searchRequest.setSearchKey("lu.search.clu.versions");
         SearchResultInfo searchResult = client.search(searchRequest, ContextInfoTestUtility.getEnglishContextInfo());
         assertEquals(3, searchResult.getRows().size());
+
+        StatusInfo status = client.deleteClu(cluV1.getId(), contextInfo);
+        assertTrue(status.getIsSuccess());
+        status = client.deleteClu(cluV2.getId(), contextInfo);
+        assertTrue(status.getIsSuccess());
+        status = client.deleteClu(cluV3.getId(), contextInfo);
+        assertTrue(status.getIsSuccess());
 
     }
 
