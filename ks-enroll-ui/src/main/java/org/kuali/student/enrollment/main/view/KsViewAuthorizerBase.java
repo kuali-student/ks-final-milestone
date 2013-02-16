@@ -3,6 +3,8 @@ package org.kuali.student.enrollment.main.view;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.messages.MessageService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.component.ComponentSecurity;
@@ -14,13 +16,11 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.ViewAuthorizerBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.uif.widget.Widget;
-import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
 
 import java.util.Collection;
 import java.util.Date;
@@ -35,6 +35,8 @@ import java.util.Map;
  */
 public class KsViewAuthorizerBase extends ViewAuthorizerBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KsViewAuthorizerBase.class);
+
+    protected MessageService messageService = null;
 
     @Override
     protected void addRoleQualification(Object primaryDataObjectOrDocument, Map<String, String> attributes) {
@@ -262,4 +264,37 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
         return true;
     }
 
+    /**
+     * @see org.kuali.rice.krad.uif.view.ViewAuthorizer#canViewGroup(org.kuali.rice.krad.uif.view.View, org.kuali.rice.krad.uif.view.ViewModel,
+     *      org.kuali.rice.krad.uif.container.Group, String, org.kuali.rice.kim.api.identity.Person)
+     *
+     *      In this override we want to be able to display a custom message that nofies the user that they are not authorized.
+     */
+    @Override
+    public boolean canViewGroup(View view, ViewModel model, Group group, String groupId, Person user) {
+         boolean bRet = super.canViewGroup(view, model, group, groupId, user);    //To change body of overridden methods use File | Settings | File Templates.
+
+        if(!bRet){
+            String messageKey = "error." + view.getId() + "." + groupId;
+
+            if(getMessageService().getMessageText(messageKey) != null){ // if the message isn't configured, then don't display any error
+                GlobalVariables.getMessageMap().putError(view.getId(), messageKey);
+            }
+        }
+
+        return bRet;
+
+    }
+
+    public MessageService getMessageService() {
+        if(messageService == null){
+            messageService = KRADServiceLocatorWeb.getMessageService();
+        }
+
+        return messageService;
+    }
+
+    public void setMessageService(MessageService messageService) {
+        this.messageService = messageService;
+    }
 }

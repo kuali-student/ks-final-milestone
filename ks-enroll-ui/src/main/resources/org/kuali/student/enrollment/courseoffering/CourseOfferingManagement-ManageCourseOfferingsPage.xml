@@ -33,7 +33,8 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-CourseOfferingResultSection" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseOfferingManagement-CourseOfferingResultSection" parent="Uif-VerticalBoxSection" p:id="searchResultSection">
+        <property name="componentSecurity.viewAuthz" value="true"/>
         <property name="headerText" value="@{subjectCode} - @{subjectCodeDescription}" />
         <property name="disclosure.render" value="false"/>
         <property name="items">
