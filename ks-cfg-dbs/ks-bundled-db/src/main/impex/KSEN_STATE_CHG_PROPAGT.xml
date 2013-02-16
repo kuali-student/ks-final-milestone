@@ -15,6 +15,8 @@
     <KSEN_STATE_CHG_PROPAGT
         STATE_CHG_ID="kuali.statechange.formatoffering.draft.planned" STATE_PROPAGT_ID="kuali.statepropagation.fotoco.draft.planned"/>
     <KSEN_STATE_CHG_PROPAGT
+        STATE_CHG_ID="kuali.statechange.formatoffering.offered.draft" STATE_PROPAGT_ID="kuali.statepropagation.fotoco.offered.draft"/>
+    <KSEN_STATE_CHG_PROPAGT
         STATE_CHG_ID="kuali.statechange.formatoffering.planned.draft" STATE_PROPAGT_ID="kuali.statepropagation.fotoco.planned.draft"/>
     <KSEN_STATE_CHG_PROPAGT
         STATE_CHG_ID="kuali.statechange.formatoffering.planned.offered" STATE_PROPAGT_ID="kuali.statepropagation.fotoco.planned.offered"/>
