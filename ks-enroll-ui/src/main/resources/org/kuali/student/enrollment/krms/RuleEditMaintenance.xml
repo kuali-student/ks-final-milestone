@@ -86,6 +86,7 @@
         <property name="items">
             <list>
                 <bean parent="LogicInputSection"/>
+                <bean parent="Preview-Tree-Section"/>
             </list>
         </property>
     </bean>
@@ -103,6 +104,28 @@
                 </bean>
             </list>
         </property>
+    </bean>
+
+    <bean id="Preview-Tree-Section" parent="Uif-TreeSection">
+        <property name="propertyName" value="previewTree"/>
+        <property name="tree">
+            <bean parent="RuleTreeWidget"/>
+        </property>
+        <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;"/>
+                </property>
+            </bean>
+        </property>
+        <!--<property name="items" >-->
+            <!--<list>-->
+                <!--<bean parent="Uif-ActionLink" p:actionLabel="edit" p:methodToCall=""/>-->
+            <!--</list>-->
+        <!--</property>-->
     </bean>
 
     <bean name="KS-EditWithObject-EditGroup" parent="Uif-VerticalBoxGroup"
