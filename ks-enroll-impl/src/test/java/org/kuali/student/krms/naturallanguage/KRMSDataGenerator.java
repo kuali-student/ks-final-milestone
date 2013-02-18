@@ -3,6 +3,9 @@ package org.kuali.student.krms.naturallanguage;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameter;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
+import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
+import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
+import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinitionContract;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
 
@@ -53,4 +56,64 @@ public class KRMSDataGenerator {
     }
 
 
+    public static TermParameterDefinitionContract createTermParameterDefinition(final String id,final String name,final String value, final String termID, final Long versionNumber) {
+         return new TermParameterDefinitionContract(){
+
+
+            @Override
+            public String getTermId() {
+                return termID;
+            }
+
+            @Override
+            public String getName() {
+                return name;
+            }
+
+            @Override
+            public String getValue() {
+                return value;
+            }
+
+            @Override
+            public String getId() {
+                return id;
+            }
+
+            @Override
+            public Long getVersionNumber() {
+                return versionNumber;
+            }
+        };
+
+    }
+
+    public static TermDefinitionContract createTermDefinition(final TermSpecificationDefinitionContract termSpecification, final String description, final List<? extends TermParameterDefinitionContract> parameters, final String id, final Long versionNumber){
+        return new TermDefinitionContract() {
+            @Override
+            public TermSpecificationDefinitionContract getSpecification() {
+                return termSpecification;
+            }
+
+            @Override
+            public String getDescription() {
+                return description;
+            }
+
+            @Override
+            public List<? extends TermParameterDefinitionContract> getParameters() {
+                return parameters;
+            }
+
+            @Override
+            public String getId() {
+                return id;
+            }
+
+            @Override
+            public Long getVersionNumber() {
+                return versionNumber;
+            }
+        };
+    }
 }

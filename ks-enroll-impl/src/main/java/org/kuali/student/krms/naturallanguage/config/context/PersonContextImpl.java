@@ -15,6 +15,7 @@
 
 package org.kuali.student.krms.naturallanguage.config.context;
 
+import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
@@ -41,7 +42,7 @@ public class PersonContextImpl extends BasicContextImpl {
      * @param contextInfo
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(TermBo term, ContextInfo contextInfo) throws OperationFailedException {
+    public Map<String, Object> createContextMap(TermDefinition term, ContextInfo contextInfo) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
         contextMap.put(PERSON_TOKEN, getTermParameterValue(term, ReqComponentFieldTypes.PERSON_KEY.getId()));
         return contextMap;

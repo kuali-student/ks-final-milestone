@@ -15,8 +15,8 @@
 
 package org.kuali.student.krms.naturallanguage;
 
-import org.kuali.rice.krms.impl.repository.TermBo;
-import org.kuali.rice.krms.impl.repository.TermParameterBo;
+import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
+import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
@@ -49,10 +49,10 @@ public abstract class AbstractContext<T> implements Context<T> {
      * @param term
      * @return Map of requirement component fields
      */
-	protected Map<String, String> getTermParameterMap(TermBo term) throws OperationFailedException {
-		List<TermParameterBo> parameters = term.getParameters();
+	protected Map<String, String> getTermParameterMap(TermDefinitionContract term) throws OperationFailedException {
+		List<? extends TermParameterDefinitionContract> parameters = term.getParameters();
         Map<String, String> map = new HashMap<String, String>();
-        for (TermParameterBo parameter : parameters) {
+        for (TermParameterDefinitionContract parameter : parameters) {
             String name = parameter.getName();
             String value = parameter.getValue();
             map.put(name, value);
@@ -67,7 +67,7 @@ public abstract class AbstractContext<T> implements Context<T> {
      * @param key <code>ReqCompFieldInfo</code> key
      * @return Value of <code>ReqCompFieldInfo</code>
      */
-	protected String getTermParameterValue(TermBo term, String key) throws OperationFailedException {
+	protected String getTermParameterValue(TermDefinitionContract term, String key) throws OperationFailedException {
         return getTermParameterMap(term).get(key);
     }
 
@@ -79,7 +79,7 @@ public abstract class AbstractContext<T> implements Context<T> {
      * @param contextInfo
      * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException If CLU, CluSet or relation does not exist
      */
-    public Map<String, Object> createContextMap(TermBo term, ContextInfo contextInfo) throws OperationFailedException {
+    public Map<String, Object> createContextMap(TermDefinitionContract term, ContextInfo contextInfo) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
         contextMap.put(FIELDS_TOKEN, getTermParameterMap(term));
         return contextMap;

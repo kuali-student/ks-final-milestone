@@ -15,6 +15,7 @@
 
 package org.kuali.student.krms.naturallanguage.config.context;
 
+import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
@@ -88,10 +89,10 @@ public class LrcContextImpl extends BasicContextImpl {
     /**
      * Creates the context map (template data) for the requirement component.
      *
-     * @param reqComponent Requirement component
+     * @param term Requirement component
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(TermBo term, ContextInfo contextInfo) throws OperationFailedException {
+    public Map<String, Object> createContextMap(TermDefinition term, ContextInfo contextInfo) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
 
         String gradeId = getTermParameterValue(term, ReqComponentFieldTypes.GRADE_KEY.getId());

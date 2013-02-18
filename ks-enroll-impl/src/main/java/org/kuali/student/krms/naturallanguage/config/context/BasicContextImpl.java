@@ -15,7 +15,7 @@
 
 package org.kuali.student.krms.naturallanguage.config.context;
 
-import org.kuali.rice.krms.impl.repository.TermBo;
+import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.student.krms.naturallanguage.AbstractContext;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -24,7 +24,7 @@ import org.kuali.student.r2.lum.statement.config.context.util.NLHelper;
 
 import java.util.Map;
 
-public class BasicContextImpl extends AbstractContext<TermBo> {
+public class BasicContextImpl extends AbstractContext<TermDefinitionContract> {
 	/**
 	 * <code>NLHelper</code> token (key) references a static natural language
 	 * helper class for use in templates.
@@ -54,7 +54,7 @@ public class BasicContextImpl extends AbstractContext<TermBo> {
      * @param contextInfo
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(TermBo term, ContextInfo contextInfo) throws OperationFailedException {
+    public Map<String, Object> createContextMap(TermDefinitionContract term, ContextInfo contextInfo) throws OperationFailedException {
     	String value = getTermParameterValue(term, ReqComponentFieldTypes.INTEGER_VALUE1_KEY.getId());
     	String operator = getTermParameterValue(term, ReqComponentFieldTypes.OPERATOR_KEY.getId());
     	
