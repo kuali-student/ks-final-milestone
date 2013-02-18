@@ -50,18 +50,7 @@
 
                 <bean parent="Uif-PageHeader" p:headerText="@{#dp.courseName}"/>
 
-                <bean parent="Uif-InputField-LabelTop" p:label="Select Rule" p:propertyName="ruleType">
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"
-                                p:onChangeScript="ajaxSubmitForm('retrieveRule', null, jQuery(this).data('submitdata'), null, null, null);"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.RuleTypeKeyValues" p:addBlankOption="false"/>
-                    </property>
-                </bean>
-
-                <bean id="KS-RuleView-Section" parent="KS-VerticalBoxSection"
-                      p:progressiveRender="@{#dp.ruleType ne null and #dp.ruleType ne '0'}">
+                <bean id="KS-RuleView-Section" parent="KS-VerticalBoxSection">
                     <property name="headerText" value="Prerequisite Rule"/>
                     <property name="items">
                         <list>
@@ -71,8 +60,7 @@
                     </property>
                 </bean>
 
-                <bean id="KS-RuleEdit-TabSection" parent="Uif-TabSection"
-                      p:progressiveRender="@{#dp.ruleType ne null and #dp.ruleType ne '0'}">
+                <bean id="KS-RuleEdit-TabSection" parent="Uif-TabSection">
                     <property name="items">
                         <list>
                             <bean parent="KS-EditWithObject-EditSection" />

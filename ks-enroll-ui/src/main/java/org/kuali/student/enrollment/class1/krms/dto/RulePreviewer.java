@@ -31,7 +31,7 @@ public class RulePreviewer {
         return previewTree;
     }
 
-    public void initPreviewTree(RuleBo rule){
+    public void initPreviewTree(RuleEditor rule){
         Tree myTree = new Tree<TreeNode, String>();
 
         Node<TreeNode, String> rootNode = new Node<TreeNode, String>();
@@ -41,8 +41,8 @@ public class RulePreviewer {
         myTree.setRootElement(rootNode);
 
         if (rule != null){
-            PropositionBo prop = rule.getProposition();
-            buildPreviewTree( rootNode, prop);
+            PropositionEditor prop = (PropositionEditor) rule.getProposition();
+            buildPreviewTree(rootNode, prop);
         }
 
         //Underline the first node in the preview.
@@ -55,7 +55,7 @@ public class RulePreviewer {
         this.previewTree = myTree;
     }
 
-    private void buildPreviewTree(Node<TreeNode, String> currentNode, PropositionBo prop){
+    private void buildPreviewTree(Node<TreeNode, String> currentNode, PropositionEditor prop){
         if (prop != null) {
 
             Node<TreeNode, String> newNode = new Node<TreeNode, String>();
@@ -68,10 +68,8 @@ public class RulePreviewer {
             if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())){
 
                 boolean first = true;
-                List <PropositionBo> nodeChildren = prop.getCompoundComponents();
-                int compoundSequenceNumber = 0;
-                for (PropositionBo child : nodeChildren){
-                    child.setCompoundSequenceNumber(++compoundSequenceNumber);  // start with 1
+                List <PropositionEditor> nodeChildren = prop.getCompoundEditors();
+                for (PropositionEditor child : nodeChildren){
                     // add an opcode node in between each of the children.
                     if (!first){
                         //addOpCodeNode(newNode, propositionEditor);
@@ -94,7 +92,7 @@ public class RulePreviewer {
         }
     }
 
-    protected String buildNodeLabel(PropositionBo prop){
+    protected String buildNodeLabel(PropositionEditor prop){
         return StringEscapeUtils.escapeHtml(prop.getDescription());
     }
 }

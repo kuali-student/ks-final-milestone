@@ -1,9 +1,10 @@
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
-import org.kuali.rice.krms.impl.repository.AgendaBo;
+import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
+import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
@@ -24,29 +25,17 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
         Object dataObject = null;
 
-        // Since the dataObject is a wrapper class we need to build it and populate with the agenda bo.
-        RuleEditor ruleEditor = new RuleEditor();
-
         String cluId = dataObjectKeys.get("cluId");
+        String ruleId = dataObjectKeys.get("id");
+        RuleDefinition rule = KrmsRepositoryServiceLocator.getRuleBoService().getRuleByRuleId(ruleId);
+
+        // Since the dataObject is a wrapper class we need to build it and populate with the agenda bo.
+        RuleEditor ruleEditor = new RuleEditor(rule);
         ruleEditor.setCluId(cluId);
 
-        //Populate the agenda. Should be retrieved based on agenda type passed as parameter.
-        List<ReferenceObjectBinding> refObjects = getReferenceObjectBindingBoService().findReferenceObjectBindingsByReferenceObject(cluId);
-        for (ReferenceObjectBinding refObject : refObjects) {
-            if ("Agenda".equals(refObject.getKrmsDiscriminatorType())) {
-
-                AgendaBo agenda = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(AgendaBo.class, refObject.getKrmsObjectId());
-                if (agenda != null) {
-                    ruleEditor.setAgenda(agenda);
-                    break;
-                }
-
-            }
-        }
-
-        if (ruleEditor.getAgenda() == null) {
-            ruleEditor.setAgenda(new AgendaBo());
-        }
+        //ruleEditor.clearRule();
+        //PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
+        //ruleEditor.initPreviewTree();
 
         //Retrieve the Clu information
         CluInfo cluInfo = null;

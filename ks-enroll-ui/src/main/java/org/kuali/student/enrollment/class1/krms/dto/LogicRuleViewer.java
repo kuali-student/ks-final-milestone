@@ -18,11 +18,11 @@ public class LogicRuleViewer extends RulePreviewer {
 
     public void initPreviewTree(RuleEditor ruleEditor){
         propositionAlpha = ruleEditor.getPropositionAlpha();
-        super.initPreviewTree(ruleEditor.getRule());
+        super.initPreviewTree(ruleEditor);
     }
 
     @Override
-    protected String buildNodeLabel(PropositionBo prop){
+    protected String buildNodeLabel(PropositionEditor prop){
         //Build the node label.
         String prefix = "";
         if(propositionAlpha != null && propositionAlpha.containsKey(prop.getId())) {

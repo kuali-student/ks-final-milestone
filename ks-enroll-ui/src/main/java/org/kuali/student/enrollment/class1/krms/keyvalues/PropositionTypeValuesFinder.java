@@ -59,7 +59,7 @@ public class PropositionTypeValuesFinder extends UifKeyValuesFinderBase {
 
         String ruleTypeId = null;
         if (dataObject instanceof RuleEditor){
-            ruleTypeId = ((RuleEditor) dataObject).getRule().getTypeId();
+            ruleTypeId = ((RuleEditor) dataObject).getTypeId();
         }
 
         NaturalLanguageUsage usage = getNaturalLanguageUsageBoService().getNaturalLanguageUsageByName(PermissionServiceConstants.KS_SYS_NAMESPACE, KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION);

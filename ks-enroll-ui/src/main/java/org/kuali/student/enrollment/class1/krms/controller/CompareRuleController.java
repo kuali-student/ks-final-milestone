@@ -54,7 +54,7 @@ public class CompareRuleController extends UifControllerBase {
                               HttpServletRequest request, HttpServletResponse response)
            {
         CompareRuleForm compareRuleForm = (CompareRuleForm) form;
-               compareRuleForm.getRuleEditor().getRule().setId(compareRuleForm.getRuleId());
+               //compareRuleForm.getRuleEditor().getRule().setId(compareRuleForm.getRuleId());
                RuleDefinition ruleDefinition = getRuleBoService().getRuleByRuleId(compareRuleForm.getRuleId());
                RuleBo rule = RuleBo.from(ruleDefinition);
 
@@ -63,7 +63,7 @@ public class CompareRuleController extends UifControllerBase {
                    rule.setId(compareRuleForm.getRuleId());
                }
 
-               compareRuleForm.getRuleEditor().setRule(rule);
+               //compareRuleForm.getRuleEditor().setRule(rule);
                compareRuleForm.getRuleEditor().getPreviewTree();
                compareRuleForm.setCmRule(compareRuleForm.getRuleEditor().getPreviewTree());
         return getUIFModelAndView(compareRuleForm);

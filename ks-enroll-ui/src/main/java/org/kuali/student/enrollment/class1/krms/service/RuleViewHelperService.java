@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.class1.krms.service;
 
+import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
+import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.krms.service.TemplateResolverService;
 
 /**
@@ -16,6 +18,6 @@ public interface RuleViewHelperService extends TemplateResolverService {
 
     public String getTranslatedNaturalLanguage(String typeId);
 
-    public boolean validateProposition(PropositionBo proposition, String namespace);
+    public boolean validateProposition(PropositionEditor proposition, String namespace);
 
 }

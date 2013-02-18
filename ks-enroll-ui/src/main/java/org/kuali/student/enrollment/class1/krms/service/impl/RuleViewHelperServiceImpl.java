@@ -26,14 +26,13 @@ import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageTemplateBoService;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageUsageBoService;
-import org.kuali.rice.krms.impl.repository.PropositionBo;
-import org.kuali.rice.krms.impl.repository.PropositionParameterBo;
 import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.rice.krms.impl.repository.TermSpecificationBo;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.rice.krms.impl.util.KrmsImplConstants;
 import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
+import org.kuali.student.enrollment.class1.krms.dto.PropositionParameterEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
 import org.kuali.student.krms.dto.TemplateInfo;
@@ -325,14 +324,14 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             Node<RuleEditorTreeNode, String> editedPropositionNode = PropositionTreeUtil.findEditedProposition(propositionTree.getRootElement());
 
             if (editedPropositionNode != null) {
-                PropositionBo propositionBo = editedPropositionNode.getData().getProposition().getProposition();
+                PropositionEditor propositionBo = editedPropositionNode.getData().getProposition();
                 if (StringUtils.isEmpty(propositionBo.getCompoundOpCode()) && CollectionUtils.size(
                         propositionBo.getParameters()) > 0) {
                     // Get the term ID; if it is a new parameterized term, it will have a special prefix
-                    PropositionParameterBo param = propositionBo.getParameters().get(0);
+                    PropositionParameterEditor param = propositionBo.getParameters().get(0);
                     String termSpecId = param.getValue();
                     TermResolverDefinition simplestResolver = getSimplestTermResolver(termSpecId,
-                            ruleEditor.getRule().getNamespace());
+                            ruleEditor.getNamespace());
 
                     // Get the parameters and build RemotableAttributeFields
                     if (simplestResolver != null) {
@@ -416,7 +415,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
      * @return true if the proposition and its children (if any) are considered valid
      */
     // TODO also wire up to proposition for faster feedback to the user
-    public boolean validateProposition(PropositionBo proposition, String namespace) {
+    public boolean validateProposition(PropositionEditor proposition, String namespace) {
         boolean result = true;
 
         if (proposition != null) { // Null props are allowed.
@@ -428,7 +427,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
             } else {
                 // this is a compound proposition (or it should be)
-                List<PropositionBo> compoundComponents = proposition.getCompoundComponents();
+                List<PropositionEditor> compoundComponents = proposition.getCompoundEditors();
 
                 if (!CollectionUtils.isEmpty(proposition.getParameters())) {
                     GlobalVariables.getMessageMap().putError(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
@@ -437,7 +436,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
                 }
 
                 // recurse
-                if (!CollectionUtils.isEmpty(compoundComponents)) for (PropositionBo childProp : compoundComponents) {
+                if (!CollectionUtils.isEmpty(compoundComponents)) for (PropositionEditor childProp : compoundComponents) {
                     result &= validateProposition(childProp, namespace);
                 }
             }
@@ -454,7 +453,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
      * @param namespace   the namespace of the parent rule
      * @return true if the proposition is considered valid
      */
-    private boolean validateSimpleProposition(PropositionBo proposition, String namespace) {
+    private boolean validateSimpleProposition(PropositionEditor proposition, String namespace) {
         boolean result = true;
 
         String propConstant = null;
@@ -521,7 +520,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
      * @param namespace   the namespace of the parent rule
      * @return true if the proposition's term is considered valid
      */
-    private boolean validateTerm(PropositionBo proposition, String namespace) {
+    private boolean validateTerm(PropositionEditor proposition, String namespace) {
         boolean result = true;
 
         String termId = proposition.getParameters().get(0).getValue();
@@ -562,15 +561,15 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             } else {
                 List<String> parameterNames = new ArrayList<String>(termResolverDefinition.getParameterNames());
                 Collections.sort(parameterNames);
-                for (String parameterName : parameterNames) {
-                    if (!proposition.getTermParameters().containsKey(parameterName) ||
-                            StringUtils.isBlank(proposition.getTermParameters().get(parameterName))) {
-                        GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                                "error.rule.proposition.simple.missingTermParameter", proposition.getDescription());
-                        result &= false;
-                        break;
-                    }
-                }
+                //for (String parameterName : parameterNames) {
+                    //if (!proposition.getTermParameters().containsKey(parameterName) ||
+                    //        StringUtils.isBlank(proposition.getTermParameters().get(parameterName))) {
+                    //    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
+                    //            "error.rule.proposition.simple.missingTermParameter", proposition.getDescription());
+                    //    result &= false;
+                    //    break;
+                    //}
+                //}
             }
 
         } else {

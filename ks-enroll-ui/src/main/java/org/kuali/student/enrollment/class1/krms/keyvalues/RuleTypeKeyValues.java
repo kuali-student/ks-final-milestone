@@ -31,7 +31,8 @@ public class RuleTypeKeyValues extends UifKeyValuesFinderBase implements Seriali
         String agendaTypeId = null;
         if (model instanceof MaintenanceDocumentForm){
             MaintenanceDocumentForm MaintenanceDocumentForm = (MaintenanceDocumentForm) model;
-            agendaTypeId = ((RuleEditor)MaintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject()).getAgendaType();
+            //agendaTypeId = ((RuleEditor)MaintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject()).getAgendaType();
+            agendaTypeId = "10007";
         }
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         NaturalLanguageUsage usage = getNaturalLanguageUsageBoService().getNaturalLanguageUsageByName(PermissionServiceConstants.KS_SYS_NAMESPACE, KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION);

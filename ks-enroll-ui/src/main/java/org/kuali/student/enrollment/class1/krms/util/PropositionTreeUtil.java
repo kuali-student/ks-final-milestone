@@ -25,7 +25,7 @@ public class PropositionTreeUtil {
             List<Node<RuleEditorTreeNode,String>> children = currentNode.getChildren();
             for( Node<RuleEditorTreeNode,String> child : children){
                 RuleEditorTreeNode dataNode = child.getData();
-                if (selectedPropId.equalsIgnoreCase(dataNode.getProposition().getProposition().getId()))
+                if (selectedPropId.equalsIgnoreCase(dataNode.getProposition().getId()))
                     return currentNode;
             }
 
@@ -63,15 +63,15 @@ public class PropositionTreeUtil {
         // if it's in children, we have the parent
         for (Node<RuleEditorTreeNode, String> child : currentNode.getChildren()) {
             PropositionEditor proposition = child.getData().getProposition();
-            if (proposition.getProposition().getPropositionTypeCode() == "S" && proposition.getProposition().getEditMode()) {
+            if (proposition.getPropositionTypeCode() == "S" && proposition.isEditMode()) {
                 return proposition;
-            } else if(!proposition.getProposition().getEditMode()) {
+            } else if(!proposition.isEditMode()) {
                 // if not found check grandchildren
                 proposition = findProposition(child, selectedPropId);
                 if (proposition != null) {
                     return proposition;
                 }
-            } else if(selectedPropId.equalsIgnoreCase(proposition.getProposition().getId())){
+            } else if(selectedPropId.equalsIgnoreCase(proposition.getId())){
                 return proposition;
             }
         }
@@ -87,8 +87,8 @@ public class PropositionTreeUtil {
      */
     public static Node<RuleEditorTreeNode, String> findEditedProposition(Node<RuleEditorTreeNode, String> node) {
         Node<RuleEditorTreeNode, String> result = null;
-        if (node.getData() != null && node.getData().getProposition() != null && node.getData().getProposition().getProposition()
-                .getEditMode()) {
+        if (node.getData() != null && node.getData().getProposition() != null && node.getData().getProposition()
+                .isEditMode()) {
             result = node;
         } else {
             for (Node<RuleEditorTreeNode, String> child : node.getChildren()) {
@@ -114,7 +114,7 @@ public class PropositionTreeUtil {
     public static void resetEditModeOnPropositionTree(Node<RuleEditorTreeNode, String> currentNode) {
         if (currentNode.getData() != null) {
             RuleEditorTreeNode dataNode = currentNode.getData();
-            dataNode.getProposition().getProposition().setEditMode(false);
+            dataNode.getProposition().setEditMode(false);
         }
         List<Node<RuleEditorTreeNode, String>> children = currentNode.getChildren();
         for (Node<RuleEditorTreeNode, String> child : children) {
@@ -126,7 +126,7 @@ public class PropositionTreeUtil {
         Node<RuleEditorTreeNode, String> bingo = null;
         if (currentNode.getData() != null) {
             RuleEditorTreeNode dataNode = currentNode.getData();
-            if (selectedPropId.equalsIgnoreCase(dataNode.getProposition().getProposition().getId())) {
+            if (selectedPropId.equalsIgnoreCase(dataNode.getProposition().getId())) {
                 return currentNode;
             }
         }

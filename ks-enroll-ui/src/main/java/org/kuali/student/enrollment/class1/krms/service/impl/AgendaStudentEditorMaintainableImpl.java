@@ -122,7 +122,7 @@ public class AgendaStudentEditorMaintainableImpl extends KSMaintainableImpl impl
     private Node<RuleEditorTreeNode, String> findEditedProposition(Node<RuleEditorTreeNode, String> node) {
         Node<RuleEditorTreeNode, String> result = null;
         if (node.getData() != null && node.getData().getProposition() != null &&
-                node.getData().getProposition().getProposition().getEditMode()) {
+                node.getData().getProposition().isEditMode()) {
             result = node;
         } else {
             for (Node<RuleEditorTreeNode, String> child : node.getChildren()) {

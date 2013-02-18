@@ -134,19 +134,9 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
             saveNewParameterizedTerms(propositionBo);
         }*/
 
-        AgendaBo agendaBo = ((RuleEditor) getDataObject()).getAgenda();
+        RuleEditor rule = (RuleEditor) getDataObject();
+        //TODO: create ruledefinition and save.
 
-        if (agendaBo instanceof PersistableBusinessObject) {
-            Map<String,String> primaryKeys = new HashMap<String, String>();
-            primaryKeys.put("id", agendaBo.getId());
-            AgendaBo blah = getBusinessObjectService().findByPrimaryKey(AgendaBo.class, primaryKeys);
-            getBusinessObjectService().delete(blah);
-
-            getBusinessObjectService().linkAndSave(agendaBo);
-        } else {
-            throw new RuntimeException(
-                    "Cannot save object of type: " + agendaBo + " with business object service");
-        }
     }
 
     /**
@@ -192,31 +182,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
         }
     }
 
-    @Override
-    public boolean isOldDataObjectInDocument() {
-        boolean isOldDataObjectInExistence = true;
-
-        if (getDataObject() == null) {
-            isOldDataObjectInExistence = false;
-        } else {
-            // dataObject contains a non persistable wrapper - use agenda from the wrapper object instead
-            Map<String, ?> keyFieldValues = getDataObjectMetaDataService().getPrimaryKeyFieldValues(((RuleEditor) getDataObject()).getAgenda());
-            for (Object keyValue : keyFieldValues.values()) {
-                if (keyValue == null) {
-                    isOldDataObjectInExistence = false;
-                } else if ((keyValue instanceof String) && StringUtils.isBlank((String) keyValue)) {
-                    isOldDataObjectInExistence = false;
-                }
-
-                if (!isOldDataObjectInExistence) {
-                    break;
-                }
-            }
-        }
-
-        return isOldDataObjectInExistence;
-    }
-
     // Since the dataObject is a wrapper class we need to return the ruleBo instead.
     @Override
     public Class getDataObjectClass() {
@@ -241,7 +206,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
             MaintenanceDocument document = MaintenanceDocumentForm.getDocument();
 
             // Figure out which rule is being edited
-            RuleBo rule = getRuleEditor(model).getRule();
+            RuleEditor rule = getRuleEditor(model);
             // Figure out which proposition is being edited
             Tree<RuleEditorTreeNode, String> propositionTree = rule.getPropositionTree();
             Node<RuleEditorTreeNode, String> editedPropositionNode = PropositionTreeUtil.findEditedProposition(propositionTree.getRootElement());
@@ -263,16 +228,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
                 throw new RuntimeException("Unable to create new line instance for old maintenance object", e);
             }
         }
-    }
-
-    @Override
-    protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        RuleEditor ruleEditor = getRuleEditor(model);
-        if (addLine instanceof ActionBo) {
-            ((ActionBo) addLine).setNamespace(ruleEditor.getRule().getNamespace());
-        }
-
-        super.processBeforeAddLine(view, collectionGroup, model, addLine);
     }
 
     protected CluService getCluService() {

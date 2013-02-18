@@ -34,53 +34,6 @@
         </property>
     </bean>
 
-    <!--bean id="RuleBo-Student-MaintenanceView" parent="KSMaintenanceView">
-        <property name="headerText" value="Rule Editor"/>
-        <property name="additionalScriptFiles">
-            <list>
-                <value>krms/scripts/ruleStudentTree.js</value>
-                <value>krms/scripts/requiredAlerts.js</value>
-                <value>krms/scripts/disableStudentButtons.js</value>
-                <value>krms/scripts/countdownInputs.js</value>
-            </list>
-        </property>
-        <property name="viewName" value="StudentView"/>
-        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.RuleEditor"/>
-        <property name="viewHelperServiceClass"
-                  value="org.kuali.student.enrollment.class1.krms.service.impl.RuleViewHelperServiceImpl"/>
-        <property name="page.items">
-            <list>
-                <ref bean="ruleStudentEditorBody"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="ruleStudentEditorBody" parent="ruleStudentEditorBody-parent"/>
-    <bean id="ruleStudentEditorBody-parent" parent="Uif-GridSection" p:renderHeader="false">
-        <property name="headerText" value="Rule Editor"/>
-        <property name="layoutManager">
-            <bean parent="Uif-HorizontalBoxLayout"/>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="ruleInfoStudentSection"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="ruleInfoStudentSection" parent="ruleInfoStudentSection-parent"/>
-    <bean id="ruleInfoStudentSection-parent" parent="Uif-Disclosure-VerticalBoxSection">
-        <property name="headerText" value="Rule"/>
-        <property name="renderHeader" value="true"/>
-        <property name="disclosure.render" value="true"/>
-        <property name="disclosure.defaultOpen" value="true"/>
-        <property name="items">
-            <list>
-                <bean id="propositionSection" parent="propositionStudentSection-parent"/>
-            </list>
-        </property>
-    </bean-->
-
     <bean name="KS-EditWithLogic-EditGroup" parent="Uif-VerticalBoxGroup"
           p:style="padding: 5px; margin: 5px; background: white; margin-top:null">
         <property name="items">
@@ -109,7 +62,10 @@
     <bean id="Preview-Tree-Section" parent="Uif-TreeSection">
         <property name="propertyName" value="previewTree"/>
         <property name="tree">
-            <bean parent="RuleTreeWidget"/>
+            <bean parent="Uif-Tree">
+                <property name="template" value="/krms/widget/rulePreviewTree.ftl"/>
+                <property name="templateName" value="uif_rulePreviewTree"/>
+            </bean>
         </property>
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
