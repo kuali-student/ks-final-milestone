@@ -1226,6 +1226,13 @@
         <property name="buildingServiceDao" ref="buildingServiceDao" />
         <property name="roomServiceDao" ref="roomServiceDao" />
         <property name="roomResponsibleOrgDao" ref="roomResponsibleOrgDao" />
+        <property name="criteriaLookupService" ref="defaultCriteriaLookupService"/>
+    </bean>
+
+    <bean id="roomSearchManager"
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:em-search-config.xml" />
+        <property name="dao" ref="enrollSearchableDao"/>
     </bean>
 
     <bean id="ks.exp.roomService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

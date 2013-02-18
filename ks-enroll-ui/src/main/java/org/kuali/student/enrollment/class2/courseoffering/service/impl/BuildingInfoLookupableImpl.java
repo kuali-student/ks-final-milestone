@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.BuildingInfoLookupable;
@@ -25,7 +26,7 @@ public class BuildingInfoLookupableImpl extends LookupableImpl implements Buildi
             if (StringUtils.isNotBlank(buildingCode)){
                  return getRoomService().getBuildingsByBuildingCode(buildingCode, ContextBuilder.loadContextInfo());
             } else{
-                return getRoomService().searchForBuildings(null, ContextBuilder.loadContextInfo());
+                return getRoomService().searchForBuildings(QueryByCriteria.Builder.create().build(), ContextBuilder.loadContextInfo());
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
