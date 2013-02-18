@@ -74,12 +74,13 @@
         <property name="headerText" value="Activity Offering Information"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" id="activity_code" p:label="Activity Code " p:fieldLabel.renderColon="false" p:propertyName="aoInfo.activityCode">
+                <bean parent="Uif-InputField" id="activity_code" p:label="Activity Code " p:fieldLabel.renderColon="false" p:propertyName="aoInfo.activityCode"
+                      p:id="activityCode" p:componentSecurity.editAuthz="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="1"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" id="max_enrollment" p:label="Total Maximum Enrollment" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment"
+                <bean parent="Uif-InputField" id="max_enrollment" p:label="Total Maximum Enrollment " p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment"
                       p:id="maximumEnrollment" p:onChangeScript="calculatePercent(jQuery(this))" p:componentSecurity.editAuthz="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="3"/>
