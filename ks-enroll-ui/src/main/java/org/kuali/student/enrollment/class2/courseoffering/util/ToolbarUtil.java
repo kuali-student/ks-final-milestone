@@ -52,12 +52,11 @@ public class ToolbarUtil {
         roleQualifications.put("org", form.getAdminOrg());
 
         permissionDetails.put("socState", socState);
-        permissionDetails.put("termClassStartDateLater", "true");
 
         //Check if the user can add based on classes start date
         if (form.getTermInfo().getStartDate() != null) {
             Date now = new Date();
-            if (now.before(form.getTermInfo().getStartDate())) {
+            if (form.getTermInfo().getStartDate()!=null && now.before(form.getTermInfo().getStartDate())) {
                 permissionDetails.put("termClassStartDateLater", "true");
             }
         }
@@ -121,10 +120,8 @@ public class ToolbarUtil {
 
         permissionDetails.put("socState", socState);
 
-        permissionDetails.put("termClassStartDateLater", "true");
-
         //Check if the user can add based on classes start date
-        if (form.getTermInfo().getStartDate() != null) {
+        if (form.getTermInfo().getStartDate()!=null && form.getTermInfo().getStartDate() != null) {
             Date now = new Date();
             if (now.before(form.getTermInfo().getStartDate())) {
                 permissionDetails.put("termClassStartDateLater", "true");
