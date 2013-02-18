@@ -16,7 +16,9 @@
  */
 package org.kuali.student.r2.core.room.service.impl;
 
+import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -61,29 +63,7 @@ public class RoomServiceImpl implements RoomService {
     @Resource
     private RoomResponsibleOrgDao roomResponsibleOrgDao;
 
-    public RoomServiceDao getRoomServiceDao() {
-        return roomServiceDao;
-    }
-
-    public BuildingServiceDao getBuildingServiceDao() {
-        return buildingServiceDao;
-    }
-
-    public RoomResponsibleOrgDao getRoomResponsibleOrgDao() {
-        return roomResponsibleOrgDao;
-    }
-
-    public void setRoomServiceDao(RoomServiceDao roomServiceDao) {
-        this.roomServiceDao = roomServiceDao;
-    }
-
-    public void setBuildingServiceDao(BuildingServiceDao buildingServiceDao) {
-        this.buildingServiceDao = buildingServiceDao;
-    }
-
-    public void setRoomResponsibleOrgDao(RoomResponsibleOrgDao roomResponsibleOrgDao) {
-        this.roomResponsibleOrgDao = roomResponsibleOrgDao;
-    }
+    private CriteriaLookupService criteriaLookupService;
 
     /**
      * Retrieves a Room
@@ -674,7 +654,14 @@ public class RoomServiceImpl implements RoomService {
     @Override
     @Transactional(readOnly = true)
     public List<BuildingInfo> searchForBuildings(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        List<BuildingInfo> buildingInfos = new ArrayList<BuildingInfo>();
+        GenericQueryResults<RoomBuildingEntity> results = criteriaLookupService.lookup(RoomBuildingEntity.class, criteria);
+        if (null != results && results.getResults().size() > 0) {
+            for (RoomBuildingEntity building : results.getResults()) {
+                buildingInfos.add(building.toDto());
+            }
+        }
+        return buildingInfos;
     }
 
     /**
@@ -1341,4 +1328,39 @@ public class RoomServiceImpl implements RoomService {
 
         return result;
     }
+
+
+    public CriteriaLookupService getCriteriaLookupService() {
+        return criteriaLookupService;
+    }
+
+    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
+        this.criteriaLookupService = criteriaLookupService;
+    }
+
+    public RoomServiceDao getRoomServiceDao() {
+        return roomServiceDao;
+    }
+
+    public BuildingServiceDao getBuildingServiceDao() {
+        return buildingServiceDao;
+    }
+
+    public RoomResponsibleOrgDao getRoomResponsibleOrgDao() {
+        return roomResponsibleOrgDao;
+    }
+
+    public void setRoomServiceDao(RoomServiceDao roomServiceDao) {
+        this.roomServiceDao = roomServiceDao;
+    }
+
+    public void setBuildingServiceDao(BuildingServiceDao buildingServiceDao) {
+        this.buildingServiceDao = buildingServiceDao;
+    }
+
+    public void setRoomResponsibleOrgDao(RoomResponsibleOrgDao roomResponsibleOrgDao) {
+        this.roomResponsibleOrgDao = roomResponsibleOrgDao;
+    }
+
+
 }
