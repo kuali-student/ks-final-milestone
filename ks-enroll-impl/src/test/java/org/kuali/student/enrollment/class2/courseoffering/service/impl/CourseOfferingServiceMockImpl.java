@@ -866,6 +866,15 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             }
         }
 
+        // Remove the AO from the AOC
+        for (ActivityOfferingClusterInfo cluster: this.activityOfferingClusterMap.values()) {
+            for (ActivityOfferingSetInfo set: cluster.getActivityOfferingSets()) {
+                if (set.getActivityOfferingIds().contains(activityOfferingId)) {
+                    set.getActivityOfferingIds().remove(activityOfferingId);
+                }
+            }
+        }
+
         // delete activity offering
         try {
             return deleteActivityOffering(activityOfferingId, context);
