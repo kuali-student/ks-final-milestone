@@ -3199,6 +3199,10 @@
         ID="923e6ae2-9fa5-4790-ace4-023de02e3a35"
         OBJ_ID="ddb84aa9-2271-4581-97a3-8c7c36735eb4" VER_NBR="0"/>
     <KSLU_CLU_JN_CAMP_LOC CAMP_LOC="NO"
+        CLU_ID="c52d6daa-6ce2-4237-874b-1286a7640057"
+        ID="9264b8fc-5d8f-42f2-9a90-09d4fcff059e"
+        OBJ_ID="99b98e0c-652f-4417-8bc4-cdcc1baf1f0e" VER_NBR="0"/>
+    <KSLU_CLU_JN_CAMP_LOC CAMP_LOC="NO"
         CLU_ID="CLUID-BSCI288-199908000000"
         ID="929254b8-d095-47de-8328-1413e1ec07ed"
         OBJ_ID="a6c027a3-7cca-46ec-b1df-2696a7a9a523" VER_NBR="0"/>
@@ -4106,6 +4110,10 @@
         CLU_ID="d88711f2-ab72-446c-ba2f-cd5b2349a824"
         ID="bc813b08-b096-448e-b4e7-d64a516b53a7"
         OBJ_ID="5fca811a-325f-4c7e-a2c7-176946282560" VER_NBR="0"/>
+    <KSLU_CLU_JN_CAMP_LOC CAMP_LOC="NO"
+        CLU_ID="73a7f904-9e76-44cf-9c96-02a023230405"
+        ID="bc8b4be7-2f1e-4c06-96c6-521a5312d17e"
+        OBJ_ID="9cd1a05f-21a8-4a87-a5e9-bc1d902dbcd5" VER_NBR="0"/>
     <KSLU_CLU_JN_CAMP_LOC CAMP_LOC="NO"
         CLU_ID="CLUID-PHYS839-198001000000"
         ID="bcb06c43-a346-4a34-9911-9a528423dd46"

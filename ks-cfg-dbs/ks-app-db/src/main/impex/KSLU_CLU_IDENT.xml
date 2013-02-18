@@ -2611,6 +2611,12 @@
         OBJ_ID="4b87da83-98a1-4005-96fe-9c2496f37415"
         SHRT_NAME="RDGS AM SOCIAL HIS" ST="Active" SUFX_CD="668"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+    <KSLU_CLU_IDENT CD="CHEM398" DIVISION="CHEM"
+        ID="322cbc1f-173d-4d8a-93b3-1dc7e4ebdb98"
+        LNG_NAME="Special Projects" LVL="300"
+        OBJ_ID="3c5f4ca9-1fa0-4a33-a758-2d56ff12d889"
+        SHRT_NAME="SPECIAL PROJECTS" ST="Draft" SUFX_CD="398"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="WMST709" DIVISION="WMST"
         ID="32305ba2-3f3a-4ca3-a626-448fbe67141f"
         LNG_NAME="Directed Independent Reading for Major Field Exam"
@@ -10149,6 +10155,12 @@
         OBJ_ID="ebbac3d8-43e1-455b-bafe-7d25365745e3"
         SHRT_NAME="Jewish Studies" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="ENGL200" DIVISION="ENGL"
+        ID="c4e45b89-a3aa-49a2-919d-505c2a7938cb"
+        LNG_NAME="Writing for Teachers" LVL="200"
+        OBJ_ID="d1ef25d4-1c6e-4f85-8230-62a1237e5754"
+        SHRT_NAME="Writing for Teachers" ST="draft" SUFX_CD="200"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="1307D" ID="c4ee31c9-5d3c-4bf5-aced-d26e546cf82d"
         OBJ_ID="b3a04cf5-e562-4279-8643-ee5c22459776"
         SHRT_NAME="Nutrition and Food Science: Dietetics" ST="Active"
@@ -10870,6 +10882,12 @@
         OBJ_ID="7c425f8c-4bc7-4f92-ac77-4b98b265c620"
         SHRT_NAME="Real Estate Development" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="BSCI433" DIVISION="BSCI"
+        ID="d3233f27-aebf-4201-8a46-8b804a3aff06"
+        LNG_NAME="Biology of Cancer" LVL="400"
+        OBJ_ID="840bd17c-5a2b-41c4-b8ff-c1df42419afe"
+        SHRT_NAME="BIOLOGY OF CANCER" ST="Draft" SUFX_CD="433"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="HIST461" DIVISION="HIST"
         ID="d32f4f4d-3bdc-487b-9f13-08fb7b0dfd98"
         LNG_NAME="Blacks in American Life: 1865 to Present" LVL="400"
@@ -11932,6 +11950,12 @@
         OBJ_ID="46f4cec1-b488-486a-9916-2fa39d863b1b"
         SHRT_NAME="American Studies" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="BSCI101" DIVISION="BSCI"
+        ID="ec6b3961-4969-4994-8545-76f1d796ca4a"
+        LNG_NAME="Intro to Biology" LVL="100"
+        OBJ_ID="3bdab3cb-a0d6-4bbd-9be1-36311a95d7d5"
+        SHRT_NAME="Intro to Biology" ST="draft" SUFX_CD="101"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="ENGL629" DIVISION="ENGL"
         ID="ec9bffdd-a8de-4341-8e04-66574aeb87b2"
         LNG_NAME="Readings in Folklore and Folklife" LVL="600"
