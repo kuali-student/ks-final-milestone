@@ -84,8 +84,8 @@ public class ActivityOfferingClusterInfo
         if (template.getActivityOfferingSets() != null) {
             // Note: getActivityOfferingSets() always returns a non-null object (see impl below)
             this.activityOfferingSets = new ArrayList<ActivityOfferingSetInfo>(template.getActivityOfferingSets().size());
-            for (ActivityOfferingSet aotemplate : template.getActivityOfferingSets()) {
-                this.activityOfferingSets.add(new ActivityOfferingSetInfo(aotemplate));
+            for (ActivityOfferingSet aoTemplateSet : template.getActivityOfferingSets()) {
+                this.activityOfferingSets.add(new ActivityOfferingSetInfo(aoTemplateSet));
             }
         }
     }
