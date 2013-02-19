@@ -54,6 +54,18 @@ public class AutogenRegistrationGroupAppLayerImpl implements AutogenRegistration
     @Resource (name="CourseOfferingService")
     private CourseOfferingService coService;
     
+    
+    /* (non-Javadoc)
+     * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegistrationGroupAppLayer#getDefaultClusterName(int)
+     */
+    @Override
+    public String getDefaultClusterName(int numberOfExistingClusters) {
+        
+        String clusterName = String.format("CL %d", (numberOfExistingClusters+1));
+        
+        return clusterName;
+    }
+
     @Override
     public ActivityOfferingClusterInfo createDefaultCluster(String foId, ContextInfo context)
             throws PermissionDeniedException,
@@ -78,8 +90,11 @@ public class AutogenRegistrationGroupAppLayerImpl implements AutogenRegistration
         // Now we're good...create the AOC
         ActivityOfferingClusterInfo clusterInfo = new ActivityOfferingClusterInfo();
         clusterInfo.setFormatOfferingId(foId);
-        clusterInfo.setPrivateName("Default");
-        clusterInfo.setName("Default");
+        
+        String defaultClusterName = getDefaultClusterName(0);
+        
+        clusterInfo.setPrivateName(defaultClusterName);
+        clusterInfo.setName(defaultClusterName);
         clusterInfo.setStateKey(CourseOfferingServiceConstants.AOC_ACTIVE_STATE_KEY);
         clusterInfo.setTypeKey(CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY);
         ActivityOfferingClusterInfo aoc =

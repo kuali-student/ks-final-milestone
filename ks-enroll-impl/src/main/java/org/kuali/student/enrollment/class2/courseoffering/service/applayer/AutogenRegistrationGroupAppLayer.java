@@ -27,6 +27,17 @@ import java.util.Map;
  *    RG: registration group
  */
 public interface AutogenRegistrationGroupAppLayer {
+    
+    /**
+     * Useful for when a cluster is created to create the naming.
+     * 
+     * e.g. CL 1, CL 2, CL 3, ...
+     * 
+     * @param numberOfExistingClusters used to determine the next name as CL (numberOfExistingClusters+1)
+     * @return the default cluster name for the next cluster.
+     */
+    public String getDefaultClusterName (int numberOfExistingClusters);
+    
     /**
      * If a Course Offering is brand-new with no AOs, then call this method to create the first default
      * AOC to be used.
