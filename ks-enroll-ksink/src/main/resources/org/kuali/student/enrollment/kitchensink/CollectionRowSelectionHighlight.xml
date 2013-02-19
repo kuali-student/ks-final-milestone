@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2005-2012 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- The Interesting Bits -->
+
+    <bean id="KS-KitchenSink-CollectionRowSelectionHighlight-View-Base" parent="KS-KitchenSink-FormView">
+        <!-- required css and js files -->
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <value>ks-krad/css/ks-krad-collection-rowSelectionHighlight.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-krad/scripts/ks-krad-collection-rowSelectionHighlight.js</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-CollectionRowSelectionHighlight" parent="KS-KitchenSink-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <!-- this is the Uif-TableCollectionSection -->
+                <ref bean="KS-KitchenSink-CollectionRowSelectionHighlight-Collection"/>
+
+                <!-- the action button to process the form REQUIRES preSubmitCall property as shown -->
+                <bean parent="Uif-PrimaryActionButton-Small">
+                    <!-- method saveFormRowSelection() defined in KitchenSinkController.java: -->
+                    <property name="methodToCall" value="processFormRowSelection"/>
+                    <!--
+                        Property "preSubmitCall" is required with the exact value shown.  The
+                        function ks_krad_collection_setSelectedRows() is defined in the file
+                        ks-krad-collection-rowSelectionHighlight.js
+                    -->
+                    <property name="preSubmitCall" value="return ks_krad_collection_setSelectedRows();"/>
+                    <property name="actionLabel" value="Process"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-CollectionRowSelectionHighlight-Collection"
+          parent="KS-KitchenSink-Collection-Base-ReadOnly">
+        <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
+        
+        <!-- The following 3 properties are REQUIRED; "selected" is a boolean in the collection -->
+        <property name="includeLineSelectionField" value="true"/>
+        <property name="lineSelectPropertyName" value="selected"/>
+        <property name="onDocumentReadyScript" value="ks_krad_collection_rowSelectionPrep()"/>
+
+        <!--
+            Class "ks-krad-collection-rowSelectionHighlight" triggers javascript highlight selection.
+            Adding class "ks-krad-collection-allowOneRow" allows only one row to be selected.
+        -->
+        <property name="layoutManager">
+            <bean parent="Uif-TableCollectionLayout">
+                <property name="cssClasses">
+                    <!--
+                        Spring has a nested property merge problem, otherwise property
+                        "layoutManager.cssClasses" could be accessed directly
+                    -->
+                    <list merge="true">
+                        <value>ks-krad-collection-rowSelectionHighlight</value>
+                        <!-- <value>ks-krad-collection-allowOneRow</value> -->
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+
+
+    <!-- just the various containers for the interesting bits -->
+
+    <bean id="KS-KitchenSink-CollectionRowSelectionHighlight-View"
+          parent="KS-KitchenSink-CollectionRowSelectionHighlight-View-Base">
+        <property name="headerText" value="Collections"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:headerText="Collection Row Selection Highlighting">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-KitchenSink-Page-Summary"
+                                  p:messageText="Lists of data objects."/>
+                            <ref bean="KS-KitchenSink-CollectionRowSelectionHighlight-Content"/>
+                            <ref bean="KS-KitchenSink-CollectionRowSelectionHighlight-Links"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="KS-KitchenSink-CollectionRowSelectionHighlight-Content" parent="KS-KitchenSink-TabSection" p:width="98%">-->
+    <bean id="KS-KitchenSink-CollectionRowSelectionHighlight-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents"
+          p:width="98%">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-CollectionRowSelectionHighlight-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText">
+                                    <value>
+                                        This example shows how to do row highlighting, selection and processing
+                                        when at least one row is clicked and the form is submitted.
+                                    </value>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-CollectionRowSelectionHighlight-View-Bare"
+          parent="KS-KitchenSink-CollectionRowSelectionHighlight-View-Base">
+        <property name="breadcrumbs.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:header.render="false">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-CollectionRowSelectionHighlight-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-CollectionRowSelectionHighlight-Section" parent="KS-KitchenSink-VerticalBoxSection"
+          p:headerText="Collection Row Selection Highlighting" p:header.render="false" p:width="98%">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-CollectionRowSelectionHighlight"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Links -->
+
+    <bean id="KS-KitchenSink-CollectionRowSelectionHighlight-Links" parent="KS-KitchenSink-Page-Links">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-FooterLinkSection">
+                    <property name="footerLinkGroups">
+                        <list>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionRowSelection.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionRowSelection.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="UifGroupDefinitions.xml (Uif-TableCollectionSection)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJava">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="CollectionGroup.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/CollectionGroup.java"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJavaApi">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="CollectionGroup.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradGuide">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Collection Groups"
+                                               value="http://site.kuali.org/rice/2.2.0/reference/html/KRAD_Guide.html#d6766e7731"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-UIM">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Collection Row Selection Highlighting"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionRowSelectionHighlight-View-Bare&amp;methodToCall=collection"/>
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>
