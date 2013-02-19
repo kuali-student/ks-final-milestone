@@ -441,6 +441,7 @@ public class TestProgramServiceImpl {
         List<ProgramVariationInfo> pvInfos = programService.getVariationsByMajorDisciplineId("d4ea77dd-b492-4554-b104-863e42c5f8b7", contextInfo);
         assertNotNull(pvInfos);
         assertEquals(pvInfos.size(), majorDisciplineInfo.getVariations().size());
+        assertEquals(2, pvInfos.size());
 
         ProgramVariationInfo pvInfo = pvInfos.get(0);
         assertEquals("ZOOA", pvInfo.getCode());
@@ -1326,7 +1327,7 @@ public class TestProgramServiceImpl {
         assertNotNull(target.getCampusLocations());
         for(String loc : target.getCampusLocations()){
             // not sure what "EX" is but that's what's in the ks-lu.sqlout
-            assertTrue(CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH.equals(loc) || loc.equals("EX"));
+            assertTrue(CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH.equals(loc) || CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH.equals(loc));
         }
 
         assertNotNull(target.getDivisionsContentOwner());
@@ -1360,6 +1361,9 @@ public class TestProgramServiceImpl {
         pvInfoT.setCip2010Code(pvInfoT.getCip2010Code() + "-created");
         pvInfoT.setTranscriptTitle(pvInfoT.getTranscriptTitle() + "-created");
         pvInfoT.setDiplomaTitle(pvInfoT.getDiplomaTitle() + "-created");
+        // this is needed to pass the verifyUpdatedPVinList method - replace EX with SO
+        pvInfoT.getCampusLocations().set(pvInfoT.getCampusLocations().lastIndexOf("EX"),
+                            CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH);
 
         // Perform the update: adding the new variation
         pvInfos.add(pvInfoT);
@@ -1392,6 +1396,7 @@ public class TestProgramServiceImpl {
 
         List<ProgramVariationInfo> pvInfos = majorDisciplineInfo.getVariations();
         assertNotNull(pvInfos);
+        assertEquals(2, pvInfos.size());
 
         //Perform the update: remove a variation
         String var1 = pvInfos.get(1).getId();
@@ -1399,11 +1404,11 @@ public class TestProgramServiceImpl {
         MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo.getId(), majorDisciplineInfo, contextInfo);
         List<ProgramVariationInfo> updatedPvInfos = updatedMD.getVariations();
         assertNotNull(updatedPvInfos);
-        assertEquals(2, updatedPvInfos.size());
+        assertEquals(1, updatedPvInfos.size());
 
         // Now explicitly get it
         MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(majorDisciplineInfo.getId(), contextInfo);
-        assertEquals(2, retrievedMD.getVariations().size());
+        assertEquals(1, retrievedMD.getVariations().size());
 
         List<ProgramVariationInfo> retrievedPVs = programService.getVariationsByMajorDisciplineId(majorDisciplineInfo.getId(), contextInfo);
         assertNotNull(retrievedPVs);
