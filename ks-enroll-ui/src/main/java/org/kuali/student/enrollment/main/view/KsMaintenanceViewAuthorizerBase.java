@@ -159,16 +159,20 @@ public class KsMaintenanceViewAuthorizerBase extends MaintenanceViewAuthorizerBa
                 }
             }
             // SOC State
-            String socState = theForm.getSocInfo().getStateKey();
-            socState = socState==null?null:socState.substring(socState.lastIndexOf('.')+1);
-            permissionDetails.put("socState", socState);
+            if (theForm.getSocInfo() != null) {
+                String socState = theForm.getSocInfo().getStateKey();
+                socState = socState==null?null:socState.substring(socState.lastIndexOf('.')+1);
+                permissionDetails.put("socState", socState);
+            }
         }
         if (dataObjectForContext instanceof CourseOfferingEditWrapper) {
             CourseOfferingEditWrapper theForm = (CourseOfferingEditWrapper) dataObjectForContext;
             // SOC State
-            String socState = theForm.getSocInfo().getStateKey();
-            socState = socState==null?null:socState.substring(socState.lastIndexOf('.')+1);
-            permissionDetails.put("socState", socState);
+            if (theForm.getSocInfo() != null) {
+                String socState = theForm.getSocInfo().getStateKey();
+                socState = socState==null?null:socState.substring(socState.lastIndexOf('.')+1);
+                permissionDetails.put("socState", socState);
+            }
         }
 
         boolean result = true;
