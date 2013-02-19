@@ -20,9 +20,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -1177,7 +1179,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
                     "No ActivityOfferingCluster for id = "
                             + activityOfferingClusterId);
 
-        return aoc;
+        return new ActivityOfferingClusterInfo(aoc);
 
     }
 
@@ -1230,8 +1232,27 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     private Map<String, ActivityOfferingClusterInfo> activityOfferingClusterMap = new LinkedHashMap<String, ActivityOfferingClusterInfo>();
 
+    private void _createAOSets(FormatOfferingInfo foInfo, ActivityOfferingClusterInfo clusterInfo) {
+        if (clusterInfo.getActivityOfferingSets() == null) {
+            // Shouldn't be necessary, but just in case.
+            clusterInfo.setActivityOfferingSets(new ArrayList<ActivityOfferingSetInfo>());
+        }
+        List<ActivityOfferingSetInfo> setInfos = clusterInfo.getActivityOfferingSets();
+        List<String> aoTypeKeys = foInfo.getActivityOfferingTypeKeys();
+        if (aoTypeKeys != null) {
+            for (String aoTypeKey: aoTypeKeys) {
+                // Create an AOSetInfo
+                ActivityOfferingSetInfo setInfo = new ActivityOfferingSetInfo();
+                setInfo.setActivityOfferingType(aoTypeKey);
+                setInfo.setActivityOfferingIds(new ArrayList<String>()); // leave it empty for now
+                // Add it to the list
+                setInfos.add(setInfo);
+            }
+        }
+    }
+
     @Override
-    public ActivityOfferingClusterInfo createActivityOfferingCluster(String activityOfferingClusterId,
+    public ActivityOfferingClusterInfo createActivityOfferingCluster(String formatOfferingId,
                                                                      String activityOfferingClusterTypeKey, ActivityOfferingClusterInfo activityOfferingClusterInfo,
                                                                      ContextInfo contextInfo)
             throws DataValidationErrorException,
@@ -1245,8 +1266,14 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         ActivityOfferingClusterInfo copy = new ActivityOfferingClusterInfo(
                 activityOfferingClusterInfo);
 
-        if (copy.getId() == null)
+        if (copy.getActivityOfferingSets().isEmpty()) {
+            FormatOfferingInfo foInfo = getFormatOffering(formatOfferingId, contextInfo);
+            _createAOSets(foInfo, copy);
+        }
+
+        if (copy.getId() == null) {
             copy.setId(UUIDHelper.genStringUUID());
+        }
 
         copy.setMeta(newMeta(contextInfo));
 
@@ -1309,14 +1336,36 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
                     "The id parameter does not match the id on the info object");
         }
         ActivityOfferingClusterInfo copy = new ActivityOfferingClusterInfo(activityOfferingClusterInfo);
-        CourseOfferingInfo old = this.getCourseOffering(
+        ActivityOfferingClusterInfo old = this.getActivityOfferingCluster(
                 activityOfferingClusterId, contextInfo);
+        // Figure out IDs that appear in old, but not in copy.
+        Set<String> oldIds = new HashSet<String>(); // First the old Ids
+        for (ActivityOfferingSetInfo set: old.getActivityOfferingSets()) {
+            oldIds.addAll(set.getActivityOfferingIds());
+        }
+        Set<String> copyIds = new HashSet<String>(); // First the old Ids
+        for (ActivityOfferingSetInfo set: copy.getActivityOfferingSets()) {
+            copyIds.addAll(set.getActivityOfferingIds());
+        }
+        oldIds.removeAll(copyIds);
+        for (String aoId: oldIds) {
+            // Find any RGs that contain these aoIds
+            for (Map.Entry<String, RegistrationGroupInfo> entry: this.registrationGroupMap.entrySet()) {
+                if (entry.getValue().getFormatOfferingId().equals(formatOfferingId) &&
+                        entry.getValue().getActivityOfferingIds().contains(aoId)) {
+                    // Delete RG with this ao id
+                    this.registrationGroupMap.remove(entry.getKey());
+                }
+            }
+        }
+
         if (!old.getMeta().getVersionInd()
                 .equals(copy.getMeta().getVersionInd())) {
             throw new VersionMismatchException(old.getMeta().getVersionInd());
         }
         copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
         this.activityOfferingClusterMap.put(activityOfferingClusterInfo.getId(), copy);
+
         return new ActivityOfferingClusterInfo(copy);
 
     }
