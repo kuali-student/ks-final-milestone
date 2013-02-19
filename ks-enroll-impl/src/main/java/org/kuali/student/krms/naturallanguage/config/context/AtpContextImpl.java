@@ -16,6 +16,7 @@
 package org.kuali.student.krms.naturallanguage.config.context;
 
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
+import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
@@ -75,14 +76,19 @@ public class AtpContextImpl extends BasicContextImpl {
      * @param contextInfo
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(TermDefinition term, ContextInfo contextInfo) throws OperationFailedException {
-        String durationTypeKey = getTermParameterValue(term, ReqComponentFieldTypes.DURATION_TYPE_KEY.getId());
-        String duration = getTermParameterValue(term, ReqComponentFieldTypes.DURATION_KEY.getId());
-        TypeInfo atpDurationType = getAtpDurationType(durationTypeKey);
-
+    public Map<String, Object> createContextMap(TermDefinitionContract term, ContextInfo contextInfo) throws OperationFailedException {
         Map<String, Object> contextMap = super.createContextMap(term, contextInfo);
-        contextMap.put(DURATION_TYPE_TOKEN, atpDurationType);
-        contextMap.put(DURATION_TOKEN, duration);
+
+        String durationTypeKey = getTermParameterValue(term, ReqComponentFieldTypes.DURATION_TYPE_KEY.getId());
+        TypeInfo atpDurationType = getAtpDurationType(durationTypeKey);
+        if( atpDurationType != null){
+            contextMap.put(DURATION_TYPE_TOKEN, atpDurationType);
+        }
+        String duration = getTermParameterValue(term, ReqComponentFieldTypes.DURATION_KEY.getId());
+        if( duration != null){
+            contextMap.put(DURATION_TOKEN, duration);
+        }
+
         return contextMap;
     }
 }
