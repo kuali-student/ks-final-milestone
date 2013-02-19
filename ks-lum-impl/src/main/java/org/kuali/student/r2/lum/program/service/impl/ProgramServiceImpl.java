@@ -644,7 +644,7 @@ public class ProgramServiceImpl implements ProgramService{
             if ( ! ProgramAssemblerConstants.CREDENTIAL_PROGRAM_TYPES.contains(clu.getTypeKey()) ) {
                 throw new DoesNotExistException("Specified CLU is not a Credential Program");
             }
-            ;
+
             credentialProgramInfo = credentialProgramAssembler.assemble(clu, null, false,contextInfo);
         } catch (AssemblyException e) {
             LOG.error("Error assembling CredentialProgram", e);

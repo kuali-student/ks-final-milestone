@@ -68,9 +68,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:program-test-context.xml"})
+@TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 public class TestProgramServiceImpl {
 
     ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
@@ -470,6 +473,7 @@ public class TestProgramServiceImpl {
     }
 
     @Test
+    @Transactional
     public void testCreateMajorDiscipline() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		MajorDisciplineDataGenerator mdGenerator = new MajorDisciplineDataGenerator();
         MajorDisciplineInfo major;
@@ -640,6 +644,7 @@ public class TestProgramServiceImpl {
 	}
 
     @Test
+    @Transactional
     public void testMajorDisciplineVersioning() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, IllegalVersionSequencingException, ReadOnlyException {
 		MajorDisciplineDataGenerator mdGenerator = new MajorDisciplineDataGenerator();
         MajorDisciplineInfo mdInfo = mdGenerator.getMajorDisciplineInfoTestData();
@@ -667,6 +672,7 @@ public class TestProgramServiceImpl {
     }
 
     @Test
+    @Transactional
     public void testCreateMajorDisciplineDeleteRule() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException {
 		MajorDisciplineDataGenerator mdGenerator = new MajorDisciplineDataGenerator();
         MajorDisciplineInfo major;
@@ -679,11 +685,13 @@ public class TestProgramServiceImpl {
     }
 
     @Test(expected = MissingParameterException.class)
+    @Transactional
     public void testCreateProgramRequirement_null() throws Exception {
     	programService.createProgramRequirement(null, null, contextInfo);
     }
 
     @Test
+    @Transactional
     public void testCreateProgramRequirement() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
     	ProgramRequirementInfo progReq = createProgramRequirementTestData();
     	ProgramRequirementInfo createdProgReq = programService.createProgramRequirement(null, progReq, contextInfo);
@@ -958,6 +966,7 @@ public class TestProgramServiceImpl {
 	}
 
 	@Test(expected=DoesNotExistException.class)
+    @Transactional
 	public void testUpdateProgramRequirement() throws Exception {
 		ProgramRequirementInfo progReq = programService.createProgramRequirement(null, createProgramRequirementTestData(), contextInfo);
         StatementTreeViewInfo treeView = R1R2ConverterUtil.convert(progReq.getStatement(), StatementTreeViewInfo.class);
@@ -987,6 +996,7 @@ public class TestProgramServiceImpl {
 
     @Test
     @Ignore // FIXME (kscm-711)
+    @Transactional
     public void testDeleteMajorDiscipline() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
         	MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
         	MajorDisciplineInfo majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();
@@ -1020,6 +1030,7 @@ public class TestProgramServiceImpl {
     }
 
     @Test
+    @Transactional
     public void testUpdateMajorDiscipline() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException {
         	MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
         	MajorDisciplineInfo majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();
@@ -1084,6 +1095,7 @@ public class TestProgramServiceImpl {
     }
 
     @Test
+    @Transactional
     public void testUpdateMajorDisciplineRemoveRule() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
             MajorDisciplineInfo major = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7", contextInfo);
 
@@ -1138,6 +1150,7 @@ public class TestProgramServiceImpl {
     }
 
     @Test
+    @Transactional
     public void testCreateBaccCredentialProgram() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	CredentialProgramDataGenerator generator = new CredentialProgramDataGenerator(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM);
     	CredentialProgramInfo credentialProgramInfo = null;
@@ -1152,6 +1165,7 @@ public class TestProgramServiceImpl {
 	}
 
     @Test
+    @Transactional
     public void testDeleteBaccCredentialProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         	String credentialProgramId = "d02dbbd3-20e2-410d-ab52-1bd6d362748b";
             CredentialProgramInfo retrievedCP = programService.getCredentialProgram(credentialProgramId, contextInfo);
@@ -1167,6 +1181,7 @@ public class TestProgramServiceImpl {
     }
 
     @Test
+    @Transactional
     public void testUpdateBaccCredentialProgram() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException {
         	String credentialProgramId = "d02dbbd3-20e2-410d-ab52-1bd6d362748b";
             CredentialProgramInfo credentialProgramInfo = programService.getCredentialProgram(credentialProgramId, contextInfo);
@@ -1215,6 +1230,7 @@ public class TestProgramServiceImpl {
     }
 
     @Test
+    @Transactional
     public void testCreateCoreProgram() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
     	CoreProgramDataGenerator generator = new CoreProgramDataGenerator();
     	CoreProgramInfo coreProgramInfo = null;
@@ -1226,6 +1242,7 @@ public class TestProgramServiceImpl {
 	}
 
     @Test
+    @Transactional
     public void testUpdateVariationsByMajorDiscipline() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException{
         MajorDisciplineInfo majorDisciplineInfo = null;
 
@@ -1318,6 +1335,7 @@ public class TestProgramServiceImpl {
     }
 
     @Test
+    @Transactional
     public void testCreateVariationsByMajorDiscipline() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DataValidationErrorException, VersionMismatchException, PermissionDeniedException{
         MajorDisciplineInfo majorDisciplineInfo = null;
 
@@ -1364,6 +1382,7 @@ public class TestProgramServiceImpl {
     }
 
     @Test
+    @Transactional
     public void testDeleteVariationsByMajorDiscipline() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException{
         MajorDisciplineInfo majorDisciplineInfo = null;
 
@@ -1395,6 +1414,7 @@ public class TestProgramServiceImpl {
     }
 
     @Test(expected=DoesNotExistException.class)
+    @Transactional
     public void testDeleteProgramRequirement() throws Exception {
     	ProgramRequirementInfo progReq = createProgramRequirementTestData();
     	ProgramRequirementInfo createdProgReq = programService.createProgramRequirement(null, progReq,  contextInfo);
@@ -1403,6 +1423,7 @@ public class TestProgramServiceImpl {
     }
 
     @Test
+    @Transactional
     public void testUpdateCoreProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException {
     	    CoreProgramInfo core = programService.getCoreProgram("00f5f8c5-fff1-4c8b-92fc-789b891e0849", contextInfo);
 
@@ -1448,6 +1469,7 @@ public class TestProgramServiceImpl {
     }
 
     @Test
+    @Transactional
     public void testDeleteCoreProgram() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, DoesNotExistException {
         	CoreProgramDataGenerator generator = new CoreProgramDataGenerator();
         	CoreProgramInfo coreProgramInfo = generator.getCoreProgramTestData();
@@ -1475,6 +1497,7 @@ public class TestProgramServiceImpl {
     }
 
     @Test
+    @Transactional
     public void testCreditsProgramRequirement() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
     	ProgramRequirementInfo progReq = createProgramRequirementTestData();
     	progReq.setMinCredits(3);
@@ -1600,6 +1623,7 @@ public class TestProgramServiceImpl {
     }
     
     @Test
+    @Transactional
     public void testCoreProgramVersioning() throws Exception {
         CoreProgramDataGenerator dataGen = new CoreProgramDataGenerator();
         CoreProgramInfo coreData = dataGen.getCoreProgramTestData();
