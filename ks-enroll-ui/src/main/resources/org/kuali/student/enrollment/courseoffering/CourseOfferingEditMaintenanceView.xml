@@ -401,7 +401,8 @@
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.finalExamType" p:label="Final Exams" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                            <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.finalExamType" p:id="finalExamType" p:label="Final Exams"
+                                  p:fieldLabel.renderColon="false" p:labelPlacement="TOP" p:componentSecurity.editAuthz="true">
                                 <property name="control">
                                     <bean parent="Uif-VerticalRadioControl"/>
                                 </property>
