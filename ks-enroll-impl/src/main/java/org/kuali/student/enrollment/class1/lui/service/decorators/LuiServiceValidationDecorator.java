@@ -18,6 +18,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
@@ -137,7 +138,7 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
     @Override
     public List<ValidationResultInfo> validateLui(String validationTypeKey, String cluId, String atpId, String luiTypeKey, LuiInfo luiInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(luiTypeKey, getTypeService(), contextInfo);
+        List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(luiTypeKey, LuiServiceConstants.REF_OBJECT_URI_LUI, getTypeService(), contextInfo);
         errors.addAll(getNextDecorator().validateLui(validationTypeKey,cluId,atpId,luiTypeKey,luiInfo, contextInfo));
         errors.addAll(ValidationUtils.validateInfo(validator, validationTypeKey, luiInfo, contextInfo));
 
@@ -148,7 +149,7 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
     public List<ValidationResultInfo> validateLuiSet(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "luiSetTypeKey") String luiSetTypeKey,
                                                      @WebParam(name = "LuiSetInfo") LuiSetInfo LuiSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(luiSetTypeKey, getTypeService(), contextInfo);
+        List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(luiSetTypeKey, LuiServiceConstants.REF_OBJECT_URI_LUI, getTypeService(), contextInfo);
         errors.addAll(getNextDecorator().validateLuiSet(validationTypeKey, luiSetTypeKey, LuiSetInfo, contextInfo));
         errors.addAll(ValidationUtils.validateInfo(validator, validationTypeKey, LuiSetInfo, contextInfo));
         
@@ -157,7 +158,7 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
 
     @Override
     public List<ValidationResultInfo> validateLuiCapacity(String validationTypeKey, String luiCapacityTypeKey, LuiCapacityInfo luiCapacityInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(luiCapacityTypeKey, getTypeService(), contextInfo);
+        List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(luiCapacityTypeKey, LuiServiceConstants.REF_OBJECT_URI_LUI, getTypeService(), contextInfo);
         errors.addAll(getNextDecorator().validateLuiCapacity(validationTypeKey,luiCapacityTypeKey,luiCapacityInfo, contextInfo));
         errors.addAll(ValidationUtils.validateInfo(validator, validationTypeKey, luiCapacityInfo, contextInfo));
         return errors;
@@ -165,7 +166,7 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
 
     @Override
     public List<ValidationResultInfo> validateLuiLuiRelation(String validationTypeKey, String luiId, String relatedLuiId, String luiLuiRelationTypeKey, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(luiLuiRelationTypeKey, getTypeService(), contextInfo);
+        List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(luiLuiRelationTypeKey, LuiServiceConstants.REF_OBJECT_URI_LUI_LUI_RELATION, getTypeService(), contextInfo);
         errors.addAll(getNextDecorator().validateLuiLuiRelation(validationTypeKey,luiId, relatedLuiId,luiLuiRelationTypeKey, luiLuiRelationInfo, contextInfo));
         errors.addAll(ValidationUtils.validateInfo(validator, validationTypeKey, luiLuiRelationInfo, contextInfo));
         return errors;

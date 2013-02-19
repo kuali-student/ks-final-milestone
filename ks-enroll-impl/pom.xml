@@ -42,7 +42,7 @@
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-common-impl</artifactId>
+            <artifactId>ks-core-impl</artifactId>
             <version>${ks.core.version}</version>
             <type>test-jar</type>
             <scope>test</scope>

@@ -72,7 +72,8 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <bean id="TypeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>
+    <!--<bean id="TypeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>-->
+    <bean id="TypeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
 
     <bean id="luiServiceImpl" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
         <property name="luiDao" ref="luiDao"/>

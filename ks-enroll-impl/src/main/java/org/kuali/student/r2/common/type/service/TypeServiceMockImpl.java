@@ -15,6 +15,7 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
+
 import javax.jws.WebParam;
 import java.util.*;
 
@@ -68,6 +69,7 @@ public class TypeServiceMockImpl implements TypeService, MockService {
 
     @Override
     public List<TypeInfo> getTypesByRefObjectUri(String refObjectUri,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
         throw new OperationFailedException("Method not implemented."); // TODO implement
     }
 

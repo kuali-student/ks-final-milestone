@@ -32,6 +32,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
@@ -55,7 +56,7 @@ public class LprServiceValidationDecorator extends LprServiceDecorator {
             , OperationFailedException
             , PermissionDeniedException {
 
-        List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(lprTypeKey, getTypeService(), contextInfo);
+        List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(lprInfo.getTypeKey(), LprServiceConstants.REF_OBJECT_URI_LUI_PERSON_RELATION, getTypeService(), contextInfo);
         errors.addAll( ValidationUtils.validateInfo(validator, DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), lprInfo, contextInfo));
         errors.addAll(getNextDecorator().validateLpr(validationType, luiId, personId, lprTypeKey, lprInfo, contextInfo));
 

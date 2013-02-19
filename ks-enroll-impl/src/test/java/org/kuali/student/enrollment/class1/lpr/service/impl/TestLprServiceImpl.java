@@ -26,6 +26,7 @@ import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -200,10 +201,11 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
 		lpr.setPersonId("person-4");
 		lpr.setCommitmentPercent("20.0");
 		lpr.setStateKey("kuali.courseoffering.");
-		lpr.setTypeKey("kuali.lpr.type.courseoffering.instructor.main");
+//		lpr.setTypeKey("kuali.lpr.type.courseoffering.instructor.main");
+        lpr.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
         lpr.setEffectiveDate(new Date());
 		LprInfo newLprInfo = lprService.createLpr("person-4", "lui-4",
-				"kuali.lpr.type.courseoffering.instructor.main", lpr,
+				lpr.getTypeKey(), lpr,
 				callContext);
 		assertNotNull(newLprInfo.getId());
 		assertEquals(lpr.getId(), newLprInfo.getId());
