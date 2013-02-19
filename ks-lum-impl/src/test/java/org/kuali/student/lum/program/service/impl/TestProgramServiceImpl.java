@@ -1325,7 +1325,8 @@ public class TestProgramServiceImpl {
 
         assertNotNull(target.getCampusLocations());
         for(String loc : target.getCampusLocations()){
-        	assertTrue(CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH.equals(loc) || CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH.equals(loc));
+            // not sure what "EX" is but that's what's in the ks-lu.sql
+        	assertTrue(CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH.equals(loc) || loc.equals("EX"));
         }
 
         assertNotNull(target.getDivisionsContentOwner());
