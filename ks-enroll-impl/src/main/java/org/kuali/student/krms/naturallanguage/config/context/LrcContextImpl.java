@@ -16,6 +16,7 @@
 package org.kuali.student.krms.naturallanguage.config.context;
 
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
+import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
@@ -92,21 +93,21 @@ public class LrcContextImpl extends BasicContextImpl {
      * @param term Requirement component
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(TermDefinition term, ContextInfo contextInfo) throws OperationFailedException {
-        Map<String, Object> contextMap = new HashMap<String, Object>();
+    public Map<String, Object> createContextMap(TermDefinitionContract term, ContextInfo contextInfo) throws OperationFailedException {
+        Map<String, Object> contextMap = super.createContextMap(term, contextInfo);
 
         String gradeId = getTermParameterValue(term, ReqComponentFieldTypes.GRADE_KEY.getId());
         if (gradeId == null) {
             gradeId = getTermParameterValue(term, ReqComponentFieldTypes.GRADE_TYPE_KEY.getId());
         }
-
         if (gradeId != null){
-        ResultValueInfo grade = getResultValue(gradeId, contextInfo);
+            ResultValueInfo grade = getResultValue(gradeId, contextInfo);
             if (grade != null) {
                 contextMap.put(GRADE_TOKEN, grade.getValue());
                 contextMap.put(GRADE_TYPE_TOKEN, getResultScale(grade.getResultScaleKey(),contextInfo));
             }
         }
+
         return contextMap;
     }
 }
