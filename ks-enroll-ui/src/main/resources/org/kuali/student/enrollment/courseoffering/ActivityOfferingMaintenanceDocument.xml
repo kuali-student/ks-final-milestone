@@ -61,7 +61,7 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />
         <property name="singlePageView" value="false"/>
 
-        <property name="breadCrumbConfigMap">
+        <!--<property name="breadCrumbConfigMap">
             <map>
                 <entry key="ActivityOfferingEdit-MainPage">
                     <map key-type="java.lang.String">
@@ -71,7 +71,7 @@
                     </map>
                 </entry>
             </map>
-        </property>
+        </property>-->
 
         <property name="additionalCssFiles">
             <list merge="true">
