@@ -44,9 +44,28 @@ public class CourseServiceR1MockImpl implements CourseService, MockService {
     @Override
     public CourseInfo createCourse(CourseInfo courseInfo, ContextInfo contextInfo)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        
         if (courseInfo.getId() == null) {
             courseInfo.setId(UUIDHelper.genStringUUID());
         }
+        
+       
+        for (FormatInfo format :  courseInfo.getFormats()) {
+            
+            if (format.getId() == null) {
+                format.setId(UUIDHelper.genStringUUID());
+            }
+            
+            format.getActivities();
+            
+            for (ActivityInfo activity : format.getActivities()) {
+                
+                if (activity.getId() == null) {
+                    activity.setId(UUIDHelper.genStringUUID());
+                }
+            }
+        }
+        
         VersionInfo version = new VersionInfo ();
         version.setCurrentVersionStart(new Date ());
         version.setCurrentVersionEnd(null);

@@ -17,7 +17,9 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -64,6 +66,7 @@ import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.infc.Activity;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
@@ -96,6 +99,7 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
     
     public static final String ENG101_LEC_ONLY_FORMAT_OFFERING_ID = "CO-2:LEC-ONLY";
     
+    public static final String FALL_2012_TERM_ID = "2012FA";
     
     @Resource
     protected AcademicCalendarService acalService;
@@ -130,6 +134,8 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
     public CourseOfferingServiceTestDataLoader() {
         super();
     }
+    
+    
 
 
     /* (non-Javadoc)
@@ -140,7 +146,6 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
 
         this.acalDataLoader = new AcalTestDataLoader(atpService);
 
-
         acalDataLoader.loadData();
 
         // this provides a way for users of the data loader to not to load the base data.
@@ -149,7 +154,7 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
             return;
         
         // load in custom dates for use in the courses
-        fall2012 = createTerm("2012FA", "Fall 2012", AtpServiceConstants.ATP_FALL_TYPE_KEY, new DateTime().withDate(2012, 9, 1).toDate(), new DateTime().withDate(2012, 12, 31).toDate(), context);
+        fall2012 = createTerm(FALL_2012_TERM_ID, "Fall 2012", AtpServiceConstants.ATP_FALL_TYPE_KEY, new DateTime().withDate(2012, 9, 1).toDate(), new DateTime().withDate(2012, 12, 31).toDate(), context);
 
         spring2012 = createTerm("2012SP", "Spring 2012", AtpServiceConstants.ATP_SPRING_TYPE_KEY, new DateTime().withDate(2012, 1, 1).toDate(), new DateTime().withDate(2012, 4, 30).toDate(), context);
 
@@ -185,7 +190,7 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
         }
 
         AtpInfo saved = atpService.createAtp(atpInfo.getTypeKey(), atpInfo, context);
-
+        
         TermInfo term = new TermInfo();
 
         term.setId(saved.getId());
@@ -427,6 +432,121 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
 
     }
 
+    public static interface CourseOfferingCreationDetails {
+
+        public void storeCourseId(String id);
+        
+        public void storeCourseOfferingId(String id);
+        
+        String getSubjectArea();
+
+        String getCourseCode();
+
+        String getCourseTitle();
+
+        String getCourseDescription();
+
+        /**
+         * Get the type keys for the format given.
+         * 
+         * @param format
+         * @return
+         */
+        List<String> getCanonicalActivityTypeKeys(int format);
+
+        String getFormatOfferingName(int format);
+
+        String[] getFormatOfferingActivityTypeKeys(int format);
+
+        String getActivityOfferingTypeKey(int format, String activityTypeKey);
+
+        String getActivityOfferingCode(int format, String activityTypeKey, int activity);
+
+        String getActivityOfferingName(int format, String activityTypeKey, int activity);
+
+        int getNumberOfFormats();
+
+        int getNumberOfActivityOfferings(int format, String activityType);
+
+        public int getActivityOfferingMaxEnrollment(int i, String typeKey, int j);
+
+    }
+    
+    public void createCourseOffering(TermInfo term, CourseOfferingCreationDetails details, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+
+        CourseInfo canonicalCourse = buildCanonicalCourse(null, term.getId(), details.getSubjectArea(), details.getCourseCode(), details.getCourseTitle(), details.getCourseDescription());
+        
+        int formats = details.getNumberOfFormats();
+        
+       for (int i = 0; i < formats; i++) {
+        
+            FormatInfo canonicalFormat = buildCanonicalFormat(null, canonicalCourse);
+
+            for (String canonicalActivityTypeKey : details.getCanonicalActivityTypeKeys(i)) {
+                
+               buildCanonicalActivity(canonicalActivityTypeKey, canonicalFormat);
+            
+            }
+        }
+        
+       canonicalCourse = courseService.createCourse(canonicalCourse, context);
+       
+       details.storeCourseId(canonicalCourse.getId());
+
+
+        // course offering
+        CourseOfferingInfo courseOffering = CourseOfferingServiceTestDataUtils.createCourseOffering(canonicalCourse, term.getId());
+
+        CourseOfferingInfo co = coService.createCourseOffering(canonicalCourse.getId(), term.getId(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, courseOffering, new ArrayList<String>(), context);
+
+        details.storeCourseOfferingId(co.getId());
+        
+        // create format offerings
+        for (int i = 0; i < formats; i++) {
+            
+            FormatInfo canonicalFormat = canonicalCourse.getFormats().get(i);
+            
+            String canonicalFormatId = canonicalCourse.getFormats().get(i).getId();
+            
+            FormatOfferingInfo formatOffering = CourseOfferingServiceTestDataUtils.createFormatOffering(co.getId(), canonicalFormatId, term.getId(), details.getFormatOfferingName (i), details.getFormatOfferingActivityTypeKeys(i));
+
+            FormatOfferingInfo fo = coService.createFormatOffering(co.getId(), canonicalFormatId, LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY, formatOffering, context);
+            
+            
+            // create activity offerings
+            for (ActivityInfo activity : canonicalFormat.getActivities()) {
+                
+                int numberOfEachActivityType = details.getNumberOfActivityOfferings(i, activity.getTypeKey());
+                
+                for (int j = 0; j < numberOfEachActivityType; j++) {
+                    
+                    List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
+
+                    instructors.add(CourseOfferingServiceTestDataUtils
+                            .createInstructor("p1", "Instructor", 100.00F));
+
+                    ActivityOfferingInfo ao = CourseOfferingServiceTestDataUtils
+                            .createActivityOffering(term.getId(),
+                                    co, fo.getId(),
+                                    null, activity.getId(), details
+                                            .getActivityOfferingName(i,
+                                                    activity.getTypeKey(), j), details
+                                            .getActivityOfferingCode(i,
+                                                    activity.getTypeKey(), j), details
+                                            .getActivityOfferingTypeKey(i,
+                                                    activity.getTypeKey()), instructors);
+                    
+                    int maxEnrollment = details.getActivityOfferingMaxEnrollment(i, activity.getTypeKey(), j);
+
+                    ao.setMaximumEnrollment(maxEnrollment);
+                    
+                    coService.createActivityOffering(fo.getId(), activity.getId(), details.getActivityOfferingTypeKey(i, activity.getTypeKey()), ao, context);
+
+                }
+            }
+            
+        }
+    }
 
     public void createLabActivityOfferingForCHEM123(String labCode, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 

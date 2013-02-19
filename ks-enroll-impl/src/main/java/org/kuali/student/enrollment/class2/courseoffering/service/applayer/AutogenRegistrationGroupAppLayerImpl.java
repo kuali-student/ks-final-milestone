@@ -45,7 +45,9 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 
 /**
- * This class //TODO ...
+ * Implementation of the Application Service Layer to provide the functionally specified functionality
+ * using several service calls.
+ * 
  *
  * @author Kuali Student Team
  */
