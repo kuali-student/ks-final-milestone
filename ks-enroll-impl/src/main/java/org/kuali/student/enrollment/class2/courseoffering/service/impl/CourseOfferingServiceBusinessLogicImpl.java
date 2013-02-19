@@ -361,6 +361,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         for (OfferingInstructorInfo instr : targetCo.getInstructors()) {
             instr.setId(null);
         }
+        for( CourseOfferingCrossListingInfo cross : targetCo.getCrossListings() ) {
+            cross.setId(null);
+        }
 //        for (RevenueInfo rev : targetCo.getRevenues()) {
 //            rev.setId(null);
 //        }
