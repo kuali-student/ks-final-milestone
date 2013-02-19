@@ -15,6 +15,7 @@
 
 package org.kuali.student.r2.core.scheduling.service.impl;
 
+import org.apache.ojb.broker.util.logging.LoggerFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,9 +44,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Log4jConfigurer;
 
 import javax.annotation.Resource;
 import javax.xml.namespace.QName;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -53,6 +56,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
 
 /**
  * This class contains a suite of unit tests for the KS implementation of the Scheduling Service

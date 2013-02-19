@@ -33,6 +33,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationCategoryInfo;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
@@ -73,7 +74,7 @@ public class PopulationServiceValidatorDecorator
         // validate
         List<ValidationResultInfo> errors = new ArrayList<ValidationResultInfo>();
         try {
-            errors.addAll(ValidationUtils.validateTypeKey(populationRuleInfo.getTypeKey(), getTypeService(), contextInfo));
+            errors.addAll(ValidationUtils.validateTypeKey(populationRuleInfo.getTypeKey(), PopulationServiceConstants.REF_OBJECT_URI_POPULATION_RULE, getTypeService(), contextInfo));
             errors.addAll( ValidationUtils.validateInfo(validator, validationTypeKey, populationRuleInfo, contextInfo));
             List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validatePopulationRule(validationTypeKey,
                     populationRuleInfo, contextInfo);
@@ -89,7 +90,7 @@ public class PopulationServiceValidatorDecorator
         // validate
         List<ValidationResultInfo> errors = new ArrayList<ValidationResultInfo>();
         try {
-            errors.addAll(ValidationUtils.validateTypeKey(populationInfo.getTypeKey(), getTypeService(), contextInfo));
+            errors.addAll(ValidationUtils.validateTypeKey(populationInfo.getTypeKey(), PopulationServiceConstants.REF_OBJECT_URI_POPULATION, getTypeService(), contextInfo));
             errors.addAll(ValidationUtils.validateInfo(validator, validationTypeId, populationInfo, contextInfo));
             List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validatePopulation(validationTypeId,
                     populationInfo, contextInfo);

@@ -36,7 +36,15 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.util.Log4jConfigurer;
+import org.apache.commons.lang.StringUtils;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -58,15 +66,32 @@ public class TypeServiceMockImpl implements TypeService, MockService {
     private Map<String, Map<String, TypeTypeRelationInfo>> relationOwners = new HashMap<String, Map<String, TypeTypeRelationInfo>>();
     private Map<String, Map<String, TypeInfo>> allowedTypes = new HashMap<String, Map<String, TypeInfo>>();
     private Map<String, Map<String, TypeInfo>> groupTypes = new HashMap<String, Map<String, TypeInfo>>();
+    private Map<String, List<TypeInfo>> refObjfectUriMap = new HashMap<String, List<TypeInfo>>();
+    private Map<String, List<TypeInfo>> typeKeyMap = new HashMap<String, List<TypeInfo>>();
+
+    private static final String TYPE_KEY_HEADER = "type_key";
+    private static final String NAME_HEADER =  "name";
+    private static final String REF_OBJECT_URI_HEADER =  "ref_object_uri";
+    private static final String  SERVICE_URI_HEADER = "service_uri";
 
 
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(TypeServiceMockImpl.class);
 
+    static {
 
+        try {
+            Log4jConfigurer.initLogging("C:/Users/aliabad4.C48NPBS1/kuali/main/dev/log4j.properties", 35);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     public TypeServiceMockImpl() {
         super();
 
         init();
+
+        initilizeTypeInfoMaps();
     }
 
     @Override
@@ -76,8 +101,11 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         this.allTypes.clear();
         this.groupTypes.clear();
         this.relationOwners.clear();
+        this.refObjfectUriMap.clear();
+        this.typeKeyMap.clear();
 
         init();
+        initilizeTypeInfoMaps();
 
     }
 
@@ -102,7 +130,12 @@ public class TypeServiceMockImpl implements TypeService, MockService {
 
     @Override
     public List<TypeInfo> getTypesByRefObjectUri(String refObjectUri,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
+
+        List<TypeInfo> types = refObjfectUriMap.get(refObjectUri);
+//        if (types == null) {
+//            throw new DoesNotExistException(refObjectUri);
+//        }
+        return types;
     }
 
     @Override
@@ -127,11 +160,6 @@ public class TypeServiceMockImpl implements TypeService, MockService {
 
     private TypeInfo getType(String typeKey) {
         return allTypes.get(typeKey);
-    }
-
-    //    @Override
-    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI,  ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
     }
 
     //    @Override
@@ -216,6 +244,81 @@ public class TypeServiceMockImpl implements TypeService, MockService {
     @Override
     public StatusInfo deleteTypeTypeRelation( String typeTypeRelationKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented."); // TODO implement
+    }
+
+    private void initilizeTypeInfoMaps() {
+
+        int type_key_pos = -1;
+        int name_pos = -1;
+        int ref_object_uri_pos = -1;
+        int service_uri_pos = -1;
+
+        Resource resource = new ClassPathResource("type-service-data.csv");
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(resource.getInputStream()));
+            boolean isHeaderFound = false;
+            String line = null;
+            while ((line = in.readLine()) != null) {
+                if (line.trim().startsWith("#")) {
+                    continue;
+                }
+                String[] tokens = StringUtils.split(line, ",");
+//              // Determine the column header position
+                if (!isHeaderFound) {
+                    log.debug(String.format("Processing the header columns in line: %s", line));
+                    for (int i = 0; i < tokens.length; i++) {
+                        String header = tokens[i].trim();
+                        if (TYPE_KEY_HEADER.equals(header)) {
+                            type_key_pos = i;
+                        } else if (NAME_HEADER.equals(header)) {
+                            name_pos = i;
+                        } else if (REF_OBJECT_URI_HEADER.equals(header)) {
+                            ref_object_uri_pos = i;
+                        } else if (SERVICE_URI_HEADER.equals(header)) {
+                            service_uri_pos = i;
+                        } else {
+                            throw new IllegalArgumentException(String.format("found unidentified column header name %s", header));
+                        }
+                    }
+                    if (type_key_pos == -1 || name_pos == -1 || ref_object_uri_pos == -1 || service_uri_pos == -1) {
+                        throw new IllegalArgumentException(String.format("Some headers are missing in the column header %s", line));
+                    }
+                    isHeaderFound = true;
+                } else {
+                    TypeInfo typeInfo = new TypeInfo();
+                    for (int i = 0; i < tokens.length; i++) {
+                        String token = tokens[i].trim();
+                        if (type_key_pos == i) {
+                            typeInfo.setKey(token);
+                        } else if (name_pos == i) {
+                            typeInfo.setName(token);
+                        } else if (ref_object_uri_pos == i) {
+                            typeInfo.setRefObjectUri(token);
+                        } else if (service_uri_pos == i) {
+                            typeInfo.setServiceUri(token);
+                        } else {
+                            throw new IllegalArgumentException(String.format("found unidentified value at column %d", i + 1));
+                        }
+                    }
+                    List<TypeInfo> refObjectUriList = refObjfectUriMap.get(typeInfo.getRefObjectUri());
+                    if (refObjectUriList == null) {
+                        refObjectUriList = new ArrayList<TypeInfo>();
+                        refObjfectUriMap.put(typeInfo.getRefObjectUri(), refObjectUriList);
+                    }
+                    refObjectUriList.add(typeInfo);
+                    List<TypeInfo> typeKeyList = typeKeyMap.get(typeInfo.getKey());
+                    if (typeKeyList == null) {
+                        typeKeyList = new ArrayList<TypeInfo>();
+                        typeKeyMap.put(typeInfo.getKey(), refObjectUriList);
+                    }
+                    typeKeyList.add(typeInfo);
+                }
+            }
+
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Error reading type service keys", e);
+        }
+
     }
 
     private void init() {
