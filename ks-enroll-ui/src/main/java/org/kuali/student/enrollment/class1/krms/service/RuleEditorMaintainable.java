@@ -23,7 +23,7 @@ import org.kuali.student.enrollment.uif.service.KSMaintainable;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  *
  */
-public interface AgendaStudentEditorMaintainable extends KSMaintainable {
+public interface RuleEditorMaintainable extends KSMaintainable {
 
 
 }

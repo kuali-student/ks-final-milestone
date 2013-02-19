@@ -34,6 +34,22 @@
         </property>
     </bean>
 
+    <bean id="RuleEditor" parent="RuleEditor-parentBean"/>
+    <bean id="RuleEditor-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.RuleEditor"/>
+        <property name="titleAttribute" value="id"/>
+        <property name="attributes">
+            <list>
+            </list>
+        </property>
+        <property name="objectLabel" value="Rule"/>
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+    </bean>
+
     <bean name="KS-EditWithLogic-EditGroup" parent="Uif-VerticalBoxGroup"
           p:style="padding: 5px; margin: 5px; background: white; margin-top:null">
         <property name="items">

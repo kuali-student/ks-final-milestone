@@ -15,12 +15,8 @@
  */
 package org.kuali.student.enrollment.class1.krms.dto;
 
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameterType;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
-import org.kuali.rice.krms.impl.repository.PropositionParameterBo;
-import org.kuali.rice.krms.impl.repository.TermBo;
 
 import java.util.List;
 

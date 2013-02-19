@@ -15,32 +15,20 @@
  */
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.rice.krms.impl.repository.ActionBo;
-import org.kuali.rice.krms.impl.repository.AgendaBo;
-import org.kuali.rice.krms.impl.repository.PropositionBo;
 import org.kuali.rice.krms.impl.repository.ReferenceObjectBindingBoService;
-import org.kuali.rice.krms.impl.repository.RuleBo;
-import org.kuali.rice.krms.impl.repository.TermBo;
-import org.kuali.rice.krms.impl.repository.TermParameterBo;
-import org.kuali.rice.krms.impl.ui.KrmsMaintenanceConstants;
-import org.kuali.rice.krms.impl.util.KrmsImplConstants;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
-import org.kuali.student.enrollment.class1.krms.service.AgendaStudentEditorMaintainable;
+import org.kuali.student.enrollment.class1.krms.service.RuleEditorMaintainable;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsRepositoryServiceLocator;
 import org.kuali.student.enrollment.class1.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.uif.service.impl.KSMaintainableImpl;
@@ -50,9 +38,7 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,13 +47,12 @@ import java.util.Map;
  *
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
-public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements AgendaStudentEditorMaintainable {
+public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements RuleEditorMaintainable {
 
     private static final long serialVersionUID = 1L;
 
     private transient CluService cluService;
     private transient ContextInfo contextInfo;
-    private transient SequenceAccessorService sequenceAccessorService;
 
     public static final String NEW_AGENDA_EDITOR_DOCUMENT_TEXT = "New Agenda Editor Document";
 
@@ -88,18 +73,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
     private RuleEditor getRuleEditor(Object model) {
         MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
         return (RuleEditor) maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
-    }
-
-    /**
-     * Returns the sequenceAssessorService
-     *
-     * @return {@link org.kuali.rice.krad.service.SequenceAccessorService}
-     */
-    private SequenceAccessorService getSequenceAccessorService() {
-        if (sequenceAccessorService == null) {
-            sequenceAccessorService = KRADServiceLocator.getSequenceAccessorService();
-        }
-        return sequenceAccessorService;
     }
 
     /**
@@ -142,9 +115,9 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
     /**
      * walk the proposition tree and save any new parameterized terms that are contained therein
      *
-     * @param propositionBo the root proposition from which to search
+     * @param the root proposition from which to search
      */
-    private void saveNewParameterizedTerms(PropositionBo propositionBo) {
+    /*private void saveNewParameterizedTerms(PropositionBo propositionBo) {
         if (StringUtils.isBlank(propositionBo.getCompoundOpCode())) {
             // it is a simple proposition
             if (!propositionBo.getParameters().isEmpty() && propositionBo.getParameters().get(0).getValue().startsWith(KrmsImplConstants.PARAMETERIZED_TERM_PREFIX)) {
@@ -180,13 +153,13 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ag
                 saveNewParameterizedTerms(childProp);
             }
         }
-    }
+    } */
 
     // Since the dataObject is a wrapper class we need to return the ruleBo instead.
-    @Override
-    public Class getDataObjectClass() {
-        return AgendaBo.class;
-    }
+    //@Override
+    //public Class getDataObjectClass() {
+    //    return RuleEditor.class;
+    //}
 
     /**
      * In the case of edit maintenance adds a new blank line to the old side

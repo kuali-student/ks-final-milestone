@@ -26,8 +26,6 @@ import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageTemplateBoService;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageUsageBoService;
-import org.kuali.rice.krms.impl.repository.TermBo;
-import org.kuali.rice.krms.impl.repository.TermSpecificationBo;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.rice.krms.impl.util.KrmsImplConstants;
 import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
@@ -77,15 +75,12 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
     public String getTermSpecIdForType(String type) {
 
+        //Get the term output name for this type.
         String termSpecName = this.getTermSpecNameForType(type);
 
-        Map<String, String> criteria = new HashMap<String, String>();
-
-        criteria.put("name", termSpecName);
-        criteria.put("namespace", PermissionServiceConstants.KS_SYS_NAMESPACE);
-
-        Collection<TermSpecificationBo> matchingTermSpecs = this.getBoService().findMatching(TermSpecificationBo.class, criteria);
-        for (TermSpecificationBo termSpec : matchingTermSpecs){
+        List<TermResolverDefinition> matchingTermResolvers = KrmsRepositoryServiceLocator.getTermBoService().findTermResolversByOutputId(termSpecName, PermissionServiceConstants.KS_SYS_NAMESPACE);
+        for (TermResolverDefinition termResolver : matchingTermResolvers)
+        for (TermSpecificationDefinition termSpec : termResolver.getPrerequisites()){
             if (termSpec.isActive()){
                 return termSpec.getId();
             }
@@ -532,21 +527,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
                 GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
                         "error.rule.proposition.simple.emptyTermName", proposition.getDescription());
                 result &= false;
-            } else { // check if the term name is unique
-
-                Map<String, String> criteria = new HashMap<String, String>();
-
-                criteria.put("description", proposition.getNewTermDescription());
-                criteria.put("specification.namespace", namespace);
-
-                Collection<TermBo> matchingTerms =
-                        KRADServiceLocator.getBusinessObjectService().findMatching(TermBo.class, criteria);
-
-                if (!CollectionUtils.isEmpty(matchingTerms)) {
-                    // this is a Warning -- maybe it should be an error?
-                    GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                            "warning.rule.proposition.simple.duplicateTermName", proposition.getDescription());
-                }
             }
 
             String termSpecificationId = termId.substring(KrmsImplConstants.PARAMETERIZED_TERM_PREFIX.length());

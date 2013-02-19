@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.class1.krms.dto;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.kuali.rice.krms.impl.repository.PropositionBo;
 
 import java.util.Map;
 
