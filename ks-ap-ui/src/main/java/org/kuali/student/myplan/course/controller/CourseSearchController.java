@@ -1316,7 +1316,9 @@ public class CourseSearchController extends UifControllerBase {
 		if (LOG.isDebugEnabled())
 			LOG.debug(dataTablesInputs);
 		SessionSearchInfo table = getSearchResults(request);
-
+        if (table == null) {
+            return;
+        }
 		if (table.searchResults != null && !table.searchResults.isEmpty()) {
 			SearchInfo firstRow = table.searchResults.iterator().next();
 			// Validate incoming jQuery datatables inputs

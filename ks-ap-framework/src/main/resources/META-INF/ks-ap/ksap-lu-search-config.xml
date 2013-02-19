@@ -601,22 +601,35 @@
                     </value>
                 </entry>
 
+                <!--<entry key="myplan.course.info.credits.details">-->
+                    <!--<value>NATIVE:-->
+                        <!--SELECT-->
+                        <!--max( v.result_scale_id ),-->
+                        <!--max( c.result_scale_type ),-->
+                        <!--min( to_number( v.result_value )),-->
+                        <!--max( to_number( v.result_value ))-->
+                        <!--from-->
+                        <!--ksen_lrc_result_value v,-->
+                        <!--ksen_lrc_result_scale c-->
+                        <!--where-->
+                        <!--c.id = v.result_scale_id-->
+                        <!--and-->
+                        <!--c.result_scale_type = 'kuali.result.scale.type.credit'-->
+                        <!--group by-->
+                        <!--v.result_scale_id-->
+                    <!--</value>-->
+                <!--</entry>-->
                 <entry key="myplan.course.info.credits.details">
                     <value>NATIVE:
                         SELECT
-                        max( v.result_scale_id ),
-                        max( c.result_scale_type ),
-                        min( to_number( v.result_value )),
-                        max( to_number( v.result_value ))
-                        from
-                        ksen_lrc_result_value v,
-                        ksen_lrc_result_scale c
-                        where
-                        c.id = v.result_scale_id
-                        and
-                        c.result_scale_type = 'kuali.result.scale.type.credit'
-                        group by
-                        v.result_scale_id
+                        rvg.ID,
+                        rvg.RVG_TYPE,
+                        rvg.RANGE_MIN_VALUE ,
+                        rvg.RANGE_MAX_VALUE
+                        FROM KSEN_LRC_RVG rvg
+                        WHERE
+                        rvg.RESULT_SCALE_ID like 'kuali.result.scale.credit.%'
+                        ORDER BY rvg.ID
                     </value>
                 </entry>
 
