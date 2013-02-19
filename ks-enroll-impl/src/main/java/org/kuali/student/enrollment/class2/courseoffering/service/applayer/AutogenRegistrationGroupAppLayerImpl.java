@@ -152,7 +152,7 @@ public class AutogenRegistrationGroupAppLayerImpl implements AutogenRegistration
             throw new InvalidParameterException("aoId, " + aoId + ", does not appear in cluster, " + sourceAocId);
         }
         // Fetch target AOC
-        ActivityOfferingClusterInfo targetAoc = coService.getActivityOfferingCluster(sourceAocId, context);
+        ActivityOfferingClusterInfo targetAoc = coService.getActivityOfferingCluster(targetAocId, context);
         // Verify the FOs of source/target match up
         if (!sourceAoc.getFormatOfferingId().equals(targetAoc.getFormatOfferingId())) {
             throw new InvalidParameterException("Source/target AOCs do not have matching format offering IDs");
