@@ -66,9 +66,9 @@
             p:readOnly="true"
             p:layoutManager.renderSequenceField="false">
         <property name="header.lowerGroup">
-            <bean parent="Uif-HorizontalBoxGroup">
+            <bean id="reviseSchedule" parent="Uif-HorizontalBoxGroup" p:componentSecurity.viewAuthz="true">
                 <property name="render" value="@{scheduleCompleted and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-                 <property name="items">
+                <property name="items">
                     <list>
                         <bean parent="Uif-ActionLink" p:methodToCall="reviseSchedule" p:actionLabel="Revise" />
                     </list>
@@ -109,7 +109,8 @@
             p:propertyName="requestedScheduleComponents"
             p:render="@{!scheduleCompleted}"
             p:renderAddLine="false"
-            p:layoutManager.renderSequenceField="false">
+            p:layoutManager.renderSequenceField="false"
+            p:componentSecurity.editAuthz="true">
         <property name="headerText" value="Requested Delivery Logistics"/>
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
@@ -134,7 +135,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection" p:render="@{!scheduleCompleted}">
+    <bean id="ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection" p:render="@{!scheduleCompleted}" p:componentSecurity.viewAuthz="true">
         <property name="headerText" value="Submit New Request"/>
         <property name="items">
             <list>
