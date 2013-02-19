@@ -13,6 +13,7 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
@@ -1762,18 +1763,28 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     @Transactional(readOnly = true)
     public List<RegistrationGroupInfo> getRegistrationGroupsWithActivityOfferings(List<String> activityOfferingIds,
-                                                                                  ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<RegistrationGroupInfo> registrationGroupInfos = new ArrayList<RegistrationGroupInfo>();
-        if(activityOfferingIds != null && !activityOfferingIds.isEmpty()){
-            for (String activityOfferingId : activityOfferingIds){
-                List<RegistrationGroupInfo> regGroups = _getRegistrationGroupsByActivityOffering(activityOfferingId, context);
-                if(regGroups != null) {
-                    registrationGroupInfos.addAll(regGroups);
+                                                                                  ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException {
+        List<RegistrationGroupInfo> regGroupList = new ArrayList<RegistrationGroupInfo>();
+        Set aoIdSet = new HashSet(activityOfferingIds);
+        if (activityOfferingIds != null && !activityOfferingIds.isEmpty()) {
+            String firstAoId = activityOfferingIds.get(0);
+            // Pick an ID to search RGs by
+            List<RegistrationGroupInfo> regGroups = _getRegistrationGroupsByActivityOffering(firstAoId, context);
+            if (regGroups != null) {
+                for (RegistrationGroupInfo rgInfo: regGroups) {
+                    // Verify that all the AO ids appear in this rgInfo
+                    Set rgAoIds = new HashSet(rgInfo.getActivityOfferingIds());
+                    if (rgAoIds.containsAll(aoIdSet)) {
+                        // Yes, so add it to the list
+                        regGroupList.add(rgInfo);
+                    }
                 }
             }
         }
 
-        return registrationGroupInfos;
+        return regGroupList;
     }
 
     private List<RegistrationGroupInfo> _getRegistrationGroupsByActivityOffering(String activityOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
