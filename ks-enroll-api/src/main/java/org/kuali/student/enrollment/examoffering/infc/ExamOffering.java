@@ -18,12 +18,14 @@ public interface ExamOffering extends IdEntity {
     /**
      * A term this exam offering is tied to
      * @return a term id of the term this exam is offered for
+     * @readonly
      * @required
      */
     public String getTermId();
 
     /**
      * The canonical exam referred to by this exam offering.
+     * @readonly
      * @return an identifier for the canonical exam this offering is created from
      * @required
      */

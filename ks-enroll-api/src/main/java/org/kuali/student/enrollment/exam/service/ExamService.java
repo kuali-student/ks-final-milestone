@@ -10,6 +10,7 @@
  */
 package org.kuali.student.enrollment.exam.service;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.exam.dto.ExamInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -170,5 +171,89 @@ public interface ExamService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException;
+
+    /**
+     * Retrieves the information for the specified list of Exams (that match the given Ids).
+     *
+     * @param examIds       List of identifiers for exams
+     * @param contextInfo   Context information containing the principalId and locale
+     *                      information about the caller of service operation
+     * @return List of exams matching the given ids
+     * @throws DoesNotExistException One or more exams not found
+     * @throws InvalidParameterException contextInfo is invalid
+     * @throws MissingParameterException examIds or contextInfo are absent (missing or null)
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ExamInfo> getExamByIds (@WebParam(name = "examIds") List<String> examIds,
+                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieve a list of Exam Ids by Exam Type.
+     *
+     * @param examTypeKey   the identifier for an exam Type
+     * @param contextInfo   information containing the principalId and
+     *                      locale information about the caller of
+     *                      service operation
+     * @return a list of exam identifiers matching
+     *         examTypeKey or an empty list if none found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException examTypeKey or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getExamIdsByType(@WebParam(name = "examTypeKey") String examTypeKey,
+                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for Exams that meet the given search criteria.
+     *
+     * @param criteria    the search criteria
+     * @param contextInfo information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return a list of Exam Ids matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is missing or
+     *                                   null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForExamIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for Exams that meet the given search criteria.
+     *
+     * @param criteria    the search criteria
+     * @param contextInfo information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return a list of Exams matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is missing or
+     *                                   null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ExamInfo> searchForExams (@WebParam(name = "criteria") QueryByCriteria criteria,
+                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
 
 }

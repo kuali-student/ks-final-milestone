@@ -73,8 +73,8 @@ public interface ExamOfferingService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ExamOfferingInfo> getExamsOfferingsByIds (@WebParam(name = "examOfferingIds") List<String> examOfferingIds,
-                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<ExamOfferingInfo> getExamOfferingsByIds (@WebParam(name = "examOfferingIds") List<String> examOfferingIds,
+                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -98,48 +98,6 @@ public interface ExamOfferingService {
      */
     public List<String> getExamOfferingIdsByType(@WebParam(name = "examTypeKey") String examTypeKey,
                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieve a list of Exam Offerings by CourseOffering.
-     *
-     * @param courseOfferingId  the identifier for the course offering.
-     * @param contextInfo       information containing the principalId and
-     *                          locale information about the caller of
-     *                          service operation
-     * @return a list of exam offerings matching the course offering or an empty list if none found
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException examTypeKey or contextInfo is
-     *                                   missing or null
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<ExamOfferingInfo> getExamOfferingsByCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId,
-                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieve a list of ExamOfferings by ActivityOffering.
-     *
-     * @param activityOfferingId    the identifier for the activity offering.
-     * @param contextInfo           information containing the principalId and
-     *                              locale information about the caller of
-     *                              service operation
-     * @return a list of exam offerings matching the activity offering or an empty list if none found
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException examTypeKey or contextInfo is
-     *                                   missing or null
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<ExamOfferingInfo> getExamOfferingsByActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId,
-                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -223,6 +181,10 @@ public interface ExamOfferingService {
     /**
      * Creates a new Exam Offering.
      *
+     * @param termId    Unique key of the term for which the exam offering is being
+     *                  created
+     * @param examId    Unique key of the canonical exam for which the exam offering is being
+     *                  created
      * @param examTypeKey       a unique identifier for the Type of the new exam
      * @param examOfferingInfo  the data with which to create the exam
      * @param contextInfo       information containing the principalId and locale
@@ -237,7 +199,9 @@ public interface ExamOfferingService {
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws org.kuali.student.r2.common.exceptions.ReadOnlyException an attempt at supplying information designated as read only
      */
-    public ExamOfferingInfo createExamOffering(@WebParam(name = "examTypeKey") String examTypeKey,
+    public ExamOfferingInfo createExamOffering(@WebParam(name = "termId") String termId,
+                                               @WebParam(name = "examId") String examId,
+                                               @WebParam(name = "examTypeKey") String examTypeKey,
                                                @WebParam(name = "examOfferingInfo") ExamOfferingInfo examOfferingInfo,
                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
@@ -344,10 +308,10 @@ public interface ExamOfferingService {
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
      */
-    public List<ValidationResultInfo> validateFormatOfferingExamOffering(@WebParam(name = "validationTypeKey") String validationTypeKey,
-                                                                         @WebParam(name = "formatOfferingExamOfferingTypeKey") String formatOfferingExamOfferingTypeKey,
-                                                                         @WebParam(name = "formatOfferingExamOfferingRelationInfo") FormatOfferingExamOfferingRelationInfo formatOfferingExamOfferingRelationInfo,
-                                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<ValidationResultInfo> validateFormatOfferingExamOfferingRelation(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                                                 @WebParam(name = "formatOfferingExamOfferingTypeKey") String formatOfferingExamOfferingTypeKey,
+                                                                                 @WebParam(name = "formatOfferingExamOfferingRelationInfo") FormatOfferingExamOfferingRelationInfo formatOfferingExamOfferingRelationInfo,
+                                                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -357,6 +321,8 @@ public interface ExamOfferingService {
     /**
      * Creates a new FormatOfferingExamOfferingRelation.
      *
+     * @param formatOfferingId  Unique key of the FormatOffering for which the relation is being created
+     * @param examOfferingId    Unique key of the ExamOffering for which the relation is being created
      * @param formatOfferingExamOfferingTypeKey         a unique identifier for the Type of the new FormatOfferingExamOfferingRelation
      * @param formatOfferingExamOfferingRelationInfo    the data with which to create the FormatOfferingExamOfferingRelation
      * @param contextInfo                               information containing the principalId and locale
@@ -371,9 +337,11 @@ public interface ExamOfferingService {
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
-    public ExamInfo createFormatOfferingExamOffering(@WebParam(name = "formatOfferingExamOfferingTypeKey") String formatOfferingExamOfferingTypeKey,
-                                                     @WebParam(name = "formatOfferingExamOfferingRelationInfo") FormatOfferingExamOfferingRelationInfo formatOfferingExamOfferingRelationInfo,
-                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public ExamInfo createFormatOfferingExamOfferingRelation(@WebParam(name = "formatOfferingId") String formatOfferingId,
+                                                             @WebParam(name = "examOfferingId") String examOfferingId,
+                                                             @WebParam(name = "formatOfferingExamOfferingTypeKey") String formatOfferingExamOfferingTypeKey,
+                                                             @WebParam(name = "formatOfferingExamOfferingRelationInfo") FormatOfferingExamOfferingRelationInfo formatOfferingExamOfferingRelationInfo,
+                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -537,62 +505,18 @@ public interface ExamOfferingService {
             PermissionDeniedException;
 
     /**
-     * Retrieves a list of FormatOfferingExamOfferingRelations to the given FormatOffering of the given Relationship Type.
+     * Retrieves a list of FormatOfferingExamOfferingRelations Ids that are associated with an ActivityOffering id.
      *
-     * @param formatOfferingId the identifier for the FormatOffering
-     * @param relationshipTypeKey the identifier for the Relationship Type
+     * @param activityOfferingId the identifier for the ActivityOffering
      * @param contextInfo  Context information containing the principalId and locale information about the caller of service operation
-     * @return the FormatOfferingExamOfferingRelations to the given FormatOffering or an empty list if none found
+     * @return the Ids of the FormatOfferingExamOfferingRelations for the given ActivityOffering Id or an empty list if none found
      * @throws InvalidParameterException contextInfo is invalid
-     * @throws MissingParameterException formatOfferingId or contextInfo is missing or null
+     * @throws MissingParameterException activityOfferingId or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<FormatOfferingExamOfferingRelationInfo> getFormatOfferingExamOfferingRelationsByTypeAndFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId,
-                                                                                                                      @WebParam(name = "relationshipTypeKey") String relationshipTypeKey,
-                                                                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieves a list of FormatOfferingExamOfferingRelations to the given ExamOffering of the given Relationship Type.
-     *
-     * @param examOfferingId the identifier for the ExamOffering
-     * @param relationshipTypeKey the identifier for the Relationship Type
-     * @param contextInfo  Context information containing the principalId and locale information about the caller of service operation
-     * @return the FormatOfferingExamOfferingRelations to the given FormatOffering or an empty list if none found
-     * @throws InvalidParameterException contextInfo is invalid
-     * @throws MissingParameterException formatOfferingId or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<FormatOfferingExamOfferingRelationInfo> getFormatOfferingExamOfferingRelationsByTypeAndExamOffering(@WebParam(name = "examOfferingId") String examOfferingId,
-                                                                                                                    @WebParam(name = "relationshipTypeKey") String relationshipTypeKey,
-                                                                                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieves a list of FormatOfferingExamOfferingRelations to the given ExamOffering of the given Relationship Type.
-     *
-     * @param formatOfferingId the identifier for the FormatOffering
-     * @param examOfferingId the identifier for the ExamOffering
-     * @param relationshipTypeKey the identifier for the Relationship Type
-     * @param contextInfo  Context information containing the principalId and locale information about the caller of service operation
-     * @return the FormatOfferingExamOfferingRelations to the given FormatOffering or an empty list if none found
-     * @throws InvalidParameterException contextInfo is invalid
-     * @throws MissingParameterException formatOfferingId or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<FormatOfferingExamOfferingRelationInfo> getFormatOfferingExamOfferingRelationsByTypeAndFormatOfferingAndExamOffering(@WebParam(name = "formatOfferingId") String formatOfferingId,
-                                                                                                                                     @WebParam(name = "examOfferingId") String examOfferingId,
-                                                                                                                                     @WebParam(name = "relationshipTypeKey") String relationshipTypeKey,
-                                                                                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<String> getFormatOfferingExamOfferingRelationIdsByActivityOfferingId(@WebParam(name = "activityOfferingId") String activityOfferingId,
+                                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
