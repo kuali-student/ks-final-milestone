@@ -17,6 +17,7 @@
 package org.kuali.student.r2.core.room.service.impl;
 
 import org.apache.log4j.Logger;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -64,20 +65,8 @@ public class TestRoomServiceMockImpl {
     private RoomService roomService;
     @Resource(name = "debugMode")
     private boolean debugMode;
-    /////////////////////////
-    // GETTERS AND SETTERS
-    /////////////////////////
-    public RoomService getRoomService() {
-        return roomService;
-    }
 
-    public void setRoomService(RoomService roomService) {
-        this.roomService = roomService;
-    }
-
-    /////////////////////////
-    // Test Methods
-    /////////////////////////
+    @Before
     public void setUp() {
         // set up context
         contextInfo = new ContextInfo();
