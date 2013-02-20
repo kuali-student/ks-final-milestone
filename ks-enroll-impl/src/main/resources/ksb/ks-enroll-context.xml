@@ -101,128 +101,7 @@
 
     <bean id="coCodeTransform" class="org.kuali.student.enrollment.class2.courseoffering.service.criteria.transform.CourseOfferingCriteriaTransform"/>
 
-    <bean id="atpEnrService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
-        <property name="atpDao" ref="atpEnrDao" />
-        <property name="atpRelDao" ref="atpAtpRelationDao" />
-    <!-- <property name="atpRelTypeDao" ref="atpAtpRelationTypeDao"/> -->
-        <property name="milestoneDao" ref="milestoneDao" />
-    <!-- <property name="milestoneTypeDao" ref="milestoneTypeDao"/> -->
-        <property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao" />
-    <!-- <property name="atpMilestoneRelationTypeDao" ref="atpMilestoneRelationTypeDao"/> -->
-        <property name="atpCriteriaLookupService" >
-            <bean parent="defaultCriteriaLookupService">
-                <property name="predicateTransforms">
-                    <list merge="false">
-                        <bean parent="keyword2LikeTransform">                               
-                            <property name="likeAttributes">
-                                <list merge="true">
-                                    <value>code</value> 
-                                    <value>typeKey</value> 
-                                    <value>stateKey</value>                        
-                                </list>
-                            </property>
-                        </bean> 
-                        <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
-                            <property name="renameAttributes">
-                                <map>
-                                    <entry key="descr.plain" value="plain"/>
-                                    <entry key="descr.formatted" value="formatted"/>
-                                    <entry key="code" value="atpCode"/>
-                                    <entry key="typeKey" value="atpType"/>
-                                    <entry key="stateKey" value="atpState"/>
-                                </map>
-                            </property>
-                        </bean>
-                        <ref bean="metaTransform"/> 
-                        <ref bean="attributeTransform"/>
-                    </list>
-                </property>
-            </bean>
-        </property>
-        <property name="atpAtpRelationCriteriaLookupService" >
-            <bean parent="defaultRelationCriteriaLookupService">
-                <property name="predicateTransforms">
-                    <list merge="false">
-                        <bean parent="keyword2LikeTransform">                               
-                            <property name="likeAttributes">
-                                <list merge="false">
-                                    <value>typeKey</value> 
-                                    <value>stateKey</value>                        
-                                </list>
-                            </property>
-                        </bean> 
-                        <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
-                            <property name="renameAttributes">
-                                <map>
-                                    <entry key="atpId" value="atp.id"/>
-                                    <entry key="relatedAtpId" value="relatedAtp.id"/>
-                                    <entry key="typeKey" value="atpType"/>
-                                    <entry key="stateKey" value="atpState"/>
-                                </map>
-                            </property>
-                        </bean>
-                        <ref bean="metaTransform"/> 
-                        <ref bean="attributeTransform"/>
-                    </list>
-                </property>
-            </bean>
-        </property>
-        <property name="milestoneCriteriaLookupService" >
-            <bean parent="defaultCriteriaLookupService">
-                <property name="predicateTransforms">
-                    <list merge="false">
-                        <bean parent="keyword2LikeTransform">                               
-                            <property name="likeAttributes">
-                                <list merge="true">
-                                    <value>typeKey</value> 
-                                    <value>stateKey</value>                        
-                                </list>
-                            </property>
-                        </bean> 
-                        <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
-                            <property name="renameAttributes">
-                                <map>
-                                    <entry key="typeKey" value="atpType"/>
-                                    <entry key="stateKey" value="atpState"/>
-                                    <entry key="isAllDay" value="allDay"/>
-                                    <entry key="isRelative" value="relative"/>
-                                    <entry key="isDateRange" value="dateRange"/>
-                                </map>
-                            </property>
-                        </bean>
-                        <ref bean="descrTransform"/>
-                        <ref bean="metaTransform"/> 
-                        <ref bean="attributeTransform"/>
-                    </list>
-                </property>
-            </bean>
-        </property>
-        <property name="searchManager" ref="atpSearchManager"/>
-    </bean>
-
-    <bean id="atpSearchManager"
-          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
-        <constructor-arg index="0" value="classpath:atp-search-config.xml" />
-        <property name="dao" ref="enrollSearchableDao"/>
-    </bean>
-
-   <bean id="ks.exp.atpEnrService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
-                <property name="jaxWsService" value="true" />
-                <property name="service" ref="atpEnrService" />
-                <property name="serviceInterface" value="org.kuali.student.r2.core.atp.service.AtpService" />
-                <property name="localServiceName" value="AtpService" />
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/atp" />
-                <property name="busSecurity" value="${ks.lum.bus.security}" />
-            </bean>
-        </property>
-    </bean>
-
-  <bean id="roleService" class="org.kuali.student.kim.permission.mock.RoleServiceMockImpl " />
-
-  <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
-
+    <bean id="roleService" class="org.kuali.student.kim.permission.mock.RoleServiceMockImpl " />
 
     <bean id="attributeTransform" class="org.kuali.student.r2.common.criteria.transform.AttributeTransform"/>
    
@@ -950,7 +829,7 @@
   <bean id="courseRecordAssembler" class="org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssembler" />
   <bean id="academicRecordService" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceImpl">
     <property name="courseRegService" ref="CourseRegistrationService" />
-    <property name="atpService" ref="atpEnrService" />
+    <property name="atpService" ref="AtpService" />
     <property name="gradingService" ref="gradingService" />
     <property name="lrcService" ref="lrcServiceCache" />
     <property name="courseRecordAssembler" ref="courseRecordAssembler" />
@@ -1184,7 +1063,7 @@
     <!-- Scheduling Service -->
 
     <bean id="schedulingServiceImpl" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceImpl">
-        <property name="atpService" ref="atpEnrService"/>
+        <property name="atpService" ref="AtpService"/>
         <property name="typeService" ref="typeService"/>
         <property name="roomService" ref="RoomService"/>
         <property name="scheduleRequestDao" ref="scheduleRequestDao"/>
