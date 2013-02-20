@@ -194,6 +194,20 @@ public class DefaultAtpHelper implements AtpHelper {
 					"Unexpected error in ATP ID lookup", t);
 		}
 		assert atp != null : "Missing ATP for " + atpId;
+
+        String [] arrayReFormatAtpName = null;
+        String holdAtpName = atp.getName();
+        String tempAtpName = holdAtpName.toLowerCase();
+        if (tempAtpName.contains("summer i")) {
+            arrayReFormatAtpName = tempAtpName.split(" ");
+            if ((arrayReFormatAtpName != null) && (arrayReFormatAtpName.length > 2)){
+                  tempAtpName = "";
+                  for (int i =0; i <= arrayReFormatAtpName.length - 2; i++) {
+                      tempAtpName +=    arrayReFormatAtpName[i]  ;
+                  }
+                atp.setName(tempAtpName + " " + arrayReFormatAtpName[arrayReFormatAtpName.length - 1]);
+            }
+        }
 		Matcher tm = Pattern.compile("([A-Za-z]+) ([0-9]+)").matcher(
 				atp.getName());
 		if (!tm.matches())
@@ -201,6 +215,16 @@ public class DefaultAtpHelper implements AtpHelper {
 					+ " doesn't match expected format");
 		String term = tm.group(1);
 		String year = tm.group(2);
+        if (term.contains("summeri")) {
+            arrayReFormatAtpName = null;
+            if ((year != null) && (year.length() > 0)) {
+                atp.setName(holdAtpName);
+                arrayReFormatAtpName = atp.getName().split(year);
+            }
+            if (arrayReFormatAtpName != null) {
+                term =  arrayReFormatAtpName[0];
+            }
+        }
 		return new String[] { term, year };
 	}
 
