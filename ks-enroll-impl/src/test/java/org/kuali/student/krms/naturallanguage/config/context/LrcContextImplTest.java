@@ -10,6 +10,7 @@ import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
+import org.kuali.student.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -26,7 +27,7 @@ import java.util.Map;
 @Ignore
 public class LrcContextImplTest extends AbstractServiceTest {
 
-    @Client(value = "org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl", additionalContextFile = "classpath:lrc-additional-context.xml")
+    @Client(value = "org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl", additionalContextFile = "classpath:nl-test-context.xml")
     private LRCService lrcService;
     private LrcContextImpl lrcContext = new LrcContextImpl();
 
@@ -36,15 +37,15 @@ public class LrcContextImplTest extends AbstractServiceTest {
 	
 	private void setupTerm1() {
         List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.GRADE_KEY.getId(),null,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.GRADE_TYPE_KEY.getId(),null,null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.GRADE_KEY.getId(),"Credit 1",null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.GRADE_TYPE_KEY.getId(),"kuali.result.value.type.value",null,0L));
         term = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
 	}
 
 	private void setupTerm2() {
         List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.GRADE_KEY.getId(),null,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.GRADE_TYPE_KEY.getId(),null,null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.GRADE_KEY.getId(),null,null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.GRADE_TYPE_KEY.getId(),null,null,0L));
 		term2 = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
 	}
 
@@ -62,8 +63,8 @@ public class LrcContextImplTest extends AbstractServiceTest {
         ResultValueInfo gradeType = (ResultValueInfo) contextMap.get(LrcContextImpl.GRADE_TYPE_TOKEN);
 
 		Assert.assertNotNull(contextMap);
-		Assert.assertEquals(10, grade.getValue());
-        Assert.assertEquals("LRC-1", gradeType.getResultScaleKey());
+		Assert.assertEquals("Credit 1", grade.getValue());
+        Assert.assertEquals("kuali.result.value.type.value", gradeType.getResultScaleKey());
 
 //		Assert.assertEquals("kuali.lu.type.CreditCourse", clu.getTypeKey());
 //		Assert.assertEquals("Chem 123", clu.getOfficialIdentifier().getShortName());
@@ -77,7 +78,7 @@ public class LrcContextImplTest extends AbstractServiceTest {
         ResultValueInfo gradeType = (ResultValueInfo) contextMap.get(LrcContextImpl.GRADE_TYPE_TOKEN);
 
         Assert.assertNotNull(contextMap);
-        Assert.assertEquals(0, grade.getValue());
+        Assert.assertEquals(null, grade.getValue());
         Assert.assertEquals(null, gradeType.getResultScaleKey());
 
 	}

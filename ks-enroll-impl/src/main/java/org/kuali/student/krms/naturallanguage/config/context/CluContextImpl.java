@@ -18,6 +18,7 @@ package org.kuali.student.krms.naturallanguage.config.context;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.rice.krms.impl.repository.TermBo;
+import org.kuali.student.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.krms.naturallanguage.config.context.util.NLCluSet;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -193,36 +194,36 @@ public class CluContextImpl extends BasicContextImpl {
     public Map<String, Object> createContextMap(TermDefinitionContract term, ContextInfo contextInfo) throws OperationFailedException {
         Map<String, Object> contextMap = super.createContextMap(term, contextInfo);
 
-        CluInfo clu = getClu(term, ReqComponentFieldTypes.CLU_KEY.getId(), contextInfo);
+        CluInfo clu = getClu(term, TermParameterTypes.CLU_KEY.getId(), contextInfo);
         if(clu != null) {
 	        contextMap.put(CLU_TOKEN, clu);
         }
-        CluInfo courseClu = getClu(term, ReqComponentFieldTypes.COURSE_CLU_KEY.getId(), contextInfo);
+        CluInfo courseClu = getClu(term, TermParameterTypes.COURSE_CLU_KEY.getId(), contextInfo);
         if(courseClu != null) {
 	        contextMap.put(COURSE_CLU_TOKEN, courseClu);
         }
-        CluInfo programClu = getClu(term, ReqComponentFieldTypes.PROGRAM_CLU_KEY.getId(), contextInfo);
+        CluInfo programClu = getClu(term, TermParameterTypes.PROGRAM_CLU_KEY.getId(), contextInfo);
         if(programClu != null) {
 	        contextMap.put(PROGRAM_CLU_TOKEN, programClu);
         }
-        CluInfo testClu = getClu(term, ReqComponentFieldTypes.TEST_CLU_KEY.getId(), contextInfo);
+        CluInfo testClu = getClu(term, TermParameterTypes.TEST_CLU_KEY.getId(), contextInfo);
         if(testClu != null) {
 	        contextMap.put(TEST_CLU_TOKEN, testClu);
         }
 
-        NLCluSet cluSet = getCluSet(term, ReqComponentFieldTypes.CLUSET_KEY.getId(), contextInfo);
+        NLCluSet cluSet = getCluSet(term, TermParameterTypes.CLUSET_KEY.getId(), contextInfo);
         if(cluSet != null) {
         	contextMap.put(CLU_SET_TOKEN, cluSet);
         }
-        NLCluSet courseCluSet = getCluSet(term, ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId(), contextInfo);
+        NLCluSet courseCluSet = getCluSet(term, TermParameterTypes.COURSE_CLUSET_KEY.getId(), contextInfo);
         if(courseCluSet != null) {
         	contextMap.put(COURSE_CLU_SET_TOKEN, courseCluSet);
         }
-        NLCluSet programCluSet = getCluSet(term, ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId(), contextInfo);
+        NLCluSet programCluSet = getCluSet(term, TermParameterTypes.PROGRAM_CLUSET_KEY.getId(), contextInfo);
         if(programCluSet != null) {
         	contextMap.put(PROGRAM_CLU_SET_TOKEN, programCluSet);
         }
-        NLCluSet testCluSet = getCluSet(term, ReqComponentFieldTypes.TEST_CLUSET_KEY.getId(), contextInfo);
+        NLCluSet testCluSet = getCluSet(term, TermParameterTypes.TEST_CLUSET_KEY.getId(), contextInfo);
         if(testCluSet != null) {
         	contextMap.put(TEST_CLU_SET_TOKEN, testCluSet);
         }

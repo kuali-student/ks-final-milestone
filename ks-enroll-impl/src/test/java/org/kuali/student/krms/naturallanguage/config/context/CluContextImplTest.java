@@ -12,6 +12,7 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
+import org.kuali.student.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.krms.naturallanguage.config.context.util.NLCluSet;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -38,27 +39,27 @@ public class CluContextImplTest extends AbstractServiceTest {
 	
 	private void setupTerm1() {
         List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.CLU_KEY.getId(),"CLU-1",null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.COURSE_CLU_KEY.getId(),"CLU-1",null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.PROGRAM_CLU_KEY.getId(),"CLU-1",null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.TEST_CLU_KEY.getId(),"CLU-1",null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.CLUSET_KEY.getId(),"CLUSET-1",null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId(),"CLUSET-1",null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId(),"CLUSET-1",null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.TEST_CLUSET_KEY.getId(),"CLUSET-1",null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.CLU_KEY.getId(),"CLU-1",null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.COURSE_CLU_KEY.getId(),"CLU-1",null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.PROGRAM_CLU_KEY.getId(),"CLU-1",null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.TEST_CLU_KEY.getId(),"CLU-1",null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.CLUSET_KEY.getId(),"CLUSET-1",null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.COURSE_CLUSET_KEY.getId(),"CLUSET-1",null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.PROGRAM_CLUSET_KEY.getId(),"CLUSET-1",null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.TEST_CLUSET_KEY.getId(),"CLUSET-1",null,0L));
         term = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
 	}
 
 	private void setupTerm2() {
         List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.CLU_KEY.getId(),null,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.COURSE_CLU_KEY.getId(),null,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.PROGRAM_CLU_KEY.getId(),null,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.TEST_CLU_KEY.getId(),null,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.CLUSET_KEY.getId(),null,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId(),null,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId(),null,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.TEST_CLUSET_KEY.getId(),null,null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.CLU_KEY.getId(),null,null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.COURSE_CLU_KEY.getId(),null,null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.PROGRAM_CLU_KEY.getId(),null,null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.TEST_CLU_KEY.getId(),null,null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.CLUSET_KEY.getId(),null,null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.COURSE_CLUSET_KEY.getId(),null,null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.PROGRAM_CLUSET_KEY.getId(),null,null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.TEST_CLUSET_KEY.getId(),null,null,0L));
 		term2 = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
 	}
 

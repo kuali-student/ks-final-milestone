@@ -9,6 +9,7 @@ import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
+import org.kuali.student.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.krms.naturallanguage.mock.AtpContextMockImpl;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -27,7 +28,7 @@ import java.util.Map;
 @Ignore
 public class AtpContextImplTest extends AbstractServiceTest {
 
-    @Client(value = "org.kuali.student.r2.core.atp.service.AtpServiceImpl")//, additionalContextFile = "classpath:lrc-additional-context.xml"
+    @Client(value = "org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl", additionalContextFile = "classpath:nl-test-context.xml")
     private AtpService atpService;
     private AtpContextMockImpl atpContext = new AtpContextMockImpl();
 
@@ -36,15 +37,15 @@ public class AtpContextImplTest extends AbstractServiceTest {
 	
 	private void setupTerm1() {
         List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.DURATION_TYPE_KEY.getId(),null,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.DURATION_KEY.getId(),null,null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.DURATION_TYPE_KEY.getId(),"kuali.atp.type.Fall",null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.DURATION_KEY.getId(),"ATP-1",null,0L));
         term = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
 	}
 
 	private void setupTerm2() {
         List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.DURATION_TYPE_KEY.getId(),null,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.DURATION_KEY.getId(),null,null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.DURATION_TYPE_KEY.getId(),null,null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.DURATION_KEY.getId(),null,null,0L));
 		term2 = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
 	}
 
@@ -63,7 +64,7 @@ public class AtpContextImplTest extends AbstractServiceTest {
 
 		Assert.assertNotNull(contextMap);
         Assert.assertEquals("ATP-1", duration);
-		Assert.assertEquals("ATP-1", durationType.getKey());
+		Assert.assertEquals("kuali.atp.type.Fall", durationType.getKey());
 
 //		Assert.assertEquals("kuali.lu.type.CreditCourse", clu.getTypeKey());
 //		Assert.assertEquals("Chem 123", clu.getOfficialIdentifier().getShortName());

@@ -18,6 +18,7 @@ package org.kuali.student.krms.naturallanguage.config.context;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.rice.krms.impl.repository.TermBo;
+import org.kuali.student.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -96,9 +97,9 @@ public class LrcContextImpl extends BasicContextImpl {
     public Map<String, Object> createContextMap(TermDefinitionContract term, ContextInfo contextInfo) throws OperationFailedException {
         Map<String, Object> contextMap = super.createContextMap(term, contextInfo);
 
-        String gradeId = getTermParameterValue(term, ReqComponentFieldTypes.GRADE_KEY.getId());
+        String gradeId = getTermParameterValue(term, TermParameterTypes.GRADE_KEY.getId());
         if (gradeId == null) {
-            gradeId = getTermParameterValue(term, ReqComponentFieldTypes.GRADE_TYPE_KEY.getId());
+            gradeId = getTermParameterValue(term, TermParameterTypes.GRADE_TYPE_KEY.getId());
         }
         if (gradeId != null){
             ResultValueInfo grade = getResultValue(gradeId, contextInfo);

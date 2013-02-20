@@ -9,6 +9,7 @@ import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
+import org.kuali.student.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -24,7 +25,7 @@ import java.util.Map;
 @Ignore
 public class OrganizationContextImplTest extends AbstractServiceTest {
 
-    //@Client(value = "org.kuali.student.r2.core.organization.service.AtpServiceImpl")//, additionalContextFile = "classpath:lrc-additional-context.xml"
+    @Client(value = "org.kuali.student.r2.core.class1.organization.service.OrganizationServiceImpl", additionalContextFile = "classpath:nl-test-context.xml")
     private OrganizationService orgService;
     private OrganizationContextImpl orgContext = new OrganizationContextImpl();
 
@@ -34,13 +35,13 @@ public class OrganizationContextImplTest extends AbstractServiceTest {
 	
 	private void setupTerm1() {
         List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.ORGANIZATION_KEY.getId(),null,null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null, TermParameterTypes.ORGANIZATION_KEY.getId(),"ADMIN-ORG-1",null,0L));
         term = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
 	}
 
 	private void setupTerm2() {
         List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.ORGANIZATION_KEY.getId(),null,null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.ORGANIZATION_KEY.getId(),null,null,0L));
 		term2 = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
 	}
 
@@ -57,21 +58,22 @@ public class OrganizationContextImplTest extends AbstractServiceTest {
         OrgInfo org = (OrgInfo) contextMap.get(OrganizationContextImpl.ORG_TOKEN);
 
 		Assert.assertNotNull(contextMap);
-		Assert.assertEquals("ORG-1", org.getId());
+		Assert.assertEquals("1", org.getId());
 
-//		Assert.assertEquals("kuali.lu.type.CreditCourse", clu.getTypeKey());
-//		Assert.assertEquals("Chem 123", clu.getOfficialIdentifier().getShortName());
-//		Assert.assertEquals("Chemistry 123", clu.getOfficialIdentifier().getLongName());
+		Assert.assertEquals("KUSystem", org.getShortName());
+		Assert.assertEquals("Kuali University System", org.getLongName());
 	}
 	
 	@Test
     public void testCreateContextMap_NullTokenValues() throws OperationFailedException {
-        Map<String, Object> contextMap = orgContext.createContextMap(term, ContextUtils.getContextInfo());
+        Map<String, Object> contextMap = orgContext.createContextMap(term2, ContextUtils.getContextInfo());
         OrgInfo org = (OrgInfo) contextMap.get(OrganizationContextImpl.ORG_TOKEN);
 
         Assert.assertNotNull(contextMap);
         Assert.assertEquals(null, org.getId());
 
+        Assert.assertEquals(null, org.getShortName());
+        Assert.assertEquals(null, org.getLongName());
 	}
 
 }

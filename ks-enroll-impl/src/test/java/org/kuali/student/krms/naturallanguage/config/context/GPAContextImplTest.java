@@ -10,6 +10,7 @@ import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
+import org.kuali.student.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.krms.naturallanguage.config.context.util.NLCluSet;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -35,13 +36,13 @@ public class GPAContextImplTest extends AbstractServiceTest {
 	
 	private void setupTerm1() {
         List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.GPA_KEY.getId(),null,null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null, TermParameterTypes.GPA_KEY.getId(),null,null,0L));
         term = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
 	}
 
 	private void setupTerm2() {
         List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,ReqComponentFieldTypes.GPA_KEY.getId(),null,null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.GPA_KEY.getId(),null,null,0L));
 		term2 = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
 	}
 
