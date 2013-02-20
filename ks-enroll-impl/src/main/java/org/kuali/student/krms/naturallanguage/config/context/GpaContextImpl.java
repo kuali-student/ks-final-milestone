@@ -19,6 +19,7 @@ import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.student.krms.naturallanguage.TermParameterTypes;
+import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -49,7 +50,7 @@ public class GpaContextImpl extends BasicContextImpl {
 
     	String gpa = getTermParameterValue(term, TermParameterTypes.GPA_KEY.getId());
     	if(gpa != null) {
-    		contextMap.put(GPA_TOKEN, Double.valueOf(gpa));
+    		contextMap.put(GPA_TOKEN, gpa);
     	}
 
         return contextMap;

@@ -23,6 +23,7 @@ import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.krms.naturallanguage.AbstractContext;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +34,7 @@ import java.util.Map;
  */
 public class PersonContextImpl extends BasicContextImpl {
  
-	public final static String PERSON_TOKEN = "personid";
+	public final static String PERSON_TOKEN = "personId";
 
     /**
      * Creates the context map (template data) for the requirement component.

@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
@@ -17,17 +18,18 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-//@Daos( { @Dao(value = "org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql") })
-//@PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:nl-test-context.xml"})
 @Ignore
 public class GPAContextImplTest extends AbstractServiceTest {
 
-    //@Client(value = "org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl", additionalContextFile = "classpath:clu-additional-context.xml")
     private GpaContextImpl gpaContext = new GpaContextImpl();
 
 	private TermDefinitionContract term;
@@ -36,7 +38,7 @@ public class GPAContextImplTest extends AbstractServiceTest {
 	
 	private void setupTerm1() {
         List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null, TermParameterTypes.GPA_KEY.getId(),null,null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null, TermParameterTypes.GPA_KEY.getId(),"2",null,0L));
         term = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
 	}
 
@@ -48,7 +50,6 @@ public class GPAContextImplTest extends AbstractServiceTest {
 
 	@Before
 	public void beforeMethod() {
-		//cluContext.setCluService(cluService);
 		setupTerm1();
 		setupTerm2();
 	}
@@ -59,11 +60,7 @@ public class GPAContextImplTest extends AbstractServiceTest {
 		GPAInfo gpa = (GPAInfo) contextMap.get(GpaContextImpl.GPA_TOKEN);
 
 		Assert.assertNotNull(contextMap);
-		Assert.assertEquals("GPA-1", gpa.getId());
-
-//		Assert.assertEquals("kuali.lu.type.CreditCourse", clu.getTypeKey());
-//		Assert.assertEquals("Chem 123", clu.getOfficialIdentifier().getShortName());
-//		Assert.assertEquals("Chemistry 123", clu.getOfficialIdentifier().getLongName());
+		Assert.assertEquals("2", gpa.getValue());
 	}
 	
 	@Test
@@ -72,7 +69,7 @@ public class GPAContextImplTest extends AbstractServiceTest {
         GPAInfo gpa = (GPAInfo) contextMap.get(GpaContextImpl.GPA_TOKEN);
 
         Assert.assertNotNull(contextMap);
-        Assert.assertEquals(null, gpa.getId());
+        Assert.assertEquals(null, gpa.getValue());
 
 	}
 
