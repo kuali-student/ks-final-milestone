@@ -63,6 +63,7 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -121,7 +122,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             } else if (coEditWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE) &&
                     !coEditWrapper.getCreditOption().getMinCredits().isEmpty() && !coEditWrapper.getCreditOption().getMaxCredits().isEmpty()) {
                 ResultValuesGroupInfo rvgInfo = getLrcService().getCreateRangeCreditResultValuesGroup(coEditWrapper.getCreditOption().getMinCredits(),
-                        coEditWrapper.getCreditOption().getMaxCredits(), "1", LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, contextInfo);
+                        coEditWrapper.getCreditOption().getMaxCredits(), calculateIncrement(coEditWrapper.getCreditOption().getAllowedCredits()), LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, contextInfo);
                 coInfo.setCreditOptionId(rvgInfo.getKey());
             } else if (coEditWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE) &&
                     !coEditWrapper.getCreditOption().getCredits().isEmpty()) {
@@ -169,6 +170,17 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             throw new RuntimeException(ex);
         }
 
+    }
+
+    private String calculateIncrement(List<String> credits) {
+        //Sort the list of credits options by the float value.
+        Collections.sort(credits, new Comparator<String>() {
+            public int compare(String o1, String o2) {
+                return Float.valueOf(o1).compareTo(Float.valueOf(02));
+            }
+        });
+        //Find the difference between the first two values to get the increment
+        return String.valueOf(Float.parseFloat(credits.get(1))-Float.parseFloat(credits.get(0)));
     }
 
     private void updateFormatOfferings(CourseOfferingEditWrapper coEditWrapper) throws Exception{
