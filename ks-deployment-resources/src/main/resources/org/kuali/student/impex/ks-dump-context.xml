@@ -24,28 +24,6 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-  <!-- These will be pumped into the context by spring-maven-plugin once things are tightened up a bit -->
-  <util:properties id="dumpProperties">
-    <prop key="project.artifactId">ks-source-db</prop>
-    <prop key="impex.url">jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</prop>
-    <prop key="impex.driver">oracle.jdbc.driver.OracleDriver</prop>
-    <prop key="impex.username">KS_SOURCE_DB_SPRING</prop>
-    <prop key="impex.password">KS_SOURCE_DB_SPRING</prop>
-    <prop key="impex.schema">KS_SOURCE_DB_SPRING</prop>
-    <prop key="impex.databaseVendor">oracle</prop>
-    <prop key="impex.databaseTablePropertiesFile">#{projectBasedir}/src/main/resources/ks-source-db.properties</prop>
-    <prop key="impex.table.includes">#{impexIncludes}</prop>
-    <prop key="impex.view.includes">#{impexIncludes}</prop>
-    <prop key="impex.sequence.includes">#{impexIncludes}</prop>
-
-    <prop key="project.basedir">#{projectBasedir}</prop>
-    <prop key="project.build.directory">#{projectBuildDirectory}</prop>
-    <prop key="impex.workingDir">#{projectBuildDirectory}/impex</prop>
-    <prop key="impex.antCompatibilityMode">false</prop>
-    <prop key="impex.metadata.threads">5</prop>
-    <prop key="impex.data.threads">15</prop>
-  </util:properties>
-
   <context:property-placeholder properties-ref="dumpProperties" />
 
   <import resource="classpath:org/kuali/common/impex/impex-dump-context.xml" />
