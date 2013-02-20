@@ -176,5 +176,41 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <!-- This profile builds the full KS database from the "system of record" set of Oracle sql files checked into SCM -->
+      <id>dump</id>
+      <properties>
+        <impex.rice.includes>KR.*</impex.rice.includes>
+        <impex.ks.includes>KS.*</impex.ks.includes>
+        <impex.includes>${impex.rice.includes},${impex.ks.includes}</impex.includes>
+        <impex.source.artifactId>ks-source-db</impex.source.artifactId>
+        <impex.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</impex.url>
+        <impex.driver>oracle.jdbc.driver.OracleDriver</impex.driver>
+        <impex.username>KS_SOURCE_DB_SPRING</impex.username>
+        <impex.password>KS_SOURCE_DB_SPRING</impex.password>
+        <impex.schema>KS_SOURCE_DB_SPRING</impex.schema>
+        <impex.databaseVendor>oracle</impex.databaseVendor>
+        <impex.databaseTablePropertiesFile>${project.basedir}/src/main/resources/ks-source-db.properties</impex.databaseTablePropertiesFile>
+        <impex.table.includes>${impex.includes}</impex.table.includes>
+        <impex.view.includes>${impex.includes}</impex.view.includes>
+        <impex.sequence.includes>${impex.includes}</impex.sequence.includes>
+        <impex.workingDir>${project.build.directory}/impex</impex.workingDir>
+        <impex.antCompatibilityMode>false</impex.antCompatibilityMode>
+        <impex.metadata.threads>5</impex.metadata.threads>
+        <impex.data.threads>15</impex.data.threads>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.plugins</groupId>
+            <artifactId>spring-maven-plugin</artifactId>
+            <configuration>
+              <location>classpath:org/kuali/student/impex/ks-dump-context.xml</location>
+              <propertiesBeanName>dumpProperties</propertiesBeanName>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
 </project>
