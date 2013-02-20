@@ -4,40 +4,47 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
-import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
 import org.kuali.student.krms.naturallanguage.TermParameterTypes;
-import org.kuali.student.krms.naturallanguage.mock.AtpContextMockImpl;
-import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-//@Daos( { @Dao(value = "org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql") })
-//@PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:type-test-context.xml"})
+@TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Ignore
 public class AtpContextImplTest extends AbstractServiceTest {
 
-    @Client(value = "org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl", additionalContextFile = "classpath:nl-test-context.xml")
-    private AtpService atpService;
-    private AtpContextMockImpl atpContext = new AtpContextMockImpl();
+    @Resource
+    private TypeService typeService;
+    private AtpContextImpl atpContext = new AtpContextImpl();
 
-	private TermDefinitionContract term;
-	private TermDefinitionContract term2;
-	
-	private void setupTerm1() {
+    private TermDefinitionContract term;
+    private TermDefinitionContract term2;
+    private TypeInfo type1;
+
+    private void setupTerm1() {
         List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.DURATION_TYPE_KEY.getId(),"kuali.atp.type.Fall",null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null, TermParameterTypes.DURATION_TYPE_KEY.getId(), "kuali.atp.type.TestAtp1", null, 0L));
         parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.DURATION_KEY.getId(),"ATP-1",null,0L));
         term = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
 	}
@@ -51,10 +58,27 @@ public class AtpContextImplTest extends AbstractServiceTest {
 
 	@Before
 	public void beforeMethod() {
-		atpContext.setAtpService(atpService);
-		setupTerm1();
-		setupTerm2();
-	}
+        atpContext.setTypeService(typeService);
+        type1 = new TypeInfo();
+        type1.setKey("kuali.atp.type.TestAtp1");
+        type1.setName("ATP test create1");
+        type1.setDescr(new RichTextHelper().fromPlain("ATP description 1"));
+        type1.setEffectiveDate(new Date());
+        type1.setRefObjectUri(AtpServiceConstants.REF_OBJECT_URI_ATP);
+        try {
+            ContextInfo context = new ContextInfo();
+            context.setPrincipalId("testUser1");
+            context.setCurrentDate(new Date());
+            typeService.createType(type1.getKey(), type1, context);
+        } catch (AlreadyExistsException e) {
+            //Might already be inserted
+        }
+        catch (Exception e) {
+            Assert.fail("Problem creating test data in the Type Service");
+        }
+        setupTerm1();
+        setupTerm2();
+    }
 
 	@Test
     public void testCreateContextMap_Atp() throws OperationFailedException {
@@ -64,14 +88,10 @@ public class AtpContextImplTest extends AbstractServiceTest {
 
 		Assert.assertNotNull(contextMap);
         Assert.assertEquals("ATP-1", duration);
-		Assert.assertEquals("kuali.atp.type.Fall", durationType.getKey());
+        Assert.assertEquals("kuali.atp.type.TestAtp1", durationType.getKey());
+    }
 
-//		Assert.assertEquals("kuali.lu.type.CreditCourse", clu.getTypeKey());
-//		Assert.assertEquals("Chem 123", clu.getOfficialIdentifier().getShortName());
-//		Assert.assertEquals("Chemistry 123", clu.getOfficialIdentifier().getLongName());
-	}
-	
-	@Test
+    @Test
     public void testCreateContextMap_NullTokenValues() throws OperationFailedException {
         Map<String, Object> contextMap = atpContext.createContextMap(term2, ContextUtils.getContextInfo());
         String duration = (String) contextMap.get(AtpContextImpl.DURATION_TOKEN);
@@ -79,7 +99,7 @@ public class AtpContextImplTest extends AbstractServiceTest {
 
         Assert.assertNotNull(contextMap);
         Assert.assertEquals(null, duration);
-        Assert.assertEquals(null, durationType.getKey());
+        Assert.assertEquals(null, durationType);
 
 	}
 
