@@ -14,11 +14,10 @@
  *
  * Created by Mezba Mahtab (mezba.mahtab@utoronto.ca) on 1/18/13
  */
-package org.kuali.student.enrollment.exam.dto;
+package org.kuali.student.enrollment.examoffering.dto;
 
-import org.kuali.student.enrollment.exam.infc.ExamOffering;
+import org.kuali.student.enrollment.examoffering.infc.ExamOffering;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.springframework.beans.factory.annotation.Required;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -37,7 +36,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ExamOfferingInfo", propOrder = {"id", "typeKey", "stateKey", "name",
         "descr", "meta", "attributes",
-        "termId", "termCode", "canonicalExamId",
+        "termId", "examId",
         "scheduleId", "schedulingStateKey", "_futureElements"})
 public class ExamOfferingInfo extends IdEntityInfo implements ExamOffering, Serializable {
 
@@ -49,10 +48,7 @@ public class ExamOfferingInfo extends IdEntityInfo implements ExamOffering, Seri
     private String termId;
 
     @XmlElement
-    private String termCode;
-
-    @XmlElement
-    private String canonicalExamId;
+    private String examId; // the canonical exam id
 
     @XmlElement
     private String scheduleId;
@@ -86,8 +82,7 @@ public class ExamOfferingInfo extends IdEntityInfo implements ExamOffering, Seri
         }
 
         this.termId = offering.getTermId();
-        this.termCode= offering.getTermCode();
-        this.canonicalExamId = offering.getCanonicalExamId();
+        this.examId = offering.getExamId();
         this.scheduleId= offering.getScheduleId();
         this.schedulingStateKey= offering.getSchedulingStateKey();
     }
@@ -106,20 +101,12 @@ public class ExamOfferingInfo extends IdEntityInfo implements ExamOffering, Seri
         this.termId = termId;
     }
 
-    public String getTermCode() {
-        return termCode;
+    public String getExamId() {
+        return examId;
     }
 
-    public void setTermCode(String termCode) {
-        this.termCode = termCode;
-    }
-
-    public String getCanonicalExamId() {
-        return canonicalExamId;
-    }
-
-    public void setCanonicalExamId(String canonicalExamId) {
-        this.canonicalExamId = canonicalExamId;
+    public void setExamId(String examId) {
+        this.examId = examId;
     }
 
     public String getScheduleId() {

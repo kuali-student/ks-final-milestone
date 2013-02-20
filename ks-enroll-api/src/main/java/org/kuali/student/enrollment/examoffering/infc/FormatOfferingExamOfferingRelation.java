@@ -5,7 +5,7 @@
  * Time: 11:47 AM
  * Represents a relationship between a FormatOffering and an ExamOffering.
  */
-package org.kuali.student.enrollment.exam.infc;
+package org.kuali.student.enrollment.examoffering.infc;
 
 import org.kuali.student.r2.common.infc.Relationship;
 
@@ -22,22 +22,26 @@ public interface FormatOfferingExamOfferingRelation extends Relationship {
     /**
      * Unique identifier for a Format Offering.
      * @required
+     * @readonly
      */
     public String getFormatOfferingId();
 
     /**
      * Unique identifier for an exam offering record.
      * @required
+     * @readonly
      */
     public String getExamOfferingId();
 
     /**
-     * Gets a list of the activity offering ids associated with this relationship.
+     * Gets the list of ActivityOfferings that relate to this exam offering for
+     * this format offering instance.
      */
     public List<String> getActivityOfferingIds();
 
     /**
-     * Gets a list of the population ids associated with this relationship.
+     * Gets the list of Populations that relate to this exam offering for
+     * this format offering instance.
      */
     public List<String> getPopulationIds();
 

@@ -14,9 +14,9 @@
  *
  * Created by Mezba Mahtab (mezba.mahtab@utoronto.ca) on 2/8/13
  */
-package org.kuali.student.enrollment.exam.dto;
+package org.kuali.student.enrollment.examoffering.dto;
 
-import org.kuali.student.enrollment.exam.infc.FormatOfferingExamOfferingRelation;
+import org.kuali.student.enrollment.examoffering.infc.FormatOfferingExamOfferingRelation;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;

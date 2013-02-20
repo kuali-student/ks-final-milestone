@@ -12,24 +12,25 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by Mezba Mahtab (mezba.mahtab@utoronto.ca) on 1/17/13
+ * Created by Mezba Mahtab (mezba.mahtab@utoronto.ca) on 2/15/13
  */
-package org.kuali.student.enrollment.exam.service;
+package org.kuali.student.enrollment.examoffering.service;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
 /**
- * This class represents constants for the Exam Service.
+ * This class represents constants for the ExamOffering Service.
  *
  * @author Mezba Mahtab (mezba.mahtab@utoronto.ca)
  */
-public class ExamServiceConstants {
-    public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "exam";
-    public static final String SERVICE_NAME_LOCAL_PART = "ExamService";
+public class ExamOfferingServiceConstants {
+    public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "examOffering";
+    public static final String SERVICE_NAME_LOCAL_PART = "ExamOfferingService";
 
     /////////////////
     // TYPES
     /////////////////
 
-    public static final String EXAM_TYPE = "kuali.clu.type.CanonicalExam";
+    public static final String EXAM_OFFERING_TYPE = "kuali.lui.type.ExamOffering";
+
 }

@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.exam.infc;
+package org.kuali.student.enrollment.examoffering.infc;
 
 import org.kuali.student.r2.common.infc.IdEntity;
 
@@ -9,6 +9,9 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * Time: 9:39 AM
  * Represents an ExamOffering in the ExamOffering Service. An ExamOffering is an
  * instantiation of a canonical exam, that is scheduled to be offered in an exam period.
+ *
+ * IMPLEMENTATION NOTE: A Clu requires a start date. The start date for the canonical
+ * exam can be the date it's created.
  */
 public interface ExamOffering extends IdEntity {
 
@@ -20,18 +23,11 @@ public interface ExamOffering extends IdEntity {
     public String getTermId();
 
     /**
-     * A term this exam offering is tied to
-     * @return a term code of the term this exam is offered for
+     * The canonical exam referred to by this exam offering.
+     * @return an identifier for the canonical exam this offering is created from
      * @required
      */
-    public String getTermCode();
-
-    /**
-     * A term this exam offering is tied to
-     * @return a term code of the term this exam is offered for
-     * @required
-     */
-    public String getCanonicalExamId();
+    public String getExamId();
 
     /**
      * A schedule id if this exam offering is scheduled and thus has a schedule.
