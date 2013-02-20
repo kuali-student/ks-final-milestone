@@ -467,7 +467,7 @@
     <bean id="socBusinessLogic" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceBusinessLogicImpl">
         <property name="socDao" ref="socDao" />
         <property name="courseService" ref="courseServiceImpl" />
-        <property name="acalService" ref="acalService" />
+        <property name="acalService" ref="AcademicCalendarService" />
         <property name="coService" ref="CourseOfferingService" />
         <property name="schedulingService" ref="SchedulingService"/>
     </bean>
@@ -530,7 +530,7 @@
     <!-- Note: this is not a decorator -->
     <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseServiceImpl" />
-        <property name="acalService" ref="acalService" />
+        <property name="acalService" ref="AcademicCalendarService" />
         <property name="registrationCodeGeneratorFactory" ref="regGroupCodeGeneratorFactory" />
         <!--The coService property is looked up in the service bus to prevent a circular spring reference-->
     </bean>
@@ -545,7 +545,7 @@
         <property name="luiService" ref="luiServiceValidationDecorator" />
         <property name="rgAssembler" ref="rgAssembler" />
         <property name="courseService" ref="courseServiceImpl" />
-        <property name="acalService" ref="acalService" />
+        <property name="acalService" ref="AcademicCalendarService" />
         <property name="stateService" ref="stateServiceCacheDecorator" />
         <property name="lprService" ref="lprPersistenceService" />
         <property name="criteriaLookupService" ref="coCriteriaLookupService" />
