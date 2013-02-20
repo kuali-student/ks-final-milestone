@@ -212,6 +212,7 @@
                   <goal>load</goal>
                 </goals>
                 <configuration>
+                  <forceMojoExecution>true</forceMojoExecution>
                   <location>classpath:org/kuali/student/impex/ks-dump-context.xml</location>
                   <propertiesBeanName>dumpProperties</propertiesBeanName>
                 </configuration>
