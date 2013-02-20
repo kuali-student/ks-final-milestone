@@ -14,7 +14,6 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
 import org.kuali.student.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.krms.naturallanguage.config.context.util.NLCluSet;
-import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;

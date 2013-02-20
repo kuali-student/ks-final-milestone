@@ -16,7 +16,6 @@
     <bean id="basicContext" class="org.kuali.student.krms.naturallanguage.config.context.BasicContextImpl">
     </bean>
     <bean id="luContext" class="org.kuali.student.krms.naturallanguage.config.context.CluContextImpl">
-        <!--<property name="CluService" ref="cluService" />-->
     </bean>
     <bean id="lrcContext" class="org.kuali.student.krms.naturallanguage.config.context.LrcContextImpl">
         <!--property name="lrcService" ref="lrcServiceImpl"/>
@@ -45,22 +44,6 @@
                 </entry>
             </map>
         </constructor-arg>
-    </bean>
-
-    <bean id="entityManager"
-          class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
-        <property name="entityManagerFactory" ref="entityManagerFactory"/>
-    </bean>
-
-    <bean id="searchableCrudDao" class="org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl">
-        <property name="em" ref="entityManager"/>
-    </bean>
-
-    <bean id="searchManager"
-          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl"
-          autowire="byType">
-        <property name="dao" ref="searchableCrudDao"/>
-        <constructor-arg index="0" value="classpath:lu-search-config.xml" />
     </bean>
 
     <bean id="dictionaryService"
