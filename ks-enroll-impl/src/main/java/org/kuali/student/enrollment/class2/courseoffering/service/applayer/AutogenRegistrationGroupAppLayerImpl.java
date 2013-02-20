@@ -105,7 +105,7 @@ public class AutogenRegistrationGroupAppLayerImpl implements AutogenRegistration
     }
 
     @Override
-    public List<BulkStatusInfo> createActivityOffering(ActivityOfferingInfo aoInfo, String aocId, ContextInfo context)
+    public ActivityOfferingResult createActivityOffering(ActivityOfferingInfo aoInfo, String aocId, ContextInfo context)
             throws PermissionDeniedException, DataValidationErrorException,
             InvalidParameterException, ReadOnlyException, OperationFailedException,
             MissingParameterException, DoesNotExistException, VersionMismatchException {
@@ -131,7 +131,10 @@ public class AutogenRegistrationGroupAppLayerImpl implements AutogenRegistration
         // Note: this may generate RGs that do NOT include the AO just added
         List<BulkStatusInfo> status =
                 coService.generateRegistrationGroupsForCluster(updated.getId(), context);
-        return status;
+        ActivityOfferingResult aoResult = new ActivityOfferingResult();
+        aoResult.setCreatedActivityOffering(created);
+        aoResult.setGeneratedRegistrationGroups(status);
+        return aoResult;
     }
 
     @Override

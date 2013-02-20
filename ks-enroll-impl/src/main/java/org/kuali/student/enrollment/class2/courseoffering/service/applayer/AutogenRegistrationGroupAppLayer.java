@@ -66,7 +66,7 @@ public interface AutogenRegistrationGroupAppLayer {
      * @param context
      * @return List of RGs created
      */
-    List<BulkStatusInfo> createActivityOffering(ActivityOfferingInfo aoInfo, String aocId, ContextInfo context)
+    ActivityOfferingResult createActivityOffering(ActivityOfferingInfo aoInfo, String aocId, ContextInfo context)
             throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException,
                    OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException;
 

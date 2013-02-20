@@ -29,6 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.test.spring.log4j.KSLog4JConfigurer;
+import org.kuali.student.enrollment.class2.courseoffering.service.applayer.ActivityOfferingResult;
 import org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegistrationGroupAppLayer;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader.CourseOfferingCreationDetails;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
@@ -128,9 +129,40 @@ public class TestAutogenRegistrationGroupAppLayerImpl {
         dataLoader.afterTest();
     }
 
+    /**
+     * User Story 3: I need the system to automatically create reg groups when I create an
+     * AO (via add or copy) to eliminate the need to manually create them
+     */
+    @Test
+    public void testAddActivityOffering()
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
+        String foId = "CO-2:LEC-ONLY";
+        FormatOfferingInfo foInfo = coService.getFormatOffering(foId, contextInfo);
+        List<ActivityOfferingClusterInfo> clusters =
+                coService.getActivityOfferingClustersByFormatOffering(foId, contextInfo);
+        String aocId = clusters.get(0).getId();
+        List<ActivityOfferingInfo> aos = coService.getActivityOfferingsByCluster(aocId, contextInfo);
+        assertEquals(2, aos.size());
+        ActivityOfferingInfo aoInfo = new ActivityOfferingInfo(aos.get(0));
+        aoInfo.setId("CO-2:LEC-ONLY:LEC-C");
+        List<RegistrationGroupInfo> rgInfos = coService.getRegistrationGroupsByFormatOffering(foId, contextInfo);
+        assertEquals(2, rgInfos.size());
+        // App layer call
+        ActivityOfferingResult aoResult =
+                appLayer.createActivityOffering(aoInfo, aocId, contextInfo);
+        List<String> aoIds = new ArrayList<String>();
+        aoIds.add(aoResult.getCreatedActivityOffering().getId());
+        List<RegistrationGroupInfo> rgInfosByAo = coService.getRegistrationGroupsWithActivityOfferings(aoIds, contextInfo);
+        assertEquals(1, rgInfosByAo.size());
+        rgInfos = coService.getRegistrationGroupsByFormatOffering(foId, contextInfo);
+        assertEquals(3, rgInfos.size()); // Now three RGs
+        aos = coService.getActivityOfferingsByCluster(aocId, contextInfo);
+        assertEquals(3, aos.size());
+    }
 
     /**
-     * This is User Story 5
+     * User Story 5
      */
     @Test
     public void testDeleteActivityOffering()
@@ -158,6 +190,7 @@ public class TestAutogenRegistrationGroupAppLayerImpl {
         // Now delete the AO
         String aoIdFirst = aoInfos.get(0).getId();
         String aoIdSecond = aoInfos.get(1).getId();
+        // App layer call
         appLayer.deleteActivityOfferingCascaded(aoIdFirst, aocId, contextInfo);
         List<ActivityOfferingClusterInfo> retrieved =
                 coService.getActivityOfferingClustersByFormatOffering(foId, contextInfo);
@@ -176,7 +209,7 @@ public class TestAutogenRegistrationGroupAppLayerImpl {
      * so I don’t have to delete all the AOs first
      */
     @Test
-    public void testDeleteActivityOfferingCascaded()
+    public void testDeleteActivityOfferingCluster()
             throws PermissionDeniedException, MissingParameterException,
             InvalidParameterException, OperationFailedException, DoesNotExistException, DependentObjectsExistException {
         String foId = "CO-2:LEC-ONLY";
@@ -193,6 +226,7 @@ public class TestAutogenRegistrationGroupAppLayerImpl {
         assertEquals(2, rgsByAoc.size());
         List<RegistrationGroupInfo> rgsByFo = coService.getRegistrationGroupsByFormatOffering(foId, contextInfo);
         assertEquals(2, rgsByFo.size());
+        // App layer call
         // Now zap the AOC
         appLayer.deleteActivityOfferingCluster(aocId, contextInfo);
         try {
@@ -208,8 +242,8 @@ public class TestAutogenRegistrationGroupAppLayerImpl {
     }
 
     /**
-     * This is User Story 7: As a user, I need the system to automatically delete all AOs when I delete an AOC
-     * so I don’t have to delete all the AOs first
+     * This is User Story 6: As a user, I need the system to automatically create/delete all
+     * associated registration groups when I move an Activity from one AOC to another
      */
     @Test
     public void testMoveActivityOffering() throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
