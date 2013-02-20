@@ -190,7 +190,7 @@
         <impex.password>KS_SOURCE_DB_SPRING</impex.password>
         <impex.schema>KS_SOURCE_DB_SPRING</impex.schema>
         <impex.databaseVendor>oracle</impex.databaseVendor>
-        <impex.databaseTablePropertiesFile>${project.basedir}../../ks-deployment-resources/src/main/resources/org/kuali/student/impex/ks-source-db.properties</impex.databaseTablePropertiesFile>
+        <impex.databaseTablePropertiesFile>${project.basedir}/../../ks-deployment-resources/src/main/resources/org/kuali/student/impex/ks-source-db.properties</impex.databaseTablePropertiesFile>
         <impex.table.includes>${impex.includes}</impex.table.includes>
         <impex.view.includes>${impex.includes}</impex.view.includes>
         <impex.sequence.includes>${impex.includes}</impex.sequence.includes>
