@@ -8,6 +8,9 @@ import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
+import org.kuali.student.common.test.spring.Dao;
+import org.kuali.student.common.test.spring.Daos;
+import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
 import org.kuali.student.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
@@ -20,12 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-//@Daos( { @Dao(value = "org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql") })
-//@PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
+@Daos( { @Dao(value = "org.kuali.student.r1.core.organization.dao.impl.OrganizationDaoImpl", testSqlFile = "classpath:ks-org.sql") })
+@PersistenceFileLocation("classpath:META-INF/organization-persistence.xml")
 @Ignore
 public class OrganizationContextImplTest extends AbstractServiceTest {
 
-    @Client(value = "org.kuali.student.r2.core.class1.organization.service.OrganizationServiceImpl", additionalContextFile = "classpath:nl-test-context.xml")
+    @Client(value = "org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl", additionalContextFile = "classpath:nl-test-context.xml")
     private OrganizationService orgService;
     private OrganizationContextImpl orgContext = new OrganizationContextImpl();
 
@@ -35,7 +38,7 @@ public class OrganizationContextImplTest extends AbstractServiceTest {
 	
 	private void setupTerm1() {
         List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null, TermParameterTypes.ORGANIZATION_KEY.getId(),"ADMIN-ORG-1",null,0L));
+        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null, TermParameterTypes.ORGANIZATION_KEY.getId(),"1",null,0L));
         term = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
 	}
 
@@ -70,10 +73,7 @@ public class OrganizationContextImplTest extends AbstractServiceTest {
         OrgInfo org = (OrgInfo) contextMap.get(OrganizationContextImpl.ORG_TOKEN);
 
         Assert.assertNotNull(contextMap);
-        Assert.assertEquals(null, org.getId());
-
-        Assert.assertEquals(null, org.getShortName());
-        Assert.assertEquals(null, org.getLongName());
+        Assert.assertEquals(null, org);
 	}
 
 }
