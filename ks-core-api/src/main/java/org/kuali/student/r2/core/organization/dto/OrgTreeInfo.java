@@ -16,23 +16,22 @@
 
 package org.kuali.student.r2.core.organization.dto;
 
-import java.io.Serializable;
-import java.util.List;
+import org.kuali.student.r2.core.organization.infc.OrgTree;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.student.r2.core.organization.infc.OrgTree;
+import java.io.Serializable;
+import java.util.List;
 //import org.w3c.dom.Element;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OrgTreeInfo", propOrder = {
-                "displayName", "orgHierarchyId", "orgId", "parentId",
-                "positions", "positionId", "personId", "relationTypeKey", "_futureElements" }) 
+                "displayName", "org", "parentId",
+                "positions", "relationTypeKey", "_futureElements" })
 
 public class OrgTreeInfo 
     implements OrgTree, Serializable {
@@ -43,23 +42,14 @@ public class OrgTreeInfo
     private String displayName;
 
     @XmlElement
-    private String orgHierarchyId;
-	
-    @XmlElement
-    private String orgId;
-	
+    private OrgInfo org;
+
     @XmlElement
     private String parentId;
-	
+
     @XmlElement
     private Long positions;
 
-    @XmlElement
-    private String positionId;
-	
-    @XmlElement
-    private String personId;
-	
     @XmlElement
     private String relationTypeKey;
 	
@@ -78,22 +68,19 @@ public class OrgTreeInfo
      *
      * @param orgTree the org tree to copy
      */
-    public OrgTreeInfo(OrgTree tree) {
-        if (tree != null) {
-            this.displayName = tree.getDisplayName();
-            this.orgHierarchyId = tree.getOrgHierarchyId();
-            this.orgId = tree.getOrgId();
-            this.parentId = tree.getParentId();
-            this.positions = tree.getPositions();
-            this.positionId = tree.getPositionId();
-            this.personId = tree.getPersonId();
-            this.relationTypeKey = tree.getRelationTypeKey();
+    public OrgTreeInfo(OrgTree orgTree) {
+        if (orgTree != null) {
+            this.displayName = orgTree.getDisplayName();
+            this.org = orgTree.getOrg();
+            this.parentId = orgTree.getParentId();
+            this.positions = orgTree.getPositions();
+            this.relationTypeKey = orgTree.getRelationTypeKey();
         }
     }
 
-    public OrgTreeInfo(String orgId, String parentId, String displayName) {
+    public OrgTreeInfo(OrgInfo organization, String parentId, String displayName) {
         super();
-        this.orgId = orgId;
+        this.org = organization;
         this.parentId = parentId;
         this.displayName = displayName;
     }
@@ -108,21 +95,12 @@ public class OrgTreeInfo
     }
 
     @Override
-    public String getOrgHierarchyId() {
-        return orgHierarchyId;
-    }
-    
-    public void setOrgHierarchyId(String orgHierarchyId) {
-        this.orgHierarchyId = orgHierarchyId;
-    }
-
-    @Override
-    public String getOrgId() {
-        return orgId;
+    public OrgInfo getOrg() {
+        return org;
     }
 	
-    public void setOrgId(String orgId) {
-        this.orgId = orgId;
+    public void setOrg(OrgInfo orgInfo) {
+        this.org = orgInfo;
     }
 
     @Override
@@ -144,24 +122,6 @@ public class OrgTreeInfo
     }
 
     @Override
-    public String getPositionId() {
-        return positionId;
-    }
-
-    public void setPositionId(String positionId) {
-        this.positionId = positionId;
-    }
-    
-    @Override
-    public String getPersonId() {
-        return personId;
-    }
-    
-    public void setPersonId(String personId) {
-        this.positionId = personId;
-    }
-    
-    @Override
     public String getRelationTypeKey() {
         return relationTypeKey;
     }
@@ -169,7 +129,6 @@ public class OrgTreeInfo
     public void setRelationTypeKey(String relationTypeKey) {
         this.relationTypeKey = relationTypeKey;
     }    
-
 
     /*
      * The hashCode() and equals() methodos are here because the
@@ -182,12 +141,9 @@ public class OrgTreeInfo
         final int prime = 31;
         int result = 1;
         result = prime * result + ((displayName == null) ? 0 : displayName.hashCode());
-        result = prime * result + ((orgHierarchyId == null) ? 0 : orgHierarchyId.hashCode());
-        result = prime * result + ((orgId == null) ? 0 : orgId.hashCode());
+        result = prime * result + ((org == null) ? 0 : org.hashCode());
         result = prime * result + ((parentId == null) ? 0 : parentId.hashCode());
         result = prime * result + ((positions == null) ? 0 : positions.hashCode());
-        result = prime * result + ((positionId == null) ? 0 : positionId.hashCode());
-        result = prime * result + ((personId == null) ? 0 : personId.hashCode());
         result = prime * result + ((relationTypeKey == null) ? 0 : relationTypeKey.hashCode());
         return result;
     }
@@ -215,20 +171,12 @@ public class OrgTreeInfo
         } else if (!displayName.equals(other.getDisplayName())) {
             return false;
         }
-        
-        if (orgHierarchyId == null) {
-            if (other.getOrgHierarchyId() != null) {
-                return false;
-            }
-        } else if (!orgHierarchyId.equals(other.getOrgHierarchyId())) {
-            return false;
-        }
 
-        if (orgId == null) {
-            if (other.getOrgId() != null) {
+        if (org == null) {
+            if (other.getOrg() != null) {
                 return false;
             }
-        } else if (!orgId.equals(other.getOrgId())) {
+        } else if (!org.getId().equals(other.getOrg().getId())) {
             return false;
         }
 
@@ -245,22 +193,6 @@ public class OrgTreeInfo
                 return false;
             }
         } else if (!positions.equals(other.getPositions())) {
-            return false;
-        }
-
-        if (positionId == null) {
-            if (other.getPositionId() != null) {
-                return false;
-            }
-        } else if (!positionId.equals(other.getPositionId())) {
-            return false;
-        }
-
-        if (personId == null) {
-            if (other.getPersonId() != null) {
-                return false;
-            }
-        } else if (!personId.equals(other.getPersonId())) {
             return false;
         }
 

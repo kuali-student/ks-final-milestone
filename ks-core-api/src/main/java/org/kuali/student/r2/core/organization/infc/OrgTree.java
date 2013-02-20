@@ -21,6 +21,8 @@
 
 package org.kuali.student.r2.core.organization.infc;
 
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+
 /**
  * This is used to retrieve a flattened organization hierarchy from a
  * reference organization node down a specified number of levels.
@@ -39,23 +41,14 @@ public interface OrgTree {
     public String getDisplayName();
 
     /**
-     * Gets the Id of the Organization Hierarchy.
-     *
-     * @name Org Hierarchy Id
-     * @required
-     * @readOnly
-     */   
-    public String getOrgHierarchyId();
-
-    /**
-     * Gets the Id of the reference or starting Organization node in
+     * Gets the reference or starting Organization node in
      * this tree.
      *
-     * @name Org Id
+     * @name Org
      * @required
      * @readOnly
      */   
-    public String getOrgId();
+    public OrgInfo getOrg();
 
     /**
      * Gets the Id of the parent to the Organization node.
@@ -74,22 +67,6 @@ public interface OrgTree {
      * @readOnly
      */               
     public Long getPositions();
-
-    /**
-     * Gets the Id of the current position (for person?). 
-     *
-     * @name Position Id
-     * @readOnly
-     */   
-    public String getPositionId();
-
-    /**
-     * Gets the Id of the person at the current position.
-     *
-     * @name Person Id
-     * @readOnly
-     */       
-    public String getPersonId();
 
     /**
      * Gets the type key of the relation. (or person relation???)
