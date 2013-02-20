@@ -54,6 +54,7 @@ public class AcalEventAssembler  implements DTOAssembler<AcalEventInfo, Mileston
         msInfo.setEndDate(acalEventInfo.getEndDate());
         msInfo.setIsAllDay(acalEventInfo.getIsAllDay());
         msInfo.setIsDateRange(acalEventInfo.getIsDateRange());
+        msInfo.setIsInstructionalDay(false);//default to false
         msInfo.setIsRelative(false);
 
         msInfo.setStateKey(acalEventInfo.getStateKey());

@@ -30,30 +30,8 @@
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
     <!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
+    <import resource="classpath:ks-core-api-data-dictionary-validator-configuration.xml" />
 
-    <!--
-        <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-            <property name="properties" value="#{bootstrapConfig.getProperties()}" />
-        </bean>
-
-        <bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
-            <property name="configLocations">
-                <list>
-                    <value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</value>
-                </list>
-            </property>
-        </bean>
-
-        <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-            <property name="staticMethod" value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" />
-            <property name="arguments">
-                <list><ref bean="bootstrapConfig"/></list>
-            </property>
-        </bean>
-        <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
-            <property name="localServiceName" value="KSCoreContext"/>
-        </bean>
-    -->
     <bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
         <property name="messageFiles">
             <list>
@@ -263,11 +241,18 @@
         <property name="dao" ref="enrollSearchableDao"/>
     </bean>
 
+    <bean id="atpServiceValidation" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
+        <property name="nextDecorator" ref="atpServiceImpl" />
+        <property name="validator" ref="validator" />
+    </bean>
+
+    <alias name="atpServiceValidation" alias="AtpService" />
+
     <bean id="ks.exp.atpService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
-                <property name="service" ref="atpServiceImpl" />
+                <property name="service" ref="AtpService" />
                 <property name="serviceInterface" value="org.kuali.student.r2.core.atp.service.AtpService" />
                 <property name="localServiceName" value="AtpService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/atp" />
