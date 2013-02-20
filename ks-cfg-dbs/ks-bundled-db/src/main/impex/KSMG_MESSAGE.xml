@@ -3180,7 +3180,7 @@
         MSG_ID="program.menu.sections.viewAll"
         MSG_VALUE="View All Sections"
         OBJ_ID="4d1d1985-3298-4507-afc4-86c11ce170ef" VER_NBR="1"/>
-<KSMG_MESSAGE GRP_NAME="kuali.org.Message.Degree.Audit.Group.Name.Home.Page"
+    <KSMG_MESSAGE GRP_NAME="kuali.org.Message.Degree.Audit.Group.Name.Home.Page"
                   ID="16FA-4833-B3B3-432F-9A8F-460C-219A-1B26" LOCALE="en_US"
                   MSG_ID="kuali.org.Message.Degree.Audit.Message.ID.howToUseDegreeAudit"
                   MSG_VALUE="How to Use Degree Audit (DARS) for Academic Planning"
