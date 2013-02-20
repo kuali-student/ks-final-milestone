@@ -182,7 +182,7 @@
                       p:label="ROOM"
                       p:propertyName="roomName"/>-->
                 <bean parent="Uif-MessageField"
-                      p:label="BUILDING"
+                      p:label="ROOM"
                       p:messageText="@{#line.roomName}" />
 
                 <bean parent="Uif-MessageField"
