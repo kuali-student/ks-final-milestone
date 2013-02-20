@@ -17,6 +17,7 @@ package org.kuali.student.r2.core.class1.type.service.impl;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
+import org.kuali.student.common.test.spring.log4j.KSLog4JConfigurer;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -75,16 +76,7 @@ public class TypeServiceMockImpl implements TypeService, MockService {
     private static final String  SERVICE_URI_HEADER = "service_uri";
 
 
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(TypeServiceMockImpl.class);
-
-    static {
-
-        try {
-            Log4jConfigurer.initLogging("C:/Users/aliabad4.C48NPBS1/kuali/main/dev/log4j.properties", 35);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
+    private static final org.slf4j.Logger log = KSLog4JConfigurer.getLogger(TypeServiceMockImpl.class);
 
     public TypeServiceMockImpl() {
         super();
