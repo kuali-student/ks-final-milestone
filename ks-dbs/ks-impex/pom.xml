@@ -204,10 +204,19 @@
           <plugin>
             <groupId>org.kuali.maven.plugins</groupId>
             <artifactId>spring-maven-plugin</artifactId>
-            <configuration>
-              <location>classpath:org/kuali/student/impex/ks-dump-context.xml</location>
-              <propertiesBeanName>dumpProperties</propertiesBeanName>
-            </configuration>
+            <executions>
+              <execution>
+                <id>load</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>load</goal>
+                </goals>
+                <configuration>
+                  <location>classpath:org/kuali/student/impex/ks-dump-context.xml</location>
+                  <propertiesBeanName>dumpProperties</propertiesBeanName>
+                </configuration>
+              </execution>
+            </executions>
           </plugin>
         </plugins>
       </build>
