@@ -24,25 +24,6 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-  <bean id="userHome" class="java.lang.String">
-    <constructor-arg value="/root" />
-  </bean>
-  <bean id="projectBasedir" class="java.lang.String">
-    <constructor-arg value="#{userHome}/ws/impex-2.0/torque-generator" />
-  </bean>
-  <bean id="projectBuildDirectory" class="java.lang.String">
-    <constructor-arg value="#{userHome}/ws/impex-2.0/torque-generator/target" />
-  </bean>
-  <bean id="riceIncludes" class="java.lang.String">
-    <constructor-arg value="KR.*" />
-  </bean>
-  <bean id="studentIncludes" class="java.lang.String">
-    <constructor-arg value="KS.*" />
-  </bean>
-  <bean id="impexIncludes" class="java.lang.String">
-    <constructor-arg value="#{riceIncludes},#{studentIncludes}" />
-  </bean>
-
   <!-- These will be pumped into the context by spring-maven-plugin once things are tightened up a bit -->
   <util:properties id="dumpProperties">
     <prop key="project.artifactId">ks-source-db</prop>
@@ -71,19 +52,19 @@
 
   <bean id="riceDumpContext" class="org.kuali.common.impex.ImpexContextCloningFactoryBean">
     <property name="artifactId" value="ks-rice-db" />
-    <property name="include" value="#{riceIncludes}" />
+    <property name="include" value="${impex.rice.includes}" />
     <property name="sourceContext" ref="sourceContext" />
   </bean>
 
   <bean id="appDumpContext" class="org.kuali.common.impex.ImpexContextCloningFactoryBean">
     <property name="artifactId" value="ks-app-db" />
-    <property name="include" value="#{studentIncludes}" />
+    <property name="include" value="${impex.ks.includes}" />
     <property name="sourceContext" ref="sourceContext" />
   </bean>
 
   <bean id="bundledDumpContext" class="org.kuali.common.impex.ImpexContextCloningFactoryBean">
     <property name="artifactId" value="ks-bundled-db" />
-    <property name="include" value="#{studentIncludes},#{riceIncludes}" />
+    <property name="include" value="${impex.rice.includes},${impex.ks.includes}" />
     <property name="sourceContext" ref="sourceContext" />
   </bean>
 
