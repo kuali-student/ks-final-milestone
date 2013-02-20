@@ -14,7 +14,7 @@
         <property name="properties" value="${propertiesPrefix.systemProperties}" />
     </bean>
     
-    <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl" autowire="byType">
+    <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl" autowire="byType" scope="prototype" >
     </bean>
 
     <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl">
