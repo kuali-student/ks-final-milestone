@@ -22,7 +22,7 @@ import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import java.util.List;
 
 /**
- * Used by the AutogenRegistrationGroupAppLayer
+ * Used by the AutogenRegGroupServiceAdapter
  *
  * @author Kuali Student Team
  */

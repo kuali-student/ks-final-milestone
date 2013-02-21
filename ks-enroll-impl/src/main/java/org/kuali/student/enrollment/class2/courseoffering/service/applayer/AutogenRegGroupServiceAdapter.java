@@ -2,9 +2,11 @@ package org.kuali.student.enrollment.class2.courseoffering.service.applayer;
 
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -14,6 +16,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -26,7 +29,7 @@ import java.util.Map;
  *    AOC: activity offering cluster
  *    RG: registration group
  */
-public interface AutogenRegistrationGroupAppLayer {
+public interface AutogenRegGroupServiceAdapter {
     
     /**
      * Useful for when a cluster is created to create the naming.
@@ -56,6 +59,9 @@ public interface AutogenRegistrationGroupAppLayer {
             throws PermissionDeniedException, MissingParameterException,
                    InvalidParameterException, OperationFailedException,
                    DoesNotExistException, ReadOnlyException, DataValidationErrorException;
+
+    CourseOfferingInfo copyCourseOfferingToTargetTerm(CourseOfferingInfo coInfo, TermInfo targetTerm, List<String> optionKeys, ContextInfo context) throws InvalidParameterException, PermissionDeniedException, DataValidationErrorException, AlreadyExistsException, ReadOnlyException, OperationFailedException, MissingParameterException, DoesNotExistException
+            ;
 
     /**
      * User Story 3: I need the system to automatically create reg groups when I create an AO (via add or copy)

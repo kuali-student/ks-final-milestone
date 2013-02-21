@@ -23,6 +23,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
@@ -30,9 +32,11 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -42,7 +46,10 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 
 /**
  * Implementation of the Application Service Layer to provide the functionally specified functionality
@@ -51,14 +58,14 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
  *
  * @author Kuali Student Team
  */
-public class AutogenRegistrationGroupAppLayerImpl implements AutogenRegistrationGroupAppLayer {
+public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupServiceAdapter {
 
     @Resource (name="CourseOfferingService")
     private CourseOfferingService coService;
     
     
     /* (non-Javadoc)
-     * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegistrationGroupAppLayer#getDefaultClusterName(int)
+     * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegGroupServiceAdapter#getDefaultClusterName(int)
      */
     @Override
     public String getDefaultClusterName(int numberOfExistingClusters) {
@@ -102,6 +109,35 @@ public class AutogenRegistrationGroupAppLayerImpl implements AutogenRegistration
         ActivityOfferingClusterInfo aoc =
                 coService.createActivityOfferingCluster(foId, CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY, clusterInfo, context);
         return aoc;
+    }
+
+    /**
+     * User Story 2: I need the system to automatically create reg group(s) when I add a CO via Copy to eliminate
+     * the need to manually create them
+     * Note: this only handles copying an existing CO to a term, not creating from canonical which will
+     *       be a separate method (not written as of now).
+     * Note: not yet unit tested
+     * Note: rollover will handle generation of RGs (not yet implemented)
+     */
+    @Override
+    public CourseOfferingInfo copyCourseOfferingToTargetTerm(CourseOfferingInfo coInfo, TermInfo targetTerm, List<String> optionKeys, ContextInfo context)
+            throws InvalidParameterException, PermissionDeniedException, DataValidationErrorException,
+                   AlreadyExistsException, ReadOnlyException, OperationFailedException, MissingParameterException,
+                   DoesNotExistException {
+        // Impl based on CourseOfferingManagementController::copyCourseOfferingCreateCopy
+        if (optionKeys == null) {
+            optionKeys = new ArrayList<String>();
+        }
+
+        optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY);
+
+        SocRolloverResultItemInfo item = coService.rolloverCourseOffering(
+                coInfo.getId(),
+                targetTerm.getId(),
+                optionKeys,
+                context);
+        CourseOfferingInfo targetCo = coService.getCourseOffering(item.getTargetCourseOfferingId(), context);
+        return targetCo;
     }
 
     @Override
@@ -223,7 +259,7 @@ public class AutogenRegistrationGroupAppLayerImpl implements AutogenRegistration
     }
 
     /* (non-Javadoc)
-     * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegistrationGroupAppLayer#getMaxEnrollmentByCourseOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+     * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegGroupServiceAdapter#getMaxEnrollmentByCourseOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
     public Integer getSeatCountByCourseOffering(String courseOfferingId,
@@ -257,7 +293,7 @@ public class AutogenRegistrationGroupAppLayerImpl implements AutogenRegistration
     
    
     /* (non-Javadoc)
-     * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegistrationGroupAppLayer#getMaxEnrollmentByActivityOfferingCluster(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+     * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegGroupServiceAdapter#getMaxEnrollmentByActivityOfferingCluster(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
     public Integer getSeatCountByActivityOfferingCluster(String aocId,
@@ -379,7 +415,7 @@ public class AutogenRegistrationGroupAppLayerImpl implements AutogenRegistration
 
     }
     /* (non-Javadoc)
-     * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegistrationGroupAppLayer#getMaxEnrollmentByRegistrationGroup(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+     * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegGroupServiceAdapter#getMaxEnrollmentByRegistrationGroup(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
     public Integer getSeatCountByRegistrationGroup(

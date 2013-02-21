@@ -11,7 +11,7 @@
 
   <import resource="classpath:co-test-with-class2-mock-context.xml" />
   
-    <bean id="autogenRegistrationGroupAppLayer" class=" org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegistrationGroupAppLayerImpl" autowire="autodetect" />
+    <bean id="autogenRegistrationGroupAppLayer" class=" org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegGroupServiceAdapterImpl" autowire="autodetect" />
     
    
     

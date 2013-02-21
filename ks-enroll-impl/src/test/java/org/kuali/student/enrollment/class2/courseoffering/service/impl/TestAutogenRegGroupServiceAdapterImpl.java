@@ -30,7 +30,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.test.spring.log4j.KSLog4JConfigurer;
 import org.kuali.student.enrollment.class2.courseoffering.service.applayer.ActivityOfferingResult;
-import org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegistrationGroupAppLayer;
+import org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegGroupServiceAdapter;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader.CourseOfferingCreationDetails;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -79,9 +79,9 @@ import static org.junit.Assert.fail;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:co-autogen-rg-test-context.xml"})
-public class TestAutogenRegistrationGroupAppLayerImpl {
+public class TestAutogenRegGroupServiceAdapterImpl {
     private static final Logger log = KSLog4JConfigurer
-            .getLogger(TestAutogenRegistrationGroupAppLayerImpl.class);
+            .getLogger(TestAutogenRegGroupServiceAdapterImpl.class);
 
     @Resource (name="CourseOfferingService")
     protected CourseOfferingService coService;
@@ -102,14 +102,14 @@ public class TestAutogenRegistrationGroupAppLayerImpl {
     protected AtpService atpService;
     
     @Resource
-    private AutogenRegistrationGroupAppLayer appLayer;
+    private AutogenRegGroupServiceAdapter serviceAdapter;
 
     private ContextInfo contextInfo;
     
     /**
      * 
      */
-    public TestAutogenRegistrationGroupAppLayerImpl() {
+    public TestAutogenRegGroupServiceAdapterImpl() {
     }
     
     @Before
@@ -150,7 +150,7 @@ public class TestAutogenRegistrationGroupAppLayerImpl {
         assertEquals(2, rgInfos.size());
         // App layer call
         ActivityOfferingResult aoResult =
-                appLayer.createActivityOffering(aoInfo, aocId, contextInfo);
+                serviceAdapter.createActivityOffering(aoInfo, aocId, contextInfo);
         List<String> aoIds = new ArrayList<String>();
         aoIds.add(aoResult.getCreatedActivityOffering().getId());
         List<RegistrationGroupInfo> rgInfosByAo = coService.getRegistrationGroupsWithActivityOfferings(aoIds, contextInfo);
@@ -191,7 +191,7 @@ public class TestAutogenRegistrationGroupAppLayerImpl {
         String aoIdFirst = aoInfos.get(0).getId();
         String aoIdSecond = aoInfos.get(1).getId();
         // App layer call
-        appLayer.deleteActivityOfferingCascaded(aoIdFirst, aocId, contextInfo);
+        serviceAdapter.deleteActivityOfferingCascaded(aoIdFirst, aocId, contextInfo);
         List<ActivityOfferingClusterInfo> retrieved =
                 coService.getActivityOfferingClustersByFormatOffering(foId, contextInfo);
         // Fetch the AOs again--should only be 1
@@ -228,7 +228,7 @@ public class TestAutogenRegistrationGroupAppLayerImpl {
         assertEquals(2, rgsByFo.size());
         // App layer call
         // Now zap the AOC
-        appLayer.deleteActivityOfferingCluster(aocId, contextInfo);
+        serviceAdapter.deleteActivityOfferingCluster(aocId, contextInfo);
         try {
             coService.getActivityOfferingCluster(aocId, contextInfo);
             assert(false); // Shouldn't get here
@@ -278,7 +278,7 @@ public class TestAutogenRegistrationGroupAppLayerImpl {
                 coService.createActivityOfferingCluster(foId, aocSecondTypeKey, aocSecond, contextInfo);
         // And move the AO from original AOC to this newly created AOC
         List<BulkStatusInfo> bulkStatuses =
-                appLayer.moveActivityOffering(aoIdSecond, aocId, aocSecondCreated.getId(), contextInfo);
+                serviceAdapter.moveActivityOffering(aoIdSecond, aocId, aocSecondCreated.getId(), contextInfo);
         assertEquals(1, bulkStatuses.size());
         String newRgId = bulkStatuses.get(0).getId();
         RegistrationGroupInfo newRg = coService.getRegistrationGroup(newRgId, contextInfo);
@@ -510,7 +510,7 @@ public class TestAutogenRegistrationGroupAppLayerImpl {
         Assert.assertEquals(6,  generatedStatus.size());
         
         
-        Integer aocSeatCount = appLayer.getSeatCountByActivityOfferingCluster(defaultAoc.getId(), contextInfo);
+        Integer aocSeatCount = serviceAdapter.getSeatCountByActivityOfferingCluster(defaultAoc.getId(), contextInfo);
         
         Assert.assertNotNull(aocSeatCount);
         Assert.assertEquals(150, aocSeatCount.intValue());
