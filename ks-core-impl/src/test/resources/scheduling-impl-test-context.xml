@@ -56,6 +56,8 @@
                   value="${${db.vendor}.jdbc.xaDataSourceClassName}" />
         <property name="xaProperties" value="$[${db.vendor}.jdbc.xaDataSourceProperties]"/>
         <property name="maxPoolSize" value="20" />
+        <property name="minPoolSize" value="${jdbc.minPoolSize}" />
+        <property name="testQuery" value="${jdbc.testQuery}" />
     </bean>
 
     <bean id="vendorAdapter" class="${${jpa.vendor}.jpa.vendorAdapter}" depends-on="propertyConfigurer">
