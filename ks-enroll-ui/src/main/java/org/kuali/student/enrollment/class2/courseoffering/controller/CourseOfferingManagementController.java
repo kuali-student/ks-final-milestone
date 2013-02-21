@@ -1231,6 +1231,25 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm);
     }
 
+    @RequestMapping(params = "methodToCall=deleteOneCoWithLink")
+    public ModelAndView deleteOneCoWithLink(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+                                  @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+        // get the co and set in the form as selected
+        CourseOfferingWrapper currentCourseOfferingWrapper  = theForm.getCurrentCourseOfferingWrapper();
+
+        List<CourseOfferingListSectionWrapper> courseOfferingList = theForm.getCourseOfferingResultList();
+        for (CourseOfferingListSectionWrapper co : courseOfferingList) {
+             if(StringUtils.equals(co.getCourseOfferingId(), currentCourseOfferingWrapper.getCourseOfferingId())) {
+                 co.setIsChecked(true);
+                 break;
+             }
+        }
+
+        getViewHelperService(theForm).deleteCourseOfferings(theForm);
+        //reloadCourseOfferings(theForm);
+        return getUIFModelAndView(theForm, CourseOfferingConstants.CO_DELETE_CONFIRM_PAGE);
+    }
+
     @RequestMapping(params = "methodToCall=deleteCOs")
     public ModelAndView deleteCOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
