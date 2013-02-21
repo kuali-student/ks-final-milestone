@@ -41,6 +41,6 @@ public class TestTermCodeGeneratorImpl {
         String termCode =  tcg.generateTermCode(term);
 
         String startYear = DateFormatters.DEFULT_YEAR_FORMATTER.format(new Date());
-        assertEquals(startYear + "1",termCode);
+        assertEquals(startYear + "12",termCode);
     }
 }

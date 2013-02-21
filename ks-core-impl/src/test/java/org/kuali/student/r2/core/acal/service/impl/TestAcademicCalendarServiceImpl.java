@@ -307,7 +307,7 @@ public class TestAcademicCalendarServiceImpl {
         assertNotNull(temp.getId());
 
         // check the generated code, based on formula in https://jira.kuali.org/browse/KSENROLL-1146
-        String expectedCode = DateUtil.formatDate(term.getStartDate(), "yyyy") + "4";
+        String expectedCode = DateUtil.formatDate(term.getStartDate(), "yyyy") + "08";
         assertEquals(expectedCode, created.getCode());
 
         term.setId(null);

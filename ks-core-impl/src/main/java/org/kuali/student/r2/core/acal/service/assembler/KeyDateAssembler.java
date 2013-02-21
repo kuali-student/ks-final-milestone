@@ -50,7 +50,7 @@ public class KeyDateAssembler implements DTOAssembler<KeyDateInfo, MilestoneInfo
             milestone.setRelativeAnchorMilestoneId(businessDTO.getRelativeAnchorKeyDateId());
             milestone.setStartDate(businessDTO.getStartDate());
             milestone.setStateKey(businessDTO.getStateKey());
-            milestone.setTypeKey(milestone.getTypeKey());
+            milestone.setTypeKey(businessDTO.getTypeKey());
 
             return milestone;
         } else {
