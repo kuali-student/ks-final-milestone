@@ -36,7 +36,7 @@
     </bean>
 
     <bean id="lumDataSource"
-        class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
+        class="org.kuali.student.common.test.spring.UniqueResourceAtomikosDataSourceBean" init-method="init"
         destroy-method="close" depends-on="systemPropertyConfigurer">
         <property name="uniqueResourceName" value="dataSource" />
         <property name="xaDataSourceClassName" value="${jdbc.xaDataSourceClassName}" />
