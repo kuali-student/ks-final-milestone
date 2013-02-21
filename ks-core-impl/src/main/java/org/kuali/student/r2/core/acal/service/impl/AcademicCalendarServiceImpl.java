@@ -7,15 +7,28 @@ import org.joda.time.DateTimeConstants;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r2.core.acal.dto.*;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DateRangeInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
+import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.HolidayInfo;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.acal.service.assembler.AcademicCalendarAssembler;
 import org.kuali.student.r2.core.acal.service.assembler.AcalEventAssembler;
 import org.kuali.student.r2.core.acal.service.assembler.HolidayAssembler;
@@ -37,7 +50,16 @@ import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class AcademicCalendarServiceImpl implements AcademicCalendarService {
@@ -938,7 +960,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public KeyDateInfo getKeyDate(String keyDateId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         MilestoneInfo ms = atpService.getMilestone(keyDateId, context);
-        return (null != ms) ? fromMilestoneInfo(ms) : null;
+        return (null != ms) ? keyDateAssembler.assemble(ms,context) : null;
     }
 
     @Override
@@ -965,7 +987,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         List<KeyDateInfo> keyDates = new ArrayList<KeyDateInfo>(milestones.size());
 
         for (MilestoneInfo milestone : milestones) {
-            keyDates.add(fromMilestoneInfo(milestone));
+            keyDates.add(keyDateAssembler.assemble(milestone,context));
         }
 
         return keyDates;
@@ -977,7 +999,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         List<MilestoneInfo> milestoneInfos = atpService.getMilestonesByDatesForAtp(termId, startDate, endDate, context);
         List<KeyDateInfo> keyDates = new ArrayList<KeyDateInfo>();
         for (MilestoneInfo milestoneInfo : milestoneInfos) {
-            keyDates.add(fromMilestoneInfo(milestoneInfo));
+            keyDates.add(keyDateAssembler.assemble(milestoneInfo,context));
         }
         return keyDates;
     }
@@ -988,53 +1010,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         List<KeyDateInfo> impactedKeyDates = new ArrayList<KeyDateInfo>();
         List<MilestoneInfo> impactedMilestones = atpService.getImpactedMilestones(keyDateId, contextInfo);
         for (MilestoneInfo impactedMilestone : impactedMilestones) {
-            impactedKeyDates.add(fromMilestoneInfo(impactedMilestone));
+            impactedKeyDates.add(keyDateAssembler.assemble(impactedMilestone,contextInfo));
         }
         return impactedKeyDates;
-    }
-
-    private MilestoneInfo toMilestoneInfo(KeyDateInfo keyDateInfo) {
-        if (keyDateInfo != null) {
-            MilestoneInfo msInfo = new MilestoneInfo();
-            msInfo.setIsAllDay(keyDateInfo.getIsAllDay());
-            msInfo.setAttributes(keyDateInfo.getAttributes());
-            msInfo.setIsDateRange(keyDateInfo.getIsDateRange());
-            msInfo.setDescr(keyDateInfo.getDescr());
-            msInfo.setId(keyDateInfo.getId());
-            msInfo.setMeta(keyDateInfo.getMeta());
-            msInfo.setName(keyDateInfo.getName());
-            msInfo.setStartDate(keyDateInfo.getStartDate());
-            msInfo.setEndDate(keyDateInfo.getEndDate());
-            msInfo.setStateKey(keyDateInfo.getStateKey());
-            msInfo.setTypeKey(keyDateInfo.getTypeKey());
-
-            return msInfo;
-        } else {
-            return null;
-        }
-    }
-
-    private KeyDateInfo fromMilestoneInfo(MilestoneInfo milestoneInfo) {
-        if (milestoneInfo != null) {
-            KeyDateInfo keyInfo = new KeyDateInfo();
-            keyInfo.setIsAllDay(milestoneInfo.getIsAllDay());
-            keyInfo.setAttributes(milestoneInfo.getAttributes());
-            keyInfo.setIsDateRange(milestoneInfo.getIsDateRange());
-            keyInfo.setDescr(milestoneInfo.getDescr());
-            keyInfo.setId(milestoneInfo.getId());
-            keyInfo.setMeta(milestoneInfo.getMeta());
-            keyInfo.setName(milestoneInfo.getName());
-            keyInfo.setStartDate(milestoneInfo.getStartDate());
-            keyInfo.setEndDate(milestoneInfo.getEndDate());
-            keyInfo.setStateKey(milestoneInfo.getStateKey());
-            keyInfo.setTypeKey(milestoneInfo.getTypeKey());
-            keyInfo.setIsRelativeToKeyDate(milestoneInfo.getIsRelative());
-            keyInfo.setRelativeAnchorKeyDateId(milestoneInfo.getRelativeAnchorMilestoneId());
-
-            return keyInfo;
-        } else {
-            return null;
-        }
     }
 
     @Override
@@ -1047,7 +1025,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         if (!StringUtils.equals(existingMilestone.getStateKey(),keyDateInfo.getStateKey())){
              throw new OperationFailedException("It's not possible to update the state with this call. Please use changeKeyDateState() instead");
         }
-        MilestoneInfo toUpdate = toMilestoneInfo(keyDateInfo);
+        MilestoneInfo toUpdate = keyDateAssembler.disassemble(keyDateInfo,context);
         MilestoneInfo newMilestone = null;
         try {
             newMilestone = atpService.updateMilestone(keyDateId, toUpdate, context);
@@ -1055,7 +1033,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             throw new OperationFailedException("Error updating milestone", e);
         }
 
-        return fromMilestoneInfo(newMilestone);
+        return keyDateAssembler.assemble(newMilestone,context);
     }
 
     @Override
@@ -1075,7 +1053,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public KeyDateInfo calculateKeyDate(String keyDateId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         MilestoneInfo milestone = atpService.calculateMilestone(keyDateId, contextInfo);
-        return fromMilestoneInfo(milestone);
+        return keyDateAssembler.assemble(milestone,contextInfo);
     }
 
     @Override
@@ -1709,11 +1687,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         AtpInfo atp = atpService.getAtp(termId, contextInfo);
 
         if(checkTypeForKeydateType(keyDateTypeKey, atp.getTypeKey(), contextInfo)){
-            try {
-                milestoneInfo = keyDateAssembler.disassemble(keyDateInfo, contextInfo);
-            } catch (AssemblyException e) {
-                throw new OperationFailedException("AssemblyException in disassembling: " + e.getMessage());
-            }
+            milestoneInfo = keyDateAssembler.disassemble(keyDateInfo, contextInfo);
 
             if (milestoneInfo != null) {
                 if (StringUtils.isBlank(milestoneInfo.getTypeKey())) {
@@ -1725,8 +1699,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                     newKeyDateInfo = keyDateAssembler.assemble(newMilestone, contextInfo);
                 } catch (ReadOnlyException e) {
                     throw new OperationFailedException("Error creating milestone", e);
-                } catch (AssemblyException e) {
-                    throw new OperationFailedException("AssemblyException in assembling: " + e.getMessage());
                 }
 
                 try {

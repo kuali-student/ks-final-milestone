@@ -32,15 +32,16 @@ import java.util.Map;
 public class TermCodeGeneratorImpl implements TermCodeGenerator {
     private static final String YEAR_ONLY_FORMAT_STRING = "yyyy";
 
-    private static Map<String, Integer> termTypeCodeMap;
+    private static Map<String, String> termTypeCodeMap;
 
     static {
-        Map<String, Integer> map = new HashMap<String, Integer>(4);
+        Map<String, String> map = new HashMap<String, String>(5);
 
-        map.put(AtpServiceConstants.ATP_WINTER_TYPE_KEY, 1);
-        map.put(AtpServiceConstants.ATP_SPRING_TYPE_KEY, 2);
-        map.put(AtpServiceConstants.ATP_SUMMER_TYPE_KEY, 3);
-        map.put(AtpServiceConstants.ATP_FALL_TYPE_KEY, 4);
+        map.put(AtpServiceConstants.ATP_WINTER_TYPE_KEY, "12");
+        map.put(AtpServiceConstants.ATP_SPRING_TYPE_KEY, "01");
+        map.put(AtpServiceConstants.ATP_SUMMER1_TYPE_KEY, "05");
+        map.put(AtpServiceConstants.ATP_SUMMER1_TYPE_KEY, "07");
+        map.put(AtpServiceConstants.ATP_FALL_TYPE_KEY, "08");
 
         termTypeCodeMap = Collections.unmodifiableMap(map);
     }

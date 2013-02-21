@@ -143,15 +143,15 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     }
 
     private void _atpAtpRelationFullValidation(AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws DataValidationErrorException, OperationFailedException, InvalidParameterException,
-            MissingParameterException {
-//        try {
-//            List<ValidationResultInfo> errors = this.validateAtpAtpRelation(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), atpAtpRelationInfo, context);
-//            if (!errors.isEmpty()) {
-//                throw new DataValidationErrorException("Error(s) occurred validating atp-atp relation", errors);
-//            }
-//        } catch (DoesNotExistException ex) {
-//            throw new OperationFailedException("Error validating atp-atp relation", ex);
-//        }
+            MissingParameterException, PermissionDeniedException {
+        try {
+            List<ValidationResultInfo> errors = this.validateAtpAtpRelation(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), atpAtpRelationInfo.getAtpId(), atpAtpRelationInfo.getRelatedAtpId(), atpAtpRelationInfo.getTypeKey(), atpAtpRelationInfo, context);
+            if (!errors.isEmpty()) {
+                throw new DataValidationErrorException("Error(s) occurred validating atp-atp relation", errors);
+            }
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error validating atp-atp relation", ex);
+        }
     }
 
     @Override
