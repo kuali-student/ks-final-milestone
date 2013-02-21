@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+    <bean id="Agenda-Student-MaintenanceView" parent="KSMaintenanceView">
+        <property name="headerText" value="Manage Enrollment Eligibility"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-enrollment-home</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>krms/scripts/agendaTree.js</value>
+                <value>krms/scripts/ruleStudentTree.js</value>
+                <value>krms/scripts/requiredAlerts.js</value>
+                <value>krms/scripts/disableStudentButtons.js</value>
+                <value>krms/scripts/countdownInputs.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ks-enroll/css/krms.css</value>
+            </list>
+        </property>
+        <property name="viewName" value="AgendaWithRuleView"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.RuleEditor"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.enrollment.class1.krms.service.impl.RuleViewHelperServiceImpl"/>
+        <property name="page.items">
+            <list>
+                <ref bean="KS-Rules-ManageSection"/>
+            </list>
+        </property>
+        <property name="page.footer.items">
+            <ref bean="KSDocumentPageFooter_SubmitCancel" />
+        </property>
+        <property name="dialogs">
+            <list>
+                <bean id="myCourseRangeLightBox" parent="KRMS-CourseRangeLightBox"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Rules-ManageSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+
+                <bean parent="Uif-PageHeader" p:headerText="@{#dp.courseName}"/>
+
+                <bean id="KS-RuleView-Section" parent="KS-VerticalBoxSection">
+                    <property name="headerText" value="Prerequisite Rule"/>
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-RuleView-DateSection"/>
+                            <!--<ref bean="KS-RuleView-PreviewSection"/>-->
+                        </list>
+                    </property>
+                </bean>
+
+                <bean id="KS-RuleEdit-TabSection" parent="Uif-TabSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-EditWithObject-EditSection" />
+                            <bean parent="KS-EditWithLogic-EditSection" />
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-EditWithObject-EditSection" parent="Uif-VerticalBoxSection"
+          p:headerText="Edit with Object" p:header.render="false">
+        <property name="items">
+            <list>
+                <bean parent="KS-EditWithObject-EditGroup"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-EditWithLogic-EditSection" parent="Uif-VerticalBoxSection"
+          p:headerText="Edit with Logic" p:header.render="false">
+        <property name="items">
+            <list>
+                <bean parent="KS-EditWithLogic-EditGroup"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-RulePreview-Links" parent="Uif-LinkGroup"  >
+        <property name="linkSeparator" value=" | "/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Link" p:linkText="Edit">
+                    <property name="toolTip">
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Edit Prerequisite Rule"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-Link" p:linkText="Copy">
+                    <property name="toolTip">
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Copy to other CO"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-Link" p:linkText="Compare" p:onClickScript="e.preventDefault();showLightboxUrl('@{#ConfigProperties['application.url']}/kr-krad/krmsComponents?viewId=krmsCompareRulesView&amp;methodToCall=start');" >
+                    <property name="toolTip">
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Compares CLU and CO Rules"/>
+                    </property>
+                </bean>
+
+            </list>
+
+        </property>
+    </bean>
+
+    <bean id="KS-RuleView-DateSection"  parent="KS-VerticalBoxSubSection">
+        <property name="headerText" value="Active Dates"/>
+        <property name="items">
+            <list>
+
+                <bean parent="Uif-InputField-LabelTop">
+                    <property name="propertyName" value="activeSelections"/>
+                    <property name="label" value="Activate / Deactivate Rule"/>
+                    <property name="control">
+                        <bean parent="Uif-VerticalCheckboxesControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Canonical Rule"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Course Offering Rule"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-rulesection-header</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-RuleView-PreviewSection" parent="KS-VerticalBoxSubSection">
+        <property name="headerText" value="Rule"/>
+        <property name="items">
+            <list>
+
+                <bean id="Preview-Tree-Section" parent="Uif-TreeSection">
+                    <property name="instructionalText" value="Conditions that will restrict student enrollment, addressing restrictions to majors,
+                            locations, credit level requirements, etc. or courses, with or without grade requirements,
+                            which a student must have completed in order to enroll."/>
+                    <property name="propertyName" value="previewTree"/>
+                    <property name="tree">
+                        <bean parent="RuleTreeWidget"/>
+                    </property>
+                    <property name="defaultNodePrototype">
+                        <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                            <property name="labelPrototype">
+                                <bean parent="Uif-Message"/>
+                            </property>
+                            <property name="dataGroupPrototype">
+                                <bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;"/>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+        <property name="header.rightGroup">
+            <bean parent="Uif-HeaderRightGroup">
+                <property name="items">
+                    <list>
+                        <ref bean="KS-RulePreview-Links" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="propositionGroup" parent="Uif-GridGroup">
+        <property name="headerText" value="Rule"/>
+    </bean>
+
+    <bean id="KS-VerticalBoxSubSection"  parent="Uif-VerticalBoxSubSection">
+        <property name="header">
+            <bean parent="Uif-SubSectionHeader">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-rulesubsection</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-VerticalBoxSection"  parent="Uif-VerticalBoxSection">
+        <property name="header">
+            <bean parent="Uif-SectionHeader">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-rulesection</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+</beans>

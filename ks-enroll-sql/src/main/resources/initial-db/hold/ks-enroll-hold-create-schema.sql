@@ -1,0 +1,177 @@
+
+
+-----------------------------------------------------------------------------
+-- KSEN_HOLD
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_HOLD';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_HOLD CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_HOLD
+(
+      ID VARCHAR2(255)
+        , OBJ_ID VARCHAR2(36)
+        , HOLD_TYPE VARCHAR2(255) NOT NULL
+        , HOLD_STATE VARCHAR2(255) NOT NULL
+        , NAME VARCHAR2(255)
+        , DESCR_PLAIN VARCHAR2(4000)
+        , DESCR_FORMATTED VARCHAR2(4000)
+        , ISSUE_ID VARCHAR2(55) NOT NULL
+        , PERS_ID VARCHAR2(255) NOT NULL
+        , EFF_DT TIMESTAMP NOT NULL
+        , RELEASED_DT TIMESTAMP
+        , VER_NBR NUMBER(19) NOT NULL
+        , CREATETIME TIMESTAMP NOT NULL
+        , CREATEID VARCHAR2(255) NOT NULL
+        , UPDATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSEN_HOLD
+    ADD CONSTRAINT KSEN_HOLDP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX KSEN_HOLD_I1 
+  ON KSEN_HOLD 
+  (HOLD_TYPE)
+/
+CREATE INDEX KSEN_HOLD_I2 
+  ON KSEN_HOLD 
+  (PERS_ID, ISSUE_ID)
+/
+CREATE INDEX KSEN_HOLD_IF1 
+  ON KSEN_HOLD 
+  (ISSUE_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_HOLD_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_HOLD_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_HOLD_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_HOLD_ATTR
+(
+      ID VARCHAR2(255)
+        , OBJ_ID VARCHAR2(36)
+        , ATTR_KEY VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(4000)
+        , OWNER_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSEN_HOLD_ATTR
+    ADD CONSTRAINT KSEN_HOLD_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX KSEN_HOLD_ATTR_IF1 
+  ON KSEN_HOLD_ATTR 
+  (OWNER_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_HOLD_ISSUE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_HOLD_ISSUE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_HOLD_ISSUE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_HOLD_ISSUE
+(
+      ID VARCHAR2(55)
+        , OBJ_ID VARCHAR2(36)
+        , HOLD_ISSUE_TYPE VARCHAR2(255) NOT NULL
+        , HOLD_ISSUE_STATE VARCHAR2(255) NOT NULL
+        , NAME VARCHAR2(255)
+        , DESCR_PLAIN VARCHAR2(4000)
+        , DESCR_FORMATTED VARCHAR2(255)
+        , ORG_ID VARCHAR2(255)
+        , VER_NBR NUMBER(19) NOT NULL
+        , CREATETIME TIMESTAMP NOT NULL
+        , CREATEID VARCHAR2(255) NOT NULL
+        , UPDATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSEN_HOLD_ISSUE
+    ADD CONSTRAINT KSEN_HOLD_ISSUEP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX KSEN_HOLD_ISSUE_I1 
+  ON KSEN_HOLD_ISSUE 
+  (HOLD_ISSUE_TYPE)
+/
+CREATE INDEX KSEN_HOLD_ISSUE_I2 
+  ON KSEN_HOLD_ISSUE 
+  (ORG_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_HOLD_ISSUE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_HOLD_ISSUE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_HOLD_ISSUE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_HOLD_ISSUE_ATTR
+(
+      ID VARCHAR2(255)
+        , OBJ_ID VARCHAR2(36)
+        , ATTR_KEY VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(4000)
+        , OWNER_ID VARCHAR2(55)
+    
+
+)
+/
+
+ALTER TABLE KSEN_HOLD_ISSUE_ATTR
+    ADD CONSTRAINT KSEN_HOLD_ISSUE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX KSEN_HOLD_ISSUE_ATTR_IF1 
+  ON KSEN_HOLD_ISSUE_ATTR 
+  (OWNER_ID)
+/
+
