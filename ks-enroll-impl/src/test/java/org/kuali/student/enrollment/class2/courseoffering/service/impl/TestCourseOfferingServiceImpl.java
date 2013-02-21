@@ -366,7 +366,8 @@ public class TestCourseOfferingServiceImpl {
             assertEquals( expected.getId(), actual.getId() );
             assertEquals( expected.getTypeKey(), actual.getTypeKey() );
             assertEquals( expected.getStateKey(), actual.getStateKey() );
-            assertEquals( expected.getCode(), actual.getCode() );
+            assertEquals( expected.getCode() + expected.getCourseNumberSuffix(),    // business-rules append the suffix to the code when object is persisted to DB
+                            actual.getCode() );
             assertEquals( expected.getSubjectArea(), actual.getSubjectArea() );
             assertEquals( expected.getDepartmentOrgId(), actual.getDepartmentOrgId() );
             assertEquals( expected.getCourseNumberSuffix(), actual.getCourseNumberSuffix() );

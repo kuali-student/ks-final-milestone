@@ -386,6 +386,8 @@ public class CourseOfferingTransformer {
         }
         lui.setName(coCode + " CO");
 
+        // cross-listing work
+        assignCourseOfferingSuffixToCrossListings( co );
         lui.setAlternateIdentifiers( buildAlternateIdentifiersFromCo(co) );
 
         //Dynamic Attributes
@@ -482,6 +484,16 @@ public class CourseOfferingTransformer {
         //fundingSource
         //isFinancialAidEligible
         //registrationOrderTypeKey
+    }
+
+    private void assignCourseOfferingSuffixToCrossListings(CourseOfferingInfo co) {
+
+        if( co == null || co.getCrossListings() == null ) return;
+
+        for( CourseOfferingCrossListingInfo cross : co.getCrossListings() ) {
+            cross.setCourseNumberSuffix( co.getCourseNumberSuffix() );
+            cross.setCode( cross.getCode() + cross.getCourseNumberSuffix() );
+        }
     }
 
     private List<CourseOfferingCrossListingInfo> buildCrosslistingsFromLui( LuiInfo lui ) {
