@@ -23,26 +23,28 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-  <context:property-placeholder properties-ref="dumpProperties" />
-
   <import resource="classpath:org/kuali/common/impex/impex-dump-context.xml" />
 
   <bean id="riceDumpContext" class="org.kuali.common.impex.ImpexContextCloningFactoryBean">
-    <property name="artifactId" value="ks-rice-db" />
+    <property name="artifactId" value="ks-impex-rice-db" />
+    <property name="scmBaseDirectory" value="${project.basedir}/ks-impex-rice-db" />
     <property name="include" value="${impex.rice.includes}" />
     <property name="sourceContext" ref="sourceContext" />
   </bean>
 
   <bean id="appDumpContext" class="org.kuali.common.impex.ImpexContextCloningFactoryBean">
-    <property name="artifactId" value="ks-app-db" />
+    <property name="artifactId" value="ks-impex-app-db" />
+    <property name="scmBaseDirectory" value="${project.basedir}/ks-impex-app-db" />
     <property name="include" value="${impex.ks.includes}" />
     <property name="sourceContext" ref="sourceContext" />
   </bean>
 
   <bean id="bundledDumpContext" class="org.kuali.common.impex.ImpexContextCloningFactoryBean">
-    <property name="artifactId" value="ks-bundled-db" />
+    <property name="artifactId" value="ks-impex-bundled-db" />
+    <property name="scmBaseDirectory" value="${project.basedir}/ks-impex-bundled-db" />
     <property name="include" value="${impex.rice.includes},${impex.ks.includes}" />
     <property name="sourceContext" ref="sourceContext" />
+    <property name="copyDataFiles" value="false" />
   </bean>
 
   <util:list id="dumpContexts">

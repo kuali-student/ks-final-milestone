@@ -179,7 +179,7 @@
       </build>
     </profile>
     <profile>
-      <!-- This profile builds the full KS database from the "system of record" set of Oracle sql files checked into SCM -->
+      <!-- Dump the db built from the Oracle SQL to disk -->
       <id>dump</id>
       <properties>
         <impex.rice.includes>KR.*</impex.rice.includes>
@@ -198,8 +198,11 @@
         <impex.sequence.includes>${impex.includes}</impex.sequence.includes>
         <impex.workingDir>${project.build.directory}/impex</impex.workingDir>
         <impex.antCompatibilityMode>false</impex.antCompatibilityMode>
-        <impex.metadata.threads>5</impex.metadata.threads>
-        <impex.data.threads>15</impex.data.threads>
+        <impex.storeDatabaseTableProperties>true</impex.storeDatabaseTableProperties>
+        <!--
+          <impex.metadata.threads>5</impex.metadata.threads>
+          <impex.data.threads>15</impex.data.threads>
+        -->
       </properties>
       <build>
         <plugins>
@@ -209,7 +212,7 @@
             <executions>
               <execution>
                 <id>load</id>
-                <phase>initialize</phase>
+                <phase>generate-resources</phase>
                 <goals>
                   <goal>load</goal>
                 </goals>
