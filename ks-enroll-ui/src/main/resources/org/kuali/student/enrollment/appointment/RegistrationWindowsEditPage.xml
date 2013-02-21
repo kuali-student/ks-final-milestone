@@ -83,7 +83,7 @@
                                 </property>
                             </bean>
                             <!-- This action will (1) set the period you are working with, and (2) load the persisted windows attached to the period-->
-                            <bean parent="Uif-PrimaryActionButton" p:methodToCall="show" p:actionLabel="Show" p:performClientSideValidation="true" />
+                            <bean parent="Uif-PrimaryActionButton" p:methodToCall="show" p:actionLabel="Show" p:performClientSideValidation="false" />
                         </list>
                    </property>
                 </bean>
