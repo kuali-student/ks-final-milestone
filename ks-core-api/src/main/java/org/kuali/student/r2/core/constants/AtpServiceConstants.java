@@ -67,6 +67,8 @@ public class AtpServiceConstants {
     public static final String ATP_SPRING_TYPE_KEY = "kuali.atp.type.Spring";
     public static final String ATP_SPRING_BREAK_TYPE_KEY = "kuali.atp.type.SpringBreak";
     public static final String ATP_SUMMER_TYPE_KEY = "kuali.atp.type.Summer";
+    public static final String ATP_SUMMER1_TYPE_KEY = "kuali.atp.type.Summer1";
+    public static final String ATP_SUMMER2_TYPE_KEY = "kuali.atp.type.Summer2";
     public static final String ATP_SUMMER_EVE_TYPE_KEY = "kuali.atp.type.SummerEve";
     public static final String ATP_WINTER_TYPE_KEY = "kuali.atp.type.Winter";
     // adhoc
