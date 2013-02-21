@@ -843,9 +843,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             boolean hasDeletion = true;
             if (co.getIsChecked()) {
                 checked++;
-                if (co.isEnableDeleteButton()) {
-                    CourseOfferingResourceLoader.loadCourseOfferingService().deleteCourseOfferingCascaded(co.getCourseOfferingId(), ContextBuilder.loadContextInfo());
-                }
+                CourseOfferingResourceLoader.loadCourseOfferingService().deleteCourseOfferingCascaded(co.getCourseOfferingId(), ContextBuilder.loadContextInfo());
             }
         }
 

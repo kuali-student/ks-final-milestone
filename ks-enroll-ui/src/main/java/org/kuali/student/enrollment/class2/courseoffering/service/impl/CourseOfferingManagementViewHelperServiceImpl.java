@@ -507,69 +507,67 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             boolean hasDeletion = true;
             if (co.getIsChecked()) {
                 checked++;
-                if (co.isEnableDeleteButton()) {
-                    List<ActivityOfferingDisplayWrapper> aoDisplayWrapperList = new ArrayList<ActivityOfferingDisplayWrapper>();
-                    List<ActivityOfferingDisplayInfo> aoDisplayInfoList = getCourseOfferingService().getActivityOfferingDisplaysForCourseOffering(co.getCourseOfferingId(), contextInfo);
+                List<ActivityOfferingDisplayWrapper> aoDisplayWrapperList = new ArrayList<ActivityOfferingDisplayWrapper>();
+                List<ActivityOfferingDisplayInfo> aoDisplayInfoList = getCourseOfferingService().getActivityOfferingDisplaysForCourseOffering(co.getCourseOfferingId(), contextInfo);
 
-                    co.setCoHasAoToDelete(true);
-                    if(aoDisplayInfoList.isEmpty()) {
-                        co.setCoHasAoToDelete(false);
-                    }
+                co.setCoHasAoToDelete(true);
+                if (aoDisplayInfoList.isEmpty()) {
+                    co.setCoHasAoToDelete(false);
+                }
 
-                    if (aoDisplayInfoList != null && !aoDisplayInfoList.isEmpty()) {
-                        for (ActivityOfferingDisplayInfo aoDisplayInfo : aoDisplayInfoList) {
+                if (aoDisplayInfoList != null && !aoDisplayInfoList.isEmpty()) {
+                    for (ActivityOfferingDisplayInfo aoDisplayInfo : aoDisplayInfoList) {
 
-                            ActivityOfferingDisplayWrapper aoDisplayWrapper = new ActivityOfferingDisplayWrapper();
-                            aoDisplayWrapper.setAoDisplayInfo(aoDisplayInfo);
+                        ActivityOfferingDisplayWrapper aoDisplayWrapper = new ActivityOfferingDisplayWrapper();
+                        aoDisplayWrapper.setAoDisplayInfo(aoDisplayInfo);
 
-                            // Adding Information (icons)
-                            String information = "";
-                            if (aoDisplayInfo.getIsHonorsOffering() != null && aoDisplayInfo.getIsHonorsOffering()) {
-                                information = "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HONORS_COURSE_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_ACTIVITY + "\"> ";
-                            }
-                            aoDisplayWrapper.setInformation(information);
+                        // Adding Information (icons)
+                        String information = "";
+                        if (aoDisplayInfo.getIsHonorsOffering() != null && aoDisplayInfo.getIsHonorsOffering()) {
+                            information = "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HONORS_COURSE_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_ACTIVITY + "\"> ";
+                        }
+                        aoDisplayWrapper.setInformation(information);
 
-                            if (aoDisplayInfo.getScheduleDisplay() != null && !aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().isEmpty()) {
-                                //TODO handle TBA state
-                                //ScheduleComponentDisplay scheduleComponentDisplay = aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().get(0);
-                                List<ScheduleComponentDisplayInfo> scheduleComponentDisplays = (List<ScheduleComponentDisplayInfo>) aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays();
-                                for (ScheduleComponentDisplay scheduleComponentDisplay : scheduleComponentDisplays) {
-                                    if (scheduleComponentDisplay.getBuilding() != null) {
-                                        aoDisplayWrapper.setBuildingName(scheduleComponentDisplay.getBuilding().getBuildingCode(), true);
+                        if (aoDisplayInfo.getScheduleDisplay() != null && !aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().isEmpty()) {
+                            //TODO handle TBA state
+                            //ScheduleComponentDisplay scheduleComponentDisplay = aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().get(0);
+                            List<ScheduleComponentDisplayInfo> scheduleComponentDisplays = (List<ScheduleComponentDisplayInfo>) aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays();
+                            for (ScheduleComponentDisplay scheduleComponentDisplay : scheduleComponentDisplays) {
+                                if (scheduleComponentDisplay.getBuilding() != null) {
+                                    aoDisplayWrapper.setBuildingName(scheduleComponentDisplay.getBuilding().getBuildingCode(), true);
+                                }
+                                if (scheduleComponentDisplay.getRoom() != null) {
+                                    aoDisplayWrapper.setRoomName(scheduleComponentDisplay.getRoom().getRoomCode(), true);
+                                }
+                                if (!scheduleComponentDisplay.getTimeSlots().isEmpty()) {
+                                    if (scheduleComponentDisplay.getTimeSlots().get(0).getStartTime() != null) {
+                                        aoDisplayWrapper.setStartTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getStartTime().getMilliSeconds()), true);
                                     }
-                                    if (scheduleComponentDisplay.getRoom() != null) {
-                                        aoDisplayWrapper.setRoomName(scheduleComponentDisplay.getRoom().getRoomCode(), true);
+                                    if (scheduleComponentDisplay.getTimeSlots().get(0).getEndTime() != null) {
+                                        aoDisplayWrapper.setEndTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getEndTime().getMilliSeconds()), true);
                                     }
-                                    if (!scheduleComponentDisplay.getTimeSlots().isEmpty()) {
-                                        if (scheduleComponentDisplay.getTimeSlots().get(0).getStartTime() != null) {
-                                            aoDisplayWrapper.setStartTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getStartTime().getMilliSeconds()), true);
-                                        }
-                                        if (scheduleComponentDisplay.getTimeSlots().get(0).getEndTime() != null) {
-                                            aoDisplayWrapper.setEndTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getEndTime().getMilliSeconds()), true);
-                                        }
-                                        aoDisplayWrapper.setDaysDisplayName(getDays(scheduleComponentDisplay.getTimeSlots().get(0).getWeekdays()), true);
-                                    }
+                                    aoDisplayWrapper.setDaysDisplayName(getDays(scheduleComponentDisplay.getTimeSlots().get(0).getWeekdays()), true);
                                 }
                             }
-                            co.getAoToBeDeletedList().add(aoDisplayWrapper);
                         }
-
-                        totalAos = totalAos + co.getAoToBeDeletedList().size();
-                        co.setCrossListed(false);
-                        if (co.getAlternateCOCodes() != null && co.getAlternateCOCodes().size() > 0) {
-                            co.setCrossListed(true);
-                            form.setCrossListedCO(true);
-                        }
+                        co.getAoToBeDeletedList().add(aoDisplayWrapper);
                     }
-                    qualifiedToDeleteList.add(co);
 
-                    if (hasDeletion) {
-                        enabled++;
+                    totalAos = totalAos + co.getAoToBeDeletedList().size();
+                    co.setCrossListed(false);
+                    if (co.getAlternateCOCodes() != null && co.getAlternateCOCodes().size() > 0) {
+                        co.setCrossListed(true);
+                        form.setCrossListedCO(true);
                     }
                 }
-           }
-            form.setTotalAOsToBeDeleted(totalAos);
+                qualifiedToDeleteList.add(co);
+
+                if (hasDeletion) {
+                    enabled++;
+                }
+            }
         }
+        form.setTotalAOsToBeDeleted(totalAos);
     }
 
     public void approveActivityOfferings(CourseOfferingManagementForm form) throws Exception{
