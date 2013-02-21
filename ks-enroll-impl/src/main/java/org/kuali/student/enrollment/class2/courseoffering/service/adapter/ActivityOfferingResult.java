@@ -14,7 +14,7 @@
  *
  * Created by Charles on 2/20/13
  */
-package org.kuali.student.enrollment.class2.courseoffering.service.applayer;
+package org.kuali.student.enrollment.class2.courseoffering.service.adapter;
 
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;

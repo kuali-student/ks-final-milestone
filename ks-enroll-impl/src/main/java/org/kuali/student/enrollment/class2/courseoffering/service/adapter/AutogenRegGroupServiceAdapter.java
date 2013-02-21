@@ -1,9 +1,8 @@
-package org.kuali.student.enrollment.class2.courseoffering.service.applayer;
+package org.kuali.student.enrollment.class2.courseoffering.service.adapter;
 
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -19,7 +18,6 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Used to support service calls related to Autogen RGs.

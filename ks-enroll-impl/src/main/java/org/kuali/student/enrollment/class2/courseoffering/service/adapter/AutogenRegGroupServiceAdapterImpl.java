@@ -14,7 +14,7 @@
  *
  * Created by Charles on 2/5/13
  */
-package org.kuali.student.enrollment.class2.courseoffering.service.applayer;
+package org.kuali.student.enrollment.class2.courseoffering.service.adapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,8 +23,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
@@ -46,10 +44,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 
 /**
  * Implementation of the Application Service Layer to provide the functionally specified functionality
