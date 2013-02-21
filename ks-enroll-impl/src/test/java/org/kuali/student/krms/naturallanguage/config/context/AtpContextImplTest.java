@@ -31,7 +31,6 @@ import java.util.Map;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:type-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
-@Ignore
 public class AtpContextImplTest extends AbstractServiceTest {
 
     @Resource

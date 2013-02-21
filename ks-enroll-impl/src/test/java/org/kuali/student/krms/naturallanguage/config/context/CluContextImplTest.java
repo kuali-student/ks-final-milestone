@@ -25,7 +25,6 @@ import java.util.Map;
 
 @Daos( { @Dao(value = "org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql") })
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
-@Ignore
 public class CluContextImplTest extends AbstractServiceTest {
 
     @Client(value = "org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl", additionalContextFile = "classpath:nl-test-context.xml")

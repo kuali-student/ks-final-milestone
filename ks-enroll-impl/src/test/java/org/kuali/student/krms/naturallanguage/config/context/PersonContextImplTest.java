@@ -2,17 +2,13 @@ package org.kuali.student.krms.naturallanguage.config.context;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
-import org.kuali.student.common.test.spring.Client;
-import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
 import org.kuali.student.krms.naturallanguage.TermParameterTypes;
-import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.springframework.test.context.ContextConfiguration;
@@ -24,7 +20,6 @@ import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:nl-test-context.xml"})
-@Ignore
 public class PersonContextImplTest extends AbstractServiceTest {
 
     private PersonContextImpl personContext = new PersonContextImpl();

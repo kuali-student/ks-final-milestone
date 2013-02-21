@@ -25,7 +25,6 @@ import java.util.Map;
 
 @Daos( { @Dao(value = "org.kuali.student.r1.core.organization.dao.impl.OrganizationDaoImpl", testSqlFile = "classpath:ks-org.sql") })
 @PersistenceFileLocation("classpath:META-INF/organization-persistence.xml")
-@Ignore
 public class OrganizationContextImplTest extends AbstractServiceTest {
 
     @Client(value = "org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl", additionalContextFile = "classpath:nl-test-context.xml")
