@@ -13,14 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.class1.krms.dto;
+package org.kuali.student.enrollment.class1.krms.tree.node;
 
-import org.kuali.rice.krms.api.repository.proposition.PropositionParameterType;
-import org.kuali.rice.krms.api.repository.proposition.PropositionType;
-import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
-import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-
-import java.util.List;
+import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 
 /**
  * abstract data class for the rule tree {@link}s

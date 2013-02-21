@@ -13,23 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.class1.krms.dto;
+package org.kuali.student.enrollment.class1.krms.tree.node;
+
+import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 
 /**
- * abstract data class for the rule tree {@link Node}s
+ * abstract data class for the rule tree {@link org.kuali.rice.core.api.util.tree.Node}s
  * 
  * @author Kuali Rice Team (rice.collab@kuali.org)
  *
  */
-public class KSCompoundPropositionEditNode extends RuleEditorTreeNode {
+public class KSSimplePropositionEditNode extends RuleEditorTreeNode {
 
     private static final long serialVersionUID = -5650654824214437325L;
 
-    public static final String NODE_TYPE = KSCompoundOpCodeNode.NODE_TYPE + " editNode";
+    public static final String NODE_TYPE = KSSimplePropositionNode.NODE_TYPE + " editNode";
 
-    public KSCompoundPropositionEditNode(PropositionEditor proposition){
+    public KSSimplePropositionEditNode(PropositionEditor proposition){
         super(proposition);
     }
     
-
 }

@@ -8,8 +8,6 @@ import org.kuali.rice.core.api.uif.RemotableAttributeField;
 import org.kuali.rice.core.api.uif.RemotableTextInput;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
@@ -20,6 +18,7 @@ import org.kuali.rice.krms.api.KrmsApiServiceLocator;
 import org.kuali.rice.krms.api.engine.expression.ComparisonOperatorService;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
+import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
@@ -32,7 +31,11 @@ import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionParameterEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
-import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
+import org.kuali.student.enrollment.class1.krms.tree.node.RuleEditorTreeNode;
+import org.kuali.student.enrollment.class1.krms.tree.node.CompareTreeNode;
+import org.kuali.student.enrollment.class1.krms.tree.RuleCompareTreeBuilder;
+import org.kuali.student.enrollment.class1.krms.tree.RuleEditTreeBuilder;
+import org.kuali.student.enrollment.class1.krms.tree.RulePreviewTreeBuilder;
 import org.kuali.student.krms.dto.TemplateInfo;
 import org.kuali.student.enrollment.class1.krms.service.RuleViewHelperService;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
@@ -54,11 +57,8 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -72,6 +72,26 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     private CluService cluService;
     private ContextInfo contextInfo;
     private OrganizationService organizationService;
+
+    private RuleCompareTreeBuilder compareTreeBuilder = new RuleCompareTreeBuilder();
+    private RuleEditTreeBuilder editTreeBuilder = new RuleEditTreeBuilder();
+    private RulePreviewTreeBuilder previewTreeBuilder = new RulePreviewTreeBuilder();
+
+    @Override
+    public void performInitialization(View view, Object model) {
+
+        MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
+        RuleEditor ruleEditor = (RuleEditor) maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
+
+        //Set the editTree and preview tree on the ruleeditor wrapper
+        this.refreshInitTrees(ruleEditor);
+
+        //Initialize the compare tree
+        ruleEditor.setCompareTree(this.buildCompareTree(null));
+
+        super.performInitialization(view, model);
+
+    }
 
     public String getTermSpecIdForType(String type) {
 
@@ -315,7 +335,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         if (null != ruleEditor) {
 
             // Figure out which proposition is being edited
-            Tree<RuleEditorTreeNode, String> propositionTree = ruleEditor.getPropositionTree();
+            Tree<RuleEditorTreeNode, String> propositionTree = ruleEditor.getEditTree();
             Node<RuleEditorTreeNode, String> editedPropositionNode = PropositionTreeUtil.findEditedProposition(propositionTree.getRootElement());
 
             if (editedPropositionNode != null) {
@@ -590,11 +610,40 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         }
     }
 
-    /**
-     * @return the boService
-     */
-    public BusinessObjectService getBoService() {
-        return KRADServiceLocator.getBusinessObjectService();
+    @Override
+    public void refreshInitTrees(RuleEditor rule) {
+        // Refresh the editing tree
+        rule.setEditTree(editTreeBuilder.buildTree(rule));
+
+        // Refresh the preview tree
+        rule.setPreviewTree(previewTreeBuilder.buildTree(rule));
+    }
+
+    @Override
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original) {
+
+        //Get the CLU Tree.
+        RuleDefinitionContract compare = KrmsRepositoryServiceLocator.getRuleBoService().getRuleByRuleId("10063");
+
+        //Build the Tree
+        Tree<CompareTreeNode, String> compareTree = compareTreeBuilder.buildTree(original, compare);
+
+        //Set data headers on root node.
+        Node<CompareTreeNode, String> node = compareTree.getRootElement();
+        if ((node.getChildren() != null) && (node.getChildren().size() > 0)){
+            Node<CompareTreeNode, String> childNode = node.getChildren().get(0);
+
+            // Set the headers on the first root child
+            if(childNode.getData() != null){
+                CompareTreeNode compareTreeNode = childNode.getData();
+                compareTreeNode.setOriginal("CO Rules");
+                compareTreeNode.setCompared("CLU Rules");
+            }
+
+        }
+
+
+        return compareTree;
     }
 
     private CluService getCluService() {

@@ -1,21 +1,16 @@
 package org.kuali.student.enrollment.class1.krms.dto;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
-import org.kuali.rice.krms.api.repository.action.ActionDefinition;
 import org.kuali.rice.krms.api.repository.action.ActionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
-import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
-import org.kuali.rice.krms.impl.repository.KrmsAttributeDefinitionBo;
-import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-import org.kuali.student.enrollment.class1.krms.form.TreeNode;
+import org.kuali.student.enrollment.class1.krms.tree.node.CompareTreeNode;
+import org.kuali.student.enrollment.class1.krms.tree.node.RuleEditorTreeNode;
+import org.kuali.student.enrollment.class1.krms.tree.node.TreeNode;
 import org.kuali.student.enrollment.class1.krms.util.AlphaIterator;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -71,12 +66,15 @@ public class RuleEditor implements RuleDefinitionContract, Serializable {
     private String logicArea;
 
     // for Rule editor display
-    private transient Tree<RuleEditorTreeNode, String> propositionTree;
+    private transient Tree<RuleEditorTreeNode, String> editTree;
 
     // for Rule Preview display
-    private transient LogicRuleViewer rulePreviewer;
+    private transient Tree<TreeNode, String> previewTree;
     private Map<String, String> propositionAlpha = new HashMap<String, String>();
     private AlphaIterator alpha = new AlphaIterator();
+
+    // for Compare
+    private transient Tree<CompareTreeNode, String> compareTree;
 
     public RuleEditor() {
         super();
@@ -102,13 +100,6 @@ public class RuleEditor implements RuleDefinitionContract, Serializable {
         //TODO: build the set of agenda attribute BOs
         //List<RuleAttributeBo> attrs = new ArrayList<RuleAttributeBo>();
         //this.setAttributeBos(attrs);
-    }
-
-    public void clearRule() {
-        this.setPropositionTree(null);
-        this.setSelectedPropositionId(null);
-        this.setCutPropositionId(null);
-        this.setCopyPropositionId(null);
     }
 
     public void setId(String id) {
@@ -181,6 +172,14 @@ public class RuleEditor implements RuleDefinitionContract, Serializable {
 
     public void setPropositionAlpha(Map<String, String> propositionAlpha) {
         this.propositionAlpha = propositionAlpha;
+    }
+
+    public AlphaIterator getAlpha() {
+        return alpha;
+    }
+
+    public void setAlpha(AlphaIterator alpha) {
+        this.alpha = alpha;
     }
 
     public String getSearchByCourseRange() {
@@ -270,33 +269,6 @@ public class RuleEditor implements RuleDefinitionContract, Serializable {
         this.copyPropositionId = copyPropositionId;
     }
 
-    //@Override
-    //public void setAgenda(AgendaBo agenda) {
-    //    super.setAgenda(agenda);
-
-    // set extra fields on AgendaEditor
-    //    if ((agenda != null) && (agenda.getContext() != null)){
-    //        this.setNamespace(agenda.getContext().getNamespace());
-    //        this.setContextName(agenda.getContext().getName());
-    //    } else {
-    //        this.setNamespace(null);
-    //        this.setContextName(null);
-    //    }
-    //}
-
-    public Tree<TreeNode, String> getPreviewTree() {
-        if (this.rulePreviewer == null) {
-            rulePreviewer = new LogicRuleViewer();
-            initPreviewTree();
-        }
-
-        return this.rulePreviewer.getPreviewTree();
-    }
-
-    public void initPreviewTree() {
-        this.rulePreviewer.initPreviewTree(this);
-    }
-
     @Override
     public String getName() {
         return this.name;
@@ -347,6 +319,30 @@ public class RuleEditor implements RuleDefinitionContract, Serializable {
         return this.active;
     }
 
+    public Tree<RuleEditorTreeNode, String> getEditTree() {
+        return editTree;
+    }
+
+    public void setEditTree(Tree<RuleEditorTreeNode, String> editTree) {
+        this.editTree = editTree;
+    }
+
+    public Tree<TreeNode, String> getPreviewTree() {
+        return previewTree;
+    }
+
+    public void setPreviewTree(Tree<TreeNode, String> previewTree) {
+        this.previewTree = previewTree;
+    }
+
+    public Tree<CompareTreeNode, String> getCompareTree() {
+        return compareTree;
+    }
+
+    public void setCompareTree(Tree<CompareTreeNode, String> compareTree) {
+        this.compareTree = compareTree;
+    }
+
     public void setVersionNumber(Long versionNumber) {
         this.versionNumber = versionNumber;
     }
@@ -354,122 +350,5 @@ public class RuleEditor implements RuleDefinitionContract, Serializable {
     @Override
     public Long getVersionNumber() {
         return versionNumber;
-    }
-
-    /**
-     * This method is used by the RuleEditor to display the proposition in tree form.
-     *
-     * @return Tree representing a rule proposition.
-     */
-    public Tree getPropositionTree() {
-        if (this.propositionTree == null) {
-            this.propositionTree = refreshPropositionTree();
-        }
-        return this.propositionTree;
-    }
-
-    public void setPropositionTree(Tree<RuleEditorTreeNode, String> tree) {
-        this.propositionTree = tree;
-    }
-
-    public Tree refreshPropositionTree() {
-        Tree myTree = new Tree<RuleEditorTreeNode, String>();
-
-        Node<RuleEditorTreeNode, String> rootNode = new Node<RuleEditorTreeNode, String>();
-        myTree.setRootElement(rootNode);
-
-        PropositionEditor prop = (PropositionEditor) this.getProposition();
-        buildPropTree(rootNode, prop);
-
-        this.propositionTree = myTree;
-        return myTree;
-    }
-
-    /**
-     * This method builds a propositionTree recursively walking through the children of the proposition.
-     *
-     * @param sprout - parent tree node
-     * @param prop   - PropositionBo for which to make the tree node
-     */
-    private void buildPropTree(Node sprout, PropositionEditor prop) {
-        // Depending on the type of proposition (simple/compound), and the editMode,
-        // Create a treeNode of the appropriate type for the node and attach it to the
-        // sprout parameter passed in.
-        // If the prop is a compound proposition, calls itself for each of the compoundComponents
-        if (prop != null) {
-            if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
-                // Simple Proposition
-                // add a node for the description display with a child proposition node
-                Node<RuleEditorTreeNode, String> child = new Node<RuleEditorTreeNode, String>();
-
-                // Simple Proposition add a node for the description display with a child proposition node
-                if (prop.isEditMode()) {
-                    child.setNodeType(KSSimplePropositionEditNode.NODE_TYPE);
-                    KSSimplePropositionEditNode pNode = new KSSimplePropositionEditNode(prop);
-                    child.setData(pNode);
-                } else {
-                    child.setNodeLabel(this.buildNodeLabel(prop));
-                    child.setNodeType(KSSimplePropositionNode.NODE_TYPE);
-                    KSSimplePropositionNode pNode = new KSSimplePropositionNode(prop);
-                    child.setData(pNode);
-                }
-                sprout.getChildren().add(child);
-            } else if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
-                // Compound Proposition
-                Node<RuleEditorTreeNode, String> aNode = new Node<RuleEditorTreeNode, String>();
-
-                // editMode has description as an editable field
-                if (prop.isEditMode()) {
-                    aNode.setNodeLabel("");
-                    aNode.setNodeType(KSCompoundPropositionEditNode.NODE_TYPE);
-                    KSCompoundPropositionEditNode pNode = new KSCompoundPropositionEditNode(prop);
-                    aNode.setData(pNode);
-                } else {
-                    aNode.setNodeLabel(this.buildNodeLabel(prop));
-                    aNode.setNodeType(RuleEditorTreeNode.COMPOUND_NODE_TYPE);
-                    RuleEditorTreeNode pNode = new RuleEditorTreeNode(prop);
-                    aNode.setData(pNode);
-                }
-                sprout.getChildren().add(aNode);
-
-                boolean first = true;
-                List<PropositionEditor> allMyChildren = (List<PropositionEditor>) prop.getCompoundComponents();
-                for (PropositionEditor child : allMyChildren) {
-                    // add an opcode node in between each of the children.
-                    if (!first) {
-                        addOpCodeNode(aNode, prop);
-                    }
-                    first = false;
-                    // call to build the childs node
-                    buildPropTree(aNode, child);
-                }
-            }
-        }
-    }
-
-    private String buildNodeLabel(PropositionEditor prop) {
-        //Add the proposition with alpha code in the map if it doesn't already exist.
-        if (!propositionAlpha.containsKey(prop.getId())) {
-            propositionAlpha.put(prop.getId(), (String) alpha.next());
-        }
-
-        //Build the node label.
-        String prefix = "<b>" + propositionAlpha.get(prop.getId()) + ".</b> ";
-        return prefix + StringEscapeUtils.escapeHtml(prop.getDescription());
-    }
-
-    /**
-     * This method adds an opCode Node to separate components in a compound proposition.
-     *
-     * @param currentNode
-     * @param prop
-     * @return
-     */
-    private void addOpCodeNode(Node currentNode, PropositionEditor prop) {
-        Node<RuleEditorTreeNode, String> aNode = new Node<RuleEditorTreeNode, String>();
-        aNode.setNodeLabel("");
-        aNode.setNodeType("ruleTreeNode compoundOpCodeNode");
-        aNode.setData(new KSCompoundOpCodeNode(prop));
-        currentNode.getChildren().add(aNode);
     }
 }

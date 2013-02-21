@@ -67,7 +67,7 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
             //ruleEditor.clearRule();
             //PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
-        ruleEditor.initPreviewTree();
+        //ruleEditor.initPreviewTree();
 
 
 

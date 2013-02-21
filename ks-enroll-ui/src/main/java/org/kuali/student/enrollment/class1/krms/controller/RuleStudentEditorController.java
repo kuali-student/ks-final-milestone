@@ -23,19 +23,17 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
-import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.repository.RuleBoService;
 import org.kuali.rice.krms.impl.rule.AgendaEditorBusRule;
-import org.kuali.student.enrollment.class1.krms.dto.KSSimplePropositionEditNode;
-import org.kuali.student.enrollment.class1.krms.dto.KSSimplePropositionNode;
+import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionEditNode;
+import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionNode;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
-import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
+import org.kuali.student.enrollment.class1.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.student.enrollment.class1.krms.service.RuleViewHelperService;
 import org.kuali.student.enrollment.class1.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.uif.util.KSControllerHelper;
@@ -48,7 +46,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Enumeration;
 import java.util.List;
 
 /**
@@ -124,11 +121,13 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
     public ModelAndView goToEditProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        RuleViewHelperService viewHelper = this.getViewHelper(form);
+
         // open the selected node for editing
         RuleEditor ruleEditor = getRuleEditor(form);
         String selectedPropId = ruleEditor.getSelectedPropositionId();
 
-        Node<RuleEditorTreeNode, String> root = ruleEditor.getPropositionTree().getRootElement();
+        Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
         PropositionEditor propositionToToggleEdit = null;
         boolean newEditMode = true;
 
@@ -153,7 +152,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         if (propositionToToggleEdit != null) {
             propositionToToggleEdit.setEditMode(newEditMode);
             //refresh the tree
-            ruleEditor.refreshPropositionTree();
+            viewHelper.refreshInitTrees(ruleEditor);
         }
 
         PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
@@ -164,8 +163,6 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                 proposition.setType(null);
                 proposition.setTermSpecId(null);
             } else {
-
-                RuleViewHelperService viewHelper = (RuleViewHelperService) KSControllerHelper.getViewHelperService(form);
 
                 KrmsTypeDefinition type = this.getKrmsTypeRepositoryService().getTypeById(propositionTypeId);
                 if (type != null) {
@@ -191,7 +188,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         String selectedPropId = ruleEditor.getSelectedPropositionId();
 
         // find parent
-        Node<RuleEditorTreeNode, String> root = ruleEditor.getPropositionTree().getRootElement();
+        Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
         Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(root, selectedPropId);
 
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
@@ -228,7 +225,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                         PropositionEditor parentProp = parent.getData().getProposition();
                         parentProp.getCompoundEditors().add(((index / 2) + 1), blank);
                     }
-                    ruleEditor.refreshPropositionTree();
+                    this.getViewHelper(form).refreshInitTrees(ruleEditor);
                     break;
                 }
             }
@@ -240,7 +237,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                 blank.setRuleId(ruleEditor.getId());
                 ruleEditor.setPropId(blank.getId());
                 ruleEditor.setProposition(blank);
-                ruleEditor.refreshPropositionTree();
+                this.getViewHelper(form).refreshInitTrees(ruleEditor);
             }
         }
         return getUIFModelAndView(form);
@@ -305,7 +302,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         String selectedPropId = ruleEditor.getSelectedPropositionId();
 
         // find parent
-        Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(ruleEditor.getPropositionTree().getRootElement(), selectedPropId);
+        Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(ruleEditor.getEditTree().getRootElement(), selectedPropId);
 
         // add new child at appropriate spot
         if (parent != null) {
@@ -330,7 +327,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
                             // insert it in the new spot
                             // redisplay the tree (editMode = true)
-                            ruleEditor.refreshPropositionTree();
+                            this.getViewHelper(form).refreshInitTrees(ruleEditor);
                         }
                     }
 
@@ -357,7 +354,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         String selectedPropId = ruleEditor.getSelectedPropositionId();
 
         // find agendaEditor.getAgendaItemLine().getRule().getPropositionTree().getRootElement()parent
-        Node<RuleEditorTreeNode, String> root = ruleEditor.getPropositionTree().getRootElement();
+        Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
         Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(root, selectedPropId);
         if ((parent != null) && (RuleEditorTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(parent.getNodeType()))) {
             Node<RuleEditorTreeNode, String> granny = PropositionTreeUtil.findParentPropositionNode(root, parent.getData().getProposition().getId());
@@ -367,7 +364,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                 if (oldIndex >= 0 && newIndex >= 0) {
                     PropositionEditor prop = parent.getData().getProposition().getCompoundEditors().remove(oldIndex / 2);
                     granny.getData().getProposition().getCompoundEditors().add((newIndex / 2) + 1, prop);
-                    ruleEditor.refreshPropositionTree();
+                    this.getViewHelper(form).refreshInitTrees(ruleEditor);
                 }
             } else {
                 // TODO: do we allow moving up to the root?
@@ -396,7 +393,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
         // find parent
         Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(
-                ruleEditor.getPropositionTree().getRootElement(), selectedPropId);
+                ruleEditor.getEditTree().getRootElement(), selectedPropId);
         if (parent != null) {
             int index = findChildIndex(parent, selectedPropId);
             // if we are the last child, do nothing, otherwise
@@ -409,7 +406,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                     PropositionEditor prop = parent.getData().getProposition().getCompoundEditors().remove(index / 2);
                     // add it to it's siblings children
                     nextSibling.getData().getProposition().getCompoundEditors().add(0, prop);
-                    ruleEditor.refreshPropositionTree();
+                    this.getViewHelper(form).refreshInitTrees(ruleEditor);
                 }
             }
         }
@@ -434,7 +431,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         if (!StringUtils.isBlank(selectedPropId)) {
             // find parent
             Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(
-                    ruleEditor.getPropositionTree().getRootElement(), selectedPropId);
+                    ruleEditor.getEditTree().getRootElement(), selectedPropId);
             if (parent != null) {
 
                 int index = findChildIndex(parent, selectedPropId);
@@ -467,8 +464,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             }
         }
 
-        ruleEditor.refreshPropositionTree();
-        ruleEditor.initPreviewTree();
+        this.getViewHelper(form).refreshInitTrees(ruleEditor);
         return getUIFModelAndView(form);
     }
 
@@ -513,7 +509,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         } else if(StringUtils.isNotBlank(cutPropId)) {
 
             // proposition tree root
-            Node<RuleEditorTreeNode, String> root = ruleEditor.getPropositionTree().getRootElement();
+            Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
 
             if (StringUtils.isNotBlank(selectedPropId) && StringUtils.isNotBlank(cutPropId)) {
                 Node<RuleEditorTreeNode, String> parentNode = PropositionTreeUtil.findParentPropositionNode(root, selectedPropId);
@@ -554,12 +550,12 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                         }
                     }
                 }
-                ruleEditor.refreshPropositionTree();
+                this.getViewHelper(form).refreshInitTrees(ruleEditor);
             }
         }  else if(StringUtils.isNotBlank(copyPropId)) {
 
             // proposition tree root
-            Node<RuleEditorTreeNode, String> root = ruleEditor.getPropositionTree().getRootElement();
+            Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
 
             if (StringUtils.isNotBlank(selectedPropId) && StringUtils.isNotBlank(copyPropId)) {
                 Node<RuleEditorTreeNode, String> parentNode = PropositionTreeUtil.findParentPropositionNode(root, selectedPropId);
@@ -600,7 +596,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                         }
                     }
                 }
-                ruleEditor.refreshPropositionTree();
+                this.getViewHelper(form).refreshInitTrees(ruleEditor);
             }
         }
         ruleEditor.setCutPropositionId(null);
@@ -615,7 +611,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             throws Exception {
         RuleEditor ruleEditor = getRuleEditor(form);
         String selectedPropId = ruleEditor.getSelectedPropositionId();
-        Node<RuleEditorTreeNode, String> root = ruleEditor.getPropositionTree().getRootElement();
+        Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
 
         Node<RuleEditorTreeNode, String> parentNode = PropositionTreeUtil.findParentPropositionNode(root, selectedPropId);
 
@@ -633,12 +629,12 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             }
         } else { // no parent, it is the root
             parentNode.getChildren().clear();
-            ruleEditor.getPropositionTree().setRootElement(null);
+            ruleEditor.getEditTree().setRootElement(null);
             ruleEditor.setPropId(null);
             ruleEditor.setProposition(null);
         }
 
-        ruleEditor.refreshPropositionTree();
+        this.getViewHelper(form).refreshInitTrees(ruleEditor);
         return getUIFModelAndView(form);
     }
 
@@ -648,7 +644,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             throws Exception {
 
         RuleEditor ruleEditor = getRuleEditor(form);
-        ruleEditor.refreshPropositionTree();
+        this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
         return getUIFModelAndView(form);
     }
@@ -660,12 +656,9 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
         RuleEditor ruleEditor = getRuleEditor(form);
 
-        //Update the rule preview
-        ruleEditor.initPreviewTree();
-
-        //Reset the editing tree.
+        //Reset the editing and preview trees.
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
-        ruleEditor.refreshPropositionTree();
+        this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
         return getUIFModelAndView(form);
     }
@@ -679,7 +672,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
         //Reset the editing tree.
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
-        ruleEditor.refreshPropositionTree();
+        this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
         return getUIFModelAndView(form);
     }
@@ -710,7 +703,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                 return;
             }
 
-            RuleViewHelperService viewHelper = (RuleViewHelperService) KSControllerHelper.getViewHelperService(form);
+            RuleViewHelperService viewHelper = this.getViewHelper(form);
 
             KrmsTypeDefinition type = this.getKrmsTypeRepositoryService().getTypeById(propositionTypeId);
             if (type != null) {
@@ -738,6 +731,29 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         }
     }
 
+    /**
+     * Test method for a controller that invokes a dialog lightbox.
+     *
+     * @param form - test form
+     * @param result - Spring form binding result
+     * @param request - http request
+     * @param response - http response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=compareRules")
+    public ModelAndView compareRules(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        RuleEditor ruleEditor = getRuleEditor(form);
+
+        //Build the compare rule tree
+        ruleEditor.setCompareTree(this.getViewHelper(form).buildCompareTree(ruleEditor));
+
+        // redirect back to client to display lightbox
+        return showDialog("compareRuleLightBox", form, request, response);
+    }
+
     private void setOperationForProposition(PropositionEditor proposition, String operation) {
         proposition.getParameters().get(2).setValue(operation);
     }
@@ -755,6 +771,10 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
      */
     private RuleBoService getRuleBoService() {
         return KrmsRepositoryServiceLocator.getRuleBoService();
+    }
+
+    private RuleViewHelperService getViewHelper(UifFormBase form){
+        return (RuleViewHelperService) KSControllerHelper.getViewHelperService(form);
     }
 
 }

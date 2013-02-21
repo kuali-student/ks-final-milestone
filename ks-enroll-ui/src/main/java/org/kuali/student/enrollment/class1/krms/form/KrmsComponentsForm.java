@@ -16,17 +16,13 @@
  */
 package org.kuali.student.enrollment.class1.krms.form;
 
-import org.apache.commons.lang.RandomStringUtils;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
-import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.impl.ui.TermParameter;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
-import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
-import org.kuali.student.enrollment.class1.krms.dto.UITestObject;
+import org.kuali.student.enrollment.class1.krms.tree.node.TreeNode;
 import org.kuali.student.enrollment.uif.form.KSUifForm;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -240,7 +240,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Label" p:labelText="Course Range" p:renderColon="false" />
-                <bean parent="Uif-ActionLink" p:actionLabel="Define Course Range" p:style="color: #3F7826;" p:actionScript="showLightboxComponent('myCourseRangeLightBox');"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Define Course Range" p:style="color: #3F7826;" p:actionScript="showLightboxComponent('courseRangeLightBox');"/>
             </list>
         </property>
     </bean>

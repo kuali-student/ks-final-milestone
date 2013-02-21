@@ -27,7 +27,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.impl.repository.ReferenceObjectBindingBoService;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
-import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
+import org.kuali.student.enrollment.class1.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.student.enrollment.class1.krms.service.RuleEditorMaintainable;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsRepositoryServiceLocator;
 import org.kuali.student.enrollment.class1.krms.util.PropositionTreeUtil;
@@ -93,8 +93,8 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     @Override
     public void prepareForSave() {
         // set agenda attributes
-        RuleEditor ruleEditor = (RuleEditor) getDataObject();
-        ruleEditor.initPreviewTree();
+        //RuleEditor ruleEditor = (RuleEditor) getDataObject();
+        //ruleEditor.initPreviewTree();
     }
 
     @Override
@@ -181,7 +181,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             // Figure out which rule is being edited
             RuleEditor rule = getRuleEditor(model);
             // Figure out which proposition is being edited
-            Tree<RuleEditorTreeNode, String> propositionTree = rule.getPropositionTree();
+            Tree<RuleEditorTreeNode, String> propositionTree = rule.getEditTree();
             Node<RuleEditorTreeNode, String> editedPropositionNode = PropositionTreeUtil.findEditedProposition(propositionTree.getRootElement());
 
             // get the old object's collection

@@ -78,10 +78,7 @@
     <bean id="Preview-Tree-Section" parent="Uif-TreeSection">
         <property name="propertyName" value="previewTree"/>
         <property name="tree">
-            <bean parent="Uif-Tree">
-                <property name="template" value="/krms/widget/rulePreviewTree.ftl"/>
-                <property name="templateName" value="uif_rulePreviewTree"/>
-            </bean>
+            <bean parent="KS-View-Tree"/>
         </property>
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
@@ -93,11 +90,6 @@
                 </property>
             </bean>
         </property>
-        <!--<property name="items" >-->
-            <!--<list>-->
-                <!--<bean parent="Uif-ActionLink" p:actionLabel="edit" p:methodToCall=""/>-->
-            <!--</list>-->
-        <!--</property>-->
     </bean>
 
     <bean name="KS-EditWithObject-EditGroup" parent="Uif-VerticalBoxGroup"
@@ -371,7 +363,7 @@
     <bean id="KS-RulerEditor-TreeSection-parent" parent="Uif-TreeSection" p:disclosure.render="false"
           p:header.render="false"
           p:style="float:left; margin-left: 2em;" p:forceSessionPersistence="true">
-        <property name="propertyName" value="propositionTree"/>
+        <property name="propertyName" value="editTree"/>
         <property name="validationMessages.displayMessages" value="true"/>
         <property name="validationMessages.displayFieldLabelWithMessages" value="false"/>
         <property name="tree">
@@ -390,19 +382,19 @@
         </property>
         <property name="nodePrototypeMap">
             <map key-type="java.lang.Class">
-                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode) }">
+                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.tree.node.RuleEditorTreeNode) }">
                     <bean parent="KS-RuleTreeNodePrototype"/>
                 </entry>
-                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.KSSimplePropositionNode) }">
+                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionNode) }">
                     <bean parent="KS-SimplePropositionNodePrototype"/>
                 </entry>
-                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.KSSimplePropositionEditNode) }">
+                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionEditNode) }">
                     <bean parent="KS-SimplePropositionEditNodePrototype"/>
                 </entry>
-                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.KSCompoundOpCodeNode) }">
+                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.tree.node.KSCompoundOpCodeNode) }">
                     <bean parent="KS-CompoundOpCodeNodePrototype"/>
                 </entry>
-                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.KSCompoundPropositionEditNode) }">
+                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.tree.node.KSCompoundPropositionEditNode) }">
                     <bean parent="KS-CompoundPropositionEditNodePrototype"/>
                 </entry>
             </map>

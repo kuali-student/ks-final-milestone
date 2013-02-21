@@ -116,6 +116,14 @@
     width: 400px;
 }
 
+.subruleElement {
+    white-space: normal !important;
+}
+
+.compareElement {
+    background-color: #FFF8C6;
+}
+
 .rule-message {
 
 }
@@ -133,6 +141,10 @@
     margin-top:5px;
     font-weight: bold;
     max-width: 54em;
+}
+
+.ks-ruleViewSection {
+    margin: 10px;
 }
 
 .ks-stackedCollectionLayout {

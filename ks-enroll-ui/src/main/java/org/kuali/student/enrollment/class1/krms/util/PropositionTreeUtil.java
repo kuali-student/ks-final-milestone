@@ -1,11 +1,9 @@
 package org.kuali.student.enrollment.class1.krms.util;
 
 import org.kuali.rice.core.api.util.tree.Node;
-import org.kuali.rice.core.api.util.tree.Tree;
-import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
-import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
+import org.kuali.student.enrollment.class1.krms.tree.node.RuleEditorTreeNode;
 
 import java.util.List;
 
@@ -45,7 +43,7 @@ public class PropositionTreeUtil {
 
         if (ruleEditor != null) {
             String selectedPropId = ruleEditor.getSelectedPropositionId();
-            return findProposition(ruleEditor.getPropositionTree().getRootElement(), selectedPropId);
+            return findProposition(ruleEditor.getEditTree().getRootElement(), selectedPropId);
         }
 
         return null;
@@ -102,7 +100,7 @@ public class PropositionTreeUtil {
     }
 
     public static void resetEditModeOnPropositionTree(RuleEditor ruleEditor) {
-        Node<RuleEditorTreeNode, String> root = ruleEditor.getPropositionTree().getRootElement();
+        Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
         resetEditModeOnPropositionTree(root);
     }
 

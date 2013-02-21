@@ -16,17 +16,10 @@
  */
 package org.kuali.student.enrollment.class1.krms.form;
 
-import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
-import org.kuali.rice.krms.impl.ui.TermParameter;
-import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
-import org.kuali.student.enrollment.class1.krms.dto.RulePreviewer;
+import org.kuali.student.enrollment.class1.krms.tree.node.TreeNode;
 import org.kuali.student.enrollment.uif.form.KSUifForm;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 
 /**
