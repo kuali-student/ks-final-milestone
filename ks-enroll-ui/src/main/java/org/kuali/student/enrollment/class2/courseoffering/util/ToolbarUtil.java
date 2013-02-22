@@ -54,11 +54,10 @@ public class ToolbarUtil {
         permissionDetails.put("socState", socState);
 
         //Check if the user can add based on classes start date
-        if (form.getTermInfo().getStartDate() != null) {
-            Date now = new Date();
-            if (form.getTermInfo().getStartDate()!=null && now.before(form.getTermInfo().getStartDate())) {
-                permissionDetails.put("termClassStartDateLater", "true");
-            }
+        Date termClassStartDate = form.getTermClassStartDate();
+        Date now = new Date();
+        if (termClassStartDate == null || now.before(termClassStartDate)) {
+            permissionDetails.put("termClassStartDateLater", "true");
         }
 
         permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, form.getViewId());
@@ -121,11 +120,10 @@ public class ToolbarUtil {
         permissionDetails.put("socState", socState);
 
         //Check if the user can add based on classes start date
-        if (form.getTermInfo().getStartDate()!=null && form.getTermInfo().getStartDate() != null) {
-            Date now = new Date();
-            if (now.before(form.getTermInfo().getStartDate())) {
-                permissionDetails.put("termClassStartDateLater", "true");
-            }
+        Date termClassStartDate = form.getTermClassStartDate();
+        Date now = new Date();
+        if (termClassStartDate == null || now.before(termClassStartDate)) {
+            permissionDetails.put("termClassStartDateLater", "true");
         }
 
         permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, form.getViewId());
