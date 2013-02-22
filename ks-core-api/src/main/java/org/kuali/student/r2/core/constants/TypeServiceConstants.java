@@ -48,4 +48,10 @@ public class TypeServiceConstants {
      */
     public static final String TYPE_TYPE_RELATION_ACTIVE_STATE_KEY = "kuali.type.type.relation.state.active";
     public static final String TYPE_TYPE_RELATION_INACTIVE_STATE_KEY = "kuali.type.type.relation.state.inactive";
+
+    /**
+     * Attributes
+     */
+    public static final String PRIORITY_ATTR = "kuali.attribute.type.priority";
 }
+
