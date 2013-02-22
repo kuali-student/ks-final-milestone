@@ -1,14 +1,5 @@
 package org.kuali.student.ap.framework.context.support;
 
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -27,13 +18,23 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
+
 /**
  * Helper methods for dealing with ATPs.
  */
 public class DefaultAtpHelper implements AtpHelper {
 
 
-    public final Pattern TERM_REGEX = Pattern.compile("(winter|spring|summer|autumn)\\s+([0-9]{4})");
+    public final Pattern TERM_REGEX = Pattern.compile("(winter|spring|summer|autumn|fall)\\s+([0-9]{4})");
+    public final Pattern TERM_REGEX_2 = Pattern.compile("(winter|spring|summer|autumn|fall) ([0-9]{4})");
     public static final String LAST_DROP_DAY = "last_drop_day";
 
     private static String term1 = "winter";
@@ -500,8 +501,21 @@ public class DefaultAtpHelper implements AtpHelper {
         text = text.toLowerCase();
 
         Matcher m = TERM_REGEX.matcher(text);
+        Matcher m_2 = TERM_REGEX_2.matcher(text);
         if (m.find()) {
             String temp = m.group(1);
+            if ("fall".equals(temp)) {
+               temp = "autumn";
+            }
+            int term = CourseSearchConstants.TERM_ID_LIST.indexOf(temp) + 1;
+            int year = Integer.parseInt(m.group(2));
+            return new DefaultYearTerm(year, term);
+        }  else  if (m_2.find()) {
+            m = m_2;
+            String temp = m.group(1);
+            if ("fall".equals(temp)) {
+                temp = "autumn";
+            }
             int term = CourseSearchConstants.TERM_ID_LIST.indexOf(temp) + 1;
             int year = Integer.parseInt(m.group(2));
             return new DefaultYearTerm(year, term);

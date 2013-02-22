@@ -1,18 +1,5 @@
 package org.kuali.student.myplan.course.controller;
 
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -49,13 +36,25 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
-import org.kuali.student.r2.core.organization.infc.Org;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
-import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
 
 public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
@@ -346,71 +345,70 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 .get();
         if (rv == null) {
             Map<String, Credit> creditMap = new java.util.LinkedHashMap<String, Credit>();
-            SearchRequestInfo searchRequest = new SearchRequestInfo(
-                    "myplan.course.info.credits.details");
-            searchRequest.setParams(Collections.<SearchParamInfo> emptyList());
+//            SearchRequestInfo searchRequest = new SearchRequestInfo(
+//                    "myplan.course.info.credits.details");
+//            searchRequest.setParams(Collections.<SearchParamInfo> emptyList());
+            String resultScaleKey = "kuali.result.scale.credit.degree";
+            ContextInfo contextInfo =   KsapFrameworkServiceLocator.getContext().getContextInfo();
+            List<ResultValuesGroupInfo> resultValuesGroupInfos = null;
+
             try {
-                for (SearchResultRow row : KsapFrameworkServiceLocator
-                        .getCluService()
-                        .search(searchRequest,
-                                KsapFrameworkServiceLocator.getContext()
-                                        .getContextInfo()).getRows()) {
-                    String id = getCellValue(row, "credit.id");
-                    String type = getCellValue(row, "credit.type");
-                    String min = getCellValue(row, "credit.min");
-                    String max = getCellValue(row, "credit.max");
+                resultValuesGroupInfos =  KsapFrameworkServiceLocator.getLRCService().getResultValuesGroupsByResultScale(resultScaleKey, contextInfo);
+            } catch(Exception e)     {
+                e.printStackTrace();
+                return null;
+            }
+
+            if ((resultValuesGroupInfos != null) && (resultValuesGroupInfos.size() > 0)){
+                for (ResultValuesGroupInfo resultValuesGroupInfo : resultValuesGroupInfos) {
+                    String id = resultValuesGroupInfo.getKey();
+                    String type = resultValuesGroupInfo.getTypeKey().toLowerCase();
+                    String display = resultValuesGroupInfo.getName();
+                    String min = null;
+                    String max = null;
+
+                    String [] arraySplitType = type.split("\\.");
+                    if ((arraySplitType != null) && (arraySplitType.length > 0)) {
+                        type = arraySplitType[arraySplitType.length - 1];
+                    }
+                    if (resultValuesGroupInfo.getResultValueRange() != null) {
+                        min = resultValuesGroupInfo.getResultValueRange().getMinValue();
+                        max = resultValuesGroupInfo.getResultValueRange().getMaxValue();
+                    }  else {    //if ("multiple".equals(type))
+                        String [] tempArray = null;
+                        if (id.toLowerCase().contains(CourseSearchConstants.DEGREE_CREDIT_ID_SUFFIX.toLowerCase())) {
+                            tempArray = id.toLowerCase().split(CourseSearchConstants.DEGREE_CREDIT_ID_SUFFIX.toLowerCase());
+                            if (tempArray != null) {
+                                tempArray =  tempArray[tempArray.length - 1].split(",");
+                            }
+                            if (tempArray != null) {
+                                min =  tempArray[0];
+                                max =  tempArray[tempArray.length - 1];
+                                display = min + ", " + max + " Credits";
+                            }
+                        }
+                    }
+                    // Currently, the types listed in the database are: fixed, range, multiple
+                    if ((! "fixed".equals(type)) && (! "range".equals(type))&& (! "multiple".equals(type))) {
+                        type =  "unknown";
+                    }
                     CreditImpl credit = new CreditImpl();
                     credit.id = id;
-
-//                    credit.min = Float.valueOf(min);
-//                    credit.max = Float.valueOf(max);
-                    String [] tempArray = null;
-                    if ("kuali.result.values.group.type.multiple".equals(type)) {
-                        tempArray = id.split("kuali.creditType.credit.degree.");
-                        if (tempArray != null) {
-                            tempArray =  tempArray[tempArray.length - 1].split(",");
-                        }
-                        if (tempArray != null) {
-                            min =  tempArray[0];
-                            max =  tempArray[tempArray.length - 1];
-                        }
-                        credit.display = min + ", " + max;
-                        credit.type = CourseSearchItem.CreditType.multiple;
-                    } else if ("kuali.result.values.group.type.range"
-                            .equals(type)) {
-                        credit.display = min + "-" + max;
-                        credit.type = CourseSearchItem.CreditType.range;
-                    } else if ("kuali.result.values.group.type.fixed"
-                            .equals(type)) {
-                        credit.display = min;
-                        credit.type = CourseSearchItem.CreditType.fixed;
-                    }
+                    credit.display = display;
+                    credit.type = CourseSearchItem.CreditType.valueOf(type);
 
                     Float tempValueHolder = 0F;
                     try {
                         credit.min = Float.parseFloat(min);
                         credit.max = Float.parseFloat(max);
-                    } catch (NumberFormatException nfe) {
-                        credit.min= tempValueHolder;
-                        credit.max= tempValueHolder;
-                    }   catch (NullPointerException ne) {
+                    } catch (Exception e) {
                         credit.min= tempValueHolder;
                         credit.max= tempValueHolder;
                     }
                     creditMap.put(id, credit);
-                }
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("CLU lookup error", e);
-            } catch (MissingParameterException e) {
-                throw new IllegalArgumentException("CLU lookup error", e);
-            } catch (InvalidParameterException e) {
-                throw new IllegalArgumentException("CLU lookup error", e);
-            } catch (OperationFailedException e) {
-                throw new IllegalStateException("CLU lookup error", e);
-            } catch (PermissionDeniedException e) {
-                throw new IllegalStateException("CLU lookup error", e);
+                }   //End for loop
             }
-            creditMapRef = new WeakReference<Map<String, Credit>>(
+              creditMapRef = new WeakReference<Map<String, Credit>>(
                     rv = Collections.unmodifiableMap(Collections
                             .synchronizedMap(creditMap)));
         }

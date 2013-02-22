@@ -51,6 +51,8 @@ public class CourseSearchConstants {
 
     public static final String COURSE_OFFERING_INSTITUTE = "kuali.course.offering.institute";
 
+    public static final String DEGREE_CREDIT_ID_SUFFIX = "kuali.creditType.credit.degree.";
+
     public static final String ORG_QUERY_SEARCH_BY_TYPE_REQUEST = "org.search.orgInfoByType";
 
     public static final String ORG_QUERY_SEARCH_SUBJECT_AREAS = "org.search.orgCurriculum";
