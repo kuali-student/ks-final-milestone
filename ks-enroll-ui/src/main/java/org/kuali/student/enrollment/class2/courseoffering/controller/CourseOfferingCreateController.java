@@ -34,7 +34,9 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.uif.util.GrowlIcon;
 import org.kuali.student.enrollment.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.uif.util.KSUifUtils;
@@ -99,6 +101,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
     private transient LRCService lrcService;
     private transient SearchService searchService;
     private transient TypeService typeService;
+    private CourseOfferingSetService courseOfferingSetService;
 
     /**
      * This is called when the user clicks on the <i>'show'</i> button after entering the term and course code.
@@ -142,6 +145,13 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
                 return getUIFModelAndView(form);
             } else {
+                // check if SOC state is "published"
+                List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(term.getId(), contextInfo);
+                if (socIds != null && !socIds.isEmpty()){
+                    SocInfo soc = getCourseOfferingSetService().getSoc(socIds.get(0), contextInfo);
+                    coWrapper.setSocInfo(soc);
+                }
+
                 //Get all the course offerings in a term
                 List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(), term.getId(), contextInfo);
 
@@ -506,5 +516,12 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "search", SearchService.class.getSimpleName()));
         }
         return searchService;
+    }
+
+    protected CourseOfferingSetService getCourseOfferingSetService(){
+        if (courseOfferingSetService == null){
+            courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return courseOfferingSetService;
     }
 }

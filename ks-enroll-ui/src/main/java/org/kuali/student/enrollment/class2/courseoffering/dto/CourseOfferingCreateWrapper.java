@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +69,8 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     private List<FormatOfferingWrapper> copyFromFormats;
 
     String adminOrg;
+
+    private SocInfo socInfo;
 
     public CourseOfferingCreateWrapper(){
         showTermOfferingLink = true;
@@ -405,6 +408,17 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         this.adminOrg=adminOrg;
     }
 
+    /*
+    *  @param socInfo
+     */
+    public SocInfo getSocInfo() {
+        return socInfo;
+    }
+
+    public void setSocInfo(SocInfo socInfo) {
+        this.socInfo = socInfo;
+    }
+
     /**
      * Clears all the properties. This is needed to clear out all the previous ui data first
      * before displaying the new data when the user clicks on the Show button
@@ -428,6 +442,8 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         setShowCreateFormatSection(true);
         getCopyFromFormats().clear();
         getAlternateCOCodes().clear();
+        setSocInfo(null);
+        setAdminOrg(null);
     }
 
 }
