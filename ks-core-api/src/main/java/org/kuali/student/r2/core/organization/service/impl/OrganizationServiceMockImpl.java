@@ -43,7 +43,7 @@ import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo;
-import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
+import org.kuali.student.r2.core.organization.dto.OrgTreeViewInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -1088,7 +1088,7 @@ public class OrganizationServiceMockImpl implements MockService, OrganizationSer
     }
 
     @Override
-    public List<OrgTreeInfo> getOrgTree(String rootOrgId, String orgHierarchyId, int maxLevels, ContextInfo contextInfo)
+    public OrgTreeViewInfo getOrgTree(String rootOrgId, String orgHierarchyId, int maxLevels, ContextInfo contextInfo)
             throws DoesNotExistException
             ,InvalidParameterException
             ,MissingParameterException

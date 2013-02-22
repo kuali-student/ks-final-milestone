@@ -35,7 +35,7 @@ import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo;
-import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
+import org.kuali.student.r2.core.organization.dto.OrgTreeViewInfo;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -1977,7 +1977,9 @@ public interface OrganizationService extends SearchService {
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
+     * @deprecated please use getOrgTree
      */
+    @Deprecated
     public List<String> getAllDescendants(@WebParam(name = "orgId") String orgId, 
                                           @WebParam(name = "orgHierarchyId") String orgHierarchyId, 
                                           @WebParam(name = "contextInfo") ContextInfo contextInfo) 
@@ -2009,7 +2011,9 @@ public interface OrganizationService extends SearchService {
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
+     * @deprecated please use getOrgTree
      */
+    @Deprecated
     public List<String> getAllAncestors(@WebParam(name="orgId") String orgId, 
                                         @WebParam(name="orgHierarchyId") String orgHierarchyId, 
                                         @WebParam(name = "contextInfo") ContextInfo contextInfo) 
@@ -2021,15 +2025,17 @@ public interface OrganizationService extends SearchService {
 
     /**
      * Finds a list of all orgs in the org hierarchy starting at the
-     * root org and going down maxLevels of the tree
+     * root org and going down/up maxLevels of the tree.
      *
-     * @param rootOrgId 
+     * @param startingOrgId
      * @param orgHierarchyId
      * @param maxLevels the max number of levels in the tree to
-     *        return. If set to 0 returns all nodes in the tree
+     *                  traverse. A positive value indicates downward
+     *                  traversal. A negative value indicates an upward traversal.
+     *                  Zero indicates an unlimited traversal in both directions.
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return List of OrgTreeInfo in
+     * @return List of OrgTreeViewInfo in
      * @throws DoesNotExistException rootOrgId or orgHierarchyId is
      *         not found, or rootOrgId is not part or orgHierarchyId
      * @throws InvalidParameterException contextInfo is not valid
@@ -2038,7 +2044,7 @@ public interface OrganizationService extends SearchService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<OrgTreeInfo> getOrgTree(@WebParam(name = "rootOrgId") String rootOrgId, 
+    public OrgTreeViewInfo getOrgTree(@WebParam(name = "startingOrgId") String startingOrgId,
                                         @WebParam(name = "orgHierarchyId") String orgHierarchyId, 
                                         @WebParam(name = "maxLevels") int maxLevels, 
                                         @WebParam(name = "contextInfo") ContextInfo contextInfo) 

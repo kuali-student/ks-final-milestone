@@ -15,7 +15,7 @@
  */
 
 /*
- * OrgTreeInfo is not defined in the service contract. This is currently
+ * OrgTreeViewInfo is not defined in the service contract. This is currently
  * an implementation-specific class.
  */
 
@@ -23,22 +23,16 @@ package org.kuali.student.r2.core.organization.infc;
 
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 
+import java.util.List;
+
 /**
- * This is used to retrieve a flattened organization hierarchy from a
- * reference organization node down a specified number of levels.
+ * This is used to retrieve a view of the organization hierarchy from a
+ * reference organization node down or up a specified number of levels.
  *
  * @author tom
  */
-public interface OrgTree {
+public interface OrgTreeView {
 
-    /**
-     * Gets the display name for this tree.
-     *
-     * @name Display Name
-     * @required
-     * @readOnly
-     */   
-    public String getDisplayName();
 
     /**
      * Gets the reference or starting Organization node in
@@ -47,32 +41,16 @@ public interface OrgTree {
      * @name Org
      * @required
      * @readOnly
-     */   
+     */
     public OrgInfo getOrg();
 
     /**
-     * Gets the Id of the parent to the Organization node.
-     *
-     * @name Parent Id
-     * @readOnly
-     */   
-    public String getParentId();
+     * Gets the parents for the current Organization node in this tree.
+     */
+    public List<? extends OrgTreeView> getParents();
 
     /**
-     * Gets the total number of positions in this organization
-     * (assuming).
-     *
-     * @name Positions
-     * @required
-     * @readOnly
-     */               
-    public Long getPositions();
-
-    /**
-     * Gets the type key of the relation. (or person relation???)
-     *
-     * @name Relation Type Key
-     * @readOnly
-     */           
-    public String getRelationTypeKey();
+     * Gets the children for the current Organization node in this tree.
+     */
+    public List<? extends OrgTreeView> getChildren();
 }
