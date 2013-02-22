@@ -8,6 +8,7 @@ import org.kuali.student.enrollment.uif.form.KSUifForm;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CourseOfferingManagementForm extends KSUifForm {
@@ -94,6 +95,8 @@ public class CourseOfferingManagementForm extends KSUifForm {
     private boolean editAuthz;
 
     private boolean enableAddButton = false;
+
+    private Date termClassStartDate;
 
     public CourseOfferingManagementForm (){
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
@@ -379,4 +382,13 @@ public class CourseOfferingManagementForm extends KSUifForm {
     public void setCrossListedCO(boolean crossListedCO) {
         this.isCrossListedCO = crossListedCO;
     }
+
+    public Date getTermClassStartDate() {
+        return termClassStartDate;
+    }
+
+    public void setTermClassStartDate(Date termClassStartDate) {
+        this.termClassStartDate = termClassStartDate;
+    }
+
 }
