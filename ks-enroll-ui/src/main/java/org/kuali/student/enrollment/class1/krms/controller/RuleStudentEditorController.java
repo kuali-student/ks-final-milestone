@@ -23,6 +23,7 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
@@ -36,6 +37,7 @@ import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.student.enrollment.class1.krms.service.RuleViewHelperService;
 import org.kuali.student.enrollment.class1.krms.util.PropositionTreeUtil;
+import org.kuali.student.enrollment.class1.krms.util.RuleLogicExpressionParser;
 import org.kuali.student.enrollment.uif.util.KSControllerHelper;
 import org.kuali.student.krms.KRMSConstants;
 import org.springframework.stereotype.Controller;
@@ -46,6 +48,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,6 +61,7 @@ import java.util.List;
 public class RuleStudentEditorController extends MaintenanceDocumentController {
 
     private SequenceAccessorService sequenceAccessorService;
+    private String logicExpression;
 
     /**
      * This method updates the existing rule in the agenda.
@@ -653,10 +657,45 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
     public ModelAndView updatePreview(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        RuleLogicExpressionParser ruleLogicExpressionParser = new RuleLogicExpressionParser();
 
         RuleEditor ruleEditor = getRuleEditor(form);
 
+        logicExpression = ruleEditor.getLogicArea();
+        ruleLogicExpressionParser.setExpression(logicExpression);
+        List<String> propsAlpha = new ArrayList<String>(ruleEditor.getPropositionAlpha().values());
+
+        //validate the expression
+
+        List<String> errorMessages = new ArrayList<String>();
+        boolean validExpression = ruleLogicExpressionParser.validateExpression(errorMessages, propsAlpha);
+
+        //show errors and don't change anything else
+        if (!validExpression) {
+
+            // reload page1
+            return getUIFModelAndView(form);
+        }
+
+        /*//update the rule based on the updated logic expression
+        StatementVO newStatementVO = ruleExpressionParser.parseExpressionIntoStatementVO(previewExpression, rule.getStatementVO(), rule.getStatementTypeKey());
+        rule.setStatementVO(newStatementVO);
+        rule.getEditHistory().save(newStatementVO);
+
+        //display rule table for updated rule
+        redraw();
+
+        parent.updateObjectRule(rule);
+        ruleChanged = true;
+        ruleChangedCallback.exec(true);*/
+
+        //Update the rule preview
+
+        //Reset the editing tree.
+
         //Reset the editing and preview trees.
+
+
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
@@ -725,9 +764,50 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                 } else {
                     setValueForProposition(proposition, "");
                 }
-
             }
+        }
+    }
 
+
+    @RequestMapping(params = "methodToCall=initLogicSection")
+    public ModelAndView initLogicSection(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response) {
+        RuleEditor ruleEditor = getRuleEditor(form);
+        logicExpression = "";
+        Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
+        Node<RuleEditorTreeNode, String> node = root.getChildren().get(0);
+        configureLogicExpression(node, ruleEditor);
+        ruleEditor.setLogicArea(logicExpression);
+
+        return getUIFModelAndView(form);
+    }
+
+    private void configureLogicExpression(Node<RuleEditorTreeNode, String> node, RuleEditor ruleEditor) {
+        // Depending on the type of proposition (simple/compound), and the editMode,
+        // Create a treeNode of the appropriate type for the node and attach it to the
+        // sprout parameter passed in.
+        // If the prop is a compound proposition, calls itself for each of the compoundComponents
+        PropositionEditor prop = new PropositionEditor();
+        if (node.getData() != null) {
+            if (KSSimplePropositionNode.NODE_TYPE.equalsIgnoreCase(node.getNodeType())) {
+                logicExpression += ruleEditor.getPropositionAlpha().get(node.getData().getProposition().getId());
+            } else if (RuleEditorTreeNode.COMPOUND_OP_NODE_TYPE.equalsIgnoreCase(node.getNodeType())) {
+                if(node.getData().getProposition().getCompoundOpCode().equals(LogicalOperator.AND.getCode())) {
+                    logicExpression += " AND ";
+                } else if(node.getData().getProposition().getCompoundOpCode().equals(LogicalOperator.OR.getCode())) {
+                    logicExpression += " OR ";
+                }
+            } else if (RuleEditorTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(node.getNodeType())) {
+                logicExpression += ruleEditor.getPropositionAlpha().get(node.getData().getProposition().getId()) + "(";
+
+                List<Node<RuleEditorTreeNode, String>> allMyChildren = node.getChildren();
+                for (Node<RuleEditorTreeNode, String> child : allMyChildren) {
+                    configureLogicExpression(child, ruleEditor);
+                    if(allMyChildren.get(allMyChildren.size()-1).getNodeLabel() == child.getNodeLabel()) {
+                        logicExpression += ")";
+                    }
+                }
+            }
         }
     }
 
