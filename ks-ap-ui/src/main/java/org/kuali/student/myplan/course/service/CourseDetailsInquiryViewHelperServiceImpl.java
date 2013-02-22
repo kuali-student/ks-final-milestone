@@ -622,7 +622,7 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
                             String key = attrib.getKey();
                             String value = attrib.getValue();
                             if ("SLN".equalsIgnoreCase(key)) {
-                                activity.setSln(value);
+                                activity.setRegistrationCode(value);
                                 continue;
                             }
                             Boolean flag = Boolean.valueOf(value);
@@ -644,8 +644,8 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
                     }
                     activity.setEnrollRestriction(true);
                     activity.setEnrollOpen(true);
-                    activity.setEnrollCount(000);
-                    activity.setEnrollMaximum(999);
+                    activity.setEnrollCount("000");
+                    activity.setEnrollMaximum("999");
                     activity.setInstructor(aodi.getInstructorName());
 
                     activity.setHonorsSection(aodi.getIsHonorsOffering());

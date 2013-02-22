@@ -54,4 +54,5 @@ public interface UserSessionHelper {
 
 	boolean isStudent();
 
+    String getStudentNumber();
 }

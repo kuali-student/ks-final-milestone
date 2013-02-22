@@ -1,6 +1,7 @@
 package org.kuali.student.ap.framework.context.support;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.kim.api.identity.Person;
@@ -11,6 +12,7 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.UserSessionHelper;
+import org.springframework.dao.DataRetrievalFailureException;
 
 public class DefaultUserSessionHelper implements UserSessionHelper {
 
@@ -134,6 +136,27 @@ public class DefaultUserSessionHelper implements UserSessionHelper {
 	public String getAuditSystemKey() {
 		return getStudentId();
 	}
+
+    /**
+     * Return value as-is, including null
+     *
+     * @return
+     */
+    @Override
+    public String getStudentNumber() {
+        try {
+            String studentId = getStudentId();
+            Person person = KimApiServiceLocator.getPersonService().getPerson(studentId);
+            Map<String, String> map = person.getExternalIdentifiers();
+
+            // Rice KIM's equivalent to systemID is /Person/StudentNumber from SWS
+            String systemNumber = map.get("systemID");
+            return systemNumber;
+        } catch (Exception e) {
+            logger.error("Could not load the Person Information", e);
+            throw new DataRetrievalFailureException("Could not find the SystemNumber for the Student", e);
+        }
+    }
 
 	@Override
 	public boolean isStudent() {

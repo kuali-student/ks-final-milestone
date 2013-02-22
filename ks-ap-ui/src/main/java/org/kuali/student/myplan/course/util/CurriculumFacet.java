@@ -83,13 +83,10 @@ public class CurriculumFacet extends AbstractFacet {
         OrganizationService  organizationService = KsapFrameworkServiceLocator.getOrganizationService();
         OrgInfo orgInfo = null;
 		try {
+
             orgInfo =    organizationService.getOrg(orgId, contextInfo) ;
             subject = orgInfo.getShortName();
-//			subject = KsapFrameworkServiceLocator
-//					.getOrganizationService()
-//					.getOrg(course.getSubject(),
-//							KsapFrameworkServiceLocator.getContext()
-//									.getContextInfo()).getShortName();
+
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("ORG lookup error", e);
 		} catch (InvalidParameterException e) {

@@ -20,35 +20,39 @@ public class ActivityOfferingItem {
     private String activityOfferingType;
     private String credits;
     private List<MeetingDetails> meetingDetailsList;
-    
+
     // Section Line Number - UW-ism
     private String atpId;
-    private String sln;
+    private String registrationCode;
     // Used by the UI to feed the QTRYR query parameter, like in the following:
-    // https://sdb.admin.washington.edu/timeschd/uwnetid/sln.asp?QTRYR=WIN+2013&amp;SLN=11944
+    // https://sdb.admin.washington.edu/timeschd/uwnetid/registrationCode.asp?QTRYR=WIN+2013&amp;SLN=11944
     private String qtryr;
     private boolean enrollRestriction;
     private boolean enrollOpen;
-    private int enrollCount;
-    private int enrollMaximum;
-    private String instructor;
-    private String details;
-
-    private boolean distanceLearning;
-    private boolean honorsSection;
-    private boolean jointOffering;
-    private boolean research;
-    private boolean writingSection;
-    private boolean serviceLearning;
-    private boolean newThisYear;
-    private boolean ineligibleForFinancialAid;
-    private String gradingOption;
+    private String enrollCount;
+    private String enrollMaximum;
+    private String enrollEstimate;
 
     private boolean planned = false;
 
     private boolean primary = false;
 
-    private List<ActivityOfferingItem> secondaryList;
+    private String instituteCode;
+    private String instituteName;
+
+    private List<ActivityOfferingAdditionalInfo> additionalInfo = new ArrayList<ActivityOfferingAdditionalInfo>();
+
+    public ActivityOfferingItem(){
+        ActivityOfferingAdditionalInfo additionalInfo = new ActivityOfferingAdditionalInfo();
+        this.additionalInfo.add(additionalInfo);
+    }
+    public void setAdditionalInfo(List<ActivityOfferingAdditionalInfo> additionalInfo){
+        this.additionalInfo = additionalInfo;
+    }
+    public List<ActivityOfferingAdditionalInfo> getAdditionalInfo (){
+        return additionalInfo;
+    }
+
 
     public String getCode() {
         return code;
@@ -57,13 +61,13 @@ public class ActivityOfferingItem {
     public void setCode(String code) {
         this.code = code;
     }
-    
+
     public String getCampus() {
-    	return campus;
+        return campus;
     }
-    
+
     public void setCampus( String campus ) {
-    	this.campus = campus;
+        this.campus = campus;
     }
 
     public String getActivityOfferingType() {
@@ -85,7 +89,7 @@ public class ActivityOfferingItem {
     public List<MeetingDetails> getMeetingDetailsList() {
         if(meetingDetailsList == null )
         {
-        	meetingDetailsList = new ArrayList<MeetingDetails>();
+            meetingDetailsList = new ArrayList<MeetingDetails>();
         }
         return meetingDetailsList;
     }
@@ -94,12 +98,69 @@ public class ActivityOfferingItem {
         this.meetingDetailsList = meetingDetailsList;
     }
 
-    public String getSln() {
-        return sln;
+    public String getMeetingDetailsListOutput(){
+        List<MeetingDetails> list = meetingDetailsList;
+        String TO_BE_ARRANGED="To be Arranged";
+        StringBuilder sb = new StringBuilder();
+        sb.append( "<div class='meetingdetailslist'>" );
+
+        for( MeetingDetails m : list ) {
+
+            boolean tba = false;
+
+            StringBuilder temp = new StringBuilder();
+            temp.append( "<div class='meetingdetails'>" );
+
+            String days = m.getDays();
+            String time = m.getTime();
+            String building = m.getBuilding();
+            String room = m.getRoom();
+            String campus = m.getCampus();
+
+            // If the days and building are empty, section is TBA
+            if ( ( days == null || days.equals( "" ) ) && ( time == null || time.equals( "" ) ) ) {
+                tba = true;
+            }
+
+            if ( days == null ) days = "";
+            if ( time == null ) time = "";
+            if ( building == null ) building = "";
+            if ( room == null ) room = "";
+            if ( campus == null ) campus = "";
+
+            if ( !tba ) {
+                temp.append( "<span class='meetingdays'>" + days + "</span>" );
+                temp.append( "<span class='meetingtime'>" + time + "</span>" );
+            } else {
+                temp.append( "<span class='meetingtba'>" + TO_BE_ARRANGED + "</span>" );
+            }
+
+            if ( !building.equals( "NOC" ) && !building.startsWith( "*" ) && campus.equalsIgnoreCase( "seattle" ) ) {
+                temp.append( "<span class='meetingbuilding'><a href='http://uw.edu/maps/?" + building + "' target='_blank'>" + building + "</a></span>" );
+            } else {
+                temp.append( "<span class='meetingbuilding'>" + building + "</span>" );
+            }
+
+            temp.append( "<span class='meetingroom'>" + room + "</span>" );
+
+            temp.append( "</div>" );
+
+            sb.append( temp );
+        }
+
+        sb.append( "</div>" );
+
+        String result = sb.toString();
+        result = result.replace( '\'', '\"' );
+        return result;
     }
 
-    public void setSln(String sln) {
-        this.sln = sln;
+    public String getRegistrationCode() {
+        return registrationCode;
+    }
+
+    public void setRegistrationCode(String registrationCode) {
+        this.registrationCode = registrationCode;
     }
 
     public String getQtryr() {
@@ -126,36 +187,44 @@ public class ActivityOfferingItem {
         this.enrollOpen = enrollOpen;
     }
 
-    public int getEnrollCount() {
+    public String getEnrollCount() {
         return enrollCount;
     }
 
-    public void setEnrollCount(int enrollCount) {
+    public void setEnrollCount(String enrollCount) {
         this.enrollCount = enrollCount;
     }
 
-    public int getEnrollMaximum() {
+    public String getEnrollMaximum() {
         return enrollMaximum;
     }
 
-    public void setEnrollMaximum(int enrollMaximum) {
+    public void setEnrollMaximum(String enrollMaximum) {
         this.enrollMaximum = enrollMaximum;
     }
 
+    public String getEnrollEstimate() {
+        return enrollEstimate;
+    }
+
+    public void setEnrollEstimate(String enrollEstimate) {
+        this.enrollEstimate = enrollEstimate;
+    }
+
     public String getInstructor() {
-        return instructor;
+        return additionalInfo.get(0).getInstructor();
     }
 
     public void setInstructor(String instructor) {
-        this.instructor = instructor;
+        this.additionalInfo.get(0).setInstructor(instructor);
     }
 
     public String getDetails() {
-        return details;
+        return  additionalInfo.get(0).getDetails();
     }
 
     public void setDetails( String details ) {
-        this.details = details;
+        this.additionalInfo.get(0).setDetails(details);
     }
 
     /*
@@ -164,75 +233,75 @@ public class ActivityOfferingItem {
      */
 
     public boolean isDistanceLearning() {
-        return distanceLearning;
+        return additionalInfo.get(0).isDistanceLearning();
     }
 
     public void setDistanceLearning(boolean distanceLearning) {
-        this.distanceLearning = distanceLearning;
+        this.additionalInfo.get(0).setDistanceLearning(distanceLearning);
     }
 
     public boolean isHonorsSection() {
-        return honorsSection;
+        return  additionalInfo.get(0).isHonorsSection();
     }
 
     public void setHonorsSection(boolean honorsSection) {
-        this.honorsSection = honorsSection;
+        this.additionalInfo.get(0).setHonorsSection(honorsSection);
     }
 
     public boolean isJointOffering() {
-        return jointOffering;
+        return  additionalInfo.get(0).isJointOffering();
     }
 
     public void setJointOffering(boolean jointOffering) {
-        this.jointOffering = jointOffering;
+        this.additionalInfo.get(0).setJointOffering(jointOffering);
     }
 
     public boolean isResearch() {
-        return research;
+        return  additionalInfo.get(0).isResearch();
     }
 
     public void setResearch(boolean research) {
-        this.research = research;
+        this.additionalInfo.get(0).setResearch(research);
     }
 
     public boolean isWritingSection() {
-        return writingSection;
+        return additionalInfo.get(0).isWritingSection();
     }
 
     public void setWritingSection(boolean writingSection) {
-        this.writingSection = writingSection;
+        this.additionalInfo.get(0).setWritingSection(writingSection);
     }
 
     public boolean isServiceLearning() {
-        return serviceLearning;
+        return  additionalInfo.get(0).isServiceLearning();
     }
 
     public void setServiceLearning(boolean serviceLearning) {
-        this.serviceLearning = serviceLearning;
+        this.additionalInfo.get(0).setServiceLearning(serviceLearning);
     }
 
     public boolean isNewThisYear() {
-        return newThisYear;
+        return  additionalInfo.get(0).isNewThisYear();
     }
 
     public void setNewThisYear(boolean newThisYear) {
-        this.newThisYear = newThisYear;
+        this.additionalInfo.get(0).setNewThisYear(newThisYear);
     }
 
     public boolean isIneligibleForFinancialAid() {
-        return ineligibleForFinancialAid;
+        return  additionalInfo.get(0).isIneligibleForFinancialAid();
     }
 
     public void setIneligibleForFinancialAid(boolean ineligibleForFinancialAid) {
-        this.ineligibleForFinancialAid = ineligibleForFinancialAid;
+        this.additionalInfo.get(0).setIneligibleForFinancialAid(ineligibleForFinancialAid);
     }
-    
+
     public String getGradingOption() {
-    	return gradingOption;
+        return  additionalInfo.get(0).getGradingOption();
     }
-    
+
     public void setGradingOption( String gradingOption ) {
-    	this.gradingOption = gradingOption;
+        this.additionalInfo.get(0).setGradingOption(gradingOption);
     }
 
 
@@ -244,19 +313,9 @@ public class ActivityOfferingItem {
         this.primary = primary;
     }
 
-    public List<ActivityOfferingItem> getSecondaryList() {
-        if (secondaryList == null) {
-            secondaryList = new ArrayList<ActivityOfferingItem>();
-        }
-        return secondaryList;
-    }
-    
-    public void setSecondaryList(  List<ActivityOfferingItem> secondaryList ) {
-    	this.secondaryList = secondaryList;
-    }
-    
     public boolean isStandalone() {
-    	return isPrimary() && getSecondaryList().size() == 0;
+        return isPrimary();
+//    	return isPrimary() && getSecondaryList().size() == 0;
     }
 
     public boolean isPlanned() {
@@ -273,5 +332,53 @@ public class ActivityOfferingItem {
 
     public void setAtpId(String atpId) {
         this.atpId = atpId;
+    }
+
+    public String getFeeAmount() {
+        return  additionalInfo.get(0).getFeeAmount();
+    }
+
+    public void setFeeAmount(String feeAmount) {
+        this.additionalInfo.get(0).setFeeAmount(feeAmount);
+    }
+
+    public boolean isAddCodeRequired() {
+        return  additionalInfo.get(0).isAddCodeRequired();
+    }
+
+    public void setAddCodeRequired(boolean addCodeRequired) {
+        this.additionalInfo.get(0).setAddCodeRequired(addCodeRequired);
+    }
+
+    public boolean isIndependentStudy() {
+        return  additionalInfo.get(0).isIndependentStudy();
+    }
+
+    public void setIndependentStudy(boolean independentStudy) {
+        this.additionalInfo.get(0).setIndependentStudy(independentStudy);
+    }
+
+    public String getSectionComments() {
+        return  additionalInfo.get(0).getSectionComments();
+    }
+
+    public void setSectionComments(String sectionComments) {
+        this.additionalInfo.get(0).setSectionComments(sectionComments);
+    }
+
+    public String getInstituteCode() {
+        return instituteCode;
+    }
+
+    public void setInstituteCode(String instituteCode) {
+        this.instituteCode = instituteCode;
+    }
+
+    public String getInstituteName() {
+        return instituteName;
+    }
+
+    public void setInstituteName(String instituteName) {
+        this.instituteName = instituteName;
     }
 }

@@ -1482,7 +1482,7 @@ function showDataTableDetail(actionComponent, tableId, useImages) {
         } else {
             jQuery(actionComponent).hide();
         }
-        var newRow = oTable.fnOpen(nTr, actionComponent, "uif-rowDetails");
+        var newRow = oTable.fnOpen(nTr, toggleRowDetails(actionComponent), "uif-rowDetails");
         var detailsId = jQuery(newRow).find(".uif-group").first().attr("id");
         jQuery(newRow).find(".uif-group").first().attr("id", detailsId + "_details")
         jQuery(newRow).find("a").each(function () {
