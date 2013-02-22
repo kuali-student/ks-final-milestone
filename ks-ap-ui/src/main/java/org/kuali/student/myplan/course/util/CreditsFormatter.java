@@ -49,9 +49,11 @@ public class CreditsFormatter {
             Collections.sort(rci.getResultValueKeys(), new Comparator<String>() {
                 @Override
                 public int compare(String o1, String o2) {
-                    if (Double.parseDouble(o1) > Double.parseDouble(o2))
+                    String temp1 = o1.replace("kuali.result.value.credit.degree.","");
+                    String temp2 = o2.replace("kuali.result.value.credit.degree.","");
+                    if (Double.parseDouble(temp1) > Double.parseDouble(temp2))
                         return +1;
-                    else if (Double.parseDouble(o1) < Double.parseDouble(o2))
+                    else if (Double.parseDouble(temp1) < Double.parseDouble(temp2))
                         return -1;
                     else
                         return 0;
@@ -63,7 +65,8 @@ public class CreditsFormatter {
                 if (cTmp.length() != 0) {
                     cTmp.append(", ");
                 }
-                cTmp.append(trimCredits(c));
+                String temp = c.replace("kuali.result.value.credit.degree.","");
+                cTmp.append(trimCredits(temp));
             }
             credits = cTmp.toString();
         } else if (type.equals("kuali.result.values.group.type.range")) {

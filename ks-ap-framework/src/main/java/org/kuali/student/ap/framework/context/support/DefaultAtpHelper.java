@@ -163,10 +163,12 @@ public class DefaultAtpHelper implements AtpHelper {
 			term = "1";
 		else if (atptype.equals("kuali.atp.type.Spring"))
 			term = "2";
-		else if (atptype.equals("kuali.atp.type.Summer"))
+		else if (atptype.equals("kuali.atp.type.Summer1"))
 			term = "3";
+        else if (atptype.equals("kuali.atp.type.Summer2"))
+            term = "4";
 		else if (atptype.equals("kuali.atp.type.Fall"))
-			term = "4";
+			term = "5";
 		else
 			throw new IllegalArgumentException(
 					"Unable to determine term from ATP " + atp);
@@ -181,7 +183,8 @@ public class DefaultAtpHelper implements AtpHelper {
 	 */
 	@Override
 	public String[] atpIdToTermNameAndYear(String atpId) {
-		AtpInfo atp;
+        return atpIdToTermAndYear(atpId);
+		/*AtpInfo atp;
 		try {
 			atp = KsapFrameworkServiceLocator.getAtpService().getAtp(atpId,
 					getContext());
@@ -208,6 +211,7 @@ public class DefaultAtpHelper implements AtpHelper {
                 atp.setName(tempAtpName + " " + arrayReFormatAtpName[arrayReFormatAtpName.length - 1]);
             }
         }
+
 		Matcher tm = Pattern.compile("([A-Za-z]+) ([0-9]+)").matcher(
 				atp.getName());
 		if (!tm.matches())
@@ -225,7 +229,7 @@ public class DefaultAtpHelper implements AtpHelper {
                 term =  arrayReFormatAtpName[0];
             }
         }
-		return new String[] { term, year };
+		return new String[] { term, year };   */
 	}
 
 	@Override
@@ -292,7 +296,7 @@ public class DefaultAtpHelper implements AtpHelper {
 	 */
 	@Override
 	public String atpIdToTermName(String atpId) {
-		String[] termYear = atpIdToTermNameAndYear(atpId);
+		String[] termYear = atpIdToTermAndYear(atpId);
 		return (termYear[0] + " " + termYear[1]);
 	}
 
