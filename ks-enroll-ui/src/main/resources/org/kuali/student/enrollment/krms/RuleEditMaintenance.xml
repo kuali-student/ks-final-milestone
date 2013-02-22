@@ -31,7 +31,7 @@
             <list>
                 <value>agenda.id</value>
             </list>
-        </property>
+        </property> 
     </bean>
 
     <bean id="RuleEditor" parent="RuleEditor-parentBean"/>
@@ -55,12 +55,19 @@
         <property name="items">
             <list>
                 <bean parent="LogicInputSection"/>
-                <bean parent="Preview-Tree-Section"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Test" p:methodToCall="initLogicSection"/>
+                <bean parent="Uif-VerticalBoxGroup" p:cssClasses="editModeNode" p:width="50%" p:style="border: 1px solid #999999">
+                    <property name="items">
+                        <list>
+                            <bean parent="Preview-Tree-Section"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
 
-    <bean id="LogicInputSection" parent="Uif-VerticalBoxSubSection" abstract="true" p:cssClasses="editModeNode" p:width="40%" p:style="border: 1px solid #999999">
+    <bean id="LogicInputSection" parent="Uif-VerticalBoxSubSection" abstract="true">
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="logicArea" p:style="margin-left: 5px; margin-top: 5px">
@@ -68,7 +75,7 @@
                         <bean parent="Uif-MediumTextAreaControl"/>
                     </property>
                 </bean>
-                <bean id="preview-change" parent="Uif-SecondaryActionButton-Small" p:style="margin-left: 5px">
+                <bean id="preview-change" parent="Uif-SecondaryActionButton-Small" p:style="margin-left: 5px" p:methodToCall="updatePreview">
                     <property name="actionLabel" value="Preview Change"/>
                 </bean>
             </list>
@@ -76,7 +83,7 @@
     </bean>
 
     <bean id="Preview-Tree-Section" parent="Uif-TreeSection">
-        <property name="propertyName" value="previewTree"/>
+        <property name="propertyName" value="previewTree" />
         <property name="tree">
             <bean parent="KS-View-Tree"/>
         </property>

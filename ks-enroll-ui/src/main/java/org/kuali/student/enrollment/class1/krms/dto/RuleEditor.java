@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.class1.krms.dto;
 
 import org.kuali.rice.core.api.util.tree.Tree;
+import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krms.api.repository.action.ActionDefinition;
 import org.kuali.rice.krms.api.repository.action.ActionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
@@ -23,7 +25,7 @@ import java.util.Map;
  * Time: 3:45 PM
  * To change this template use File | Settings | File Templates.
  */
-public class RuleEditor implements RuleDefinitionContract, Serializable {
+public class RuleEditor extends UifFormBase implements RuleDefinitionContract, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -55,14 +57,7 @@ public class RuleEditor implements RuleDefinitionContract, Serializable {
     private Date effectiveFrom;
     private Date effectiveTo;
 
-    public String getLogicArea() {
-        return logicArea;
-    }
-
-    public void setLogicArea(String logicArea) {
-        this.logicArea = logicArea;
-    }
-
+    //Edit with Logic
     private String logicArea;
 
     // for Rule editor display
@@ -267,6 +262,14 @@ public class RuleEditor implements RuleDefinitionContract, Serializable {
      */
     public void setCopyPropositionId(String copyPropositionId) {
         this.copyPropositionId = copyPropositionId;
+    }
+
+    public String getLogicArea() {
+        return logicArea;
+    }
+
+    public void setLogicArea(String logicArea) {
+        this.logicArea = logicArea;
     }
 
     @Override
