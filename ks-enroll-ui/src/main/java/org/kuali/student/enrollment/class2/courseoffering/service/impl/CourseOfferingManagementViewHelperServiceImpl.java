@@ -50,6 +50,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -58,6 +59,7 @@ import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImp
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentDisplayInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
@@ -77,6 +79,7 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_ViewHelperServiceImpl implements CourseOfferingManagementViewHelperService{
@@ -90,7 +93,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     private LRCService lrcService;
     private AtpService atpService;
     private CourseOfferingSetService socService;
-
 
     /**
      * This method fetches the <code>TermInfo</code> and validate for exact match
@@ -117,6 +119,17 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
         } else {
             form.setTermInfo(terms.get(0));
+
+            // setting term first day of classes
+            List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(form.getTermInfo().getId(), createContextInfo());
+            Date termClassStartDate = null;
+            for (KeyDateInfo keyDateInfo : keyDateInfoList) {
+                if (keyDateInfo.getTypeKey().equalsIgnoreCase(AtpServiceConstants.MILESTONE_SEATPOOL_FIRST_DAY_OF_CLASSES_TYPE_KEY) && keyDateInfo.getStartDate() != null) {
+                    termClassStartDate = keyDateInfo.getStartDate();
+                    break;
+                }
+            }
+            form.setTermClassStartDate(termClassStartDate);
         }
 
     }
