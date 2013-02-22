@@ -58,21 +58,14 @@
         <property name="items">
             <list>
                 <ref bean="KS-CourseOffering-MetaSection"/>
-                <ref bean="KS-CourseOffering-LinkSection"/>
-                <ref bean="KS-CreateFromCatalog"/>
-                <ref bean="KS-CreateFromExistingOffering"/>
+                <ref bean="KS-CourseOffering-NewCourseOffering"/>
+                <ref bean="KS-CourseOffering-Buttons"/>
             </list>
+        </property>
+        <property name="page.footer.items">
+            <list />
         </property>
         <property name="page.header.lowerGroup.render" value="false"/>
-        <property name="page.footer.items">
-            <list>
-                <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:id="createOfferingButton" p:actionLabel="Create Offering" p:performClientSideValidation="true"
-                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:disabled="@{!document.newMaintainableObject.dataObject.enableCreateButton}">
-                </bean>
-            <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"
-                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
-            </list>
-        </property>
         <property name="header.cssClasses">
           <list merge="true">
             <value>ks-borderBottom2</value>
@@ -91,6 +84,28 @@
                 <entry key="noOfTermOfferings" value="document.newMaintainableObject.dataObject.noOfTermOfferings"/>
                 <entry key="selectCrossListingAllowed" value="document.newMaintainableObject.dataObject.selectCrossListingAllowed"/>
             </map>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseOffering-NewCourseOffering" parent="Uif-VerticalBoxSection" p:componentSecurity.viewAuthz="true">
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseOffering-LinkSection"/>
+                <ref bean="KS-CreateFromCatalog"/>
+                <ref bean="KS-CreateFromExistingOffering"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseOffering-Buttons" parent="Uif-HorizontalBoxSection" p:componentSecurity.editAuthz="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:id="createOfferingButton" p:actionLabel="Create Offering" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:disabled="@{!document.newMaintainableObject.dataObject.enableCreateButton or #parent.readOnly}">
+                </bean>
+                <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
         </property>
     </bean>
 
