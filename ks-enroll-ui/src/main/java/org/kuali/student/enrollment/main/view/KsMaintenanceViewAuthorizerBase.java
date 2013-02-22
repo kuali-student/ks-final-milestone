@@ -157,11 +157,9 @@ public class KsMaintenanceViewAuthorizerBase extends MaintenanceViewAuthorizerBa
             ActivityOfferingWrapper theForm = (ActivityOfferingWrapper) dataObjectForContext;
             // Term Registration Start Date
             Date termRegStartDate = theForm.getTermRegStartDate();
-            if (termRegStartDate != null) {
-                Date now = new Date();
-                if (now.before(termRegStartDate)) {
-                    permissionDetails.put("termRegStartDateLater", "true");
-                }
+            Date now = new Date();
+            if (termRegStartDate == null || now.before(termRegStartDate)) {
+                permissionDetails.put("termRegStartDateLater", "true");
             }
             // SOC State
             if (theForm.getSocInfo() != null) {
