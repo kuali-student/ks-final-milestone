@@ -29,7 +29,7 @@ import java.util.Set;
 @Table(name="KSEN_ORG")
 @NamedQueries({
         @NamedQuery(name = "OrgEntity.getIdsByType",
-                query = "select id from OrgEntity where type = :type")
+                query = "select id from OrgEntity where orgType = :type")
 })
 public class OrgEntity extends MetaEntity implements AttributeOwner<OrgAttributeEntity> {
 
@@ -59,7 +59,7 @@ public class OrgEntity extends MetaEntity implements AttributeOwner<OrgAttribute
     private Date effectiveDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private final Set<OrgAttributeEntity> attributes = new HashSet<OrgAttributeEntity>();
-    //BOOKMARK TODO - add orgCode mapping
+    //BOOKMARK TODO - add orgCode mapping then modify necessary methods fromDto and toDto
 
 
     public  OrgEntity() {
