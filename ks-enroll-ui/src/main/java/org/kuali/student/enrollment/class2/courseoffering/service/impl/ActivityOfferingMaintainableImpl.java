@@ -165,9 +165,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     }
                 }
             }
-            if (termRegStartDate != null) {
-                wrapper.setTermRegStartDate(termRegStartDate);
-            }
+            wrapper.setTermRegStartDate(termRegStartDate);
 
             wrapper.setCourseOfferingCode(info.getCourseOfferingCode());
             wrapper.setCourseOfferingTitle(info.getCourseOfferingTitle());
