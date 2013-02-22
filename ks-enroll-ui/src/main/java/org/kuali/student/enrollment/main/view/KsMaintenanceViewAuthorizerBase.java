@@ -8,6 +8,7 @@ import org.kuali.rice.krad.document.DocumentAuthorizer;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
 import org.kuali.rice.krad.maintenance.MaintenanceViewAuthorizerBase;
+import org.kuali.rice.krad.messages.MessageService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.component.Component;
@@ -20,6 +21,7 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.DocumentView;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.uif.widget.Widget;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
@@ -48,6 +50,9 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class KsMaintenanceViewAuthorizerBase extends MaintenanceViewAuthorizerBase {
+
+    protected MessageService messageService = null;
+
     @Override
     protected void addRoleQualification(Object primaryDataObjectOrDocument, Map<String, String> attributes) {
         if (primaryDataObjectOrDocument !=null && primaryDataObjectOrDocument instanceof MaintenanceDocument) {
@@ -174,6 +179,15 @@ public class KsMaintenanceViewAuthorizerBase extends MaintenanceViewAuthorizerBa
                 permissionDetails.put("socState", socState);
             }
         }
+        if (dataObjectForContext instanceof CourseOfferingCreateWrapper) {
+            CourseOfferingCreateWrapper theForm = (CourseOfferingCreateWrapper) dataObjectForContext;
+            // SOC State
+            if (theForm.getSocInfo() != null) {
+                String socState = theForm.getSocInfo().getStateKey();
+                socState = socState==null?null:socState.substring(socState.lastIndexOf('.')+1);
+                permissionDetails.put("socState", socState);
+            }
+        }
 
         boolean result = true;
         if (!checkPermissionExistence || (checkPermissionExistence && permissionExistsByTemplate(dataObjectForContext,
@@ -230,5 +244,31 @@ public class KsMaintenanceViewAuthorizerBase extends MaintenanceViewAuthorizerBa
 
     }
 
+    @Override
+    public boolean canViewGroup(View view, ViewModel model, Group group, String groupId, Person user) {
+        boolean bRet = super.canViewGroup(view, model, group, groupId, user);    //To change body of overridden methods use File | Settings | File Templates.
+
+        if(!bRet){
+            String messageKey = "error." + view.getId() + "." + groupId;
+
+            if(getMessageService().getMessageText(messageKey) != null){ // if the message isn't configured, then don't display any error
+                GlobalVariables.getMessageMap().putError(view.getId(), messageKey);
+            }
+        }
+
+        return bRet;
+    }
+
+    public MessageService getMessageService() {
+        if(messageService == null){
+            messageService = KRADServiceLocatorWeb.getMessageService();
+        }
+
+        return messageService;
+    }
+
+    public void setMessageService(MessageService messageService) {
+        this.messageService = messageService;
+    }
 
 }
