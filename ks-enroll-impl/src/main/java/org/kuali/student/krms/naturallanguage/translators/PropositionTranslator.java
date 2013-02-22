@@ -15,31 +15,28 @@
 
 package org.kuali.student.krms.naturallanguage.translators;
 
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
+import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
+import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
+import org.kuali.rice.krms.api.repository.proposition.PropositionParameterType;
+import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
+import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinitionContract;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
-import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageTemplateBoService;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageUsageBoService;
-import org.kuali.rice.krms.impl.repository.PropositionBo;
-import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.rice.krms.impl.repository.TypeTypeRelationBoService;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.krms.naturallanguage.Context;
 import org.kuali.student.krms.naturallanguage.ContextRegistry;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsRepositoryServiceLocator;
-import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r1.core.statement.entity.ReqComponentType;
-import org.kuali.student.r1.core.statement.entity.ReqComponentTypeNLTemplate;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -54,7 +51,7 @@ public class PropositionTranslator {
 	private final static Logger logger = LoggerFactory.getLogger(PropositionTranslator.class);
 
     private String language;
-    private ContextRegistry<Context<TermBo>> contextRegistry;
+    private ContextRegistry<Context<TermDefinitionContract>> contextRegistry;
     private TemplateTranslator templateTranslator = new TemplateTranslator();
 
     /**
@@ -79,7 +76,7 @@ public class PropositionTranslator {
      *
      * @param contextRegistry Template context registry
      */
-    public void setContextRegistry(final ContextRegistry<Context<TermBo>> contextRegistry) {
+    public void setContextRegistry(final ContextRegistry<Context<TermDefinitionContract>> contextRegistry) {
     	this.contextRegistry = contextRegistry;
     }
 
@@ -98,7 +95,7 @@ public class PropositionTranslator {
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
      *             Translation failed
      */
-    public String translate(final PropositionBo proposition, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+    public String translate(final PropositionDefinitionContract proposition, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
     	return translate(proposition, nlUsageTypeKey, this.language);
     }
 
@@ -119,7 +116,7 @@ public class PropositionTranslator {
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
      *             Translation failed
      */
-    public String translate(final PropositionBo proposition, final String nlUsageTypeKey, final String language) throws DoesNotExistException, OperationFailedException {
+    public String translate(final PropositionDefinitionContract proposition, final String nlUsageTypeKey, final String language) throws DoesNotExistException, OperationFailedException {
     	if(proposition == null) {
     		throw new DoesNotExistException("Proposition cannot be null");
     	}
@@ -152,24 +149,34 @@ public class PropositionTranslator {
      * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException Requirement component context not found in registry
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Creating context map failed
      */
-    private Map<String, Object> buildContextMap(PropositionBo proposition) throws DoesNotExistException, OperationFailedException {
+    private Map<String, Object> buildContextMap(PropositionDefinitionContract proposition) throws DoesNotExistException, OperationFailedException {
 
-        //TODO: Access type service to retrieve type name.
-        List<Context<TermBo>> contextList = this.contextRegistry.get(proposition.getTypeId());
+        //Access type service to retrieve type name.
+        KrmsTypeDefinitionContract type = KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService().getTypeById(proposition.getTypeId());
+        List<Context<TermDefinitionContract>> contextList = this.contextRegistry.get(type.getName());
         if(contextList == null || contextList.isEmpty()) {
         	throw new DoesNotExistException("Requirement component context not found in registry for requirement component type id: " + proposition.getTypeId());
         }
         Map<String, Object> contextMap = new HashMap<String, Object>();
 
-        //TODO: Retrieve term id from proposition parameters and load.
-        TermBo term = new TermBo();
 
-        for(Context<TermBo> context : contextList) {
+        List<? extends PropositionParameterContract> parameters = proposition.getParameters();
+        TermDefinitionContract term = null;
+        for (PropositionParameterContract p : parameters){
+            if(p.getParameterType().equals(PropositionParameterType.TERM)){
+                //Retrieve term id from proposition parameters and load.
+                term = KrmsRepositoryServiceLocator.getTermBoService().getTerm(p.getValue());
+
+            }else if(p.getParameterType().equals(PropositionParameterType.CONSTANT)){
+                //TODO Add proposition constant to contextMap.
+                //contextMap.put()
+            }
+
+        }
+        for(Context<TermDefinitionContract> context : contextList) {
     		Map<String, Object> cm = context.createContextMap(term, new org.kuali.student.r2.common.dto.ContextInfo());  // KSCM contextInfo is not passed through here
     		contextMap.putAll(cm);
     	}
-
-        //TODO: Add proposition constant to contextMap.
 
         if(logger.isInfoEnabled()) {
 			logger.info("contextMap="+contextMap);
