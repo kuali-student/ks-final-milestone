@@ -69,13 +69,10 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
             attributes.put("socState", socState);
 
             // permission based on term class start date
-            if (theForm.getTermInfo() != null) {
-                if (theForm.getTermInfo().getStartDate() != null) {
-                   Date now = new Date();
-                   if (now.before(theForm.getTermInfo().getStartDate())) {
-                      attributes.put("termClassStartDateLater", "true");
-                    }
-                }
+            Date termClassStartDate = theForm.getTermClassStartDate();
+            Date now = new Date();
+            if (termClassStartDate == null || now.before(termClassStartDate)) {
+                attributes.put("termClassStartDateLater", "true");
             }
         }
         super.addPermissionDetails(primaryDataObjectOrDocument, attributes);    //To change body of overridden methods use File | Settings | File Templates.
