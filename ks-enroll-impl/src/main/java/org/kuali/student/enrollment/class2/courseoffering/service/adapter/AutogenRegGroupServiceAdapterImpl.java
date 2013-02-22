@@ -18,11 +18,14 @@ package org.kuali.student.enrollment.class2.courseoffering.service.adapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.CourseOfferingAutogenIssue;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
@@ -61,12 +64,12 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
     
     
     /* (non-Javadoc)
-     * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegGroupServiceAdapter#getDefaultClusterName(int)
+     * @see org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter#getDefaultClusterName(int)
      */
     @Override
     public String getDefaultClusterName(int numberOfExistingClusters) {
         
-        String clusterName = String.format("CL %d", (numberOfExistingClusters+1));
+        String clusterName = String.format("CL %d", (numberOfExistingClusters + 1));
         
         return clusterName;
     }
@@ -127,6 +130,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
 
         optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY);
 
+        // Copy CO by using rollover.  Note that rollover will take care of generating RGs
         SocRolloverResultItemInfo item = coService.rolloverCourseOffering(
                 coInfo.getId(),
                 targetTerm.getId(),
@@ -276,7 +280,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
 //        try {
 //            List<ActivityOfferingInfo> aos = coService.getActivityOfferingsByCourseOffering(courseOfferingId, contextInfo);
 //            
-//            return computeMaxEnrollment(aos);
+//            return _computeMaxEnrollment(aos);
 //        } catch (DoesNotExistException e) {
 //           throw new OperationFailedException("getSeatCountByCourseOffering (courseOfferingId=" + courseOfferingId + "): failed", e);
 //           
@@ -296,68 +300,56 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
             ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException {
         
         try {
-            
             List<ActivityOfferingInfo> aos = coService.getActivityOfferingsByCluster(aocId, contextInfo);
             
             Map<String, ActivityOfferingInfo>aoMap = new HashMap<String, ActivityOfferingInfo>();
             
             for (ActivityOfferingInfo activityOfferingInfo : aos) {
-                
                 aoMap.put(activityOfferingInfo.getId(), activityOfferingInfo);
-                
             }
             
             ActivityOfferingClusterInfo aoc = coService.getActivityOfferingCluster(aocId, contextInfo);
-            
             List<ActivityOfferingSetInfo> aoSets = aoc.getActivityOfferingSets();
-            
             int maxAOCEnrollment = Integer.MAX_VALUE;
             
             for (ActivityOfferingSetInfo activityOfferingSetInfo : aoSets) {
+                int maxActivityTypeEnrollment =
+                        _computeMaxEnrollment(activityOfferingSetInfo.getActivityOfferingIds(), aoMap);
                 
-                int maxActivityTypeEnrollment = computeMaxEnrollment(activityOfferingSetInfo.getActivityOfferingIds(), aoMap);
-                
-                if (maxActivityTypeEnrollment < maxAOCEnrollment)
+                if (maxActivityTypeEnrollment < maxAOCEnrollment) {
                     maxAOCEnrollment = maxActivityTypeEnrollment;
+                }
             }
             
             FormatOfferingInfo fo = coService.getFormatOffering(aoc.getFormatOfferingId(), contextInfo);
-            
             CourseOfferingInfo co = coService.getCourseOffering(fo.getCourseOfferingId(), contextInfo);
-            
             int maxCOEnrollment = co.getMaximumEnrollment();
             
             // This assumes that the seat count for an aoc is the smallest ao.maxEnrollment number in this cluster.
             List<RegistrationGroupInfo> rgs = coService.getRegistrationGroupsByActivityOfferingCluster(aocId, contextInfo);
-   
-            
-            
-            int maxAOEnrollment = computeMaxEnrollment(aos);
+
+            int maxAOEnrollment = _computeMaxEnrollment(aos);
             
             // cap is the smaller of the CO or AO or AOC enrollment limit
             int maxEnrollment = Math.min(Math.min(maxCOEnrollment, maxAOEnrollment), maxAOCEnrollment);
-            
             int minEnrollment = Integer.MAX_VALUE;
             
             for (RegistrationGroupInfo registrationGroupInfo : rgs) {
-                
                 List<ActivityOfferingInfo>rgAOList = new ArrayList<ActivityOfferingInfo>();
                 
                 for (String aoId : registrationGroupInfo.getActivityOfferingIds()) {
                     rgAOList.add(aoMap.get(aoId));
                 }
                 
-                int currentSeats = computeMaxEnrollment(rgAOList);
-                
-                if (minEnrollment > currentSeats)
+                int currentSeats = _computeMaxEnrollment(rgAOList);
+                if (minEnrollment > currentSeats) {
                     minEnrollment = currentSeats;
-                
+                }
             }
 
             // actual seats can be smaller but not larger than max enrollment. 
             return Math.min(minEnrollment, maxEnrollment);
-            
-            
+
         } catch (DoesNotExistException e) {
             throw new OperationFailedException("getSeatCountByActivityOfferingCluster (aocId=" + aocId + "): failed", e);
         } catch (InvalidParameterException e) {
@@ -369,16 +361,13 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
     }
 
     
-    private Integer computeMaxEnrollment(List<String>aoIds, Map<String, ActivityOfferingInfo>aoMap) {
+    private Integer _computeMaxEnrollment(List<String> aoIds, Map<String, ActivityOfferingInfo> aoMap) {
         
         List<ActivityOfferingInfo>aoList = new ArrayList<ActivityOfferingInfo>();
-        
         for (String aoId : aoIds) {
             aoList.add(aoMap.get(aoId));
         }
-       
-        
-        return computeMaxEnrollment(aoList);
+        return _computeMaxEnrollment(aoList);
         
     }
     /*
@@ -387,18 +376,16 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
      * This method will extract that number.
      * 
      */
-    private Integer computeMaxEnrollment(List<ActivityOfferingInfo>aos) {
+    private Integer _computeMaxEnrollment(List<ActivityOfferingInfo> aos) {
         
         int minEnrollment = Integer.MAX_VALUE;
         
         for (ActivityOfferingInfo activityOfferingInfo : aos) {
-            
             Integer maxEnrollment = activityOfferingInfo.getMaximumEnrollment();
-            
             if (maxEnrollment != null) {
-                
-                if (minEnrollment > maxEnrollment)
+                if (minEnrollment > maxEnrollment) {
                     minEnrollment = maxEnrollment;
+                }
             }
         }
         
@@ -406,8 +393,9 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
             // a data error that none of the AO's have a max enrollment specified
             return null;
         }
-        else
+        else {
             return minEnrollment;
+        }
 
     }
     /* (non-Javadoc)
@@ -415,16 +403,15 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
      */
     @Override
     public Integer getSeatCountByRegistrationGroup(
-            String registrationGroupId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException {
+            String registrationGroupId, ContextInfo contextInfo)
+            throws OperationFailedException, PermissionDeniedException {
         
         try {
             RegistrationGroupInfo rg = coService.getRegistrationGroup(registrationGroupId, contextInfo);
             
             List<ActivityOfferingInfo> aos = coService.getActivityOfferingsByIds(rg.getActivityOfferingIds(), contextInfo);
 
-            
-            
-            return computeMaxEnrollment(aos);
+            return _computeMaxEnrollment(aos);
         } catch (DoesNotExistException e) {
             throw new OperationFailedException("getSeatCountByRegistrationGroup (registrationGroupId=" + registrationGroupId + "): failed", e);
         } catch (InvalidParameterException e) {
@@ -433,6 +420,37 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
             throw new OperationFailedException("getSeatCountByRegistrationGroup (registrationGroupId=" + registrationGroupId + "): failed", e);
         }
     }
-    
-    
+
+    @Override
+    public List<CourseOfferingAutogenIssue> findAutogenIssuesByTerm(TermInfo termInfo, ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+                   OperationFailedException, DoesNotExistException {
+        List<String> coIds = coService.getCourseOfferingIdsByTerm(termInfo.getId(), Boolean.TRUE, context);
+        List<CourseOfferingAutogenIssue> issues = new ArrayList<CourseOfferingAutogenIssue>();
+        for (String coId: coIds) {
+            List<FormatOfferingInfo> fos = coService.getFormatOfferingsByCourseOffering(coId, context);
+            for (FormatOfferingInfo fo: fos) {
+                List<ActivityOfferingInfo> aoInfos =
+                        coService.getActivityOfferingsByFormatOffering(fo.getId(), context);
+                Set<String> aoIdSet = new HashSet<String>();
+                for (ActivityOfferingInfo ao: aoInfos) {
+                    aoIdSet.add(ao.getId());
+                }
+                List<Set<String>> clustersWithAoIds = new ArrayList<Set<String>>();
+                List<ActivityOfferingClusterInfo> clusters =
+                        coService.getActivityOfferingClustersByFormatOffering(fo.getId(), context);
+                for (ActivityOfferingClusterInfo cluster: clusters) {
+                    Set<String> clusterAoIds = new HashSet<String>();
+                    for (ActivityOfferingSetInfo set: cluster.getActivityOfferingSets()) {
+                        clusterAoIds.addAll(set.getActivityOfferingIds());
+                    }
+                    clustersWithAoIds.add(clusterAoIds);
+                }
+            }
+        }
+
+        return issues;
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.adapter;
 
+import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.CourseOfferingAutogenIssue;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -170,4 +171,5 @@ public interface AutogenRegGroupServiceAdapter {
      */
     public Integer getSeatCountByRegistrationGroup (String registrationGroupId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException;
 
+    public List<CourseOfferingAutogenIssue> findAutogenIssuesByTerm(TermInfo termInfo, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException;
 }
