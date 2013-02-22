@@ -59,7 +59,7 @@ public class TypeServiceMockImpl implements TypeService, MockService {
 
     @Override
     public List<TypeInfo> getTypesByKeys(List<String> typeKeys,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
+        return new ArrayList<TypeInfo>();
     }
 
     @Override

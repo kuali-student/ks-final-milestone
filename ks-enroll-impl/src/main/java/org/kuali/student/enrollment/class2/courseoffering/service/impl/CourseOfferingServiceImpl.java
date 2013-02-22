@@ -1,19 +1,5 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.xml.namespace.QName;
-
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
@@ -91,6 +77,7 @@ import org.kuali.student.r2.core.class1.state.service.StateTransitionsHelper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
@@ -98,12 +85,25 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class CourseOfferingServiceImpl implements CourseOfferingService {
 
@@ -909,6 +909,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
         // copy to lui
         LuiInfo lui = new LuiInfo();
+
+        //Make the name of the FO correct
+        generateLuiNameAndDescr(foInfo,course,context);
+
         new FormatOfferingTransformer().format2Lui(foInfo, lui);
 
         try {
@@ -942,6 +946,95 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         new FormatOfferingTransformer().lui2Format(lui, formatOffering);
         formatOffering.setCourseOfferingId(luiRel.getLuiId());
         return formatOffering;
+    }
+
+    /**
+     * Generates a name based on priority sorted names of the AO types within an FO
+     *
+     * @param foInfo the FO
+     * @param course course associated with the format
+     * @param context context  @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws DoesNotExistException
+     * @throws PermissionDeniedException
+     * @throws OperationFailedException
+     */
+    private void generateLuiNameAndDescr(FormatOfferingInfo foInfo, CourseInfo course, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+
+        if(foInfo.getName()==null || foInfo.getName().isEmpty()){
+            //Get the activity type keys associated with this format
+            List<String> activityTypeKeys = new ArrayList<String>();
+            for(FormatInfo format:course.getFormats()){
+                if(format.getId().equals(foInfo.getFormatId())){
+                    for(ActivityInfo activity:format.getActivities()){
+                        activityTypeKeys.add(activity.getTypeKey());
+                    }
+                    break;
+                }
+            }
+
+            //Lookup the types to get the names
+            List<TypeInfo> types = typeService.getTypesByKeys(activityTypeKeys, context);
+            Collections.sort(types, new Comparator<TypeInfo>() {
+                //Sort based on priority, then type key
+                @Override
+                public int compare(TypeInfo o1, TypeInfo o2) {
+                    Integer o1Priority = null;
+                    for(AttributeInfo attr:o1.getAttributes()){
+                        if(TypeServiceConstants.PRIORITY_ATTR.equals(attr.getKey())){
+                            o1Priority = Integer.parseInt(attr.getValue());
+                            break;
+                        }
+                    }
+                    Integer o2Priority = null;
+                    for(AttributeInfo attr:o2.getAttributes()){
+                        if(TypeServiceConstants.PRIORITY_ATTR.equals(attr.getKey())){
+                            o2Priority = Integer.parseInt(attr.getValue());
+                            break;
+                        }
+                    }
+                    if(o1Priority == null){
+                        if(o2Priority==null){
+                            return o1.getKey().compareTo(o2.getKey());
+                        }else{
+                            return 1; //Having a priority sorts lower than not
+                        }
+                    }else{
+                        if(o2Priority==null){
+                            return -1;//having priority sorts lower than not
+                        }else{
+                            return o1Priority.compareTo(o2Priority);//compare priorities
+                        }
+                    }
+                }
+            });
+
+            //build up the name in "Lecture/Lab" or "Lab Only" format
+            StringBuilder sb = new StringBuilder();
+            StringBuilder shortSb = new StringBuilder();
+            for(Iterator<TypeInfo> typeIter = types.iterator();typeIter.hasNext();){
+                TypeInfo type = typeIter.next();
+                sb.append(type.getName());
+                shortSb.append(type.getName().substring(0,Math.min(type.getName().length(),3)).toUpperCase());//Lecutre->LEC lab->LAB
+                if(typeIter.hasNext()){
+                    sb.append("/");
+                    shortSb.append("/");
+                }
+            }
+            if(types.size()==1){
+                sb.append(" Only");
+            }
+            foInfo.setName(sb.toString());
+            if(foInfo.getShortName()==null||foInfo.getShortName().isEmpty()){
+                foInfo.setShortName(shortSb.toString());
+            }
+        }
+        //Set the description
+        if(foInfo.getDescr()==null){
+            foInfo.setDescr(new RichTextInfo());
+            foInfo.getDescr().setFormatted("Courses with "+foInfo.getName());
+            foInfo.getDescr().setPlain("Courses with "+foInfo.getName());
+        }
     }
 
 
