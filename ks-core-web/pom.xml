@@ -8,6 +8,7 @@
     </parent>
     <artifactId>ks-core-web</artifactId>
     <name>KS Core Web</name>
+    <packaging>war</packaging>
     <properties>
         <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
     </properties>
