@@ -225,5 +225,40 @@
         </plugins>
       </build>
     </profile>
+
+      <profile>
+          <id>impex-copy</id>
+          <properties>
+              <impex.copy.rice.includes>KR*</impex.copy.rice.includes>
+              <impex.copy.ks.includes>KS*</impex.copy.ks.includes>
+              <impex.copy.dataPatterns>${impex.copy.rice.includes},${impex.copy.ks.includes}</impex.copy.dataPatterns>
+              <impex.copy.mysqlPatterns>mysql/${project.artifactId}.sql,mysql/${project.artifactId}-constraints.sql</impex.copy.mysqlPatterns>
+              <impex.copy.oraclePatterns>oracle/${project.artifactId}.sql,oracle/${project.artifactId}-constraints.sql</impex.copy.oraclePatterns>
+              <impex.copy.filePatterns>${impex.copy.dataPatterns},${impex.copy.mysqlPatterns},${impex.copy.oraclePatterns},${project.artifactId}.xml</impex.copy.filePatterns>
+              <impex.copy.sourceDir>${project.basedir}/../target/impex</impex.copy.sourceDir>
+              <impex.copy.destinationDir>${project.basedir}/src/main/resources</impex.copy.destinationDir>
+          </properties>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.kuali.maven.plugins</groupId>
+                      <artifactId>spring-maven-plugin</artifactId>
+                      <executions>
+                          <execution>
+                              <id>load</id>
+                              <phase>process-resources</phase>
+                              <goals>
+                                  <goal>load</goal>
+                              </goals>
+                              <configuration>
+                                  <location>classpath:org/kuali/student/impex/ks-copy-context.xml</location>
+                                  <propertiesBeanName>copyProperties</propertiesBeanName>
+                              </configuration>
+                          </execution>
+                      </executions>
+                  </plugin>
+              </plugins>
+          </build>
+      </profile>
   </profiles>
 </project>

@@ -19,6 +19,8 @@
         <impex.xml.includedTables>KR.*</impex.xml.includedTables>
         <!-- Used to filter imepx XML files to copy from ks-impex-bundled-db (the source data set) -->
         <impex.xml.xmlfFileFilter>KR*.xml</impex.xml.xmlfFileFilter>
+
+        <copyMpx.dataPatterns>${copyMpx.rice.includes}</copyMpx.dataPatterns>
     </properties>
     <profiles>
         <profile>
