@@ -45,8 +45,13 @@
         <property name="mavenProperties" ref="copyProperties"/>
     </bean>
 
-    <bean id="printExecutable" class="org.kuali.common.util.execute.PrintMessageExecutable">
-        <property n
+    <bean id="runner" class="org.kuali.common.util.execute.ExecutablesExecutable" init-method="execute">
+        <property name="executables">
+            <util:list>
+                <ref bean="fileCompareExecutable"/>
+                <ref bean="copyExecutable"/>
+            </util:list>
+        </property>
     </bean>
 
 </beans>
