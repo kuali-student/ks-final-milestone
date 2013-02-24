@@ -738,6 +738,14 @@
                                     <includes>**\/*.sql</includes>
                                     <outputDirectory>${project.build.directory}/gen/data/ks-rice</outputDirectory>
                                     </artifactItem>
+                                        <!-- Add another artifact of upgrade scripts from ks-rice-sql -->
+                                    <artifactItem>
+                                        <groupId>org.kuali.student.core</groupId>
+                                        <artifactId>ks-rice-sql</artifactId>
+                                        <version>${ks.core.version}</version>
+                                        <includes>**\/upgrades/**\/*.sql</includes>
+                                        <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
+                                    </artifactItem>
                                     <artifactItem>
                                     <groupId>org.kuali.student.lum</groupId>
                                     <artifactId>ks-lum-sql</artifactId>
