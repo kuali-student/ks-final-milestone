@@ -15,36 +15,23 @@
 
 package org.kuali.student.krms.naturallanguage.translator;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
-import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
-import org.kuali.student.common.test.spring.AbstractServiceTest;
-import org.kuali.student.krms.naturallanguage.Context;
-import org.kuali.student.krms.naturallanguage.ContextRegistry;
 import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
-import org.kuali.student.krms.naturallanguage.NaturalLanguageTranslator;
 import org.kuali.student.krms.naturallanguage.translators.PropositionTranslator;
-import org.kuali.student.r1.core.statement.entity.ReqComponent;
-import org.kuali.student.r1.core.statement.entity.ReqComponentType;
-import org.kuali.student.r1.core.statement.naturallanguage.NaturalLanguageUtil;
-import org.kuali.student.r1.core.statement.naturallanguage.ReqComponentFieldTypes;
+import org.kuali.student.r1.core.statement.naturallanguage.Context;
+import org.kuali.student.r1.core.statement.naturallanguage.ContextRegistry;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.util.ContextUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:nl-test-context.xml"})
