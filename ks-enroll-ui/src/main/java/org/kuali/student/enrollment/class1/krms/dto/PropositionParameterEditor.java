@@ -30,7 +30,7 @@ public class PropositionParameterEditor implements PropositionParameterContract,
      * @param definition immutable object
      * @return the mutable bo
      */
-    public PropositionParameterEditor(PropositionParameter definition) {
+    public PropositionParameterEditor(PropositionParameterContract definition) {
         this.id = definition.getId();
         this.propId = definition.getPropId();
         this.value = definition.getValue();

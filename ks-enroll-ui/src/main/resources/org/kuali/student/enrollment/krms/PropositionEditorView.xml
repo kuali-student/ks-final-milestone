@@ -31,12 +31,7 @@
             <list>
 
                 <!-- Hidden ID field -->
-                <bean parent="Uif-InputField" p:propertyName="id"
-                      p:showLabel="false" p:label="id" p:maxLength="255">
-                    <property name="control">
-                        <bean parent="Uif-HiddenControl" p:cssClasses="hiddenId"/>
-                    </property>
-                </bean>
+                <bean parent="KS-PropKey-HiddenField"/>
 
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="typeId"
                       p:style="margin-left: 12pt" p:showLabel="true" p:label="Type" p:labelPlacement="TOP"
@@ -93,11 +88,8 @@
             <list>
 
                 <!-- Hidden ID field -->
-                <bean parent="Uif-InputField" p:propertyName="proposition.id"
+                <bean parent="KS-Rules-HiddenField" p:propertyName="proposition.id"
                       p:showLabel="false" p:label="id" p:maxLength="255">
-                    <property name="control">
-                        <bean parent="Uif-HiddenControl" p:cssClasses="hiddenId"/>
-                    </property>
                 </bean>
 
                 <!--Add the type droplist-->

@@ -111,12 +111,12 @@ public class RuleEditTreeBuilder {
 
     private String buildNodeLabel(PropositionEditor prop) {
         //Add the proposition with alpha code in the map if it doesn't already exist.
-        if (!ruleEditor.getPropositionAlpha().containsKey(prop.getId())) {
-            ruleEditor.getPropositionAlpha().put(prop.getId(), (String) ruleEditor.getAlpha().next());
+        if (null == prop.getKey()) {
+            prop.setKey((String) ruleEditor.getAlpha().next());
         }
 
         //Build the node label.
-        String prefix = "<b>" + ruleEditor.getPropositionAlpha().get(prop.getId()) + ".</b> ";
+        String prefix = "<b>" + prop.getKey() + ".</b> ";
         return prefix + StringEscapeUtils.escapeHtml(prop.getDescription());
     }
 

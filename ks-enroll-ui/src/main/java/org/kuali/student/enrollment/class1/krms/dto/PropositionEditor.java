@@ -27,6 +27,8 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
 
     private static final long serialVersionUID = 1L;
 
+    private String key;
+
     private String id;
     private String description;
     private String ruleId;
@@ -59,7 +61,7 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
      * @param definition immutable object
      * @return the mutable bo
      */
-    public PropositionEditor(PropositionDefinition definition) {
+    public PropositionEditor(PropositionDefinitionContract definition) {
         this.id = definition.getId();
         this.description = definition.getDescription();
         this.ruleId = definition.getRuleId();
@@ -67,15 +69,23 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
         this.typeId = definition.getTypeId();
         this.propositionTypeCode = definition.getPropositionTypeCode();
         this.parameters = new ArrayList<PropositionParameterEditor>();
-        for (PropositionParameter parm : definition.getParameters()){
+        for (PropositionParameterContract parm : definition.getParameters()){
             this.parameters.add (new PropositionParameterEditor(parm));
         }
         this.compoundOpCode = definition.getCompoundOpCode();
         this.compoundEditors = new ArrayList<PropositionEditor>();
-        for (PropositionDefinition prop : definition.getCompoundComponents()){
+        for (PropositionDefinitionContract prop : definition.getCompoundComponents()){
             this.compoundEditors.add(new PropositionEditor(prop));
         }
         this.versionNumber = definition.getVersionNumber();
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getId(){
@@ -320,10 +330,10 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
         // Note: RuleId is not set
         PropositionEditor newProp = new PropositionEditor();
         //newProp.setId( getNewPropId() );
-        newProp.setDescription( existing.getDescription() );
-        newProp.setPropositionTypeCode( existing.getPropositionTypeCode() );
-        newProp.setTypeId( existing.getTypeId() );
-        newProp.setCompoundOpCode( existing.getCompoundOpCode() );
+        newProp.setDescription(existing.getDescription());
+        newProp.setPropositionTypeCode(existing.getPropositionTypeCode());
+        newProp.setTypeId(existing.getTypeId());
+        newProp.setCompoundOpCode(existing.getCompoundOpCode());
         // parameters
         List<PropositionParameterEditor> newParms = new ArrayList<PropositionParameterEditor>();
         for (PropositionParameterContract parm : existing.getParameters()){

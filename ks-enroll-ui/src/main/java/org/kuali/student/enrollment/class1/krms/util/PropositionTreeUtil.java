@@ -16,20 +16,20 @@ import java.util.List;
  */
 public class PropositionTreeUtil {
 
-    public static Node<RuleEditorTreeNode, String> findParentPropositionNode(Node<RuleEditorTreeNode, String> currentNode, String selectedPropId){
+    public static Node<RuleEditorTreeNode, String> findParentPropositionNode(Node<RuleEditorTreeNode, String> currentNode, String selectedPropKey){
         Node<RuleEditorTreeNode,String> bingo = null;
-        if (selectedPropId != null) {
+        if (selectedPropKey != null) {
             // if it's in children, we have the parent
             List<Node<RuleEditorTreeNode,String>> children = currentNode.getChildren();
             for( Node<RuleEditorTreeNode,String> child : children){
                 RuleEditorTreeNode dataNode = child.getData();
-                if (selectedPropId.equalsIgnoreCase(dataNode.getProposition().getId()))
+                if (selectedPropKey.equalsIgnoreCase(dataNode.getProposition().getKey()))
                     return currentNode;
             }
 
             // if not found check grandchildren
             for( Node<RuleEditorTreeNode,String> kid : children){
-                bingo = findParentPropositionNode(kid, selectedPropId);
+                bingo = findParentPropositionNode(kid, selectedPropKey);
                 if (bingo != null) break;
             }
         }
@@ -42,18 +42,18 @@ public class PropositionTreeUtil {
     public static PropositionEditor getProposition(RuleEditor ruleEditor) {
 
         if (ruleEditor != null) {
-            String selectedPropId = ruleEditor.getSelectedPropositionId();
-            return findProposition(ruleEditor.getEditTree().getRootElement(), selectedPropId);
+            String selectedPropKey = ruleEditor.getSelectedKey();
+            return findProposition(ruleEditor.getEditTree().getRootElement(), selectedPropKey);
         }
 
         return null;
     }
 
-    private static PropositionEditor findProposition(Node<RuleEditorTreeNode, String> currentNode, String selectedPropId) {
+    private static PropositionEditor findProposition(Node<RuleEditorTreeNode, String> currentNode, String selectedPropKey) {
 
-        if (selectedPropId == null) {
+        if (selectedPropKey == null) {
             return null;
-        } else if(selectedPropId.isEmpty()) {
+        } else if(selectedPropKey.isEmpty()) {
             PropositionEditor proposition = currentNode.getChildren().get(0).getData().getProposition();
             return proposition;
         }
@@ -65,11 +65,11 @@ public class PropositionTreeUtil {
                 return proposition;
             } else if(!proposition.isEditMode()) {
                 // if not found check grandchildren
-                proposition = findProposition(child, selectedPropId);
+                proposition = findProposition(child, selectedPropKey);
                 if (proposition != null) {
                     return proposition;
                 }
-            } else if(selectedPropId.equalsIgnoreCase(proposition.getId())){
+            } else if(selectedPropKey.equalsIgnoreCase(proposition.getKey())){
                 return proposition;
             }
         }
@@ -135,5 +135,7 @@ public class PropositionTreeUtil {
         }
         return bingo;
     }
+
+
 
 }

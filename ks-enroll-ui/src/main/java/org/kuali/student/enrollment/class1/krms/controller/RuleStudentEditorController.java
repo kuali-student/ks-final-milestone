@@ -129,19 +129,19 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
         // open the selected node for editing
         RuleEditor ruleEditor = getRuleEditor(form);
-        String selectedPropId = ruleEditor.getSelectedPropositionId();
+        String selectedpropKey = ruleEditor.getSelectedKey();
 
         Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
         PropositionEditor propositionToToggleEdit = null;
         boolean newEditMode = true;
 
         // find parent
-        Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(root, selectedPropId);
+        Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(root, selectedpropKey);
         if (parent != null) {
             List<Node<RuleEditorTreeNode, String>> children = parent.getChildren();
             for (int index = 0; index < children.size(); index++) {
                 Node<RuleEditorTreeNode, String> child = children.get(index);
-                if (propIdMatches(child, selectedPropId)) {
+                if (propKeyMatches(child, selectedpropKey)) {
                     PropositionEditor prop = child.getData().getProposition();
                     propositionToToggleEdit = prop;
                     newEditMode = !prop.isEditMode();
@@ -189,11 +189,11 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         RuleEditor ruleEditor = getRuleEditor(form);
-        String selectedPropId = ruleEditor.getSelectedPropositionId();
+        String selectedPropKey = ruleEditor.getSelectedKey();
 
         // find parent
         Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
-        Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(root, selectedPropId);
+        Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(root, selectedPropKey);
 
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
 
@@ -204,7 +204,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                 Node<RuleEditorTreeNode, String> child = children.get(index);
 
                 // if our selected node is a simple proposition, add a new one after
-                if (propIdMatches(child, selectedPropId)) {
+                if (propKeyMatches(child, selectedPropKey)) {
                     // handle special case of adding to a lone simple proposition.
                     // in this case, we need to change the root level proposition to a compound proposition
                     // move the existing simple proposition as the first compound component,
@@ -247,8 +247,8 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    private boolean propIdMatches(Node<RuleEditorTreeNode, String> node, String propId) {
-        if (propId != null && node != null && node.getData() != null && propId.equalsIgnoreCase(node.getData().getProposition().getId())) {
+    private boolean propKeyMatches(Node<RuleEditorTreeNode, String> node, String propKey) {
+        if (propKey != null && node != null && node.getData() != null && propKey.equalsIgnoreCase(node.getData().getProposition().getKey())) {
             return true;
         }
         return false;
@@ -258,16 +258,16 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
      * This method return the index of the position of the child that matches the id
      *
      * @param parent
-     * @param propId
+     * @param propKey
      * @return index if found, -1 if not found
      */
-    private int findChildIndex(Node<RuleEditorTreeNode, String> parent, String propId) {
+    private int findChildIndex(Node<RuleEditorTreeNode, String> parent, String propKey) {
         int index;
         List<Node<RuleEditorTreeNode, String>> children = parent.getChildren();
         for (index = 0; index < children.size(); index++) {
             Node<RuleEditorTreeNode, String> child = children.get(index);
             // if our selected node is a simple proposition, add a new one after
-            if (propIdMatches(child, propId)) {
+            if (propKeyMatches(child, propKey)) {
                 return index;
             }
         }
@@ -303,10 +303,10 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
          *
          */
         RuleEditor ruleEditor = getRuleEditor(form);
-        String selectedPropId = ruleEditor.getSelectedPropositionId();
+        String selectedPropKey = ruleEditor.getSelectedKey();
 
         // find parent
-        Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(ruleEditor.getEditTree().getRootElement(), selectedPropId);
+        Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(ruleEditor.getEditTree().getRootElement(), selectedPropKey);
 
         // add new child at appropriate spot
         if (parent != null) {
@@ -314,7 +314,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             for (int index = 0; index < children.size(); index++) {
                 Node<RuleEditorTreeNode, String> child = children.get(index);
                 // if our selected node is a simple proposition, add a new one after
-                if (propIdMatches(child, selectedPropId)) {
+                if (propKeyMatches(child, selectedPropKey)) {
                     if (KSSimplePropositionNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()) ||
                             KSSimplePropositionEditNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()) ||
                             RuleEditorTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(child.getNodeType())) {
@@ -329,7 +329,6 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                                 parentProp.getCompoundEditors().add((index / 2) + 1, workingProp);
                             }
 
-                            // insert it in the new spot
                             // redisplay the tree (editMode = true)
                             this.getViewHelper(form).refreshInitTrees(ruleEditor);
                         }
@@ -355,16 +354,16 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
          *
          */
         RuleEditor ruleEditor = getRuleEditor(form);
-        String selectedPropId = ruleEditor.getSelectedPropositionId();
+        String selectedpropKey = ruleEditor.getSelectedKey();
 
         // find agendaEditor.getAgendaItemLine().getRule().getPropositionTree().getRootElement()parent
         Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
-        Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(root, selectedPropId);
+        Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(root, selectedpropKey);
         if ((parent != null) && (RuleEditorTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(parent.getNodeType()))) {
-            Node<RuleEditorTreeNode, String> granny = PropositionTreeUtil.findParentPropositionNode(root, parent.getData().getProposition().getId());
+            Node<RuleEditorTreeNode, String> granny = PropositionTreeUtil.findParentPropositionNode(root, parent.getData().getProposition().getKey());
             if (granny != root) {
-                int oldIndex = findChildIndex(parent, selectedPropId);
-                int newIndex = findChildIndex(granny, parent.getData().getProposition().getId());
+                int oldIndex = findChildIndex(parent, selectedpropKey);
+                int newIndex = findChildIndex(granny, parent.getData().getProposition().getKey());
                 if (oldIndex >= 0 && newIndex >= 0) {
                     PropositionEditor prop = parent.getData().getProposition().getCompoundEditors().remove(oldIndex / 2);
                     granny.getData().getProposition().getCompoundEditors().add((newIndex / 2) + 1, prop);
@@ -393,16 +392,15 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
          *
          */
         RuleEditor ruleEditor = getRuleEditor(form);
-        String selectedPropId = ruleEditor.getSelectedPropositionId();
+        String selectedpropKey = ruleEditor.getSelectedKey();
 
         // find parent
         Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(
-                ruleEditor.getEditTree().getRootElement(), selectedPropId);
+                ruleEditor.getEditTree().getRootElement(), selectedpropKey);
         if (parent != null) {
-            int index = findChildIndex(parent, selectedPropId);
+            int index = findChildIndex(parent, selectedpropKey);
             // if we are the last child, do nothing, otherwise
             if (index >= 0 && index + 1 < parent.getChildren().size()) {
-                Node<RuleEditorTreeNode, String> child = parent.getChildren().get(index);
                 Node<RuleEditorTreeNode, String> nextSibling = parent.getChildren().get(index + 2);
                 // if selected node above a compound node, move it into it as first child
                 if (RuleEditorTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(nextSibling.getNodeType())) {
@@ -428,17 +426,17 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             throws Exception {
 
         RuleEditor ruleEditor = getRuleEditor(form);
-        String selectedPropId = ruleEditor.getSelectedPropositionId();
+        String selectedPropKey = ruleEditor.getSelectedKey();
 
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
 
-        if (!StringUtils.isBlank(selectedPropId)) {
+        if (!StringUtils.isBlank(selectedPropKey)) {
             // find parent
             Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(
-                    ruleEditor.getEditTree().getRootElement(), selectedPropId);
+                    ruleEditor.getEditTree().getRootElement(), selectedPropKey);
             if (parent != null) {
 
-                int index = findChildIndex(parent, selectedPropId);
+                int index = findChildIndex(parent, selectedPropKey);
 
                 PropositionEditor propBo = parent.getChildren().get(index).getData().getProposition();
 
@@ -463,7 +461,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
                     parentBo.getCompoundEditors().set(propIndex, compound);
                     compound.getCompoundEditors().get(1).setEditMode(true);
-                    ruleEditor.setSelectedPropositionId(compound.getCompoundComponents().get(1).getId());
+                    ruleEditor.setSelectedKey(compound.getCompoundComponents().get(1).getId());
                 }
             }
         }
@@ -472,141 +470,88 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=cutProposition")
-    public ModelAndView cutProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                       HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-
-        RuleEditor ruleEditor = getRuleEditor(form);
-        String selectedPropId = ruleEditor.getSelectedPropositionId();
-        ruleEditor.setCutPropositionId(selectedPropId);
-
-        return getUIFModelAndView(form);
-    }
-
-    @RequestMapping(params = "methodToCall=copyProposition")
-    public ModelAndView copyProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                       HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-
-        RuleEditor ruleEditor = getRuleEditor(form);
-        String selectedPropId = ruleEditor.getSelectedPropositionId();
-        ruleEditor.setCopyPropositionId(selectedPropId);
-
-        return getUIFModelAndView(form);
-    }
-
     @RequestMapping(params = "methodToCall=pasteProposition")
     public ModelAndView pasteProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                          HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
+        boolean cutAction = true;
         RuleEditor ruleEditor = getRuleEditor(form);
 
         // get selected id
-        String cutPropId = ruleEditor.getCutPropositionId();
-        String copyPropId = ruleEditor.getCopyPropositionId();
-        String selectedPropId = ruleEditor.getSelectedPropositionId();
-
-        if (StringUtils.isNotBlank(selectedPropId) && selectedPropId.equals(cutPropId)) {
-            // do nothing; can't paste to itself
-        } else if(StringUtils.isNotBlank(cutPropId)) {
-
-            // proposition tree root
-            Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
-
-            if (StringUtils.isNotBlank(selectedPropId) && StringUtils.isNotBlank(cutPropId)) {
-                Node<RuleEditorTreeNode, String> parentNode = PropositionTreeUtil.findParentPropositionNode(root, selectedPropId);
-                PropositionEditor newParent;
-                if (parentNode == root) {
-                    // special case
-                    // build new top level compound proposition,
-                    // add existing as first child
-                    // then paste cut node as 2nd child
-                    newParent = PropositionEditor.createCompoundPropositionBoStub2(
-                            root.getChildren().get(0).getData().getProposition());
-                    newParent.setEditMode(true);
-                    ruleEditor.setProposition(newParent);
-                } else {
-                    newParent = parentNode.getData().getProposition();
-                }
-                PropositionEditor oldParent = PropositionTreeUtil.findParentPropositionNode(root, cutPropId).getData().getProposition();
-
-                PropositionEditor workingProp = null;
-                // cut from old
-                if (oldParent != null) {
-                    List<PropositionEditor> children = oldParent.getCompoundEditors();
-                    for (int index = 0; index < children.size(); index++) {
-                        if (cutPropId.equalsIgnoreCase(children.get(index).getId())) {
-                            workingProp = oldParent.getCompoundEditors().remove(index);
-                            break;
-                        }
-                    }
-                }
-
-                // add to new
-                if (newParent != null && workingProp != null) {
-                    List<PropositionEditor> children = newParent.getCompoundEditors();
-                    for (int index = 0; index < children.size(); index++) {
-                        if (selectedPropId.equalsIgnoreCase(children.get(index).getId())) {
-                            children.add(index + 1, workingProp);
-                            break;
-                        }
-                    }
-                }
-                this.getViewHelper(form).refreshInitTrees(ruleEditor);
-            }
-        }  else if(StringUtils.isNotBlank(copyPropId)) {
-
-            // proposition tree root
-            Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
-
-            if (StringUtils.isNotBlank(selectedPropId) && StringUtils.isNotBlank(copyPropId)) {
-                Node<RuleEditorTreeNode, String> parentNode = PropositionTreeUtil.findParentPropositionNode(root, selectedPropId);
-                PropositionEditor newParent;
-                if (parentNode == root) {
-                    // special case
-                    // build new top level compound proposition,
-                    // add existing as first child
-                    // then paste cut node as 2nd child
-                    newParent = PropositionEditor.createCompoundPropositionBoStub2(
-                            root.getChildren().get(0).getData().getProposition());
-                    newParent.setEditMode(true);
-                    ruleEditor.setProposition(newParent);
-                } else {
-                    newParent = parentNode.getData().getProposition();
-                }
-                PropositionEditor oldParent = PropositionTreeUtil.findParentPropositionNode(root, copyPropId).getData().getProposition();
-
-                PropositionEditor workingProp = null;
-                // get from old
-                if (oldParent != null) {
-                    List<PropositionEditor> children = oldParent.getCompoundEditors();
-                    for (int index = 0; index < children.size(); index++) {
-                        if (copyPropId.equalsIgnoreCase(children.get(index).getId())) {
-                            workingProp = oldParent.getCompoundEditors().get(index);
-                            break;
-                        }
-                    }
-                }
-
-                // add to new
-                if (newParent != null && workingProp != null) {
-                    List<PropositionEditor> children = newParent.getCompoundEditors();
-                    for (int index = 0; index < children.size(); index++) {
-                        if (selectedPropId.equalsIgnoreCase(children.get(index).getId())) {
-                            children.add(index + 1, workingProp);
-                            break;
-                        }
-                    }
-                }
-                this.getViewHelper(form).refreshInitTrees(ruleEditor);
-            }
+        String selectedPropKey = ruleEditor.getSelectedKey();
+        if (StringUtils.isBlank(selectedPropKey)) {
+            return getUIFModelAndView(form);
         }
-        ruleEditor.setCutPropositionId(null);
-        ruleEditor.setCopyPropositionId(null);
+
+        // get the id to move
+        String movePropKey = ruleEditor.getCutKey();
+        if (StringUtils.isBlank(movePropKey)) {
+            movePropKey = ruleEditor.getCopyKey();
+            cutAction = false;
+        }
+
+        // check if selected and move is not the same
+        if (StringUtils.isNotBlank(movePropKey) && !selectedPropKey.equals(movePropKey)) {
+
+            Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
+            PropositionEditor newParent = getNewParent(ruleEditor, selectedPropKey, root);
+            PropositionEditor oldParent = PropositionTreeUtil.findParentPropositionNode(root, movePropKey).getData().getProposition();
+            PropositionEditor workingProp = null;
+
+            // cut or copy from old
+            if (oldParent != null) {
+                List<PropositionEditor> children = oldParent.getCompoundEditors();
+                for (int index = 0; index < children.size(); index++) {
+                    if (movePropKey.equalsIgnoreCase(children.get(index).getKey())) {
+                        if (cutAction) {
+                            workingProp = oldParent.getCompoundEditors().remove(index);
+                        } else {
+                            workingProp = PropositionEditor.copyProposition(oldParent.getCompoundEditors().get(index));
+                        }
+                        break;
+                    }
+                }
+            }
+
+            // add to new and refresh the tree
+            addProposition(selectedPropKey, newParent, workingProp);
+            this.getViewHelper(form).refreshInitTrees(ruleEditor);
+        }
+
         // call the super method to avoid the agenda tree being reloaded from the db
         return getUIFModelAndView(form);
+    }
+
+    private PropositionEditor getNewParent(RuleEditor ruleEditor, String selectedpropKey, Node<RuleEditorTreeNode, String> root) {
+        Node<RuleEditorTreeNode, String> parentNode = PropositionTreeUtil.findParentPropositionNode(root, selectedpropKey);
+        PropositionEditor newParent;
+        if (parentNode == root) {
+            // special case
+            // build new top level compound proposition,
+            // add existing as first child
+            // then paste cut node as 2nd child
+            newParent = PropositionEditor.createCompoundPropositionBoStub2(
+                    root.getChildren().get(0).getData().getProposition());
+            newParent.setEditMode(true);
+            ruleEditor.setProposition(newParent);
+        } else {
+            newParent = parentNode.getData().getProposition();
+        }
+        return newParent;
+    }
+
+    private void addProposition(String selectedpropKey, PropositionEditor newParent, PropositionEditor workingProp) {
+        // add to new
+        if (newParent != null && workingProp != null) {
+            List<PropositionEditor> children = newParent.getCompoundEditors();
+            for (int index = 0; index < children.size(); index++) {
+                if (selectedpropKey.equalsIgnoreCase(children.get(index).getKey())) {
+                    children.add(index + 1, workingProp);
+                    break;
+                }
+            }
+        }
     }
 
     @RequestMapping(params = "methodToCall=deleteProposition")
@@ -614,10 +559,10 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         RuleEditor ruleEditor = getRuleEditor(form);
-        String selectedPropId = ruleEditor.getSelectedPropositionId();
+        String selectedpropKey = ruleEditor.getSelectedKey();
         Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
 
-        Node<RuleEditorTreeNode, String> parentNode = PropositionTreeUtil.findParentPropositionNode(root, selectedPropId);
+        Node<RuleEditorTreeNode, String> parentNode = PropositionTreeUtil.findParentPropositionNode(root, selectedpropKey);
 
         // what if it is the root?
         if (parentNode != null && parentNode.getData() != null) { // it is not the root as there is a parent w/ a prop
@@ -625,7 +570,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             if (parent != null) {
                 List<PropositionEditor> children = (List<PropositionEditor>) parent.getCompoundComponents();
                 for (int index = 0; index < children.size(); index++) {
-                    if (selectedPropId.equalsIgnoreCase(children.get(index).getId())) {
+                    if (selectedpropKey.equalsIgnoreCase(children.get(index).getKey())) {
                         parent.getCompoundComponents().remove(index);
                         break;
                     }
@@ -655,7 +600,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
     @RequestMapping(params = "methodToCall=updatePreview")
     public ModelAndView updatePreview(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                          HttpServletRequest request, HttpServletResponse response)
+                                      HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         RuleLogicExpressionParser ruleLogicExpressionParser = new RuleLogicExpressionParser();
 
@@ -663,7 +608,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
         logicExpression = ruleEditor.getLogicArea();
         ruleLogicExpressionParser.setExpression(logicExpression);
-        List<String> propsAlpha = new ArrayList<String>(ruleEditor.getPropositionAlpha().values());
+        List<String> propsAlpha = this.getPropositionKeys(new ArrayList<String>(), (PropositionEditor) ruleEditor.getProposition());
 
         //validate the expression
 
@@ -702,9 +647,17 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
+    private List<String> getPropositionKeys(List<String> propositionKeys, PropositionEditor propositionEditor){
+        propositionKeys.add(propositionEditor.getKey());
+        for(PropositionEditor child : propositionEditor.getCompoundEditors()){
+            this.getPropositionKeys(propositionKeys, child);
+        }
+        return propositionKeys;
+    }
+
     @RequestMapping(params = "methodToCall=cancelEdit")
     public ModelAndView cancelEdit(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                      HttpServletRequest request, HttpServletResponse response)
+                                   HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
         RuleEditor ruleEditor = getRuleEditor(form);
@@ -790,7 +743,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         PropositionEditor prop = new PropositionEditor();
         if (node.getData() != null) {
             if (KSSimplePropositionNode.NODE_TYPE.equalsIgnoreCase(node.getNodeType())) {
-                logicExpression += ruleEditor.getPropositionAlpha().get(node.getData().getProposition().getId());
+                logicExpression += node.getData().getProposition().getKey();
             } else if (RuleEditorTreeNode.COMPOUND_OP_NODE_TYPE.equalsIgnoreCase(node.getNodeType())) {
                 if(node.getData().getProposition().getCompoundOpCode().equals(LogicalOperator.AND.getCode())) {
                     logicExpression += " AND ";
@@ -798,7 +751,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                     logicExpression += " OR ";
                 }
             } else if (RuleEditorTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(node.getNodeType())) {
-                logicExpression += ruleEditor.getPropositionAlpha().get(node.getData().getProposition().getId()) + "(";
+                logicExpression += node.getData().getProposition().getKey() + "(";
 
                 List<Node<RuleEditorTreeNode, String>> allMyChildren = node.getChildren();
                 for (Node<RuleEditorTreeNode, String> child : allMyChildren) {
@@ -814,16 +767,16 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
     /**
      * Test method for a controller that invokes a dialog lightbox.
      *
-     * @param form - test form
-     * @param result - Spring form binding result
-     * @param request - http request
+     * @param form     - test form
+     * @param result   - Spring form binding result
+     * @param request  - http request
      * @param response - http response
      * @return
      * @throws Exception
      */
     @RequestMapping(params = "methodToCall=compareRules")
     public ModelAndView compareRules(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         RuleEditor ruleEditor = getRuleEditor(form);
 
@@ -853,7 +806,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         return KrmsRepositoryServiceLocator.getRuleBoService();
     }
 
-    private RuleViewHelperService getViewHelper(UifFormBase form){
+    private RuleViewHelperService getViewHelper(UifFormBase form) {
         return (RuleViewHelperService) KSControllerHelper.getViewHelperService(form);
     }
 

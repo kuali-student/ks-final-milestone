@@ -60,7 +60,7 @@ public class AlphaIterator implements Serializable, Iterator {
     private class Inner {
 
         private int START = 'A';
-        private int END = 'C';
+        private int END = 'Z';
 
         private int value;
 

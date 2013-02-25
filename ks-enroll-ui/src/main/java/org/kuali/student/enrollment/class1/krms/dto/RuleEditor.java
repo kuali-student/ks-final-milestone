@@ -44,9 +44,9 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
     private String courseName;
 
     private String ruleType;
-    private String copyPropositionId;
-    private String selectedPropositionId;
-    private String cutPropositionId;
+    private String copyKey;
+    private String selectedKey;
+    private String cutKey;
     private List<String> activeSelections;
 
     //Course Range Dialog.
@@ -65,7 +65,6 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     // for Rule Preview display
     private transient Tree<TreeNode, String> previewTree;
-    private Map<String, String> propositionAlpha = new HashMap<String, String>();
     private AlphaIterator alpha = new AlphaIterator();
 
     // for Compare
@@ -161,14 +160,6 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
         this.activeSelections = activeSelections;
     }
 
-    public Map<String, String> getPropositionAlpha() {
-        return propositionAlpha;
-    }
-
-    public void setPropositionAlpha(Map<String, String> propositionAlpha) {
-        this.propositionAlpha = propositionAlpha;
-    }
-
     public AlphaIterator getAlpha() {
         return alpha;
     }
@@ -226,42 +217,42 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
     }
 
     /**
-     * @return the selectedPropositionId
+     * @return the selectedKey
      */
-    public String getSelectedPropositionId() {
-        return this.selectedPropositionId;
+    public String getSelectedKey() {
+        return this.selectedKey;
     }
 
     /**
-     * @param selectedPropositionId the selectedPropositionId to set
+     * @param selectedKey the selectedKey to set
      */
-    public void setSelectedPropositionId(String selectedPropositionId) {
-        this.selectedPropositionId = selectedPropositionId;
+    public void setSelectedKey(String selectedKey) {
+        this.selectedKey = selectedKey;
     }
 
     /**
-     * @return the cutPropositionId
+     * @return the cutKey
      */
-    public String getCutPropositionId() {
-        return cutPropositionId;
+    public String getCutKey() {
+        return cutKey;
     }
 
-    public void setCutPropositionId(String cutPropositionId) {
-        this.cutPropositionId = cutPropositionId;
-    }
-
-    /**
-     * @return the copyPropositionId
-     */
-    public String getCopyPropositionId() {
-        return copyPropositionId;
+    public void setCutKey(String cutKey) {
+        this.cutKey = cutKey;
     }
 
     /**
-     * @param copyPropositionId the copyPropositionId to set
+     * @return the copyKey
      */
-    public void setCopyPropositionId(String copyPropositionId) {
-        this.copyPropositionId = copyPropositionId;
+    public String getCopyKey() {
+        return copyKey;
+    }
+
+    /**
+     * @param copyKey the copyKey to set
+     */
+    public void setCopyKey(String copyKey) {
+        this.copyKey = copyKey;
     }
 
     public String getLogicArea() {

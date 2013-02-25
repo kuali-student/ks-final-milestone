@@ -84,7 +84,7 @@ public class RuleViewTreeBuilder {
         }
     }
 
-    protected String buildNodeLabel(PropositionDefinitionContract prop){
-        return StringEscapeUtils.escapeHtml(prop.getDescription());
+    protected String buildNodeLabel(PropositionDefinitionContract proposition){
+        return StringEscapeUtils.escapeHtml(proposition.getDescription());
     }
 }
