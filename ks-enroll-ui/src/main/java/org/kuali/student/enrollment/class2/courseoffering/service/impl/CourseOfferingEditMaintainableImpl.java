@@ -464,14 +464,28 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 formObject.setTermStartEnd(termStartEnd);
 
                 // Set socInfo
+//                List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(coInfo.getTermId(), ContextUtils.createDefaultContextInfo());
+//                 if (socIds != null && !socIds.isEmpty()){
+//                    //For M5, it should have only one SOC
+//                    if (socIds.size() > 1){
+//                        throw new RuntimeException("More than one SOC found for a term");
+//                    }
+//                    SocInfo soc = getCourseOfferingSetService().getSoc(socIds.get(0),ContextUtils.createDefaultContextInfo());
+//                    formObject.setSocInfo(soc);
+//                }
+
+                //Bonnie: above implementation assumes that each term only has one SOC, which might not be true any more
+                // in m6 and after...
+                // Although a Term can have more than one SOC, it only has one Main type of SOC and
+                // all COs should look into the state of that MAIN socInfo for the specified term
                 List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(coInfo.getTermId(), ContextUtils.createDefaultContextInfo());
-                 if (socIds != null && !socIds.isEmpty()){
-                    //For M5, it should have only one SOC
-                    if (socIds.size() > 1){
-                        throw new RuntimeException("More than one SOC found for a term");
+                if (socIds != null && !socIds.isEmpty()) {
+                    List<SocInfo> targetSocs = getCourseOfferingSetService().getSocsByIds(socIds, ContextUtils.createDefaultContextInfo());
+                    for (SocInfo soc: targetSocs) {
+                        if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
+                            formObject.setSocInfo(soc);
+                        }
                     }
-                    SocInfo soc = getCourseOfferingSetService().getSoc(socIds.get(0),ContextUtils.createDefaultContextInfo());
-                    formObject.setSocInfo(soc);
                 }
 
                 document.getNewMaintainableObject().setDataObject(formObject);

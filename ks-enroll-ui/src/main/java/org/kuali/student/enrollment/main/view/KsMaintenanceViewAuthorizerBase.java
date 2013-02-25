@@ -98,6 +98,33 @@ public class KsMaintenanceViewAuthorizerBase extends MaintenanceViewAuthorizerBa
     }
 
     @Override
+    protected void addPermissionDetails(Object primaryDataObjectOrDocument, Map<String, String> attributes) {
+        if (primaryDataObjectOrDocument !=null && primaryDataObjectOrDocument instanceof MaintenanceDocumentForm) {
+            MaintenanceDocumentForm form = (MaintenanceDocumentForm)primaryDataObjectOrDocument;
+            MaintenanceDocument document = form.getDocument();
+            if(document.getOldMaintainableObject() instanceof CourseOfferingEditMaintainableImpl){
+                CourseOfferingEditMaintainableImpl theForm = (CourseOfferingEditMaintainableImpl) document.getOldMaintainableObject();
+                CourseOfferingEditWrapper wrapper = (CourseOfferingEditWrapper) theForm.getDataObject();
+
+                // permission based on socState
+                String socState = wrapper.getSocInfo().getStateKey();
+                socState = socState==null?null:socState.substring(socState.lastIndexOf('.')+1);
+                attributes.put("socState", socState);
+            }
+            if(document.getOldMaintainableObject() instanceof ActivityOfferingMaintainableImpl){
+                ActivityOfferingMaintainableImpl theForm = (ActivityOfferingMaintainableImpl) document.getOldMaintainableObject();
+                ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper) theForm.getDataObject();
+
+                // permission based on socState
+                String socState = wrapper.getSocInfo().getStateKey();
+                socState = socState==null?null:socState.substring(socState.lastIndexOf('.')+1);
+                attributes.put("socState", socState);
+            }
+        }
+        super.addPermissionDetails(primaryDataObjectOrDocument, attributes);    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    @Override
     protected boolean isAuthorizedByTemplate(View view, Component component, ViewModel model,
                                              String permissionTemplateName, Person user, Map<String, String> additionalPermissionDetails,
                                              Map<String, String> additionalRoleQualifications, boolean checkPermissionExistence) {
