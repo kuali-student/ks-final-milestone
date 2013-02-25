@@ -34,7 +34,7 @@
     </bean>
 
     <bean id="contextRegistryReqComponent"
-          class="org.kuali.student.krms.naturallanguage.ContextRegistry">
+          class="org.kuali.student.r2.core.krms.naturallanguage.ContextRegistry">
         <constructor-arg>
             <map>
                 <entry key="kuali.reqComponent.type.test">
