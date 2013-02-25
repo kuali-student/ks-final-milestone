@@ -30,6 +30,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
+import org.jacorb.poa.AOM;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
@@ -715,8 +716,31 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public List<ActivityOfferingInfo> getActivityOfferingsWithoutClusterByFormatOffering(String formatOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException(
-                "getActivityOfferingsWithoutClusterByFormatOffering has not been implemented");
+    
+        List<ActivityOfferingInfo> aos = getActivityOfferingsByFormatOffering(formatOfferingId, contextInfo);
+        
+        Map<String, ActivityOfferingInfo> aoMap = new HashMap<String, ActivityOfferingInfo>();
+        
+        for (ActivityOfferingInfo activityOfferingInfo : aos) {
+            
+            aoMap.put(activityOfferingInfo.getId(), activityOfferingInfo);
+        
+        }
+        
+        List<ActivityOfferingClusterInfo> aocs = getActivityOfferingClustersByFormatOffering(formatOfferingId, contextInfo);
+    
+        for (ActivityOfferingClusterInfo activityOfferingClusterInfo : aocs) {
+            
+            for (ActivityOfferingSetInfo aoSet : activityOfferingClusterInfo.getActivityOfferingSets()) {
+                
+                for (String aoId : aoSet.getActivityOfferingIds()) {
+                    
+                    aoMap.remove(aoId);
+                }
+            }
+        }
+        
+        return new ArrayList<ActivityOfferingInfo>(aoMap.values());
     }
 
     @Override

@@ -25,16 +25,19 @@ import javax.annotation.Resource;
 
 import org.joda.time.DateTime;
 import org.kuali.student.common.test.mock.data.AbstractMockServicesAwareDataLoader;
+import org.kuali.student.common.test.spring.log4j.KSLog4JConfigurer;
 import org.kuali.student.enrollment.class2.acal.util.AcalTestDataLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupCodeGeneratorFactory;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -66,10 +69,10 @@ import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
-import org.kuali.student.r2.lum.course.infc.Activity;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.slf4j.Logger;
 
 
 /**
@@ -87,6 +90,8 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
  */
 public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwareDataLoader {
 
+    private static final Logger log = KSLog4JConfigurer.getLogger(CourseOfferingServiceTestDataLoader.class);
+    
     public static final String CHEM123_COURSE_ID = "CLU-1";
     
     public static final String CHEM123_COURSE_OFFERING_ID = "CO-1";
@@ -472,8 +477,10 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
 
     }
     
-    public void createCourseOffering(TermInfo term, CourseOfferingCreationDetails details, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public String createCourseOffering(TermInfo term, CourseOfferingCreationDetails details, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
+        String courseOfferingId = null;
+        
         CourseInfo canonicalCourse = buildCanonicalCourse(null, term.getId(), details.getSubjectArea(), details.getCourseCode(), details.getCourseTitle(), details.getCourseDescription());
         
         int formats = details.getNumberOfFormats();
@@ -499,6 +506,8 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
 
         CourseOfferingInfo co = coService.createCourseOffering(canonicalCourse.getId(), term.getId(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, courseOffering, new ArrayList<String>(), context);
 
+        courseOfferingId = co.getId();
+        
         details.storeCourseOfferingId(co.getId());
         
         // create format offerings
@@ -543,9 +552,44 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
                     coService.createActivityOffering(fo.getId(), activity.getId(), details.getActivityOfferingTypeKey(i, activity.getTypeKey()), ao, context);
 
                 }
+                
+               
             }
             
+            // create a default aoc
+            ActivityOfferingClusterInfo aoc = CourseOfferingServiceTestDataUtils.createActivityOfferingCluster(fo.getId(), "Default", coService.getActivityOfferingsByFormatOffering(fo.getId(), context));
+
+            // add in all AO's
+            List<ActivityOfferingInfo> aos = coService.getActivityOfferingsWithoutClusterByFormatOffering(fo.getId(), context);
+            
+            Map<String, ActivityOfferingSetInfo>aoSetMap = new HashMap<String, ActivityOfferingSetInfo>();
+            
+            for (ActivityOfferingInfo activityOfferingInfo : aos) {
+            
+                ActivityOfferingSetInfo aoset = aoSetMap.get(activityOfferingInfo.getTypeKey());
+            
+                if (aoset == null) {
+                    aoset = new ActivityOfferingSetInfo();
+                    aoSetMap.put(activityOfferingInfo.getTypeKey(), aoset);
+                }
+                
+                aoset.getActivityOfferingIds().add(activityOfferingInfo.getId());
+                
+                
+            }
+            
+            aoc = coService.createActivityOfferingCluster(fo.getId(), CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY, aoc, context);
+            
+            
+            // generate reg groups
+            
+            List<BulkStatusInfo> results = coService.generateRegistrationGroupsForFormatOffering(fo.getId(), context);
+            
+            log.debug("generated " + results + " reg groups");
+            
         }
+        
+        return courseOfferingId;
     }
 
     public void createLabActivityOfferingForCHEM123(String labCode, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

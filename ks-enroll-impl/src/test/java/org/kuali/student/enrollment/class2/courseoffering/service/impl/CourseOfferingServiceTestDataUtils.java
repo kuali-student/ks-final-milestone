@@ -149,12 +149,12 @@ public final class CourseOfferingServiceTestDataUtils {
     public static ActivityOfferingInfo createActivityOffering(String termId,
                                                               CourseOfferingInfo courseOffering, String formatOfferingId,
                                                               String scheduleId, String activityId, String activityName,
-                                                              String activityCode, String activityTypeKey,
+                                                              String activityCode, String activityOfferingTypeKey,
                                                               List<OfferingInstructorInfo> instructors) {
 
         ActivityOfferingInfo orig = new ActivityOfferingInfo();
 
-        orig.setTypeKey(activityTypeKey);
+        orig.setTypeKey(activityOfferingTypeKey);
         orig.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
 
         orig.setCourseOfferingId(courseOffering.getId());
