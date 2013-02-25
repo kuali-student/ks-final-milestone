@@ -153,8 +153,12 @@ public interface ExamOfferingService {
      * present or a record does not exist, the validation checks if the object
      * with the given data can be created.
      *
-     * @param validationTypeKey     the identifier for the validation Type
+     * @param termId    Unique key of the term for which the exam offering is being
+     *                  validated
+     * @param examId    Unique key of the canonical exam for which the exam offering is being
+     *                  validated
      * @param examTypeKey           the identifier for the exam type to be validated
+     * @param validationTypeKey     the identifier for the validation Type
      * @param examOfferingInfo      the exam offering to be validated
      * @param contextInfo           information containing the principalId and
      *                              locale information about the caller of
@@ -168,8 +172,10 @@ public interface ExamOfferingService {
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
      */
-    public List<ValidationResultInfo> validateExamOffering(@WebParam(name = "validationTypeKey") String validationTypeKey,
+    public List<ValidationResultInfo> validateExamOffering(@WebParam(name = "termId") String termId,
+                                                           @WebParam(name = "examId") String examId,
                                                            @WebParam(name = "examTypeKey") String examTypeKey,
+                                                           @WebParam(name = "validationTypeKey") String validationTypeKey,
                                                            @WebParam(name = "examOfferingInfo") ExamOfferingInfo examOfferingInfo,
                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
@@ -294,8 +300,10 @@ public interface ExamOfferingService {
     /**
      * Validates an ExamOfferingRelation.
      *
-     * @param validationTypeKey                         the identifier for the validation Type
+     * @param formatOfferingId  Unique key of the FormatOffering for which the relation is being validated
+     * @param examOfferingId    Unique key of the ExamOffering for which the relation is being validated
      * @param examOfferingTypeKey         the identifier of the ExamOfferingRelation type to be validated
+     * @param validationTypeKey                         the identifier for the validation Type
      * @param examOfferingRelationInfo    the ExamOfferingRelation record to be validated
      * @param contextInfo                               information containing the principalId and
      *                                                  locale information about the caller of
@@ -308,8 +316,10 @@ public interface ExamOfferingService {
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
      */
-    public List<ValidationResultInfo> validateExamOfferingRelation(@WebParam(name = "validationTypeKey") String validationTypeKey,
+    public List<ValidationResultInfo> validateExamOfferingRelation(@WebParam(name = "formatOfferingId") String formatOfferingId,
+                                                                   @WebParam(name = "examOfferingId") String examOfferingId,
                                                                    @WebParam(name = "examOfferingTypeKey") String examOfferingTypeKey,
+                                                                   @WebParam(name = "validationTypeKey") String validationTypeKey,
                                                                    @WebParam(name = "examOfferingRelationInfo") ExamOfferingRelationInfo examOfferingRelationInfo,
                                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
