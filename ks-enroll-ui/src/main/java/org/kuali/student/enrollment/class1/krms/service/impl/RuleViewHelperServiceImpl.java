@@ -80,15 +80,16 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     @Override
     public void performInitialization(View view, Object model) {
 
-        MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
-        RuleEditor ruleEditor = (RuleEditor) maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
+        if (model instanceof MaintenanceDocumentForm) {
+            MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
+            RuleEditor ruleEditor = (RuleEditor) maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
 
-        //Set the editTree and preview tree on the ruleeditor wrapper
-        this.refreshInitTrees(ruleEditor);
+            //Set the editTree and preview tree on the ruleeditor wrapper
+            this.refreshInitTrees(ruleEditor);
 
-        //Initialize the compare tree
-        ruleEditor.setCompareTree(this.buildCompareTree(null));
-
+            //Initialize the compare tree
+            ruleEditor.setCompareTree(this.buildCompareTree(null));
+        }
         super.performInitialization(view, model);
 
     }
