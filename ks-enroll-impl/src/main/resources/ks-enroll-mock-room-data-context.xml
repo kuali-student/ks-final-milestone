@@ -1,0 +1,928 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2010 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); you
+  may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.osedu.org/licenses/ECL-2.0
+  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS
+  IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+  governing permissions and limitations under the License. -->
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+
+    <bean id="BUILDING-ID-ARC" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="ARC" p:name="Architecture Building" p:id="BUILDING-ID-ARC"/>
+    <bean id="BUILDING-ID-ARM" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="ARM" p:name="Reckord Armory" p:id="BUILDING-ID-ARM"/>
+    <bean id="BUILDING-ID-ASY" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="ASY" p:name="Art-Sociology Building" p:id="BUILDING-ID-ASY"/>
+    <bean id="BUILDING-ID-BPS" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="BPS" p:name="Biology-Psychology Building" p:id="BUILDING-ID-BPS"/>
+    <bean id="BUILDING-ID-BRB" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="BRB" p:name="Biosciences Research Building" p:id="BUILDING-ID-BRB"/>
+    <bean id="BUILDING-ID-CCC" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="CCC" p:name="Cambridge Community Center" p:id="BUILDING-ID-CCC"/>
+    <bean id="BUILDING-ID-CHE" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="CHE" p:name="Chemical and Nuclear Engineering Building" p:id="BUILDING-ID-CHE"/>
+    <bean id="BUILDING-ID-CHM" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="CHM" p:name="Chemistry Building" p:id="BUILDING-ID-CHM"/>
+    <bean id="BUILDING-ID-CSI" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="CSI" p:name="Computer Science Instructional Center" p:id="BUILDING-ID-CSI"/>
+    <bean id="BUILDING-ID-EDU" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="EDU" p:name="Benjamin Building" p:id="BUILDING-ID-EDU"/>
+    <bean id="BUILDING-ID-EGR" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="EGR" p:name="Martin Hall" p:id="BUILDING-ID-EGR"/>
+    <bean id="BUILDING-ID-HBK" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="HBK" p:name="Hornbake Library" p:id="BUILDING-ID-HBK"/>
+    <bean id="BUILDING-ID-HJP" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="HJP" p:name="H.J. Patterson Hall" p:id="BUILDING-ID-HJP"/>
+    <bean id="BUILDING-ID-JMZ" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="JMZ" p:name="Jimenez Hall" p:id="BUILDING-ID-JMZ"/>
+    <bean id="BUILDING-ID-KEY" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="KEY" p:name="Francis Scott Key Hall" p:id="BUILDING-ID-KEY"/>
+    <bean id="BUILDING-ID-KNI" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="KNI" p:name="Knight Hall" p:id="BUILDING-ID-KNI"/>
+    <bean id="BUILDING-ID-LEF" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="LEF" p:name="LeFrak Hall" p:id="BUILDING-ID-LEF"/>
+    <bean id="BUILDING-ID-MMH" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="MMH" p:name="Marie Mount Hall" p:id="BUILDING-ID-MMH"/>
+    <bean id="BUILDING-ID-PHY" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="PHY" p:name="Physics Building" p:id="BUILDING-ID-PHY"/>
+    <bean id="BUILDING-ID-PLS" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="PLS" p:name="Plant Science Building" p:id="BUILDING-ID-PLS"/>
+    <bean id="BUILDING-ID-SOM" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="SOM" p:name="Somerset Hall (Dorm)" p:id="BUILDING-ID-SOM"/>
+    <bean id="BUILDING-ID-SQH" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="SQH" p:name="Susquehanna Hall" p:id="BUILDING-ID-SQH"/>
+    <bean id="BUILDING-ID-TLF" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="TLF" p:name="Taliaferro Hall" p:id="BUILDING-ID-TLF"/>
+    <bean id="BUILDING-ID-TWS" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="TWS" p:name="Tawes Fine Arts Building" p:id="BUILDING-ID-TWS"/>
+    <bean id="BUILDING-ID-TYD" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="TYD" p:name="Tydings Hall" p:id="BUILDING-ID-TYD"/>
+    <bean id="BUILDING-ID-WDS" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="WDS" p:name="Woods Hall" p:id="BUILDING-ID-WDS"/>
+
+    <bean id="BUILDING-ID-034" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="JMZ" p:name="JIMENEZ HALL" p:id="034"/>
+    <bean id="BUILDING-ID-036" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="PLS" p:name="PLANT SCIENCES BUILDING " p:id="036"/>
+    <bean id="BUILDING-ID-038" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="LEF" p:name="LEFRAK HALL" p:id="038"/>
+    <bean id="BUILDING-ID-039" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="VMH" p:name="VAN MUNCHING HALL" p:id="039"/>
+    <bean id="BUILDING-ID-042" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="TYD" p:name="TYDINGS HALL" p:id="042"/>
+    <bean id="BUILDING-ID-043" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="TLF" p:name="TALIAFERRO HALL" p:id="043"/>
+    <bean id="BUILDING-ID-044" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="SKN" p:name="SKINNER BUILDING" p:id="044"/>
+    <bean id="BUILDING-ID-045" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="ITV" p:name="INSTRUCTIONAL TELEVISION FACIL" p:id="045"/>
+    <bean id="BUILDING-ID-046" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="MMH" p:name="MARIE MOUNT HALL" p:id="046"/>
+    <bean id="BUILDING-ID-047" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="WDS" p:name="WOODS HALL" p:id="047"/>
+    <bean id="BUILDING-ID-048" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="FSK" p:name="FRANCIS SCOTT KEY HALL" p:id="048"/>
+    <bean id="BUILDING-ID-073" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="HJP" p:name="H.J. PATTERSON HALL" p:id="073"/>
+    <bean id="BUILDING-ID-074" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="HZF" p:name="HOLZAPFEL HALL" p:id="074"/>
+    <bean id="BUILDING-ID-076" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="SYM" p:name="SYMONS HALL " p:id="076"/>
+    <bean id="BUILDING-ID-078" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="ARM" p:name="RECKORD ARMORY" p:id="078"/>
+    <bean id="BUILDING-ID-082" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="PHY" p:name="JOHN S. TOLL PHYSICS BUILDING" p:id="082"/>
+    <bean id="BUILDING-ID-083" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="JMP" p:name="J.M. PATTERSON BUILDING" p:id="083"/>
+    <bean id="BUILDING-ID-084" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="MTH" p:name="MATHEMATICS BUILDING" p:id="084"/>
+    <bean id="BUILDING-ID-088" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="EGR" p:name="MARTIN HALL" p:id="088"/>
+    <bean id="BUILDING-ID-090" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="CHE" p:name="CHEMICAL &amp; NUCLEAR ENGINEERING" p:id="090"/>
+    <bean id="BUILDING-ID-091" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="CHM" p:name="CHEMISTRY BUILDING" p:id="091"/>
+    <bean id="BUILDING-ID-097" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="CCC" p:name="CAMBRIDGE COMMUNITY CENTER" p:id="097"/>
+    <bean id="BUILDING-ID-141" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="TWS" p:name="TAWES HALL " p:id="141"/>
+    <bean id="BUILDING-ID-142" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="ANS" p:name="ANIMAL SCIENCES/AGRIC. ENGRG B" p:id="142"/>
+    <bean id="BUILDING-ID-143" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="EDU" p:name="BENJAMIN BUILDING" p:id="143"/>
+    <bean id="BUILDING-ID-144" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="BPS" p:name="BIOLOGY-PSYCHOLOGY BUILDING" p:id="144"/>
+    <bean id="BUILDING-ID-145" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="ARC" p:name="ARCHITECTURE BUILDING" p:id="145"/>
+    <bean id="BUILDING-ID-146" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="ASY" p:name="ART-SOCIOLOGY BUILDING" p:id="146"/>
+    <bean id="BUILDING-ID-147" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="HBK" p:name="HORNBAKE LIBRARY" p:id="147"/>
+    <bean id="BUILDING-ID-162" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="COL" p:name="COLE STUDENT ACTIVITIES BUILDI" p:id="162"/>
+    <bean id="BUILDING-ID-224" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="CSS" p:name="COMPUTER &amp; SPACE SCIENCES BUIL" p:id="224"/>
+    <bean id="BUILDING-ID-225" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="KEB" p:name="KIM ENGINEERING BUILDING" p:id="225"/>
+    <bean id="BUILDING-ID-227" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="JUL" p:name="JULL HALL" p:id="227"/>
+    <bean id="BUILDING-ID-233" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="SQH" p:name="SUSQUEHANNA HALL" p:id="233"/>
+    <bean id="BUILDING-ID-255" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="SPH" p:name="SCHOOL OF PUBLIC HEALTH BUILDI" p:id="255"/>
+    <bean id="BUILDING-ID-406" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="CSI" p:name="COMPUTER SCIENCE INSTRUCTIONAL" p:id="406"/>
+    <bean id="BUILDING-ID-417" class="org.kuali.student.r2.core.room.dto.BuildingInfo" p:buildingCode="KNI" p:name="KNIGHT HALL" p:id="417"/>
+
+
+    <bean id="ROOM-ID-ARC-204" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-ARC" p:roomCode="204" p:id="ROOM-ID-ARC-204"/>
+    <bean id="ROOM-ID-ARM-126" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-ARM" p:roomCode="126" p:id="ROOM-ID-ARM-126"/>
+    <bean id="ROOM-ID-ASY-3203" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-ASY" p:roomCode="3203" p:id="ROOM-ID-ASY-3203"/>
+    <bean id="ROOM-ID-ASY-3207" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-ASY" p:roomCode="3207" p:id="ROOM-ID-ASY-3207"/>
+    <bean id="ROOM-ID-BPS-1234" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-BPS" p:roomCode="1234" p:id="ROOM-ID-BPS-1234"/>
+    <bean id="ROOM-ID-BPS-205" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-BPS" p:roomCode="205" p:id="ROOM-ID-BPS-205"/>
+    <bean id="ROOM-ID-BPS-283" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-BPS" p:roomCode="283" p:id="ROOM-ID-BPS-283"/>
+    <bean id="ROOM-ID-BPS-201" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-BPS" p:roomCode="201" p:id="ROOM-ID-BPS-201"/>
+    <bean id="ROOM-ID-BRB-1101" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-BRB" p:roomCode="1101" p:id="ROOM-ID-BRB-1101"/>
+    <bean id="ROOM-ID-CCC-1115" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CCC" p:roomCode="1115" p:id="ROOM-ID-CCC-1115"/>
+    <bean id="ROOM-ID-CCC-1111" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CCC" p:roomCode="1111" p:id="ROOM-ID-CCC-1111"/>
+    <bean id="ROOM-ID-CCC-1105" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CCC" p:roomCode="1105" p:id="ROOM-ID-CCC-1105"/>
+    <bean id="ROOM-ID-CHE-2145" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHE" p:roomCode="2145" p:id="ROOM-ID-CHE-2145"/>
+    <bean id="ROOM-ID-CHM-1224" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="1224" p:id="ROOM-ID-CHM-1224"/>
+    <bean id="ROOM-ID-CHM-1105" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="1105" p:id="ROOM-ID-CHM-1105"/>
+    <bean id="ROOM-ID-CHM-128" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="128" p:id="ROOM-ID-CHM-128"/>
+    <bean id="ROOM-ID-CHM-1106" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="1106" p:id="ROOM-ID-CHM-1106"/>
+    <bean id="ROOM-ID-CHM-127" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="127" p:id="ROOM-ID-CHM-127"/>
+    <bean id="ROOM-ID-CHM-1346" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="1346" p:id="ROOM-ID-CHM-1346"/>
+    <bean id="ROOM-ID-CHM-1330" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="1330" p:id="ROOM-ID-CHM-1330"/>
+    <bean id="ROOM-ID-CHM-1112" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="1112" p:id="ROOM-ID-CHM-1112"/>
+    <bean id="ROOM-ID-CHM-1111" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="1111" p:id="ROOM-ID-CHM-1111"/>
+    <bean id="ROOM-ID-CHM-115" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="115" p:id="ROOM-ID-CHM-115"/>
+    <bean id="ROOM-ID-CHM-1228" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="1228" p:id="ROOM-ID-CHM-1228"/>
+    <bean id="ROOM-ID-CHM-1302" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="1302" p:id="ROOM-ID-CHM-1302"/>
+    <bean id="ROOM-ID-CHM-1128" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="1128" p:id="ROOM-ID-CHM-1128"/>
+    <bean id="ROOM-ID-CHM-119" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="119" p:id="ROOM-ID-CHM-119"/>
+    <bean id="ROOM-ID-CHM-1356" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="1356" p:id="ROOM-ID-CHM-1356"/>
+    <bean id="ROOM-ID-CHM-1326" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="1326" p:id="ROOM-ID-CHM-1326"/>
+    <bean id="ROOM-ID-CHM-2201" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="2201" p:id="ROOM-ID-CHM-2201"/>
+    <bean id="ROOM-ID-CHM-122" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="122" p:id="ROOM-ID-CHM-122"/>
+    <bean id="ROOM-ID-CHM-1110" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="1110" p:id="ROOM-ID-CHM-1110"/>
+    <bean id="ROOM-ID-CHM-1342" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="1342" p:id="ROOM-ID-CHM-1342"/>
+    <bean id="ROOM-ID-CHM-1308" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="1308" p:id="ROOM-ID-CHM-1308"/>
+    <bean id="ROOM-ID-CHM-1407" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="1407" p:id="ROOM-ID-CHM-1407"/>
+    <bean id="ROOM-ID-CHM-1360" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="1360" p:id="ROOM-ID-CHM-1360"/>
+    <bean id="ROOM-ID-CHM-124" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CHM" p:roomCode="124" p:id="ROOM-ID-CHM-124"/>
+    <bean id="ROOM-ID-CSI-2118" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CSI" p:roomCode="2118" p:id="ROOM-ID-CSI-2118"/>
+    <bean id="ROOM-ID-CSI-2120" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-CSI" p:roomCode="2120" p:id="ROOM-ID-CSI-2120"/>
+    <bean id="ROOM-ID-EDU-206" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-EDU" p:roomCode="206" p:id="ROOM-ID-EDU-206"/>
+    <bean id="ROOM-ID-EDU-2101" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-EDU" p:roomCode="2101" p:id="ROOM-ID-EDU-2101"/>
+    <bean id="ROOM-ID-EDU-1107" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-EDU" p:roomCode="1107" p:id="ROOM-ID-EDU-1107"/>
+    <bean id="ROOM-ID-EDU-114" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-EDU" p:roomCode="114" p:id="ROOM-ID-EDU-114"/>
+    <bean id="ROOM-ID-EDU-1315" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-EDU" p:roomCode="1315" p:id="ROOM-ID-EDU-1315"/>
+    <bean id="ROOM-ID-EDU-2102" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-EDU" p:roomCode="2102" p:id="ROOM-ID-EDU-2102"/>
+    <bean id="ROOM-ID-EDU-3233" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-EDU" p:roomCode="3233" p:id="ROOM-ID-EDU-3233"/>
+    <bean id="ROOM-ID-EGR-1202" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-EGR" p:roomCode="1202" p:id="ROOM-ID-EGR-1202"/>
+    <bean id="ROOM-ID-HBK-108" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-HBK" p:roomCode="108" p:id="ROOM-ID-HBK-108"/>
+    <bean id="ROOM-ID-HBK-115" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-HBK" p:roomCode="115" p:id="ROOM-ID-HBK-115"/>
+    <bean id="ROOM-ID-HBK-123" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-HBK" p:roomCode="123" p:id="ROOM-ID-HBK-123"/>
+    <bean id="ROOM-ID-HJP-226" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-HJP" p:roomCode="226" p:id="ROOM-ID-HJP-226"/>
+    <bean id="ROOM-ID-HJP-1226" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-HJP" p:roomCode="1226" p:id="ROOM-ID-HJP-1226"/>
+    <bean id="ROOM-ID-HJP-3223" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-HJP" p:roomCode="3223" p:id="ROOM-ID-HJP-3223"/>
+    <bean id="ROOM-ID-HJP-3239" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-HJP" p:roomCode="3239" p:id="ROOM-ID-HJP-3239"/>
+    <bean id="ROOM-ID-HJP-3217" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-HJP" p:roomCode="3217" p:id="ROOM-ID-HJP-3217"/>
+    <bean id="ROOM-ID-HJP-3211" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-HJP" p:roomCode="3211" p:id="ROOM-ID-HJP-3211"/>
+    <bean id="ROOM-ID-HJP-3233" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-HJP" p:roomCode="3233" p:id="ROOM-ID-HJP-3233"/>
+    <bean id="ROOM-ID-HJP-1236" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-HJP" p:roomCode="1236" p:id="ROOM-ID-HJP-1236"/>
+    <bean id="ROOM-ID-HJP-1235" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-HJP" p:roomCode="1235" p:id="ROOM-ID-HJP-1235"/>
+    <bean id="ROOM-ID-HJP-3237" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-HJP" p:roomCode="3237" p:id="ROOM-ID-HJP-3237"/>
+    <bean id="ROOM-ID-JMZ-120" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-JMZ" p:roomCode="120" p:id="ROOM-ID-JMZ-120"/>
+    <bean id="ROOM-ID-JMZ-1224" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-JMZ" p:roomCode="1224" p:id="ROOM-ID-JMZ-1224"/>
+    <bean id="ROOM-ID-JMZ-3120" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-JMZ" p:roomCode="3120" p:id="ROOM-ID-JMZ-3120"/>
+    <bean id="ROOM-ID-KEY-125" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-KEY" p:roomCode="125" p:id="ROOM-ID-KEY-125"/>
+    <bean id="ROOM-ID-KEY-119" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-KEY" p:roomCode="119" p:id="ROOM-ID-KEY-119"/>
+    <bean id="ROOM-ID-KEY-126" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-KEY" p:roomCode="126" p:id="ROOM-ID-KEY-126"/>
+    <bean id="ROOM-ID-KEY-116" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-KEY" p:roomCode="116" p:id="ROOM-ID-KEY-116"/>
+    <bean id="ROOM-ID-KEY-2120" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-KEY" p:roomCode="2120" p:id="ROOM-ID-KEY-2120"/>
+    <bean id="ROOM-ID-KEY-123" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-KEY" p:roomCode="123" p:id="ROOM-ID-KEY-123"/>
+    <bean id="ROOM-ID-KEY-120" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-KEY" p:roomCode="120" p:id="ROOM-ID-KEY-120"/>
+    <bean id="ROOM-ID-KEY-124" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-KEY" p:roomCode="124" p:id="ROOM-ID-KEY-124"/>
+    <bean id="ROOM-ID-KNI-1105" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-KNI" p:roomCode="1105" p:id="ROOM-ID-KNI-1105"/>
+    <bean id="ROOM-ID-KNI-1103" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-KNI" p:roomCode="1103" p:id="ROOM-ID-KNI-1103"/>
+    <bean id="ROOM-ID-LEF-1221" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-LEF" p:roomCode="1221" p:id="ROOM-ID-LEF-1221"/>
+    <bean id="ROOM-ID-MMH-3418" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-MMH" p:roomCode="3418" p:id="ROOM-ID-MMH-3418"/>
+    <bean id="ROOM-ID-MMH-1304" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-MMH" p:roomCode="1304" p:id="ROOM-ID-MMH-1304"/>
+    <bean id="ROOM-ID-MMH-1400" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-MMH" p:roomCode="1400" p:id="ROOM-ID-MMH-1400"/>
+    <bean id="ROOM-ID-PHY-1412" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-PHY" p:roomCode="1412" p:id="ROOM-ID-PHY-1412"/>
+    <bean id="ROOM-ID-PLS-1130" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-PLS" p:roomCode="1130" p:id="ROOM-ID-PLS-1130"/>
+    <bean id="ROOM-ID-PLS-1161" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-PLS" p:roomCode="1161" p:id="ROOM-ID-PLS-1161"/>
+    <bean id="ROOM-ID-PLS-1172" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-PLS" p:roomCode="1172" p:id="ROOM-ID-PLS-1172"/>
+    <bean id="ROOM-ID-PLS-1115" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-PLS" p:roomCode="1115" p:id="ROOM-ID-PLS-1115"/>
+    <bean id="ROOM-ID-PLS-1164" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-PLS" p:roomCode="1164" p:id="ROOM-ID-PLS-1164"/>
+    <bean id="ROOM-ID-PLS-1140" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-PLS" p:roomCode="1140" p:id="ROOM-ID-PLS-1140"/>
+    <bean id="ROOM-ID-PLS-1146" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-PLS" p:roomCode="1146" p:id="ROOM-ID-PLS-1146"/>
+    <bean id="ROOM-ID-PLS-1158" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-PLS" p:roomCode="1158" p:id="ROOM-ID-PLS-1158"/>
+    <bean id="ROOM-ID-SOM-101" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-SOM" p:roomCode="101" p:id="ROOM-ID-SOM-101"/>
+    <bean id="ROOM-ID-SQH-1101" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-SQH" p:roomCode="1101" p:id="ROOM-ID-SQH-1101"/>
+    <bean id="ROOM-ID-SQH-1123" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-SQH" p:roomCode="1123" p:id="ROOM-ID-SQH-1123"/>
+    <bean id="ROOM-ID-SQH-2119" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-SQH" p:roomCode="2119" p:id="ROOM-ID-SQH-2119"/>
+    <bean id="ROOM-ID-SQH-1111" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-SQH" p:roomCode="1111" p:id="ROOM-ID-SQH-1111"/>
+    <bean id="ROOM-ID-SQH-1103" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-SQH" p:roomCode="1103" p:id="ROOM-ID-SQH-1103"/>
+    <bean id="ROOM-ID-SQH-2122" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-SQH" p:roomCode="2122" p:id="ROOM-ID-SQH-2122"/>
+    <bean id="ROOM-ID-SQH-1105" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-SQH" p:roomCode="1105" p:id="ROOM-ID-SQH-1105"/>
+    <bean id="ROOM-ID-SQH-2120" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-SQH" p:roomCode="2120" p:id="ROOM-ID-SQH-2120"/>
+    <bean id="ROOM-ID-SQH-1107" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-SQH" p:roomCode="1107" p:id="ROOM-ID-SQH-1107"/>
+    <bean id="ROOM-ID-SQH-2121" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-SQH" p:roomCode="2121" p:id="ROOM-ID-SQH-2121"/>
+    <bean id="ROOM-ID-SQH-2117" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-SQH" p:roomCode="2117" p:id="ROOM-ID-SQH-2117"/>
+    <bean id="ROOM-ID-TLF-2103" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-TLF" p:roomCode="2103" p:id="ROOM-ID-TLF-2103"/>
+    <bean id="ROOM-ID-TLF-1103" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-TLF" p:roomCode="1103" p:id="ROOM-ID-TLF-1103"/>
+    <bean id="ROOM-ID-TLF-1101" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-TLF" p:roomCode="1101" p:id="ROOM-ID-TLF-1101"/>
+    <bean id="ROOM-ID-TWS-201" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-TWS" p:roomCode="201" p:id="ROOM-ID-TWS-201"/>
+    <bean id="ROOM-ID-TWS-1107" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-TWS" p:roomCode="1107" p:id="ROOM-ID-TWS-1107"/>
+    <bean id="ROOM-ID-TWS-205" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-TWS" p:roomCode="205" p:id="ROOM-ID-TWS-205"/>
+    <bean id="ROOM-ID-TWS-1106" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-TWS" p:roomCode="1106" p:id="ROOM-ID-TWS-1106"/>
+    <bean id="ROOM-ID-TWS-224" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-TWS" p:roomCode="224" p:id="ROOM-ID-TWS-224"/>
+    <bean id="ROOM-ID-TWS-1105" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-TWS" p:roomCode="1105" p:id="ROOM-ID-TWS-1105"/>
+    <bean id="ROOM-ID-TWS-234" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-TWS" p:roomCode="234" p:id="ROOM-ID-TWS-234"/>
+    <bean id="ROOM-ID-TWS-236" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-TWS" p:roomCode="236" p:id="ROOM-ID-TWS-236"/>
+    <bean id="ROOM-ID-TWS-1100" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-TWS" p:roomCode="1100" p:id="ROOM-ID-TWS-1100"/>
+    <bean id="ROOM-ID-TYD-2111" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-TYD" p:roomCode="2111" p:id="ROOM-ID-TYD-2111"/>
+    <bean id="ROOM-ID-TYD-101" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-TYD" p:roomCode="101" p:id="ROOM-ID-TYD-101"/>
+    <bean id="ROOM-ID-TYD-1108" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-TYD" p:roomCode="1108" p:id="ROOM-ID-TYD-1108"/>
+    <bean id="ROOM-ID-WDS-1130" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="BUILDING-ID-WDS" p:roomCode="1130" p:id="ROOM-ID-WDS-1130"/>
+
+    <bean id="ROOM-ID-0103034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="0103" p:id="0103034"/>
+    <bean id="ROOM-ID-0118034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="0118" p:id="0118034"/>
+    <bean id="ROOM-ID-0120034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="0120" p:id="0120034"/>
+    <bean id="ROOM-ID-0122034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="0122" p:id="0122034"/>
+    <bean id="ROOM-ID-0125034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="0125" p:id="0125034"/>
+    <bean id="ROOM-ID-0205034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="0205" p:id="0205034"/>
+    <bean id="ROOM-ID-0208034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="0208" p:id="0208034"/>
+    <bean id="ROOM-ID-1117034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="1117" p:id="1117034"/>
+    <bean id="ROOM-ID-1120034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="1120" p:id="1120034"/>
+    <bean id="ROOM-ID-1122034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="1122" p:id="1122034"/>
+    <bean id="ROOM-ID-1124034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="1124" p:id="1124034"/>
+    <bean id="ROOM-ID-1215034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="1215" p:id="1215034"/>
+    <bean id="ROOM-ID-1224034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="1224" p:id="1224034"/>
+    <bean id="ROOM-ID-2117034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="2117" p:id="2117034"/>
+    <bean id="ROOM-ID-2120034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="2120" p:id="2120034"/>
+    <bean id="ROOM-ID-2122034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="2122" p:id="2122034"/>
+    <bean id="ROOM-ID-2123034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="2123" p:id="2123034"/>
+    <bean id="ROOM-ID-2125034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="2125" p:id="2125034"/>
+    <bean id="ROOM-ID-2206034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="2206" p:id="2206034"/>
+    <bean id="ROOM-ID-2207034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="2207" p:id="2207034"/>
+    <bean id="ROOM-ID-3120034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="3120" p:id="3120034"/>
+    <bean id="ROOM-ID-3203034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="3203" p:id="3203034"/>
+    <bean id="ROOM-ID-3205034" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="034" p:roomCode="3205" p:id="3205034"/>
+    <bean id="ROOM-ID-1111036" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="036" p:roomCode="1111" p:id="1111036"/>
+    <bean id="ROOM-ID-1113036" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="036" p:roomCode="1113" p:id="1113036"/>
+    <bean id="ROOM-ID-1115036" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="036" p:roomCode="1115" p:id="1115036"/>
+    <bean id="ROOM-ID-1117036" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="036" p:roomCode="1117" p:id="1117036"/>
+    <bean id="ROOM-ID-1119036" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="036" p:roomCode="1119" p:id="1119036"/>
+    <bean id="ROOM-ID-1146036" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="036" p:roomCode="1146" p:id="1146036"/>
+    <bean id="ROOM-ID-1158036" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="036" p:roomCode="1158" p:id="1158036"/>
+    <bean id="ROOM-ID-1162036" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="036" p:roomCode="1162" p:id="1162036"/>
+    <bean id="ROOM-ID-1164036" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="036" p:roomCode="1164" p:id="1164036"/>
+    <bean id="ROOM-ID-1168036" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="036" p:roomCode="1168" p:id="1168036"/>
+    <bean id="ROOM-ID-1172036" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="036" p:roomCode="1172" p:id="1172036"/>
+    <bean id="ROOM-ID-1176036" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="036" p:roomCode="1176" p:id="1176036"/>
+    <bean id="ROOM-ID-1180036" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="036" p:roomCode="1180" p:id="1180036"/>
+    <bean id="ROOM-ID-1184036" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="036" p:roomCode="1184" p:id="1184036"/>
+    <bean id="ROOM-ID-1201038" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="038" p:roomCode="1201" p:id="1201038"/>
+    <bean id="ROOM-ID-1220038" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="038" p:roomCode="1220" p:id="1220038"/>
+    <bean id="ROOM-ID-1221038" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="038" p:roomCode="1221" p:id="1221038"/>
+    <bean id="ROOM-ID-1222038" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="038" p:roomCode="1222" p:id="1222038"/>
+    <bean id="ROOM-ID-2208038" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="038" p:roomCode="2208" p:id="2208038"/>
+    <bean id="ROOM-ID-1107039" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="039" p:roomCode="1107" p:id="1107039"/>
+    <bean id="ROOM-ID-1202039" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="039" p:roomCode="1202" p:id="1202039"/>
+    <bean id="ROOM-ID-1203039" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="039" p:roomCode="1203" p:id="1203039"/>
+    <bean id="ROOM-ID-1206039" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="039" p:roomCode="1206" p:id="1206039"/>
+    <bean id="ROOM-ID-1207039" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="039" p:roomCode="1207" p:id="1207039"/>
+    <bean id="ROOM-ID-1303039" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="039" p:roomCode="1303" p:id="1303039"/>
+    <bean id="ROOM-ID-1307039" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="039" p:roomCode="1307" p:id="1307039"/>
+    <bean id="ROOM-ID-1311039" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="039" p:roomCode="1311" p:id="1311039"/>
+    <bean id="ROOM-ID-1314039" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="039" p:roomCode="1314" p:id="1314039"/>
+    <bean id="ROOM-ID-1335039" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="039" p:roomCode="1335" p:id="1335039"/>
+    <bean id="ROOM-ID-1336039" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="039" p:roomCode="1336" p:id="1336039"/>
+    <bean id="ROOM-ID-1411039" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="039" p:roomCode="1411" p:id="1411039"/>
+    <bean id="ROOM-ID-1412039" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="039" p:roomCode="1412" p:id="1412039"/>
+    <bean id="ROOM-ID-1415039" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="039" p:roomCode="1415" p:id="1415039"/>
+    <bean id="ROOM-ID-1418039" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="039" p:roomCode="1418" p:id="1418039"/>
+    <bean id="ROOM-ID-1505039" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="039" p:roomCode="1505" p:id="1505039"/>
+    <bean id="ROOM-ID-1511039" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="039" p:roomCode="1511" p:id="1511039"/>
+    <bean id="ROOM-ID-1518039" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="039" p:roomCode="1518" p:id="1518039"/>
+    <bean id="ROOM-ID-1520039" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="039" p:roomCode="1520" p:id="1520039"/>
+    <bean id="ROOM-ID-0101042" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="042" p:roomCode="0101" p:id="0101042"/>
+    <bean id="ROOM-ID-0102042" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="042" p:roomCode="0102" p:id="0102042"/>
+    <bean id="ROOM-ID-0111042" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="042" p:roomCode="0111" p:id="0111042"/>
+    <bean id="ROOM-ID-1108042" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="042" p:roomCode="1108" p:id="1108042"/>
+    <bean id="ROOM-ID-1114042" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="042" p:roomCode="1114" p:id="1114042"/>
+    <bean id="ROOM-ID-1118042" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="042" p:roomCode="1118" p:id="1118042"/>
+    <bean id="ROOM-ID-1132042" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="042" p:roomCode="1132" p:id="1132042"/>
+    <bean id="ROOM-ID-2102042" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="042" p:roomCode="2102" p:id="2102042"/>
+    <bean id="ROOM-ID-2108042" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="042" p:roomCode="2108" p:id="2108042"/>
+    <bean id="ROOM-ID-2110042" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="042" p:roomCode="2110" p:id="2110042"/>
+    <bean id="ROOM-ID-2111042" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="042" p:roomCode="2111" p:id="2111042"/>
+    <bean id="ROOM-ID-1101043" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="043" p:roomCode="1101" p:id="1101043"/>
+    <bean id="ROOM-ID-1103043" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="043" p:roomCode="1103" p:id="1103043"/>
+    <bean id="ROOM-ID-0104044" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="044" p:roomCode="0104" p:id="0104044"/>
+    <bean id="ROOM-ID-1112044" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="044" p:roomCode="1112" p:id="1112044"/>
+    <bean id="ROOM-ID-1115044" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="044" p:roomCode="1115" p:id="1115044"/>
+    <bean id="ROOM-ID-1100045" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="045" p:roomCode="1100" p:id="1100045"/>
+    <bean id="ROOM-ID-1111045" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="045" p:roomCode="1111" p:id="1111045"/>
+    <bean id="ROOM-ID-0108046" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="046" p:roomCode="0108" p:id="0108046"/>
+    <bean id="ROOM-ID-1304046" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="046" p:roomCode="1304" p:id="1304046"/>
+    <bean id="ROOM-ID-3418046" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="046" p:roomCode="3418" p:id="3418046"/>
+    <bean id="ROOM-ID-0104047" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="047" p:roomCode="0104" p:id="0104047"/>
+    <bean id="ROOM-ID-1114047" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="047" p:roomCode="1114" p:id="1114047"/>
+    <bean id="ROOM-ID-1127047" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="047" p:roomCode="1127" p:id="1127047"/>
+    <bean id="ROOM-ID-1130047" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="047" p:roomCode="1130" p:id="1130047"/>
+    <bean id="ROOM-ID-1131047" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="047" p:roomCode="1131" p:id="1131047"/>
+    <bean id="ROOM-ID-0103048" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="048" p:roomCode="0103" p:id="0103048"/>
+    <bean id="ROOM-ID-0116048" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="048" p:roomCode="0116" p:id="0116048"/>
+    <bean id="ROOM-ID-0119048" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="048" p:roomCode="0119" p:id="0119048"/>
+    <bean id="ROOM-ID-0120048" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="048" p:roomCode="0120" p:id="0120048"/>
+    <bean id="ROOM-ID-0121048" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="048" p:roomCode="0121" p:id="0121048"/>
+    <bean id="ROOM-ID-0123048" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="048" p:roomCode="0123" p:id="0123048"/>
+    <bean id="ROOM-ID-0124048" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="048" p:roomCode="0124" p:id="0124048"/>
+    <bean id="ROOM-ID-0125048" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="048" p:roomCode="0125" p:id="0125048"/>
+    <bean id="ROOM-ID-0126048" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="048" p:roomCode="0126" p:id="0126048"/>
+    <bean id="ROOM-ID-1117048" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="048" p:roomCode="1117" p:id="1117048"/>
+    <bean id="ROOM-ID-1104073" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="073" p:roomCode="1104" p:id="1104073"/>
+    <bean id="ROOM-ID-1125073" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="073" p:roomCode="1125" p:id="1125073"/>
+    <bean id="ROOM-ID-0101074" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="074" p:roomCode="0101" p:id="0101074"/>
+    <bean id="ROOM-ID-0106074" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="074" p:roomCode="0106" p:id="0106074"/>
+    <bean id="ROOM-ID-0209076" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="076" p:roomCode="0209" p:id="0209076"/>
+    <bean id="ROOM-ID-0215076" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="076" p:roomCode="0215" p:id="0215076"/>
+    <bean id="ROOM-ID-0101078" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="078" p:roomCode="0101" p:id="0101078"/>
+    <bean id="ROOM-ID-0102078" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="078" p:roomCode="0102" p:id="0102078"/>
+    <bean id="ROOM-ID-0103078" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="078" p:roomCode="0103" p:id="0103078"/>
+    <bean id="ROOM-ID-0105078" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="078" p:roomCode="0105" p:id="0105078"/>
+    <bean id="ROOM-ID-0110078" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="078" p:roomCode="0110" p:id="0110078"/>
+    <bean id="ROOM-ID-0116078" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="078" p:roomCode="0116" p:id="0116078"/>
+    <bean id="ROOM-ID-0117078" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="078" p:roomCode="0117" p:id="0117078"/>
+    <bean id="ROOM-ID-0118078" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="078" p:roomCode="0118" p:id="0118078"/>
+    <bean id="ROOM-ID-0119078" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="078" p:roomCode="0119" p:id="0119078"/>
+    <bean id="ROOM-ID-0120078" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="078" p:roomCode="0120" p:id="0120078"/>
+    <bean id="ROOM-ID-0121078" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="078" p:roomCode="0121" p:id="0121078"/>
+    <bean id="ROOM-ID-0405082" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="082" p:roomCode="0405" p:id="0405082"/>
+    <bean id="ROOM-ID-1201082" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="082" p:roomCode="1201" p:id="1201082"/>
+    <bean id="ROOM-ID-1204082" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="082" p:roomCode="1204" p:id="1204082"/>
+    <bean id="ROOM-ID-1219082" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="082" p:roomCode="1219" p:id="1219082"/>
+    <bean id="ROOM-ID-1402082" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="082" p:roomCode="1402" p:id="1402082"/>
+    <bean id="ROOM-ID-1109083" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="083" p:roomCode="1109" p:id="1109083"/>
+    <bean id="ROOM-ID-1202083" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="083" p:roomCode="1202" p:id="1202083"/>
+    <bean id="ROOM-ID-2202083" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="083" p:roomCode="2202" p:id="2202083"/>
+    <bean id="ROOM-ID-3216083" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="083" p:roomCode="3216" p:id="3216083"/>
+    <bean id="ROOM-ID-0101084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="0101" p:id="0101084"/>
+    <bean id="ROOM-ID-0102084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="0102" p:id="0102084"/>
+    <bean id="ROOM-ID-0103084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="0103" p:id="0103084"/>
+    <bean id="ROOM-ID-0104084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="0104" p:id="0104084"/>
+    <bean id="ROOM-ID-0105084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="0105" p:id="0105084"/>
+    <bean id="ROOM-ID-0106084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="0106" p:id="0106084"/>
+    <bean id="ROOM-ID-0201084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="0201" p:id="0201084"/>
+    <bean id="ROOM-ID-0302084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="0302" p:id="0302084"/>
+    <bean id="ROOM-ID-0303084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="0303" p:id="0303084"/>
+    <bean id="ROOM-ID-0304084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="0304" p:id="0304084"/>
+    <bean id="ROOM-ID-0305084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="0305" p:id="0305084"/>
+    <bean id="ROOM-ID-0306084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="0306" p:id="0306084"/>
+    <bean id="ROOM-ID-0307084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="0307" p:id="0307084"/>
+    <bean id="ROOM-ID-0401084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="0401" p:id="0401084"/>
+    <bean id="ROOM-ID-0403084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="0403" p:id="0403084"/>
+    <bean id="ROOM-ID-0405084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="0405" p:id="0405084"/>
+    <bean id="ROOM-ID-0407084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="0407" p:id="0407084"/>
+    <bean id="ROOM-ID-0409084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="0409" p:id="0409084"/>
+    <bean id="ROOM-ID-0411084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="0411" p:id="0411084"/>
+    <bean id="ROOM-ID-1308084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="1308" p:id="1308084"/>
+    <bean id="ROOM-ID-1311084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="1311" p:id="1311084"/>
+    <bean id="ROOM-ID-1313084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="1313" p:id="1313084"/>
+    <bean id="ROOM-ID-B0421084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="B0421" p:id="B0421084"/>
+    <bean id="ROOM-ID-B0423084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="B0423" p:id="B0423084"/>
+    <bean id="ROOM-ID-B0425084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="B0425" p:id="B0425084"/>
+    <bean id="ROOM-ID-B0427084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="B0427" p:id="B0427084"/>
+    <bean id="ROOM-ID-B0429084" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="084" p:roomCode="B0429" p:id="B0429084"/>
+    <bean id="ROOM-ID-0108088" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="088" p:roomCode="0108" p:id="0108088"/>
+    <bean id="ROOM-ID-0110088" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="088" p:roomCode="0110" p:id="0110088"/>
+    <bean id="ROOM-ID-0135088" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="088" p:roomCode="0135" p:id="0135088"/>
+    <bean id="ROOM-ID-1102088" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="088" p:roomCode="1102" p:id="1102088"/>
+    <bean id="ROOM-ID-1104088" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="088" p:roomCode="1104" p:id="1104088"/>
+    <bean id="ROOM-ID-1108088" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="088" p:roomCode="1108" p:id="1108088"/>
+    <bean id="ROOM-ID-2103088" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="088" p:roomCode="2103" p:id="2103088"/>
+    <bean id="ROOM-ID-2107088" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="088" p:roomCode="2107" p:id="2107088"/>
+    <bean id="ROOM-ID-2116088" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="088" p:roomCode="2116" p:id="2116088"/>
+    <bean id="ROOM-ID-2154088" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="088" p:roomCode="2154" p:id="2154088"/>
+    <bean id="ROOM-ID-3102088" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="088" p:roomCode="3102" p:id="3102088"/>
+    <bean id="ROOM-ID-3106088" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="088" p:roomCode="3106" p:id="3106088"/>
+    <bean id="ROOM-ID-3114088" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="088" p:roomCode="3114" p:id="3114088"/>
+    <bean id="ROOM-ID-2118090" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="090" p:roomCode="2118" p:id="2118090"/>
+    <bean id="ROOM-ID-2136090" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="090" p:roomCode="2136" p:id="2136090"/>
+    <bean id="ROOM-ID-2145090" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="090" p:roomCode="2145" p:id="2145090"/>
+    <bean id="ROOM-ID-0119091" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="091" p:roomCode="0119" p:id="0119091"/>
+    <bean id="ROOM-ID-0122091" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="091" p:roomCode="0122" p:id="0122091"/>
+    <bean id="ROOM-ID-0124091" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="091" p:roomCode="0124" p:id="0124091"/>
+    <bean id="ROOM-ID-0127091" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="091" p:roomCode="0127" p:id="0127091"/>
+    <bean id="ROOM-ID-0128091" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="091" p:roomCode="0128" p:id="0128091"/>
+    <bean id="ROOM-ID-1224091" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="091" p:roomCode="1224" p:id="1224091"/>
+    <bean id="ROOM-ID-1228091" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="091" p:roomCode="1228" p:id="1228091"/>
+    <bean id="ROOM-ID-2201091" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="091" p:roomCode="2201" p:id="2201091"/>
+    <bean id="ROOM-ID-1105097" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="097" p:roomCode="1105" p:id="1105097"/>
+    <bean id="ROOM-ID-1111097" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="097" p:roomCode="1111" p:id="1111097"/>
+    <bean id="ROOM-ID-1115097" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="097" p:roomCode="1115" p:id="1115097"/>
+    <bean id="ROOM-ID-0201141" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="141" p:roomCode="0201" p:id="0201141"/>
+    <bean id="ROOM-ID-0205141" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="141" p:roomCode="0205" p:id="0205141"/>
+    <bean id="ROOM-ID-0207141" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="141" p:roomCode="0207" p:id="0207141"/>
+    <bean id="ROOM-ID-0214141" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="141" p:roomCode="0214" p:id="0214141"/>
+    <bean id="ROOM-ID-0221141" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="141" p:roomCode="0221" p:id="0221141"/>
+    <bean id="ROOM-ID-0234141" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="141" p:roomCode="0234" p:id="0234141"/>
+    <bean id="ROOM-ID-0236141" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="141" p:roomCode="0236" p:id="0236141"/>
+    <bean id="ROOM-ID-1105141" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="141" p:roomCode="1105" p:id="1105141"/>
+    <bean id="ROOM-ID-1106141" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="141" p:roomCode="1106" p:id="1106141"/>
+    <bean id="ROOM-ID-1107141" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="141" p:roomCode="1107" p:id="1107141"/>
+    <bean id="ROOM-ID-0412142" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="142" p:roomCode="0412" p:id="0412142"/>
+    <bean id="ROOM-ID-0114143" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="143" p:roomCode="0114" p:id="0114143"/>
+    <bean id="ROOM-ID-0202143" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="143" p:roomCode="0202" p:id="0202143"/>
+    <bean id="ROOM-ID-0206143" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="143" p:roomCode="0206" p:id="0206143"/>
+    <bean id="ROOM-ID-0212143" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="143" p:roomCode="0212" p:id="0212143"/>
+    <bean id="ROOM-ID-1107143" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="143" p:roomCode="1107" p:id="1107143"/>
+    <bean id="ROOM-ID-1121143" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="143" p:roomCode="1121" p:id="1121143"/>
+    <bean id="ROOM-ID-1315143" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="143" p:roomCode="1315" p:id="1315143"/>
+    <bean id="ROOM-ID-2101143" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="143" p:roomCode="2101" p:id="2101143"/>
+    <bean id="ROOM-ID-2102143" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="143" p:roomCode="2102" p:id="2102143"/>
+    <bean id="ROOM-ID-2119143" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="143" p:roomCode="2119" p:id="2119143"/>
+    <bean id="ROOM-ID-2121143" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="143" p:roomCode="2121" p:id="2121143"/>
+    <bean id="ROOM-ID-3233143" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="143" p:roomCode="3233" p:id="3233143"/>
+    <bean id="ROOM-ID-3236143" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="143" p:roomCode="3236" p:id="3236143"/>
+    <bean id="ROOM-ID-3315143" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="143" p:roomCode="3315" p:id="3315143"/>
+    <bean id="ROOM-ID-0283144" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="144" p:roomCode="0283" p:id="0283144"/>
+    <bean id="ROOM-ID-1124144" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="144" p:roomCode="1124" p:id="1124144"/>
+    <bean id="ROOM-ID-1228144" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="144" p:roomCode="1228" p:id="1228144"/>
+    <bean id="ROOM-ID-1232144" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="144" p:roomCode="1232" p:id="1232144"/>
+    <bean id="ROOM-ID-1234144" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="144" p:roomCode="1234" p:id="1234144"/>
+    <bean id="ROOM-ID-1236144" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="144" p:roomCode="1236" p:id="1236144"/>
+    <bean id="ROOM-ID-1238144" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="144" p:roomCode="1238" p:id="1238144"/>
+    <bean id="ROOM-ID-1101145" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="145" p:roomCode="1101" p:id="1101145"/>
+    <bean id="ROOM-ID-1103145" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="145" p:roomCode="1103" p:id="1103145"/>
+    <bean id="ROOM-ID-1105145" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="145" p:roomCode="1105" p:id="1105145"/>
+    <bean id="ROOM-ID-3203146" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="146" p:roomCode="3203" p:id="3203146"/>
+    <bean id="ROOM-ID-3207146" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="146" p:roomCode="3207" p:id="3207146"/>
+    <bean id="ROOM-ID-3211146" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="146" p:roomCode="3211" p:id="3211146"/>
+    <bean id="ROOM-ID-3215146" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="146" p:roomCode="3215" p:id="3215146"/>
+    <bean id="ROOM-ID-3217146" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="146" p:roomCode="3217" p:id="3217146"/>
+    <bean id="ROOM-ID-3219146" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="146" p:roomCode="3219" p:id="3219146"/>
+    <bean id="ROOM-ID-3221146" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="146" p:roomCode="3221" p:id="3221146"/>
+    <bean id="ROOM-ID-0103147" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="147" p:roomCode="0103" p:id="0103147"/>
+    <bean id="ROOM-ID-0105147" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="147" p:roomCode="0105" p:id="0105147"/>
+    <bean id="ROOM-ID-0108147" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="147" p:roomCode="0108" p:id="0108147"/>
+    <bean id="ROOM-ID-0109147" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="147" p:roomCode="0109" p:id="0109147"/>
+    <bean id="ROOM-ID-0115147" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="147" p:roomCode="0115" p:id="0115147"/>
+    <bean id="ROOM-ID-0123147" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="147" p:roomCode="0123" p:id="0123147"/>
+    <bean id="ROOM-ID-1108147" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="147" p:roomCode="1108" p:id="1108147"/>
+    <bean id="ROOM-ID-1112147" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="147" p:roomCode="1112" p:id="1112147"/>
+    <bean id="ROOM-ID-0100162" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="162" p:roomCode="0100" p:id="0100162"/>
+    <bean id="ROOM-ID-0101162" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="162" p:roomCode="0101" p:id="0101162"/>
+    <bean id="ROOM-ID-0102162" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="162" p:roomCode="0102" p:id="0102162"/>
+    <bean id="ROOM-ID-0113162" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="162" p:roomCode="0113" p:id="0113162"/>
+    <bean id="ROOM-ID-3110162" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="162" p:roomCode="3110" p:id="3110162"/>
+    <bean id="ROOM-ID-0201224" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="224" p:roomCode="0201" p:id="0201224"/>
+    <bean id="ROOM-ID-2416224" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="224" p:roomCode="2416" p:id="2416224"/>
+    <bean id="ROOM-ID-2428224" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="224" p:roomCode="2428" p:id="2428224"/>
+    <bean id="ROOM-ID-1200225" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="225" p:roomCode="1200" p:id="1200225"/>
+    <bean id="ROOM-ID-1105227" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="227" p:roomCode="1105" p:id="1105227"/>
+    <bean id="ROOM-ID-1101233" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="233" p:roomCode="1101" p:id="1101233"/>
+    <bean id="ROOM-ID-1103233" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="233" p:roomCode="1103" p:id="1103233"/>
+    <bean id="ROOM-ID-1105233" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="233" p:roomCode="1105" p:id="1105233"/>
+    <bean id="ROOM-ID-1107233" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="233" p:roomCode="1107" p:id="1107233"/>
+    <bean id="ROOM-ID-1111233" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="233" p:roomCode="1111" p:id="1111233"/>
+    <bean id="ROOM-ID-1117233" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="233" p:roomCode="1117" p:id="1117233"/>
+    <bean id="ROOM-ID-1119233" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="233" p:roomCode="1119" p:id="1119233"/>
+    <bean id="ROOM-ID-1121233" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="233" p:roomCode="1121" p:id="1121233"/>
+    <bean id="ROOM-ID-1123233" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="233" p:roomCode="1123" p:id="1123233"/>
+    <bean id="ROOM-ID-2117233" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="233" p:roomCode="2117" p:id="2117233"/>
+    <bean id="ROOM-ID-2119233" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="233" p:roomCode="2119" p:id="2119233"/>
+    <bean id="ROOM-ID-2120233" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="233" p:roomCode="2120" p:id="2120233"/>
+    <bean id="ROOM-ID-2121233" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="233" p:roomCode="2121" p:id="2121233"/>
+    <bean id="ROOM-ID-2122233" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="233" p:roomCode="2122" p:id="2122233"/>
+    <bean id="ROOM-ID-0302255" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="255" p:roomCode="0302" p:id="0302255"/>
+    <bean id="ROOM-ID-0303255" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="255" p:roomCode="0303" p:id="0303255"/>
+    <bean id="ROOM-ID-0305255" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="255" p:roomCode="0305" p:id="0305255"/>
+    <bean id="ROOM-ID-0307255" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="255" p:roomCode="0307" p:id="0307255"/>
+    <bean id="ROOM-ID-0308255" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="255" p:roomCode="0308" p:id="0308255"/>
+    <bean id="ROOM-ID-1301255" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="255" p:roomCode="1301" p:id="1301255"/>
+    <bean id="ROOM-ID-1302255" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="255" p:roomCode="1302" p:id="1302255"/>
+    <bean id="ROOM-ID-1121406" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="406" p:roomCode="1121" p:id="1121406"/>
+    <bean id="ROOM-ID-1122406" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="406" p:roomCode="1122" p:id="1122406"/>
+    <bean id="ROOM-ID-2107406" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="406" p:roomCode="2107" p:id="2107406"/>
+    <bean id="ROOM-ID-2118406" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="406" p:roomCode="2118" p:id="2118406"/>
+    <bean id="ROOM-ID-2120406" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="406" p:roomCode="2120" p:id="2120406"/>
+    <bean id="ROOM-ID-3118406" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="406" p:roomCode="3118" p:id="3118406"/>
+    <bean id="ROOM-ID-3120406" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="406" p:roomCode="3120" p:id="3120406"/>
+    <bean id="ROOM-ID-1103417" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="417" p:roomCode="1103" p:id="1103417"/>
+    <bean id="ROOM-ID-1105417" class="org.kuali.student.r2.core.room.dto.RoomInfo" p:buildingId="417" p:roomCode="1105" p:id="1105417"/>
+
+
+    <bean id="buildingMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+        <property name="sourceMap">
+            <map>
+               <entry key="BUILDING-ID-ARC" value-ref="BUILDING-ID-ARC"/>
+               <entry key="BUILDING-ID-ARM" value-ref="BUILDING-ID-ARM"/>
+               <entry key="BUILDING-ID-ASY" value-ref="BUILDING-ID-ASY"/>
+               <entry key="BUILDING-ID-BPS" value-ref="BUILDING-ID-BPS"/>
+               <entry key="BUILDING-ID-BRB" value-ref="BUILDING-ID-BRB"/>
+               <entry key="BUILDING-ID-CCC" value-ref="BUILDING-ID-CCC"/>
+               <entry key="BUILDING-ID-CHE" value-ref="BUILDING-ID-CHE"/>
+               <entry key="BUILDING-ID-CHM" value-ref="BUILDING-ID-CHM"/>
+               <entry key="BUILDING-ID-CSI" value-ref="BUILDING-ID-CSI"/>
+               <entry key="BUILDING-ID-EDU" value-ref="BUILDING-ID-EDU"/>
+               <entry key="BUILDING-ID-EGR" value-ref="BUILDING-ID-EGR"/>
+               <entry key="BUILDING-ID-HBK" value-ref="BUILDING-ID-HBK"/>
+               <entry key="BUILDING-ID-HJP" value-ref="BUILDING-ID-HJP"/>
+               <entry key="BUILDING-ID-JMZ" value-ref="BUILDING-ID-JMZ"/>
+               <entry key="BUILDING-ID-KEY" value-ref="BUILDING-ID-KEY"/>
+               <entry key="BUILDING-ID-KNI" value-ref="BUILDING-ID-KNI"/>
+               <entry key="BUILDING-ID-LEF" value-ref="BUILDING-ID-LEF"/>
+               <entry key="BUILDING-ID-MMH" value-ref="BUILDING-ID-MMH"/>
+               <entry key="BUILDING-ID-PHY" value-ref="BUILDING-ID-PHY"/>
+               <entry key="BUILDING-ID-PLS" value-ref="BUILDING-ID-PLS"/>
+               <entry key="BUILDING-ID-SOM" value-ref="BUILDING-ID-SOM"/>
+               <entry key="BUILDING-ID-SQH" value-ref="BUILDING-ID-SQH"/>
+               <entry key="BUILDING-ID-TLF" value-ref="BUILDING-ID-TLF"/>
+               <entry key="BUILDING-ID-TWS" value-ref="BUILDING-ID-TWS"/>
+               <entry key="BUILDING-ID-TYD" value-ref="BUILDING-ID-TYD"/>
+               <entry key="BUILDING-ID-WDS" value-ref="BUILDING-ID-WDS"/>
+                <entry key="034" value-ref="BUILDING-ID-034"/>
+                <entry key="036" value-ref="BUILDING-ID-036"/>
+                <entry key="038" value-ref="BUILDING-ID-038"/>
+                <entry key="039" value-ref="BUILDING-ID-039"/>
+                <entry key="042" value-ref="BUILDING-ID-042"/>
+                <entry key="043" value-ref="BUILDING-ID-043"/>
+                <entry key="044" value-ref="BUILDING-ID-044"/>
+                <entry key="045" value-ref="BUILDING-ID-045"/>
+                <entry key="046" value-ref="BUILDING-ID-046"/>
+                <entry key="047" value-ref="BUILDING-ID-047"/>
+                <entry key="048" value-ref="BUILDING-ID-048"/>
+                <entry key="073" value-ref="BUILDING-ID-073"/>
+                <entry key="074" value-ref="BUILDING-ID-074"/>
+                <entry key="076" value-ref="BUILDING-ID-076"/>
+                <entry key="078" value-ref="BUILDING-ID-078"/>
+                <entry key="082" value-ref="BUILDING-ID-082"/>
+                <entry key="083" value-ref="BUILDING-ID-083"/>
+                <entry key="084" value-ref="BUILDING-ID-084"/>
+                <entry key="088" value-ref="BUILDING-ID-088"/>
+                <entry key="090" value-ref="BUILDING-ID-090"/>
+                <entry key="091" value-ref="BUILDING-ID-091"/>
+                <entry key="097" value-ref="BUILDING-ID-097"/>
+                <entry key="141" value-ref="BUILDING-ID-141"/>
+                <entry key="142" value-ref="BUILDING-ID-142"/>
+                <entry key="143" value-ref="BUILDING-ID-143"/>
+                <entry key="144" value-ref="BUILDING-ID-144"/>
+                <entry key="145" value-ref="BUILDING-ID-145"/>
+                <entry key="146" value-ref="BUILDING-ID-146"/>
+                <entry key="147" value-ref="BUILDING-ID-147"/>
+                <entry key="162" value-ref="BUILDING-ID-162"/>
+                <entry key="224" value-ref="BUILDING-ID-224"/>
+                <entry key="225" value-ref="BUILDING-ID-225"/>
+                <entry key="227" value-ref="BUILDING-ID-227"/>
+                <entry key="233" value-ref="BUILDING-ID-233"/>
+                <entry key="255" value-ref="BUILDING-ID-255"/>
+                <entry key="406" value-ref="BUILDING-ID-406"/>
+                <entry key="417" value-ref="BUILDING-ID-417"/>
+
+            </map>
+        </property>
+    </bean>
+    <bean id="roomMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+        <property name="sourceMap">
+            <map>
+               <entry key="ROOM-ID-ARC-204" value-ref="ROOM-ID-ARC-204"/>
+               <entry key="ROOM-ID-ARM-126" value-ref="ROOM-ID-ARM-126"/>
+               <entry key="ROOM-ID-ASY-3203" value-ref="ROOM-ID-ASY-3203"/>
+               <entry key="ROOM-ID-ASY-3207" value-ref="ROOM-ID-ASY-3207"/>
+               <entry key="ROOM-ID-BPS-1234" value-ref="ROOM-ID-BPS-1234"/>
+               <entry key="ROOM-ID-BPS-205" value-ref="ROOM-ID-BPS-205"/>
+               <entry key="ROOM-ID-BPS-283" value-ref="ROOM-ID-BPS-283"/>
+               <entry key="ROOM-ID-BPS-201" value-ref="ROOM-ID-BPS-201"/>
+               <entry key="ROOM-ID-BRB-1101" value-ref="ROOM-ID-BRB-1101"/>
+               <entry key="ROOM-ID-CCC-1115" value-ref="ROOM-ID-CCC-1115"/>
+               <entry key="ROOM-ID-CCC-1111" value-ref="ROOM-ID-CCC-1111"/>
+               <entry key="ROOM-ID-CCC-1105" value-ref="ROOM-ID-CCC-1105"/>
+               <entry key="ROOM-ID-CHE-2145" value-ref="ROOM-ID-CHE-2145"/>
+               <entry key="ROOM-ID-CHM-1224" value-ref="ROOM-ID-CHM-1224"/>
+               <entry key="ROOM-ID-CHM-1105" value-ref="ROOM-ID-CHM-1105"/>
+               <entry key="ROOM-ID-CHM-128" value-ref="ROOM-ID-CHM-128"/>
+               <entry key="ROOM-ID-CHM-1106" value-ref="ROOM-ID-CHM-1106"/>
+               <entry key="ROOM-ID-CHM-127" value-ref="ROOM-ID-CHM-127"/>
+               <entry key="ROOM-ID-CHM-1346" value-ref="ROOM-ID-CHM-1346"/>
+               <entry key="ROOM-ID-CHM-1330" value-ref="ROOM-ID-CHM-1330"/>
+               <entry key="ROOM-ID-CHM-1112" value-ref="ROOM-ID-CHM-1112"/>
+               <entry key="ROOM-ID-CHM-1111" value-ref="ROOM-ID-CHM-1111"/>
+               <entry key="ROOM-ID-CHM-115" value-ref="ROOM-ID-CHM-115"/>
+               <entry key="ROOM-ID-CHM-1228" value-ref="ROOM-ID-CHM-1228"/>
+               <entry key="ROOM-ID-CHM-1302" value-ref="ROOM-ID-CHM-1302"/>
+               <entry key="ROOM-ID-CHM-1128" value-ref="ROOM-ID-CHM-1128"/>
+               <entry key="ROOM-ID-CHM-119" value-ref="ROOM-ID-CHM-119"/>
+               <entry key="ROOM-ID-CHM-1356" value-ref="ROOM-ID-CHM-1356"/>
+               <entry key="ROOM-ID-CHM-1326" value-ref="ROOM-ID-CHM-1326"/>
+               <entry key="ROOM-ID-CHM-2201" value-ref="ROOM-ID-CHM-2201"/>
+               <entry key="ROOM-ID-CHM-122" value-ref="ROOM-ID-CHM-122"/>
+               <entry key="ROOM-ID-CHM-1110" value-ref="ROOM-ID-CHM-1110"/>
+               <entry key="ROOM-ID-CHM-1342" value-ref="ROOM-ID-CHM-1342"/>
+               <entry key="ROOM-ID-CHM-1308" value-ref="ROOM-ID-CHM-1308"/>
+               <entry key="ROOM-ID-CHM-1407" value-ref="ROOM-ID-CHM-1407"/>
+               <entry key="ROOM-ID-CHM-1360" value-ref="ROOM-ID-CHM-1360"/>
+               <entry key="ROOM-ID-CHM-124" value-ref="ROOM-ID-CHM-124"/>
+               <entry key="ROOM-ID-CSI-2118" value-ref="ROOM-ID-CSI-2118"/>
+               <entry key="ROOM-ID-CSI-2120" value-ref="ROOM-ID-CSI-2120"/>
+               <entry key="ROOM-ID-EDU-206" value-ref="ROOM-ID-EDU-206"/>
+               <entry key="ROOM-ID-EDU-2101" value-ref="ROOM-ID-EDU-2101"/>
+               <entry key="ROOM-ID-EDU-1107" value-ref="ROOM-ID-EDU-1107"/>
+               <entry key="ROOM-ID-EDU-114" value-ref="ROOM-ID-EDU-114"/>
+               <entry key="ROOM-ID-EDU-1315" value-ref="ROOM-ID-EDU-1315"/>
+               <entry key="ROOM-ID-EDU-2102" value-ref="ROOM-ID-EDU-2102"/>
+               <entry key="ROOM-ID-EDU-3233" value-ref="ROOM-ID-EDU-3233"/>
+               <entry key="ROOM-ID-EGR-1202" value-ref="ROOM-ID-EGR-1202"/>
+               <entry key="ROOM-ID-HBK-108" value-ref="ROOM-ID-HBK-108"/>
+               <entry key="ROOM-ID-HBK-115" value-ref="ROOM-ID-HBK-115"/>
+               <entry key="ROOM-ID-HBK-123" value-ref="ROOM-ID-HBK-123"/>
+               <entry key="ROOM-ID-HJP-226" value-ref="ROOM-ID-HJP-226"/>
+               <entry key="ROOM-ID-HJP-1226" value-ref="ROOM-ID-HJP-1226"/>
+               <entry key="ROOM-ID-HJP-3223" value-ref="ROOM-ID-HJP-3223"/>
+               <entry key="ROOM-ID-HJP-3239" value-ref="ROOM-ID-HJP-3239"/>
+               <entry key="ROOM-ID-HJP-3217" value-ref="ROOM-ID-HJP-3217"/>
+               <entry key="ROOM-ID-HJP-3211" value-ref="ROOM-ID-HJP-3211"/>
+               <entry key="ROOM-ID-HJP-3233" value-ref="ROOM-ID-HJP-3233"/>
+               <entry key="ROOM-ID-HJP-1236" value-ref="ROOM-ID-HJP-1236"/>
+               <entry key="ROOM-ID-HJP-1235" value-ref="ROOM-ID-HJP-1235"/>
+               <entry key="ROOM-ID-HJP-3237" value-ref="ROOM-ID-HJP-3237"/>
+               <entry key="ROOM-ID-JMZ-120" value-ref="ROOM-ID-JMZ-120"/>
+               <entry key="ROOM-ID-JMZ-1224" value-ref="ROOM-ID-JMZ-1224"/>
+               <entry key="ROOM-ID-JMZ-3120" value-ref="ROOM-ID-JMZ-3120"/>
+               <entry key="ROOM-ID-KEY-125" value-ref="ROOM-ID-KEY-125"/>
+               <entry key="ROOM-ID-KEY-119" value-ref="ROOM-ID-KEY-119"/>
+               <entry key="ROOM-ID-KEY-126" value-ref="ROOM-ID-KEY-126"/>
+               <entry key="ROOM-ID-KEY-116" value-ref="ROOM-ID-KEY-116"/>
+               <entry key="ROOM-ID-KEY-2120" value-ref="ROOM-ID-KEY-2120"/>
+               <entry key="ROOM-ID-KEY-123" value-ref="ROOM-ID-KEY-123"/>
+               <entry key="ROOM-ID-KEY-120" value-ref="ROOM-ID-KEY-120"/>
+               <entry key="ROOM-ID-KEY-124" value-ref="ROOM-ID-KEY-124"/>
+               <entry key="ROOM-ID-KNI-1105" value-ref="ROOM-ID-KNI-1105"/>
+               <entry key="ROOM-ID-KNI-1103" value-ref="ROOM-ID-KNI-1103"/>
+               <entry key="ROOM-ID-LEF-1221" value-ref="ROOM-ID-LEF-1221"/>
+               <entry key="ROOM-ID-MMH-3418" value-ref="ROOM-ID-MMH-3418"/>
+               <entry key="ROOM-ID-MMH-1304" value-ref="ROOM-ID-MMH-1304"/>
+               <entry key="ROOM-ID-MMH-1400" value-ref="ROOM-ID-MMH-1400"/>
+               <entry key="ROOM-ID-PHY-1412" value-ref="ROOM-ID-PHY-1412"/>
+               <entry key="ROOM-ID-PLS-1130" value-ref="ROOM-ID-PLS-1130"/>
+               <entry key="ROOM-ID-PLS-1161" value-ref="ROOM-ID-PLS-1161"/>
+               <entry key="ROOM-ID-PLS-1172" value-ref="ROOM-ID-PLS-1172"/>
+               <entry key="ROOM-ID-PLS-1115" value-ref="ROOM-ID-PLS-1115"/>
+               <entry key="ROOM-ID-PLS-1164" value-ref="ROOM-ID-PLS-1164"/>
+               <entry key="ROOM-ID-PLS-1140" value-ref="ROOM-ID-PLS-1140"/>
+               <entry key="ROOM-ID-PLS-1146" value-ref="ROOM-ID-PLS-1146"/>
+               <entry key="ROOM-ID-PLS-1158" value-ref="ROOM-ID-PLS-1158"/>
+               <entry key="ROOM-ID-SOM-101" value-ref="ROOM-ID-SOM-101"/>
+               <entry key="ROOM-ID-SQH-1101" value-ref="ROOM-ID-SQH-1101"/>
+               <entry key="ROOM-ID-SQH-1123" value-ref="ROOM-ID-SQH-1123"/>
+               <entry key="ROOM-ID-SQH-2119" value-ref="ROOM-ID-SQH-2119"/>
+               <entry key="ROOM-ID-SQH-1111" value-ref="ROOM-ID-SQH-1111"/>
+               <entry key="ROOM-ID-SQH-1103" value-ref="ROOM-ID-SQH-1103"/>
+               <entry key="ROOM-ID-SQH-2122" value-ref="ROOM-ID-SQH-2122"/>
+               <entry key="ROOM-ID-SQH-1105" value-ref="ROOM-ID-SQH-1105"/>
+               <entry key="ROOM-ID-SQH-2120" value-ref="ROOM-ID-SQH-2120"/>
+               <entry key="ROOM-ID-SQH-1107" value-ref="ROOM-ID-SQH-1107"/>
+               <entry key="ROOM-ID-SQH-2121" value-ref="ROOM-ID-SQH-2121"/>
+               <entry key="ROOM-ID-SQH-2117" value-ref="ROOM-ID-SQH-2117"/>
+               <entry key="ROOM-ID-TLF-2103" value-ref="ROOM-ID-TLF-2103"/>
+               <entry key="ROOM-ID-TLF-1103" value-ref="ROOM-ID-TLF-1103"/>
+               <entry key="ROOM-ID-TLF-1101" value-ref="ROOM-ID-TLF-1101"/>
+               <entry key="ROOM-ID-TWS-201" value-ref="ROOM-ID-TWS-201"/>
+               <entry key="ROOM-ID-TWS-1107" value-ref="ROOM-ID-TWS-1107"/>
+               <entry key="ROOM-ID-TWS-205" value-ref="ROOM-ID-TWS-205"/>
+               <entry key="ROOM-ID-TWS-1106" value-ref="ROOM-ID-TWS-1106"/>
+               <entry key="ROOM-ID-TWS-224" value-ref="ROOM-ID-TWS-224"/>
+               <entry key="ROOM-ID-TWS-1105" value-ref="ROOM-ID-TWS-1105"/>
+               <entry key="ROOM-ID-TWS-234" value-ref="ROOM-ID-TWS-234"/>
+               <entry key="ROOM-ID-TWS-236" value-ref="ROOM-ID-TWS-236"/>
+               <entry key="ROOM-ID-TWS-1100" value-ref="ROOM-ID-TWS-1100"/>
+               <entry key="ROOM-ID-TYD-2111" value-ref="ROOM-ID-TYD-2111"/>
+               <entry key="ROOM-ID-TYD-101" value-ref="ROOM-ID-TYD-101"/>
+               <entry key="ROOM-ID-TYD-1108" value-ref="ROOM-ID-TYD-1108"/>
+               <entry key="ROOM-ID-WDS-1130" value-ref="ROOM-ID-WDS-1130"/>
+                <entry key="0103034" value-ref="ROOM-ID-0103034"/>
+                <entry key="0118034" value-ref="ROOM-ID-0118034"/>
+                <entry key="0120034" value-ref="ROOM-ID-0120034"/>
+                <entry key="0122034" value-ref="ROOM-ID-0122034"/>
+                <entry key="0125034" value-ref="ROOM-ID-0125034"/>
+                <entry key="0205034" value-ref="ROOM-ID-0205034"/>
+                <entry key="0208034" value-ref="ROOM-ID-0208034"/>
+                <entry key="1117034" value-ref="ROOM-ID-1117034"/>
+                <entry key="1120034" value-ref="ROOM-ID-1120034"/>
+                <entry key="1122034" value-ref="ROOM-ID-1122034"/>
+                <entry key="1124034" value-ref="ROOM-ID-1124034"/>
+                <entry key="1215034" value-ref="ROOM-ID-1215034"/>
+                <entry key="1224034" value-ref="ROOM-ID-1224034"/>
+                <entry key="2117034" value-ref="ROOM-ID-2117034"/>
+                <entry key="2120034" value-ref="ROOM-ID-2120034"/>
+                <entry key="2122034" value-ref="ROOM-ID-2122034"/>
+                <entry key="2123034" value-ref="ROOM-ID-2123034"/>
+                <entry key="2125034" value-ref="ROOM-ID-2125034"/>
+                <entry key="2206034" value-ref="ROOM-ID-2206034"/>
+                <entry key="2207034" value-ref="ROOM-ID-2207034"/>
+                <entry key="3120034" value-ref="ROOM-ID-3120034"/>
+                <entry key="3203034" value-ref="ROOM-ID-3203034"/>
+                <entry key="3205034" value-ref="ROOM-ID-3205034"/>
+                <entry key="1111036" value-ref="ROOM-ID-1111036"/>
+                <entry key="1113036" value-ref="ROOM-ID-1113036"/>
+                <entry key="1115036" value-ref="ROOM-ID-1115036"/>
+                <entry key="1117036" value-ref="ROOM-ID-1117036"/>
+                <entry key="1119036" value-ref="ROOM-ID-1119036"/>
+                <entry key="1146036" value-ref="ROOM-ID-1146036"/>
+                <entry key="1158036" value-ref="ROOM-ID-1158036"/>
+                <entry key="1162036" value-ref="ROOM-ID-1162036"/>
+                <entry key="1164036" value-ref="ROOM-ID-1164036"/>
+                <entry key="1168036" value-ref="ROOM-ID-1168036"/>
+                <entry key="1172036" value-ref="ROOM-ID-1172036"/>
+                <entry key="1176036" value-ref="ROOM-ID-1176036"/>
+                <entry key="1180036" value-ref="ROOM-ID-1180036"/>
+                <entry key="1184036" value-ref="ROOM-ID-1184036"/>
+                <entry key="1201038" value-ref="ROOM-ID-1201038"/>
+                <entry key="1220038" value-ref="ROOM-ID-1220038"/>
+                <entry key="1221038" value-ref="ROOM-ID-1221038"/>
+                <entry key="1222038" value-ref="ROOM-ID-1222038"/>
+                <entry key="2208038" value-ref="ROOM-ID-2208038"/>
+                <entry key="1107039" value-ref="ROOM-ID-1107039"/>
+                <entry key="1202039" value-ref="ROOM-ID-1202039"/>
+                <entry key="1203039" value-ref="ROOM-ID-1203039"/>
+                <entry key="1206039" value-ref="ROOM-ID-1206039"/>
+                <entry key="1207039" value-ref="ROOM-ID-1207039"/>
+                <entry key="1303039" value-ref="ROOM-ID-1303039"/>
+                <entry key="1307039" value-ref="ROOM-ID-1307039"/>
+                <entry key="1311039" value-ref="ROOM-ID-1311039"/>
+                <entry key="1314039" value-ref="ROOM-ID-1314039"/>
+                <entry key="1335039" value-ref="ROOM-ID-1335039"/>
+                <entry key="1336039" value-ref="ROOM-ID-1336039"/>
+                <entry key="1411039" value-ref="ROOM-ID-1411039"/>
+                <entry key="1412039" value-ref="ROOM-ID-1412039"/>
+                <entry key="1415039" value-ref="ROOM-ID-1415039"/>
+                <entry key="1418039" value-ref="ROOM-ID-1418039"/>
+                <entry key="1505039" value-ref="ROOM-ID-1505039"/>
+                <entry key="1511039" value-ref="ROOM-ID-1511039"/>
+                <entry key="1518039" value-ref="ROOM-ID-1518039"/>
+                <entry key="1520039" value-ref="ROOM-ID-1520039"/>
+                <entry key="0101042" value-ref="ROOM-ID-0101042"/>
+                <entry key="0102042" value-ref="ROOM-ID-0102042"/>
+                <entry key="0111042" value-ref="ROOM-ID-0111042"/>
+                <entry key="1108042" value-ref="ROOM-ID-1108042"/>
+                <entry key="1114042" value-ref="ROOM-ID-1114042"/>
+                <entry key="1118042" value-ref="ROOM-ID-1118042"/>
+                <entry key="1132042" value-ref="ROOM-ID-1132042"/>
+                <entry key="2102042" value-ref="ROOM-ID-2102042"/>
+                <entry key="2108042" value-ref="ROOM-ID-2108042"/>
+                <entry key="2110042" value-ref="ROOM-ID-2110042"/>
+                <entry key="2111042" value-ref="ROOM-ID-2111042"/>
+                <entry key="1101043" value-ref="ROOM-ID-1101043"/>
+                <entry key="1103043" value-ref="ROOM-ID-1103043"/>
+                <entry key="0104044" value-ref="ROOM-ID-0104044"/>
+                <entry key="1112044" value-ref="ROOM-ID-1112044"/>
+                <entry key="1115044" value-ref="ROOM-ID-1115044"/>
+                <entry key="1100045" value-ref="ROOM-ID-1100045"/>
+                <entry key="1111045" value-ref="ROOM-ID-1111045"/>
+                <entry key="0108046" value-ref="ROOM-ID-0108046"/>
+                <entry key="1304046" value-ref="ROOM-ID-1304046"/>
+                <entry key="3418046" value-ref="ROOM-ID-3418046"/>
+                <entry key="0104047" value-ref="ROOM-ID-0104047"/>
+                <entry key="1114047" value-ref="ROOM-ID-1114047"/>
+                <entry key="1127047" value-ref="ROOM-ID-1127047"/>
+                <entry key="1130047" value-ref="ROOM-ID-1130047"/>
+                <entry key="1131047" value-ref="ROOM-ID-1131047"/>
+                <entry key="0103048" value-ref="ROOM-ID-0103048"/>
+                <entry key="0116048" value-ref="ROOM-ID-0116048"/>
+                <entry key="0119048" value-ref="ROOM-ID-0119048"/>
+                <entry key="0120048" value-ref="ROOM-ID-0120048"/>
+                <entry key="0121048" value-ref="ROOM-ID-0121048"/>
+                <entry key="0123048" value-ref="ROOM-ID-0123048"/>
+                <entry key="0124048" value-ref="ROOM-ID-0124048"/>
+                <entry key="0125048" value-ref="ROOM-ID-0125048"/>
+                <entry key="0126048" value-ref="ROOM-ID-0126048"/>
+                <entry key="1117048" value-ref="ROOM-ID-1117048"/>
+                <entry key="1104073" value-ref="ROOM-ID-1104073"/>
+                <entry key="1125073" value-ref="ROOM-ID-1125073"/>
+                <entry key="0101074" value-ref="ROOM-ID-0101074"/>
+                <entry key="0106074" value-ref="ROOM-ID-0106074"/>
+                <entry key="0209076" value-ref="ROOM-ID-0209076"/>
+                <entry key="0215076" value-ref="ROOM-ID-0215076"/>
+                <entry key="0101078" value-ref="ROOM-ID-0101078"/>
+                <entry key="0102078" value-ref="ROOM-ID-0102078"/>
+                <entry key="0103078" value-ref="ROOM-ID-0103078"/>
+                <entry key="0105078" value-ref="ROOM-ID-0105078"/>
+                <entry key="0110078" value-ref="ROOM-ID-0110078"/>
+                <entry key="0116078" value-ref="ROOM-ID-0116078"/>
+                <entry key="0117078" value-ref="ROOM-ID-0117078"/>
+                <entry key="0118078" value-ref="ROOM-ID-0118078"/>
+                <entry key="0119078" value-ref="ROOM-ID-0119078"/>
+                <entry key="0120078" value-ref="ROOM-ID-0120078"/>
+                <entry key="0121078" value-ref="ROOM-ID-0121078"/>
+                <entry key="0405082" value-ref="ROOM-ID-0405082"/>
+                <entry key="1201082" value-ref="ROOM-ID-1201082"/>
+                <entry key="1204082" value-ref="ROOM-ID-1204082"/>
+                <entry key="1219082" value-ref="ROOM-ID-1219082"/>
+                <entry key="1402082" value-ref="ROOM-ID-1402082"/>
+                <entry key="1109083" value-ref="ROOM-ID-1109083"/>
+                <entry key="1202083" value-ref="ROOM-ID-1202083"/>
+                <entry key="2202083" value-ref="ROOM-ID-2202083"/>
+                <entry key="3216083" value-ref="ROOM-ID-3216083"/>
+                <entry key="0101084" value-ref="ROOM-ID-0101084"/>
+                <entry key="0102084" value-ref="ROOM-ID-0102084"/>
+                <entry key="0103084" value-ref="ROOM-ID-0103084"/>
+                <entry key="0104084" value-ref="ROOM-ID-0104084"/>
+                <entry key="0105084" value-ref="ROOM-ID-0105084"/>
+                <entry key="0106084" value-ref="ROOM-ID-0106084"/>
+                <entry key="0201084" value-ref="ROOM-ID-0201084"/>
+                <entry key="0302084" value-ref="ROOM-ID-0302084"/>
+                <entry key="0303084" value-ref="ROOM-ID-0303084"/>
+                <entry key="0304084" value-ref="ROOM-ID-0304084"/>
+                <entry key="0305084" value-ref="ROOM-ID-0305084"/>
+                <entry key="0306084" value-ref="ROOM-ID-0306084"/>
+                <entry key="0307084" value-ref="ROOM-ID-0307084"/>
+                <entry key="0401084" value-ref="ROOM-ID-0401084"/>
+                <entry key="0403084" value-ref="ROOM-ID-0403084"/>
+                <entry key="0405084" value-ref="ROOM-ID-0405084"/>
+                <entry key="0407084" value-ref="ROOM-ID-0407084"/>
+                <entry key="0409084" value-ref="ROOM-ID-0409084"/>
+                <entry key="0411084" value-ref="ROOM-ID-0411084"/>
+                <entry key="1308084" value-ref="ROOM-ID-1308084"/>
+                <entry key="1311084" value-ref="ROOM-ID-1311084"/>
+                <entry key="1313084" value-ref="ROOM-ID-1313084"/>
+                <entry key="B0421084" value-ref="ROOM-ID-B0421084"/>
+                <entry key="B0423084" value-ref="ROOM-ID-B0423084"/>
+                <entry key="B0425084" value-ref="ROOM-ID-B0425084"/>
+                <entry key="B0427084" value-ref="ROOM-ID-B0427084"/>
+                <entry key="B0429084" value-ref="ROOM-ID-B0429084"/>
+                <entry key="0108088" value-ref="ROOM-ID-0108088"/>
+                <entry key="0110088" value-ref="ROOM-ID-0110088"/>
+                <entry key="0135088" value-ref="ROOM-ID-0135088"/>
+                <entry key="1102088" value-ref="ROOM-ID-1102088"/>
+                <entry key="1104088" value-ref="ROOM-ID-1104088"/>
+                <entry key="1108088" value-ref="ROOM-ID-1108088"/>
+                <entry key="2103088" value-ref="ROOM-ID-2103088"/>
+                <entry key="2107088" value-ref="ROOM-ID-2107088"/>
+                <entry key="2116088" value-ref="ROOM-ID-2116088"/>
+                <entry key="2154088" value-ref="ROOM-ID-2154088"/>
+                <entry key="3102088" value-ref="ROOM-ID-3102088"/>
+                <entry key="3106088" value-ref="ROOM-ID-3106088"/>
+                <entry key="3114088" value-ref="ROOM-ID-3114088"/>
+                <entry key="2118090" value-ref="ROOM-ID-2118090"/>
+                <entry key="2136090" value-ref="ROOM-ID-2136090"/>
+                <entry key="2145090" value-ref="ROOM-ID-2145090"/>
+                <entry key="0119091" value-ref="ROOM-ID-0119091"/>
+                <entry key="0122091" value-ref="ROOM-ID-0122091"/>
+                <entry key="0124091" value-ref="ROOM-ID-0124091"/>
+                <entry key="0127091" value-ref="ROOM-ID-0127091"/>
+                <entry key="0128091" value-ref="ROOM-ID-0128091"/>
+                <entry key="1224091" value-ref="ROOM-ID-1224091"/>
+                <entry key="1228091" value-ref="ROOM-ID-1228091"/>
+                <entry key="2201091" value-ref="ROOM-ID-2201091"/>
+                <entry key="1105097" value-ref="ROOM-ID-1105097"/>
+                <entry key="1111097" value-ref="ROOM-ID-1111097"/>
+                <entry key="1115097" value-ref="ROOM-ID-1115097"/>
+                <entry key="0201141" value-ref="ROOM-ID-0201141"/>
+                <entry key="0205141" value-ref="ROOM-ID-0205141"/>
+                <entry key="0207141" value-ref="ROOM-ID-0207141"/>
+                <entry key="0214141" value-ref="ROOM-ID-0214141"/>
+                <entry key="0221141" value-ref="ROOM-ID-0221141"/>
+                <entry key="0234141" value-ref="ROOM-ID-0234141"/>
+                <entry key="0236141" value-ref="ROOM-ID-0236141"/>
+                <entry key="1105141" value-ref="ROOM-ID-1105141"/>
+                <entry key="1106141" value-ref="ROOM-ID-1106141"/>
+                <entry key="1107141" value-ref="ROOM-ID-1107141"/>
+                <entry key="0412142" value-ref="ROOM-ID-0412142"/>
+                <entry key="0114143" value-ref="ROOM-ID-0114143"/>
+                <entry key="0202143" value-ref="ROOM-ID-0202143"/>
+                <entry key="0206143" value-ref="ROOM-ID-0206143"/>
+                <entry key="0212143" value-ref="ROOM-ID-0212143"/>
+                <entry key="1107143" value-ref="ROOM-ID-1107143"/>
+                <entry key="1121143" value-ref="ROOM-ID-1121143"/>
+                <entry key="1315143" value-ref="ROOM-ID-1315143"/>
+                <entry key="2101143" value-ref="ROOM-ID-2101143"/>
+                <entry key="2102143" value-ref="ROOM-ID-2102143"/>
+                <entry key="2119143" value-ref="ROOM-ID-2119143"/>
+                <entry key="2121143" value-ref="ROOM-ID-2121143"/>
+                <entry key="3233143" value-ref="ROOM-ID-3233143"/>
+                <entry key="3236143" value-ref="ROOM-ID-3236143"/>
+                <entry key="3315143" value-ref="ROOM-ID-3315143"/>
+                <entry key="0283144" value-ref="ROOM-ID-0283144"/>
+                <entry key="1124144" value-ref="ROOM-ID-1124144"/>
+                <entry key="1228144" value-ref="ROOM-ID-1228144"/>
+                <entry key="1232144" value-ref="ROOM-ID-1232144"/>
+                <entry key="1234144" value-ref="ROOM-ID-1234144"/>
+                <entry key="1236144" value-ref="ROOM-ID-1236144"/>
+                <entry key="1238144" value-ref="ROOM-ID-1238144"/>
+                <entry key="1101145" value-ref="ROOM-ID-1101145"/>
+                <entry key="1103145" value-ref="ROOM-ID-1103145"/>
+                <entry key="1105145" value-ref="ROOM-ID-1105145"/>
+                <entry key="3203146" value-ref="ROOM-ID-3203146"/>
+                <entry key="3207146" value-ref="ROOM-ID-3207146"/>
+                <entry key="3211146" value-ref="ROOM-ID-3211146"/>
+                <entry key="3215146" value-ref="ROOM-ID-3215146"/>
+                <entry key="3217146" value-ref="ROOM-ID-3217146"/>
+                <entry key="3219146" value-ref="ROOM-ID-3219146"/>
+                <entry key="3221146" value-ref="ROOM-ID-3221146"/>
+                <entry key="0103147" value-ref="ROOM-ID-0103147"/>
+                <entry key="0105147" value-ref="ROOM-ID-0105147"/>
+                <entry key="0108147" value-ref="ROOM-ID-0108147"/>
+                <entry key="0109147" value-ref="ROOM-ID-0109147"/>
+                <entry key="0115147" value-ref="ROOM-ID-0115147"/>
+                <entry key="0123147" value-ref="ROOM-ID-0123147"/>
+                <entry key="1108147" value-ref="ROOM-ID-1108147"/>
+                <entry key="1112147" value-ref="ROOM-ID-1112147"/>
+                <entry key="0100162" value-ref="ROOM-ID-0100162"/>
+                <entry key="0101162" value-ref="ROOM-ID-0101162"/>
+                <entry key="0102162" value-ref="ROOM-ID-0102162"/>
+                <entry key="0113162" value-ref="ROOM-ID-0113162"/>
+                <entry key="3110162" value-ref="ROOM-ID-3110162"/>
+                <entry key="0201224" value-ref="ROOM-ID-0201224"/>
+                <entry key="2416224" value-ref="ROOM-ID-2416224"/>
+                <entry key="2428224" value-ref="ROOM-ID-2428224"/>
+                <entry key="1200225" value-ref="ROOM-ID-1200225"/>
+                <entry key="1105227" value-ref="ROOM-ID-1105227"/>
+                <entry key="1101233" value-ref="ROOM-ID-1101233"/>
+                <entry key="1103233" value-ref="ROOM-ID-1103233"/>
+                <entry key="1105233" value-ref="ROOM-ID-1105233"/>
+                <entry key="1107233" value-ref="ROOM-ID-1107233"/>
+                <entry key="1111233" value-ref="ROOM-ID-1111233"/>
+                <entry key="1117233" value-ref="ROOM-ID-1117233"/>
+                <entry key="1119233" value-ref="ROOM-ID-1119233"/>
+                <entry key="1121233" value-ref="ROOM-ID-1121233"/>
+                <entry key="1123233" value-ref="ROOM-ID-1123233"/>
+                <entry key="2117233" value-ref="ROOM-ID-2117233"/>
+                <entry key="2119233" value-ref="ROOM-ID-2119233"/>
+                <entry key="2120233" value-ref="ROOM-ID-2120233"/>
+                <entry key="2121233" value-ref="ROOM-ID-2121233"/>
+                <entry key="2122233" value-ref="ROOM-ID-2122233"/>
+                <entry key="0302255" value-ref="ROOM-ID-0302255"/>
+                <entry key="0303255" value-ref="ROOM-ID-0303255"/>
+                <entry key="0305255" value-ref="ROOM-ID-0305255"/>
+                <entry key="0307255" value-ref="ROOM-ID-0307255"/>
+                <entry key="0308255" value-ref="ROOM-ID-0308255"/>
+                <entry key="1301255" value-ref="ROOM-ID-1301255"/>
+                <entry key="1302255" value-ref="ROOM-ID-1302255"/>
+                <entry key="1121406" value-ref="ROOM-ID-1121406"/>
+                <entry key="1122406" value-ref="ROOM-ID-1122406"/>
+                <entry key="2107406" value-ref="ROOM-ID-2107406"/>
+                <entry key="2118406" value-ref="ROOM-ID-2118406"/>
+                <entry key="2120406" value-ref="ROOM-ID-2120406"/>
+                <entry key="3118406" value-ref="ROOM-ID-3118406"/>
+                <entry key="3120406" value-ref="ROOM-ID-3120406"/>
+                <entry key="1103417" value-ref="ROOM-ID-1103417"/>
+                <entry key="1105417" value-ref="ROOM-ID-1105417"/>
+
+            </map>
+        </property>
+    </bean>
+
+</beans>
