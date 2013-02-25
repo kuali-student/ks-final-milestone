@@ -41,6 +41,7 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 
 import java.lang.ref.WeakReference;
@@ -891,51 +892,30 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
     private List<String> getDivisionCodes() {
         ContextInfo context = KsapFrameworkServiceLocator.getContext()
                 .getContextInfo();
-//		CluService cluService = KsapFrameworkServiceLocator.getCluService();
-//		SearchRequestInfo request = new SearchRequestInfo(
-//				"myplan.distinct.clu.divisions");
-//		SearchResult result;
-//		try {
-//			result = cluService.search(request, context);
-//		} catch (MissingParameterException e) {
-//			throw new IllegalArgumentException("Error in CLU division search",
-//					e);
-//		} catch (InvalidParameterException e) {
-//			throw new IllegalArgumentException("Error in CLU division search",
-//					e);
-//		} catch (OperationFailedException e) {
-//			throw new IllegalArgumentException("Error in CLU division search",
-//					e);
-//		} catch (PermissionDeniedException e) {
-//			throw new IllegalArgumentException("Error in CLU division search",
-//					e);
-//		}
-//		List<? extends SearchResultRow> rr = result.getRows();
-//		List<String> rv = new java.util.ArrayList<String>(rr.size());
-//		for (SearchResultRow row : rr)
-//			for (SearchResultCell cell : row.getCells())
-//				rv.add(cell.getValue());
-//		return rv;
-        List<OrgInfo> orgInfoList = new ArrayList<OrgInfo>();
-        HashMap<String, List<OrgInfo>> hashMap =  new HashMap<String, List<OrgInfo>>();
+        CluService cluService = KsapFrameworkServiceLocator.getCluService();
+        SearchRequestInfo request = new SearchRequestInfo(
+                "myplan.distinct.clu.divisions");
+        SearchResult result;
         try {
-            if (!this.getHashMap().containsKey(CourseSearchConstants.SUBJECT_CODE)) {
-                orgInfoList = KsapFrameworkServiceLocator.getOrgHelper().getOrgInfo(CourseSearchConstants.SUBJECT_CODE, CourseSearchConstants.ORG_QUERY_SEARCH_BY_TYPE_REQUEST, CourseSearchConstants.ORG_TYPE_PARAM, context);
-                hashMap.put(CourseSearchConstants.SUBJECT_CODE, orgInfoList);
-            } else {
-                orgInfoList = hashMap.get(CourseSearchConstants.SUBJECT_CODE);
-            }
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Error in org SUBJECT CODE search",
+            result = cluService.search(request, context);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("Error in CLU division search",
+                    e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("Error in CLU division search",
+                    e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("Error in CLU division search",
+                    e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("Error in CLU division search",
                     e);
         }
-        List<String> rv = null;
-        if (orgInfoList != null && orgInfoList.size() > 0) {
-            rv = new java.util.ArrayList<String>(orgInfoList.size());
-            for (OrgInfo entry : orgInfoList) {
-                rv.add(entry.getLongName());
-            }
-        }
+        List<? extends SearchResultRow> rr = result.getRows();
+        List<String> rv = new java.util.ArrayList<String>(rr.size());
+        for (SearchResultRow row : rr)
+            for (SearchResultCell cell : row.getCells())
+                rv.add(cell.getValue());
         return rv;
     }
 
