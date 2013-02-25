@@ -35,6 +35,7 @@ public class KualiStudentKimAttributes implements ExternalizableBusinessObject {
 	public static final String QUALIFICATION_COLLEGE_ID             = "collegeId";
 //	public static final String QUALIFICATION_ORG_ID                 = "orgId";
     public static final String QUALIFICATION_ORG_ID                 = "org";
+    public static final String QUALIFICATION_SUBJECT_AREA           = "subjectArea";
 
 	public static final String QUALIFICATION_DATA_ID                = "dataId";
 	public static final String QUALIFICATION_CLU_ID                 = "cluId";
@@ -56,6 +57,7 @@ public class KualiStudentKimAttributes implements ExternalizableBusinessObject {
 	protected String department;
 	protected String college;
 	protected String division;
+    protected String subjectArea;
 
 	protected String dtoName;
 	protected String dtoFieldKey;
@@ -266,6 +268,15 @@ public class KualiStudentKimAttributes implements ExternalizableBusinessObject {
     public void setPermissionExpression(String permissionExpression) {
         this.permissionExpression = permissionExpression;
     }
+
+    public String getSubjectArea() {
+        return subjectArea;
+    }
+
+    public void setSubjectArea(String subjectArea) {
+        this.subjectArea = subjectArea;
+    }
+
 
     @Override
     public void refresh() {

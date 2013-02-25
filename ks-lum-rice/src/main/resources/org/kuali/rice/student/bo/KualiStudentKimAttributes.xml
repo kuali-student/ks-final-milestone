@@ -39,6 +39,7 @@
         <ref bean="KualiStudentKimAttributes-sectionId" />
         <ref bean="KualiStudentKimAttributes-descendHierarchy" />
         <ref bean="KualiStudentKimAttributes-ksReferenceTypeKey" />
+        <ref bean="KualiStudentKimAttributes-subjectArea" />
       </list>
     </property>
   </bean>
@@ -126,6 +127,23 @@
             p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.DivisionCocValuesFinder" />
     </property>
   </bean>
+
+    <bean id="KualiStudentKimAttributes-subjectArea" parent="KualiStudentKimAttributes-subjectArea-parentBean" />
+    <bean id="KualiStudentKimAttributes-subjectArea-parentBean" abstract="true" parent="AttributeDefinition"
+          p:name="subjectArea"
+          p:forceUppercase="false"
+          p:label="Subject Area"
+          p:shortLabel="Subject Area"
+          p:maxLength="40"
+          p:required="true" >
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.SubjectAreaValuesFinder" />
+        </property>
+    </bean>
 
   <bean id="KualiStudentKimAttributes-dtoName" parent="KualiStudentKimAttributes-dtoName-parentBean" />
   <bean id="KualiStudentKimAttributes-dtoName-parentBean" abstract="true" parent="AttributeDefinition"
