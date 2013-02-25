@@ -37,6 +37,9 @@ public class KsMaintenanceAuthorizerBase extends MaintenanceDocumentAuthorizerBa
                 if(wrapper.getAdminOrg() != null){
                     attributes.putAll(wrapper.getAdminOrg());
                 }
+                if(wrapper.getCourseOfferingInfo()!=null){
+                    attributes.put("subjectArea",wrapper.getCourseOfferingInfo().getSubjectArea());
+                }
             }
             if(document.getOldMaintainableObject() instanceof ActivityOfferingMaintainableImpl){
                 ActivityOfferingMaintainableImpl theForm = (ActivityOfferingMaintainableImpl)document.getOldMaintainableObject();
@@ -44,7 +47,9 @@ public class KsMaintenanceAuthorizerBase extends MaintenanceDocumentAuthorizerBa
                 if(wrapper.getAdminOrg()!=null){
                     attributes.put("org",wrapper.getAdminOrg());
                 }
-
+                if(wrapper.getCourse() != null){
+                    attributes.put("subjectArea",wrapper.getCourse().getSubjectArea());
+                }
             }
         }
 

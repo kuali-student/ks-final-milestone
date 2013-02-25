@@ -45,6 +45,9 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
             if(theForm.getAdminOrg() != null){
                 attributes.put("org", theForm.getAdminOrg());
             }
+            if(theForm.getSubjectCode() != null){
+                attributes.put("subjectArea", theForm.getSubjectCode());
+            }
         }
         if (primaryDataObjectOrDocument !=null && primaryDataObjectOrDocument instanceof RegistrationGroupManagementForm) {
             RegistrationGroupManagementForm theForm = (RegistrationGroupManagementForm) primaryDataObjectOrDocument;
@@ -53,6 +56,9 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
                 List<String> orgIds = theForm.getTheCourseOffering().getUnitsDeploymentOrgIds();
                 if(orgIds !=null && !orgIds.isEmpty()){
                     attributes.put("org", orgIds.get(0));
+                }
+                if(theForm.getTheCourseOffering().getSubjectArea() != null){
+                    attributes.put("subjectArea", theForm.getTheCourseOffering().getSubjectArea());
                 }
             }
         }

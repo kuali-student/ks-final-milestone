@@ -50,6 +50,7 @@ public class ToolbarUtil {
 
         //ToDo, add role qualifiers for org/subject/etc. (Refactor so qualification resolving is done in a single place)
         roleQualifications.put("org", form.getAdminOrg());
+        roleQualifications.put("subjectArea", form.getSubjectCode());
 
         permissionDetails.put("socState", socState);
 
@@ -116,6 +117,7 @@ public class ToolbarUtil {
 
         //ToDo, add role qualifiers for org/subject/etc. (Refactor so qualification resolving is done in a single place)
         roleQualifications.put("org", form.getAdminOrg());
+        roleQualifications.put("subjectArea", form.getSubjectCode());
 
         permissionDetails.put("socState", socState);
 

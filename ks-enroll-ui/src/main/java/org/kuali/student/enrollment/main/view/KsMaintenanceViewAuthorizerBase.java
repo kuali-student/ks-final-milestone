@@ -63,12 +63,18 @@ public class KsMaintenanceViewAuthorizerBase extends MaintenanceViewAuthorizerBa
                 if(wrapper.getAdminOrg() != null){
                     attributes.putAll(wrapper.getAdminOrg());
                 }
+                if(wrapper.getCourseOfferingInfo()!=null){
+                    attributes.put("subjectArea",wrapper.getCourseOfferingInfo().getSubjectArea());
+                }
             }
             if(document.getOldMaintainableObject() instanceof ActivityOfferingMaintainableImpl){
                 ActivityOfferingMaintainableImpl theForm = (ActivityOfferingMaintainableImpl)document.getOldMaintainableObject();
                 ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)theForm.getDataObject();
                 if(wrapper.getAdminOrg()!=null){
                     attributes.put("org",wrapper.getAdminOrg());
+                }
+                if(wrapper.getCourse() != null){
+                    attributes.put("subjectArea",wrapper.getCourse().getSubjectArea());
                 }
 
             }
@@ -81,6 +87,9 @@ public class KsMaintenanceViewAuthorizerBase extends MaintenanceViewAuthorizerBa
                 CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) theForm.getDataObject();
                 if(wrapper.getAdminOrg() != null){
                     attributes.put("org",wrapper.getAdminOrg());
+                }
+                if(wrapper.getCourseOfferingInfo() != null){
+                    attributes.put("subjectArea",wrapper.getCourseOfferingInfo().getSubjectArea());
                 }
             }
         }
