@@ -31,5 +31,7 @@ public class ExamServiceConstants {
     // TYPES
     /////////////////
 
-    public static final String EXAM_TYPE = "kuali.clu.type.CanonicalExam";
+    public static final String TYPE_GENERIC_EXAM = "kuali.lu.type.Exam";
+    public static final String TYPE_FINAL_EXAM = "kuali.lu.type.Exam.Final";
+
 }

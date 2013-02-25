@@ -16,7 +16,7 @@
  */
 package org.kuali.student.enrollment.examoffering.dto;
 
-import org.kuali.student.enrollment.examoffering.infc.FormatOfferingExamOfferingRelation;
+import org.kuali.student.enrollment.examoffering.infc.ExamOfferingRelation;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -35,11 +35,11 @@ import java.util.List;
  * @author Mezba Mahtab (mezba.mahtab@utoronto.ca)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "FormatOfferingExamOfferingRelationInfo", propOrder = {"id", "typeKey", "stateKey", "name",
+@XmlType(name = "ExamOfferingRelationInfo", propOrder = {"id", "typeKey", "stateKey", "name",
         "descr", "meta", "attributes",
         "formatOfferingId", "examOfferingId", "activityOfferingIds", "populationIds",
         "_futureElements"})
-public class FormatOfferingExamOfferingRelationInfo extends RelationshipInfo implements FormatOfferingExamOfferingRelation, Serializable {
+public class ExamOfferingRelationInfo extends RelationshipInfo implements ExamOfferingRelation, Serializable {
 
     ///////////////////////////
     // CONSTANTS
@@ -70,18 +70,18 @@ public class FormatOfferingExamOfferingRelationInfo extends RelationshipInfo imp
     // CONSTRUCTOR
     /////////////////////////
 
-    public FormatOfferingExamOfferingRelationInfo() {}
+    public ExamOfferingRelationInfo() {}
 
-    public FormatOfferingExamOfferingRelationInfo(FormatOfferingExamOfferingRelation formatOfferingExamOfferingRelation) {
-        super(formatOfferingExamOfferingRelation);
-        if (null != formatOfferingExamOfferingRelation) {
-            this.formatOfferingId = formatOfferingExamOfferingRelation.getFormatOfferingId();
-            this.examOfferingId = formatOfferingExamOfferingRelation.getExamOfferingId();
-            if (formatOfferingExamOfferingRelation.getActivityOfferingIds() != null) {
-                this.activityOfferingIds = new ArrayList<String>(formatOfferingExamOfferingRelation.getActivityOfferingIds());
+    public ExamOfferingRelationInfo(ExamOfferingRelation examOfferingRelation) {
+        super(examOfferingRelation);
+        if (null != examOfferingRelation) {
+            this.formatOfferingId = examOfferingRelation.getFormatOfferingId();
+            this.examOfferingId = examOfferingRelation.getExamOfferingId();
+            if (examOfferingRelation.getActivityOfferingIds() != null) {
+                this.activityOfferingIds = new ArrayList<String>(examOfferingRelation.getActivityOfferingIds());
             }
-            if (formatOfferingExamOfferingRelation.getPopulationIds() != null) {
-                this.populationIds = new ArrayList<String>(formatOfferingExamOfferingRelation.getPopulationIds());
+            if (examOfferingRelation.getPopulationIds() != null) {
+                this.populationIds = new ArrayList<String>(examOfferingRelation.getPopulationIds());
             }
         }
     }

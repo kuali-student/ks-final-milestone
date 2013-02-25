@@ -12,12 +12,12 @@ import org.kuali.student.r2.common.infc.Relationship;
 import java.util.List;
 
 /**
- * Detailed information about a FormatOffering to ExamOffering relationship.
+ * Detailed information about a relationship between a FormatOffering and an ExamOffering.
  *
  * @Version 2.0
  * @Author Mezba Mahtab mezba.mahtab@utoronto.ca
  */
-public interface FormatOfferingExamOfferingRelation extends Relationship {
+public interface ExamOfferingRelation extends Relationship {
 
     /**
      * Unique identifier for a Format Offering.

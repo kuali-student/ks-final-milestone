@@ -34,7 +34,7 @@ import java.util.List;
  * @author Mezba Mahtab (mezba.mahtab@utoronto.ca)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "GradeRosterInfo", propOrder = {"id", "typeKey", "stateKey", "name",
+@XmlType(name = "ExamInfo", propOrder = {"id", "typeKey", "stateKey", "name",
         "descr", "meta", "attributes", "_futureElements"})
 public class ExamInfo extends IdEntityInfo implements Exam, Serializable {
 

@@ -31,6 +31,7 @@ public class ExamOfferingServiceConstants {
     // TYPES
     /////////////////
 
-    public static final String EXAM_OFFERING_TYPE = "kuali.lui.type.ExamOffering";
+    public static final String TYPE_EXAM_OFFERING = "kuali.lui.type.ExamOffering";
+    public static final String TYPE_EXAM_OFFERING_FINAL = "kuali.lui.type.exam.offering.final";
 
 }
