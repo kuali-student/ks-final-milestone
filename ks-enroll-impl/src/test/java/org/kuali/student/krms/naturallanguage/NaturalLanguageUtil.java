@@ -18,10 +18,10 @@ package org.kuali.student.krms.naturallanguage;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.student.krms.naturallanguage.config.context.CluContextImpl;
 import org.kuali.student.r1.core.statement.config.context.lu.CourseListContextImpl;
-import org.kuali.student.r1.core.statement.config.context.lu.CreditContextImpl;
-import org.kuali.student.r1.core.statement.config.context.lu.GradeCheckContextImpl;
 import org.kuali.student.r1.core.statement.config.context.lu.MockCluInfo;
 import org.kuali.student.r1.core.statement.config.context.lu.MockCluSetInfo;
+import org.kuali.student.r1.core.statement.naturallanguage.Context;
+import org.kuali.student.r1.core.statement.naturallanguage.ContextRegistry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
