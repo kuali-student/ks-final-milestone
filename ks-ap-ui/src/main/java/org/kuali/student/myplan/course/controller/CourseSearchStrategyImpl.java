@@ -353,7 +353,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             List<ResultValuesGroupInfo> resultValuesGroupInfos = null;
 
             try {
-                resultValuesGroupInfos =  KsapFrameworkServiceLocator.getLRCService().getResultValuesGroupsByResultScale(resultScaleKey, contextInfo);
+                resultValuesGroupInfos =  KsapFrameworkServiceLocator.getLrcService().getResultValuesGroupsByResultScale(resultScaleKey, contextInfo);
             } catch(Exception e)     {
                 e.printStackTrace();
                 return null;

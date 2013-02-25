@@ -18,6 +18,7 @@ import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManage
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.program.service.ProgramService;
 
 import java.util.Hashtable;
@@ -158,6 +159,15 @@ public final class KsapFrameworkServiceLocator {
 	public static CluService getCluService() {
 		return getLocalService("ksLumCluService");
 	}
+
+    /**
+     * Get the ks-lum remote lrc service.
+     *
+     * @return The ks-lum remote lrc service.
+     */
+    public static LRCService getLrcService(){
+        return getLocalService("ksLumLrcService");
+    }
 
 	/**
 	 * Get the KSAP context provider.

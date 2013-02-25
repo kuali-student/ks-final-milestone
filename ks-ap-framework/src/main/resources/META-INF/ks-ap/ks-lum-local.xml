@@ -43,6 +43,12 @@
         <property name="serviceName" value="typeService"/>
     </bean>
 
+    <bean id="ksLumLrcService"
+          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="lrcServiceImpl"/>
+    </bean>
+
+
     <bean id="orgServiceImpl"
           class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="orgServiceImpl"/>
