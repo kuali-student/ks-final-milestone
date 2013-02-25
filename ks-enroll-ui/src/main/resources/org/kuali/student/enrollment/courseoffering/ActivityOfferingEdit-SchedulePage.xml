@@ -164,7 +164,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOffering-DeliveryLogistic-New-Section" parent="Uif-HorizontalBoxSubSection">
+    <bean id="ActivityOffering-DeliveryLogistic-New-Section" parent="Uif-HorizontalBoxSubSection" p:id="requestedDeliveryLogistic">
         <property name="items">
             <list>
                 <bean parent="Uif-InputField-LabelRight" p:propertyName="newScheduleRequest.tba" p:label="TBA" p:style="margin-top:15px">

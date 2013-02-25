@@ -14,6 +14,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.ActivityOfferingForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
+import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.uif.form.KSUifMaintenanceDocumentForm;
 import org.kuali.student.enrollment.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.uif.util.KSUifUtils;
@@ -95,7 +96,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
 
         ScheduleWrapper scheduleWrapper = activityOfferingWrapper.getNewScheduleRequest();
         if (validateTime(scheduleWrapper.getStartTime(), scheduleWrapper.getStartTimeAMPM(), scheduleWrapper.getEndTime(), scheduleWrapper.getEndTimeAMPM())) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Start Time must be prior to End Time!");
+            GlobalVariables.getMessageMap().putError("requestedDeliveryLogistic", ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
             return getUIFModelAndView(form);
         }
 
