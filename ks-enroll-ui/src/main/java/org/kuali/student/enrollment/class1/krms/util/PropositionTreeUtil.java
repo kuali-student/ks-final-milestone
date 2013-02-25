@@ -23,14 +23,17 @@ public class PropositionTreeUtil {
             List<Node<RuleEditorTreeNode,String>> children = currentNode.getChildren();
             for( Node<RuleEditorTreeNode,String> child : children){
                 RuleEditorTreeNode dataNode = child.getData();
-                if (selectedPropKey.equalsIgnoreCase(dataNode.getProposition().getKey()))
+                if (selectedPropKey.equalsIgnoreCase(dataNode.getProposition().getKey())) {
                     return currentNode;
+                }
             }
 
             // if not found check grandchildren
             for( Node<RuleEditorTreeNode,String> kid : children){
                 bingo = findParentPropositionNode(kid, selectedPropKey);
-                if (bingo != null) break;
+                if (bingo != null) {
+                    break;
+                }
             }
         }
         return bingo;
@@ -54,14 +57,13 @@ public class PropositionTreeUtil {
         if (selectedPropKey == null) {
             return null;
         } else if(selectedPropKey.isEmpty()) {
-            PropositionEditor proposition = currentNode.getChildren().get(0).getData().getProposition();
-            return proposition;
+            return currentNode.getChildren().get(0).getData().getProposition();
         }
 
         // if it's in children, we have the parent
         for (Node<RuleEditorTreeNode, String> child : currentNode.getChildren()) {
             PropositionEditor proposition = child.getData().getProposition();
-            if (proposition.getPropositionTypeCode() == "S" && proposition.isEditMode()) {
+            if ("S".equals(proposition.getPropositionTypeCode()) && proposition.isEditMode()) {
                 return proposition;
             } else if(!proposition.isEditMode()) {
                 // if not found check grandchildren
@@ -128,14 +130,12 @@ public class PropositionTreeUtil {
                 return currentNode;
             }
         }
-        List<Node<RuleEditorTreeNode, String>> children = currentNode.getChildren();
-        for (Node<RuleEditorTreeNode, String> child : children) {
+
+        for (Node<RuleEditorTreeNode, String> child : currentNode.getChildren()) {
             bingo = findPropositionTreeNode(child, selectedPropId);
             if (bingo != null) break;
         }
         return bingo;
     }
-
-
 
 }

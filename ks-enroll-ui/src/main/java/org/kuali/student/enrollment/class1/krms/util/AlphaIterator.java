@@ -44,7 +44,7 @@ public class AlphaIterator implements Serializable, Iterator {
         }
 
         //Create the return string
-        String returnValue = new String();
+        String returnValue = "";
         for (Inner in : list) {
             returnValue = returnValue + (char)in.current();
         }
@@ -59,8 +59,8 @@ public class AlphaIterator implements Serializable, Iterator {
 
     private class Inner {
 
-        private int START = 'A';
-        private int END = 'Z';
+        private final static int START = 'A';
+        private final static int END = 'Z';
 
         private int value;
 

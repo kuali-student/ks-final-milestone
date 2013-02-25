@@ -17,25 +17,10 @@ import org.kuali.student.enrollment.class1.krms.tree.node.TreeNode;
  */
 public class RulePreviewTreeBuilder extends RuleViewTreeBuilder {
 
-    private RuleEditor ruleEditor;
-
     @Override
-    public Tree<TreeNode, String> buildTree(RuleDefinitionContract rule){
-        this.ruleEditor = (RuleEditor) rule;
-        return super.buildTree(ruleEditor);
-    }
-
-    @Override
-    protected String buildNodeLabel(PropositionDefinitionContract proposition){
-
-        PropositionEditor prop = (PropositionEditor) proposition;
-        //Add the proposition with alpha code in the map if it doesn't already exist.
-        if (null == prop.getKey()) {
-            prop.setKey((String) ruleEditor.getAlpha().next());
-        }
-
+    protected String buildNodeLabel(RuleDefinitionContract rule, PropositionDefinitionContract prop){
         //Build the node label.
-        String prefix = "<b>" + prop.getKey() + ".</b> ";
+        String prefix = this.getPropositionPrefix((RuleEditor)rule, (PropositionEditor)prop);
         return prefix + StringEscapeUtils.escapeHtml(prop.getDescription());
     }
 }

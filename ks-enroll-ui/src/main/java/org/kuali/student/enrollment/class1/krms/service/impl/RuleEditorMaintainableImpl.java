@@ -107,7 +107,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             saveNewParameterizedTerms(propositionBo);
         }*/
 
-        RuleEditor rule = (RuleEditor) getDataObject();
+        //RuleEditor rule = (RuleEditor) getDataObject();
         //TODO: create ruledefinition and save.
 
     }
@@ -175,8 +175,8 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         // Check for maintenance documents in edit but exclude notes
         if (model instanceof MaintenanceDocumentForm && KRADConstants.MAINTENANCE_EDIT_ACTION.equals(((MaintenanceDocumentForm) model).getMaintenanceAction()) && !(addLine instanceof Note)) {
-            MaintenanceDocumentForm MaintenanceDocumentForm = (MaintenanceDocumentForm) model;
-            MaintenanceDocument document = MaintenanceDocumentForm.getDocument();
+            MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
+            MaintenanceDocument document = maintenanceDocumentForm.getDocument();
 
             // Figure out which rule is being edited
             RuleEditor rule = getRuleEditor(model);

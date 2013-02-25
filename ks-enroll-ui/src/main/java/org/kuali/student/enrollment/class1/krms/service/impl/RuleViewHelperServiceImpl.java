@@ -16,6 +16,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.KrmsApiServiceLocator;
 import org.kuali.rice.krms.api.engine.expression.ComparisonOperatorService;
+import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
@@ -36,11 +37,11 @@ import org.kuali.student.enrollment.class1.krms.tree.node.CompareTreeNode;
 import org.kuali.student.enrollment.class1.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.RuleEditTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.RulePreviewTreeBuilder;
+import org.kuali.student.enrollment.class1.krms.util.PropositionTreeUtil;
 import org.kuali.student.krms.dto.TemplateInfo;
 import org.kuali.student.enrollment.class1.krms.service.RuleViewHelperService;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsRepositoryServiceLocator;
-import org.kuali.student.enrollment.class1.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -72,10 +73,11 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     private CluService cluService;
     private ContextInfo contextInfo;
     private OrganizationService organizationService;
+    private RuleManagementService ruleManagementService;
 
-    private RuleCompareTreeBuilder compareTreeBuilder = new RuleCompareTreeBuilder();
-    private RuleEditTreeBuilder editTreeBuilder = new RuleEditTreeBuilder();
-    private RulePreviewTreeBuilder previewTreeBuilder = new RulePreviewTreeBuilder();
+    private RuleCompareTreeBuilder compareTreeBuilder;
+    private RuleEditTreeBuilder editTreeBuilder;
+    private RulePreviewTreeBuilder previewTreeBuilder;
 
     @Override
     public void performInitialization(View view, Object model) {
@@ -406,7 +408,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         return simplestResolver;
     }
 
-    public String getTranslatedNaturalLanguage(String typeId) {
+    public String getDescriptionForTypeId(String typeId) {
 
         NaturalLanguageUsage usage = getNaturalLanguageUsageBoService().getNaturalLanguageUsageByName(PermissionServiceConstants.KS_SYS_NAMESPACE, KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION);
 
@@ -614,10 +616,10 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     @Override
     public void refreshInitTrees(RuleEditor rule) {
         // Refresh the editing tree
-        rule.setEditTree(editTreeBuilder.buildTree(rule));
+        rule.setEditTree(this.getEditTreeBuilder().buildTree(rule));
 
         // Refresh the preview tree
-        rule.setPreviewTree(previewTreeBuilder.buildTree(rule));
+        rule.setPreviewTree(this.getPreviewTreeBuilder().buildTree(rule));
     }
 
     @Override
@@ -627,7 +629,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         RuleDefinitionContract compare = KrmsRepositoryServiceLocator.getRuleBoService().getRuleByRuleId("10063");
 
         //Build the Tree
-        Tree<CompareTreeNode, String> compareTree = compareTreeBuilder.buildTree(original, compare);
+        Tree<CompareTreeNode, String> compareTree = this.getCompareTreeBuilder().buildTree(original, compare);
 
         //Set data headers on root node.
         Node<CompareTreeNode, String> node = compareTree.getRootElement();
@@ -643,8 +645,38 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
         }
 
-
         return compareTree;
+    }
+
+    public RuleManagementService getRuleManagementService() {
+        if (ruleManagementService == null) {
+            ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return ruleManagementService;
+    }
+
+    public RuleCompareTreeBuilder getCompareTreeBuilder() {
+        if (compareTreeBuilder == null){
+            compareTreeBuilder = new RuleCompareTreeBuilder();
+            compareTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+        }
+        return compareTreeBuilder;
+    }
+
+    public RuleEditTreeBuilder getEditTreeBuilder() {
+        if (editTreeBuilder == null){
+            editTreeBuilder = new RuleEditTreeBuilder();
+            editTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+        }
+        return editTreeBuilder;
+    }
+
+    public RulePreviewTreeBuilder getPreviewTreeBuilder() {
+        if (previewTreeBuilder == null){
+            previewTreeBuilder = new RulePreviewTreeBuilder();
+            previewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+        }
+        return previewTreeBuilder;
     }
 
     private CluService getCluService() {

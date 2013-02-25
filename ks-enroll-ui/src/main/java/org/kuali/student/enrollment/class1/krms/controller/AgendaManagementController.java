@@ -132,30 +132,6 @@ public class AgendaManagementController extends UifControllerBase  {
         String inputCode = theForm.getInputCode();
         if (inputCode != null && !inputCode.isEmpty()) {
             getViewHelperService(theForm).loadAgendasByTermAndCourseCode(theForm.getTermInfo().getId(), inputCode, theForm);
-            /*if(!theForm.getCourseOfferingResultList().isEmpty()) {
-                if (theForm.getCourseOfferingResultList().size() > 1) {
-                    theForm.setSubjectCode(theForm.getCourseOfferingResultList().get(0).getSubjectArea());
-                    // Pull out the first CO from the result list and then pull out the org ids from this CO
-                    // and pass in the first one as the adminOrg
-                    CourseOfferingInfo firstCO = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
-                    List<String> orgIds = firstCO.getUnitsDeploymentOrgIds();
-                    if(orgIds !=null && !orgIds.isEmpty()){
-                        theForm.setAdminOrg(orgIds.get(0));
-                    }
-                    CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
-                    theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
-
-                    // set the cross listed data
-                    assignCrossListedInForm(theForm, coToShow);
-
-                    //ToolbarUtil.processCoToolbarForDeptAdmin(theForm.getCourseOfferingResultList(), theForm);
-                } else { // just one course offering is returned
-                    CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
-                    theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
-                    assignCrossListedInForm(theForm, coToShow);
-                    return _prepareManageAOsModelAndView(theForm, coToShow);
-                }
-            } */
             //
             theForm.setEditAuthz(checkEditViewAuthz(theForm));
             if (GlobalVariables.getMessageMap().getErrorMessages().isEmpty()){
@@ -172,26 +148,6 @@ public class AgendaManagementController extends UifControllerBase  {
         }
     }
 
-    private ModelAndView _prepareManageAOsModelAndView(AgendaManagementForm theForm, CourseOfferingInfo coToShow) throws Exception {
-        CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(coToShow);
-
-        theForm.setCourseOfferingEditWrapper(wrapper);
-        theForm.setTheCourseOffering(coToShow);
-        //Pull out the org ids and pass in the first one as the adminOrg
-        List<String> orgIds = coToShow.getUnitsDeploymentOrgIds();
-        if(orgIds !=null && !orgIds.isEmpty()){
-            theForm.setAdminOrg(orgIds.get(0));
-        }
-        theForm.setFormatIdForNewAO(null);
-        theForm.setActivityIdForNewAO(null);
-        theForm.setNoOfActivityOfferings(null);
-
-        theForm.setEditAuthz(checkEditViewAuthz(theForm));
-
-        //ToolbarUtil.processAoToolbarForDeptAdmin(theForm.getActivityWrapperList(), theForm);
-        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
-    }
-
     /*
      * Method used to edit a selected CO or AO
      */
@@ -199,7 +155,7 @@ public class AgendaManagementController extends UifControllerBase  {
     public ModelAndView edit(@ModelAttribute("KualiForm") AgendaManagementForm theForm) throws Exception {
 
         Properties urlParameters = new Properties();
-        Object selectedObject = _getSelectedObject(theForm, "edit");
+        Object selectedObject = getSelectedObject(theForm, "edit");
 
         if (selectedObject instanceof CourseOfferingListSectionWrapper) {
             CourseOfferingListSectionWrapper coWrapper =  (CourseOfferingListSectionWrapper)selectedObject;
@@ -221,7 +177,7 @@ public class AgendaManagementController extends UifControllerBase  {
 
         Properties urlParameters = new Properties();
         String controllerPath = "inquiry";
-        Object selectedObject = _getSelectedObject(theForm, "view");
+        Object selectedObject = getSelectedObject(theForm, "view");
 
         if(selectedObject instanceof CourseOfferingInfo){
             urlParameters = buildAgendaURLParameters((CourseOfferingInfo) selectedObject, KRADConstants.START_METHOD);
@@ -277,7 +233,7 @@ public class AgendaManagementController extends UifControllerBase  {
         return props;
     }
 
-    private Object _getSelectedObject(AgendaManagementForm theForm, String actionLink){
+    private Object getSelectedObject(AgendaManagementForm theForm, String actionLink){
         String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for " + actionLink);

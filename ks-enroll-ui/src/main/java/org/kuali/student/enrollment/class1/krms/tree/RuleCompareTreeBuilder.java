@@ -19,7 +19,7 @@ import java.util.List;
  * Time: 3:26 PM
  * To change this template use File | Settings | File Templates.
  */
-public class RuleCompareTreeBuilder {
+public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
 
     private static final long serialVersionUID = 1L;
 
@@ -60,7 +60,7 @@ public class RuleCompareTreeBuilder {
         }
 
         Node<CompareTreeNode, String> newNode = new Node<CompareTreeNode, String>();
-        CompareTreeNode tNode = new CompareTreeNode(this.buildNodeLabel(originial), this.buildNodeLabel(compared));
+        CompareTreeNode tNode = new CompareTreeNode(this.buildNodeLabel(null, originial), this.buildNodeLabel(null, compared));
         if (tNode.getOriginal().equals(tNode.getCompared())){
             newNode.setNodeType("subruleElement");
         } else {
@@ -138,22 +138,6 @@ public class RuleCompareTreeBuilder {
         }
         opNode.setData(new CompareTreeNode(originial, compared));
         newNode.getChildren().add(opNode);
-    }
-
-    protected String buildNodeLabel(PropositionDefinitionContract prop) {
-        return StringEscapeUtils.escapeHtml(this.getDescription(prop));
-    }
-
-    private String getDescription(PropositionDefinitionContract proposition) {
-        if (proposition == null) {
-            return "";
-        }
-
-        if (proposition.getDescription() == null) {
-            return "";
-        }
-
-        return proposition.getDescription();
     }
 
 }

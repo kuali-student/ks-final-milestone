@@ -7,5 +7,5 @@ package org.kuali.student.enrollment.class1.krms.tree;
  * Time: 3:02 PM
  * To change this template use File | Settings | File Templates.
  */
-public class TreeBuilder {
+public interface TreeBuilder {
 }

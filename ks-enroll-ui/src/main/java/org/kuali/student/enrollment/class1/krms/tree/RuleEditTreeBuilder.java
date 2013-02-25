@@ -23,25 +23,19 @@ import java.util.List;
  * Time: 3:26 PM
  * To change this template use File | Settings | File Templates.
  */
-public class RuleEditTreeBuilder {
+public class RuleEditTreeBuilder extends AbstractTreeBuilder{
 
     private static final long serialVersionUID = 1L;
 
-    private RuleEditor ruleEditor;
+    public Tree buildTree(RuleEditor rule) {
 
-    public RuleEditTreeBuilder() {
-    }
-
-    public Tree buildTree(RuleDefinitionContract rule) {
-
-        ruleEditor = (RuleEditor) rule;
         Tree myTree = new Tree<RuleEditorTreeNode, String>();
 
         Node<RuleEditorTreeNode, String> rootNode = new Node<RuleEditorTreeNode, String>();
         myTree.setRootElement(rootNode);
 
         PropositionEditor prop = (PropositionEditor) rule.getProposition();
-        addChildNode(rootNode, prop);
+        addChildNode(rule, rootNode, prop);
 
         return myTree;
     }
@@ -52,12 +46,11 @@ public class RuleEditTreeBuilder {
      * @param sprout - parent tree node
      * @param proposition   - PropositionBo for which to make the tree node
      */
-    private void addChildNode(Node sprout, PropositionDefinitionContract proposition) {
+    private void addChildNode(RuleEditor rule, Node sprout, PropositionEditor prop) {
         // Depending on the type of proposition (simple/compound), and the editMode,
         // Create a treeNode of the appropriate type for the node and attach it to the
         // sprout parameter passed in.
         // If the prop is a compound proposition, calls itself for each of the compoundComponents
-        PropositionEditor prop = (PropositionEditor) proposition;
         if (prop != null) {
             if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
                 // Simple Proposition
@@ -70,7 +63,7 @@ public class RuleEditTreeBuilder {
                     KSSimplePropositionEditNode pNode = new KSSimplePropositionEditNode(prop);
                     child.setData(pNode);
                 } else {
-                    child.setNodeLabel(this.buildNodeLabel(prop));
+                    child.setNodeLabel(this.buildNodeLabel(rule, prop));
                     child.setNodeType(KSSimplePropositionNode.NODE_TYPE);
                     KSSimplePropositionNode pNode = new KSSimplePropositionNode(prop);
                     child.setData(pNode);
@@ -87,7 +80,7 @@ public class RuleEditTreeBuilder {
                     KSCompoundPropositionEditNode pNode = new KSCompoundPropositionEditNode(prop);
                     aNode.setData(pNode);
                 } else {
-                    aNode.setNodeLabel(this.buildNodeLabel(prop));
+                    aNode.setNodeLabel(this.buildNodeLabel(rule, prop));
                     aNode.setNodeType(RuleEditorTreeNode.COMPOUND_NODE_TYPE);
                     RuleEditorTreeNode pNode = new RuleEditorTreeNode(prop);
                     aNode.setData(pNode);
@@ -95,28 +88,22 @@ public class RuleEditTreeBuilder {
                 sprout.getChildren().add(aNode);
 
                 boolean first = true;
-                List<PropositionEditor> allMyChildren = (List<PropositionEditor>) prop.getCompoundComponents();
-                for (PropositionEditor child : allMyChildren) {
+                for (PropositionEditor child : prop.getCompoundEditors()) {
                     // add an opcode node in between each of the children.
                     if (!first) {
                         addOpCodeNode(aNode, prop);
                     }
                     first = false;
                     // call to build the childs node
-                    addChildNode(aNode, child);
+                    addChildNode(rule, aNode, child);
                 }
             }
         }
     }
 
-    private String buildNodeLabel(PropositionEditor prop) {
-        //Add the proposition with alpha code in the map if it doesn't already exist.
-        if (null == prop.getKey()) {
-            prop.setKey((String) ruleEditor.getAlpha().next());
-        }
-
+    private String buildNodeLabel(RuleEditor rule, PropositionEditor prop) {
         //Build the node label.
-        String prefix = "<b>" + prop.getKey() + ".</b> ";
+        String prefix = this.getPropositionPrefix(rule, prop);
         return prefix + StringEscapeUtils.escapeHtml(prop.getDescription());
     }
 

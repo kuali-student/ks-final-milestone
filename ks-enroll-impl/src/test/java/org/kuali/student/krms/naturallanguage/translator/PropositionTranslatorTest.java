@@ -35,7 +35,6 @@ import javax.annotation.Resource;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:nl-test-context.xml"})
-@Ignore //TODO KSENROLL-5427 Create test for the Proposition translator
 public class PropositionTranslatorTest{
 
     @Resource

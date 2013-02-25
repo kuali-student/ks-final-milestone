@@ -7,6 +7,8 @@ import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
+import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
+import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.tree.node.TreeNode;
 
 import java.util.List;
@@ -18,11 +20,11 @@ import java.util.List;
  * Time: 3:26 PM
  * To change this template use File | Settings | File Templates.
  */
-public class RuleViewTreeBuilder {
+public class RuleViewTreeBuilder extends AbstractTreeBuilder{
 
     private static final long serialVersionUID = 1L;
 
-   public Tree<TreeNode, String> buildTree(RuleDefinitionContract rule){
+   public Tree<TreeNode, String> buildTree(RuleEditor rule){
         Tree myTree = new Tree<TreeNode, String>();
 
         Node<TreeNode, String> rootNode = new Node<TreeNode, String>();
@@ -32,8 +34,8 @@ public class RuleViewTreeBuilder {
         myTree.setRootElement(rootNode);
 
         if (rule != null){
-            PropositionDefinitionContract prop = rule.getProposition();
-            buildPreviewTree(rootNode, prop);
+            PropositionEditor prop = (PropositionEditor) rule.getProposition();
+            buildPreviewTree(rule, rootNode, prop);
         }
 
         //Underline the first node in the preview.
@@ -46,11 +48,11 @@ public class RuleViewTreeBuilder {
         return myTree;
     }
 
-    private void buildPreviewTree(Node<TreeNode, String> currentNode, PropositionDefinitionContract prop){
+    private void buildPreviewTree(RuleEditor rule, Node<TreeNode, String> currentNode, PropositionEditor prop){
         if (prop != null) {
 
             Node<TreeNode, String> newNode = new Node<TreeNode, String>();
-            newNode.setNodeLabel(this.buildNodeLabel(prop));
+            newNode.setNodeLabel(this.buildNodeLabel(rule, prop));
             newNode.setNodeType("subruleElement");
 
             TreeNode tNode = new TreeNode(prop.getDescription());
@@ -60,8 +62,7 @@ public class RuleViewTreeBuilder {
             if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())){
 
                 boolean first = true;
-                List<? extends PropositionDefinitionContract> nodeChildren = prop.getCompoundComponents();
-                for (PropositionDefinitionContract child : nodeChildren){
+                for (PropositionEditor child : prop.getCompoundEditors()){
                     // add an opcode node in between each of the children.
                     if (!first){
                         //addOpCodeNode(newNode, propositionEditor);
@@ -77,14 +78,11 @@ public class RuleViewTreeBuilder {
                     }
                     first = false;
                     // call to build the childs node
-                    buildPreviewTree(newNode, child);
+                    buildPreviewTree(rule, newNode, child);
                 }
             }
 
         }
     }
 
-    protected String buildNodeLabel(PropositionDefinitionContract proposition){
-        return StringEscapeUtils.escapeHtml(proposition.getDescription());
-    }
 }
