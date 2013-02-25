@@ -40,51 +40,66 @@ function ajaxCallPropositionTree(controllerMethod, collectionGroupId) {
     retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
 }
 
-function ajaxCutPropositionTree(controllerMethod, collectionGroupId) {
-    jq('a.ruleTreeNode').each( function() {
-        var propositionId = getPropositionIdFromParentLi(this.parentNode);
-        var selectedItemTracker = getSelectedPropositionInput();
-        var selectedItemId = selectedItemTracker.val();
-        var cutItemTracker = getCutPropositionInput();
+function ajaxCutPropositionTree() {
+    var selectedItemTracker = getSelectedPropositionInput();
+    var selectedItemId = selectedItemTracker.val();
+    var cutItemTracker = getCutPropositionInput();
+    cutItemTracker.val(selectedItemId);
+    var copyItemTracker = getCopyPropositionInput();
+    copyItemTracker.val('');
 
-        if (selectedItemId == propositionId) {
-            // simulate click, which will mark it
-            //jq(this).click();
-//            jq(this.parentNode).addClass('ruleCutSelected');
-//            jq(this.parentNode).removeClass('ruleBlockSelected');
-            cutItemTracker.val(propositionId);
-        }
-    });
-    ajaxCallPropositionTree(controllerMethod, collectionGroupId);
+    resetCutSelected(selectedItemId);
 }
 
-function ajaxCopyPropositionTree(controllerMethod, collectionGroupId) {
+function ajaxCopyPropositionTree() {
+    var selectedItemTracker = getSelectedPropositionInput();
+    var selectedItemId = selectedItemTracker.val();
+    var copyItemTracker = getCopyPropositionInput();
+    copyItemTracker.val(selectedItemId);
+    var cutItemTracker = getCutPropositionInput();
+    cutItemTracker.val('');
+
+   resetCutSelected(selectedItemId);
+}
+
+function resetCutSelected(selectedItemId) {
     jq('a.ruleTreeNode').each( function() {
         var propositionId = getPropositionIdFromParentLi(this.parentNode);
-        var selectedItemTracker = getSelectedPropositionInput();
-        var selectedItemId = selectedItemTracker.val();
-        var copyItemTracker = getCopyPropositionInput();
-
         if (selectedItemId == propositionId) {
             // simulate click, which will mark it
-            //jq(this).click();
-//            jq(this.parentNode).addClass('ruleCutSelected');
-//            jq(this.parentNode).removeClass('ruleBlockSelected');
-            copyItemTracker.val(propositionId);
+            jq(this.parentNode).addClass('ruleCutSelected');
+            jq(this.parentNode).removeClass('ruleBlockSelected');
+        } else {
+            jq(this.parentNode).removeClass('ruleCutSelected');
         }
     });
-    ajaxCallPropositionTree(controllerMethod, collectionGroupId);
 }
 
 function ajaxPastePropositionTree(controllerMethod, collectionGroupId) {
-    jq('a.ruleTreeNode').each( function() {
-        jq(this.parentNode).removeClass('ruleCutSelected');
-    });
+    var selectedItemInput = getSelectedPropositionInput();
+    var selectedItemId = selectedItemInput.val();
+    var selectedItemInputName = selectedItemInput.attr('name');
+    var actionRevealCallBack = function (htmlContent) {
+        jq('.editModeNode').find(".actionReveal").first().hide();
+
+        resetControlKeys();
+
+        jq('a.ruleTreeNode').each( function() {
+            jq(this.parentNode).removeClass('ruleCutSelected');
+        });
+    };
+    retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
+}
+
+function resetControlKeys(){
+    var selectedItemTracker = getSelectedPropositionInput();
+    selectedItemTracker.val('');
+    // also remove copy key
     var copyItemTracker = getCopyPropositionInput();
-    copyItemTracker.val(null);
+    copyItemTracker.val('');
+    // and cut key.
     var cutItemTracker = getCutPropositionInput();
-    cutItemTracker.val(null);
-    ajaxCallPropositionTree(controllerMethod, collectionGroupId);
+    cutItemTracker.val('');
 }
 
 function markNodeAsSelected(parentLiNode) {
@@ -118,7 +133,8 @@ function handlePropositionNodeClick(parentLiNode) {
 
     if (selectedItemTracker.val() == propositionId) {
         // if this item is already selected, deselect it
-        selectedItemTracker.val('');
+        resetControlKeys();
+
         if (!propositionAddInProgress()) {
             disableTreeButtons(); // disableButtons.js
             enableAddButton(); // disableButtons.js
