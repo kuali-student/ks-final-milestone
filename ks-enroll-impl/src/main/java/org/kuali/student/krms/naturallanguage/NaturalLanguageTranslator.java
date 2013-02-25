@@ -15,7 +15,6 @@
 
 package org.kuali.student.krms.naturallanguage;
 
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
 import org.kuali.student.r1.core.statement.entity.ReqComponent;
 import org.kuali.student.r1.core.statement.entity.Statement;
@@ -37,7 +36,7 @@ public interface NaturalLanguageTranslator {
 	 * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException Requirement component id does not exists
 	 * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
 	 */
-	public String translateProposition(PropositionDefinitionContract proposition, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException;
+	public String translateProposition(PropositionBo proposition, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException;
 
 	/**
 	 * Translates a requirement component for a specific natural language
@@ -51,7 +50,7 @@ public interface NaturalLanguageTranslator {
 	 * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
 	 * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
 	 */
-	public String translateProposition(PropositionDefinitionContract proposition, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException;
+	public String translateProposition(PropositionBo proposition, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException;
 
 
 }

@@ -26,12 +26,10 @@ import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageTemplateBoService;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageUsageBoService;
-import org.kuali.rice.krms.impl.repository.TermBoService;
 import org.kuali.rice.krms.impl.repository.TypeTypeRelationBoService;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.krms.naturallanguage.Context;
 import org.kuali.student.krms.naturallanguage.ContextRegistry;
-import org.kuali.student.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsRepositoryServiceLocator;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -145,19 +143,19 @@ public class PropositionTranslator {
     }
 
     /**
-     * Builds a proposition type context map.
+     * Builds a requirement component type context map.
      *
-     * @param proposition Proposition
+     * @param proposition Requirement component
      * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException Requirement component context not found in registry
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Creating context map failed
      */
     private Map<String, Object> buildContextMap(PropositionDefinitionContract proposition) throws DoesNotExistException, OperationFailedException {
 
         //Access type service to retrieve type name.
-        KrmsTypeDefinitionContract type = getKrmsTypeRepositoryService().getTypeById(proposition.getTypeId());
+        KrmsTypeDefinitionContract type = KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService().getTypeById(proposition.getTypeId());
         List<Context<TermDefinitionContract>> contextList = this.contextRegistry.get(type.getName());
         if(contextList == null || contextList.isEmpty()) {
-        	throw new DoesNotExistException("Proposition context not found in registry for proposition type id: " + proposition.getTypeId());
+        	throw new DoesNotExistException("Requirement component context not found in registry for requirement component type id: " + proposition.getTypeId());
         }
         Map<String, Object> contextMap = new HashMap<String, Object>();
 
@@ -167,10 +165,11 @@ public class PropositionTranslator {
         for (PropositionParameterContract p : parameters){
             if(p.getParameterType().equals(PropositionParameterType.TERM)){
                 //Retrieve term id from proposition parameters and load.
-                term = getTermBoService().getTerm(p.getValue());
+                term = KrmsRepositoryServiceLocator.getTermBoService().getTerm(p.getValue());
 
             }else if(p.getParameterType().equals(PropositionParameterType.CONSTANT)){
-                contextMap.put(TermParameterTypes.INTEGER_VALUE1_KEY.getId(),p.getValue());
+                //TODO Add proposition constant to contextMap.
+                //contextMap.put()
             }
 
         }
@@ -218,10 +217,6 @@ public class PropositionTranslator {
         }
 
         return template;
-    }
-
-    private TermBoService getTermBoService(){
-        return KrmsRepositoryServiceLocator.getTermBoService();
     }
 
     private KrmsTypeRepositoryService getKrmsTypeRepositoryService() {

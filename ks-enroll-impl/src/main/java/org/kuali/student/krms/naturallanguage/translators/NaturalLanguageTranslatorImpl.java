@@ -16,7 +16,6 @@
 package org.kuali.student.krms.naturallanguage.translators;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
 import org.kuali.student.krms.naturallanguage.NaturalLanguageTranslator;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -60,7 +59,7 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException Requirement component id does not exists
 	 * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
 	 */
-	public synchronized String translateProposition(final PropositionDefinitionContract proposition, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+	public synchronized String translateProposition(final PropositionBo proposition, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		String nl = this.propositionTranslator.translate(proposition, nlUsageTypeKey);
 		if(logger.isInfoEnabled()) {
 			logger.info("Proposition translation="+nl);
@@ -80,7 +79,7 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
 	 * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
 	 */
-	public synchronized String translateProposition(final PropositionDefinitionContract proposition, final String nlUsageTypeKey, final String language) throws DoesNotExistException, OperationFailedException {
+	public synchronized String translateProposition(final PropositionBo proposition, final String nlUsageTypeKey, final String language) throws DoesNotExistException, OperationFailedException {
 		String nl = null;
 		if(language == null) {
 			nl = this.propositionTranslator.translate(proposition, nlUsageTypeKey);
