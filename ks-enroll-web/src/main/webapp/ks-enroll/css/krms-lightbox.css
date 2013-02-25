@@ -1,0 +1,77 @@
+#PreviewCLU-Tree-Section .jstree {
+    background-color: transparent;
+    border: none;
+    max-width: 40em;
+}
+
+#PreviewCLU-Tree-Section .jstree-focused {
+    background: none;
+}
+
+#PreviewCLU-Tree-Section .jstree-icon {
+    display: none;
+}
+
+#PreviewCLU-Tree-Section .jstree-leaf {
+    background-image: none;
+}
+
+#PreviewCLU-Tree-Section .jstree-open {
+    background-image: none;
+}
+
+#PreviewCLU-Tree-Section .ruleBlockSelected {
+    background-color: transparent !important;
+    border: none;
+}
+#PreviewCLU-Tree-Section .jstree-hovered {
+    background-color: transparent;
+}
+
+#PreviewCLU-Tree-Section .jstree > ul > li {
+    margin-left: 15px;
+    border-bottom: none;
+    padding-bottom: 5px;
+}
+#PreviewCLU-Tree-Section .jstree a {
+    white-space: normal !important;
+}
+#PreviewCO-Tree-Section .jstree {
+    background-color: transparent;
+    border: none;
+    max-width: 40em;
+}
+
+#PreviewCO-Tree-Section .jstree-focused {
+    background: none;
+}
+
+#PreviewCO-Tree-Section .jstree-icon {
+    display: none;
+}
+
+#PreviewCO-Tree-Section .jstree-leaf {
+    background-image: none;
+}
+
+#PreviewCO-Tree-Section .jstree-open {
+    background-image: none;
+}
+
+#PreviewCO-Tree-Section .ruleBlockSelected {
+    background-color: transparent !important;
+    border: none;
+}
+#PreviewCO-Tree-Section .jstree-hovered {
+    background-color: transparent;
+}
+
+#PreviewCO-Tree-Section .jstree > ul > li {
+    margin-left: 15px;
+    border-bottom: none;
+    padding-bottom: 5px;
+}
+
+#PreviewCO-Tree-Section .jstree a {
+    white-space: normal !important;
+}

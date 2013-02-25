@@ -1,0 +1,235 @@
+.ks-appointmentWindow-table tr{
+    border-top:  1px solid #d3d3d3;
+    border-bottom:  1px solid #d3d3d3;
+}
+
+.ks-enrollment-home > .uif-header { border-bottom:solid 2px #000; margin-bottom:5px; margin-top:15px; }
+.ks-enrollment-home-group { margin-bottom:5px; margin-top:15px; }
+
+/* currently commented out in CourseOfferingEditMaintenanceView.xml
+.ks-collection-margin-bottom-zero .uif-gridGroup,
+.ks-collection-margin-bottom-zero .uif-gridLayout { margin-bottom:0; } */
+
+.ks-termDates-table{}
+
+.ks-termDates-table tr{
+    border-top:  1px solid #d3d3d3;
+    border-bottom:  1px solid #d3d3d3;
+}
+
+.ks-termDates-table th{
+    border-right:  1px solid #d3d3d3;
+}
+
+.ks-termDates-table .uif-constraintMessage{
+    margin-bottom: 0px;
+}
+
+/* Brian S says we ought not to do this
+.uif-dropdownControl {
+    margin: 0.3em 0;
+    padding: 3px 3px 4px 3px;
+}*/
+
+.ui-widget-content a {
+    color: #3F7826;
+}
+
+/* Pagination nested */
+.paginate_disabled_previous, .paginate_enabled_previous, .paginate_disabled_next, .paginate_enabled_next {
+    height: 19px; width: 19px; margin-left: 40px; float: left;
+}
+
+
+/*  Alignment for CO/AO delete confirmation Cancel links */
+.ks-enrollment-cancel-link {
+    padding: 7px 16px 5px 16px;
+    margin: 3px;
+}
+
+/* Applying the CSS Grid Columns */
+
+.col_1
+{
+    min-width: 40px;
+    max-width: 55px;
+    width: 6.25%;
+}
+
+.col_2
+{
+    min-width: 100px;
+    max-width: 130px;
+    width: 12.5%;
+}
+
+.col_3
+{
+    min-width: 160px;
+    max-width: 205px;
+    width: 18.75%;
+}
+
+.col_4
+{
+    min-width: 220px;
+    max-width: 280px;
+    width: 25%;
+}
+
+.col_5
+{
+    min-width: 280px;
+    max-width: 355px;
+    width: 31.25%;
+}
+
+.col_6
+{
+    min-width: 340px;
+    max-width: 430px;
+    width: 37.5%;
+}
+
+.col_7
+{
+    min-width: 400px;
+    max-width: 505px;
+    width: 43.75%;
+}
+
+.col_8
+{
+    min-width: 460px;
+    max-width: 580px;
+    width: 50%;
+}
+
+.col_9
+{
+    min-width: 520px;
+    max-width: 655px;
+    width: 56.25%;
+}
+
+.col_10
+{
+    min-width: 580px;
+    max-width: 730px;
+    width: 62.5%;
+}
+
+.col_11
+{
+    min-width: 640px;
+    max-width: 805px;
+    width: 68.75%;
+}
+
+.col_13
+{
+    min-width: 760px;
+    max-width: 955px;
+    width: 81.25%;
+}
+
+.col_14
+{
+    min-width: 820px;
+    max-width: 1030px;
+    width: 87.5%;
+}
+
+.col_15
+{
+    min-width: 880px;
+    max-width: 1105px;
+    width: 93.75%;
+}
+
+.uif-scheduled-dl {
+    color: grey;
+}
+
+.uif-actual-dl {
+}
+
+.uif-invalid-state{
+    color: red;
+}
+
+.uif-rg-message-partial{
+    background-color: #FFFFCC;
+    padding: 5px 10px;
+    border-right: 5px solid #FFFFFF;
+}
+
+.uif-rg-message-all{
+    background-color: #C6F785;
+    padding: 5px 10px;
+    border-right: 5px solid #FFFFFF;
+}
+
+.uif-rg-message-none{
+    background-color: #B1ECFF;
+    padding: 5px 10px;
+    border-right: 5px solid #FFFFFF;
+}
+
+.aoc_links
+{
+    float: right;
+    padding: 8px;
+}
+
+a
+{
+    white-space: normal;
+}
+
+.aoc_stateandlinks
+{
+    background: #EDEDED;
+    float: none;
+}
+
+.aoc_disclosure .uif-horizontalFieldGroup
+{
+    float: none;
+}
+
+.aoc_stateandlinks .uif-boxLayoutHorizontalItem
+{
+    margin-bottom: 0px;
+}
+
+.aoc_dialog .uif-dialogHeader
+{
+    background:none;
+    margin-bottom: 0px;
+}
+
+.ac_disclosure .uif-boxLayoutHorizontalItem
+{
+    float: none;
+}
+
+.error_403
+{
+    margin: 100px auto;
+    width: 600px;
+    overflow: auto;
+}
+
+.error_403 img
+{
+    float: left;
+    margin: 10px 25px 15px 25px;
+}
+
+
+.error_403 p
+{
+    overflow: auto;
+    margin: 0px 10px 20px 0px;
+}
