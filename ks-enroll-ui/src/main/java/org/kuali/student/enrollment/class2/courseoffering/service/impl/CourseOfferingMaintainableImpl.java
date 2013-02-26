@@ -253,7 +253,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
                         CourseOfferingCrossListingInfo crossListingInfo = new CourseOfferingCrossListingInfo();
                         crossListingInfo.setCode(crossInfo.getCode());
                         crossListingInfo.setCourseNumberSuffix(crossInfo.getCourseNumberSuffix());
-                        crossListingInfo.setDepartmentOrgId(crossInfo.getDepartment());
+                        crossListingInfo.setSubjectOrgId(crossInfo.getSubjectOrgId());
                         crossListingInfo.setSubjectArea(crossInfo.getSubjectArea());
                         crossListingInfo.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
                         crossListingInfo.setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_CROSSLISTED_TYPE_KEY);
@@ -268,7 +268,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
                 CourseOfferingCrossListingInfo crossListingInfo = new CourseOfferingCrossListingInfo();
                 crossListingInfo.setCode(crossInfo.getCode());
                 crossListingInfo.setCourseNumberSuffix(crossInfo.getCourseNumberSuffix());
-                crossListingInfo.setDepartmentOrgId(crossInfo.getDepartment());
+                crossListingInfo.setSubjectOrgId(crossInfo.getSubjectOrgId());
                 crossListingInfo.setSubjectArea(crossInfo.getSubjectArea());
                 crossListingInfo.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
                 crossListingInfo.setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_CROSSLISTED_TYPE_KEY);

@@ -369,7 +369,7 @@ public class TestCourseOfferingServiceImpl {
             assertEquals( expected.getCode() + expected.getCourseNumberSuffix(),    // business-rules append the suffix to the code when object is persisted to DB
                             actual.getCode() );
             assertEquals( expected.getSubjectArea(), actual.getSubjectArea() );
-            assertEquals( expected.getDepartmentOrgId(), actual.getDepartmentOrgId() );
+            assertEquals( expected.getSubjectOrgId(), actual.getSubjectOrgId() );
             assertEquals( expected.getCourseNumberSuffix(), actual.getCourseNumberSuffix() );
         }
 
