@@ -54,8 +54,14 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
             if(theForm.getTheCourseOffering() != null){
                 //Pull out the org ids and pass in the first one as a role qualifier
                 List<String> orgIds = theForm.getTheCourseOffering().getUnitsDeploymentOrgIds();
-                if(orgIds !=null && !orgIds.isEmpty()){
-                    attributes.put("org", orgIds.get(0));
+                if(orgIds != null && !orgIds.isEmpty()){
+                    String orgIDs = "";
+                    for (String orgId : orgIds) {
+                        orgIDs = orgIDs + orgId + ",";
+                    }
+                    if (orgIDs.length() > 0) {
+                        attributes.put("org", orgIDs.substring(0, orgIDs.length()-1));
+                    }
                 }
                 if(theForm.getTheCourseOffering().getSubjectArea() != null){
                     attributes.put("subjectArea", theForm.getTheCourseOffering().getSubjectArea());
