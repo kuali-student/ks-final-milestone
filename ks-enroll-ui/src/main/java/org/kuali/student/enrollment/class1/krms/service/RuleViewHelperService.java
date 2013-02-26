@@ -7,6 +7,8 @@ import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.tree.node.CompareTreeNode;
 import org.kuali.student.krms.service.TemplateResolverService;
 
+import java.util.Map;
+
 /**
  * Created with IntelliJ IDEA.
  * User: SW
@@ -26,4 +28,5 @@ public interface RuleViewHelperService extends TemplateResolverService {
 
     public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original);
 
+    public void setLogicSection(RuleEditor ruleEditor);
 }

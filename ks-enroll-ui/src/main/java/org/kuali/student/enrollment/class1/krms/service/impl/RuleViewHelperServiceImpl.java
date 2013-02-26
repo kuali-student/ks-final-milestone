@@ -16,6 +16,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.KrmsApiServiceLocator;
 import org.kuali.rice.krms.api.engine.expression.ComparisonOperatorService;
+import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
@@ -32,6 +33,7 @@ import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionParameterEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
+import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionNode;
 import org.kuali.student.enrollment.class1.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.student.enrollment.class1.krms.tree.node.CompareTreeNode;
 import org.kuali.student.enrollment.class1.krms.tree.RuleCompareTreeBuilder;
@@ -79,6 +81,8 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     private RuleEditTreeBuilder editTreeBuilder;
     private RulePreviewTreeBuilder previewTreeBuilder;
 
+    private String logicExpression;
+
     @Override
     public void performInitialization(View view, Object model) {
 
@@ -86,8 +90,9 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
             RuleEditor ruleEditor = (RuleEditor) maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
 
-            //Set the editTree and preview tree on the ruleeditor wrapper
-            this.refreshInitTrees(ruleEditor);
+        //Set the editTree and preview tree on the ruleeditor wrapper
+        this.refreshInitTrees(ruleEditor);
+        this.setLogicSection(ruleEditor);
 
             //Initialize the compare tree
             ruleEditor.setCompareTree(this.buildCompareTree(null));
@@ -646,6 +651,43 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         }
 
         return compareTree;
+    }
+
+    @Override
+    public void setLogicSection(RuleEditor ruleEditor) {
+        Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
+        Node<RuleEditorTreeNode, String> node = root.getChildren().get(0);
+        logicExpression = "";
+        configureLogicExpression(node, ruleEditor);
+        ruleEditor.setLogicArea(logicExpression);
+    }
+
+    private void configureLogicExpression(Node<RuleEditorTreeNode, String> node, RuleEditor ruleEditor) {
+        // Depending on the type of proposition (simple/compound), and the editMode,
+        // Create a treeNode of the appropriate type for the node and attach it to the
+        // sprout parameter passed in.
+        // If the prop is a compound proposition, calls itself for each of the compoundComponents
+        if (node.getData() != null) {
+            if (KSSimplePropositionNode.NODE_TYPE.equalsIgnoreCase(node.getNodeType())) {
+                logicExpression += node.getData().getProposition().getKey();
+            } else if (RuleEditorTreeNode.COMPOUND_OP_NODE_TYPE.equalsIgnoreCase(node.getNodeType())) {
+                if(node.getData().getProposition().getCompoundOpCode().equals(LogicalOperator.AND.getCode())) {
+                    logicExpression += " AND ";
+                } else if(node.getData().getProposition().getCompoundOpCode().equals(LogicalOperator.OR.getCode())) {
+                    logicExpression += " OR ";
+                }
+            } else if (RuleEditorTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(node.getNodeType())) {
+                logicExpression += node.getData().getProposition().getKey() + "(";
+
+                List<Node<RuleEditorTreeNode, String>> allMyChildren = node.getChildren();
+                for (Node<RuleEditorTreeNode, String> child : allMyChildren) {
+                    configureLogicExpression(child, ruleEditor);
+                    if(allMyChildren.get(allMyChildren.size()-1).getNodeLabel() == child.getNodeLabel()) {
+                        logicExpression += ")";
+                    }
+                }
+            }
+        }
     }
 
     public RuleManagementService getRuleManagementService() {

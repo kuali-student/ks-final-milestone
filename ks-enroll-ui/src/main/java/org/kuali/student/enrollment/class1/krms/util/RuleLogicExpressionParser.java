@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class1.krms.util;
 
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
+import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 public class RuleLogicExpressionParser {
 
     private String expression;
+
     private List<ExpressionToken> tokenList;
 
     private void checkExpressionSet() {
@@ -282,5 +284,9 @@ public class RuleLogicExpressionParser {
 
     public String getExpression() {
         return expression;
+    }
+
+    public List<ExpressionToken> getTokenList() {
+        return tokenList;
     }
 }

@@ -55,7 +55,6 @@
         <property name="items">
             <list>
                 <bean parent="LogicInputSection"/>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Test" p:methodToCall="initLogicSection"/>
                 <bean parent="Uif-VerticalBoxGroup" p:cssClasses="editModeNode" p:width="50%" p:style="border: 1px solid #999999">
                     <property name="items">
                         <list>
