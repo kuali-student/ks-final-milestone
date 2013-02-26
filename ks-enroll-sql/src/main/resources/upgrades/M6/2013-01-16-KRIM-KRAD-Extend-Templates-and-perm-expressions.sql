@@ -1,3 +1,6 @@
+-- try to fix impex...
+select KRIM_TYP_ID_S.NEXTVAL from dual
+/
 
 --Redefine the types and point them to new custom ks services
 insert into KRIM_TYP_T (KIM_TYP_ID, OBJ_ID, VER_NBR, NM, SRVC_NM, ACTV_IND, NMSPC_CD) values (KRIM_TYP_ID_S.NEXTVAL, SYS_GUID(), 1, 'View', 'ksViewPermissionTypeService', 'Y', 'KS-ENR')
