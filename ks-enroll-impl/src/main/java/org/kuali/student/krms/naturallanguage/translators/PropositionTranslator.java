@@ -23,18 +23,16 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionParameterType;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinitionContract;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
-import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageTemplateBoService;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageUsageBoService;
-import org.kuali.rice.krms.impl.repository.TypeTypeRelationBoService;
+import org.kuali.rice.krms.impl.repository.TermBoService;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
-import org.kuali.student.krms.naturallanguage.util.KsKrmsRepositoryServiceLocator;
-import org.kuali.student.r2.core.krms.naturallanguage.Context;
-import org.kuali.student.r2.core.krms.naturallanguage.ContextRegistry;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.core.krms.naturallanguage.Context;
+import org.kuali.student.r2.core.krms.naturallanguage.ContextRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,6 +52,11 @@ public class PropositionTranslator {
     private String language;
     private ContextRegistry<Context<TermDefinitionContract>> contextRegistry;
     private TemplateTranslator templateTranslator = new TemplateTranslator();
+
+    private KrmsTypeRepositoryService krmsTypeRepositoryService;
+    private NaturalLanguageUsageBoService naturalLanguageUsageBoService;
+    private NaturalLanguageTemplateBoService naturalLanguageTemplateBoService;
+    private TermBoService termBoService;
 
     /**
 	 * Constructs a new natural language translator in the
@@ -166,7 +169,7 @@ public class PropositionTranslator {
         for (PropositionParameterContract p : parameters){
             if(p.getParameterType().equals(PropositionParameterType.TERM)){
                 //Retrieve term id from proposition parameters and load.
-                term = KrmsRepositoryServiceLocator.getTermBoService().getTerm(p.getValue());
+                term = getTermBoService().getTerm(p.getValue());
 
             }else if(p.getParameterType().equals(PropositionParameterType.CONSTANT)){
                 //Add proposition constant to contextMap.
@@ -221,18 +224,38 @@ public class PropositionTranslator {
     }
 
     private KrmsTypeRepositoryService getKrmsTypeRepositoryService() {
-        return KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService();
+        return krmsTypeRepositoryService;
     }
 
-    private TypeTypeRelationBoService getTypeTypeRelationBoService() {
-        return KrmsRepositoryServiceLocator.getTypeTypeRelationBoService();
+//    private TypeTypeRelationBoService getTypeTypeRelationBoService() {
+//        return KrmsRepositoryServiceLocator.getTypeTypeRelationBoService();
+//    }
+
+    private TermBoService getTermBoService(){
+        return termBoService;
     }
 
     private NaturalLanguageUsageBoService getNaturalLanguageUsageBoService() {
-        return KsKrmsRepositoryServiceLocator.getNaturalLanguageUsageBoService();
+        return naturalLanguageUsageBoService;
     }
 
     private NaturalLanguageTemplateBoService getNaturalLanguageTemplateBoService() {
-        return KsKrmsRepositoryServiceLocator.getNaturalLanguageTemplateBoService();
+        return naturalLanguageTemplateBoService;
+    }
+
+    public void setKrmsTypeRepositoryService(KrmsTypeRepositoryService krmsTypeRepositoryService) {
+        this.krmsTypeRepositoryService = krmsTypeRepositoryService;
+    }
+
+    public void setNaturalLanguageUsageBoService(NaturalLanguageUsageBoService naturalLanguageUsageBoService) {
+        this.naturalLanguageUsageBoService = naturalLanguageUsageBoService;
+    }
+
+    public void setNaturalLanguageTemplateBoService(NaturalLanguageTemplateBoService naturalLanguageTemplateBoService) {
+        this.naturalLanguageTemplateBoService = naturalLanguageTemplateBoService;
+    }
+
+    public void setTermBoService(TermBoService termBoService) {
+        this.termBoService = termBoService;
     }
 }
