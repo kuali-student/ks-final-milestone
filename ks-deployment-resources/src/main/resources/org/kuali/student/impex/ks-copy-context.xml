@@ -16,42 +16,43 @@
   limitations under the License.
 
 -->
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="http://www.springframework.org/schema/util
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/util
         http://www.springframework.org/schema/util/spring-util.xsd
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:property-placeholder properties-ref="copyProperties" />
+  <context:property-placeholder properties-ref="copyProperties" />
 
-    <bean id="copyExecutable" class="org.kuali.common.util.execute.FileCopyExecutable" >
-        <property name="sourceDir" value="${impex.copy.sourceDir}"/>
-        <property name="destinationDir" value="${impex.copy.destinationDir}"/>
-        <property name="filePatterns" value="${impex.copy.filePatterns}"/>
-    </bean>
+  <bean id="copyExecutable" class="org.kuali.common.util.execute.FileCopyExecutable">
+    <property name="sourceDir" value="${impex.copy.sourceDir}" />
+    <property name="destinationDir" value="${impex.copy.destinationDir}" />
+    <property name="filePatterns" value="${impex.copy.filePatterns}" />
+  </bean>
 
-    <bean id="fileCompareExecutable" class="org.kuali.common.util.execute.FileListComparisonExecutable">
-        <property name="newFilesBaseDir" value="${impex.copy.sourceDir}"/>
-        <property name="originalFilesBaseDir" value="${impex.copy.destinationDir}"/>
-        <property name="filePattern" value="${impex.copy.dataPatterns}"/>
-        <property name="propertyNames">
-            <util:list>
-                <value>impex.scm.added</value>
-                <value>impex.scm.updated</value>
-                <value>impex.scm.removed</value>
-            </util:list>
-        </property>
-        <property name="mavenProperties" ref="copyProperties"/>
-    </bean>
+  <bean id="fileCompareExecutable" class="org.kuali.common.util.execute.FileListComparisonExecutable">
+    <property name="newFilesBaseDir" value="${impex.copy.sourceDir}" />
+    <property name="originalFilesBaseDir" value="${impex.copy.destinationDir}" />
+    <property name="filePattern" value="${impex.copy.dataPatterns}" />
+    <property name="propertyNames">
+      <util:list>
+        <value>impex.scm.added</value>
+        <value>impex.scm.updated</value>
+        <value>impex.scm.removed</value>
+      </util:list>
+    </property>
+    <property name="mavenProperties" ref="copyProperties" />
+  </bean>
 
-    <bean id="runner" class="org.kuali.common.util.execute.ExecutablesExecutable" init-method="execute">
-        <property name="executables">
-            <util:list>
-                <ref bean="fileCompareExecutable"/>
-                <ref bean="copyExecutable"/>
-            </util:list>
-        </property>
-    </bean>
+  <bean id="runner" class="org.kuali.common.util.execute.ExecutablesExecutable" init-method="execute">
+    <property name="executables">
+      <util:list>
+        <ref bean="fileCompareExecutable" />
+        <ref bean="copyExecutable" />
+      </util:list>
+    </property>
+  </bean>
 
 </beans>
