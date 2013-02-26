@@ -172,3 +172,47 @@ INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('k
 /
 INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.max.enrollment','166','97d8928b-6317-4350-843a-e16abad08f75','821d4934-f4fc-4008-bd64-41e02a7e94d0','6138758a-22ac-404d-ac0b-d10cecc9a48d')
 /
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.is.max.enrollment.shared','Y','e5803518-ac9c-4e40-83be-afc9fd7104d6','aa3d8891-426d-41e1-a3e2-f440960239e0','6d9ab9d1-8726-4124-9a1e-3d24260b750f')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.max.enrollment','30','c7ab887d-470e-4dba-9a85-17e3ddbf8b2e','96036d42-b32c-49f7-b9e4-7ffcee458f0d','6d9ab9d1-8726-4124-9a1e-3d24260b750f')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.is.max.enrollment.shared','Y','6ae7f67d-1cfb-4b86-afd4-1b252923ab9b','0300f09a-f082-4a8d-89b8-32c5714d58f0','be84e6a0-8d31-401c-b33e-45222b878f17')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.max.enrollment','30','871d59fd-6286-426a-a715-117dda2b5c65','4e2a5986-08f2-46ee-97b9-eade70f3f51d','be84e6a0-8d31-401c-b33e-45222b878f17')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.is.max.enrollment.shared','Y','8bb94bab-962d-4038-a407-a2e83c79b749','1f7bdb60-fbb2-4f75-a6d6-ccfb3822f127','a4184c9a-3e42-4b41-8264-45b6a27a5438')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.max.enrollment','40','4b112ab4-22e5-4d62-9c47-6e2ce54077d7','3a6cb4d9-a711-4487-b7b3-21e801e4b5b8','a4184c9a-3e42-4b41-8264-45b6a27a5438')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.is.max.enrollment.shared','Y','677fc4a7-f9de-4a23-aac2-40a51dc5ef95','b6355963-99ea-4ccc-911f-c377760c42ef','5b7290a4-3dbd-46da-a495-199de7134feb')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.max.enrollment','40','ccabd612-8569-4acc-9ceb-ee7bb0af40f7','00d07af2-f6a3-435d-b896-3343f3fef34f','5b7290a4-3dbd-46da-a495-199de7134feb')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.is.max.enrollment.shared','Y','c4f5fd03-3d18-437a-b06d-5f02f328df1b','4772b8ad-89ee-4cca-b39a-13c89f8cc6a8','3ce7d2a9-36e7-4dd1-a7cd-e75e39be4024')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.max.enrollment','40','8988a6f5-fe3e-45a9-9872-137bc7513470','6021b8c8-6404-4d75-a074-3e613d1b1cb1','3ce7d2a9-36e7-4dd1-a7cd-e75e39be4024')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.is.max.enrollment.shared','Y','d55625b8-9f40-473f-bb5d-1a28c72878e8','78e3170c-0f75-4278-a8b1-3d5e3cb06036','64714771-0a34-44bc-9010-27a6ba021044')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.max.enrollment','40','41e5cd43-316b-4344-8644-bbccd34585d3','e891787d-88c8-46b4-bd2e-f8957abffb28','64714771-0a34-44bc-9010-27a6ba021044')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.is.max.enrollment.shared','Y','bef2cc42-8917-41fd-a770-e4291493e91c','9fe9713e-3541-477b-aa10-9c397de5514b','05c700f9-e1b1-45ab-a116-9e9a81e02f8b')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.max.enrollment','40','9b497649-51a4-42e4-8478-0a07ceec00e1','d02a3980-e7f5-4b7c-a9d6-2b14c53421cd','05c700f9-e1b1-45ab-a116-9e9a81e02f8b')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.is.max.enrollment.shared','N','e46acb30-6138-45d2-a6c6-dce692d7b57b','8353dc9a-1d4f-4bd1-8784-a01cfe76822e','4eaf3029-3d20-43eb-a4d8-7b319e710a4e')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.max.enrollment','75','b82dc658-3449-4016-beb7-29b8623b3ab9','e4212e07-87c6-48fe-81aa-504ca1cccdc6','4eaf3029-3d20-43eb-a4d8-7b319e710a4e')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.is.max.enrollment.shared','N','9330d1e0-4667-40fd-a250-61f23c524441','02952546-bfb4-4605-ab72-95578b1781c7','fc55a281-db7e-4082-8505-ed9b24a9a3e6')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.max.enrollment','83','ed4e5e34-811d-4d7d-91a6-0af51526c25c','bc18dc23-3e84-4b03-a0cb-9af68b81c41a','fc55a281-db7e-4082-8505-ed9b24a9a3e6')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.is.max.enrollment.shared','N','8573ef15-b099-454f-a883-ca04ce76f27c','c5ede2b7-b7f3-4d86-8214-aa0090c2bf9a','2972ca38-aabb-47d0-a2c7-466e83cf6157')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.max.enrollment','83','6765e221-9aa9-43f5-9a8b-eba70b6a78d2','b6601d39-f157-43c4-bd14-6f04cee40ba9','2972ca38-aabb-47d0-a2c7-466e83cf6157')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.is.max.enrollment.shared','N','d368ea71-3261-4e35-8bee-212fc51b7ed0','7a66060a-e558-4951-b9e4-2bd3a1cba913','28d434f0-ce34-44cc-b072-02c505cb39ed')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.max.enrollment','65','f768614b-652f-4fca-9874-c39511dccb17','3f21de02-fdf2-4cd3-9194-4bd12c06b88a','28d434f0-ce34-44cc-b072-02c505cb39ed')
+/
