@@ -107,6 +107,8 @@
                 <bean name="enableCancelButton" parent="Uif-InputField" p:propertyName="enableCancelButton"/>
                 <bean name="enableReinstateButton" parent="Uif-InputField" p:propertyName="enableReinstateButton" />
                 <bean name="enableDeleteButton" parent="Uif-InputField" p:propertyName="enableDeleteButton" />
+                <bean name="enableCopyCOActionLink" parent="Uif-InputField" p:propertyName="enableCopyCOActionLink" />
+                <bean name="enableEditCOActionLink" parent="Uif-InputField" p:propertyName="enableEditCOActionLink" />
             </list>
         </property>
         <property name="layoutManager.richTable.hiddenColumns">
@@ -116,6 +118,8 @@
               <value>enableCancelButton</value>
               <value>enableReinstateButton</value>
               <value>enableDeleteButton</value>
+              <value>enableCopyCOActionLink</value>
+              <value>enableEditCOActionLink</value>
             </set>
         </property>
         <property name="layoutManager.actionFieldPrototype">
@@ -123,8 +127,8 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" p:render="@{!#lp.crossListed}"/>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" p:render="@{!#lp.crossListed}"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" p:render="@{#line.isEnableCopyCOActionLink() or !#lp.crossListed}" p:actionEvent="copyCOonManageCOsPage"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" p:render="@{#line.isEnableEditCOActionLink() or !#lp.crossListed}" p:actionEvent="editCOonManageCOsPage"/>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="loadAOs" p:actionLabel="Manage" p:render="@{!#lp.crossListed}"/>
             </list>
         </property>

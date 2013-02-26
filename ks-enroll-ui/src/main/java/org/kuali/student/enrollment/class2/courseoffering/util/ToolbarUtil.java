@@ -78,6 +78,17 @@ public class ToolbarUtil {
                 permissionDetails.put("coState", coState);
                 roleQualifications.put("org", coListWrapper.getAdminOrg());
 
+                //for copy and edit action links on each CO row.
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "copyCOonManageCOsPage");
+                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                    coListWrapper.setEnableCopyCOActionLink(true);
+                }
+
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "editCOonManageCOsPage");
+                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                    coListWrapper.setEnableEditCOActionLink(true);
+                }
+
                 //TODO put in business logic so you can't cancel a canceled state, approve approved state etc...
                 permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "approveCO");
                 if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){

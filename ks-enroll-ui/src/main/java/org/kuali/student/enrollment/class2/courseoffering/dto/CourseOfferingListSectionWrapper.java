@@ -58,6 +58,8 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     private boolean enableCancelButton = false;
     private boolean enableReinstateButton = false;
     private boolean enableDeleteButton = false;
+    private boolean enableCopyCOActionLink = false;
+    private boolean enableEditCOActionLink = false;
 
     private String crossListedCoList;
 
@@ -160,7 +162,21 @@ public class CourseOfferingListSectionWrapper implements Serializable{
         isLegalToDelete = legalToDelete;
     }
 
+    public boolean isEnableCopyCOActionLink() {
+        return enableCopyCOActionLink;
+    }
 
+    public void setEnableCopyCOActionLink(boolean enableCopyCOActionLink) {
+        this.enableCopyCOActionLink = enableCopyCOActionLink;
+    }
+
+    public boolean isEnableEditCOActionLink() {
+        return enableEditCOActionLink;
+    }
+
+    public void setEnableEditCOActionLink(boolean enableEditCOActionLink) {
+        this.enableEditCOActionLink = enableEditCOActionLink;
+    }
 
     public String getCourseOfferingCode() {
         return courseOfferingCode;
@@ -249,7 +265,6 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     public void setCourseOfferingGradingOptionDisplay(String courseOfferingGradingOptionDisplay) {
         this.courseOfferingGradingOptionDisplay = courseOfferingGradingOptionDisplay;
     }
-
 
     /**
      * @see #setCrossListed(boolean)
