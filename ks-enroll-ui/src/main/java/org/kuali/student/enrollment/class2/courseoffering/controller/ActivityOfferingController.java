@@ -47,6 +47,8 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
     @RequestMapping(params = "methodToCall=" + KRADConstants.Maintenance.METHOD_TO_CALL_EDIT)
     public ModelAndView maintenanceEdit(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+        setupMaintenance(form, request, KRADConstants.MAINTENANCE_EDIT_ACTION);
+
         // check view authorization
         // TODO: this needs to be invoked for each request
         if (form.getView() != null) {
@@ -54,7 +56,6 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             checkViewAuthorization(form, methodToCall);
 //            form.setEditAuthz(checkEditViewAuthz(form));
         }
-        setupMaintenance(form, request, KRADConstants.MAINTENANCE_EDIT_ACTION);
 
         //populate the previousFormsMap of the form. The map contains info about the previous view to generate customized breadcrumb
         KSUifUtils.populationPreviousFormsMap(request, (KSUifMaintenanceDocumentForm)form);
