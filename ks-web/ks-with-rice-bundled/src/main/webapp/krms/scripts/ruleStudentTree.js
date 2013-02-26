@@ -341,7 +341,7 @@ function initPreviewTree(componentId){
     createTree(componentId, {
         'plugins' : ['themes','html_data', 'ui', 'crrm', 'types' /*, 'dnd' */ ], // disabled drag and drop plugin
         'ui' : { 'select_limit' : 1 },
-        'themes' : { 'theme':'krms','dots': true ,'icons': false },
+        'themes' : { 'theme':'view','dots': true ,'icons': false },
         'crrm' : {
             /* This is where you can control what is draggable onto what within the tree: */
             'move' : {
