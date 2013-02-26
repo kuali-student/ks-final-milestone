@@ -131,9 +131,16 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         if (matchingCourses.size() == 1 && term != null) {
             CourseInfo course = matchingCourses.get(0);
 
-            // set organization ID and check if the user can edit the course
-            if (!course.getUnitsContentOwner().isEmpty()) {
-                coWrapper.setAdminOrg(course.getUnitsContentOwner().get(0));
+            // set organization IDs and check if the user can edit the course
+            List<String> orgIds = course.getUnitsContentOwner();
+            if(orgIds != null && !orgIds.isEmpty()){
+                String orgIDs = "";
+                for (String orgId : orgIds) {
+                    orgIDs = orgIDs + orgId + ",";
+                }
+                if (orgIDs.length() > 0) {
+                    coWrapper.setAdminOrg(orgIDs.substring(0, orgIDs.length()-1));
+                }
             }
             Person user = GlobalVariables.getUserSession().getPerson();
             boolean canEditView = form.getView().getAuthorizer().canEditView(form.getView(), form, user);

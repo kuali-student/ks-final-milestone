@@ -176,11 +176,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 form.setSubjectCodeDescription(longNameDescr);
                 // Pull out the first CO from the result list and then pull out the org ids from this CO
                 // and pass in the first one as the adminOrg
-                CourseOfferingInfo firstCO = getCourseOfferingService().getCourseOffering(form.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
-                List<String> orgIds = firstCO.getUnitsDeploymentOrgIds();
-                if(orgIds !=null && !orgIds.isEmpty()){
-                    form.setAdminOrg(orgIds.get(0));
-                }
+//                CourseOfferingInfo firstCO = getCourseOfferingService().getCourseOffering(form.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+//                List<String> orgIds = firstCO.getUnitsDeploymentOrgIds();
+//                if(orgIds !=null && !orgIds.isEmpty()){
+//                    form.setAdminOrg(orgIds.get(0));
+//                }
 
                 ToolbarUtil.processCoToolbarForUser(form.getCourseOfferingResultList(), form);
                 //ToolbarUtil.processCoToolbarForCentralAdmin(form.getCourseOfferingResultList(), form);
@@ -222,11 +222,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     theForm.setSubjectCodeDescription(longNameDescr);
                     // Pull out the first CO from the result list and then pull out the org ids from this CO
                     // and pass in the first one as the adminOrg
-                    CourseOfferingInfo firstCO = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
-                    List<String> orgIds = firstCO.getUnitsDeploymentOrgIds();
-                    if(orgIds !=null && !orgIds.isEmpty()){
-                        theForm.setAdminOrg(orgIds.get(0));
-                    }
+//                    CourseOfferingInfo firstCO = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+//                    List<String> orgIds = firstCO.getUnitsDeploymentOrgIds();
+//                    if(orgIds !=null && !orgIds.isEmpty()){
+//                        theForm.setAdminOrg(orgIds.get(0));
+//                    }
                     //venkat
 //                    CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
 //                    theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
@@ -293,11 +293,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     theForm.setSubjectCodeDescription(longNameDescr);
                     // Pull out the first CO from the result list and then pull out the org ids from this CO
                     // and pass in the first one as the adminOrg
-                    CourseOfferingInfo firstCO = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
-                    List<String> orgIds = firstCO.getUnitsDeploymentOrgIds();
-                    if(orgIds !=null && !orgIds.isEmpty()){
-                        theForm.setAdminOrg(orgIds.get(0));
-                    }
+//                    CourseOfferingInfo firstCO = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+//                    List<String> orgIds = firstCO.getUnitsDeploymentOrgIds();
+//                    if(orgIds !=null && !orgIds.isEmpty()){
+//                        theForm.setAdminOrg(orgIds.get(0));
+//                    }
                     //venkat
 //                    CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
 //                    theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
@@ -380,11 +380,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                             theForm.setSubjectCodeDescription(longNameDescr);
                             // Pull out the first CO from the result list and then pull out the org ids from this CO
                             // and pass in the first one as the adminOrg
-                            CourseOfferingInfo firstCO = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
-                            List<String> orgIds = firstCO.getUnitsDeploymentOrgIds();
-                            if (orgIds != null && !orgIds.isEmpty()) {
-                                theForm.setAdminOrg(orgIds.get(0));
-                            }
+//                            CourseOfferingInfo firstCO = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+//                            List<String> orgIds = firstCO.getUnitsDeploymentOrgIds();
+//                            if (orgIds != null && !orgIds.isEmpty()) {
+//                                theForm.setAdminOrg(orgIds.get(0));
+//                            }
                             CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                             //venkat
 //                                theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
@@ -447,7 +447,14 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         if(orgIds !=null && !orgIds.isEmpty()){
             OrgInfo org = getOrganizationService().getOrg(orgIds.get(0),ContextUtils.createDefaultContextInfo());
             currentCO.setCoOwningDeptName(org.getShortName());
-            form.setAdminOrg(orgIds.get(0));
+            // managing multiple orgs
+            String orgIDs = "";
+            for (String orgId : orgIds) {
+                orgIDs = orgIDs + orgId + ",";
+            }
+            if (orgIDs.length() > 0) {
+                form.setAdminOrg(orgIDs.substring(0, orgIDs.length()-1));
+            }
         }
 
         form.setFormatIdForNewAO(null);
