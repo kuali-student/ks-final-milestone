@@ -1,52 +1,51 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.kuali.student.db</groupId>
-        <artifactId>ks-impex</artifactId>
-        <version>2.0.0-spring-db-SNAPSHOT</version>
-    </parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
     <groupId>org.kuali.student.db</groupId>
-    <artifactId>ks-impex-app-db</artifactId>
+    <artifactId>ks-impex</artifactId>
     <version>2.0.0-spring-db-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>KS Impex App</name>
-    <description>Kuali Student Impex App Config</description>
-    <properties>
-        <jdbc.username>KSRICE${db.branch.qualifier}</jdbc.username>
+  </parent>
+  <groupId>org.kuali.student.db</groupId>
+  <artifactId>ks-impex-app-db</artifactId>
+  <version>2.0.0-spring-db-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>KS Impex App</name>
+  <description>Kuali Student Impex App Config</description>
+  <properties>
+    <jdbc.username>KSRICE${db.branch.qualifier}</jdbc.username>
 
-        <!-- Used by the impex-export-xml profile -->
-        <impex.xml.includedTables>KS.*</impex.xml.includedTables>
-        <!-- Used to filter imepx XML files to copy from ks-impex-bundled-db (the source data set) -->
-        <impex.xml.xmlfFileFilter>KS*.xml</impex.xml.xmlfFileFilter>
+    <!-- Used by the impex-export-xml profile -->
+    <impex.xml.includedTables>KS.*</impex.xml.includedTables>
+    <!-- Used to filter imepx XML files to copy from ks-impex-bundled-db (the source data set) -->
+    <impex.xml.xmlfFileFilter>KS*.xml</impex.xml.xmlfFileFilter>
 
-        <copyMpx.dataPatterns>${copyMpx.ks.includes}</copyMpx.dataPatterns>
-    </properties>
-    <profiles>
-        <profile>
-            <id>impex-export-xml</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.kuali.maven.plugins</groupId>
-                        <artifactId>maven-impex-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>initialize</phase>
-                                <id>exportXML</id>
-                                <goals>
-                                    <goal>exportschema</goal>
-                                    <goal>datadtd</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-resources-plugin</artifactId>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+    <copyMpx.dataPatterns>${copyMpx.ks.includes}</copyMpx.dataPatterns>
+  </properties>
+  <profiles>
+    <profile>
+      <id>impex-export-xml</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.plugins</groupId>
+            <artifactId>maven-impex-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase>initialize</phase>
+                <id>exportXML</id>
+                <goals>
+                  <goal>exportschema</goal>
+                  <goal>datadtd</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
