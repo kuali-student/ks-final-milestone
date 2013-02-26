@@ -217,9 +217,8 @@
         <impex.copy.rice.includes>KR*</impex.copy.rice.includes>
         <impex.copy.ks.includes>KS*</impex.copy.ks.includes>
         <impex.copy.dataPatterns>${impex.copy.rice.includes},${impex.copy.ks.includes}</impex.copy.dataPatterns>
-        <impex.copy.mysqlPatterns>mysql/${project.artifactId}.sql,mysql/${project.artifactId}-constraints.sql</impex.copy.mysqlPatterns>
-        <impex.copy.oraclePatterns>oracle/${project.artifactId}.sql,oracle/${project.artifactId}-constraints.sql</impex.copy.oraclePatterns>
-        <impex.copy.filePatterns>${impex.copy.dataPatterns},${impex.copy.mysqlPatterns},${impex.copy.oraclePatterns},${project.artifactId}.xml</impex.copy.filePatterns>
+        <impex.copy.sqlPatterns>**/${project.artifactId}*.sql</impex.copy.sqlPatterns>
+        <impex.copy.filePatterns>${impex.copy.dataPatterns},${impex.copy.sqlPatterns},${project.artifactId}.xml</impex.copy.filePatterns>
         <impex.copy.sourceDir>${project.basedir}/../target/impex</impex.copy.sourceDir>
         <impex.copy.destinationDir>${project.basedir}/src/main/resources</impex.copy.destinationDir>
         <impex.copy.metaInfFile>${impex.copy.destinationDir}/${project.artifactId}-dataLocations.properties</impex.copy.metaInfFile>
