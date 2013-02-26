@@ -121,8 +121,8 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
 
         // if the course offering wrapper suffix is set, set the value in the CourseOfferingInfo
         if (!StringUtils.isEmpty(courseOfferingSuffix)) {
-            courseOffering.setCourseOfferingCode(courseOfferingSuffix);
-            courseOffering.setCourseNumberSuffix(courseOfferingSuffix);
+            courseOffering.setCourseOfferingCode(StringUtils.upperCase(courseOfferingSuffix));
+            courseOffering.setCourseNumberSuffix(StringUtils.upperCase(courseOfferingSuffix));
             optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_CODE_SUFFIX_OPTION_KEY);
         }
         courseOffering.setCourseId(courseInfo.getId());

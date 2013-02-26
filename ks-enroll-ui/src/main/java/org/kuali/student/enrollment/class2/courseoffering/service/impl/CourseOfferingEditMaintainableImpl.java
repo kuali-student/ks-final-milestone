@@ -133,6 +133,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
             // CO code
             String courseOfferingCode = coEditWrapper.getCourse().getCode();
+            coInfo.setCourseNumberSuffix(StringUtils.upperCase(coInfo.getCourseNumberSuffix()));
             if (!StringUtils.isEmpty(coInfo.getCourseNumberSuffix())) {
                 courseOfferingCode += coInfo.getCourseNumberSuffix();
             }
