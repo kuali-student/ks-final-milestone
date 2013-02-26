@@ -175,8 +175,9 @@
         ROLE_NM="KS Department Schedule Coordinator - Org" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="Department Schedule Coordinator - restricted by CO subject code - for the Course Offering Process"
-        KIM_TYP_ID="1" LAST_UPDT_DT="20121126000000" NMSPC_CD="KS-ENR"
-        OBJ_ID="D2F07FCB2E98FFC9E040760A4A45207E" ROLE_ID="10034"
+        KIM_TYP_ID="10027" LAST_UPDT_DT="20121126000000"
+        NMSPC_CD="KS-ENR" OBJ_ID="D2F07FCB2E98FFC9E040760A4A45207E"
+        ROLE_ID="10034"
         ROLE_NM="KS Department Schedule Coordinator - Subj" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role derives its members from users with that have received an action request for a given document."
