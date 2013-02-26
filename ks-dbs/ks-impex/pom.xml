@@ -197,10 +197,6 @@
         <impex.workingDir>${project.build.directory}/impex</impex.workingDir>
         <impex.antCompatibilityMode>false</impex.antCompatibilityMode>
         <impex.storeDatabaseTableProperties>true</impex.storeDatabaseTableProperties>
-        <!--
-          <impex.metadata.threads>5</impex.metadata.threads>
-          <impex.data.threads>15</impex.data.threads>
-        -->
       </properties>
       <build>
         <plugins>
