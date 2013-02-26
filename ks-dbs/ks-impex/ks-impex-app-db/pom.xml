@@ -21,31 +21,4 @@
 
       <impex.copy.dataPatterns>${impex.copy.ks.includes}</impex.copy.dataPatterns>
   </properties>
-  <profiles>
-    <profile>
-      <id>impex-export-xml</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.kuali.maven.plugins</groupId>
-            <artifactId>maven-impex-plugin</artifactId>
-            <executions>
-              <execution>
-                <phase>initialize</phase>
-                <id>exportXML</id>
-                <goals>
-                  <goal>exportschema</goal>
-                  <goal>datadtd</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-resources-plugin</artifactId>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 </project>

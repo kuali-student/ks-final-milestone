@@ -18,30 +18,6 @@
     <impex.xml.includedTables>KR.*,KS.*</impex.xml.includedTables>
     <impex.xml.xmlfFileFilter>K*.xml</impex.xml.xmlfFileFilter>
 
-    <copyMpx.dataPatterns>${impex.copy.sqlPatterns},${project.artifactId}.xml</copyMpx.dataPatterns>
+    <copyMpx.dataPatterns>NO_DATA_PATTERN</copyMpx.dataPatterns>
   </properties>
-  <profiles>
-    <profile>
-      <id>impex-export-xml</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.kuali.maven.plugins</groupId>
-            <artifactId>maven-impex-plugin</artifactId>
-            <executions>
-              <execution>
-                <phase>initialize</phase>
-                <id>exportXML</id>
-                <goals>
-                  <goal>exportschema</goal>
-                  <goal>exportdata</goal>
-                  <goal>datadtd</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 </project>
