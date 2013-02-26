@@ -49,7 +49,6 @@ public class ToolbarUtil {
         Map<String,String> roleQualifications = new HashMap<String,String>();
 
         //ToDo, add role qualifiers for org/subject/etc. (Refactor so qualification resolving is done in a single place)
-        roleQualifications.put("org", form.getAdminOrg());
         roleQualifications.put("subjectArea", form.getSubjectCode());
 
         permissionDetails.put("socState", socState);
@@ -75,6 +74,7 @@ public class ToolbarUtil {
                 coState = coState.substring(coState.lastIndexOf('.')+1);
 
                 permissionDetails.put("coState", coState);
+                roleQualifications.put("org", coListWrapper.getAdminOrg());
 
                 //TODO put in business logic so you can't cancel a canceled state, approve approved state etc...
                 permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "approveCO");
