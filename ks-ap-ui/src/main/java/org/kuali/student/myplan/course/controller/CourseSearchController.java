@@ -1361,9 +1361,10 @@ public class CourseSearchController extends UifControllerBase {
 		ArrayNode aaData = mapper.createArrayNode();
 		for (int i = 0; i < Math.min(filteredResults.size(),
 				dataTablesInputs.iDisplayLength); i++) {
+            int resultsIndex = dataTablesInputs.iDisplayStart + i;
+            if(resultsIndex >=filteredResults.size())break;
 			ArrayNode cs = mapper.createArrayNode();
-			String[] scol = filteredResults.get(dataTablesInputs.iDisplayStart
-					+ i).item.getSearchColumns();
+			String[] scol = filteredResults.get(resultsIndex).item.getSearchColumns();
 			for (String col : scol)
 				cs.add(col);
 			for (int j = scol.length; j < dataTablesInputs.iColumns; j++)

@@ -37,7 +37,7 @@ public class DefaultYearTerm implements YearTerm,Comparable<YearTerm> {
     }
     @Override
     public String getTermAsID() {
-        return CourseSearchConstants.TERM_ID_LIST.get(getTerm() - 1);
+        return CourseSearchConstants.TERM_LABELS_LIST.get(getTerm() - 1);
     }
 
     /**
@@ -46,7 +46,8 @@ public class DefaultYearTerm implements YearTerm,Comparable<YearTerm> {
      */
     @Override
     public String toATP() {
-        return String.format(CourseSearchConstants.ATP_FORMAT, year, term);
+        return "kuali.atp."+this.year+this.getTermAsID();
+        //return String.format(CourseSearchConstants.ATP_FORMAT, year, term);
     }
 
     // "Winter 1999"

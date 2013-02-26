@@ -241,13 +241,4 @@ public final class KsapFrameworkServiceLocator {
         return getLocalService("programServiceImpl");
     }
 
-    /**
-     * Get the program service.
-     *
-     * @return The program service impl.
-     */
-    public static LRCService getLRCService() {
-        return getLocalService("lrcServiceImpl");
-    }
-
 }

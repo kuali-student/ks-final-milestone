@@ -38,8 +38,8 @@ public class CourseSearchConstants {
     public static final Pattern ATP_REGEX = Pattern.compile("([0-9]{4})([1-4])");
     public static final String ATP_FORMAT = "%d%d";
 
-    public static List<String> TERM_ID_LIST = Arrays.asList("winter", "spring", "summer", "autumn");
-    public static List<String> TERM_LABELS_LIST = Arrays.asList("Winter", "Spring", "Summer", "Autumn");
+    public static List<String> TERM_ID_LIST = Arrays.asList("winter", "spring", "summer i","summer ii",  "autumn");
+    public static List<String> TERM_LABELS_LIST = Arrays.asList("Winter", "Spring", "Summer I","Summer II", "Fall");
 
     public static final String SUBJECT_AREA = "kuali.lu.subjectArea";
 

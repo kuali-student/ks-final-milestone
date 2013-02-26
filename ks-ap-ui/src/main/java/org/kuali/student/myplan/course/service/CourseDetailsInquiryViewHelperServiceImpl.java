@@ -560,6 +560,11 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
                 List<ActivityOfferingDisplayInfo> aodiList = cos.getActivityOfferingDisplaysForCourseOffering(courseOfferingID, CourseSearchConstants.CONTEXT_INFO);
                 boolean primary = true;
 
+                String courseCredits="";
+                if(courseInfo.getCreditOptionId()!=null && courseInfo.getCreditOptionId().startsWith("kuali.creditType.credit.degree.")){
+                    courseCredits = courseInfo.getCreditOptionId().replace("kuali.creditType.credit.degree.","");
+                }
+
                 for (ActivityOfferingDisplayInfo aodi : aodiList) {
                     ActivityOfferingItem activity = new ActivityOfferingItem();
                     activity.setCode(aodi.getActivityOfferingCode());
@@ -567,7 +572,7 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
                     String typeName = aodi.getTypeName();
                     activity.setActivityOfferingType(typeName);
 
-                    activity.setCredits(courseInfo.getCreditOptionName());
+                    activity.setCredits(courseCredits);
                     activity.setGradingOption(courseInfo.getGradingOptionName());
                     List<MeetingDetails> meetingDetailsList = activity.getMeetingDetailsList();
                     {

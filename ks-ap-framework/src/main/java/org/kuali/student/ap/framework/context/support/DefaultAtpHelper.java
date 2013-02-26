@@ -33,8 +33,8 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
 public class DefaultAtpHelper implements AtpHelper {
 
 
-    public final Pattern TERM_REGEX = Pattern.compile("(winter|spring|summer|autumn|fall)\\s+([0-9]{4})");
-    public final Pattern TERM_REGEX_2 = Pattern.compile("(winter|spring|summer|autumn|fall) ([0-9]{4})");
+    public final Pattern TERM_REGEX = Pattern.compile("(winter|spring|summer i|summer ii|autumn|fall)\\s+([0-9]{4})");
+    public final Pattern TERM_REGEX_2 = Pattern.compile("(winter|spring|summer i|summer ii|autumn|fall) ([0-9]{4})");
     public static final String LAST_DROP_DAY = "last_drop_day";
 
     private static String term1 = "winter";
@@ -471,18 +471,13 @@ public class DefaultAtpHelper implements AtpHelper {
      */
     @Override
     public YearTerm atpToYearTerm(String atp) {
+
         if (atp == null) {
             throw new NullPointerException("atp");
         }
+        String yearTerm[] = atpIdToTermAndYear(atp);
 
-        Matcher m = CourseSearchConstants.ATP_REGEX.matcher(atp);
-        if (m.find()) {
-            int year = Integer.parseInt(m.group(1));
-            int term = Integer.parseInt(m.group(2));
-            return new DefaultYearTerm(year, term);
-        }
-
-        throw new IllegalArgumentException(atp);
+        return new DefaultYearTerm(Integer.parseInt(yearTerm[1]),Integer.parseInt(yearTerm[0]));
     }
 
     /**

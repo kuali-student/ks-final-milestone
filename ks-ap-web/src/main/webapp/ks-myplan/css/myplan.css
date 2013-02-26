@@ -1877,33 +1877,33 @@ table.myplan-course-search-results-datatable .blockUI {
 }
 /*The Your Stuff Section Headers*/
 .myplan-section .uif-header {
-    /*font-weight: normal;
+    font-weight: normal;
     margin: 0;
     border-top: solid 1px #ddd;
     border-bottom: solid 1px #ddd;
     padding: 3px 10px;
-    background-image: -ms-linear-gradient(top, #F5F5F5 0%, #EBEBEB 100%);
+    /*background-image: -ms-linear-gradient(top, #F5F5F5 0%, #EBEBEB 100%);
     background-image: -moz-linear-gradient(top, #F5F5F5 0%, #EBEBEB 100%);
     background-image: -o-linear-gradient(top, #F5F5F5 0%, #EBEBEB 100%);
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #F5F5F5), color-stop(1, #EBEBEB));
     background-image: -webkit-linear-gradient(top, #F5F5F5 0%, #EBEBEB 100%);
     background-image: linear-gradient(to bottom, #F5F5F5 0%, #EBEBEB 100%);
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#F5F5F5', endColorstr='#EBEBEB')"; /* IE8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#F5F5F5', endColorstr='#EBEBEB')";*/ /* IE8 */
 }
 /*The Your Stuff Header*/
 .myplan-section .uif-header.primary {
-    /*
+
     border: none;
     padding: 7px 10px;
-    background-image: -ms-linear-gradient(top, #f6ebcd 0%, #f2e3b8 100%);
+/*    background-image: -ms-linear-gradient(top, #f6ebcd 0%, #f2e3b8 100%);
     background-image: -moz-linear-gradient(top, #f6ebcd 0%, #f2e3b8 100%);
     background-image: -o-linear-gradient(top, #f6ebcd 0%, #f2e3b8 100%);
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #f6ebcd), color-stop(1, #f2e3b8));
     background-image: -webkit-linear-gradient(top, #f6ebcd 0%, #f2e3b8 100%);
     background-image: linear-gradient(to bottom, #f6ebcd 0%, #f2e3b8 100%);
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#f6ebcd', endColorstr='#f2e3b8')"; /* IE8 */
-    /*border-radius: 5px 5px 0 0;
-    text-shadow: 1px 1px 1px #ffffff;*/
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#f6ebcd', endColorstr='#f2e3b8')";*/ /* IE8 */
+    border-radius: 5px 5px 0 0;
+    text-shadow: 1px 1px 1px #ffffff;
 }
 
 .myplan-section.no-primary .uif-header {

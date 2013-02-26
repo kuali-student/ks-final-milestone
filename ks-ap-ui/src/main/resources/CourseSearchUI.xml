@@ -197,6 +197,11 @@
 	<!-- Layout for Search Facets and Search Results -->
 	<bean id="course_search_results_panel" parent="Uif-HorizontalBoxGroup"
 		p:style="display: none;">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-course-search-results</value>
+            </list>
+        </property>
 		<property name="items">
 			<list>
 				<ref bean="course_search_results_facets" />
