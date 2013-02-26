@@ -16,7 +16,8 @@
   limitations under the License.
 
 -->
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="http://www.springframework.org/schema/util 
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/util 
         http://www.springframework.org/schema/util/spring-util.xsd
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -25,23 +26,35 @@
 
   <import resource="classpath:org/kuali/common/impex/impex-dump-context.xml" />
 
+  <bean id="ksRiceArtifactId" class="java.lang.String">
+    <constructor-arg value="ks-impex-rice-db" />
+  </bean>
+
+  <bean id="ksAppArtifactId" class="java.lang.String">
+    <constructor-arg value="ks-impex-app-db" />
+  </bean>
+
+  <bean id="ksBundledArtifactId" class="java.lang.String">
+    <constructor-arg value="ks-impex-bundled-db" />
+  </bean>
+
   <bean id="riceDumpContext" class="org.kuali.common.impex.ImpexContextCloningFactoryBean">
-    <property name="artifactId" value="ks-impex-rice-db" />
-    <property name="finalDirectory" value="${project.basedir}/ks-impex-rice-db/src/main/resources" />
+    <property name="artifactId" value="#{ksRiceArtifactId}" />
+    <property name="finalDirectory" value="${project.basedir}/#{ksRiceArtifactId}/src/main/resources" />
     <property name="include" value="${impex.rice.includes}" />
     <property name="sourceContext" ref="sourceContext" />
   </bean>
 
   <bean id="appDumpContext" class="org.kuali.common.impex.ImpexContextCloningFactoryBean">
-    <property name="artifactId" value="ks-impex-app-db" />
-    <property name="finalDirectory" value="${project.basedir}/ks-impex-app-db/src/main/resources" />
+    <property name="artifactId" value="#{ksAppArtifactId}" />
+    <property name="finalDirectory" value="${project.basedir}/#{ksAppArtifactId}/src/main/resources" />
     <property name="include" value="${impex.ks.includes}" />
     <property name="sourceContext" ref="sourceContext" />
   </bean>
 
   <bean id="bundledDumpContext" class="org.kuali.common.impex.ImpexContextCloningFactoryBean">
-    <property name="artifactId" value="ks-impex-bundled-db" />
-    <property name="finalDirectory" value="${project.basedir}/ks-impex-bundled-db/src/main/resources" />
+    <property name="artifactId" value="#{ksBundledArtifactId}" />
+    <property name="finalDirectory" value="${project.basedir}/#{ksBundledArtifactId}/src/main/resources" />
     <property name="include" value="${impex.rice.includes},${impex.ks.includes}" />
     <property name="sourceContext" ref="sourceContext" />
     <property name="copyDataFiles" value="false" />
