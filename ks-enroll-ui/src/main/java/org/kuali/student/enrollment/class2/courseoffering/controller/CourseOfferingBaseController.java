@@ -25,13 +25,14 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
     @Override
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
+        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
+        setupMaintenance(maintenanceForm, request, KRADConstants.MAINTENANCE_NEW_ACTION);
         if (form.getView() != null) {
             String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
             checkViewAuthorization(form, methodToCall);
 
         }
-
-        return super.start(form, result, request, response);
+        return getUIFModelAndView(maintenanceForm);
     }
 
     @Override
