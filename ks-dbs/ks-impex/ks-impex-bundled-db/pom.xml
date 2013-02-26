@@ -17,6 +17,8 @@
     <!-- Used by the impex-export-xml profile -->
     <impex.xml.includedTables>KR.*,KS.*</impex.xml.includedTables>
     <impex.xml.xmlfFileFilter>K*.xml</impex.xml.xmlfFileFilter>
+
+    <copyMpx.dataPatterns>${impex.copy.sqlPatterns},${project.artifactId}.xml</copyMpx.dataPatterns>
   </properties>
   <profiles>
     <profile>
