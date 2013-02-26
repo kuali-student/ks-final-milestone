@@ -981,14 +981,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 public int compare(TypeInfo o1, TypeInfo o2) {
                     Integer o1Priority = null;
                     for(AttributeInfo attr:o1.getAttributes()){
-                        if(TypeServiceConstants.PRIORITY_ATTR.equals(attr.getKey())){
+                        if(TypeServiceConstants.ACTIVITY_SELECTION_PRIORITY_ATTR.equals(attr.getKey())){
                             o1Priority = Integer.parseInt(attr.getValue());
                             break;
                         }
                     }
                     Integer o2Priority = null;
                     for(AttributeInfo attr:o2.getAttributes()){
-                        if(TypeServiceConstants.PRIORITY_ATTR.equals(attr.getKey())){
+                        if(TypeServiceConstants.ACTIVITY_SELECTION_PRIORITY_ATTR.equals(attr.getKey())){
                             o2Priority = Integer.parseInt(attr.getValue());
                             break;
                         }
