@@ -184,11 +184,6 @@
         <property name="tree">
             <bean parent="KS-View-Tree"/>
         </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-ruleViewSection</value>
-            </list>
-        </property>
     </bean>
     <bean id="KS-Tree-Section" parent="KS-Tree-Section-parent"/>
 

@@ -146,7 +146,7 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    private void setPropositionTypeCode(String propositionTypeCode) {
+    public void setPropositionTypeCode(String propositionTypeCode) {
         this.propositionTypeCode = propositionTypeCode;
     }
 

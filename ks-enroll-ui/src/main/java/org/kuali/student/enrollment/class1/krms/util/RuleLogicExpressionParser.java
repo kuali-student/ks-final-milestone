@@ -1,10 +1,14 @@
 package org.kuali.student.enrollment.class1.krms.util;
 
+import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
+import org.kuali.student.r1.core.statement.dto.StatementInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class RuleLogicExpressionParser {
 
@@ -51,7 +55,7 @@ public class RuleLogicExpressionParser {
         return doValidateExpression(errorMessages, tokenList, propsAlpha);
     }
 
-    private boolean doValidateExpression(List<String> errorMessages, final List<ExpressionToken> tokens,  List<String> propsAlpha) {
+    private boolean doValidateExpression(List<String> errorMessages, final List<ExpressionToken> tokens, List<String> propsAlpha) {
         boolean valid = true;
         List<String> seenConditonValues = new ArrayList<String>();
         // allow empty expression. ie. user wants the entire rule deleted.
@@ -118,9 +122,9 @@ public class RuleLogicExpressionParser {
     }
 
     private boolean checkAnd(List<String> errorMessages, List<ExpressionToken> tokenList, int currentIndex) {
-        ExpressionToken prevToken = (tokenList == null || currentIndex - 1 < 0)? null :
+        ExpressionToken prevToken = (tokenList == null || currentIndex - 1 < 0) ? null :
                 tokenList.get(currentIndex - 1);
-        ExpressionToken nextToken = (tokenList == null || currentIndex + 1 >= tokenList.size())? null :
+        ExpressionToken nextToken = (tokenList == null || currentIndex + 1 >= tokenList.size()) ? null :
                 tokenList.get(currentIndex + 1);
         boolean validToken = true;
         if (prevToken != null && (prevToken.type == ExpressionToken.Condition || prevToken.type == ExpressionToken.EndParenthesis) == false) {
@@ -135,9 +139,9 @@ public class RuleLogicExpressionParser {
     }
 
     private boolean checkOr(List<String> errorMessages, List<ExpressionToken> tokenList, int currentIndex) {
-        ExpressionToken prevToken = (tokenList == null || currentIndex - 1 < 0)? null :
+        ExpressionToken prevToken = (tokenList == null || currentIndex - 1 < 0) ? null :
                 tokenList.get(currentIndex - 1);
-        ExpressionToken nextToken = (tokenList == null || currentIndex + 1 >= tokenList.size())? null :
+        ExpressionToken nextToken = (tokenList == null || currentIndex + 1 >= tokenList.size()) ? null :
                 tokenList.get(currentIndex + 1);
         boolean validToken = true;
         if (prevToken != null && (prevToken.type == ExpressionToken.Condition || prevToken.type == ExpressionToken.EndParenthesis) == false) {
@@ -152,9 +156,9 @@ public class RuleLogicExpressionParser {
     }
 
     private boolean checkStartParenthesis(List<String> errorMessages, List<ExpressionToken> tokenList, int currentIndex) {
-        ExpressionToken prevToken = (tokenList == null || currentIndex - 1 < 0)? null :
+        ExpressionToken prevToken = (tokenList == null || currentIndex - 1 < 0) ? null :
                 tokenList.get(currentIndex - 1);
-        ExpressionToken nextToken = (tokenList == null || currentIndex + 1 >= tokenList.size())? null :
+        ExpressionToken nextToken = (tokenList == null || currentIndex + 1 >= tokenList.size()) ? null :
                 tokenList.get(currentIndex + 1);
         boolean validToken = true;
         if (prevToken != null && (prevToken.type == ExpressionToken.And || prevToken.type == ExpressionToken.Or || prevToken.type == ExpressionToken.StartParenthesis || prevToken.type == ExpressionToken.Condition) == false) {
@@ -169,9 +173,9 @@ public class RuleLogicExpressionParser {
     }
 
     private boolean checkEndParenthesis(List<String> errorMessages, List<ExpressionToken> tokenList, int currentIndex) {
-        ExpressionToken prevToken = (tokenList == null || currentIndex - 1 < 0)? null :
+        ExpressionToken prevToken = (tokenList == null || currentIndex - 1 < 0) ? null :
                 tokenList.get(currentIndex - 1);
-        ExpressionToken nextToken = (tokenList == null || currentIndex + 1 >= tokenList.size())? null :
+        ExpressionToken nextToken = (tokenList == null || currentIndex + 1 >= tokenList.size()) ? null :
                 tokenList.get(currentIndex + 1);
         boolean validToken = true;
         if (prevToken != null && (prevToken.type == ExpressionToken.Condition || prevToken.type == ExpressionToken.EndParenthesis) == false) {
@@ -187,9 +191,9 @@ public class RuleLogicExpressionParser {
 
     private boolean checkCondition(List<String> errorMessages, List<ExpressionToken> tokenList, int currentIndex,
                                    List<String> propsAlpha) {
-        ExpressionToken prevToken = (tokenList == null || currentIndex - 1 < 0)? null :
+        ExpressionToken prevToken = (tokenList == null || currentIndex - 1 < 0) ? null :
                 tokenList.get(currentIndex - 1);
-        ExpressionToken nextToken = (tokenList == null || currentIndex + 1 >= tokenList.size())? null :
+        ExpressionToken nextToken = (tokenList == null || currentIndex + 1 >= tokenList.size()) ? null :
                 tokenList.get(currentIndex + 1);
         boolean validToken = true;
         if (prevToken != null && (prevToken.type == ExpressionToken.And || prevToken.type == ExpressionToken.Or || prevToken.type == ExpressionToken.StartParenthesis) == false) {
@@ -288,5 +292,112 @@ public class RuleLogicExpressionParser {
 
     public List<ExpressionToken> getTokenList() {
         return tokenList;
+    }
+
+    public PropositionEditor parseExpressionIntoRule(RuleEditor ruleEditor) {
+
+        PropositionEditor oldEditor = (PropositionEditor) ruleEditor.getProposition();
+        List<PropositionEditor> rcs = this.getPropositions(new ArrayList<PropositionEditor>(), oldEditor);
+
+        List<ExpressionToken> rpnList = getRPN(tokenList);
+        return ruleFromRPN(rpnList, rcs);
+    }
+
+    private List<PropositionEditor> getPropositions(List<PropositionEditor> propositions, PropositionEditor propositionEditor) {
+        propositions.add(propositionEditor);
+        if (propositionEditor.getCompoundComponents() != null) {
+            for (PropositionEditor child : propositionEditor.getCompoundEditors()) {
+                this.getPropositions(propositions, child);
+            }
+        }
+        return propositions;
+    }
+
+    /**
+     * If higher push to stack, else pop till less than or equal, add to list push to stack if ( push to stack if ) pop to
+     * list till (.
+     * <p/>
+     * http://en.wikipedia.org/wiki/Reverse_Polish_notation
+     */
+    private List<ExpressionToken> getRPN(List<ExpressionToken> nodeList) {
+        List<ExpressionToken> rpnList = new ArrayList<ExpressionToken>();
+        Stack<ExpressionToken> operatorStack = new Stack<ExpressionToken>();
+
+        for (ExpressionToken token : nodeList) {
+            if (token.type == ExpressionToken.Condition) {
+                rpnList.add(token);
+
+            } else if (token.type == ExpressionToken.And) {
+                operatorStack.push(token);
+            } else if (token.type == ExpressionToken.StartParenthesis) {
+                operatorStack.push(token);
+            } else if (token.type == ExpressionToken.Or) {
+
+                if (operatorStack.isEmpty() == false && operatorStack.peek().type == ExpressionToken.And) {
+                    do {
+                        rpnList.add(operatorStack.pop());
+                    }
+                    while (operatorStack.isEmpty() == false && operatorStack.peek().type == ExpressionToken.And);
+                }
+
+                operatorStack.push(token);
+            } else if (token.type == ExpressionToken.EndParenthesis) {
+                while (operatorStack.peek().type != ExpressionToken.StartParenthesis) {
+                    rpnList.add(operatorStack.pop());
+                }
+                operatorStack.pop();// pop the (
+            }
+        }
+        if (operatorStack.isEmpty() == false) {
+            do {
+                rpnList.add(operatorStack.pop());
+            } while (operatorStack.isEmpty() == false);
+        }
+        return rpnList;
+    }
+
+    /**
+     * Build the binary tree from list of tokens
+     */
+    private PropositionEditor ruleFromRPN(List<ExpressionToken> rpnList, List<PropositionEditor> rcs) {
+        //if rule is empty
+        if (rpnList.size() == 0) {
+            return new PropositionEditor();
+        }
+
+        Stack<PropositionEditor> conditionStack = new Stack<PropositionEditor>();
+        for (ExpressionToken token : rpnList) {
+            if (token.type == ExpressionToken.Condition) {
+                PropositionEditor rc = lookupPropositionEditor(rcs, token.value);
+                conditionStack.push(rc);
+            } else {
+                PropositionEditor right = conditionStack.pop();
+                PropositionEditor left = conditionStack.pop();
+                List<PropositionEditor> simpleProps = new ArrayList<PropositionEditor>();
+                simpleProps.add(left);
+                simpleProps.add(right);
+                PropositionEditor compound = conditionStack.pop();
+                if (token.type == ExpressionToken.And){
+                    compound.setCompoundOpCode(LogicalOperator.AND.getCode());
+                } else if (token.type == ExpressionToken.Or) {
+                    compound.setCompoundOpCode(LogicalOperator.OR.getCode());
+                }
+                compound.setCompoundEditors(simpleProps);
+                conditionStack.push(compound);
+            }
+        }
+
+        return conditionStack.pop();
+    }
+
+    private PropositionEditor lookupPropositionEditor(List<PropositionEditor> rcs, String key) {
+        if (rcs != null) {
+            for (PropositionEditor rc : rcs) {
+                if (rc.getKey().equalsIgnoreCase(key)) {
+                    return rc;
+                }
+            }
+        }
+        return null;
     }
 }

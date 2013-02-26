@@ -20,6 +20,7 @@ import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
+import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
@@ -39,6 +40,7 @@ import org.kuali.student.enrollment.class1.krms.tree.node.CompareTreeNode;
 import org.kuali.student.enrollment.class1.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.RuleEditTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.RulePreviewTreeBuilder;
+import org.kuali.student.enrollment.class1.krms.tree.node.TreeNode;
 import org.kuali.student.enrollment.class1.krms.util.PropositionTreeUtil;
 import org.kuali.student.krms.dto.TemplateInfo;
 import org.kuali.student.enrollment.class1.krms.service.RuleViewHelperService;
@@ -81,8 +83,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     private RuleEditTreeBuilder editTreeBuilder;
     private RulePreviewTreeBuilder previewTreeBuilder;
 
-    private String logicExpression;
-
     @Override
     public void performInitialization(View view, Object model) {
 
@@ -90,9 +90,9 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
             RuleEditor ruleEditor = (RuleEditor) maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
 
-        //Set the editTree and preview tree on the ruleeditor wrapper
-        this.refreshInitTrees(ruleEditor);
-        this.setLogicSection(ruleEditor);
+            //Set the editTree and preview tree on the ruleeditor wrapper
+            this.refreshInitTrees(ruleEditor);
+            this.setLogicSection(ruleEditor);
 
             //Initialize the compare tree
             ruleEditor.setCompareTree(this.buildCompareTree(null));
@@ -108,11 +108,11 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
         List<TermResolverDefinition> matchingTermResolvers = KrmsRepositoryServiceLocator.getTermBoService().findTermResolversByOutputId(termSpecName, PermissionServiceConstants.KS_SYS_NAMESPACE);
         for (TermResolverDefinition termResolver : matchingTermResolvers)
-        for (TermSpecificationDefinition termSpec : termResolver.getPrerequisites()){
-            if (termSpec.isActive()){
-                return termSpec.getId();
+            for (TermSpecificationDefinition termSpec : termResolver.getPrerequisites()) {
+                if (termSpec.isActive()) {
+                    return termSpec.getId();
+                }
             }
-        }
 
         return null;
     }
@@ -147,11 +147,11 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             PropositionEditor propEditor = PropositionTreeUtil.getProposition(ruleEditor);
 
             List<Component> components = new ArrayList<Component>();
-            if (propEditor != null){
+            if (propEditor != null) {
                 //Retrieve the name of the xml component to display for the proposition type.
                 TemplateInfo template = this.getTemplateForType(propEditor.getType());
 
-                if (template != null && template.getDisplay() != null){
+                if (template != null && template.getDisplay() != null) {
                     Component component = ComponentFactory.getNewComponentInstance(template.getDisplay());
                     view.assignComponentIds(component);
 
@@ -459,9 +459,10 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
                 }
 
                 // recurse
-                if (!CollectionUtils.isEmpty(compoundComponents)) for (PropositionEditor childProp : compoundComponents) {
-                    result &= validateProposition(childProp, namespace);
-                }
+                if (!CollectionUtils.isEmpty(compoundComponents))
+                    for (PropositionEditor childProp : compoundComponents) {
+                        result &= validateProposition(childProp, namespace);
+                    }
             }
         }
 
@@ -570,13 +571,13 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
                 List<String> parameterNames = new ArrayList<String>(termResolverDefinition.getParameterNames());
                 Collections.sort(parameterNames);
                 //for (String parameterName : parameterNames) {
-                    //if (!proposition.getTermParameters().containsKey(parameterName) ||
-                    //        StringUtils.isBlank(proposition.getTermParameters().get(parameterName))) {
-                    //    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                    //            "error.rule.proposition.simple.missingTermParameter", proposition.getDescription());
-                    //    result &= false;
-                    //    break;
-                    //}
+                //if (!proposition.getTermParameters().containsKey(parameterName) ||
+                //        StringUtils.isBlank(proposition.getTermParameters().get(parameterName))) {
+                //    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
+                //            "error.rule.proposition.simple.missingTermParameter", proposition.getDescription());
+                //    result &= false;
+                //    break;
+                //}
                 //}
             }
 
@@ -638,11 +639,11 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
         //Set data headers on root node.
         Node<CompareTreeNode, String> node = compareTree.getRootElement();
-        if ((node.getChildren() != null) && (node.getChildren().size() > 0)){
+        if ((node.getChildren() != null) && (node.getChildren().size() > 0)) {
             Node<CompareTreeNode, String> childNode = node.getChildren().get(0);
 
             // Set the headers on the first root child
-            if(childNode.getData() != null){
+            if (childNode.getData() != null) {
                 CompareTreeNode compareTreeNode = childNode.getData();
                 compareTreeNode.setOriginal("CO Rules");
                 compareTreeNode.setCompared("CLU Rules");
@@ -655,40 +656,12 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
     @Override
     public void setLogicSection(RuleEditor ruleEditor) {
-        Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
-        Node<RuleEditorTreeNode, String> node = root.getChildren().get(0);
-        logicExpression = "";
-        configureLogicExpression(node, ruleEditor);
-        ruleEditor.setLogicArea(logicExpression);
-    }
-
-    private void configureLogicExpression(Node<RuleEditorTreeNode, String> node, RuleEditor ruleEditor) {
-        // Depending on the type of proposition (simple/compound), and the editMode,
-        // Create a treeNode of the appropriate type for the node and attach it to the
-        // sprout parameter passed in.
-        // If the prop is a compound proposition, calls itself for each of the compoundComponents
-        if (node.getData() != null) {
-            if (KSSimplePropositionNode.NODE_TYPE.equalsIgnoreCase(node.getNodeType())) {
-                logicExpression += node.getData().getProposition().getKey();
-            } else if (RuleEditorTreeNode.COMPOUND_OP_NODE_TYPE.equalsIgnoreCase(node.getNodeType())) {
-                if(node.getData().getProposition().getCompoundOpCode().equals(LogicalOperator.AND.getCode())) {
-                    logicExpression += " AND ";
-                } else if(node.getData().getProposition().getCompoundOpCode().equals(LogicalOperator.OR.getCode())) {
-                    logicExpression += " OR ";
-                }
-            } else if (RuleEditorTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(node.getNodeType())) {
-                logicExpression += node.getData().getProposition().getKey() + "(";
-
-                List<Node<RuleEditorTreeNode, String>> allMyChildren = node.getChildren();
-                for (Node<RuleEditorTreeNode, String> child : allMyChildren) {
-                    configureLogicExpression(child, ruleEditor);
-                    if(allMyChildren.get(allMyChildren.size()-1).getNodeLabel() == child.getNodeLabel()) {
-                        logicExpression += ")";
-                    }
-                }
-            }
+        if (ruleEditor.getProposition() != null) {
+            ruleEditor.setLogicArea(PropositionTreeUtil.configureLogicExpression((PropositionEditor) ruleEditor.getProposition()));
         }
     }
+
+
 
     public RuleManagementService getRuleManagementService() {
         if (ruleManagementService == null) {
@@ -698,7 +671,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     public RuleCompareTreeBuilder getCompareTreeBuilder() {
-        if (compareTreeBuilder == null){
+        if (compareTreeBuilder == null) {
             compareTreeBuilder = new RuleCompareTreeBuilder();
             compareTreeBuilder.setRuleManagementService(this.getRuleManagementService());
         }
@@ -706,7 +679,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     public RuleEditTreeBuilder getEditTreeBuilder() {
-        if (editTreeBuilder == null){
+        if (editTreeBuilder == null) {
             editTreeBuilder = new RuleEditTreeBuilder();
             editTreeBuilder.setRuleManagementService(this.getRuleManagementService());
         }
@@ -714,7 +687,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     public RulePreviewTreeBuilder getPreviewTreeBuilder() {
-        if (previewTreeBuilder == null){
+        if (previewTreeBuilder == null) {
             previewTreeBuilder = new RulePreviewTreeBuilder();
             previewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
         }

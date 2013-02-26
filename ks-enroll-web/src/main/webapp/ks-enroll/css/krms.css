@@ -47,43 +47,6 @@
     margin-right: 0px;
 }
 
-#Preview-Tree-Section .jstree {
-    background-color: #F2F2F2;
-    border: 1px solid #D3D3D3;
-    max-width: 40em;
-}
-
-#Preview-Tree-Section .jstree-focused {
-    background: none;
-}
-
-#Preview-Tree-Section .jstree-icon {
-    display: none;
-}
-
-#Preview-Tree-Section .jstree-leaf {
-    background-image: none;
-}
-
-#Preview-Tree-Section .jstree-open {
-    background-image: none;
-}
-
-#Preview-Tree-Section .ruleBlockSelected {
-    background-color: transparent !important;
-    border: none;
-}
-
-#Preview-Tree-Section .jstree-hovered {
-    background-color: transparent;
-}
-
-#Preview-Tree-Section .jstree > ul > li {
-    margin-left: 15px;
-    border-bottom: 0px;
-    padding-bottom: 5px;
-}
-
 #RuleStudentEditorView-Tree .editModeNode {
     border: 1px solid;
     margin-bottom: 5px;
@@ -111,9 +74,7 @@
 }
 
 .subruleHeader {
-    border-bottom: 1px solid #A8A6A6;
     font-weight: normal;
-    width: 400px;
 }
 
 .subruleElement {

@@ -54,11 +54,11 @@
           p:style="padding: 5px; margin: 5px; background: white; margin-top:null">
         <property name="items">
             <list>
-                <bean parent="LogicInputSection"/>
+                <bean parent="KS-LogicInput-SubSection"/>
                 <bean parent="Uif-VerticalBoxGroup" p:cssClasses="editModeNode" p:width="50%" p:style="border: 1px solid #999999">
                     <property name="items">
                         <list>
-                            <bean parent="Preview-Tree-Section"/>
+                            <bean parent="KS-PreviewTree-Section"/>
                         </list>
                     </property>
                 </bean>
@@ -66,7 +66,7 @@
         </property>
     </bean>
 
-    <bean id="LogicInputSection" parent="Uif-VerticalBoxSubSection" abstract="true">
+    <bean id="KS-LogicInput-SubSection" parent="Uif-VerticalBoxSubSection" abstract="true">
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="logicArea" p:style="margin-left: 5px; margin-top: 5px">
@@ -74,27 +74,10 @@
                         <bean parent="Uif-MediumTextAreaControl"/>
                     </property>
                 </bean>
-                <bean id="preview-change" parent="Uif-SecondaryActionButton-Small" p:style="margin-left: 5px" p:methodToCall="updatePreview">
+                <bean parent="Uif-SecondaryActionButton-Small" p:style="margin-left: 5px" p:methodToCall="updatePreview">
                     <property name="actionLabel" value="Preview Change"/>
                 </bean>
             </list>
-        </property>
-    </bean>
-
-    <bean id="Preview-Tree-Section" parent="Uif-TreeSection">
-        <property name="propertyName" value="previewTree" />
-        <property name="tree">
-            <bean parent="KS-View-Tree"/>
-        </property>
-        <property name="defaultNodePrototype">
-            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
-                <property name="labelPrototype">
-                    <bean parent="Uif-Message"/>
-                </property>
-                <property name="dataGroupPrototype">
-                    <bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;"/>
-                </property>
-            </bean>
         </property>
     </bean>
 

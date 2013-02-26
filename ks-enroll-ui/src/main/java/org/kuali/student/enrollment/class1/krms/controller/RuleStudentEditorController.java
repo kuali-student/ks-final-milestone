@@ -622,14 +622,11 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
         RuleEditor ruleEditor = getRuleEditor(form);
         ruleLogicExpressionParser.setExpression(ruleEditor.getLogicArea());
-        List<ExpressionToken> tokenList = ruleLogicExpressionParser.getTokenList();
         List<String> propsAlpha = this.getPropositionKeys(new ArrayList<String>(), (PropositionEditor) ruleEditor.getProposition());
 
         //validate the expression
         List<String> errorMessages = new ArrayList<String>();
         boolean validExpression = ruleLogicExpressionParser.validateExpression(errorMessages, propsAlpha);
-
-        orderPropositions(tokenList, (PropositionEditor) ruleEditor.getProposition());
 
         //show errors and don't change anything else
         if (!validExpression) {
@@ -638,15 +635,11 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             return getUIFModelAndView(form);
         }
 
+        ruleEditor.setProposition(ruleLogicExpressionParser.parseExpressionIntoRule(ruleEditor));
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
         return getUIFModelAndView(form);
-    }
-
-    private PropositionEditor orderPropositions(List<ExpressionToken> tokens, PropositionEditor newProp) {
-
-        return newProp;
     }
 
     private List<String> getPropositionKeys(List<String> propositionKeys, PropositionEditor propositionEditor){

@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.class1.krms.util;
 
 import org.kuali.rice.core.api.util.tree.Node;
+import org.kuali.rice.krms.api.repository.LogicalOperator;
+import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.tree.node.RuleEditorTreeNode;
@@ -136,6 +138,33 @@ public class PropositionTreeUtil {
             if (bingo != null) break;
         }
         return bingo;
+    }
+
+    public static String configureLogicExpression(PropositionEditor proposition) {
+        // Depending on the type of proposition (simple/compound), and the editMode,
+        // Create a treeNode of the appropriate type for the node and attach it to the
+        // sprout parameter passed in.
+        // If the prop is a compound proposition, calls itself for each of the compoundComponents
+        String logicExpression = proposition.getKey();
+        if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(proposition.getPropositionTypeCode())) {
+            logicExpression += "(";
+            boolean first = true;
+            for (PropositionEditor child : proposition.getCompoundEditors()) {
+                // add an opcode node in between each of the children.
+                if (!first) {
+                    if (LogicalOperator.AND.getCode().equalsIgnoreCase(proposition.getCompoundOpCode())) {
+                        logicExpression += " AND ";
+                    } else if (LogicalOperator.OR.getCode().equalsIgnoreCase(proposition.getCompoundOpCode())) {
+                        logicExpression += " OR ";
+                    }
+                }
+                first = false;
+                // call to build the childs node
+                logicExpression += configureLogicExpression(child);
+            }
+            logicExpression += ")";
+        }
+        return logicExpression;
     }
 
 }
