@@ -188,7 +188,18 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             boolean readOnlyView = Boolean.parseBoolean(dataObjectKeys.get("readOnlyView"));
             wrapper.setReadOnlyView(readOnlyView);
 
-            wrapper.setAdminOrg(courseOfferingInfo.getUnitsDeploymentOrgIds().get(0));
+            // allows multiple orgs
+            List<String> orgIds = courseOfferingInfo.getUnitsDeploymentOrgIds();
+            if(orgIds != null && !orgIds.isEmpty()){
+                String orgIDs = "";
+                for (String orgId : orgIds) {
+                    orgIDs = orgIDs + orgId + ",";
+                }
+                if (orgIDs.length() > 0) {
+                    wrapper.setAdminOrg(orgIDs.substring(0, orgIDs.length()-1));
+                }
+            }
+
 
             //Set socInfo
             List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(info.getTermId(), ContextUtils.createDefaultContextInfo());
