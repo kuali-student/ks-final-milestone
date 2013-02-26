@@ -112,36 +112,19 @@
     <bean id="KS-CourseOfferingManagement-CourseOfferingLinks" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-LinkGroup" p:render="@{!currentCourseOfferingWrapper.crossListed}">
+                <bean parent="Uif-LinkGroup" p:render="@{!currentCourseOfferingWrapper.crossListed}" p:linkSeparator="|">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-HorizontalBoxSection">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-DataField" p:propertyName="coViewLinkWrapper" p:defaultValue="View">
-                                            <property name="inquiry">
-                                                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="currentCourseOfferingWrapper.courseOfferingId" />
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-HorizontalBoxSection" >
-                                            <property name="headerText" value=""/>
-                                            <property name="disclosure.render" value="false"/>
-                                            <property name="items">
-                                                <list>
-                                                    <!--<bean parent="Uif-Label" p:labelText="|" p:renderColon="false"/>-->
-                                                    <bean parent="Uif-ActionLink" p:methodToCall="editTheCO" p:actionLabel=" | Edit" p:disabled="@{#parent.readOnly}" p:componentSecurity.performActionAuthz="true" p:actionEvent="editCO"/>
-                                                    <!--<bean parent="Uif-Label" p:labelText="|" p:renderColon="false"/>-->
-                                                    <bean parent="Uif-ActionLink" p:id="ActivityOfferingResultSection-deleteOneCoWithLink" p:methodToCall="deleteOneCoWithLink" p:actionLabel=" | Delete" p:disabled="@{#parent.readOnly}" p:render = "@{currentCourseOfferingWrapper.stateKey eq 'kuali.lui.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.planned'  or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.activity.offering.state.offered' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.offered'}" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCO" />
-                                                    <!--<bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render = "@{currentCourseOfferingWrapper.stateKey eq 'kuali.lui.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.planned'  or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.activity.offering.state.offered' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.offered'}"/> -->
-                                                    <bean parent="Uif-ActionLink" p:methodToCall="manageRegGroups" p:actionLabel=" | Manage Registration Groups" p:disabled="@{#parent.readOnly}"/>
-                                                </list>
-                                            </property>
-                                        </bean>
-
-                                    </list>
+                            <bean parent="Uif-DataField" p:propertyName="coViewLinkWrapper" p:defaultValue="View">
+                                <property name="inquiry">
+                                    <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="currentCourseOfferingWrapper.courseOfferingId" />
                                 </property>
                             </bean>
-                        </list>
+                            <bean parent="Uif-ActionLink" p:methodToCall="editTheCO" p:actionLabel="Edit" p:disabled="@{#parent.readOnly}" p:componentSecurity.performActionAuthz="true" p:actionEvent="editCO"/>
+                            <bean parent="Uif-ActionLink" p:id="ActivityOfferingResultSection-deleteOneCoWithLink" p:methodToCall="deleteOneCoWithLink" p:actionLabel="Delete" p:disabled="@{#parent.readOnly}" p:render = "@{currentCourseOfferingWrapper.stateKey eq 'kuali.lui.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.planned'  or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.activity.offering.state.offered' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.offered'}" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCO" />
+                            <bean parent="Uif-ActionLink" p:methodToCall="manageRegGroups" p:actionLabel="Manage Registration Groups" p:disabled="@{#parent.readOnly}"/>
+
+                         </list>
                     </property>
                 </bean>
             </list>
