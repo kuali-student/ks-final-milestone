@@ -65,6 +65,8 @@ public class ToolbarUtil {
         permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT,"addCO");
         if(permissionService.isAuthorizedByTemplate(principalId,"KS-ENR",KimConstants.PermissionTemplateNames.PERFORM_ACTION,permissionDetails,roleQualifications)){
             form.setEnableAddButton(true);
+        }else{
+            form.setEnableAddButton(false);
         }
 
         if(coListWrapperList != null && !coListWrapperList.isEmpty()){
@@ -133,7 +135,10 @@ public class ToolbarUtil {
         permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT,"addCO");
         if(permissionService.isAuthorizedByTemplate(principalId,"KS-ENR",KimConstants.PermissionTemplateNames.PERFORM_ACTION,permissionDetails,roleQualifications)){
             form.setEnableAddButton(true);
+        } else {
+            form.setEnableAddButton(false);
         }
+
         if(activityWrapperList != null && !activityWrapperList.isEmpty()){
             for(ActivityOfferingWrapper activityWrapper : activityWrapperList){
 
