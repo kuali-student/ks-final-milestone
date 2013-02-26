@@ -9,7 +9,7 @@
   <artifactId>ks-impex</artifactId>
   <version>2.0.0-spring-db-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>KS DB Config</name>
+  <name>KS Impex</name>
   <description>Kuali Student Impex</description>
   <modules>
     <module>ks-impex-app-db</module>
