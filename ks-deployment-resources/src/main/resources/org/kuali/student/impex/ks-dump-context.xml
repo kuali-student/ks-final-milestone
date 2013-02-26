@@ -73,6 +73,7 @@
 
   <bean id="syncExecutable" class="org.kuali.common.impex.SyncFilesExecutable" init-method="execute">
     <property name="contexts" ref="dumpContexts" />
+    <property name="properties" ref="dumpProperties" />
     <property name="skip" value="${impex.sync.skip:FALSE}" />
   </bean>
 
