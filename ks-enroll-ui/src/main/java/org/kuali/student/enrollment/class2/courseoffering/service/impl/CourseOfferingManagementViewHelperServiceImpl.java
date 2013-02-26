@@ -230,6 +230,19 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 }
                 else if(CourseOfferingManagementSearchImpl.SearchResultColumns.CO_ID.equals(cellInfo.getKey())){
                     coListWrapper.setCourseOfferingId(value);
+
+                    // set multiple orgs
+                    CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(value, contextInfo);
+                    List<String> orgIds = coInfo.getUnitsDeploymentOrgIds();
+                    if(orgIds != null && !orgIds.isEmpty()){
+                        String orgIDs = "";
+                        for (String orgId : orgIds) {
+                            orgIDs = orgIDs + orgId + ",";
+                        }
+                        if (orgIDs.length() > 0) {
+                            coListWrapper.setAdminOrg(orgIDs.substring(0, orgIDs.length()-1));
+                        }
+                    }
                 }
                 else if(CourseOfferingManagementSearchImpl.SearchResultColumns.SUBJECT_AREA.equals(cellInfo.getKey())){
                     coListWrapper.setSubjectArea(value);
