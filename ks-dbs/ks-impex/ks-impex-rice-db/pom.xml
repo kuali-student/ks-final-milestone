@@ -19,7 +19,7 @@
     <!-- Used to filter imepx XML files to copy from ks-impex-bundled-db (the source data set) -->
     <impex.xml.xmlfFileFilter>KR*.xml</impex.xml.xmlfFileFilter>
 
-    <copyMpx.dataPatterns>${copyMpx.rice.includes}</copyMpx.dataPatterns>
+    <impex.copy.dataPatterns>${impex.copy.rice.includes}</impex.copy.dataPatterns>
   </properties>
   <profiles>
     <profile>

@@ -31,17 +31,16 @@
 
     <import resource="classpath:org/kuali/student/impex/ks-import-constraints.xml" />
 
-    <!--
     <import resource="classpath:org/kuali/student/impex/ks-import-constraints.xml" />
 
-    <bean id="impexService" class="org.kuali.common.impex.service.DefaultImpexService">
+    <bean id="impexService" class="org.kuali.common.impex.service.DefaultImpexExecutorService">
         <property name="jdbcService" ref="jdbcService"/>
     </bean>
 
     <bean id="jdbcService" class="org.kuali.common.jdbc.DefaultJdbcService"/>
 
     <bean id="jdbcContext" class="org.kuali.common.jdbc.context.JdbcContext">
-        <property name="dataSource" ref="${impex.import.dataSource}"/>
+        <property name="dataSource" ref="import.dataSource"/>
     </bean>
 
     <bean id="sqlExecutionContext" class="org.kuali.common.jdbc.context.ExecutionContext">
@@ -51,34 +50,36 @@
         </property>
     </bean>
 
-    <bean id="importExecutable" class="org.kuali.common.impex.ImportExecutable">
+    <bean id="importExecutable" class="org.kuali.common.impex.service.ImportExecutable">
         <property name="service" ref="impexService"/>
         <property name="sqlExecutionContext" ref="sqlExecutionContext"/>
         <property name="sourceContext" ref="sourceContext"/>
     </bean>
 
     <bean id="sourceContext" class="org.kuali.common.impex.ImpexContextFactoryBean">
-        <property name="dataSource" ref="${impex.import.dataSource}" />
+        <property name="dataSource" ref="import.dataSource" />
         <property name="properties">
             <util:properties>
                 <prop key="project.artifactId">${project.artifactId}</prop>
                 <prop key="project.basedir">${project.basedir}</prop>
                 <prop key="project.build.directory">${project.build.directory}</prop>
                 <prop key="impex.databaseVendor">${db.vendor}</prop>
-                <prop key="impex.workingDir">${project.build.directory}/impex</prop>
+                <prop key="impex.workingDir">${project.basedir}/src/main/resources</prop>
                 <prop key="impex.table.includes">.*</prop>
-                <prop key="impex.databaseTablePropertiesFile">${project.basedir}/src/main/resources/${project.artifactId}.properties</prop>
+                <prop key="impex.databaseTablePropertiesFile">none.properties</prop>
+                <prop key="impex.dataLocations">${impex.import.dataLocations}</prop>
             </util:properties>
         </property>
     </bean>
-
-    -->
 
     <bean id="executable" class="org.kuali.common.util.execute.ExecutablesExecutable" init-method="execute">
         <property name="executables">
             <util:list>
                 <ref bean="import.schema.databaseResetExecutable"/>
+                <ref bean="importExecutable"/>
+                <!--
                 <ref bean="import.constraints.databaseResetExecutable"/>
+                -->
             </util:list>
         </property>
     </bean>

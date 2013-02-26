@@ -173,7 +173,7 @@
         <impex.ks.includes>KS.*</impex.ks.includes>
         <impex.includes>${impex.rice.includes},${impex.ks.includes}</impex.includes>
         <impex.source.artifactId>ks-source-db</impex.source.artifactId>
-        <impex.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</impex.url>
+        <impex.url>jdbc:oracle:thin:@localhost:1521:XE</impex.url>
         <impex.driver>oracle.jdbc.driver.OracleDriver</impex.driver>
         <impex.username>KS_SOURCE_DB_SPRING</impex.username>
         <impex.password>KS_SOURCE_DB_SPRING</impex.password>
@@ -222,6 +222,7 @@
         <impex.copy.filePatterns>${impex.copy.dataPatterns},${impex.copy.mysqlPatterns},${impex.copy.oraclePatterns},${project.artifactId}.xml</impex.copy.filePatterns>
         <impex.copy.sourceDir>${project.basedir}/../target/impex</impex.copy.sourceDir>
         <impex.copy.destinationDir>${project.basedir}/src/main/resources</impex.copy.destinationDir>
+        <impex.copy.metaInfFile>${impex.copy.destinationDir}/${project.artifactId}-dataLocations.properties</impex.copy.metaInfFile>
       </properties>
       <build>
         <plugins>
@@ -231,7 +232,7 @@
             <executions>
               <execution>
                 <id>load</id>
-                <phase>validate</phase>
+                <phase>process-resources</phase>
                 <goals>
                   <goal>load</goal>
                 </goals>
@@ -286,6 +287,7 @@
 
         <impex.import.schemasql>${project.basedir}/src/main/resources/${db.vendor}/${project.artifactId}.sql</impex.import.schemasql>
         <impex.import.constraintsql>${project.basedir}/src/main/resources/${db.vendor}/${project.artifactId}-constraints.sql</impex.import.constraintsql>
+        <impex.import.dataLocations>${impex.workingDir}/${project.artifactId}-dataLocations.properties</impex.import.dataLocations>
       </properties>
       <build>
         <plugins>

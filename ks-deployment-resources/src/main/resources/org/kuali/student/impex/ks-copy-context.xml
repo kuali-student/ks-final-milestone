@@ -55,4 +55,36 @@
     </property>
   </bean>
 
+    <bean id="metaInfIncludes" class="org.kuali.common.util.spring.GetListFromCSVFactoryBean">
+        <property name="csv" value="${impex.copy.dataPatterns}"/>
+    </bean>
+
+    <bean id="metaInfContext" class="org.kuali.common.util.DefaultMetaInfContext">
+        <property name="outputFile" value="${impex.copy.metaInfFile}" />
+        <property name="includes" ref="metaInfIncludes" />
+        <property name="baseDir" value="${impex.copy.destinationDir}" />
+        <property name="prefix" value="${metainf.resource.prefix}" />
+    </bean>
+
+    <!-- Aggregate metaInfContext beans into a list -->
+    <util:list id="metaInfContexts">
+        <ref bean="metaInfContext" />
+    </util:list>
+
+    <!-- Invoke metaInfUtils -->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" depends-on="runner">
+        <property name="targetClass">
+            <value>org.kuali.common.util.MetaInfUtils</value>
+        </property>
+        <property name="targetMethod">
+            <value>scanAndCreateFiles</value>
+        </property>
+        <property name="arguments">
+            <list>
+                <ref bean="metaInfContexts" />
+            </list>
+        </property>
+    </bean>
+
+
 </beans>
