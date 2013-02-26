@@ -13,7 +13,6 @@
   <description>Kuali Student Database Configurations</description>
   <modules>
     <module>ks-impex</module>
-    <module>ks-sql</module>
   </modules>
   <properties>
     <oracle.dba.username>SYS AS SYSDBA</oracle.dba.username>
