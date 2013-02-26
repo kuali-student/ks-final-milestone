@@ -33,6 +33,14 @@
         <property name="typeService" ref="typeServiceImpl"/-->
     </bean>
 
+    <bean id="englishTranslator" class="org.kuali.student.krms.naturallanguage.translators.PropositionTranslator">
+            <property name="termBoService" ref="termBoMockService"/>
+
+    </bean>
+
+    <bean id="termBoMockService" class="org.kuali.student.krms.naturallanguage.service.impl.TermBoMockService">
+    </bean>
+
     <bean id="contextRegistryReqComponent"
           class="org.kuali.student.r2.core.krms.naturallanguage.ContextRegistry">
         <constructor-arg>

@@ -24,10 +24,10 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContr
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
 import org.kuali.student.krms.naturallanguage.translators.PropositionTranslator;
-import org.kuali.student.r2.core.krms.naturallanguage.Context;
-import org.kuali.student.r2.core.krms.naturallanguage.ContextRegistry;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.core.krms.naturallanguage.Context;
+import org.kuali.student.r2.core.krms.naturallanguage.ContextRegistry;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -35,10 +35,12 @@ import javax.annotation.Resource;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:nl-test-context.xml"})
+@Ignore //TODO KSENROLL-5427 Create test for the Proposition translator
 public class PropositionTranslatorTest{
 
     @Resource
-	private PropositionTranslator englishTranslator = new PropositionTranslator();
+	private PropositionTranslator englishTranslator;
+
 	private PropositionTranslator germanTranslator = new PropositionTranslator();
     private PropositionDefinitionContract proposition;
 
