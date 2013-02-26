@@ -68,7 +68,7 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     private boolean showCopyFormatSection;
     private List<FormatOfferingWrapper> copyFromFormats;
 
-    String adminOrg;
+    private String adminOrg;
 
     private SocInfo socInfo;
 

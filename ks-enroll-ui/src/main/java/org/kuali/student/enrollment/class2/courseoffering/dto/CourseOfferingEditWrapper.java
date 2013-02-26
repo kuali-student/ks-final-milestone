@@ -233,9 +233,14 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     public Map<String,String> getAdminOrg(){
         Map<String,String> adminOrgMap = new HashMap<String,String>();
-        if(organizationNames!=null && !organizationNames.isEmpty()){
-            String org = getOrganizationNames().get(0).getId();
-            adminOrgMap.put("org",org);
+        if (organizationNames != null && !organizationNames.isEmpty()){
+            String orgIDs = "";
+            for (OrganizationInfoWrapper organizationName : organizationNames) {
+                orgIDs = orgIDs + organizationName.getId() + ",";
+            }
+            if (orgIDs.length() > 0) {
+                adminOrgMap.put("org", orgIDs.substring(0, orgIDs.length()-1));
+            }
         }
         return  adminOrgMap;
     }

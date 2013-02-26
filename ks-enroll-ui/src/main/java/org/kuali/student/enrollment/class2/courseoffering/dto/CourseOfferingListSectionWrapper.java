@@ -42,6 +42,7 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     private String courseOfferingCreditOptionDisplay;
     private String courseOfferingGradingOptionDisplay;
     private String subjectArea;
+    private String adminOrg;
 
     private List<String> alternateCOCodes;
 
@@ -298,6 +299,14 @@ public class CourseOfferingListSectionWrapper implements Serializable{
         }
 
         return StringUtils.removeEnd(buffer.toString(),"<br>");
+    }
+
+    public String getAdminOrg(){
+        return adminOrg;
+    }
+
+    public void setAdminOrg(String adminOrg){
+        this.adminOrg=adminOrg;
     }
 
 }
