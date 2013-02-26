@@ -28,7 +28,7 @@ import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
  * @author Kuali Student Team 
  */
 
-@XmlType(name = "CourseCrossListingInfo", propOrder = {"id", "typeKey", "stateKey", "code", "subjectArea", "department", "courseNumberSuffix", "meta", "attributes" , "_futureElements" }) 
+@XmlType(name = "CourseCrossListingInfo", propOrder = {"id", "typeKey", "stateKey", "code", "subjectArea", "subjectOrgId", "courseNumberSuffix", "meta", "attributes" , "_futureElements" })
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseCrossListingInfo extends IdNamelessEntityInfo implements CourseCrossListing, Serializable {
 
@@ -41,7 +41,7 @@ public class CourseCrossListingInfo extends IdNamelessEntityInfo implements Cour
     private String subjectArea;
 
     @XmlElement
-    private String department;
+    private String subjectOrgId;
 
     @XmlElement
     private String courseNumberSuffix;
@@ -58,7 +58,7 @@ public class CourseCrossListingInfo extends IdNamelessEntityInfo implements Cour
         if (courseCrossListing != null) {
             this.code = courseCrossListing.getCode();
             this.subjectArea = courseCrossListing.getSubjectArea();
-            this.department = courseCrossListing.getDepartment();
+            this.subjectOrgId = courseCrossListing.getSubjectOrgId();
             this.courseNumberSuffix = courseCrossListing.getCourseNumberSuffix();
         }
     }
@@ -82,12 +82,35 @@ public class CourseCrossListingInfo extends IdNamelessEntityInfo implements Cour
     }
 
     @Override
+    @Deprecated
     public String getDepartment() {
-        return department;
+        return getSubjectOrgId();
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
+    /**
+     * Identical to setSubjectOrgId.  Left here for backwards compatibility, but
+     * it's been redefined to store the subject code org id instead of the
+     * admin org id (which can be found via an org-org relation in the Org
+     * service).
+     * @param subjectOrgId the ID of the subject code in the Org tables
+     */
+    @Deprecated
+    public void setDepartment(String subjectOrgId) {
+        setSubjectOrgId(subjectOrgId);
+    }
+
+    @Override
+    public String getSubjectOrgId() {
+        return subjectOrgId;
+    }
+
+    /**
+     * Identical to setSubjectOrgId.  Left here for backwards compatibility, but
+     * it's been redefined.
+     * @param subjectOrgId the ID of the subject code in the Org tables
+     */
+    public void setSubjectOrgId(String subjectOrgId) {
+        this.subjectOrgId = subjectOrgId;
     }
 
     @Override
