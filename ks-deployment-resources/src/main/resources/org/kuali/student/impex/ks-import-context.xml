@@ -68,6 +68,7 @@
                 <prop key="impex.table.includes">.*</prop>
                 <prop key="impex.databaseTablePropertiesFile">none.properties</prop>
                 <prop key="impex.dataLocations">${impex.import.dataLocations}</prop>
+                <prop key="impex.tablesXmlLocation">${project.basedir}/src/main/resources/${project.artifactId}.xml</prop>
             </util:properties>
         </property>
     </bean>
@@ -77,9 +78,7 @@
             <util:list>
                 <ref bean="import.schema.databaseResetExecutable"/>
                 <ref bean="importExecutable"/>
-                <!--
                 <ref bean="import.constraints.databaseResetExecutable"/>
-                -->
             </util:list>
         </property>
     </bean>
