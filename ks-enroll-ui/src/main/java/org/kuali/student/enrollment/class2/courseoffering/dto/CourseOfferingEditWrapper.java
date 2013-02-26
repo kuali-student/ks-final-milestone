@@ -59,13 +59,17 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     private SocInfo socInfo;
 
+    private List<String> alternateCourseCodesSuffixStripped;
+
     public CourseOfferingEditWrapper(){
         formatOfferingList = new ArrayList<FormatOfferingInfo>();
         studentRegOptions = new ArrayList<String>();
+        alternateCourseCodesSuffixStripped = new ArrayList<String>();
     }
 
     public CourseOfferingEditWrapper(CourseOfferingInfo info){
         super(info);
+        alternateCourseCodesSuffixStripped = new ArrayList<String>();
     }
 
     public List<FormatOfferingInfo> getFormatOfferingList() {
@@ -251,6 +255,14 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     public void setSocInfo(SocInfo socInfo) {
         this.socInfo = socInfo;
+    }
+
+    public List<String> getAlternateCourseCodesSuffixStripped() {
+        return alternateCourseCodesSuffixStripped;
+    }
+
+    public void setAlternateCourseCodesSuffixStripped(List<String> alternateCourseCodesSuffixStripped) {
+        this.alternateCourseCodesSuffixStripped = alternateCourseCodesSuffixStripped;
     }
 
 }

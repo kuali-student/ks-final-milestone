@@ -190,7 +190,7 @@
             <property name="style" value="margin-bottom:px;"/>
             <property name="items">
               <list>
-                  <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{#dp.crossListedCourseCodes}" p:render="@{#dp.crossListedCourseCodes != ''}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
+                  <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{#dp.alternateCOCodes}" p:render="@{!#dp.alternateCOCodes.isEmpty()}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
               </list>
             </property>
           </bean>
@@ -252,7 +252,7 @@
         </property>
     </bean>
 
-    <bean id="KS-COEditListed-Checkbox-Group" parent="Uif-InputField"  p:propertyName="alternateCOCodes" p:readOnlyDisplayReplacementPropertyName="alternateCOCodesUIList" p:readOnly="@{!#dp.selectCrossListingAllowed}" p:render="@{!#dp.crossListedCourseCodes.isEmpty()}">
+    <bean id="KS-COEditListed-Checkbox-Group" parent="Uif-InputField"  p:propertyName="alternateCourseCodesSuffixStripped" p:readOnlyDisplayReplacementPropertyName="alternateCOCodesUIList" p:readOnly="@{!#dp.selectCrossListingAllowed}" p:render="@{!#dp.crossListedCourseCodes.isEmpty()}">
         <property name="label" value="Cross List As"/>
         <property name="control">
             <bean parent="Uif-HorizontalCheckboxesControl"/>
@@ -452,7 +452,7 @@
                     <property name="lineActions">
                       <list>
                         <bean parent="Uif-DeleteLineAction">
-                            <property name="render" value="@{#lp.stateKey ne 'kuali.lui.format.offering.state.offered'}"/>
+                             <property name="render" value="@{#lp.stateKey ne 'kuali.lui.format.offering.state.offered'}"/>
                         </bean>
                       </list>
                     </property>

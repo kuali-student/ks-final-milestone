@@ -441,7 +441,9 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         setShowCopyFormatSection(false);
         setShowCreateFormatSection(true);
         getCopyFromFormats().clear();
-        getAlternateCOCodes().clear();
+        if (getAlternateCOCodes() != null){
+            getAlternateCOCodes().clear();
+        }
         setSocInfo(null);
         setAdminOrg(null);
     }

@@ -27,6 +27,7 @@ import org.kuali.rice.krad.uif.control.SelectControl;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
@@ -247,7 +248,13 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
     protected void loadCrossListedCOs(CourseOfferingWrapper wrapper, CourseOfferingInfo coInfo) {
         coInfo.getCrossListings().clear();
         if (wrapper.isSelectCrossListingAllowed()) {
-            for (String alternateCode : wrapper.getAlternateCOCodes()) {
+            List<String> alternateCodes = null;
+            if (wrapper instanceof CourseOfferingCreateWrapper){
+                alternateCodes = wrapper.getAlternateCOCodes();
+            } else if (wrapper instanceof CourseOfferingEditWrapper){
+                alternateCodes = ((CourseOfferingEditWrapper)wrapper).getAlternateCourseCodesSuffixStripped();
+            }
+            for (String alternateCode : alternateCodes) {
                 for (CourseCrossListingInfo crossInfo : wrapper.getCourse().getCrossListings()) {
                     if (StringUtils.equals(crossInfo.getCode(),alternateCode)) {
                         CourseOfferingCrossListingInfo crossListingInfo = new CourseOfferingCrossListingInfo();
