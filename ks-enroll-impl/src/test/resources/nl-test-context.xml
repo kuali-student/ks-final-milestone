@@ -34,11 +34,32 @@
     </bean>
 
     <bean id="englishTranslator" class="org.kuali.student.krms.naturallanguage.translators.PropositionTranslator">
-            <property name="termBoService" ref="termBoMockService"/>
+        <property name="termBoService" ref="termBoMockService"/>
+        <property name="naturalLanguageTemplateBoService" ref="naturalLanguageTemplateBoMockService"/>
+        <property name="naturalLanguageUsageBoService" ref="naturalLanguageUsageBoMockService"/>
+        <property name="krmsTypeRepositoryService" ref="krmsTypeRepositoryMockService"/>
+    </bean>
 
+    <bean id="germanTranslator" class="org.kuali.student.krms.naturallanguage.translators.PropositionTranslator">
+        <property name="termBoService" ref="termBoMockService"/>
+        <property name="naturalLanguageTemplateBoService" ref="naturalLanguageTemplateBoMockService"/>
+        <property name="naturalLanguageUsageBoService" ref="naturalLanguageUsageBoMockService"/>
+        <property name="krmsTypeRepositoryService" ref="krmsTypeRepositoryMockService"/>
     </bean>
 
     <bean id="termBoMockService" class="org.kuali.student.krms.naturallanguage.service.impl.TermBoMockService">
+    </bean>
+
+    <bean id="naturalLanguageTemplateBoMockService"
+          class="org.kuali.student.krms.naturallanguage.service.impl.NaturalLanguageTemplateBoMockService">
+    </bean>
+
+    <bean id="naturalLanguageUsageBoMockService"
+          class="org.kuali.student.krms.naturallanguage.service.impl.NaturalLanguageUsageBoMockService">
+    </bean>
+
+    <bean id="krmsTypeRepositoryMockService"
+          class="org.kuali.student.krms.naturallanguage.service.impl.KrmsTypeRepositoryMockService">
     </bean>
 
     <bean id="contextRegistryReqComponent"

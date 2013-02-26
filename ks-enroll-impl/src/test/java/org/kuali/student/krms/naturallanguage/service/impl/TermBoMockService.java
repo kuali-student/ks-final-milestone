@@ -17,9 +17,12 @@
 package org.kuali.student.krms.naturallanguage.service.impl;
 
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
+import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.impl.repository.TermBoService;
+import org.kuali.rice.krms.impl.repository.TermBoServiceImpl;
+import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
 
 import java.util.List;
 
@@ -29,6 +32,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class TermBoMockService implements TermBoService {
+    public TermDefinitionContract termDefinitionContract = KRMSDataGenerator.createTermDefinition(null,null,null,null,0L);
 
     @Override
     public TermSpecificationDefinition getTermSpecificationById(String id) {
@@ -42,7 +46,7 @@ public class TermBoMockService implements TermBoService {
 
     @Override
     public TermDefinition getTerm(String id) {
-        return null;
+        return (TermDefinition) termDefinitionContract;
     }
 
     @Override

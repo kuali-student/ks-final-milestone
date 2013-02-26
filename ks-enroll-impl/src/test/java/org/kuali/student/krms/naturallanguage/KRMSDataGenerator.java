@@ -1,5 +1,7 @@
 package org.kuali.student.krms.naturallanguage;
 
+import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplateContract;
+import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsageContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameter;
@@ -8,11 +10,14 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinitionContract;
+import org.kuali.rice.krms.api.repository.type.KrmsTypeAttributeContract;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
+import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinitionContract;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -164,6 +169,123 @@ public class KRMSDataGenerator {
             @Override
             public Long getVersionNumber() {
                 return verNumber;
+            }
+        };
+    }
+
+    public static KrmsTypeDefinitionContract createKrmsTypeDefinition(final String name, final String namespace, final String servicename, final List<? extends KrmsTypeAttributeContract> attributes, final String id, final boolean active, final Long versionNumber) {
+        return new KrmsTypeDefinitionContract() {
+            @Override
+            public String getName() {
+                return name;
+            }
+
+            @Override
+            public String getNamespace() {
+                return namespace;
+            }
+
+            @Override
+            public String getServiceName() {
+                return servicename;
+            }
+
+            @Override
+            public List<? extends KrmsTypeAttributeContract> getAttributes() {
+                return attributes;
+            }
+
+            @Override
+            public String getId() {
+                return id;
+            }
+
+            @Override
+            public boolean isActive() {
+                return active;
+            }
+
+            @Override
+            public Long getVersionNumber() {
+                return versionNumber;
+            }
+        };
+    }
+
+    public static NaturalLanguageUsageContract createNaturalLanguageUsage(final String description, final String name, final String namespace, final String id, final boolean active,final Long versionNumber){
+        return new NaturalLanguageUsageContract() {
+            @Override
+            public String getDescription() {
+                return description;
+            }
+
+            @Override
+            public String getName() {
+                return name;
+            }
+
+            @Override
+            public String getNamespace() {
+                return namespace;
+            }
+
+            @Override
+            public String getId() {
+                return id;
+            }
+
+            @Override
+            public boolean isActive() {
+                return active;
+            }
+
+            @Override
+            public Long getVersionNumber() {
+                return versionNumber;
+            }
+        };
+    }
+
+    public static NaturalLanguageTemplateContract createNaturalLanguageTemplateContract(final String languageCode, final String naturalLanguageUsageId, final String typeId, final String template, final Map<String, String> attributes, final String id, final boolean active, final Long versionNumber){
+        return new NaturalLanguageTemplateContract() {
+            @Override
+            public String getLanguageCode() {
+                return languageCode;
+            }
+
+            @Override
+            public String getNaturalLanguageUsageId() {
+                return naturalLanguageUsageId;
+            }
+
+            @Override
+            public String getTypeId() {
+                return typeId;
+            }
+
+            @Override
+            public String getTemplate() {
+                return template;
+            }
+
+            @Override
+            public Map<String, String> getAttributes() {
+                return attributes;
+            }
+
+            @Override
+            public String getId() {
+                return id;
+            }
+
+            @Override
+            public boolean isActive() {
+                return active;
+            }
+
+            @Override
+            public Long getVersionNumber() {
+                return versionNumber;
             }
         };
     }
