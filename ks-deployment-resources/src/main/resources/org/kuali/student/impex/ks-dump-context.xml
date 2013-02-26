@@ -43,6 +43,8 @@
     <property name="finalDirectory" value="${project.basedir}/#{ksRiceArtifactId}/src/main/resources" />
     <property name="include" value="${impex.rice.includes}" />
     <property name="sourceContext" ref="sourceContext" />
+    <property name="copyDataFiles" value="true" />
+    <property name="schemaFileInclude" value="**/#{ksRiceArtifactId}*" />
   </bean>
 
   <bean id="appDumpContext" class="org.kuali.common.impex.ImpexContextCloningFactoryBean">
@@ -50,6 +52,8 @@
     <property name="finalDirectory" value="${project.basedir}/#{ksAppArtifactId}/src/main/resources" />
     <property name="include" value="${impex.ks.includes}" />
     <property name="sourceContext" ref="sourceContext" />
+    <property name="copyDataFiles" value="true" />
+    <property name="schemaFileInclude" value="**/#{ksAppArtifactId}*" />
   </bean>
 
   <bean id="bundledDumpContext" class="org.kuali.common.impex.ImpexContextCloningFactoryBean">
@@ -58,6 +62,7 @@
     <property name="include" value="${impex.rice.includes},${impex.ks.includes}" />
     <property name="sourceContext" ref="sourceContext" />
     <property name="copyDataFiles" value="false" />
+    <property name="schemaFileInclude" value="**/#{ksBundledArtifactId}*" />
   </bean>
 
   <util:list id="dumpContexts">
@@ -65,5 +70,10 @@
     <ref bean="appDumpContext" />
     <ref bean="bundledDumpContext" />
   </util:list>
+
+  <bean id="syncExecutable" class="org.kuali.common.impex.SyncFilesExecutable" init-method="execute">
+    <property name="contexts" ref="dumpContexts" />
+    <property name="skip" value="${impex.sync.skip:FALSE}" />
+  </bean>
 
 </beans>
