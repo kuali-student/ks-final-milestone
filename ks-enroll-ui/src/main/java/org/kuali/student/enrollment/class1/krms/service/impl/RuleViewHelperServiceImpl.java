@@ -650,7 +650,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
     public RuleManagementService getRuleManagementService() {
         if (ruleManagementService == null) {
-            ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
+            //ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return ruleManagementService;
     }
