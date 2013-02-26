@@ -36,6 +36,7 @@ import org.kuali.student.r2.core.organization.service.OrganizationService;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,15 +72,26 @@ public class OrganizationHierarchyRoleTypeService extends RoleTypeServiceBase {
             return true;
         }
         List<Map<String, String>> inputSets = new ArrayList<Map<String, String>>();
+        List<String> inputOrgIds = new ArrayList<String>(Arrays.asList(inputOrgId.split(",")));
         try {
             // if role member qualifier says to descend the hierarchy then add in all other org short names from hierarchy
             BooleanFormatter format = new BooleanFormatter();
             Boolean b = (Boolean) format.convertFromPresentationFormat(roleMemberQualifier.get(KualiStudentKimAttributes.DESCEND_HIERARCHY));
             if (b != null && b.booleanValue()) {
                 // inputSets.addAll(getHierarchyOrgShortNames(inputOrgId));
-                inputSets.addAll(getHierarchyOrgIds(inputOrgId, ContextUtils.getContextInfo()));
-            }else{
-                return inputOrgId.equals(roleMemberOrganizationId);
+                for (String orgId : inputOrgIds) {
+                    inputSets.addAll(getHierarchyOrgIds(orgId, ContextUtils.getContextInfo()));
+                // check for a match where roleMemberOrganizationId exists in one of the attribute sets in the list inputSets
+                    if (hasMatch(inputSets, roleMemberOrganizationId)) {
+                        return true;
+                    }
+                }
+            } else {
+                for (String orgId : inputOrgIds) {
+                    if (orgId.equals(roleMemberOrganizationId)) {
+                        return true;
+                    }
+                }
             }
             /*
 	        // add in the original org short name
@@ -88,8 +100,7 @@ public class OrganizationHierarchyRoleTypeService extends RoleTypeServiceBase {
 	            inputSets.add(new AttributeSet(KualiStudentKimAttributes.QUALIFICATION_ORG,org.getShortName()));
 	        }
              */
-            // check for a match where roleMemberOrganizationId exists in one of the attribute sets in the list inputSets
-            return hasMatch(inputSets, roleMemberOrganizationId);
+            return false;
         } catch (Exception e) {
             LOG.error(e);
             throw new RuntimeException(e);
