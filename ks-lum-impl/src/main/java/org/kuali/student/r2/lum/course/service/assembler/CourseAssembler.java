@@ -375,7 +375,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
             cluIdentifier.setSuffixCode(crossListing.getCourseNumberSuffix());
             cluIdentifier.setDivision(crossListing.getSubjectArea());
             cluIdentifier.setStateKey(course.getStateKey());
-            cluIdentifier.setOrgId(crossListing.getDepartment());
+            cluIdentifier.setOrgId(crossListing.getSubjectOrgId());
             cluIdentifier.setAttributes(crossListing.getAttributes());
             cluIdentifier.setCode(crossListing.getCode());
             clu.getAlternateIdentifiers().add(cluIdentifier);
@@ -1232,7 +1232,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                                 crosslisting.setTypeKey(cluInfo.getTypeKey());
                                 crosslisting.setCourseNumberSuffix(cluInfo.getOfficialIdentifier().getSuffixCode());
                                 crosslisting.setSubjectArea(cluInfo.getOfficialIdentifier().getDivision());
-                                crosslisting.setDepartment(cluIdent.getOrgId());
+                                crosslisting.setSubjectOrgId(cluIdent.getOrgId());
                             } catch (Exception e) {
                                 throw new AssemblyException("Error getting related clus", e);
                             }
@@ -1245,7 +1245,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         crosslisting.setTypeKey(cluIdent.getTypeKey());
                         crosslisting.setCourseNumberSuffix(cluIdent.getSuffixCode());
                         crosslisting.setSubjectArea(cluIdent.getDivision());
-                        crosslisting.setDepartment(cluIdent.getOrgId());
+                        crosslisting.setSubjectOrgId(cluIdent.getOrgId());
                     }
 
                     crossListings.add(crosslisting);
