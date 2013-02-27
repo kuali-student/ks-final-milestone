@@ -44,11 +44,11 @@
          <property name="header.lowerGroup.render" value="false"/>
     </bean>
 
-    <bean id="ActivityOffering-DeliveryLogistic-SchedulePage-New" parent="ActivityOffering-DeliveryLogistic-New">
+    <bean id="ActivityOffering-DeliveryLogistic-SchedulePage-New" parent="ActivityOffering-DeliveryLogistic-New" p:componentSecurity.viewAuthz="false">
          <property name="render" value="true"/>
     </bean>
 
-    <bean id="ActivityOffering-DeliveryLogistic-SchedulePage-Requested" parent="ActivityOffering-DeliveryLogistic-Requested">
+    <bean id="ActivityOffering-DeliveryLogistic-SchedulePage-Requested" parent="ActivityOffering-DeliveryLogistic-Requested" p:componentSecurity.editAuthz="false">
         <property name="render" value="true"/>
         <property name="propertyName" value="revisedScheduleRequestComponents"/>
         <property name="lineActions">
