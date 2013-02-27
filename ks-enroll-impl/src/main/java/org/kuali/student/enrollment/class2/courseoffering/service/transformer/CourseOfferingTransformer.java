@@ -508,7 +508,7 @@ public class CourseOfferingTransformer {
             info.setStateKey(luiIdentifierInfo.getStateKey());
             info.setCode(luiIdentifierInfo.getCode());
             info.setSubjectArea(luiIdentifierInfo.getDivision());
-            info.setDepartmentOrgId(luiIdentifierInfo.getOrgId());
+            info.setSubjectOrgId(luiIdentifierInfo.getOrgId());
             info.setCourseNumberSuffix(luiIdentifierInfo.getSuffixCode());
             info.setMeta(luiIdentifierInfo.getMeta());
             info.setAttributes(luiIdentifierInfo.getAttributes());
@@ -535,7 +535,7 @@ public class CourseOfferingTransformer {
             info.setDivision(crossListingInfo.getSubjectArea());
             info.setSuffixCode(crossListingInfo.getCourseNumberSuffix());
             //info.setVariation(crossListingInfo.);
-            info.setOrgId(crossListingInfo.getDepartmentOrgId());
+            info.setOrgId(crossListingInfo.getSubjectOrgId());
             info.setMeta(crossListingInfo.getMeta());
             info.setAttributes(crossListingInfo.getAttributes());
 
