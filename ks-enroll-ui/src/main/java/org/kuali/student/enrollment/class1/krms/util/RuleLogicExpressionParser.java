@@ -68,6 +68,10 @@ public class RuleLogicExpressionParser {
             errorMessages.add("must start with ( or condition");
             return false;
         }
+        if ((tokenList.get(1).type == ExpressionToken.StartParenthesis) == false) {
+            errorMessages.add("parent compound proposition cannot be changed");
+            return false;
+        }
         int lastIndex = tokens.size() - 1;
         if ((tokens.get(lastIndex).type == ExpressionToken.EndParenthesis || tokens.get(lastIndex).type == ExpressionToken.Condition) == false) {
             errorMessages.add("must end with ) or condition");
@@ -161,12 +165,16 @@ public class RuleLogicExpressionParser {
         ExpressionToken nextToken = (tokenList == null || currentIndex + 1 >= tokenList.size()) ? null :
                 tokenList.get(currentIndex + 1);
         boolean validToken = true;
-        if (prevToken != null && (prevToken.type == ExpressionToken.And || prevToken.type == ExpressionToken.Or || prevToken.type == ExpressionToken.StartParenthesis || prevToken.type == ExpressionToken.Condition) == false) {
-            errorMessages.add("only and, or, ( could sit before (");
+        if (prevToken != null && (prevToken.type == ExpressionToken.Condition) == false) {
+            errorMessages.add("cannot alter compound proposition");
             validToken = false;
         }
         if (nextToken != null && (nextToken.type == ExpressionToken.Condition || nextToken.type == ExpressionToken.StartParenthesis) == false) {
             errorMessages.add("only ( and condition could sit after (");
+            validToken = false;
+        }
+        if (prevToken != null && (prevToken.type == ExpressionToken.Condition || nextToken.type == ExpressionToken.Condition || prevToken.type == ExpressionToken.StartParenthesis) == false) {
+            errorMessages.add("cannot alter compound proposition");
             validToken = false;
         }
         return validToken;

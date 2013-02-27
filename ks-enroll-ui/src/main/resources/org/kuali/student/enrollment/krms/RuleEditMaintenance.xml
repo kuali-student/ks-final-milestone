@@ -117,7 +117,7 @@
                                         <bean id="update-button" parent="Uif-SecondaryActionButton-Small">
                                             <property name="actionLabel" value="Update"/>
                                             <property name="actionScript"
-                                                      value="ajaxSubmitForm('updatePreview', null, jQuery(this).data('submitdata'), null, null, null);"/>
+                                                      value="ajaxSubmitForm('updateChanges', null, jQuery(this).data('submitdata'), null, null, null);"/>
                                         </bean>
                                         <bean id="cancel-button" parent="Uif-ActionLink" p:style="margin-left: 0.5em;margin-top: 0.3em;">
                                             <property name="actionLabel" value="Cancel"/>

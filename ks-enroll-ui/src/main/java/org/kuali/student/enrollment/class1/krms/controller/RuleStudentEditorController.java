@@ -614,6 +614,18 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
+    @RequestMapping(params = "methodToCall=updateChanges")
+    public ModelAndView updateChanges(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        RuleEditor ruleEditor = getRuleEditor(form);
+        PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
+        this.getViewHelper(form).refreshInitTrees(ruleEditor);
+        this.getViewHelper(form).setLogicSection(ruleEditor);
+
+        return getUIFModelAndView(form);
+    }
+
     @RequestMapping(params = "methodToCall=updatePreview")
     public ModelAndView updatePreview(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response)
@@ -630,8 +642,11 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
         //show errors and don't change anything else
         if (!validExpression) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, errorMessages.get(0));
+            for(int i = 0; i < errorMessages.size() ; i++) {
+                GlobalVariables.getMessageMap().putError("logicArea", errorMessages.get(i));
+            }
             // reload page1
+            form.setFocusId("KS-EditWithLogic-EditSection");
             return getUIFModelAndView(form);
         }
 
@@ -644,8 +659,10 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
     private List<String> getPropositionKeys(List<String> propositionKeys, PropositionEditor propositionEditor){
         propositionKeys.add(propositionEditor.getKey());
-        for (PropositionEditor child : propositionEditor.getCompoundEditors()) {
-            this.getPropositionKeys(propositionKeys, child);
+        if(propositionEditor.getCompoundComponents() != null) {
+            for (PropositionEditor child : propositionEditor.getCompoundEditors()) {
+                this.getPropositionKeys(propositionKeys, child);
+            }
         }
         return propositionKeys;
     }
