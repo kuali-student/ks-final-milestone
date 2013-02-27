@@ -81,6 +81,8 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean enableCancelButton = false;
     private boolean enableReinstateButton = false;
     private boolean enableDeleteButton = false;
+    private boolean enableCopyAOActionLink = false;
+    private boolean enableEditAOActionLink = false;
 
     //This is needed to display the cross listed courses
     private CourseInfo course;
@@ -155,6 +157,22 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setEnableDeleteButton(boolean enableDeleteButton) {
         this.enableDeleteButton = enableDeleteButton;
+    }
+
+    public boolean isEnableCopyAOActionLink() {
+        return enableCopyAOActionLink;
+    }
+
+    public void setEnableCopyAOActionLink(boolean enableCopyAOActionLink) {
+        this.enableCopyAOActionLink = enableCopyAOActionLink;
+    }
+
+    public boolean isEnableEditAOActionLink() {
+        return enableEditAOActionLink;
+    }
+
+    public void setEnableEditAOActionLink(boolean enableEditAOActionLink) {
+        this.enableEditAOActionLink = enableEditAOActionLink;
     }
 
     public String getCourseOfferingCode() {

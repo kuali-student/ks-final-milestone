@@ -189,6 +189,8 @@
                 <bean name="enableCancelButton" parent="Uif-InputField" p:propertyName="enableCancelButton"/>
                 <bean name="enableReinstateButton" parent="Uif-InputField" p:propertyName="enableReinstateButton" />
                 <bean name="enableDeleteButton" parent="Uif-InputField" p:propertyName="enableDeleteButton" />
+                <bean name="enableCopyAOActionLink" parent="Uif-InputField" p:propertyName="enableCopyAOActionLink" />
+                <bean name="enableEditAOActionLink" parent="Uif-InputField" p:propertyName="enableEditAOActionLink" />
             </list>
         </property>
         <property name="layoutManager.richTable.hiddenColumns">
@@ -199,6 +201,8 @@
                 <value>enableCancelButton</value>
                 <value>enableReinstateButton</value>
                 <value>enableDeleteButton</value>
+                <value>enableCopyAOActionLink</value>
+                <value>enableEditAOActionLink</value>
             </set>
         </property>
         <property name="layoutManager.actionFieldPrototype">
@@ -206,8 +210,8 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy" />
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy" p:actionEvent="copyAOonManageAOsPage" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" p:actionEvent="editAOonManageAOsPage"/>
             </list>
         </property>
     </bean>

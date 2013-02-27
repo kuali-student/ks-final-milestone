@@ -158,6 +158,18 @@ public class ToolbarUtil {
                 aoState = aoState.substring(aoState.lastIndexOf('.')+1);
 
                 permissionDetails.put("aoState", aoState);
+
+                //for copy and edit action links on each CO row.
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "copyAOonManageAOsPage");
+                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                    activityWrapper.setEnableCopyAOActionLink(true);
+                }
+
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "editAOonManageAOsPage");
+                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                    activityWrapper.setEnableEditAOActionLink(true);
+                }
+
                 //TODO put in business logic so you can't cancel a canceled state, approve approved state etc...
                 permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "cancelAO");
                 if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
