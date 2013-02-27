@@ -15,3 +15,6 @@ INSERT INTO KRMS_NL_USAGE_T (ACTV,DESC_TXT,NL_USAGE_ID,NM,NMSPC_CD,VER_NBR)
 INSERT INTO KRMS_NL_USAGE_T (ACTV,DESC_TXT,NL_USAGE_ID,NM,NMSPC_CD,VER_NBR)
   VALUES ('Y','Kuali Rule Type Description','10004','kuali.krms.type.description','KS-SYS',0)
 /
+Insert into KRMS_NL_USAGE_T (NL_USAGE_ID,NM,NMSPC_CD,DESC_TXT,ACTV,VER_NBR)
+  values ('10005','kuali.krms.catalog','KS-SYS','Kuali Rule Catalog','Y',0)
+/
