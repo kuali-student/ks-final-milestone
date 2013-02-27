@@ -14,4 +14,6 @@
     <KRMS_NL_USAGE_T ACTV="Y" DESC_TXT="Kuali Rule Type Description"
         NL_USAGE_ID="10004" NM="kuali.krms.type.description"
         NMSPC_CD="KS-SYS" VER_NBR="0"/>
+    <KRMS_NL_USAGE_T ACTV="Y" DESC_TXT="Kuali Rule Catalog"
+        NL_USAGE_ID="10005" NM="kuali.krms.catalog" NMSPC_CD="KS-SYS" VER_NBR="0"/>
 </dataset>

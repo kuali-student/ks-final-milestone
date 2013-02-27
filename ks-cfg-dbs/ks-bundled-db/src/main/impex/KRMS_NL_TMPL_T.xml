@@ -362,4 +362,266 @@
     <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10127" NL_USAGE_ID="10004"
         TMPL="Must have achieved a score of &lt;score> on &lt;test>"
         TYP_ID="10075" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10128" NL_USAGE_ID="10000"
+        TMPL="Permission of $org.getLongName() required" TYP_ID="10035" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10129" NL_USAGE_ID="10000"
+        TMPL="Permission of instructor required" TYP_ID="10034" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10130" NL_USAGE_ID="10000"
+        TMPL="Must have achieved a minimum score of $fields.get('kuali.reqComponent.field.type.test.score') on $testCluSet.getCluSetAsLongName()"
+        TYP_ID="10038" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10131" NL_USAGE_ID="10000"
+        TMPL="Must have achieved a score no higher than $fields.get('kuali.reqComponent.field.type.test.score') on $testCluSet.getCluSetAsLongName()"
+        TYP_ID="10037" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10132" NL_USAGE_ID="10000"
+        TMPL="Must successfully complete a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) with a minimum grade of #if($gradeType.getId().equals(&quot;kuali.result.scale.grade.letter&quot;) || $gradeType.getId().equals(&quot;kuali.result.scale.grade.percentage&quot;))$gradeType.getName().toLowerCase() #{end}$grade from $courseCluSet.getCluSetAsCode()"
+        TYP_ID="10028" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10133" NL_USAGE_ID="10000"
+        TMPL="#if($courseCluSet.getCluList().size() == 1)Must have successfully completed $courseCluSet.getCluSetAsCode()#{else}Must have successfully completed all courses from $courseCluSet.getCluSetAsCode()#end"
+        TYP_ID="10018" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10134" NL_USAGE_ID="10000"
+        TMPL="Students admitted to $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) in the $org.getLongName() in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()"
+        TYP_ID="10048" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10161" NL_USAGE_ID="10000"
+        TMPL="Students not admitted to $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) in the $org.getLongName() in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()"
+        TYP_ID="10049" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10169" NL_USAGE_ID="10000"
+        TMPL="Must be admitted to any program offered at the course campus location"
+        TYP_ID="10033" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10180" NL_USAGE_ID="10000"
+        TMPL="Must not have been admitted to the $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) program"
+        TYP_ID="10036" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10181" NL_USAGE_ID="10000"
+        TMPL="May be repeated for a maximum of $intValue credits"
+        TYP_ID="10029" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10182" NL_USAGE_ID="10000"
+        TMPL="Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) from courses in the $org.getLongName()"
+        TYP_ID="10055" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10183" NL_USAGE_ID="10000"
+        TMPL="Must have been admitted to the $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) program"
+        TYP_ID="10052" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10184" NL_USAGE_ID="10000"
+        TMPL="Must have successfully completed $courseClu.getOfficialIdentifier().getCode()"
+        TYP_ID="10017" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10185" NL_USAGE_ID="10000"
+        TMPL="Must be concurrently enrolled in $courseClu.getOfficialIdentifier().getCode()"
+        TYP_ID="10030" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10186" NL_USAGE_ID="10000"
+        TMPL="Must not have successfully completed $courseClu.getOfficialIdentifier().getCode()"
+        TYP_ID="10032" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10187" NL_USAGE_ID="10000"
+        TMPL="#if($intValue == 1 &amp;&amp; $courseCluSet.getCluList().size() == 1)Must have successfully completed $courseCluSet.getCluSetAsCode()#{else}Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) from $courseCluSet.getCluSetAsCode()#end"
+        TYP_ID="10053" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10193" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Minimum Number of Credits>"
+        TYP_ID="10039" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10194" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Maximum Number of Credits>"
+        TYP_ID="10047" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10197" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.course.cluSet.id;reqCompFieldLabel=Courses>"
+        TYP_ID="10020" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10203" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number of Courses> from &lt;reqCompFieldType=kuali.reqComponent.field.type.course.cluSet.id;reqCompFieldLabel=Courses>"
+        TYP_ID="10053" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10204" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.gpa;reqCompFieldLabel=GPA>"
+        TYP_ID="10040" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10205" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.durationType.id;reqCompFieldLabel=Duration Type> &lt;reqCompFieldType=kuali.reqComponent.field.type.gpa;reqCompFieldLabel=GPA>"
+        TYP_ID="10041" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10206" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.course.cluSet.id;reqCompFieldLabel=Courses>"
+        TYP_ID="10018" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10208" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number of Courses> from &lt;reqCompFieldType=kuali.reqComponent.field.type.course.cluSet.id;reqCompFieldLabel=Courses>"
+        TYP_ID="10024" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10209" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Credits> from &lt;reqCompFieldType=kuali.reqComponent.field.type.course.cluSet.id;reqCompFieldLabel=Courses>"
+        TYP_ID="10021" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10210" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.course.cluSet.id;reqCompFieldLabel=Courses>"
+        TYP_ID="10022" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10212" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.gpa;reqCompFieldLabel=GPA> from &lt;reqCompFieldType=kuali.reqComponent.field.type.course.cluSet.id;reqCompFieldLabel=Courses>"
+        TYP_ID="10025" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10213" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.course.cluSet.id;reqCompFieldLabel=Courses>"
+        TYP_ID="10023" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10214" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.gradeType.id;reqCompFieldLabel=Grade Type> of &lt;reqCompFieldType=kuali.reqComponent.field.type.grade.id;reqCompFieldLabel=Grade> in &lt;reqCompFieldType=kuali.reqComponent.field.type.course.cluSet.id;reqCompFieldLabel=Courses>"
+        TYP_ID="10027" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10215" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.gradeType.id;reqCompFieldLabel=Grade Type> of &lt;reqCompFieldType=kuali.reqComponent.field.type.grade.id;reqCompFieldLabel=Grade> in &lt;reqCompFieldType=kuali.reqComponent.field.type.course.cluSet.id;reqCompFieldLabel=Courses>"
+        TYP_ID="10026" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10216" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.org.id;reqCompFieldLabel=Organization>"
+        TYP_ID="10035" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10217" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.person.id;reqCompFieldLabel=Instructor>"
+        TYP_ID="10034" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10218" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.test.score;reqCompFieldLabel=Test Score> from &lt;reqCompFieldType=kuali.reqComponent.field.type.test.cluSet.id;reqCompFieldLabel=Tests>"
+        TYP_ID="10038" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10219" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.test.score;reqCompFieldLabel=Test Score> from &lt;reqCompFieldType=kuali.reqComponent.field.type.test.cluSet.id;reqCompFieldLabel=Tests>"
+        TYP_ID="10037" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10220" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number of Courses> from &lt;reqCompFieldType=kuali.reqComponent.field.type.course.cluSet.id;reqCompFieldLabel=Courses> with &lt;reqCompFieldType=kuali.reqComponent.field.type.gradeType.id;reqCompFieldLabel=Grade Type> of &lt;reqCompFieldType=kuali.reqComponent.field.type.grade.id;reqCompFieldLabel=Grade>"
+        TYP_ID="10028" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10221" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.program.cluSet.id;reqCompFieldLabel=Program(s)> no more than &lt;reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number of Courses> in &lt;reqCompFieldType=kuali.reqComponent.field.type.org.id;reqCompFieldLabel=Department> in &lt;reqCompFieldType=kuali.reqComponent.field.type.duration;reqCompFieldLabel=Duration Count> of type &lt;reqCompFieldType=kuali.reqComponent.field.type.durationType.id;reqCompFieldLabel=Duration Type>"
+        TYP_ID="10048" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10222" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.program.cluSet.id;reqCompFieldLabel=Program(s)> no more than &lt;reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number of Courses> in &lt;reqCompFieldType=kuali.reqComponent.field.type.org.id;reqCompFieldLabel=Department> in &lt;reqCompFieldType=kuali.reqComponent.field.type.duration;reqCompFieldLabel=Duration Count> of type &lt;reqCompFieldType=kuali.reqComponent.field.type.durationType.id;reqCompFieldLabel=Duration Type>"
+        TYP_ID="10049" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10224" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.program.cluSet.id;reqCompFieldLabel=Program(s)>"
+        TYP_ID="10036" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10225" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Credits>"
+        TYP_ID="10029" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10226" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Credits> from courses in &lt;reqCompFieldType=kuali.reqComponent.field.type.org.id;reqCompFieldLabel=Department>"
+        TYP_ID="10055" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10227" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.program.cluSet.id;reqCompFieldLabel=Program(s)>"
+        TYP_ID="10052" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10228" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.course.clu.id;reqCompFieldLabel=Course>"
+        TYP_ID="10017" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10229" NL_USAGE_ID="10000"
+        TMPL="#if($courseCluSet.getCluList().size() == 1)Must not have successfully completed $courseCluSet.getCluSetAsCode()#{else}Must not have successfully completed any courses from $courseCluSet.getCluSetAsCode()#end"
+        TYP_ID="10020" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10235" NL_USAGE_ID="10000"
+        TMPL="Must have earned a minimum of $intValue total $NLHelper.getProperGrammar($intValue, &quot;credit&quot;)"
+        TYP_ID="10039" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10236" NL_USAGE_ID="10000"
+        TMPL="Must not have earned more than $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;)"
+        TYP_ID="10047" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10239" NL_USAGE_ID="10003"
+        TMPL="#if($courseCluSet.getCluList().size() == 1)Must not have successfully completed#{else}Must not have successfully completed any courses from#end"
+        TYP_ID="10020" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10246" NL_USAGE_ID="10000"
+        TMPL="Must have earned a minimum cumulative GPA of $gpa"
+        TYP_ID="10040" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10247" NL_USAGE_ID="10000"
+        TMPL="Must have earned a minimum $durationType.getName().toLowerCase() GPA of $gpa"
+        TYP_ID="10041" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10248" NL_USAGE_ID="10003"
+        TMPL="#if($courseCluSet.getCluList().size() == 1)Must have successfully completed#{else}Must have successfully completed all courses from#end"
+        TYP_ID="10018" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10249" NL_USAGE_ID="10003"
+        TMPL="#if($intValue == 1 &amp;&amp; $courseCluSet.getCluList().size() == 1)Must have successfully completed#{else}Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) from#end"
+        TYP_ID="10053" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10250" NL_USAGE_ID="10003"
+        TMPL="Must be concurrently enrolled in a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) from"
+        TYP_ID="10024" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10251" NL_USAGE_ID="10003"
+        TMPL="Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) from"
+        TYP_ID="10021" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10252" NL_USAGE_ID="10003"
+        TMPL="Must not have successfully completed any credits from"
+        TYP_ID="10022" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10254" NL_USAGE_ID="10003"
+        TMPL="Must have earned a minimum GPA of $gpa in" TYP_ID="10025" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10255" NL_USAGE_ID="10003"
+        TMPL="#if($courseCluSet.getCluList().size() == 1)Must be concurrently enrolled in#{else}Must be concurrently enrolled in all courses from#end"
+        TYP_ID="10023" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10261" NL_USAGE_ID="10003"
+        TMPL="Must have earned a minimum of $intValue total $NLHelper.getProperGrammar($intValue, &quot;credit&quot;)"
+        TYP_ID="10039" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10262" NL_USAGE_ID="10003"
+        TMPL="Must not have earned more than $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;)"
+        TYP_ID="10047" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10271" NL_USAGE_ID="10003"
+        TMPL="Must have earned a minimum cumulative GPA of $gpa"
+        TYP_ID="10040" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10272" NL_USAGE_ID="10003"
+        TMPL="Must have earned a minimum $durationType.getName().toLowerCase() GPA of $gpa"
+        TYP_ID="10041" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10273" NL_USAGE_ID="10003"
+        TMPL="Must have earned a minimum grade of #if($gradeType.getId().equals(&quot;kuali.result.scale.grade.letter&quot;) || $gradeType.getId().equals(&quot;kuali.result.scale.grade.percentage&quot;))$gradeType.getName().toLowerCase() #{end}$grade in"
+        TYP_ID="10027" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10274" NL_USAGE_ID="10003"
+        TMPL="Must not have earned a maximum grade of #if($gradeType.getId().equals(&quot;kuali.result.scale.grade.letter&quot;) || $gradeType.getId().equals(&quot;kuali.result.scale.grade.percentage&quot;))$gradeType.getName().toLowerCase() #{end}$grade or higher in"
+        TYP_ID="10026" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10275" NL_USAGE_ID="10003"
+        TMPL="Permission of $org.getLongName() required" TYP_ID="10035" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10276" NL_USAGE_ID="10003"
+        TMPL="Permission of instructor required" TYP_ID="10034" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10277" NL_USAGE_ID="10003"
+        TMPL="Must have achieved a minimum score of $fields.get('kuali.reqComponent.field.type.test.score') on $testCluSet.getCluSetAsLongName()"
+        TYP_ID="10038" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10278" NL_USAGE_ID="10003"
+        TMPL="Must have achieved a score no higher than $fields.get('kuali.reqComponent.field.type.test.score') on $testCluSet.getCluSetAsLongName()"
+        TYP_ID="10037" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10279" NL_USAGE_ID="10003"
+        TMPL="Must successfully complete a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) with a minimum grade of #if($gradeType.getId().equals(&quot;kuali.result.scale.grade.letter&quot;) || $gradeType.getId().equals(&quot;kuali.result.scale.grade.percentage&quot;))$gradeType.getName().toLowerCase() #{end}$grade from"
+        TYP_ID="10028" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10280" NL_USAGE_ID="10003"
+        TMPL="Students admitted to $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) in the $org.getLongName() in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()"
+        TYP_ID="10048" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10281" NL_USAGE_ID="10003"
+        TMPL="Students not admitted to $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) in the $org.getLongName() in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()"
+        TYP_ID="10049" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10282" NL_USAGE_ID="10003"
+        TMPL="Must be admitted to any program offered at the course campus location"
+        TYP_ID="10033" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10283" NL_USAGE_ID="10003"
+        TMPL="Must not have been admitted to the $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) program"
+        TYP_ID="10036" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10284" NL_USAGE_ID="10003"
+        TMPL="May be repeated for a maximum of $intValue credits"
+        TYP_ID="10029" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10285" NL_USAGE_ID="10003"
+        TMPL="Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) from courses in the $org.getLongName()"
+        TYP_ID="10055" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10286" NL_USAGE_ID="10003"
+        TMPL="Must have been admitted to the $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) program"
+        TYP_ID="10052" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10287" NL_USAGE_ID="10003"
+        TMPL="Must have successfully completed $courseClu.getOfficialIdentifier().getCode()"
+        TYP_ID="10017" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10288" NL_USAGE_ID="10003"
+        TMPL="Must be concurrently enrolled in $courseClu.getOfficialIdentifier().getCode()"
+        TYP_ID="10030" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10289" NL_USAGE_ID="10003"
+        TMPL="Must not have successfully completed $courseClu.getOfficialIdentifier().getCode()"
+        TYP_ID="10032" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10290" NL_USAGE_ID="10000"
+        TMPL="Must have earned a minimum grade of #if($gradeType.getId().equals(&quot;kuali.result.scale.grade.letter&quot;) || $gradeType.getId().equals(&quot;kuali.result.scale.grade.percentage&quot;))$gradeType.getName().toLowerCase() #{end}$grade in $courseCluSet.getCluSetAsCode()"
+        TYP_ID="10027" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10291" NL_USAGE_ID="10000"
+        TMPL="Must not have earned a maximum grade of #if($gradeType.getId().equals(&quot;kuali.result.scale.grade.letter&quot;) || $gradeType.getId().equals(&quot;kuali.result.scale.grade.percentage&quot;))$gradeType.getName().toLowerCase() #{end}$grade or higher in $courseCluSet.getCluSetAsCode()"
+        TYP_ID="10026" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10292" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.course.clu.id;reqCompFieldLabel=Course>"
+        TYP_ID="10030" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10293" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.course.clu.id;reqCompFieldLabel=Course>"
+        TYP_ID="10032" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10294" NL_USAGE_ID="10000"
+        TMPL="Must be concurrently enrolled in a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) from $courseCluSet.getCluSetAsCode()"
+        TYP_ID="10024" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10304" NL_USAGE_ID="10001"
+        TMPL="&lt;reqCompFieldType=kuali.reqComponent.field.type.value.freeform.text;reqCompFieldLabel=Text>"
+        TYP_ID="10031" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10318" NL_USAGE_ID="10003"
+        TMPL="$fields.get(&quot;kuali.reqComponent.field.type.value.freeform.text&quot;)"
+        TYP_ID="10031" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10325" NL_USAGE_ID="10000"
+        TMPL="$fields.get(&quot;kuali.reqComponent.field.type.value.freeform.text&quot;)"
+        TYP_ID="10031" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10330" NL_USAGE_ID="10000"
+        TMPL="Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) from $courseCluSet.getCluSetAsCode()"
+        TYP_ID="10021" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10331" NL_USAGE_ID="10000"
+        TMPL="Must not have successfully completed any credits from $courseCluSet.getCluSetAsCode()"
+        TYP_ID="10022" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10333" NL_USAGE_ID="10000"
+        TMPL="Must have earned a minimum GPA of $gpa in $courseCluSet.getCluSetAsCode()"
+        TYP_ID="10025" VER_NBR="0"/>
+    <KRMS_NL_TMPL_T LANG_CD="en" NL_TMPL_ID="10334" NL_USAGE_ID="10000"
+        TMPL="#if($courseCluSet.getCluList().size() == 1)Must be concurrently enrolled in $courseCluSet.getCluSetAsCode()#{else}Must be concurrently enrolled in all courses from $courseCluSet.getCluSetAsCode()#end"
+        TYP_ID="10023" VER_NBR="0"/>
 </dataset>
