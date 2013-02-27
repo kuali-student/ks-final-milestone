@@ -84,7 +84,7 @@ public class ToolbarUtil {
                     coListWrapper.setEnableCopyCOActionLink(true);
                 }
 
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "editCOonManageCOsPage");
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "editCO");
                 if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
                     coListWrapper.setEnableEditCOActionLink(true);
                 }
