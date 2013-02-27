@@ -23,27 +23,27 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <util:properties id="import.constraints.properties">
-        <prop key="sql.constraints.1">#{importProperties['impex.import.constraintsql']}</prop>
-        <prop key="sql.constraints.concurrent">sql.constraints.1</prop>
-    </util:properties>
+  <util:properties id="import.constraints.properties">
+    <prop key="sql.constraints.1">#{importProperties['impex.import.constraintsql']}</prop>
+    <prop key="sql.constraints.concurrent">sql.constraints.1</prop>
+  </util:properties>
 
-    <bean id="import.constraints.dbaSql" class="java.lang.String">
-        <constructor-arg value="#{importCommonProperties['sql.validate']}" />
-    </bean>
+  <bean id="import.constraints.dbaSql" class="java.lang.String">
+    <constructor-arg value="#{importCommonProperties['sql.validate']}" />
+  </bean>
 
-    <bean id="import.constraints.databaseResetContext" class="org.kuali.common.jdbc.context.DatabaseResetContext">
-        <property name="normalJdbcContext" ref="import.normalJdbcContext" />
-        <property name="dbaJdbcContext" ref="import.dbaJdbcContext" />
-        <property name="databaseProcessContext" ref="importDatabaseProcessContext" />
-        <property name="dbaSql" ref="import.constraints.dbaSql" />
-        <property name="properties" ref="import.constraints.properties" />
-        <property name="encoding" value="${kuali.encoding}" />
-    </bean>
+  <bean id="import.constraints.databaseResetContext" class="org.kuali.common.jdbc.context.DatabaseResetContext">
+    <property name="normalJdbcContext" ref="import.normalJdbcContext" />
+    <property name="dbaJdbcContext" ref="import.dbaJdbcContext" />
+    <property name="databaseProcessContext" ref="importDatabaseProcessContext" />
+    <property name="dbaSql" ref="import.constraints.dbaSql" />
+    <property name="properties" ref="import.constraints.properties" />
+    <property name="encoding" value="${kuali.encoding}" />
+  </bean>
 
-    <bean id="import.constraints.databaseResetExecutable" class="org.kuali.common.jdbc.DatabaseResetExecutable">
-        <property name="context" ref="import.constraints.databaseResetContext" />
-        <property name="service" ref="import.databaseService" />
-    </bean>
+  <bean id="import.constraints.databaseResetExecutable" class="org.kuali.common.jdbc.DatabaseResetExecutable">
+    <property name="context" ref="import.constraints.databaseResetContext" />
+    <property name="service" ref="import.databaseService" />
+  </bean>
 
 </beans>
