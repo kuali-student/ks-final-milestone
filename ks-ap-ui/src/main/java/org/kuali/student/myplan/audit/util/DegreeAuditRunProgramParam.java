@@ -10,6 +10,7 @@ import org.kuali.student.myplan.audit.form.DegreeAuditForm;
 import org.kuali.student.myplan.audit.service.DegreeAuditConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.lum.program.service.ProgramService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class DegreeAuditRunProgramParam extends UifKeyValuesFinderBase implement
     private final Logger logger = Logger.getLogger(DegreeAuditRunProgramParam.class);
 
     private boolean blankOption;
-
+    private ProgramService programService;
     private HashMap<String, List<OrgInfo>> hashMap;
 
     public DegreeAuditRunProgramParam() {
@@ -50,7 +51,7 @@ public class DegreeAuditRunProgramParam extends UifKeyValuesFinderBase implement
             degreeAuditForm.setProgramParam("");
             ContextInfo context = new ContextInfo();
             List <OrgInfo> orgInfoList = KsapFrameworkServiceLocator.getOrgHelper().getOrgInfo(DegreeAuditConstants.PROGRAM_TYPE_KEY, DegreeAuditConstants.ORG_QUERY_SEARCH_BY_TYPE_REQUEST, DegreeAuditConstants.ORG_QUERY_PARAM, context);
-
+            //programService = KsapFrameworkServiceLocator.getProgramService();
             if (orgInfoList != null && orgInfoList.size() > 0) {
                 for (OrgInfo entry : orgInfoList) {
                     keyValues.add(new ConcreteKeyValue(entry.getId(), entry.getLongName() + " in " + campusParam + " campus"));
