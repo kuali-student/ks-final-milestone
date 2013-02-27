@@ -33,7 +33,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class KrmsTypeRepositoryMockService implements KrmsTypeRepositoryService {
-    public KrmsTypeDefinitionContract krmsTypeDefinitionContract = KRMSDataGenerator.createKrmsTypeDefinition(null,null,null,null,null,true,0L);
+    public KrmsTypeDefinitionContract krmsTypeDefinitionContract = KRMSDataGenerator.createKrmsTypeDefinition("krmsType1","kuali.test.namespace",null,null,"kuali.type.id",true,0L);
 
     @Override
     public KrmsTypeDefinition createKrmsType(@WebParam(name = "krmsType") KrmsTypeDefinition krmsType) throws RiceIllegalArgumentException, RiceIllegalStateException {
@@ -47,7 +47,7 @@ public class KrmsTypeRepositoryMockService implements KrmsTypeRepositoryService 
 
     @Override
     public KrmsTypeDefinition getTypeById(@WebParam(name = "id") String id) throws RiceIllegalArgumentException {
-        return (KrmsTypeDefinition) krmsTypeDefinitionContract;
+        return KrmsTypeDefinition.Builder.create(krmsTypeDefinitionContract).build();
     }
 
     @Override
