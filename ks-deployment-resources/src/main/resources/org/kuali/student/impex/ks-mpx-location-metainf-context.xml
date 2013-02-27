@@ -23,40 +23,40 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!-- Resolve placeholders using Maven properties -->
-    <context:property-placeholder properties-ref="mavenProperties" />
+  <!-- Resolve placeholders using Maven properties -->
+  <context:property-placeholder properties-ref="mavenProperties" />
 
-    <!-- Convert CSV to List<String> -->
-    <bean id="metaInfIncludes" class="org.kuali.common.util.spring.GetListFromCSVFactoryBean">
-        <property name="csv" value="${impex.metainf.includes}" />
-    </bean>
+  <!-- Convert CSV to List<String> -->
+  <bean id="metaInfIncludes" class="org.kuali.common.util.spring.GetListFromCSVFactoryBean">
+    <property name="csv" value="${impex.metainf.includes}" />
+  </bean>
 
-    <!-- Create metaInfContext beans -->
-    <bean id="metaInfContext" class="org.kuali.common.util.DefaultMetaInfContext">
-        <property name="outputFile" value="${impex.metainf.outputFile}" />
-        <property name="includes" ref="metaInfIncludes" />
-        <property name="baseDir" value="${project.build.outputDirectory}" />
-        <property name="prefix" value="${metainf.resource.prefix}" />
-    </bean>
+  <!-- Create metaInfContext beans -->
+  <bean id="metaInfContext" class="org.kuali.common.util.DefaultMetaInfContext">
+    <property name="outputFile" value="${impex.metainf.outputFile}" />
+    <property name="includes" ref="metaInfIncludes" />
+    <property name="baseDir" value="${project.build.outputDirectory}" />
+    <property name="prefix" value="${metainf.resource.prefix}" />
+  </bean>
 
-    <!-- Aggregate metaInfContext beans into a list -->
-    <util:list id="metaInfContexts">
-        <ref bean="metaInfContext" />
-    </util:list>
+  <!-- Aggregate metaInfContext beans into a list -->
+  <util:list id="metaInfContexts">
+    <ref bean="metaInfContext" />
+  </util:list>
 
-    <!-- Invoke metaInfUtils -->
-    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="targetClass">
-            <value>org.kuali.common.util.MetaInfUtils</value>
-        </property>
-        <property name="targetMethod">
-            <value>scanAndCreateFiles</value>
-        </property>
-        <property name="arguments">
-            <list>
-                <ref bean="metaInfContexts" />
-            </list>
-        </property>
-    </bean>
+  <!-- Invoke metaInfUtils -->
+  <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="targetClass">
+      <value>org.kuali.common.util.MetaInfUtils</value>
+    </property>
+    <property name="targetMethod">
+      <value>scanAndCreateFiles</value>
+    </property>
+    <property name="arguments">
+      <list>
+        <ref bean="metaInfContexts" />
+      </list>
+    </property>
+  </bean>
 
 </beans>
