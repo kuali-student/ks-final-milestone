@@ -29,8 +29,6 @@
 
     <db.populate.phase>none</db.populate.phase>
 
-    <kuali-jdbc.version>2.0.4-SNAPSHOT</kuali-jdbc.version>
-
   </properties>
   <build>
     <pluginManagement>
