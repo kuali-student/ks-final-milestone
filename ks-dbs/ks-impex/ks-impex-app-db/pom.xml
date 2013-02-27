@@ -13,7 +13,6 @@
   <description>Kuali Student Impex Application Database</description>
   <properties>
     <jdbc.username>KSAPP${db.branch.qualifier}</jdbc.username>
-    <impex.metainf.includes>KS*</impex.metainf.includes>
   </properties>
   <build>
     <plugins>

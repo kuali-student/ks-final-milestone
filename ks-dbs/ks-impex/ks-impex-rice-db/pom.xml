@@ -13,7 +13,6 @@
   <description>Kuali Student Impex Rice Config</description>
   <properties>
     <jdbc.username>KSRICE${db.branch.qualifier}</jdbc.username>
-    <impex.metainf.includes>KR*</impex.metainf.includes>
   </properties>
   <build>
     <plugins>

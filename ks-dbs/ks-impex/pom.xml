@@ -19,9 +19,8 @@
   <properties>
     <jdbc.source.db.username>KS_SOURCE_DB${db.branch.qualifier}</jdbc.source.db.username>
     <jdbc.password>${jdbc.username}</jdbc.password>
-    <spring.maven.includeParentLoadConfig>true</spring.maven.includeParentLoadConfig>
-    <impex.metainf.context>classpath:org/kuali/student/impex/ks-mpx-location-metainf-context.xml</impex.metainf.context>
-    <impex.dataLocations.path>${project.artifactId}-dataLocations.properties</impex.dataLocations.path>
+    <impex.metainf.context>classpath:org/kuali/common/impex/metainf-mpx-context.xml</impex.metainf.context>
+    <impex.dataLocations.path>META-INF/${project.artifactId}-data.resources</impex.dataLocations.path>
     <impex.metainf.outputFile>${project.build.outputDirectory}/${impex.dataLocations.path}</impex.metainf.outputFile>
   </properties>
   <profiles>
