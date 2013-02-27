@@ -23,64 +23,64 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:property-placeholder properties-ref="importProperties" />
+  <context:property-placeholder properties-ref="importProperties" />
 
-    <import resource="classpath:org/kuali/student/impex/ks-import-common-jdbc-context.xml"/>
+  <import resource="classpath:org/kuali/student/impex/ks-import-common-jdbc-context.xml" />
 
-    <import resource="classpath:org/kuali/student/impex/ks-import-schema.xml" />
+  <import resource="classpath:org/kuali/student/impex/ks-import-schema.xml" />
 
-    <import resource="classpath:org/kuali/student/impex/ks-import-constraints.xml" />
+  <import resource="classpath:org/kuali/student/impex/ks-import-constraints.xml" />
 
-    <import resource="classpath:org/kuali/student/impex/ks-import-constraints.xml" />
+  <import resource="classpath:org/kuali/student/impex/ks-import-constraints.xml" />
 
-    <bean id="impexService" class="org.kuali.common.impex.service.DefaultImpexExecutorService">
-        <property name="jdbcService" ref="jdbcService"/>
-    </bean>
+  <bean id="impexService" class="org.kuali.common.impex.service.DefaultImpexExecutorService">
+    <property name="jdbcService" ref="jdbcService" />
+  </bean>
 
-    <bean id="jdbcService" class="org.kuali.common.jdbc.DefaultJdbcService"/>
+  <bean id="jdbcService" class="org.kuali.common.jdbc.DefaultJdbcService" />
 
-    <bean id="jdbcContext" class="org.kuali.common.jdbc.context.JdbcContext">
-        <property name="dataSource" ref="import.dataSource"/>
-    </bean>
+  <bean id="jdbcContext" class="org.kuali.common.jdbc.context.JdbcContext">
+    <property name="dataSource" ref="import.dataSource" />
+  </bean>
 
-    <bean id="sqlExecutionContext" class="org.kuali.common.jdbc.context.ExecutionContext">
-        <property name="jdbcContext" ref="jdbcContext"/>
-        <property name="reader">
-            <bean class="org.kuali.common.jdbc.DefaultSqlReader"/>
-        </property>
-    </bean>
+  <bean id="sqlExecutionContext" class="org.kuali.common.jdbc.context.ExecutionContext">
+    <property name="jdbcContext" ref="jdbcContext" />
+    <property name="reader">
+      <bean class="org.kuali.common.jdbc.DefaultSqlReader" />
+    </property>
+  </bean>
 
-    <bean id="importExecutable" class="org.kuali.common.impex.service.ImportExecutable">
-        <property name="service" ref="impexService"/>
-        <property name="sqlExecutionContext" ref="sqlExecutionContext"/>
-        <property name="sourceContext" ref="sourceContext"/>
-    </bean>
+  <bean id="importExecutable" class="org.kuali.common.impex.service.ImportExecutable">
+    <property name="service" ref="impexService" />
+    <property name="sqlExecutionContext" ref="sqlExecutionContext" />
+    <property name="sourceContext" ref="sourceContext" />
+  </bean>
 
-    <bean id="sourceContext" class="org.kuali.common.impex.ImpexContextFactoryBean">
-        <property name="dataSource" ref="import.dataSource" />
-        <property name="properties">
-            <util:properties>
-                <prop key="project.artifactId">${project.artifactId}</prop>
-                <prop key="project.basedir">${project.basedir}</prop>
-                <prop key="project.build.directory">${project.build.directory}</prop>
-                <prop key="impex.databaseVendor">${db.vendor}</prop>
-                <prop key="impex.workingDir">${project.basedir}/src/main/resources</prop>
-                <prop key="impex.table.includes">.*</prop>
-                <prop key="impex.databaseTablePropertiesFile">none.properties</prop>
-                <prop key="impex.dataLocations">${impex.import.dataLocations}</prop>
-                <prop key="impex.tablesXmlLocation">${project.basedir}/src/main/resources/${project.artifactId}.xml</prop>
-            </util:properties>
-        </property>
-    </bean>
+  <bean id="sourceContext" class="org.kuali.common.impex.ImpexContextFactoryBean">
+    <property name="dataSource" ref="import.dataSource" />
+    <property name="properties">
+      <util:properties>
+        <prop key="project.artifactId">${project.artifactId}</prop>
+        <prop key="project.basedir">${project.basedir}</prop>
+        <prop key="project.build.directory">${project.build.directory}</prop>
+        <prop key="impex.databaseVendor">${db.vendor}</prop>
+        <prop key="impex.workingDir">${project.basedir}/src/main/resources</prop>
+        <prop key="impex.table.includes">.*</prop>
+        <prop key="impex.databaseTablePropertiesFile">none.properties</prop>
+        <prop key="impex.dataLocations">${impex.import.dataLocations}</prop>
+        <prop key="impex.tablesXmlLocation">${project.basedir}/src/main/resources/${project.artifactId}.xml</prop>
+      </util:properties>
+    </property>
+  </bean>
 
-    <bean id="executable" class="org.kuali.common.util.execute.ExecutablesExecutable" init-method="execute">
-        <property name="executables">
-            <util:list>
-                <ref bean="import.schema.databaseResetExecutable"/>
-                <ref bean="importExecutable"/>
-                <ref bean="import.constraints.databaseResetExecutable"/>
-            </util:list>
-        </property>
-    </bean>
+  <bean id="executable" class="org.kuali.common.util.execute.ExecutablesExecutable" init-method="execute">
+    <property name="executables">
+      <util:list>
+        <ref bean="import.schema.databaseResetExecutable" />
+        <ref bean="importExecutable" />
+        <ref bean="import.constraints.databaseResetExecutable" />
+      </util:list>
+    </property>
+  </bean>
 
 </beans>
