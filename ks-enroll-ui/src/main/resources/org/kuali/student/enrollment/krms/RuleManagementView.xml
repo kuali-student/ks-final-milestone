@@ -14,9 +14,9 @@
         <property name="additionalScriptFiles">
             <list>
                 <value>krms/scripts/agendaTree.js</value>
-                <value>krms/scripts/ruleStudentTree.js</value>
+                <value>ks-enroll/scripts/ruleStudentTree.js</value>
                 <value>krms/scripts/requiredAlerts.js</value>
-                <value>krms/scripts/disableStudentButtons.js</value>
+                <value>ks-enroll/scripts/disableStudentButtons.js</value>
                 <value>krms/scripts/countdownInputs.js</value>
             </list>
         </property>
@@ -173,13 +173,19 @@
 
     <!-- View only Tree -->
     <bean id="KS-View-Tree-parent" parent="Uif-Tree">
-        <property name="template" value="/krms/widget/rulePreviewTree.ftl"/>
+        <property name="template" value="/ks-enroll/ftl/rulePreviewTree.ftl"/>
         <property name="templateName" value="uif_rulePreviewTree"/>
+        <property name="templateOptions">
+            <map>
+                <entry key="themes" value="{'theme' : 'view', 'dots' : 'true', 'icons' : 'false'}"/>
+                <entry key="plugins" value="[ 'themes','html_data' ]"/>
+            </map>
+        </property>
     </bean>
     <bean id="KS-View-Tree" parent="KS-View-Tree-parent"/>
 
-    <bean id="KS-Tree-Section-parent" parent="Uif-TreeSection" p:style="width: 400px;">
-        <property name="template" value="/krms/widget/ruleTreeGroup.ftl"/>
+    <bean id="KS-Tree-Section-parent" parent="Uif-TreeSection">
+        <property name="template" value="/ks-enroll/ftl/ruleTreeGroup.ftl"/>
         <property name="templateName" value="uif_ruleTreeGroup"/>
         <property name="tree">
             <bean parent="KS-View-Tree"/>
@@ -187,7 +193,7 @@
     </bean>
     <bean id="KS-Tree-Section" parent="KS-Tree-Section-parent"/>
 
-    <bean id="KS-ViewTree-Section-parent" parent="KS-Tree-Section" p:style="width: 400px;">
+    <bean id="KS-ViewTree-Section-parent" parent="KS-Tree-Section">
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
                 <property name="labelPrototype">
