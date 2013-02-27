@@ -13,5 +13,6 @@
   <description>Kuali Student Bundled Impex Config</description>
   <properties>
     <jdbc.username>KSBUNDLED${db.branch.qualifier}</jdbc.username>
+    <impex.import.dataLocations>ks-impex-app-db-dataLocations.properties, ks-impex-rice-db-dataLocations.properties</impex.import.dataLocations>
   </properties>
 </project>
