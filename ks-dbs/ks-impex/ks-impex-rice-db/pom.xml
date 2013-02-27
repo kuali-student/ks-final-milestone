@@ -9,8 +9,8 @@
   <artifactId>ks-impex-rice-db</artifactId>
   <version>2.0.0-spring-db-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>KS Impex Rice</name>
-  <description>Kuali Student Impex Rice Config</description>
+  <name>KS Impex Rice DB</name>
+  <description>Kuali Student Impex Rice Database</description>
   <properties>
     <jdbc.username>KSRICE${db.branch.qualifier}</jdbc.username>
   </properties>
