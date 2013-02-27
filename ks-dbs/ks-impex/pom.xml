@@ -138,58 +138,6 @@
               </execution>
             </executions>
           </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-scm-plugin</artifactId>
-            <version>1.8.1</version>
-            <executions>
-              <execution>
-                <id>update</id>
-                <phase>${impex.scm.updates.phase}</phase>
-                <goals>
-                  <goal>update</goal>
-                  <goal>checkin</goal>
-                </goals>
-                <configuration>
-                  <includes>${impex.scm.updates}</includes>
-                  <message>${impex.scm.message}</message>
-                </configuration>
-              </execution>
-              <!--
-                <execution>
-                <id>add</id>
-                <phase>process-resources</phase>
-                <goals>
-                <goal>add</goal>
-                </goals>
-                <configuration>
-                <includes>${impex.scm.adds}</includes>
-                </configuration>
-                </execution>
-                <execution>
-                <id>remove</id>
-                <phase>process-resources</phase>
-                <goals>
-                <goal>remove</goal>
-                </goals>
-                <configuration>
-                <includes>${impex.scm.deletes}</includes>
-                </configuration>
-                </execution>
-                <execution>
-                <id>checkin</id>
-                <phase>process-resources</phase>
-                <goals>
-                <goal>checkin</goal>
-                </goals>
-                <configuration>
-                <includes>${impex.scm.updates},${impex.scm.adds},${impex.scm.deletes}</includes>
-                <message>Automated Impex sync</message>
-                </configuration>
-                </execution>
-              -->
-            </executions>
-          </plugin>
         </plugins>
       </build>
     </profile>
