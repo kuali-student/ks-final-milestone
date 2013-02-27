@@ -114,7 +114,6 @@
         <impex.workingDir>${project.build.directory}/impex</impex.workingDir>
         <impex.antCompatibilityMode>false</impex.antCompatibilityMode>
         <impex.storeDatabaseTableProperties>true</impex.storeDatabaseTableProperties>
-        <impex.scm.updates.phase>process-resources</impex.scm.updates.phase>
         <impex.scm.message>Automated Impex update</impex.scm.message>
       </properties>
       <build>
