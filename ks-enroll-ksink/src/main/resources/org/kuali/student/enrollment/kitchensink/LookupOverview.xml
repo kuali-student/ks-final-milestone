@@ -128,78 +128,6 @@
         </property>
     </bean>
 
-    <!-- Ajax Field Query example -->
-
-    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupOverview-AjaxQuery">
-        <property name="label" value="Ajax Field Query"/>
-        <property name="instructionalText"
-                  value="Displays additional Term info from an ajax call (tab out of field)"/>
-        <property name="propertyName" value="stringField3"/>
-        <property name="defaultValue" value="20001"/>
-        <property name="propertyNamesForAdditionalDisplay" value="stringField4" />
-        <property name="attributeQuery">
-            <bean parent="Uif-AttributeQueryConfig">
-                <!-- method defined in helper, but can also be a static method -->
-                <property name="queryMethodToCall" value="termInfoAjaxQuery"/>
-                <!-- note, param is not the form field, it's the mapped field -->
-                <property name="queryMethodArgumentFieldList" value="id"/>
-                <property name="queryFieldMapping" value="stringField3:id"/>
-                <property name="returnFieldMapping" value="name:stringField4"/>
-            </bean>
-        </property>
-    </bean>
-
-    <!-- Direct Inquiry example -->
-
-    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupOverview-DirectInquiry">
-        <property name="label" value="Direct Inquiry"/>
-        <property name="instructionalText"
-                  value="Click the book button to perform an inquiry on Terms for ID &quot;19974&quot;"/>
-        <property name="propertyName" value="stringField5"/>
-        <property name="defaultValue" value="19974"/>
-        <property name="inquiry.dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.TermInfo" />
-        <!-- inquiry view doesn't use "viewName" to find the correct inquiry view: -->
-        <property name="inquiry.viewName" value="KS-KitchenSink-TermInfo-InquiryView"/>
-        <property name="inquiry.inquiryParameters" value="stringField5:id"/>
-        <!-- the wordier way to define inquiry.inquiryParameters:
-        <property name="inquiry.inquiryParameters">
-            <map> <entry key="stringField5" value="id"/> </map>
-        </property>
-        -->
-    </bean>
-
-    <!--
-        This view bean defines how the Direct Inquiry will look.  Inquiry and lookup views must
-        have unique dataObjectClassName and viewName keys (viewName = "default" by default).
-    -->
-    <!-- BUG: Direct Inquiry currently doesn't use "viewName" to find inquiry view bean -->
-    <bean id="KS-KitchenSink-TermInfo-InquiryView-Base" parent="KS-KitchenSink-InquiryView-NoHeaderButtons">
-        <property name="dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.TermInfo" />
-        <property name="viewName" value="KS-KitchenSink-TermInfo-InquiryView"/>
-        <!--
-            org.kuali.rice.krad.inquiry.InquirableImpl's retrieveDataObject(..) is called in an inquiry
-            lookup, and should be overridden by the view's helper class
-        -->
-        <property name="viewHelperServiceClass"
-                  value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicTermInfoInquirableImpl" />
-        <property name="items">
-            <list>
-                <bean parent="Uif-GridSection">
-                    <property name="headerText" value="Term Information for ID &quot;@{#dp.id}&quot;"/>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-DataField" p:propertyName="name"/>
-                            <bean parent="Uif-DataField" p:propertyName="typeKey"/>
-                            <bean parent="Uif-DataField" p:propertyName="stateKey"/>
-                            <bean parent="Uif-DataField" p:propertyName="startDate"/>
-                            <bean parent="Uif-DataField" p:propertyName="endDate"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
 
 
     <!-- just the various containers for the interesting bits -->
@@ -271,8 +199,9 @@
                 <ref bean="KS-KitchenSink-LookupOverview-Suggest"/>
                 <bean parent="KS-KitchenSink-LookupOverview-Lookup" p:style="margin-top:0.5em;"/>
                 <bean parent="KS-KitchenSink-LookupOverview-DateField" p:style="margin-top:0.5em;"/>
-                <bean parent="KS-KitchenSink-LookupOverview-AjaxQuery" p:style="margin-top:0.5em;"/>
+                <!-- test
                 <bean parent="KS-KitchenSink-LookupOverview-DirectInquiry" p:style="margin-top:0.5em;"/>
+                -->
             </list>
         </property>
     </bean>

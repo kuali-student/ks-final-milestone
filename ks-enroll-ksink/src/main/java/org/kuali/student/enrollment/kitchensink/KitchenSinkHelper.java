@@ -54,17 +54,20 @@ public class KitchenSinkHelper extends ViewHelperServiceImpl {
     private AcademicCalendarService academicCalendarService;
 
 
-    public TermInfo termInfoAjaxQuery(String termId) {
+    public TermInfo termInfoAjaxQuery(String termCode) {
         TermInfo termInfo = new TermInfo();
-        if (!StringUtil.isEmpty(termId)) {
+        if (!StringUtil.isEmpty(termCode)) {
             try {
-                termInfo = getAcademicCalendarService().getTerm(termId, getContextInfo());
+                List<TermInfo> termInfoList = new ArrayList();
+                termInfoList = getAcademicCalendarService().getTermsByCode(termCode, getContextInfo());
+                if (termInfoList.size() > 0) {
+                    termInfo = termInfoList.get(0);
+                }
+                // NOTE: should check to make sure length is not more than one, and throw an error if it is
+                //GlobalVariables.getMessageMap().putError("field", MessageKeyString, messageParameter);
             }
-            catch (DoesNotExistException e1) {
-                termInfo.setName("Unknown");
-            }
-            catch (Exception e2) {
-                e2.printStackTrace();
+            catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return termInfo;
