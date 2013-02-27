@@ -12,7 +12,7 @@
   <name>KS Impex App</name>
   <description>Kuali Student Impex App Config</description>
   <properties>
-    <jdbc.username>KSRICE${db.branch.qualifier}</jdbc.username>
+    <jdbc.username>KSAPP${db.branch.qualifier}</jdbc.username>
 
     <!-- Used by the impex-export-xml profile -->
     <impex.xml.includedTables>KS.*</impex.xml.includedTables>
