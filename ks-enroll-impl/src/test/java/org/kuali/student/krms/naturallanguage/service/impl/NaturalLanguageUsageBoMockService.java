@@ -30,7 +30,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class NaturalLanguageUsageBoMockService implements NaturalLanguageUsageBoService {
-    public NaturalLanguageUsageContract naturalLanguageUsageContract = KRMSDataGenerator.createNaturalLanguageUsage(null,null,null,null,true,0L);
+    public NaturalLanguageUsageContract naturalLanguageUsageContract = KRMSDataGenerator.createNaturalLanguageUsage("Kuali Rule Edit","kuali.krms.edit","KS-SYS","10000",true,0L);
 
     @Override
     public NaturalLanguageUsage createNaturalLanguageUsage(NaturalLanguageUsage naturalLanguageUsage) {

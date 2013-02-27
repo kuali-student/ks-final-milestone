@@ -246,7 +246,7 @@ public class KRMSDataGenerator {
         };
     }
 
-    public static NaturalLanguageTemplateContract createNaturalLanguageTemplateContract(final String languageCode, final String naturalLanguageUsageId, final String typeId, final String template, final Map<String, String> attributes, final String id, final boolean active, final Long versionNumber){
+    public static NaturalLanguageTemplateContract createNaturalLanguageTemplate(final String languageCode, final String naturalLanguageUsageId, final String typeId, final String template, final Map<String, String> attributes, final String id, final boolean active, final Long versionNumber){
         return new NaturalLanguageTemplateContract() {
             @Override
             public String getLanguageCode() {

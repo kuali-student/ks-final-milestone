@@ -31,7 +31,7 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class NaturalLanguageTemplateBoMockService implements NaturalLanguageTemplateBoService {
-    public NaturalLanguageTemplateContract naturalLanguageTemplateContract = KRMSDataGenerator.createNaturalLanguageTemplateContract(null,null,null,null,null,null,true,0L);
+    public NaturalLanguageTemplateContract naturalLanguageTemplateContract = KRMSDataGenerator.createNaturalLanguageTemplate("en",null,null,"May not repeat any of (MATH140, MATH241)",null,"10002",true,0L);
 
     @Override
     public NaturalLanguageTemplate createNaturalLanguageTemplate(NaturalLanguageTemplate naturalLanguageTemplate) {
@@ -65,7 +65,7 @@ public class NaturalLanguageTemplateBoMockService implements NaturalLanguageTemp
 
     @Override
     public NaturalLanguageTemplate findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(String languageCode, String typeId, String naturalLanguageUsageId) {
-        return (NaturalLanguageTemplate) naturalLanguageTemplateContract;
+        return NaturalLanguageTemplate.Builder.create(naturalLanguageTemplateContract).build();
     }
 
     @Override
