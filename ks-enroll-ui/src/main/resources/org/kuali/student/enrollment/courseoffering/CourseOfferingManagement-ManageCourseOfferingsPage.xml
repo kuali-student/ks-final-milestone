@@ -127,8 +127,8 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" p:render="@{#line.isEnableCopyCOActionLink() or !#lp.crossListed}" p:actionEvent="copyCOonManageCOsPage"/>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" p:render="@{#line.isEnableEditCOActionLink() or !#lp.crossListed}" p:actionEvent="editCOonManageCOsPage"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" p:render="@{#line.isEnableCopyCOActionLink() and !#lp.crossListed}" p:actionEvent="copyCOonManageCOsPage"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" p:render="@{#line.isEnableEditCOActionLink() and !#lp.crossListed}" p:actionEvent="editCOonManageCOsPage"/>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="loadAOs" p:actionLabel="Manage" p:render="@{!#lp.crossListed}"/>
             </list>
         </property>
