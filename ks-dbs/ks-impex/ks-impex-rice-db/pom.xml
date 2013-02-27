@@ -13,12 +13,5 @@
   <description>Kuali Student Impex Rice Config</description>
   <properties>
     <jdbc.username>KSRICE${db.branch.qualifier}</jdbc.username>
-
-    <!-- Used by the impex-export-xml profile -->
-    <impex.xml.includedTables>KR.*</impex.xml.includedTables>
-    <!-- Used to filter imepx XML files to copy from ks-impex-bundled-db (the source data set) -->
-    <impex.xml.xmlfFileFilter>KR*.xml</impex.xml.xmlfFileFilter>
-
-    <impex.copy.dataPatterns>${impex.copy.rice.includes}</impex.copy.dataPatterns>
   </properties>
 </project>

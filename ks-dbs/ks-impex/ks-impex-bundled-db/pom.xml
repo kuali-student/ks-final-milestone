@@ -13,11 +13,5 @@
   <description>Kuali Student Bundled Impex Config</description>
   <properties>
     <jdbc.username>KSBUNDLED${db.branch.qualifier}</jdbc.username>
-
-    <!-- Used by the impex-export-xml profile -->
-    <impex.xml.includedTables>KR.*,KS.*</impex.xml.includedTables>
-    <impex.xml.xmlfFileFilter>K*.xml</impex.xml.xmlfFileFilter>
-
-    <impex.copy.filePatterns>${impex.copy.sqlPatterns},${project.artifactId}.xml</impex.copy.filePatterns>
   </properties>
 </project>

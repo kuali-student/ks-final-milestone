@@ -9,16 +9,9 @@
   <artifactId>ks-impex-app-db</artifactId>
   <version>2.0.0-spring-db-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>KS Impex App</name>
-  <description>Kuali Student Impex App Config</description>
+  <name>KS Impex App Db</name>
+  <description>Kuali Student Impex Application Database</description>
   <properties>
     <jdbc.username>KSAPP${db.branch.qualifier}</jdbc.username>
-
-    <!-- Used by the impex-export-xml profile -->
-    <impex.xml.includedTables>KS.*</impex.xml.includedTables>
-    <!-- Used to filter imepx XML files to copy from ks-impex-bundled-db (the source data set) -->
-    <impex.xml.xmlfFileFilter>KS*.xml</impex.xml.xmlfFileFilter>
-
-      <impex.copy.dataPatterns>${impex.copy.ks.includes}</impex.copy.dataPatterns>
   </properties>
 </project>
