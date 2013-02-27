@@ -350,303 +350,318 @@
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Open View for ActivityOffering-MaintenanceView"
         NM="Open View for ActivityOffering-MaintenanceView"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D469B2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61345427E040760A4A457361"
         PERM_ID="10071" PERM_TMPL_ID="10006" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit View for ActivityOffering-MaintenanceView"
         NM="Edit View for ActivityOffering-MaintenanceView"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D46AB2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61355427E040760A4A457361"
         PERM_ID="10072" PERM_TMPL_ID="10007" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Open View for KS-CourseOfferingEditWrapper-EditMaintenanceView Unconditionally"
         NM="Full Open View for KS-CourseOfferingEditWrapper-EditMaintenanceView"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D46BB2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61365427E040760A4A457361"
         PERM_ID="10073" PERM_TMPL_ID="10006" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit View for KS-CourseOfferingEditWrapper-EditMaintenanceView Unconditionally"
         NM="Full Edit View for KS-CourseOfferingEditWrapper-EditMaintenanceView"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D46CB2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61375427E040760A4A457361"
         PERM_ID="10074" PERM_TMPL_ID="10007" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Open View for KS-CourseOfferingEditWrapper-EditMaintenanceView based on SOC State"
         NM="Conditionally Open View for KS-CourseOfferingEditWrapper-EditMaintenanceView based on SOC State"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D46DB2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61385427E040760A4A457361"
         PERM_ID="10075" PERM_TMPL_ID="10006" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit View for KS-CourseOfferingEditWrapper-EditMaintenanceView based on SOC State"
         NM="Conditionally Edit View for KS-CourseOfferingEditWrapper-EditMaintenanceView based on SOC State"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D46EB2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61395427E040760A4A457361"
         PERM_ID="10076" PERM_TMPL_ID="10007" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to View Group for ActivityOfferingEdit-MainPage-SeatPool"
         NM="View Group for ActivityOfferingEdit-MainPage-SeatPool"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D46FB2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE613A5427E040760A4A457361"
         PERM_ID="10077" PERM_TMPL_ID="10011" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit Group for ActivityOfferingEdit-MainPage-SeatPool"
         NM="Edit Group for ActivityOfferingEdit-MainPage-SeatPool"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D470B2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE613B5427E040760A4A457361"
         PERM_ID="10078" PERM_TMPL_ID="10012" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Delete Course Offering"
         NM="Perform Action for Deleting Course Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D488B2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61535427E040760A4A457361"
         PERM_ID="10079" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Delete Activity Offering"
         NM="Perform Action for Deleting Activity Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D48DB2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61585427E040760A4A457361"
         PERM_ID="10080" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the Admin to Delete Course Offering"
         NM="Perform Action for Deleting Course Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D492B2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE615D5427E040760A4A457361"
         PERM_ID="10081" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the Admin to Delete Activity Offering"
         NM="Perform Action for Deleting Activity Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D496B2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61615427E040760A4A457361"
         PERM_ID="10082" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Add Course Offering"
         NM="Perform Actions for Add Course Offering" NMSPC_CD="KS-ENR"
-        OBJ_ID="D6B8AA40D49CB2B5E040760A4A453150" PERM_ID="10083"
+        OBJ_ID="D6BC43CE61675427E040760A4A457361" PERM_ID="10083"
         PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Approve Course Offering"
         NM="Perform Actions for Approve Course Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D49DB2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61685427E040760A4A457361"
         PERM_ID="10084" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Suspend Course Offering"
         NM="Perform Actions for Suspend Course Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D49EB2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61695427E040760A4A457361"
         PERM_ID="10085" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Cancel Course Offering"
         NM="Perform Actions for Cancel Course Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D49FB2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE616A5427E040760A4A457361"
         PERM_ID="10086" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Reinstate Course Offering"
         NM="Perform Actions for Reinstate Course Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D4A0B2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE616B5427E040760A4A457361"
         PERM_ID="10087" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Add Course Offering for Admin"
         NM="Perform Actions for Add Course Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D4A1B2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE616C5427E040760A4A457361"
         PERM_ID="10088" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Approve Course Offering for Admin"
         NM="Perform Actions for Approve Course Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D4A2B2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE616D5427E040760A4A457361"
         PERM_ID="10089" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Suspend Course Offering for Admin"
         NM="Perform Actions for Suspend Course Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D4A3B2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE616E5427E040760A4A457361"
         PERM_ID="10090" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Cancel Course Offering for Admin"
         NM="Perform Actions for Cancel Course Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D4A4B2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE616F5427E040760A4A457361"
         PERM_ID="10091" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Reinstate Course Offering for Admin"
         NM="Perform Actions for Reinstate Course Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D4A5B2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61705427E040760A4A457361"
         PERM_ID="10092" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Add Activity Offering"
         NM="Perform Actions for Add Activity Offering" NMSPC_CD="KS-ENR"
-        OBJ_ID="D6B8AA40D4C9B2B5E040760A4A453150" PERM_ID="10093"
+        OBJ_ID="D6BC43CE61945427E040760A4A457361" PERM_ID="10093"
         PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Approve Activity Offering"
         NM="Perform Actions for Approve Activity Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D4CAB2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61955427E040760A4A457361"
         PERM_ID="10094" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Set as Draft Activity Offering"
         NM="Perform Actions for Set as Draft Activity Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D4CBB2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61965427E040760A4A457361"
         PERM_ID="10095" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Suspend Activity Offering"
         NM="Perform Actions for Suspend Activity Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D4CCB2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61975427E040760A4A457361"
         PERM_ID="10096" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Cancel Activity Offering"
         NM="Perform Actions for Cancel Activity Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D4CDB2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61985427E040760A4A457361"
         PERM_ID="10097" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Reinstate Activity Offering"
         NM="Perform Actions for Reinstate Activity Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D4CEB2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61995427E040760A4A457361"
         PERM_ID="10098" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Add Activity Offering for Admin"
         NM="Perform Actions for Add Activity Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D4CFB2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE619A5427E040760A4A457361"
         PERM_ID="10099" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Approve Activity Offering for Admin"
         NM="Perform Actions for Approve Activity Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D4D0B2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE619B5427E040760A4A457361"
         PERM_ID="10100" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Set as Draft Activity Offering for Admin"
         NM="Perform Actions for Set as Draft Activity Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D4D1B2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE619C5427E040760A4A457361"
         PERM_ID="10101" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Suspend Activity Offering for Admin"
         NM="Perform Actions for Suspend Activity Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D4D2B2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE619D5427E040760A4A457361"
         PERM_ID="10102" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Cancel Activity Offering for Admin"
         NM="Perform Actions for Cancel Activity Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D4D3B2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE619E5427E040760A4A457361"
         PERM_ID="10103" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Perform Actions for Reinstate Activity Offering for Admin"
         NM="Perform Actions for Reinstate Activity Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D4D4B2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE619F5427E040760A4A457361"
         PERM_ID="10104" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Copy Course Offering"
         NM="Perform Action for Copying Course Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D4FFB2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61CA5427E040760A4A457361"
         PERM_ID="10105" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit Course Offering"
         NM="Perform Action for Editing Course Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D504B2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61CF5427E040760A4A457361"
         PERM_ID="10106" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the Admin to Copy Course Offering"
         NM="Perform Action for Copying Course Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D509B2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61D45427E040760A4A457361"
         PERM_ID="10107" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the Admin to Edit Course Offering"
         NM="Perform Action for Editing Course Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D50DB2B5E040760A4A453150"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61D85427E040760A4A457361"
         PERM_ID="10108" PERM_TMPL_ID="10015" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Allows the user to Copy Activity Offering"
+        NM="Perform Action for Copying Activity Offering"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61DC5427E040760A4A457361"
+        PERM_ID="10109" PERM_TMPL_ID="10015" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Allows the user to Edit Activity Offering"
+        NM="Perform Action for Editing Activity Offering"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61E15427E040760A4A457361"
+        PERM_ID="10110" PERM_TMPL_ID="10015" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Allows the Admin to Copy Activity Offering"
+        NM="Perform Action for Copying Activity Offering for Admin"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61E65427E040760A4A457361"
+        PERM_ID="10111" PERM_TMPL_ID="10015" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Allows the Admin to Edit Activity Offering"
+        NM="Perform Action for Editing Activity Offering for Admin"
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE61EA5427E040760A4A457361"
+        PERM_ID="10112" PERM_TMPL_ID="10015" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit Field for Max Seats for Activity Offering"
         NM="Edit Field for Max Seats for Activity Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D529B2B5E040760A4A453150"
-        PERM_ID="10109" PERM_TMPL_ID="10010" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE62065427E040760A4A457361"
+        PERM_ID="10113" PERM_TMPL_ID="10010" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the Admin to Edit Field for Max Seats for Activity Offering"
         NM="Edit Field for Max Seats for Activity Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D52EB2B5E040760A4A453150"
-        PERM_ID="10110" PERM_TMPL_ID="10010" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE620B5427E040760A4A457361"
+        PERM_ID="10114" PERM_TMPL_ID="10010" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit Field for Grading Options for Course Offering"
         NM="Edit Field for Grading Options for Course Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D532B2B5E040760A4A453150"
-        PERM_ID="10111" PERM_TMPL_ID="10010" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE620F5427E040760A4A457361"
+        PERM_ID="10115" PERM_TMPL_ID="10010" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the Admin to Edit Field for Grading Options for Course Offering"
         NM="Edit Field for Grading Options for Course Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D537B2B5E040760A4A453150"
-        PERM_ID="10112" PERM_TMPL_ID="10010" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE62145427E040760A4A457361"
+        PERM_ID="10116" PERM_TMPL_ID="10010" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit Field for Activity Code for Activity Offering"
         NM="Edit Field for Activity Code for Activity Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D53BB2B5E040760A4A453150"
-        PERM_ID="10113" PERM_TMPL_ID="10010" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE62185427E040760A4A457361"
+        PERM_ID="10117" PERM_TMPL_ID="10010" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the Admin to Edit Field for Activity Code for Activity Offering"
         NM="Edit Field for Activity Code for Activity Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D540B2B5E040760A4A453150"
-        PERM_ID="10114" PERM_TMPL_ID="10010" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE621D5427E040760A4A457361"
+        PERM_ID="10118" PERM_TMPL_ID="10010" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit Group for Requested Delivery Logistics for Activity Offering"
         NM="Edit Group for Requested Delivery Logistics for Activity Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D544B2B5E040760A4A453150"
-        PERM_ID="10115" PERM_TMPL_ID="10012" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE62215427E040760A4A457361"
+        PERM_ID="10119" PERM_TMPL_ID="10012" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the Admin to Edit Group for Requested Delivery Logistics for Activity Offering"
         NM="Edit Group for Requested Delivery Logistics for Activity Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D549B2B5E040760A4A453150"
-        PERM_ID="10116" PERM_TMPL_ID="10012" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE62265427E040760A4A457361"
+        PERM_ID="10120" PERM_TMPL_ID="10012" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to View Group for New Delivery Logistics for Activity Offering"
         NM="View Group for New Delivery Logistics for Activity Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D54DB2B5E040760A4A453150"
-        PERM_ID="10117" PERM_TMPL_ID="10011" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE622A5427E040760A4A457361"
+        PERM_ID="10121" PERM_TMPL_ID="10011" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the Admin to View Group for New Delivery Logistics for Activity Offering"
         NM="View Group for New Delivery Logistics for Activity Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D552B2B5E040760A4A453150"
-        PERM_ID="10118" PERM_TMPL_ID="10011" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE622F5427E040760A4A457361"
+        PERM_ID="10122" PERM_TMPL_ID="10011" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to View Group for Revise Schedule link for Activity Offering"
         NM="View Group for Revise Schedule link for Activity Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D556B2B5E040760A4A453150"
-        PERM_ID="10119" PERM_TMPL_ID="10011" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE62335427E040760A4A457361"
+        PERM_ID="10123" PERM_TMPL_ID="10011" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the Admin to View Group for Revise Schedule link for Activity Offering"
         NM="View Group for Revise Schedule link for Activity Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D55BB2B5E040760A4A453150"
-        PERM_ID="10120" PERM_TMPL_ID="10011" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y"
-        DESC_TXT="Allows the user to Edit Field for Final Exams for Course Offering"
-        NM="Edit Field for Final Exams for Course Offering"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D55FB2B5E040760A4A453150"
-        PERM_ID="10121" PERM_TMPL_ID="10010" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE62385427E040760A4A457361"
+        PERM_ID="10124" PERM_TMPL_ID="10011" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the Admin to Edit Field for Final Exams for Course Offering"
         NM="Edit Field for Final Exams for Course Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D564B2B5E040760A4A453150"
-        PERM_ID="10122" PERM_TMPL_ID="10010" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE623C5427E040760A4A457361"
+        PERM_ID="10125" PERM_TMPL_ID="10010" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to View Group for Create New Course Offering"
         NM="View Group for Create New Course Offering" NMSPC_CD="KS-ENR"
-        OBJ_ID="D6B8AA40D568B2B5E040760A4A453150" PERM_ID="10123"
+        OBJ_ID="D6BC43CE62405427E040760A4A457361" PERM_ID="10126"
         PERM_TMPL_ID="10011" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the Admin to View Group for Create New Course Offering"
         NM="View Group for Create New Course Offering for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D56DB2B5E040760A4A453150"
-        PERM_ID="10124" PERM_TMPL_ID="10011" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE62455427E040760A4A457361"
+        PERM_ID="10127" PERM_TMPL_ID="10011" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit Group for Create New Course Offering Buttons"
         NM="Edit Group for Create New Course Offering Buttons"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D571B2B5E040760A4A453150"
-        PERM_ID="10125" PERM_TMPL_ID="10012" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE62495427E040760A4A457361"
+        PERM_ID="10128" PERM_TMPL_ID="10012" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the Admin to Edit Group for Create New Course Offering Buttons"
         NM="Edit Group for Create New Course Offering Buttons for Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D576B2B5E040760A4A453150"
-        PERM_ID="10126" PERM_TMPL_ID="10012" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE624E5427E040760A4A457361"
+        PERM_ID="10129" PERM_TMPL_ID="10012" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Open Views for Course Offering Rollover Management"
         NM="Open Views for Course Offering Rollover Management"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D57AB2B5E040760A4A453150"
-        PERM_ID="10127" PERM_TMPL_ID="122" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE62525427E040760A4A457361"
+        PERM_ID="10130" PERM_TMPL_ID="122" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to Edit Views for Course Offering Rollover Management"
         NM="Edit Views for Course Offering Rollover Management"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D57CB2B5E040760A4A453150"
-        PERM_ID="10128" PERM_TMPL_ID="123" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE62545427E040760A4A457361"
+        PERM_ID="10131" PERM_TMPL_ID="123" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to View Search Result Group for manageCourseOfferingsPage"
         NM="View Search Result Group for manageCourseOfferingsPage"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D580B2B5E040760A4A453150"
-        PERM_ID="10129" PERM_TMPL_ID="10011" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE62585427E040760A4A457361"
+        PERM_ID="10132" PERM_TMPL_ID="10011" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows the user to View Search Result Group for manageCourseOfferingsPage Admin"
         NM="View Search Result Group for manageCourseOfferingsPage Admin"
-        NMSPC_CD="KS-ENR" OBJ_ID="D6B8AA40D581B2B5E040760A4A453150"
-        PERM_ID="10130" PERM_TMPL_ID="10011" VER_NBR="1"/>
+        NMSPC_CD="KS-ENR" OBJ_ID="D6BC43CE62595427E040760A4A457361"
+        PERM_ID="10133" PERM_TMPL_ID="10011" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows users to access the Document Operation screen."
         NM="Use Document Operation Screen" NMSPC_CD="KR-WKFLW"
