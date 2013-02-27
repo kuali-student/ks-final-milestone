@@ -152,8 +152,6 @@
         <impex.table.includes>${impex.includes}</impex.table.includes>
         <impex.view.includes>${impex.includes}</impex.view.includes>
         <impex.sequence.includes>${impex.includes}</impex.sequence.includes>
-        <impex.workingDir>${project.basedir}/src/main/resources</impex.workingDir>
-        <impex.antCompatibilityMode>false</impex.antCompatibilityMode>
         <impex.import.schemasql>classpath:${db.vendor}/${project.artifactId}.sql</impex.import.schemasql>
         <impex.import.constraintsql>classpath:${db.vendor}/${project.artifactId}-constraints.sql</impex.import.constraintsql>
         <impex.import.dataLocations>${impex.data.resources}</impex.import.dataLocations>
