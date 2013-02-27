@@ -142,32 +142,6 @@
         </plugins>
       </build>
     </profile>
-    <!-- testing profile, will be removed -->
-    <profile>
-      <id>impex-print</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.kuali.maven.plugins</groupId>
-            <artifactId>spring-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>otherload</id>
-                <phase>compile</phase>
-                <goals>
-                  <goal>load</goal>
-                </goals>
-                <configuration>
-                  <location>classpath:org/kuali/student/impex/ks-print-test.xml</location>
-                  <propertiesBeanName>copyProperties</propertiesBeanName>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
     <profile>
       <!-- Load a db from .mpx files -->
       <id>import</id>
