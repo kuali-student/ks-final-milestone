@@ -44,9 +44,16 @@ public class Bean2DictionaryConverter
   os.setHasMetaData (calcHasMetaData (beanInfo));
   for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors ())
   {
-   if ( ! MetaInfo.class.equals (pd.getPropertyType ())
-       &&  ! Class.class.equals (pd.getPropertyType ())
-       &&  ! DictionaryConstants.ATTRIBUTES.equals (pd.getName ()))
+      boolean skipOver = false;
+      // short term fix for KSENROLL-5710
+      // essentially don't require deprecated method dictionary definitions.
+      if (pd.getReadMethod() != null && pd.getReadMethod().isAnnotationPresent(Deprecated.class))
+          skipOver = true;
+      
+      if (MetaInfo.class.equals (pd.getPropertyType ()) || Class.class.equals (pd.getPropertyType ()) ||  DictionaryConstants.ATTRIBUTES.equals (pd.getName ()))
+              skipOver = true;
+      
+   if (!skipOver)
    {
     os.getAttributes ().add (calcField (clazz, pd));
    }
