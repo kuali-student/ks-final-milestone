@@ -4,18 +4,14 @@ import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplateContra
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsageContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
-import org.kuali.rice.krms.api.repository.proposition.PropositionParameter;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
-import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinitionContract;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeAttributeContract;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinitionContract;
-import org.kuali.rice.krms.impl.repository.PropositionBo;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -124,7 +120,7 @@ public class KRMSDataGenerator {
         };
     }
 
-    public static PropositionDefinitionContract createPropositionDefinition(final String description, final String typeId, final String ruleId, final String propTypeCode, final List<? extends PropositionParameterContract> parameters, final String compCode, final List<? extends PropositionDefinitionContract> compComponents, final String id, final Long verNumber){
+    public static PropositionDefinitionContract createPropositionDefinition(final String description, final String typeId, final String ruleId, final String propTypeCode, final List<? extends PropositionParameterContract> parameters, final String compOpCode, final List<? extends PropositionDefinitionContract> compComponents, final String id, final Long verNumber){
         return new PropositionDefinitionContract() {
             @Override
             public String getDescription() {
@@ -153,7 +149,7 @@ public class KRMSDataGenerator {
 
             @Override
             public String getCompoundOpCode() {
-                return compCode;
+                return compOpCode;
             }
 
             @Override
@@ -169,6 +165,47 @@ public class KRMSDataGenerator {
             @Override
             public Long getVersionNumber() {
                 return verNumber;
+            }
+        };
+    }
+
+    public static PropositionParameterContract createPropositionParameter(final String propId, final String value, final String parameterTypeCode, final Integer sequenceNumber, final String id, final Long versionNumber){
+        return new  PropositionParameterContract(){
+
+
+            @Override
+            public String getPropId() {
+                return propId;
+            }
+
+
+            @Override
+            public String getValue() {
+                return value;
+            }
+
+
+            @Override
+            public String getParameterType() {
+                return parameterTypeCode;
+            }
+
+
+            @Override
+            public Integer getSequenceNumber() {
+                return sequenceNumber;
+            }
+
+
+            @Override
+            public String getId() {
+                return id;
+            }
+
+
+            @Override
+            public Long getVersionNumber() {
+                return versionNumber;
             }
         };
     }

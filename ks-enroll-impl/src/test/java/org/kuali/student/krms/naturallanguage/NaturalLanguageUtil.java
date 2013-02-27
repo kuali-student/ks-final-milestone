@@ -15,8 +15,13 @@
 
 package org.kuali.student.krms.naturallanguage;
 
+import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
+import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
+import org.kuali.rice.krms.api.repository.proposition.PropositionParameterType;
+import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.student.krms.naturallanguage.config.context.CluContextImpl;
+import org.kuali.student.krms.naturallanguage.config.context.GpaContextImpl;
 import org.kuali.student.r2.core.krms.config.context.lu.CourseListContextImpl;
 import org.kuali.student.r2.core.krms.config.context.lu.MockCluInfo;
 import org.kuali.student.r2.core.krms.config.context.lu.MockCluSetInfo;
@@ -123,14 +128,17 @@ public class NaturalLanguageUtil {
 //
 //    	return reqCompType;
 //    }
-//
-//    public static ReqComponent createReqComponent(String nlUsageTypeKey, String reqComponentType) throws Exception {
-//    	ReqComponent reqComponent = new ReqComponent();
-//    	ReqComponentType reqCompType = createDefaultReqComponentType(nlUsageTypeKey, reqComponentType);
-//    	reqComponent.setRequiredComponentType(reqCompType);
-//    	return reqComponent;
-//    }
-//
+
+    public static PropositionDefinitionContract createProposition(String nlUsageTypeKey, String propositionType,String expectedValue, String operator) throws Exception {
+        List<PropositionParameterContract> parameters = new ArrayList<PropositionParameterContract>();
+        parameters.add(KRMSDataGenerator.createPropositionParameter("prop-id",expectedValue, PropositionParameterType.CONSTANT.getCode(),1,"param-1",0L));
+        parameters.add(KRMSDataGenerator.createPropositionParameter("prop-id",operator, PropositionParameterType.OPERATOR.getCode(),2,"param-2",0L));
+    	PropositionDefinitionContract proposition = KRMSDataGenerator.createPropositionDefinition("test proposition",propositionType,"rule-id", PropositionType.SIMPLE.getCode(),parameters,null,null,"prop-id",0L);
+    	//ReqComponentType reqCompType = createDefaultReqComponentType(nlUsageTypeKey, reqComponentType);
+    	//reqComponent.setRequiredComponentType(reqCompType);
+    	return proposition;
+    }
+
 //    public static ReqComponent createReqComponent(String reqComponentType, List<ReqComponentField> fieldList) {
 //    	ReqComponentType reqCompType = createDefaultReqComponentType("KUALI.RULE", reqComponentType);
 //
@@ -255,18 +263,21 @@ public class NaturalLanguageUtil {
 ////		return headerList;
 ////	}
     
-    public static ContextRegistry<Context<TermDefinitionContract>> getReqComponentContextRegistry() {
+    public static ContextRegistry<Context<TermDefinitionContract>> getPropositionContextRegistry() {
     	ContextRegistry<Context<TermDefinitionContract>> contextRegistry = new ContextRegistry<Context<TermDefinitionContract>>();
 
     	createData();
     	CourseListContextImpl.setCluInfo(cluList);
     	CourseListContextImpl.setCluSetInfo(cluSetList);
-        CluContextImpl courseListContext = new CluContextImpl();
+        CluContextImpl cluContext = new CluContextImpl();
+        GpaContextImpl gpaContext = new GpaContextImpl();
 
-    	contextRegistry.add("kuali.reqComponent.type.courseList.none", courseListContext);
-    	contextRegistry.add("kuali.reqComponent.type.courseList.all", courseListContext);
-    	contextRegistry.add("kuali.reqComponent.type.courseList.nof", courseListContext);
-    	contextRegistry.add("kuali.reqComponent.type.courseList.1of2", courseListContext);
+    	contextRegistry.add("kuali.krms.proposition.type.course.courseset.completed.none", cluContext);
+    	contextRegistry.add("kuali.krms.proposition.type.success.course.courseset.completed.all", cluContext);
+    	contextRegistry.add("kuali.krms.proposition.type.course.courseset.completed.nof", cluContext);
+
+        contextRegistry.add("kuali.krms.proposition.type.course.courseset.gpa.min", cluContext);
+        contextRegistry.add("kuali.krms.proposition.type.course.courseset.gpa.min", gpaContext);
 
 //    	CreditContextImpl.setCluInfo(cluList);
 //    	CreditContextImpl.setCluSetInfo(cluSetList);
