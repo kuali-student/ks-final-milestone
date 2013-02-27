@@ -71,9 +71,13 @@
     <ref bean="bundledDumpContext" />
   </util:list>
 
+  <bean id="scmService" class="org.kuali.common.util.spring.ScmServiceFactoryBean">
+    <property name="url" value="#{project.scm.developerConnection}" />
+  </bean>
+
   <bean id="syncExecutable" class="org.kuali.common.impex.SyncFilesExecutable" init-method="execute">
     <property name="contexts" ref="dumpContexts" />
-    <property name="properties" value="#{project.properties}" />
+    <property name="service" ref="scmService" />
     <property name="skip" value="${impex.sync.skip:FALSE}" />
   </bean>
 
