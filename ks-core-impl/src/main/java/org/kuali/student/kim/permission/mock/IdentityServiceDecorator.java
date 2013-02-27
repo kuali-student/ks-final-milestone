@@ -483,6 +483,14 @@ public class IdentityServiceDecorator implements IdentityService {
         return nextDecorator.addAddressToEntity(ea);
     }
 
+	@Override
+	public List<Principal> getPrincipalsByEmployeeId(String employeeId) {
+        return nextDecorator.getPrincipalsByEmployeeId(employeeId);
+	}
 
+	@Override
+	public List<Principal> getPrincipalsByEntityId(String entityId) {
+		return nextDecorator.getPrincipalsByEntityId(entityId);
+	}
 
 }

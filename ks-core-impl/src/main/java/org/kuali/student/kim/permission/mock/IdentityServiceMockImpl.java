@@ -4,6 +4,12 @@
  */
 package org.kuali.student.kim.permission.mock;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.jws.WebParam;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
@@ -34,11 +40,6 @@ import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.identity.visa.EntityVisa;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
-
-import javax.jws.WebParam;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -493,5 +494,14 @@ public class IdentityServiceMockImpl implements IdentityService, MockService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+	@Override
+	public List<Principal> getPrincipalsByEmployeeId(String employeeId) {
+        throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public List<Principal> getPrincipalsByEntityId(String entityId) {
+        throw new UnsupportedOperationException("Not supported yet.");
+	}
 
 }
