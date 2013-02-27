@@ -34,6 +34,18 @@
         <property name="serviceName" value="CourseService"/>
     </bean>
 
+    <bean id="ksLumLRCService"
+          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceNamespace" value="http://student.kuali.org/wsdl/lrc"/>
+        <property name="serviceName" value="LearningResultService"/>
+    </bean>
+
+    <bean id="ksLumProgramService"
+          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceNamespace" value="http://student.kuali.org/wsdl/program"/>
+        <property name="serviceName" value="ProgramService"/>
+    </bean>
+
     <bean id="ksLumCluService"
           class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceNamespace" value="http://student.kuali.org/wsdl/clu"/>

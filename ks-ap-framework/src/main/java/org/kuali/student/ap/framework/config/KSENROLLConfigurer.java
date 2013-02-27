@@ -19,7 +19,8 @@ public class KSENROLLConfigurer extends ModuleConfigurer {
 
 	public KSENROLLConfigurer() {
 		super(KSAPConstants.KSENROLL_MODULE_NAME);
-		setValidRunModes(Arrays.asList(RunMode.LOCAL));
+		setValidRunModes(Arrays.asList(RunMode.LOCAL, RunMode.EMBEDDED,
+				RunMode.REMOTE));
 	}
 
 	@Override

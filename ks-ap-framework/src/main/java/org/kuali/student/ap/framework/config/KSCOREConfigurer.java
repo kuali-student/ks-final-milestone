@@ -19,7 +19,8 @@ public class KSCOREConfigurer extends ModuleConfigurer {
 
 	public KSCOREConfigurer() {
 		super(KSAPConstants.KSCORE_MODULE_NAME);
-		setValidRunModes(Arrays.asList(RunMode.LOCAL));
+		setValidRunModes(Arrays.asList(RunMode.LOCAL, RunMode.EMBEDDED,
+				RunMode.REMOTE));
 	}
 
 	@Override

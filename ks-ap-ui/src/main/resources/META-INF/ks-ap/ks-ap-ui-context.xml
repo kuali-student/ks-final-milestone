@@ -17,52 +17,54 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-    <bean id="courseSearchStrategy" class="org.kuali.student.myplan.course.controller.CourseSearchStrategyImpl"/>
+	<bean id="courseSearchStrategy"
+		class="org.kuali.student.myplan.course.controller.CourseSearchStrategyImpl" />
 
-    <bean id="coursePreReqSearch" class="org.kuali.student.myplan.course.service.CoursePreReqSearch">
-        <property name="cluService" ref="ksLumCluService"/>
-    </bean>
+	<bean id="coursePreReqSearch"
+		class="org.kuali.student.myplan.course.service.CoursePreReqSearch">
+		<property name="cluService" ref="ksLumCluService" />
+	</bean>
 
-    <bean id="kualiConfigurationService" class="org.kuali.rice.krad.service.impl.ConfigurationServiceImpl"/>
+	<bean id="kualiConfigurationService"
+		class="org.kuali.rice.krad.service.impl.ConfigurationServiceImpl" />
 
-    <bean id="kualiModuleService" class="org.kuali.rice.krad.service.impl.KualiModuleServiceImpl"/>
+	<bean id="kualiModuleService" class="org.kuali.rice.krad.service.impl.KualiModuleServiceImpl" />
 
-    <bean id="studentRiceModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
-        <property name="moduleConfiguration" ref="studentRiceModuleConfiguration"/>
-        <property name="kualiModuleService" ref="kualiModuleService"/>
-    </bean>
+	<bean id="studentRiceModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
+		<property name="moduleConfiguration" ref="studentRiceModuleConfiguration" />
+		<property name="kualiModuleService" ref="kualiModuleService" />
+	</bean>
 
-    <bean id="studentRiceModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
-        <property name="namespaceCode" value="KS-SYS"/>
-        <property name="initializeDataDictionary" value="true"/>
-        <property name="dataDictionaryPackages">
-            <list>
-               <!-- Import these data dictionaries to allow the UI to use them -->
-               <!-- <value>classpath:ks-PlanItemInfo-dictionary.xml</value> -->
-                <value>classpath:ks-AuditReportInfo-dictionary.xml</value>
+	<bean id="studentRiceModuleConfiguration" parent="studentRiceModuleConfiguration-parent" />
+	<bean id="studentRiceModuleConfiguration-parent" abstract="true" class="org.kuali.rice.krad.bo.ModuleConfiguration">
+		<property name="namespaceCode" value="KS-SYS" />
+		<property name="initializeDataDictionary" value="true" />
+		<property name="dataDictionaryPackages">
+			<list>
+				<!-- KSAP Application Bean Files -->
+				<value>classpath:org/kuali/rice/student/bo</value>
+				<value>classpath:ks-AuditReportInfo-dictionary.xml</value>
 
-                <value>classpath:UifMyPlanDefinitions.xml</value>
-                <value>classpath:HelpDefinitions.xml</value>
-                <value>classpath:MyPlanDataObjects.xml</value>
-                <value>classpath:HelpDefinitions.xml</value>
-                <value>classpath:CourseSearchUI.xml</value>
-                <value>classpath:CourseDetailsUI.xml</value>
-                <value>classpath:PlanItemsUI.xml</value>
-                <value>classpath:DegreeAuditUI.xml</value>
-                <value>classpath:DegreeAuditDetailsUI.xml</value>
-                <value>classpath:CommentUI.xml</value>
-                <value>classpath:QuickAddUI.xml</value>
-                <!--
-                <value>classpath:org/kuali/student/myplan/mobile/MyPlanMobileUI.xml</value>
-                <value>classpath:org/kuali/student/myplan/mobile/UifMobileDefinitions.xml</value>
-                -->
-            </list>
-        </property>
-        <property name="packagePrefixes">
-            <list>
-                <value>org.kuali.student.myplan.</value>
-            </list>
-        </property>
-    </bean>
+				<value>classpath:UifMyPlanDefinitions.xml</value>
+				<value>classpath:UifExtensionDefinitions.xml</value>
+				<value>classpath:HelpDefinitions.xml</value>
+				<value>classpath:MyPlanDataObjects.xml</value>
+				<value>classpath:HelpDefinitions.xml</value>
+				<value>classpath:CourseSearchUI.xml</value>
+				<value>classpath:CourseDetailsUI.xml</value>
+				<value>classpath:PlanItemsUI.xml</value>
+				<value>classpath:DegreeAuditUI.xml</value>
+				<value>classpath:DegreeAuditDetailsUI.xml</value>
+				<value>classpath:CommentUI.xml</value>
+				<value>classpath:QuickAddUI.xml</value>
+			</list>
+		</property>
+		<property name="packagePrefixes">
+			<list>
+				<value>org.kuali.rice.student.</value>
+				<value>org.kuali.student.myplan.</value>
+			</list>
+		</property>
+	</bean>
 
 </beans>

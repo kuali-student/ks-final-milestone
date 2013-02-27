@@ -8,8 +8,8 @@ import org.kuali.rice.core.api.config.module.RunMode;
 import org.kuali.rice.core.framework.config.module.ModuleConfigurer;
 
 /**
- * Provides default ks-lum service behavior as a local Rice module, suitable
- * for bundling with ks-ap when another provider is not available in the
+ * Provides default ks-lum service behavior as a local Rice module, suitable for
+ * bundling with ks-ap when another provider is not available in the
  * environment.
  * 
  * @author Mark Fyffe <mwfyffe@indiana.edu>
@@ -19,7 +19,8 @@ public class KSLUMConfigurer extends ModuleConfigurer {
 
 	public KSLUMConfigurer() {
 		super(KSAPConstants.KSLUM_MODULE_NAME);
-		setValidRunModes(Arrays.asList(RunMode.LOCAL));
+		setValidRunModes(Arrays.asList(RunMode.LOCAL, RunMode.EMBEDDED,
+				RunMode.REMOTE));
 	}
 
 	@Override

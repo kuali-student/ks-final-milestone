@@ -1,5 +1,8 @@
 package org.kuali.student.ap.framework.config;
 
+import java.util.Hashtable;
+import java.util.Map;
+
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.ap.framework.context.AtpHelper;
 import org.kuali.student.ap.framework.context.EnumerationHelper;
@@ -20,9 +23,6 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.program.service.ProgramService;
-
-import java.util.Hashtable;
-import java.util.Map;
 
 /**
  * Convenience factory for acquiring KSAP provided service.
@@ -152,6 +152,24 @@ public final class KsapFrameworkServiceLocator {
 	}
 
 	/**
+	 * Get the program service.
+	 * 
+	 * @return The program service.
+	 */
+	public static ProgramService getProgramService() {
+		return getLocalService("ksLumProgramService");
+	}
+
+	/**
+	 * Get the LRC service.
+	 * 
+	 * @return The LRC service.
+	 */
+	public static LRCService getLRCService() {
+		return getLocalService("ksLumLRCService");
+	}
+
+	/**
 	 * Get the ks-lum remote clu service.
 	 * 
 	 * @return The ks-lum remote clu service.
@@ -196,23 +214,23 @@ public final class KsapFrameworkServiceLocator {
 		return getLocalService("ksapAtpHelper");
 	}
 
-    /**
-     * Get the Enumeration helper.
-     *
-     * @return The Enumeration help.
-     */
-    public static EnumerationHelper getEnumerationHelper(){
-        return getLocalService("ksapEnumerationHelper");
-    }
+	/**
+	 * Get the Enumeration helper.
+	 * 
+	 * @return The Enumeration help.
+	 */
+	public static EnumerationHelper getEnumerationHelper() {
+		return getLocalService("ksapEnumerationHelper");
+	}
 
-    /**
-     * Get the Org helper.
-     *
-     * @return The Org help.
-     */
-    public static OrgHelper getOrgHelper(){
-        return getLocalService("ksapOrgHelper");
-    }
+	/**
+	 * Get the Org helper.
+	 * 
+	 * @return The Org help.
+	 */
+	public static OrgHelper getOrgHelper() {
+		return getLocalService("ksapOrgHelper");
+	}
 
 	/**
 	 * Get the academic plan service.
@@ -231,14 +249,5 @@ public final class KsapFrameworkServiceLocator {
 	public static CourseSearchStrategy getCourseSearchStrategy() {
 		return getLocalService("courseSearchStrategy");
 	}
-
-    /**
-     * Get the program service.
-     *
-     * @return The program service impl.
-     */
-    public static ProgramService getProgramService() {
-        return getLocalService("programServiceImpl");
-    }
 
 }
