@@ -15,6 +15,12 @@
         NAME="HIST492(A)-WMST400(A) kuali.atp.2012Fall"
         OBJ_ID="6aa5ff60-5e56-49d6-a3e5-1fca50b91907" VER_NBR="0"/>
     <KSEN_LUI_SET CREATEID="admin" CREATETIME="20130109154249"
+        ID="05c700f9-e1b1-45ab-a116-9e9a81e02f8b"
+        LUI_SET_STATE="kuali.luiset.state.active"
+        LUI_SET_TYPE="kuali.luiset.type.colocated.offering.set"
+        NAME="HIST404(A)-BSCI410(A) kuali.atp.2013Spring"
+        OBJ_ID="249416f5-418f-444e-b063-55f24e6f0ed1" VER_NBR="0"/>
+    <KSEN_LUI_SET CREATEID="admin" CREATETIME="20130109154249"
         ID="0933a157-a275-47a2-9ab7-6b2b4d52a814"
         LUI_SET_STATE="kuali.luiset.state.active"
         LUI_SET_TYPE="kuali.luiset.type.colocated.offering.set"
@@ -57,6 +63,18 @@
         NAME="CHEM131(A)-CHEM131S(A) kuali.atp.2011Fall"
         OBJ_ID="16261674-5b5e-4955-8c6a-f2de5103fcd2" VER_NBR="0"/>
     <KSEN_LUI_SET CREATEID="admin" CREATETIME="20130109154249"
+        ID="28d434f0-ce34-44cc-b072-02c505cb39ed"
+        LUI_SET_STATE="kuali.luiset.state.active"
+        LUI_SET_TYPE="kuali.luiset.type.colocated.offering.set"
+        NAME="ENGL262(A)-ENGL470(A) kuali.atp.2012Fall"
+        OBJ_ID="34488f20-2a6c-4dab-90f1-bf6f0b4bcd7d" VER_NBR="0"/>
+    <KSEN_LUI_SET CREATEID="admin" CREATETIME="20130109154249"
+        ID="2972ca38-aabb-47d0-a2c7-466e83cf6157"
+        LUI_SET_STATE="kuali.luiset.state.active"
+        LUI_SET_TYPE="kuali.luiset.type.colocated.offering.set"
+        NAME="PHYS624(A)-CHEM641(A) kuali.atp.2012Fall"
+        OBJ_ID="aa1604ba-3c98-4e0f-be27-b094139daa61" VER_NBR="0"/>
+    <KSEN_LUI_SET CREATEID="admin" CREATETIME="20130109154249"
         ID="3a5f138d-f0d9-4166-81f9-76a8ad7ada7b"
         LUI_SET_STATE="kuali.luiset.state.active"
         LUI_SET_TYPE="kuali.luiset.type.colocated.offering.set"
@@ -69,11 +87,29 @@
         NAME="PHYS739(A)-PHYS738(A) kuali.atp.2012Fall"
         OBJ_ID="c15d9d97-7522-499f-8ce1-334217cdc352" VER_NBR="0"/>
     <KSEN_LUI_SET CREATEID="admin" CREATETIME="20130109154249"
+        ID="3ce7d2a9-36e7-4dd1-a7cd-e75e39be4024"
+        LUI_SET_STATE="kuali.luiset.state.active"
+        LUI_SET_TYPE="kuali.luiset.type.colocated.offering.set"
+        NAME="HIST404(A)-BSCI410(A) kuali.atp.2012Fall"
+        OBJ_ID="5bcde44c-9cc6-4d8b-ab22-8d39fa66fee0" VER_NBR="0"/>
+    <KSEN_LUI_SET CREATEID="admin" CREATETIME="20130109154249"
         ID="49cf045d-654c-4eb6-a2c8-2c8d269d67c5"
         LUI_SET_STATE="kuali.luiset.state.active"
         LUI_SET_TYPE="kuali.luiset.type.colocated.offering.set"
         NAME="PHYS739(A)-PHYS738(A) kuali.atp.2011Spring"
         OBJ_ID="9db80519-34f5-4549-b0aa-5c8ff7050d50" VER_NBR="0"/>
+    <KSEN_LUI_SET CREATEID="admin" CREATETIME="20130109154249"
+        ID="4eaf3029-3d20-43eb-a4d8-7b319e710a4e"
+        LUI_SET_STATE="kuali.luiset.state.active"
+        LUI_SET_TYPE="kuali.luiset.type.colocated.offering.set"
+        NAME="CHEM403(A)-CHEM626(A) kuali.atp.2012Fall"
+        OBJ_ID="ba1c4e2b-de41-4913-ab31-b7ff01e8d30f" VER_NBR="0"/>
+    <KSEN_LUI_SET CREATEID="admin" CREATETIME="20130109154249"
+        ID="5b7290a4-3dbd-46da-a495-199de7134feb"
+        LUI_SET_STATE="kuali.luiset.state.active"
+        LUI_SET_TYPE="kuali.luiset.type.colocated.offering.set"
+        NAME="HIST404(A)-BSCI410(A) kuali.atp.2011Spring"
+        OBJ_ID="60bfaf34-4312-440c-bab1-f67921478763" VER_NBR="0"/>
     <KSEN_LUI_SET CREATEID="admin" CREATETIME="20130109154249"
         ID="5b9cae90-b1cf-4e74-9b6a-e1ae1ae2285c"
         LUI_SET_STATE="kuali.luiset.state.active"
@@ -92,6 +128,18 @@
         LUI_SET_TYPE="kuali.luiset.type.colocated.offering.set"
         NAME="PHYS739(A)-PHYS738(A) kuali.atp.2011Fall"
         OBJ_ID="07530ef9-d84f-42a2-8d07-f90d5b762a4d" VER_NBR="0"/>
+    <KSEN_LUI_SET CREATEID="admin" CREATETIME="20130109154249"
+        ID="64714771-0a34-44bc-9010-27a6ba021044"
+        LUI_SET_STATE="kuali.luiset.state.active"
+        LUI_SET_TYPE="kuali.luiset.type.colocated.offering.set"
+        NAME="HIST404(A)-BSCI410(A) kuali.atp.2012Spring"
+        OBJ_ID="3d48dcb9-2366-4a04-b3e5-62d449691d0f" VER_NBR="0"/>
+    <KSEN_LUI_SET CREATEID="admin" CREATETIME="20130109154249"
+        ID="6d9ab9d1-8726-4124-9a1e-3d24260b750f"
+        LUI_SET_STATE="kuali.luiset.state.active"
+        LUI_SET_TYPE="kuali.luiset.type.colocated.offering.set"
+        NAME="ENGL362(A)-HIST310(A) kuali.atp.2011Fall"
+        OBJ_ID="244e0a68-23b6-4d80-99c8-12bca7266c6c" VER_NBR="0"/>
     <KSEN_LUI_SET CREATEID="admin" CREATETIME="20130109154249"
         ID="6fd275e2-f44d-440c-9ec2-b26dd7590b8b"
         LUI_SET_STATE="kuali.luiset.state.active"
@@ -147,6 +195,12 @@
         NAME="PHYS273(A)-PHYS273H(A) kuali.atp.2011Fall"
         OBJ_ID="a23fc53f-cd77-4db4-9d92-57ffc9235aee" VER_NBR="0"/>
     <KSEN_LUI_SET CREATEID="admin" CREATETIME="20130109154249"
+        ID="a4184c9a-3e42-4b41-8264-45b6a27a5438"
+        LUI_SET_STATE="kuali.luiset.state.active"
+        LUI_SET_TYPE="kuali.luiset.type.colocated.offering.set"
+        NAME="HIST404(A)-BSCI410(A) kuali.atp.2011Fall"
+        OBJ_ID="f3a17c9b-d53e-421c-beb0-8c3e6de1205b" VER_NBR="0"/>
+    <KSEN_LUI_SET CREATEID="admin" CREATETIME="20130109154249"
         ID="a9f4b6b0-edd7-4928-8777-501c2bd68d22"
         LUI_SET_STATE="kuali.luiset.state.active"
         LUI_SET_TYPE="kuali.luiset.type.colocated.offering.set"
@@ -182,6 +236,12 @@
         LUI_SET_TYPE="kuali.luiset.type.colocated.offering.set"
         NAME="BSCI105(A)-BSCI105M(A) kuali.atp.2013Spring"
         OBJ_ID="119ea46f-98ef-4ee3-8cef-f42ac46cdfb5" VER_NBR="0"/>
+    <KSEN_LUI_SET CREATEID="admin" CREATETIME="20130109154249"
+        ID="be84e6a0-8d31-401c-b33e-45222b878f17"
+        LUI_SET_STATE="kuali.luiset.state.active"
+        LUI_SET_TYPE="kuali.luiset.type.colocated.offering.set"
+        NAME="ENGL362(A)-HIST310(A) kuali.atp.2012Fall"
+        OBJ_ID="1d3a9a39-ec68-4dab-9d2f-20ce2be8c2b7" VER_NBR="0"/>
     <KSEN_LUI_SET CREATEID="admin" CREATETIME="20130109154249"
         ID="befd83db-1028-4e13-b5c5-02f22d446e8a"
         LUI_SET_STATE="kuali.luiset.state.active"
@@ -260,4 +320,10 @@
         LUI_SET_TYPE="kuali.luiset.type.colocated.offering.set"
         NAME="PHYS739(A)-PHYS738(A) kuali.atp.2012Spring"
         OBJ_ID="0703b455-9b3d-43bd-a2af-539bf9ac6710" VER_NBR="0"/>
+    <KSEN_LUI_SET CREATEID="admin" CREATETIME="20130109154249"
+        ID="fc55a281-db7e-4082-8505-ed9b24a9a3e6"
+        LUI_SET_STATE="kuali.luiset.state.active"
+        LUI_SET_TYPE="kuali.luiset.type.colocated.offering.set"
+        NAME="PHYS624(A)-CHEM641(A) kuali.atp.2011Fall"
+        OBJ_ID="9798e879-f5ee-4062-988a-60a73e4f1d77" VER_NBR="0"/>
 </dataset>

@@ -112,6 +112,10 @@
         OBJ_ID="bc57052d-a8c5-4039-ba89-d5cc224ecc78" OWNER_ID="8d223a96-cf11-45c7-8c4c-0ac354676ac1"/>
     <KSEN_LUI_SET_ATTR
         ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
+        ATTR_VALUE="40" ID="41e5cd43-316b-4344-8644-bbccd34585d3"
+        OBJ_ID="e891787d-88c8-46b4-bd2e-f8957abffb28" OWNER_ID="64714771-0a34-44bc-9010-27a6ba021044"/>
+    <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
         ATTR_VALUE="205" ID="45684ac9-17a1-45c3-8fa9-c11fded09454"
         OBJ_ID="d009128b-f370-46c1-8891-f3d39d5dd47c" OWNER_ID="225388a8-1117-488e-b555-118541a8ca0c"/>
     <KSEN_LUI_SET_ATTR
@@ -122,6 +126,10 @@
         ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
         ATTR_VALUE="166" ID="498843d2-dbaa-46eb-bed4-63c7196b159a"
         OBJ_ID="7483229a-72e9-4fb0-beba-3d9b2e700fdd" OWNER_ID="e15541c5-de51-464c-b520-dd8d2b896307"/>
+    <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
+        ATTR_VALUE="40" ID="4b112ab4-22e5-4d62-9c47-6e2ce54077d7"
+        OBJ_ID="3a6cb4d9-a711-4487-b7b3-21e801e4b5b8" OWNER_ID="a4184c9a-3e42-4b41-8264-45b6a27a5438"/>
     <KSEN_LUI_SET_ATTR
         ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
         ATTR_VALUE="Y" ID="4db81a54-b61f-4ac6-955b-734b4749beaa"
@@ -148,8 +156,20 @@
         OBJ_ID="5a84ab04-c264-4413-ba5d-dcc8b19a097f" OWNER_ID="8bee2e3a-a4fc-4ac9-bc1b-9cbd766bddd6"/>
     <KSEN_LUI_SET_ATTR
         ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
+        ATTR_VALUE="83" ID="6765e221-9aa9-43f5-9a8b-eba70b6a78d2"
+        OBJ_ID="b6601d39-f157-43c4-bd14-6f04cee40ba9" OWNER_ID="2972ca38-aabb-47d0-a2c7-466e83cf6157"/>
+    <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
+        ATTR_VALUE="Y" ID="677fc4a7-f9de-4a23-aac2-40a51dc5ef95"
+        OBJ_ID="b6355963-99ea-4ccc-911f-c377760c42ef" OWNER_ID="5b7290a4-3dbd-46da-a495-199de7134feb"/>
+    <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
         ATTR_VALUE="258" ID="67cd15ec-ea2c-4b4b-86a8-740804a59d45"
         OBJ_ID="5c12a5df-3cb6-40fa-9ee2-960c64127298" OWNER_ID="b05f08a7-4731-49a7-9eaa-e568f3406aac"/>
+    <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
+        ATTR_VALUE="Y" ID="6ae7f67d-1cfb-4b86-afd4-1b252923ab9b"
+        OBJ_ID="0300f09a-f082-4a8d-89b8-32c5714d58f0" OWNER_ID="be84e6a0-8d31-401c-b33e-45222b878f17"/>
     <KSEN_LUI_SET_ATTR
         ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
         ATTR_VALUE="205" ID="6b3b4fc0-6c6c-4c5e-99de-3afb9146f938"
@@ -168,8 +188,20 @@
         OBJ_ID="95cd9d1e-fa2d-4313-81de-a03840da44be" OWNER_ID="e3d8ca82-2dd7-4eb9-9860-cc2eb0d59830"/>
     <KSEN_LUI_SET_ATTR
         ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
+        ATTR_VALUE="N" ID="8573ef15-b099-454f-a883-ca04ce76f27c"
+        OBJ_ID="c5ede2b7-b7f3-4d86-8214-aa0090c2bf9a" OWNER_ID="2972ca38-aabb-47d0-a2c7-466e83cf6157"/>
+    <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
         ATTR_VALUE="N" ID="85dd3219-1fa2-492a-8f3c-a6a29c8bef36"
         OBJ_ID="b6d60e9e-fd03-4ec1-a89c-265d8c13bd99" OWNER_ID="225388a8-1117-488e-b555-118541a8ca0c"/>
+    <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
+        ATTR_VALUE="30" ID="871d59fd-6286-426a-a715-117dda2b5c65"
+        OBJ_ID="4e2a5986-08f2-46ee-97b9-eade70f3f51d" OWNER_ID="be84e6a0-8d31-401c-b33e-45222b878f17"/>
+    <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
+        ATTR_VALUE="40" ID="8988a6f5-fe3e-45a9-9872-137bc7513470"
+        OBJ_ID="6021b8c8-6404-4d75-a074-3e613d1b1cb1" OWNER_ID="3ce7d2a9-36e7-4dd1-a7cd-e75e39be4024"/>
     <KSEN_LUI_SET_ATTR
         ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
         ATTR_VALUE="N" ID="8a535a43-0efe-4def-aefe-b1737bd8c0d1"
@@ -179,9 +211,17 @@
         ATTR_VALUE="30" ID="8b8884eb-9e3d-4977-a29c-d5c3a3eb6189"
         OBJ_ID="36f6963b-b3ac-48e5-971c-9613c9b9a031" OWNER_ID="e8ec07cb-7ae1-44ec-9e94-b4043e9ef3b7"/>
     <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
+        ATTR_VALUE="Y" ID="8bb94bab-962d-4038-a407-a2e83c79b749"
+        OBJ_ID="1f7bdb60-fbb2-4f75-a6d6-ccfb3822f127" OWNER_ID="a4184c9a-3e42-4b41-8264-45b6a27a5438"/>
+    <KSEN_LUI_SET_ATTR
         ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
         ATTR_VALUE="166" ID="91aba110-96d8-477d-b729-f2ef040bbeb7"
         OBJ_ID="cf71169e-1c4b-4bc9-a763-1c3df2882efe" OWNER_ID="1a20f4c3-cab3-4457-8a50-efbd06689c63"/>
+    <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
+        ATTR_VALUE="N" ID="9330d1e0-4667-40fd-a250-61f23c524441"
+        OBJ_ID="02952546-bfb4-4605-ab72-95578b1781c7" OWNER_ID="fc55a281-db7e-4082-8505-ed9b24a9a3e6"/>
     <KSEN_LUI_SET_ATTR
         ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
         ATTR_VALUE="166" ID="97d8928b-6317-4350-843a-e16abad08f75"
@@ -194,6 +234,10 @@
         ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
         ATTR_VALUE="281" ID="9a162847-f471-44b2-b72d-78617a59ed8b"
         OBJ_ID="f5ccfafc-f12e-4a03-854e-e4fde612d4d5" OWNER_ID="cd9c1556-b296-4309-840e-fa7c03786fc1"/>
+    <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
+        ATTR_VALUE="40" ID="9b497649-51a4-42e4-8478-0a07ceec00e1"
+        OBJ_ID="d02a3980-e7f5-4b7c-a9d6-2b14c53421cd" OWNER_ID="05c700f9-e1b1-45ab-a116-9e9a81e02f8b"/>
     <KSEN_LUI_SET_ATTR
         ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
         ATTR_VALUE="166" ID="9b537512-e847-4b1b-a27a-9543025f3427"
@@ -247,6 +291,10 @@
         ATTR_VALUE="258" ID="b6609058-3c83-445b-b269-1a2d3fd025f2"
         OBJ_ID="f1c7e542-880d-4b42-9802-12afd524b773" OWNER_ID="dbeb65b3-9866-4f32-afb0-a90f3dd9b26e"/>
     <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
+        ATTR_VALUE="75" ID="b82dc658-3449-4016-beb7-29b8623b3ab9"
+        OBJ_ID="e4212e07-87c6-48fe-81aa-504ca1cccdc6" OWNER_ID="4eaf3029-3d20-43eb-a4d8-7b319e710a4e"/>
+    <KSEN_LUI_SET_ATTR
         ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
         ATTR_VALUE="N" ID="b8a3d461-619e-4b7c-b5cf-a3ede59e0702"
         OBJ_ID="35d84c65-37e4-478a-b984-323887c367db" OWNER_ID="b05f08a7-4731-49a7-9eaa-e568f3406aac"/>
@@ -264,6 +312,10 @@
         OBJ_ID="f037d545-d8bd-40fa-9e5c-d46ab34b0f0d" OWNER_ID="19f9fa93-e8ac-4fa1-9dce-4478987b8c62"/>
     <KSEN_LUI_SET_ATTR
         ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
+        ATTR_VALUE="Y" ID="bef2cc42-8917-41fd-a770-e4291493e91c"
+        OBJ_ID="9fe9713e-3541-477b-aa10-9c397de5514b" OWNER_ID="05c700f9-e1b1-45ab-a116-9e9a81e02f8b"/>
+    <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
         ATTR_VALUE="N" ID="beffdbd4-f355-4ece-a3cd-0a0fee47c5f0"
         OBJ_ID="42df770a-eca4-41f5-aa0f-d40da92432ea" OWNER_ID="c5f2a06f-c64f-4831-a522-4437425d1d37"/>
     <KSEN_LUI_SET_ATTR
@@ -274,6 +326,10 @@
         ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
         ATTR_VALUE="55" ID="c4d57e4d-608c-4ce9-98ca-c705fb3741be"
         OBJ_ID="0bf196b2-8213-4941-93b3-5bbd2df91396" OWNER_ID="e159fb93-6e38-4c3e-8c86-811ebb3cd70f"/>
+    <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
+        ATTR_VALUE="Y" ID="c4f5fd03-3d18-437a-b06d-5f02f328df1b"
+        OBJ_ID="4772b8ad-89ee-4cca-b39a-13c89f8cc6a8" OWNER_ID="3ce7d2a9-36e7-4dd1-a7cd-e75e39be4024"/>
     <KSEN_LUI_SET_ATTR
         ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
         ATTR_VALUE="15" ID="c58d454d-41e9-4a2e-9a3e-4e03ae1941ec"
@@ -287,9 +343,17 @@
         ATTR_VALUE="Y" ID="c6e67fef-310c-40ec-b8db-9aa7ffc8fa83"
         OBJ_ID="1bc21d0c-9630-4c27-bc5a-b7d6b201a3fd" OWNER_ID="5b9cae90-b1cf-4e74-9b6a-e1ae1ae2285c"/>
     <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
+        ATTR_VALUE="30" ID="c7ab887d-470e-4dba-9a85-17e3ddbf8b2e"
+        OBJ_ID="96036d42-b32c-49f7-b9e4-7ffcee458f0d" OWNER_ID="6d9ab9d1-8726-4124-9a1e-3d24260b750f"/>
+    <KSEN_LUI_SET_ATTR
         ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
         ATTR_VALUE="N" ID="c903429a-4a5a-40b1-a307-38800782beaf"
         OBJ_ID="c5b4fdea-6fce-41a2-9458-28b7f17ede4d" OWNER_ID="dbeb65b3-9866-4f32-afb0-a90f3dd9b26e"/>
+    <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
+        ATTR_VALUE="40" ID="ccabd612-8569-4acc-9ceb-ee7bb0af40f7"
+        OBJ_ID="00d07af2-f6a3-435d-b896-3343f3fef34f" OWNER_ID="5b7290a4-3dbd-46da-a495-199de7134feb"/>
     <KSEN_LUI_SET_ATTR
         ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
         ATTR_VALUE="Y" ID="ccdf4ccb-5c77-4b11-8e2f-e9216fa1d717"
@@ -311,9 +375,17 @@
         ATTR_VALUE="166" ID="d1cfbc5d-efb9-487e-8b17-f2f3c2bcf476"
         OBJ_ID="2c15108e-6bc0-4ea5-bf96-34af83a184ce" OWNER_ID="ceaddda8-4803-4171-b07c-656c9a3efad1"/>
     <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
+        ATTR_VALUE="N" ID="d368ea71-3261-4e35-8bee-212fc51b7ed0"
+        OBJ_ID="7a66060a-e558-4951-b9e4-2bd3a1cba913" OWNER_ID="28d434f0-ce34-44cc-b072-02c505cb39ed"/>
+    <KSEN_LUI_SET_ATTR
         ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
         ATTR_VALUE="281" ID="d430333a-492d-4a56-a53f-bc5f72557185"
         OBJ_ID="cbf7a1cb-d8a3-475c-95a0-4d1277b6f652" OWNER_ID="88445c84-b08d-4a5f-a10c-7afa53813d26"/>
+    <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
+        ATTR_VALUE="Y" ID="d55625b8-9f40-473f-bb5d-1a28c72878e8"
+        OBJ_ID="78e3170c-0f75-4278-a8b1-3d5e3cb06036" OWNER_ID="64714771-0a34-44bc-9010-27a6ba021044"/>
     <KSEN_LUI_SET_ATTR
         ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
         ATTR_VALUE="N" ID="db8d6444-3396-4ffc-9218-f529eb3b3f37"
@@ -322,6 +394,14 @@
         ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
         ATTR_VALUE="30" ID="dc1d3c88-772b-48cb-ad3c-94b99f84975e"
         OBJ_ID="fdbdf543-e976-4d7d-b70e-4ed7b5093b70" OWNER_ID="3a90ec6c-cd08-4276-b2e9-cecfd85fb62a"/>
+    <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
+        ATTR_VALUE="N" ID="e46acb30-6138-45d2-a6c6-dce692d7b57b"
+        OBJ_ID="8353dc9a-1d4f-4bd1-8784-a01cfe76822e" OWNER_ID="4eaf3029-3d20-43eb-a4d8-7b319e710a4e"/>
+    <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
+        ATTR_VALUE="Y" ID="e5803518-ac9c-4e40-83be-afc9fd7104d6"
+        OBJ_ID="aa3d8891-426d-41e1-a3e2-f440960239e0" OWNER_ID="6d9ab9d1-8726-4124-9a1e-3d24260b750f"/>
     <KSEN_LUI_SET_ATTR
         ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
         ATTR_VALUE="15" ID="e6ca0673-5bb0-4cce-8be3-031f3f356ae9"
@@ -335,6 +415,10 @@
         ATTR_VALUE="Y" ID="ebccfd56-5616-4c73-a844-17f580af2cda"
         OBJ_ID="6b6b1e5d-be8a-4729-96f5-746877a7493e" OWNER_ID="9a958c37-5510-44d6-9f34-cfa973506207"/>
     <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
+        ATTR_VALUE="83" ID="ed4e5e34-811d-4d7d-91a6-0af51526c25c"
+        OBJ_ID="bc18dc23-3e84-4b03-a0cb-9af68b81c41a" OWNER_ID="fc55a281-db7e-4082-8505-ed9b24a9a3e6"/>
+    <KSEN_LUI_SET_ATTR
         ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
         ATTR_VALUE="Y" ID="f1dc20c5-230c-4314-979a-db17bbd74056"
         OBJ_ID="366c0d1e-6bcb-4fe6-9b1d-847628956157" OWNER_ID="61e03b5a-07ef-4ffd-a1ca-e0ef0300433d"/>
@@ -342,6 +426,10 @@
         ATTR_KEY="kuali.attribute.colocatedset.is.max.enrollment.shared"
         ATTR_VALUE="N" ID="f3f643e2-bbf4-4801-9e78-84e3789455c2"
         OBJ_ID="f266ccbf-dda9-4cca-b2a7-e9232bb99a59" OWNER_ID="76e41e83-abdd-4405-b43b-33a687cbfe04"/>
+    <KSEN_LUI_SET_ATTR
+        ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
+        ATTR_VALUE="65" ID="f768614b-652f-4fca-9874-c39511dccb17"
+        OBJ_ID="3f21de02-fdf2-4cd3-9194-4bd12c06b88a" OWNER_ID="28d434f0-ce34-44cc-b072-02c505cb39ed"/>
     <KSEN_LUI_SET_ATTR
         ATTR_KEY="kuali.attribute.colocatedset.max.enrollment"
         ATTR_VALUE="30" ID="ff9e5f27-cbe1-4c5c-8e44-979768c6dee1"
