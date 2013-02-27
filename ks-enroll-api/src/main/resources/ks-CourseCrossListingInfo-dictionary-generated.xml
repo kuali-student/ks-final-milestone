@@ -45,8 +45,7 @@ plus any of its dependencies -->
 		<property name="objectLabel" value="Course Cross Listing"/>
 		<property name="objectDescription">
 			<value>
-This is a description of what this class does - sambit don't forget to fill
-this in.
+Implementation of {@link CourseCrossListing}.
 			</value>
 		</property>
 		<property name="titleAttribute" value="id"/>
@@ -63,7 +62,7 @@ this in.
 				<ref bean="CourseCrossListingInfo.stateKey"/>
 				<ref bean="CourseCrossListingInfo.code"/>
 				<ref bean="CourseCrossListingInfo.subjectArea"/>
-				<ref bean="CourseCrossListingInfo.department"/>
+				<ref bean="CourseCrossListingInfo.subjectOrgId"/>
 				<ref bean="CourseCrossListingInfo.courseNumberSuffix"/>
 			</list>
 		</property>
@@ -97,13 +96,13 @@ this in.
 		<property name="shortLabel" value="Code"/>
 		<property name="summary">
 			<value>
-This method ...
+This is the course code, e.g. from ENGL101A it's ENGL101
 			</value>
 		</property>
 		<property name="label" value="Code"/>
 		<property name="description">
 			<value>
-This method ...
+This is the course code, e.g. from ENGL101A it's ENGL101
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -114,30 +113,33 @@ This method ...
 		<property name="shortLabel" value="Subject Area"/>
 		<property name="summary">
 			<value>
-This method ...
+This is the subject area also known as the subject code.
+
 			</value>
 		</property>
 		<property name="label" value="Subject Area"/>
 		<property name="description">
 			<value>
-This method ...
+This is the subject area also known as the subject code.
+E.g., from ENGL101A, it's ENGL.
 			</value>
 		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseCrossListingInfo.department-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="department"/>
-		<property name="shortLabel" value="Department"/>
+	<bean id="CourseCrossListingInfo.subjectOrgId-generated" abstract="true" parent="BaseKuali.orgId">
+		<property name="name" value="subjectOrgId"/>
+		<property name="shortLabel" value="Subject Org Id"/>
 		<property name="summary">
 			<value>
-This method ...
+Identical to setSubjectOrgId.  
 			</value>
 		</property>
-		<property name="label" value="Department"/>
+		<property name="label" value="Subject Org Id"/>
 		<property name="description">
 			<value>
-This method ...
+Identical to setSubjectOrgId.  Left here for backwards compatibility, but
+it's been redefined.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -150,6 +152,7 @@ This method ...
 			<value>
 The &quot;extra&quot; portion of the code, which usually corresponds with the most
 detailed part of the number.
+
 			</value>
 		</property>
 		<property name="label" value="Course Number Suffix"/>
@@ -157,6 +160,8 @@ detailed part of the number.
 			<value>
 The &quot;extra&quot; portion of the code, which usually corresponds with the most
 detailed part of the number.
+E.g., from ENGL101A, it's A.
+If there is no suffix, it's null.
 			</value>
 		</property>
 		<property name="required" value="false"/>
