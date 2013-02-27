@@ -15,20 +15,13 @@
     <module>ks-impex</module>
   </modules>
   <properties>
+    <!-- Set this to something that is unique per KS branch -->
+    <db.branch.qualifier>_SPRING</db.branch.qualifier>
     <oracle.dba.username>SYS AS SYSDBA</oracle.dba.username>
     <oracle.dba.password>change_on_install</oracle.dba.password>
     <oracle.dba.url>jdbc:oracle:thin:@localhost:1521:XE</oracle.dba.url>
     <mysql.dba.username>root</mysql.dba.username>
     <mysql.dba.url>jdbc:mysql://localhost</mysql.dba.url>
-
-    <!-- All impex configurations need to have Ant compatibility mode -->
-    <impex.antCompatibilityMode>true</impex.antCompatibilityMode>
-
-    <!-- Set this to something that is unique per KS branch -->
-    <db.branch.qualifier>_SPRING</db.branch.qualifier>
-
-    <db.populate.phase>none</db.populate.phase>
-
   </properties>
   <build>
     <pluginManagement>
