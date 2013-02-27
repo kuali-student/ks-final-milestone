@@ -23,9 +23,9 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:property-placeholder properties-ref="copyProperties" />
+  <context:property-placeholder properties-ref="copyProperties" />
 
-    <bean id="printExecutable" class="org.kuali.common.util.execute.PrintMessageExecutable" init-method="execute">
-        <property name="message" value="#{copyProperties['impex.scm.added']}"/>
-    </bean>
+  <bean id="printExecutable" class="org.kuali.common.util.execute.PrintMessageExecutable" init-method="execute">
+    <property name="message" value="#{copyProperties['impex.scm.added']}" />
+  </bean>
 </beans>

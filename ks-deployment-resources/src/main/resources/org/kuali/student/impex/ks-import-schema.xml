@@ -23,27 +23,27 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <util:properties id="import.schema.properties">
-        <prop key="sql.schema.1">#{importProperties['impex.import.schemasql']}</prop>
-        <prop key="sql.schema.concurrent">sql.schema.1</prop>
-    </util:properties>
+  <util:properties id="import.schema.properties">
+    <prop key="sql.schema.1">#{importProperties['impex.import.schemasql']}</prop>
+    <prop key="sql.schema.concurrent">sql.schema.1</prop>
+  </util:properties>
 
-    <bean id="import.schema.dbaSql" class="java.lang.String">
-        <constructor-arg value="#{importCommonProperties['sql.validate']} #{importCommonProperties['sql.drop']} #{importCommonProperties['sql.create']}" />
-    </bean>
+  <bean id="import.schema.dbaSql" class="java.lang.String">
+    <constructor-arg value="#{importCommonProperties['sql.validate']} #{importCommonProperties['sql.drop']} #{importCommonProperties['sql.create']}" />
+  </bean>
 
-    <bean id="import.schema.databaseResetContext" class="org.kuali.common.jdbc.context.DatabaseResetContext">
-        <property name="normalJdbcContext" ref="import.normalJdbcContext" />
-        <property name="dbaJdbcContext" ref="import.dbaJdbcContext" />
-        <property name="databaseProcessContext" ref="importDatabaseProcessContext" />
-        <property name="dbaSql" ref="import.schema.dbaSql" />
-        <property name="properties" ref="import.schema.properties" />
-        <property name="encoding" value="${kuali.encoding}" />
-    </bean>
+  <bean id="import.schema.databaseResetContext" class="org.kuali.common.jdbc.context.DatabaseResetContext">
+    <property name="normalJdbcContext" ref="import.normalJdbcContext" />
+    <property name="dbaJdbcContext" ref="import.dbaJdbcContext" />
+    <property name="databaseProcessContext" ref="importDatabaseProcessContext" />
+    <property name="dbaSql" ref="import.schema.dbaSql" />
+    <property name="properties" ref="import.schema.properties" />
+    <property name="encoding" value="${kuali.encoding}" />
+  </bean>
 
-    <bean id="import.schema.databaseResetExecutable" class="org.kuali.common.jdbc.DatabaseResetExecutable">
-        <property name="context" ref="import.schema.databaseResetContext" />
-        <property name="service" ref="import.databaseService" />
-    </bean>
+  <bean id="import.schema.databaseResetExecutable" class="org.kuali.common.jdbc.DatabaseResetExecutable">
+    <property name="context" ref="import.schema.databaseResetContext" />
+    <property name="service" ref="import.databaseService" />
+  </bean>
 
 </beans>
