@@ -20,8 +20,8 @@
     <jdbc.source.db.username>KS_SOURCE_DB${db.branch.qualifier}</jdbc.source.db.username>
     <jdbc.password>${jdbc.username}</jdbc.password>
     <impex.metainf.context>classpath:org/kuali/common/impex/metainf-mpx-context.xml</impex.metainf.context>
-    <impex.dataLocations.path>META-INF/${project.artifactId}-data.resources</impex.dataLocations.path>
-    <impex.metainf.outputFile>${project.build.outputDirectory}/${impex.dataLocations.path}</impex.metainf.outputFile>
+    <impex.data.resources>META-INF/${project.artifactId}-data.resources</impex.data.resources>
+    <impex.metainf.outputFile>${project.build.outputDirectory}/${impex.data.resources}</impex.metainf.outputFile>
   </properties>
   <profiles>
     <profile>
@@ -156,7 +156,7 @@
         <impex.antCompatibilityMode>false</impex.antCompatibilityMode>
         <impex.import.schemasql>${project.basedir}/src/main/resources/${db.vendor}/${project.artifactId}.sql</impex.import.schemasql>
         <impex.import.constraintsql>${project.basedir}/src/main/resources/${db.vendor}/${project.artifactId}-constraints.sql</impex.import.constraintsql>
-        <impex.import.dataLocations>${impex.dataLocations.path}</impex.import.dataLocations>
+        <impex.import.dataLocations>${impex.data.resources}</impex.import.dataLocations>
       </properties>
       <build>
         <plugins>
