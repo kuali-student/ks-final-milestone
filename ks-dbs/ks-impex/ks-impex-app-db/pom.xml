@@ -8,8 +8,7 @@
   <groupId>org.kuali.student.db</groupId>
   <artifactId>ks-impex-app-db</artifactId>
   <version>2.0.0-spring-db-SNAPSHOT</version>
-  <packaging>jar</packaging>
-  <name>KS Impex App Db</name>
+  <name>KS Impex App DB</name>
   <description>Kuali Student Impex Application Database</description>
   <properties>
     <jdbc.username>KSAPP${db.branch.qualifier}</jdbc.username>
