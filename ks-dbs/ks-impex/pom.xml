@@ -170,11 +170,43 @@
                 </goals>
                 <configuration>
                   <forceMojoExecution>true</forceMojoExecution>
-                  <location>classpath:org/kuali/student/impex/ks-import-context.xml</location>
+                  <location>classpath:org/kuali/common/impex/impex-import-context.xml</location>
                   <propertiesBeanName>importProperties</propertiesBeanName>
                 </configuration>
               </execution>
             </executions>
+            <dependencies>
+              <dependency>
+                <groupId>org.kuali.student.db</groupId>
+                <artifactId>ks-impex-rice-db</artifactId>
+                <version>${project.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.kuali.student.db</groupId>
+                <artifactId>ks-impex-app-db</artifactId>
+                <version>${project.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.kuali.student.db</groupId>
+                <artifactId>ks-impex-bundled-db</artifactId>
+                <version>${project.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.kuali.common</groupId>
+                <artifactId>kuali-deploy</artifactId>
+                <version>${kuali-deploy.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.kuali.common</groupId>
+                <artifactId>kuali-jdbc</artifactId>
+                <version>${kuali-jdbc.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.kuali.common</groupId>
+                <artifactId>kuali-util</artifactId>
+                <version>${kuali-util.version}</version>
+              </dependency>
+            </dependencies>
           </plugin>
         </plugins>
       </build>
