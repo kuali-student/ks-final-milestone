@@ -56,11 +56,11 @@
         CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
         KIM_ATTR_DEFN_ID="10011" LBL="Permission Expression"
         NM="permissionExpression" NMSPC_CD="KS-ENR"
-        OBJ_ID="D6BC43CE61325427E040760A4A457361" VER_NBR="1"/>
+        OBJ_ID="D6BF8891A9629AB8E040760A4A45388D" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
         KIM_ATTR_DEFN_ID="10012" LBL="Subject Area" NM="subjectArea"
-        NMSPC_CD="KS-SYS" OBJ_ID="D6BC43CE62635427E040760A4A457361" VER_NBR="1"/>
+        NMSPC_CD="KS-SYS" OBJ_ID="D6BF8891AA999AB8E040760A4A45388D" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
         KIM_ATTR_DEFN_ID="101" LBL="College" NM="college"
