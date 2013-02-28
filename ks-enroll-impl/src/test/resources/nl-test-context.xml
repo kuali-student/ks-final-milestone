@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <context:annotation-config/>
+
+    <!--<import resource="classpath:krms-test-context.xml"/>-->
+
+    <bean id="propositionTranslator" class="org.kuali.student.krms.naturallanguage.translators.PropositionTranslator">
+        <property name="contextRegistry" ref="contextRegistryReqComponent" />
+    </bean>
+
+    <bean id="basicContext" class="org.kuali.student.krms.naturallanguage.config.context.BasicContextImpl">
+    </bean>
+    <bean id="luContext" class="org.kuali.student.krms.naturallanguage.config.context.CluContextImpl">
+    </bean>
+    <bean id="lrcContext" class="org.kuali.student.krms.naturallanguage.config.context.LrcContextImpl">
+        <!--property name="lrcService" ref="lrcServiceImpl"/>
+        <property name="typeService" ref="typeServiceImpl"/-->
+    </bean>
+    <bean id="gpaContext" class="org.kuali.student.krms.naturallanguage.config.context.GpaContextImpl">
+    </bean>
+    <bean id="personContext" class="org.kuali.student.krms.naturallanguage.config.context.PersonContextImpl">
+    </bean>
+    <bean id="orgContext" class="org.kuali.student.krms.naturallanguage.config.context.OrganizationContextImpl">
+        <!--property name="organizationService" ref="orgServiceImpl" /-->
+    </bean>
+    <bean id="atpContext" class="org.kuali.student.krms.naturallanguage.config.context.AtpContextImpl">
+        <!--property name="atpService" ref="atpServiceImpl" />
+        <property name="typeService" ref="typeServiceImpl"/-->
+    </bean>
+
+    <bean id="englishTranslator" class="org.kuali.student.krms.naturallanguage.translators.PropositionTranslator">
+        <property name="termBoService" ref="termBoMockService"/>
+        <property name="naturalLanguageTemplateBoService" ref="naturalLanguageTemplateBoMockService"/>
+        <property name="naturalLanguageUsageBoService" ref="naturalLanguageUsageBoMockService"/>
+        <property name="krmsTypeRepositoryService" ref="krmsTypeRepositoryMockService"/>
+    </bean>
+
+    <bean id="germanTranslator" class="org.kuali.student.krms.naturallanguage.translators.PropositionTranslator">
+        <property name="termBoService" ref="termBoMockService"/>
+        <property name="naturalLanguageTemplateBoService" ref="naturalLanguageTemplateBoMockService"/>
+        <property name="naturalLanguageUsageBoService" ref="naturalLanguageUsageBoMockService"/>
+        <property name="krmsTypeRepositoryService" ref="krmsTypeRepositoryMockService"/>
+    </bean>
+
+    <bean id="termBoMockService" class="org.kuali.student.krms.naturallanguage.service.impl.TermBoMockService">
+    </bean>
+
+    <bean id="naturalLanguageTemplateBoMockService"
+          class="org.kuali.student.krms.naturallanguage.service.impl.NaturalLanguageTemplateBoMockService">
+    </bean>
+
+    <bean id="naturalLanguageUsageBoMockService"
+          class="org.kuali.student.krms.naturallanguage.service.impl.NaturalLanguageUsageBoMockService">
+    </bean>
+
+    <bean id="krmsTypeRepositoryMockService"
+          class="org.kuali.student.krms.naturallanguage.service.impl.KrmsTypeRepositoryMockService">
+    </bean>
+
+    <bean id="contextRegistryReqComponent"
+          class="org.kuali.student.r2.core.krms.naturallanguage.ContextRegistry">
+        <constructor-arg>
+            <map>
+                <entry key="kuali.reqComponent.type.test">
+                    <list>
+                        <ref local="orgContext" />
+                    </list>
+                </entry>
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <bean id="dictionaryService"
+          class="org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl">
+        <constructor-arg>
+            <list>
+                <value>classpath:ks-courseInfo-dictionary-context.xml</value>
+
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="lumSearchDispatcher" class="org.kuali.student.common.test.mock.MockProxyFactoryBean">
+        <property name="interfaceClass" value="org.kuali.student.r2.core.search.service.SearchService" />
+        <property name="methodReturnMap">
+            <map>
+                <entry key="search">
+                    <bean class="org.kuali.student.r2.core.search.dto.SearchResultInfo">
+                        <property name="rows">
+                            <list>
+                                <bean class="org.kuali.student.r2.core.search.dto.SearchResultRowInfo"/>
+                            </list>
+                        </property>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="validator" class="org.kuali.student.r2.common.validator.DefaultValidatorImpl">
+        <property name="searchDispatcher" ref="lumSearchDispatcher"/>
+    </bean>
+
+    <bean id="validatorFactory"
+          class="org.kuali.student.r2.common.validator.ValidatorFactory">
+        <property name="defaultValidator" ref="validator"/>
+    </bean>
+
+    <bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
+        <property name="messageFiles">
+            <list>
+                <value>classpath:gwt-messages.xml</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>

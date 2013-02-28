@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="CourseInfo" parent="CourseInfo-parentBean"/>
+    <bean id="CourseInfo-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="objectLabel" value="Course Info"/>
+        <property name="dataObjectClass" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+        <property name="titleAttribute" value="id"/>
+        <property name="attributes">
+            <list>
+                <ref bean="CourseInfo.courseTitle"/>
+                <bean parent="CourseInfo.code-parentBean" >
+                    <property name="label" value="Course Code(Subject/Number)"/>
+                </bean>
+                <ref bean="CourseInfo.descr"/>
+            </list>
+        </property>
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CourseInfo.descr" parent="CourseInfo.descr-parentBean"/>
+    <bean id="CourseInfo.descr-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="descr"/>
+        <property name="dataType" value="STRING" />
+        <property name="label" value="Phase in Description"/>
+        <property name="shortLabel" value="Phase in Description"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-Course-LookupView" parent="KSLookupView">
+        <property name="id" value="CourseLookupView"/>
+        <property name="viewName" value="krmsCoursesOnlyLookup"/>
+        <property name="headerText" value="Advance Search: Courses Only" />
+        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.KRMSCourseInfoLookupableImpl" />
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="courseTitle"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr"/>
+
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="name"/>
+                <bean parent="Uif-InputField" p:propertyName="code" />
+                <bean parent="Uif-InputField" p:propertyName="state"/>
+                <bean parent="Uif-InputField" p:propertyName="descr"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--
+     Copyright 2007-2012 The Kuali Foundation
+
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.opensource.org/licenses/ecl2.php
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
+    <bean id="CourseOfferingInfo" parent="CourseOfferingInfo-parent">
+        <property name="titleAttribute" value="id"/>
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-ManageCourseOfferingsPage-JSONPOC" parent="Uif-Page" p:disclosure.render="false"
+          p:id="manageCourseOfferingsPage">
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseOfferingManagement-CriteriaSection-JSONPOC"/>
+                <ref bean="KS-CourseOfferingManagement-CourseOfferingResultSection-JSONPOC"/>
+                <ref bean="KS-CourseOfferingManagement-CourseOfferingActionSection-JSONPOC"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-CourseOfferingResultSection-JSONPOC" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="@{subjectCode} - @{subjectCodeDescription}" />
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+
+                <bean parent="Uif-ActionLink" p:preSubmitCall="return confirm('This will mark all Activity Offerings in this Subject Code as: Ready for Scheduling')"
+                      p:methodToCall="markSubjectCodeReadyForScheduling"
+                      p:actionLabel="Approve Subject Code for Scheduling" p:disabled="@{#parent.readOnly}"/>
+                <bean parent="Uif-DataField"
+                      p:propertyName="readOnly"
+                      p:id="isReadOnly"
+                      p:hidden="true"
+                      p:defaultValue="@{#parent.readOnly}"/>
+                <bean parent="Uif-Label" p:labelText="Current Course Offerings" p:render="@{!courseOfferingResultList.empty}"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering" p:disabled="@{#parent.readOnly}" p:render="@{!courseOfferingResultList.empty}"/>
+                <ref bean="KS-CourseOfferingManagement-CourseOfferingListSection"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering" p:disabled="@{#parent.readOnly}"/>
+
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="KS-CourseOfferingManagement-CourseOfferingListSection" parent="Uif-TableCollectionSection" p:renderAddLine="false"
+          p:onDocumentReadyScript="removeColumns(@{#parent.readOnly}, [1], 'KS-CourseOfferingManagement-CourseOfferingListSection'); addActionColumn(@{#parent.readOnly}, 'KS-CourseOfferingManagement-CourseOfferingListSection');">
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper" />
+        <property name="propertyName" value="courseOfferingResultList" />
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
+            </map>
+        </property>
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:disabled="false"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:propertyName="courseOfferingCode">
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="courseOfferingId" />
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField"
+                      p:label="STATUS"
+                      p:propertyName="courseOfferingStateDisplay"/>
+                <bean parent="Uif-DataField"
+                      p:label="TITLE"
+                      p:propertyName="courseOfferingDesc"/>
+                <bean parent="Uif-DataField"
+                      p:label="CREDITS"
+                      p:propertyName="courseOfferingCreditOptionDisplay"/>
+                <bean parent="Uif-DataField"
+                      p:label="GRADING"
+                      p:propertyName="courseOfferingGradingOptionDisplay"/>
+                <!--<bean parent="Uif-DataField"-->
+                      <!--p:label="STATUS"-->
+                      <!--p:propertyName="stateKey"/>-->
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype">
+            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="ACTIONS"/>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit  " />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{#line.isLegalToDelete()}" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCO" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="loadAOs" p:actionLabel="Manage" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-CourseOfferingActionSection-JSONPOC" parent="Uif-VerticalBoxSection" >
+        <property name="items">
+        <list>
+            <bean parent="Uif-HorizontalBoxSection">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-InputField" p:propertyName="selectedOfferingAction" p:label="Selected Course Offering Actions" p:labelPlacement="TOP">
+                            <property name="readOnly" value="false"/>
+                            <property name="control">
+                                <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
+                            </property>
+                            <property name="optionsFinder">
+                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CourseOfferingActionsKeyValues"/>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:disabled="@{#parent.readOnly}" p:methodToCall="selectedCOActions" p:style="margin-top: 18px;"
+                              p:preSubmitCall="return confirm('This will mark all checked Activity Offerings as Ready for Scheduling')" />
+                    </list>
+                </property>
+            </bean>
+        </list>
+        </property>
+    </bean>
+
+</beans>
