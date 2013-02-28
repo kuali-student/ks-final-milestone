@@ -167,11 +167,11 @@ public class PropositionTranslator {
         List<? extends PropositionParameterContract> parameters = proposition.getParameters();
         TermDefinitionContract term = null;
         for (PropositionParameterContract p : parameters){
-            if(p.getParameterType().equals(PropositionParameterType.TERM)){
+            if(p.getParameterType().equals(PropositionParameterType.TERM.getCode())){
                 //Retrieve term id from proposition parameters and load.
                 term = getTermBoService().getTerm(p.getValue());
 
-            }else if(p.getParameterType().equals(PropositionParameterType.CONSTANT)){
+            }else if(p.getParameterType().equals(PropositionParameterType.CONSTANT.getCode())){
                 //Add proposition constant to contextMap.
                 contextMap.put(TermParameterTypes.INTEGER_VALUE1_KEY.getId(),p.getValue());
             }

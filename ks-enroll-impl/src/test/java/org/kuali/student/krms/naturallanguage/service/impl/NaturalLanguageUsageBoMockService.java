@@ -44,7 +44,7 @@ public class NaturalLanguageUsageBoMockService implements NaturalLanguageUsageBo
 
     @Override
     public NaturalLanguageUsage getNaturalLanguageUsageByName(String namespace, String name) {
-        return (NaturalLanguageUsage) naturalLanguageUsageContract;
+        return NaturalLanguageUsage.Builder.create(naturalLanguageUsageContract).build();
     }
 
     @Override
