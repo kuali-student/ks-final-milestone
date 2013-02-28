@@ -761,17 +761,19 @@
             <index-column name="OWNER_ID"/>
         </index>
     </table>
-    <table name="KSEN_CODE_GENERATOR_LOCKS">
+    <table name="KSEN_COMM_STATE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="CODE" required="true" size="255" type="VARCHAR"/>
-        <column name="UNIQUE_KEY" required="true" size="255" type="VARCHAR"/>
-        <column name="NAMESPACE" required="true" size="255" type="VARCHAR"/>
-        <unique name="KSEN_CODE_GENERATOR_LOCKS_I1">
-            <unique-column name="CODE"/>
-            <unique-column name="UNIQUE_KEY"/>
-            <unique-column name="NAMESPACE"/>
-        </unique>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="DESCR" size="255" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="PROCESS_KEY" size="255" type="VARCHAR"/>
     </table>
     <table name="KSEN_CO_AO_CLUSTER">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -1401,6 +1403,9 @@
         <foreign-key foreignTable="KSEN_LRR_TYPE" name="FK1BE15Q7B1D2EF131">
             <reference foreign="TYPE_KEY" local="TYPE_ID"/>
         </foreign-key>
+        <foreign-key foreignTable="KSEN_COMM_STATE" name="FK1BE2597A61E975Q1">
+            <reference foreign="ID" local="STATE_ID"/>
+        </foreign-key>
     </table>
     <table name="KSEN_LRR_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -1619,8 +1624,6 @@
         <column name="UPDATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="LUI_ID" size="255" type="VARCHAR"/>
-        <column name="IDENT_LEVEL" size="255" type="VARCHAR"/>
-        <column name="ORGID" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_LUI" name="KSEN_LUI_IDENT_FK1">
             <reference foreign="ID" local="LUI_ID"/>
         </foreign-key>
@@ -1695,54 +1698,6 @@
             <unique-column name="RESULT_VAL_GRP_ID"/>
         </unique>
         <index name="KSEN_LUI_RESULT_VAL_GRP_IF1">
-            <index-column name="LUI_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_LUI_SET">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="LUI_SET_TYPE" required="true" size="255" type="VARCHAR"/>
-        <column name="LUI_SET_STATE" required="true" size="255" type="VARCHAR"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
-        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
-        <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
-        <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="EXPIR_DT" type="TIMESTAMP"/>
-        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
-        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
-        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <index name="KSEN_LUI_SET_I1">
-            <index-column name="LUI_SET_TYPE"/>
-        </index>
-    </table>
-    <table name="KSEN_LUI_SET_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
-        <column name="OWNER_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_LUI_SET" name="KSEN_LUI_SET_ATTR_FK1">
-            <reference foreign="ID" local="OWNER_ID"/>
-        </foreign-key>
-        <index name="KSEN_LUI_SET_ATTR_IF1">
-            <index-column name="OWNER_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_LUI_SET_LUI">
-        <column name="LUI_ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="LUI_SET_ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_LUI_SET" name="KSEN_LUI_SET_LUI_FK1">
-            <reference foreign="ID" local="LUI_SET_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSEN_LUI" name="KSEN_LUI_SET_LUI_FK2">
-            <reference foreign="ID" local="LUI_ID"/>
-        </foreign-key>
-        <index name="KSEN_LUI_SET_LUI_IF1">
-            <index-column name="LUI_SET_ID"/>
-        </index>
-        <index name="KSEN_LUI_SET_LUI_IF2">
             <index-column name="LUI_ID"/>
         </index>
     </table>
@@ -2167,6 +2122,26 @@
         <index name="KSEN_PROC_INSTRN_ATTR_IF1">
             <index-column name="OWNER_ID"/>
         </index>
+    </table>
+    <table name="KSEN_RESTRICTION">
+        <column name="ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="STATE_ID" size="255" type="VARCHAR"/>
+        <column name="TYPE_ID" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_RESTRICTION_ATTR">
+        <column name="ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
     </table>
     <table name="KSEN_RICH_TEXT_T">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -2757,6 +2732,27 @@
             <index-column name="LIFECYCLE_KEY"/>
         </index>
     </table>
+    <table name="KSEN_STATEPROCESS_RELTN">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="NEXT_STATEKEY" size="255" type="VARCHAR"/>
+        <column name="PRIOR_STATEKEY" size="255" type="VARCHAR"/>
+        <column name="PROCESS_KEY" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_COMM_STATE" name="FKCDFDC0E09F94F29D">
+            <reference foreign="ID" local="NEXT_STATEKEY"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_STATE_PROCESS" name="FKCDFDC0E0D6162101">
+            <reference foreign="ID" local="PROCESS_KEY"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_COMM_STATE" name="FKCDFDC0E024D2ACA6">
+            <reference foreign="ID" local="PRIOR_STATEKEY"/>
+        </foreign-key>
+    </table>
     <table name="KSEN_STATE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
@@ -2817,59 +2813,6 @@
             <index-column name="OWNER_ID"/>
         </index>
     </table>
-    <table name="KSEN_STATE_CHG_CNSTRNT">
-        <column name="STATE_CHG_ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="STATE_CNSTRNT_ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <index name="KSEN_STATE_CHG_C_IF1">
-            <index-column name="STATE_CHG_ID"/>
-        </index>
-        <index name="KSEN_STATE_CHG_C_IF2">
-            <index-column name="STATE_CNSTRNT_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_STATE_CHG_PROPAGT">
-        <column name="STATE_CHG_ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="STATE_PROPAGT_ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <index name="KSEN_STATE_CHG_P_IF1">
-            <index-column name="STATE_CHG_ID"/>
-        </index>
-        <index name="KSEN_STATE_CHG_P_IF2">
-            <index-column name="STATE_PROPAGT_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_STATE_CNSTRNT">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="STATE_CNSTRNT_TYPE" required="true" size="255" type="VARCHAR"/>
-        <column name="STATE_CNSTRNT_STATE" required="true" size="255" type="VARCHAR"/>
-        <column name="STATE_CNSTRNT_OPERATOR" required="true" size="255" type="VARCHAR"/>
-        <column name="AGENDA_ID" size="255" type="VARCHAR"/>
-        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
-        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
-        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <index name="KSEN_STATE_CNSTRNT_I1">
-            <index-column name="STATE_CNSTRNT_TYPE"/>
-        </index>
-    </table>
-    <table name="KSEN_STATE_CNSTRNT_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
-        <column name="OWNER_ID" size="255" type="VARCHAR"/>
-    </table>
-    <table name="KSEN_STATE_CNSTRNT_ROS">
-        <column name="STATE_CNSTRNT_ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="REL_OBJ_STATE_ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_STATE" name="KSEN_STATE_CNSTRNT_ROS_FK2">
-            <reference foreign="ID" local="REL_OBJ_STATE_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSEN_STATE_CNSTRNT" name="KSEN_STATE_CNSTRNT_ROS_FK1">
-            <reference foreign="ID" local="STATE_CNSTRNT_ID"/>
-        </foreign-key>
-    </table>
     <table name="KSEN_STATE_LIFECYCLE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
@@ -2911,53 +2854,6 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
-    </table>
-    <table name="KSEN_STATE_PROPAGT">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="STATE_PROPAGT_TYPE" required="true" size="255" type="VARCHAR"/>
-        <column name="STATE_PROPAGT_STATE" required="true" size="255" type="VARCHAR"/>
-        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
-        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
-        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <column name="TARGET_STATE_CHG_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_STATE_CHG" name="KSEN_STATE_PROPAGT_FK1">
-            <reference foreign="ID" local="TARGET_STATE_CHG_ID"/>
-        </foreign-key>
-        <index name="KSEN_STATE_PROPAGT_I1">
-            <index-column name="STATE_PROPAGT_TYPE"/>
-        </index>
-        <index name="KSEN_STATE_PROPAGT_I2">
-            <index-column name="TARGET_STATE_CHG_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_STATE_PROPAGT_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
-        <column name="OWNER_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_STATE_PROPAGT" name="KSEN_STATE_PROPAGT_ATTR_FK1">
-            <reference foreign="ID" local="OWNER_ID"/>
-        </foreign-key>
-    </table>
-    <table name="KSEN_STATE_PROPAGT_CNSTRNT">
-        <column name="STATE_PROPAGT_ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="STATE_CNSTRNT_ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_STATE_CNSTRNT" name="KSEN_STATE_PROPAGT_CNS_FK2">
-            <reference foreign="ID" local="STATE_CNSTRNT_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSEN_STATE_PROPAGT" name="KSEN_STATE_PROPAGT_CNS_FK1">
-            <reference foreign="ID" local="STATE_PROPAGT_ID"/>
-        </foreign-key>
-        <index name="KSEN_STATE_PROPAGT_C_IF1">
-            <index-column name="STATE_CNSTRNT_ID"/>
-        </index>
-        <index name="KSEN_STATE_PROPAGT_C_IF2">
-            <index-column name="STATE_PROPAGT_ID"/>
-        </index>
     </table>
     <table name="KSEN_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5611,19 +5507,19 @@
         <column name="BUILD_ID" size="255" type="VARCHAR"/>
         <column name="BUILD_TIMESTAMP" size="255" type="VARCHAR"/>
     </table>
-    <view name="KRIM_GRP_MBR_V" viewdefinition="SELECT g.NMSPC_CD&#xa;, g.grp_nm&#xa;, g.GRP_ID&#xa;, p.PRNCPL_NM&#xa;, p.PRNCPL_ID&#xa;, mg.GRP_NM AS mbr_grp_nm&#xa;, mg.GRP_ID AS mbr_grp_id&#xa;FROM KRIM_GRP_MBR_T gm&#xa;LEFT JOIN krim_grp_t g&#xa;ON g.GRP_ID = gm.GRP_ID&#xa;LEFT OUTER JOIN krim_grp_t mg&#xa;ON mg.GRP_ID = gm.MBR_ID&#xa;AND gm.MBR_TYP_CD = 'G'&#xa;LEFT OUTER JOIN krim_prncpl_t p&#xa;ON p.PRNCPL_ID = gm.MBR_ID&#xa;AND gm.MBR_TYP_CD = 'P'&#xa;LEFT OUTER JOIN krim_entity_nm_t en&#xa;ON en.ENTITY_ID = p.ENTITY_ID&#xa;AND en.DFLT_IND = 'Y'&#xa;AND en.ACTV_IND = 'Y'&#xa;ORDER BY nmspc_cd, grp_nm, prncpl_nm&#xa;&#xa;&#xa; &#xa; &#xa;&#xa;&#xa;"/>
-    <view name="KRIM_GRP_V" viewdefinition="SELECT g.NMSPC_CD&#xa;, g.grp_nm&#xa;, g.GRP_ID&#xa;, t.NM AS grp_typ_nm&#xa;, a.NM AS attr_nm&#xa;, d.ATTR_VAL AS attr_val&#xa;FROM krim_grp_t g&#xa;LEFT OUTER JOIN KRIM_GRP_ATTR_DATA_T d&#xa;ON d.grp_id = g.GRP_ID&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON a.KIM_ATTR_DEFN_ID = d.KIM_ATTR_DEFN_ID&#xa;LEFT OUTER JOIN KRIM_TYP_T t&#xa;ON g.KIM_TYP_ID = t.KIM_TYP_ID&#xa;&#xa;&#xa; &#xa; &#xa;&#xa;&#xa;"/>
-    <view name="KRIM_PERM_ATTR_V" viewdefinition="SELECT&#xa;t.nmspc_cd AS tmpl_nmspc_cd&#xa;, t.NM AS tmpl_nm&#xa;, t.PERM_TMPL_ID&#xa;, p.nmspc_cd AS perm_nmspc_cd&#xa;, p.NM AS perm_nm&#xa;, p.PERM_ID&#xa;, a.NM AS attr_nm&#xa;, ad.ATTR_VAL AS attr_val&#xa;FROM KRIM_PERM_T p&#xa;LEFT JOIN KRIM_PERM_TMPL_T t&#xa;ON p.PERM_TMPL_ID = t.PERM_TMPL_ID&#xa;LEFT OUTER JOIN KRIM_PERM_ATTR_DATA_T ad&#xa;ON p.PERM_ID = ad.perm_id&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON ad.KIM_ATTR_DEFN_ID = a.KIM_ATTR_DEFN_ID&#xa;ORDER BY tmpl_nmspc_cd, tmpl_nm, perm_nmspc_cd, perm_id, attr_nm&#xa;&#xa;&#xa; &#xa; &#xa;&#xa;&#xa;"/>
-    <view name="KRIM_PERM_V" viewdefinition="SELECT&#xa;t.nmspc_cd AS tmpl_nmspc_cd&#xa;, t.NM AS tmpl_nm&#xa;, t.PERM_TMPL_ID&#xa;, p.nmspc_cd AS perm_nmspc_cd&#xa;, p.NM AS perm_nm&#xa;, p.PERM_ID&#xa;, typ.NM AS perm_typ_nm&#xa;, typ.SRVC_NM&#xa;FROM KRIM_PERM_T p&#xa;INNER JOIN KRIM_PERM_TMPL_T t&#xa;ON p.PERM_TMPL_ID = t.PERM_TMPL_ID&#xa;LEFT OUTER JOIN KRIM_TYP_T typ&#xa;ON t.KIM_TYP_ID = typ.KIM_TYP_ID&#xa;&#xa;&#xa; &#xa; &#xa;&#xa;&#xa;"/>
-    <view name="KRIM_PRNCPL_V" viewdefinition="SELECT&#xa;p.PRNCPL_ID&#xa;,p.PRNCPL_NM&#xa;,en.FIRST_NM&#xa;,en.LAST_NM&#xa;,ea.AFLTN_TYP_CD&#xa;,ea.CAMPUS_CD&#xa;,eei.EMP_STAT_CD&#xa;,eei.EMP_TYP_CD&#xa;FROM krim_prncpl_t p&#xa;LEFT OUTER JOIN krim_entity_emp_info_t eei&#xa;ON eei.ENTITY_ID = p.ENTITY_ID&#xa;LEFT OUTER JOIN krim_entity_afltn_t ea&#xa;ON ea.ENTITY_ID = p.ENTITY_ID&#xa;LEFT OUTER JOIN krim_entity_nm_t en&#xa;ON p.ENTITY_ID = en.ENTITY_ID&#xa;AND 'Y' = en.DFLT_IND&#xa;&#xa;&#xa; &#xa; &#xa;&#xa;&#xa;"/>
-    <view name="KRIM_ROLE_GRP_V" viewdefinition="SELECT r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, r.role_id&#xa;, g.NMSPC_CD AS grp_nmspc_cd&#xa;, g.GRP_NM&#xa;, rm.ROLE_MBR_ID&#xa;, a.NM AS attr_nm&#xa;, d.ATTR_VAL AS attr_val&#xa;FROM KRIM_ROLE_MBR_T rm&#xa;LEFT JOIN KRIM_ROLE_T r&#xa;ON r.ROLE_ID = rm.ROLE_ID&#xa;LEFT JOIN KRIM_GRP_T g&#xa;ON g.GRP_ID = rm.MBR_ID&#xa;LEFT OUTER JOIN KRIM_ROLE_MBR_ATTR_DATA_T d&#xa;ON d.role_mbr_id = rm.ROLE_MBR_ID&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON a.KIM_ATTR_DEFN_ID = d.KIM_ATTR_DEFN_ID&#xa;WHERE rm.MBR_TYP_CD = 'G'&#xa;ORDER BY nmspc_cd, role_nm, grp_nmspc_cd, grp_nm, role_mbr_id, attr_nm&#xa;&#xa;&#xa; &#xa; &#xa;&#xa;&#xa;"/>
-    <view name="KRIM_ROLE_PERM_V" viewdefinition="SELECT r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, r.role_id&#xa;, pt.NMSPC_CD AS tmpl_nmspc_cd&#xa;, pt.NM AS tmpl_nm&#xa;, pt.PERM_TMPL_ID&#xa;, p.NMSPC_CD AS perm_nmpsc_cd&#xa;, p.NM AS perm_nm&#xa;, p.PERM_ID&#xa;, a.NM AS attr_nm&#xa;, ad.ATTR_VAL AS attr_val&#xa;FROM KRIM_PERM_T p&#xa;LEFT JOIN KRIM_PERM_TMPL_T pt&#xa;ON p.PERM_TMPL_ID = pt.PERM_TMPL_ID&#xa;LEFT OUTER JOIN KRIM_PERM_ATTR_DATA_T ad&#xa;ON p.PERM_ID = ad.perm_id&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON ad.KIM_ATTR_DEFN_ID = a.KIM_ATTR_DEFN_ID&#xa;LEFT OUTER JOIN KRIM_ROLE_PERM_T rp&#xa;ON rp.PERM_ID = p.PERM_ID&#xa;LEFT OUTER JOIN KRIM_ROLE_T r&#xa;ON rp.ROLE_ID = r.ROLE_ID&#xa;ORDER BY NMSPC_CD, role_nm, tmpl_nmspc_cd, tmpl_nm, perm_id, attr_nm&#xa;&#xa;&#xa; &#xa; &#xa;&#xa;&#xa;"/>
-    <view name="KRIM_ROLE_PRNCPL_V" viewdefinition="SELECT r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, r.ROLE_ID&#xa;, p.PRNCPL_NM&#xa;, p.PRNCPL_ID&#xa;, en.FIRST_NM&#xa;, en.LAST_NM&#xa;, rm.ROLE_MBR_ID&#xa;, ad.NM AS attr_nm&#xa;, rmad.ATTR_VAL AS attr_val&#xa;FROM KRIM_ROLE_T r&#xa;LEFT OUTER JOIN KRIM_ROLE_MBR_T rm&#xa;ON r.ROLE_ID = rm.ROLE_ID&#xa;LEFT OUTER JOIN KRIM_ROLE_MBR_ATTR_DATA_T rmad&#xa;ON rm.ROLE_MBR_ID = rmad.role_mbr_id&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T ad&#xa;ON rmad.KIM_ATTR_DEFN_ID = ad.KIM_ATTR_DEFN_ID&#xa;LEFT OUTER JOIN KRIM_PRNCPL_T p&#xa;ON rm.MBR_ID = p.PRNCPL_ID&#xa;AND rm.mbr_typ_cd = 'P'&#xa;LEFT OUTER JOIN KRIM_ENTITY_NM_T en&#xa;ON p.ENTITY_ID = en.ENTITY_ID&#xa;WHERE (en.DFLT_IND = 'Y')&#xa;ORDER BY nmspc_cd, role_nm, prncpl_nm, rm.ROLE_MBR_ID, attr_nm&#xa;&#xa;&#xa; &#xa; &#xa;&#xa;&#xa;"/>
-    <view name="KRIM_ROLE_ROLE_V" viewdefinition="SELECT r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, r.role_id&#xa;, mr.NMSPC_CD AS mbr_role_nmspc_cd&#xa;, mr.role_NM AS mbr_role_nm&#xa;, mr.role_id AS mbr_role_id&#xa;, rm.role_mbr_id&#xa;, a.NM AS attr_nm&#xa;, d.ATTR_VAL AS attr_val&#xa;FROM KRIM_ROLE_MBR_T rm&#xa;LEFT JOIN KRIM_ROLE_T r&#xa;ON r.ROLE_ID = rm.ROLE_ID&#xa;LEFT JOIN KRIM_role_T mr&#xa;ON mr.role_ID = rm.MBR_ID&#xa;LEFT OUTER JOIN KRIM_ROLE_MBR_ATTR_DATA_T d&#xa;ON d.role_mbr_id = rm.ROLE_MBR_ID&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON a.KIM_ATTR_DEFN_ID = d.KIM_ATTR_DEFN_ID&#xa;WHERE rm.MBR_TYP_CD = 'R'&#xa;ORDER BY nmspc_cd, role_nm, mbr_role_nmspc_cd, mbr_role_nm, role_mbr_id, attr_nm&#xa;&#xa;&#xa; &#xa; &#xa;&#xa;&#xa;"/>
-    <view name="KRIM_ROLE_V" viewdefinition="SELECT r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, r.ROLE_ID&#xa;, t.nm AS role_typ_nm&#xa;, t.SRVC_NM&#xa;, t.KIM_TYP_ID&#xa;FROM KRIM_ROLE_T r&#xa;, KRIM_TYP_T t&#xa;WHERE t.KIM_TYP_ID = r.KIM_TYP_ID&#xa;AND r.ACTV_IND = 'Y'&#xa;ORDER BY nmspc_cd&#xa;, role_nm&#xa;&#xa;&#xa; &#xa; &#xa;&#xa;&#xa;"/>
-    <view name="KRIM_RSP_ATTR_V" viewdefinition="SELECT&#xa;krim_typ_t.NM AS responsibility_type_name&#xa;, KRIM_rsp_TMPL_T.NM AS rsp_TEMPLATE_NAME&#xa;, KRIM_rsp_T.nmspc_cd AS rsp_namespace_code&#xa;, KRIM_rsp_T.NM AS rsp_NAME&#xa;, krim_rsp_t.RSP_ID AS rsp_id&#xa;, KRIM_ATTR_DEFN_T.NM AS attribute_name&#xa;, KRIM_rsp_ATTR_DATA_T.ATTR_VAL AS attribute_value&#xa;FROM KRIM_rsp_T KRIM_rsp_T&#xa;INNER JOIN KRIM_rsp_ATTR_DATA_T KRIM_rsp_ATTR_DATA_T&#xa;ON KRIM_rsp_T.rsp_ID = KRIM_rsp_ATTR_DATA_T.rsp_id&#xa;INNER JOIN KRIM_ATTR_DEFN_T KRIM_ATTR_DEFN_T&#xa;ON KRIM_rsp_ATTR_DATA_T.KIM_ATTR_DEFN_ID = KRIM_ATTR_DEFN_T.KIM_ATTR_DEFN_ID&#xa;INNER JOIN KRIM_rsp_TMPL_T KRIM_rsp_TMPL_T&#xa;ON KRIM_rsp_T.rsp_TMPL_ID = KRIM_rsp_TMPL_T.rsp_TMPL_ID&#xa;INNER JOIN KRIM_TYP_T KRIM_TYP_T&#xa;ON KRIM_rsp_TMPL_T.KIM_TYP_ID = KRIM_TYP_T.KIM_TYP_ID&#xa;ORDER BY rsp_TEMPLATE_NAME, rsp_NAME, attribute_name&#xa;&#xa;&#xa; &#xa; &#xa;&#xa;&#xa;"/>
-    <view name="KRIM_RSP_ROLE_ACTN_V" viewdefinition="select&#xa;rsp.nmspc_cd as rsp_nmspc_cd&#xa;, rsp.rsp_id&#xa;, r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, rr.ROLE_ID&#xa;, rm.MBR_ID&#xa;, rm.MBR_TYP_CD&#xa;, rm.ROLE_MBR_ID&#xa;, actn.ACTN_TYP_CD&#xa;, actn.ACTN_PLCY_CD&#xa;, actn.FRC_ACTN&#xa;, actn.PRIORITY_NBR&#xa;from krim_rsp_t rsp&#xa;left join krim_rsp_tmpl_t rspt&#xa;on rsp.rsp_tmpl_id = rspt.rsp_tmpl_id&#xa;left outer join krim_role_rsp_t rr&#xa;on rr.rsp_id = rsp.rsp_id&#xa;left outer join KRIM_ROLE_MBR_T rm&#xa;ON rm.ROLE_ID = rr.ROLE_ID&#xa;left outer join KRIM_ROLE_RSP_ACTN_T actn&#xa;ON actn.ROLE_RSP_ID = rr.ROLE_RSP_ID&#xa;AND (actn.ROLE_MBR_ID = rm.ROLE_MBR_ID OR actn.ROLE_MBR_ID = '*')&#xa;left outer join krim_role_t r&#xa;on rr.role_id = r.role_id&#xa;order by rsp_nmspc_cd&#xa;, rsp_id&#xa;, role_id&#xa;, role_mbr_id&#xa;&#xa;&#xa; &#xa; &#xa;&#xa;&#xa;"/>
-    <view name="KRIM_RSP_ROLE_V" viewdefinition="select&#xa;rspt.nmspc_cd as rsp_tmpl_nmspc_cd&#xa;, rspt.nm as rsp_tmpl_nm&#xa;, rsp.nmspc_cd as rsp_nmspc_cd&#xa;, rsp.nm as rsp_nm&#xa;, rsp.rsp_id&#xa;, a.nm as attr_nm&#xa;, d.attr_val&#xa;, r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, rr.ROLE_ID&#xa;from krim_rsp_t rsp&#xa;left join krim_rsp_tmpl_t rspt&#xa;on rsp.rsp_tmpl_id = rspt.rsp_tmpl_id&#xa;left outer join krim_rsp_attr_data_t d&#xa;on rsp.rsp_id = d.rsp_id&#xa;left outer join krim_attr_defn_t a&#xa;on d.kim_attr_defn_id = a.kim_attr_defn_id&#xa;left outer join krim_role_rsp_t rr&#xa;on rr.rsp_id = rsp.rsp_id&#xa;left outer join krim_role_t r&#xa;on rr.role_id = r.role_id&#xa;order by rsp_tmpl_nmspc_cd, rsp_tmpl_nm, rsp_nmspc_cd, rsp_nm, rsp_id, attr_nm, attr_val&#xa;&#xa;&#xa; &#xa; &#xa;&#xa;&#xa;"/>
+    <view name="KRIM_GRP_MBR_V" viewdefinition="SELECT g.NMSPC_CD&#xa;, g.grp_nm&#xa;, g.GRP_ID&#xa;, p.PRNCPL_NM&#xa;, p.PRNCPL_ID&#xa;, mg.GRP_NM AS mbr_grp_nm&#xa;, mg.GRP_ID AS mbr_grp_id&#xa;FROM KRIM_GRP_MBR_T gm&#xa;LEFT JOIN krim_grp_t g&#xa;ON g.GRP_ID = gm.GRP_ID&#xa;LEFT OUTER JOIN krim_grp_t mg&#xa;ON mg.GRP_ID = gm.MBR_ID&#xa;AND gm.MBR_TYP_CD = 'G'&#xa;LEFT OUTER JOIN krim_prncpl_t p&#xa;ON p.PRNCPL_ID = gm.MBR_ID&#xa;AND gm.MBR_TYP_CD = 'P'&#xa;LEFT OUTER JOIN krim_entity_nm_t en&#xa;ON en.ENTITY_ID = p.ENTITY_ID&#xa;AND en.DFLT_IND = 'Y'&#xa;AND en.ACTV_IND = 'Y'&#xa;ORDER BY nmspc_cd, grp_nm, prncpl_nm&#xa;&#xa;&#xa;&#xa;"/>
+    <view name="KRIM_GRP_V" viewdefinition="SELECT g.NMSPC_CD&#xa;, g.grp_nm&#xa;, g.GRP_ID&#xa;, t.NM AS grp_typ_nm&#xa;, a.NM AS attr_nm&#xa;, d.ATTR_VAL AS attr_val&#xa;FROM krim_grp_t g&#xa;LEFT OUTER JOIN KRIM_GRP_ATTR_DATA_T d&#xa;ON d.grp_id = g.GRP_ID&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON a.KIM_ATTR_DEFN_ID = d.KIM_ATTR_DEFN_ID&#xa;LEFT OUTER JOIN KRIM_TYP_T t&#xa;ON g.KIM_TYP_ID = t.KIM_TYP_ID&#xa;&#xa;&#xa;&#xa;"/>
+    <view name="KRIM_PERM_ATTR_V" viewdefinition="SELECT&#xa;t.nmspc_cd AS tmpl_nmspc_cd&#xa;, t.NM AS tmpl_nm&#xa;, t.PERM_TMPL_ID&#xa;, p.nmspc_cd AS perm_nmspc_cd&#xa;, p.NM AS perm_nm&#xa;, p.PERM_ID&#xa;, a.NM AS attr_nm&#xa;, ad.ATTR_VAL AS attr_val&#xa;FROM KRIM_PERM_T p&#xa;LEFT JOIN KRIM_PERM_TMPL_T t&#xa;ON p.PERM_TMPL_ID = t.PERM_TMPL_ID&#xa;LEFT OUTER JOIN KRIM_PERM_ATTR_DATA_T ad&#xa;ON p.PERM_ID = ad.perm_id&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON ad.KIM_ATTR_DEFN_ID = a.KIM_ATTR_DEFN_ID&#xa;ORDER BY tmpl_nmspc_cd, tmpl_nm, perm_nmspc_cd, perm_id, attr_nm&#xa;&#xa;&#xa;&#xa;"/>
+    <view name="KRIM_PERM_V" viewdefinition="SELECT&#xa;t.nmspc_cd AS tmpl_nmspc_cd&#xa;, t.NM AS tmpl_nm&#xa;, t.PERM_TMPL_ID&#xa;, p.nmspc_cd AS perm_nmspc_cd&#xa;, p.NM AS perm_nm&#xa;, p.PERM_ID&#xa;, typ.NM AS perm_typ_nm&#xa;, typ.SRVC_NM&#xa;FROM KRIM_PERM_T p&#xa;INNER JOIN KRIM_PERM_TMPL_T t&#xa;ON p.PERM_TMPL_ID = t.PERM_TMPL_ID&#xa;LEFT OUTER JOIN KRIM_TYP_T typ&#xa;ON t.KIM_TYP_ID = typ.KIM_TYP_ID&#xa;&#xa;&#xa;&#xa;"/>
+    <view name="KRIM_PRNCPL_V" viewdefinition="SELECT&#xa;p.PRNCPL_ID&#xa;,p.PRNCPL_NM&#xa;,en.FIRST_NM&#xa;,en.LAST_NM&#xa;,ea.AFLTN_TYP_CD&#xa;,ea.CAMPUS_CD&#xa;,eei.EMP_STAT_CD&#xa;,eei.EMP_TYP_CD&#xa;FROM krim_prncpl_t p&#xa;LEFT OUTER JOIN krim_entity_emp_info_t eei&#xa;ON eei.ENTITY_ID = p.ENTITY_ID&#xa;LEFT OUTER JOIN krim_entity_afltn_t ea&#xa;ON ea.ENTITY_ID = p.ENTITY_ID&#xa;LEFT OUTER JOIN krim_entity_nm_t en&#xa;ON p.ENTITY_ID = en.ENTITY_ID&#xa;AND 'Y' = en.DFLT_IND&#xa;&#xa;&#xa;&#xa;"/>
+    <view name="KRIM_ROLE_GRP_V" viewdefinition="SELECT r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, r.role_id&#xa;, g.NMSPC_CD AS grp_nmspc_cd&#xa;, g.GRP_NM&#xa;, rm.ROLE_MBR_ID&#xa;, a.NM AS attr_nm&#xa;, d.ATTR_VAL AS attr_val&#xa;FROM KRIM_ROLE_MBR_T rm&#xa;LEFT JOIN KRIM_ROLE_T r&#xa;ON r.ROLE_ID = rm.ROLE_ID&#xa;LEFT JOIN KRIM_GRP_T g&#xa;ON g.GRP_ID = rm.MBR_ID&#xa;LEFT OUTER JOIN KRIM_ROLE_MBR_ATTR_DATA_T d&#xa;ON d.role_mbr_id = rm.ROLE_MBR_ID&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON a.KIM_ATTR_DEFN_ID = d.KIM_ATTR_DEFN_ID&#xa;WHERE rm.MBR_TYP_CD = 'G'&#xa;ORDER BY nmspc_cd, role_nm, grp_nmspc_cd, grp_nm, role_mbr_id, attr_nm&#xa;&#xa;&#xa;&#xa;"/>
+    <view name="KRIM_ROLE_PERM_V" viewdefinition="SELECT r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, r.role_id&#xa;, pt.NMSPC_CD AS tmpl_nmspc_cd&#xa;, pt.NM AS tmpl_nm&#xa;, pt.PERM_TMPL_ID&#xa;, p.NMSPC_CD AS perm_nmpsc_cd&#xa;, p.NM AS perm_nm&#xa;, p.PERM_ID&#xa;, a.NM AS attr_nm&#xa;, ad.ATTR_VAL AS attr_val&#xa;FROM KRIM_PERM_T p&#xa;LEFT JOIN KRIM_PERM_TMPL_T pt&#xa;ON p.PERM_TMPL_ID = pt.PERM_TMPL_ID&#xa;LEFT OUTER JOIN KRIM_PERM_ATTR_DATA_T ad&#xa;ON p.PERM_ID = ad.perm_id&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON ad.KIM_ATTR_DEFN_ID = a.KIM_ATTR_DEFN_ID&#xa;LEFT OUTER JOIN KRIM_ROLE_PERM_T rp&#xa;ON rp.PERM_ID = p.PERM_ID&#xa;LEFT OUTER JOIN KRIM_ROLE_T r&#xa;ON rp.ROLE_ID = r.ROLE_ID&#xa;ORDER BY NMSPC_CD, role_nm, tmpl_nmspc_cd, tmpl_nm, perm_id, attr_nm&#xa;&#xa;&#xa;&#xa;"/>
+    <view name="KRIM_ROLE_PRNCPL_V" viewdefinition="SELECT r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, r.ROLE_ID&#xa;, p.PRNCPL_NM&#xa;, p.PRNCPL_ID&#xa;, en.FIRST_NM&#xa;, en.LAST_NM&#xa;, rm.ROLE_MBR_ID&#xa;, ad.NM AS attr_nm&#xa;, rmad.ATTR_VAL AS attr_val&#xa;FROM KRIM_ROLE_T r&#xa;LEFT OUTER JOIN KRIM_ROLE_MBR_T rm&#xa;ON r.ROLE_ID = rm.ROLE_ID&#xa;LEFT OUTER JOIN KRIM_ROLE_MBR_ATTR_DATA_T rmad&#xa;ON rm.ROLE_MBR_ID = rmad.role_mbr_id&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T ad&#xa;ON rmad.KIM_ATTR_DEFN_ID = ad.KIM_ATTR_DEFN_ID&#xa;LEFT OUTER JOIN KRIM_PRNCPL_T p&#xa;ON rm.MBR_ID = p.PRNCPL_ID&#xa;AND rm.mbr_typ_cd = 'P'&#xa;LEFT OUTER JOIN KRIM_ENTITY_NM_T en&#xa;ON p.ENTITY_ID = en.ENTITY_ID&#xa;WHERE (en.DFLT_IND = 'Y')&#xa;ORDER BY nmspc_cd, role_nm, prncpl_nm, rm.ROLE_MBR_ID, attr_nm&#xa;&#xa;&#xa;&#xa;"/>
+    <view name="KRIM_ROLE_ROLE_V" viewdefinition="SELECT r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, r.role_id&#xa;, mr.NMSPC_CD AS mbr_role_nmspc_cd&#xa;, mr.role_NM AS mbr_role_nm&#xa;, mr.role_id AS mbr_role_id&#xa;, rm.role_mbr_id&#xa;, a.NM AS attr_nm&#xa;, d.ATTR_VAL AS attr_val&#xa;FROM KRIM_ROLE_MBR_T rm&#xa;LEFT JOIN KRIM_ROLE_T r&#xa;ON r.ROLE_ID = rm.ROLE_ID&#xa;LEFT JOIN KRIM_role_T mr&#xa;ON mr.role_ID = rm.MBR_ID&#xa;LEFT OUTER JOIN KRIM_ROLE_MBR_ATTR_DATA_T d&#xa;ON d.role_mbr_id = rm.ROLE_MBR_ID&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON a.KIM_ATTR_DEFN_ID = d.KIM_ATTR_DEFN_ID&#xa;WHERE rm.MBR_TYP_CD = 'R'&#xa;ORDER BY nmspc_cd, role_nm, mbr_role_nmspc_cd, mbr_role_nm, role_mbr_id, attr_nm&#xa;&#xa;&#xa;&#xa;"/>
+    <view name="KRIM_ROLE_V" viewdefinition="SELECT r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, r.ROLE_ID&#xa;, t.nm AS role_typ_nm&#xa;, t.SRVC_NM&#xa;, t.KIM_TYP_ID&#xa;FROM KRIM_ROLE_T r&#xa;, KRIM_TYP_T t&#xa;WHERE t.KIM_TYP_ID = r.KIM_TYP_ID&#xa;AND r.ACTV_IND = 'Y'&#xa;ORDER BY nmspc_cd&#xa;, role_nm&#xa;&#xa;&#xa;&#xa;"/>
+    <view name="KRIM_RSP_ATTR_V" viewdefinition="SELECT&#xa;krim_typ_t.NM AS responsibility_type_name&#xa;, KRIM_rsp_TMPL_T.NM AS rsp_TEMPLATE_NAME&#xa;, KRIM_rsp_T.nmspc_cd AS rsp_namespace_code&#xa;, KRIM_rsp_T.NM AS rsp_NAME&#xa;, krim_rsp_t.RSP_ID AS rsp_id&#xa;, KRIM_ATTR_DEFN_T.NM AS attribute_name&#xa;, KRIM_rsp_ATTR_DATA_T.ATTR_VAL AS attribute_value&#xa;FROM KRIM_rsp_T KRIM_rsp_T&#xa;INNER JOIN KRIM_rsp_ATTR_DATA_T KRIM_rsp_ATTR_DATA_T&#xa;ON KRIM_rsp_T.rsp_ID = KRIM_rsp_ATTR_DATA_T.rsp_id&#xa;INNER JOIN KRIM_ATTR_DEFN_T KRIM_ATTR_DEFN_T&#xa;ON KRIM_rsp_ATTR_DATA_T.KIM_ATTR_DEFN_ID = KRIM_ATTR_DEFN_T.KIM_ATTR_DEFN_ID&#xa;INNER JOIN KRIM_rsp_TMPL_T KRIM_rsp_TMPL_T&#xa;ON KRIM_rsp_T.rsp_TMPL_ID = KRIM_rsp_TMPL_T.rsp_TMPL_ID&#xa;INNER JOIN KRIM_TYP_T KRIM_TYP_T&#xa;ON KRIM_rsp_TMPL_T.KIM_TYP_ID = KRIM_TYP_T.KIM_TYP_ID&#xa;ORDER BY rsp_TEMPLATE_NAME, rsp_NAME, attribute_name&#xa;&#xa;&#xa;&#xa;"/>
+    <view name="KRIM_RSP_ROLE_ACTN_V" viewdefinition="select&#xa;rsp.nmspc_cd as rsp_nmspc_cd&#xa;, rsp.rsp_id&#xa;, r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, rr.ROLE_ID&#xa;, rm.MBR_ID&#xa;, rm.MBR_TYP_CD&#xa;, rm.ROLE_MBR_ID&#xa;, actn.ACTN_TYP_CD&#xa;, actn.ACTN_PLCY_CD&#xa;, actn.FRC_ACTN&#xa;, actn.PRIORITY_NBR&#xa;from krim_rsp_t rsp&#xa;left join krim_rsp_tmpl_t rspt&#xa;on rsp.rsp_tmpl_id = rspt.rsp_tmpl_id&#xa;left outer join krim_role_rsp_t rr&#xa;on rr.rsp_id = rsp.rsp_id&#xa;left outer join KRIM_ROLE_MBR_T rm&#xa;ON rm.ROLE_ID = rr.ROLE_ID&#xa;left outer join KRIM_ROLE_RSP_ACTN_T actn&#xa;ON actn.ROLE_RSP_ID = rr.ROLE_RSP_ID&#xa;AND (actn.ROLE_MBR_ID = rm.ROLE_MBR_ID OR actn.ROLE_MBR_ID = '*')&#xa;left outer join krim_role_t r&#xa;on rr.role_id = r.role_id&#xa;order by rsp_nmspc_cd&#xa;, rsp_id&#xa;, role_id&#xa;, role_mbr_id&#xa;&#xa;&#xa;&#xa;"/>
+    <view name="KRIM_RSP_ROLE_V" viewdefinition="select&#xa;rspt.nmspc_cd as rsp_tmpl_nmspc_cd&#xa;, rspt.nm as rsp_tmpl_nm&#xa;, rsp.nmspc_cd as rsp_nmspc_cd&#xa;, rsp.nm as rsp_nm&#xa;, rsp.rsp_id&#xa;, a.nm as attr_nm&#xa;, d.attr_val&#xa;, r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, rr.ROLE_ID&#xa;from krim_rsp_t rsp&#xa;left join krim_rsp_tmpl_t rspt&#xa;on rsp.rsp_tmpl_id = rspt.rsp_tmpl_id&#xa;left outer join krim_rsp_attr_data_t d&#xa;on rsp.rsp_id = d.rsp_id&#xa;left outer join krim_attr_defn_t a&#xa;on d.kim_attr_defn_id = a.kim_attr_defn_id&#xa;left outer join krim_role_rsp_t rr&#xa;on rr.rsp_id = rsp.rsp_id&#xa;left outer join krim_role_t r&#xa;on rr.role_id = r.role_id&#xa;order by rsp_tmpl_nmspc_cd, rsp_tmpl_nm, rsp_nmspc_cd, rsp_nm, rsp_id, attr_nm, attr_val&#xa;&#xa;&#xa;&#xa;"/>
     <sequence name="KREN_CHNL_S" nextval="1000"/>
     <sequence name="KREN_CHNL_SUBSCRP_S" nextval="1020"/>
     <sequence name="KREN_CNTNT_TYP_S" nextval="1000"/>
@@ -5639,37 +5535,37 @@
     <sequence name="KREN_RECIP_S" nextval="1000"/>
     <sequence name="KREN_RVWER_S" nextval="1000"/>
     <sequence name="KREN_SNDR_S" nextval="1000"/>
-    <sequence name="KREW_ACTN_ITM_S" nextval="10231"/>
+    <sequence name="KREW_ACTN_ITM_S" nextval="10226"/>
     <sequence name="KREW_ACTN_LIST_OPTN_S" nextval="1269"/>
-    <sequence name="KREW_ACTN_RQST_S" nextval="2374"/>
-    <sequence name="KREW_ACTN_TKN_S" nextval="2334"/>
+    <sequence name="KREW_ACTN_RQST_S" nextval="2369"/>
+    <sequence name="KREW_ACTN_TKN_S" nextval="2332"/>
     <sequence name="KREW_ATTR_DEFN_S" nextval="10000"/>
-    <sequence name="KREW_DOC_HDR_S" nextval="3015"/>
+    <sequence name="KREW_DOC_HDR_S" nextval="3050"/>
     <sequence name="KREW_DOC_LNK_S" nextval="2000"/>
     <sequence name="KREW_DOC_NTE_S" nextval="2020"/>
     <sequence name="KREW_DOC_TYP_ATTR_S" nextval="2010"/>
     <sequence name="KREW_EDL_FLD_DMP_S" nextval="5000"/>
-    <sequence name="KREW_EDL_S" nextval="2022"/>
+    <sequence name="KREW_EDL_S" nextval="2020"/>
     <sequence name="KREW_OUT_BOX_ITM_S" nextval="10043"/>
     <sequence name="KREW_PPL_FLW_ATTR_S" nextval="10000"/>
     <sequence name="KREW_PPL_FLW_DLGT_S" nextval="10000"/>
     <sequence name="KREW_PPL_FLW_MBR_S" nextval="10000"/>
     <sequence name="KREW_PPL_FLW_S" nextval="10000"/>
     <sequence name="KREW_RSP_S" nextval="2065"/>
-    <sequence name="KREW_RTE_NODE_CFG_PARM_S" nextval="2485"/>
-    <sequence name="KREW_RTE_NODE_S" nextval="3017"/>
+    <sequence name="KREW_RTE_NODE_CFG_PARM_S" nextval="2656"/>
+    <sequence name="KREW_RTE_NODE_S" nextval="2971"/>
     <sequence name="KREW_RTE_TMPL_S" nextval="1645"/>
     <sequence name="KREW_RULE_EXPR_S" nextval="2002"/>
     <sequence name="KREW_RULE_TMPL_OPTN_S" nextval="2020"/>
-    <sequence name="KREW_SRCH_ATTR_S" nextval="2078"/>
+    <sequence name="KREW_SRCH_ATTR_S" nextval="2060"/>
     <sequence name="KREW_TYP_ATTR_S" nextval="10000"/>
     <sequence name="KREW_TYP_S" nextval="10000"/>
     <sequence name="KREW_USR_S" nextval="100000000000"/>
-    <sequence name="KRIM_ATTR_DATA_ID_S" nextval="10237"/>
-    <sequence name="KRIM_ATTR_DEFN_ID_S" nextval="10013"/>
+    <sequence name="KRIM_ATTR_DATA_ID_S" nextval="10087"/>
+    <sequence name="KRIM_ATTR_DEFN_ID_S" nextval="10011"/>
     <sequence name="KRIM_DLGN_ID_S" nextval="10000"/>
     <sequence name="KRIM_DLGN_MBR_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ENTITY_ADDR_ID_S" nextval="10000"/>
+    <sequence name="KRIM_ENTITY_ADDR_ID_S" nextval="10001"/>
     <sequence name="KRIM_ENTITY_AFLTN_ID_S" nextval="10000"/>
     <sequence name="KRIM_ENTITY_CTZNSHP_ID_S" nextval="10000"/>
     <sequence name="KRIM_ENTITY_EMAIL_ID_S" nextval="10000"/>
@@ -5684,31 +5580,31 @@
     <sequence name="KRIM_GRP_ATTR_DATA_ID_S" nextval="10000"/>
     <sequence name="KRIM_GRP_ID_S" nextval="10000"/>
     <sequence name="KRIM_GRP_MBR_ID_S" nextval="10000"/>
-    <sequence name="KRIM_PERM_ID_S" nextval="10131"/>
+    <sequence name="KRIM_PERM_ID_S" nextval="10060"/>
     <sequence name="KRIM_PERM_RQRD_ATTR_ID_S" nextval="10000"/>
-    <sequence name="KRIM_PERM_TMPL_ID_S" nextval="10021"/>
+    <sequence name="KRIM_PERM_TMPL_ID_S" nextval="10005"/>
     <sequence name="KRIM_PRNCPL_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ROLE_ID_S" nextval="10003"/>
-    <sequence name="KRIM_ROLE_MBR_ID_S" nextval="10040"/>
-    <sequence name="KRIM_ROLE_PERM_ID_S" nextval="1240"/>
+    <sequence name="KRIM_ROLE_ID_S" nextval="10027"/>
+    <sequence name="KRIM_ROLE_MBR_ID_S" nextval="10025"/>
+    <sequence name="KRIM_ROLE_PERM_ID_S" nextval="1112"/>
     <sequence name="KRIM_ROLE_RSP_ACTN_ID_S" nextval="10000"/>
     <sequence name="KRIM_ROLE_RSP_ID_S" nextval="10000"/>
     <sequence name="KRIM_RSP_ID_S" nextval="10000"/>
     <sequence name="KRIM_RSP_RQRD_ATTR_ID_S" nextval="10000"/>
     <sequence name="KRIM_RSP_TMPL_ID_S" nextval="10000"/>
-    <sequence name="KRIM_TYP_ATTR_ID_S" nextval="10037"/>
-    <sequence name="KRIM_TYP_ID_S" nextval="10028"/>
+    <sequence name="KRIM_TYP_ATTR_ID_S" nextval="10011"/>
+    <sequence name="KRIM_TYP_ID_S" nextval="10018"/>
     <sequence name="KRMS_ACTN_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_ACTN_S" nextval="10000"/>
     <sequence name="KRMS_AGENDA_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_AGENDA_ITM_S" nextval="10149"/>
-    <sequence name="KRMS_AGENDA_S" nextval="10143"/>
-    <sequence name="KRMS_ATTR_DEFN_S" nextval="1007"/>
-    <sequence name="KRMS_CMPND_PROP_PROPS_S" nextval="10248"/>
+    <sequence name="KRMS_AGENDA_ITM_S" nextval="10000"/>
+    <sequence name="KRMS_AGENDA_S" nextval="10000"/>
+    <sequence name="KRMS_ATTR_DEFN_S" nextval="10000"/>
+    <sequence name="KRMS_CMPND_PROP_PROPS_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_CNTXT_S" nextval="10002"/>
+    <sequence name="KRMS_CNTXT_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_VLD_ACTN_TYP_S" nextval="10000"/>
-    <sequence name="KRMS_CNTXT_VLD_AGENDA_TYP_S" nextval="10004"/>
+    <sequence name="KRMS_CNTXT_VLD_AGENDA_TYP_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_VLD_FUNC_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_VLD_RULE_TYP_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_VLD_TERM_SPEC_S" nextval="10000"/>
@@ -5716,24 +5612,24 @@
     <sequence name="KRMS_FUNC_PARM_S" nextval="10000"/>
     <sequence name="KRMS_FUNC_S" nextval="10000"/>
     <sequence name="KRMS_NL_TMPL_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_NL_TMPL_S" nextval="10335"/>
+    <sequence name="KRMS_NL_TMPL_S" nextval="10000"/>
     <sequence name="KRMS_NL_USAGE_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_NL_USAGE_S" nextval="10006"/>
-    <sequence name="KRMS_PROP_PARM_S" nextval="10594"/>
-    <sequence name="KRMS_PROP_S" nextval="10251"/>
-    <sequence name="KRMS_REF_OBJ_KRMS_OBJ_S" nextval="10143"/>
+    <sequence name="KRMS_NL_USAGE_S" nextval="10000"/>
+    <sequence name="KRMS_PROP_PARM_S" nextval="10000"/>
+    <sequence name="KRMS_PROP_S" nextval="10000"/>
+    <sequence name="KRMS_REF_OBJ_KRMS_OBJ_S" nextval="10000"/>
     <sequence name="KRMS_RULE_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_RULE_S" nextval="10149"/>
-    <sequence name="KRMS_TERM_PARM_S" nextval="10211"/>
+    <sequence name="KRMS_RULE_S" nextval="10000"/>
+    <sequence name="KRMS_TERM_PARM_S" nextval="10000"/>
     <sequence name="KRMS_TERM_RSLVR_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_TERM_RSLVR_INPUT_SPEC_S" nextval="10000"/>
     <sequence name="KRMS_TERM_RSLVR_PARM_SPEC_S" nextval="10000"/>
     <sequence name="KRMS_TERM_RSLVR_S" nextval="10000"/>
-    <sequence name="KRMS_TERM_S" nextval="10198"/>
-    <sequence name="KRMS_TERM_SPEC_S" nextval="10013"/>
+    <sequence name="KRMS_TERM_S" nextval="10000"/>
+    <sequence name="KRMS_TERM_SPEC_S" nextval="10000"/>
     <sequence name="KRMS_TYP_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_TYP_RELN_S" nextval="10119"/>
-    <sequence name="KRMS_TYP_S" nextval="10076"/>
+    <sequence name="KRMS_TYP_RELN_S" nextval="10112"/>
+    <sequence name="KRMS_TYP_S" nextval="10065"/>
     <sequence name="KRNS_DOC_TYP_ATTR_S" nextval="1000"/>
     <sequence name="KRNS_LOCK_S" nextval="2000"/>
     <sequence name="KRNS_LOOKUP_RSLT_S" nextval="2000"/>
@@ -5742,9 +5638,7 @@
     <sequence name="KRNS_NTE_S" nextval="2020"/>
     <sequence name="KRSB_BAM_PARM_S" nextval="2000"/>
     <sequence name="KRSB_BAM_S" nextval="2000"/>
-    <sequence name="KRSB_MSG_QUE_S" nextval="467"/>
-    <sequence name="KRSB_SVC_DEF_S" nextval="10105"/>
-    <sequence name="KRSB_SVC_DSCRPTR_S" nextval="10105"/>
-    <sequence name="TRVL_ID_SEQ" nextval="1"/>
-    <sequence name="TRVL_PER_DIEM_ID_SEQ" nextval="1"/>
+    <sequence name="KRSB_MSG_QUE_S" nextval="1000"/>
+    <sequence name="KRSB_SVC_DEF_S" nextval="10000"/>
+    <sequence name="KRSB_SVC_DSCRPTR_S" nextval="10000"/>
 </database>

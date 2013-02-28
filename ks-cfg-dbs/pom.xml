@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.student.deployments</groupId>
         <artifactId>ks-deployments</artifactId>
-        <version>2.0.0-SNAPSHOT</version>
+        <version>2.0.0-KSAP-SNAPSHOT</version>
     </parent>
     <groupId>org.kuali.student.db</groupId>
     <artifactId>ks-cfg-dbs</artifactId>
@@ -45,9 +45,9 @@
         <ks.impex.date.format>yyyyMMddHHmmss</ks.impex.date.format>
         <!-- Oracle specific properties -->
         <ks.impex.masterdb.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</ks.impex.masterdb.url>
-        <ks.impex.masterdb.schema>KSMASTER_20</ks.impex.masterdb.schema>
-        <ks.impex.masterdb.username>KSMASTER_20</ks.impex.masterdb.username>
-        <ks.impex.masterdb.password>KSMASTER_20</ks.impex.masterdb.password>
+        <ks.impex.masterdb.schema>KSMASTER_13</ks.impex.masterdb.schema>
+        <ks.impex.masterdb.username>KSMASTER_13</ks.impex.masterdb.username>
+        <ks.impex.masterdb.password>KSMASTER_13</ks.impex.masterdb.password>
         <ks.impex.oracle.driver>oracle.jdbc.driver.OracleDriver</ks.impex.oracle.driver>
         <ks.impex.oracle.default.url>jdbc:oracle:thin:@localhost:1521:XE</ks.impex.oracle.default.url>
         <ks.impex.oracle.delimiter>/</ks.impex.oracle.delimiter>
@@ -63,7 +63,7 @@
       SELECT SYSDATE FROM DUAL
     </ks.impex.oracle.sql.validate>
         <!-- Drop the user, ignoring the Oracle error code for "user does not exist" -->
-        <ks.impex.oracle.sql.drop>
+    <ks.impex.oracle.sql.drop>
       BEGIN
         FOR SESSIONS IN ( SELECT SID, SERIAL#
           FROM   V$SESSION
@@ -79,7 +79,7 @@
       END;
       /
     </ks.impex.oracle.sql.drop>
-        <ks.impex.oracle.sql.clearschema>
+    <ks.impex.oracle.sql.clearschema>
         BEGIN
         for rec in (select table_name from all_tables where owner='${ks.impex.username}')
         loop
@@ -227,7 +227,7 @@
                         </dependency>
                         <dependency>
                             <groupId>com.oracle</groupId>
-                            <artifactId>${oracle.ojdbc.artifact}</artifactId>
+                            <artifactId>ojdbc14</artifactId>
                             <version>${oracle.ojdbc.version}</version>
                         </dependency>
                     </dependencies>
@@ -379,7 +379,7 @@
                     </dependency>
                     <dependency>
                         <groupId>com.oracle</groupId>
-                        <artifactId>${oracle.ojdbc.artifact}</artifactId>
+                        <artifactId>ojdbc14</artifactId>
                         <version>${oracle.ojdbc.version}</version>
                     </dependency>
                 </dependencies>
@@ -620,6 +620,7 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <!--
         This profile generates XML files by inspecting a database materialized from the
@@ -736,14 +737,6 @@
                                     <artifactId>ks-rice-sql</artifactId>
                                     <version>${ks.core.version}</version>
                                     <includes>**\/*.sql</includes>
-                                    <outputDirectory>${project.build.directory}/gen/data/ks-rice</outputDirectory>
-                                    </artifactItem>
-                                    <!-- Add another artifact of upgrade scripts from ks-rice-sql -->
-                                    <artifactItem>
-                                    <groupId>org.kuali.student.core</groupId>
-                                    <artifactId>ks-rice-sql</artifactId>
-                                    <version>${ks.core.version}</version>
-                                    <includes>**\/upgrades/**\/*.sql</includes>
                                     <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
                                     </artifactItem>
                                     <artifactItem>
@@ -761,10 +754,9 @@
                                     <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
                                     </artifactItem>
                                     <artifactItem>
-                                    <groupId>org.kuali.rice</groupId>
-                                    <artifactId>rice-impex-server-bootstrap</artifactId>
-                                    <version>${kuali.rice.version}</version>
-                                    <classifier>sql</classifier>
+                                    <groupId>org.kuali.student.db</groupId>
+                                    <artifactId>ks-rice-baseline-db</artifactId>
+                                    <version>${project.version}</version>
                                     <includes>**/oracle/*.sql</includes>
                                     <outputDirectory>${project.build.directory}/gen/data/rice</outputDirectory>
                                     </artifactItem>
@@ -794,12 +786,51 @@
                                 <version>${ks.enroll.version}</version>
                             </dependency>
                             <dependency>
-                                <groupId>org.kuali.rice</groupId>
-                                <artifactId>rice-impex-server-bootstrap</artifactId>
-                                <version>${kuali.rice.version}</version>
-                                <classifier>sql</classifier>
+                                <groupId>org.kuali.student.db</groupId>
+                                <artifactId>ks-rice-baseline-db</artifactId>
+                                <version>${project.version}</version>
                             </dependency>
                         </dependencies>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.kuali.maven.plugins</groupId>
+                        <artifactId>maven-impex-plugin</artifactId>
+                        <configuration>
+                            <forceMojoExecution>true</forceMojoExecution>
+                            <importDir>${project.build.directory}/gen/data/rice/sql</importDir>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>create-rice-baseline-schema</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>import</goal>
+                                </goals>
+                                <configuration>
+                                    <importDirIncludes>ks-rice-baseline-db.sql</importDirIncludes>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>load-rice-baseline-data</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>import</goal>
+                                </goals>
+                                <configuration>
+                                    <importDirExcludes>ks-rice-baseline-db*.sql</importDirExcludes>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>add-rice-baseline-constraints</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>import</goal>
+                                </goals>
+                                <configuration>
+                                    <importDirIncludes>ks-rice-baseline-db-constraints.sql</importDirIncludes>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
@@ -820,68 +851,6 @@
                                 <id>init-db</id>
                                 <phase>initialize</phase>
                             </execution>
-                            <!-- **** -->
-                            <execution>
-                                <id>create-rice-baseline-schema</id>
-                                <phase>process-resources</phase>
-                                <goals>
-                                    <goal>execute</goal>
-                                </goals>
-                                <configuration>
-                                    <fileset>
-                                    <basedir>${project.build.directory}/gen/data/rice/sql/oracle</basedir>
-                                    <includes>
-                                    <include>rice-impex-server-bootstrap.sql</include>
-                                    </includes>
-                                    </fileset>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>load-rice-baseline-data</id>
-                                <phase>process-resources</phase>
-                                <goals>
-                                    <goal>execute</goal>
-                                </goals>
-                                <configuration>
-                                    <fileset>
-                                    <basedir>${project.build.directory}/gen/data/rice/sql/oracle</basedir>
-                                    <excludes>
-                                    <exclude>rice-impex-server-bootstrap*.sql</exclude>
-                                    </excludes>
-                                    </fileset>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>load-ks-rice-data</id>
-                                <phase>process-resources</phase>
-                                <goals>
-                                    <goal>execute</goal>
-                                </goals>
-                                <configuration>
-                                    <fileset>
-                                    <basedir>${project.build.directory}/gen/data/ks-rice</basedir>
-                                    <includes>
-                                    <include>initial-db/*/*data/*.sql</include>
-                                    </includes>
-                                    </fileset>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>add-rice-baseline-constraints</id>
-                                <phase>process-resources</phase>
-                                <goals>
-                                    <goal>execute</goal>
-                                </goals>
-                                <configuration>
-                                    <fileset>
-                                    <basedir>${project.build.directory}/gen/data/rice/sql/oracle</basedir>
-                                    <includes>
-                                    <include>rice-impex-server-bootstrap-constraints.sql</include>
-                                    </includes>
-                                    </fileset>
-                                </configuration>
-                            </execution>
-                            <!-- **** -->
                             <execution>
                                 <id>create-schema</id>
                                 <phase>process-resources</phase>

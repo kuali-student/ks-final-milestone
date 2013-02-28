@@ -24,18 +24,12 @@
 
     <strong>Lookups, etc</strong>
     <ul class="chan">
-        <%--
         <li><portal:portalLink displayTitle="true" title="Combo Boxes"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-ComboBoxes-View&methodToCall=start" /></li>
-        --%>
         <li><portal:portalLink displayTitle="true" title="Lookup with default action"
                                url="${ConfigProperties.application.url}/kr-krad/lookup?viewId=KS-KitchenSink-Population-LookupView-Uim&methodToCall=start&dataObjectClassName=org.kuali.student.r2.core.population.dto.PopulationInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-        <li><portal:portalLink displayTitle="true" title="Lookup - Input Confirmation"
-                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-LookupInputConfirmation-View&methodToCall=start" /></li>
         <li><portal:portalLink displayTitle="true" title="Lookup Overview"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-LookupOverview-View&methodToCall=start" /></li>
-        <li><portal:portalLink displayTitle="true" title="Lookup - Quick View"
-                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-LookupQuickView-View&methodToCall=start" /></li>
         <li><portal:portalLink displayTitle="true" title="Suggest (Auto-Complete)"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-LookupSuggest-View&methodToCall=start" /></li>
     </ul>
@@ -54,8 +48,6 @@
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionInForm-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection row selection and toggle"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionRowSelection-View&methodToCall=collection" /></li>
-        <li><portal:portalLink displayTitle="true" title="Collection row selection highlighting"
-                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionRowSelectionHighlight-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection table options"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionOptions-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection Group Table Layout"

@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.kuali.student.web</groupId>
         <artifactId>ks-web</artifactId>
-        <version>2.0.0-SNAPSHOT</version>
+        <version>2.0.0-KSAP-SNAPSHOT</version>
     </parent>
     <properties>
         <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
@@ -77,7 +77,7 @@
                 <dependencies>
                     <dependency>
                         <groupId>com.oracle</groupId>
-                        <artifactId>${oracle.ojdbc.artifact}</artifactId>
+                        <artifactId>ojdbc14</artifactId>
                         <version>${oracle.ojdbc.version}</version>
                     </dependency>
                     <dependency>
@@ -103,7 +103,7 @@
                 <dependencies>
                     <dependency>
                         <groupId>com.oracle</groupId>
-                        <artifactId>${oracle.ojdbc.artifact}</artifactId>
+                        <artifactId>ojdbc14</artifactId>
                         <version>${oracle.ojdbc.version}</version>
                     </dependency>
                     <dependency>
@@ -213,46 +213,6 @@
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-sts</artifactId>
             <version>${ks.core.version}</version>
-        </dependency>
-        <!-- add ks-enroll here -->
-        <dependency>
-            <groupId>org.kuali.student.api</groupId>
-            <artifactId>ks-enroll-api</artifactId>
-            <version>${ks.api.version}</version>
-        </dependency>
-        <!-- TODO: Remove this once mock impls have been moved to a regular jar or replaced with real impls -->
-        <dependency>
-            <groupId>org.kuali.student.api</groupId>
-            <artifactId>ks-enroll-api</artifactId>
-            <version>${ks.api.version}</version>
-            <type>test-jar</type>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.enroll</groupId>
-            <artifactId>ks-enroll-impl</artifactId>
-            <version>${ks.enroll.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.enroll</groupId>
-            <artifactId>ks-enroll-ui</artifactId>
-            <version>${ks.enroll.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.enroll</groupId>
-            <artifactId>ks-enroll-ksink</artifactId>
-            <version>${ks.enroll.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.enroll</groupId>
-            <artifactId>ks-enroll-web</artifactId>
-            <version>${ks.enroll.version}</version>
-            <type>war</type>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.enroll</groupId>
-            <artifactId>ks-enroll-rice</artifactId>
-            <version>${ks.enroll.version}</version>
         </dependency>
         <!--  Sources for GWT Compile -->
         <dependency>

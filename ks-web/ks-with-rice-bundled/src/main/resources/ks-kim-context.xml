@@ -24,6 +24,15 @@
           p:businessObjectService-ref="rice.kim.import.businessObjectService"
           p:criteriaLookupService-ref="rice.kim.import.criteriaLookupService" />
 
+    <bean id="defaultPermissionTypeService" class="org.kuali.rice.kns.kim.permission.PermissionTypeServiceBase"/>
+
+    <bean id="kimPermissionService" class="org.kuali.rice.kim.impl.permission.PermissionServiceImpl"
+          p:businessObjectService-ref="rice.kim.import.businessObjectService"
+          p:criteriaLookupService-ref="rice.kim.import.criteriaLookupService"
+          p:kimTypeInfoService-ref="kimTypeInfoService"
+          p:defaultPermissionTypeService-ref="defaultPermissionTypeService"
+          p:roleService-ref="kimRoleService"/>
+
     <!-- OrgAdmin Derived role (AdministrativeOfficer of this org) -->
     <bean id="ksOrgAdminRoleTypeService"
           class="org.kuali.student.lum.kim.role.type.OrgDerivedRoleTypeServiceImpl">
@@ -100,17 +109,5 @@
     <!-- Organization Hierarchy Role Type -->
     <bean id="ksOrganizationHierarchyRoleTypeService" class="org.kuali.student.lum.kim.role.type.OrganizationHierarchyRoleTypeService"/>
 
-    <bean id="ksViewPermissionTypeService" class="org.kuali.student.enroll.kim.permission.type.KSViewPermissionTypeServiceImpl"/>
-    <bean id="ksViewActionPermissionTypeService" class="org.kuali.student.enroll.kim.permission.type.KSViewActionPermissionTypeServiceImpl"/>
-    <bean id="ksViewFieldPermissionTypeService" class="org.kuali.student.enroll.kim.permission.type.KSViewFieldPermissionTypeServiceImpl"/>
-    <bean id="ksViewGroupPermissionTypeService" class="org.kuali.student.enroll.kim.permission.type.KSViewGroupPermissionTypeServiceImpl"/>
-    <!--<alias name="viewPermissionTypeService" alias="ksViewPermissionTypeService"/>-->
-    <alias name="viewEditModePermissionTypeService" alias="ksViewEditModePermissionTypeService"/>
-    <!--alias name="viewFieldPermissionTypeService" alias="ksViewFieldPermissionTypeService"/-->
-    <!--<alias name="viewGroupPermissionTypeService" alias="ksViewGroupPermissionTypeService"/>-->
-    <alias name="viewWidgetPermissionTypeService" alias="ksViewWidgetPermissionTypeService"/>
-    <!-- alias name="viewActionPermissionTypeService" alias="ksViewActionPermissionTypeService"/-->
-    <alias name="viewLineFieldPermissionTypeService" alias="ksViewLineFieldPermissionTypeService"/>
-    <alias name="viewLineActionPermissionTypeService" alias="ksViewLineActionPermissionTypeService"/>
 
 </beans>
