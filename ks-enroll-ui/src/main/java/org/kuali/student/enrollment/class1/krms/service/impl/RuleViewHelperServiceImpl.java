@@ -10,6 +10,7 @@ import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Container;
+import org.kuali.rice.krad.uif.container.TabGroup;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -64,6 +65,7 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -161,6 +163,18 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             }
 
             container.setItems(components);
+        } else if ("KS-RuleEdit-TabSection".equals(container.getId())) {
+            if (container instanceof TabGroup){
+                MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
+                RuleEditor ruleEditor = (RuleEditor) maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
+                TabGroup tabGroup = (TabGroup) container;
+                Map<String, String> options = tabGroup.getTabsWidget().getTemplateOptions();
+                if(ruleEditor.getSelectedTab() == null) {
+                    ruleEditor.setSelectedTab("0");
+                }
+                options.put("selected", ruleEditor.getSelectedTab());
+                ruleEditor.setSelectedTab("0");
+            }
         }
     }
 

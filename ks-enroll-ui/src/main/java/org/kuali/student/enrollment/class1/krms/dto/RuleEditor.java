@@ -59,6 +59,7 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     //Edit with Logic
     private String logicArea;
+    private String selectedTab;
 
     // for Rule editor display
     private transient Tree<RuleEditorTreeNode, String> editTree;
@@ -344,5 +345,13 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
     @Override
     public Long getVersionNumber() {
         return versionNumber;
+    }
+
+    public String getSelectedTab() {
+        return selectedTab;
+    }
+
+    public void setSelectedTab(String selectedTab) {
+        this.selectedTab = selectedTab;
     }
 }

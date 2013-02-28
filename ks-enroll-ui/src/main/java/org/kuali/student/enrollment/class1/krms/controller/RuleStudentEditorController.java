@@ -21,6 +21,7 @@ import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -646,9 +647,11 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                 GlobalVariables.getMessageMap().putError("logicArea", errorMessages.get(i));
             }
             // reload page1
-            form.setFocusId("KS-EditWithLogic-EditSection");
+            ruleEditor.setSelectedTab("1");
             return getUIFModelAndView(form);
         }
+
+       ruleEditor.setSelectedTab("1");
 
         ruleEditor.setProposition(ruleLogicExpressionParser.parseExpressionIntoRule(ruleEditor));
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);

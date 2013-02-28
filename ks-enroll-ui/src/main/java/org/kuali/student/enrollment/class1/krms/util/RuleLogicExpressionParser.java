@@ -374,6 +374,7 @@ public class RuleLogicExpressionParser {
         }
 
         Stack<PropositionEditor> conditionStack = new Stack<PropositionEditor>();
+        List<PropositionEditor> simpleProps = new ArrayList<PropositionEditor>();
         for (ExpressionToken token : rpnList) {
             if (token.type == ExpressionToken.Condition) {
                 PropositionEditor rc = lookupPropositionEditor(rcs, token.value);
@@ -381,17 +382,22 @@ public class RuleLogicExpressionParser {
             } else {
                 PropositionEditor right = conditionStack.pop();
                 PropositionEditor left = conditionStack.pop();
-                List<PropositionEditor> simpleProps = new ArrayList<PropositionEditor>();
                 simpleProps.add(left);
                 simpleProps.add(right);
-                PropositionEditor compound = conditionStack.pop();
-                if (token.type == ExpressionToken.And){
-                    compound.setCompoundOpCode(LogicalOperator.AND.getCode());
-                } else if (token.type == ExpressionToken.Or) {
-                    compound.setCompoundOpCode(LogicalOperator.OR.getCode());
+                if(conditionStack.peek().getPropositionTypeCode().equals("C")) {
+                    PropositionEditor compound = conditionStack.pop();
+                    if (token.type == ExpressionToken.And){
+                        compound.setCompoundOpCode(LogicalOperator.AND.getCode());
+                    } else if (token.type == ExpressionToken.Or) {
+                        compound.setCompoundOpCode(LogicalOperator.OR.getCode());
+                    }
+                    compound.setCompoundEditors(simpleProps);
+                    simpleProps = new ArrayList<PropositionEditor>();
+                    conditionStack.push(compound);
+                } else {
+                    conditionStack.push(left);
+                    simpleProps.remove(left);
                 }
-                compound.setCompoundEditors(simpleProps);
-                conditionStack.push(compound);
             }
         }
 
