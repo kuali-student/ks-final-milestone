@@ -31,6 +31,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEdit
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -196,7 +197,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                         !formatOfferingInfo.getId().isEmpty() &&
                         currentFOIds.contains(formatOfferingInfo.getId())) {
                     //update FO
-                    if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals("STANDARD")) {
+                    if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
                         formatOfferingInfo.setFinalExamLevelTypeKey(null);
                     }
                     FormatOfferingInfo updatedFormatOffering = getCourseOfferingService().
@@ -210,7 +211,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                     formatOfferingInfo.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
                     formatOfferingInfo.setTermId(coInfo.getTermId());
                     formatOfferingInfo.setCourseOfferingId(coInfo.getId());
-                    if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals("STANDARD")) {
+                    if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
                         formatOfferingInfo.setFinalExamLevelTypeKey(null);
                     }
                     FormatOfferingInfo createdFormatOffering = getCourseOfferingService().

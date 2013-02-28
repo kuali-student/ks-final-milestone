@@ -31,7 +31,6 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEdit
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -119,7 +118,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
 
         if (StringUtils.isNotBlank(formatOfferingInfo.getFormatId())){
             // Always include an option for Course
-            gradeKeyValues.add(new ConcreteKeyValue(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, CourseOfferingConstants.FORMAT_OFFERING_GRADE_ROSTER_LEVEL_COURSE_DISPLAY));
+            gradeKeyValues.add(new ConcreteKeyValue(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, getTypeName(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY)));
             gradeKeyValues.addAll(collectActivityTypeKeyValues(courseInfo, formatOfferingInfo.getFormatId(), getTypeService(), ContextUtils.createDefaultContextInfo()));
             control.setDisabled(false);
         } else {
@@ -310,6 +309,22 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
             courseService = CourseOfferingResourceLoader.loadCourseService();
         }
         return this.courseService;
+    }
+
+    /**
+     * Returns the Name for a type key.
+     *
+     * @param typeKey
+     * @return
+     */
+    protected String getTypeName(String typeKey){
+        try{
+            TypeInfo typeInfo = getTypeService().getType(typeKey,ContextUtils.createDefaultContextInfo());
+            return typeInfo.getName();
+        } catch (Exception e){
+            //Throwing a runtime as we use this method to get the type name only for the ui purpose..
+            throw new RuntimeException(e);
+        }
     }
 
 

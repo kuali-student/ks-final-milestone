@@ -23,20 +23,20 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
-import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
@@ -147,8 +147,33 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
             courseOffering.setGradingOptionId(courseGradingOptions.get(0));
         }
 
+        // make sure we set attribute information from the course
+        if(!courseInfo.getAttributes().isEmpty()){
+            for(AttributeInfo info: courseInfo.getAttributes()){
+                // Default the CourseOffering Final Exam Type to the Final Exam type in the Course
+                if(info.getKey().equals("finalExamStatus")){
+                    courseOffering.setFinalExamType(convertCourseFinalExamTypeToCourseOfferingFinalExamType(info.getValue()));
+                }
+            }
+        }
+
         CourseOfferingInfo info = getCourseOfferingService().createCourseOffering(courseInfo.getId(), termId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, courseOffering, optionKeys, ContextUtils.createDefaultContextInfo());
         return info;
+    }
+
+    /**
+     * Services needs to come up with a standard way to represent final exams.
+     * @param courseFinalExamType
+     * @return
+     */
+    protected static String convertCourseFinalExamTypeToCourseOfferingFinalExamType(String courseFinalExamType){
+        String sRet = null;
+        if("STD".equals(courseFinalExamType))   {
+            sRet = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD;
+        } else if("ALT".equals(courseFinalExamType)) {
+            sRet = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_ALTERNATE;
+        }
+        return sRet;
     }
 
     /**
@@ -244,8 +269,8 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                     CourseInfo courseInfo = getCourseService().getCourse(co.getCourseId(),contextInfo);
                     foWrapper.setFormatInfo(getFormatInfo(courseInfo,formatOffering.getFormatId()));
                     foWrapper.setActivitesUI(getActivityTypeNames(foWrapper.getFormatInfo()));
-                    foWrapper.setGradeRosterUI(getTypeName(formatOffering.getGradeRosterLevelTypeKey()));
-                    foWrapper.setFinalExamUI(getTypeName(formatOffering.getFinalExamLevelTypeKey()));
+                    foWrapper.setGradeRosterUI(super.getTypeName(formatOffering.getGradeRosterLevelTypeKey()));
+                    foWrapper.setFinalExamUI(super.getTypeName(formatOffering.getFinalExamLevelTypeKey()));
                     wrapper.getCopyFromFormats().add(foWrapper);
                 }
             }
@@ -472,22 +497,6 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
             }
         }
         return true;
-    }
-
-    /**
-     * Returns the Name for a type key.
-     *
-     * @param typeKey
-     * @return
-     */
-    private String getTypeName(String typeKey){
-        try{
-            TypeInfo typeInfo = getTypeService().getType(typeKey,ContextUtils.createDefaultContextInfo());
-            return typeInfo.getName();
-         } catch (Exception e){
-             //Throwing a runtime as we use this method to get the type name only for the ui purpose..
-             throw new RuntimeException(e);
-         }
     }
 
 }

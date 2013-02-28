@@ -119,6 +119,11 @@ public class CourseOfferingConstants {
     public static final String CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE = "courseOffering";
     public static final String CONTROLLER_PATH_COURSEOFFERING_CREATE_MAINTENANCE = "courseOfferingCreate";
 
+    // Final Exam Types
+    public final static String COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD = "STANDARD";
+    public final static String COURSEOFFERING_FINAL_EXAM_TYPE_ALTERNATE = "ALTERNATE";
+    public final static String COURSEOFFERING_FINAL_EXAM_TYPE_NONE = "NONE";
+
     /**
          * These are the confirm dialog bean ids used in Manage CO/AO view.
          */
