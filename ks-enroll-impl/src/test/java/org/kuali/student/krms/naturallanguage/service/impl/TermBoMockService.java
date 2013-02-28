@@ -16,13 +16,14 @@
  */
 package org.kuali.student.krms.naturallanguage.service.impl;
 
+import org.kuali.rice.krms.api.repository.category.CategoryDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
+import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinitionContract;
 import org.kuali.rice.krms.impl.repository.TermBoService;
-import org.kuali.rice.krms.impl.repository.TermBoServiceImpl;
 import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
 import org.kuali.student.krms.naturallanguage.TermParameterTypes;
 
@@ -49,6 +50,7 @@ public class TermBoMockService implements TermBoService {
 
     @Override
     public TermDefinition getTerm(String id) {
+        TermSpecificationDefinitionContract termSpec = KRMSDataGenerator.createTermSpecificationDefinition("completedCourses","KS-SYS","java.lang.Boolean","Completed Courses",new ArrayList<CategoryDefinitionContract>(),null,"termSpec-1",true,0L);
         List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
         parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.CLU_KEY.getId(),"CLU-1",null,0L));
         parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.COURSE_CLU_KEY.getId(),"CLU-1",null,0L));
@@ -58,7 +60,7 @@ public class TermBoMockService implements TermBoService {
         parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.COURSE_CLUSET_KEY.getId(),"CLUSET-1",null,0L));
         parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.PROGRAM_CLUSET_KEY.getId(),"CLUSET-1",null,0L));
         parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.TEST_CLUSET_KEY.getId(),"CLUSET-1",null,0L));
-        termDefinitionContract = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
+        termDefinitionContract = KRMSDataGenerator.createTermDefinition(termSpec,null,parameterList,null,0L);
         return TermDefinition.Builder.create(termDefinitionContract).build();
     }
 

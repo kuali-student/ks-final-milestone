@@ -1,5 +1,6 @@
 package org.kuali.student.krms.naturallanguage;
 
+import org.kuali.rice.krms.api.repository.category.CategoryDefinitionContract;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplateContract;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsageContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
@@ -116,6 +117,56 @@ public class KRMSDataGenerator {
             @Override
             public Long getVersionNumber() {
                 return versionNumber;
+            }
+        };
+    }
+
+    public static TermSpecificationDefinitionContract createTermSpecificationDefinition(final String name, final String namespace, final String type, final String description, final List<? extends CategoryDefinitionContract> categories, final List<String> contextIds, final String id, final boolean isActive, final Long verNumber){
+        return new TermSpecificationDefinitionContract() {
+
+            @Override
+            public String getName() {
+                return name;
+            }
+
+            @Override
+            public String getNamespace() {
+                return namespace;
+            }
+
+            @Override
+            public String getType() {
+                return type;
+            }
+
+            @Override
+            public String getDescription() {
+                return description;
+            }
+
+            @Override
+            public List<? extends CategoryDefinitionContract> getCategories() {
+                return categories;
+            }
+
+            @Override
+            public List<String> getContextIds() {
+                return contextIds;
+            }
+
+            @Override
+            public String getId() {
+                return id;
+            }
+
+            @Override
+            public boolean isActive() {
+                return isActive;
+            }
+
+            @Override
+            public Long getVersionNumber() {
+                return verNumber;
             }
         };
     }
