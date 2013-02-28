@@ -27,12 +27,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:search="http://student.kuali.org/xsd/search-extension"
-       xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
-       xsi:schemaLocation="
-	http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
-	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
-	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	 ">
+       xsi:schemaLocation="http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
+
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
     <import resource="classpath:lu-search-config.xml"/>
     <search:searchType id="myplan.course.info">
@@ -40,6 +37,9 @@
             <search:name/>
             <search:desc/>
             <search:resultColumns>
+                <search:resultColumn id="course.id">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
                 <search:resultColumn id="course.name">
                     <search:dataType>string</search:dataType>
                 </search:resultColumn>
@@ -71,6 +71,9 @@
             <search:name/>
             <search:desc/>
             <search:resultColumns>
+                <search:resultColumn id="course.key">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
                 <search:resultColumn id="atp.id">
                     <search:dataType>string</search:dataType>
                 </search:resultColumn>
@@ -87,6 +90,9 @@
             <search:name/>
             <search:desc/>
             <search:resultColumns>
+                <search:resultColumn id="course.owner">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
                 <search:resultColumn id="gened.name">
                     <search:dataType>string</search:dataType>
                 </search:resultColumn>
@@ -546,9 +552,40 @@
                         ORDER BY ident.suffixCode
                     </value>
                 </entry>
+                <!--<entry key="myplan.course.info">-->
+                    <!--<value>NATIVE:-->
+                        <!--SELECT-->
+                        <!--ident.LNG_NAME,-->
+                        <!--trim( ident.SUFX_CD ),-->
+                        <!--trim( ident.DIVISION ),-->
+                        <!--trim( ident.LVL ),-->
+                        <!--opt.RES_COMP_ID,-->
+                        <!--ident.cd-->
+                        <!--FROM-->
+                        <!--KSLU_CLU clu,-->
+                        <!--KSLU_CLU_IDENT ident,-->
+                        <!--KSLU_CLU_RSLT res,-->
+                        <!--KSLU_CLURES_JN_RESOPT jn,-->
+                        <!--KSLU_RSLT_OPT opt-->
+                        <!--WHERE-->
+                        <!--clu.offic_clu_id = ident.id-->
+                        <!--and-->
+                        <!--clu.id = res.clu_id-->
+                        <!--AND-->
+                        <!--res.id = jn.clu_res_id-->
+                        <!--AND-->
+                        <!--jn.res_opt_id = opt.id-->
+                        <!--AND-->
+                        <!--res.TYPE_KEY_ID = 'kuali.resultType.creditCourseResult'-->
+                        <!--AND-->
+                        <!--clu.id = :courseID-->
+                    <!--</value>-->
+                <!--</entry>-->
+
                 <entry key="myplan.course.info">
                     <value>NATIVE:
                         SELECT
+                        clu.id,
                         ident.LNG_NAME,
                         trim( ident.SUFX_CD ),
                         trim( ident.DIVISION ),
@@ -572,28 +609,29 @@
                         AND
                         res.TYPE_KEY_ID = 'kuali.resultType.creditCourseResult'
                         AND
-                        clu.id = :courseID
+                        clu.id IN :courseIDs
                     </value>
                 </entry>
-
 
                 <entry key="myplan.course.info.atp">
                     <value>NATIVE:
                         SELECT
+                        clu_id,
                         ATP_TYPE_KEY
                         FROM KSLU_CLU_ATP_TYPE_KEY
                         WHERE
-                        clu_id = :courseID
+                        clu_id IN :courseIDs
                     </value>
                 </entry>
 
                 <entry key="myplan.course.info.gened">
                     <value>NATIVE:
                         SELECT
+                        OWNER,
                         ATTR_NAME
                         FROM KSLU_CLU_ATTR
                         WHERE
-                        owner = :courseID
+                        owner IN :courseIDs
                         AND
                         ATTR_VALUE = 'Y'
                         AND
