@@ -14,16 +14,18 @@
     <jdbc.username>KSBUNDLED${db.branch.qualifier}</jdbc.username>
     <impex.import.dataLocations>META-INF/ks-impex-app-db-data.resources, META-INF/ks-impex-rice-db-data.resources</impex.import.dataLocations>
   </properties>
-  <dependencies>
+  <!-- Maven doesn't like this, complains about a cyclic reference which doesn't seem right
+    <dependencies>
     <dependency>
-      <groupId>org.kuali.student.db</groupId>
-      <artifactId>ks-impex-rice-db</artifactId>
-      <version>${project.version}</version>
+    <groupId>org.kuali.student.db</groupId>
+    <artifactId>ks-impex-rice-db</artifactId>
+    <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.kuali.student.db</groupId>
-      <artifactId>ks-impex-app-db</artifactId>
-      <version>${project.version}</version>
+    <groupId>org.kuali.student.db</groupId>
+    <artifactId>ks-impex-app-db</artifactId>
+    <version>${project.version}</version>
     </dependency>
-  </dependencies>
+    </dependencies>
+  -->
 </project>
