@@ -84,9 +84,7 @@
         <sql.constraints.order>concurrent,sequential</sql.constraints.order>
         <sql.constraints.concurrent>sql.constraints.2.list,sql.constraints.3.list,sql.constraints.4.list</sql.constraints.concurrent>
         <sql.constraints.sequential>sql.constraints.1,sql.constraints.5.list</sql.constraints.sequential>
-        <!--
-          <sql.other.sequential>sql.other.1.list,sql.other.2.list,sql.other.3.list,sql.other.4.list</sql.other.sequential>
-        -->
+        <sql.other.sequential>sql.other.1.list,sql.other.2.list,sql.other.3.list,sql.other.4.list</sql.other.sequential>
       </properties>
       <build>
         <plugins>
