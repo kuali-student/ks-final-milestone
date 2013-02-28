@@ -278,7 +278,7 @@ public class PlanController extends UifControllerBase {
 
         }
         if (planForm.getTermYear() != null) {
-            planForm.setTermName(KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(planForm.getTermYear()));
+            planForm.setTermName(KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(planForm.getTermYear()).toTermName());
         }
         this.otherOptionValidation(planForm);
         return getUIFModelAndView(planForm);
@@ -353,7 +353,7 @@ public class PlanController extends UifControllerBase {
         form.setJavascriptEvents(events);
 
         //  Pass the ATP name in the params.
-        String[] params = {KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(planItem.getPlanPeriods().get(0))};
+        String[] params = {KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(planItem.getPlanPeriods().get(0)).toTermName()};
         return doPlanActionSuccess(form, PlanConstants.SUCCESS_KEY_PLANNED_ITEM_MARKED_BACKUP, params);
     }
 
@@ -426,7 +426,7 @@ public class PlanController extends UifControllerBase {
 
         form.setJavascriptEvents(events);
 
-        String[] params = {KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(planItem.getPlanPeriods().get(0))};
+        String[] params = {KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(planItem.getPlanPeriods().get(0)).toTermName()};
         return doPlanActionSuccess(form, PlanConstants.SUCCESS_KEY_PLANNED_ITEM_MARKED_PLANNED, params);
     }
 
@@ -469,7 +469,7 @@ public class PlanController extends UifControllerBase {
             return doOperationFailedError(form, "Unable to process request.", e);
         }
         //  Can't validate further up because the new ATP ID can be "other".
-        if (!KsapFrameworkServiceLocator.getAtpHelper().isAtpIdFormatValid(newAtpIds.get(0))) {
+        if (!KsapFrameworkServiceLocator.getAtpHelper().validateAtpId(newAtpIds.get(0))) {
             return doOperationFailedError(form, String.format("ATP ID [%s] was not formatted properly.", newAtpIds.get(0)), null);
         }
 
@@ -503,7 +503,7 @@ public class PlanController extends UifControllerBase {
         }
 
         if (existingPlanItem != null) {
-            String[] params = {courseDetails.getCode(), KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(newAtpIds.get(0))};
+            String[] params = {courseDetails.getCode(), KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(newAtpIds.get(0)).toTermName()};
             return doErrorPage(form, PlanConstants.ERROR_KEY_PLANNED_ITEM_ALREADY_EXISTS, params);
         }
 
@@ -560,8 +560,8 @@ public class PlanController extends UifControllerBase {
         form.setJavascriptEvents(events);
 
         String atpId = planItem.getPlanPeriods().get(0);
-        String link = makeLinkToAtp(atpId, KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(atpId));
-        String[] params = {KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(planItem.getPlanPeriods().get(0))};
+        String link = makeLinkToAtp(atpId, KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(atpId).toTermName());
+        String[] params = {KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(planItem.getPlanPeriods().get(0)).toTermName()};
         return doPlanActionSuccess(form, PlanConstants.SUCCESS_KEY_PLANNED_ITEM_MOVED, params);
     }
 
@@ -613,7 +613,7 @@ public class PlanController extends UifControllerBase {
         }
 
         //  Can't validate further up because the new ATP ID can be "other".
-        if (!KsapFrameworkServiceLocator.getAtpHelper().isAtpIdFormatValid(newAtpIds.get(0))) {
+        if (!KsapFrameworkServiceLocator.getAtpHelper().validateAtpId(newAtpIds.get(0))) {
             return doOperationFailedError(form, String.format("ATP ID [%s] was not formatted properly.", newAtpIds.get(0)), null);
         }
 
@@ -646,7 +646,7 @@ public class PlanController extends UifControllerBase {
         }
 
         if (existingPlanItem != null) {
-            String[] params = {courseDetails.getCode(), KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(newAtpIds.get(0))};
+            String[] params = {courseDetails.getCode(), KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(newAtpIds.get(0)).toTermName()};
             return doErrorPage(form, PlanConstants.ERROR_KEY_PLANNED_ITEM_ALREADY_EXISTS, params);
         }
 
@@ -702,8 +702,8 @@ public class PlanController extends UifControllerBase {
         form.setJavascriptEvents(events);
 
         String atpId = planItem.getPlanPeriods().get(0);
-        String link = makeLinkToAtp(atpId, KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(atpId));
-        String[] params = {KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(atpId)};
+        String link = makeLinkToAtp(atpId, KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(atpId).toTermName());
+        String[] params = {KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(atpId).toTermName()};
         return doPlanActionSuccess(form, PlanConstants.SUCCESS_KEY_PLANNED_ITEM_COPIED, params);
     }
 
@@ -740,7 +740,7 @@ public class PlanController extends UifControllerBase {
         } catch (RuntimeException e) {
             return doOperationFailedError(form, "Unable to process request.", e);
         }
-        if (!KsapFrameworkServiceLocator.getAtpHelper().isAtpIdFormatValid(newAtpIds.get(0))) {
+        if (!KsapFrameworkServiceLocator.getAtpHelper().validateAtpId(newAtpIds.get(0))) {
             return doOperationFailedError(form, String.format("ATP ID [%s] was not formatted properly.", newAtpIds.get(0)), null);
         }
 
@@ -940,12 +940,12 @@ public class PlanController extends UifControllerBase {
 
         String[] params = {};
         if (planItem != null) {
-            params = new String[]{KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(planItem.getPlanPeriods().get(0))};
+            params = new String[]{KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(planItem.getPlanPeriods().get(0)).toTermName()};
         } else if (primaryPlanItem != null) {
-            params = new String[]{KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(primaryPlanItem.getPlanPeriods().get(0))};
+            params = new String[]{KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(primaryPlanItem.getPlanPeriods().get(0)).toTermName()};
 
         } else if (secondaryPlanItem != null) {
-            params = new String[]{KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(secondaryPlanItem.getPlanPeriods().get(0))};
+            params = new String[]{KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(secondaryPlanItem.getPlanPeriods().get(0)).toTermName()};
         }
 
         return doPlanActionSuccess(form, PlanConstants.SUCCESS_KEY_PLANNED_ITEM_ADDED, params);
@@ -1136,7 +1136,7 @@ public class PlanController extends UifControllerBase {
 
         PlanItemInfo planItem = null;
         try {
-            planItem = addPlanItem(plan, courseDetails.getVersionIndependentId(), null, PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST);
+            planItem = addPlanItem(plan, courseDetails.getCourseId(), null, PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST);
         } catch (DuplicateEntryException e) {
             return doDuplicatePlanItem(form, null, courseDetails);
         } catch (Exception e) {
@@ -1313,7 +1313,7 @@ public class PlanController extends UifControllerBase {
             logger.error("Could not convert ATP ID to a term and year.", e);
         }
         String term = t[0] + " " + t[1];*/
-        String[] params = {courseDetails.getCode(), KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(atpId)};
+        String[] params = {courseDetails.getCode(), KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(atpId).toTermName()};
         return doErrorPage(form, PlanConstants.ERROR_KEY_PLANNED_ITEM_ALREADY_EXISTS, params);
     }
 
@@ -1707,7 +1707,7 @@ public class PlanController extends UifControllerBase {
             // event for aler Icon
             List<String> publishedTerms = KsapFrameworkServiceLocator.getAtpHelper().getPublishedTerms();
             params.put("showAlert", String.valueOf(!KsapFrameworkServiceLocator.getAtpHelper().isCourseOfferedInTerm(planItem.getPlanPeriods().get(0), courseDetails.getCode())));
-            params.put("termName", KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(planItem.getPlanPeriods().get(0)));
+            params.put("termName", KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(planItem.getPlanPeriods().get(0)).toTermName());
             params.put("timeScheduleOpen", String.valueOf(publishedTerms.contains(planItem.getPlanPeriods().get(0))));
         }
 
@@ -1919,7 +1919,7 @@ public class PlanController extends UifControllerBase {
                 if (m.matches()) {
                     termsOffered = m.group(1).substring(0, 2).toUpperCase() + " " + m.group(2);
                 }
-                String atp = KsapFrameworkServiceLocator.getAtpHelper().getAtpIdFromTermAndYear(splitStr[0].trim(), splitStr[1].trim());
+                String atp = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(splitStr[1].trim(), splitStr[0].trim());
 
                 if (courseDetails.getPlannedList() != null) {
                     for (PlanItemDataObject plan : courseDetails.getPlannedList()) {

@@ -100,7 +100,7 @@ public class QuickAddController extends UifControllerBase {
 		QuickAddForm searchForm = (QuickAddForm) form;
 		if (StringUtils.hasText(searchForm.getAtpId())
 				&& StringUtils.hasText(searchForm.getPlanType())) {
-			String termYear = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(searchForm.getAtpId());
+			String termYear = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(searchForm.getAtpId()).toTermName();
 			if (searchForm.getPlanType().equalsIgnoreCase(
 					QuickAddConstants.PLANNED_TYPE)) {
 				termYear = termYear + QuickAddConstants.PLAN;
@@ -307,7 +307,7 @@ public class QuickAddController extends UifControllerBase {
 					PlanConstants.ERROR_KEY_OPERATION_FAILED, e,
 					new String[] {});
 		}
-		if (!KsapFrameworkServiceLocator.getAtpHelper().isAtpIdFormatValid(newAtpIds.get(0))) {
+		if (!KsapFrameworkServiceLocator.getAtpHelper().validateAtpId(newAtpIds.get(0))) {
 			return doOperationFailedError(form,
 					String.format("ATP ID [%s] was not formatted properly.",
 							newAtpIds.get(0)),
@@ -448,8 +448,8 @@ public class QuickAddController extends UifControllerBase {
 
 		// Populate the form.
 		form.setJavascriptEvents(events);
-		String[] params = { KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(planItem.getPlanPeriods()
-				.get(0)) };
+		String[] params = { KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(planItem.getPlanPeriods()
+				.get(0)).toTermName() };
 		return doPlanActionSuccess(form,
 				PlanConstants.SUCCESS_KEY_PLANNED_ITEM_ADDED, params);
 
@@ -1165,7 +1165,7 @@ public class QuickAddController extends UifControllerBase {
 		 * String term = t[0] + " " + t[1];
 		 */
 		String[] params = { courseDetails.getCode(),
-				KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(atpId) };
+				KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(atpId).toTermName() };
 		return doErrorPage(form,
 				PlanConstants.ERROR_KEY_PLANNED_ITEM_ALREADY_EXISTS, params);
 	}

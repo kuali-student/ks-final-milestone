@@ -692,16 +692,6 @@
     </bean>
 
     <!-- TODO: UW specific. Uses the student web service. -->
-    <bean id="customEditorConfigurer" class="org.springframework.beans.factory.config.CustomEditorConfigurer">
-        <property name="customEditors">
-            <map>
-                <entry key="List&lt;org.kuali.student.myplan.course.dataobject.MeetingDetails&gt;">
-                    <bean class="org.kuali.student.myplan.course.util.MeetingDetailsPropertyEditor"/>
-                </entry>
-
-            </map>
-        </property>
-    </bean>
     <bean id="time_schedule_links_formatter"
           class="org.kuali.student.myplan.course.util.TimeScheduleLinksListPropertyEditor">
         <property name="baseUrl" value="https://www.washington.edu/students/timeschd/"/>
@@ -775,86 +765,6 @@
         <property name="subCollections">
             <list>
                 <ref bean="course_details_section_data" />
-            </list>
-        </property>
-    </bean>
-
-    <bean id="course_details_institution_data_single" parent="Uif-StackedCollectionGroup"
-          p:validationMessages.render="false">
-        <property name="collectionObjectClass"
-                  value="org.kuali.student.myplan.course.dataobject.CourseOfferingInstitution"/>
-        <property name="propertyName" value="courseOfferingInstitutionList"/>
-        <property name="render" value="@{dataObject.courseOfferingInstitutionList.size() eq 1}"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>myplan-course-sections</value>
-            </list>
-        </property>
-        <property name="layoutManager">
-            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
-                <property name="subCollectionFieldGroupPrototype">
-                    <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false">
-                        <property name="cssClasses">
-                            <list merge="true">
-                                <value>uif-subCollection</value>
-                            </list>
-                        </property>
-                    </bean>
-                </property>
-                <property name="lineGroupPrototype">
-                    <bean parent="Uif-CollectionVerticalBoxItem" p:validationMessages.render="false"
-                          p:footer.render="false"/>
-                </property>
-            </bean>
-        </property>
-        <property name="headerText" value="@{dataObject.code} Course Sections"/>
-        <property name="header">
-            <bean parent="Uif-HeaderThree">
-                <property name="cssClasses">
-                    <list merge="true">
-                        <value>myplan-underline-header</value>
-                    </list>
-                </property>
-            </bean>
-        </property>
-        <property name="subCollections">
-            <list>
-                <ref bean="course_details_term_data"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="course_details_institution_data_multi" parent="Uif-TabbedCollectionGroup"
-          p:validationMessages.render="false">
-        <property name="collectionObjectClass"
-                  value="org.kuali.student.myplan.course.dataobject.CourseOfferingInstitution"/>
-        <property name="propertyName" value="courseOfferingInstitutionList"/>
-        <property name="render" value="@{dataObject.courseOfferingInstitutionList.size() gt 1}"/>
-        <property name="layoutManager.summaryFields" value="name"/>
-        <!-- Tab Label -->
-        <property name="layoutManager.lineGroupPrototype">
-            <bean p:id="@{#line.code}" parent="Uif-VerticalBoxSection">
-                <property name="header.render" value="false"/>
-            </bean>
-        </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>myplan-course-sections</value>
-            </list>
-        </property>
-        <property name="headerText" value="@{dataObject.code} Course Sections"/>
-        <property name="header">
-            <bean parent="Uif-HeaderThree">
-                <property name="cssClasses">
-                    <list merge="true">
-                        <value>myplan-underline-header</value>
-                    </list>
-                </property>
-            </bean>
-        </property>
-        <property name="subCollections">
-            <list>
-                <ref bean="course_details_term_data"/>
             </list>
         </property>
     </bean>

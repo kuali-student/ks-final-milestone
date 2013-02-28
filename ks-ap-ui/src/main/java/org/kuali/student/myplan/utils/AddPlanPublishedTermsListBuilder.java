@@ -75,7 +75,7 @@ public class AddPlanPublishedTermsListBuilder extends UifKeyValuesFinderBase {
                 if (m.matches()) {
                     termsOffered = m.group(1).substring(0, 2).toUpperCase() + " " + m.group(2);
                 }
-                String atp = KsapFrameworkServiceLocator.getAtpHelper().getAtpIdFromTermAndYear(splitStr[0].trim(), splitStr[1].trim());
+                String atp = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(splitStr[1].trim(), splitStr[0].trim());
 
                 if (courseDetails.getPlannedList()!=null){
                 for(PlanItemDataObject plan:courseDetails.getPlannedList()) {

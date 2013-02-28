@@ -437,6 +437,11 @@
 
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false"
                       p:group.validationMessages.render="false">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-boxLayoutVerticalItem</value>
+                        </list>
+                    </property>
                     <property name="items">
                         <list>
                             <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Add to Plan">
@@ -2705,6 +2710,7 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>myplan-view</value>
+                <value>uif-tooltip</value>
             </list>
         </property>
         <property name="items">
@@ -3777,7 +3783,7 @@
                                   p:style="margin:4px 0;">
 
                             </bean>
-                            <bean p:id="@{#line.code}-@{#line.sln}" parent="Uif-ActionLink" p:actionLabel="View more" p:style="margin:0 0 4px 0;">
+                            <bean p:id="@{#line.code}-@{#line.registrationCode}" parent="Uif-ActionLink" p:actionLabel="View more" p:style="margin:0 0 4px 0;">
                                 <property name="actionScript" value="
                                     if(jQuery(this).hasClass('disabled')){return false;}
                                     expandDataTableDetail(this, 'course_details_section_datatable', false, 'View more', 'View less');
@@ -3897,7 +3903,7 @@
                 <bean parent="Uif-HorizontalFieldGroup" p:label="SLN" p:group.validationMessages.render="false">
                     <property name="items">
                         <list>
-                            <bean parent="current_section_status" p:actionLabel="@{#line.sln}"/>
+                            <bean parent="current_section_status" p:actionLabel="@{#line.registrationCode}"/>
                         </list>
                     </property>
                 </bean>

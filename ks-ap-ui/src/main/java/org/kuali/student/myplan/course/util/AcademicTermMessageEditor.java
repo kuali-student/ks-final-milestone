@@ -32,7 +32,7 @@ public class AcademicTermMessageEditor extends CollectionListPropertyEditor {
         while (i.hasNext()) {
             String term = (String) i.next();
             String[] splitStr = term.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-            String atpId = KsapFrameworkServiceLocator.getAtpHelper().getAtpIdFromTermAndYear(splitStr[0].trim(), splitStr[1].trim());
+            String atpId = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(splitStr[1].trim(), splitStr[0].trim());
             List<TermInfo> scheduledTerms = null;
 			String currentTerm = KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId();
             if (atpId.compareToIgnoreCase(currentTerm) >= 0) {

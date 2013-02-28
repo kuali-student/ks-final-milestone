@@ -1,6 +1,7 @@
 package org.kuali.student.myplan.plan.dataobject;
 
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.myplan.academicplan.infc.PlanItem;
 import org.kuali.student.myplan.course.dataobject.CourseDetails;
 
@@ -29,10 +30,10 @@ public class PlanItemDataObject {
         // At the application level we are only dealing with single ATP per plan item
         if (item.getPlanPeriods() != null && item.getPlanPeriods().size() > 0) {
             itemDO.setAtp(item.getPlanPeriods().get(0));
-            String[] termYear = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermAndYear(itemDO.getAtp());
-            itemDO.setTermName(KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(itemDO.getAtp()));
-            itemDO.setYear(Integer.valueOf(termYear[1]));
-            itemDO.setTerm(termYear[0]);
+            YearTerm termYear = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(itemDO.getAtp());
+            itemDO.setTermName(termYear.toTermName());
+            itemDO.setYear(termYear.getYear());
+            itemDO.setTerm(termYear.getTermAsString());
         }
 
         itemDO.setDateAdded(item.getMeta().getCreateTime());

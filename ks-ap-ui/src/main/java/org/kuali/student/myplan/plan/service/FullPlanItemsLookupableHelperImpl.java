@@ -12,6 +12,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
+import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
@@ -91,10 +92,10 @@ public class FullPlanItemsLookupableHelperImpl extends PlanItemLookupableHelperB
                 size--;
             }
 
-            String[] minYear = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermNameAndYear(plannedTermList.get(0).getAtpId());
-            String[] maxYear = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermNameAndYear(plannedTermList.get(plannedTermList.size() - 1).getAtpId());
+            YearTerm minYear = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(plannedTermList.get(0).getAtpId());
+            YearTerm maxYear = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(plannedTermList.get(plannedTermList.size() - 1).getAtpId());
             StringBuffer yearRange = new StringBuffer();
-            yearRange = yearRange.append(minYear[1]).append("-").append(maxYear[1]);
+            yearRange = yearRange.append(minYear.getYearAsString()).append("-").append(maxYear.getYearAsString());
             fullPlanItemsDataObject.setYearRange(yearRange.toString());
             fullPlanItemsDataObject.setTerms(plannedTermList);
             fullPlanItemsDataObjectList.add(fullPlanItemsDataObject);

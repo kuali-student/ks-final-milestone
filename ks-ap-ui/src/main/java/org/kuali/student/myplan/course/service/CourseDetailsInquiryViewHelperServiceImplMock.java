@@ -364,7 +364,7 @@ public class CourseDetailsInquiryViewHelperServiceImplMock extends
             List<YearTerm> ytList = new ArrayList<YearTerm>();
             List<String> termList = courseDetails.getScheduledTerms();
             for (String term : termList) {
-                YearTerm yt = KsapFrameworkServiceLocator.getAtpHelper().termToYearTerm(term);
+                YearTerm yt = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(term);
                 ytList.add(yt);
             }
             Collections.sort(ytList, Collections.reverseOrder());
@@ -474,9 +474,9 @@ public class CourseDetailsInquiryViewHelperServiceImplMock extends
                 academicRecordDataObjectList.add(academicRecordDataObject);
                 if (courseDetails.getCourseId().equalsIgnoreCase(
                         studentInfo.getId())) {
-                    String[] str = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermNameAndYear(studentInfo
+                    YearTerm yearTerm = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(studentInfo
                             .getTermName());
-                    courseDetails.getAcademicTerms().add(str[0] + " " + str[1]);
+                    courseDetails.getAcademicTerms().add(yearTerm.toTermName());
                 }
             }
             if (academicRecordDataObjectList.size() > 0) {

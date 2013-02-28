@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
+import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.myplan.course.dataobject.CourseDetails;
 import org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject;
@@ -47,7 +48,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 
             for (String term : courseDetails.getAcademicTerms()) {
                 String[] str = term.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-                String atpId = KsapFrameworkServiceLocator.getAtpHelper().getAtpIdFromTermAndYear(str[0].trim(), str[1].trim());
+                String atpId = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(str[1].trim(), str[0].trim());
                 for (AcademicRecordDataObject academicRecordDataObject : courseDetails.getAcadRecList()) {
                     if (academicRecordDataObject.getCourseId() != null
                             && academicRecordDataObject.getCourseId().equalsIgnoreCase(courseDetails.getCourseId())
@@ -71,7 +72,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
             for (String withdrawnTerm : withDrawnCourseTerms) {
                 String term = withdrawnTerm;
                 String[] splitStr = term.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-                String atpId = KsapFrameworkServiceLocator.getAtpHelper().getAtpIdFromTermAndYear(splitStr[0].trim(), splitStr[1].trim());
+                String atpId = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(splitStr[1].trim(), splitStr[0].trim());
 
                 if (counter == 0) {
                     if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
@@ -101,7 +102,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
             for (String nonWithdrawnTerm : nonWithDrawnCourseTerms) {
                 String term = nonWithdrawnTerm;
                 String[] splitStr = term.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-                String atpId = KsapFrameworkServiceLocator.getAtpHelper().getAtpIdFromTermAndYear(splitStr[0].trim(), splitStr[1].trim());
+                String atpId = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(splitStr[1].trim(), splitStr[0].trim());
                 List<TermInfo> scheduledTerms = null;
                 String currentTerm = KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId();
                 if (atpId.compareToIgnoreCase(currentTerm) >= 0) {
@@ -170,14 +171,14 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
             if (planItemDataObjects.size() > 0) {
 
                 for (PlanItemDataObject pl : planItemDataObjects) {
-                    String[] str = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermNameAndYear(pl.getAtp());
+                    YearTerm yearTerm = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(pl.getAtp());
                     String date = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(DateFormatters.DEFAULT_DATE_FORMATTER.parse(pl.getDateAdded().toString().substring(0,10)));
                     if (planItemsMap.containsKey(date)) {
                         StringBuffer sbuf = new StringBuffer();
-                        sbuf = sbuf.append(planItemsMap.get(date)).append(",").append(str[0]).append(" ").append(str[1]);
+                        sbuf = sbuf.append(planItemsMap.get(date)).append(",").append(yearTerm.toTermName());
                         planItemsMap.put(date, sbuf.toString());
                     } else {
-                        planItemsMap.put(date, str[0] + " " + str[1]);
+                        planItemsMap.put(date, yearTerm.toTermName());
                     }
                 }
 
@@ -200,7 +201,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
                         String[] terms = planItemsMap.get(key).split(",");
                         for (String term : terms) {
                             String[] str = term.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-                            sb = startsSub.append("<a href=\"plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=").append(KsapFrameworkServiceLocator.getAtpHelper().getAtpIdFromTermAndYear(str[0].trim(), str[1].trim())).append("\">").append(term).append(" plan").append("</a>").append(", ");
+                            sb = startsSub.append("<a href=\"plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=").append(KsapFrameworkServiceLocator.getAtpHelper().getAtpId(str[1].trim(), str[0].trim())).append("\">").append(term).append(" plan").append("</a>").append(", ");
                         }
                         String formattedString = sb.substring(0, sb.lastIndexOf(","));
                         StringBuffer formattedSubBuf = new StringBuffer();
@@ -208,7 +209,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
                         sb = formattedSubBuf.append(" on ").append(key);
                     } else {
                         String[] str = planItemsMap.get(key).split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-                        String atpId = KsapFrameworkServiceLocator.getAtpHelper().getAtpIdFromTermAndYear(str[0].trim(), str[1].trim());
+                        String atpId = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(str[1].trim(), str[0].trim());
                         if (!currentTermRegistered) {
                             sb = sb.append("<dd>").append("Added to ").append("<a href=\"plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=").append(atpId).append("\">").append(planItemsMap.get(key)).append(" plan").append("</a> ")
                                     .append(" on ").append(key).append(" ");
@@ -224,7 +225,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
                         String[] terms = planItemsMap.get(key).split(",");
                         for (String term : terms) {
                             String[] str = term.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-                            sb = sb.append("<a href=\"plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=").append(KsapFrameworkServiceLocator.getAtpHelper().getAtpIdFromTermAndYear(str[0].trim(), str[1].trim())).append("\">").append(term).append(" plan").append("</a> ").append(",");
+                            sb = sb.append("<a href=\"plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=").append(KsapFrameworkServiceLocator.getAtpHelper().getAtpId(str[1].trim(), str[0].trim())).append("\">").append(term).append(" plan").append("</a> ").append(",");
                         }
                         String formattedString = sb.substring(0, sb.lastIndexOf(",") - 1);
                         StringBuffer formattedSubBuf = new StringBuffer();
@@ -232,7 +233,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
                         sb = formattedSubBuf.append(" on ").append(key);
                     } else {
                         String[] str = planItemsMap.get(key).split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-                        String atpId = KsapFrameworkServiceLocator.getAtpHelper().getAtpIdFromTermAndYear(str[0].trim(), str[1].trim());
+                        String atpId = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(str[1].trim(), str[0].trim());
                         sb = sb.append(" and ").append("<a href=\"plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=").append(atpId).append("\">").append(planItemsMap.get(key)).append(" plan").append("</a> ")
                                 .append(" on ").append(key);
                     }

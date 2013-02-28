@@ -217,11 +217,10 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
         courseDetails.setCourseTitle(course.getCourseTitle());
 
         String et = course.getEndTerm();
-        String[] tn;
+        YearTerm tn;
         if (et != null
-                && !(tn = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermNameAndYear(et))[1]
-                .equals("9999"))
-            courseDetails.setLastEffectiveTerm(tn[0] + " " + tn[1]);
+                && !((tn = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(et)).getYear()==9999))
+            courseDetails.setLastEffectiveTerm(tn.toTermName());
 
         List<String> cto = course.getTermsOffered();
         if (cto != null) {
@@ -393,14 +392,14 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
             List<YearTerm> ytList = new ArrayList<YearTerm>();
             List<String> termList = courseDetails.getScheduledTerms();
             for (String term : termList) {
-                YearTerm yt = KsapFrameworkServiceLocator.getAtpHelper().termToYearTerm(term);
+                YearTerm yt = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(term);
                 ytList.add(yt);
             }
             Collections.sort(ytList, Collections.reverseOrder());
 
             for (YearTerm yt : ytList) {
                 CourseOfferingDetails courseOfferingDetails = new CourseOfferingDetails();
-                courseOfferingDetails.setTerm(yt.toLabel());
+                courseOfferingDetails.setTerm(yt.toTermName());
                 String atp = yt.toATP();
                 List<ActivityOfferingItem> list = getActivityOfferingItems(courseId, atp, courseDetails.getCode());
                 courseOfferingDetails.setActivityOfferingItemList(list);
@@ -503,9 +502,9 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
                 academicRecordDataObjectList.add(academicRecordDataObject);
                 if (courseDetails.getCourseId().equalsIgnoreCase(
                         studentInfo.getId())) {
-                    String[] str = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermNameAndYear(studentInfo
+                    YearTerm yearTerm = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(studentInfo
                             .getTermName());
-                    courseDetails.getAcademicTerms().add(str[0] + " " + str[1]);
+                    courseDetails.getAcademicTerms().add(yearTerm.toTermName());
                 }
             }
             if (academicRecordDataObjectList.size() > 0) {
@@ -662,7 +661,7 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends
                     boolean planned = isPlanned(courseCode + " " + aodi.getActivityOfferingCode(), termId);
                     activity.setPlanned(planned);
                     activity.setAtpId(termId);
-                    YearTerm yt = KsapFrameworkServiceLocator.getAtpHelper().atpToYearTerm(termId);
+                    YearTerm yt = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(termId);
                     activity.setQtryr(yt.toQTRYRParam());
 
                     activity.setPrimary(primary);

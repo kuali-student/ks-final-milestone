@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
+import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
@@ -38,17 +39,17 @@ public class PlannedTermsHelperBase {
 			List<StudentCourseRecordInfo> studentCourseRecordInfos,
 			String focusAtpId, boolean isServiceUp) {
 
-		String[] focusQuarterYear = new String[2];
+		YearTerm focusQuarterYear;
 		String globalCurrentAtpId = null;
 		if (isServiceUp)
 			globalCurrentAtpId = KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId();
 		else
 			throw new IllegalStateException("Service is not up");
 		if (StringUtils.isEmpty(focusAtpId))
-			focusQuarterYear = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermAndYear(KsapFrameworkServiceLocator.getAtpHelper()
+			focusQuarterYear = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(KsapFrameworkServiceLocator.getAtpHelper()
 					.getFirstAtpIdOfAcademicYear(globalCurrentAtpId));
 		else
-			focusQuarterYear = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermAndYear(KsapFrameworkServiceLocator.getAtpHelper()
+			focusQuarterYear = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(KsapFrameworkServiceLocator.getAtpHelper()
 					.getFirstAtpIdOfAcademicYear(focusAtpId));
 
 		List<PlannedTerm> plannedTerms = new ArrayList<PlannedTerm>();
@@ -64,9 +65,9 @@ public class PlannedTermsHelperBase {
 			if (!exists) {
 				PlannedTerm term = new PlannedTerm();
 				term.setAtpId(atp);
-				String[] splitStr = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermNameAndYear(atp);
+				YearTerm yearTerm = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(atp);
 				StringBuilder sb = new StringBuilder();
-				sb.append(splitStr[0]).append(" ").append(splitStr[1]);
+				sb.append(yearTerm.toTermName());
 				String QtrYear = sb.substring(0, 1).toUpperCase()
 						.concat(sb.substring(1));
 				term.setQtrYear(QtrYear);
@@ -94,9 +95,8 @@ public class PlannedTermsHelperBase {
 					PlannedTerm plannedTerm = new PlannedTerm();
 					plannedTerm.setAtpId(atp);
 					StringBuffer str = new StringBuffer();
-					String[] splitStr = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermNameAndYear(atp);
-					str = str.append(splitStr[0]).append(" ")
-							.append(splitStr[1]);
+					YearTerm yearTerm = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(atp);
+					str = str.append(yearTerm.toTermName());
 					String QtrYear = str.substring(0, 1).toUpperCase()
 							.concat(str.substring(1, str.length()));
 					plannedTerm.setQtrYear(QtrYear);
@@ -206,9 +206,8 @@ public class PlannedTermsHelperBase {
 			int i = 0;
 			for (PlannedTerm pt : perfectPlannedTerms) {
                 if(pt.getAtpId().isEmpty()) continue;
-				String[] qy = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermAndYear(pt.getAtpId());
-				if (qy[0].equals(focusQuarterYear[0])
-						&& qy[1].equals(focusQuarterYear[1])) {
+				YearTerm qy = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(pt.getAtpId());
+				if (qy.compareTo(focusQuarterYear)==0) {
 					pt.setIndex(i);
 					break;
 				}
@@ -271,38 +270,37 @@ public class PlannedTermsHelperBase {
 
 	private static void populateMockList(String minTerm, String maxTerm,
 			Map<String, PlannedTerm> map) {
-		String[] minTerms = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermAndYear(minTerm);
-		String[] maxTerms = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermAndYear(maxTerm);
+        YearTerm tempMinTerms = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(minTerm);
+        YearTerm tempMaxTerms = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(maxTerm);
+		String[] minTerms = {tempMinTerms.getTermAsString(),tempMinTerms.getYearAsString()};
+		String[] maxTerms = {tempMaxTerms.getTermAsString(),tempMaxTerms.getYearAsString()};
 		int minYear = 0;
 		int maxYear = 0;
 
 		if (!minTerms[0].equalsIgnoreCase(atpTerm4)) {
-			minTerm = KsapFrameworkServiceLocator.getAtpHelper().getAtpFromNumTermAndYear(atpTerm4,
-					String.valueOf(Integer.parseInt(minTerms[1]) - 1));
+			minTerm = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
+					String.valueOf(Integer.parseInt(minTerms[1]) - 1),atpTerm4);
 			minYear = Integer.parseInt(minTerms[1]) - 1;
 		} else {
 			minYear = Integer.parseInt(minTerms[1]);
 		}
 		if (!maxTerms[0].equalsIgnoreCase(atpTerm3)) {
 			if (maxTerms[0].equalsIgnoreCase(atpTerm4)) {
-				maxTerm = KsapFrameworkServiceLocator.getAtpHelper().getAtpFromNumTermAndYear(
-						atpTerm3,
+				maxTerm = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
 						String.valueOf(Integer.parseInt(maxTerms[1])
-								+ futureTermsCount));
+								+ futureTermsCount),atpTerm3);
 				maxYear = Integer.parseInt(maxTerms[1]) + futureTermsCount;
 
 			} else {
-				maxTerm = KsapFrameworkServiceLocator.getAtpHelper().getAtpFromNumTermAndYear(
-						atpTerm3,
+				maxTerm = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
 						String.valueOf(Integer.parseInt(maxTerms[1])
-								+ futureTermsCount));
+								+ futureTermsCount),atpTerm3);
 				maxYear = Integer.parseInt(maxTerms[1]) + futureTermsCount;
 			}
 		} else {
-			maxTerm = KsapFrameworkServiceLocator.getAtpHelper().getAtpFromNumTermAndYear(
-					atpTerm3,
+			maxTerm = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
 					String.valueOf(Integer.parseInt(maxTerms[1])
-							+ futureTermsCount));
+							+ futureTermsCount),atpTerm3);
 			maxYear = Integer.parseInt(maxTerms[1]) + futureTermsCount;
 		}
 		String term1 = "";
@@ -311,27 +309,27 @@ public class PlannedTermsHelperBase {
 		String term4 = "";
 		for (int i = 0; !term4.equalsIgnoreCase(maxTerm); i++) {
 			PlannedTerm plannedTerm1 = new PlannedTerm();
-			term1 = KsapFrameworkServiceLocator.getAtpHelper().getAtpFromNumTermAndYear(atpTerm4,
-					String.valueOf(minYear));
+			term1 = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
+					String.valueOf(minYear),atpTerm4);
 			plannedTerm1.setAtpId(term1);
 			plannedTerm1.setQtrYear(PlanConstants.TERM_4 + " " + minYear);
 			map.put(term1, plannedTerm1);
 			minYear++;
 			PlannedTerm plannedTerm2 = new PlannedTerm();
-			term2 = KsapFrameworkServiceLocator.getAtpHelper().getAtpFromNumTermAndYear(atpTerm1,
-					String.valueOf(minYear));
+			term2 = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
+					String.valueOf(minYear),atpTerm1);
 			plannedTerm2.setAtpId(term2);
 			plannedTerm2.setQtrYear(PlanConstants.TERM_1 + " " + minYear);
 			map.put(term2, plannedTerm2);
 			PlannedTerm plannedTerm3 = new PlannedTerm();
-			term3 = KsapFrameworkServiceLocator.getAtpHelper().getAtpFromNumTermAndYear(atpTerm2,
-					String.valueOf(minYear));
+			term3 = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
+					String.valueOf(minYear),atpTerm2);
 			plannedTerm3.setAtpId(term3);
 			plannedTerm3.setQtrYear(PlanConstants.TERM_2 + " " + minYear);
 			map.put(term3, plannedTerm3);
 			PlannedTerm plannedTerm4 = new PlannedTerm();
-			term4 = KsapFrameworkServiceLocator.getAtpHelper().getAtpFromNumTermAndYear(atpTerm3,
-					String.valueOf(minYear));
+			term4 = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
+					String.valueOf(minYear),atpTerm3);
 			plannedTerm4.setAtpId(term4);
 			plannedTerm4.setQtrYear(PlanConstants.TERM_3 + " " + minYear);
 			map.put(term4, plannedTerm4);
@@ -340,9 +338,10 @@ public class PlannedTermsHelperBase {
 
 	private static void populateFutureData(String termId,
 			List<PlannedTerm> plannedTermList) {
-		String[] strings = KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermAndYear(termId);
-		int minYear = Integer.parseInt(strings[1]);
-		if (!strings[0].equalsIgnoreCase(atpTerm4)) {
+		YearTerm yearTerm = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(termId);
+		int minYear =yearTerm.getYear();
+		//if (!strings[0].equalsIgnoreCase(atpTerm4)) {
+        if (!(yearTerm.getTerm()==yearTerm.getMAX_TERM_INDEX())) {
 			minYear = minYear - 1;
 		}
 		String term1 = "";
@@ -351,27 +350,27 @@ public class PlannedTermsHelperBase {
 		String term4 = "";
 		for (int i = 0; i <= 5; i++) {
 			PlannedTerm plannedTerm1 = new PlannedTerm();
-			term1 = KsapFrameworkServiceLocator.getAtpHelper().getAtpFromNumTermAndYear(atpTerm4,
-					String.valueOf(minYear));
+			term1 = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
+					String.valueOf(minYear),atpTerm4);
 			plannedTerm1.setAtpId(term1);
 			plannedTerm1.setQtrYear(PlanConstants.TERM_4 + " " + minYear);
 			plannedTermList.add(plannedTerm1);
 			minYear++;
 			PlannedTerm plannedTerm2 = new PlannedTerm();
-			term2 = KsapFrameworkServiceLocator.getAtpHelper().getAtpFromNumTermAndYear(atpTerm1,
-					String.valueOf(minYear));
+			term2 = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
+					String.valueOf(minYear),atpTerm1);
 			plannedTerm2.setAtpId(term2);
 			plannedTerm2.setQtrYear(PlanConstants.TERM_1 + " " + minYear);
 			plannedTermList.add(plannedTerm2);
 			PlannedTerm plannedTerm3 = new PlannedTerm();
-			term3 = KsapFrameworkServiceLocator.getAtpHelper().getAtpFromNumTermAndYear(atpTerm2,
-					String.valueOf(minYear));
+			term3 = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
+					String.valueOf(minYear),atpTerm2);
 			plannedTerm3.setAtpId(term3);
 			plannedTerm3.setQtrYear(PlanConstants.TERM_2 + " " + minYear);
 			plannedTermList.add(plannedTerm3);
 			PlannedTerm plannedTerm4 = new PlannedTerm();
-			term4 = KsapFrameworkServiceLocator.getAtpHelper().getAtpFromNumTermAndYear(atpTerm3,
-					String.valueOf(minYear));
+			term4 = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
+					String.valueOf(minYear),atpTerm3);
 			plannedTerm4.setAtpId(term4);
 			plannedTerm4.setQtrYear(PlanConstants.TERM_3 + " " + minYear);
 			plannedTermList.add(plannedTerm4);

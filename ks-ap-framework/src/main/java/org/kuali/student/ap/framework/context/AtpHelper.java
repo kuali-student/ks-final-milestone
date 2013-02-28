@@ -34,40 +34,6 @@ public interface AtpHelper {
     String getFirstAtpIdOfAcademicYear(String atpId);
 
     /**
-     * Returns an String[] {term, year} given an ATP ID.
-     */
-    String[] atpIdToTermAndYear(String atpId);
-
-    /**
-     * Converts an ATP ID to a Term and Year ... "kuali.atp.1991.1" ->
-     * {"Autumn", "1991"}
-     *
-     * @return A String array containing a term and year.
-     */
-    String[] atpIdToTermNameAndYear(String atpId);
-
-    /**
-     * Converts the term and year into a atp id ... {"Autumn", "1991"} -> "19914"
-     *
-     * @return A string holding the atp id.
-     */
-    String getAtpIdFromTermAndYear(String term, String year);
-
-    /**
-     * Converts the term and year into a atp id ... {"1", "1991"} -> "19911"
-     *
-     * @return
-     */
-    String getAtpFromNumTermAndYear(String term, String year) ;
-
-    /**
-     * Gets term name as "Spring 2012" given an ATP ID.
-     *
-     * @return
-     */
-    String atpIdToTermName(String atpId);
-
-    /**
      * Returns true if an ATP is considered present or greater in the context of
      * WHAT? Otherwise, false.
      *
@@ -86,46 +52,9 @@ public interface AtpHelper {
     boolean isAtpCompletedTerm(String atpId);
 
     /**
-     * Checks if the atp id passed in is valid to the form being sent in.
-     *
-     * @return True if the atp passes validation, false otherwise
-     */
-    boolean isAtpIdFormatValid(String atpId);
-
-    /**
      * Adds an error to the page
      */
     void addServiceError(String propertyName);
-
-    /**
-     * Converts Kuali ATP ids into a YearTerm object.
-     *
-     * eg "kuali.atp.2012.1" becomes year = 2012, term = 1
-     *
-     * @param atp
-     * @return
-     */
-    public YearTerm atpToYearTerm(String atp) ;
-
-    /**
-     * Converts quarter string into a YearTerm object.
-     *
-     * eg "Winter 2012" becomes year = 2012, term = 1
-     *
-     * @param text
-     * @return
-     */
-    public YearTerm termToYearTerm(String text);
-
-    /**
-     * Converts quarter string into a YearTerm object.
-     *
-     * eg "Winter","2012" becomes year = 2012, term = 1
-     *
-     * @param
-     * @return
-     */
-    public YearTerm quarterYearToYearTerm(String quarter, String year);
 
     /**
      * Determines whether a course is in a specific term.
@@ -144,21 +73,61 @@ public interface AtpHelper {
     public List<String> getPublishedTerms();
 
     /**
-     * Gets the first term of the published terms
-     * @return
+     *
+     * @param yearTerm - Year and term storage object
+     * @return atpId created form object information
      */
-    public String getFirstPlanTerm();
+    public String getAtpId(YearTerm yearTerm);
 
     /**
-     * Returns whether the atp id passed in exists or not
-     * @param atpId
-     * @return
+     *
+     * @param year - String representation of year
+     * @param term - String representation of term
+     * @return atpId created from year and term
      */
-    public boolean doesAtpExist(String atpId);
+    public String getAtpId(String year, String term);
 
     /**
-     * Creates a atp id using the actual date and then returns a term info with the id filled in.
-     * @return
+     *
+     * @param year - Integer representation of year
+     * @param term - Term index
+     * @return atpId created from year and term index
      */
-    List<TermInfo> populateAtpIdFromCalender();
+    public String getAtpId(int year, int term);
+
+    /**
+     *
+     * @param year - Integer representation of year
+     * @param Term - String representation of term
+     * @return atpId created from year and term
+     */
+    public String getAtpId(int year, String Term);
+
+    /**
+     *
+     * @param atpId - Id of term to check
+     * @return true if the term is considered completed
+     */
+    boolean isCompletedTerm(String atpId);
+
+    /**
+     *
+     * @param atpId - Id of term
+     * @return true if the id is valid
+     */
+    boolean validateAtpId(String atpId);
+
+    /**
+     *
+     * @param atpId - Id of term
+     * @return true if the id is of a valid term
+     */
+    boolean validateAtp(String atpId);
+
+    /**
+     *
+     * @param atpId - Id of a term
+     * @return YearTerm holding information for the term
+     */
+    YearTerm getYearTerm(String atpId);
 }

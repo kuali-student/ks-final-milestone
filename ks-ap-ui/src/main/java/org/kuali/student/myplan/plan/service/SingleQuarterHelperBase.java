@@ -37,18 +37,14 @@ public class SingleQuarterHelperBase {
 
 
         String globalCurrentAtpId = null;
-        if (isServiceUp) {
-            globalCurrentAtpId = KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId();
-        } else {
-            globalCurrentAtpId = KsapFrameworkServiceLocator.getAtpHelper().populateAtpIdFromCalender().get(0).getId();
-        }
+        globalCurrentAtpId = KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId();
 
         /*
         *  Populating the PlannedTerm List.
         */
         PlannedTerm plannedTerm = new PlannedTerm();
         plannedTerm.setAtpId(termAtp);
-        plannedTerm.setQtrYear(KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermName(termAtp));
+        plannedTerm.setQtrYear(KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(termAtp).toTermName());
         for (PlannedCourseDataObject plan : plannedCoursesList) {
             String atp = plan.getPlanItemDataObject().getAtp();
             if (termAtp.equalsIgnoreCase(atp)) {
