@@ -119,7 +119,7 @@
                                             </property>
                                         </bean>
                                         <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey"
-                                              p:label="Final Exam Driver">
+                                              p:label="Final Exam Driver" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}">
                                             <property name="optionsFinder">
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CourseOfferingTypeKeyValues"/>
                                             </property>
