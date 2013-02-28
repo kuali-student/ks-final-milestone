@@ -112,7 +112,7 @@
     <bean id="KS-CourseOfferingManagement-CourseOfferingLinks" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-LinkGroup" p:render="@{!currentCourseOfferingWrapper.crossListed}">
+                <bean parent="Uif-LinkGroup">
                     <property name="items">
                         <list>
                             <bean parent="Uif-HorizontalBoxSection">
@@ -156,7 +156,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ActivityOfferingListSection" parent="Uif-TableCollectionSection"
-          p:layoutManager.numberOfColumns="3"  p:readOnly="@{#parent.readOnly or currentCourseOfferingWrapper.crossListed}" p:renderAddLine="false" p:onDocumentReadyScript="removeColumns(@{#parent.readOnly}, [1], 'KS-CourseOfferingManagement-ActivityOfferingListSection');">
+          p:layoutManager.numberOfColumns="3"  p:readOnly="@{#parent.readOnly}" p:renderAddLine="false" p:onDocumentReadyScript="removeColumns(@{#parent.readOnly}, [1], 'KS-CourseOfferingManagement-ActivityOfferingListSection');">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="activityWrapperList" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
@@ -173,7 +173,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:onChangeScript="handleAOToolbar();" p:render="@{!#dp.currentCourseOfferingWrapper.crossListed}">
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:onChangeScript="handleAOToolbar();" p:hidden="@{#dp.currentCourseOfferingWrapper.crossListed}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
