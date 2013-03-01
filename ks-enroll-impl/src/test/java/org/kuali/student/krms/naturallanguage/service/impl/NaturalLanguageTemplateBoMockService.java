@@ -65,8 +65,21 @@ public class NaturalLanguageTemplateBoMockService implements NaturalLanguageTemp
 
     @Override
     public NaturalLanguageTemplate findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(String languageCode, String typeId, String naturalLanguageUsageId) {
-        NaturalLanguageTemplateContract naturalLanguageTemplateContract = KRMSDataGenerator.createNaturalLanguageTemplate("en",naturalLanguageUsageId,typeId,"Student must have completed 1 of MATH 152, MATH 221",null,"10002",true,0L);
-        return NaturalLanguageTemplate.Builder.create(naturalLanguageTemplateContract).build();
+        NaturalLanguageTemplateContract naturalLanguageTemplateContract;
+
+        if( typeId.equals("kuali.krms.proposition.type.success.course.courseset.completed.all")){
+            naturalLanguageTemplateContract = KRMSDataGenerator.createNaturalLanguageTemplate(languageCode,naturalLanguageUsageId,typeId,"Student must have completed all of MATH 152, MATH 221",null,"10002",true,0L);
+            return NaturalLanguageTemplate.Builder.create(naturalLanguageTemplateContract).build();
+        }else if( typeId.equals("kuali.krms.proposition.type.course.courseset.completed.nof")){
+            naturalLanguageTemplateContract = KRMSDataGenerator.createNaturalLanguageTemplate(languageCode,naturalLanguageUsageId,typeId,"Student must have completed 1 of MATH 152, MATH 221",null,"10002",true,0L);
+            return NaturalLanguageTemplate.Builder.create(naturalLanguageTemplateContract).build();
+        }else if( typeId.equals("kuali.krms.proposition.type.course.courseset.completed.none")){
+            naturalLanguageTemplateContract = KRMSDataGenerator.createNaturalLanguageTemplate(languageCode,naturalLanguageUsageId,typeId,"Student must have completed none of MATH 152, MATH 221",null,"10002",true,0L);
+            return NaturalLanguageTemplate.Builder.create(naturalLanguageTemplateContract).build();
+        }else{
+            naturalLanguageTemplateContract = KRMSDataGenerator.createNaturalLanguageTemplate(languageCode,naturalLanguageUsageId,typeId,"Student needs a minimum GPA of 70.0%",null,"10002",true,0L);
+            return NaturalLanguageTemplate.Builder.create(naturalLanguageTemplateContract).build();
+        }
     }
 
     @Override

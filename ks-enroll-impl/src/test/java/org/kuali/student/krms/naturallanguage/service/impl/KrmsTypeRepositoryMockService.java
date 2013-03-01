@@ -50,6 +50,14 @@ public class KrmsTypeRepositoryMockService implements KrmsTypeRepositoryService 
         String typeName;
         if(id.equals("xxx.xxx.xxx")){
               typeName = "invalid";
+        }else if(id.equals("KUALI.xxx.CATALOG")){
+              typeName = "invalid";
+        }else if(id.equals("kuali.krms.proposition.type.course.courseset.completed.none")){
+              typeName = "kuali.krms.proposition.type.course.courseset.completed.none";
+        }else if(id.equals("kuali.krms.proposition.type.course.courseset.completed.nof")){
+            typeName = "kuali.krms.proposition.type.course.courseset.completed.nof";
+        }else if(id.equals("kuali.krms.proposition.type.course.courseset.gpa.min")){
+            typeName = "kuali.krms.proposition.type.course.courseset.gpa.min";
         }else{
               typeName = "kuali.krms.proposition.type.success.course.courseset.completed.all";
         }

@@ -21,9 +21,11 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
+import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
 import org.kuali.student.krms.naturallanguage.translators.PropositionTranslator;
+import org.kuali.student.krms.naturallanguage.NaturalLanguageUtil;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.krms.naturallanguage.Context;
@@ -32,6 +34,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:nl-test-context.xml"})
@@ -41,18 +46,14 @@ public class PropositionTranslatorTest{
     @Resource
 	private PropositionTranslator englishTranslator;
 
-	private PropositionTranslator germanTranslator = new PropositionTranslator();
     private PropositionDefinitionContract proposition;
+    private String nlUsageTypeKey = "KUALI.RULE";
 
     private void createTranslator() {
-        //TODO : change to correct initialize
-        ContextRegistry<Context<TermDefinitionContract>> contextRegistry = new ContextRegistry<Context<TermDefinitionContract>>();
+        ContextRegistry<Context<TermDefinitionContract>> contextRegistry = NaturalLanguageUtil.getPropositionContextRegistry();
 
         englishTranslator.setContextRegistry(contextRegistry);
         englishTranslator.setLanguage("en");
-
-        germanTranslator.setContextRegistry(contextRegistry);
-        germanTranslator.setLanguage("de");
     }
 
     @Before
@@ -60,30 +61,14 @@ public class PropositionTranslatorTest{
     	createTranslator();
     }
 
-//    @After
-//    public void tearDown() throws Exception {
-//    }
-//
-//    private ReqComponent createReqComponent(String nlUsageTypeKey, String reqComponentType) throws Exception {
-//    	this.reqComponent = NaturalLanguageUtil.createReqComponent(nlUsageTypeKey, reqComponentType);
-//    	return this.reqComponent;
-//    }
-//
-//    private List<ReqComponentField> createReqComponentFieldsForCluSet(String expectedValue, String operator) {
-//    	List<ReqComponentField> fieldList = NaturalLanguageUtil.createReqComponentFieldsForCluSet(expectedValue, operator, "CLUSET-NL-3");
-//    	this.reqComponent.setReqComponentFields(fieldList);
-//    	return fieldList;
-//    }
-//
-//    private void createReqComponentFieldsForClu(String expectedValue, String operator, String cluIds) {
-//		List<ReqComponentField> fieldList = NaturalLanguageUtil.createReqComponentFieldsForClu(expectedValue, operator, cluIds);
-//		this.reqComponent.setReqComponentFields(fieldList);
-//    }
+    private PropositionDefinitionContract createProposition(String nlUsageTypeKey, String propositionType, String expectedValue, String operator) throws Exception {
+    	this.proposition = NaturalLanguageUtil.createProposition(nlUsageTypeKey, propositionType, expectedValue, operator);
+    	return this.proposition;
+    }
 
 	@Test
-	public void testInvalidReqComponentType() throws DoesNotExistException, OperationFailedException {
-		String nlUsageTypeKey = "KUALI.RULE";
-        proposition = KRMSDataGenerator.createPropositionDefinition(null, null, null, null, null, null, null, "xxx.xxx.xxx", 0L);
+	public void testInvalidPropositionType() throws DoesNotExistException, OperationFailedException {
+		proposition = KRMSDataGenerator.createPropositionDefinition(null, "xxx.xxx.xxx", null, null, null, null, null, null, 0L);
 
 		try {
 			englishTranslator.translate(proposition, nlUsageTypeKey);
@@ -93,173 +78,50 @@ public class PropositionTranslatorTest{
 		}
 	}
 
-//	@Test
-//	public void testTranslate_OneOf_English() throws Exception {
-//		String nlUsageTypeKey = "KUALI.RULE";
-////    	createReqComponent("KUALI.RULE", "kuali.reqComponent.type.courseList.nof");
-////		createReqComponentFieldsForCluSet("1", "greater_than_or_equal_to");
-//
-////		String text = englishTranslator.translate(this.reqComponent, nlUsageTypeKey);
-//
-//		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 221", text);
-//	}
-//
-//	@Test
-//	public void testTranslate_OneOf_German() throws Exception {
-//		String nlUsageTypeKey = "KUALI.RULE";
-////    	createReqComponent("KUALI.RULE", "kuali.reqComponent.type.courseList.nof");
-////		createReqComponentFieldsForCluSet("1", "greater_than_or_equal_to");
-//
-////		String text = germanTranslator.translate(this.reqComponent, nlUsageTypeKey);
-//
-//		Assert.assertEquals("Student muss abgeschlossen 1 von MATH 152, MATH 221", text);
-//	}
-//
-//	@Test
-//	public void testTranslate_OneOf_EnglishGerman() throws Exception {
-//		String nlUsageTypeKey = "KUALI.RULE";
-////		ReqComponent reqComp = createReqComponent("KUALI.RULE", "kuali.reqComponent.type.courseList.nof");
-////		List<ReqComponentField> fields = createReqComponentFieldsForCluSet("1", "greater_than_or_equal_to");
-////		reqComp.setReqComponentFields(fields);
-//
-//		String text = englishTranslator.translate(reqComp, nlUsageTypeKey);
-//		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 221", text);
-//
-//		englishTranslator.setLanguage("de");
-//		text = englishTranslator.translate(reqComp, nlUsageTypeKey);
-//		Assert.assertEquals("Student muss abgeschlossen 1 von MATH 152, MATH 221", text);
-//
-//		englishTranslator.setLanguage("en");
-//		text = englishTranslator.translate(reqComp, nlUsageTypeKey);
-//		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 221", text);
-//	}
-//
-//	@Test
-//	public void testTranslate_AllOf_1Clu() throws Exception {
-//		String nlUsageTypeKey = "KUALI.RULE";
-////    	createReqComponent("KUALI.RULE", "kuali.reqComponent.type.courseList.all");
-////		createReqComponentFieldsForClu("1", "greater_than_or_equal_to", "CLU-NL-1");
-//
-//		String text = englishTranslator.translate(this.reqComponent, nlUsageTypeKey);
-//
-//		Assert.assertEquals("Student must have completed all of MATH 152", text);
-//	}
-//
-//	@Test
-//	public void testTranslate_OneOf_2Clus() throws Exception {
-//		String nlUsageTypeKey = "KUALI.RULE";
-//		//Comma separated lists of clu ids no longer supported
-//		//String clus = "CLU-NL-1, CLU-NL-2";
-//		String clus = "CLU-NL-1";
-////    	createReqComponent("KUALI.RULE", "kuali.reqComponent.type.courseList.nof");
-////		createReqComponentFieldsForClu("1", "greater_than_or_equal_to", clus);
-//
-//		String text = englishTranslator.translate(this.reqComponent, nlUsageTypeKey);
-//
-//		Assert.assertEquals("Student must have completed 1 of MATH 152", text);
-//	}
-//
-//	@Test
-//	public void testTranslate_AllOf() throws Exception {
-//		String nlUsageTypeKey = "KUALI.RULE";
-////    	createReqComponent("KUALI.RULE", "kuali.reqComponent.type.courseList.all");
-////		createReqComponentFieldsForCluSet("2", "equal_to");
-//
-//		String text = englishTranslator.translate(this.reqComponent, nlUsageTypeKey);
-//
-//		Assert.assertEquals("Student must have completed all of MATH 152, MATH 221", text);
-//	}
-//
-//	@Test
-//	public void testTranslate_NoneOf() throws Exception {
-//		String nlUsageTypeKey = "KUALI.RULE";
-////    	createReqComponent("KUALI.RULE", "kuali.reqComponent.type.courseList.none");
-////		createReqComponentFieldsForCluSet("0", "less_than_or_equal_to");
-//
-//		String text = englishTranslator.translate(this.reqComponent, nlUsageTypeKey);
-//
-//		Assert.assertEquals("Student must have completed none of MATH 152, MATH 221", text);
-//	}
-//
-//	@Test
-//	public void testTranslate_InvalidReqComponentId() throws Exception {
-//		try {
-//			englishTranslator.translate(null, "KUALI.RULE");
-//			Assert.fail("Requirement component translation should have failed since requirement component is null");
-//		} catch (DoesNotExistException e) {
-//			Assert.assertNotNull(e.getMessage());
-//		}
-//	}
-//
-//	@Test
-//	public void testTranslate_InvalidNlUsageTypeKey() throws Exception {
-////    	createReqComponent("KUALI.RULE", "kuali.reqComponent.type.courseList.none");
-////		createReqComponentFieldsForCluSet("0", "less_than_or_equal_to");
-//
-//		try {
-//			englishTranslator.translate(this.reqComponent, "KUALI.xxx.CATALOG");
-//			Assert.fail("Requirement component translation should have failed since 'KUALI.xxx.CATALOG' is not a valid nlUsageTypeKey");
-//		} catch (DoesNotExistException e) {
-//			Assert.assertNotNull(e.getMessage());
-//		}
-//	}
-//
-///*
-//	@Test
-//	@Ignore  KSENROLL-3587
-//	public void testTranslate1_1Of2() throws Exception {
-//		String nlUsageTypeKey = "KUALI.RULE";
-//		//Comma separated lists of clu ids no longer supported
-//		String cluIds = "CLU-NL-1, CLU-NL-2";
-//		createReqComponent("KUALI.RULE", "kuali.reqComponent.type.courseList.1of2");
-//		createReqComponentFieldsForClu("1", "greater_than_or_equal_to", cluIds);
-//
-//		String text = englishTranslator.translate(this.reqComponent, nlUsageTypeKey);
-//
-//		Assert.assertEquals("Student must have completed MATH 152 or MATH 221", text);
-//	}
-//*/
-//
-//	@Test
-//	public void testTranslate_TotalCredits() throws Exception {
-//		String nlUsageTypeKey = "KUALI.RULE";
-//		//Comma separated lists of clu ids no longer supported
-//		//String cluIds = "CLU-NL-1, CLU-NL-2";
-//		String cluIds = "CLU-NL-1";
-////		createReqComponent("KUALI.RULE", "kuali.reqComponent.type.grdCondCourseList");
-////		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
-////		ReqComponentField field1 = new ReqComponentField();
-////		field1.setType(ReqComponentFieldTypes.CLU_KEY.getType());
-////		field1.setValue(cluIds);
-////		fieldList.add(field1);
-////		ReqComponentField field2 = new ReqComponentField();
-////		field2.setType(ReqComponentFieldTypes.TOTAL_CREDIT_KEY.getType());
-////		field2.setValue("6");
-////		fieldList.add(field2);
-//
-////		this.reqComponent.setReqComponentFields(fieldList);
-//
-//		String text = englishTranslator.translate(this.reqComponent, nlUsageTypeKey);
-//
-//		//Assert.assertEquals("Students must take 6 credits from MATH 152, MATH 221", text);
-//		Assert.assertEquals("Students must take 6 credits from MATH 152", text);
-//	}
-//
-//
-//	@Test
-//	public void testTranslate_GPA() throws Exception {
-//		String nlUsageTypeKey = "KUALI.RULE";
-////		createReqComponent("KUALI.RULE", "kuali.reqComponent.type.gradecheck");
-////		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
-////		ReqComponentField field1 = new ReqComponentField();
-////		field1.setType(ReqComponentFieldTypes.GPA_KEY.getType());
-////		field1.setValue("70.0%");
-////		fieldList.add(field1);
-//
-////		this.reqComponent.setReqComponentFields(fieldList);
-//
-//		String text = englishTranslator.translate(this.reqComponent, nlUsageTypeKey);
-//
-//		Assert.assertEquals("Student needs a minimum GPA of 70.0%", text);
-//	}
+    @Test
+    public void testTranslate_InvalidReqComponentId() throws Exception {
+        try {
+            englishTranslator.translate(null, nlUsageTypeKey);
+            Assert.fail("Requirement component translation should have failed since requirement component is null");
+        } catch (DoesNotExistException e) {
+            Assert.assertNotNull(e.getMessage());
+        }
+    }
+
+	@Test
+	public void testTranslate_OneOf_English() throws Exception {
+		String propositionType = "kuali.krms.proposition.type.course.courseset.completed.nof";
+    	createProposition(nlUsageTypeKey, propositionType, "1", ">");
+
+		String text = englishTranslator.translate(this.proposition, nlUsageTypeKey);
+		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 221", text);
+	}
+
+	@Test
+	public void testTranslate_AllOf_1Clu() throws Exception {
+        String propositionType = "kuali.krms.proposition.type.success.course.courseset.completed.all";
+        createProposition(nlUsageTypeKey, propositionType, "2", "=");
+
+		String text = englishTranslator.translate(this.proposition, nlUsageTypeKey);
+		Assert.assertEquals("Student must have completed all of MATH 152, MATH 221", text);
+	}
+
+	@Test
+	public void testTranslate_NoneOf() throws Exception {
+        String propositionType = "kuali.krms.proposition.type.course.courseset.completed.none";
+        createProposition(nlUsageTypeKey, propositionType, "0", "=");
+
+		String text = englishTranslator.translate(this.proposition, nlUsageTypeKey);
+		Assert.assertEquals("Student must have completed none of MATH 152, MATH 221", text);
+	}
+
+	@Test
+	public void testTranslate_GPA() throws Exception {
+        String propositionType = "kuali.krms.proposition.type.course.courseset.gpa.min";
+		createProposition(nlUsageTypeKey, propositionType, "1", "=");
+
+        String text = englishTranslator.translate(this.proposition, nlUsageTypeKey);
+		Assert.assertEquals("Student needs a minimum GPA of 70.0%", text);
+	}
+
 }
