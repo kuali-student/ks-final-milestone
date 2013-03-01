@@ -74,6 +74,7 @@ public class CourseOfferingConstants {
      */
     public static final String DELIVERY_FORMAT_SECTION_ID = "KS-Catalog-FormatOfferingSubSection";
     public static final String DELIVERY_FORMAT_REQUIRED_ERROR = "error.courseoffering.create.deliveryformat.required";
+    public static final String JOINT_COURSE_FORMATS_DELETE_DIALOG = "jointCourseFormatsDeleteDialog";
     /**
      * Course Offering Informational Constants
      */

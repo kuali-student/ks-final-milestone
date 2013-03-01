@@ -373,7 +373,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         JointCourseWrapper joint = wrapper.getJointCourses().get(index);
 
         if (joint.isSelectedToJointlyOfferred()){
-            String dialogName = "deleteConfirmDialog";
+            String dialogName = CourseOfferingConstants.JOINT_COURSE_FORMATS_DELETE_DIALOG;
             
             if (!hasDialogBeenAnswered(dialogName, form)) {
                 wrapper.setSelectedJointCourseCode(joint.getCourseCode());

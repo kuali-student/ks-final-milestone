@@ -87,7 +87,7 @@
         </property>
         <property name="dialogs">
           <list>
-            <ref bean="deleteConfirmDialog"/>
+            <ref bean="jointCourseFormatsDeleteDialog"/>
           </list>
         </property>
     </bean>
@@ -96,7 +96,7 @@
         <property name="bindingInfo.bindToForm" value="true"/>
     </bean>
 
-    <bean id="deleteConfirmDialog" parent="Uif-DialogGroup"
+    <bean id="jointCourseFormatsDeleteDialog" parent="Uif-DialogGroup"
           p:promptText="Note that the deselecting @{document.newMaintainableObject.dataObject.selectedJointCourseCode} will delete the delivery formats already assigned for this course." >
         <property name="headerText" value="Warning - Formats Already Assigned"/>
         <property name="availableResponses">
