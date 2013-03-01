@@ -445,18 +445,39 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         this.selectedJointCourseIndex = selectedJointCourseIndex;
     }
 
+    /**
+     *
+     * @see #setSelectedJointCourseCode(String)
+     * @return
+     */
+    @SuppressWarnings("unused")
     public String getSelectedJointCourseCode() {
         return selectedJointCourseCode;
     }
 
+    /**
+     * This is used to display the joint course offering code at the delete confirmation dialog
+     *
+     * @param selectedJointCourseCode
+     */
     public void setSelectedJointCourseCode(String selectedJointCourseCode) {
         this.selectedJointCourseCode = selectedJointCourseCode;
     }
 
+    /**
+     * @see #setDialogFormatOfferingWrapperList(java.util.List)
+     * @return
+     */
     public List<FormatOfferingWrapper> getDialogFormatOfferingWrapperList() {
         return dialogFormatOfferingWrapperList;
     }
 
+    /**
+     * This is a list of format offerrings for a cross list used to display at the delete
+     * confirmation dialog.
+     *
+     * @param dialogFormatOfferingWrapperList
+     */
     public void setDialogFormatOfferingWrapperList(List<FormatOfferingWrapper> dialogFormatOfferingWrapperList) {
         this.dialogFormatOfferingWrapperList = dialogFormatOfferingWrapperList;
     }
@@ -486,6 +507,9 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         if (getAlternateCOCodes() != null){
             getAlternateCOCodes().clear();
         }
+        setSelectedJointCourseCode(StringUtils.EMPTY);
+        setSelectedJointCourseIndex(0);
+        getDialogFormatOfferingWrapperList().clear();
         setSocInfo(null);
         setAdminOrg(null);
     }
