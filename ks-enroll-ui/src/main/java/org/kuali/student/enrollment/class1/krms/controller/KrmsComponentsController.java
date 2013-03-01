@@ -64,7 +64,7 @@ public class KrmsComponentsController extends UifControllerBase {
         KrmsComponentsForm krmsComponentsForm = (KrmsComponentsForm) form;
         TermParameter termParameter = new TermParameter();
         if (krmsComponentsForm.getSearchByCourseRange().equals("1")) {
-            termParameter.setParameter("SubjectCode: " + krmsComponentsForm.getSubjectCode() + "CourseNumberRange: " + krmsComponentsForm.getCourseNumberRange());
+            termParameter.setParameter("Subject Code: " + krmsComponentsForm.getSubjectCode() + " Course Number Range: " + krmsComponentsForm.getCourseNumberRange());
         } else if (krmsComponentsForm.getSearchByCourseRange().equals("2")) {
 //            termParameter.setParameter("SubjectCode: " + krmsComponentsForm.getSubjectCode() + "CourseNumberRange: " + krmsComponentsForm.getCourseNumberRange());
         } else if (krmsComponentsForm.getSearchByCourseRange().equals("3")) {
@@ -74,12 +74,12 @@ public class KrmsComponentsController extends UifControllerBase {
         }
 
         krmsComponentsForm.getProposition().getTermParameterList().add(termParameter);
-        form.getDialogManager().addDialog(dialog1,null );
+        form.getDialogManager().addDialog(dialog1,"start" );
         // clear dialog history so they can press the button again
         form.getDialogManager().removeDialog(dialog1);
-        // reload page1
 
-        return getUIFModelAndView(krmsComponentsForm, "manageKrmsComponentsView");
+        // reload page1
+        return getUIFModelAndView(krmsComponentsForm);
 
     }
 }
