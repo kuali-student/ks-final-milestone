@@ -85,6 +85,48 @@
                 <entry key="selectCrossListingAllowed" value="document.newMaintainableObject.dataObject.selectCrossListingAllowed"/>
             </map>
         </property>
+        <property name="dialogs">
+          <list>
+            <ref bean="deleteConfirmDialog"/>
+          </list>
+        </property>
+    </bean>
+
+    <bean id="Uif-MainteanceDialogResponse" parent="Uif-DialogResponse">
+        <property name="bindingInfo.bindToForm" value="true"/>
+    </bean>
+
+    <bean id="deleteConfirmDialog" parent="Uif-DialogGroup"
+          p:promptText="Note that the deselecting @{document.newMaintainableObject.dataObject.selectedJointCourseCode} will delete the delivery formats already assigned for this course." >
+        <property name="headerText" value="Warning - Formats Already Assigned"/>
+        <property name="availableResponses">
+          <list>
+            <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Update Formats"/>
+            <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
+          </list>
+        </property>
+        <property name="responseInputField">
+          <bean parent="Uif-MainteanceDialogResponse"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:readOnly="true" p:layoutManager.renderSequenceField="false">
+                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper" />
+                    <property name="propertyName" value="dialogFormatOfferingWrapperList" />
+                    <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                    <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                    <property name="layoutManager.richTable.render" value="false" />
+                    <property name="items">
+                        <list>
+                             <bean parent="Uif-DataField" p:label="CODE" p:propertyName="courseCode"/>
+                             <bean parent="Uif-DataField" p:propertyName="activitesUI"  p:readOnly="true" p:label="FORMAT"/>
+                             <bean parent="Uif-DataField" p:propertyName="gradeRosterUI" p:label="GRADE ROSTER LEVEL"/>
+                             <bean parent="Uif-DataField" p:propertyName="finalExamUI" p:label="FINAL EXAM DRIVER ACTIVITY"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <bean id="KS-CourseOffering-NewCourseOffering" parent="Uif-VerticalBoxSection" p:componentSecurity.viewAuthz="true">
@@ -101,7 +143,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:id="createOfferingButton" p:actionLabel="Create Offering" p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:disabled="@{!document.newMaintainableObject.dataObject.enableCreateButton or #parent.readOnly}">
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:disabled="@{!document.newMaintainableObject.dataObject.enableCreateButton}">
                 </bean>
                 <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
@@ -247,8 +289,8 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="markCourseForJointOffering" 
-                      p:performClientSideValidation="false" p:actionLabel="@{!#lp.selectedToJointlyOfferred ? 'Create New' : 'Deselect'}" p:render="@{!#lp.alreadyOffered}"/>
+                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="markCourseForJointOffering"
+                      p:performClientSideValidation="false" p:actionLabel="@{!#lp.selectedToJointlyOfferred ? 'Create New' : 'Deselect'}" p:onClickScript="writeHiddenToForm(&quot;document.newMaintainableObject.dataObject.selectedIndex&quot;, &quot;@{#index}&quot;);" p:render="@{!#lp.alreadyOffered}"/>
             </list>
         </property>
     </bean>

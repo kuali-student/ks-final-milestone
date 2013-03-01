@@ -72,6 +72,10 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
 
     private SocInfo socInfo;
 
+    private int selectedJointCourseIndex;
+    private String selectedJointCourseCode;
+    private List<FormatOfferingWrapper> dialogFormatOfferingWrapperList;
+
     public CourseOfferingCreateWrapper(){
         showTermOfferingLink = true;
         formatOfferingWrappers = new ArrayList<FormatOfferingWrapper>();
@@ -84,6 +88,7 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         addLineFormatWrapper = new FormatOfferingWrapper();
         copyFromFormats = new ArrayList<FormatOfferingWrapper>();
         showCreateFormatSection = true;
+        dialogFormatOfferingWrapperList = new ArrayList<FormatOfferingWrapper>();
     }
 
     public String getTargetTermCode() {
@@ -417,6 +422,43 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
 
     public void setSocInfo(SocInfo socInfo) {
         this.socInfo = socInfo;
+    }
+
+    /**
+     * @see #setSelectedJointCourseIndex(int)
+     * @return
+     */
+    public int getSelectedJointCourseIndex() {
+        return selectedJointCourseIndex;
+    }
+
+    /**
+     * This tracks the user selected index of the joint courses. As there is no way
+     * to track the selected index when we use dialog within a collection line index,
+     * we track the selected index with client side script
+     *
+     * @see <a href="https://jira.kuali.org/browse/KSENROLL-5767">KSENROLL-5767</a>
+     * @param selectedJointCourseIndex
+     */
+    @SuppressWarnings("unused")
+    public void setSelectedJointCourseIndex(int selectedJointCourseIndex) {
+        this.selectedJointCourseIndex = selectedJointCourseIndex;
+    }
+
+    public String getSelectedJointCourseCode() {
+        return selectedJointCourseCode;
+    }
+
+    public void setSelectedJointCourseCode(String selectedJointCourseCode) {
+        this.selectedJointCourseCode = selectedJointCourseCode;
+    }
+
+    public List<FormatOfferingWrapper> getDialogFormatOfferingWrapperList() {
+        return dialogFormatOfferingWrapperList;
+    }
+
+    public void setDialogFormatOfferingWrapperList(List<FormatOfferingWrapper> dialogFormatOfferingWrapperList) {
+        this.dialogFormatOfferingWrapperList = dialogFormatOfferingWrapperList;
     }
 
     /**

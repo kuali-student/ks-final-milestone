@@ -298,6 +298,8 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                 foForJoint.setCourseCode(joint.getCourseCode());
                 foForJoint.setFinalExamLevelTypeKey(addLine.getFinalExamLevelTypeKey());
                 foForJoint.setGradeRosterLevelTypeKey(addLine.getGradeRosterLevelTypeKey());
+                foForJoint.setGradeRosterUI(getTypeName(addLine.getGradeRosterLevelTypeKey()));
+                foForJoint.setFinalExamUI(getTypeName(addLine.getFinalExamLevelTypeKey()));
 
                 //Look for a matching format at the joint course
                 FormatInfo formatInfo = getMatchingFormatInfo(joint.getCourseInfo(), formatToBeAdded);

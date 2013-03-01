@@ -261,6 +261,18 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
         return alternateCourseCodesSuffixStripped;
     }
 
+    /**
+     * This is a suffix stripped out version of the Cross List codes from Course Offering DTO. This is needed to display
+     * the cross list codes at edit co screen so that users can check/uncheck the cross lists
+     *
+     * <p>Here is the use case for that.
+     * On Create CO, user might enter a suffix and it got appended to all the cross list codes associated
+     * with a CO. So, On Edit CO, We display a list of Cross list codes from {@link org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo} to allow
+     * the user to edit their already selected option. As we're storing with suffixes, this list doesnt match with what available at {@link org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo}
+     * </p>
+     * @param alternateCourseCodesSuffixStripped
+     */
+    @SuppressWarnings("unused")
     public void setAlternateCourseCodesSuffixStripped(List<String> alternateCourseCodesSuffixStripped) {
         this.alternateCourseCodesSuffixStripped = alternateCourseCodesSuffixStripped;
     }

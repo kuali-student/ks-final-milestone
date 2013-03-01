@@ -64,11 +64,13 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -363,16 +365,32 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
      *
      */
     @RequestMapping(params = "methodToCall=markCourseForJointOffering")
-    public ModelAndView markCourseForJointOffering(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
+    public ModelAndView markCourseForJointOffering(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
-        JointCourseWrapper joint = (JointCourseWrapper)KSControllerHelper.getSelectedCollectionItem(form);
+        int index = wrapper.getSelectedJointCourseIndex();
+        JointCourseWrapper joint = wrapper.getJointCourses().get(index);
 
         if (joint.isSelectedToJointlyOfferred()){
-            joint.setSelectedToJointlyOfferred(false);
-            String jointCodes = StringUtils.remove(wrapper.getJointCourseCodes(), ", " + joint.getCourseCode());
-            wrapper.setJointCourseCodes(jointCodes);
-            wrapper.getFormatOfferingWrappers().removeAll(joint.getFormatOfferingWrappers());
+            String dialogName = "deleteConfirmDialog";
+            
+            if (!hasDialogBeenAnswered(dialogName, form)) {
+                wrapper.setSelectedJointCourseCode(joint.getCourseCode());
+                wrapper.setDialogFormatOfferingWrapperList(joint.getFormatOfferingWrappers());
+                return showDialog(dialogName, form, request, response);
+            }
+
+            boolean dialogAnswer = getBooleanDialogResponse(dialogName, form, request, response);
+            form.getDialogManager().resetDialogStatus(dialogName);
+
+            if (dialogAnswer) {
+                joint.setSelectedToJointlyOfferred(false);
+                String jointCodes = StringUtils.remove(wrapper.getJointCourseCodes(), ", " + joint.getCourseCode());
+                wrapper.setJointCourseCodes(jointCodes);
+                wrapper.getFormatOfferingWrappers().removeAll(joint.getFormatOfferingWrappers());
+            }
+
         } else {
             wrapper.setJointCourseCodes(wrapper.getJointCourseCodes() + ", " + joint.getCourseCode());
             joint.setSelectedToJointlyOfferred(true);
