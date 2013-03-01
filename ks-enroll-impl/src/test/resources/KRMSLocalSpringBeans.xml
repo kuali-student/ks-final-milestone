@@ -35,7 +35,7 @@
     <property name="businessObjectService" ref="businessObjectService"/>
   </bean>
 
-  <bean id="krmsTypeRepositoryService" class="org.kuali.rice.krms.impl.repository.KrmsTypeBoServiceImpl">
+  <bean id="krmsTypeRepositoryService" class="org.kuali.rice.krms.impl.repository.KrmsTypeRepositoryServiceImpl">
     <property name="businessObjectService" ref="businessObjectService"/>
   </bean>
 

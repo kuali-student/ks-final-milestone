@@ -106,9 +106,5 @@ public class NaturalLanguageTemplateBoMockService implements NaturalLanguageTemp
     public NaturalLanguageTemplateBo from(NaturalLanguageTemplate naturalLanguageTemplate) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
-
-    @Override
-    public String template(NaturalLanguageTemplate naturalLanguageTemplate) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+       
 }

@@ -26,6 +26,8 @@ import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
 
 import javax.jws.WebParam;
 import java.util.List;
+import org.kuali.rice.krms.api.repository.typerelation.RelationshipType;
+import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 
 /**
  * This class //TODO ...
@@ -120,4 +122,45 @@ public class KrmsTypeRepositoryMockService implements KrmsTypeRepositoryService 
     public KrmsAttributeDefinition getAttributeDefinitionByName(@WebParam(name = "namespaceCode") String namespaceCode, @WebParam(name = "name") String name) throws RiceIllegalArgumentException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public TypeTypeRelation createTypeTypeRelation(TypeTypeRelation typeTypeRelation) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public TypeTypeRelation getTypeTypeRelation(String typeTypeRelationId) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void updateTypeTypeRelation(TypeTypeRelation typeTypeRelation) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void deleteTypeTypeRelation(String typeTypeRelationId) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<TypeTypeRelation> findTypeTypeRelationsByFromType(String fromTypeId) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<TypeTypeRelation> findTypeTypeRelationsByToType(String toTypeId) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<TypeTypeRelation> findTypeTypeRelationsByRelationshipType(RelationshipType relationshipType) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<TypeTypeRelation> findTypeTypeRelationsBySequenceNumber(Integer sequenceNumber) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
 }
