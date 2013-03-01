@@ -123,7 +123,7 @@
         <jdk.min.version>1.6</jdk.min.version>
         <jsr107cache.version>1.0</jsr107cache.version>
         <jta.version>1.1</jta.version>
-        <junit.version>4.10</junit.version>
+        <junit.version>4.11</junit.version>
         <ks-contract-docs.plugin.version>1.0.6</ks-contract-docs.plugin.version>
         <kuali.rice.version>2.2.0</kuali.rice.version>
         <log4j.version>1.2.16</log4j.version>
