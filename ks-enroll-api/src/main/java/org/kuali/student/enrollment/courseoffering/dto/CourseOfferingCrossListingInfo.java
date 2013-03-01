@@ -106,7 +106,6 @@ public class CourseOfferingCrossListingInfo
     }
 
     @Override
-    @Deprecated
     public String getDepartmentOrgId() {
         return getSubjectOrgId();
     }

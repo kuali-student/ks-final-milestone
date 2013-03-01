@@ -22,8 +22,11 @@ public interface CourseOfferingCrossListing
     extends IdNamelessEntity {
 
     /**
-     * The course code for this cross listing.
-     * Example: In ENGL101A, the course code is ENGL101
+     * The course offering code of the cross listing (not the original
+     * course it refers to).  This is a concatentation of the subject
+     * area/code and the course number suffix
+     * This is the alias
+     * E.g., ENGL101A, CHEM250
      * 
      * @name Code
      */
@@ -50,22 +53,26 @@ public interface CourseOfferingCrossListing
      * This is the ID for that subject code as an org within the Org Service.
      * Subject codes are stored in the Org table as an organization.
      * Note: subject org id and subject area/code should be kept aligned (in case
-     * the subject code changes, but its ID stays the same).  There was
-     * some talk about making subjectOrgId the primary value and looking up the
-     * subject code via the Org service (it is the short name of the subject org).
+     * the subject code changes, but its ID stays the same).
      *
-     * Reference implementation has the ID as ORGID-[subject code]
+     * @impl In general, subject org ID should take precedence over subject area
+     * since the subject area can be found as the short name of the org corresponding
+     * to the subject org ID.
+     *
+     * @impl Reference implementation has the ID as ORGID-[subject area]
      * For example, ORGID-ENGL
      * This is not a requirement, but makes it easier to create the Org Id
+     *
      * @name Subject Org Id
      */
     public String getSubjectOrgId();
 
     /**
-     * The "extra" portion of the code, which usually corresponds with
-     * the most detailed part of the number.
-     * Example: In ENGL101A, it's A
-     * For ENGL101, this would be null since there is no suffix.
+     * The "extra" portion of the code, which usually corresponds with the most
+     * detailed part of the number (i.e., everything besides the subject area/code).
+     * See comments in getCode().
+     * E.g., from ENGL101A, it's 101A.
+     * E.g., from CHEM200, it's 200.
      *
      * @name Course Number Suffix
      */

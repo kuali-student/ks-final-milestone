@@ -82,17 +82,13 @@ public class CourseCrossListingInfo extends IdNamelessEntityInfo implements Cour
     }
 
     @Override
-    @Deprecated
     public String getDepartment() {
         return getSubjectOrgId();
     }
 
     /**
-     * Identical to setSubjectOrgId.  Left here for backwards compatibility, but
-     * it's been redefined to store the subject code org id instead of the
-     * admin org id (which can be found via an org-org relation in the Org
-     * service).
-     * @param subjectOrgId the ID of the subject code in the Org tables
+     * Use setSubjectOrgId instead.
+     * @param subjectOrgId
      */
     @Deprecated
     public void setDepartment(String subjectOrgId) {
@@ -105,8 +101,9 @@ public class CourseCrossListingInfo extends IdNamelessEntityInfo implements Cour
     }
 
     /**
-     * Identical to setSubjectOrgId.  Left here for backwards compatibility, but
-     * it's been redefined.
+     * Set the subject org ID.  This is how the subject code appears
+     * as an ID in the org table.
+     * @impl Current reference data uses ORGID-<subject code>
      * @param subjectOrgId the ID of the subject code in the Org tables
      */
     public void setSubjectOrgId(String subjectOrgId) {
