@@ -180,7 +180,7 @@
                     </property>
                     <property name="lineActions">
                         <list>
-                            <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="remove"
+                            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="delete"
                                   p:actionEvent="deleteLine" p:onDocumentReadyScript="calculatePercent()" />
                         </list>
                     </property>
