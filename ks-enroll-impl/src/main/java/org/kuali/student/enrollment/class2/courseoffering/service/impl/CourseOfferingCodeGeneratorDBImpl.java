@@ -76,7 +76,7 @@ public class CourseOfferingCodeGeneratorDBImpl implements CourseOfferingCodeGene
     public String generateCourseOfferingInternalCode(List<CourseOfferingInfo> existingCourseOfferings) {
 
         String courseOfferingCode = "";
-        List<String> coCodes = new ArrayList<String>();
+//        List<String> coCodes = new ArrayList<String>();
 
         //If this is the first code, send back "A"
         if (existingCourseOfferings == null || existingCourseOfferings.isEmpty()) {
@@ -91,7 +91,7 @@ public class CourseOfferingCodeGeneratorDBImpl implements CourseOfferingCodeGene
             courseOfferingCode = coInfo.getCourseOfferingCode();
         }
 
-        String uuid = UUIDHelper.genStringUUID();
+/*        String uuid = UUIDHelper.genStringUUID();
         String pendingKey =  courseOfferingCode + "-P";
         String namespace = "courseOfferingCode";
 
@@ -107,6 +107,12 @@ public class CourseOfferingCodeGeneratorDBImpl implements CourseOfferingCodeGene
         getCodeGeneratorLocksDao().removeLock(uuid, pendingKey,namespace );
         //System.out.println("Remove All Locks: " + namespace + " " + pendingKey + " " + uuid);
         getCodeGeneratorLocksDao().cleanLocks(courseOfferingCode,pendingKey, namespace);
+*/
+        String nextCode = calculateNextCode(internalCodes);
+        while(!isCodeValid(nextCode, courseOfferingCode + nextCode, "courseOfferingCode")){
+            internalCodes.add(new String(nextCode));
+            nextCode = calculateNextCode(internalCodes);
+        }
 
         return nextCode;
     }
