@@ -98,7 +98,6 @@ public class TestCourseServiceImpl{
  
     @Test
     public void testCreateCourse() throws Exception {
-        System.out.println("testCreateCourse");
         CourseDataGenerator generator = new CourseDataGenerator();
         CourseInfo cInfo = null;
         try {
@@ -127,7 +126,6 @@ public class TestCourseServiceImpl{
 
   @Test
     public void testGetCourse() {
-        System.out.println("testGetCourse");
         try {
             CourseDataGenerator generator = new CourseDataGenerator();
             CourseInfo cInfo = generator.getCourseTestData();
@@ -242,7 +240,6 @@ public class TestCourseServiceImpl{
 
    @Test
     public void testUpdateCourse() throws Exception {
-        System.out.println("testUpdateCourse");
 
         CourseDataGenerator generator = new CourseDataGenerator();
         CourseInfo cInfo = null;
@@ -250,7 +247,6 @@ public class TestCourseServiceImpl{
         CourseInfo updatedCourse = null;
         CourseInfo createdCourse = null;
         try {
-            System.out.println("Getting test data...");
             cInfo = generator.getCourseTestData();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -261,7 +257,6 @@ public class TestCourseServiceImpl{
         cInfo.setSpecialTopicsCourse(true);
         cInfo.setPilotCourse(true);
         try {
-            System.out.println("creating course...");
             createdCourse = courseService.createCourse(cInfo, contextInfo );
         } catch (DataValidationErrorException e) {
             dumpValidationErrors(cInfo);
@@ -385,7 +380,6 @@ public class TestCourseServiceImpl{
         
         // Perform the update
         try {
-            System.out.println("updating course...");
             updatedCourse = courseService.updateCourse(updActFrmtId, createdCourse, contextInfo);
         } catch (DataValidationErrorException e) {
             dumpValidationErrors(createdCourse);
@@ -421,7 +415,6 @@ public class TestCourseServiceImpl{
 
         // Now explicitly get it
         try {
-            System.out.println("Getting course again...");
             retrievedCourse = courseService.getCourse(createdCourse.getId(), contextInfo);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -440,11 +433,9 @@ public class TestCourseServiceImpl{
             retrievedCourse.getMeta().setVersionInd(Integer.toString(--currVersion));
         }
         try {
-            System.out.println("Updating course again trying to get a version mismatch...");
             courseService.updateCourse(updActFrmtId, retrievedCourse, contextInfo);
             fail("Failed to throw VersionMismatchException");
         } catch (VersionMismatchException e) {
-            System.out.println("Correctly received " + e.getMessage());
         } catch (DataValidationErrorException e) {
             dumpValidationErrors(retrievedCourse);
             fail("DataValidationError: " + e.getMessage());
@@ -496,7 +487,6 @@ public class TestCourseServiceImpl{
 
     @Test
     public void testDeleteCourse() {
-        System.out.println("testDeleteCourse");
         try {
             CourseDataGenerator generator = new CourseDataGenerator();
             CourseInfo cInfo = generator.getCourseTestData();
@@ -590,9 +580,6 @@ public class TestCourseServiceImpl{
             }
             
         } catch (Exception e) {
-            System.out.println("caught exception: " + e.getClass().getName());
-            System.out.println("message: " + e.getMessage());
-            e.printStackTrace(System.out);
             e.printStackTrace();
             fail(e.getMessage());
         }        
@@ -678,9 +665,6 @@ public class TestCourseServiceImpl{
                         
             
         } catch (Exception e) {
-            System.out.println("caught exception: " + e.getClass().getName());
-            System.out.println("message: " + e.getMessage());
-            e.printStackTrace(System.out);
             e.printStackTrace();
             fail(e.getMessage());
         }        
@@ -688,7 +672,6 @@ public class TestCourseServiceImpl{
     
   //  @Test
     public void testDynamicAttributes() {
-        System.out.println("testDynamicAttributes");
         CourseDataGenerator generator = new CourseDataGenerator();
         try {
             CourseInfo cInfo = generator.getCourseTestData();
@@ -752,9 +735,6 @@ public class TestCourseServiceImpl{
             assertEquals("ACTIVITY_VALUE", cInfo.getFormats().get(0).getActivities().get(0).getAttributes().contains("ACTIVITY_KEY"));
             
         } catch (Exception e) {
-            System.out.println("caught exception: " + e.getClass().getName());
-            System.out.println("message: " + e.getMessage());
-            e.printStackTrace(System.out);
             e.printStackTrace();
             fail(e.getMessage());
         }
@@ -768,7 +748,6 @@ public class TestCourseServiceImpl{
 
     @Test
     public void testGetMetadata() {
-        System.out.println("testGetMetadata");
         MetadataServiceImpl metadataService = new MetadataServiceImpl(courseService);
         metadataService.setUiLookupContext("classpath:lum-ui-test-lookup-context.xml");
         Metadata metadata = metadataService.getMetadata("org.kuali.student.r2.lum.course.dto.CourseInfo");
