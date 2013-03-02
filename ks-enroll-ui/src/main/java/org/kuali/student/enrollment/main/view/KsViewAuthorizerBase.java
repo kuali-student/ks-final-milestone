@@ -203,6 +203,11 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
                         }
                     }
                 }
+            } else if (model != null && model instanceof CourseOfferingManagementForm &&
+                      ((CourseOfferingManagementForm) model).getCurrentCourseOfferingWrapper().getStateKey() != null) {
+                    String coState = ((CourseOfferingManagementForm) model).getCurrentCourseOfferingWrapper().getStateKey();
+                    coState = coState==null?null:coState.substring(coState.lastIndexOf('.')+1);
+                    permissionDetails.put("coState", coState);
             }
         }
 
