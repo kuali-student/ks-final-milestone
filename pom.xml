@@ -116,6 +116,7 @@
         <hibernate.version>3.6.9.Final</hibernate.version>
         <htmlunit.version>2.6</htmlunit.version>
         <httpcomponents.httpclient.version>4.1.2</httpcomponents.httpclient.version>
+        <impex.version>2.0.3</impex.version>
         <jaxb.api.version>2.1</jaxb.api.version>
         <jaxws.spring.version>1.8</jaxws.spring.version>
         <jetty.plugin.version>7.3.1.v20110307</jetty.plugin.version>
@@ -131,16 +132,15 @@
         <logkit.version>2.0</logkit.version>
         <maven.min.version>3.0.4</maven.min.version>
         <metro.version>1.4</metro.version>
-        <mysql.connector.version>5.1.18</mysql.connector.version>
+        <mysql.version>5.1.22</mysql.version>
         <net.sf.jasperreports.version>4.0.1</net.sf.jasperreports.version>
         <net.sf.jasperreports.fonts.version>4.0.0</net.sf.jasperreports.fonts.version>
         <net.sourceforge.jexcelapi.version>2.6.10</net.sourceforge.jexcelapi.version>
         <openjpa.version>1.2.1</openjpa.version>
         <opensaml.version>1.1</opensaml.version>
         <org.apache.poi.version>3.6</org.apache.poi.version>
-        <oracle.ojdbc.version>10.2.0.3.0</oracle.ojdbc.version>
-        <oracle.ojdbc.artifact>ojdbc14</oracle.ojdbc.artifact>
-        <plugin.impex.version>1.0.31</plugin.impex.version>
+        <oracle.version>10.2.0.3.0</oracle.version>
+        <oracle.artifactId>ojdbc14</oracle.artifactId>
         <plugin.enforcer.version>1.2</plugin.enforcer.version>
         <selenium.version>2.7.0</selenium.version>
         <servlet.api.version>2.5</servlet.api.version>
@@ -185,6 +185,33 @@
         <!-- should align to the same or earlier phase than the contract doc or dictionary doc phase -->
         <ks.prepare-contract-dependencies.phase>site</ks.prepare-contract-dependencies.phase>
         <ks.vdecorator.phase>none</ks.vdecorator.phase>
+
+
+        <!-- default Spring context for db tasks -->
+        <plugin.spring.context.db>classpath:org/kuali/common/deploy/spring/db-developer-context.xml</plugin.spring.context.db>
+
+        <!-- Spring context that creates META-INF files describing SQL resources -->
+        <metainf.sql.context>classpath:org/kuali/common/util/metainf-sql-context.xml</metainf.sql.context>
+        <metainf.resource.prefix>classpath:</metainf.resource.prefix>
+
+        <!-- SQL resource locations -->
+        <metainf.resource.base>META-INF/sql/${db.vendor}/${project.artifactId}</metainf.resource.base>
+        <metainf.resource.schema>${metainf.resource.base}-schema.resources</metainf.resource.schema>
+        <metainf.resource.data>${metainf.resource.base}-data.resources</metainf.resource.data>
+        <metainf.resource.constraints>${metainf.resource.base}-constraints.resources</metainf.resource.constraints>
+        <metainf.resource.other>${metainf.resource.base}-upgrades.resources</metainf.resource.other>
+
+        <!-- Regex controlling which SQL files get included for each area -->
+        <metainf.include.schema>**/initial-db/**/ks-*create-schema.sql</metainf.include.schema>
+        <metainf.include.data>**/initial-db/**/data/*.sql</metainf.include.data>
+        <metainf.include.constraints>**/initial-db/**/ks-*constraints.sql</metainf.include.constraints>
+        <metainf.include.other>**/upgrades/**/*.sql</metainf.include.other>
+
+        <!-- File system locations for the META-INF files -->
+        <metainf.output.schema>${project.build.outputDirectory}/${metainf.resource.schema}</metainf.output.schema>
+        <metainf.output.data>${project.build.outputDirectory}/${metainf.resource.data}</metainf.output.data>
+        <metainf.output.constraints>${project.build.outputDirectory}/${metainf.resource.constraints}</metainf.output.constraints>
+        <metainf.output.other>${project.build.outputDirectory}/${metainf.resource.other}</metainf.output.other>
     </properties>
     <prerequisites>
         <maven>${maven.min.version}</maven>
@@ -285,8 +312,8 @@
                     <dependencies>
                         <dependency>
                             <groupId>com.oracle</groupId>
-                            <artifactId>${oracle.ojdbc.artifact}</artifactId>
-                            <version>${oracle.ojdbc.version}</version>
+                            <artifactId>${oracle.artifactId}</artifactId>
+                            <version>${oracle.version}</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -549,7 +576,7 @@
                     </exclusion>
                     <exclusion>
                         <groupId>com.oracle</groupId>
-                        <artifactId>${oracle.ojdbc.artifact}</artifactId>
+                        <artifactId>${oracle.artifactId}</artifactId>
                     </exclusion>
                     <exclusion>
                         <groupId>mysql</groupId>
@@ -1189,13 +1216,13 @@
             </dependency>
             <dependency>
                 <groupId>com.oracle</groupId>
-                <artifactId>${oracle.ojdbc.artifact}</artifactId>
-                <version>${oracle.ojdbc.version}</version>
+                <artifactId>${oracle.artifactId}</artifactId>
+                <version>${oracle.version}</version>
             </dependency>
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql.connector.version}</version>
+                <version>${mysql.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.opensaml</groupId>
