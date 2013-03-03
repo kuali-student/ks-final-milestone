@@ -1,34 +1,35 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.kuali.student.db</groupId>
-    <artifactId>ks-impex</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
-  </parent>
-  <artifactId>ks-impex-app-db</artifactId>
-  <name>KS Impex App DB</name>
-  <description>Kuali Student Impex Application Database</description>
-  <properties>
-    <jdbc.username>KSAPP${db.branch.qualifier}</jdbc.username>
-  </properties>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.kuali.maven.plugins</groupId>
-        <artifactId>spring-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>metainf</id>
-            <goals>
-              <goal>load</goal>
-            </goals>
-            <phase>prepare-package</phase>
-            <configuration>
-              <location>${impex.metainf.context}</location>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.kuali.student.db</groupId>
+        <artifactId>ks-impex</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>ks-impex-app-db</artifactId>
+    <name>KS Impex App DB</name>
+    <description>Kuali Student Impex Application Database</description>
+    <properties>
+        <jdbc.username>KSAPP${db.branch.qualifier}</jdbc.username>
+    </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.kuali.maven.plugins</groupId>
+                <artifactId>spring-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>metainf</id>
+                        <goals>
+                            <goal>load</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <location>${impex.metainf.context}</location>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
