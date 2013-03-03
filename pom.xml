@@ -185,28 +185,22 @@
         <!-- should align to the same or earlier phase than the contract doc or dictionary doc phase -->
         <ks.prepare-contract-dependencies.phase>site</ks.prepare-contract-dependencies.phase>
         <ks.vdecorator.phase>none</ks.vdecorator.phase>
-
-
         <!-- default Spring context for db tasks -->
         <plugin.spring.context.db>classpath:org/kuali/common/deploy/spring/db-developer-context.xml</plugin.spring.context.db>
-
         <!-- Spring context that creates META-INF files describing SQL resources -->
         <metainf.sql.context>classpath:org/kuali/common/util/metainf-sql-context.xml</metainf.sql.context>
         <metainf.resource.prefix>classpath:</metainf.resource.prefix>
-
         <!-- SQL resource locations -->
         <metainf.resource.base>META-INF/sql/${db.vendor}/${project.artifactId}</metainf.resource.base>
         <metainf.resource.schema>${metainf.resource.base}-schema.resources</metainf.resource.schema>
         <metainf.resource.data>${metainf.resource.base}-data.resources</metainf.resource.data>
         <metainf.resource.constraints>${metainf.resource.base}-constraints.resources</metainf.resource.constraints>
         <metainf.resource.other>${metainf.resource.base}-upgrades.resources</metainf.resource.other>
-
         <!-- Regex controlling which SQL files get included for each area -->
         <metainf.include.schema>**/initial-db/**/ks-*create-schema.sql</metainf.include.schema>
         <metainf.include.data>**/initial-db/**/data/*.sql</metainf.include.data>
         <metainf.include.constraints>**/initial-db/**/ks-*constraints.sql</metainf.include.constraints>
         <metainf.include.other>**/upgrades/**/*.sql</metainf.include.other>
-
         <!-- File system locations for the META-INF files -->
         <metainf.output.schema>${project.build.outputDirectory}/${metainf.resource.schema}</metainf.output.schema>
         <metainf.output.data>${project.build.outputDirectory}/${metainf.resource.data}</metainf.output.data>
