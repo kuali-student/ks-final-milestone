@@ -93,7 +93,7 @@
                 </dependency>
                 <dependency>
                     <groupId>com.oracle</groupId>
-                    <artifactId>${oracle.ojdbc.artifact}</artifactId>
+                    <artifactId>${oracle.artifactId}</artifactId>
                 </dependency>
                 <dependency>
                     <groupId>org.kuali.rice</groupId>
