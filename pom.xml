@@ -25,16 +25,16 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
+                <module>ks-deployment-resources</module>
                 <module>ks-dbs</module>
                 <module>ks-web</module>
-                <module>ks-deployment-resources</module>
             </modules>
         </profile>
         <profile>
             <id>impex-only</id>
             <modules>
-                <module>ks-dbs</module>
                 <module>ks-deployment-resources</module>
+                <module>ks-dbs</module>
             </modules>
         </profile>
         <profile>
