@@ -22,6 +22,7 @@
     <impex.metainf.context>classpath:org/kuali/common/impex/metainf-mpx-context.xml</impex.metainf.context>
     <impex.data.resources>META-INF/${project.artifactId}-data.resources</impex.data.resources>
     <impex.metainf.outputFile>${project.build.outputDirectory}/${impex.data.resources}</impex.metainf.outputFile>
+    <oracle.ci.dba.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</oracle.ci.dba.url>
   </properties>
   <profiles>
     <profile>
@@ -34,7 +35,7 @@
         <jdbc.username>${jdbc.source.db.username}</jdbc.username>
         <oracle.dba.username>master</oracle.dba.username>
         <oracle.dba.password.encrypted>eEFVZmL4+y/5KlzDMCt6dGlBKQzXevFp</oracle.dba.password.encrypted>
-        <oracle.dba.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</oracle.dba.url>
+        <oracle.dba.url>${oracle.ci.dba.url}</oracle.dba.url>
 
         <!-- Schemas -->
         <db.rice.baseline.schema>rice-impex-server-bootstrap</db.rice.baseline.schema>
@@ -91,34 +92,34 @@
           <plugin>
             <groupId>org.kuali.maven.plugins</groupId>
             <artifactId>spring-maven-plugin</artifactId>
-              <dependencies>
-                  <dependency>
-                      <groupId>org.kuali.student.core</groupId>
-                      <artifactId>ks-core-sql</artifactId>
-                      <version>${ks.core.version}</version>
-                  </dependency>
-                  <dependency>
-                      <groupId>org.kuali.student.core</groupId>
-                      <artifactId>ks-rice-sql</artifactId>
-                      <version>${ks.core.version}</version>
-                  </dependency>
-                  <dependency>
-                      <groupId>org.kuali.student.lum</groupId>
-                      <artifactId>ks-lum-sql</artifactId>
-                      <version>${ks.lum.version}</version>
-                  </dependency>
-                  <dependency>
-                      <groupId>org.kuali.student.enroll</groupId>
-                      <artifactId>ks-enroll-sql</artifactId>
-                      <version>${ks.enroll.version}</version>
-                  </dependency>
-                  <dependency>
-                      <groupId>org.kuali.rice</groupId>
-                      <artifactId>rice-impex-server-bootstrap</artifactId>
-                      <version>${kuali.rice.version}</version>
-                      <classifier>sql</classifier>
-                  </dependency>
-              </dependencies>
+            <dependencies>
+              <dependency>
+                <groupId>org.kuali.student.core</groupId>
+                <artifactId>ks-core-sql</artifactId>
+                <version>${ks.core.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.kuali.student.core</groupId>
+                <artifactId>ks-rice-sql</artifactId>
+                <version>${ks.core.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.kuali.student.lum</groupId>
+                <artifactId>ks-lum-sql</artifactId>
+                <version>${ks.lum.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.kuali.student.enroll</groupId>
+                <artifactId>ks-enroll-sql</artifactId>
+                <version>${ks.enroll.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.kuali.rice</groupId>
+                <artifactId>rice-impex-server-bootstrap</artifactId>
+                <version>${kuali.rice.version}</version>
+                <classifier>sql</classifier>
+              </dependency>
+            </dependencies>
           </plugin>
         </plugins>
       </build>
@@ -131,7 +132,7 @@
         <impex.ks.includes>KS.*</impex.ks.includes>
         <impex.includes>${impex.rice.includes},${impex.ks.includes}</impex.includes>
         <impex.source.artifactId>ks-source-db</impex.source.artifactId>
-        <impex.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</impex.url>
+        <impex.url>${oracle.ci.dba.url}</impex.url>
         <impex.driver>oracle.jdbc.driver.OracleDriver</impex.driver>
         <impex.username>${jdbc.source.db.username}</impex.username>
         <impex.password>${jdbc.source.db.username}</impex.password>
