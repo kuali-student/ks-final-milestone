@@ -123,13 +123,13 @@
                 <dependencies>
                     <dependency>
                         <groupId>com.oracle</groupId>
-                        <artifactId>${oracle.ojdbc.artifact}</artifactId>
-                        <version>${oracle.ojdbc.version}</version>
+                        <artifactId>${oracle.artifactId}</artifactId>
+                        <version>${oracle.version}</version>
                     </dependency>
                     <dependency>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
-                        <version>${mysql.connector.version}</version>
+                        <version>${mysql.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -149,13 +149,13 @@
                 <dependencies>
                     <dependency>
                         <groupId>com.oracle</groupId>
-                        <artifactId>${oracle.ojdbc.artifact}</artifactId>
-                        <version>${oracle.ojdbc.version}</version>
+                        <artifactId>${oracle.artifactId}</artifactId>
+                        <version>${oracle.version}</version>
                     </dependency>
                     <dependency>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
-                        <version>${mysql.connector.version}</version>
+                        <version>${mysql.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
