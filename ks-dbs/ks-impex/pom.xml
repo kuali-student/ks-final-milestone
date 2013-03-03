@@ -131,11 +131,11 @@
         <impex.ks.includes>KS.*</impex.ks.includes>
         <impex.includes>${impex.rice.includes},${impex.ks.includes}</impex.includes>
         <impex.source.artifactId>ks-source-db</impex.source.artifactId>
-        <impex.url>jdbc:oracle:thin:@localhost:1521:XE</impex.url>
+        <impex.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</impex.url>
         <impex.driver>oracle.jdbc.driver.OracleDriver</impex.driver>
-        <impex.username>KS_SOURCE_DB_SPRING</impex.username>
-        <impex.password>KS_SOURCE_DB_SPRING</impex.password>
-        <impex.schema>KS_SOURCE_DB_SPRING</impex.schema>
+        <impex.username>${jdbc.source.db.username}</impex.username>
+        <impex.password>${jdbc.source.db.username}</impex.password>
+        <impex.schema>${jdbc.source.db.username}</impex.schema>
         <impex.databaseVendor>oracle</impex.databaseVendor>
         <impex.databaseTablePropertiesFile>${project.basedir}/../../ks-deployment-resources/src/main/resources/org/kuali/student/impex/ks-source-db.properties</impex.databaseTablePropertiesFile>
         <impex.table.includes>${impex.includes}</impex.table.includes>
