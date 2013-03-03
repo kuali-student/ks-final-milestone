@@ -17,9 +17,6 @@
     <profiles>
         <profile>
             <id>kdo</id>
-            <properties>
-                <spring.db.version>2.0.0-spring-db-SNAPSHOT</spring.db.version>
-            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -42,17 +39,17 @@
                             <dependency>
                                 <groupId>org.kuali.student.db</groupId>
                                 <artifactId>ks-impex-rice-db</artifactId>
-                                <version>${spring.db.version}</version>
+                                <version>${ks.deployments.version}</version>
                             </dependency>
                             <dependency>
                                 <groupId>org.kuali.student.db</groupId>
                                 <artifactId>ks-impex-app-db</artifactId>
-                                <version>${spring.db.version}</version>
+                                <version>${ks.deployments.version}</version>
                             </dependency>
                             <dependency>
                                 <groupId>org.kuali.student.db</groupId>
                                 <artifactId>ks-impex-bundled-db</artifactId>
-                                <version>${spring.db.version}</version>
+                                <version>${ks.deployments.version}</version>
                             </dependency>
                         </dependencies>
                     </plugin>
