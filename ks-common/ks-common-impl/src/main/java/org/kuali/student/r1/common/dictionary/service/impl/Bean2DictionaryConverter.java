@@ -4,12 +4,16 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.kuali.student.common.spring.AnnotationUtils;
 import org.kuali.student.r1.common.dictionary.dto.DataType;
 import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
@@ -47,7 +51,7 @@ public class Bean2DictionaryConverter
       boolean skipOver = false;
       // short term fix for KSENROLL-5710
       // essentially don't require deprecated method dictionary definitions.
-      if (pd.getReadMethod() != null && pd.getReadMethod().isAnnotationPresent(Deprecated.class))
+      if (pd.getReadMethod() != null && AnnotationUtils.doesMethodHierarchyContainAnnotation(pd.getReadMethod(), Deprecated.class))
           skipOver = true;
       
       if (MetaInfo.class.equals (pd.getPropertyType ()) || Class.class.equals (pd.getPropertyType ()) ||  DictionaryConstants.ATTRIBUTES.equals (pd.getName ()))
@@ -61,7 +65,8 @@ public class Bean2DictionaryConverter
   return os;
  }
 
-  private boolean calcHasMetaData (BeanInfo beanInfo)
+
+private boolean calcHasMetaData (BeanInfo beanInfo)
  {
   for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors ())
   {
