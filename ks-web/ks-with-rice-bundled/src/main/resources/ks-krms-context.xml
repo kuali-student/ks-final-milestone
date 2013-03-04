@@ -32,7 +32,7 @@
         <property name="attributeDefinitionService" ref="krmsAttributeDefinitionService"/>
     </bean>
 
-    <bean id="templateResolverMockService" class="org.kuali.student.krms.service.impl.TemplateResolverServiceMockImpl">
+    <bean id="templateResolverMockService" class="org.kuali.student.enrollment.class1.krms.service.impl.TemplateRegistryImpl">
         <property name="templatesMap" ref="templatesMap"/>
     </bean>
 
