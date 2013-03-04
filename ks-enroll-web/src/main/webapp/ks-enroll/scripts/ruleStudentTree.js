@@ -360,6 +360,44 @@ function initPreviewTree(componentId){
 
 }
 
+function createAutoComplete(controlId, options, queryFieldId, queryParameters, localSource, suggestOptions) {
+    if (localSource) {
+        options.source = suggestOptions;
+    }
+    else {
+        options.source = function (request, response) {
+            var queryData = {};
+
+            queryData.methodToCall = 'performFieldSuggest';
+            queryData.ajaxRequest = true;
+            queryData.ajaxReturnType = 'update-none';
+            queryData.formKey = jQuery("input#formKey").val();
+            queryData.queryTerm = request.term;
+            queryData.queryFieldId = queryFieldId;
+
+            for (var parameter in queryParameters) {
+                queryData['queryParameter.' + parameter] = coerceValue(queryParameters[parameter]);
+            }
+
+            jQuery.ajax({
+                url:jQuery("form#kualiForm").attr("action"),
+                dataType:"json",
+                beforeSend:null,
+                complete:null,
+                error:null,
+                data:queryData,
+                success:function (data) {
+                    response(data.resultData);
+                }
+            });
+        };
+    }
+
+    jQuery(document).ready(function () {
+        jQuery("#" + controlId).autocomplete(options);
+    });
+}
+
 
 
 

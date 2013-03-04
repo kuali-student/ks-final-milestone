@@ -5,7 +5,6 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageTemplateBoService;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageUsageBoService;
 import org.kuali.rice.krms.impl.repository.ReferenceObjectBindingBoService;
-import org.kuali.student.krms.service.TemplateResolverService;
 
 import javax.xml.namespace.QName;
 
@@ -32,7 +31,6 @@ public final class KsKrmsRepositoryServiceLocator {
     private static NaturalLanguageTemplateBoService naturalLanguageTemplateBoService;
     private static NaturalLanguageUsageBoService naturalLanguageUsageBoService;
     private static ReferenceObjectBindingBoService referenceObjectBindingBoService;
-    private static TemplateResolverService templateResolverService;
 
     public static <T extends Object> T getService(String serviceName) {
         return KsKrmsRepositoryServiceLocator.<T>getBean(serviceName);
@@ -64,13 +62,6 @@ public final class KsKrmsRepositoryServiceLocator {
             referenceObjectBindingBoService = getService(KRMS_REF_OBJECT_SERVICE);
         }
         return referenceObjectBindingBoService;
-    }
-
-    public static TemplateResolverService getTemplateResolverService() {
-        if(templateResolverService == null){
-            templateResolverService = getService(KRMS_TEMPLATE_RESOLVER_SERVICE);
-        }
-        return templateResolverService;
     }
 
 }

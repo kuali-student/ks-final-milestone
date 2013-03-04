@@ -17,33 +17,34 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.KrmsApiServiceLocator;
 import org.kuali.rice.krms.api.engine.expression.ComparisonOperatorService;
-import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
+import org.kuali.rice.krms.api.repository.term.TermParameterDefinition;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
+import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageTemplateBoService;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageUsageBoService;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.rice.krms.impl.util.KrmsImplConstants;
+import org.kuali.student.enrollment.class1.krms.builder.ComponentBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionParameterEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
-import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionNode;
+import org.kuali.student.enrollment.class1.krms.service.TemplateRegistry;
 import org.kuali.student.enrollment.class1.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.student.enrollment.class1.krms.tree.node.CompareTreeNode;
 import org.kuali.student.enrollment.class1.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.RuleEditTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.RulePreviewTreeBuilder;
-import org.kuali.student.enrollment.class1.krms.tree.node.TreeNode;
 import org.kuali.student.enrollment.class1.krms.util.PropositionTreeUtil;
-import org.kuali.student.krms.dto.TemplateInfo;
+import org.kuali.student.enrollment.class1.krms.dto.TemplateInfo;
 import org.kuali.student.enrollment.class1.krms.service.RuleViewHelperService;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsRepositoryServiceLocator;
@@ -64,6 +65,7 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,6 +86,8 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     private RuleCompareTreeBuilder compareTreeBuilder;
     private RuleEditTreeBuilder editTreeBuilder;
     private RulePreviewTreeBuilder previewTreeBuilder;
+
+    private static TemplateRegistry templateRegistry;
 
     @Override
     public void performInitialization(View view, Object model) {
@@ -121,22 +125,27 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
     @Override
     public TemplateInfo getTemplateForType(String type) {
-        return KsKrmsRepositoryServiceLocator.getTemplateResolverService().getTemplateForType(type);
+        return this.getTemplateRegistry().getTemplateForType(type);
     }
 
     @Override
     public String getTermSpecNameForType(String type) {
-        return KsKrmsRepositoryServiceLocator.getTemplateResolverService().getTermSpecNameForType(type);
+        return this.getTemplateRegistry().getTermSpecNameForType(type);
     }
 
     @Override
     public String getOperationForType(String type) {
-        return KsKrmsRepositoryServiceLocator.getTemplateResolverService().getOperationForType(type);
+        return this.getTemplateRegistry().getOperationForType(type);
     }
 
     @Override
     public String getValueForType(String type) {
-        return KsKrmsRepositoryServiceLocator.getTemplateResolverService().getValueForType(type);
+        return this.getTemplateRegistry().getValueForType(type);
+    }
+
+    @Override
+    public ComponentBuilder getComponentBuilderForType(String type) {
+        return this.getTemplateRegistry().getComponentBuilderForType(type);
     }
 
     @Override
@@ -164,12 +173,12 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
             container.setItems(components);
         } else if ("KS-RuleEdit-TabSection".equals(container.getId())) {
-            if (container instanceof TabGroup){
+            if (container instanceof TabGroup) {
                 MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
                 RuleEditor ruleEditor = (RuleEditor) maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
                 TabGroup tabGroup = (TabGroup) container;
                 Map<String, String> options = tabGroup.getTabsWidget().getTemplateOptions();
-                if(ruleEditor.getSelectedTab() == null) {
+                if (ruleEditor.getSelectedTab() == null) {
                     ruleEditor.setSelectedTab("0");
                 }
                 options.put("selected", ruleEditor.getSelectedTab());
@@ -340,65 +349,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             //do nothing
         }
         return displays;
-    }
-
-    /**
-     * Retrieve a list of {@link RemotableAttributeField}s for the parameters (if any) required by the resolver for
-     * the selected term in the proposition that is under edit.
-     */
-    public List<RemotableAttributeField> retrieveTermParameters(View view, Object model, Container container) {
-
-        MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
-        RuleEditor ruleEditor = (RuleEditor) maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
-
-        List<RemotableAttributeField> results = new ArrayList<RemotableAttributeField>();
-
-        // Figure out which rule is being edited
-        if (null != ruleEditor) {
-
-            // Figure out which proposition is being edited
-            Tree<RuleEditorTreeNode, String> propositionTree = ruleEditor.getEditTree();
-            Node<RuleEditorTreeNode, String> editedPropositionNode = PropositionTreeUtil.findEditedProposition(propositionTree.getRootElement());
-
-            if (editedPropositionNode != null) {
-                PropositionEditor propositionBo = editedPropositionNode.getData().getProposition();
-                if (StringUtils.isEmpty(propositionBo.getCompoundOpCode()) && CollectionUtils.size(
-                        propositionBo.getParameters()) > 0) {
-                    // Get the term ID; if it is a new parameterized term, it will have a special prefix
-                    PropositionParameterEditor param = propositionBo.getParameters().get(0);
-                    String termSpecId = param.getValue();
-                    TermResolverDefinition simplestResolver = getSimplestTermResolver(termSpecId,
-                            ruleEditor.getNamespace());
-
-                    // Get the parameters and build RemotableAttributeFields
-                    if (simplestResolver != null) {
-                        List<String> parameterNames = new ArrayList<String>(simplestResolver.getParameterNames());
-                        Collections.sort(parameterNames); // make param order deterministic
-
-                        for (String parameterName : parameterNames) {
-                            // TODO: also allow for DD parameters if there are matching type attributes
-                            RemotableTextInput.Builder controlBuilder = RemotableTextInput.Builder.create();
-                            controlBuilder.setSize(64);
-
-                            RemotableAttributeField.Builder builder = RemotableAttributeField.Builder.create(
-                                    parameterName);
-
-                            builder.setRequired(true);
-                            builder.setDataType(DataType.STRING);
-                            builder.setControl(controlBuilder);
-                            builder.setLongLabel(parameterName);
-                            builder.setShortLabel(parameterName);
-                            builder.setMinLength(Integer.valueOf(1));
-                            builder.setMaxLength(Integer.valueOf(64));
-
-                            results.add(builder.build());
-                        }
-                    }
-
-                }
-            }
-        }
-        return results;
     }
 
     /**
@@ -574,8 +524,8 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
             String termSpecificationId = termId.substring(KrmsImplConstants.PARAMETERIZED_TERM_PREFIX.length());
 
-            TermResolverDefinition termResolverDefinition =
-                    RuleViewHelperServiceImpl.getSimplestTermResolver(termSpecificationId, namespace);
+            TermResolverDefinition termResolverDefinition =  null;
+                    //RuleViewHelperServiceImpl.getSimplestTermResolver(termSpecificationId, namespace);
 
             if (termResolverDefinition == null) {
                 GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
@@ -676,7 +626,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
 
-
     public RuleManagementService getRuleManagementService() {
         if (ruleManagementService == null) {
             //ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
@@ -735,6 +684,13 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
     private NaturalLanguageTemplateBoService getNaturalLanguageTemplateBoService() {
         return KsKrmsRepositoryServiceLocator.getNaturalLanguageTemplateBoService();
+    }
+
+    private TemplateRegistry getTemplateRegistry() {
+        if (templateRegistry == null) {
+            templateRegistry = (TemplateRegistry) GlobalResourceLoader.getService(QName.valueOf("templateResolverMockService"));
+        }
+        return templateRegistry;
     }
 
 }

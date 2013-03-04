@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.class1.krms.controller;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.impl.ui.TermParameter;
+import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.form.KrmsComponentsForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -81,5 +82,16 @@ public class KrmsComponentsController extends UifControllerBase {
         // reload page1
         return getUIFModelAndView(krmsComponentsForm);
 
+    }
+
+    @RequestMapping(params = "methodToCall=updateChanges")
+    public ModelAndView updateChanges(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        KrmsComponentsForm krmsComponentsForm = (KrmsComponentsForm) form;
+        PropositionEditor proposition = krmsComponentsForm.getProposition();
+        proposition.getTermParameter();
+
+        return getUIFModelAndView(form);
     }
 }

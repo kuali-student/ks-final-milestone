@@ -25,8 +25,15 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krms.api.repository.proposition.PropositionType;
+import org.kuali.rice.krms.api.repository.term.TermParameterDefinition;
+import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
+import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.repository.ReferenceObjectBindingBoService;
+import org.kuali.student.enrollment.class1.krms.builder.ComponentBuilder;
+import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
+import org.kuali.student.enrollment.class1.krms.service.TemplateRegistry;
 import org.kuali.student.enrollment.class1.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.student.enrollment.class1.krms.service.RuleEditorMaintainable;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsRepositoryServiceLocator;
@@ -39,6 +46,7 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,6 +61,8 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
     private transient CluService cluService;
     private transient ContextInfo contextInfo;
+
+    private transient TemplateRegistry templateRegistry;
 
     public static final String NEW_AGENDA_EDITOR_DOCUMENT_TEXT = "New Agenda Editor Document";
 
@@ -110,6 +120,47 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         //RuleEditor rule = (RuleEditor) getDataObject();
         //TODO: create ruledefinition and save.
 
+    }
+
+    protected void initPropositionEditor(PropositionEditor propositionEditor) {
+        if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(propositionEditor.getPropositionTypeCode())) {
+
+            if (propositionEditor.getType() == null){
+                KrmsTypeDefinition type = KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService().getTypeById(propositionEditor.getTypeId());
+                propositionEditor.setType(type.getName());
+            }
+
+            ComponentBuilder builder = this.getTemplateRegistry().getComponentBuilderForType(propositionEditor.getType());
+            if (builder != null){
+                Map<String, String> termParameters = this.getTermParameters(propositionEditor);
+                builder.resolveTermParameters(propositionEditor, termParameters);
+            }
+        } else {
+            for (PropositionEditor child : propositionEditor.getCompoundEditors()) {
+                initPropositionEditor(child);
+            }
+
+        }
+    }
+
+    private Map<String, String> getTermParameters(PropositionEditor proposition){
+
+        Map<String, String> termParameters = new HashMap<String, String>();
+        if (proposition.getTerm() == null){
+            String termId = null;
+            if (proposition.getParameters().get(0) != null) {
+                termId = proposition.getParameters().get(0).getValue();
+                proposition.setTerm(KrmsRepositoryServiceLocator.getTermBoService().getTerm(termId));
+            } else {
+                return termParameters;
+            }
+        }
+
+        for (TermParameterDefinition parameter : proposition.getTerm().getParameters()){
+            termParameters.put(parameter.getName(), parameter.getValue());
+        }
+
+        return termParameters;
     }
 
     /**
@@ -212,5 +263,12 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
     public ReferenceObjectBindingBoService getReferenceObjectBindingBoService() {
         return KsKrmsRepositoryServiceLocator.getReferenceObjectBindingBoService();
+    }
+
+    private TemplateRegistry getTemplateRegistry() {
+        if (templateRegistry == null) {
+            templateRegistry = (TemplateRegistry) GlobalResourceLoader.getService(QName.valueOf("templateResolverMockService"));
+        }
+        return templateRegistry;
     }
 }

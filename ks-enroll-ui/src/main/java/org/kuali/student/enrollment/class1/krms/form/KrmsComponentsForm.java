@@ -48,10 +48,29 @@ public class KrmsComponentsForm extends KSUifForm {
 
     private RuleEditor rule = new RuleEditor();
 
+    private String approveCourse;
+    private String clueSetCourse;
+
     public KrmsComponentsForm(){
         list6.add(this.createTermParameter("MATH100"));
         list6.add(this.createTermParameter("BIOL100"));
         list6.add(this.createTermParameter("CCJM100"));
+    }
+
+    public String getApproveCourse() {
+        return approveCourse;
+    }
+
+    public void setApproveCourse(String approveCourse) {
+        this.approveCourse = approveCourse;
+    }
+
+    public String getClueSetCourse() {
+        return clueSetCourse;
+    }
+
+    public void setClueSetCourse(String clueSetCourse) {
+        this.clueSetCourse = clueSetCourse;
     }
 
     private TermParameter createTermParameter(String parm){

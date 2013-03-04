@@ -14,7 +14,7 @@
  *
  * Created by christoff on 2013/01/11
  */
-package org.kuali.student.krms.dto;
+package org.kuali.student.enrollment.class1.krms.dto;
 
 import org.kuali.rice.krad.uif.container.Group;
 
@@ -29,6 +29,7 @@ public class TemplateInfo {
     private String value;
 
     private String display;
+    private String componentBuilderClass;
 
     public String getTermSpecName() {
         return termSpecName;
@@ -60,5 +61,13 @@ public class TemplateInfo {
 
     public void setDisplay(String display) {
         this.display = display;
+    }
+
+    public String getComponentBuilderClass() {
+        return componentBuilderClass;
+    }
+
+    public void setComponentBuilderClass(String componentBuilderClass) {
+        this.componentBuilderClass = componentBuilderClass;
     }
 }

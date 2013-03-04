@@ -5,9 +5,6 @@ import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.tree.node.CompareTreeNode;
-import org.kuali.student.krms.service.TemplateResolverService;
-
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,7 +13,7 @@ import java.util.Map;
  * Time: 11:51 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface RuleViewHelperService extends TemplateResolverService {
+public interface RuleViewHelperService extends TemplateRegistry {
 
     public String getTermSpecIdForType(String type);
 

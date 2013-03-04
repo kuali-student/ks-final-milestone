@@ -5,6 +5,7 @@ import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
+import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
@@ -32,6 +33,11 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         // Since the dataObject is a wrapper class we need to build it and populate with the agenda bo.
         RuleEditor ruleEditor = new RuleEditor(rule);
         ruleEditor.setCluId(cluId);
+
+        //Initialize the PropositionEditors
+        if ((ruleEditor != null) && (ruleEditor.getProposition() != null)){
+            this.initPropositionEditor((PropositionEditor) ruleEditor.getProposition());
+        }
 
         //ruleEditor.clearRule();
         //PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);

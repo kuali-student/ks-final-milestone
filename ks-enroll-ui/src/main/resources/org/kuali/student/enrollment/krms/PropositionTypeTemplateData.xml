@@ -10,7 +10,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="TemplateInfo-parent" class="org.kuali.student.krms.dto.TemplateInfo"
+    <bean id="TemplateInfo-parent" class="org.kuali.student.enrollment.class1.krms.dto.TemplateInfo"
           p:termSpecName="null" p:operator="=" p:value="0"/>
 
     <bean id="templatesMap" class="org.springframework.beans.factory.config.MapFactoryBean">
@@ -22,6 +22,7 @@
                           p:termSpecName="CompletedCourse"
                           p:value="true">
                         <property name="display" value="KRMS-SingleCourse-SuggestField"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.CourseComponentBuilder"/>
                     </bean>
                 </entry>
 

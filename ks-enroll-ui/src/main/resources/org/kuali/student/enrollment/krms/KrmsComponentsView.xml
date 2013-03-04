@@ -51,6 +51,11 @@
             <list>
                 <bean parent="Uif-MessageField" p:messageText="Clu Components"/>
                 <ref bean="KRMS-SingleCourse-SuggestField"/>
+                <bean id="update-button" parent="Uif-SecondaryActionButton-Small">
+                    <property name="actionLabel" value="Update"/>
+                    <property name="actionScript"
+                              value="ajaxSubmitForm('updateChanges', null, jQuery(this).data('submitdata'), null, null, null);"/>
+                </bean>
                 <ref bean="KRMS-MultiCourse-Section"/>
                 <ref bean="KRMS-GPA-Field"/>
                 <ref bean="KRMS-TestScore-Field"/>

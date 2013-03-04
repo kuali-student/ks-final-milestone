@@ -1,6 +1,7 @@
-package org.kuali.student.krms.service;
+package org.kuali.student.enrollment.class1.krms.service;
 
-import org.kuali.student.krms.dto.TemplateInfo;
+import org.kuali.student.enrollment.class1.krms.builder.ComponentBuilder;
+import org.kuali.student.enrollment.class1.krms.dto.TemplateInfo;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,7 +10,7 @@ import org.kuali.student.krms.dto.TemplateInfo;
  * Time: 4:20 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface TemplateResolverService {
+public interface TemplateRegistry {
 
     public TemplateInfo getTemplateForType(String type);
 
@@ -18,5 +19,7 @@ public interface TemplateResolverService {
     public String getOperationForType(String type);
 
     public String getValueForType(String type);
+
+    public ComponentBuilder getComponentBuilderForType(String type);
 
 }
