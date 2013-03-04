@@ -97,4 +97,26 @@ public class CourseOfferingServiceConstants {
 
     // Activity Offering Cluster Types - note: not a LUI type
     public static final String AOC_ROOT_TYPE_KEY = "kuali.activity.offering.cluster.type.activity.offering.cluster";
+    
+    // Search Types
+    public static final String AUTOGEN_COUNTS_BY_CO = "kuali.search.type.course.offering.autogen.counts.by.course.offering";
+    public static final String AUTOGEN_COUNTS_BY_FO = "kuali.search.type.course.offering.autogen.counts.by.format.offering";
+    public static final String AUTOGEN_COUNTS_BY_AOC = "kuali.search.type.course.offering.autogen.counts.by.activity.offering.cluster";
+    
+    // Search Request Parameter Keys
+    public static final String AUTOGEN_COUNTS_BY_CO_ID_PARAM = "kuali.search.type.course.offering.autogen.counts.by.course.offering.param.id";
+    public static final String AUTOGEN_COUNTS_BY_FO_ID_PARAM = "kuali.search.type.course.offering.autogen.counts.by.format.offering.param.id";
+    public static final String AUTOGEN_COUNTS_BY_AOC_ID_PARAM = "kuali.search.type.course.offering.autogen.counts.by.activity.offering.cluster.param.id";
+    
+    
+    // Search Result Cell Keys (the kind of data that comes out of the Auto Gen Count Searches)
+    public static final String AUTOGEN_COUNTS_TOTAL_AOS = "kuali.search.type.course.offering.autogen.counts.total.aos";
+    public static final String AUTOGEN_COUNTS_TOTAL_AOCS = "kuali.search.type.course.offering.autogen.counts.total.aocs";
+    public static final String AUTOGEN_COUNTS_TOTAL_RGS = "kuali.search.type.course.offering.autogen.counts.total.rgs";
+    public static final String AUTOGEN_COUNTS_TOTAL_INVALID_RGS = "kuali.search.type.course.offering.autogen.counts.total.invalid.rgs";
+    
+    
+    
+    
+    
 }
