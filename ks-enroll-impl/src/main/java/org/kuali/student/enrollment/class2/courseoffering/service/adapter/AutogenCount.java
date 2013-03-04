@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * Holds the counts of activity offerings, activity offering clusters and registration groups.
+ * Holds the counts of activity offerings, activity offering clusters, total and invalid registration groups.
  * 
  * @author Kuali Student Team 
  *

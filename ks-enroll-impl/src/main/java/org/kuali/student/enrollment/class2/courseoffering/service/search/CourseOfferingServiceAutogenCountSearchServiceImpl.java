@@ -19,6 +19,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,8 +27,8 @@ import java.util.Set;
 import javax.annotation.Resource;
 import javax.jws.WebParam;
 import javax.persistence.EntityManager;
-import javax.persistence.NamedQuery;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
 import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity;
@@ -52,7 +53,6 @@ import org.kuali.student.r2.core.search.service.SearchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  *
@@ -200,38 +200,22 @@ public class CourseOfferingServiceAutogenCountSearchServiceImpl implements Searc
         
         List<SearchResultCellInfo> cellData = new ArrayList<SearchResultCellInfo>();
         
-        Set<String>aoIds = new HashSet<String>();
+        TypedQuery<ActivityOfferingClusterEntity> q = entityManager.createNamedQuery("ActivityOfferingClusterENR.getAOCsByIds", ActivityOfferingClusterEntity.class);
         
-        ActivityOfferingClusterEntity aocEntity = entityManager.find(ActivityOfferingClusterEntity.class, activityOfferingClusterId);
+        q.setParameter("aocIds", Arrays.asList(new String[] {activityOfferingClusterId}));
         
-        if (aocEntity == null) {
+        List<ActivityOfferingClusterEntity>aocs = q.getResultList();
+        
+        if (aocs.size() == 0) {
             // doesn't match so return zero's
-            SearchResultInfo results = new SearchResultInfo();
-            results.setRows(new ArrayList<SearchResultRowInfo>());
-            results.setStartAt(0);
-            results.setTotalResults(0);
-            return results;
+          SearchResultInfo results = new SearchResultInfo();
+          results.setRows(new ArrayList<SearchResultRowInfo>());
+          results.setStartAt(0);
+          results.setTotalResults(0);
+          return results;
         }
         
-        Set<ActivityOfferingSetEntity> aoSets = aocEntity.getAoSets();
-        
-        for (ActivityOfferingSetEntity activityOfferingSetEntity : aoSets) {
-            // accumulate ao ids.
-            aoIds.addAll(activityOfferingSetEntity.getAoIds());
-        }
-        
-        // count ao's in the identified aoc
-        cellData.add(new SearchResultCellInfo(CourseOfferingServiceConstants.AUTOGEN_COUNTS_TOTAL_AOS, String.valueOf(aoIds.size())));
-        
-        // special bulk query to load all of the rg id's for the ao id's given.
-        Query q = entityManager.createNamedQuery("LuiLuiRelationENR.getLuiIdsByRelatedLuisAndRelationType");
-
-        q.setParameter("luiIds", aoIds);
-        q.setParameter("luiLuiRelationTypeKey", LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY);
-        
-        List<String> rgIds =  (List<String>)q.getResultList();
-        
-        cellData.add(new SearchResultCellInfo(CourseOfferingServiceConstants.AUTOGEN_COUNTS_TOTAL_RGS, String.valueOf (rgIds.size())));
+        loadDataFromAoc (aocs, cellData);
         
         SearchResultInfo results = new SearchResultInfo();
         
@@ -247,29 +231,145 @@ public class CourseOfferingServiceAutogenCountSearchServiceImpl implements Searc
         return results;
     }
 
-    private SearchResultInfo searchAutogenCountsByFO(String searchParameter,
+    /*
+     * Load the count of AO's and Reg Groups from the list of AOC's passed in
+     */
+    private void loadDataFromAoc(List<ActivityOfferingClusterEntity> aocs,
+            List<SearchResultCellInfo> cellData) {
+        
+        cellData.add(new SearchResultCellInfo(CourseOfferingServiceConstants.AUTOGEN_COUNTS_TOTAL_AOCS, String.valueOf(aocs.size())));
+        
+        Set<String>aoIds = new HashSet<String>();
+        
+        /*
+         * Accumulate AO's in all of the AOC's
+         */
+        for (ActivityOfferingClusterEntity clusterEntity : aocs) {
+
+            Set<ActivityOfferingSetEntity> aoSets = clusterEntity.getAoSets();
+
+            for (ActivityOfferingSetEntity activityOfferingSetEntity : aoSets) {
+                // accumulate ao ids.
+                aoIds.addAll(activityOfferingSetEntity.getAoIds());
+            }
+
+        }
+
+        // count ao's in the identified aoc's
+        cellData.add(new SearchResultCellInfo(CourseOfferingServiceConstants.AUTOGEN_COUNTS_TOTAL_AOS, String.valueOf(aoIds.size())));
+        
+        // load all of the reg groups in all of these ao's
+       loadRegGroupCounts (aoIds, cellData);
+    }
+
+    /*
+     * Find the total reg groups for the AO's given and then the subset that are invalid and record the counts into the cellData list provided.
+     */
+    private void loadRegGroupCounts(Set<String> aoIds,
+            List<SearchResultCellInfo> cellData) {
+       
+        // special bulk query to load all of the rg id's and state key for the ao id's given.
+        Query q = entityManager.createNamedQuery("LuiLuiRelationENR.getLuiIdsAndStateByRelatedLuisAndRelationType");
+
+        q.setParameter("luiIds", aoIds);
+        q.setParameter("luiLuiRelationTypeKey", LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY);
+        
+        List<Object[]> rgData =  (List<Object[]>)q.getResultList();
+        
+        cellData.add(new SearchResultCellInfo(CourseOfferingServiceConstants.AUTOGEN_COUNTS_TOTAL_RGS, String.valueOf (rgData.size())));
+        
+        int invalidRegGroups = 0;
+        
+        for (Object[] row : rgData) {
+            String rgId = (String)row[0];
+            String stateKey = (String)row[1];
+            
+            if (stateKey.equals(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY)) {
+                invalidRegGroups++;
+            }
+        }
+        
+        cellData.add(new SearchResultCellInfo(CourseOfferingServiceConstants.AUTOGEN_COUNTS_TOTAL_INVALID_RGS, String.valueOf (invalidRegGroups)));
+        
+    }
+
+    private SearchResultInfo searchAutogenCountsByFO(String formatOfferingId,
             ContextInfo contextInfo) {
         
-        // TODO implement this method to return the counts
+        TypedQuery<ActivityOfferingClusterEntity> q = entityManager.createNamedQuery("ActivityOfferingClusterENR.getAOCsByFormatOfferingIds", ActivityOfferingClusterEntity.class);
+        
+        q.setParameter("foIds", Arrays.asList(new String[] {formatOfferingId}));
+        
+        List<ActivityOfferingClusterEntity> aocs = q.getResultList();
+        
+        if (aocs.size() == 0) {
+            // doesn't match so return zero's
+          SearchResultInfo results = new SearchResultInfo();
+          results.setRows(new ArrayList<SearchResultRowInfo>());
+          results.setStartAt(0);
+          results.setTotalResults(0);
+          return results;
+        }
+        
+        List<SearchResultCellInfo> cellData = new ArrayList<SearchResultCellInfo>();
+        
+        loadDataFromAoc (aocs, cellData);
+        
         SearchResultInfo results = new SearchResultInfo();
         
-        results.setRows(Arrays.asList(new SearchResultRowInfo [] {}));
+        SearchResultRowInfo data = new SearchResultRowInfo();
+       
+        data.setCells(cellData);
+        
+        results.setRows(Arrays.asList(new SearchResultRowInfo [] {data}));
         results.setStartAt(0);
-        results.setTotalResults(0);
+        results.setTotalResults(1);
         results.setSortDirection(SortDirection.DESC);
         
         return results;
     }
 
-    private SearchResultInfo searchAutogenCountsByCO(String searchParameter,
+    private SearchResultInfo searchAutogenCountsByCO(String courseOfferingId,
             ContextInfo contextInfo) {
         
-        // TODO implement this method to return the counts
+        // first get the list of format ids for this course offering
+        
+        Query queryFormatOfferingIds = entityManager.createNamedQuery("LuiLuiRelationENR.getRelatedLuiIdsByLuiIdAndRelationType");
+
+        queryFormatOfferingIds.setParameter("luiId", courseOfferingId);
+        
+        queryFormatOfferingIds.setParameter("luiLuiRelationTypeKey", LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY);
+        
+        List<String> formatOfferingIds = queryFormatOfferingIds.getResultList();
+        
+        TypedQuery<ActivityOfferingClusterEntity> queryAOCs = entityManager.createNamedQuery("ActivityOfferingClusterENR.getAOCsByFormatOfferingIds", ActivityOfferingClusterEntity.class);
+        
+        queryAOCs.setParameter("foIds", formatOfferingIds);
+        
+        List<ActivityOfferingClusterEntity> aocs = queryAOCs.getResultList();
+        
+        if (aocs.size() == 0) {
+            // doesn't match so return zero's
+          SearchResultInfo results = new SearchResultInfo();
+          results.setRows(new ArrayList<SearchResultRowInfo>());
+          results.setStartAt(0);
+          results.setTotalResults(0);
+          return results;
+        }
+        
+        List<SearchResultCellInfo> cellData = new ArrayList<SearchResultCellInfo>();
+        
+        loadDataFromAoc (aocs, cellData);
+        
         SearchResultInfo results = new SearchResultInfo();
         
-        results.setRows(Arrays.asList(new SearchResultRowInfo [] {}));
+        SearchResultRowInfo data = new SearchResultRowInfo();
+       
+        data.setCells(cellData);
+        
+        results.setRows(Arrays.asList(new SearchResultRowInfo [] {data}));
         results.setStartAt(0);
-        results.setTotalResults(0);
+        results.setTotalResults(1);
         results.setSortDirection(SortDirection.DESC);
         
         return results;

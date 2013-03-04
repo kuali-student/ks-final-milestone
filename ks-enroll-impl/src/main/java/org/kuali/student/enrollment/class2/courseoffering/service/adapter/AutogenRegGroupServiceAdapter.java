@@ -130,6 +130,8 @@ public interface AutogenRegGroupServiceAdapter {
      * 
      * Compute the maximum number of seats for the Activity Offerings within the given Course Offering specified by courseOfferingId.
      * 
+     * Note: Out of Scope for M6
+     * 
      * @param courseOfferingId
      * @param contextInfo Context information containing the
      *                                  principalId and locale information about
@@ -146,6 +148,8 @@ public interface AutogenRegGroupServiceAdapter {
      * 
      * Compute the maximum number of seats for Activity Offering's within the Activity Offering Cluster specified by aocId.
      * 
+     * Note: Out of Scope for M6
+     * 
      * @param aocId
      * @param contextInfo Context information containing the
      *                                  principalId and locale information about
@@ -160,6 +164,8 @@ public interface AutogenRegGroupServiceAdapter {
      * User Story 8: As a user, I want to view counts of seats so that I can ensure I have the right numbers of seats to support my business needs.
      * 
      * Compute the maximum number of seats for Activity Offerings within the Registration Group specified by registrationGroupId.
+     * 
+     * Note: Out of Scope for M6
      * 
      * @param registrationGroupId
      * @param contextInfo Context information containing the

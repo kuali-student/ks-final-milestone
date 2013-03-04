@@ -110,21 +110,23 @@ public class TestAutoGenServiceAdapterSearchService extends
         
         AutogenCount counts = null;
         
-        try {
-            counts = serviceAdapter.getAutogenCountByCourseOffering("Lui-1", contextInfo);
-        } catch (DoesNotExistException e) {
-            // remove this once the method is implemented
-        }
+        counts = serviceAdapter.getAutogenCountByCourseOffering("Lui-1", contextInfo);
         
-        try {
-            counts = serviceAdapter.getAutogenCountByFormatOffering("Lui-1", contextInfo);
-        } catch (DoesNotExistException e) {
-            // remove this once the method is implemented
-        }
+        Assert.assertEquals(1, counts.getNumberOfActivityOfferingClusters().intValue());
+        Assert.assertEquals(3, counts.getNumberOfActivityOfferings().intValue());
+        Assert.assertEquals(2, counts.getNumberOfRegistrationGroups().intValue());
+        Assert.assertEquals(0, counts.getNumberOfInvalidRegistrationGroups().intValue());
+        
+        counts = serviceAdapter.getAutogenCountByFormatOffering("Lui-6", contextInfo);
+        
+        Assert.assertEquals(1, counts.getNumberOfActivityOfferingClusters().intValue());
+        Assert.assertEquals(3, counts.getNumberOfActivityOfferings().intValue());
+        Assert.assertEquals(2, counts.getNumberOfRegistrationGroups().intValue());
+        Assert.assertEquals(0, counts.getNumberOfInvalidRegistrationGroups().intValue());
         
         counts = serviceAdapter.getAutogenCountByActivtyOfferingCluster(actual.getId(), contextInfo);
         
-        Assert.assertEquals(0, counts.getNumberOfActivityOfferingClusters().intValue());
+        Assert.assertEquals(1, counts.getNumberOfActivityOfferingClusters().intValue());
         Assert.assertEquals(3, counts.getNumberOfActivityOfferings().intValue());
         Assert.assertEquals(2, counts.getNumberOfRegistrationGroups().intValue());
         Assert.assertEquals(0, counts.getNumberOfInvalidRegistrationGroups().intValue());

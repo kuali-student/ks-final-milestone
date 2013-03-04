@@ -30,6 +30,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
@@ -47,6 +49,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_CO_AO_CLUSTER")
+@NamedQueries({
+    @NamedQuery(name="ActivityOfferingClusterENR.getAOCsByIds", query="Select aoc from ActivityOfferingClusterEntity aoc where aoc.id in (:aocIds)"),
+    @NamedQuery(name="ActivityOfferingClusterENR.getAOCsByFormatOfferingIds", query="Select aoc from ActivityOfferingClusterEntity aoc where aoc.formatOfferingId in (:foIds)"),
+})
 public class ActivityOfferingClusterEntity extends MetaEntity implements AttributeOwner<ActivityOfferingClusterAttributeEntity> {
 
     @Column(name = "NAME")
