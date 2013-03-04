@@ -82,7 +82,7 @@ import static org.junit.Assert.fail;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:co-autogen-rg-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:co-autogen-rg-test-class2-mock-context.xml"})
 public class TestAutogenRegGroupServiceAdapterImpl {
     private static final Logger log = KSLog4JConfigurer
             .getLogger(TestAutogenRegGroupServiceAdapterImpl.class);

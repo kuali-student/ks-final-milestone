@@ -49,6 +49,11 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 
 /**
  * Implementation of the Application Service Layer to provide the functionally specified functionality
@@ -62,6 +67,8 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
     @Resource (name="CourseOfferingService")
     private CourseOfferingService coService;
     
+    @Resource (name="SearchService")
+    private SearchService searchService;
     
     /* (non-Javadoc)
      * @see org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter#getDefaultClusterName(int)
@@ -451,6 +458,101 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
 
         return issues;
     }
+
+    /* (non-Javadoc)
+     * @see org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter#getAutogenCountByCourseOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public AutogenCount getAutogenCountByCourseOffering(
+            String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        
+        SearchRequestInfo request = new SearchRequestInfo(CourseOfferingServiceConstants.AUTOGEN_COUNTS_BY_CO);
+        
+        request.addParam(CourseOfferingServiceConstants.AUTOGEN_COUNTS_BY_CO_ID_PARAM, courseOfferingId);
+        
+        return runAutogenCountSearch (request, context); 
+    }
+
+    /*
+     * Helper to dispatch the search request and accumulate the results into an AutogenCount object.
+     */
+    private AutogenCount runAutogenCountSearch(SearchRequestInfo request, ContextInfo context) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+
+        request.setMaxResults(1);
+
+        SearchResultInfo results = searchService.search(request, context);
+
+        if (results.getRows().size() == 0) {
+            // handle the no match case (This probably should never happen but this guards against such a case causing problems)
+            throw new DoesNotExistException("No Results");
+        }
+        // else:
+        SearchResultRowInfo row = results.getRows().get(0);
+
+        AutogenCount count = new AutogenCount();
+
+        // setup the defaults
+        count.setNumberOfActivityOfferingClusters(0);
+        count.setNumberOfActivityOfferings(0);
+        count.setNumberOfInvalidRegistrationGroups(0);
+        count.setNumberOfRegistrationGroups(0);
+        
+        List<SearchResultCellInfo> cells = row.getCells();
+
+        for (SearchResultCellInfo cellInfo : cells) {
+            String cellKey = cellInfo.getKey();
+
+            if (cellKey
+                    .equals(CourseOfferingServiceConstants.AUTOGEN_COUNTS_TOTAL_AOS)) {
+                count.setNumberOfActivityOfferings(Integer.parseInt(cellInfo
+                        .getValue()));
+            } else if (cellKey
+                    .equals(CourseOfferingServiceConstants.AUTOGEN_COUNTS_TOTAL_AOCS)) {
+                count.setNumberOfActivityOfferingClusters(Integer
+                        .parseInt(cellInfo.getValue()));
+            } else if (cellKey
+                    .equals(CourseOfferingServiceConstants.AUTOGEN_COUNTS_TOTAL_RGS)) {
+                count.setNumberOfRegistrationGroups(Integer.parseInt(cellInfo
+                        .getValue()));
+            } else if (cellKey
+                    .equals(CourseOfferingServiceConstants.AUTOGEN_COUNTS_TOTAL_INVALID_RGS)) {
+                count.setNumberOfInvalidRegistrationGroups(Integer
+                        .parseInt(cellInfo.getValue()));
+            }
+        }
+
+        return count;
+    }
+    /* (non-Javadoc)
+     * @see org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter#getAutogenCountByFormatOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public AutogenCount getAutogenCountByFormatOffering(
+            String formatOfferingId, ContextInfo context) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+       
+        SearchRequestInfo request = new SearchRequestInfo(CourseOfferingServiceConstants.AUTOGEN_COUNTS_BY_FO);
+        
+        request.addParam(CourseOfferingServiceConstants.AUTOGEN_COUNTS_BY_FO_ID_PARAM, formatOfferingId);
+        
+        return runAutogenCountSearch (request, context); 
+    }
+
+    /* (non-Javadoc)
+     * @see org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter#getAutogenCountByActivtyOfferingCluster(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public AutogenCount getAutogenCountByActivtyOfferingCluster(
+            String activiyOfferingClusterId, ContextInfo context) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        
+        SearchRequestInfo request = new SearchRequestInfo(CourseOfferingServiceConstants.AUTOGEN_COUNTS_BY_AOC);
+        
+        request.addParam(CourseOfferingServiceConstants.AUTOGEN_COUNTS_BY_AOC_ID_PARAM, activiyOfferingClusterId);
+        
+        return runAutogenCountSearch (request, context); 
+        
+    }
+    
+    
 
 
 }

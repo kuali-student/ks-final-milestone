@@ -40,6 +40,10 @@ import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -72,24 +76,24 @@ import static org.junit.Assert.fail;
 @Transactional
 public class TestCourseOfferingServiceImplM4 {
     @Resource
-    private CourseOfferingService coServiceImpl;
+    protected CourseOfferingService coServiceImpl;
     @Resource
-    private PopulationService populationService;
+    protected PopulationService populationService;
     @Resource
-    private LuiService luiService;
+    protected LuiService luiService;
     @Resource
-    private AcademicCalendarService acalService;
+    protected AcademicCalendarService acalService;
     @Resource
-    private TypeService typeService;
-
-    private ContextInfo contextInfo;
+    protected TypeService typeService;
+    
+    protected ContextInfo contextInfo;
 
     @Resource
     protected LuiServiceDataLoader dataLoader = new LuiServiceDataLoader();
 
-    private MockAcalTestDataLoader acalTestDataLoader;
+    protected MockAcalTestDataLoader acalTestDataLoader;
 
-    private void before() {
+    protected void before() {
         if(contextInfo == null) {
             contextInfo = ContextUtils.createDefaultContextInfo();
             contextInfo.setPrincipalId("admin");
@@ -223,7 +227,7 @@ public class TestCourseOfferingServiceImplM4 {
         return registrationGroupInfo;
     }
 
-    private List<String> extractActivityOfferingIds(List<ActivityOfferingSetInfo> aoList) {
+    protected List<String> extractActivityOfferingIds(List<ActivityOfferingSetInfo> aoList) {
         List<String> idList = new ArrayList<String>();
 
         for (ActivityOfferingSetInfo activityOfferingSetInfo : aoList) {
@@ -234,7 +238,7 @@ public class TestCourseOfferingServiceImplM4 {
         return idList;
     }
 
-    private ActivityOfferingClusterInfo _createAOC() {
+    protected ActivityOfferingClusterInfo _createAOC() {
         ActivityOfferingClusterInfo expected;
         try {
             ActivityOfferingInfo activities[] = new ActivityOfferingInfo[]{

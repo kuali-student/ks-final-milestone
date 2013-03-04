@@ -172,4 +172,51 @@ public interface AutogenRegGroupServiceAdapter {
     public Integer getSeatCountByRegistrationGroup (String registrationGroupId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException;
 
     public List<CourseOfferingAutogenIssue> findAutogenIssuesByTerm(TermInfo termInfo, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException;
+    
+    /**
+     * User Story 9: As a user, I want to be able to view AOs by Activity, AOC, or Registration Group so that I can view my Activities in a way to support my specific business needs
+     * 
+     * Get the counts for the information tool bar at the course offering level.
+     * 
+     * @param courseOfferingId
+     * @param context
+     * @return the counts at the course offering level.
+     * @throws OperationFailedException 
+     * @throws MissingParameterException 
+     * @throws InvalidParameterException 
+     * @throws DoesNotExistException 
+     * @throws PermissionDeniedException 
+     */
+    public AutogenCount getAutogenCountByCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    /**
+     * User Story 9: As a user, I want to be able to view AOs by Activity, AOC, or Registration Group so that I can view my Activities in a way to support my specific business needs
+     * 
+     * Get the counts for the information toolbar at the format offering level.
+     * 
+     * @param formatOfferingId
+     * @param context
+     * @return the counts at the format offering level.
+     * 
+     */
+    public AutogenCount getAutogenCountByFormatOffering(String formatOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
+    /**
+     * User Story 9: As a user, I want to be able to view AOs by Activity, AOC, or Registration Group so that I can view my Activities in a way to support my specific business needs
+     * 
+     * Get the counts for the information tool bar at the Activity Offering Cluster Level.
+     * 
+     * Note there will always be zero aoc's reported as it is nonsensical at this level.
+     * 
+     * @param activiyOfferingClusterId
+     * @param context
+     * @return the counts at the Activity Offering Cluster Level.
+     */
+    public AutogenCount getAutogenCountByActivtyOfferingCluster (String activiyOfferingClusterId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
+    
+    
+   
 }

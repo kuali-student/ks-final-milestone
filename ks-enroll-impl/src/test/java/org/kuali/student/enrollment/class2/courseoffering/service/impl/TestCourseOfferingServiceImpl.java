@@ -30,6 +30,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
@@ -84,7 +85,7 @@ public class TestCourseOfferingServiceImpl {
 
     @Resource(name = "LrcService")
     protected LRCService lrcService;
-
+    
     public static String principalId = "123";
     public ContextInfo callContext = null;
 
@@ -644,4 +645,6 @@ public class TestCourseOfferingServiceImpl {
         assertNotNull(coloInfos);
         assertEquals(1,coloInfos.size());
     }
+    
+   
 }

@@ -9,20 +9,16 @@
 
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-  <import resource="classpath:co-test-context.xml" />
+  <import resource="classpath:co-test-with-class2-mock-context.xml" />
   
-  <!-- Search Service setup -->
-    <bean id="AutogenCountSearchServiceImpl" class="org.kuali.student.enrollment.class2.courseoffering.service.search.CourseOfferingServiceAutogenCountSearchServiceImpl" autowire="autodetect">
-    </bean>
-
-    <bean id="SearchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
+   <bean id="SearchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
         <property name="searchServices">
             <list>
-                 <ref bean="AutogenCountSearchServiceImpl"/>
+            	<!--  intentionally empty: search doesn't work in the mock context but we do need to have the bean defined. -->
             </list>
         </property>                
     </bean>
-    
+  
     <bean id="autogenRegistrationGroupAppLayer" class=" org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapterImpl" autowire="autodetect" />
     
 
