@@ -17,6 +17,7 @@ package org.kuali.student.r2.core.organization.dto;
 
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.organization.infc.OrgCode;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -62,15 +63,11 @@ public class OrgCodeInfo
         super(orgCode);
         this.value = orgCode.getValue();
         if (orgCode.getDescr() != null) {
-            this.descr = new RichTextInfo(orgCode.getDescr());
+            this.descr = RichTextHelper.buildRichTextInfo(orgCode.getDescr().getPlain(), orgCode.getDescr().getFormatted());
         }
     }
 
-    /**
-     * @deprecated Please use the typeKey instead.
-     */
     @Override
-    @Deprecated
     public String getKey() {
         return getTypeKey();
     }
@@ -83,11 +80,7 @@ public class OrgCodeInfo
         setTypeKey(key);
     }
 
-    /**
-     * @deprecated Please use the type description instead.
-     */
     @Override
-    @Deprecated
     public RichTextInfo getDescr() {
         return descr;
     }

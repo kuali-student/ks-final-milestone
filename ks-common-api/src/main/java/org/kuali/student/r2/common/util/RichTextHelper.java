@@ -34,14 +34,8 @@ public class RichTextHelper {
         return info;
     }
 
-    public static RichTextInfo toRichTextInfo(String plain, String formatted) {
-        if (plain == null) {
-            return null;
-        }
-        RichTextInfo info = new RichTextInfo();
-        info.setFormatted(formatted);
-        info.setPlain(plain);
-        return info;
+    public RichTextInfo toRichTextInfo(String plain, String formatted) {
+        return buildRichTextInfo(plain, formatted);
     }
 
     public RichTextInfo fromFormatted(String plain) {
@@ -52,12 +46,12 @@ public class RichTextHelper {
         return toRichTextInfo(plain, plain2Formatted(plain));
     }
 
-    public String formatted2Plain(String forematted) {
-        if (forematted == null) {
+    public String formatted2Plain(String formatted) {
+        if (formatted == null) {
             return null;
         }
         // TODO: actually implement a real conversion
-        return forematted.replaceAll("<br>", "\n");
+        return formatted.replaceAll("<br>", "\n");
     }
 
     public String plain2Formatted(String plain) {

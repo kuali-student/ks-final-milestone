@@ -203,10 +203,10 @@ public class OrgEntity extends MetaEntity implements AttributeOwner<OrgAttribute
         info.setTypeKey(orgType);
         info.setStateKey(orgState);
         info.setLongName(longName);
-        info.setLongDescr(RichTextHelper.toRichTextInfo(longDescrPlain, longDescrFormatted));
+        info.setLongDescr(RichTextHelper.buildRichTextInfo(longDescrPlain, longDescrFormatted));
         info.setShortName(shortName);
         info.setSortName(sortName);
-        info.setShortDescr(RichTextHelper.toRichTextInfo(shortDescrPlain, shortDescrFormatted));
+        info.setShortDescr(RichTextHelper.buildRichTextInfo(shortDescrPlain, shortDescrFormatted));
         info.setExpirationDate(expirationDate);
         info.setEffectiveDate(effectiveDate);
         info.setMeta(super.toDTO());

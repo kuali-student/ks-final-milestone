@@ -181,7 +181,7 @@ public class OrgHierarchyEntity extends MetaEntity implements AttributeOwner<Org
         info.setTypeKey(orgHierarchyType);
         info.setStateKey(orgHierarchyState);
         info.setName(name);
-        info.setDescr(RichTextHelper.toRichTextInfo(descrPlain, descrFormatted));
+        info.setDescr(RichTextHelper.buildRichTextInfo(descrPlain, descrFormatted));
         info.setRootOrgId(rootOrgId);
         info.setExpirationDate(expirationDate);
         info.setEffectiveDate(effectiveDate);
