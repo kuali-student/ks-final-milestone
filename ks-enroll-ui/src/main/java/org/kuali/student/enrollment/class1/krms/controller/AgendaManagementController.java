@@ -94,61 +94,6 @@ public class AgendaManagementController extends UifControllerBase  {
     }
 
     /*
-     * Method used to
-     *  1) search to get TermInfo based on termCode. Only accept one valid TermInfo. If find more than one TermInfo or
-     *  don't find any termInfo, log and report an error message.
-     *  2) If the input is subject code, load all course offerings based on termId and subjectCode
-     *  3) If the input is course offering code,
-     *      a)find THE course offering based on termId and courseOfferingCode. If find more than one CO or don't find
-     *        any CO, log and report an error message.
-     *      b)load all activity offerings based on the courseOfferingId
-     */
-    @RequestMapping(params = "methodToCall=show")
-    public ModelAndView show(@ModelAttribute("KualiForm") AgendaManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
-                             @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-
-        //First, find TermInfo based on termCode
-        String termCode = theForm.getTermCode();
-        List<TermInfo> termList = getViewHelperService(theForm).findTermByTermCode(termCode);
-
-        if (termList != null && !termList.isEmpty()){
-            if( termList.size() == 1) {
-                // Get THE term
-                theForm.setTermInfo(termList.get(0));
-            } else {
-                LOG.error("Error: Found more than one Term for term code: " + termCode);
-                GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
-                theForm.clearCourseOfferingResultList();
-                return getUIFModelAndView(theForm);
-             }
-        } else {
-            LOG.error("Error: Can't find any Term for term code: " + termCode);
-            GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, termCode);
-            theForm.clearCourseOfferingResultList();
-            return getUIFModelAndView(theForm);
-        }
-
-        //load all courseofferings based on subject Code
-        String inputCode = theForm.getInputCode();
-        if (inputCode != null && !inputCode.isEmpty()) {
-            getViewHelperService(theForm).loadAgendasByTermAndCourseCode(theForm.getTermInfo().getId(), inputCode, theForm);
-            //
-            theForm.setEditAuthz(checkEditViewAuthz(theForm));
-            if (GlobalVariables.getMessageMap().getErrorMessages().isEmpty()){
-                return getUIFModelAndView(theForm, "manageAgendasPage");
-            }else{
-                return getUIFModelAndView(theForm, CourseOfferingConstants.SEARCH_PAGE);
-            }
-        } else {
-            LOG.error("Error: Course Code search field can't be empty");
-            GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Offering", inputCode, termCode);
-            theForm.clearCourseOfferingResultList();
-
-            return getUIFModelAndView(theForm);
-        }
-    }
-
-    /*
      * Method used to edit a selected CO or AO
      */
     @RequestMapping(params = "methodToCall=edit")

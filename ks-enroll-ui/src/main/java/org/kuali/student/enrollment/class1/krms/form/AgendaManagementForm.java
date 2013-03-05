@@ -1,9 +1,13 @@
 package org.kuali.student.enrollment.class1.krms.form;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.util.tree.Node;
+import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
+import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
+import org.kuali.student.enrollment.class1.krms.tree.node.TreeNode;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
@@ -11,10 +15,11 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingList
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AgendaManagementForm extends UifFormBase {
+public class AgendaManagementForm extends UifFormBase implements Serializable {
 
     AgendaDefinition agenda;
 
@@ -37,6 +42,14 @@ public class AgendaManagementForm extends UifFormBase {
     String recommendedPreparationInstruction;
     String restrictCreditsInstruction;
     String repeatableCreditInstruction;
+
+    // for Rule Preview display
+    private transient Tree<TreeNode, String> studentEligAndPrereqPreviewTree;
+    private transient Tree<TreeNode, String> corequisitePreviewTree;
+    private transient Tree<TreeNode, String> antirequisitePreviewTree;
+    private transient Tree<TreeNode, String> recPrepPreviewTree;
+    private transient Tree<TreeNode, String> restrictCreditPreviewTree;
+    private transient Tree<TreeNode, String> repeatableCreditPreviewTree;
 
     //for authorization purpose
     private String adminOrg;
@@ -88,6 +101,19 @@ public class AgendaManagementForm extends UifFormBase {
     private boolean enableAddButton = false;
 
     public AgendaManagementForm(){
+        studentEligAndPrereqPreviewTree = new Tree<TreeNode, String>();
+        studentEligAndPrereqPreviewTree.setRootElement(new Node<TreeNode, String>());
+        corequisitePreviewTree = new Tree<TreeNode, String>();
+        corequisitePreviewTree.setRootElement(new Node<TreeNode, String>());
+        antirequisitePreviewTree  = new Tree<TreeNode, String>();
+        antirequisitePreviewTree.setRootElement(new Node<TreeNode, String>());
+        recPrepPreviewTree = new Tree<TreeNode, String>();
+        recPrepPreviewTree.setRootElement(new Node<TreeNode, String>());
+        restrictCreditPreviewTree = new Tree<TreeNode, String>();
+        restrictCreditPreviewTree.setRootElement(new Node<TreeNode, String>());
+        repeatableCreditPreviewTree = new Tree<TreeNode, String>();
+        repeatableCreditPreviewTree.setRootElement(new Node<TreeNode, String>());
+
         courseOfferingResultList = new ArrayList<CourseOfferingListSectionWrapper>();
         courseOfferingResultListEmpty = new ArrayList<CourseOfferingListSectionWrapper>();
     }
@@ -210,6 +236,54 @@ public class AgendaManagementForm extends UifFormBase {
 
     public void setRepeatableCreditInstruction(String repeatableCreditInstruction) {
         this.repeatableCreditInstruction = repeatableCreditInstruction;
+    }
+
+    public Tree<TreeNode, String> getStudentEligAndPrereqPreviewTree() {
+        return studentEligAndPrereqPreviewTree;
+    }
+
+    public void setStudentEligAndPrereqPreviewTree(Tree<TreeNode, String> studentEligAndPrereqPreviewTree) {
+        this.studentEligAndPrereqPreviewTree = studentEligAndPrereqPreviewTree;
+    }
+
+    public Tree<TreeNode, String> getCorequisitePreviewTree() {
+        return corequisitePreviewTree;
+    }
+
+    public void setCorequisitePreviewTree(Tree<TreeNode, String> corequisitePreviewTree) {
+        this.corequisitePreviewTree = corequisitePreviewTree;
+    }
+
+    public Tree<TreeNode, String> getAntirequisitePreviewTree() {
+        return antirequisitePreviewTree;
+    }
+
+    public void setAntirequisitePreviewTree(Tree<TreeNode, String> antirequisitePreviewTree) {
+        this.antirequisitePreviewTree = antirequisitePreviewTree;
+    }
+
+    public Tree<TreeNode, String> getRecPrepPreviewTree() {
+        return recPrepPreviewTree;
+    }
+
+    public void setRecPrepPreviewTree(Tree<TreeNode, String> recPrepPreviewTree) {
+        this.recPrepPreviewTree = recPrepPreviewTree;
+    }
+
+    public Tree<TreeNode, String> getRepeatableCreditPreviewTree() {
+        return repeatableCreditPreviewTree;
+    }
+
+    public void setRepeatableCreditPreviewTree(Tree<TreeNode, String> repeatableCreditPreviewTree) {
+        this.repeatableCreditPreviewTree = repeatableCreditPreviewTree;
+    }
+
+    public Tree<TreeNode, String> getRestrictCreditPreviewTree() {
+        return restrictCreditPreviewTree;
+    }
+
+    public void setRestrictCreditPreviewTree(Tree<TreeNode, String> restrictCreditPreviewTree) {
+        this.restrictCreditPreviewTree = restrictCreditPreviewTree;
     }
 
     public String getTermCode(){

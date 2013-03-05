@@ -202,6 +202,13 @@ public class KSKRMSConstants {
 	public static final String CONTEXT_REPEATED_CREDITS = "Repeatable for Credit";
 	public static final String CONTEXT_STUD_ELIGIBILITY = "Student Eligibility & Prerequisite";
 
+    public static final String STUD_ELIGIBILITY_RYLE_TYPE = "kuali.krms.rule.type.course.academicReadiness.studentEligibilityPrereq";
+    public static final String CORE_REQUISITE_RYLE_TYPE = "kuali.krms.rule.type.course.academicReadiness.coreq";
+    public static final String ANTI_REQUISITE_RYLE_TYPE = "kuali.krms.rule.type.course.academicReadiness.antireq";
+    public static final String RECOMMENDED_PREPERATION_RYLE_TYPE = "kuali.krms.rule.type.course.recommendedPreparation";
+    public static final String REPEATED_CREDITS_RYLE_TYPE = "kuali.krms.rule.type.course.credit.repeatable";
+    public static final String COURSE_RESTRICTS_RYLE_TYPE = "kuali.krms.rule.type.course.credit.restriction";
+
 	public static final String PERSON_ID_TERM_PROPERTY = "personIdProperty";
 	public static final String COURSE_CODE_TERM_PROPERTY = "courseCodeProperty";
 	//
