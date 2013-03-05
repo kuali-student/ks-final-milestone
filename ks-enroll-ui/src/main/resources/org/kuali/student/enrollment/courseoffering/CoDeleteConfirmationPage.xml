@@ -98,9 +98,11 @@
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="layoutManager.richTable">
-            <bean parent="Uif-PagedRichTable">
+            <bean parent="Uif-RichTable">
                 <property name="templateOptions">
                     <map merge="true">
+                        <entry key="bPaginate" value="false"/>
+                        <entry key="sDom" value="fTrt"/>
                         <entry key="aoColumnDefs" value="[{&quot;sWidth&quot; : &quot;20px&quot;, &quot;aTargets&quot; : [0]}]"/>
                     </map>
                 </property>
