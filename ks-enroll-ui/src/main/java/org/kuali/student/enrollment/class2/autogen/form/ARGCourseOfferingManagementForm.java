@@ -31,15 +31,38 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class ARGCourseOfferingManagementForm extends KSUifForm {
+    //TODO: do we still need this for manage theCO page?
     //for authorization purpose
     private String adminOrg;
 
     /**
-     * This is the user entered field data when they search for Course/Activity Offerings.
-     * For a term and subjectArea/CourseOffering code, search will be performed.
+     * Search input field with the label of *Term
      */
     private String termCode;
+    /**
+     * Search input filed with the label of *Course
+     * This is the user entered field data when they search for Course/Activity Offerings.
+     * For a term and subjectArea/CourseOffering code, search will be performed.        *
+     */
     private String inputCode;
+    /**
+     * This is used to display CO search result list in manage COs page
+     */
+    private List<CourseOfferingListSectionWrapper> courseOfferingResultList;
+    /**
+     * This is used to display AO list under a specified CO in manage the CO page
+     */
+    private List<ActivityOfferingWrapper> activityWrapperList;
+    /**
+     * This is used to display AOC list under a specified CO in manage the CO page
+     * was filteredAOClusterWrapperList in RGManagementForm
+     */
+    private List<ActivityOfferingClusterWrapper> aocResultList;
+    /**
+     * This is used to display all registration group list under a specified CO in
+     * manage the CO page.
+     */
+    private List<RegistrationGroupWrapper> rgResultList;
 
     private TermInfo termInfo;
 
@@ -53,15 +76,16 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
      */
     private String subjectCodeDescription;
 
-    private List<ActivityOfferingWrapper> activityWrapperList;
-
-    private List<CourseOfferingListSectionWrapper> courseOfferingResultList;
 
     //For Adding Activity
     private String formatIdForNewAO;
     private String activityIdForNewAO;
     private String noOfActivityOfferings;
 
+    //TODO: why do we need wrapper objects here. why can't be COInfo.id?
+    /**
+     * This is used to hold the Course Offering for mange the CO page
+     */
     private CourseOfferingWrapper currentCourseOfferingWrapper;
     private CourseOfferingWrapper previousCourseOfferingWrapper;
     private CourseOfferingWrapper nextCourseOfferingWrapper;
@@ -120,6 +144,9 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
         courseOfferingResultList = new ArrayList<CourseOfferingListSectionWrapper>();
         selectedCoToDeleteList = new ArrayList<CourseOfferingListSectionWrapper>();
+        aocResultList = new ArrayList<ActivityOfferingClusterWrapper>();
+        rgResultList = new ArrayList<RegistrationGroupWrapper>();
+
         setCourseOfferingCopyWrapper(null);
     }
 
@@ -302,6 +329,22 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
 
     public void setCourseOfferingResultList(List<CourseOfferingListSectionWrapper> courseOfferingResultList) {
         this.courseOfferingResultList = courseOfferingResultList;
+    }
+
+    public List<ActivityOfferingClusterWrapper> getAocResultList() {
+        return aocResultList;
+    }
+
+    public void setAocResultList(List<ActivityOfferingClusterWrapper> aocResultList) {
+        this.aocResultList = aocResultList;
+    }
+
+    public List<RegistrationGroupWrapper> getRgResultList() {
+        return rgResultList;
+    }
+
+    public void setRgResultList(List<RegistrationGroupWrapper> rgResultList) {
+        this.rgResultList = rgResultList;
     }
 
     public boolean getEditAuthz(){

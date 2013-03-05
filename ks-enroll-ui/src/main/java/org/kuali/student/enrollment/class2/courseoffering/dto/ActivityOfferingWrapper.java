@@ -4,6 +4,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -18,6 +19,8 @@ import java.util.Date;
 import java.util.List;
 
 public class ActivityOfferingWrapper implements Serializable{
+    //added for ARG
+    private ActivityOfferingClusterInfo aoCluster;
 
     private ActivityOfferingInfo aoInfo;
     private FormatOfferingInfo formatOffering;
@@ -109,6 +112,14 @@ public class ActivityOfferingWrapper implements Serializable{
         aoInfo = info;
         instructors = new ArrayList<OfferingInstructorWrapper>();
         seatpools = new ArrayList<SeatPoolWrapper>();
+    }
+
+    public ActivityOfferingClusterInfo getAoCluster() {
+        return aoCluster;
+    }
+
+    public void setAoCluster(ActivityOfferingClusterInfo aoCluster) {
+        this.aoCluster = aoCluster;
     }
 
     public boolean isEnableApproveButton() {

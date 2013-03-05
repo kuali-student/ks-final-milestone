@@ -17,6 +17,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
@@ -28,6 +30,9 @@ import java.io.Serializable;
  * @author Kuali Student Team
  */
 public class RegistrationGroupWrapper implements Serializable {
+    //added for ARG
+    private ActivityOfferingClusterInfo aoCluster;
+    private FormatOfferingInfo formatOfferingInfo;
 
     private RegistrationGroupInfo rgInfo;
     private String aoActivityCodeText;
@@ -49,6 +54,22 @@ public class RegistrationGroupWrapper implements Serializable {
 
     public RegistrationGroupWrapper(RegistrationGroupInfo info) {
         rgInfo = info;
+    }
+
+    public ActivityOfferingClusterInfo getAoCluster() {
+        return aoCluster;
+    }
+
+    public void setAoCluster(ActivityOfferingClusterInfo aoCluster) {
+        this.aoCluster = aoCluster;
+    }
+
+    public FormatOfferingInfo getFormatOfferingInfo() {
+        return formatOfferingInfo;
+    }
+
+    public void setFormatOfferingInfo(FormatOfferingInfo formatOfferingInfo) {
+        this.formatOfferingInfo = formatOfferingInfo;
     }
 
     public RegistrationGroupInfo getRgInfo() {
