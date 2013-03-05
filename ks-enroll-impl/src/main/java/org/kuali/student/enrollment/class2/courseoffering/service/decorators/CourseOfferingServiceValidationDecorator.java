@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
@@ -23,9 +24,12 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
 import javax.jws.WebParam;
+import javax.xml.namespace.QName;
 import java.util.List;
 
 public class CourseOfferingServiceValidationDecorator
@@ -33,6 +37,7 @@ public class CourseOfferingServiceValidationDecorator
         implements HoldsValidator {
     // validator property w/getter & setter
     private DataDictionaryValidator validator;
+    private TypeService typeService;
 
     @Override
     public DataDictionaryValidator getValidator() {
@@ -58,23 +63,21 @@ public class CourseOfferingServiceValidationDecorator
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
 
-            if (!errorCheck) {
-                // Check for uniqueness in the course offering code
-                List<CourseOfferingInfo> existingCos;
-                try {
-                    existingCos = getCourseOfferingsByCourseAndTerm(courseOfferingInfo.getCourseId(), courseOfferingInfo.getTermId(), context);
-                } catch (PermissionDeniedException e) {
-                    throw new OperationFailedException("Error validating", e);
-                }
-                for (CourseOfferingInfo existingCo : existingCos) {
+            // Check for uniqueness in the course offering code
+            List<CourseOfferingInfo> existingCos;
+            try {
+                existingCos = getCourseOfferingsByCourseAndTerm(courseOfferingInfo.getCourseId(), courseOfferingInfo.getTermId(), context);
+            } catch (PermissionDeniedException e) {
+                throw new OperationFailedException("Error validating", e);
+            }
+            for (CourseOfferingInfo existingCo : existingCos) {
 
-                    if (StringUtils.equals(existingCo.getCourseOfferingCode(), courseOfferingInfo.getCourseOfferingCode())) {
-                        ValidationResultInfo validationResult = new ValidationResultInfo();
-                        validationResult.setError(CourseOfferingServiceConstants.COURSE_OFFERING_CODE_UNIQUENESS_VALIDATION_MESSAGE);
-                        validationResult.setElement(CourseOfferingServiceConstants.COURSE_OFFERING_CODE_VALIDATION_ELEMENT);
-                        errors.add(validationResult);
-                        break;
-                    }
+                if (StringUtils.equals(existingCo.getCourseOfferingCode(), courseOfferingInfo.getCourseOfferingCode())) {
+                    ValidationResultInfo validationResult = new ValidationResultInfo();
+                    validationResult.setError(CourseOfferingServiceConstants.COURSE_OFFERING_CODE_UNIQUENESS_VALIDATION_MESSAGE);
+                    validationResult.setElement(CourseOfferingServiceConstants.COURSE_OFFERING_CODE_VALIDATION_ELEMENT);
+                    errors.add(validationResult);
+                    break;
                 }
             }
 
@@ -349,7 +352,8 @@ public class CourseOfferingServiceValidationDecorator
         // validate
         List<ValidationResultInfo> errors;
         try {
-            errors = ValidationUtils.validateInfo(validator, validationTypeKey, seatPoolDefinitionInfo, context);
+            errors = ValidationUtils.validateTypeKey(seatPoolDefinitionInfo.getTypeKey(), CourseOfferingServiceConstants.REF_OBJECT_URI_SEAT_POOL_DEFINITION,getTypeService(),context);
+            errors.addAll(ValidationUtils.validateInfo(validator, validationTypeKey, seatPoolDefinitionInfo, context));
             List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateSeatPoolDefinition(validationTypeKey,
                     seatPoolDefinitionInfo, context);
             errors.addAll(nextDecoratorErrors);
@@ -458,7 +462,9 @@ public class CourseOfferingServiceValidationDecorator
         // validate
         List<ValidationResultInfo> errors;
         try {
-            errors = ValidationUtils.validateInfo(validator, validationTypeKey, activityOfferingClusterInfo, contextInfo);
+            errors = ValidationUtils.validateTypeKey(activityOfferingClusterInfo.getTypeKey(),CourseOfferingServiceConstants.REF_OBJECT_URI_AO_CLUSTER_DEFINITION, getTypeService(), contextInfo);
+            errors.addAll(ValidationUtils.validateInfo(validator, validationTypeKey, activityOfferingClusterInfo, contextInfo));
+
             List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateActivityOfferingCluster(validationTypeKey, formatOfferingId, activityOfferingClusterInfo, contextInfo);
             errors.addAll(nextDecoratorErrors);
         } catch (DoesNotExistException ex) {
@@ -579,5 +585,17 @@ public class CourseOfferingServiceValidationDecorator
         }
 
         return false;
+    }
+
+
+    public TypeService getTypeService() {
+        if(typeService == null){
+            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return typeService;
+    }
+
+    public void setTypeService(TypeService typeService) {
+        this.typeService = typeService;
     }
 }

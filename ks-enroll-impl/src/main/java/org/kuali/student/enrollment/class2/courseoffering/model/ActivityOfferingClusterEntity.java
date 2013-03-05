@@ -51,7 +51,7 @@ import java.util.Set;
 @Table(name = "KSEN_CO_AO_CLUSTER")
 @NamedQueries({
     @NamedQuery(name="ActivityOfferingClusterENR.getAOCsByIds", query="Select aoc from ActivityOfferingClusterEntity aoc where aoc.id in (:aocIds)"),
-    @NamedQuery(name="ActivityOfferingClusterENR.getAOCsByFormatOfferingIds", query="Select aoc from ActivityOfferingClusterEntity aoc where aoc.formatOfferingId in (:foIds)"),
+    @NamedQuery(name="ActivityOfferingClusterENR.getAOCsByFormatOfferingIds", query="Select aoc from ActivityOfferingClusterEntity aoc where aoc.formatOfferingId in (:foIds)")
 })
 public class ActivityOfferingClusterEntity extends MetaEntity implements AttributeOwner<ActivityOfferingClusterAttributeEntity> {
 
