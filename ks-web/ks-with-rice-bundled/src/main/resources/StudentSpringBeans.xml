@@ -215,8 +215,13 @@
                 <value>classpath:org/kuali/student/ui/admin/lrc/ResultValuesGroupInfoAdminLookupView.xml</value>
                 <value>classpath:org/kuali/student/ui/admin/lrc/ResultValuesGroupInfoAdminInquiryView.xml</value>
 
+                <!-- Auto Gen Registratoin Groups -->
+                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagementView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagement-ManageTheCourseOfferingPage.xml</value>
+
+
                 <!-- sandbox/test view
-                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionTest.xml</value> -->
+               <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionTest.xml</value> -->
                 <!-- Kitchen Sink-->
                 <value>classpath:org/kuali/student/enrollment/kitchensink/KitchenSinkView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/Buttons.xml</value>
