@@ -16,6 +16,7 @@
  */
 package org.kuali.student.r2.core.room.service.decorators;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -28,12 +29,16 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
+import org.kuali.student.r2.core.constants.RoomServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.dto.RoomResponsibleOrgInfo;
 import org.kuali.student.r2.core.room.service.RoomServiceDecorator;
 
+import javax.xml.namespace.QName;
 import java.util.List;
 
 /**
@@ -44,15 +49,7 @@ import java.util.List;
 public class RoomServiceValidationDecorator extends RoomServiceDecorator {
 
     private DataDictionaryValidator validator;
-
-    public DataDictionaryValidator getValidator() {
-        return validator;
-    }
-
-    public void setValidator(DataDictionaryValidator validator) {
-        this.validator = validator;
-    }
-
+    private TypeService typeService;
 
     @Override
     public RoomInfo createRoom(String buildingId, String roomTypeKey, RoomInfo roomInfo, ContextInfo context)
@@ -92,7 +89,8 @@ public class RoomServiceValidationDecorator extends RoomServiceDecorator {
         // validate
         List<ValidationResultInfo> errors;
         try {
-            errors = ValidationUtils.validateInfo(validator, validationTypeKey, roomInfo, context);
+            errors = ValidationUtils.validateTypeKey(roomTypeKey, RoomServiceConstants.REF_OBJECT_URI_ROOM, getTypeService(), context);
+            errors.addAll(ValidationUtils.validateInfo(validator, validationTypeKey, roomInfo, context));
             List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateRoom(validationTypeKey, roomInfo.getBuildingId(), roomInfo.getTypeKey(), roomInfo, context);
             errors.addAll(nextDecoratorErrors);
         } catch (DoesNotExistException ex) {
@@ -139,7 +137,8 @@ public class RoomServiceValidationDecorator extends RoomServiceDecorator {
         // validate
         List<ValidationResultInfo> errors;
         try {
-            errors = ValidationUtils.validateInfo(validator, validationTypeKey, buildingInfo, context);
+            errors = ValidationUtils.validateTypeKey(buildingTypeKey, RoomServiceConstants.REF_OBJECT_URI_BUILDING, getTypeService(), context);
+            errors.addAll(ValidationUtils.validateInfo(validator, validationTypeKey, buildingInfo, context));
             List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateBuilding(buildingTypeKey, validationTypeKey, buildingInfo, context);
             errors.addAll(nextDecoratorErrors);
         } catch (DoesNotExistException ex) {
@@ -195,7 +194,24 @@ public class RoomServiceValidationDecorator extends RoomServiceDecorator {
         return errors;
     }
 
+    public DataDictionaryValidator getValidator() {
+        return validator;
+    }
 
+    public void setValidator(DataDictionaryValidator validator) {
+        this.validator = validator;
+    }
+
+    public TypeService getTypeService() {
+        if(typeService == null){
+            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return typeService;
+    }
+
+    public void setTypeService(TypeService typeService) {
+        this.typeService = typeService;
+    }
 
 
 }
