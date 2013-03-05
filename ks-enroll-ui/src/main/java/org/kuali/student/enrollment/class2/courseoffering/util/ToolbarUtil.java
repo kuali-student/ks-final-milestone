@@ -12,11 +12,10 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by Li Pan on 1/26/13
  */
 package org.kuali.student.enrollment.class2.courseoffering.util;
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -24,6 +23,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -39,8 +40,9 @@ public class ToolbarUtil {
     private static PermissionService permissionService = getPermissionService();
     
     public static void processCoToolbarForUser(List<CourseOfferingListSectionWrapper> coListWrapperList, CourseOfferingManagementForm form){
-        String socState = form.getSocStateKey();
-        socState = socState==null?null:socState.substring(socState.lastIndexOf('.')+1);
+        String socStateKey = form.getSocStateKey();
+        String socState = socStateKey==null?null:socStateKey.substring(socStateKey.lastIndexOf('.')+1);
+        String socSchedulingState = form.getSocSchedulingStateKey();
 
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
@@ -62,57 +64,80 @@ public class ToolbarUtil {
 
         permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, form.getViewId());
 
-        permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT,"addCO");
-        if(permissionService.isAuthorizedByTemplate(principalId,"KS-ENR",KimConstants.PermissionTemplateNames.PERFORM_ACTION,permissionDetails,roleQualifications)){
-            form.setEnableAddButton(true);
+        if(StringUtils.equals(socStateKey, CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY) ||
+                            (StringUtils.equals(socStateKey, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
+                             StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS))){
+            //all buttons disabled
         }else{
-            form.setEnableAddButton(false);
-        }
 
-        if(coListWrapperList != null && !coListWrapperList.isEmpty()){
+            permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT,"addCO");
+            if(permissionService.isAuthorizedByTemplate(principalId,"KS-ENR",KimConstants.PermissionTemplateNames.PERFORM_ACTION,permissionDetails,roleQualifications)){
+                form.setEnableAddButton(true);
+            }else{
+                form.setEnableAddButton(false);
+            }
 
-            for(CourseOfferingListSectionWrapper coListWrapper : coListWrapperList){
-                String coState = coListWrapper.getCourseOfferingStateKey();
-                coState = coState.substring(coState.lastIndexOf('.')+1);
+            if(coListWrapperList != null && !coListWrapperList.isEmpty()){
 
-                permissionDetails.put("coState", coState);
-                roleQualifications.put("org", coListWrapper.getAdminOrg());
+                for(CourseOfferingListSectionWrapper coListWrapper : coListWrapperList){
+                    String coStateKey = coListWrapper.getCourseOfferingStateKey();
+                    String coState = coStateKey.substring(coStateKey.lastIndexOf('.')+1);
 
-                //for copy and edit action links on each CO row.
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "copyCOonManageCOsPage");
-                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                    coListWrapper.setEnableCopyCOActionLink(true);
-                }
+                    permissionDetails.put("coState", coState);
+                    roleQualifications.put("org", coListWrapper.getAdminOrg());
 
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "editCO");
-                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                    coListWrapper.setEnableEditCOActionLink(true);
-                }
+                    //for copy and edit action links on each CO row.
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "copyCOonManageCOsPage");
+                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                        coListWrapper.setEnableCopyCOActionLink(true);
+                    }
 
-                //TODO put in business logic so you can't cancel a canceled state, approve approved state etc...
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "approveCO");
-                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                    coListWrapper.setEnableApproveButton(true);
-                }
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "editCO");
+                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                        coListWrapper.setEnableEditCOActionLink(true);
+                    }
 
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "reinstateCO");
-                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                    coListWrapper.setEnableReinstateButton(true);
-                }
 
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "suspendCO");
-                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                    coListWrapper.setEnableSuspendButton(true);
-                }
+                    if(StringUtils.equals(coStateKey, LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY) &&
+                      (StringUtils.equals(socStateKey, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
+                       StringUtils.equals(socStateKey, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
+                      (StringUtils.equals(socStateKey, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
+                      !StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS)))){
+                        coListWrapper.setEnableApproveButton(true);
+                    }
 
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "cancelCO");
-                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                    coListWrapper.setEnableCancelButton(true);
-                }
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "approveCO");
+                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                        if(!StringUtils.equals(coStateKey, LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)){
+                            coListWrapper.setEnableApproveButton(true);
+                        }
+                        else {
+                            coListWrapper.setEnableApproveButton(false);
+                        }
+                    }
+                    else {
+                        coListWrapper.setEnableApproveButton(false);
+                    }
 
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "deleteCO");
-                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                    coListWrapper.setEnableDeleteButton(true);
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "reinstateCO");
+                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                        coListWrapper.setEnableReinstateButton(true);
+                    }
+
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "suspendCO");
+                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                        coListWrapper.setEnableSuspendButton(true);
+                    }
+
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "cancelCO");
+                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                        coListWrapper.setEnableCancelButton(true);
+                    }
+
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "deleteCO");
+                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                        coListWrapper.setEnableDeleteButton(true);
+                    }
                 }
             }
         }
@@ -121,8 +146,9 @@ public class ToolbarUtil {
     public static void processAoToolbarForUser(List<ActivityOfferingWrapper> activityWrapperList, CourseOfferingManagementForm form){
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
-        String socState = form.getSocStateKey();
-        socState = socState==null?null:socState.substring(socState.lastIndexOf('.')+1);
+        String socStateKey = form.getSocStateKey();
+        String socState = socStateKey==null?null:socStateKey.substring(socStateKey.lastIndexOf('.')+1);
+        String socSchedulingState = form.getSocSchedulingStateKey();
 
         //Check if the user can add based on soc state
         Map<String,String> permissionDetails = new HashMap<String,String>();
@@ -143,57 +169,83 @@ public class ToolbarUtil {
 
         permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, form.getViewId());
 
-        permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT,"addCO");
-        if(permissionService.isAuthorizedByTemplate(principalId,"KS-ENR",KimConstants.PermissionTemplateNames.PERFORM_ACTION,permissionDetails,roleQualifications)){
-            form.setEnableAddButton(true);
-        } else {
-            form.setEnableAddButton(false);
-        }
+        if(StringUtils.equals(socStateKey, CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY) ||
+                                    (StringUtils.equals(socStateKey, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
+                                     StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS))){
+            //all buttons disabled
+        }else{
 
-        if(activityWrapperList != null && !activityWrapperList.isEmpty()){
-            for(ActivityOfferingWrapper activityWrapper : activityWrapperList){
+            permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT,"addAO");
+            if(permissionService.isAuthorizedByTemplate(principalId,"KS-ENR",KimConstants.PermissionTemplateNames.PERFORM_ACTION,permissionDetails,roleQualifications)){
+                form.setEnableAddButton(true);
+            } else {
+                form.setEnableAddButton(false);
+            }
 
-                //Only use the last part of the state key to make it clearer in the config
-                String aoState = activityWrapper.getAoInfo().getStateKey();
-                aoState = aoState.substring(aoState.lastIndexOf('.')+1);
+            if(activityWrapperList != null && !activityWrapperList.isEmpty()){
+                for(ActivityOfferingWrapper activityWrapper : activityWrapperList){
 
-                permissionDetails.put("aoState", aoState);
+                    //Only use the last part of the state key to make it clearer in the config
+                    String aoStateKey = activityWrapper.getAoInfo().getStateKey();
+                    String aoState = aoStateKey.substring(aoStateKey.lastIndexOf('.')+1);
 
-                //for copy and edit action links on each CO row.
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "copyAOonManageAOsPage");
-                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                    activityWrapper.setEnableCopyAOActionLink(true);
-                }
+                    permissionDetails.put("aoState", aoState);
 
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "editAOonManageAOsPage");
-                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                    activityWrapper.setEnableEditAOActionLink(true);
-                }
+                    //for copy and edit action links on each CO row.
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "copyAOonManageAOsPage");
+                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                        activityWrapper.setEnableCopyAOActionLink(true);
+                    }
 
-                //TODO put in business logic so you can't cancel a canceled state, approve approved state etc...
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "cancelAO");
-                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                    activityWrapper.setEnableCancelButton(true);
-                }
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "approveAO");
-                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                    activityWrapper.setEnableApproveButton(true);
-                }
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "reinstateAO");
-                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                    activityWrapper.setEnableReinstateButton(true);
-                }
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "deleteAO");
-                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                    activityWrapper.setEnableDeleteButton(true);
-                }
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "suspendAO");
-                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                    activityWrapper.setEnableSuspendButton(true);
-                }
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "setDraftAO");
-                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                    activityWrapper.setEnableDraftButton(true);
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "editAOonManageAOsPage");
+                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                        activityWrapper.setEnableEditAOActionLink(true);
+                    }
+
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "cancelAO");
+                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                        activityWrapper.setEnableCancelButton(true);
+                    }
+
+                    if(StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY) &&
+                        (StringUtils.equals(socStateKey, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
+                        StringUtils.equals(socStateKey, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
+                        (StringUtils.equals(socStateKey, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
+                        !StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS)))){
+                        activityWrapper.setEnableApproveButton(true);
+                    }
+
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "approveAO");
+                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                        if(!StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY)){
+                            activityWrapper.setEnableApproveButton(true);
+                        }
+                        else{
+                            activityWrapper.setEnableApproveButton(false);
+                        }
+                    }
+                    else{
+                        activityWrapper.setEnableApproveButton(false);
+                    }
+
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "reinstateAO");
+                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                        activityWrapper.setEnableReinstateButton(true);
+                    }
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "deleteAO");
+                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                        activityWrapper.setEnableDeleteButton(true);
+                    }
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "suspendAO");
+                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                        activityWrapper.setEnableSuspendButton(true);
+                    }
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "setDraftAO");
+                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                        if(!StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY)){
+                            activityWrapper.setEnableDraftButton(true);
+                        }
+                    }
                 }
             }
         }

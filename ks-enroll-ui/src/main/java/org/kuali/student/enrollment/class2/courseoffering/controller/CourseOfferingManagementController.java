@@ -183,7 +183,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 //                }
 
                 ToolbarUtil.processCoToolbarForUser(form.getCourseOfferingResultList(), form);
-                //ToolbarUtil.processCoToolbarForCentralAdmin(form.getCourseOfferingResultList(), form);
             } else { // just one course offering is returned
                 CourseOfferingListSectionWrapper coListWrapper = form.getCourseOfferingResultList().get(0);
                 return prepareManageAOsModelAndView(form, coListWrapper);
