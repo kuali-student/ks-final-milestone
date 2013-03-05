@@ -22,4 +22,6 @@ package org.kuali.student.enrollment.class2.autogen.controller;
  * @author Kuali Student Team
  */
 public class ARGActivityOfferingToolbarHandler {
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ARGActivityOfferingToolbarHandler.class);
 }
