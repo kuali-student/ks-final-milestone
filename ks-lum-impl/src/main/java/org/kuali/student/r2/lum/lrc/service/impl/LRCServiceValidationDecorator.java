@@ -17,6 +17,7 @@
 package org.kuali.student.r2.lum.lrc.service.impl;
 
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -28,12 +29,16 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCServiceDecorator;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
+import javax.xml.namespace.QName;
 import java.util.List;
 
 
@@ -43,16 +48,9 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class LRCServiceValidationDecorator extends LRCServiceDecorator {
+
     private DataDictionaryValidator validator;
-
-    public DataDictionaryValidator getValidator() {
-        return validator;
-    }
-
-    public void setValidator(DataDictionaryValidator validator) {
-        this.validator = validator;
-    }
-
+    private TypeService typeService;
 
     @Override
     public ResultScaleInfo createResultScale(String resultScaleTypeKey, ResultScaleInfo resultScaleInfo, ContextInfo context)
@@ -92,10 +90,13 @@ public class LRCServiceValidationDecorator extends LRCServiceDecorator {
         // validate
         List<ValidationResultInfo> errors;
         try {
-            errors = ValidationUtils.validateInfo(validator, validationType, gradeScaleInfo, context);
+            errors = ValidationUtils.validateTypeKey(gradeScaleInfo.getTypeKey(), LrcServiceConstants.REF_OBJECT_URI_RESULT_SCALE, getTypeService(),context);
+            errors.addAll(ValidationUtils.validateInfo(validator, validationType, gradeScaleInfo, context));
             List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateResultScale(validationType, gradeScaleInfo, context);
             errors.addAll(nextDecoratorErrors);
         } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error validating", ex);
+        } catch (PermissionDeniedException ex) {
             throw new OperationFailedException("Error validating", ex);
         }
         return errors;
@@ -154,10 +155,13 @@ public class LRCServiceValidationDecorator extends LRCServiceDecorator {
         // validate
         List<ValidationResultInfo> errors;
         try {
-            errors = ValidationUtils.validateInfo(validator, validationType, resultValueInfo, context);
+            errors = ValidationUtils.validateTypeKey(resultValueInfo.getTypeKey(), LrcServiceConstants.REF_OBJECT_URI_RESULT_VALUE, getTypeService(),context);
+            errors.addAll(ValidationUtils.validateInfo(validator, validationType, resultValueInfo, context));
             List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateResultValue(validationType, resultValueInfo, context);
             errors.addAll(nextDecoratorErrors);
         } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error validating", ex);
+        } catch (PermissionDeniedException ex) {
             throw new OperationFailedException("Error validating", ex);
         }
         return errors;
@@ -215,13 +219,34 @@ public class LRCServiceValidationDecorator extends LRCServiceDecorator {
         // validate
         List<ValidationResultInfo> errors;
         try {
-            errors = ValidationUtils.validateInfo(validator, validationType, resultValuesGroupInfo, context);
+            errors = ValidationUtils.validateTypeKey(resultValuesGroupInfo.getTypeKey(), LrcServiceConstants.REF_OBJECT_URI_RESULT_VALUES_GROUP, getTypeService(),context);
+            errors.addAll(ValidationUtils.validateInfo(validator, validationType, resultValuesGroupInfo, context));
             List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateResultValuesGroup(validationType, resultValuesGroupInfo, context);
             errors.addAll(nextDecoratorErrors);
         } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error validating", ex);
+        } catch (PermissionDeniedException ex) {
             throw new OperationFailedException("Error validating", ex);
         }
         return errors;
     }
 
+    public DataDictionaryValidator getValidator() {
+        return validator;
+    }
+
+    public void setValidator(DataDictionaryValidator validator) {
+        this.validator = validator;
+    }
+
+    public TypeService getTypeService() {
+        if(typeService == null){
+            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return typeService;
+    }
+
+    public void setTypeService(TypeService typeService) {
+        this.typeService = typeService;
+    }
 }
