@@ -46,6 +46,8 @@ public class CourseOfferingWrapper implements Serializable{
     private boolean isCrossListed;
     private List<String> alternateCOCodes;
     private String coOwningDeptName;
+
+    private boolean isColocatedAoToDelete;
     /**
      * Usage of this property only in create and edit CO screens. Basically, this is whether to
      * allow the user to select cross lists or not. If it's false, then the cross
@@ -265,6 +267,14 @@ public class CourseOfferingWrapper implements Serializable{
             }
         }
         return StringUtils.removeEnd(builder.toString(), ", ");
+    }
+
+    public boolean isColocatedAoToDelete() {
+        return isColocatedAoToDelete;
+    }
+
+    public void setColocatedAoToDelete(boolean colocatedAoToDelete) {
+        isColocatedAoToDelete = colocatedAoToDelete;
     }
 
     /**

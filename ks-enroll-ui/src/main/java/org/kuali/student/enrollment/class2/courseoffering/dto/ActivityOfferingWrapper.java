@@ -2,12 +2,11 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -69,6 +68,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private String buildingName = "";
     private String roomName = "";
     private String tbaDisplayName = "";
+    private String colocatedAoInfo = "";
 
     private boolean schedulesRevised;
 
@@ -691,6 +691,14 @@ public class ActivityOfferingWrapper implements Serializable{
         this.course = course;
     }
 
+    public String getColocatedAoInfo() {
+        return colocatedAoInfo;
+    }
+
+    public void setColocatedAoInfo(String colocatedAoInfo) {
+        this.colocatedAoInfo = colocatedAoInfo;
+    }
+
     /**
      * This method returns a list of comma seperated alternate course codes.
      * This is used in create and edit course offerings screen.
@@ -706,4 +714,20 @@ public class ActivityOfferingWrapper implements Serializable{
         }
         return StringUtils.removeEnd(builder.toString(), ", ");
     }
+
+    /**
+     * This method return a colocated AO code for current course. This will
+     * be displayed as the tooltip (if colocated AO exists) at manage and delete AO screen.
+     *
+     * @return
+     */
+    @SuppressWarnings("unused")
+    public String getColocatedAoInfoUI(){
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("This activity is colocated with:<br>");
+        buffer.append(colocatedAoInfo + "<br>");
+
+        return StringUtils.removeEnd(buffer.toString(),"<br>");
+    }
+
 }
