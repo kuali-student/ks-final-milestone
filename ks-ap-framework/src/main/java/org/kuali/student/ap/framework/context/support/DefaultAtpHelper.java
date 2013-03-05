@@ -26,6 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.notEqualIgnoreCase;
 
 /**
  * Helper methods for dealing with ATPs.
@@ -188,38 +189,27 @@ public class DefaultAtpHelper implements AtpHelper {
 	/**
 	 * Returns true if an ATP is considered present or greater in the context of
 	 * WHAT? Otherwise, false.
+     *
+     * Is set to the future or current term
 	 * 
 	 * @param atpId
 	 * @return
 	 */
 	@Override
 	public boolean isAtpSetToPlanning(String atpId) {
-		List<TermInfo> planningTermInfo;
-		TermInfo comparingTerm;
-		if (atpId.isEmpty()) {
-			return false;
-		}
-		try {
-			AcademicCalendarService acal = KsapFrameworkServiceLocator
-					.getAcademicCalendarService();
-			planningTermInfo = acal.searchForTerms(QueryByCriteria.Builder
-					.fromPredicates(equalIgnoreCase("atpState",
-							PlanConstants.PLANNING)), getContext());
-			comparingTerm = acal.getTerm(atpId, getContext());
-		} catch (Throwable t) {
-			if (t instanceof RuntimeException)
-				throw (RuntimeException) t;
-			if (t instanceof Error)
-				throw (Error) t;
-			throw new IllegalStateException(
-					"Unexpected error in ATP ID lookup", t);
-		}
-		assert planningTermInfo != null && planningTermInfo.size() >= 1 : "Expected at least one planning term";
-        if (planningTermInfo != null && planningTermInfo.size() >= 1) {
-            return comparingTerm.getStartDate().after(
-                    planningTermInfo.get(0).getStartDate());
+        String currentTerm = this.getCurrentAtpId();
+        YearTerm currentYearTerm = new DefaultYearTerm(currentTerm);
+
+        try{
+            YearTerm newYearTerm = new DefaultYearTerm(atpId);
+            int compareTermsResults = currentYearTerm.compareTo(newYearTerm);
+            if(compareTermsResults<0) return false;
+        }catch(Exception e){
+            return false;
         }
-        return false;
+
+        return true;
+
 	}
 
 	/**
@@ -231,31 +221,17 @@ public class DefaultAtpHelper implements AtpHelper {
 	 */
 	@Override
 	public boolean isAtpCompletedTerm(String atpId) {
-		if (atpId.isEmpty()) {
-			return false;
-		}
-		List<TermInfo> inProgressTermInfo;
-		TermInfo comparingTerm;
-		try {
-			AcademicCalendarService acal = KsapFrameworkServiceLocator
-					.getAcademicCalendarService();
-			inProgressTermInfo = acal.searchForTerms(QueryByCriteria.Builder
-					.fromPredicates(equalIgnoreCase("atpState",
-							PlanConstants.INPROGRESS)), getContext());
-			comparingTerm = acal.getTerm(atpId, getContext());
-		} catch (Throwable t) {
-			if (t instanceof RuntimeException)
-				throw (RuntimeException) t;
-			if (t instanceof Error)
-				throw (Error) t;
-			throw new IllegalStateException(
-					"Unexpected error in ATP ID lookup", t);
-		}
-		assert inProgressTermInfo != null && inProgressTermInfo.size() >= 1 : "Expected at least one in progress term";
-        if (inProgressTermInfo != null && inProgressTermInfo.size() >= 1) {
-            return comparingTerm.getStartDate().before(
-                    inProgressTermInfo.get(0).getStartDate());
+        String currentTerm = this.getCurrentAtpId();
+        YearTerm currentYearTerm = new DefaultYearTerm(currentTerm);
+
+        try{
+            YearTerm newYearTerm = new DefaultYearTerm(atpId);
+            int compareTermsResults = currentYearTerm.compareTo(newYearTerm);
+            if(compareTermsResults<0) return true;
+        }catch(Exception e){
+            return false;
         }
+
         return false;
 	}
     @Override
@@ -282,7 +258,7 @@ public class DefaultAtpHelper implements AtpHelper {
         List<TermInfo> termInfos = null;
         List<String> publishedTerms = new ArrayList<String>();
         try {
-            termInfos = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(QueryByCriteria.Builder.fromPredicates(equalIgnoreCase("query", PlanConstants.PUBLISHED)), CourseSearchConstants.CONTEXT_INFO);
+            termInfos = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(QueryByCriteria.Builder.fromPredicates(equalIgnoreCase("atpState", "kuali.atp.state.Official"),notEqualIgnoreCase("atpType", "kuali.atp.type.HolidayCalendar"),notEqualIgnoreCase("atpType", "kuali.atp.type.AcademicCalendar")), KsapFrameworkServiceLocator.getContext().getContextInfo());
         } catch (Exception e) {
             LOG.error("Web service call failed.", e);
             //  Create an empty list to Avoid NPE below allowing the data object to be fully initialized.

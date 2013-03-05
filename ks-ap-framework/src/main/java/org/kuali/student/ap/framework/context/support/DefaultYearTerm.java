@@ -128,8 +128,8 @@ public class DefaultYearTerm implements YearTerm,Comparable<YearTerm> {
         if( this == that ) return EQUAL;
         int a = this.year * 10 + this.term;
         int b = that.getYear() * 10 + that.getTerm();
-        if( a < b ) return BEFORE;
-        if( a > b ) return AFTER;
+        if( a > b ) return BEFORE;
+        if( a < b ) return AFTER;
         return EQUAL;
     }
 

@@ -89,95 +89,100 @@ public class PlannedTerm {
         String totalCredits = null;
         double plannedTotalMin = 0;
         double plannedTotalMax = 0;
-        if (getPlannedList().size() > 0 && isOpenForPlanning()) {
+        // TODO need to check code and refine try statement to catch exact place of failures
+        try{
+            if (getPlannedList().size() > 0 && isOpenForPlanning()) {
 
-            for (PlannedCourseDataObject pc : getPlannedList()) {
-                if (pc.getCourseDetails() != null && !pc.getCourseDetails().getCredit().contains(".")) {
-                    String[] str = pc.getCourseDetails().getCredit().split("\\D");
-                    double min = Double.parseDouble(str[0]);
-                    plannedTotalMin += min;
-                    double max = Double.parseDouble(str[str.length - 1]);
-                    plannedTotalMax += max;
+                for (PlannedCourseDataObject pc : getPlannedList()) {
+                    if (pc.getCourseDetails() != null && !pc.getCourseDetails().getCredit().contains(".")) {
+                        String[] str = pc.getCourseDetails().getCredit().split("\\D");
+                        double min = Double.parseDouble(str[0]);
+                        plannedTotalMin += min;
+                        double max = Double.parseDouble(str[str.length - 1]);
+                        plannedTotalMax += max;
 
-                } else if (pc.getCourseDetails() != null && pc.getCourseDetails().getCredit().contains(".")) {
-                    if (pc.getCourseDetails().getCredit().contains(PlanConstants.MULTIPLE)) {
-                        String[] str = pc.getCourseDetails().getCredit().split(PlanConstants.MULTIPLE);
-                        plannedTotalMin += Double.parseDouble(str[0]);
-                        plannedTotalMax += Double.parseDouble(str[1]);
-                    } else if (pc.getCourseDetails().getCredit().contains(PlanConstants.RANGE)) {
-                        String[] str = pc.getCourseDetails().getCredit().split(PlanConstants.RANGE);
-                        plannedTotalMin += Double.parseDouble(str[0]);
-                        plannedTotalMax += Double.parseDouble(str[1]);
-                    } else {
-                        plannedTotalMin += Double.parseDouble(pc.getCourseDetails().getCredit());
-                        plannedTotalMax += Double.parseDouble(pc.getCourseDetails().getCredit());
+                    } else if (pc.getCourseDetails() != null && pc.getCourseDetails().getCredit().contains(".")) {
+                        if (pc.getCourseDetails().getCredit().contains(PlanConstants.MULTIPLE)) {
+                            String[] str = pc.getCourseDetails().getCredit().split(PlanConstants.MULTIPLE);
+                            plannedTotalMin += Double.parseDouble(str[0]);
+                            plannedTotalMax += Double.parseDouble(str[1]);
+                        } else if (pc.getCourseDetails().getCredit().contains(PlanConstants.RANGE)) {
+                            String[] str = pc.getCourseDetails().getCredit().split(PlanConstants.RANGE);
+                            plannedTotalMin += Double.parseDouble(str[0]);
+                            plannedTotalMax += Double.parseDouble(str[1]);
+                        } else {
+                            plannedTotalMin += Double.parseDouble(pc.getCourseDetails().getCredit());
+                            plannedTotalMax += Double.parseDouble(pc.getCourseDetails().getCredit());
+                        }
                     }
                 }
-            }
-            totalCredits = Double.toString(plannedTotalMin);
+                totalCredits = Double.toString(plannedTotalMin);
 
-            if (plannedTotalMin != plannedTotalMax) {
-                totalCredits = totalCredits + "-" + Double.toString(plannedTotalMax);
+                if (plannedTotalMin != plannedTotalMax) {
+                    totalCredits = totalCredits + "-" + Double.toString(plannedTotalMax);
 
-            }
-        }
-        double academicTotalMin = 0;
-        double academicTotalMax = 0;
-        if (getAcademicRecord().size() > 0) {
-
-            for (AcademicRecordDataObject ar : getAcademicRecord()) {
-                if (ar.getCredit() != null || !ar.getCredit().isEmpty() && !ar.getCredit().contains(".")) {
-                    String[] str = ar.getCredit().split("\\D");
-                    double min = Double.parseDouble(str[0]);
-                    academicTotalMin += min;
-                    double max = Double.parseDouble(str[str.length - 1]);
-                    academicTotalMax += max;
-                } else if (ar.getCredit() != null || !ar.getCredit().isEmpty() && ar.getCredit().contains(".")) {
-                    academicTotalMin += Double.parseDouble(ar.getCredit());
-                    academicTotalMax += Double.parseDouble(ar.getCredit());
                 }
             }
-            totalCredits = Double.toString(academicTotalMin);
+            double academicTotalMin = 0;
+            double academicTotalMax = 0;
+            if (getAcademicRecord().size() > 0) {
 
-            if (academicTotalMin != academicTotalMax) {
-                totalCredits = totalCredits + "-" + Double.toString(academicTotalMax);
+                for (AcademicRecordDataObject ar : getAcademicRecord()) {
+                    if (ar.getCredit() != null || !ar.getCredit().isEmpty() && !ar.getCredit().contains(".")) {
+                        String[] str = ar.getCredit().split("\\D");
+                        double min = Double.parseDouble(str[0]);
+                        academicTotalMin += min;
+                        double max = Double.parseDouble(str[str.length - 1]);
+                        academicTotalMax += max;
+                    } else if (ar.getCredit() != null || !ar.getCredit().isEmpty() && ar.getCredit().contains(".")) {
+                        academicTotalMin += Double.parseDouble(ar.getCredit());
+                        academicTotalMax += Double.parseDouble(ar.getCredit());
+                    }
+                }
+                totalCredits = Double.toString(academicTotalMin);
+
+                if (academicTotalMin != academicTotalMax) {
+                    totalCredits = totalCredits + "-" + Double.toString(academicTotalMax);
 
 
-            }
+                }
 
-
-        }
-
-        /*TODO:Implement this based on the flags (past,present,future) logic*/
-        if (getPlannedList().size() > 0 && getAcademicRecord().size() > 0) {
-            if (plannedTotalMin != plannedTotalMax && academicTotalMin != academicTotalMax) {
-                double minVal = 0;
-                double maxVal = 0;
-                minVal = plannedTotalMin + academicTotalMin;
-                maxVal = plannedTotalMax + academicTotalMax;
-                totalCredits = minVal + "-" + maxVal;
-            }
-            if (plannedTotalMin == plannedTotalMax && academicTotalMin == academicTotalMax) {
-                totalCredits = String.valueOf(plannedTotalMin + academicTotalMin);
-            }
-            if (plannedTotalMin != plannedTotalMax && academicTotalMin == academicTotalMax) {
-                double minVal = 0;
-                double maxVal = 0;
-                minVal = plannedTotalMin + academicTotalMin;
-                maxVal = plannedTotalMax + academicTotalMax;
-                totalCredits = minVal + "-" + maxVal;
 
             }
-            if (plannedTotalMin == plannedTotalMax && academicTotalMin != academicTotalMax) {
-                double minVal = 0;
-                double maxVal = 0;
-                minVal = academicTotalMin;
-                maxVal = plannedTotalMax + academicTotalMax;
-                totalCredits = minVal + "-" + maxVal;
+
+            /*TODO:Implement this based on the flags (past,present,future) logic*/
+            if (getPlannedList().size() > 0 && getAcademicRecord().size() > 0) {
+                if (plannedTotalMin != plannedTotalMax && academicTotalMin != academicTotalMax) {
+                    double minVal = 0;
+                    double maxVal = 0;
+                    minVal = plannedTotalMin + academicTotalMin;
+                    maxVal = plannedTotalMax + academicTotalMax;
+                    totalCredits = minVal + "-" + maxVal;
+                }
+                if (plannedTotalMin == plannedTotalMax && academicTotalMin == academicTotalMax) {
+                    totalCredits = String.valueOf(plannedTotalMin + academicTotalMin);
+                }
+                if (plannedTotalMin != plannedTotalMax && academicTotalMin == academicTotalMax) {
+                    double minVal = 0;
+                    double maxVal = 0;
+                    minVal = plannedTotalMin + academicTotalMin;
+                    maxVal = plannedTotalMax + academicTotalMax;
+                    totalCredits = minVal + "-" + maxVal;
+
+                }
+                if (plannedTotalMin == plannedTotalMax && academicTotalMin != academicTotalMax) {
+                    double minVal = 0;
+                    double maxVal = 0;
+                    minVal = academicTotalMin;
+                    maxVal = plannedTotalMax + academicTotalMax;
+                    totalCredits = minVal + "-" + maxVal;
+                }
             }
-        }
-        if (totalCredits != null) {
-            if (totalCredits.contains(".0")) totalCredits = totalCredits.replace(".0", "");
+            if (totalCredits != null) {
+                if (totalCredits.contains(".0")) totalCredits = totalCredits.replace(".0", "");
+            }
+        }catch(NumberFormatException e){
+            return null;
         }
         return totalCredits;
     }

@@ -608,6 +608,11 @@
                 <bean p:id="@{planItemId}_summary" parent="Uif-Link" p:target="" p:linkText="View Course Summary"
                       p:render="@{courseDetails.code ne null and acadRecAtpId eq null ? true : false}"
                       p:title="View Course Summary">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
                     <property name="onClickScript"
                               value="openPlanItemPopUp('@{planItemId}','course_summary_dialog_page',{planItemId:'@{planItemId}',pageId:'course_summary_dialog_page'},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
@@ -615,6 +620,11 @@
                 <bean p:id="@{courseId}_summary" parent="Uif-Link" p:target="" p:linkText="View Course Summary"
                       p:render="@{courseDetails.code ne null and acadRecAtpId ne null ? true : false}"
                       p:title="View Course Summary">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
                     <property name="onClickScript"
                               value="openPlanItemPopUp('@{courseId}','course_summary_dialog_page',{courseId:'@{courseId}',pageId:'course_summary_dialog_page'},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
@@ -624,7 +634,7 @@
                       p:render="@{setToPlanning eq true and backup eq false and acadRecAtpId eq null  ? true : false}"
                       p:style="margin:0;">
                     <property name="onClickScript"
-                              value="myPlanAjaxPlanItemMove('@{planItemId}','planItemId','plannedToBackup',e);"/>
+                              value="myPlanAjaxPlanItemMove('@{planItemId}','@{planItemId}','planItemId','plannedToBackup',e);"/>
                 </bean>
                 <bean parent="Uif-Message" p:messageText="Will be moved below the Total Credit line"
                       p:cssClasses="fl-text-gray fl-font-size-90"
@@ -634,7 +644,7 @@
                       p:title="Mark it as Planned course"
                       p:render="@{setToPlanning eq true and backup eq true and acadRecAtpId eq null ? true : false}">
                     <property name="onClickScript"
-                              value="myPlanAjaxPlanItemMove('@{planItemId}','planItemId','backupToPlanned',e);"/>
+                              value="myPlanAjaxPlanItemMove('@{planItemId}','@{planItemId}','planItemId','backupToPlanned',e);"/>
                 </bean>
                 <bean parent="Uif-Message" p:messageText="Will be moved above the Total Credit line"
                       p:cssClasses="fl-text-gray fl-font-size-90"
@@ -644,6 +654,11 @@
 
                 <bean p:id="@{planItemId}_move" parent="Uif-Link" p:target="" p:linkText="Move to Another Quarter"
                       p:title="Move to Another Quarter" p:render="@{acadRecAtpId eq null ? true : false}">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
                     <property name="onClickScript"
                               value="openPlanItemPopUp('@{planItemId}','move_dialog_page',{planItemId:'@{planItemId}',pageId:'move_dialog_page', moveCourse:'true'},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
@@ -651,12 +666,22 @@
                 <bean p:id="@{planItemId}_copy" parent="Uif-Link" p:target="" p:linkText="Copy to Another Quarter"
                       p:title="Copy to Another Quarter"
                       p:render="@{setToPlanning eq true and acadRecAtpId eq null ? true : false}">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
                     <property name="onClickScript"
                               value="openPlanItemPopUp('@{planItemId}','copy_dialog_page',{planItemId:'@{planItemId}',pageId:'copy_dialog_page'},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
 
                 <bean p:id="@{courseId}_copy" parent="Uif-Link" p:target="" p:linkText="Copy to Another Quarter"
                       p:title="Copy to Another Quarter" p:render="@{acadRecAtpId ne null ? true : false}">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
                     <property name="onClickScript"
                               value="openPlanItemPopUp('@{courseId}','copy_dialog_page',{courseId:'@{courseId}',pageId:'copy_dialog_page'},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
@@ -665,6 +690,11 @@
                       p:title="Delete from Plan" p:href="#"
                       p:render="@{acadRecAtpId eq null ? true : false}"
                       p:style="margin:0;">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
                     <property name="onClickScript"
                               value="openPlanItemPopUp('@{planItemId}','plan_item_delete_page',{planItemId:'@{planItemId}',pageId:'plan_item_delete_page'},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
@@ -941,7 +971,7 @@
                                                           parent="Uif-PrimaryActionButton-Small"
                                                           p:actionLabel="Move">
                                                         <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}', 'planItemId', 'movePlannedCourse', e,true);"/>
+                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}','@{planItemId}', 'planItemId', 'movePlannedCourse', e,true);"/>
                                                         <property name="onDocumentReadyScript" value="
                                                 jQuery('#movePlannedCourse')
                                                     .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -1032,7 +1062,7 @@
                                                           p:render="@{setToPlanning eq true ? true : false}"
                                                           p:actionLabel="Copy">
                                                         <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}', 'planItemId', 'copyPlannedCourse', e,true);"/>
+                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}','@{planItemId}', 'planItemId', 'copyPlannedCourse', e,true);"/>
                                                         <property name="onDocumentReadyScript" value="
                                                 jQuery('#copyPlannedCourse')
                                                     .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -1048,7 +1078,7 @@
                                                           p:render="@{setToPlanning eq false and planItemId ne null ? true : false}"
                                                           p:actionLabel="Copy">
                                                         <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}', 'planItemId', 'copyPlannedCourse', e,true);"/>
+                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}','@{planItemId}', 'planItemId', 'copyPlannedCourse', e,true);"/>
                                                         <property name="onDocumentReadyScript" value="
                                                 jQuery('#copyPastPlannedCourse')
                                                     .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -1161,6 +1191,11 @@
                 <bean parent="Uif-Link" p:target="" p:href="#"
                       p:linkText="View Course Summary"
                       p:title="View Course Summary">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
                     <property name="onClickScript"
                               value="openPlanItemPopUp(jQuery(this).data('planitemid'),'course_summary_dialog_page',{planItemId:jQuery(this).data('planitemid'),pageId:'course_summary_dialog_page',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
@@ -1170,7 +1205,7 @@
                       p:title="Mark as Backup Course"
                       p:style="margin:0;">
                     <property name="onClickScript"
-                              value="myPlanAjaxPlanItemMove(jQuery(this).data('planitemid'),'planItemId','plannedToBackup',e);"/>
+                              value="myPlanAjaxPlanItemMove(jQuery(this).data('planitemid'),jQuery(this).data('planitemid'),'planItemId','plannedToBackup',e);"/>
                 </bean>
 
                 <bean parent="Uif-Message" p:messageText="Will be moved below the Total Credit line"
@@ -1179,6 +1214,11 @@
                 <bean parent="Uif-Link" p:target="" p:href="#"
                       p:linkText="Move to Another Quarter"
                       p:title="Move to Another Quarter">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
                     <property name="onClickScript"
                               value="openPlanItemPopUp(jQuery(this).data('planitemid'),'move_dialog_page',{planItemId:jQuery(this).data('planitemid'),pageId:'move_dialog_page', moveCourse:'true',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
@@ -1186,6 +1226,11 @@
                 <bean parent="Uif-Link" p:target="" p:href="#"
                       p:linkText="Copy to Another Quarter"
                       p:title="Copy to Another Quarter">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
                     <property name="onClickScript"
                               value="openPlanItemPopUp(jQuery(this).data('planitemid'),'copy_dialog_page',{planItemId:jQuery(this).data('planitemid'),pageId:'copy_dialog_page',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
@@ -1194,6 +1239,11 @@
                       p:linkText="Delete from Plan"
                       p:title="Delete from Plan"
                       p:style="margin:0;">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
                     <property name="onClickScript"
                               value="openPlanItemPopUp(jQuery(this).data('planitemid'),'plan_item_delete_page',{planItemId:jQuery(this).data('planitemid'),pageId:'plan_item_delete_page',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
@@ -1215,6 +1265,11 @@
                 <bean parent="Uif-Link" p:target="" p:href="#"
                       p:linkText="View Course Summary"
                       p:title="View Course Summary">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
                     <property name="onClickScript"
                               value="openPlanItemPopUp(jQuery(this).data('planitemid'),'course_summary_dialog_page',{planItemId:jQuery(this).data('planitemid'),pageId:'course_summary_dialog_page',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
@@ -1224,7 +1279,7 @@
                       p:title="Mark it as Planned course"
                       p:style="margin:0;">
                     <property name="onClickScript"
-                              value="myPlanAjaxPlanItemMove(jQuery(this).data('planitemid'),'planItemId','backupToPlanned',e);"/>
+                              value="myPlanAjaxPlanItemMove(jQuery(this).data('planitemid'),jQuery(this).data('planitemid'),'planItemId','backupToPlanned',e);"/>
                 </bean>
 
                 <bean parent="Uif-Message" p:messageText="Will be moved above the Total Credit line"
@@ -1233,6 +1288,11 @@
                 <bean parent="Uif-Link" p:target="" p:href="#"
                       p:linkText="Move to Another Quarter"
                       p:title="Move to Another Quarter">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
                     <property name="onClickScript"
                               value="openPlanItemPopUp(jQuery(this).data('planitemid'),'move_dialog_page',{planItemId:jQuery(this).data('planitemid'),pageId:'move_dialog_page', moveCourse:'true',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
@@ -1240,6 +1300,11 @@
                 <bean parent="Uif-Link" p:target="" p:href="#"
                       p:linkText="Copy to Another Quarter"
                       p:title="Copy to Another Quarter">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
                     <property name="onClickScript"
                               value="openPlanItemPopUp(jQuery(this).data('planitemid'),'copy_dialog_page',{planItemId:jQuery(this).data('planitemid'),pageId:'copy_dialog_page',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
@@ -1248,6 +1313,11 @@
                       p:linkText="Delete from Plan"
                       p:title="Delete from Plan"
                       p:style="margin:0;">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
                     <property name="onClickScript"
                               value="openPlanItemPopUp(jQuery(this).data('planitemid'),'plan_item_delete_page',{planItemId:jQuery(this).data('planitemid'),pageId:'plan_item_delete_page',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
@@ -1269,6 +1339,11 @@
                 <bean parent="Uif-Link" p:target="" p:href="#"
                       p:linkText="View Course Summary"
                       p:title="View Course Summary">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
                     <property name="onClickScript"
                               value="openPlanItemPopUp(jQuery(this).data('planitemid'),'course_summary_dialog_page',{planItemId:jQuery(this).data('planitemid'),pageId:'course_summary_dialog_page',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
@@ -1276,6 +1351,11 @@
                 <bean parent="Uif-Link" p:target="" p:href="#"
                       p:linkText="Copy to Another Quarter"
                       p:title="Copy to Another Quarter">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
                     <property name="onClickScript"
                               value="openPlanItemPopUp(jQuery(this).data('planitemid'),'copy_dialog_page',{planItemId:jQuery(this).data('planitemid'),pageId:'copy_dialog_page',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
@@ -1284,6 +1364,11 @@
                       p:linkText="Delete from Plan"
                       p:title="Delete from Plan"
                       p:style="margin:0;">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
                     <property name="onClickScript"
                               value="openPlanItemPopUp(jQuery(this).data('planitemid'),'plan_item_delete_page',{planItemId:jQuery(this).data('planitemid'),pageId:'plan_item_delete_page',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
@@ -1303,6 +1388,11 @@
                 <bean parent="Uif-Link" p:target="" p:href="#"
                       p:linkText="View Course Summary"
                       p:title="View Course Summary">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
                     <property name="onClickScript"
                               value="openPlanItemPopUp(jQuery(this).data('courseid'),'course_summary_dialog_page',{courseId:jQuery(this).data('courseid'),pageId:'course_summary_dialog_page'},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
@@ -1310,6 +1400,11 @@
                 <bean parent="Uif-Link" p:target="" p:href="#" p:style="margin:0;"
                       p:linkText="Copy to Another Quarter"
                       p:title="Copy to Another Quarter">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
                     <property name="onClickScript"
                               value="openPlanItemPopUp(jQuery(this).data('courseid'),'copy_dialog_page',{courseId:jQuery(this).data('courseid'),pageId:'copy_dialog_page'},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
@@ -2448,7 +2543,7 @@
                 <bean id="term_total_credits_label" parent="Uif-MessageField" p:messageText="Credits"/>
                 <ref bean="total_credits_help_icon"/>
                 <bean id="term_total_credits_text" parent="Uif-MessageField"
-                      p:messageText="@{#line.credits ne null ? #line.credits : '0'}">
+                      p:messageText="@{#empty(#line.credits) ? '0' : #line.credits}">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>credits</value>

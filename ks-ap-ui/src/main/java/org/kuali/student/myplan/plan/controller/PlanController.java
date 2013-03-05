@@ -1181,12 +1181,14 @@ public class PlanController extends UifControllerBase {
             return doOperationFailedError(form, "Query for plan item failed.", e);
         }
         CourseDetails courseDetail = getCourseDetailsInquiryService().retrieveCourseSummary(planItem.getRefObjectId(), KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId());
-        List<ActivityOfferingItem> activityOfferingItems = getCourseDetailsInquiryService().getActivityOfferingItems(planItem.getRefObjectId(), planItem.getPlanPeriods().get(0), null);
         List<String> plannedSections = new ArrayList<String>();
-        if (activityOfferingItems != null) {
-            for (ActivityOfferingItem activityOfferingItem : activityOfferingItems) {
-                if (activityOfferingItem.isPlanned()) {
-                    plannedSections.add(getPlanIdFromCourseId(courseDetail.getCode() + " " + activityOfferingItem.getCode(),planItem.getTypeKey()));
+        if(planItem.getPlanPeriods()!=null && planItem.getPlanPeriods().size()>0){
+            List<ActivityOfferingItem> activityOfferingItems = getCourseDetailsInquiryService().getActivityOfferingItems(planItem.getRefObjectId(), planItem.getPlanPeriods().get(0), null);
+            if (activityOfferingItems != null) {
+                for (ActivityOfferingItem activityOfferingItem : activityOfferingItems) {
+                    if (activityOfferingItem.isPlanned()) {
+                        plannedSections.add(getPlanIdFromCourseId(courseDetail.getCode() + " " + activityOfferingItem.getCode(),planItem.getTypeKey()));
+                    }
                 }
             }
         }
@@ -1857,6 +1859,8 @@ public class PlanController extends UifControllerBase {
 
         if (totalCredits != null) {
             if (totalCredits.contains(".0")) totalCredits = totalCredits.replace(".0", "");
+        }else{
+            totalCredits="0";
         }
         return totalCredits;
     }
