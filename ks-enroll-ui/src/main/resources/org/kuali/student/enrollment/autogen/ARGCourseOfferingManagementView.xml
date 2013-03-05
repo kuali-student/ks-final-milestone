@@ -23,7 +23,7 @@
           p:id="argCourseOfferingManagementView"
           p:entryPageId="searchInputPage"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl"
-          p:formClass="org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm">
+          p:formClass="org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm">
 
         <!--<property name="breadCrumbConfigMap">
             <map>
@@ -35,11 +35,11 @@
                     </map>
                 </entry>
             </map>
-        </property>
+        </property> -->
 
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
-        </property>-->
+        </property>
 
         <property name="header">
             <bean parent="Uif-HeaderThree" p:headerText="Manage Course Offerings" p:style="padding-left:15px;"/>
@@ -67,7 +67,7 @@
                 <ref bean="KS-CourseOfferingManagement-SearchInputPage"/>
                 <ref bean="KS-CourseOfferingManagement-ManageCourseOfferingsPage"/>
                 <ref bean="KS-CourseOfferingManagement-CopyCourseOfferingPage"/>
-                <ref bean="KS-CourseOfferingManagement-ManageTheCourseOfferingsPage"/>
+                <ref bean="KS-CourseOfferingManagement-ManageTheCourseOfferingPage"/>
                 <ref bean="KS-CourseOfferingManagement-CoDeleteConfirmationPage"/>
                 <ref bean="KS-CourseOfferingManagement-SelectedAoDeleteConfirmationPage"/>
             </list>

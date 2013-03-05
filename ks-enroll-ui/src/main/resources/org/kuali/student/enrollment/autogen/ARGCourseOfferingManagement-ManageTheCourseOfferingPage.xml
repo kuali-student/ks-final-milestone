@@ -19,8 +19,8 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <bean id="KS-CourseOfferingManagement-ManageTheCourseOfferingsPage" parent="Uif-Page" p:disclosure.render="false"
-          p:id="manageTheCourseOfferingsPage">
+    <bean id="KS-CourseOfferingManagement-ManageTheCourseOfferingPage" parent="Uif-Page" p:disclosure.render="false"
+          p:id="manageTheCourseOfferingPage">
 
     </bean>
 
