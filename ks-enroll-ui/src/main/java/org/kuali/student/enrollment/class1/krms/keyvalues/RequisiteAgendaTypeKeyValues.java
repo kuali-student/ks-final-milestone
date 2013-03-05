@@ -20,21 +20,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RequisiteAgendaTypeKeyValues extends UifKeyValuesFinderBase implements Serializable {
+public class RequisiteAgendaTypeKeyValues implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Override
-    public List<KeyValue> getKeyValues(ViewModel model) {
+    public List<KeyValue> getKeyValues(String agendaId) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        String agendaId = "10000";
 
         NaturalLanguageUsage usage = getNaturalLanguageUsageBoService().getNaturalLanguageUsageByName(PermissionServiceConstants.KS_SYS_NAMESPACE, KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION);
 
         //Use KRMS Type Repository Service to get Agenda Types
         try {
             List<TypeTypeRelation> typeTypeRelationList = getTypeTypeRelationBoService().findTypeTypeRelationsByFromType(agendaId);
-            keyValues.add(new ConcreteKeyValue("0","Select One"));
             for (TypeTypeRelation typeTypeRelation : typeTypeRelationList) {
                 NaturalLanguageTemplate template = null;
                 try{

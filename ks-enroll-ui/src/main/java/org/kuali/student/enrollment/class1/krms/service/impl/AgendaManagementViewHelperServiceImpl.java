@@ -4,13 +4,30 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
+import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
+import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
+import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
+import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
+import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
+import org.kuali.rice.krms.impl.repository.NaturalLanguageTemplateBoService;
+import org.kuali.rice.krms.impl.repository.NaturalLanguageUsageBoService;
+import org.kuali.rice.krms.impl.repository.TypeTypeRelationBoService;
 import org.kuali.student.enrollment.class1.krms.form.AgendaManagementForm;
+import org.kuali.student.enrollment.class1.krms.keyvalues.RequisiteAgendaTypeKeyValues;
+import org.kuali.student.enrollment.class1.krms.keyvalues.RuleTypeKeyValues;
 import org.kuali.student.enrollment.class1.krms.service.AgendaManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.uif.service.impl.KSViewHelperServiceImpl;
+import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
+import org.kuali.student.krms.naturallanguage.util.KsKrmsRepositoryServiceLocator;
+import org.kuali.student.krms.util.KSKRMSConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -29,6 +46,7 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceImpl implements AgendaManagementViewHelperService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AgendaManagementViewHelperServiceImpl.class);
@@ -38,6 +56,68 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
     private SearchService searchService = null;
 
     private CourseService courseService;
+
+    @Override
+    public void performInitialization(View view, Object model) {
+        AgendaManagementForm form = (AgendaManagementForm) model;
+
+        String agendaId = getAgendaCourseTypeId();
+        List<KeyValue> agendaTypeIds = setAgendaTypes(form, agendaId);
+        setRuleTypes(form, agendaTypeIds);
+
+        super.performInitialization(view, model);
+
+    }
+
+    private String getAgendaCourseTypeId() {
+        KrmsTypeDefinition krmsTypeDefinition = getKrmsTypeRepositoryService().getTypeByName(KSKRMSConstants.KS_SYS_NAMESPACE, KSKRMSConstants.COURSE_AGENDA_TYPE_ID);
+        String agendaId = krmsTypeDefinition.getId();
+        return agendaId;
+    }
+
+    private List<KeyValue> setAgendaTypes(AgendaManagementForm form, String agendaId) {
+//        agendaId = form.getAgenda().getId();
+        RequisiteAgendaTypeKeyValues requisiteAgendaTypeKeyValues = new RequisiteAgendaTypeKeyValues();
+        List<KeyValue> agendaTypes = requisiteAgendaTypeKeyValues.getKeyValues(agendaId);
+        for(KeyValue agendaType : agendaTypes) {
+            if(agendaType.getValue().equals(KSKRMSConstants.CONTEXT_ENROLLMENT_ELIGIBILITY)) {
+                form.setEnrollmentEligibility(agendaType.getValue());
+            } else if(agendaType.getValue().equals(KSKRMSConstants.CONTEXT_CREDIT_CONTRAINTS)) {
+                form.setCreditConstraints(agendaType.getValue());
+            }
+        }
+        return agendaTypes;
+    }
+
+    private void setRuleTypes(AgendaManagementForm form, List<KeyValue> agendaTypeIds) {
+        RuleTypeKeyValues ruleTypeKeyValues = new RuleTypeKeyValues();
+        Map<String, Map<String, String>> keyValues = ruleTypeKeyValues.getKeyValues(agendaTypeIds);
+        Map<String, String> ruleTypes = keyValues.get("ruleTypes");
+        Map<String, String> ruleInstructions = keyValues.get("ruleInstructions");
+        List<String> ruleTypeList = new ArrayList<String>(ruleTypes.values());
+
+        for(String ruleType: ruleTypeList) {
+            if(ruleType.equals(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY)) {
+                form.setStudentEligAndPrereq(ruleType);
+                form.setStudentEligAndPrereqInstruction(ruleInstructions.get(ruleType));
+            } else if(ruleType.equals(KSKRMSConstants.CONTEXT_CORE_REQUISITE)) {
+                form.setCorequisites(ruleType);
+                form.setCorequisitesInstruction(ruleInstructions.get(ruleType));
+            } else if(ruleType.equals(KSKRMSConstants.CONTEXT_RECOMMENDED_PREPARATION)) {
+                form.setRecommendedPreparation(ruleType);
+                form.setRecommendedPreparationInstruction(ruleInstructions.get(ruleType));
+            } else if(ruleType.equals(KSKRMSConstants.CONTEXT_ANTI_REQUISITE)) {
+                form.setAntirequisite(ruleType);
+                form.setAntirequisiteInstruction(ruleInstructions.get(ruleType));
+            } else if(ruleType.equals(KSKRMSConstants.CONTEXT_COURSE_RESTRICTS)) {
+                form.setRestrictCredits(ruleType);
+                form.setRestrictCreditsInstruction(ruleInstructions.get(ruleType));
+            } else if(ruleType.equals(KSKRMSConstants.CONTEXT_REPEATED_CREDITS)) {
+                form.setRepeatableCredit(ruleType);
+                form.setRepeatableCreditInstruction(ruleInstructions.get(ruleType));
+            }
+        }
+    }
 
     public List<TermInfo> findTermByTermCode(String termCode) throws Exception {
         // TODO: Find sensible way to rewrap exception that acal service may throw
@@ -131,6 +211,18 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
             searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "search", SearchService.class.getSimpleName()));
         }
         return searchService;
+    }
+
+    private NaturalLanguageUsageBoService getNaturalLanguageUsageBoService() {
+        return KsKrmsRepositoryServiceLocator.getNaturalLanguageUsageBoService();
+    }
+
+    private NaturalLanguageTemplateBoService getNaturalLanguageTemplateBoService() {
+        return KsKrmsRepositoryServiceLocator.getNaturalLanguageTemplateBoService();
+    }
+
+    private KrmsTypeRepositoryService getKrmsTypeRepositoryService() {
+        return KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService();
     }
 
 }

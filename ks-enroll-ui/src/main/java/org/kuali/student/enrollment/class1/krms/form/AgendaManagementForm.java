@@ -2,6 +2,8 @@ package org.kuali.student.enrollment.class1.krms.form;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
+import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
@@ -13,6 +15,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AgendaManagementForm extends UifFormBase {
+
+    AgendaDefinition agenda;
+
+    //Agenda Types
+    String enrollmentEligibility;
+    String creditConstraints;
+
+    //Rule Types
+    String studentEligAndPrereq;
+    String corequisites;
+    String antirequisite;
+    String recommendedPreparation;
+    String restrictCredits;
+    String repeatableCredit;
+
+    //Rule Instructions
+    String studentEligAndPrereqInstruction;
+    String corequisitesInstruction;
+    String antirequisiteInstruction;
+    String recommendedPreparationInstruction;
+    String restrictCreditsInstruction;
+    String repeatableCreditInstruction;
+
     //for authorization purpose
     private String adminOrg;
 
@@ -65,6 +90,126 @@ public class AgendaManagementForm extends UifFormBase {
     public AgendaManagementForm(){
         courseOfferingResultList = new ArrayList<CourseOfferingListSectionWrapper>();
         courseOfferingResultListEmpty = new ArrayList<CourseOfferingListSectionWrapper>();
+    }
+
+    public AgendaDefinition getAgenda() {
+        return agenda;
+    }
+
+    public void setAgenda(AgendaDefinition agenda) {
+        this.agenda = agenda;
+    }
+
+    public String getCreditConstraints() {
+        return creditConstraints;
+    }
+
+    public void setCreditConstraints(String creditConstraints) {
+        this.creditConstraints = creditConstraints;
+    }
+
+    public String getEnrollmentEligibility() {
+        return enrollmentEligibility;
+    }
+
+    public void setEnrollmentEligibility(String enrollmentEligibility) {
+        this.enrollmentEligibility = enrollmentEligibility;
+    }
+
+    public String getStudentEligAndPrereq() {
+        return studentEligAndPrereq;
+    }
+
+    public void setStudentEligAndPrereq(String studentEligAndPrereq) {
+        this.studentEligAndPrereq = studentEligAndPrereq;
+    }
+
+    public String getCorequisites() {
+        return corequisites;
+    }
+
+    public void setCorequisites(String corequisites) {
+        this.corequisites = corequisites;
+    }
+
+    public String getAntirequisite() {
+        return antirequisite;
+    }
+
+    public void setAntirequisite(String antirequisite) {
+        this.antirequisite = antirequisite;
+    }
+
+    public String getRecommendedPreparation() {
+        return recommendedPreparation;
+    }
+
+    public void setRecommendedPreparation(String recommendedPreparation) {
+        this.recommendedPreparation = recommendedPreparation;
+    }
+
+    public String getRestrictCredits() {
+        return restrictCredits;
+    }
+
+    public void setRestrictCredits(String restrictCredits) {
+        this.restrictCredits = restrictCredits;
+    }
+
+    public String getRepeatableCredit() {
+        return repeatableCredit;
+    }
+
+    public void setRepeatableCredit(String repeatableCredit) {
+        this.repeatableCredit = repeatableCredit;
+    }
+
+    public String getStudentEligAndPrereqInstruction() {
+        return studentEligAndPrereqInstruction;
+    }
+
+    public void setStudentEligAndPrereqInstruction(String studentEligAndPrereqInstruction) {
+        this.studentEligAndPrereqInstruction = studentEligAndPrereqInstruction;
+    }
+
+    public String getCorequisitesInstruction() {
+        return corequisitesInstruction;
+    }
+
+    public void setCorequisitesInstruction(String corequisitesInstruction) {
+        this.corequisitesInstruction = corequisitesInstruction;
+    }
+
+    public String getAntirequisiteInstruction() {
+        return antirequisiteInstruction;
+    }
+
+    public void setAntirequisiteInstruction(String antirequisiteInstruction) {
+        this.antirequisiteInstruction = antirequisiteInstruction;
+    }
+
+    public String getRecommendedPreparationInstruction() {
+        return recommendedPreparationInstruction;
+    }
+
+    public void setRecommendedPreparationInstruction(String recommendedPreparationInstruction) {
+        this.recommendedPreparationInstruction = recommendedPreparationInstruction;
+    }
+
+    public String getRestrictCreditsInstruction() {
+        return restrictCreditsInstruction;
+    }
+
+    public void setRestrictCreditsInstruction(String restrictCreditsInstruction) {
+        this.restrictCreditsInstruction = restrictCreditsInstruction;
+    }
+
+    public String getRepeatableCreditInstruction() {
+        return repeatableCreditInstruction;
+    }
+
+    public void setRepeatableCreditInstruction(String repeatableCreditInstruction) {
+        this.repeatableCreditInstruction = repeatableCreditInstruction;
     }
 
     public String getTermCode(){

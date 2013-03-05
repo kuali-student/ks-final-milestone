@@ -211,8 +211,8 @@ public class AgendaManagementController extends UifControllerBase  {
      * Method used to invoke the CO inquiry view from Manage Course Offering screen while search input is Course Offering
      * Code (04a screen)
      */
-    @RequestMapping(params = "methodToCall=viewTheCO")
-    public ModelAndView viewTheCO(@ModelAttribute("KualiForm") AgendaManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+    @RequestMapping(params = "methodToCall=goToRuleView")
+    public ModelAndView goToRuleView(@ModelAttribute("KualiForm") AgendaManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         CourseOfferingInfo theCourseOfferingInfo = theForm.getTheCourseOffering();

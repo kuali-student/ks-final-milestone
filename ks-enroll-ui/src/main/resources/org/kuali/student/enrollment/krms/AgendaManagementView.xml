@@ -21,36 +21,212 @@
 
     <bean id="KS-AgendaManagement-View" parent="KSFormView" p:applyDirtyCheck="true"
           p:id="agendaManagementView"
-          p:entryPageId="searchInputPage"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class1.krms.service.impl.AgendaManagementViewHelperServiceImpl"
           p:formClass="org.kuali.student.enrollment.class1.krms.form.AgendaManagementForm">
-        <property name="authorizer">
-            <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
-        </property>
-        <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="Manage Course Offering Agendas" p:style="padding-left:15px;"/>
-        </property>
-        <property name="footer">
-            <bean parent="Uif-FooterBase"/>
-        </property>
-
-        <property name="additionalScriptFiles">
+        <property name="headerText" value="Manage Requisites"/>
+        <property name="cssClasses">
             <list merge="true">
-                <value>ks-enroll/scripts/common.js</value>
-                <value>ks-enroll/scripts/courseOffering.js</value>
+                <value>ks-enrollment-home</value>
             </list>
         </property>
         <property name="additionalCssFiles">
-            <list merge="true">
-                <value>ks-enroll/css/acal.css</value>
-                <value>ks-enroll/css/krms.css</value>
+            <list>
+                <value>ks-enroll/css/enroll.css</value>
             </list>
         </property>
-        <property name="preloadPoolSize" value="3"/>
         <property name="items">
             <list>
-                <ref bean="KS-COAgendaManagement-SearchInputPage"/>
-                <ref bean="KS-COAgendaManagement-ManageAgendasPage"/>
+                <bean name="ManageRequisites-Section" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="EnrollmentEligibility-Section"/>
+                            <ref bean="CreditConstraints-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="EnrollmentEligibility-Section" parent="Uif-VerticalBoxSection">
+        <property name="header">
+            <bean parent="Uif-HeaderThree" p:style="border-bottom:solid 2px #000; margin-bottom:5px; margin-top:15px;" p:headerText="@{enrollmentEligibility}"/>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="StudentEligibilityAndPrerequisites-Disclosure"/>
+                <ref bean="Corequisites-Disclosure"/>
+                <ref bean="RecommendedPreperation-Disclosure"/>
+                <ref bean="Antirequisite-Disclosure"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="CreditConstraints-Section" parent="Uif-VerticalBoxSection">
+        <property name="header">
+            <bean parent="Uif-HeaderThree" p:style="border-bottom:solid 2px #000; margin-bottom:5px; margin-top:15px;" p:headerText="@{creditConstraints}"/>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="RestrictsCredit-Disclosure"/>
+                <ref bean="RepeatableCredit-Disclosure"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Disclosure-Links" parent="Uif-LinkGroup">
+        <property name="linkSeparator" value=" | "/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Link" p:linkText="Copy">
+                    <property name="toolTip">
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
+                              p:tooltipContent="Copy Rule to other CO"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-Link" p:linkText="Compare">
+                    <property name="toolTip">
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Compares CLU and CO Rules"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-ActionLink" p:actionLabel="Edit" p:methodToCall="goToRuleView">
+                    <property name="toolTip">
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
+                              p:tooltipContent="Edit Rule"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-ActionLink" p:actionLabel="Delete">
+                    <property name="toolTip">
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
+                              p:tooltipContent="Delete Rule"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="StudentEligibilityAndPrerequisites-Disclosure" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="disclosure.defaultOpen" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderThree" p:headerText="@{studentEligAndPrereq}"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection" p:width="500px" p:style="margin-left:1em">
+                    <property name="items">
+                        <list>
+                            <bean parent="Disclosure-Links" p:align="right"/>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{studentEligAndPrereqInstruction}"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="Corequisites-Disclosure" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="disclosure.defaultOpen" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderThree" p:headerText="@{corequisites}"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection" p:width="500px" p:style="margin-left:1em">
+                    <property name="items">
+                        <list>
+                            <bean parent="Disclosure-Links" p:align="right"/>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{corequisitesInstruction}"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="RecommendedPreperation-Disclosure" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="disclosure.defaultOpen" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderThree" p:headerText="@{recommendedPreparation}"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection" p:width="500px" p:style="margin-left:1em">
+                    <property name="items">
+                        <list>
+                            <bean parent="Disclosure-Links" p:align="right"/>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{recommendedPreparationInstruction}"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="Antirequisite-Disclosure" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="disclosure.defaultOpen" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderThree" p:headerText="@{antirequisite}"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection" p:width="500px" p:style="margin-left:1em">
+                    <property name="items">
+                        <list>
+                            <bean parent="Disclosure-Links" p:align="right"/>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{antirequisiteInstruction}"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="RestrictsCredit-Disclosure" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="disclosure.defaultOpen" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderThree" p:headerText="@{restrictCredits}"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection" p:width="500px" p:style="margin-left:1em">
+                    <property name="items">
+                        <list>
+                            <bean parent="Disclosure-Links" p:align="right"/>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{restrictCreditsInstruction}"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="RepeatableCredit-Disclosure" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="disclosure.defaultOpen" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderThree" p:headerText="@{repeatableCredit}"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection" p:width="500px" p:style="margin-left:1em">
+                    <property name="items">
+                        <list>
+                            <bean parent="Disclosure-Links" p:align="right"/>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{repeatableCreditInstruction}"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

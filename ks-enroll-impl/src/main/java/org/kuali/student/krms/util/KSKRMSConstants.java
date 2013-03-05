@@ -4,6 +4,9 @@ package org.kuali.student.krms.util;
 public class KSKRMSConstants {
 
 	public static final String KSNAMESPACE = "KR-RULE-TEST";
+    public static final String KS_SYS_NAMESPACE = "KS-SYS";
+
+    public static final String COURSE_AGENDA_TYPE_ID = "kuali.krms.agenda.type.course";
 	
 	public static final String TERM_SPEC_CREDITS = "Credits";
 	public static final String TERM_SPEC_RESOLVER_CREDITS = "creditsTermResolver";
@@ -188,13 +191,16 @@ public class KSKRMSConstants {
 	
 	public static final String KS_AGENDA_TYPE = "KSAgendaType";
 	public static final String KS_TERM_RESOLVER_TYPE = "KSKRMSTermResolverTypeService";
+
+    public static final String CONTEXT_ENROLLMENT_ELIGIBILITY = "Enrollment Eligibility";
+    public static final String CONTEXT_CREDIT_CONTRAINTS = "Credit Constraints";
 	
 	public static final String CONTEXT_ANTI_REQUISITE = "Antirequisite";
-	public static final String CONTEXT_CORE_REQUISITE = "Corerequisite";
-	public static final String CONTEXT_COURSE_RESTRICTS = "Course that Restricts Credits";
+	public static final String CONTEXT_CORE_REQUISITE = "Corequisite";
+	public static final String CONTEXT_COURSE_RESTRICTS = "Restricted for Credit";
 	public static final String CONTEXT_RECOMMENDED_PREPARATION = "Recommended Preparation";
-	public static final String CONTEXT_REPEATED_CREDITS = "Repeated Credits";
-	public static final String CONTEXT_STUD_ELIGIBILITY = "Stud Eligibility and Prereq";
+	public static final String CONTEXT_REPEATED_CREDITS = "Repeatable for Credit";
+	public static final String CONTEXT_STUD_ELIGIBILITY = "Student Eligibility & Prerequisite";
 
 	public static final String PERSON_ID_TERM_PROPERTY = "personIdProperty";
 	public static final String COURSE_CODE_TERM_PROPERTY = "courseCodeProperty";

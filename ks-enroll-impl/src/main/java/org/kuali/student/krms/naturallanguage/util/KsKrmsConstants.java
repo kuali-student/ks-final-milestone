@@ -15,5 +15,6 @@ public class KsKrmsConstants {
     public static final String KRMS_NL_EXAMPLE = "kuali.krms.example";
     public static final String KRMS_NL_PREVIEW = "kuali.krms.preview";
     public static final String KRMS_NL_TYPE_DESCRIPTION = "kuali.krms.type.description";
+    public static final String KRMS_NL_TYPE_INSTRUCTION = "kuali.krms.type.instruction";
 
 }
