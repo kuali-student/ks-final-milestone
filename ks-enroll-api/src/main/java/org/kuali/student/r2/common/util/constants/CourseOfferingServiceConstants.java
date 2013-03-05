@@ -15,6 +15,7 @@
  */
 package org.kuali.student.r2.common.util.constants;
 
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
@@ -37,6 +38,7 @@ public class CourseOfferingServiceConstants {
     public static final String REF_OBJECT_URI_ACTIVITY_OFFERING = NAMESPACE + "/" + ActivityOfferingInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_REGISTRATION_GROUP = NAMESPACE + "/" + RegistrationGroupInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_SEAT_POOL_DEFINITION = NAMESPACE + "/" + SeatPoolDefinitionInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_AO_CLUSTER_DEFINITION = NAMESPACE + "/" + ActivityOfferingClusterInfo.class.getSimpleName();
 
 
     //dynamic attribute keys
