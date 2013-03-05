@@ -76,8 +76,8 @@ public class SchedulingServiceConstants {
     public static final String SCHEDULE_REQUEST_STATE_CREATED = "kuali.scheduling.schedule.request.state.created";
 
     // schedule transaction states
-    public static final String SCHEDULE_TRANSACTION_STATE_LIFECYCLE_KEY = "kuali.scheduling.scheduletransaction.lifecycle";
-    public static final String SCHEDULE_TRANSACTION_STATE_COMPLETED = "kuali.scheduling.scheduletransaction.state.completed";
+    public static final String SCHEDULE_TRANSACTION_STATE_LIFECYCLE_KEY = "kuali.scheduling.schedule.transaction.lifecycle";
+    public static final String SCHEDULE_TRANSACTION_STATE_COMPLETED = "kuali.scheduling.schedule.transaction.state.completed";
 
     // schedule batch states
     public static final String SCHEDULE_BATCH_STATE_LIFECYCLE_KEY = "kuali.scheduling.schedulebatch.lifecycle";
@@ -89,7 +89,7 @@ public class SchedulingServiceConstants {
 
     // time slot states
     public static final String TIME_SLOT_LIFECYCLE_KEY = "kuali.scheduling.timeslot.lifecycle";
-    public static final String TIME_SLOT_STATE_ACTIVE = " kuali.scheduling.timeslot.state.active ";
+    public static final String TIME_SLOT_STATE_ACTIVE = " kuali.scheduling.timeslot.state.active";
 
     ////////////////////////////////////////
     // TYPES / STATES not yet approved
