@@ -66,20 +66,23 @@
                     <property name="items" >
                         <list>
                             <bean parent="Uif-Message"
-                                  p:messageText="Warning: This is a crosslisted course."
+                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]  Warning: This is a crosslisted course. [br/]
+                                  You are about to permanently delete the following activity offering(s) from this course offering."
                                   p:style="background-color:#FFEE99; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.crossListed}"/>
                             <bean parent="Uif-Message"
-                                  p:messageText="Warning: There are co-located activities."
+                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]  Warning: There are co-located activities."
                                   p:style="background-color:#FFEE99; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.colocatedAoToDelete}"/>
                             <bean parent="Uif-Message"
-                                  p:messageText="Deleting will remove this activity and break the relationship with the co-located activities and courses."
-                                  p:style="background-color:#FFEE99; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.colocatedAoToDelete}"/>
+                                  p:messageText="Deleting will remove this activity and break the relationship with the co-located activities and courses. [br/]
+                                  You are about to permanently delete the following activity offering(s) from this course offering."
+                                  p:style="background-color:#FFEE99;  margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.colocatedAoToDelete}"/>
                             <bean parent="Uif-Message"
-                                  p:messageText="Warning: You are about to permanently delete the following activity offering(s) from this course offering."
-                                  p:style="background-color:#FFEE99; font-size: 110%" p:colSpan="2"/>
+                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;] Warning: You are about to permanently delete the following activity offering(s) from this course offering."
+                                  p:style="background-color:#FFEE99; font-size: 110%" p:colSpan="2"
+                                  p:render="@{!currentCourseOfferingWrapper.colocatedAoToDelete and !currentCourseOfferingWrapper.colocatedAoToDelete }" />
                             <bean parent="Uif-Message"
                                   p:messageText="Activity Offerings to be deleted: @{selectedToDeleteList.size()}"
-                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2"/>
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
 
                         </list>
                     </property>
@@ -106,7 +109,7 @@
                                     <list>
                                         <bean parent="Uif-DataField"  p:propertyName="activityCode"/>
                                         <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}" p:image.altText="@{#lp.colocatedAoInfoUI}"
-                                            p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png">
+                                            p:source="@{#ConfigProperties['ks.externalizable.images.url']}/Colocated_Icon6px.png">
                                             <property name="toolTip">
                                                 <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedAoInfoUI}"/>
                                             </property>
