@@ -64,12 +64,7 @@ public class ToolbarUtil {
 
         permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, form.getViewId());
 
-        if(StringUtils.equals(socStateKey, CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY) ||
-                            (StringUtils.equals(socStateKey, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
-                             StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS))){
-            //all buttons disabled
-        }else{
-
+        if(!isInProgress(socStateKey, socSchedulingState)){
             permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT,"addCO");
             if(permissionService.isAuthorizedByTemplate(principalId,"KS-ENR",KimConstants.PermissionTemplateNames.PERFORM_ACTION,permissionDetails,roleQualifications)){
                 form.setEnableAddButton(true);
@@ -97,26 +92,11 @@ public class ToolbarUtil {
                         coListWrapper.setEnableEditCOActionLink(true);
                     }
 
-
-                    if(StringUtils.equals(coStateKey, LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY) &&
-                      (StringUtils.equals(socStateKey, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
-                       StringUtils.equals(socStateKey, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
-                      (StringUtils.equals(socStateKey, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
-                      !StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS)))){
-                        coListWrapper.setEnableApproveButton(true);
-                    }
-
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "approveCO");
                     if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                        if(!StringUtils.equals(coStateKey, LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)){
+                        if(checkBzLogicForApproveCO(socStateKey, socSchedulingState, coStateKey)){
                             coListWrapper.setEnableApproveButton(true);
                         }
-                        else {
-                            coListWrapper.setEnableApproveButton(false);
-                        }
-                    }
-                    else {
-                        coListWrapper.setEnableApproveButton(false);
                     }
 
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "reinstateCO");
@@ -169,12 +149,7 @@ public class ToolbarUtil {
 
         permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, form.getViewId());
 
-        if(StringUtils.equals(socStateKey, CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY) ||
-                                    (StringUtils.equals(socStateKey, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
-                                     StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS))){
-            //all buttons disabled
-        }else{
-
+        if(!isInProgress(socStateKey, socSchedulingState)){
             permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT,"addAO");
             if(permissionService.isAuthorizedByTemplate(principalId,"KS-ENR",KimConstants.PermissionTemplateNames.PERFORM_ACTION,permissionDetails,roleQualifications)){
                 form.setEnableAddButton(true);
@@ -207,25 +182,11 @@ public class ToolbarUtil {
                         activityWrapper.setEnableCancelButton(true);
                     }
 
-                    if(StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY) &&
-                        (StringUtils.equals(socStateKey, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
-                        StringUtils.equals(socStateKey, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
-                        (StringUtils.equals(socStateKey, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
-                        !StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS)))){
-                        activityWrapper.setEnableApproveButton(true);
-                    }
-
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "approveAO");
                     if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                        if(!StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY)){
+                        if(checkBzLogicForApproveAO(socStateKey, socSchedulingState, aoStateKey)){
                             activityWrapper.setEnableApproveButton(true);
                         }
-                        else{
-                            activityWrapper.setEnableApproveButton(false);
-                        }
-                    }
-                    else{
-                        activityWrapper.setEnableApproveButton(false);
                     }
 
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "reinstateAO");
@@ -242,13 +203,61 @@ public class ToolbarUtil {
                     }
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "setDraftAO");
                     if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                        if(!StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY)){
+                       if(checkBzLogicForDraftAO(aoStateKey)){
                             activityWrapper.setEnableDraftButton(true);
-                        }
+                       }
                     }
                 }
             }
         }
+    }
+
+    private static boolean checkBzLogicForApproveCO(String socState, String socSchedulingState, String coState){
+        boolean bzApproveAllowed = false;
+
+        if(StringUtils.equals(coState, LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY) &&
+            (StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
+            StringUtils.equals(socState, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
+            (StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
+            !StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS)))){
+                bzApproveAllowed = true;
+        }
+
+        return bzApproveAllowed;
+    }
+
+    private static boolean checkBzLogicForApproveAO(String socState, String socSchedulingState, String aoState){
+        boolean bzApproveAllowed = false;
+
+        if(StringUtils.equals(aoState, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY) &&
+            (StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
+            StringUtils.equals(socState, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
+            (StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
+            !StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS)))){
+            bzApproveAllowed = true;
+        }
+        return bzApproveAllowed;
+
+    }
+
+    private static boolean checkBzLogicForDraftAO(String aoState){
+        boolean bzDraftAllowed = false;
+        if(StringUtils.equals(aoState, LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY)){
+            bzDraftAllowed = true;
+        }
+
+        return bzDraftAllowed;
+
+    }
+
+    private static boolean isInProgress(String socState, String socSchedulingState){
+        boolean inProgress = false;
+        if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY) ||
+            (StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
+            StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS))){
+            inProgress = true;
+        }
+        return inProgress;
     }
 
     private static PermissionService getPermissionService() {
