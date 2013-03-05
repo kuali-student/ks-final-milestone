@@ -48,7 +48,7 @@
 	
     <bean id="coService" class=" org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
         <property name="nextDecorator" ref="coServiceImpl"/>
-
+        <property name="typeService" ref="typeService"/>
         <property name="validator" ref="validator" />
     </bean>
     

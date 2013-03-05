@@ -69,8 +69,9 @@ public class TypeServiceMockImpl implements TypeService, MockService {
 
     @Override
     public List<TypeInfo> getTypesByRefObjectUri(String refObjectUri,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return new ArrayList<TypeInfo>(){
 
-        throw new OperationFailedException("Method not implemented."); // TODO implement
+        };
     }
 
     @Override
