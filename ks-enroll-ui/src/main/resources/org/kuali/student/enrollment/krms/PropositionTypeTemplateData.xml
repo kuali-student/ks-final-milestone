@@ -31,6 +31,7 @@
                           p:termSpecName="CompletedCourses"
                           p:value="true">
                         <property name="display" value="KRMS-MultiCourse-Tree-Section"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -39,6 +40,7 @@
                           p:termSpecName="NumberOfCompletedCourses"
                           p:operator="&gt;=" p:value="n">
                         <property name="display" value="KRMS-MultiCourseAndNof-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -46,6 +48,7 @@
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="NumberOfCompletedCourses" p:operator="&lt;=" p:value="n">
                         <property name="display" value="KRMS-MultiCourseAndNof-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -54,6 +57,7 @@
                           p:termSpecName="NumberOfCompletedCourses"
                           p:value="0">
                         <property name="display" value="KRMS-MultiCourse-Tree-Section"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -69,6 +73,7 @@
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="NumberOfCreditsFromCompletedCourses" p:operator="&lt;=" p:value="n">
                         <property name="display" value="KRMS-MultiCourseWithCredit"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -76,6 +81,7 @@
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="NumberOfCreditsFromCompletedCourses" p:operator="&gt;=" p:value="n">
                         <property name="display" value="KRMS-CourseAndCredit-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -83,6 +89,7 @@
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="NumberOfCreditsFromCompletedCourses" p:operator="=" p:value="0">
                         <property name="display" value="KRMS-MultiCourse-Tree-Section"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -91,6 +98,7 @@
                           p:termSpecName="EnrolledCourses"
                           p:value="true">
                         <property name="display" value="KRMS-MultiCourse-Tree-Section"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -99,6 +107,7 @@
                           p:termSpecName="NumberOfEnrolledCourses"
                           p:operator="&gt;=" p:value="n">
                         <property name="display" value="KRMS-MultiCourseAndNof-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -115,6 +124,7 @@
                           p:termSpecName="GPAForCourses"
                           p:operator="&gt;=" p:value="gpa">
                         <property name="display" value="KRMS-MultiCourseWithGPA-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -139,6 +149,7 @@
                           p:termSpecName="GradeTypeForCourses"
                           p:operator="&lt;" p:value="grade">
                         <property name="display" value="KRMS-MultiCourseWithGrade-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -147,6 +158,7 @@
                           p:termSpecName="GradeTypeForCourses"
                           p:operator="&gt;=" p:value="grade">
                         <property name="display" value="KRMS-MultiCourseWithGrade-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -155,6 +167,7 @@
                           p:termSpecName="GradeTypeForCourses"
                           p:operator="&gt;=" p:value="n">
                         <property name="display" value="KRMS-MultiCourseAndNofWithGrade-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
                     </bean>
                 </entry>
 

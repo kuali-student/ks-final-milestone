@@ -9,6 +9,8 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.impl.ui.TermParameter;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,13 +46,12 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
     private TermDefinition term;
     private String termParameter;
     private List<TermParameter> termParameterList = new ArrayList<TermParameter>();
-    private List<KRMSCluSetInfo> approvedCourseList = new ArrayList<KRMSCluSetInfo>();
-    private List<KRMSCluSetInfo> courseSetList = new ArrayList<KRMSCluSetInfo>();
     private String termSpecId;
     private String type;
     private boolean editMode = false;
 
     private CluInfo cluInfo;
+    private CluSetInformation cluSet;
     private String multipleCourseType;
     private String gradeScale;
     private KrmsSuggestDisplay clu;
@@ -244,28 +245,28 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
         this.clu = clu;
     }
 
-    public List<KRMSCluSetInfo> getApprovedCourseList() {
-        return approvedCourseList;
+    public CluSetInformation getCluSet() {
+        return cluSet;
     }
 
-    public void setApprovedCourseList(List<KRMSCluSetInfo> approvedCourseList) {
-        this.approvedCourseList = approvedCourseList;
+    public void setCluSet(CluSetInformation cluSet) {
+        this.cluSet = cluSet;
     }
 
-    public int getApprovedCourseListSize(){
-        return this.approvedCourseList.size();
+    public int getCluListSize(){
+        if ((this.getCluSet() != null) && (this.getCluSet().getClus() != null)){
+            return this.getCluSet().getClus().size();
+        } else {
+            return 0;
+        }
     }
 
-    public List<KRMSCluSetInfo> getCourseSetList() {
-        return courseSetList;
-    }
-
-    public void setCourseSetList(List<KRMSCluSetInfo> courseSetList) {
-        this.courseSetList = courseSetList;
-    }
-
-    public int getCourseSetListSize(){
-        return this.courseSetList.size();
+    public int getCluSetListSize(){
+        if ((this.getCluSet() != null) && (this.getCluSet().getCluSets() != null)){
+            return this.getCluSet().getCluSets().size();
+        } else {
+            return 0;
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class1.krms;
 
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Container;
@@ -13,6 +14,7 @@ import org.kuali.rice.krad.uif.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -37,12 +39,30 @@ public class HorizontalActionsStackedLayoutManager extends StackedLayoutManager 
     public void buildLine(View view, Object model, CollectionGroup collectionGroup, List<Field> lineFields,
                           List<FieldGroup> subCollectionFields, String bindingPath, List<Action> actions, String idSuffix,
                           Object currentLine, int lineIndex) {
+
+        if (lineIndex == -1) {
+            String nodePath = this.getNodePath(this.getContext());
+            if (nodePath != null) {
+                for (Component component : this.getComponentPrototypes()) {
+                    ComponentUtils.pushObjectToContext(component, UifConstants.ContextVariableNames.NODE_PATH, nodePath);
+                }
+            }
+        }
+
         super.buildLine(view, model, collectionGroup, lineFields, subCollectionFields, bindingPath, actions, idSuffix,
                 currentLine, lineIndex);
 
-        //if ((lineIndex == -1) && (this.getHeaderGroup() != null)){
-        //    this.getStackedGroups().add(ComponentUtils.copy(this.getHeaderGroup(), idSuffix));
-        //}
+    }
+
+    private String getNodePath(Map<String, Object> context) {
+        if (context.containsKey(UifConstants.ContextVariableNames.NODE_PATH)) {
+            return (String) context.get(UifConstants.ContextVariableNames.NODE_PATH);
+
+        } else if (context.containsKey(UifConstants.ContextVariableNames.PARENT)) {
+            Component parent = (Component) context.get(UifConstants.ContextVariableNames.PARENT);
+            return this.getNodePath(parent.getContext());
+        }
+        return null;
     }
 
     @Override
@@ -55,7 +75,7 @@ public class HorizontalActionsStackedLayoutManager extends StackedLayoutManager 
         super.performFinalize(view, model, container);
 
         for (Group line : this.getStackedGroups()) {
-            if(line.getFooter() != null){
+            if (line.getFooter() != null) {
                 List<Component> footerItems = (List<Component>) line.getFooter().getItems();
                 List<Component> lineItems = (List<Component>) line.getItems();
                 line.getFooter().setItems(new ArrayList());

@@ -129,17 +129,19 @@
         <property name="viewName" value="krmsCoursesOnlyLookup"/>
         <property name="fieldConversions">
             <map>
-                <entry key="code" value="approveCourse"/>
+                <entry key="code" value="code"/>
+                <entry key="id" value="id"/>
             </map>
         </property>
     </bean>
 
     <bean id="KRMS-CourseSet-QuickFinder" parent="KRMS-QuickFinder">
         <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
-        <property name="viewName" value="KS-KitchenSink-Lookup-TermInfo"/>
+        <property name="viewName" value="krmsCoursesOnlyLookup"/>
         <property name="fieldConversions">
             <map>
-                <entry key="code" value="proposition.courseSetList"/>
+                <entry key="code" value="code"/>
+                <entry key="id" value="id"/>
             </map>
         </property>
     </bean>
@@ -179,22 +181,25 @@
                 </bean>
             </list>
         </property>
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:render="false"/>
+        </property>
     </bean>
 
     <bean id="KRMS-CourseSetStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:headerText="Courses Sets">
         <property name="layoutManager">
             <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
-                <property name="summaryFields" value="clueSetCourse" />
+                <property name="summaryFields" value="code" />
                 <property name="addLineGroup">
-                    <bean parent="KRMS-CollectionGridItem" p:progressiveRender="proposition.multipleCourseType eq '2'"/>
+                    <bean parent="KRMS-CollectionGridItem" p:progressiveRender="#np.proposition.multipleCourseType eq '2'"/>
                 </property>
             </bean>
         </property>
-        <property name="propertyName" value="proposition.courseSetList" />
+        <property name="propertyName" value="proposition.cluSet.cluSets" />
         <property name="collectionObjectClass"
-                  value="org.kuali.student.enrollment.class1.krms.dto.KRMSCluSetInfo"/>
+                  value="org.kuali.student.r2.lum.clu.dto.CluSetInfo"/>
         <property name="header">
-            <bean parent="Uif-HeaderSix" p:progressiveRender="proposition.courseSetListSize gt 0">
+            <bean parent="Uif-HeaderSix" p:progressiveRender="#np.proposition.cluSetListSize gt 0">
                 <property name="lowerGroup">
                     <bean parent="Uif-InactiveItemsActionsGroup"/>
                 </property>
@@ -202,13 +207,14 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="@{#line.clueSetCourse}" p:style="width: 290px; margin: 0px;"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.name}" p:style="width: 290px; margin: 0px;"/>
             </list>
         </property>
         <property name="addLineItems">
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:style="width: 280px;">
-                    <property name="propertyName" value="clueSetCourse"/>
+                    <property name="propertyName" value="name"/>
+                    <property name="readOnly" value="true"/>
                     <property name="label" value="Course Sets"/>
                     <!--property name="suggest">
                         <bean parent="Uif-Suggest">
@@ -234,17 +240,17 @@
     <bean id="KRMS-ApprovedCourseStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:headerText="Approved Courses">
         <property name="layoutManager">
             <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
-                <property name="summaryFields" value="approveCourse" />
+                <property name="summaryFields" value="code" />
                 <property name="addLineGroup">
-                    <bean parent="KRMS-CollectionGridItem" p:progressiveRender="proposition.multipleCourseType eq '1'"/>
+                    <bean parent="KRMS-CollectionGridItem" p:progressiveRender="#np.proposition.multipleCourseType eq '1'"/>
                 </property>
             </bean>
         </property>
-        <property name="propertyName" value="proposition.approvedCourseList" />
+        <property name="propertyName" value="proposition.cluSet.clus" />
         <property name="collectionObjectClass"
-                  value="org.kuali.student.enrollment.class1.krms.dto.KRMSCluSetInfo"/>
+                  value="org.kuali.student.enrollment.class1.krms.dto.CluInformation"/>
         <property name="header">
-            <bean parent="Uif-HeaderSix" p:progressiveRender="proposition.approvedCourseListSize gt 0">
+            <bean parent="Uif-HeaderSix" p:progressiveRender="#np.proposition.cluListSize gt 0">
                 <property name="lowerGroup">
                     <bean parent="Uif-InactiveItemsActionsGroup"/>
                 </property>
@@ -252,13 +258,14 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="@{#line.approveCourse}" p:style="width: 290px; margin: 0px;"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.code}" p:style="width: 290px; margin: 0px;"/>
             </list>
         </property>
         <property name="addLineItems">
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:required="true" p:style="width: 280px;">
-                    <property name="propertyName" value="approveCourse"/>
+                    <property name="propertyName" value="code"/>
+                    <property name="readOnly" value="true"/>
                     <property name="label" value="Approved Courses"/>
                     <!--property name="suggest">
                         <bean parent="KRMS-Course-SuggestControl"/>
@@ -280,7 +287,7 @@
         </property>
     </bean>
 
-    <bean id="KRMS-CourseRange-Section-Parent" parent="Uif-VerticalBoxSection" p:progressiveRender="proposition.multipleCourseType eq '3'">
+    <bean id="KRMS-CourseRange-Section-Parent" parent="Uif-VerticalBoxSection" p:progressiveRender="#np.proposition.multipleCourseType eq '3'">
 
         <property name="items">
             <list>
