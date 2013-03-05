@@ -76,7 +76,8 @@ public class CourseOfferingCodeGeneratorDBImpl implements CourseOfferingCodeGene
     public String generateCourseOfferingInternalCode(List<CourseOfferingInfo> existingCourseOfferings) {
 
         String courseOfferingCode = "";
-//        List<String> coCodes = new ArrayList<String>();
+        String nextCode = "";
+        List<String> coCodes = new ArrayList<String>();
 
         //If this is the first code, send back "A"
         if (existingCourseOfferings == null || existingCourseOfferings.isEmpty()) {
@@ -91,28 +92,26 @@ public class CourseOfferingCodeGeneratorDBImpl implements CourseOfferingCodeGene
             courseOfferingCode = coInfo.getCourseOfferingCode();
         }
 
-/*        String uuid = UUIDHelper.genStringUUID();
+        String uuid = UUIDHelper.genStringUUID();
         String pendingKey =  courseOfferingCode + "-P";
         String namespace = "courseOfferingCode";
 
         //System.out.println("Create Pending: " + namespace + " " + pendingKey + " " + uuid);
         getCodeGeneratorLocksDao().createLock(uuid, pendingKey, namespace);
-        String nextCode = calculateNextCode(internalCodes);
-        while(!isCodeValid(nextCode, courseOfferingCode, namespace)){
-            coCodes.add(new String(nextCode));
-            nextCode = calculateNextCode(coCodes);
+        nextCode = calculateNextCode(internalCodes);
+
+        if ( courseOfferingCode != null && !courseOfferingCode.equals("") &&
+                nextCode != null && !nextCode.equals("") && namespace != null && !namespace.equals("") ) {
+            while(!isCodeValid(nextCode, courseOfferingCode, namespace)){
+                coCodes.add(new String(nextCode));
+                nextCode = calculateNextCode(coCodes);
+            }
         }
 
         //System.out.println("Delete Pending: " + namespace + " " + pendingKey + " " + uuid);
         getCodeGeneratorLocksDao().removeLock(uuid, pendingKey,namespace );
         //System.out.println("Remove All Locks: " + namespace + " " + pendingKey + " " + uuid);
         getCodeGeneratorLocksDao().cleanLocks(courseOfferingCode,pendingKey, namespace);
-*/
-        String nextCode = calculateNextCode(internalCodes);
-        while(!isCodeValid(nextCode, courseOfferingCode + nextCode, "courseOfferingCode")){
-            internalCodes.add(new String(nextCode));
-            nextCode = calculateNextCode(internalCodes);
-        }
 
         return nextCode;
     }

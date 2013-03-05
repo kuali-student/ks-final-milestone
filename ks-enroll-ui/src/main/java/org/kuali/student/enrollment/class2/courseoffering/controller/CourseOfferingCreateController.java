@@ -291,15 +291,13 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         // if source term differs from target term determine if add suffix or not
-//        if (StringUtils.equals(existingCO.getTermId(), createWrapper.getTerm().getId())) {
-        if (StringUtils.equals(existingCO.getTermId(), createWrapper.getTargetTermCode())) {
+        if (StringUtils.equals(existingCO.getTermId(), createWrapper.getTerm().getId())) {
             optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY);
         } else {
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
             qbcBuilder.setPredicates(PredicateFactory.and(
                     PredicateFactory.like("courseOfferingCode", existingCO.getCourseOfferingCode() + "%"),
-//                    PredicateFactory.equalIgnoreCase("atpId", createWrapper.getTerm().getId())));
-                    PredicateFactory.equalIgnoreCase("atpId", createWrapper.getTargetTermCode())));
+                    PredicateFactory.equalIgnoreCase("atpId", createWrapper.getTerm().getId())));
             QueryByCriteria criteria = qbcBuilder.build();
             List<String> courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
 
