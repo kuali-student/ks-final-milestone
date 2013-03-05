@@ -59,7 +59,8 @@ public class FourDigitRegistrationGroupCodeGenerator implements RegistrationGrou
         if (code == null) {
             return false;
         }
-        if (code.length() != 4) {
+        if (code.length() < 4 || code.length() > 5) { // Allow 5 digits because some course can create
+            // more than 100 RGs
             return false;
         }
         for (int i = 0; i < code.length(); i++) {
@@ -119,14 +120,32 @@ public class FourDigitRegistrationGroupCodeGenerator implements RegistrationGrou
         if (keyValues != null && keyValues.containsKey(CourseOfferingServiceBusinessLogicImpl.FIRST_REG_GROUP_CODE)) {
             // Should be an integer version of a code like "0101" (which would be 101)
             int val = (Integer) keyValues.get(CourseOfferingServiceBusinessLogicImpl.FIRST_REG_GROUP_CODE);
-            regGroupSuffix = val % 100;
+            if (val <= 999) {
+                // Implies a 4-digit reg code
+                regGroupSuffix = val % 100;
+            } else if (val <= 9999) {
+                // Implies a 5-digit reg code
+                regGroupSuffix = val % 1000;
+            } else {
+                throw new RuntimeException("Val should not be 5 digits long");
+            }
             if (regGroupSuffix == 0) {
-                regGroupSuffix = 100; // Forces exception to be thrown
+                throw new RuntimeException("Suffix is not allowed to be 0");
             }
-            prefix = "" + (val / 100);
-            if (prefix.length() == 1) {
-                prefix = "0" + prefix;  // Changes "1" to "01"
+            if (val <= 999) {
+                // Implies a 4-digit reg code
+                // Strips last 2 digits off
+                prefix = "" + (val / 100);
+            } else if (val <= 9999) {
+                // Implies a 5-digit reg code
+                // Strips last 3 digits
+                prefix = "" + (val / 1000);
             }
+            if (prefix.length() > 1) {
+                // This assumes 9 FO's max per CO.
+                throw new RuntimeException("Prefix should be 1-9");
+            }
+            prefix = "0" + prefix;  // Changes "1" to "01"
             return; // Exit function
         }
         try {
@@ -154,7 +173,7 @@ public class FourDigitRegistrationGroupCodeGenerator implements RegistrationGrou
             // Now look for a free prefix to use
             prefix = _findSmallestUnusedPrefix(prefixUsed);
             if (prefix == null) {
-                throw new RuntimeException("Unable to find a free prefix--all 99 are used");
+                throw new RuntimeException("Unable to find a free prefix--all 999 are used");
             }
         } catch (Exception e) {
             isValid = false;
@@ -172,11 +191,12 @@ public class FourDigitRegistrationGroupCodeGenerator implements RegistrationGrou
      */
     @Override
     public String generateRegistrationGroupCode(FormatOffering fo, List<ActivityOfferingInfo> activities, Map<String, Object> keyValues) {
-        if (regGroupSuffix >= 100) {
+        if (regGroupSuffix >= 1000) {
             throw new RuntimeException("No more reg codes left to use");
         }
         String suffix = "" + regGroupSuffix;
         if (regGroupSuffix < 10) {
+            // Pads this to a minimum of 2 digits (suffix can be 3 digits)
             suffix = "0" + suffix;
         }
         regGroupSuffix++; // Get ready for next reg code

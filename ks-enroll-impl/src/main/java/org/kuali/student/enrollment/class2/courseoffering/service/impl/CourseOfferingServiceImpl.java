@@ -2229,13 +2229,15 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<String> timeSlotIds = new ArrayList<String>();
 
         if (deliveryLogisticsType.equals("actual")) {
-            if (aoInfo.getScheduleId() != null && aoInfo.getScheduleId().length()>0) {
+            if (aoInfo.getScheduleId() != null && aoInfo.getScheduleId().length() > 0) {
+                // Only do this if there's an schedule ID with length greater than 0.
                 ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(aoInfo.getScheduleId(), context);
                 if (scheduleInfo != null) {
                     List<ScheduleComponentInfo> scheduleComponentInfos = scheduleInfo.getScheduleComponents();
-                    if (scheduleComponentInfos != null && !scheduleComponentInfos.isEmpty()) {
+                    if (scheduleComponentInfos != null) {
                         for (ScheduleComponentInfo scheduleComponentInfo : scheduleComponentInfos) {
-                            if (scheduleComponentInfo.getTimeSlotIds() != null && !scheduleComponentInfo.getTimeSlotIds().isEmpty()) {
+                            if (scheduleComponentInfo.getTimeSlotIds() != null && !scheduleComponentInfo.getIsTBA()) {
+                                // Only add time slots if component is not null and if it's not TBA
                                 timeSlotIds.addAll(scheduleComponentInfo.getTimeSlotIds());
                             }
                         }
@@ -2247,9 +2249,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             if (scheduleRequestInfos != null && !scheduleRequestInfos.isEmpty()) {
                 for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
                     List<ScheduleRequestComponentInfo> scheduleRequestComponentInfos = scheduleRequestInfo.getScheduleRequestComponents();
-                    if (scheduleRequestComponentInfos != null && !scheduleRequestComponentInfos.isEmpty()) {
+                    if (scheduleRequestComponentInfos != null) {
                         for (ScheduleRequestComponentInfo scheduleRequestComponentInfo : scheduleRequestComponentInfos) {
-                            if (scheduleRequestComponentInfo.getTimeSlotIds() != null && !scheduleRequestComponentInfo.getTimeSlotIds().isEmpty()) {
+                            if (scheduleRequestComponentInfo.getTimeSlotIds() != null && !scheduleRequestComponentInfo.getIsTBA()) {
+                                // Only add time slots if component is not null and if it's not TBA
                                 timeSlotIds.addAll(scheduleRequestComponentInfo.getTimeSlotIds());
                             }
                         }
