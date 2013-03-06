@@ -151,6 +151,11 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/RoomLookupAndInquiry.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ToolbarSection.xml</value>
 
+                <!-- Auto Gen Registratoin Groups -->
+                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagementView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagement-ManageTheCourseOfferingPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagement-ToolbarSection.xml</value>
+
                 <!-- East Coast Sandbox (rollover) -->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/DiagnoseRolloverView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/DiagnoseRollover-SelectTermPage.xml</value>
