@@ -8,10 +8,11 @@ package org.kuali.student.enrollment.class1.krms.util;
  * To change this template use File | Settings | File Templates.
  */
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
+import org.kuali.rice.krms.util.PropositionTreeUtil;
+import org.kuali.rice.krms.util.RuleLogicExpressionParser;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 

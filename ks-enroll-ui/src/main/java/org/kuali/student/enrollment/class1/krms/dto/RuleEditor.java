@@ -2,19 +2,17 @@ package org.kuali.student.enrollment.class1.krms.dto;
 
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.rice.krms.api.repository.action.ActionDefinition;
 import org.kuali.rice.krms.api.repository.action.ActionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
-import org.kuali.student.enrollment.class1.krms.tree.node.CompareTreeNode;
-import org.kuali.student.enrollment.class1.krms.tree.node.RuleEditorTreeNode;
-import org.kuali.student.enrollment.class1.krms.tree.node.TreeNode;
-import org.kuali.student.enrollment.class1.krms.util.AlphaIterator;
+import org.kuali.rice.krms.tree.node.CompareTreeNode;
+import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
+import org.kuali.rice.krms.tree.node.TreeNode;
+import org.kuali.rice.krms.util.AlphaIterator;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

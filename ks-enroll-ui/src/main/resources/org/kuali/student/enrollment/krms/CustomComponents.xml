@@ -5,7 +5,7 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <!--Generic Components-->
-    <bean id="KRMS-Integer-ConstantValue-Parent" parent="Uif-InputField" p:propertyName="proposition.parameters[0].value" p:showLabel="true" p:label="Value" p:maxLength="255" p:required="true">
+    <bean id="KRMS-Integer-ConstantValue-Parent" parent="Uif-InputField" p:propertyName="proposition.parameters[1].value" p:showLabel="true" p:label="Value" p:maxLength="255" p:required="true">
         <property name="control">
             <bean parent="Uif-TextControl" p:style="margin-top:null 2px;" p:watermarkText="Enter a Literal Value" />
         </property>
@@ -77,8 +77,6 @@
         <property name="items">
             <list>
                 <ref bean="KRMS-MultiCourse-Type-Field" />
-                <!--bean parent="KRMS-AppovedCourse-AddGroup" />
-                <bean parent="KRMS-CourseSet-AddGroup" /-->
                 <ref bean="KRMS-ApprovedCourseStackedCollectionGroup" />
                 <ref bean="KRMS-CourseSetStackedCollectionGroup" />
                 <ref bean="KRMS-CourseRange-Section" />
@@ -97,19 +95,6 @@
         </property>
     </bean>
     <bean id="KRMS-MultiCourse-Type-Field" parent="KRMS-MultiCourse-Type-Field-Parent" />
-
-    <bean id="KRMS-MultiCourse-Tree-Section" parent="KRMS-MultiCourse-Section-Parent">
-        <property name="items">
-            <list>
-                <ref bean="KRMS-MultiCourse-Type-Field" />
-                <!--bean parent="KRMS-AppovedCourse-AddGroup" />
-                <bean parent="KRMS-CourseSet-AddGroup" /-->
-                <bean parent="KRMS-ApprovedCourseStackedCollectionGroup"  />
-                <bean parent="KRMS-CourseSetStackedCollectionGroup"/>
-                <bean parent="KRMS-CourseRange-Section-Parent" />
-            </list>
-        </property>
-    </bean>
 
     <bean id="KRMS-QuickFinder" parent="Uif-QuickFinder">
         <property name="quickfinderAction">
@@ -575,7 +560,6 @@
         <property name="items">
             <list>
                 <!-- TODO: Program component -->
-                <ref bean="KRMS-NumberOfCourses-ConstantValue" />
                 <ref bean="KRMS-Department-Field" />
             </list>
         </property>
@@ -585,15 +569,6 @@
         <property name="items">
             <list merge="true">
                 <ref bean="KRMS-Duration-section"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KRMS-ProgramAndNof" parent="Uif-VerticalFieldGroup">
-        <property name="items">
-            <list>
-                <!-- TODO: Program component -->
-                <ref bean="KRMS-NumberOfCourses-ConstantValue" />
             </list>
         </property>
     </bean>
@@ -642,38 +617,13 @@
         </property>
     </bean>
 
-    <bean id="KRMS-CampusWithNofAndDur" parent="KRMS-CampusAndDur">
-        <property name="items">
-            <list merge="true">
-                <ref bean="KRMS-NumberOfCourses-ConstantValue" />
-            </list>
-        </property>
-    </bean>
-
     <bean id="KRMS-CourseOffering-InputField-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termParameter" p:label="Program" p:required="true"/>
     <bean id="KRMS-CourseOffering-InputField" parent="KRMS-CourseOffering-InputField-Parent" />
 
     <bean id="KRMS-MultiCourseWithGrade-Group" parent="Uif-VerticalFieldGroup">
         <property name="items">
             <list>
-                <ref bean="KRMS-MultiCourse-Tree-Section" />
-                <ref bean="KRMS-Grade-Tree-Section" />
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KRMS-MultiCourseAndNof-Group" parent="Uif-VerticalFieldGroup">
-        <property name="items">
-            <list>
-                <ref bean="KRMS-MultiCourse-Tree-Section" />
-                <ref bean="KRMS-NumberOfCourses-ConstantValue" />
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KRMS-MultiCourseAndNofWithGrade-Group" parent="KRMS-MultiCourseAndNof-Group">
-        <property name="items">
-            <list merge="true">
+                <ref bean="KRMS-MultiCourse-Section" />
                 <ref bean="KRMS-Grade-Tree-Section" />
             </list>
         </property>
@@ -682,7 +632,7 @@
     <bean id="KRMS-MultiCourseWithGPA-Group" parent="Uif-VerticalFieldGroup">
         <property name="items">
             <list>
-                <ref bean="KRMS-MultiCourse-Tree-Section" />
+                <ref bean="KRMS-MultiCourse-Section" />
                 <ref bean="KRMS-GPA-Field" />
             </list>
         </property>
@@ -691,7 +641,7 @@
     <bean id="KRMS-MultiCourseWithCredit-Group" parent="Uif-VerticalFieldGroup">
         <property name="items">
             <list>
-                <ref bean="KRMS-MultiCourse-Tree-Section" />
+                <ref bean="KRMS-MultiCourse-Section" />
                 <ref bean="KRMS-Credits-ConstantValue" />
             </list>
         </property>

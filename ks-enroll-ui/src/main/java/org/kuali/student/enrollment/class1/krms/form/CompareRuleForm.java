@@ -18,7 +18,7 @@ package org.kuali.student.enrollment.class1.krms.form;
 
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
-import org.kuali.student.enrollment.class1.krms.tree.node.TreeNode;
+import org.kuali.rice.krms.tree.node.TreeNode;
 import org.kuali.student.enrollment.uif.form.KSUifForm;
 
 
