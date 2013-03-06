@@ -40,6 +40,7 @@ public class ToolbarUtil {
     private static PermissionService permissionService = getPermissionService();
     
     public static void processCoToolbarForUser(List<CourseOfferingListSectionWrapper> coListWrapperList, CourseOfferingManagementForm form){
+        form.setEnableAddButton(false);
         String socStateKey = form.getSocStateKey();
         String socState = socStateKey==null?null:socStateKey.substring(socStateKey.lastIndexOf('.')+1);
         String socSchedulingState = form.getSocSchedulingStateKey();
@@ -124,6 +125,7 @@ public class ToolbarUtil {
     }
 
     public static void processAoToolbarForUser(List<ActivityOfferingWrapper> activityWrapperList, CourseOfferingManagementForm form){
+        form.setEnableAddButton(false);
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
         String socStateKey = form.getSocStateKey();
