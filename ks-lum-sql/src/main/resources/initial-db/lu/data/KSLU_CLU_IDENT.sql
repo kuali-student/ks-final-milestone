@@ -7098,3 +7098,27 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('PHYS181','PHYS','1d3359f7-94ab-4bbc-a7cf-74dc73fe725a','Chemistry of Spiders','100','e3377aa5-2585-4888-b076-326157070b90','Chemistry of Spiders','Active','181','kuali.lu.type.CreditCourse.identifier.official',2)
 /
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('BSCI340','BSCI','307fa3b7-4bae-4901-8461-d22e0a3d58e5','Biotransport I','300','6c0558ef-b406-4652-9e6b-02d226a55a1d','Biotransport I','Active','340','kuali.lu.type.CreditCourse.identifier.official',3)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('PHYS455','PHYS','4f89d799-8c70-4b3e-8206-5ae9176d380b','Water in the Environment','400','367e4dbf-180a-4281-a54a-6283b549ea28','Water in the Environment','Active','455','kuali.lu.type.CreditCourse.identifier.official',2)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('ENGL316','ENGL','5c2f7534-2b89-4118-8878-6233490515fd','Myths and Mysteries of the Middle Ages','300','46148340-c6a9-4dea-952e-69d1596fd766','Myths and Mysteries','Active','316','kuali.lu.type.CreditCourse.identifier.official',2)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('HIST378','HIST','11c34785-5f40-4980-ac17-343cb64d81b1','Vikings','300','d31fb86d-e9e5-40e4-b6d7-3ec52b76f741','Vikings','Active','378','kuali.lu.type.CreditCourse.identifier.official',3)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('BSCI640','BSCI','20714ca0-8427-48d6-88ed-59a2604a7da3','Biotransport I','600','692d5526-ab9e-4e58-bd25-ec2a257a2727','Biotransport I','Active','640','kuali.lu.type.CreditCourse.identifier.official',3)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('HIST661','HIST','b8e5020b-b615-4d9b-8236-d0451cbf6524','Vikings','600','13f53819-2f64-4431-a19c-188f4f24aef9','Vikings','Active','661','kuali.lu.type.CreditCourse.identifier.official',2)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('HIST300','HIST','9dba53a0-259f-4885-b827-ab87ae811436','Myths and Mysteries of the Middle Ages','300','c94b36d0-9898-4bb8-acc8-c81e0aed7752','Myths and Mysteries','Active','300','kuali.lu.type.CreditCourse.identifier.official',3)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('CHEM475','CHEM','cd25f094-ec70-47ad-be7e-97c79deb7ed4','Water in the Environment','400','6a75c55a-cc6a-4da8-ad98-7977d59e6eeb','Water in the Environment','Active','475','kuali.lu.type.CreditCourse.identifier.official',3)
+/
