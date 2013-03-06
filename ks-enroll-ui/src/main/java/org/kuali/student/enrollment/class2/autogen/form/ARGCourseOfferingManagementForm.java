@@ -17,8 +17,6 @@
 package org.kuali.student.enrollment.class2.autogen.form;
 
 import org.kuali.student.enrollment.class2.courseoffering.dto.*;
-import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.uif.form.KSUifForm;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
@@ -31,7 +29,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class ARGCourseOfferingManagementForm extends CourseOfferingManagementForm {
+public class ARGCourseOfferingManagementForm extends KSUifForm {
     //TODO: do we still need this for manage theCO page?
     //for authorization purpose
     private String adminOrg;

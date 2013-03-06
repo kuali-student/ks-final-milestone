@@ -548,4 +548,28 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 
+    @RequestMapping(params = "methodToCall=addCluster")
+    public ModelAndView addCluster(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+                                        @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+
+        //TODO: addCluster
+        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
+    }
+
+    @RequestMapping(params = "methodToCall=moveToCluster")
+    public ModelAndView moveToCluster(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+                                        @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+
+        //TODO: moveToCluster
+        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
+    }
+
+    @RequestMapping(params = "methodToCall=copyAOs")
+    public ModelAndView copyAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+                                        @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+
+        //TODO: copyAOs
+        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
+    }
+
 }
