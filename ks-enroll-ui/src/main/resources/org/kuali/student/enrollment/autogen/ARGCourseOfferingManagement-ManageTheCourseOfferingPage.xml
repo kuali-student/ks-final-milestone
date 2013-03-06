@@ -62,7 +62,7 @@
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingLinks"/>
-                <ref bean="KS-CourseOfferingManagement-AO-ToolBarSection"/>
+                <ref bean="KS-CourseOfferingManagement-ARG-ToolBarSection"/>
                 <!--<bean parent="Uif-MessageField" p:render="@{currentCourseOfferingWrapper.crossListed}" p:messageText="You do not have permission to edit this course. Contact the owning department for more information.[br][b]Owner:[/b] @{currentCourseOfferingWrapper.coOwningDeptName}" p:style="background-color:#C8E4F7; padding-top:4px; padding-bottom:4px;"/>-->
                 <!--<ref bean="KS-CourseOfferingManagement-AddActivityOfferingSection"/>-->
                 <ref bean="KS-CourseOfferingManagement-SelectAll"/>
