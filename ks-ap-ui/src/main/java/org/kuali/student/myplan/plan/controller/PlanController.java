@@ -172,22 +172,7 @@ public class PlanController extends UifControllerBase {
 
         PlanForm planForm = (PlanForm) form;
 
-        boolean isServiceStatusOK = true;
-        /*Setting the Warning message if isServiceStatusOK is false*/
-        if (!Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_CALENDER_SERVICE_UP).toString())
-                || !Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_RECORD_SERVICE_UP).toString())) {
-            isServiceStatusOK = false;
-            KsapFrameworkServiceLocator.getAtpHelper().addServiceError("planItemId");
-        }
-        boolean isAuditServiceUp = Boolean.valueOf(request.getAttribute(DegreeAuditConstants.IS_AUDIT_SERVICE_UP).toString());
-
-        String[] params = {};
-        if (!isServiceStatusOK) {
-            GlobalVariables.getMessageMap().putWarningForSectionId(PlanConstants.PLAN_ITEM_RESPONSE_PAGE_ID, PlanConstants.ERROR_TECHNICAL_PROBLEMS, params);
-        }
-        if (isAuditServiceUp) {
-            planForm.setNewUser(isNewUser());
-        }
+        planForm.setNewUser(isNewUser());
         return getUIFModelAndView(planForm);
     }
 

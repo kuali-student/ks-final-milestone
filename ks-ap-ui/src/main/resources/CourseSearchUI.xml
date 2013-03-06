@@ -370,6 +370,11 @@
 
 				<bean parent="Uif-Link" p:target="" p:href="#" p:linkText="Add to Plan"
 					p:title="Add to Plan">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
 					<property name="onClickScript"
 						value="openPlanItemPopUp(jQuery(this).data('courseid'),'add_dialog_page',{courseId:jQuery(this).data('courseid'),pageId:'add_dialog_page', moveCourse:'false'},e,null,{tail:{hidden:true},align:'top'});" />
 				</bean>

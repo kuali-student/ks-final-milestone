@@ -324,8 +324,7 @@
     </bean>
 
    	<bean id="myplan_dialog_anchor" parent="Uif-Image"
-   		p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif"
-   		p:cssClasses="uif-tooltip" />
+   		p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif"/>
    	
     <bean id="myplan_section" parent="Uif-VerticalBoxSubSection" p:style="width: 230px; margin: 0;">
         <property name="header.render" value="false"/>

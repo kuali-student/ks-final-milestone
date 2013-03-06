@@ -42,7 +42,7 @@ public class CreditsFormatter {
          */
         String type = rci.getTypeKey();
         if (type.equals("kuali.result.values.group.type.fixed")) {
-            credits = rci.getAttributeValue("fixedCreditValue");
+            credits = rci.getResultValueKeys().get(0).replace("kuali.result.value.credit.degree.","");;
             credits = trimCredits(credits);
         } else if (type.equals("kuali.result.values.group.type.multiple")) {
             StringBuilder cTmp = new StringBuilder();

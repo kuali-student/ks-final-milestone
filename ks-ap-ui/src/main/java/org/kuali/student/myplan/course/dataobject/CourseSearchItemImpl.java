@@ -458,7 +458,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 			addAnchor.addAttribute("data-coursexid", cid);
 			StringBuilder openMenu = new StringBuilder("openMenu('");
 			openMenu.append(cid);
-			openMenu.append("_add','add_course_items',null,event,null,'myplan-container-75',");
+			openMenu.append("_add','add_course_items',null,event,'.myplan-status-column','myplan-container-75',");
 			openMenu.append("{tail:{align:'middle'},align:'middle',position:'right'},false)");
 			addAnchor.addAttribute("onclick", openMenu.toString());
 		}
