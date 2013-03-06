@@ -65,6 +65,7 @@ public class CourseOfferingManagementForm extends KSUifForm {
     private CourseOfferingCopyWrapper courseOfferingCopyWrapper;
 
     private boolean isCrossListedCO;
+    private boolean isColocatedCO;
     private List<CourseOfferingListSectionWrapper> selectedCoToDeleteList;
     private int totalAOsToBeDeleted = 0;
     /**
@@ -381,6 +382,14 @@ public class CourseOfferingManagementForm extends KSUifForm {
 
     public void setCrossListedCO(boolean crossListedCO) {
         this.isCrossListedCO = crossListedCO;
+    }
+
+    public boolean isColocatedCO() {
+        return isColocatedCO;
+    }
+
+    public void setColocatedCO(boolean colocatedCO) {
+        isColocatedCO = colocatedCO;
     }
 
     public Date getTermClassStartDate() {

@@ -30,7 +30,6 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
@@ -40,11 +39,6 @@ import org.kuali.student.enrollment.uif.util.GrowlIcon;
 import org.kuali.student.enrollment.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
@@ -1309,6 +1303,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         List<ActivityOfferingWrapper> selectedIndexList = theForm.getSelectedToDeleteList();
         CourseOfferingWrapper currentCoWrapper = theForm.getCurrentCourseOfferingWrapper();
         currentCoWrapper.setColocatedAoToDelete(false);
+        ContextInfo context = ContextUtils.createDefaultContextInfo();
 
         boolean bNoDeletion = false;
         int checked = 0;
@@ -1322,7 +1317,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 selectedIndexList.add(ao);
                 if(ao.getAoInfo().getIsPartOfColocatedOfferingSet())  {
                     currentCoWrapper.setColocatedAoToDelete(true);
-                    String colocateInfo = createColocatedDisplayData(ao.getAoInfo());
+                    String colocateInfo = ViewHelperUtil.createColocatedDisplayData(ao.getAoInfo(), context);
                     ao.setColocatedAoInfo(colocateInfo);
                 }
                 enabled++;
@@ -1356,23 +1351,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 
-    private String createColocatedDisplayData(ActivityOfferingInfo ao ) throws InvalidParameterException, MissingParameterException, PermissionDeniedException,
-            OperationFailedException, DoesNotExistException {
-
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(" ");
-        ContextInfo context = ContextUtils.createDefaultContextInfo();
-        List<ColocatedOfferingSetInfo> colos = getCourseOfferingService().getColocatedOfferingSetsByActivityOffering(ao.getActivityId(),
-                context);
-        for(ColocatedOfferingSetInfo colo : colos) {
-            List<ActivityOfferingInfo> aoList = getCourseOfferingService().getActivityOfferingsByIds(colo.getActivityOfferingIds(), context);
-            for(ActivityOfferingInfo aoInfo : aoList) {
-                buffer.append(aoInfo.getCourseOfferingCode() + " " + aoInfo.getActivityCode());
-            }
-        }
-
-        return buffer.toString();
-    }
     private void reloadActivityOffering(CourseOfferingManagementForm theForm) throws Exception {
           // Reload the AOs
         CourseOfferingInfo theCourseOffering = theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();

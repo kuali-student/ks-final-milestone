@@ -31,6 +31,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.transformer.Co
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ToolbarUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
@@ -529,24 +530,26 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
         int totalAos = 0;
         form.setCrossListedCO(false);
+        form.setColocatedCO(false);
         for (CourseOfferingListSectionWrapper co : coList) {
             boolean hasDeletion = true;
             if (co.getIsChecked()) {
                 checked++;
-                List<ActivityOfferingDisplayWrapper> aoDisplayWrapperList = new ArrayList<ActivityOfferingDisplayWrapper>();
                 List<ActivityOfferingDisplayInfo> aoDisplayInfoList = getCourseOfferingService().getActivityOfferingDisplaysForCourseOffering(co.getCourseOfferingId(), contextInfo);
+                List<ActivityOfferingInfo> aoInfoList = getCourseOfferingService().getActivityOfferingsByCourseOffering(co.getCourseOfferingId(), contextInfo);
 
                 co.setCoHasAoToDelete(true);
                 if (aoDisplayInfoList.isEmpty()) {
                     co.setCoHasAoToDelete(false);
                 }
+                co.setColocated(false);
 
                 if (aoDisplayInfoList != null && !aoDisplayInfoList.isEmpty()) {
                     for (ActivityOfferingDisplayInfo aoDisplayInfo : aoDisplayInfoList) {
 
                         ActivityOfferingDisplayWrapper aoDisplayWrapper = new ActivityOfferingDisplayWrapper();
                         aoDisplayWrapper.setAoDisplayInfo(aoDisplayInfo);
-
+                        aoDisplayWrapper.setActivityOfferingCode(aoDisplayInfo.getActivityOfferingCode());
                         // Adding Information (icons)
                         String information = "";
                         if (aoDisplayInfo.getIsHonorsOffering() != null && aoDisplayInfo.getIsHonorsOffering()) {
@@ -576,6 +579,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                                 }
                             }
                         }
+                        // if ao is colocated AO add colocated info
+                        if(isColocatedAo(aoDisplayInfo.getActivityOfferingCode(), aoInfoList))  {
+                            String colocateInfo = ViewHelperUtil.createColocatedDisplayData(getAoInfo(aoDisplayInfo.getActivityOfferingCode(), aoInfoList), contextInfo);
+                            aoDisplayWrapper.setColocatedAoInfo(colocateInfo);
+                            co.setColocated(true);
+                            co.setColocatedCoCode(colocateInfo);
+                            form.setColocatedCO(true);
+                        }
                         co.getAoToBeDeletedList().add(aoDisplayWrapper);
                     }
 
@@ -585,7 +596,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                         co.setCrossListed(true);
                         form.setCrossListedCO(true);
                     }
-                }
+                 }
                 qualifiedToDeleteList.add(co);
 
                 if (hasDeletion) {
@@ -784,6 +795,28 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         } else {
             return creditValue;
         }
+    }
+
+    private boolean isColocatedAo(String aoCode, List<ActivityOfferingInfo> aoList) {
+        for(ActivityOfferingInfo ao : aoList) {
+            if(StringUtils.equals(aoCode, ao.getActivityCode())) {
+                if(ao.getIsPartOfColocatedOfferingSet()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private ActivityOfferingInfo getAoInfo(String aoCode, List<ActivityOfferingInfo> aoList) {
+        for(ActivityOfferingInfo ao : aoList) {
+            if(StringUtils.equals(aoCode, ao.getActivityCode())) {
+                if(ao.getIsPartOfColocatedOfferingSet()) {
+                    return ao;
+                }
+            }
+        }
+        return null;
     }
 
     private CourseOfferingService _getCourseOfferingService() {

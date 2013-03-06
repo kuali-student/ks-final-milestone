@@ -47,6 +47,7 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     private List<String> alternateCOCodes;
 
     private boolean isCrossListed;
+    private boolean isColocated;
 
     private boolean isLegalToDelete = true;
     private boolean isChecked = false;
@@ -62,6 +63,8 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     private boolean enableEditCOActionLink = false;
 
     private String crossListedCoList;
+
+    private String colocatedCoCode = "";
 
     List<ActivityOfferingDisplayWrapper> aoToBeDeletedList;
     private boolean coHasAoToDelete = true;
@@ -283,6 +286,14 @@ public class CourseOfferingListSectionWrapper implements Serializable{
         isCrossListed = crossListed;
     }
 
+    public boolean isColocated() {
+        return isColocated;
+    }
+
+    public void setColocated(boolean colocated) {
+        isColocated = colocated;
+    }
+
     /**
      * @see #setAlternateCOCodes(List<String>)
      * @return
@@ -299,6 +310,14 @@ public class CourseOfferingListSectionWrapper implements Serializable{
         this.alternateCOCodes = alternateCOCodes;
     }
 
+    public String getColocatedCoCode() {
+        return colocatedCoCode;
+    }
+
+    public void setColocatedCoCode(String colocatedCoCode) {
+        this.colocatedCoCode = colocatedCoCode;
+    }
+
     /**
      * This method returns a list of crosslisted/official course code for a course. This will
      * be displayed as the tooltip (if crosslisted cos exists) at Manage CO screen.
@@ -312,6 +331,21 @@ public class CourseOfferingListSectionWrapper implements Serializable{
         for (String code : alternateCOCodes){
             buffer.append(code + "<br>");
         }
+
+        return StringUtils.removeEnd(buffer.toString(),"<br>");
+    }
+
+    /**
+     * This method returns a coocated official course code for a course. This will
+     * be displayed as the tooltip (if colocated co exists) at Manage CO screen.
+     *
+     * @return
+     */
+    @SuppressWarnings("unused")
+    public String getColocatedInfoUI(){
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("One or more activities in this course is colocated with activities in:<br>");
+        buffer.append(colocatedCoCode + "<br>");
 
         return StringUtils.removeEnd(buffer.toString(),"<br>");
     }

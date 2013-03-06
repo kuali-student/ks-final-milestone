@@ -74,12 +74,23 @@
                     <property name="items">
                         <list>
                            <bean parent="Uif-Message"
-                                  p:messageText="Warning: One or more course offering(s) below is crosslisted. Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png&quot;] icon(s) in the table below for details."
+                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]  Warning: One or more course offering(s) below is crosslisted.
+                                  Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png&quot;] icon(s) in the table below for details."
                                   p:style="background-color:#FFEE99; font-size: 110%" p:colSpan="2"
                                   p:render="@{crossListedCO}"/>
                             <bean parent="Uif-Message"
+                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]
+                                  Colocated Activities Warning: One or more course offering(s) below contain(s) activities that are colocated."
+                                  p:style="background-color:#FFEE99; font-size: 110%" p:colSpan="2"
+                                  p:render="@{colocatedCO}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="Deleting will remove this course offering and all of its contained activity offerings. This will break the relationship with the colocated activities. [br/]
+                                  Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/Colocated_Icon6px.png&quot;] icon(s) in the table below for more information."
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"
+                                  p:render="@{colocatedCO}"/>
+                            <bean parent="Uif-Message"
                                   p:messageText="Activity Offerings to be deleted: @{totalAOsToBeDeleted}"
-                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2"/>
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
                         </list>
                     </property>
                 </bean>
@@ -142,6 +153,12 @@
                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.crossListedCodesUI}"/>
                                  </property>
                            </bean>
+                           <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedCoCode.isEmpty()}" p:image.altText="@{#lp.crossListedCodesUI}" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/Colocated_Icon6px.png">
+                               <property name="toolTip">
+                                   <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedInfoUI}"/>
+                               </property>
+                           </bean>
+
                        </list>
                     </property>
                 </bean>
@@ -161,7 +178,20 @@
 
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:label="CODE" p:propertyName="aoDisplayInfo.activityOfferingCode" p:readOnly="true"/>
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField"  p:propertyName="activityOfferingCode"/>
+                            <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}" p:image.altText="@{#lp.colocatedAoInfoUI}"
+                                  p:source="@{#ConfigProperties['ks.externalizable.images.url']}/Colocated_Icon6px.png">
+                                <property name="toolTip">
+                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedAoInfoUI}"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
                 <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="aoDisplayInfo.typeName"  p:readOnly="true"/>
                 <!--                <bean parent="Uif-DataField" p:label="TBA"  p:propertyName="tbaDisplayName" p:render="false" />
                 -->

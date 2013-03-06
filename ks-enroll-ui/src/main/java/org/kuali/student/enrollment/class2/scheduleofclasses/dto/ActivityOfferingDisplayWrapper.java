@@ -35,6 +35,9 @@ public class ActivityOfferingDisplayWrapper {
     private String roomName;
     private String tbaDisplayName;
     private String instructorDisplayNames;
+    private String activityOfferingCode;
+    private String colocatedAoInfo = "";
+
 
     public ActivityOfferingDisplayWrapper(){
         aoDisplayInfo = new ActivityOfferingDisplayInfo();
@@ -168,4 +171,36 @@ public class ActivityOfferingDisplayWrapper {
             tbaDisplayName =  "TBA";
         }
     }
+
+    public String getActivityOfferingCode() {
+        return activityOfferingCode;
+    }
+
+    public void setActivityOfferingCode(String activityOfferingCode) {
+        this.activityOfferingCode = activityOfferingCode;
+    }
+
+    public String getColocatedAoInfo() {
+        return colocatedAoInfo;
+    }
+
+    public void setColocatedAoInfo(String colocatedAoInfo) {
+        this.colocatedAoInfo = colocatedAoInfo;
+    }
+
+    /**
+     * This method return a colocated AO code for current course. This will
+     * be displayed as the tooltip (if colocated AO exists) at manage and delete AO screen.
+     *
+     * @return
+     */
+    @SuppressWarnings("unused")
+    public String getColocatedAoInfoUI(){
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("This activity is colocated with:<br>");
+        buffer.append(colocatedAoInfo + "<br>");
+
+        return StringUtils.removeEnd(buffer.toString(),"<br>");
+    }
+
 }
