@@ -7089,3 +7089,12 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('HIST211','HIST','ffefd4d7-123d-4c99-b90f-3f219793ad4c','Love, Labor, and Citizenship: History of American Women  Since 1880','200','c36513e0-eb1b-441a-82c3-29ff3ec938fb','LOVE LABOR CTZNSHP II','Active','211','kuali.lu.type.CreditCourse.identifier.official',11)
 /
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('BSCI181','BSCI','740f1007-d575-4c7e-9e7a-946c875b84b1','Chemistry of Spiders','100','96418097-6821-48b6-a5f4-bbd4a032441f','Chemistry of Spiders','Active','181','kuali.lu.type.CreditCourse.identifier.official',4)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('CHEM181','CHEM','c7bc9690-e98d-4373-beff-dd39baa37e66','Chemistry of Spiders','100','dfa80063-afcb-4ba1-af7d-c2db9fa29991','Chemistry of Spiders','Active','181','kuali.lu.type.CreditCourse.identifier.official',2)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('PHYS181','PHYS','1d3359f7-94ab-4bbc-a7cf-74dc73fe725a','Chemistry of Spiders','100','e3377aa5-2585-4888-b076-326157070b90','Chemistry of Spiders','Active','181','kuali.lu.type.CreditCourse.identifier.official',2)
+/
