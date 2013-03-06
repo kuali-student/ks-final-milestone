@@ -529,7 +529,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         getViewHelperService(form).loadActivityOfferingsByCourseOffering(info, form);
         getViewHelperService(form).loadPreviousAndNextCourseOffering(form);
-
+        ToolbarUtil.processAoToolbarForUser(form.getActivityWrapperList(), form);
         return getUIFModelAndView(form);
     }
 
@@ -555,7 +555,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         getViewHelperService(form).loadActivityOfferingsByCourseOffering(info, form);
         getViewHelperService(form).loadPreviousAndNextCourseOffering(form);
-
+        ToolbarUtil.processAoToolbarForUser(form.getActivityWrapperList(), form);
         return getUIFModelAndView(form);
     }
 
