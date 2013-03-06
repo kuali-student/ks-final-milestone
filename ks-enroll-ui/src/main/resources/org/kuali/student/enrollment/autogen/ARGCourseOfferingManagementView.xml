@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="KS-ARGCourseOfferingManagement-View" parent="Uif-FormView" p:applyDirtyCheck="true"
+    <bean id="KS-ARGCourseOfferingManagement-View" parent="KSUifFormView" p:applyDirtyCheck="true"
           p:id="argCourseOfferingManagementView"
           p:entryPageId="searchInputPage"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl"
