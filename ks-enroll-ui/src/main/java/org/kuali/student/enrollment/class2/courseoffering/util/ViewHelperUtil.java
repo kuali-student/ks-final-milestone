@@ -286,12 +286,12 @@ public class ViewHelperUtil {
         StringBuffer buffer = new StringBuffer();
         buffer.append(" ");
         CourseOfferingService coService = CourseOfferingResourceLoader.loadCourseOfferingService();
-        List<ColocatedOfferingSetInfo> colos = coService.getColocatedOfferingSetsByActivityOffering(ao.getActivityId(),
+        List<ColocatedOfferingSetInfo> colos = coService.getColocatedOfferingSetsByActivityOffering(ao.getId(),
                 context);
         for(ColocatedOfferingSetInfo colo : colos) {
             List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByIds(colo.getActivityOfferingIds(), context);
             for(ActivityOfferingInfo aoInfo : aoList) {
-                buffer.append(aoInfo.getCourseOfferingCode() + " " + aoInfo.getActivityCode());
+                buffer.append(aoInfo.getCourseOfferingCode() + " " + aoInfo.getActivityCode() + " ");
             }
         }
 
