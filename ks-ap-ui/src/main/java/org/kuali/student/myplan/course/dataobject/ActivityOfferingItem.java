@@ -381,4 +381,10 @@ public class ActivityOfferingItem {
     public void setInstituteName(String instituteName) {
         this.instituteName = instituteName;
     }
+
+    public String getActivityDisplayId(){
+        String id = this.getCode()+"-";
+        id=id+this.getQtryr().replace("+","");
+        return id;
+    }
 }

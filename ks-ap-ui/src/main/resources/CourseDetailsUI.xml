@@ -113,9 +113,6 @@
 
                             <ref bean="course_details_sections"/>
 
-                            <!--<ref bean="course_details_institution_data_single"/>-->
-                            <!--<ref bean="course_details_institution_data_multi"/>-->
-
                         </list>
                     </property>
                 </bean>
@@ -139,6 +136,11 @@
         <property name="items">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="Add to Plan" p:id="@{dataObject.courseIdXmlSafe}_addPlannedCourse" p:actionImagePlacement="RIGHT">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:source="../ks-myplan/images/pixel.gif">
                             <property name="cssClasses">
@@ -173,12 +175,12 @@
                 <bean parent="Uif-LinkGroup" p:id="@{dataObject.courseId}_bookmarked"
                       p:render="@{dataObject.savedItemId ne null and dataObject.plannedList ne null and dataObject.plannedList.size() eq 0 and dataObject.backupList ne null and dataObject.backupList.size() eq 0 and dataObject.academicTerms ne null and dataObject.academicTerms.size() eq 0 ? true : false}"
                       p:groupBeginDelimiter="" p:groupEndDelimiter="" p:linkSeparator="">
-                    <!--<property name="onDocumentReadyScript"
+                    <property name="onDocumentReadyScript"
                               value="jQuery('#@{dataObject.courseId}_bookmarked').subscribe('PLAN_ITEM_DELETED', function(data){
                                   if (data.planItemType === 'wishlist' &amp;&amp; data.courseDetails.courseId === '@{dataObject.courseId}') {
                                       fnRestoreDetailsAddButton(data.courseDetails.courseId);
                                   }
-                              });"/>-->
+                              });"/>
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-status</value>
@@ -1281,11 +1283,12 @@
                 <!--
                                 Displays add options if class is not in the plan
                 -->
-                <bean p:id="@{dataObject.courseId}-@{#line.code}" parent="Uif-ImageField" p:label="Add" p:altText="Add" p:title="Add" p:source="../ks-myplan/images/pixel.gif" p:render="@{#line.planned eq false ? true : false}">
+                <bean p:id="@{dataObject.courseId}-@{#line.activityDisplayId}" parent="Uif-ImageField" p:label="Add" p:altText="Add" p:title="Add" p:source="../ks-myplan/images/pixel.gif" p:render="@{#line.planned eq false ? true : false}">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-add</value>
                             <value>fl-text-align-center</value>
+                            <value>uif-tooltip</value>
                         </list>
                     </property>
                     <property name="onClickScript" value="openPlanItemPopUp('@{dataObject.courseId}','add_section_dialog_page',{courseId:'@{dataObject.courseId}',sectionCode:'@{#line.code}',termYear:'@{#line.atpId}',pageId:'add_section_dialog_page', moveCourse:'false'},e,null,{tail:{hidden:true},position:'right',align:'top'});"/>

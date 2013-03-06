@@ -764,7 +764,7 @@
                                                     <bean p:id="addPlannedCourse" parent="Uif-PrimaryActionButton-Small"
                                                           p:actionLabel="Add To Plan">
                                                         <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{courseDetails.courseId}', '@{courseDetails.courseIdXmlSafe}', 'courseId', 'addPlannedCourse', e,true);"/>
+                                                                  value="myplanAjaxSubmitPlanItem('@{courseDetails.courseId}', '@{courseDetails.courseIdXmlSafe}', 'courseId', 'addPlanCourse', e,true);"/>
                                                         <property name="onDocumentReadyScript" value="
                                                 jQuery('#addPlannedCourse')
                                                     .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -848,7 +848,7 @@
                                                     <bean p:id="addPlannedCourse" parent="Uif-PrimaryActionButton-Small"
                                                           p:actionLabel="Add To Plan">
                                                         <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{courseDetails.courseId}', 'courseId', 'addPlannedCourse', e,true);"/>
+                                                                  value="myplanAjaxSubmitPlanItem('@{courseDetails.courseId}', '@{courseDetails.courseId}','courseId', 'addPlanCourse', e,true);"/>
                                                         <property name="onDocumentReadyScript" value="
                                                 jQuery('#addPlannedCourse')
                                                     .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -971,7 +971,7 @@
                                                           parent="Uif-PrimaryActionButton-Small"
                                                           p:actionLabel="Move">
                                                         <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}','@{planItemId}', 'planItemId', 'movePlannedCourse', e,true);"/>
+                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}','@{planItemId}', 'planItemId', 'movePlanCourse', e,true);"/>
                                                         <property name="onDocumentReadyScript" value="
                                                 jQuery('#movePlannedCourse')
                                                     .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -1062,7 +1062,7 @@
                                                           p:render="@{setToPlanning eq true ? true : false}"
                                                           p:actionLabel="Copy">
                                                         <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}','@{planItemId}', 'planItemId', 'copyPlannedCourse', e,true);"/>
+                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}','@{planItemId}', 'planItemId', 'copyPlanCourse', e,true);"/>
                                                         <property name="onDocumentReadyScript" value="
                                                 jQuery('#copyPlannedCourse')
                                                     .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -1078,7 +1078,7 @@
                                                           p:render="@{setToPlanning eq false and planItemId ne null ? true : false}"
                                                           p:actionLabel="Copy">
                                                         <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}','@{planItemId}', 'planItemId', 'copyPlannedCourse', e,true);"/>
+                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}','@{planItemId}', 'planItemId', 'copyPlanCourse', e,true);"/>
                                                         <property name="onDocumentReadyScript" value="
                                                 jQuery('#copyPastPlannedCourse')
                                                     .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -1094,7 +1094,7 @@
                                                           p:render="@{setToPlanning eq false and planItemId eq null ? true : false}"
                                                           p:actionLabel="Copy">
                                                         <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{courseId}', 'courseId', 'addPlannedCourse', e,true);"/>
+                                                                  value="myplanAjaxSubmitPlanItem('@{courseId}','@{courseId}', 'courseId', 'copyPlanCourse', e,true);"/>
                                                         <property name="onDocumentReadyScript" value="
                                                 jQuery('#copyAcademicCourse')
                                                     .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -1575,6 +1575,11 @@
 
     <!-- Single term view that lists planned course, total credits and backup courses -->
     <bean id="planned_courses_detail" parent="Uif-VerticalBoxSubSection" p:style="width: 620px; margin-right: 10px;">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-tooltip</value>
+            </list>
+        </property>
         <property name="onDocumentReadyScript" value="
             jQuery('.myplan-carousel-list li .myplan-term-current.open, .myplan-carousel-list li .myplan-term-future.open').find('.myplan-term-planned .uif-stackedCollectionLayout, .myplan-term-backup .uif-stackedCollectionLayout').each(function(){
             	var atpId = jQuery(this).parents('.myplan-carousel-term').data('atpid');
@@ -2780,7 +2785,7 @@
                       }
                   });"/>
         <property name="actionScript"
-                  value="myplanAjaxSubmitPlanItem('@{courseDetails.courseId}', 'courseId', 'addSavedCourse', e);"/>
+                  value="myplanAjaxSubmitPlanItem('@{courseDetails.courseId}', '@{courseDetails.courseId}','courseId', 'addSavedCourse', e);"/>
     </bean>
 
     <!-- Remove from saved courses list button. -->
@@ -2985,7 +2990,7 @@
                                               p:actionLabel="Add To Plan"
                                               p:render="@{moveCourse eq false ? true : false}">
                                             <property name="actionScript"
-                                                      value="myplanAjaxSubmitPlanItem('@{courseDetails.courseId}','@{courseDetails.courseIdXmlSafe}', 'courseId', 'addPlannedCourse', e, true);"/>
+                                                      value="myplanAjaxSubmitPlanItem('@{courseDetails.courseId}','@{courseDetails.courseIdXmlSafe}', 'courseId', 'addPlanCourse', e, true);"/>
                                             <property name="onDocumentReadyScript" value="
                                     jQuery('#addPlannedCourse')
                                         .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -3000,7 +3005,7 @@
                                         <bean p:id="movePlannedCourse" parent="Uif-PrimaryActionButton-Small"
                                               p:actionLabel="Move" p:render="@{moveCourse eq true ? true : false}">
                                             <property name="actionScript"
-                                                      value="myplanAjaxSubmitPlanItem('@{planItemId}', 'planItemId', 'movePlannedCourse', e, true);"/>
+                                                      value="myplanAjaxSubmitPlanItem('@{planItemId}', 'planItemId', 'movePlanCourse', e, true);"/>
                                             <property name="onDocumentReadyScript" value="
                                     jQuery('#movePlannedCourse')
                                         .subscribe('PLAN_ITEM_ADDED', function(data){

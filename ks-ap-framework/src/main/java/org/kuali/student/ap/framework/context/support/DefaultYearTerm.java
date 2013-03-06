@@ -101,7 +101,9 @@ public class DefaultYearTerm implements YearTerm,Comparable<YearTerm> {
      */
     @Override
     public String toATP() {
-        return "kuali.atp."+this.year+this.getTermNameList()[this.term-1];
+        int termIndex=this.term-1;
+        if(termIndex<0)termIndex=0;
+        return "kuali.atp."+this.year+this.getTermNameList()[termIndex];
     }
 
     @Override

@@ -402,8 +402,7 @@ function openPlanItemPopUp(xid, getId, retrieveOptions, e, selector, popupOption
     }
 
     fnCloseAllPopups();
-    popupBox.removeClass("uif-tooltip");
-    popupBox.addClass("uif-tooltip");
+
     popupBox.SetBubblePopupOptions(popupSettings, true);
     popupBox.SetBubblePopupInnerHtml(popupSettings.innerHTML, true);
     popupBox.ShowBubblePopup();

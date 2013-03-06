@@ -430,7 +430,7 @@ public class PlanController extends UifControllerBase {
         return doPlanActionSuccess(form, PlanConstants.SUCCESS_KEY_PLANNED_ITEM_MARKED_PLANNED, params);
     }
 
-    @RequestMapping(params = "methodToCall=movePlannedCourse")
+    @RequestMapping(params = "methodToCall=movePlanCourse")
     public ModelAndView movePlannedCourse(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
                                           HttpServletRequest httprequest, HttpServletResponse httpresponse) {
         if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
@@ -576,7 +576,7 @@ public class PlanController extends UifControllerBase {
         return PlanConstants.QUARTER_LINK.replace("{atpId}", atpId).replace("{label}", text);
     }
 
-    @RequestMapping(params = "methodToCall=copyPlannedCourse")
+    @RequestMapping(params = "methodToCall=copyPlanCourse")
     public ModelAndView copyPlannedCourse(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
                                           HttpServletRequest httprequest, HttpServletResponse httpresponse) {
         if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
@@ -707,7 +707,7 @@ public class PlanController extends UifControllerBase {
         return doPlanActionSuccess(form, PlanConstants.SUCCESS_KEY_PLANNED_ITEM_COPIED, params);
     }
 
-    @RequestMapping(params = "methodToCall=addPlannedCourse")
+    @RequestMapping(params = "methodToCall=addPlanCourse")
     public ModelAndView addPlannedCourse(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
                                          HttpServletRequest httprequest, HttpServletResponse httpresponse) {
         if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
@@ -849,7 +849,7 @@ public class PlanController extends UifControllerBase {
         if (planItem == null) {
             try {
                 if (addCourse) {
-                    planItem = addPlanItem(plan, courseDetails.getVersionIndependentId(), newAtpIds, newType);
+                    planItem = addPlanItem(plan, courseDetails.getCourseId(), newAtpIds, newType);
                 }
                 if (addPrimaryCourse) {
                     if (primarySectionCode != null) {
