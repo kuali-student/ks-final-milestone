@@ -65,6 +65,7 @@ public class CourseOfferingConstants {
     public static final String SEARCH_PAGE = "searchInputPage";
     public static final String SEARCH_PAGE_POC = "searchInputPagePOC";
     public static final String SEARCH_PAGE_JSON_POC = "searchInputPageJSONPOC";
+    public static final String MANAGE_THE_CO_PAGE = "manageTheCourseOfferingPage";
 
     // Display text
     public static final String COURSEOFFERING_TEXT_STD_REG_OPTS_EMPTY = "None available";
