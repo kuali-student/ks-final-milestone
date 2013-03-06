@@ -223,6 +223,8 @@ public class AtpServiceConstants {
     public static final String DURATION_MINI_MESTER_TYPE_KEY = "kuali.atp.duration.Mini-mester";
     public static final String DURATION_HOURS_TYPE_KEY = "kuali.atp.duration.Hours";
     public static final String DURATION_MINUTES_TYPE_KEY = "kuali.atp.duration.Minutes";
+    public static final String DURATION_TBD_TYPE_KEY = "kuali.atp.duration.TBD";
+
 
     /**
      * Season Types
