@@ -106,6 +106,8 @@
                   value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper"/>
         <property name="propertyName" value="selectedCoToDeleteList"/>
         <property name="collectionLookup.quickfinderAction.render" value="false"/>
+        <property name="layoutManager.expandDetailsActionPrototype.render" value="false" />
+        <property name="layoutManager.rowDetailsOpen" value="true" />
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="layoutManager.richTable">
@@ -120,12 +122,8 @@
             </bean>
         </property>
 
-        <property name="layoutManager.expandDetailsActionPrototype">
-            <bean parent="Uif-ExpandDetailsImageAction"/>
-        </property>
-
         <property name="layoutManager.rowDetailsGroup">
-            <bean parent="Uif-VerticalBoxGroup">
+            <bean parent="Uif-VerticalBoxGroup" >
                 <property name="items">
                     <list>
                         <bean parent="Uif-Message" p:messageText="(This Course Has No Activity Offerings)" p:render="@{!#lp.coHasAoToDelete}"/>
@@ -134,8 +132,6 @@
                 </property>
             </bean>
         </property>
-
-
 
         <property name="items">
             <list>
@@ -175,7 +171,6 @@
                   value="org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper"/>
         <property name="readOnly" value="true"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
-
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
