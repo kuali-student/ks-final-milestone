@@ -9461,9 +9461,9 @@
     <sequence name="KRMS_FUNC_PARM_S" nextval="10000"/>
     <sequence name="KRMS_FUNC_S" nextval="10000"/>
     <sequence name="KRMS_NL_TMPL_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_NL_TMPL_S" nextval="10335"/>
+    <sequence name="KRMS_NL_TMPL_S" nextval="10341"/>
     <sequence name="KRMS_NL_USAGE_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_NL_USAGE_S" nextval="10006"/>
+    <sequence name="KRMS_NL_USAGE_S" nextval="10007"/>
     <sequence name="KRMS_PROP_PARM_S" nextval="10594"/>
     <sequence name="KRMS_PROP_S" nextval="10251"/>
     <sequence name="KRMS_REF_OBJ_KRMS_OBJ_S" nextval="10143"/>

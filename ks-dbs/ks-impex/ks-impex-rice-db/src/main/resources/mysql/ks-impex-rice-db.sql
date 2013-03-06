@@ -7447,7 +7447,7 @@ CREATE TABLE KRMS_NL_TMPL_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE KRMS_NL_TMPL_S auto_increment = 10335
+ALTER TABLE KRMS_NL_TMPL_S auto_increment = 10341
 /
 
 # -----------------------------------------------------------------------
@@ -7475,7 +7475,7 @@ CREATE TABLE KRMS_NL_USAGE_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE KRMS_NL_USAGE_S auto_increment = 10006
+ALTER TABLE KRMS_NL_USAGE_S auto_increment = 10007
 /
 
 # -----------------------------------------------------------------------
