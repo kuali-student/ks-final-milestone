@@ -62,6 +62,7 @@
                 <ref bean="KRMS-TestName-Field"/>
                 <ref bean="KRMS-Grade-Section"/>
                 <ref bean="KRMS-FreeForm-InputField"/>
+                <ref bean="KRMS-Duration-section"/>
             </list>
         </property>
     </bean>
