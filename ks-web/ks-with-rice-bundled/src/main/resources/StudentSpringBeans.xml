@@ -177,15 +177,15 @@
                 <value>classpath:org/kuali/student/enrollment/check/CheckInfoView.xml</value>
 
                 <!-- Krms -->
-                <value>classpath:org/kuali/student/enrollment/krms/PropositionEditorView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/krms/RuleEditMaintenance.xml</value>
-                <value>classpath:org/kuali/student/enrollment/krms/RuleManagementView.xml</value>
+                <value>classpath:org/kuali/rice/krms/PropositionEditorView.xml</value>
+                <value>classpath:org/kuali/rice/krms/RuleEditMaintenance.xml</value>
+                <value>classpath:org/kuali/rice/krms/RuleManagementView.xml</value>
+                <value>classpath:org/kuali/rice/krms/AgendaManagementView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/KrmsComponentsView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/CustomComponents.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/DepartmentLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/TestSetLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/KRMSCourseLookupView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/krms/AgendaManagementView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/COAgendaManagement-SearchInputPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/COAgendaManagement-ManageAgendasPage.xml</value>
                 
