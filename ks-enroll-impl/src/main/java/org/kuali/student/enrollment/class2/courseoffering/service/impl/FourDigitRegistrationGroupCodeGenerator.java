@@ -191,6 +191,7 @@ public class FourDigitRegistrationGroupCodeGenerator implements RegistrationGrou
      */
     @Override
     public String generateRegistrationGroupCode(FormatOffering fo, List<ActivityOfferingInfo> activities, Map<String, Object> keyValues) {
+        // Run TestCourseOfferingServiceImplM4 if this changes
         if (regGroupSuffix >= 1000) {
             throw new RuntimeException("No more reg codes left to use");
         }

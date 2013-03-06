@@ -263,7 +263,7 @@ public class TestCourseOfferingServiceImplM4 {
             FormatOfferingInfo foInfo = coService.getFormatOffering("foo", null);
             generator.initializeGenerator(coService, foInfo, null, null);
             String prefix = "02";
-            for (int i = 1; i <= 99; i++) {
+            for (int i = 1; i <= 999; i++) {
                 String code = generator.generateRegistrationGroupCode(foInfo, null, null);
                 String answer = prefix;
                 if (i < 10) {
