@@ -188,6 +188,7 @@
                 <value>classpath:org/kuali/student/enrollment/krms/KRMSCourseLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/COAgendaManagement-SearchInputPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/COAgendaManagement-ManageAgendasPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/CourseSetsLookupView.xml</value>
                 
                 <!-- Type -->
                 <value>classpath:org/kuali/student/enrollment/type/TypeVerificationView.xml</value>
