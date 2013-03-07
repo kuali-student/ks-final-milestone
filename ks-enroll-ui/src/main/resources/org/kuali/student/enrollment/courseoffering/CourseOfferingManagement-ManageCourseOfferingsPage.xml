@@ -34,8 +34,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-CourseOfferingResultSection" parent="Uif-VerticalBoxSection" p:id="searchResultSection">
-        <!-- turn off the authz to get ARG screen to work -->
-        <!--<property name="componentSecurity.viewAuthz" value="true"/>-->
+        <property name="componentSecurity.viewAuthz" value="true"/>
         <property name="headerText" value="@{subjectCode} - @{subjectCodeDescription}" />
         <property name="disclosure.render" value="false"/>
         <property name="items">

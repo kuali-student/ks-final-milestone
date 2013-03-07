@@ -164,7 +164,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
         form.setEditAuthz(ARGUtil.checkEditViewAuthz(form));
 
         if (GlobalVariables.getMessageMap().getErrorMessages().isEmpty()) {
-            return getUIFModelAndView(form, CourseOfferingConstants.MANAGE_CO_PAGE);
+            return getUIFModelAndView(form, CourseOfferingConstants.MANAGE_ARG_CO_PAGE);
         } else {
             return getUIFModelAndView(form, CourseOfferingConstants.SEARCH_PAGE);
         }
