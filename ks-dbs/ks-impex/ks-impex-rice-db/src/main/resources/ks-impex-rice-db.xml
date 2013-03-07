@@ -3801,7 +3801,7 @@
     <sequence name="KREW_TYP_ATTR_S" nextval="10000"/>
     <sequence name="KREW_TYP_S" nextval="10000"/>
     <sequence name="KREW_USR_S" nextval="100000000000"/>
-    <sequence name="KRIM_ATTR_DATA_ID_S" nextval="10253"/>
+    <sequence name="KRIM_ATTR_DATA_ID_S" nextval="10254"/>
     <sequence name="KRIM_ATTR_DEFN_ID_S" nextval="10013"/>
     <sequence name="KRIM_DLGN_ID_S" nextval="10000"/>
     <sequence name="KRIM_DLGN_MBR_ID_S" nextval="10000"/>
@@ -3820,13 +3820,13 @@
     <sequence name="KRIM_GRP_ATTR_DATA_ID_S" nextval="10000"/>
     <sequence name="KRIM_GRP_ID_S" nextval="10000"/>
     <sequence name="KRIM_GRP_MBR_ID_S" nextval="10000"/>
-    <sequence name="KRIM_PERM_ID_S" nextval="10138"/>
+    <sequence name="KRIM_PERM_ID_S" nextval="10139"/>
     <sequence name="KRIM_PERM_RQRD_ATTR_ID_S" nextval="10000"/>
     <sequence name="KRIM_PERM_TMPL_ID_S" nextval="10021"/>
     <sequence name="KRIM_PRNCPL_ID_S" nextval="10000"/>
     <sequence name="KRIM_ROLE_ID_S" nextval="10003"/>
-    <sequence name="KRIM_ROLE_MBR_ID_S" nextval="10040"/>
-    <sequence name="KRIM_ROLE_PERM_ID_S" nextval="1247"/>
+    <sequence name="KRIM_ROLE_MBR_ID_S" nextval="10041"/>
+    <sequence name="KRIM_ROLE_PERM_ID_S" nextval="1248"/>
     <sequence name="KRIM_ROLE_RSP_ACTN_ID_S" nextval="10000"/>
     <sequence name="KRIM_ROLE_RSP_ID_S" nextval="10000"/>
     <sequence name="KRIM_RSP_ID_S" nextval="10000"/>
