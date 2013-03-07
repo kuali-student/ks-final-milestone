@@ -46,7 +46,6 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
     private TermDefinition term;
     private String termParameter;
     private List<TermParameter> termParameterList = new ArrayList<TermParameter>();
-    private String termSpecId;
     private String type;
     private boolean editMode = false;
 
@@ -203,14 +202,6 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
 
     public void setEditMode(boolean editMode) {
         this.editMode = editMode;
-    }
-
-    public String getTermSpecId() {
-        return termSpecId;
-    }
-
-    public void setTermSpecId(String termSpecId) {
-        this.termSpecId = termSpecId;
     }
 
     public CluInfo getCluInfo() {

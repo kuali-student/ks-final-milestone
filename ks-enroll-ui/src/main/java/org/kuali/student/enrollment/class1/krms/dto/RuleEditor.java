@@ -64,7 +64,7 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     // for Rule Preview display
     private transient Tree<TreeNode, String> previewTree;
-    private AlphaIterator alpha = new AlphaIterator();
+    private transient AlphaIterator alpha;
 
     // for Compare
     private transient Tree<CompareTreeNode, String> compareTree;
@@ -160,6 +160,9 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
     }
 
     public AlphaIterator getAlpha() {
+        if (alpha == null){
+            alpha = new AlphaIterator();
+        }
         return alpha;
     }
 

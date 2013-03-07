@@ -36,9 +36,11 @@ public class NumberOfCompletedCoursesTermResolver extends AbstractCourseTermReso
 
     private AcademicRecordService academicRecordService;
 
+    public static final String COMPLETED_COURSE_NUMBER_TERM_NAME ="NumberOfCompletedCourses";
+
     @Override
     public String getOutput() {
-        return KSKRMSExecutionConstants.COMPLETED_COURSE_NUMBER_TERM_NAME;
+        return COMPLETED_COURSE_NUMBER_TERM_NAME;
     }
 
     @Override

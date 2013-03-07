@@ -98,45 +98,9 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
     }
 
-    public String getTermSpecIdForType(String type) {
-
-        //Get the term output name for this type.
-        String termSpecName = this.getTermSpecNameForType(type);
-
-        List<TermResolverDefinition> matchingTermResolvers = KrmsRepositoryServiceLocator.getTermBoService().findTermResolversByOutputId(termSpecName, PermissionServiceConstants.KS_SYS_NAMESPACE);
-        for (TermResolverDefinition termResolver : matchingTermResolvers)
-            for (TermSpecificationDefinition termSpec : termResolver.getPrerequisites()) {
-                if (termSpec.isActive()) {
-                    return termSpec.getId();
-                }
-            }
-
-        return null;
-    }
-
     @Override
     public TemplateInfo getTemplateForType(String type) {
         return this.getTemplateRegistry().getTemplateForType(type);
-    }
-
-    @Override
-    public String getTermSpecNameForType(String type) {
-        return this.getTemplateRegistry().getTermSpecNameForType(type);
-    }
-
-    @Override
-    public String getOperationForType(String type) {
-        return this.getTemplateRegistry().getOperationForType(type);
-    }
-
-    @Override
-    public String getValueForType(String type) {
-        return this.getTemplateRegistry().getValueForType(type);
-    }
-
-    @Override
-    public ComponentBuilder getComponentBuilderForType(String type) {
-        return this.getTemplateRegistry().getComponentBuilderForType(type);
     }
 
     @Override
@@ -627,7 +591,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
     public RuleManagementService getRuleManagementService() {
         if (ruleManagementService == null) {
-            //ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
+            ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(QName.valueOf("ruleManagementService"));
         }
         return ruleManagementService;
     }

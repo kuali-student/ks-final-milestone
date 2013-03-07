@@ -27,6 +27,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
+import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.rule.AgendaEditorBusRule;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
@@ -161,17 +162,11 @@ public class RuleEditorController extends MaintenanceDocumentController {
             String propositionTypeId = proposition.getTypeId();
             if (propositionTypeId == null) {
                 proposition.setType(null);
-                proposition.setTermSpecId(null);
             } else {
 
                 KrmsTypeDefinition type = this.getKrmsTypeRepositoryService().getTypeById(propositionTypeId);
                 if (type != null) {
                     proposition.setType(type.getName());
-
-                    //Set the term spec
-                    String termSpecId = viewHelper.getTermSpecIdForType(type.getName());
-                    proposition.setTermSpecId(termSpecId);
-
                 }
             }
 
@@ -717,7 +712,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
             String propositionTypeId = proposition.getTypeId();
             if (propositionTypeId == null) {
                 proposition.setType(null);
-                proposition.setTermSpecId(null);
                 return;
             }
 
@@ -729,17 +723,12 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 proposition.setType(type.getName());
                 proposition.setDescription(viewHelper.getDescriptionForTypeId(propositionTypeId));
 
-                //Set the term spec
-                String termSpecId = viewHelper.getTermSpecIdForType(type.getName());
-                proposition.setTermSpecId(termSpecId);
+                //Set the default operation and value
+                TemplateInfo template = viewHelper.getTemplateForType(type.getName());
+                setOperationForProposition(proposition, template.getOperator());
 
-                //Set the operation
-                setOperationForProposition(proposition, viewHelper.getOperationForType(type.getName()));
-
-                //Set the value
-                String defaultValue = viewHelper.getValueForType(type.getName());
-                if (!"n".equals(defaultValue)) {
-                    setValueForProposition(proposition, defaultValue);
+                if (!"n".equals(template.getValue())) {
+                    setValueForProposition(proposition, template.getValue());
                 } else {
                     setValueForProposition(proposition, "");
                 }

@@ -94,7 +94,7 @@ public class TestTermResolvers {
     }
 
     @Test
-    public void testNumberOfCompletedCoursesTermResolver(){
+    public void testNumberOfCompletedCoursesTermResolver() {
         //Setup the term resolver
         NumberOfCompletedCoursesTermResolver termResolver = new NumberOfCompletedCoursesTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
@@ -107,7 +107,7 @@ public class TestTermResolvers {
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.COMPLETED_COURSE_NUMBER_TERM_NAME);
+                "NumberOfCompletedCourses");
 
         //Evaluate term Resolver
         Integer acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
@@ -117,7 +117,7 @@ public class TestTermResolvers {
     }
 
     @Test
-    public void testCompletedCourseTermResolver(){
+    public void testCompletedCourseTermResolver() {
         //Setup the term resolver
         CompletedCourseTermResolver termResolver = new CompletedCourseTermResolver();
 
@@ -141,7 +141,7 @@ public class TestTermResolvers {
 
     //TODO KSENROLL-3833
     @Test
-    public void testEnrolledCourseNumberTermResolver(){
+    public void testEnrolledCourseNumberTermResolver() {
         //Setup the term resolver
         EnrolledCourseNumberTermResolver termResolver = new EnrolledCourseNumberTermResolver();
         termResolver.setCourseRegistrationService(courseRegistrationService);
@@ -161,9 +161,10 @@ public class TestTermResolvers {
 
         assertNotNull(academicRecord);
     }
+
     //TODO KSENROLL-3833
     @Test
-    public void testEnrolledCourseTermResolver(){
+    public void testEnrolledCourseTermResolver() {
         //Setup the term resolver
         EnrolledCourseTermResolver termResolver = new EnrolledCourseTermResolver();
         termResolver.setCourseRegistrationService(courseRegistrationService);
@@ -185,7 +186,7 @@ public class TestTermResolvers {
     }
 
     @Test
-    public void testFreeTextTermResolver(){
+    public void testFreeTextTermResolver() {
         //Setup the term resolver
         FreeFormTextTermResolver termResolverForm = new FreeFormTextTermResolver();
 
@@ -197,14 +198,14 @@ public class TestTermResolvers {
                 KSKRMSExecutionConstants.FREE_TEXT_TERM_NAME);
 
         //Evaluate term Resolver
-        Boolean result =  termResolverForm.resolve(resolvedPrereqs,parameters );
+        Boolean result = termResolverForm.resolve(resolvedPrereqs, parameters);
 
         assertNotNull(result);
         assertTrue(result);
     }
 
     @Test
-    public void testGPATermResolver(){
+    public void testGPATermResolver() {
         //Setup the term resolver
         GPATermResolver termResolver = new GPATermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
@@ -213,20 +214,20 @@ public class TestTermResolvers {
         resolvedPrereqs.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
 
         //Create parameters
-        parameters.put(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY, "DTC101") ;
+        parameters.put(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY, "DTC101");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
                 KSKRMSExecutionConstants.GPA_TERM_NAME);
 
         //Evaluate term Resolver
-        Integer result = termResolver.resolve(resolvedPrereqs, parameters) ;
+        Integer result = termResolver.resolve(resolvedPrereqs, parameters);
 
         assertNotNull(result);
     }
 
     @Test
-    public void testNumberOfCreditsTermResolver(){
+    public void testNumberOfCreditsTermResolver() {
         //Setup the term resolver
         NumberOfCreditsTermResolver termResolver = new NumberOfCreditsTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
@@ -235,25 +236,25 @@ public class TestTermResolvers {
         resolvedPrereqs.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
 
         //Create parameters
-        parameters.put(KSKRMSExecutionConstants.CALC_TYPE_KEY_TERM_PROPERTY, calcTypeID) ;
+        parameters.put(KSKRMSExecutionConstants.CALC_TYPE_KEY_TERM_PROPERTY, calcTypeID);
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
                 KSKRMSExecutionConstants.NUMBER_OF_CREDITS_TERM_NAME);
 
         //Evaluate term Resolver
-        Integer result = termResolver.resolve(resolvedPrereqs, parameters) ;
+        Integer result = termResolver.resolve(resolvedPrereqs, parameters);
 
         assertNotNull(result);
     }
 
     @Test
-    public void testKSKRMSTermResolver(){
+    public void testKSKRMSTermResolver() {
         //Evaluate term Resolver
         assertNotNull(ksKRMSTermResolverTypeService);
     }
 
-    private void validateTermResolver(TermResolver termResolver, Map<String, Object> prereqs, Map<String, String> parameters, String output){
+    private void validateTermResolver(TermResolver termResolver, Map<String, Object> prereqs, Map<String, String> parameters, String output) {
 
         //Check the term name.
         assertEquals(output, termResolver.getOutput());
@@ -265,20 +266,20 @@ public class TestTermResolvers {
         validateAttributeSet("Parameters list does not contain ", parameters.keySet(), termResolver.getParameterNames());
     }
 
-    private void validateAttributeSet(String message, Set<String> names, Set<String> keys){
+    private void validateAttributeSet(String message, Set<String> names, Set<String> keys) {
 
-        for(String key : keys){
+        for (String key : keys) {
             assertTrue(message + key, names.contains(key));
         }
     }
 
-    private Map<String, Object> getDefaultPrerequisites(){
+    private Map<String, Object> getDefaultPrerequisites() {
         Map<String, Object> resolvedPrereqs = new HashMap<String, Object>();
         resolvedPrereqs.put(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME, contextInfo);
         return resolvedPrereqs;
     }
 
-    private Map<String, String> getDefaultParameters(){
+    private Map<String, String> getDefaultParameters() {
         Map<String, String> parameters = new HashMap<String, String>();
         return parameters;
     }

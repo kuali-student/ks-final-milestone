@@ -58,7 +58,6 @@ public class KSKRMSExecutionConstants {
     public static final String ADMIN_ORG_NUMBER_TERM_NAME = "adminOrgNumber";
 
     public static final String COMPLETED_COURSE_CODE_TERM_NAME = "completedCourseCode";
-    public static final String COMPLETED_COURSE_NUMBER_TERM_NAME ="completedCourseNumber";
     public static final String COMPLETED_COURSE_SET_TERM_NAME = "completedCourseSet";
     public static final String COMPLETED_COURSES_TERM_NAME = "completedCourses";
     public static final String COMPLETED_COURSE_TERM_NAME = "completedCourse";

@@ -22,24 +22,11 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
-        Object dataObject = null;
+        RuleEditor ruleEditor = (RuleEditor) super.retrieveObjectForEditOrCopy(document, dataObjectKeys);
 
         String cluId = dataObjectKeys.get("cluId");
-        String ruleId = dataObjectKeys.get("id");
-        RuleDefinition rule = KrmsRepositoryServiceLocator.getRuleBoService().getRuleByRuleId(ruleId);
 
-        // Since the dataObject is a wrapper class we need to build it and populate with the agenda bo.
-        RuleEditor ruleEditor = new RuleEditor(rule);
         ruleEditor.setCluId(cluId);
-
-        //Initialize the PropositionEditors
-        if ((ruleEditor != null) && (ruleEditor.getProposition() != null)){
-            this.initPropositionEditor((PropositionEditor) ruleEditor.getProposition());
-        }
-
-        //ruleEditor.clearRule();
-        //PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
-        //ruleEditor.initPreviewTree();
 
         //Retrieve the Clu information
         CluInfo cluInfo = null;
@@ -63,8 +50,6 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             ruleEditor.setCourseName(courseNameBuilder.toString());
         }
 
-        dataObject = ruleEditor;
-
-        return dataObject;
+        return ruleEditor;
     }
 }

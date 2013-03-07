@@ -26,10 +26,10 @@
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.RuleEditor"/>
         <property name="maintainableClass" value="org.kuali.student.enrollment.class1.krms.service.impl.CORuleEditorMaintainableImpl"/>
         <property name="documentTypeName" value="RuleMaintenanceDocument"/>
-        <property name="businessRulesClass" value="org.kuali.rice.krms.impl.rule.AgendaEditorBusRule" />
+        <property name="businessRulesClass" value="org.kuali.rice.krms.util.RuleEditorBusRule" />
         <property name="lockingKeys">
             <list>
-                <value>agenda.id</value>
+                <value>id</value>
             </list>
         </property> 
     </bean>
