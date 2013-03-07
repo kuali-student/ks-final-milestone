@@ -190,6 +190,12 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
     }
 
     @Override
+    public ActivityOfferingResult updateActivityOffering(ActivityOfferingInfo aoInfo, ContextInfo context) throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException, OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException {
+        // To be filled by David Y (can change return type if you like).
+        return null;
+    }
+
+    @Override
     public void deleteActivityOfferingCascaded(String aoId,
                                                String aocId,
                                                ContextInfo context)

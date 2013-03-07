@@ -76,6 +76,17 @@ public interface AutogenRegGroupServiceAdapter {
                    OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException;
 
     /**
+     * User Story 4: I need the system to automatically update registration groups as I
+     * update an activity offering(s) so reg group states and messaging remain current.
+     * @param aoInfo AO to be updated
+     * @param context contextInfo
+     * @return AOResult of RGs modified?
+     */
+    ActivityOfferingResult updateActivityOffering(ActivityOfferingInfo aoInfo, ContextInfo context)
+            throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException,
+            OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException;
+
+    /**
      * User Story 5: I need the system to automatically delete all associated registration groups when I delete
      *               an AO from an AOC
      * A pass-through to the deleteActivityOfferingCascaded.
