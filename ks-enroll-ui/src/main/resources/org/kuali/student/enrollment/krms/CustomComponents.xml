@@ -121,11 +121,11 @@
     </bean>
 
     <bean id="KRMS-CourseSet-QuickFinder" parent="KRMS-QuickFinder">
-        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
-        <property name="viewName" value="krmsCoursesOnlyLookup"/>
+        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.clu.dto.CluSetInfo"/>
+        <!--<property name="viewName" value="krmsCourseSetsInfoView"/>-->
         <property name="fieldConversions">
             <map>
-                <entry key="code" value="code"/>
+                <entry key="name" value="name"/>
                 <entry key="id" value="id"/>
             </map>
         </property>
@@ -174,7 +174,7 @@
     <bean id="KRMS-CourseSetStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:headerText="Courses Sets">
         <property name="layoutManager">
             <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
-                <property name="summaryFields" value="code" />
+                <property name="summaryFields" value="name" />
                 <property name="addLineGroup">
                     <bean parent="KRMS-CollectionGridItem" p:progressiveRender="#np.proposition.multipleCourseType eq '2'"/>
                 </property>
