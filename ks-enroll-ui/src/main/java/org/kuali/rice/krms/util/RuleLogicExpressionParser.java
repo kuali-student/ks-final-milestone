@@ -6,6 +6,7 @@ import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
 
 public class RuleLogicExpressionParser {
@@ -372,7 +373,7 @@ public class RuleLogicExpressionParser {
         }
 
         Stack<PropositionEditor> conditionStack = new Stack<PropositionEditor>();
-        List<PropositionEditor> simpleProps = new ArrayList<PropositionEditor>();
+        Stack<PropositionEditor> simpleProps = new Stack<PropositionEditor>();
         for (ExpressionToken token : rpnList) {
             if (token.type == ExpressionToken.Condition) {
                 PropositionEditor rc = lookupPropositionEditor(rcs, token.value);
@@ -380,21 +381,23 @@ public class RuleLogicExpressionParser {
             } else {
                 PropositionEditor right = conditionStack.pop();
                 PropositionEditor left = conditionStack.pop();
-                simpleProps.add(left);
-                simpleProps.add(right);
+                simpleProps.push(right);
                 if(conditionStack.peek().getPropositionTypeCode().equals("C")) {
+                    simpleProps.push(left);
                     PropositionEditor compound = conditionStack.pop();
                     if (token.type == ExpressionToken.And){
                         compound.setCompoundOpCode(LogicalOperator.AND.getCode());
                     } else if (token.type == ExpressionToken.Or) {
                         compound.setCompoundOpCode(LogicalOperator.OR.getCode());
                     }
-                    compound.setCompoundEditors(simpleProps);
-                    simpleProps = new ArrayList<PropositionEditor>();
+                    List<PropositionEditor> props = new ArrayList<PropositionEditor>();
+                    while (!simpleProps.empty()) {
+                        props.add(simpleProps.pop());
+                    }
+                    compound.setCompoundEditors(props);
                     conditionStack.push(compound);
                 } else {
                     conditionStack.push(left);
-                    simpleProps.remove(left);
                 }
             }
         }

@@ -32,7 +32,7 @@ public class TestRuleLogicExpressionParser {
     public void testParseExpressionToRule(){
         RuleLogicExpressionParser parser = new RuleLogicExpressionParser();
 
-        RuleEditor rule = this.getRuleEditor();
+        RuleEditor rule = this.getFirstRuleEditor();
         String origExp = PropositionTreeUtil.configureLogicExpression((PropositionEditor) rule.getProposition());
         assertEquals(origExp, "A(B(C OR D) AND E)");
 
@@ -44,53 +44,86 @@ public class TestRuleLogicExpressionParser {
         assertEquals(returnExp, "A(C OR B(E AND D))");
     }
 
-    private RuleEditor getRuleEditor(){
+    @Test
+    public void testParseExpressionToRuleMultiProps(){
+        RuleLogicExpressionParser parser = new RuleLogicExpressionParser();
+
+        RuleEditor rule = this.getSecondRuleEditor();
+        String origExp = PropositionTreeUtil.configureLogicExpression((PropositionEditor) rule.getProposition());
+        assertEquals("A(C AND D AND E)", origExp);
+
+        //Build the expression:
+        parser.setExpression("A(E AND C AND D)");
+        PropositionEditor propositionEditor = parser.parseExpressionIntoRule(rule);
+
+        String returnExp = PropositionTreeUtil.configureLogicExpression(propositionEditor);
+        assertEquals("A(E AND C AND D)", returnExp);
+    }
+
+    private RuleEditor getFirstRuleEditor(){
         //Build the root proposition
-        PropositionEditor rootProp = new PropositionEditor();
-        rootProp.setKey("A");
-        rootProp.setDescription("Must have all of the following:");
-        rootProp.setCompoundOpCode(LogicalOperator.AND.getCode());
-        rootProp.setPropositionTypeCode(PropositionType.COMPOUND.getCode());
+        PropositionEditor rootProp = this.createCompoundANDProposition("A", "Must have all of the following:");
 
         //Build the "B" proposition
-        PropositionEditor beeProp = new PropositionEditor();
-        beeProp.setKey("B");
-        beeProp.setDescription("Must have 1 of the following");
-        beeProp.setCompoundOpCode(LogicalOperator.OR.getCode());
-        beeProp.setPropositionTypeCode(PropositionType.COMPOUND.getCode());
-
-        //Build the "C" proposition
-        PropositionEditor ceeProp = new PropositionEditor();
-        ceeProp.setKey("C");
-        ceeProp.setDescription("Must have a big grade");
-        ceeProp.setPropositionTypeCode(PropositionType.SIMPLE.getCode());
-
-        //Build the "D" proposition
-        PropositionEditor deeProp = new PropositionEditor();
-        deeProp.setKey("D");
-        deeProp.setDescription("Must have permission");
-        deeProp.setPropositionTypeCode(PropositionType.SIMPLE.getCode());
+        PropositionEditor beeProp = this.createCompoundORProposition("B", "Must have 1 of the following");
 
         //Add cee and dee to bee
         List<PropositionEditor> editors = new ArrayList<PropositionEditor>();
-        editors.add(ceeProp);
-        editors.add(deeProp);
+        editors.add(this.createSimpleProposition("C", "Must have a big grade"));
+        editors.add(this.createSimpleProposition("D", "Must have permission"));
         beeProp.setCompoundEditors(editors);
-
-        //Build the "B" proposition
-        PropositionEditor eehProp = new PropositionEditor();
-        eehProp.setKey("E");
-        eehProp.setDescription("Must have MATH100");
-        eehProp.setPropositionTypeCode(PropositionType.SIMPLE.getCode());
 
         //Build the RuleEditor
         RuleEditor rule = new RuleEditor();
         editors = new ArrayList<PropositionEditor>();
         editors.add(beeProp);
-        editors.add(eehProp);
+        editors.add(this.createSimpleProposition("E", "Must have MATH100"));
         rootProp.setCompoundEditors(editors);
         rule.setProposition(rootProp);
 
         return rule;
+    }
+
+    private RuleEditor getSecondRuleEditor(){
+        //Build the root proposition
+        PropositionEditor rootProp = this.createCompoundANDProposition("A", "Must have all of the following:");
+
+        //Build the RuleEditor
+        RuleEditor rule = new RuleEditor();
+        List<PropositionEditor> editors = new ArrayList<PropositionEditor>();
+        editors.add(this.createSimpleProposition("C", "Must have a big grade"));
+        editors.add(this.createSimpleProposition("D", "Must have permission"));
+        editors.add(this.createSimpleProposition("E", "Must have MATH100"));
+        rootProp.setCompoundEditors(editors);
+        rule.setProposition(rootProp);
+
+        return rule;
+    }
+
+    private PropositionEditor createProposition(String key, String desc){
+        PropositionEditor prop = new PropositionEditor();
+        prop.setKey(key);
+        prop.setDescription(desc);
+        return prop;
+    }
+
+    private PropositionEditor createSimpleProposition(String key, String desc){
+        PropositionEditor prop = createProposition(key, desc);
+        prop.setPropositionTypeCode(PropositionType.SIMPLE.getCode());
+        return prop;
+    }
+
+    private PropositionEditor createCompoundORProposition(String key, String desc){
+        PropositionEditor prop = createProposition(key, desc);
+        prop.setCompoundOpCode(LogicalOperator.OR.getCode());
+        prop.setPropositionTypeCode(PropositionType.COMPOUND.getCode());
+        return prop;
+    }
+
+    private PropositionEditor createCompoundANDProposition(String key, String desc){
+        PropositionEditor prop = createProposition(key, desc);
+        prop.setCompoundOpCode(LogicalOperator.AND.getCode());
+        prop.setPropositionTypeCode(PropositionType.COMPOUND.getCode());
+        return prop;
     }
 }
