@@ -262,15 +262,23 @@ public class TestCourseOfferingServiceImplM4 {
         try {
             FormatOfferingInfo foInfo = coService.getFormatOffering("foo", null);
             generator.initializeGenerator(coService, foInfo, null, null);
-            String prefix = "02";
+            String prefix = "1";
+            int suffixVal = 1;
             for (int i = 1; i <= 999; i++) {
                 String code = generator.generateRegistrationGroupCode(foInfo, null, null);
-                String answer = prefix;
-                if (i < 10) {
-                    answer += "0";
+                String suffix = "" + suffixVal;
+                suffixVal++; // Increment to next suffix
+                if (suffixVal % 100 == 0) {
+                    suffixVal++;  // Code generator skips over suffix codes that end in 00.
                 }
-                answer += i;
-                assertEquals(answer, code);
+                while (suffix.length() < 3) {
+                    suffix = "0" + suffix;
+                }
+                String expectedCode = prefix + suffix;
+                assertEquals(expectedCode, code);
+                if (suffixVal > 999) {
+                    break;
+                }
             }
             // Now see if it throws an exception
             boolean codeGenerated = true;

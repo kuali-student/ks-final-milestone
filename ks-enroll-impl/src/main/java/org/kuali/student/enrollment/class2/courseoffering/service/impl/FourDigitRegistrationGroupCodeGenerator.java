@@ -36,11 +36,13 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Generates registration codes that mimic the 4-digit format used at University of Maryland (UMD)
- * In particular, the first two digits will represent a format value starting at 01, 02, up to 09, thus
- * allowing for up to 9 format offerings.  The second two digits will start at 01, 02, up to 99, and will
+ * Generates registration codes that roughly mimic the 4-digit format used at University of Maryland (UMD)
+ * In particular, the first digit will represent a format value starting at 1, 2, up to 9, thus
+ * allowing for up to 9 format offerings.  The next three digits will start at 001, 002, up to 999, and will
  * be the value that distinguishes between registration groups within a particular format offering.
- * This is generating for unconstrained reg groups.
+ * Because most RG codes do not end in 00, this generator will skip them, thus 1000, 1100, 1200, etc. won't
+ * be valid codes.
+ * This is generating for unconstrained reg groups and by AOCs.
  * @author Charles
  */
 public class FourDigitRegistrationGroupCodeGenerator implements RegistrationGroupCodeGenerator {
@@ -59,7 +61,7 @@ public class FourDigitRegistrationGroupCodeGenerator implements RegistrationGrou
         if (code == null) {
             return false;
         }
-        if (code.length() < 4 || code.length() > 5) { // Allow 5 digits because some course can create
+        if (code.length() != 4) { // Allow 5 digits because some course can create
             // more than 100 RGs
             return false;
         }
@@ -87,11 +89,11 @@ public class FourDigitRegistrationGroupCodeGenerator implements RegistrationGrou
             if (rgInfos != null && !rgInfos.isEmpty()) {
                 RegistrationGroupInfo rgInfo = rgInfos.get(0);
                 // Assume 4 digit string
-                String regGroupCode = rgInfo.getName();
+                String regGroupCode = rgInfo.getName();  // Name field stores reg group code
                 if (!_isValidRegGroupCode(regGroupCode)) {
                     throw new RuntimeException("Invalid reg group code: " + regGroupCode);
                 }
-                String prefixStr = regGroupCode.substring(0, 2); // Get first two digits
+                String prefixStr = regGroupCode.substring(0, 1); // Get first digit (this is the format offering)
                 int val = Integer.parseInt(prefixStr);
                 prefixUsed.add(val);
             }
@@ -101,13 +103,9 @@ public class FourDigitRegistrationGroupCodeGenerator implements RegistrationGrou
 
     private String _findSmallestUnusedPrefix(Set<Integer> prefixUsed) {
         String search =  null;
-        for (int i = 1; i < 100; i++) {
+        for (int i = 1; i < 10; i++) {
             if (!prefixUsed.contains(i)) {
-                if (i < 10) {
-                    search = "0" + i;
-                } else {
-                    search = "" + i;
-                }
+                search = "" + i; // Convert prefix from number to string
                 break;
             }
         }
@@ -120,32 +118,19 @@ public class FourDigitRegistrationGroupCodeGenerator implements RegistrationGrou
         if (keyValues != null && keyValues.containsKey(CourseOfferingServiceBusinessLogicImpl.FIRST_REG_GROUP_CODE)) {
             // Should be an integer version of a code like "0101" (which would be 101)
             int val = (Integer) keyValues.get(CourseOfferingServiceBusinessLogicImpl.FIRST_REG_GROUP_CODE);
-            if (val <= 999) {
-                // Implies a 4-digit reg code
-                regGroupSuffix = val % 100;
-            } else if (val <= 9999) {
-                // Implies a 5-digit reg code
-                regGroupSuffix = val % 1000;
-            } else {
-                throw new RuntimeException("Val should not be 5 digits long");
+            if (val < 1000 || val > 9999) {
+                throw new RuntimeException("Val should be exactly 4 digits long");
             }
+            // Reg group suffix is last 3 digits of 4 digit RG code
+            regGroupSuffix = val % 1000;
             if (regGroupSuffix == 0) {
-                throw new RuntimeException("Suffix is not allowed to be 0");
+                throw new RuntimeException("Suffix is not allowed to start at 0");
             }
-            if (val <= 999) {
-                // Implies a 4-digit reg code
-                // Strips last 2 digits off
-                prefix = "" + (val / 100);
-            } else if (val <= 9999) {
-                // Implies a 5-digit reg code
-                // Strips last 3 digits
-                prefix = "" + (val / 1000);
-            }
+            prefix  = "" + (val / 1000); // Prefix is first digit of 4-digit number (should not be 0).
             if (prefix.length() > 1) {
                 // This assumes 9 FO's max per CO.
                 throw new RuntimeException("Prefix should be 1-9");
             }
-            prefix = "0" + prefix;  // Changes "1" to "01"
             return; // Exit function
         }
         try {
@@ -185,22 +170,27 @@ public class FourDigitRegistrationGroupCodeGenerator implements RegistrationGrou
      * @param fo the format Offering
      * @param activities The list of Activities in the registration group
      * @param keyValues In this implementation, a prefix will be sent in.  The key is "umd.registration.code.prefix"
-     *                  And the value is a String that should be one of {"01", "02", ..., "09"}
+     *                  And the value is a String that should be one of {"1", "2", ..., "9"}
      *                  Also,
      * @return
      */
     @Override
-    public String generateRegistrationGroupCode(FormatOffering fo, List<ActivityOfferingInfo> activities, Map<String, Object> keyValues) {
+    public String generateRegistrationGroupCode(FormatOffering fo, List<ActivityOfferingInfo> activities,
+                                                Map<String, Object> keyValues) {
         // Run TestCourseOfferingServiceImplM4 if this changes
         if (regGroupSuffix >= 1000) {
             throw new RuntimeException("No more reg codes left to use");
         }
         String suffix = "" + regGroupSuffix;
-        if (regGroupSuffix < 10) {
-            // Pads this to a minimum of 2 digits (suffix can be 3 digits)
+        while (suffix.length() < 3) {
+            // Pad with leading 0's to create 3-digit suffix
             suffix = "0" + suffix;
         }
         regGroupSuffix++; // Get ready for next reg code
+        if (regGroupSuffix % 100 == 0) {
+            regGroupSuffix++; // Avoid suffixes that end in 00 since it's uncommon in UMD reg group codes
+
+        }
         String regCode = prefix + suffix;
         return regCode;
     }
