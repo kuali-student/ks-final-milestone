@@ -2770,4 +2770,48 @@ public interface CourseOfferingService
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException;
+
+
+    /**
+     * This is a bulk create method for generateRegistrationGroupsForAOC().  Instead of working on a single Activity Offering Cluster it will
+     * work on all of the AOC's of the format offering specified.
+     * 
+     * @param formatOfferingId The identifier of the format offering to generate registration groups for.
+     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation 
+     * @return status of the operation (success, failed) for each Registration Group created. 
+     * @throws DoesNotExistException The formatOfferingId does not refer to an existing FormatOffering.
+     * @throws InvalidParameterException The formatOfferingId or context is invalid.
+     * @throws MissingParameterException the formatOfferingId or context is missing.
+     * @throws OperationFailedException unable to complete request, can also occur when verification of any AOC in the format offering fails.
+     * @throws PermissionDeniedException authorization failure
+     * @throws DataValidationErrorException verification of any of the underlying Activity Offering Cluster's failed.
+     */
+    public List<BulkStatusInfo> generateRegistrationGroupsForFormatOffering(@WebParam (name="formatOfferingId")
+            String formatOfferingId,  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException, DataValidationErrorException;
+    
+    /**
+     * Generates all possible registration groups for the Activity Offering
+     * Cluster
+     *
+     * @param activityOfferingClusterId identifier of the Activity Offering
+     *                                  Cluster
+     * @param contextInfo               Context information containing the
+     *                                  principalId and locale information about
+     *                                  the caller of service operation
+     * @return status of the operation (success, failed) for each Registration Group created.
+     * @throws DoesNotExistException     activityOfferingClusterId does not
+     *                                   exist
+     * @throws DataValidationErrorException verification of the Activity Offering Cluster failed.
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException activityOfferingClusterId or
+     *                                   contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure has occurred
+     * @impl Does 'delta' generation: Creates only new RGs
+     */
+    public List<BulkStatusInfo> generateRegistrationGroupsForCluster( @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,  @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
 }
