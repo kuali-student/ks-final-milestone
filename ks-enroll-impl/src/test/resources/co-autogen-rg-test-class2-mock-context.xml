@@ -11,6 +11,8 @@
 
   <import resource="classpath:co-test-with-class2-mock-context.xml" />
   
+  <alias name="coService" alias="CourseOfferingService"/> 
+  
    <bean id="SearchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
         <property name="searchServices">
             <list>
@@ -19,7 +21,8 @@
         </property>                
     </bean>
   
-    <bean id="autogenRegistrationGroupAppLayer" class=" org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapterImpl" autowire="autodetect" />
+    <bean id="autogenRegistrationGroupAppLayer" class=" org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapterImpl" autowire="byName" />
+    
     
 
 </beans>
