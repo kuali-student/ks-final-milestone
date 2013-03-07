@@ -142,7 +142,7 @@
                         </list>
                     </property>
                     <property name="actionImage">
-                        <bean parent="Uif-Image" p:source="../ks-myplan/images/pixel.gif">
+                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif">
                             <property name="cssClasses">
                                 <list merge="true">
                                     <value>rightArrowLarge</value>
@@ -919,7 +919,7 @@
                                     <list>
                                         <bean parent="Uif-HorizontalBoxGroup" p:validationMessages.render="false">
                                             <property name="style"
-                                                      value="margin:0; background:url('../ks-myplan/images/bkgrdDottedCCC.png') 391px 0px repeat-y;"/>
+                                                      value="margin:0; background:url('@{#ConfigProperties['ks.myplan.externalizable.images.url']}bkgrdDottedCCC.png') 391px 0px repeat-y;"/>
                                             <property name="items">
                                                 <list>
                                                     <bean parent="Uif-DataField" p:propertyName="instructor"
@@ -1147,7 +1147,7 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-HorizontalBoxGroup" p:validationMessages.render="false">
-                                            <property name="style" value="margin:0; background:url('../ks-myplan/images/bkgrdDottedCCC.png') 380px 0px repeat-y;"/>
+                                            <property name="style" value="margin:0; background:url('@{#ConfigProperties['ks.myplan.externalizable.images.url']}bkgrdDottedCCC.png') 380px 0px repeat-y;"/>
                                             <property name="items">
                                                 <list>
                                                     <bean parent="Uif-DataField" p:propertyName="instructor" p:label="Instructor" p:fieldLabel.renderColon="false" p:labelPlacement="TOP"
@@ -1283,7 +1283,7 @@
                 <!--
                                 Displays add options if class is not in the plan
                 -->
-                <bean p:id="@{dataObject.courseId}-@{#line.activityDisplayId}" parent="Uif-ImageField" p:label="Add" p:altText="Add" p:title="Add" p:source="../ks-myplan/images/pixel.gif" p:render="@{#line.planned eq false ? true : false}">
+                <bean p:id="@{dataObject.courseId}-@{#line.activityDisplayId}" parent="Uif-ImageField" p:label="Add" p:altText="Add" p:title="Add" p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif" p:render="@{#line.planned eq false ? true : false}">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-add</value>
