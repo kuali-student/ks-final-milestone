@@ -24,6 +24,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
@@ -54,7 +55,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
-        return new CourseOfferingManagementForm();
+        return new ARGCourseOfferingManagementForm();
     }
 
     @Override
@@ -62,11 +63,11 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase uifForm, @SuppressWarnings("unused") BindingResult result,
                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
-        if (!(uifForm instanceof CourseOfferingManagementForm)) {
-            throw new RuntimeException("Form object passed into start method was not of expected type CourseOfferingManagementForm. Got " + uifForm.getClass().getSimpleName());
+        if (!(uifForm instanceof ARGCourseOfferingManagementForm)) {
+            throw new RuntimeException("Form object passed into start method was not of expected type ARGCourseOfferingManagementForm. Got " + uifForm.getClass().getSimpleName());
         }
 
-        CourseOfferingManagementForm form = (CourseOfferingManagementForm) uifForm;
+        ARGCourseOfferingManagementForm form = (ARGCourseOfferingManagementForm) uifForm;
 
         // set adminOrg to the form to temporarily overcome that we actually need page level authorization but not view
         // level authorization.
@@ -118,7 +119,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      * @throws Exception
      */
     @RequestMapping(params = "methodToCall=show")
-    public ModelAndView show(@ModelAttribute("KualiForm") CourseOfferingManagementForm form) throws Exception {
+    public ModelAndView show(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm form) throws Exception {
 
         form.setInputCode(form.getInputCode().toUpperCase());
         ARGUtil.getViewHelperService(form).populateTerm(form);
@@ -171,7 +172,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=manageRegGroups")
-    public ModelAndView manageRegGroups(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+    public ModelAndView manageRegGroups(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
 
         CourseOfferingInfo theCourseOfferingInfo = theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
         Properties urlParameters = new Properties();
@@ -203,7 +204,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      * @throws Exception
      */
     @RequestMapping(params = "methodToCall=loadPreviousCO")
-    public ModelAndView loadPreviousCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm form) throws Exception {
+    public ModelAndView loadPreviousCO(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm form) throws Exception {
         ARGCourseOfferingHandler.loadPreviousCO(form);
         return getUIFModelAndView(form);
     }
@@ -216,7 +217,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      * @throws Exception
      */
     @RequestMapping(params = "methodToCall=loadNextCO")
-    public ModelAndView loadNextCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm form) throws Exception {
+    public ModelAndView loadNextCO(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm form) throws Exception {
         return getUIFModelAndView(form);
     }
 
@@ -230,7 +231,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      * @throws Exception
      */
     @RequestMapping(params = "methodToCall=loadAOs")
-    public ModelAndView loadAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm form) throws Exception {
+    public ModelAndView loadAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm form) throws Exception {
         if (ARGActivityOfferingClusterHandler.loadAOs(form)) {
             return getUIFModelAndView(form, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
         } else {
@@ -240,25 +241,25 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=copyCourseOfferingCreateCopy")
-    public ModelAndView copyCourseOfferingCreateCopy(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+    public ModelAndView copyCourseOfferingCreateCopy(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
         ARGCourseOfferingHandler.copyCourseOfferingCreateCopy(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
 
     @RequestMapping(params = "methodToCall=copyCourseOfferingCancel")
-    public ModelAndView copyCourseOfferingCancel(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+    public ModelAndView copyCourseOfferingCancel(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
 
     @RequestMapping(params = "methodToCall=copyCourseOffering")
-    public ModelAndView copyCourseOffering(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+    public ModelAndView copyCourseOffering(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
         ARGCourseOfferingHandler.copyCourseOffering(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.COPY_CO_PAGE);
     }
 
 
     @RequestMapping(params = "methodToCall=selectAllActivityOfferings")
-    public ModelAndView selectAllActivityOfferings(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+    public ModelAndView selectAllActivityOfferings(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
         ARGActivityOfferingClusterHandler.selectAllActivityOfferings(theForm);
         return getUIFModelAndView(theForm);
     }
@@ -274,7 +275,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      * @throws Exception
      */
     @RequestMapping(params = "methodToCall=loadCOs")
-    public ModelAndView loadCOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm form) throws Exception {
+    public ModelAndView loadCOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm form) throws Exception {
         ARGCourseOfferingHandler.loadCOs(form);
         return getUIFModelAndView(form, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
@@ -283,7 +284,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      * Method used to copy activityOffering
      */
     @RequestMapping(params = "methodToCall=copyAO")
-    public ModelAndView copyAO(@ModelAttribute("KualiForm") CourseOfferingManagementForm form) {
+    public ModelAndView copyAO(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm form) {
         ARGActivityOfferingClusterHandler.copyAO(form);
         return getUIFModelAndView(form);
     }
@@ -292,7 +293,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      * Method used to delete a list of selected Draft activity Offerings
      */
     @RequestMapping(params = "methodToCall=cancelDeleteAOs")
-    public ModelAndView cancelDeleteAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+    public ModelAndView cancelDeleteAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
         ARGUtil.reloadActivityOffering(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
@@ -301,7 +302,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      * Method used to delete a list of selected Draft activity Offerings
      */
     @RequestMapping(params = "methodToCall=deleteSelectedAoList")
-    public ModelAndView deleteSelectedAoList(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+    public ModelAndView deleteSelectedAoList(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
         ARGActivityOfferingClusterHandler.deleteSelectedAoList(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
@@ -310,7 +311,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      * Method used to confirm delete AOs
      */
     @RequestMapping(params = "methodToCall=deleteCoConfirmation")
-    public ModelAndView deleteCoConfirmation(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+    public ModelAndView deleteCoConfirmation(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
         String viewName = ARGCourseOfferingHandler.deleteCoConfirmation(theForm);
         return getUIFModelAndView(theForm, viewName);
     }
@@ -319,7 +320,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      * Method used to delete a Course Offering with all Draft activity Offerings
      */
     @RequestMapping(params = "methodToCall=deleteBulkCos")
-    public ModelAndView deleteBulkCos(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+    public ModelAndView deleteBulkCos(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
         ARGCourseOfferingHandler.deleteBulkCos(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
@@ -328,7 +329,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      * Method used to delete a Course Offering with all Draft activity Offerings
      */
     @RequestMapping(params = "methodToCall=cancelDeleteBulkCos")
-    public ModelAndView cancelDeleteBulkCos(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+    public ModelAndView cancelDeleteBulkCos(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
         ARGCourseOfferingHandler.cancelDeleteBulkCos(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
@@ -338,7 +339,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     * Code (04a screen)
     */
     @RequestMapping(params = "methodToCall=editTheCO")
-    public ModelAndView editTheCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+    public ModelAndView editTheCO(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
         Properties urlParameters = ARGCourseOfferingHandler.editTheCO(theForm);
         return super.performRedirect(theForm, CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE, urlParameters);
     }
@@ -347,7 +348,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      * Method used to edit a selected CO or AO
      */
     @RequestMapping(params = "methodToCall=edit")
-    public ModelAndView edit(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+    public ModelAndView edit(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
 
         Object selectedObject = ARGUtil.getSelectedObject(theForm, "edit");
 
@@ -372,7 +373,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      * Method used to confirm delete AOs
      */
     @RequestMapping(params = "methodToCall=confirmDelete")
-    public ModelAndView confirmDelete(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+    public ModelAndView confirmDelete(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
         boolean canDelete = ARGActivityOfferingClusterHandler.confirmDelete(theForm);
         if(!canDelete) {
             return getUIFModelAndView(theForm);
@@ -384,7 +385,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      * Method used to view a CO or an AO
      */
     @RequestMapping(params = "methodToCall=view")
-    public ModelAndView view(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+    public ModelAndView view(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
 
         Properties urlParameters = new Properties();
         String controllerPath = "inquiry";
@@ -402,7 +403,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=addActivityOfferings")
-    public ModelAndView addActivityOfferings(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+    public ModelAndView addActivityOfferings(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
 
         ARGActivityOfferingClusterHandler.addActivityOfferings(theForm);
         return getUIFModelAndView(theForm);
@@ -410,14 +411,14 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=createCourseOffering")
-    public ModelAndView createCourseOffering(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+    public ModelAndView createCourseOffering(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
         Properties props = ARGCourseOfferingHandler.createCourseOffering(theForm);
         String controllerPath = CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_CREATE_MAINTENANCE;
         return super.performRedirect(theForm, controllerPath, props);
     }
 
     @RequestMapping(params = "methodToCall=markSubjectCodeReadyForScheduling")
-    public ModelAndView markSubjectCodeReadyForScheduling(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+    public ModelAndView markSubjectCodeReadyForScheduling(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
         CourseOfferingManagementViewHelperServiceImpl helperService = (CourseOfferingManagementViewHelperServiceImpl) theForm.getView().getViewHelperService();
         //  State change all of the AOs associated with all CourseOfferings related to the course code. Passing false so that the isChecked() flag is ignored.
         helperService.markCourseOfferingsForScheduling(theForm.getCourseOfferingResultList(), false);
@@ -430,7 +431,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      * Code (04a screen)
      */
     @RequestMapping(params = "methodToCall=viewTheCO")
-    public ModelAndView viewTheCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+    public ModelAndView viewTheCO(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
 
         CourseOfferingInfo theCourseOfferingInfo = theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
         Properties urlParameters = ARGUtil._buildCOURLParameters(theCourseOfferingInfo, KRADConstants.START_METHOD);
@@ -439,7 +440,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=approveCOs")
-    public ModelAndView approveCOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView approveCOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         String dialogName = CourseOfferingConstants.ConfirmDialogs.APRROVE_CO;
 
@@ -459,7 +460,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=suspendCOs")
-    public ModelAndView suspendCOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView suspendCOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         //TODO:  suspendCOs
@@ -468,7 +469,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=cancelCOs")
-    public ModelAndView cancelCOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView cancelCOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         //TODO:  cancelCOs
@@ -476,7 +477,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=reinstateCOs")
-    public ModelAndView reinstateCOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView reinstateCOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
 
@@ -485,14 +486,14 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=deleteOneCoWithLink")
-    public ModelAndView deleteOneCoWithLink(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView deleteOneCoWithLink(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                             @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         ARGCourseOfferingHandler.deleteOneCoWithLink(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.CO_DELETE_CONFIRM_PAGE);
     }
 
     @RequestMapping(params = "methodToCall=deleteCOs")
-    public ModelAndView deleteCOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView deleteCOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         ARGUtil.getViewHelperService(theForm).deleteCourseOfferings(theForm);
@@ -501,7 +502,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=approveAOs")
-    public ModelAndView approveAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView approveAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         ARGUtil.getViewHelperService(theForm).approveActivityOfferings(theForm);
@@ -510,7 +511,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=suspendAOs")
-    public ModelAndView suspendAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView suspendAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         //TODO suspendAOs
@@ -518,14 +519,14 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=cancelAOs")
-    public ModelAndView cancelAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView cancelAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         //TODO: cancelAOs
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 
     @RequestMapping(params = "methodToCall=reinstateAOs")
-    public ModelAndView reinstateAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView reinstateAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         //TODO: reinstateAOs
@@ -533,7 +534,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=deleteAOs")
-    public ModelAndView deleteAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView deleteAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         ARGActivityOfferingClusterHandler.deleteAOs(theForm);
@@ -541,7 +542,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=draftAOs")
-    public ModelAndView draftAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView draftAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                  @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         ARGUtil.getViewHelperService(theForm).draftActivityOfferings(theForm);
         ARGUtil.reloadActivityOffering(theForm);
@@ -549,7 +550,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=addCluster")
-    public ModelAndView addCluster(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView addCluster(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         //TODO: addCluster
@@ -557,7 +558,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=moveToCluster")
-    public ModelAndView moveToCluster(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView moveToCluster(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         //TODO: moveToCluster
@@ -565,7 +566,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=copyAOs")
-    public ModelAndView copyAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView copyAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         //TODO: copyAOs
