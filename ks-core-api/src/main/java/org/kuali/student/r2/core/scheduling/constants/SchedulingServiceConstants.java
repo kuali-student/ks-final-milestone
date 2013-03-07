@@ -89,7 +89,7 @@ public class SchedulingServiceConstants {
 
     // time slot states
     public static final String TIME_SLOT_LIFECYCLE_KEY = "kuali.scheduling.timeslot.lifecycle";
-    public static final String TIME_SLOT_STATE_ACTIVE = " kuali.scheduling.timeslot.state.active";
+    public static final String TIME_SLOT_STATE_ACTIVE = "kuali.scheduling.timeslot.state.active";
 
     ////////////////////////////////////////
     // TYPES / STATES not yet approved
