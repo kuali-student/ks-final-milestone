@@ -16453,7 +16453,7 @@ CREATE TABLE KRMS_TERM_RSLVR_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE KRMS_TERM_RSLVR_S auto_increment = 10000
+ALTER TABLE KRMS_TERM_RSLVR_S auto_increment = 10014
 /
 
 # -----------------------------------------------------------------------
@@ -16481,7 +16481,7 @@ CREATE TABLE KRMS_TERM_SPEC_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE KRMS_TERM_SPEC_S auto_increment = 10013
+ALTER TABLE KRMS_TERM_SPEC_S auto_increment = 10014
 /
 
 # -----------------------------------------------------------------------
