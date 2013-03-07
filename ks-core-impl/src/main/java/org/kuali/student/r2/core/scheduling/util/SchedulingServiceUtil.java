@@ -130,6 +130,15 @@ public class SchedulingServiceUtil {
             }
         }
         if (!hasCommonWeekday) return false;
+
+        if (timeSlotInfo1.getStartTime().getMilliSeconds() == null ||
+                timeSlotInfo1.getEndTime().getMilliSeconds() == null ||
+                timeSlotInfo2.getStartTime().getMilliSeconds() == null ||
+                timeSlotInfo2.getEndTime().getMilliSeconds() == null ) {
+            // If there are null values in any of these spots, assume no conflict can occur.
+            return false;
+        }
+
         // there is a common weekday, so now check if there is an overlap of time.
         // If the end time of one time slot is before the start time of the other, there is
         // no overlap (alternate implementation--if you use semi-closed intervals where start
