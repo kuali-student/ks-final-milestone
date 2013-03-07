@@ -1,6 +1,9 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -11,7 +14,16 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -39,6 +51,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -48,6 +61,11 @@ import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
@@ -75,6 +93,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     private transient PopulationService populationService;
     private transient SeatPoolUtilityService seatPoolUtilityService = new SeatPoolUtilityServiceImpl();
     private transient CourseService courseService;
+    private transient SearchService searchService;
 
     private static final String SCHEDULE_HELPER = "scheduleHelper";
 
@@ -150,6 +169,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
             // Set the display string (e.g. 'FALL 2020 (9/26/2020 to 12/26/2020)')
             TermInfo term = getAcademicCalendarService().getTerm(info.getTermId(), contextInfo);
+            wrapper.setTerm(term);
             if (term != null) {
                 wrapper.setTermName(term.getName());
             }
@@ -199,7 +219,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     wrapper.setAdminOrg(orgIDs.substring(0, orgIDs.length()-1));
                 }
             }
-
 
             //Set socInfo
             List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(info.getTermId(), ContextUtils.createDefaultContextInfo());
@@ -399,12 +418,14 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
     @Override
     protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+
+        MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
+        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+
         if (addLine instanceof OfferingInstructorWrapper) {   //Personnel
             OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
 
             //check duplication
-            MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
-            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
             List<OfferingInstructorWrapper> instructors = activityOfferingWrapper.getInstructors();
             if (instructors != null && !instructors.isEmpty()) {
                 for (OfferingInstructorWrapper thisInst : instructors) {
@@ -424,8 +445,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         } else if (addLine instanceof SeatPoolWrapper) {   //Seat Pool
             SeatPoolWrapper seatPool = (SeatPoolWrapper) addLine;
             //check duplication
-            MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
-            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+
             List<SeatPoolWrapper> pools = activityOfferingWrapper.getSeatpools();
             if (pools != null && !pools.isEmpty()) {
                 for (SeatPoolWrapper pool : pools) {
@@ -435,8 +455,128 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     }
                 }
             }
+        } else if (addLine instanceof ColocatedActivity){
+            ColocatedActivity colo = (ColocatedActivity)addLine;
+
+            for (ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()){
+                if (StringUtils.equals(activity.getCourseOfferingCode(),colo.getCourseOfferingCode()) &&
+                    StringUtils.equals(activity.getActivityOfferingCode(),colo.getActivityOfferingCode())){
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Duplicate Entry");
+                    return false;
+                }
+            }
+
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.and(
+                    PredicateFactory.equal("courseOfferingCode", colo.getCourseOfferingCode()),
+                    PredicateFactory.equalIgnoreCase("atpId", activityOfferingWrapper.getTermId())));
+            QueryByCriteria criteria = qbcBuilder.build();
+
+            //Do search. In ideal case, returns one element, which is the desired CO.
+            try {
+                List<CourseOfferingInfo> courseOfferings = getCourseOfferingService().searchForCourseOfferings(criteria, createContextInfo());
+                if (courseOfferings.isEmpty()){
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Course Offering");
+                    return false;
+                } else if (courseOfferings.size() > 1){
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "More than one course offering exists for the code " + colo.getCourseOfferingCode());
+                    return false;
+                } else {
+                    colo.setCoId(courseOfferings.get(0).getId());
+                }
+
+                qbcBuilder = QueryByCriteria.Builder.create();
+                qbcBuilder.setPredicates(PredicateFactory.and(
+                        PredicateFactory.equal("courseOfferingId", StringUtils.upperCase(colo.getCoId())),
+                        PredicateFactory.equal("activityCode", StringUtils.upperCase(colo.getActivityOfferingCode())),
+                        PredicateFactory.equalIgnoreCase("atpId", activityOfferingWrapper.getTermId())));
+                criteria = qbcBuilder.build();
+
+                List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().searchForActivityOfferings(criteria, createContextInfo());
+                if (activityOfferingInfos.isEmpty()){
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Activity Offering");
+                    return false;
+                } else if (activityOfferingInfos.size() > 1){
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "More than one Activity offering exists");
+                    return false;
+                } else {
+                    colo.setAoId(activityOfferingInfos.get(0).getId());
+                }
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
         return super.performAddLineValidation(view, collectionGroup, model, addLine);
+    }
+
+    public List<String> retrieveCourseOfferingCode(String termId,String courseOfferingCode){
+        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
+        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.COURSE_CODE, StringUtils.upperCase(courseOfferingCode));
+        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, termId);
+        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.CROSS_LIST_SEARCH_ENABLED, BooleanUtils.toStringTrueFalse(false));
+
+        SearchResultInfo searchResult = null;
+        try {
+            searchResult = getSearchService().search(searchRequest, createContextInfo());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        List<String> courseOfferingCodes = new ArrayList<String>();
+
+        for (SearchResultRowInfo row : searchResult.getRows()) {
+            for(SearchResultCellInfo cellInfo : row.getCells()){
+
+                if(CourseOfferingManagementSearchImpl.SearchResultColumns.CODE.equals(cellInfo.getKey())){
+                    courseOfferingCodes.add(cellInfo.getValue());
+                }
+
+            }
+        }
+
+        return courseOfferingCodes;
+    }
+
+    public List<String> retrieveActivityOfferingCode(String termId,String courseOfferingCode, String activityOfferingCode){
+        List<String> activityOfferingCodes = new ArrayList<String>();
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.and(
+                    PredicateFactory.equal("courseOfferingCode", StringUtils.upperCase(courseOfferingCode)),
+                    PredicateFactory.equalIgnoreCase("atpId", termId)));
+            QueryByCriteria criteria = qbcBuilder.build();
+
+            //Do search. In ideal case, returns one element, which is the desired CO.
+        List<CourseOfferingInfo> courseOfferings = null;
+        try {
+            courseOfferings = getCourseOfferingService().searchForCourseOfferings(criteria, createContextInfo());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        if (!courseOfferings.isEmpty()){
+            try {
+                List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferings.get(0).getId(),createContextInfo());
+                for(ActivityOfferingInfo ao : activityOfferingInfos){
+                    if (StringUtils.startsWith(ao.getActivityCode(),StringUtils.upperCase(activityOfferingCode))){
+                        activityOfferingCodes.add(ao.getActivityCode());
+                    }
+                }
+                /**
+                 * No match found? Display all the AOs
+                 */
+                if (activityOfferingCodes.isEmpty()){
+                    for(ActivityOfferingInfo ao : activityOfferingInfos){
+                        activityOfferingCodes.add(ao.getActivityCode());
+                    }
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return activityOfferingCodes;
     }
 
     @Override
@@ -517,6 +657,13 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     protected ActivityOfferingScheduleHelperImpl getScheduleHelper(){
 //        return (ActivityOfferingScheduleHelperImpl)getHelper(SCHEDULE_HELPER);
         return new ActivityOfferingScheduleHelperImpl();
+    }
+
+    protected SearchService getSearchService() {
+        if(searchService == null) {
+            searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "search", SearchService.class.getSimpleName()));
+        }
+        return searchService;
     }
 
 }

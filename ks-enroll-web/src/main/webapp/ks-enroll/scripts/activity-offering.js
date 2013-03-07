@@ -1,3 +1,60 @@
+function setupColoCheckBoxChange(control){
+    if(jQuery(control).is(":checked")) {
+        jQuery("#max_enrollment").hide();
+        jQuery("#ActivityOfferingEdit-MainPage-CoLocation").show();
+    } else {
+        jQuery("#max_enrollment").show();
+        jQuery("#ActivityOfferingEdit-MainPage-CoLocation").hide();
+    }
+}
+
+function activityEditDocumentOnLoad(){
+    if(jQuery("#is_co_located").is(":checked")) {
+        jQuery("#max_enrollment").hide();
+        jQuery("#ActivityOfferingEdit-MainPage-CoLocation").show();
+    } else {
+        jQuery("#max_enrollment").show();
+        jQuery("#ActivityOfferingEdit-MainPage-CoLocation").hide();
+    }
+    if(jQuery("#share_seats").is(":checked")) {
+        jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").hide();
+        jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").show();
+    } else {
+        jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").show();
+        jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").hide();
+    }
+
+    jQuery('#share_seats_control_0').change(function() {
+        if(jQuery(this).is(":checked")) {
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").hide();
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").show();
+        } else {
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").show();
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").hide();
+        }
+    });
+
+    jQuery('#share_seats_control_1').change(function() {
+        if(jQuery(this).is(":checked")) {
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").show();
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").hide();
+        } else {
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").hide();
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").show();
+        }
+    });
+
+}
+
+function setupColoSeatShareCheckbox(id){
+    if(jQuery("#").is(":checked")) {
+        jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").hide();
+        jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").show();
+    } else {
+        jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").show();
+        jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").hide();
+    }
+}
 
 function clearRoomResourcesSelections(sourceLink) {
     var divInputField = sourceLink.siblings('div.uif-inputField');

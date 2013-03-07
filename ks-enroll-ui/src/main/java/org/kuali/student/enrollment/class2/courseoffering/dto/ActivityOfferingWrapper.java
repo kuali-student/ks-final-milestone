@@ -2,9 +2,9 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -87,6 +87,10 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean enableCopyAOActionLink = false;
     private boolean enableEditAOActionLink = false;
 
+    private boolean colocatedAO;
+    private List<ColocatedActivity> colocatedActivities;
+    private boolean shareSeats;
+
     //This is needed to display the cross listed courses
     private CourseInfo course;
 
@@ -105,10 +109,12 @@ public class ActivityOfferingWrapper implements Serializable{
         requestedScheduleComponents = new ArrayList<ScheduleWrapper>();
         revisedScheduleRequestComponents = new ArrayList<ScheduleWrapper>();
         newScheduleRequest = new ScheduleWrapper();
+        colocatedActivities = new ArrayList<ColocatedActivity>();
+        shareSeats = true;
     }
 
     public ActivityOfferingWrapper(ActivityOfferingInfo info){
-        super();
+        this();
         aoInfo = info;
         instructors = new ArrayList<OfferingInstructorWrapper>();
         seatpools = new ArrayList<SeatPoolWrapper>();
@@ -310,6 +316,13 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setTerm(TermInfo term) {
         this.term = term;
+    }
+
+    public String getTermId(){
+        if (term != null){
+            return term.getId();
+        }
+        return StringUtils.EMPTY;
     }
 
     public ActivityOfferingInfo getAoInfo() {
@@ -724,6 +737,39 @@ public class ActivityOfferingWrapper implements Serializable{
             }
         }
         return StringUtils.removeEnd(builder.toString(), ", ");
+    }
+
+    /**
+     * @see #setColocatedAO(boolean)
+     * @return
+     */
+    public boolean isColocatedAO() {
+        return colocatedAO;
+    }
+
+    /**
+     * Whether this AO is part of a colocated set
+     *
+     * @param colocatedAO
+     */
+    public void setColocatedAO(boolean colocatedAO) {
+        this.colocatedAO = colocatedAO;
+    }
+
+    public List<ColocatedActivity> getColocatedActivities() {
+        return colocatedActivities;
+    }
+
+    public void setColocatedActivities(List<ColocatedActivity> colocatedActivities) {
+        this.colocatedActivities = colocatedActivities;
+    }
+
+    public boolean isShareSeats() {
+        return shareSeats;
+    }
+
+    public void setShareSeats(boolean shareSeats) {
+        this.shareSeats = shareSeats;
     }
 
     /**
