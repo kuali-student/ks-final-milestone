@@ -95,7 +95,7 @@
         <antlr.runtime.version>3.1.1</antlr.runtime.version>
         <antlr.legacy.version>2.7.7</antlr.legacy.version>
         <aspectj.version>1.6.8</aspectj.version>
-        <atomikos.version>3.6.4</atomikos.version>
+        <atomikos.version>3.8.0</atomikos.version>
         <backport-util-concurrent.version>3.1</backport-util-concurrent.version>
         <cglib.nodep.version>2.1_3</cglib.nodep.version>
         <com.lowagie.itext.version>2.1.7</com.lowagie.itext.version>
