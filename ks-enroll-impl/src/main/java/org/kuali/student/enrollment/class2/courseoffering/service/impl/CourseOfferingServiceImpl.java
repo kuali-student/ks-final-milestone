@@ -2236,8 +2236,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                     List<ScheduleComponentInfo> scheduleComponentInfos = scheduleInfo.getScheduleComponents();
                     if (scheduleComponentInfos != null) {
                         for (ScheduleComponentInfo scheduleComponentInfo : scheduleComponentInfos) {
-                            if (scheduleComponentInfo.getTimeSlotIds() != null && !scheduleComponentInfo.getIsTBA()) {
-                                // Only add time slots if component is not null and if it's not TBA
+                            if (scheduleComponentInfo.getTimeSlotIds() != null) {
+                                // Only add time slots if component is not null
                                 timeSlotIds.addAll(scheduleComponentInfo.getTimeSlotIds());
                             }
                         }
@@ -2251,8 +2251,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                     List<ScheduleRequestComponentInfo> scheduleRequestComponentInfos = scheduleRequestInfo.getScheduleRequestComponents();
                     if (scheduleRequestComponentInfos != null) {
                         for (ScheduleRequestComponentInfo scheduleRequestComponentInfo : scheduleRequestComponentInfos) {
-                            if (scheduleRequestComponentInfo.getTimeSlotIds() != null && !scheduleRequestComponentInfo.getIsTBA()) {
-                                // Only add time slots if component is not null and if it's not TBA
+                            if (scheduleRequestComponentInfo.getTimeSlotIds() != null) {
+                                // Only add time slots if component is not null
                                 timeSlotIds.addAll(scheduleRequestComponentInfo.getTimeSlotIds());
                             }
                         }
