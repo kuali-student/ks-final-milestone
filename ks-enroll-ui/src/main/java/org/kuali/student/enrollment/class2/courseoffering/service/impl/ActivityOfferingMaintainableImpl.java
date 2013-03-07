@@ -278,6 +278,24 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             CourseInfo courseInfo = getCourseService().getCourse(courseOfferingInfo.getCourseId(),contextInfo);
             wrapper.setCourse(courseInfo);
 
+            ColocatedActivity a = new ColocatedActivity();
+            a.setActivityOfferingCode(wrapper.getActivityCode());
+            a.setCourseOfferingCode(wrapper.getCourseOfferingCode());
+            a.setMaxEnrollmentCount(wrapper.getAoInfo().getMaximumEnrollment());
+            a.setCurrentAO(true);
+            wrapper.getColocatedActivities().add(a);
+            a = new ColocatedActivity();
+            a.setActivityOfferingCode("A");
+            a.setCourseOfferingCode("CHEM142");
+            a.setMaxEnrollmentCount(10);
+            wrapper.getColocatedActivities().add(a);
+            a = new ColocatedActivity();
+            a.setActivityOfferingCode("B");
+            a.setCourseOfferingCode("HIST321");
+            a.setMaxEnrollmentCount(10);
+            wrapper.getColocatedActivities().add(a);
+
+
             return wrapper;
         } catch (Exception e) {
             if(e instanceof AuthorizationException){

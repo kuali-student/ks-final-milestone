@@ -9,14 +9,16 @@ function setupColoCheckBoxChange(control){
 }
 
 function activityEditDocumentOnLoad(){
-    if(jQuery("#is_co_located").is(":checked")) {
+
+    if(jQuery("#is_co_located").length != 0 && jQuery("#is_co_located").is(":checked")) {
         jQuery("#max_enrollment").hide();
         jQuery("#ActivityOfferingEdit-MainPage-CoLocation").show();
     } else {
         jQuery("#max_enrollment").show();
         jQuery("#ActivityOfferingEdit-MainPage-CoLocation").hide();
     }
-    if(jQuery("#share_seats").is(":checked")) {
+
+    if(jQuery("#share_seats_control_0").length != 0 && jQuery("#share_seats_control_0").is(":checked")) {
         jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").hide();
         jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").show();
     } else {
@@ -24,36 +26,30 @@ function activityEditDocumentOnLoad(){
         jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").hide();
     }
 
-    jQuery('#share_seats_control_0').change(function() {
-        if(jQuery(this).is(":checked")) {
-            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").hide();
-            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").show();
-        } else {
-            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").show();
-            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").hide();
-        }
-    });
-
-    jQuery('#share_seats_control_1').change(function() {
-        if(jQuery(this).is(":checked")) {
-            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").show();
-            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").hide();
-        } else {
-            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").hide();
-            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").show();
-        }
-    });
-
-}
-
-function setupColoSeatShareCheckbox(id){
-    if(jQuery("#").is(":checked")) {
-        jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").hide();
-        jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").show();
-    } else {
-        jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").show();
-        jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").hide();
+    if (jQuery("#share_seats_control_0").length != 0){
+        jQuery('#share_seats_control_0').change(function() {
+            if(jQuery(this).is(":checked")) {
+                jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").hide();
+                jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").show();
+            } else {
+                jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").show();
+                jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").hide();
+            }
+        });
     }
+
+    if (jQuery("#share_seats_control_1").length != 0){
+        jQuery('#share_seats_control_1').change(function() {
+            if(jQuery(this).is(":checked")) {
+                jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").show();
+                jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").hide();
+            } else {
+                jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").hide();
+                jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").show();
+            }
+        });
+    }
+
 }
 
 function clearRoomResourcesSelections(sourceLink) {

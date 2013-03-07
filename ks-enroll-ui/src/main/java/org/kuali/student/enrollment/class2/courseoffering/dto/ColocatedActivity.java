@@ -29,7 +29,9 @@ public class ColocatedActivity implements Serializable {
     private String activityOfferingCode;
     private String coId;
     private String aoId;
-    private String maxEnrollmentCount;
+    private int maxEnrollmentCount;
+
+    private boolean isCurrentAO;
 
     private ColocatedActivityRenderHelper renderHelper;
 
@@ -69,19 +71,28 @@ public class ColocatedActivity implements Serializable {
         this.aoId = aoId;
     }
 
-    public String getMaxEnrollmentCount() {
+    @SuppressWarnings("unused")
+    public int getMaxEnrollmentCount() {
         return maxEnrollmentCount;
     }
 
-    public void setMaxEnrollmentCount(String maxEnrollmentCount) {
+    public void setMaxEnrollmentCount(int maxEnrollmentCount) {
         this.maxEnrollmentCount = maxEnrollmentCount;
+    }
+
+    public boolean isCurrentAO() {
+       return isCurrentAO;
+    }
+
+    public void setCurrentAO(boolean currentAO) {
+       isCurrentAO = currentAO;
     }
 
     public ColocatedActivityRenderHelper getRenderHelper() {
         return renderHelper;
     }
 
-    public class ColocatedActivityRenderHelper{
+    public class ColocatedActivityRenderHelper implements Serializable{
 
         public String getCode(){
             return getCourseOfferingCode() + " " + getActivityOfferingCode();
