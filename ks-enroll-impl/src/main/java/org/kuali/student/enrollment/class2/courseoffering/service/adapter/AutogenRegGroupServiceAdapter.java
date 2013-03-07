@@ -177,8 +177,14 @@ public interface AutogenRegGroupServiceAdapter {
      */
     public Integer getSeatCountByRegistrationGroup (String registrationGroupId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException;
 
-    public List<CourseOfferingAutogenIssue> findAutogenIssuesByTerm(TermInfo termInfo, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException;
-    
+    public List<CourseOfferingAutogenIssue> findAutogenIssuesByTerm(String termId, ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+                   OperationFailedException, DoesNotExistException;
+
+    public CourseOfferingAutogenIssue findAutogenIssuesByCourseOffering(String courseOfferingId, ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+                   OperationFailedException, DoesNotExistException;
+
     /**
      * User Story 9: As a user, I want to be able to view AOs by Activity, AOC, or Registration Group so that I can view my Activities in a way to support my specific business needs
      * 

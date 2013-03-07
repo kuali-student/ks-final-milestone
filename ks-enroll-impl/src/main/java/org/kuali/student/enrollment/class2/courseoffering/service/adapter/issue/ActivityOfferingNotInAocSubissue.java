@@ -16,9 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,18 +24,20 @@ import java.util.Set;
  *
  * @author Kuali Student Team
  */
-public class ActivityOfferingNotInAocSubissue implements CourseOfferingAutogenSubIssue {
+public class ActivityOfferingNotInAocSubissue implements FormatOfferingAutogenSubIssue {
     private Set<String> activityOfferingIds;
     private String courseOfferingId;
+    private String formatOfferingId;
 
-    public ActivityOfferingNotInAocSubissue(String courseOfferingId) {
+    public ActivityOfferingNotInAocSubissue(String courseOfferingId, String formatOfferingId) {
         this.activityOfferingIds = new HashSet<String>();
         this.courseOfferingId = courseOfferingId;
+        this.formatOfferingId = formatOfferingId;
     }
 
     @Override
     public String getName() {
-        return CourseOfferingAutogenSubIssue.ACTIVITY_OFFERINGS_NOT_IN_AOC;
+        return FormatOfferingAutogenSubIssue.ACTIVITY_OFFERINGS_NOT_IN_AOC;
     }
 
     public Set<String> getActivityOfferingIds() {
@@ -46,5 +46,9 @@ public class ActivityOfferingNotInAocSubissue implements CourseOfferingAutogenSu
 
     public String getCourseOfferingId() {
         return courseOfferingId;
+    }
+
+    public String getFormatOfferingId() {
+        return formatOfferingId;
     }
 }

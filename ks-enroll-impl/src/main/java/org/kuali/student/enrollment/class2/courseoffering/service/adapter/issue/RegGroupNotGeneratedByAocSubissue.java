@@ -25,7 +25,7 @@ import java.util.Set;
  *
  * @author Kuali Student Team
  */
-public class RegGroupNotGeneratedByAocSubissue implements CourseOfferingAutogenSubIssue {
+public class RegGroupNotGeneratedByAocSubissue implements FormatOfferingAutogenSubIssue {
     private Set<String> activityOfferingIds;
     private String courseOfferingId;
     private String formatOfferingId;
@@ -38,7 +38,7 @@ public class RegGroupNotGeneratedByAocSubissue implements CourseOfferingAutogenS
 
     @Override
     public String getName() {
-        return CourseOfferingAutogenSubIssue.REG_GROUPS_NOT_GENERATED_BY_AOC;
+        return FormatOfferingAutogenSubIssue.REG_GROUPS_NOT_GENERATED_BY_AOC;
     }
 
     public Set<String> getActivityOfferingIds() {

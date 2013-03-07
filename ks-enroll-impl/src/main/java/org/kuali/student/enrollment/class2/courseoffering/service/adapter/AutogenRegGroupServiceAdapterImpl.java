@@ -25,7 +25,11 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.ActivityOfferingNotInAocSubissue;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.CourseOfferingAutogenIssue;
+import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.FormatOfferingAutogenIssue;
+import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.InvalidRegGroupSubissue;
+import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.RegGroupNotGeneratedByAocSubissue;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
@@ -47,6 +51,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.permutation.PermutationCounter;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -79,6 +84,10 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         String clusterName = String.format("CL %d", (numberOfExistingClusters + 1));
         
         return clusterName;
+    }
+
+    public void setCourseOfferingService(CourseOfferingService coService) {
+        this.coService = coService;
     }
 
     @Override
@@ -428,35 +437,129 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         }
     }
 
+    private Set<Set<String>> _convertToSetOfSetOfStrings(Set<List<String>> setOfRgAoIdLists) {
+        Set<Set<String>> rgAoIdSets = new HashSet<Set<String>>();
+        for (List<String> rgAoIds: setOfRgAoIdLists) {
+            rgAoIdSets.add(new HashSet<String>(rgAoIds));
+        }
+        return rgAoIdSets;
+    }
+
+    private Set<Set<String>> _generatePotentialRgAoIdSets(ActivityOfferingClusterInfo cluster) {
+        try {
+            Set<List<String>> setOfRgAoIdLists =
+                    PermutationCounter.computeMissingRegGroupAoIdsInCluster(cluster, new ArrayList<RegistrationGroupInfo>());
+            Set<Set<String>> setOfRgAoIdSets =
+                    _convertToSetOfSetOfStrings(setOfRgAoIdLists);
+            return setOfRgAoIdSets;
+        } catch (DataValidationErrorException e) {
+            return null;
+        }
+    }
+
     @Override
-    public List<CourseOfferingAutogenIssue> findAutogenIssuesByTerm(TermInfo termInfo, ContextInfo context)
+    public List<CourseOfferingAutogenIssue> findAutogenIssuesByTerm(String termId, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
                    OperationFailedException, DoesNotExistException {
-        List<String> coIds = coService.getCourseOfferingIdsByTerm(termInfo.getId(), Boolean.TRUE, context);
-        List<CourseOfferingAutogenIssue> issues = new ArrayList<CourseOfferingAutogenIssue>();
+        List<String> coIds = coService.getCourseOfferingIdsByTerm(termId, Boolean.TRUE, context);
+        List<CourseOfferingAutogenIssue> termCoIssues = new ArrayList<CourseOfferingAutogenIssue>();
         for (String coId: coIds) {
-            List<FormatOfferingInfo> fos = coService.getFormatOfferingsByCourseOffering(coId, context);
-            for (FormatOfferingInfo fo: fos) {
-                List<ActivityOfferingInfo> aoInfos =
-                        coService.getActivityOfferingsByFormatOffering(fo.getId(), context);
-                Set<String> aoIdSet = new HashSet<String>();
-                for (ActivityOfferingInfo ao: aoInfos) {
-                    aoIdSet.add(ao.getId());
-                }
-                List<Set<String>> clustersWithAoIds = new ArrayList<Set<String>>();
-                List<ActivityOfferingClusterInfo> clusters =
-                        coService.getActivityOfferingClustersByFormatOffering(fo.getId(), context);
-                for (ActivityOfferingClusterInfo cluster: clusters) {
-                    Set<String> clusterAoIds = new HashSet<String>();
-                    for (ActivityOfferingSetInfo set: cluster.getActivityOfferingSets()) {
-                        clusterAoIds.addAll(set.getActivityOfferingIds());
-                    }
-                    clustersWithAoIds.add(clusterAoIds);
-                }
+            CourseOfferingAutogenIssue coIssue = findAutogenIssuesByCourseOffering(coId, context);
+            if (coIssue != null) {
+                termCoIssues.add(coIssue);
             }
         }
+        return termCoIssues;
+    }
 
-        return issues;
+    @Override
+    public CourseOfferingAutogenIssue findAutogenIssuesByCourseOffering(String courseOfferingId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        List<FormatOfferingInfo> fos = coService.getFormatOfferingsByCourseOffering(courseOfferingId, context);
+        CourseOfferingAutogenIssue coIssue = new CourseOfferingAutogenIssue(courseOfferingId);
+        for (FormatOfferingInfo fo: fos) {
+            String foId = fo.getId();
+            FormatOfferingAutogenIssue foIssue = new FormatOfferingAutogenIssue(foId);
+            List<ActivityOfferingInfo> aoInfos =
+                    coService.getActivityOfferingsByFormatOffering(fo.getId(), context);
+            Set<String> aoIdSet = new HashSet<String>();
+            for (ActivityOfferingInfo ao: aoInfos) {
+                aoIdSet.add(ao.getId());
+            }
+            // Find AOs without clusters
+            List<ActivityOfferingInfo> aosWoClusters =
+                    coService.getActivityOfferingsWithoutClusterByFormatOffering(foId, context);
+            // Gather only the IDs
+            Set<String> aoIdsWoClusters = new HashSet<String>();
+            for (ActivityOfferingInfo aoInfo: aosWoClusters) {
+                aoIdsWoClusters.add(aoInfo.getId());
+            }
+            // Then create issues associated with it
+            if (!aoIdsWoClusters.isEmpty()) {
+                ActivityOfferingNotInAocSubissue aoNotInAoc = new ActivityOfferingNotInAocSubissue(courseOfferingId, fo.getId());
+                aoNotInAoc.getActivityOfferingIds().addAll(aoIdsWoClusters);
+                foIssue.getSubIssues().add(aoNotInAoc);  // Add the issue
+            }
+            // --------------------
+            // Now verify RGs have correct AOs
+            // First create a map
+            List<Set<String>> aocAoIdList = new ArrayList<Set<String>>();
+            List<ActivityOfferingClusterInfo> clusters =
+                    coService.getActivityOfferingClustersByFormatOffering(foId, context);
+            Set<Set<String>> possibleRgAOIds = new HashSet<Set<String>>();
+            Set<Set<String>> actualRgAOIds = new HashSet<Set<String>>();
+            for (ActivityOfferingClusterInfo cluster: clusters) {
+                Set<String> clusterAoIds = new HashSet<String>();
+                for (ActivityOfferingSetInfo set: cluster.getActivityOfferingSets()) {
+                    clusterAoIds.addAll(set.getActivityOfferingIds());
+                }
+                aocAoIdList.add(clusterAoIds);
+                Set<Set<String>> possibleRgAoIdsByAoc =
+                        _generatePotentialRgAoIdSets(cluster);
+                // Add to list of possible RgAOIds for this format offering
+                possibleRgAOIds.addAll(possibleRgAoIdsByAoc);
+            }
+            // Now go through the RGs to check for invalid ones
+            List<RegistrationGroupInfo> rgInfos =
+                    coService.getRegistrationGroupsByFormatOffering(fo.getId(), context);
+            for (RegistrationGroupInfo rg: rgInfos) {
+                boolean found = false;
+                List<String> rgAoIds = rg.getActivityOfferingIds();
+                for (Set<String> aocAoIds: aocAoIdList) {
+                    if (aocAoIds.containsAll(rgAoIds)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    // No AOC contains this RG
+                    InvalidRegGroupSubissue rgIssue = new InvalidRegGroupSubissue(courseOfferingId, foId);
+                    foIssue.getSubIssues().add(rgIssue);  // Add the issue
+                } else {
+                    // Valid RG, store that info
+                    Set<String> rgAOIds = new HashSet(rg.getActivityOfferingIds());
+                    actualRgAOIds.add(rgAOIds);
+                }
+            }
+            // Now find RGs that should have been created, but weren't
+            possibleRgAOIds.removeAll(actualRgAOIds);
+            Set<Set<String>> missingRgAOIds // renaming to make it easier to see what's going on
+                    = new HashSet<Set<String>>(possibleRgAOIds);
+            for (Set<String> rgAoIdSet: missingRgAOIds) {
+                // Create an issue
+                RegGroupNotGeneratedByAocSubissue subissue =
+                        new RegGroupNotGeneratedByAocSubissue(courseOfferingId, foId);
+                subissue.getActivityOfferingIds().addAll(rgAoIdSet);
+                foIssue.getSubIssues().add(subissue);
+            }
+            if (!foIssue.getSubIssues().isEmpty()) {
+                coIssue.getFormatOfferingIssues().add(foIssue);
+            }
+        }
+        if (coIssue.getFormatOfferingIssues().isEmpty()) {
+            return null;
+        } else {
+            return coIssue;
+        }
     }
 
     /* (non-Javadoc)

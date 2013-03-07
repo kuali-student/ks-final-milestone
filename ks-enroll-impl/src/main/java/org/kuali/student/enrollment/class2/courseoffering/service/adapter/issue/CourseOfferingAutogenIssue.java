@@ -26,18 +26,18 @@ import java.util.List;
  */
 public class CourseOfferingAutogenIssue {
     private String courseOfferingId;
-    private List<CourseOfferingAutogenSubIssue> subissues;
+    private List<FormatOfferingAutogenIssue> foIssues;
 
     public CourseOfferingAutogenIssue(String courseOfferingId) {
         this.courseOfferingId = courseOfferingId;
-        subissues = new ArrayList<CourseOfferingAutogenSubIssue>();
+        foIssues = new ArrayList<FormatOfferingAutogenIssue>();
     }
 
     public String getCourseOfferingId() {
         return courseOfferingId;
     }
 
-    public List<CourseOfferingAutogenSubIssue> getSubissues() {
-        return subissues;
+    public List<FormatOfferingAutogenIssue> getFormatOfferingIssues() {
+        return foIssues;
     }
 }
