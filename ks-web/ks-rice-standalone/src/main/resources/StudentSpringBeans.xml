@@ -108,6 +108,18 @@
     <!-- Organization Hierarchy Role Type -->
     <bean id="ksOrganizationHierarchyRoleTypeService" class="org.kuali.student.lum.kim.role.type.OrganizationHierarchyRoleTypeService"/>
 
+    <!-- Default all KRAD type services to the original KRAD definition -->
+    <bean id="ksViewPermissionTypeService" class="org.kuali.student.enroll.kim.permission.type.KSViewPermissionTypeServiceImpl"/>
+    <bean id="ksViewActionPermissionTypeService" class="org.kuali.student.enroll.kim.permission.type.KSViewActionPermissionTypeServiceImpl"/>
+    <bean id="ksViewFieldPermissionTypeService" class="org.kuali.student.enroll.kim.permission.type.KSViewFieldPermissionTypeServiceImpl"/>
+    <bean id="ksViewGroupPermissionTypeService" class="org.kuali.student.enroll.kim.permission.type.KSViewGroupPermissionTypeServiceImpl"/>
+
+    <alias name="viewEditModePermissionTypeService" alias="ksViewEditModePermissionTypeService"/>
+    <alias name="viewWidgetPermissionTypeService" alias="ksViewWidgetPermissionTypeService"/>
+    <alias name="viewLineFieldPermissionTypeService" alias="ksViewLineFieldPermissionTypeService"/>
+    <alias name="viewLineActionPermissionTypeService" alias="ksViewLineActionPermissionTypeService"/>
+
+
 	<!-- Hierarchy Derived role -->
 <!--
 	<bean id="ksHierarchyDerivedRoleType" class="org.kuali.student.lum.kim.role.type.HierarchyNodeTestRoleTypeServiceBase" />
