@@ -7122,3 +7122,28 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('CHEM475','CHEM','cd25f094-ec70-47ad-be7e-97c79deb7ed4','Water in the Environment','400','6a75c55a-cc6a-4da8-ad98-7977d59e6eeb','Water in the Environment','Active','475','kuali.lu.type.CreditCourse.identifier.official',3)
 /
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('CHEM740','CHEM','02e394a0-1862-4483-bcb6-cbfbf8fd7b9c','Organic Electronic and Photonic Materials/Polymers','700','7701fcfe-796d-44a8-8675-c714041d80d7','Organic Electronic and P','Active','740','kuali.lu.type.CreditCourse.identifier.official',2)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('CHEM710','CHEM','55e34e16-02f9-41c8-a1bb-1fd8b79a795b','Quantitative Analysis','700','7960fd9d-1d81-453d-9ae2-28178001ec2b','Quantitative Analysis','Active','710','kuali.lu.type.CreditCourse.identifier.official',2)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('CHEM430','CHEM','045d4257-33d0-4135-be39-d772abc78f86','Biotransport II','400','c90bb41b-111e-4796-b502-1c04b6b5bede','Biotransport II','Active','430','kuali.lu.type.CreditCourse.identifier.official',3)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('CHEM655','CHEM','352acf00-3935-479d-8876-51477da0217e','Organic Electronic and Photonic Materials/Polymers','600','6e01c58d-0e4e-49f3-98a7-2c72ea6f041b','Organic Electronic and P','Active','655','kuali.lu.type.CreditCourse.identifier.official',3)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('PHYS770','PHYS','7230988d-c289-4719-baa6-6114a815731c','Nonlinear Dynamics and Chaos','700','3cc60fd0-1dbd-4926-9fda-707f7635faa9','Nonlinear Ds and C','Active','770','kuali.lu.type.CreditCourse.identifier.official',2)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('CHEM310','CHEM','80316500-ceff-45e9-9dcf-c7469975dfb4','Quantitative Analysis','300','78cfe550-c224-44d7-a296-8c957668e5c2','Quantitative Analysis','Active','310','kuali.lu.type.CreditCourse.identifier.official',3)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('PHYS470','PHYS','f5a10ebf-ae36-47f9-9af5-894959e94496','Nonlinear Dynamics and Chaos','400','c1cc7dc6-a862-4997-b696-6318cff9c8a9','Nonlinear D and C','Active','470','kuali.lu.type.CreditCourse.identifier.official',3)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('BSCI400','BSCI','7e49d8ea-17aa-4f15-8200-af52070e9b98','Biotransport II','400','b10ba7e0-2538-41f8-98b6-ce648ba6f93c','Biotransport II','Active','400','kuali.lu.type.CreditCourse.identifier.official',3)
+/
+
