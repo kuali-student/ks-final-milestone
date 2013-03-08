@@ -340,7 +340,11 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
                 aoCount++;
             }
-            _RCO_rolloverActivityOfferingClusters(sourceFo, targetFo, context, sourceAoIdToTargetAoId);
+            List<ActivityOfferingClusterInfo> targetClusters =
+                    _RCO_rolloverActivityOfferingClusters(sourceFo, targetFo, context, sourceAoIdToTargetAoId);
+            for (ActivityOfferingClusterInfo cluster: targetClusters) {
+                // TODO (KSENROLL-5800): Call generateRegistrationGroupsForCluster on cluster
+            }
         }
         SocRolloverResultItemInfo item = new SocRolloverResultItemInfo();
         item.setSourceCourseOfferingId(sourceCoId);
@@ -424,7 +428,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return targetCluster;
     }
 
-    private void _RCO_rolloverActivityOfferingClusters(FormatOfferingInfo sourceFo, FormatOfferingInfo targetFo,
+    private List<ActivityOfferingClusterInfo>
+    _RCO_rolloverActivityOfferingClusters(FormatOfferingInfo sourceFo, FormatOfferingInfo targetFo,
                                                        ContextInfo context,
                                                        Map<String, String> sourceAoIdToTargetAoId)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException,
@@ -433,11 +438,15 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
         List<ActivityOfferingClusterInfo> sourceClusterList =
                 coService.getActivityOfferingClustersByFormatOffering(sourceFo.getId(), context);
+        List<ActivityOfferingClusterInfo> targetClusterList = new ArrayList<ActivityOfferingClusterInfo>();
         for (ActivityOfferingClusterInfo sourceCluster: sourceClusterList) {
             ActivityOfferingClusterInfo targetCluster =
                     _RCO_createTargetClusterInfo(sourceCluster, targetFo.getId(), sourceAoIdToTargetAoId);
-            coService.createActivityOfferingCluster(targetFo.getId(), targetCluster.getTypeKey(), targetCluster, context);
+            ActivityOfferingClusterInfo created =
+                    coService.createActivityOfferingCluster(targetFo.getId(), targetCluster.getTypeKey(), targetCluster, context);
+            targetClusterList.add(created);
         }
+        return targetClusterList;
     }
 
     @Override
