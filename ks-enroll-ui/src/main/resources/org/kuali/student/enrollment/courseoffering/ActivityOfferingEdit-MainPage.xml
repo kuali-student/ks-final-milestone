@@ -85,7 +85,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:label="This activity is co-located" p:fieldLabel.renderColon="false" p:propertyName="colocatedAO"
-                      p:id="is_co_located" p:componentSecurity.editAuthz="true">
+                      p:id="is_co_located">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
                             <property name="onChangeScript" value="setupColoCheckBoxChange(this)"/>
