@@ -183,9 +183,15 @@
                     <property name="label" value="Label"/>
                     <property name="items">
                        <list>
-                           <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false">
-                               <property name="inquiry">
-                                   <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
+                           <bean parent="KS-HorizontalBoxGroup-WithRPadding-5px">
+                               <property name="items">
+                                <list>
+                                   <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false">
+                                       <property name="inquiry">
+                                           <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
+                                       </property>
+                                   </bean>
+                                </list>
                                </property>
                            </bean>
                            <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}" p:image.altText="@{#lp.colocatedAoInfoUI}"
