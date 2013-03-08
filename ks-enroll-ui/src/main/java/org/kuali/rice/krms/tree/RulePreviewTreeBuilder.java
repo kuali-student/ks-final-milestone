@@ -19,6 +19,6 @@ public class RulePreviewTreeBuilder extends RuleViewTreeBuilder {
     protected String buildNodeLabel(RuleDefinitionContract rule, PropositionDefinitionContract prop){
         //Build the node label.
         String prefix = this.getPropositionPrefix((RuleEditor)rule, (PropositionEditor)prop);
-        return prefix + StringEscapeUtils.escapeHtml(prop.getDescription());
+        return prefix + StringEscapeUtils.escapeHtml(this.getDescription(prop));
     }
 }

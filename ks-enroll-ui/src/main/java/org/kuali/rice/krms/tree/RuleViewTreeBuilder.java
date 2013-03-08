@@ -50,7 +50,7 @@ public class RuleViewTreeBuilder extends AbstractTreeBuilder{
             newNode.setNodeLabel(this.buildNodeLabel(rule, prop));
             newNode.setNodeType("subruleElement");
 
-            TreeNode tNode = new TreeNode(prop.getDescription());
+            TreeNode tNode = new TreeNode(this.getDescription(prop));
             newNode.setData(tNode);
             currentNode.getChildren().add(newNode);
 

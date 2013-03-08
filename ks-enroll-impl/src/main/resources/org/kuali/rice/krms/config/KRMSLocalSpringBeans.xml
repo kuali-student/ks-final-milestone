@@ -171,20 +171,35 @@
   </bean>
 
     <bean id="ruleManagementService" class="org.kuali.rice.krms.impl.repository.RuleManagementServiceImpl">
-        <!-- property name="templater" ref="propositionTemplater"/ -->
+        <property name="templater" ref="propositionTemplater"/>
         <property name="businessObjectService" ref="businessObjectService"/>
         <property name="criteriaLookupService" ref="criteriaLookupService" />
     </bean>
 
-    <!-- bean id="propositionTemplater"
+    <bean id="propositionTemplater"
           class="org.kuali.rice.krms.impl.repository.language.PropositionNaturalLanguageTemplater">
         <property name="termBoService" ref="termBoService"/>
         <property name="krmsTypeRepositoryService" ref="krmsTypeRepositoryService"/>
         <property name="contextRegistry" ref="contextRegistry"/>
-    </bean -->
+    </bean>
+
+    <bean id="basicContext" class="org.kuali.student.krms.naturallanguage.config.context.BasicContextImpl">
+    </bean>
+    <bean id="luContext" class="org.kuali.student.krms.naturallanguage.config.context.CluContextImpl">
+    </bean>
+    <bean id="lrcContext" class="org.kuali.student.krms.naturallanguage.config.context.LrcContextImpl">
+    </bean>
+    <bean id="gpaContext" class="org.kuali.student.krms.naturallanguage.config.context.GpaContextImpl">
+    </bean>
+    <bean id="personContext" class="org.kuali.student.krms.naturallanguage.config.context.PersonContextImpl">
+    </bean>
+    <bean id="orgContext" class="org.kuali.student.krms.naturallanguage.config.context.OrganizationContextImpl">
+    </bean>
+    <bean id="atpContext" class="org.kuali.student.krms.naturallanguage.config.context.AtpContextImpl">
+    </bean>
 
     <!-- TODO this contextRegistry should be part of KS -->
-    <!-- bean id="contextRegistry"
+    <bean id="contextRegistry"
           class="org.kuali.student.r2.core.krms.naturallanguage.ContextRegistry">
         <constructor-arg>
             <map>
@@ -412,5 +427,5 @@
                 </entry>
             </map>
         </constructor-arg>
-    </bean -->
+    </bean>
 </beans>

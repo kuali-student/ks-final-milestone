@@ -40,7 +40,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
      * This method builds a propositionTree recursively walking through the children of the proposition.
      *
      * @param sprout - parent tree node
-     * @param proposition   - PropositionBo for which to make the tree node
+     * @param prop   - PropositionBo for which to make the tree node
      */
     private void addChildNode(RuleEditor rule, Node sprout, PropositionEditor prop) {
         // Depending on the type of proposition (simple/compound), and the editMode,
@@ -100,7 +100,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
     private String buildNodeLabel(RuleEditor rule, PropositionEditor prop) {
         //Build the node label.
         String prefix = this.getPropositionPrefix(rule, prop);
-        return prefix + StringEscapeUtils.escapeHtml(prop.getDescription());
+        return prefix + StringEscapeUtils.escapeHtml(this.getDescription(prop));
     }
 
     /**
