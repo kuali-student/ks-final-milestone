@@ -31,7 +31,6 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class NaturalLanguageTemplateBoMockService implements NaturalLanguageTemplateBoService {
-    //public NaturalLanguageTemplateContract naturalLanguageTemplateContract = KRMSDataGenerator.createNaturalLanguageTemplate("en","1000",null,"May not repeat any of (MATH140, MATH241)",null,"10002",true,0L);
 
     @Override
     public NaturalLanguageTemplate createNaturalLanguageTemplate(NaturalLanguageTemplate naturalLanguageTemplate) {
@@ -77,7 +76,7 @@ public class NaturalLanguageTemplateBoMockService implements NaturalLanguageTemp
             naturalLanguageTemplateContract = KRMSDataGenerator.createNaturalLanguageTemplate(languageCode,naturalLanguageUsageId,typeId,"Student must have completed none of MATH 152, MATH 221",null,"10002",true,0L);
             return NaturalLanguageTemplate.Builder.create(naturalLanguageTemplateContract).build();
         }else{
-            naturalLanguageTemplateContract = KRMSDataGenerator.createNaturalLanguageTemplate(languageCode,naturalLanguageUsageId,typeId,"Student needs a minimum GPA of 70.0%",null,"10002",true,0L);
+            naturalLanguageTemplateContract = KRMSDataGenerator.createNaturalLanguageTemplate(languageCode,naturalLanguageUsageId,typeId,"Student needs a minimum GPA of 3.0",null,"10002",true,0L);
             return NaturalLanguageTemplate.Builder.create(naturalLanguageTemplateContract).build();
         }
     }
