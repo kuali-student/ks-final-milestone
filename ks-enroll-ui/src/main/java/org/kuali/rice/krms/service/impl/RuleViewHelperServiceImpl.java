@@ -12,21 +12,15 @@ import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.rice.krms.api.KrmsApiServiceLocator;
-import org.kuali.rice.krms.api.engine.expression.ComparisonOperatorService;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
-import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-import org.kuali.rice.krms.impl.repository.NaturalLanguageTemplateBoService;
-import org.kuali.rice.krms.impl.repository.NaturalLanguageUsageBoService;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.rice.krms.impl.util.KrmsImplConstants;
-import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
@@ -342,11 +336,11 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
     public String getDescriptionForTypeId(String typeId) {
 
-        NaturalLanguageUsage usage = getNaturalLanguageUsageBoService().getNaturalLanguageUsageByName(PermissionServiceConstants.KS_SYS_NAMESPACE, KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION);
+        NaturalLanguageUsage usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION, PermissionServiceConstants.KS_SYS_NAMESPACE);
 
         NaturalLanguageTemplate template = null;
         try {
-            template = getNaturalLanguageTemplateBoService().findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId("en", typeId, usage.getId());
+            template = this.getRuleManagementService().findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId("en", typeId, usage.getId());
         } catch (IndexOutOfBoundsException e) {
             //Ignore, rice error in NaturalLanguageTemplateBoServiceImpl line l
         }
@@ -441,18 +435,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             if (propConstant != null) {
                 proposition.getParameters().get(1).setValue(null);
             }
-        } else if (!StringUtils.isBlank(termId)) {
-            // validate that the constant value is comparable against the term
-            String termType = lookupTermType(termId);
-            ComparisonOperatorService comparisonOperatorService = KrmsApiServiceLocator.getComparisonOperatorService();
-            if (comparisonOperatorService.canCoerce(termType, propConstant)) {
-                if (comparisonOperatorService.coerce(termType, propConstant) == null) { // HMM, what if we wanted a rule that
-                    // checked a null value?
-                    GlobalVariables.getMessageMap().putError(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                            "error.rule.proposition.simple.invalidValue", proposition.getDescription(), propConstant);
-                    result &= false;
-                }
-            }
         }
 
         if (!CollectionUtils.isEmpty(proposition.getCompoundComponents())) {
@@ -522,30 +504,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         return result;
     }
 
-    /**
-     * Lookup the {@link org.kuali.rice.krms.api.repository.term.TermSpecificationDefinitionContract} type.
-     *
-     * @param key krms_term_t key
-     * @return String the krms_term_spec_t TYP for the given krms_term_t key given
-     */
-    private String lookupTermType(String key) {
-        TermSpecificationDefinition termSpec = null;
-        if (key.startsWith(KrmsImplConstants.PARAMETERIZED_TERM_PREFIX)) {
-            String termSpecificationId = key.substring(KrmsImplConstants.PARAMETERIZED_TERM_PREFIX.length());
-            termSpec = KrmsRepositoryServiceLocator.getTermBoService().getTermSpecificationById(termSpecificationId);
-        } else {
-            TermDefinition term = KrmsRepositoryServiceLocator.getTermBoService().getTerm(key);
-            if (term != null) {
-                termSpec = term.getSpecification();
-            }
-        }
-        if (termSpec != null) {
-            return termSpec.getType();
-        } else {
-            return null;
-        }
-    }
-
     @Override
     public void refreshInitTrees(RuleEditor rule) {
         // Refresh the editing tree
@@ -559,7 +517,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original) {
 
         //Get the CLU Tree.
-        RuleDefinitionContract compare = KrmsRepositoryServiceLocator.getRuleBoService().getRuleByRuleId("10063");
+        RuleDefinitionContract compare = this.getRuleManagementService().getRule("10063");
 
         //Build the Tree
         Tree<CompareTreeNode, String> compareTree = this.getCompareTreeBuilder().buildTree(original, compare);
@@ -587,7 +545,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             ruleEditor.setLogicArea(PropositionTreeUtil.configureLogicExpression((PropositionEditor) ruleEditor.getProposition()));
         }
     }
-
 
     public RuleManagementService getRuleManagementService() {
         if (ruleManagementService == null) {
@@ -639,14 +596,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(OrganizationServiceConstants.NAMESPACE, OrganizationServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return organizationService;
-    }
-
-    private NaturalLanguageUsageBoService getNaturalLanguageUsageBoService() {
-        return KsKrmsRepositoryServiceLocator.getNaturalLanguageUsageBoService();
-    }
-
-    private NaturalLanguageTemplateBoService getNaturalLanguageTemplateBoService() {
-        return KsKrmsRepositoryServiceLocator.getNaturalLanguageTemplateBoService();
     }
 
     private TemplateRegistry getTemplateRegistry() {

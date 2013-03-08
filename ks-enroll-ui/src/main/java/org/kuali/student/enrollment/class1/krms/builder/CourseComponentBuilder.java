@@ -6,7 +6,10 @@ import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.HashMap;
@@ -22,7 +25,7 @@ import java.util.Map;
  */
 public class CourseComponentBuilder implements ComponentBuilder {
 
-    private CluService cluService;
+    private CourseService courseService;
 
     private static final String CLU_KEY = "kuali.reqComponent.field.type.course.clu.id";
 
@@ -33,11 +36,11 @@ public class CourseComponentBuilder implements ComponentBuilder {
 
     @Override
     public void resolveTermParameters(PropositionEditor propositionEditor, Map<String, String> termParameters) {
-        String cluId = termParameters.get(CLU_KEY);
-        if (cluId != null) {
+        String courseId = termParameters.get(CLU_KEY);
+        if (courseId != null) {
             try {
-                CluInfo cluInfo = this.getCluService().getClu(cluId, ContextUtils.getContextInfo());
-                propositionEditor.setCluInfo(cluInfo);
+                CourseInfo courseInfo = this.getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
+                propositionEditor.setCourseInfo(courseInfo);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -48,16 +51,16 @@ public class CourseComponentBuilder implements ComponentBuilder {
     @Override
     public Map<String, String> buildTermParameters(PropositionEditor propositionEditor) {
         Map<String, String> termParameters = new HashMap<String, String>();
-        if (propositionEditor.getCluInfo() != null){
-            termParameters.put(CLU_KEY, propositionEditor.getCluInfo().getId());
+        if (propositionEditor.getCourseInfo() != null){
+            termParameters.put(CLU_KEY, propositionEditor.getCourseInfo().getId());
         }
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return termParameters;
     }
 
-    protected CluService getCluService() {
-        if (cluService == null) {
-            cluService = (CluService) GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
+    protected CourseService getCourseService() {
+        if (courseService == null) {
+            courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, CourseServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
-        return cluService;
+        return courseService;
     }
 }

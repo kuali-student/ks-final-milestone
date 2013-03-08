@@ -45,7 +45,7 @@
         </property>
     </bean-->
 
-    <bean id="KRMS-SingleCourse-SuggestField-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.clu" p:label="Course" p:required="true">
+    <bean id="KRMS-SingleCourse-SuggestField-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.courseInfo.code" p:label="Course" p:required="true">
         <!--property name="suggest">
             <bean parent="KRMS-Course-SuggestControl"/>
         </property-->

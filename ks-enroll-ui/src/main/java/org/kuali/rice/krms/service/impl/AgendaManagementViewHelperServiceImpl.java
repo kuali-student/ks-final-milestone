@@ -3,6 +3,7 @@ package org.kuali.rice.krms.service.impl;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
@@ -10,7 +11,6 @@ import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.impl.repository.AgendaBoService;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-import org.kuali.rice.krms.impl.repository.RuleBoService;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.TemplateInfo;
@@ -57,7 +57,7 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
 
     private void setupRulePreview(AgendaManagementForm form, List<String> ruleIds) {
         for(String ruleId : ruleIds) {
-            RuleDefinition ruleDefinition = getRuleBoService().getRuleByRuleId(ruleId);
+            RuleDefinition ruleDefinition = this.getRuleManagementService().getRule(ruleId);
             RuleEditor ruleEditor = new RuleEditor(ruleDefinition);
             KrmsTypeDefinition ruleType = getKrmsTypeRepositoryService().getTypeById(ruleDefinition.getTypeId());
             if(ruleType.getName().equals(KSKRMSConstants.STUD_ELIGIBILITY_RYLE_TYPE)) {
@@ -155,10 +155,6 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
         return KrmsRepositoryServiceLocator.getAgendaBoService();
     }
 
-    private RuleBoService getRuleBoService() {
-        return KrmsRepositoryServiceLocator.getRuleBoService();
-    }
-
     private KrmsTypeRepositoryService getKrmsTypeRepositoryService() {
         return KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService();
     }
@@ -171,9 +167,9 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
         return previewTreeBuilder;
     }
 
-    private RuleManagementService getRuleManagementService() {
+    public RuleManagementService getRuleManagementService() {
         if (ruleManagementService == null) {
-            //ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
+            ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "ruleManagementService"));
         }
         return ruleManagementService;
     }

@@ -1,21 +1,22 @@
 package org.kuali.rice.krms.keyvalues;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krms.api.KrmsConstants;
+import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-import org.kuali.rice.krms.impl.repository.NaturalLanguageTemplateBoService;
-import org.kuali.rice.krms.impl.repository.NaturalLanguageUsageBoService;
-import org.kuali.rice.krms.impl.repository.TypeTypeRelationBoService;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsRepositoryServiceLocator;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 
+import javax.xml.namespace.QName;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,18 +25,20 @@ public class RequisiteAgendaTypeKeyValues implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private transient RuleManagementService ruleManagementService;
+
     public List<KeyValue> getKeyValues(String agendaId) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        NaturalLanguageUsage usage = getNaturalLanguageUsageBoService().getNaturalLanguageUsageByName(PermissionServiceConstants.KS_SYS_NAMESPACE, KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION);
+        NaturalLanguageUsage usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION, PermissionServiceConstants.KS_SYS_NAMESPACE);
 
         //Use KRMS Type Repository Service to get Agenda Types
         try {
-            List<TypeTypeRelation> typeTypeRelationList = getTypeTypeRelationBoService().findTypeTypeRelationsByFromType(agendaId);
+            List<TypeTypeRelation> typeTypeRelationList = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(agendaId);
             for (TypeTypeRelation typeTypeRelation : typeTypeRelationList) {
                 NaturalLanguageTemplate template = null;
                 try{
-                    template = getNaturalLanguageTemplateBoService().findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId("en", typeTypeRelation.getToTypeId(), usage.getId());
+                    template = this.getRuleManagementService().findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId("en", typeTypeRelation.getToTypeId(), usage.getId());
                 }catch (IndexOutOfBoundsException e){
                     //Ignore, rice error in NaturalLanguageTemplateBoServiceImpl line l
                 }
@@ -56,15 +59,10 @@ public class RequisiteAgendaTypeKeyValues implements Serializable {
         return KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService();
     }
 
-    public TypeTypeRelationBoService getTypeTypeRelationBoService() {
-        return KrmsRepositoryServiceLocator.getTypeTypeRelationBoService();
-    }
-
-    private NaturalLanguageUsageBoService getNaturalLanguageUsageBoService() {
-        return KsKrmsRepositoryServiceLocator.getNaturalLanguageUsageBoService();
-    }
-
-    private NaturalLanguageTemplateBoService getNaturalLanguageTemplateBoService() {
-        return KsKrmsRepositoryServiceLocator.getNaturalLanguageTemplateBoService();
+    public RuleManagementService getRuleManagementService() {
+        if (ruleManagementService == null) {
+            ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "ruleManagementService"));
+        }
+        return ruleManagementService;
     }
 }

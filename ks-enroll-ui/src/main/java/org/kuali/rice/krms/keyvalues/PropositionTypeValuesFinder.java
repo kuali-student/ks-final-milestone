@@ -15,25 +15,26 @@
  */
 package org.kuali.rice.krms.keyvalues;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.InquiryForm;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krms.api.KrmsConstants;
+import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-import org.kuali.rice.krms.impl.repository.NaturalLanguageTemplateBoService;
-import org.kuali.rice.krms.impl.repository.NaturalLanguageUsageBoService;
-import org.kuali.rice.krms.impl.repository.TypeTypeRelationBoService;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsRepositoryServiceLocator;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -42,6 +43,8 @@ import java.util.List;
  * Helper class that returns all agenda types that are valid for a given context.
  */
 public class PropositionTypeValuesFinder extends UifKeyValuesFinderBase {
+
+    private transient RuleManagementService ruleManagementService;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
@@ -62,15 +65,15 @@ public class PropositionTypeValuesFinder extends UifKeyValuesFinderBase {
             ruleTypeId = ((RuleEditor) dataObject).getTypeId();
         }
 
-        NaturalLanguageUsage usage = getNaturalLanguageUsageBoService().getNaturalLanguageUsageByName(PermissionServiceConstants.KS_SYS_NAMESPACE, KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION);
+        NaturalLanguageUsage usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION, PermissionServiceConstants.KS_SYS_NAMESPACE);
 
         // if we have an agenda w/ a selected context
-        Collection<TypeTypeRelation> typeRelations = getTypeTypeRelationBoService().findTypeTypeRelationsByFromType(ruleTypeId);
+        Collection<TypeTypeRelation> typeRelations = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(ruleTypeId);
         for (TypeTypeRelation typeRelation : typeRelations) {
 
             NaturalLanguageTemplate template = null;
             try{
-                template = getNaturalLanguageTemplateBoService().findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId("en", typeRelation.getToTypeId(), usage.getId());
+                template = this.getRuleManagementService().findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId("en", typeRelation.getToTypeId(), usage.getId());
             }catch (IndexOutOfBoundsException e){
                 //Ignore, rice error in NaturalLanguageTemplateBoServiceImpl line l
             }
@@ -91,16 +94,11 @@ public class PropositionTypeValuesFinder extends UifKeyValuesFinderBase {
         return KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService();
     }
 
-    private TypeTypeRelationBoService getTypeTypeRelationBoService() {
-        return KrmsRepositoryServiceLocator.getTypeTypeRelationBoService();
-    }
-
-    private NaturalLanguageUsageBoService getNaturalLanguageUsageBoService() {
-        return KsKrmsRepositoryServiceLocator.getNaturalLanguageUsageBoService();
-    }
-
-    private NaturalLanguageTemplateBoService getNaturalLanguageTemplateBoService() {
-        return KsKrmsRepositoryServiceLocator.getNaturalLanguageTemplateBoService();
+    public RuleManagementService getRuleManagementService() {
+        if (ruleManagementService == null) {
+            ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "ruleManagementService"));
+        }
+        return ruleManagementService;
     }
 
 }

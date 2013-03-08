@@ -32,14 +32,7 @@ import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.framework.type.ActionTypeService;
 import org.kuali.rice.krms.framework.type.AgendaTypeService;
 import org.kuali.rice.krms.impl.authorization.AgendaAuthorizationService;
-import org.kuali.rice.krms.impl.repository.ActionBo;
-import org.kuali.rice.krms.impl.repository.AgendaBo;
-import org.kuali.rice.krms.impl.repository.AgendaBoService;
-import org.kuali.rice.krms.impl.repository.AgendaItemBo;
-import org.kuali.rice.krms.impl.repository.ContextBoService;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-import org.kuali.rice.krms.impl.repository.RuleBo;
-import org.kuali.rice.krms.impl.repository.RuleBoService;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 
@@ -86,30 +79,7 @@ public class RuleEditorBusRule extends MaintenanceDocumentRuleBase {
         // in the DB.
         else if (document.isNew()) {
 
-            // TODO: when/if we have standard support for DO retrieval, do this check for DO's
-            if (newDataObject instanceof PersistableBusinessObject) {
-
-                // get a map of the pk field names and values
-                Map<String, ?> newPkFields = getDataObjectMetaDataService().getPrimaryKeyFieldValues(newDataObject);
-
-                // TODO: Good suggestion from Aaron, dont bother checking the DB, if all of the
-                // objects PK fields dont have values. If any are null or empty, then
-                // we're done. The current way wont fail, but it will make a wasteful
-                // DB call that may not be necessary, and we want to minimize these.
-
-                // attempt to do a lookup, see if this object already exists by these Primary Keys
-                PersistableBusinessObject testBo = getBoService()
-                        .findByPrimaryKey(dataObjectClass.asSubclass(PersistableBusinessObject.class), newPkFields);
-
-                // if the retrieve was successful, then this object already exists, and we need
-                // to complain
-                if (testBo != null) {
-                    putDocumentError(KRADConstants.DOCUMENT_ERRORS,
-                            RiceKeyConstants.ERROR_DOCUMENT_MAINTENANCE_KEYS_ALREADY_EXIST_ON_CREATE_NEW,
-                            getHumanReadablePrimaryKeyFieldNames(dataObjectClass));
-                    success &= false;
-                }
-            }
+            // TODO: check for valid primary keys.
         }
 
         return success;
@@ -117,43 +87,6 @@ public class RuleEditorBusRule extends MaintenanceDocumentRuleBase {
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        return true;
-    }
-
-    /**
-     * Check if a rule with that name exists already in the namespace.
-     * @param rule
-     * @parm agenda
-     * @return true if rule name is unique, false otherwise
-     */
-    private boolean validateRuleName(RuleBo rule, AgendaBo agenda) {
-        if (StringUtils.isBlank(rule.getName())) {
-            this.putFieldError(KRMSPropertyConstants.Rule.NAME, "error.rule.invalidName");
-            return false;
-        }
-        // check current bo for rules (including ones that aren't persisted to the database)
-        for (AgendaItemBo agendaItem : agenda.getItems()) {
-            if (!StringUtils.equals(agendaItem.getRule().getId(), rule.getId()) && StringUtils.equals(agendaItem.getRule().getName(), rule.getName())
-                    && StringUtils.equals(agendaItem.getRule().getNamespace(), rule.getNamespace())) {
-                this.putFieldError(KRMSPropertyConstants.Rule.NAME, "error.rule.duplicateName");
-                return false;
-            }
-        }
-
-        // check database for rules used with other agendas - the namespace might not yet be specified on new agendas.
-        if (StringUtils.isNotBlank(rule.getNamespace())) {
-            RuleDefinition ruleFromDatabase = getRuleBoService().getRuleByNameAndNamespace(rule.getName(), rule.getNamespace());
-            try {
-                if ((ruleFromDatabase != null) && !StringUtils.equals(ruleFromDatabase.getId(), rule.getId())) {
-                    this.putFieldError(KRMSPropertyConstants.Rule.NAME, "error.rule.duplicateName");
-                    return false;
-                }
-            }
-            catch (IllegalArgumentException e) {
-                this.putFieldError(KRMSPropertyConstants.Rule.NAME, "error.rule.invalidName");
-                return false;
-            }
-        }
         return true;
     }
 
@@ -205,18 +138,6 @@ public class RuleEditorBusRule extends MaintenanceDocumentRuleBase {
             this.putFieldError(KRMSPropertyConstants.Action.NAME, "error.action.missingName");
             return false;
         }
-    }
-
-    public ContextBoService getContextBoService() {
-        return KrmsRepositoryServiceLocator.getContextBoService();
-    }
-
-    public AgendaBoService getAgendaBoService() {
-        return KrmsRepositoryServiceLocator.getAgendaBoService();
-    }
-
-    public RuleBoService getRuleBoService() {
-        return KrmsRepositoryServiceLocator.getRuleBoService();
     }
 
     public KrmsTypeRepositoryService getKrmsTypeRepositoryService() {

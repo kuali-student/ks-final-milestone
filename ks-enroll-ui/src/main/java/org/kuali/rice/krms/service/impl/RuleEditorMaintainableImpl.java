@@ -37,7 +37,6 @@ import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-import org.kuali.rice.krms.impl.repository.ReferenceObjectBindingBoService;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
@@ -73,7 +72,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
     private static final long serialVersionUID = 1L;
 
-    private transient CluService cluService;
     private transient RuleManagementService ruleManagementService;
     private transient KrmsTypeRepositoryService krmsTypeRepositoryService;
 
@@ -336,13 +334,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                 throw new RuntimeException("Unable to create new line instance for old maintenance object", e);
             }
         }
-    }
-
-    protected CluService getCluService() {
-        if (cluService == null) {
-            cluService = (CluService) GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return cluService;
     }
 
     public RuleManagementService getRuleManagementService() {

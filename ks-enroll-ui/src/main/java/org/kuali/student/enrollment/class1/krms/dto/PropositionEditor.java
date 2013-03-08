@@ -49,11 +49,10 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
     private String type;
     private boolean editMode = false;
 
-    private CluInfo cluInfo;
+    private CourseInfo courseInfo;
     private CluSetInformation cluSet;
     private String multipleCourseType;
     private String gradeScale;
-    private KrmsSuggestDisplay clu;
 
     private String newTermDescription = "new term " + UUID.randomUUID().toString();
 
@@ -204,12 +203,12 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
         this.editMode = editMode;
     }
 
-    public CluInfo getCluInfo() {
-        return cluInfo;
+    public CourseInfo getCourseInfo() {
+        return courseInfo;
     }
 
-    public void setCluInfo(CluInfo cluInfo) {
-        this.cluInfo = cluInfo;
+    public void setCourseInfo(CourseInfo courseInfo) {
+        this.courseInfo = courseInfo;
     }
 
     public String getMultipleCourseType() {
@@ -226,14 +225,6 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
 
     public void setGradeScale(String gradeScale) {
         this.gradeScale = gradeScale;
-    }
-
-    public KrmsSuggestDisplay getClu() {
-        return clu;
-    }
-
-    public void setClu(KrmsSuggestDisplay clu) {
-        this.clu = clu;
     }
 
     public CluSetInformation getCluSet() {
