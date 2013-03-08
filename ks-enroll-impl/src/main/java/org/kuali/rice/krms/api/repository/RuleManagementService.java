@@ -539,6 +539,23 @@ public interface RuleManagementService extends RuleRepositoryService {
     @WebResult(name = "naturalLanguageUsage")
     public NaturalLanguageUsage getNaturalLanguageUsage(@WebParam(name = "id") String id) throws RiceIllegalArgumentException;
 
+
+    /**
+     * Retrieve NaturalLanguageUsage specified by name and namespace
+     *
+     * @param name the name of the natural language usage to retrieve.
+     * @param namespace the namespace that the natural language usage is under.
+     * @return an {@link NaturalLanguageUsage} identified by the given name and namespace.  
+     * A null reference is returned if an invalid or non-existent name and
+     * namespace combination is supplied.
+     * @throws RiceIllegalArgumentException if the either the name or the namespace
+     * is null or blank.
+     */
+    @WebMethod(operationName = "getNaturalLanguageUsageByNameAndNamespace")
+    @WebResult(name = "naturalLanguageUsage")
+    public NaturalLanguageUsage getNaturalLanguageUsageByNameAndNamespace(@WebParam(name = "name") String name, 
+    @WebParam(name = "namespace") String namespace) 
+            throws RiceIllegalArgumentException;
     /**
      * Update NaturalLanguageUsage
      *
@@ -547,7 +564,8 @@ public interface RuleManagementService extends RuleRepositoryService {
      *                                      null or invalid
      */
     @WebMethod(operationName = "updateNaturalLanguageUsage")
-    public void updateNaturalLanguageUsage(@WebParam(name = "naturalLanguageUsage") NaturalLanguageUsage naturalLanguageUsage) throws RiceIllegalArgumentException;
+    public void updateNaturalLanguageUsage(@WebParam(name = "naturalLanguageUsage") NaturalLanguageUsage naturalLanguageUsage) 
+            throws RiceIllegalArgumentException;
 
     /**
      * Delete NaturalLanguageUsage
@@ -634,7 +652,8 @@ public interface RuleManagementService extends RuleRepositoryService {
      */
     @WebMethod(operationName = "getContextByNameAndNamespace")
     @WebResult(name = "context")
-    public ContextDefinition getContextByNameAndNamespace(@WebParam(name = "name") String name, @WebParam(name = "namespace") String namespace) 
+    public ContextDefinition getContextByNameAndNamespace(@WebParam(name = "name") String name, 
+    @WebParam(name = "namespace") String namespace) 
             throws RiceIllegalArgumentException;
     
     //// natural languatge template methods
@@ -770,34 +789,54 @@ public interface RuleManagementService extends RuleRepositoryService {
      *                                      krmsObjectId or language is null or
      *                                      invalid
      */
-    @WebMethod(operationName = "getNaturalLanguageForType")
+    @WebMethod(operationName = "translateNaturalLanguageForObject")
     @WebResult(name = "naturalLanguage")
-    public String getNaturalLanguageForType(@WebParam(name = "naturalLanguageUsageId") String naturalLanguageUsageId,
+    public String translateNaturalLanguageForObject(@WebParam(name = "naturalLanguageUsageId") String naturalLanguageUsageId,
             @WebParam(name = "typeId") String typeId, @WebParam(name = "krmsObjectId") String krmsObjectId,
             @WebParam(name = "languageCode") String languageCode) throws RiceIllegalArgumentException;
 
     
     /**
-     * Translates and retrieves a NaturalLanguage for a given KRMS object (e.g, proposition
-     * or agenda), NaturalLanguage usage type (context) and language into natural language
-     * TODO: Add appropriate caching annotation
-     *
+     * Translates NaturalLanguage for a given proposition, NaturalLanguage usage 
+     * type (context) and language into natural language.
+     * 
+     * This method is used to "preview" the proposition before saving.
+     * 
      * @param naturalLanguageUsageId Natural language usage information
-     * @param typeId    KRMS object type id (for example, could refer to agenda
-     *                  or proposition)
-     * @param krmsObjectId KRMS object identifier
+     * @param propositionDefinintion    proposition to be translated
      * @param languageCode  desired
-     * @return natural language corresponding to the NaturalLanguage usage, KRMS object id, KRMS object type and desired language
-     * @throws RiceIllegalArgumentException if the given naturalLanguageUsageId, typeId,
-     *                                      krmsObjectId or language is null or
+     * @return natural language corresponding to the NaturalLanguage usage, proposition and desired language
+     * @throws RiceIllegalArgumentException if the given naturalLanguageUsageId, proposition,
+     *                                      or language is null or
      *                                      invalid
      */
-    @WebMethod(operationName = "getNaturalLanguageForProposition")
+    @WebMethod(operationName = "translateNaturalLanguageForProposition")
     @WebResult(name = "naturalLanguage")
-    public String getNaturalLanguageForProposition(@WebParam(name = "naturalLanguageUsageId") String naturalLanguageUsageId,
+    public String translateNaturalLanguageForProposition(@WebParam(name = "naturalLanguageUsageId") String naturalLanguageUsageId,
              @WebParam(name = "propositionDefinintion") PropositionDefinition propositionDefinintion, 
             @WebParam(name = "languageCode") String languageCode) 
             throws RiceIllegalArgumentException;
-
+    
+    
+    /**
+     * Translates NaturalLanguage for a given proposition, returning a tree of 
+     * the NaturalLanguage.
+     * 
+     * This method is used to "preview" the proposition in a tree structure before saving.
+     * 
+     * @param naturalLanguageUsageId Natural language usage information
+     * @param propositionDefinintion    proposition to be translated
+     * @param languageCode  desired
+     * @return natural language tree corresponding to the NaturalLanguage usage, proposition and desired language
+     * @throws RiceIllegalArgumentException if the given naturalLanguageUsageId, proposition,
+     *                                      or language is null or
+     *                                      invalid
+     */
+    @WebMethod(operationName = "translateNaturalLanguageTreeForProposition")
+    @WebResult(name = "naturalLanguageTree")
+    public NaturalLanguageTree translateNaturalLanguageTreeForProposition(@WebParam(name = "naturalLanguageUsageId") String naturalLanguageUsageId,
+             @WebParam(name = "propositionDefinintion") PropositionDefinition propositionDefinintion, 
+            @WebParam(name = "languageCode") String languageCode) 
+            throws RiceIllegalArgumentException;
     
 }

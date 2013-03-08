@@ -130,6 +130,20 @@ public final class KrmsTypeBoServiceImpl implements KrmsTypeBoService {
     }
 
     @Override
+    public List<KrmsTypeDefinition> findAllTypesByServiceName(String serviceName) throws RiceIllegalArgumentException {
+        if (StringUtils.isBlank(serviceName)) {
+            throw new RiceIllegalArgumentException("serviceName was a null or blank value");
+        }
+        final Map<String, Object> map = new HashMap<String, Object>();
+        map.put("serviceName", serviceName);
+        map.put("active", Boolean.TRUE);
+
+        Collection<KrmsTypeBo> krmsTypeBos = businessObjectService.findMatching(KrmsTypeBo.class, Collections.unmodifiableMap(map));
+
+        return convertListOfBosToImmutables(krmsTypeBos);
+    }
+
+    @Override
     public List<KrmsTypeDefinition> findAllTypes() {
         final Map<String, Object> map = new HashMap<String, Object>();
         map.put("active", Boolean.TRUE);

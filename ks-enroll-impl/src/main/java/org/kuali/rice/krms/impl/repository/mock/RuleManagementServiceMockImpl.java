@@ -24,6 +24,7 @@ import java.util.Set;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
+import org.kuali.rice.krms.api.repository.NaturalLanguageTree;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
@@ -493,19 +494,27 @@ public class RuleManagementServiceMockImpl implements MockService, RuleManagemen
     }
 
     @Override
-    public String getNaturalLanguageForType(String naturalLanguageUsageId, String typeId, String krmsObjectId, String languageCode)
+    public String translateNaturalLanguageForObject(String naturalLanguageUsageId, String typeId, String krmsObjectId, String languageCode)
             throws RiceIllegalArgumentException {
         // UNKNOWN
         throw new RiceIllegalArgumentException("getNaturalLanguageForType has not been implemented");
     }
 
     @Override
-    public String getNaturalLanguageForProposition(String naturalLanguageUsageId,
+    public String translateNaturalLanguageForProposition(String naturalLanguageUsageId,
             PropositionDefinition propositionDefinintion, String languageCode)
             throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public NaturalLanguageTree translateNaturalLanguageTreeForProposition(String naturalLanguageUsageId, PropositionDefinition propositionDefinintion, String languageCode) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+   
+    
+    
     @Override
     public List<NaturalLanguageUsage> getNaturalLanguageUsagesByNamespace(String namespace) throws RiceIllegalArgumentException {
         List<NaturalLanguageUsage> list = new ArrayList<NaturalLanguageUsage>();
@@ -515,6 +524,18 @@ public class RuleManagementServiceMockImpl implements MockService, RuleManagemen
             }
         }
         return list;
+    }
+
+    @Override
+    public NaturalLanguageUsage getNaturalLanguageUsageByNameAndNamespace(String name, String namespace) throws RiceIllegalArgumentException {
+        for (NaturalLanguageUsage info : naturalLanguageUsageMap.values()) {
+            if (namespace.equals(info.getNamespace())) {
+                if (name.equals(info.getName())) {
+                    return info;
+                }
+            }
+        }
+        return null;
     }
 
     @Override

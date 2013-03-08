@@ -17,13 +17,6 @@ package org.kuali.rice.krms.api.repository.type;
 
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
-import org.kuali.rice.krms.api.KrmsConstants;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-
-import javax.jws.soap.SOAPBinding;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import java.util.List;
 
 public interface KrmsTypeBoService {
@@ -81,6 +74,15 @@ public interface KrmsTypeBoService {
      * @throws IllegalArgumentException if the given namespaceCode is a null or blank value
      */
     List<KrmsTypeDefinition> findAllTypesByNamespace(String namespaceCode)
+        throws RiceIllegalArgumentException;
+    
+   /**
+     * Returns all KRMS types that for a given serviceName.
+     *
+     * @return all KRMS types for a serviceName
+     * @throws IllegalArgumentException if the given serviceName is a null or blank value
+     */
+    List<KrmsTypeDefinition> findAllTypesByServiceName(String serviceName)
         throws RiceIllegalArgumentException;
 
     /**

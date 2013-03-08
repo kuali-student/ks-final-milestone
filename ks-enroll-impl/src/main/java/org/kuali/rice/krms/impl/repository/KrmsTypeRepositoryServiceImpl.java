@@ -4,6 +4,7 @@
  */
 package org.kuali.rice.krms.impl.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
@@ -20,9 +21,9 @@ import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
  * @author nwright
  */
 public class KrmsTypeRepositoryServiceImpl implements KrmsTypeRepositoryService {
-    
-    private KrmsTypeBoService krmsTypeBoService = new KrmsTypeBoServiceImpl ();
-    private TypeTypeRelationBoService typeTypeRelationBoService = new TypeTypeRelationBoServiceImpl ();
+
+    private KrmsTypeBoService krmsTypeBoService = new KrmsTypeBoServiceImpl();
+    private TypeTypeRelationBoService typeTypeRelationBoService = new TypeTypeRelationBoServiceImpl();
 
     @Override
     public KrmsTypeDefinition createKrmsType(KrmsTypeDefinition krmsType) throws RiceIllegalArgumentException, RiceIllegalStateException {
@@ -97,7 +98,6 @@ public class KrmsTypeRepositoryServiceImpl implements KrmsTypeRepositoryService 
     ////
     //// type type relation methods
     ////
-
     @Override
     public TypeTypeRelation createTypeTypeRelation(TypeTypeRelation typeTypeRelation) {
         return typeTypeRelationBoService.createTypeTypeRelation(typeTypeRelation);
@@ -133,12 +133,6 @@ public class KrmsTypeRepositoryServiceImpl implements KrmsTypeRepositoryService 
         return typeTypeRelationBoService.findTypeTypeRelationsByRelationshipType(relationshipType);
     }
 
-    @Override
-    public List<TypeTypeRelation> findTypeTypeRelationsBySequenceNumber(Integer sequenceNumber) {
-        return typeTypeRelationBoService.findTypeTypeRelationsBySequenceNumber(sequenceNumber);
-    }
-    
-    
     /**
      * Sets the businessObjectService property.
      *
@@ -152,5 +146,85 @@ public class KrmsTypeRepositoryServiceImpl implements KrmsTypeRepositoryService 
             ((TypeTypeRelationBoServiceImpl) typeTypeRelationBoService).setBusinessObjectService(businessObjectService);
         }
     }
-    
+
+    @Override
+    public List<KrmsTypeDefinition> findAllTypesByServiceName(String serviceName) throws RiceIllegalArgumentException {
+        return krmsTypeBoService.findAllTypesByServiceName(serviceName);
+    }
+
+    @Override
+    public List<KrmsTypeDefinition> findAllContextTypes() throws RiceIllegalArgumentException {
+        return this.findAllTypesByServiceName(CONTEXT_SERVICE_NAME);
+    }
+
+    @Override
+    public List<KrmsTypeDefinition> findAllAgendaTypes() throws RiceIllegalArgumentException {
+        return this.findAllTypesByServiceName(AGENDA_SERVICE_NAME);
+    }
+
+    @Override
+    public List<KrmsTypeDefinition> findAllRuleTypes() throws RiceIllegalArgumentException {
+        return this.findAllTypesByServiceName(RULE_SERVICE_NAME);
+    }
+
+    @Override
+    public List<KrmsTypeDefinition> findAllPropositionTypes() throws RiceIllegalArgumentException {
+        return this.findAllTypesByServiceName(PROPOSITION_SERVICE_NAME);
+    }
+
+    @Override
+    public List<KrmsTypeDefinition> findAllPropositionParameterTypes() throws RiceIllegalArgumentException {
+        return this.findAllTypesByServiceName(PROPOSITION_PARAMETER_SERVICE_NAME);
+    }
+
+    @Override
+    public List<KrmsTypeDefinition> findAgendaTypesForContextType(String contextTypeId) throws RiceIllegalArgumentException {
+        List<TypeTypeRelation> rels = this.findTypeTypeRelationsByFromType(contextTypeId);
+        List<KrmsTypeDefinition> list = new ArrayList<KrmsTypeDefinition>(rels.size());
+        for (TypeTypeRelation rel : rels) {
+            list.add(this.getTypeById(rel.getToTypeId()));
+        }
+        return list;
+    }
+
+    @Override
+    public List<KrmsTypeDefinition> findAgendaTypesForAgendaType(String agendaTypeId) throws RiceIllegalArgumentException {
+        List<TypeTypeRelation> rels = this.findTypeTypeRelationsByFromType(agendaTypeId);
+        List<KrmsTypeDefinition> list = new ArrayList<KrmsTypeDefinition>(rels.size());
+        for (TypeTypeRelation rel : rels) {
+            list.add(this.getTypeById(rel.getToTypeId()));
+        }
+        return list;
+    }
+
+    @Override
+    public List<KrmsTypeDefinition> findRuleTypesForAgendaType(String agendaTypeId) throws RiceIllegalArgumentException {
+        List<TypeTypeRelation> rels = this.findTypeTypeRelationsByFromType(agendaTypeId);
+        List<KrmsTypeDefinition> list = new ArrayList<KrmsTypeDefinition>(rels.size());
+        for (TypeTypeRelation rel : rels) {
+            list.add(this.getTypeById(rel.getToTypeId()));
+        }
+        return list;
+    }
+
+    @Override
+    public List<KrmsTypeDefinition> findPropositionTypesForRuleType(String ruleTypeId) throws RiceIllegalArgumentException {
+        List<TypeTypeRelation> rels = this.findTypeTypeRelationsByFromType(ruleTypeId);
+        List<KrmsTypeDefinition> list = new ArrayList<KrmsTypeDefinition>(rels.size());
+        for (TypeTypeRelation rel : rels) {
+            list.add(this.getTypeById(rel.getToTypeId()));
+        }
+        return list;
+    }
+
+    @Override
+    public List<KrmsTypeDefinition> findPropositionParameterTypesForPropositionType(String propositionTypeId)
+            throws RiceIllegalArgumentException {
+        List<TypeTypeRelation> rels = this.findTypeTypeRelationsByFromType(propositionTypeId);
+        List<KrmsTypeDefinition> list = new ArrayList<KrmsTypeDefinition>(rels.size());
+        for (TypeTypeRelation rel : rels) {
+            list.add(this.getTypeById(rel.getToTypeId()));
+        }
+        return list;
+    }
 }

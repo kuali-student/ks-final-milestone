@@ -16,7 +16,9 @@
 package org.kuali.rice.krms.api.repository.language;
 
 import java.util.Map;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 
 public interface NaturalLanguageTemplaterContract {
-    public String translate(NaturalLanguageTemplate naturalLanguageTemplate, Map<String,Object>variables);
+    public String translate(NaturalLanguageTemplate naturalLanguageTemplate, Map<String,Object>variables)
+              throws RiceIllegalArgumentException;
 }

@@ -38,6 +38,7 @@ import java.util.Set;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.in;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krms.api.repository.NaturalLanguageTree;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplaterContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameter;
@@ -353,14 +354,21 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
     @Override
     public List<NaturalLanguageUsage> getNaturalLanguageUsagesByNamespace(String namespace)
             throws RiceIllegalArgumentException {
-        return this.naturalLanguageUsageBoService.findNaturalLanguageUsagesByNamespace(null);
+        return this.naturalLanguageUsageBoService.findNaturalLanguageUsagesByNamespace(namespace);
     }
 
+    @Override
+    public NaturalLanguageUsage getNaturalLanguageUsageByNameAndNamespace(String name, String namespace) 
+            throws RiceIllegalArgumentException {
+        return this.naturalLanguageUsageBoService.getNaturalLanguageUsageByName(namespace, name);
+    }  
+    
+    
     ////
     //// natural language translations
     ////
     @Override
-    public String getNaturalLanguageForType(String naturalLanguageUsageId,
+    public String translateNaturalLanguageForObject(String naturalLanguageUsageId,
             String typeId,
             String krmsObjectId,
             String languageCode)
@@ -401,11 +409,11 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
                     + " " + typeId
                     + " " + naturalLanguageUsageId);
         }
-        return this.getNaturalLanguageForProposition(naturalLanguageUsageId, proposition, languageCode);
+        return this.translateNaturalLanguageForProposition(naturalLanguageUsageId, proposition, languageCode);
     }
 
     @Override
-    public String getNaturalLanguageForProposition(String naturalLanguageUsageId,
+    public String translateNaturalLanguageForProposition(String naturalLanguageUsageId,
             PropositionDefinition proposition, String languageCode)
             throws RiceIllegalArgumentException {
 
@@ -419,6 +427,13 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         }
         return templater.translate(naturalLanguageTemplate, contextMap);
     }
+
+    @Override
+    public NaturalLanguageTree translateNaturalLanguageTreeForProposition(String naturalLanguageUsageId, PropositionDefinition propositionDefinintion, String languageCode) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    
 
     ////
     //// context methods
