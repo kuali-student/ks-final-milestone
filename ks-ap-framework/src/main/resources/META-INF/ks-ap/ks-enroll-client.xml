@@ -17,22 +17,25 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	<bean id="ksEnrollCourseOfferingService"
-		class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceNamespace" value="http://student.kuali.org/wsdl/courseOffering" />
-		<property name="serviceName" value="CourseOfferingService" />
+	<bean id="ksEnrollCourseOfferingService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface"
+			value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService" />
+		<property name="serviceQName"
+			value="{http://student.kuali.org/wsdl/courseOffering}CourseOfferingService" />
 	</bean>
 
-	<bean id="ksEnrollAcalService"
-		class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceNamespace" value="http://student.kuali.org/wsdl/acal" />
-		<property name="serviceName" value="AcademicCalendarService" />
+	<bean id="ksEnrollAcalService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface"
+			value="org.kuali.student.enrollment.acal.service.AcademicCalendarService" />
+		<property name="serviceQName"
+			value="{http://student.kuali.org/wsdl/acal}AcademicCalendarService" />
 	</bean>
 
-	<bean id="ksEnrollAcademicRecordService"
-		class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceNamespace" value="http://student.kuali.org/wsdl/academicrecord" />
-		<property name="serviceName" value="AcademicRecordService" />
+	<bean id="ksEnrollAcademicRecordService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface"
+			value="org.kuali.student.enrollment.academicrecord.service.AcademicRecordService" />
+		<property name="serviceQName"
+			value="{http://student.kuali.org/wsdl/academicrecord}AcademicRecordService" />
 	</bean>
 
 </beans>
