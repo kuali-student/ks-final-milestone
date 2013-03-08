@@ -124,8 +124,8 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         if (instructorId != null) {
             //this is a cross service search between LPR and LUI, so it is inefficient (no join)
             //First get all the luiIds that the instructor is teaching
-            //TODO TENTATIVE_STATE_KEY should be active in the code below, but it is hardcoded as such
-            List<String> luiIds = getLprService().getLuiIdsByPersonAndTypeAndState(instructorId, LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, LprServiceConstants.TENTATIVE_STATE_KEY, contextInfo);
+            //Only get active courses
+            List<String> luiIds = getLprService().getLuiIdsByPersonAndTypeAndState(instructorId, LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, LprServiceConstants.ACTIVE_STATE_KEY, contextInfo);
 
             List<String> courseOfferingIds = null;
 
