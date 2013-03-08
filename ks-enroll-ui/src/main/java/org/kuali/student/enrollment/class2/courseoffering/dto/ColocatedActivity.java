@@ -16,6 +16,9 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+
 import java.io.Serializable;
 
 /**
@@ -33,10 +36,10 @@ public class ColocatedActivity implements Serializable {
 
     private boolean isCurrentAO;
 
-    private ColocatedActivityRenderHelper renderHelper;
+    private AOEditRenderHelper renderHelper;
 
     public ColocatedActivity(){
-        renderHelper = new ColocatedActivityRenderHelper();
+        renderHelper = new AOEditRenderHelper();
     }
 
     public String getCourseOfferingCode() {
@@ -88,14 +91,27 @@ public class ColocatedActivity implements Serializable {
        isCurrentAO = currentAO;
     }
 
-    public ColocatedActivityRenderHelper getRenderHelper() {
+    public AOEditRenderHelper getRenderHelper() {
         return renderHelper;
     }
 
-    public class ColocatedActivityRenderHelper implements Serializable{
+    public class AOEditRenderHelper implements Serializable{
+
+        private TermInfo termInfo;
 
         public String getCode(){
             return getCourseOfferingCode() + " " + getActivityOfferingCode();
+        }
+
+        public String getTermId(){
+            if (termInfo != null){
+                return termInfo.getId();
+            }
+            return StringUtils.EMPTY;
+        }
+
+        public void setTermInfo(TermInfo termInfo){
+            this.termInfo = termInfo;
         }
     }
 

@@ -35,7 +35,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public abstract class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl implements CO_AO_RG_ViewHelperService{
+public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl implements CO_AO_RG_ViewHelperService{
 
     protected CourseService courseService;
     protected TypeService typeService;

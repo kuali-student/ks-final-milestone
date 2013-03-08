@@ -90,6 +90,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean colocatedAO;
     private List<ColocatedActivity> colocatedActivities;
     private boolean shareSeats;
+    private int sharedMaxEnrollment;
 
     //This is needed to display the cross listed courses
     private CourseInfo course;
@@ -770,6 +771,14 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setShareSeats(boolean shareSeats) {
         this.shareSeats = shareSeats;
+    }
+
+    public int getSharedMaxEnrollment() {
+        return sharedMaxEnrollment;
+    }
+
+    public void setSharedMaxEnrollment(int sharedMaxEnrollment) {
+        this.sharedMaxEnrollment = sharedMaxEnrollment;
     }
 
     /**

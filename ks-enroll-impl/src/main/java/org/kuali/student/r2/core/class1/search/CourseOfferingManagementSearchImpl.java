@@ -53,6 +53,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         public static final String SUBJECT_AREA = "subjectArea";
         public static final String ATP_ID = "atpId";
         public static final String CROSS_LIST_SEARCH_ENABLED = "crossListSearchEnabled";
+        public static final String IS_EXACT_MATCH_CO_CODE_SEARCH = "isExactMatchSearch";
     }
 
     public static final class SearchResultColumns {
@@ -121,6 +122,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         String searchSubjectArea = requestHelper.getParamAsString(SearchParameters.SUBJECT_AREA);
         String searchAtpId = requestHelper.getParamAsString(SearchParameters.ATP_ID);
         boolean enableCrossListSearch = BooleanUtils.toBoolean(requestHelper.getParamAsString(SearchParameters.CROSS_LIST_SEARCH_ENABLED));
+        boolean isExactMatchSearch = BooleanUtils.toBoolean(requestHelper.getParamAsString(SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH));
 
         SearchResultInfo resultInfo = new SearchResultInfo();
         resultInfo.setStartAt(0);
@@ -162,14 +164,21 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                         "    AND lrc_rvg2 NOT IN ('kuali.resultComponent.grade.audit','kuali.resultComponent.grade.passFail') " +
                         "    AND ident.lui.id IN (SELECT ident_subquery.lui.id FROM LuiIdentifierEntity ident_subquery WHERE ";
 
+        String coCodeSearchString;
+        if (isExactMatchSearch){
+            coCodeSearchString = " ident_subquery.code = '" + searchCourseCode + "' ";
+        } else {
+            coCodeSearchString = " ident_subquery.code like '" + searchCourseCode + "%' ";
+        }
+
         if (StringUtils.isNotBlank(searchSubjectArea)){
             if (StringUtils.isBlank(searchCourseCode)){
                 query = query + " ident_subquery.division = '" + searchSubjectArea + "' ";
             } else {
-                query = query + " ident_subquery.division = '" + searchSubjectArea + "' AND " + " ident_subquery.code like '" + searchCourseCode + "%' ";
+                query = query + " ident_subquery.division = '" + searchSubjectArea + "' AND " + coCodeSearchString;
             }
         } else {
-            query = query + " ident_subquery.code like '" + searchCourseCode + "%' ";
+            query = query + coCodeSearchString;
         }
 
         query = query + ") ORDER BY ident.code";

@@ -140,7 +140,7 @@
             <list>
                 <bean parent="Uif-InputField" p:propertyName="courseOfferingCode" p:fieldLabel.render="false" p:required="true" p:readOnly="@{!#isAddLine}">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10" />
+                        <bean parent="Uif-TextControl" p:size="10" p:watermarkText="ENGL101"/>
                     </property>
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true" p:sourceQueryMethodResults="true">
@@ -157,9 +157,9 @@
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="activityOfferingCode" p:fieldLabel.render="false" p:required="true" p:readOnly="@{!#isAddLine}">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="4" />
+                        <bean parent="Uif-TextControl" p:size="4" p:watermarkText="A"/>
                     </property>
-                    <property name="suggest">
+                    <!--<property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true" p:sourceQueryMethodResults="true">
                           <property name="suggestQuery">
                             <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveActivityOfferingCode"
@@ -171,25 +171,22 @@
                             </map>
                           </property>
                         </bean>
-                    </property>
+                    </property>-->
                     <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
                     <property name="quickfinder.quickfinderAction">
                         <bean parent="Uif-ActionLink" p:actionLabel="Advanced Select" p:style="display:block" p:methodToCall="performLookup"/>
                     </property>
-                    <property name="quickfinder.lightBoxLookup">
-                        <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
-                    </property>
                     <property name="quickfinder.autoSearch" value="true"/>
                     <property name="quickfinder.fieldConversions">
                         <map>
-                            <entry key="aoInfo.activityCode" value="newCollectionLines[&#039;document.newMaintainableObject.dataObject.colocatedActivities&#039;].courseOfferingCode"/>
-                            <entry key="courseOfferingId" value="newCollectionLines[&#039;document.newMaintainableObject.dataObject.colocatedActivities&#039;].coId"/>
-                            <entry key="aoInfo.Id" value="newCollectionLines[&#039;document.newMaintainableObject.dataObject.colocatedActivities&#039;].aoId"/>
+                            <entry key="aoInfo.activityCode" value="activityOfferingCode"/>
+                            <entry key="aoInfo.id" value="aoId"/>
                         </map>
                     </property>
                     <property name="quickfinder.lookupParameters">
                         <map>
-                            <entry key="newCollectionLines[&#039;document.newMaintainableObject.dataObject.colocatedActivities&#039;].courseOfferingCode" value="courseOfferingCode"/>
+                            <entry key="courseOfferingCode" value="courseOfferingCode"/>
+                            <entry key="renderHelper.termId" value="termId"/>
                         </map>
                     </property>
                 </bean>
@@ -200,39 +197,51 @@
     <bean id="ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="aoInfo.maximumEnrollment" p:label="Shared Maximum Enrollment" p:required="true" p:exclusiveMin="0">
+                <bean id="shared_max_enr" parent="Uif-InputField" p:propertyName="sharedMaxEnrollment" p:label="Shared Maximum Enrollment" p:required="true" p:exclusiveMin="0">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="4" />
                     </property>
                 </bean>
+                <bean parent="Uif-Message"
+                      p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;]  Max enrollment is shared by all co-located activities. [br] Any changes made here will update the other activities on save."
+                      p:style="background-color:#C8E4F7; padding-top:4px; padding-bottom:4px;font-size: 110%;border: 1px solid rgb(9, 172, 248);" p:colSpan="2"/>
             </list>
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate" parent="Uif-TableCollectionSection" p:style="width:250px;float:right;">
-        <property name="headerText" value="Combined Maximum Enrollment"/>
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity" />
-        <property name="propertyName" value="colocatedActivities"/>
-        <property name="renderAddLine" value="false"/>
-        <property name="header">
-          <bean parent="Uif-HeaderFour"/>
-        </property>
-        <property name="renderLineActions" value="false"/>
-        <property name="layoutManager.renderSequenceField" value="false"/>
-        <!--<property name="layoutManager.richTable.render" value="false" />-->
-        <property name="layoutManager.columnCalculations">
-              <list>
-                <bean parent="Uif-ColumnCalculationInfo-Sum" p:showGroupTotal="false" p:propertyName="maxEnrollmentCount" p:calculateOnKeyUp="true"/>
-              </list>
-        </property>
+    <bean id="ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="renderHelper.code" p:label="Colocated Activities" p:style="color:green;"/>
-                <bean parent="Uif-InputField" p:propertyName="maxEnrollmentCount" p:label="Max Erollment" p:readOnly="@{!#lp.currentAO}" p:required="true" p:exclusiveMin="0">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="4" />
+                <bean parent="Uif-TableCollectionSection" p:style="width:250px;float:right;">
+                    <property name="headerText" value="Combined Maximum Enrollment"/>
+                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity" />
+                    <property name="propertyName" value="colocatedActivities"/>
+                    <property name="renderAddLine" value="false"/>
+                    <property name="header">
+                      <bean parent="Uif-HeaderFour"/>
+                    </property>
+                    <property name="renderLineActions" value="false"/>
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <!--<property name="layoutManager.richTable.render" value="false" />-->
+                    <property name="layoutManager.columnCalculations">
+                          <list>
+                            <bean parent="Uif-ColumnCalculationInfo-Sum" p:showGroupTotal="false" p:propertyName="maxEnrollmentCount" p:calculateOnKeyUp="true"/>
+                          </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="renderHelper.code" p:label="Colocated Activities" p:style="color:green;"/>
+                            <bean parent="Uif-InputField" p:propertyName="maxEnrollmentCount" p:label="Max Erollment" p:readOnly="@{!#lp.currentAO}" p:required="true" p:exclusiveMin="0">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="4" />
+                                </property>
+                            </bean>
+                        </list>
                     </property>
                 </bean>
+                <bean parent="Uif-Message"
+                      p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;]  The max enrollments for all co-located activities will be combined. Any changes may effect room availability."
+                      p:style="background-color:#C8E4F7; padding-top:4px; padding-bottom:4px;font-size: 110%;border: 1px solid rgb(9, 172, 248);float:center;" p:colSpan="2"/>
             </list>
         </property>
     </bean>
