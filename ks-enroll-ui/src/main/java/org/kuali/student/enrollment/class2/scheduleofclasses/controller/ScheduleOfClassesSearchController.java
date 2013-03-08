@@ -22,13 +22,10 @@ package org.kuali.student.enrollment.class2.scheduleofclasses.controller;
  * @author Kuali Student Team
  */
 
-import org.apache.cxf.common.util.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfClassesViewHelperService;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
@@ -36,10 +33,11 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClas
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -92,8 +90,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
      * Search for course offerings based on search parameters: term and courseCode/Title&Desc/Instructor/Department
      */
     @RequestMapping(params = "methodToCall=show")
-    public ModelAndView show(@ModelAttribute("KualiForm") ScheduleOfClassesSearchForm theForm, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView show(@ModelAttribute("KualiForm") ScheduleOfClassesSearchForm theForm) throws Exception {
 
         //First, find termName based on termCode
         String termCode = theForm.getTermCode();
@@ -155,8 +152,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
     }
 
     @RequestMapping(value = "/populateAjaxAos", method = RequestMethod.GET)
-    public ModelAndView populateAjaxAOs(@ModelAttribute("KualiForm") ScheduleOfClassesSearchForm theForm, BindingResult result,
-                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView populateAjaxAOs(@ModelAttribute("KualiForm") ScheduleOfClassesSearchForm theForm) throws Exception {
 
         String courseOfferingId = theForm.getCourseOfferingId();
 
@@ -181,8 +177,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=populateAOs")
-    public ModelAndView populateAOs(@ModelAttribute("KualiForm") ScheduleOfClassesSearchForm theForm, BindingResult result,
-                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView populateAOs(@ModelAttribute("KualiForm") ScheduleOfClassesSearchForm theForm) throws Exception {
 
         String courseOfferingId = theForm.getCourseOfferingId();
 

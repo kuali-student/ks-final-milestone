@@ -26,7 +26,6 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
@@ -45,11 +44,8 @@ import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
-import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentDisplayInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
-import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -60,7 +56,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class performs queries for scheduling of classes
  *
  * @author Kuali Student Team
  */
@@ -70,8 +66,6 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
 
     private CourseOfferingService coService;
     private LprService lprService;
-    private SchedulingService schedulingService;
-    private RoomService roomService;
     private OrganizationService organizationService;
 
     public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, ScheduleOfClassesSearchForm form) throws Exception{
@@ -174,10 +168,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
             } else if (orgIDs.size() > 1) {
                 LOG.error("Error: There is more than one departments with the same long name in term: " + termId);
                 GlobalVariables.getMessageMap().putError("Term & Department", ScheduleOfClassesConstants.SOC_MSG_ERROR_MULTIPLE_DEPARTMENT_IS_FOUND, organizationName);
-                organizationId = null;
                 form.getCoDisplayWrapperList().clear();
-            } else {
-                organizationId = orgIDs.get(0);
             }
         } else {
             qbcBuilder.setPredicates(PredicateFactory.and(
@@ -221,8 +212,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
 
                 if(aoDisplayInfo.getScheduleDisplay()!=null && !aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().isEmpty()){
                     //TODO handle TBA state
-                    //ScheduleComponentDisplay scheduleComponentDisplay = aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().get(0);
-                    List<ScheduleComponentDisplayInfo> scheduleComponentDisplays = (List<ScheduleComponentDisplayInfo>) aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays();
+                    List<? extends ScheduleComponentDisplay> scheduleComponentDisplays = aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays();
                     for (ScheduleComponentDisplay scheduleComponentDisplay : scheduleComponentDisplays) {
                         if(scheduleComponentDisplay.getBuilding() != null){
                             aoDisplayWrapper.setBuildingName(scheduleComponentDisplay.getBuilding().getBuildingCode(), true);
@@ -358,19 +348,6 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         return lprService;
     }
 
-    public SchedulingService getSchedulingService() {
-        if(schedulingService == null)  {
-            schedulingService = CourseOfferingResourceLoader.loadSchedulingService();
-        }
-        return schedulingService;
-    }
-
-    public RoomService getRoomService(){
-        if (roomService == null){
-            roomService = CourseOfferingResourceLoader.loadRoomService();
-        }
-        return roomService;
-    }
 
     private OrganizationService getOrganizationService(){
         if(organizationService == null) {
