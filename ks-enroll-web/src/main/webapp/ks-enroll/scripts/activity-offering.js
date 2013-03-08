@@ -1,33 +1,44 @@
+/**
+ * This method handles the colocated checkbox event.
+ * @param control colocated checkbox control
+ */
 function setupColoCheckBoxChange(control){
+
     if(jQuery(control).is(":checked")) {
+
         jQuery("#max_enrollment").hide();
         jQuery("#ActivityOfferingEdit-MainPage-CoLocation").show();
-        jQuery("#shared_max_enr_control").removeClass("ignoreValid");
+
+        if(jQuery("#share_seats_control_0").length != 0 && jQuery("#share_seats_control_0").is(":checked")) {
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").hide();
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").show();
+            jQuery("#shared_max_enr_control").removeClass("ignoreValid");
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
+        } else {
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").show();
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").hide();
+            jQuery("#shared_max_enr_control").addClass("ignoreValid");
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").removeClass("ignoreValid");
+        }
     } else {
         jQuery("#max_enrollment").show();
         jQuery("#ActivityOfferingEdit-MainPage-CoLocation").hide();
         jQuery("#shared_max_enr_control").addClass("ignoreValid");
+        jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
     }
 }
 
+/**
+ * This method handles the on load event
+ *
+ */
 function activityEditDocumentOnLoad(){
 
-    if(jQuery("#is_co_located").length != 0 && jQuery("#is_co_located").is(":checked")) {
-        jQuery("#max_enrollment").hide();
-        jQuery("#ActivityOfferingEdit-MainPage-CoLocation").show();
-    } else {
-        jQuery("#max_enrollment").show();
-        jQuery("#ActivityOfferingEdit-MainPage-CoLocation").hide();
-    }
+    jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
+    jQuery("#shared_max_enr_control").addClass("ignoreValid");
 
-    if(jQuery("#share_seats_control_0").length != 0 && jQuery("#share_seats_control_0").is(":checked")) {
-        jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").hide();
-        jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").show();
-        jQuery("#shared_max_enr_control").removeClass("ignoreValid");
-    } else {
-        jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").show();
-        jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").hide();
-        jQuery("#shared_max_enr_control").addClass("ignoreValid");
+    if(jQuery("#is_co_located").length != 0) {
+        setupColoCheckBoxChange(jQuery("#is_co_located"));
     }
 
     if (jQuery("#share_seats_control_0").length != 0){
@@ -36,10 +47,12 @@ function activityEditDocumentOnLoad(){
                 jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").hide();
                 jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").show();
                 jQuery("#shared_max_enr_control").removeClass("ignoreValid");
+                jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
             } else {
                 jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").show();
                 jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").hide();
                 jQuery("#shared_max_enr_control").addClass("ignoreValid");
+                jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").removeClass("ignoreValid");
             }
         });
     }
@@ -50,10 +63,12 @@ function activityEditDocumentOnLoad(){
                 jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").show();
                 jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").hide();
                 jQuery("#shared_max_enr_control").addClass("ignoreValid");
+                jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").removeClass("ignoreValid");
             } else {
                 jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").hide();
                 jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").show();
                 jQuery("#shared_max_enr_control").removeClass("ignoreValid");
+                jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
             }
         });
     }

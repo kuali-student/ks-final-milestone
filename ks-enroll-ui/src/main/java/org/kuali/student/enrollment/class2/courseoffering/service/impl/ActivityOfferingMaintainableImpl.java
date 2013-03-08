@@ -281,7 +281,9 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             ColocatedActivity a = new ColocatedActivity();
             a.setActivityOfferingCode(wrapper.getActivityCode());
             a.setCourseOfferingCode(wrapper.getCourseOfferingCode());
-            a.setMaxEnrollmentCount(wrapper.getAoInfo().getMaximumEnrollment());
+            if (wrapper.getAoInfo().getMaximumEnrollment() != null){
+                a.setMaxEnrollmentCount(wrapper.getAoInfo().getMaximumEnrollment());
+            }
             a.setCurrentAO(true);
             wrapper.getColocatedActivities().add(a);
             a = new ColocatedActivity();
