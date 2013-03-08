@@ -500,7 +500,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                      if(aos != null && !aos.isEmpty()){
                          ToolbarUtil.processAoToolbarForUser(aos, form);
                          for(ActivityOfferingWrapper ao : aos){
-                            if(ao.isEnableDeleteButton()){
+                            if(ao.isEnableApproveButton()){
                                 getCourseOfferingService().changeActivityOfferingState(ao.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
                             }
                         }

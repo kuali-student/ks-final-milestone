@@ -55,6 +55,11 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         TypeInfo typeInfo = getTypeInfo(aoInfo.getTypeKey());
         aoWrapper.setTypeName(typeInfo.getName());
 
+        if(aoInfo.getIsPartOfColocatedOfferingSet()) {
+            String colocateInfo = ViewHelperUtil.createColocatedDisplayData(aoInfo, contextInfo);
+            aoWrapper.setColocatedAoInfo(colocateInfo);
+         }
+
         FormatOfferingInfo fo = getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
         aoWrapper.setFormatOffering(fo);
 
