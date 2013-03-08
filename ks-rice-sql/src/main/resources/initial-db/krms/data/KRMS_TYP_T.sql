@@ -228,3 +228,11 @@ INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
 INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.proposition.type.test.score','KS-SYS','simplePropositionTypeService','10075',0)
 /
+
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.proposition.type.compound.and','KS-SYS','simplePropositionTypeService','10076',0)
+/
+
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.proposition.type.compound.or','KS-SYS','simplePropositionTypeService','10077',0)
+/
