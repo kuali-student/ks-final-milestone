@@ -171,20 +171,20 @@
   </bean>
 
     <bean id="ruleManagementService" class="org.kuali.rice.krms.impl.repository.RuleManagementServiceImpl">
-        <property name="templater" ref="propositionTemplater"/>
+        <!-- property name="templater" ref="propositionTemplater"/ -->
         <property name="businessObjectService" ref="businessObjectService"/>
         <property name="criteriaLookupService" ref="criteriaLookupService" />
     </bean>
 
-    <bean id="propositionTemplater"
+    <!-- bean id="propositionTemplater"
           class="org.kuali.rice.krms.impl.repository.language.PropositionNaturalLanguageTemplater">
         <property name="termBoService" ref="termBoService"/>
         <property name="krmsTypeRepositoryService" ref="krmsTypeRepositoryService"/>
         <property name="contextRegistry" ref="contextRegistry"/>
-    </bean>
+    </bean -->
 
     <!-- TODO this contextRegistry should be part of KS -->
-    <bean id="contextRegistry"
+    <!-- bean id="contextRegistry"
           class="org.kuali.student.r2.core.krms.naturallanguage.ContextRegistry">
         <constructor-arg>
             <map>
@@ -274,14 +274,12 @@
                 </entry>
                 <entry key="kuali.krms.proposition.type.max.limit.courses.at.org.for.program">
                     <list>
-                        <!--<ref bean="luContext"/>     program-->
                         <ref bean="orgContext"/>
                         <ref bean="atpContext"/>
                     </list>
                 </entry>
                 <entry key="kuali.krms.proposition.type.max.limit.courses.at.org.duration.for.program">
                     <list>
-                        <!--<ref bean="luContext"/>    program-->
                         <ref bean="orgContext"/>
                         <ref bean="atpContext"/>
                     </list>
@@ -299,7 +297,6 @@
                 <entry key="kuali.krms.proposition.type.course.credits.repeat.max">
                     <list>
                         <ref bean="luContext"/>
-                        <!--<ref bean="basicContext"/>      ??-->
                     </list>
                 </entry>
                 <entry key="kuali.krms.proposition.type.success.compl.course">
@@ -341,7 +338,6 @@
                 <entry key="kuali.krms.proposition.type.course.offering.drop.instructor.permission.required">
                     <list>
                         <ref bean="luContext"/>
-                        <!--<ref bean="??"/>      permission-->
                     </list>
                 </entry>
                 <entry key="kuali.krms.proposition.type.course.offering.enrolled">
@@ -352,19 +348,16 @@
                 <entry key="kuali.krms.proposition.type.max.limit.courses.for.campus.duration">
                     <list>
                         <ref bean="atpContext"/>
-                        <!--<ref bean="??">          campus-->
                     </list>
                 </entry>
                 <entry key="kuali.krms.proposition.type.max.limit.courses.for.program">
                     <list>
                         <ref bean="luContext"/>
-                        <!--<ref bean="??"/>      program-->
                     </list>
                 </entry>
                 <entry key="kuali.krms.proposition.type.max.limit.credits.for.campus.duration">
                     <list>
                         <ref bean="atpContext"/>
-                        <!--<ref bean="??">          campus-->
                     </list>
                 </entry>
                 <entry key="kuali.krms.proposition.type.no.repeat.course">
@@ -385,13 +378,11 @@
                 <entry key="kuali.krms.proposition.type.success.compl.course.as.of.term">
                     <list>
                         <ref bean="luContext"/>
-                        <!--<ref bean="??">       term-->
                     </list>
                 </entry>
                 <entry key="kuali.krms.proposition.type.success.compl.course.between.terms">
                     <list>
                         <ref bean="luContext"/>
-                        <!--<ref bean="??">       term-->
                     </list>
                 </entry>
                 <entry key="kuali.krms.proposition.type.success.compl.course.offer">
@@ -402,7 +393,6 @@
                 <entry key="kuali.krms.proposition.type.success.compl.prior.to.term">
                     <list>
                         <ref bean="luContext"/>
-                        <!--<ref bean="??">       term-->
                     </list>
                 </entry>
                 <entry key="kuali.krms.proposition.type.course.courseset.enrolled.nof">
@@ -422,5 +412,5 @@
                 </entry>
             </map>
         </constructor-arg>
-    </bean>
+    </bean -->
 </beans>
