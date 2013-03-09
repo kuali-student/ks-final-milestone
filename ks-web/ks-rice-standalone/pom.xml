@@ -156,6 +156,5 @@
             <artifactId>ks-enroll-rice</artifactId>
             <version>${ks.enroll.version}</version>
         </dependency>
-
     </dependencies>
 </project>
