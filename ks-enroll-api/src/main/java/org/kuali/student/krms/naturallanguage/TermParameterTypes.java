@@ -33,9 +33,7 @@ package org.kuali.student.krms.naturallanguage;
  * </p>
  */
 public enum TermParameterTypes {
-	INTEGER_VALUE1_KEY("kuali.term.parameter.type.value.positive.integer"),
-	OPERATOR_KEY("kuali.term.parameter.type.operator"),
-    GPA_KEY("kuali.term.parameter.type.gpa"),
+	GPA_KEY("kuali.term.parameter.type.gpa"),
     TOTAL_CREDIT_KEY("kuali.term.parameter.type.totalCredits"),
 	INCLUSION_FILTER_TYPE_KEY("kuali.term.parameter.type.inclusionFilter.type"),
 	INCLUSION_FILTER_VALUE_KEY("kuali.term.parameter.type.inclusionFilter.value"),
