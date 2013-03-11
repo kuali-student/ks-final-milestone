@@ -76,6 +76,8 @@
             <list>
                 <bean id="schedulingConfirmDialog" parent="schedulingConfirmDialog-Group"/>
                 <ref bean="approveCODialog"/>
+                <ref bean="createNewClusterDialog"/>
+                <ref bean="moveAOToAClusterDialog"/>
             </list>
         </property>
     </bean>
@@ -102,4 +104,71 @@
             </list>
         </property>
     </bean>
+
+    <bean id="createNewClusterDialog" parent="Uif-OK-Cancel-DialogGroup" p:style="width: 300px; overflow: hidden" p:cssClasses="aoc_dialog">
+        <property name="id" value="createNewClusterDialog" />
+        <property name="hidden" value="true"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="headerText" value="Create New Cluster..."/>
+        <property name="promptText" value=""/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="formatOfferingIdForViewRG" p:label="Select Format" p:labelPlacement="LEFT" p:required="true" >
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.FormatsForCreateRGKeyValues" p:addBlankOption="false" />
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField"  p:id="privateClusterNameForLightBox" p:propertyName="privateClusterNameForLightBox" p:label="Private Name" p:labelPlacement="TOP" p:render="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField"  p:propertyName="publishedClusterNameForLightBox" p:label="Published Name" p:labelPlacement="TOP"  p:render="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
+                    </property>
+                </bean>
+                <!--<bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Create Cluster" p:methodToCall="createNewClusterFromLightBox" />-->
+                <!--<bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Create Cluster" p:methodToCall="createAndMoveAOToACluster" />-->
+            </list>
+        </property>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Create Cluster"/>
+                <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="moveAOToAClusterDialog" parent="Uif-OK-Cancel-DialogGroup" p:style="width: 300px; overflow: hidden" p:cssClasses="aoc_dialog">
+        <property name="id" value="moveAOToAClusterDialog" />
+        <property name="hidden" value="true"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="headerText" value="Move To Cluster..."/>
+        <property name="promptText" value=""/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="clusterIdForAOMove"  p:label="Move selected offerings to" p:labelPlacement="TOP" >
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ListOfAOClustersForFOKeyValues" p:addBlankOption="false" />
+                    </property>
+                </bean>
+                <!--<bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Create Cluster" p:methodToCall="createNewClusterFromLightBox" />-->
+                <!--<bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Create Cluster" p:methodToCall="createAndMoveAOToACluster" />-->
+            </list>
+        </property>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Create Cluster"/>
+                <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>

@@ -137,6 +137,11 @@ public class ARGCourseOfferingManagementForm extends CourseOfferingManagementFor
     private Date termClassStartDate;
 
     //for manage AOs, Clusters, and RGs under a CO
+    private String privateClusterNameForLightBox;
+    private String publishedClusterNameForLightBox;
+    private String formatOfferingIdForViewRG;
+    private String formatOfferingName;
+    private String clusterIdForAOMove;
 
 
     public ARGCourseOfferingManagementForm (){
@@ -450,5 +455,43 @@ public class ARGCourseOfferingManagementForm extends CourseOfferingManagementFor
         this.termClassStartDate = termClassStartDate;
     }
 
+    public String getPrivateClusterNameForLightBox() {
+        return privateClusterNameForLightBox;
+    }
 
+    public void setPrivateClusterNameForLightBox(String privateClusterNameForLightBox) {
+        this.privateClusterNameForLightBox = privateClusterNameForLightBox;
+    }
+
+    public String getPublishedClusterNameForLightBox() {
+        return publishedClusterNameForLightBox;
+    }
+
+    public void setPublishedClusterNameForLightBox(String publishedClusterNameForLightBox) {
+        this.publishedClusterNameForLightBox = publishedClusterNameForLightBox;
+    }
+
+    public String getFormatOfferingIdForViewRG() {
+        return formatOfferingIdForViewRG;
+    }
+
+    public void setFormatOfferingIdForViewRG(String formatOfferingIdForViewRG) {
+        this.formatOfferingIdForViewRG = formatOfferingIdForViewRG;
+    }
+
+    public String getFormatOfferingName() {
+        return formatOfferingName;
+    }
+
+    public void setFormatOfferingName(String formatOfferingName) {
+        this.formatOfferingName = formatOfferingName;
+    }
+
+    public String getClusterIdForAOMove() {
+        return clusterIdForAOMove;
+    }
+
+    public void setClusterIdForAOMove(String clusterIdForAOMove) {
+        this.clusterIdForAOMove = clusterIdForAOMove;
+    }
 }

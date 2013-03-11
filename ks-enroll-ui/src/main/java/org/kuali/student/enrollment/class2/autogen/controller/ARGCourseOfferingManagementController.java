@@ -25,6 +25,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
@@ -32,7 +33,9 @@ import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOff
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.ToolbarUtil;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -41,6 +44,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -553,16 +557,34 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     public ModelAndView addCluster(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        //TODO: addCluster
+        if (!hasDialogBeenDisplayed("createNewClusterDialog", theForm)){
+            //Set the focus in the lightbox
+            theForm.setFocusId("privateClusterNameForLightBox_control");
+            // redirect back to client to display lightbox
+            return showDialog("createNewClusterDialog", theForm, request, response);
+        }
+
+/*TODO: Fix forms and references as they get developed
+        ARGActivityOfferingClusterHandler.createNewCluster(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
+*/      return getUIFModelAndView(theForm);
     }
 
     @RequestMapping(params = "methodToCall=moveToCluster")
     public ModelAndView moveToCluster(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        //TODO: moveToCluster
+        if (!hasDialogBeenDisplayed("moveAOToAClusterDialog", theForm)){
+            //Set the focus in the lightbox
+            theForm.setFocusId("clusterIdForAOMove");
+            // redirect back to client to display lightbox
+            return showDialog("moveAOToAClusterDialog", theForm, request, response);
+        }
+
+/*TODO: Fix forms and references as they get developed
+        ARGActivityOfferingClusterHandler.moveAOToACluster(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
+*/      return getUIFModelAndView(theForm);
     }
 
     @RequestMapping(params = "methodToCall=copyAOs")
