@@ -242,7 +242,7 @@
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionStacked.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/DateField.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/Growls.xml</value>
-                <!-- <value>classpath:org/kuali/student/enrollment/kitchensink/Lightbox.xml</value> -->
+                <!--<value>classpath:org/kuali/student/enrollment/kitchensink/Lightbox.xml</value>-->
                 <value>classpath:org/kuali/student/enrollment/kitchensink/LinkFields.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/LookupSuggest.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/LookupDefaultAction.xml</value>
@@ -251,7 +251,7 @@
                 <value>classpath:org/kuali/student/enrollment/kitchensink/LookupQuickView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/MessageBox.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/MultiSelectControl.xml</value>
-                <!-- <value>classpath:org/kuali/student/enrollment/kitchensink/Popovers.xml</value> -->
+                <value>classpath:org/kuali/student/enrollment/kitchensink/Popovers.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/RadioButtons.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/SelectControl.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/SpinnerControl.xml</value>
