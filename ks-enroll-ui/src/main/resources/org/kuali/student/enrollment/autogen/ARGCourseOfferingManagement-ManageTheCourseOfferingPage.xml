@@ -23,7 +23,7 @@
           p:id="manageTheCourseOfferingPage">
         <property name="items">
             <list>
-                <!--<ref bean="KS-CourseOfferingManagement-CriteriaSection"/>-->
+                <ref bean="KS-CourseOfferingManagement-CriteriaSection"/>
                 <ref bean="KS-CourseOfferingManagement-ManageTheCourseOfferingSection"/>
             </list>
         </property>
@@ -61,19 +61,23 @@
         </property>
         <property name="items">
             <list>
-                <ref bean="KS-CourseOfferingManagement-CourseOfferingLinks"/>
-                <ref bean="KS-CourseOfferingManagement-CourseOfferingTabs"/>
-                <!--<ref bean="KS-CourseOfferingManagement-ARG-ToolBarSection"/> -->
-                <!--<bean parent="Uif-MessageField" p:render="@{currentCourseOfferingWrapper.crossListed}" p:messageText="You do not have permission to edit this course. Contact the owning department for more information.[br][b]Owner:[/b] @{currentCourseOfferingWrapper.coOwningDeptName}" p:style="background-color:#C8E4F7; padding-top:4px; padding-bottom:4px;"/>-->
-                <!--<ref bean="KS-CourseOfferingManagement-AddActivityOfferingSection"/>-->
-               <!-- <ref bean="KS-CourseOfferingManagement-SelectAll"/>
-                <ref bean="KS-CourseOfferingManagement-ActivityOfferingListSection"/>  -->
+                <ref bean="KS-CourseOfferingManagement-TheCourseOfferingLinks"/>
+                <!--<ref bean="KS-CourseOfferingManagement-TheCourseOfferingTabs"/>-->
+                <bean parent="Uif-TabGroup" >
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-CourseOfferingManagement-ViewActivityOfferingsSection"/>
+                            <ref bean="KS-CourseOfferingManagement-ViewAOClustersSection"/>
+                            <ref bean="KS-CourseOfferingManagement-ViewRegistrationGroupsSection"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
 
 
-    <bean id="KS-CourseOfferingManagement-CourseOfferingLinks" parent="Uif-HorizontalBoxSection">
+    <bean id="KS-CourseOfferingManagement-TheCourseOfferingLinks" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
                 <bean parent="Uif-LinkGroup">
@@ -87,164 +91,16 @@
                                                 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="currentCourseOfferingWrapper.courseOfferingId" />
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-HorizontalBoxSection" >
-                                            <property name="headerText" value=""/>
-                                            <property name="disclosure.render" value="false"/>
-                                            <property name="items">
-                                                <list>
-                                                    <bean id="edit_co" parent="Uif-ActionLink" p:methodToCall="editTheCO" p:actionLabel=" | Edit" p:disabled="@{#parent.readOnly}" p:componentSecurity.performActionAuthz="true" p:actionEvent="editCO"/>
-                                                    <bean id="delete_co" parent="Uif-ActionLink" p:id="ActivityOfferingResultSection-deleteOneCoWithLink" p:methodToCall="deleteOneCoWithLink" p:actionLabel=" | Delete" p:disabled="@{#parent.readOnly}" p:render = "@{currentCourseOfferingWrapper.stateKey eq 'kuali.lui.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.planned'  or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.activity.offering.state.offered' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.offered'}" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCO" />
-                                                    <bean id="manage_reg_group" parent="Uif-ActionLink" p:methodToCall="manageRegGroups" p:actionLabel=" | Manage Registration Groups" p:disabled="@{#parent.readOnly}"/>
-                                                </list>
-                                            </property>
-                                        </bean>
-
+                                        <!--<bean id="edit_co" parent="Uif-ActionLink" p:methodToCall="editTheCO" p:actionLabel=" | Edit" p:disabled="@{#parent.readOnly}" p:componentSecurity.performActionAuthz="true" p:actionEvent="editCO"/>-->
+                                        <bean id="edit_co" parent="Uif-ActionLink" p:methodToCall="editTheCO" p:actionLabel=" | Edit" />
+                                        <!--<bean id="delete_co" parent="Uif-ActionLink" p:id="ActivityOfferingResultSection-deleteOneCoWithLink" p:methodToCall="deleteOneCoWithLink" p:actionLabel=" | Delete" p:disabled="@{#parent.readOnly}" p:render = "@{currentCourseOfferingWrapper.stateKey eq 'kuali.lui.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.planned'  or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.activity.offering.state.offered' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.offered'}" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCO" />-->
+                                        <bean id="delete_co" parent="Uif-ActionLink" p:methodToCall="deleteOneCoWithLink" p:actionLabel=" | Delete" />
                                     </list>
                                 </property>
                             </bean>
                         </list>
                     </property>
                 </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-CourseOfferingManagement-CourseOfferingTabs" parent="Uif-HorizontalBoxSection">
-        <property name="headerText" value=""/>
-        <property name="items">
-            <list>
-        <bean parent="Uif-HorizontalBoxSection">
-            <property name="headerText" value=""/>
-            <property name="items">
-                <list>
-                    <bean parent="Uif-TabGroup">
-                        <property name="headerText" value="whatever"/>
-                        <property name="items">
-                            <list>
-                                <ref bean="KS-ClusterSection" />
-                                <ref bean="KS-RGSection"/>
-                                <ref bean="KS-ActivityOfferingListSectionWrapper"/>
-                            </list>
-                        </property>
-                    </bean>
-                </list>
-            </property>
-        </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-ActivityOfferingListSectionWrapper" parent="Uif-VerticalBoxSection">
-        <property name="headerText" value="Activity Offerings" />
-        <property name="items">
-            <list>
-                <ref bean="KS-CourseOfferingManagement-ARG-ToolBarSection"/>
-                <ref bean="KS-CourseOfferingManagement-ActivityOfferingListSection"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-ClusterSection" parent="Uif-VerticalBoxSection">
-        <property name="headerText" value="Clusters"/>
-        <property name="items">
-            <list>
-                <ref bean="KS-CourseOfferingManagement-ARG-ToolBarSection"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-RGSection" parent="Uif-VerticalBoxSection">
-        <property name="headerText" value="RegGroups"/>
-        <property name="items">
-            <list>
-                <ref bean="KS-CourseOfferingManagement-ARG-ToolBarSection"/>
-
-
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-CourseOfferingManagement-SelectAll" parent="Uif-ActionLink" p:onClickScript="selectAllAOs();return false;" p:actionLabel="Select All" p:disabled="@{#parent.readOnly}" p:render="@{hasAO and !currentCourseOfferingWrapper.crossListed}"/>
-
-    <bean id="KS-Schedule-DisplayField" parent="Uif-MessageField" p:cssClasses="font-light12" abstract="true">
-        <property name="propertyReplacers">
-            <list>
-                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
-                      p:condition="#line.aoInfo.scheduleId == null" p:replacement="color:grey;"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-CourseOfferingManagement-ActivityOfferingListSection" parent="Uif-TableCollectionSection"
-          p:layoutManager.numberOfColumns="3"  p:readOnly="@{#parent.readOnly}" p:renderAddLine="false" p:onDocumentReadyScript="removeColumns(@{#parent.readOnly}, [1], 'KS-CourseOfferingManagement-ActivityOfferingListSection');">
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
-        <property name="propertyName" value="activityWrapperList" />
-        <property name="collectionLookup.quickfinderAction.render" value="false" />
-        <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.applyDefaultCellWidths" value="false" />
-        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="layoutManager.richTable.templateOptions">
-            <map merge="true">
-                <entry key="sDom" value="rtip"/>
-                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
-                <entry key="bPaginate" value="false"/>
-                <entry key="bAutoWidth" value="false"/>
-            </map>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:onChangeScript="handleAOToolbar();" p:hidden="@{#dp.currentCourseOfferingWrapper.crossListed}">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:disabled="false"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-DataField"
-                      p:label="CODE"
-                      p:propertyName="aoInfo.activityCode">
-                    <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
-                    </property>
-                </bean>
-                <bean parent="Uif-DataField" p:label="STATUS" p:propertyName="stateName" />
-                <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName"/>
-                <bean parent="Uif-DataField" p:label="FORMAT" p:propertyName="aoInfo.formatOfferingName"/>
-                <bean parent="KS-Schedule-DisplayField" p:label="TBA" p:messageText="@{#line.tbaDisplayName}"/>
-                <bean parent="KS-Schedule-DisplayField" p:label="DAYS" p:messageText="@{#line.daysDisplayName}" />
-                <bean parent="KS-Schedule-DisplayField" p:label="START TIME" p:messageText="@{#line.startTimeDisplay}" />
-                <bean parent="KS-Schedule-DisplayField" p:label="END TIME" p:messageText="@{#line.endTimeDisplay}" />
-                <bean parent="KS-Schedule-DisplayField" p:label="FACILITY" p:messageText="@{#line.buildingName}"/>
-                <bean parent="KS-Schedule-DisplayField" p:label="ROOM" p:messageText="@{#line.roomName}"/>
-                <bean parent="Uif-DataField" p:label="INSTRUCTOR" p:propertyName="firstInstructorDisplayName"/>
-                <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoInfo.maximumEnrollment"/>
-                <bean name="enableApproveButton" parent="Uif-InputField" p:propertyName="enableApproveButton"/>
-                <bean name="enableDraftButton" parent="Uif-InputField" p:propertyName="enableDraftButton"/>
-                <bean name="enableSuspendButton" parent="Uif-InputField" p:propertyName="enableSuspendButton"/>
-                <bean name="enableCancelButton" parent="Uif-InputField" p:propertyName="enableCancelButton"/>
-                <bean name="enableReinstateButton" parent="Uif-InputField" p:propertyName="enableReinstateButton" />
-                <bean name="enableDeleteButton" parent="Uif-InputField" p:propertyName="enableDeleteButton" />
-                <bean name="enableCopyAOActionLink" parent="Uif-InputField" p:propertyName="enableCopyAOActionLink" />
-                <bean name="enableEditAOActionLink" parent="Uif-InputField" p:propertyName="enableEditAOActionLink" />
-            </list>
-        </property>
-        <property name="layoutManager.richTable.hiddenColumns">
-            <set>
-                <value>enableApproveButton</value>
-                <value>enableDraftButton</value>
-                <value>enableSuspendButton</value>
-                <value>enableCancelButton</value>
-                <value>enableReinstateButton</value>
-                <value>enableDeleteButton</value>
-                <value>enableCopyAOActionLink</value>
-                <value>enableEditAOActionLink</value>
-            </set>
-        </property>
-        <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="Actions"/>
-        </property>
-        <property name="lineActions">
-            <list>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy" p:render="@{#line.isEnableCopyAOActionLink()}" p:actionEvent="copyAOonManageAOsPage" />
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" p:render="@{#line.isEnableEditAOActionLink()}" p:actionEvent="editAOonManageAOsPage"/>
             </list>
         </property>
     </bean>
