@@ -33,26 +33,24 @@ package org.kuali.student.r2.core.krms.naturallanguage;
  * </p>
  */
 public enum TermParameterTypes {
-	INTEGER_VALUE1_KEY("kuali.term.parameter.type.value.positive.integer"),
-	OPERATOR_KEY("kuali.term.parameter.type.operator"),
     GPA_KEY("kuali.term.parameter.type.gpa"),
     TOTAL_CREDIT_KEY("kuali.term.parameter.type.totalCredits"),
-	INCLUSION_FILTER_TYPE_KEY("kuali.term.parameter.type.inclusionFilter.type"),
-	INCLUSION_FILTER_VALUE_KEY("kuali.term.parameter.type.inclusionFilter.value"),
+    INCLUSION_FILTER_TYPE_KEY("kuali.term.parameter.type.inclusionFilter.type"),
+    INCLUSION_FILTER_VALUE_KEY("kuali.term.parameter.type.inclusionFilter.value"),
     GRADE_TYPE_KEY("kuali.term.parameter.type.gradeType.id"),
     GRADE_KEY("kuali.term.parameter.type.grade.id"),
     ORGANIZATION_KEY("kuali.term.parameter.type.org.id"),
     PERSON_KEY("kuali.term.parameter.type.person.id"),
     DURATION_KEY("kuali.term.parameter.type.duration"),
     DURATION_TYPE_KEY("kuali.term.parameter.type.durationType.id"),
-	CLU_KEY("kuali.term.parameter.type.clu.id"),
-	CLUSET_KEY("kuali.term.parameter.type.cluSet.id"),
-	COURSE_CLU_KEY("kuali.term.parameter.type.course.clu.id"),
-	COURSE_CLUSET_KEY("kuali.term.parameter.type.course.cluSet.id"),
-	PROGRAM_CLU_KEY("kuali.term.parameter.type.program.clu.id"),
-	PROGRAM_CLUSET_KEY("kuali.term.parameter.type.program.cluSet.id"),
-	TEST_CLU_KEY("kuali.term.parameter.type.test.clu.id"),//FIXME Why do we have test data in our code?
-	TEST_CLUSET_KEY("kuali.term.parameter.type.test.cluSet.id");
+    CLU_KEY("kuali.term.parameter.type.clu.id"),
+    CLUSET_KEY("kuali.term.parameter.type.cluSet.id"),
+    COURSE_CLU_KEY("kuali.term.parameter.type.course.clu.id"),
+    COURSE_CLUSET_KEY("kuali.term.parameter.type.course.cluSet.id"),
+    PROGRAM_CLU_KEY("kuali.term.parameter.type.program.clu.id"),
+    PROGRAM_CLUSET_KEY("kuali.term.parameter.type.program.cluSet.id"),
+    TEST_CLU_KEY("kuali.term.parameter.type.test.clu.id"),//FIXME Why do we have test data in our code?
+    TEST_CLUSET_KEY("kuali.term.parameter.type.test.cluSet.id");
 
 	private String id;
 
