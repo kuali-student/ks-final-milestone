@@ -22,6 +22,11 @@
 
     <!-- This allows switching of minified and pretty KRAD javascript for debugging -->
     <bean id="Uif-BaseTheme" abstract="true" parent="Uif-BaseTheme-parentBean">
+        <property name="cssFiles">
+            <list merge="true">
+                <value>krad/plugins/tooltip/ks.jquery.bubblepopup.css</value>
+            </list>
+        </property>
         <property name="scriptFiles">
             <list>
                 <value>krad/plugins/jquery/jquery-1.8.0.js</value>
@@ -34,7 +39,9 @@
                 <value>krad/plugins/watermark/jquery.watermark.js</value>
                 <value>krad/plugins/validate/jquery.validate.js</value>
                 <value>krad/plugins/tooltip/jquery.tools.min.js</value>
-                <value>krad/plugins/tooltip/jquery.bubblepopup.v2.3.1.js</value>
+                <!-- <value>krad/plugins/tooltip/jquery.bubblepopup.v2.3.1.js</value> -->
+                <!-- KS replacement for KRAD's jquery.bubblepopup.v2.3.1.js: -->
+                <value>krad/plugins/tooltip/ks.jquery.bubblepopup.v2.3.1.js</value>
                 <value>krad/plugins/rice/spinner/smartspinner.js</value>
                 <value>krad/plugins/rice/menu/krad.navigationMenu.js</value>
                 <value>krad/plugins/rice/textpopout/krad.textareaPopout.js</value>

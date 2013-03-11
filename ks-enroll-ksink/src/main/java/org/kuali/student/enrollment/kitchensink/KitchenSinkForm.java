@@ -44,6 +44,7 @@ public class KitchenSinkForm extends UifFormBase {
     private List<String> multiSelections;
     private String radioButtonSelection;
     private String dropdownSelection;
+    private String dropdownSelection2;
     private Date dateField;
 
     private List<KitchenSinkFormCollection2> list1 = new ArrayList<KitchenSinkFormCollection2>();
@@ -195,6 +196,13 @@ public class KitchenSinkForm extends UifFormBase {
     }
     public void setDropdownSelection(String dropdownSelection) {
         this.dropdownSelection = dropdownSelection;
+    }
+
+    public String getDropdownSelection2() {
+        return dropdownSelection2;
+    }
+    public void setDropdownSelection2(String dropdownSelection2) {
+        this.dropdownSelection2 = dropdownSelection2;
     }
 
     public Date getDateField() {

@@ -9,10 +9,6 @@
 } */
 
 
-var originalSelect;
-//var tempSelect;
-var tempUl;
-
 /* nice on env2.ks.kuali.org, but not wiki.kuali.org
 jQuery(document).ready(function() {
     // focus on first text or textarea field
@@ -22,6 +18,7 @@ jQuery(document).ready(function() {
     }
 });*/
 
+/* not used by ks-enroll-ksink
 function showProps(id, name, props) {
     var propStr = "Properties for:\t" + name + "\n";
     propStr += "KRAD Property   :   HTML Property\n";
@@ -31,8 +28,9 @@ function showProps(id, name, props) {
     });
     alert(propStr);
 
-}
+}*/
 
+/* not used by ks-enroll-ksink
 function togglePropertiesFor(id, target, name, props) {
     var tableId = "Props_" + target;
     if (jQuery('#' + tableId).length > 0) {
@@ -54,12 +52,14 @@ function togglePropertiesFor(id, target, name, props) {
         table += '</table>';
         jQuery('#' + target).append(table);
     }
-}
+}*/
 
+/* not used by ks-enroll-ksink
 function containsValues(control, value) {
     return (jQuery(control).find(":contains('" + value + "')").length > 0)
-}
+}*/
 
+// ComboBoxes.xml
 function setFilterBox(textBox, value, target) {
 //    jQuery('#' + textBox).val(jQuery(jQuery('#' + control) + 'option:selected').text());
     jQuery('#' + textBox).val(value);
@@ -67,32 +67,23 @@ function setFilterBox(textBox, value, target) {
     jQuery('#' + target).hide();
 }
 
-function getContainingSelectValues(control, value) {
-    if (originalSelect == null) {
-        originalSelect = jQuery('#' + control).clone();
-    }
-//    if (tempSelect == null) {
-//        tempSelect = jQuery('#' + control).clone();
-//    }
-
-    var items = jQuery(originalSelect).children('option').filter(function (i, e) {
-        if (e.innerText.indexOf(jQuery('#' + value).val()) != -1) {
-            return e.innerText;
-        }
-    });
-    return items;
-}
-
+// ComboBoxes.xml
 function expandSelectBox(dropdown, textBox, target) {
     jQuery('#' + textBox).val('');
     filterSelectBox(dropdown, textBox, target);
 }
 
+// ComboBoxes.xml
+var tempUl;
 function filterSelectBox(dropdown, textBox, target) {
-
     var values = getContainingSelectValues(dropdown, textBox);
     jQuery('#ul_id_temp li').remove();
-    createLinks(textBox, values, target);
+    if (tempUl == null) {
+        tempUl = jQuery('<ul/>', {id:"ul_id_temp" });
+    }
+    jQuery(values).each(function () {
+        tempUl.append(jQuery('<li/>', {onclick: "setFilterBox('" + textBox + "','" + jQuery(this).text() + "','" + target + "');", text: jQuery(this).text() }));
+    });
 
     if (jQuery('#ul_id_temp').length > 0) {
         var isPropVisible = jQuery('#' + target).is(':visible');
@@ -107,11 +98,19 @@ function filterSelectBox(dropdown, textBox, target) {
     }
 }
 
-function createLinks(textBox, values, target) {
-    if (tempUl == null) {
-        tempUl = jQuery('<ul/>', {id:"ul_id_temp" });
+var originalSelect, tempSelect;
+function getContainingSelectValues(control, value) {
+    if (originalSelect == null) {
+        originalSelect = jQuery('#' + control).clone();
     }
-    jQuery(values).each(function () {
-        tempUl.append(jQuery('<li/>', {onclick: "setFilterBox('" + textBox + "','" + jQuery(this).text() + "','" + target + "');", text: jQuery(this).text() }));
+    if (tempSelect == null) {
+        tempSelect = jQuery('#' + control).clone();
+    }
+
+    var items = jQuery(originalSelect).children('option').filter(function (i, e) {
+        if (e.innerText.indexOf(jQuery('#' + value).val()) != -1) {
+            return e.innerText;
+        }
     });
+    return items;
 }

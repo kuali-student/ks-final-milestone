@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.kitchensink.uif;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,8 +26,7 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class KitchenSinkFooterLinkGroup {
-
+public class KitchenSinkFooterLinkGroup implements Serializable {
     private String label;
     private String style;
     private Map<String, String> footerLinks;

@@ -88,6 +88,29 @@ public class KitchenSinkController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
+    /* test method for CollectionTest sandbox/test view
+    @RequestMapping(params = "methodToCall=subcollection")
+    public ModelAndView subcollection(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
+                                    HttpServletRequest request, HttpServletResponse response) {
+
+        List<KitchenSinkFormCollection2> subCollectionList = new ArrayList<KitchenSinkFormCollection2>();
+        subCollectionList.add(new KitchenSinkFormCollection2("A","W","02:00 PM","04:50 PM"));
+        subCollectionList.add(new KitchenSinkFormCollection2("B","Tu","05:00 PM","07:50 PM"));
+        subCollectionList.add(new KitchenSinkFormCollection2("C","MWF","09:00 AM","09:50 AM"));
+
+        List<KitchenSinkFormCollection1> collectionList = new ArrayList<KitchenSinkFormCollection1>();
+        KitchenSinkFormCollection1 ksFormCollection =
+                new KitchenSinkFormCollection1("ENGL102", "Writing from Sources III", "1999-12-31");
+        ksFormCollection.setList1(subCollectionList);
+        collectionList.add(ksFormCollection);
+
+        collectionList.add(new KitchenSinkFormCollection1("ENGL103", "Writing from Sources IV", "1999-12-31"));
+        collectionList.add(new KitchenSinkFormCollection1("ENGL104", "English for International Teaching Assistants", "1999-12-31"));
+        form.setCollection(collectionList);
+
+        return getUIFModelAndView(form);
+    } //*/
+
     @RequestMapping(params = "methodToCall=collectionOne")
     public ModelAndView collectionOne(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) {
@@ -222,6 +245,21 @@ public class KitchenSinkController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveLightboxForm")
+    public ModelAndView saveLightboxForm(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
+                                         HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        String dialogId = "lightboxDialog1";
+
+        // clear dialog history so user can press the button again
+        //form.getDialogManager().resetDialogStatus(dialogId);
+
+        KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, "kitchensink.custom", "Lightbox form saved.");
+        //return getUIFModelAndView(form);
+        return returnFromLightbox(form, result, request, response);
+        //return refresh(form, result, request, response);
+    }
+
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=processFormRowSelection")
     public ModelAndView processFormRowSelection(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) {
@@ -240,6 +278,16 @@ public class KitchenSinkController extends UifControllerBase {
             }
         }
         GlobalVariables.getMessageMap().addGrowlMessage("PROCESSED:", "kitchensink.custom", sb.toString());
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=processPopoverForm")
+    public ModelAndView processPopoverForm(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
+                                           HttpServletRequest request, HttpServletResponse response) {
+        GlobalVariables.getMessageMap().addGrowlMessage("NOTE", "kitchensink.custom", "processPopoverForm");
+        if ("error".equals(form.getStringField1().toLowerCase())) {
+            GlobalVariables.getMessageMap().putErrorForSectionId("stringField1","kitchensink.custom","Popover form with error is displayed automatically.");
+        }
         return getUIFModelAndView(form);
     }
 
