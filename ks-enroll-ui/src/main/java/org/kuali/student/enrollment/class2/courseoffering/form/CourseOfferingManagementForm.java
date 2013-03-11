@@ -76,7 +76,7 @@ public class CourseOfferingManagementForm extends KSUifForm {
      * which really just sets the "empty" list in it's place.
      */
     private List<CourseOfferingListSectionWrapper> courseOfferingResultList;
-    private List<CourseOfferingListSectionWrapper> courseOfferingResultListEmpty;  // look at definition above.
+//    private List<CourseOfferingListSectionWrapper> courseOfferingResultListEmpty;  // look at definition above.
 
     //For Adding Activity
     private String formatIdForNewAO;
@@ -103,7 +103,7 @@ public class CourseOfferingManagementForm extends KSUifForm {
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
         courseOfferingResultList = new ArrayList<CourseOfferingListSectionWrapper>();
-        courseOfferingResultListEmpty = new ArrayList<CourseOfferingListSectionWrapper>();
+//        courseOfferingResultListEmpty = new ArrayList<CourseOfferingListSectionWrapper>();
         selectedCoToDeleteList = new ArrayList<CourseOfferingListSectionWrapper>();
         setCourseOfferingCopyWrapper(null);
     }
