@@ -37,7 +37,7 @@
                                            <list>
                                              <bean parent="Uif-InputField" p:propertyName="rolloverTargetTermCode" p:label="Term" p:required="true">
                                                 <property name="control">
-                                                   <bean parent="Uif-TextControl" p:size="6" p:watermarkText="20132" p:minLength="5" p:maxLength="6"/>
+                                                   <bean parent="Uif-TextControl" p:size="6" p:watermarkText="201301" p:minLength="5" p:maxLength="6"/>
                                                 </property>
 
                                              </bean>
