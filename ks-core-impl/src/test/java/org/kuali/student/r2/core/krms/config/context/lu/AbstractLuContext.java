@@ -172,8 +172,8 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      */
     public Map<String, Object> createContextMap(TermDefinitionContract term, ContextInfo contextInfo) throws OperationFailedException {
         Map<String, Object> contextMap = super.createContextMap(term, contextInfo);
-		contextMap.put(EXPECTED_VALUE_TOKEN, getTermParameterValue(term, TermParameterTypes.INTEGER_VALUE1_KEY.getId()));
-        contextMap.put(OPERATOR_TOKEN, getTermParameterValue(term, TermParameterTypes.OPERATOR_KEY.getId()));
+//		contextMap.put(EXPECTED_VALUE_TOKEN, getTermParameterValue(term, TermParameterTypes.INTEGER_VALUE1_KEY.getId()));
+//        contextMap.put(OPERATOR_TOKEN, getTermParameterValue(term, TermParameterTypes.OPERATOR_KEY.getId()));
         return contextMap;
     }
 }
