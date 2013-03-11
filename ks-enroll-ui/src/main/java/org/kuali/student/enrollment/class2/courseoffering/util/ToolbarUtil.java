@@ -69,8 +69,6 @@ public class ToolbarUtil {
             permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT,"addCO");
             if(permissionService.isAuthorizedByTemplate(principalId,"KS-ENR",KimConstants.PermissionTemplateNames.PERFORM_ACTION,permissionDetails,roleQualifications)){
                 form.setEnableAddButton(true);
-            }else{
-                form.setEnableAddButton(false);
             }
 
             if(coListWrapperList != null && !coListWrapperList.isEmpty()){
@@ -81,6 +79,15 @@ public class ToolbarUtil {
 
                     permissionDetails.put("coState", coState);
                     roleQualifications.put("org", coListWrapper.getAdminOrg());
+
+                    //Clear old values
+                    coListWrapper.setEnableCopyCOActionLink(false);
+                    coListWrapper.setEnableEditCOActionLink(false);
+                    coListWrapper.setEnableApproveButton(false);
+                    coListWrapper.setEnableReinstateButton(false);
+                    coListWrapper.setEnableSuspendButton(false);
+                    coListWrapper.setEnableCancelButton(false);
+                    coListWrapper.setEnableDeleteButton(false);
 
                     //for copy and edit action links on each CO row.
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "copyCOonManageCOsPage");
@@ -155,8 +162,6 @@ public class ToolbarUtil {
             permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT,"addAO");
             if(permissionService.isAuthorizedByTemplate(principalId,"KS-ENR",KimConstants.PermissionTemplateNames.PERFORM_ACTION,permissionDetails,roleQualifications)){
                 form.setEnableAddButton(true);
-            } else {
-                form.setEnableAddButton(false);
             }
 
             if(activityWrapperList != null && !activityWrapperList.isEmpty()){
@@ -167,6 +172,16 @@ public class ToolbarUtil {
                     String aoState = aoStateKey.substring(aoStateKey.lastIndexOf('.')+1);
 
                     permissionDetails.put("aoState", aoState);
+
+                    //Reset the form
+                    activityWrapper.setEnableCopyAOActionLink(false);
+                    activityWrapper.setEnableEditAOActionLink(false);
+                    activityWrapper.setEnableCancelButton(false);
+                    activityWrapper.setEnableApproveButton(false);
+                    activityWrapper.setEnableReinstateButton(false);
+                    activityWrapper.setEnableDeleteButton(false);
+                    activityWrapper.setEnableSuspendButton(false);
+                    activityWrapper.setEnableDraftButton(false);
 
                     //for copy and edit action links on each CO row.
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "copyAOonManageAOsPage");
