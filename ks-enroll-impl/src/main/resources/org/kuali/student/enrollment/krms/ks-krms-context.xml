@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2006-2012 The Kuali Foundation
+
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.opensource.org/licenses/ecl2.php
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <import resource="classpath:org/kuali/student/enrollment/krms/PropositionTypeTemplateData.xml"/>
+
+	<bean id="templateResolverMockService" class="org.kuali.rice.krms.service.impl.TemplateRegistryImpl">
+        <property name="templatesMap" ref="templatesMap"/>
+    </bean>
+
+    <bean id="agendaTypeService" class="org.kuali.rice.krms.impl.type.AgendaTypeServiceImpl">
+    </bean>
+
+    <bean id="propositionTemplater"
+          class="org.kuali.rice.krms.impl.repository.language.PropositionNaturalLanguageTemplater">
+        <property name="termBoService" ref="termBoService"/>
+        <property name="krmsTypeRepositoryService" ref="krmsTypeRepositoryService"/>
+        <property name="contextRegistry" ref="contextRegistry"/>
+    </bean>
+
+
+    <bean id="courseClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.lum.course.service.CourseService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/course}CourseService"/>
+    </bean>
+
+    <bean id="programClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.lum.program.service.ProgramService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/program}ProgramService"/>
+    </bean>
+
+    <bean id="cluClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.lum.clu.service.CluService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/clu}CluService"/>
+    </bean>
+
+    <bean id="basicContext" class="org.kuali.student.krms.naturallanguage.config.context.BasicContextImpl">
+    </bean>
+    <bean id="luContext" class="org.kuali.student.krms.naturallanguage.config.context.CluContextImpl">
+        <property name="cluService" ref="cluClient"/>
+    </bean>
+    <bean id="lrcContext" class="org.kuali.student.krms.naturallanguage.config.context.LrcContextImpl">
+    </bean>
+    <bean id="gpaContext" class="org.kuali.student.krms.naturallanguage.config.context.GpaContextImpl">
+    </bean>
+    <bean id="personContext" class="org.kuali.student.krms.naturallanguage.config.context.PersonContextImpl">
+    </bean>
+    <bean id="orgContext" class="org.kuali.student.krms.naturallanguage.config.context.OrganizationContextImpl">
+    </bean>
+    <bean id="atpContext" class="org.kuali.student.krms.naturallanguage.config.context.AtpContextImpl">
+    </bean>
+
+    <!-- TODO this contextRegistry should be part of KS -->
+    <bean id="contextRegistry"
+          class="org.kuali.student.r2.core.krms.naturallanguage.ContextRegistry">
+        <constructor-arg>
+            <map>
+                <entry key="kuali.krms.proposition.type.course.courseset.completed.none">
+                    <list>
+                        <ref local="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.success.course.courseset.completed.all">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.success.course.courseset.completed.nof">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.course.courseset.completed.nof">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.success.credit.courseset.completed.nof">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.course.courseset.enrolled.all">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.course.courseset.credits.completed.nof">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.success.credit.courseset.completed.nof.org">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.course.courseset.credits.completed.none">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.course.courseset.gpa.min">
+                    <list>
+                        <ref bean="luContext"/>
+                        <ref bean="gpaContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.course.courseset.grade.min">
+                    <list>
+                        <ref bean="luContext"/>
+                        <ref bean="lrcContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.course.courseset.grade.max">
+                    <list>
+                        <ref bean="luContext"/>
+                        <ref bean="lrcContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.course.drop.org.permission.required">
+                    <list>
+                        <ref bean="orgContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.course.test.score.min">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.course.test.score.max">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.course.courseset.nof.grade.min">
+                    <list>
+                        <ref bean="luContext"/>
+                        <ref bean="lrcContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.max.limit.courses.at.org.for.program">
+                    <list>
+                        <ref bean="orgContext"/>
+                        <ref bean="atpContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.max.limit.courses.at.org.duration.for.program">
+                    <list>
+                        <ref bean="orgContext"/>
+                        <ref bean="atpContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.notadmitted.to.program">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.admitted.to.program">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.course.credits.repeat.max">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.success.compl.course">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.course.enrolled">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.course.notcompleted">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.cumulative.gpa.min">
+                    <list>
+                        <ref bean="gpaContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.duration.cumulative.gpa.min">
+                    <list>
+                        <ref bean="atpContext"/>
+                        <ref bean="gpaContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.admitted.to.program.org">
+                    <list>
+                        <ref bean="orgContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.course.courseset.enrolled">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.course.offering.drop.instructor.permission.required">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.course.offering.enrolled">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.max.limit.courses.for.campus.duration">
+                    <list>
+                        <ref bean="atpContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.max.limit.courses.for.program">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.max.limit.credits.for.campus.duration">
+                    <list>
+                        <ref bean="atpContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.no.repeat.course">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.no.repeat.course.nof">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.no.repeat.courses">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.success.compl.course.as.of.term">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.success.compl.course.between.terms">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.success.compl.course.offer">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.success.compl.prior.to.term">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.course.courseset.enrolled.nof">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.success.credits.courseset.completed.nof.org">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.permission.adnin.org">
+                    <list>
+                        <ref bean="orgContext"/>
+                    </list>
+                </entry>
+            </map>
+        </constructor-arg>
+    </bean>
+
+</beans>

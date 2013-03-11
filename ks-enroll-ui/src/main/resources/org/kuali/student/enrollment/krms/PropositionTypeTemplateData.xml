@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2010 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); you
+  may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.osedu.org/licenses/ECL-2.0
+  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS
+  IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+  governing permissions and limitations under the License. -->
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="TemplateInfo-parent" class="org.kuali.rice.krms.dto.TemplateInfo"
+          p:termSpecName="null" p:operator="=" p:value="0"/>
+
+    <bean id="templatesMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+        <property name="sourceMap">
+            <map>
+
+                <entry key="kuali.krms.proposition.type.success.compl.course">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="CompletedCourse"
+                          p:value="true">
+                        <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.CourseComponentBuilder"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.success.course.courseset.completed.all">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="CompletedCourses"
+                          p:value="true">
+                        <property name="componentId" value="KRMS-MultiCourse-Section"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.course.courseset.completed.nof">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="NumberOfCompletedCourses"
+                          p:operator="&gt;=" p:value="n">
+                        <property name="componentId" value="KRMS-MultiCourse-Section"/>
+                        <property name="constantComponentId" value="KRMS-NumberOfCourses-ConstantValue"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.success.course.courseset.completed.nof">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="NumberOfCompletedCourses" p:operator="&lt;=" p:value="n">
+                        <property name="componentId" value="KRMS-MultiCourse-Section"/>
+                        <property name="constantComponentId" value="KRMS-NumberOfCourses-ConstantValue"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.course.courseset.completed.none">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="NumberOfCompletedCourses"
+                          p:value="0">
+                        <property name="componentId" value="KRMS-MultiCourse-Section"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.course.notcompleted">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="CompletedCourse"
+                          p:value="false">
+                        <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.course.courseset.credits.completed.nof">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="NumberOfCreditsFromCompletedCourses" p:operator="&lt;=" p:value="n">
+                        <property name="componentId" value="KRMS-MultiCourseWithCredit"/>
+                        <property name="constantComponentId" value="KRMS-NumberOfCourses-ConstantValue"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.success.credit.courseset.completed.nof">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="NumberOfCreditsFromCompletedCourses" p:operator="&gt;=" p:value="n">
+                        <property name="componentId" value="KRMS-CourseAndCredit-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.course.courseset.credits.completed.none">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="NumberOfCreditsFromCompletedCourses" p:operator="=" p:value="0">
+                        <property name="componentId" value="KRMS-MultiCourse-Section"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.course.courseset.enrolled.all">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="EnrolledCourses"
+                          p:value="true">
+                        <property name="componentId" value="KRMS-MultiCourse-Section"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.course.courseset.enrolled.nof">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="NumberOfEnrolledCourses"
+                          p:operator="&gt;=" p:value="n">
+                        <property name="componentId" value="KRMS-MultiCourse-Section"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.course.enrolled">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="EnrolledCourses"
+                          p:value="true">
+                        <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.course.courseset.gpa.min">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="GPAForCourses"
+                          p:operator="&gt;=" p:value="gpa">
+                        <property name="componentId" value="KRMS-MultiCourseWithGPA-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.cumulative.gpa.min">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="GPAForCourses"
+                          p:operator="&gt;=" p:value="gpa">
+                        <property name="componentId" value="KRMS-GPA-Field"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.duration.cumulative.gpa.min">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="GPAForCourses"
+                          p:operator="&gt;=" p:value="gpa">
+                        <property name="componentId" value="KRMS-GPAAndDuration-Group"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.course.courseset.grade.max">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="GradeTypeForCourses"
+                          p:operator="&lt;" p:value="grade">
+                        <property name="componentId" value="KRMS-MultiCourseWithGrade-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.course.courseset.grade.min">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="GradeTypeForCourses"
+                          p:operator="&gt;=" p:value="grade">
+                        <property name="componentId" value="KRMS-MultiCourseWithGrade-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.course.courseset.nof.grade.min">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="GradeTypeForCourses"
+                          p:operator="&gt;=" p:value="n">
+                        <property name="componentId" value="KRMS-MultiCourseAndNofWithGrade-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.credits.earned.min">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="NumberOfCredits"
+                          p:operator="&gt;=" p:value="n">
+                        <property name="componentId" value="KRMS-Credits-ConstantValue"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.course.credits.repeat.max">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="NumberOfCredits"
+                          p:operator="&lt;=" p:value="n">
+                        <property name="componentId" value="KRMS-Credits-ConstantValue"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.freeform.text">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="FreeFormText"
+                          p:value="true">
+                        <property name="componentId" value="KRMS-FreeForm-InputField"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.success.credits.courseset.completed.nof.org">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="NumberOfCreditsFromOrganization" p:operator="&gt;=" p:value="n">
+                        <property name="componentId" value="KRMS-Department-Field"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.admitted.to.program.campus">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null"
+                          p:value="true"/>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.permission.instructor.required">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null"
+                          p:value="true"/>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.admitted.to.program">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="AdmittedToProgram"
+                          p:value="n">
+                        <property name="componentId" value="KRMS-Program-SuggestField"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.max.limit.courses.at.org.for.program">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null"
+                          p:operator="&lt;=" p:value="n">
+                        <property name="componentId" value="KRMS-ProgramWithNofAndOrg-Group"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.not.admitted.to.program">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="AdmittedToProgram"
+                          p:value="false">
+                        <property name="componentId" value="KRMS-Program-SuggestField"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.max.limit.courses.at.org.duration.for.program">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="AdmittedToProgramLimitCoursesInOrgForDuration" p:operator="&lt;="
+                          p:value="n">
+                        <property name="componentId" value="KRMS-ProgramWithDurAndOrg-Group"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.course.test.score.max">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="ScoreOnTest"
+                          p:operator="&lt;=" p:value="score">
+                        <property name="componentId" value="KRMS-TestScoreAndName-Group"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.course.test.score.min">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="ScoreOnTest"
+                          p:operator="&gt;=" p:value="score">
+                        <property name="componentId" value="KRMS-TestScoreAndName-Group"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.cant.add.to.activity.offering.due.to.state">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="CompletedCourse" p:operator="=" p:value="false">
+                        <property name="componentId" value="KRMS-AOStateAndState-Group"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.no.repeat.course">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="CompletedCourses" p:value="0">
+                        <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.no.repeat.courses">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null" p:value="0">
+                        <property name="componentId" value="KRMS-MultiCourse-Tree-Section"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.course.offering.drop.instructor.permission.required">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null"
+                          p:operator="=" p:value="false">
+                        <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.drop.min.credit.hours.due.to.attribute">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null"
+                          p:operator="&lt;" p:value="min credit hours">
+                        <property name="componentId" value="KRMS-AOStateAndState-Group"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.drop.min.credit.hours">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null"
+                          p:operator="&lt;" p:value="min credit hours">
+                        <property name="componentId" value="KRMS-CreditHours-ConstantValue"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.exceeds.minutes.overlap.allowed">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null"
+                          p:operator="&gt;" p:value="n">
+                        <property name="componentId" value="KRMS-Minutes-ConstantValue"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.time.conflict.start.end">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null"
+                          p:operator="&lt;"
+                          p:value="n">
+                        <property name="componentId" value="KRMS-Minutes-ConstantValue"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.max.limit.courses.for.program">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null"
+                          p:operator="&lt;=" p:value="n">
+                        <property name="componentId" value="KRMS-ProgramAndNof-Group"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.max.limit.credits.for.program">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null"
+                          p:operator="&lt;=" p:value="n">
+                        <property name="componentId" value="KRMS-ProgramAndCredit-Group"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.avail.seat">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null" p:operator="null"
+                          p:value="null"/>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.success.compl.course.as.of.term">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null" p:value="true">
+                        <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.success.compl.prior.to.term">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null" p:value="true">
+                        <property name="componentId" value="KRMS-CourseAndTerm-Group"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.success.compl.course.between.terms">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null" p:value="true">
+                        <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.success.compl.course.offer">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null" p:value="true">
+                        <property name="componentId" value="KRMS-CourseOffering-InfputField"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.max.limit.courses.for.campus.duration">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null"
+                          p:operator="&lt;=" p:value="n">
+                        <property name="componentId" value="KRMS-CampusWithNofAndDur-Group"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.max.limit.credits.for.campus.duration">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null"
+                          p:operator="&lt;=" p:value="n">
+                        <property name="componentId" value="KRMS-CampusWithCreditsAndDur-Group"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.notadmitted.to.program.in.class.standing">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null" p:value="true">
+                        <property name="componentId" value="KRMS-ProgramAndClassStanding-Group"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.admitted.to.program.org">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null" p:value="true">
+                        <property name="componentId" value="KRMS-Department-Field"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.in.class.standing">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null" p:value="true">
+                        <property name="componentId" value="KRMS-ClassStanding-Group"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.greater.than.class.standing">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null" p:value="true">
+                        <property name="componentId" value="KRMS-ClassStanding-Group"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.less.than.class.standing">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null" p:value="true">
+                        <property name="componentId" value="KRMS-ClassStanding-Group"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.notin.class.standing">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null" p:value="false">
+                        <property name="componentId" value="KRMS-ClassStanding-Group"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.course.offering.enrolled">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null" p:value="1">
+                        <property name="componentId" value="KRMS-CourseOffering-InputField"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.course.courseset.enrolled">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="EnrolledCourses" p:value="true">
+                        <property name="componentId" value="KRMS-MultiCourse-Tree-Section"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.no.repeat.course.nof">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null" p:value="n">
+                        <property name="componentId" value="KRMS-CourseAndRepeat-Group"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.test.score.between.values">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null" p:value="true">
+                        <property name="componentId" value="KRMS-TestScoresBetweenAndName-Group"/>
+                    </bean>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.test.score">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="null" p:value="true">
+                        <property name="componentId" value="KRMS-TestScoreAndName-Group"/>
+                    </bean>
+                </entry>
+
+
+            </map>
+        </property>
+    </bean>
+
+</beans>

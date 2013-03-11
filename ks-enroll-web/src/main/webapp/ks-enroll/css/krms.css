@@ -1,0 +1,133 @@
+.tree-bar-button {
+    background-image: url('./images/buttonNormal.png');
+    background-repeat: no-repeat;
+    background-size: 110px;
+    border: 1px solid #808080;
+    width: 86px;
+    height: 48px;
+    background-position: -10px -10px;
+    cursor: pointer;
+    white-space: normal;
+    text-align: center;
+    padding-right: 0em ;
+    padding-left: 0em;
+}
+
+.tree-bar-button-selected {
+    background-image: url('./images/buttonDisabled.png');
+    background-repeat: no-repeat;
+    background-size: 110px;
+    border: 1px solid #808080;
+    width: 86px;
+    height: 48px;
+    background-position: -10px -10px;
+    cursor: pointer;
+    white-space: normal;
+    text-align: center;
+    padding-right: 0em ;
+    padding-left: 0em;
+}
+
+.kr-button-primary-disabled {
+    background-image: url('./images/buttonDisabled.png');
+    background-repeat: no-repeat;
+    border: 1px solid #808080;
+    font-weight: normal;
+    text-transform: none;
+    -moz-border-radius: none;
+    -webkit-border-radius: none;
+    border-radius: 0px;
+    background: linear-gradient(none);
+    color: #bfbfbf;
+    padding-top: 0em;
+
+}
+
+.uif-boxLayoutHorizontalItem {
+    margin-right: 0px;
+}
+
+#RuleStudentEditorView-Tree .editModeNode {
+    border: 1px solid;
+    margin-bottom: 5px;
+    margin-left: 18px;
+    margin-right: 5px;
+    padding: 10px;
+}
+
+#RuleStudentEditorView-Tree .compoundNode {
+    font-size: 1.6em;
+}
+
+.rootNode {
+    border-bottom: #000000 solid 2px;
+}
+
+/* trying to make the tree not so cramped: */
+
+.jstree-default li.jstree-last {
+    margin-bottom: 5pt;
+}
+
+.jstree li {
+    margin-top 3pt;
+}
+
+.subruleHeader {
+    font-weight: normal;
+}
+
+.subruleElement {
+    white-space: normal !important;
+}
+
+.compareElement {
+    background-color: #FFF8C6;
+}
+
+.rule-message {
+
+}
+
+.ks-rulesection {
+    border-bottom:solid 2px #000;
+    margin-bottom:5px;
+    margin-top:15px;
+    font-weight: bold;
+}
+
+.ks-rulesubsection {
+    border-bottom:solid 1px #000;
+    margin-bottom:5px;
+    margin-top:5px;
+    font-weight: bold;
+    max-width: 54em;
+}
+
+.ks-ruleViewSection {
+    margin: 10px;
+}
+
+.ks-stackedCollectionLayout {
+    padding: 0px;
+    background-image: none;
+}
+
+.ks-stackedCollectionItem {
+    border: 1px solid #B2B2B2;
+    margin-bottom: 5px !important;
+    padding: 5px !important;
+    background-color: transparent !important;
+}
+
+.ks-stackedActionItem {
+    margin: 0px !important;
+}
+
+.ks-collectionAddItem {
+    border: none !important;
+}
+
+.ruleCopySelected {
+    background-color:#F4E271 !important; border: 1px dashed goldenrod;
+}
