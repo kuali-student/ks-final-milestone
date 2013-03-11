@@ -21,7 +21,6 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionParameterType;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.student.krms.naturallanguage.mock.ContextMockImpl;
-import org.kuali.student.r2.core.krms.config.context.lu.CourseListContextImpl;
 import org.kuali.student.r2.core.krms.config.context.lu.MockCluInfo;
 import org.kuali.student.r2.core.krms.config.context.lu.MockCluSetInfo;
 import org.kuali.student.r2.core.krms.naturallanguage.Context;
@@ -267,8 +266,8 @@ public class NaturalLanguageUtil {
     	ContextRegistry<Context<TermDefinitionContract>> contextRegistry = new ContextRegistry<Context<TermDefinitionContract>>();
 
     	createData();
-    	CourseListContextImpl.setCluInfo(cluList);
-    	CourseListContextImpl.setCluSetInfo(cluSetList);
+    	//CourseListContextImpl.setCluInfo(cluList);
+    	//CourseListContextImpl.setCluSetInfo(cluSetList);
         ContextMockImpl mockContext = new ContextMockImpl();
 
     	contextRegistry.add("kuali.krms.proposition.type.course.courseset.completed.none", mockContext);
