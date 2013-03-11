@@ -118,7 +118,7 @@
 	-->
 	
 	<param name="rice.kim.additionalSpringFiles">classpath:ks-kim-context.xml</param>
-    <param name="rice.krms.additionalSpringFiles">classpath:ks-krms-context.xml</param>
+    <param name="rice.krms.additionalSpringFiles">classpath:org/kuali/student/enrollment/krms/ks-krms-context.xml</param>
 
     <param name="ks.rice.label">RICE</param>
     <param name="ks.rice.url">${application.url}</param>
