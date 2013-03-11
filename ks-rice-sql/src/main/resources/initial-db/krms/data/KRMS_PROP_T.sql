@@ -577,7 +577,7 @@ INSERT INTO KRMS_PROP_T (DESC_TXT,DSCRM_TYP_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR)
   VALUES ('Must have successfully completed a minimum of <n> courses from <courses>','S','10191','10140','10019',1)
 /
 INSERT INTO KRMS_PROP_T (CMPND_OP_CD,DESC_TXT,DSCRM_TYP_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR)
-  VALUES ('&','Must meet 1 of the following','C','10192','10065','10077',1)
+  VALUES ('&','Must meet all of the following','C','10192','10065','10076',1)
 /
 INSERT INTO KRMS_PROP_T (DESC_TXT,DSCRM_TYP_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR)
   VALUES ('Must have successfully completed all courses from <courses>','S','10193','10065','10018',1)
