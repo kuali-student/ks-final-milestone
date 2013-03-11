@@ -435,6 +435,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     protected ModelAndView prepareManageAOsModelAndView(CourseOfferingManagementForm form, CourseOfferingListSectionWrapper selectedCO) throws  Exception {
 
         CourseOfferingWrapper currentCO = new CourseOfferingWrapper(selectedCO.isCrossListed(),selectedCO.getCourseOfferingCode(),selectedCO.getCourseOfferingDesc(),selectedCO.getAlternateCOCodes(),selectedCO.getCourseOfferingId());
+        currentCO.setTerm( form.getTermInfo() );
         CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(currentCO.getCourseOfferingId(),ContextUtils.createDefaultContextInfo());
 
         currentCO.setCourseOfferingInfo(coInfo);

@@ -53,7 +53,7 @@
                     <property name="items" >
                         <list>
                             <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{currentCourseOfferingWrapper.alternateCOCodesUITooltip}" p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != ''}"/>
-                            <bean parent="Uif-DataField" p:label="Term:" p:propertyName="currentCourseOfferingWrapper.term.code" p:fieldLabel.renderColon="false" p:readOnly="true"/>
+                            <bean parent="Uif-DataField" p:label="Term:" p:propertyName="currentCourseOfferingWrapper.term.name" p:fieldLabel.renderColon="false" p:readOnly="true"/>
                          </list>
                     </property>
                 </bean>
