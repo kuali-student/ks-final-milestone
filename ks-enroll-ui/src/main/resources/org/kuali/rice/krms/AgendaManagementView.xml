@@ -22,7 +22,8 @@
     <bean id="KS-AgendaManagement-View" parent="KSFormView" p:applyDirtyCheck="true"
           p:id="agendaManagementView"
           p:viewHelperServiceClass="org.kuali.rice.krms.service.impl.AgendaManagementViewHelperServiceImpl"
-          p:formClass="org.kuali.student.enrollment.class1.krms.form.AgendaManagementForm">
+          p:formClass="org.kuali.student.enrollment.class1.krms.form.AgendaManagementForm"
+            p:singlePageView="true">
         <property name="headerText" value="Manage Requisites"/>
         <property name="cssClasses">
             <list merge="true">
@@ -43,66 +44,30 @@
                 <value>ks-enroll/css/enroll.css</value>
             </list>
         </property>
+        <property name="page">
+            <ref bean="KS-AgendaManageRequisites-Page"/>
+        </property>
+    </bean>
+
+    <bean name="KS-AgendaManageRequisites-Page" parent="Uif-Page">
         <property name="items">
             <list>
-                <bean name="ManageRequisites-Section" parent="Uif-Page">
-                    <property name="items">
-                        <list>
-                            <ref bean="EnrollmentEligibility-Section"/>
-                            <ref bean="CreditConstraints-Section"/>
-                        </list>
-                    </property>
-                </bean>
+                <ref bean="KS-AgendaType-Section-Template"/>
+                <ref bean="KS-RuleType-DisclosureSection-Template"/>
+                <ref bean="KS-RuleTypeFunctionLinks-Template"/>
+                <ref bean="KS-RuleTypeAddLink-Template"/>
+                <ref bean="KS-RuleTypeInstruction-Message"/>
             </list>
         </property>
     </bean>
 
-    <bean name="EnrollmentEligibility-Section" parent="Uif-VerticalBoxSection">
+    <bean id="KS-AgendaType-Section-Template" parent="Uif-VerticalBoxSection">
         <property name="header">
-            <bean parent="Uif-HeaderThree" p:style="border-bottom:solid 2px #000; margin-bottom:5px; margin-top:15px;" p:headerText="@{enrollmentEligibility}"/>
-        </property>
-        <property name="items">
-            <list>
-                <ref bean="StudentEligibilityAndPrerequisites-Disclosure"/>
-                <ref bean="Corequisites-Disclosure"/>
-                <ref bean="RecommendedPreperation-Disclosure"/>
-                <ref bean="Antirequisite-Disclosure"/>
-            </list>
+            <bean parent="Uif-HeaderThree" p:style="border-bottom:solid 2px #000; margin-bottom:5px; margin-top:15px;"/>
         </property>
     </bean>
 
-    <bean name="CreditConstraints-Section" parent="Uif-VerticalBoxSection">
-        <property name="header">
-            <bean parent="Uif-HeaderThree" p:style="border-bottom:solid 2px #000; margin-bottom:5px; margin-top:15px;" p:headerText="@{creditConstraints}"/>
-        </property>
-        <property name="items">
-            <list>
-                <ref bean="RestrictsCredit-Disclosure"/>
-                <ref bean="RepeatableCredit-Disclosure"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-StudentEligAndPrereqPreviewTree-Section" parent="KS-ViewTree-Section">
-        <property name="propertyName" value="studentEligAndPrereqPreviewTree"/>
-    </bean>
-    <bean id="KS-CorequisitePreviewTree-Section" parent="KS-ViewTree-Section">
-        <property name="propertyName" value="corequisitePreviewTree"/>
-    </bean>
-    <bean id="KS-AnitrequisitePreviewTree-Section" parent="KS-ViewTree-Section">
-        <property name="propertyName" value="antirequisitePreviewTree"/>
-    </bean>
-    <bean id="KS-RecPrepPreviewTree-Section" parent="KS-ViewTree-Section">
-        <property name="propertyName" value="recPrepPreviewTree"/>
-    </bean>
-    <bean id="KS-RestrictCreditPreviewTree-Section" parent="KS-ViewTree-Section">
-        <property name="propertyName" value="restrictCreditPreviewTree"/>
-    </bean>
-    <bean id="KS-RepeatableCreditPreviewTree-Section" parent="KS-ViewTree-Section">
-        <property name="propertyName" value="repeatableCreditPreviewTree"/>
-    </bean>
-
-    <bean id="Disclosure-Links" parent="Uif-LinkGroup">
+    <bean id="KS-RuleTypeFunctionLinks-Template" parent="Uif-LinkGroup">
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
@@ -133,7 +98,7 @@
         </property>
     </bean>
 
-    <bean id="AddRequisite-Link" parent="Uif-LinkGroup">
+    <bean id="KS-RuleTypeAddLink-Template" parent="Uif-LinkGroup">
         <property name="items">
             <list>
                 <bean parent="Uif-Link" p:linkText="Add Requisite">
@@ -146,22 +111,17 @@
         </property>
     </bean>
 
-    <bean name="StudentEligibilityAndPrerequisites-Disclosure" parent="Uif-Disclosure-VerticalBoxSection">
+    <bean id="KS-RuleType-DisclosureSection-Template" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="disclosure.defaultOpen" value="false"/>
         <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="@{studentEligAndPrereq}"/>
+            <bean parent="Uif-HeaderThree"/>
         </property>
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxSection" p:width="500px" p:style="margin-left:1em">
                     <property name="items">
                         <list>
-                            <bean parent="Disclosure-Links" p:align="right" p:render="@{studentEligAndPrereqPreviewTree.getRootElement().getData() != null}"/>
-                            <bean parent="AddRequisite-Link" p:align="right" p:render="@{studentEligAndPrereqPreviewTree.getRootElement().getData() == null}"/>
-                            <bean parent="Uif-MessageField">
-                                <property name="messageText" value="@{studentEligAndPrereqInstruction}"/>
-                            </bean>
-                            <bean parent="KS-StudentEligAndPrereqPreviewTree-Section" p:style="border: 1px solid #999999; background-color: #eee" p:render="@{studentEligAndPrereqPreviewTree.getRootElement().getData() != null}"/>
+                            <bean id="KS-RuleTypeInstruction-Message" parent="Uif-MessageField" p:messageText="@{}"/>
                         </list>
                     </property>
                 </bean>
@@ -169,119 +129,5 @@
         </property>
     </bean>
 
-    <bean name="Corequisites-Disclosure" parent="Uif-Disclosure-VerticalBoxSection">
-        <property name="disclosure.defaultOpen" value="false"/>
-        <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="@{corequisites}"/>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-VerticalBoxSection" p:width="500px" p:style="margin-left:1em">
-                    <property name="items">
-                        <list>
-                            <bean parent="Disclosure-Links" p:align="right" p:render="@{corequisitePreviewTree.getRootElement().getData() != null}"/>
-                            <bean parent="AddRequisite-Link" p:align="right" p:render="@{corequisitePreviewTree.getRootElement().getData() == null}"/>
-                            <bean parent="Uif-MessageField">
-                                <property name="messageText" value="@{corequisitesInstruction}"/>
-                            </bean>
-                            <bean parent="KS-CorequisitePreviewTree-Section" p:style="border: 1px solid #999999; background-color: #eee" p:render="@{corequisitePreviewTree.getRootElement().getData() != null}"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean name="RecommendedPreperation-Disclosure" parent="Uif-Disclosure-VerticalBoxSection">
-        <property name="disclosure.defaultOpen" value="false"/>
-        <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="@{recommendedPreparation}"/>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-VerticalBoxSection" p:width="500px" p:style="margin-left:1em">
-                    <property name="items">
-                        <list>
-                            <bean parent="Disclosure-Links" p:align="right" p:render="@{recPrepPreviewTree.getRootElement().getData() != null}"/>
-                            <bean parent="AddRequisite-Link" p:align="right" p:render="@{recPrepPreviewTree.getRootElement().getData() == null}"/>
-                            <bean parent="Uif-MessageField">
-                                <property name="messageText" value="@{recommendedPreparationInstruction}"/>
-                            </bean>
-                            <bean parent="KS-AnitrequisitePreviewTree-Section" p:style="border: 1px solid #999999; background-color: #eee" p:render="@{recPrepPreviewTree.getRootElement().getData() != null}"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean name="Antirequisite-Disclosure" parent="Uif-Disclosure-VerticalBoxSection">
-        <property name="disclosure.defaultOpen" value="false"/>
-        <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="@{antirequisite}"/>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-VerticalBoxSection" p:width="500px" p:style="margin-left:1em">
-                    <property name="items">
-                        <list>
-                            <bean parent="Disclosure-Links" p:align="right" p:render="@{antirequisitePreviewTree.getRootElement().getData() != null}"/>
-                            <bean parent="AddRequisite-Link" p:align="right" p:render="@{antirequisitePreviewTree.getRootElement().getData() == null}"/>
-                            <bean parent="Uif-MessageField">
-                                <property name="messageText" value="@{antirequisiteInstruction}"/>
-                            </bean>
-                            <bean parent="KS-RecPrepPreviewTree-Section" p:style="border: 1px solid #999999; background-color: #eee" p:render="@{antirequisitePreviewTree.getRootElement().getData() != null}"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean name="RestrictsCredit-Disclosure" parent="Uif-Disclosure-VerticalBoxSection">
-        <property name="disclosure.defaultOpen" value="false"/>
-        <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="@{restrictCredits}"/>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-VerticalBoxSection" p:width="500px" p:style="margin-left:1em">
-                    <property name="items">
-                        <list>
-                            <bean parent="Disclosure-Links" p:align="right"  p:render="@{restrictCreditPreviewTree.getRootElement().getData() != null}"/>
-                            <bean parent="AddRequisite-Link" p:align="right" p:render="@{restrictCreditPreviewTree.getRootElement().getData() == null}"/>
-                            <bean parent="Uif-MessageField">
-                                <property name="messageText" value="@{restrictCreditsInstruction}"/>
-                            </bean>
-                            <bean parent="KS-RestrictCreditPreviewTree-Section" p:style="border: 1px solid #999999; background-color: #eee" p:render="@{restrictCreditPreviewTree.getRootElement().getData() != null}"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean name="RepeatableCredit-Disclosure" parent="Uif-Disclosure-VerticalBoxSection">
-        <property name="disclosure.defaultOpen" value="false"/>
-        <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="@{repeatableCredit}"/>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-VerticalBoxSection" p:width="500px" p:style="margin-left:1em">
-                    <property name="items">
-                        <list>
-                            <bean parent="Disclosure-Links" p:align="right" p:render="@{repeatableCreditPreviewTree.getRootElement().getData() != null}"/>
-                            <bean parent="AddRequisite-Link" p:align="right" p:render="@{repeatableCreditPreviewTree.getRootElement().getData() == null}"/>
-                            <bean parent="Uif-MessageField">
-                                <property name="messageText" value="@{repeatableCreditInstruction}"/>
-                            </bean>
-                            <bean parent="KS-RepeatableCreditPreviewTree-Section" p:style="border: 1px solid #999999; background-color: #eee" p:render="@{repeatableCreditPreviewTree.getRootElement().getData() != null}"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
 
 </beans>

@@ -69,6 +69,9 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
     // for Compare
     private transient Tree<CompareTreeNode, String> compareTree;
 
+    //Rule Instruction
+    private String ruleInstruction;
+
     public RuleEditor() {
         super();
     }
@@ -354,5 +357,13 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     public void setSelectedTab(String selectedTab) {
         this.selectedTab = selectedTab;
+    }
+
+    public String getRuleInstruction() {
+        return ruleInstruction;
+    }
+
+    public void setRuleInstruction(String ruleInstruction) {
+        this.ruleInstruction = ruleInstruction;
     }
 }

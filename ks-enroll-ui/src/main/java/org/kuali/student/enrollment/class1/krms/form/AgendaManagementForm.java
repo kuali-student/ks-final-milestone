@@ -6,6 +6,7 @@ import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.tree.node.TreeNode;
+import org.kuali.student.enrollment.class1.krms.dto.AgendaEditor;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class AgendaManagementForm extends UifFormBase implements Serializable {
 
-    AgendaDefinition agenda;
+    List<AgendaEditor> agendaEditor;
 
     //Agenda Types
     String enrollmentEligibility;
@@ -114,12 +115,12 @@ public class AgendaManagementForm extends UifFormBase implements Serializable {
         courseOfferingResultListEmpty = new ArrayList<CourseOfferingListSectionWrapper>();
     }
 
-    public AgendaDefinition getAgenda() {
-        return agenda;
+    public List<AgendaEditor> getAgendaEditor() {
+        return agendaEditor;
     }
 
-    public void setAgenda(AgendaDefinition agenda) {
-        this.agenda = agenda;
+    public void setAgenda(List<AgendaEditor> agendaEditor) {
+        this.agendaEditor = agendaEditor;
     }
 
     public String getCreditConstraints() {
