@@ -2129,7 +2129,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ValidationResultInfo validationResultInfo = new ValidationResultInfo();
 
         try {
-            RegistrationGroupInfo registrationGroupInfo = registrationGroupInfo = getRegistrationGroup (registrationGroupId, contextInfo);
+            RegistrationGroupInfo registrationGroupInfo = new RegistrationGroupInfo();
+            registrationGroupTransformer.assembleLuiLuiRelations(registrationGroupInfo,registrationGroupId,contextInfo);
+
             List<String> aoIds = registrationGroupInfo.getActivityOfferingIds();
             if (aoIds == null) {
                 aoIds = new ArrayList<String>();

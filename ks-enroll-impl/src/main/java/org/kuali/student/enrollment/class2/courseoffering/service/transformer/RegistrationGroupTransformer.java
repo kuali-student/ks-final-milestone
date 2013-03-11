@@ -135,7 +135,19 @@ public class RegistrationGroupTransformer {
 
     }
 
-    private void assembleLuiLuiRelations(RegistrationGroupInfo rg, String luiId, ContextInfo context)
+    /**
+     * This method populates the passed in RegistrationGroupInfo with it's related ActivityOffering Ids and
+     * the related FormatOffering Id
+     * @param rg
+     * @param luiId
+     * @param context
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public void assembleLuiLuiRelations(RegistrationGroupInfo rg, String luiId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
