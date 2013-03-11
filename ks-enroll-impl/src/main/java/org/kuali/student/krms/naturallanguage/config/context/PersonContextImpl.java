@@ -16,7 +16,7 @@
 package org.kuali.student.krms.naturallanguage.config.context;
 
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
-import org.kuali.student.krms.naturallanguage.TermParameterTypes;
+import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 

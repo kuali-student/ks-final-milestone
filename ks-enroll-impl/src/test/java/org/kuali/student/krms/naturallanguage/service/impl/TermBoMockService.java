@@ -25,7 +25,7 @@ import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinitionContract;
 import org.kuali.rice.krms.impl.repository.TermBoService;
 import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
-import org.kuali.student.krms.naturallanguage.TermParameterTypes;
+import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -9,7 +9,7 @@ import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
-import org.kuali.student.krms.naturallanguage.TermParameterTypes;
+import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.springframework.test.context.ContextConfiguration;

@@ -26,7 +26,7 @@ import org.kuali.rice.krms.impl.repository.KrmsTypeRepositoryServiceImpl;
 import org.kuali.rice.krms.impl.repository.TermBoService;
 import org.kuali.rice.krms.impl.repository.TermBoServiceImpl;
 import org.kuali.student.common.util.VelocityTemplateEngine;
-import org.kuali.student.krms.naturallanguage.TermParameterTypes;
+import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.krms.naturallanguage.Context;

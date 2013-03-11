@@ -12,7 +12,7 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
-import org.kuali.student.krms.naturallanguage.TermParameterTypes;
+import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.krms.naturallanguage.config.context.util.NLCluSet;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.ContextUtils;
