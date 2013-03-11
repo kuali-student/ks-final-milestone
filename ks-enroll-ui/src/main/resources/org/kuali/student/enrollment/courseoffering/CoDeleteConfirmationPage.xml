@@ -153,13 +153,26 @@
             </bean>
         </property>
 
+        <property name="propertyReplacers">
+            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="layoutManager.richTable.hiddenColumns" p:condition="selectedCoToDeleteList.size() le 1">
+                <property name="replacement">
+                    <set>
+                        <value>isChecked</value>
+                    </set>
+                </property>
+            </bean>
+        </property>
+
         <property name="items">
             <list>
+
+                <!-- This column is hidden unless there are 2(or more) CO's to delete; see the property-replacer above -->
                 <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
                 </bean>
+
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="COURSE">
                     <property name="items">
                        <list>
