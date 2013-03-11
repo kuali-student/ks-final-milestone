@@ -42,7 +42,8 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
      */
     protected Class<T> entityClass;
 
-    @PersistenceContext
+    // FIXME: 
+    // @PersistenceContext cannot be injected without unit name, must use subclass or setter
     protected EntityManager em;
 
     public GenericEntityDao() {
