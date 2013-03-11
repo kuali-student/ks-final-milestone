@@ -18,6 +18,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Main model object in Edit AO view.
+ *
+ * @see ColocatedActivity
+ *
+ */
 public class ActivityOfferingWrapper implements Serializable{
     //added for ARG
     private ActivityOfferingClusterInfo aoCluster;
@@ -89,7 +95,7 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private boolean colocatedAO;
     private List<ColocatedActivity> colocatedActivities;
-    private boolean shareSeats;
+    private boolean maxEnrollmentShared;
     private int sharedMaxEnrollment;
 
     private EditRenderHelper editRenderHelper;
@@ -113,7 +119,7 @@ public class ActivityOfferingWrapper implements Serializable{
         revisedScheduleRequestComponents = new ArrayList<ScheduleWrapper>();
         newScheduleRequest = new ScheduleWrapper();
         colocatedActivities = new ArrayList<ColocatedActivity>();
-        shareSeats = true;
+        maxEnrollmentShared = true;
         editRenderHelper = new EditRenderHelper();
     }
 
@@ -768,12 +774,12 @@ public class ActivityOfferingWrapper implements Serializable{
         this.colocatedActivities = colocatedActivities;
     }
 
-    public boolean isShareSeats() {
-        return shareSeats;
+    public boolean isMaxEnrollmentShared() {
+        return maxEnrollmentShared;
     }
 
-    public void setShareSeats(boolean shareSeats) {
-        this.shareSeats = shareSeats;
+    public void setMaxEnrollmentShared(boolean maxEnrollmentShared) {
+        this.maxEnrollmentShared = maxEnrollmentShared;
     }
 
     public int getSharedMaxEnrollment() {
@@ -799,10 +805,18 @@ public class ActivityOfferingWrapper implements Serializable{
         return StringUtils.removeEnd(buffer.toString(),"<br>");
     }
 
+    /**
+     * Returns the Edit Helper.
+     *
+     * @return
+     */
     public EditRenderHelper getEditRenderHelper() {
         return editRenderHelper;
     }
 
+    /**
+     * Helper to render the colocated activites in Edit AO screen.
+     */
     public class EditRenderHelper implements Serializable {
 
         private List<ColocatedActivity> manageSeperateEnrollmentList;
@@ -811,10 +825,24 @@ public class ActivityOfferingWrapper implements Serializable{
             manageSeperateEnrollmentList = new ArrayList<ColocatedActivity>();
         }
 
+        /**
+         * @see #setManageSeperateEnrollmentList(java.util.List)
+         * @return
+         */
         public List<ColocatedActivity> getManageSeperateEnrollmentList() {
             return manageSeperateEnrollmentList;
         }
 
+        /**
+         * If the user is going to manage the enrollment list seperately for each activity offerings in a
+         * cross listed set, this list is used to display that section at the ui.
+         *
+         * It's just a seperate list but it holds the same reference elements from {@link #setColocatedActivities(java.util.List)} plus
+         * the current AO.
+         *
+         * @param manageSeperateEnrollmentList
+         */
+        @SuppressWarnings("unused")
         public void setManageSeperateEnrollmentList(List<ColocatedActivity> manageSeperateEnrollmentList) {
             this.manageSeperateEnrollmentList = manageSeperateEnrollmentList;
         }

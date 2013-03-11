@@ -16,13 +16,10 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-
 import java.io.Serializable;
 
 /**
- * This class //TODO ...
+ * This class holds the properties needed for displaying the colocated activities
  *
  * @author Kuali Student Team
  */
@@ -72,43 +69,84 @@ public class ColocatedActivity implements Serializable {
         this.aoId = aoId;
     }
 
+    /**
+     * @see #setMaxEnrollmentCount(int)
+     * @return
+     */
     @SuppressWarnings("unused")
     public int getMaxEnrollmentCount() {
         return maxEnrollmentCount;
     }
 
+    /**
+     * Sets the maximum enrollment count to be shared across all the colocated activities
+     *
+     * @param maxEnrollmentCount
+     */
     public void setMaxEnrollmentCount(int maxEnrollmentCount) {
         this.maxEnrollmentCount = maxEnrollmentCount;
     }
 
+    /**
+     * Returns the render helper for Edit AO view
+     * @return
+     */
     public EditRenderHelper getEditRenderHelper() {
         return editRenderHelper;
     }
 
+    /**
+     * A helper class which holds all the extra properties needed in rendering the
+     * colocated ativities in Edit AO view
+     *
+     */
     public class EditRenderHelper implements Serializable{
 
-        private TermInfo termInfo;
+        private String termId;
         private boolean allowEnrollmentEdit;
 
+        /**
+         * Returns the Course Offering + Activity Offering Code for display purpose
+         *
+         * @return
+         */
         public String getCode(){
             return getCourseOfferingCode() + " " + getActivityOfferingCode();
         }
 
+        /**
+         * @see #setTermId(String)
+         * @return
+         */
         public String getTermId(){
-            if (termInfo != null){
-                return termInfo.getId();
-            }
-            return StringUtils.EMPTY;
+            return termId;
         }
 
-        public void setTermInfo(TermInfo termInfo){
-            this.termInfo = termInfo;
+        /**
+         * Sets the term id for the current. This is needed to maintain seperately as we're having binding issues
+         * to pass the term id to the Activity offerring lookup.
+         *
+         * @param termId
+         */
+        public void setTermId(String termId){
+            this.termId = termId;
         }
 
+        /**
+         * @see #setAllowEnrollmentEdit(boolean)
+         * @return
+         */
+        @SuppressWarnings("unused")
         public boolean isAllowEnrollmentEdit() {
             return allowEnrollmentEdit;
         }
 
+        /**
+         * This flag is to allow the user to enter the seat count for the current AO. (All the other AOs in the
+         * cross list set are read only)
+         *
+         * @param allowEnrollmentEdit
+         */
         public void setAllowEnrollmentEdit(boolean allowEnrollmentEdit) {
             this.allowEnrollmentEdit = allowEnrollmentEdit;
         }

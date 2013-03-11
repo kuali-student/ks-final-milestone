@@ -272,6 +272,38 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             CourseInfo courseInfo = getCourseService().getCourse(courseOfferingInfo.getCourseId(),contextInfo);
             wrapper.setCourse(courseInfo);
 
+
+            if (info.getIsPartOfColocatedOfferingSet()){
+                wrapper.setColocatedAO(true);
+                List<ColocatedOfferingSetInfo> coloSet = getCourseOfferingService().getColocatedOfferingSetsByActivityOffering(info.getId(), createContextInfo());
+                if (!coloSet.isEmpty()){
+
+                    ColocatedOfferingSetInfo colocatedOfferingSetInfo = coloSet.get(0);
+
+                    wrapper.setMaxEnrollmentShared(colocatedOfferingSetInfo.getIsMaxEnrollmentShared());
+                    if (colocatedOfferingSetInfo.getIsMaxEnrollmentShared()) {
+                        wrapper.setSharedMaxEnrollment(colocatedOfferingSetInfo.getMaximumEnrollment());
+                    }
+
+                    List<String> activityOfferingIds = new ArrayList<String>(colocatedOfferingSetInfo.getActivityOfferingIds());
+                    activityOfferingIds.remove(info.getId());
+                    List<ActivityOfferingInfo> aoInfos = getCourseOfferingService().getActivityOfferingsByIds(activityOfferingIds,contextInfo);
+
+                    for (ActivityOfferingInfo dto : aoInfos){
+                        ColocatedActivity coloAO = new ColocatedActivity();
+                        coloAO.setAoId(dto.getId());
+                        coloAO.setMaxEnrollmentCount(coloAO.getMaxEnrollmentCount());
+                        coloAO.setCoId(dto.getCourseOfferingId());
+                        coloAO.setActivityOfferingCode(dto.getActivityCode());
+                        coloAO.setCourseOfferingCode(dto.getCourseOfferingCode());
+                        wrapper.getColocatedActivities().add(coloAO);
+                    }
+
+                    wrapper.getEditRenderHelper().getManageSeperateEnrollmentList().addAll(wrapper.getColocatedActivities());
+                }
+
+            }
+
             ColocatedActivity a = new ColocatedActivity();
             a.setActivityOfferingCode(wrapper.getActivityCode());
             a.setCourseOfferingCode(wrapper.getCourseOfferingCode());
@@ -282,7 +314,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
             wrapper.getEditRenderHelper().getManageSeperateEnrollmentList().add(a);
 
-            ColocatedActivity a1 = new ColocatedActivity();
+            /*ColocatedActivity a1 = new ColocatedActivity();
             a1.setActivityOfferingCode("A");
             a1.setCourseOfferingCode("CHEM142");
             a1.setMaxEnrollmentCount(10);
@@ -294,8 +326,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             a2.setCourseOfferingCode("HIST321");
             a2.setMaxEnrollmentCount(10);
             wrapper.getColocatedActivities().add(a2);
-            wrapper.getEditRenderHelper().getManageSeperateEnrollmentList().addAll(wrapper.getColocatedActivities());
-
+            wrapper.getEditRenderHelper().getManageSeperateEnrollmentList().addAll(wrapper.getColocatedActivities());*/
 
             return wrapper;
         } catch (Exception e) {
@@ -316,7 +347,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
             ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
             ColocatedActivity colo = (ColocatedActivity)line;
-            colo.getEditRenderHelper().setTermInfo(activityOfferingWrapper.getTerm());
+            colo.getEditRenderHelper().setTermId(activityOfferingWrapper.getTerm().getId());
         }
 
     }

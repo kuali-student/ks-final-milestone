@@ -38,7 +38,7 @@ function activityEditDocumentOnLoad(){
     jQuery("#shared_max_enr_control").addClass("ignoreValid");
 
     if(jQuery("#is_co_located").length != 0) {
-        setupColoCheckBoxChange(jQuery("#is_co_located"));
+        setupColoCheckBoxChange(jQuery("#is_co_located_control"));
     }
 
     if (jQuery("#share_seats_control_0").length != 0){

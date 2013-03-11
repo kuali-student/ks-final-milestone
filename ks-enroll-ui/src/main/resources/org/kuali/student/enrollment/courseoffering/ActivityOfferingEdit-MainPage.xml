@@ -108,7 +108,7 @@
                 <bean parent="Uif-Message" p:messageText="Select Activities for Colocation" p:style="font-size:15px;"/>
                 <ref bean="ActivityOfferingEdit-MainPage-CoLocatedActivities"/>
                 <bean parent="Uif-Message" p:messageText="Set Maximum Enrollment" p:style="font-size:15px;"/>
-                <bean id="share_seats" parent="Uif-InputField" p:propertyName="shareSeats">
+                <bean id="share_seats" parent="Uif-InputField" p:propertyName="maxEnrollmentShared">
                   <property name="control">
                     <bean parent="Uif-HorizontalRadioControl">
                       <property name="options">
