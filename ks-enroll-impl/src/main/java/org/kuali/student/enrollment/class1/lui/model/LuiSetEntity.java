@@ -70,7 +70,7 @@ public class LuiSetEntity extends MetaEntity implements AttributeOwner<LuiSetAtt
     @Column(name = "LUI_SET_STATE")
     private String luiSetState;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name ="KSEN_LUI_SET_LUI",joinColumns = @JoinColumn(name = "LUI_SET_ID"))
     @Column(name="LUI_ID")
     private List<String> luiIds = new ArrayList<String>();
