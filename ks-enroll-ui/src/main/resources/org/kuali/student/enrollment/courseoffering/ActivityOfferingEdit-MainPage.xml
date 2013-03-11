@@ -131,11 +131,12 @@
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity" />
         <property name="propertyName" value="colocatedActivities"/>
         <property name="layoutManager.richTable.render" value="false"/>
-        <property name="bindingInfo">
-            <bean parent="Uif-BindingInfo">
-                <property name="bindingPath" value="newCollectionLines['document.newMaintainableObject.dataObject.colocatedActivities']"/>
-            </bean>
-        </property>
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <!--<property name="addLineActions">
+            <list>
+                <bean parent="Uif-AddLineAction" p:successCallback="retrieveComponent('enr_shared_table', null, null, null);"/>
+            </list>
+        </property>-->
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="courseOfferingCode" p:fieldLabel.render="false" p:required="true" p:readOnly="@{!#isAddLine}">
@@ -209,13 +210,13 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate" parent="Uif-VerticalBoxSection">
+    <bean id="ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate" parent="Uif-VerticalBoxSection" >
         <property name="items">
             <list>
-                <bean parent="Uif-TableCollectionSection" p:style="width:250px;float:right;">
+                <bean id="enr_shared_table" parent="Uif-TableCollectionSection" p:style="width:250px;float:right;">
                     <property name="headerText" value="Combined Maximum Enrollment"/>
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity" />
-                    <property name="propertyName" value="colocatedActivities"/>
+                    <property name="propertyName" value="renderHelper.manageSeperateEnrollmentList"/>
                     <property name="renderAddLine" value="false"/>
                     <property name="header">
                       <bean parent="Uif-HeaderFour"/>
@@ -231,7 +232,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="renderHelper.code" p:label="Colocated Activities" p:style="color:green;"/>
-                            <bean parent="Uif-InputField" p:propertyName="maxEnrollmentCount" p:label="Max Erollment" p:readOnly="@{!#lp.currentAO}" p:required="true" p:exclusiveMin="0">
+                            <bean parent="Uif-InputField" p:propertyName="maxEnrollmentCount" p:label="Max Erollment" p:readOnly="@{!#lp.renderHelper.allowEnrollmentEdit}" p:required="true" p:exclusiveMin="0">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="4" />
                                 </property>

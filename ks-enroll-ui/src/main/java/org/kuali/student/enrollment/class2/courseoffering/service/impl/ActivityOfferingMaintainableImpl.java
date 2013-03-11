@@ -284,18 +284,23 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             if (wrapper.getAoInfo().getMaximumEnrollment() != null){
                 a.setMaxEnrollmentCount(wrapper.getAoInfo().getMaximumEnrollment());
             }
-            a.setCurrentAO(true);
-            wrapper.getColocatedActivities().add(a);
-            a = new ColocatedActivity();
-            a.setActivityOfferingCode("A");
-            a.setCourseOfferingCode("CHEM142");
-            a.setMaxEnrollmentCount(10);
-            wrapper.getColocatedActivities().add(a);
-            a = new ColocatedActivity();
-            a.setActivityOfferingCode("B");
-            a.setCourseOfferingCode("HIST321");
-            a.setMaxEnrollmentCount(10);
-            wrapper.getColocatedActivities().add(a);
+            a.getRenderHelper().setAllowEnrollmentEdit(true);
+
+            wrapper.getRenderHelper().getManageSeperateEnrollmentList().add(a);
+
+            ColocatedActivity a1 = new ColocatedActivity();
+            a1.setActivityOfferingCode("A");
+            a1.setCourseOfferingCode("CHEM142");
+            a1.setMaxEnrollmentCount(10);
+            wrapper.getColocatedActivities().add(a1);
+
+
+            ColocatedActivity a2 = new ColocatedActivity();
+            a2.setActivityOfferingCode("B");
+            a2.setCourseOfferingCode("HIST321");
+            a2.setMaxEnrollmentCount(10);
+            wrapper.getColocatedActivities().add(a2);
+            wrapper.getRenderHelper().getManageSeperateEnrollmentList().addAll(wrapper.getColocatedActivities());
 
 
             return wrapper;
@@ -448,6 +453,11 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     instructor.getOfferingInstructorInfo().setPersonName(personList.get(0).getName());
                 }
             }
+        } else if (addLine instanceof ColocatedActivity) {
+            ColocatedActivity colo = (ColocatedActivity)addLine;
+            MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
+            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+            activityOfferingWrapper.getRenderHelper().getManageSeperateEnrollmentList().add(colo);
         }
     }
 
@@ -493,56 +503,65 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         } else if (addLine instanceof ColocatedActivity){
             ColocatedActivity colo = (ColocatedActivity)addLine;
 
-            for (ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()){
-                if (StringUtils.equals(activity.getCourseOfferingCode(),colo.getCourseOfferingCode()) &&
-                    StringUtils.equals(activity.getActivityOfferingCode(),colo.getActivityOfferingCode())){
-                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Duplicate Entry");
-                    return false;
-                }
-            }
-
-            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            qbcBuilder.setPredicates(PredicateFactory.and(
-                    PredicateFactory.equal("courseOfferingCode", colo.getCourseOfferingCode()),
-                    PredicateFactory.equalIgnoreCase("atpId", activityOfferingWrapper.getTermId())));
-            QueryByCriteria criteria = qbcBuilder.build();
-
-            //Do search. In ideal case, returns one element, which is the desired CO.
-            try {
-                List<CourseOfferingInfo> courseOfferings = getCourseOfferingService().searchForCourseOfferings(criteria, createContextInfo());
-                if (courseOfferings.isEmpty()){
-                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Course Offering");
-                    return false;
-                } else if (courseOfferings.size() > 1){
-                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "More than one course offering exists for the code " + colo.getCourseOfferingCode());
-                    return false;
-                } else {
-                    colo.setCoId(courseOfferings.get(0).getId());
-                }
-
-                qbcBuilder = QueryByCriteria.Builder.create();
-                qbcBuilder.setPredicates(PredicateFactory.and(
-                        PredicateFactory.equal("courseOfferingId", StringUtils.upperCase(colo.getCoId())),
-                        PredicateFactory.equal("activityCode", StringUtils.upperCase(colo.getActivityOfferingCode())),
-                        PredicateFactory.equalIgnoreCase("atpId", activityOfferingWrapper.getTermId())));
-                criteria = qbcBuilder.build();
-
-                List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().searchForActivityOfferings(criteria, createContextInfo());
-                if (activityOfferingInfos.isEmpty()){
-                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Activity Offering");
-                    return false;
-                } else if (activityOfferingInfos.size() > 1){
-                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "More than one Activity offering exists");
-                    return false;
-                } else {
-                    colo.setAoId(activityOfferingInfos.get(0).getId());
-                }
-
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            validateNewColocatedActivity(colo,activityOfferingWrapper);
         }
         return super.performAddLineValidation(view, collectionGroup, model, addLine);
+    }
+
+    protected boolean validateNewColocatedActivity(ColocatedActivity colo,ActivityOfferingWrapper activityOfferingWrapper){
+
+        for (ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()){
+            if (StringUtils.equals(activity.getCourseOfferingCode(),colo.getCourseOfferingCode()) &&
+                StringUtils.equals(activity.getActivityOfferingCode(),colo.getActivityOfferingCode())){
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Duplicate Entry");
+                return false;
+            }
+        }
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+                PredicateFactory.equal("courseOfferingCode", colo.getCourseOfferingCode()),
+                PredicateFactory.equalIgnoreCase("atpId", activityOfferingWrapper.getTermId())));
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        //Do search. In ideal case, returns one element, which is the desired CO.
+        try {
+            List<CourseOfferingInfo> courseOfferings = getCourseOfferingService().searchForCourseOfferings(criteria, createContextInfo());
+            if (courseOfferings.isEmpty()){
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Course Offering code");
+                return false;
+            } else if (courseOfferings.size() > 1){
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "More than one course offering exists for the code " + colo.getCourseOfferingCode());
+                return false;
+            } else {
+                colo.setCoId(courseOfferings.get(0).getId());
+            }
+
+            List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferings.get(0).getId(),createContextInfo());
+
+            if (activityOfferingInfos.isEmpty()){
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Activity Offerings doesnt exists for " + colo.getCourseOfferingCode());
+                return false;
+            }
+
+            boolean isAOMatchFound = false;
+            for (ActivityOfferingInfo ao : activityOfferingInfos){
+                if (StringUtils.equalsIgnoreCase(ao.getActivityCode(),colo.getActivityOfferingCode())){
+                    colo.setAoId(ao.getId());
+                    isAOMatchFound = true;
+                }
+            }
+
+            if (!isAOMatchFound){
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Activity Offering code");
+                return false;
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return true;
     }
 
     public List<String> retrieveCourseOfferingCode(String termId,String courseOfferingCode){
@@ -634,10 +653,16 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
             wrapper.setSchedulesRevised(true);
             wrapper.getRevisedScheduleRequestComponents().remove(lineIndex);
+        } else if (StringUtils.endsWith(collectionPath, "colocatedActivities")) {
+            ActivityOfferingForm form = (ActivityOfferingForm) model;
+            ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+            Object o = wrapper.getColocatedActivities().remove(lineIndex);
+            wrapper.getRenderHelper().getManageSeperateEnrollmentList().remove(o);
         } else {
             super.processCollectionDeleteLine(view, model, collectionPath, lineIndex);
         }
     }
+
 
     public TypeService getTypeService() {
         if (typeService == null) {

@@ -17,9 +17,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.criteria.Predicate;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.lookup.LookupableImpl;
@@ -27,7 +24,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -52,6 +48,15 @@ import java.util.Map;
 public class ActivityOfferingWrapperLookupableImpl extends LookupableImpl {
 
     private SearchService searchService;
+
+    @Override
+    public boolean validateSearchParameters(LookupForm form, Map<String, String> searchCriteria){
+        if (searchCriteria == null || searchCriteria.isEmpty() || StringUtils.isBlank(searchCriteria.get("termId")) || StringUtils.isBlank(searchCriteria.get("courseOfferingCode"))){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,RiceKeyConstants.ERROR_CUSTOM,"Missing Course Offering code and/or term Id");
+            return false;
+        }
+        return true;
+    }
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
@@ -94,6 +99,7 @@ public class ActivityOfferingWrapperLookupableImpl extends LookupableImpl {
                     for (ActivityOfferingInfo activityOffering : aos) {
                         CO_AO_RG_ViewHelperServiceImpl helper = new CO_AO_RG_ViewHelperServiceImpl();
                         ActivityOfferingWrapper wrapper = helper.convertAOInfoToWrapper(activityOffering);
+                        wrapper.setCourseOfferingId(coId);
                         activityOfferingWrappers.add(wrapper);
                     }
                 }
@@ -102,40 +108,9 @@ public class ActivityOfferingWrapperLookupableImpl extends LookupableImpl {
                 throw new RuntimeException(e);
             }
 
-        } else if (StringUtils.isNotBlank(fieldValues.get("aoInfo.id"))){
-
-            QueryByCriteria qbc = buildQueryByCriteria(fieldValues);
-            try{
-                List<ActivityOfferingInfo> activityOfferings = getCourseOfferingService().searchForActivityOfferings(qbc, ContextUtils.createDefaultContextInfo());
-                for (ActivityOfferingInfo activityOffering : activityOfferings) {
-                    ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(activityOffering);
-                    activityOfferingWrappers.add(wrapper);
-                }
-            } catch (Exception e) {
-               throw new RuntimeException(e);
-            }
         }
 
         return activityOfferingWrappers;
-    }
-
-    private QueryByCriteria buildQueryByCriteria(Map<String, String> fieldValues){
-        String aoId = fieldValues.get(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID);
-
-        List<Predicate> predicates = new ArrayList<Predicate>();
-        if (StringUtils.isNotBlank(aoId)) {
-            predicates.add(PredicateFactory.equalIgnoreCase("id", aoId));
-        }
-
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
-        QueryByCriteria qbc = qbcBuilder.build();
-
-        return qbc;
-    }
-
-    private boolean hasCriteria(Map<String, String> fieldValues){
-        return StringUtils.isNotBlank(fieldValues.get(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID));
     }
 
     public CourseOfferingService getCourseOfferingService() {
