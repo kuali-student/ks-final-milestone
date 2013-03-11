@@ -167,7 +167,7 @@
     <!-- just the various containers for the interesting bits -->
 
     <bean id="KS-KitchenSink-Popovers-View" parent="KS-KitchenSink-FormView">
-        <property name="headerText" value="Input Fields"/>
+        <property name="headerText" value="Other Examples"/>
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-Page" p:headerText="Popover Content">
