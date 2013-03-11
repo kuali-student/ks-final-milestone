@@ -127,6 +127,7 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/PersonnelLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseInfoLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingEditMaintenanceView.xml</value>
+                <!--<value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingRolloverMaintenanceView.xml</value>-->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingCreateMaintenanceView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/OrganizationInfoLookupView.xml</value>
@@ -140,6 +141,15 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/BuildingLookupAndInquiry.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/RoomLookupAndInquiry.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ToolbarSection.xml</value>
+
+                <!-- Auto Gen Registratoin Groups -->
+                <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-ViewActivityOfferingsSection.xml</value>
+                <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-ViewAOClustersSection.xml</value>
+                <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-ViewRegistrationGroupsSection.xml</value>
+                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagement-ToolbarSection.xml</value>
+                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagement-ManageCourseOfferingsPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagement-ManageTheCourseOfferingPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagementView.xml</value>
 
                 <!-- East Coast Sandbox (rollover) -->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/DiagnoseRolloverView.xml</value>
@@ -215,12 +225,6 @@
                 <value>classpath:org/kuali/student/ui/admin/lrc/ResultValueInfoAdminInquiryView.xml</value>
                 <value>classpath:org/kuali/student/ui/admin/lrc/ResultValuesGroupInfoAdminLookupView.xml</value>
                 <value>classpath:org/kuali/student/ui/admin/lrc/ResultValuesGroupInfoAdminInquiryView.xml</value>
-
-                <!-- Auto Gen Registratoin Groups -->
-                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagementView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagement-ManageTheCourseOfferingPage.xml</value>
-                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagement-ToolbarSection.xml</value>
-                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagement-ManageCourseOfferingsPage.xml</value>
 
 
                 <!-- sandbox/test view
