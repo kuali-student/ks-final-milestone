@@ -34,10 +34,10 @@ public class ColocatedActivity implements Serializable {
     private String aoId;
     private int maxEnrollmentCount;
 
-    private RenderHelper renderHelper;
+    private EditRenderHelper editRenderHelper;
 
     public ColocatedActivity(){
-        renderHelper = new RenderHelper();
+        editRenderHelper = new EditRenderHelper();
     }
 
     public String getCourseOfferingCode() {
@@ -81,11 +81,11 @@ public class ColocatedActivity implements Serializable {
         this.maxEnrollmentCount = maxEnrollmentCount;
     }
 
-    public RenderHelper getRenderHelper() {
-        return renderHelper;
+    public EditRenderHelper getEditRenderHelper() {
+        return editRenderHelper;
     }
 
-    public class RenderHelper implements Serializable{
+    public class EditRenderHelper implements Serializable{
 
         private TermInfo termInfo;
         private boolean allowEnrollmentEdit;

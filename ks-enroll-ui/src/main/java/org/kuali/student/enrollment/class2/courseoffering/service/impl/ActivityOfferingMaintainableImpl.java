@@ -14,21 +14,8 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
-import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper;
@@ -40,17 +27,24 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingC
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.uif.service.impl.KSMaintainableImpl;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
@@ -284,9 +278,9 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             if (wrapper.getAoInfo().getMaximumEnrollment() != null){
                 a.setMaxEnrollmentCount(wrapper.getAoInfo().getMaximumEnrollment());
             }
-            a.getRenderHelper().setAllowEnrollmentEdit(true);
+            a.getEditRenderHelper().setAllowEnrollmentEdit(true);
 
-            wrapper.getRenderHelper().getManageSeperateEnrollmentList().add(a);
+            wrapper.getEditRenderHelper().getManageSeperateEnrollmentList().add(a);
 
             ColocatedActivity a1 = new ColocatedActivity();
             a1.setActivityOfferingCode("A");
@@ -300,7 +294,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             a2.setCourseOfferingCode("HIST321");
             a2.setMaxEnrollmentCount(10);
             wrapper.getColocatedActivities().add(a2);
-            wrapper.getRenderHelper().getManageSeperateEnrollmentList().addAll(wrapper.getColocatedActivities());
+            wrapper.getEditRenderHelper().getManageSeperateEnrollmentList().addAll(wrapper.getColocatedActivities());
 
 
             return wrapper;
@@ -322,7 +316,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
             ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
             ColocatedActivity colo = (ColocatedActivity)line;
-            colo.getRenderHelper().setTermInfo(activityOfferingWrapper.getTerm());
+            colo.getEditRenderHelper().setTermInfo(activityOfferingWrapper.getTerm());
         }
 
     }
@@ -457,7 +451,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             ColocatedActivity colo = (ColocatedActivity)addLine;
             MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
             ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-            activityOfferingWrapper.getRenderHelper().getManageSeperateEnrollmentList().add(colo);
+            activityOfferingWrapper.getEditRenderHelper().getManageSeperateEnrollmentList().add(colo);
         }
     }
 
@@ -657,7 +651,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             ActivityOfferingForm form = (ActivityOfferingForm) model;
             ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
             Object o = wrapper.getColocatedActivities().remove(lineIndex);
-            wrapper.getRenderHelper().getManageSeperateEnrollmentList().remove(o);
+            wrapper.getEditRenderHelper().getManageSeperateEnrollmentList().remove(o);
         } else {
             super.processCollectionDeleteLine(view, model, collectionPath, lineIndex);
         }

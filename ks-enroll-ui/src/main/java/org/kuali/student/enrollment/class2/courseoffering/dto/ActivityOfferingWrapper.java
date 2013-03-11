@@ -92,7 +92,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean shareSeats;
     private int sharedMaxEnrollment;
 
-    private RenderHelper renderHelper;
+    private EditRenderHelper editRenderHelper;
 
     //This is needed to display the cross listed courses
     private CourseInfo course;
@@ -114,7 +114,7 @@ public class ActivityOfferingWrapper implements Serializable{
         newScheduleRequest = new ScheduleWrapper();
         colocatedActivities = new ArrayList<ColocatedActivity>();
         shareSeats = true;
-        renderHelper = new RenderHelper();
+        editRenderHelper = new EditRenderHelper();
     }
 
     public ActivityOfferingWrapper(ActivityOfferingInfo info){
@@ -799,19 +799,15 @@ public class ActivityOfferingWrapper implements Serializable{
         return StringUtils.removeEnd(buffer.toString(),"<br>");
     }
 
-    public RenderHelper getRenderHelper() {
-        return renderHelper;
+    public EditRenderHelper getEditRenderHelper() {
+        return editRenderHelper;
     }
 
-    public void setRenderHelper(RenderHelper renderHelper) {
-        this.renderHelper = renderHelper;
-    }
-
-    public class RenderHelper implements Serializable {
+    public class EditRenderHelper implements Serializable {
 
         private List<ColocatedActivity> manageSeperateEnrollmentList;
 
-        public RenderHelper(){
+        public EditRenderHelper(){
             manageSeperateEnrollmentList = new ArrayList<ColocatedActivity>();
         }
 
