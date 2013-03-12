@@ -59,8 +59,8 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     private boolean enableCancelButton = false;
     private boolean enableReinstateButton = false;
     private boolean enableDeleteButton = false;
-    private boolean enableCopyCOActionLink = true;
-    private boolean enableEditCOActionLink = true;
+    private boolean enableCopyCOActionLink = false;
+    private boolean enableEditCOActionLink = false;
 
     private String crossListedCoList;
 

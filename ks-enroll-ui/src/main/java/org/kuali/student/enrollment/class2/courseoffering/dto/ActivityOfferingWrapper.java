@@ -90,8 +90,8 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean enableCancelButton = false;
     private boolean enableReinstateButton = false;
     private boolean enableDeleteButton = false;
-    private boolean enableCopyAOActionLink = true;
-    private boolean enableEditAOActionLink = true;
+    private boolean enableCopyAOActionLink = false;
+    private boolean enableEditAOActionLink = false;
 
     private boolean colocatedAO;
     private List<ColocatedActivity> colocatedActivities;
