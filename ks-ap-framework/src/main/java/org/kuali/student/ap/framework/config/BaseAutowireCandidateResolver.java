@@ -47,7 +47,7 @@ public class BaseAutowireCandidateResolver implements
 	 * @param definition
 	 *            The bean's bean definition.
 	 * @param optional
-	 *            True if the the resource resource has been marked as optional,
+	 *            True if the resource resource has been marked as optional,
 	 *            false if not. When marked as optional, this method should be
 	 *            fail-safe and return null rather than throw an exception if
 	 *            the resource is not available.
