@@ -113,7 +113,7 @@
                         <list>
                             <bean parent="KRMS-RuleEdit-Links" p:align="right"/>
                             <bean id="KRMS-Instruction-EditMessage" parent="Uif-MessageField"/>
-                            <!--bean id="KRMS-PreviewTree-Section" parent="KS-ViewTree-Section"/-->
+                            <bean id="KRMS-PreviewTree-Section" parent="KS-ViewTree-Section"/>
                         </list>
                     </property>
                 </bean>

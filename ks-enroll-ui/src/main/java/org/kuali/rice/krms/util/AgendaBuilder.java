@@ -47,6 +47,9 @@ public class AgendaBuilder {
      * @return
      */
     public Component buildAgenda(AgendaEditor agenda) {
+        // Reset the rule counter.
+        ruleCounter = 0;
+
         Group group = (Group) ComponentFactory.getNewComponentInstance("KRMS-AgendaSection-Template");
         group.setHeaderText("Agenda " + agendaCounter);
 
@@ -95,8 +98,8 @@ public class AgendaBuilder {
         MessageField messageField = (MessageField) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-Instruction-EditMessage");
         messageField.setMessageText("Instructional text for rule:" + ruleCounter); // TODO: get test from type map.
 
-        //TreeGroup treeGroup = (TreeGroup) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-PreviewTree-Section");
-        //treeGroup.setPropertyName("agendas[" + agendaCounter + "].ruleEditors[" + ruleCounter + "].previewTree");  //TODO: create method to generate agenda.rule path.
+        TreeGroup treeGroup = (TreeGroup) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-PreviewTree-Section");
+        treeGroup.setPropertyName("agendas[" + agendaCounter + "].ruleEditors[" + ruleCounter + "].previewTree");  //TODO: create method to generate agenda.rule path.
 
         ruleCounter++;
         return group;
