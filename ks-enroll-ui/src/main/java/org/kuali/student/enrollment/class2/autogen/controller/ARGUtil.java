@@ -184,11 +184,12 @@ public class ARGUtil {
         currentCO.setCourseOfferingInfo(coInfo);
         form.setCurrentCourseOfferingWrapper(currentCO);
         form.setSubjectCode(selectedCO.getSubjectArea());
+        ContextInfo contextInfo =  ContextUtils.createDefaultContextInfo();
 
         //Pull out the org ids and pass in the first one as the adminOrg
         List<String> orgIds = coInfo.getUnitsDeploymentOrgIds();
         if (orgIds != null && !orgIds.isEmpty()) {
-            OrgInfo org = getOrganizationService().getOrg(orgIds.get(0), ContextUtils.createDefaultContextInfo());
+            OrgInfo org = getOrganizationService().getOrg(orgIds.get(0), contextInfo);
             currentCO.setCoOwningDeptName(org.getShortName());
             // managing multiple orgs
             String orgIDs = "";
@@ -206,6 +207,25 @@ public class ARGUtil {
 
         getViewHelperService(form).loadActivityOfferingsByCourseOffering(coInfo, form);
         getViewHelperService(form).loadPreviousAndNextCourseOffering(form);
+        
+        //get cluster info and add to the form
+        List<String> foIds = new ArrayList<String>();
+        List<ActivityOfferingClusterInfo> clusterInfos = new ArrayList<ActivityOfferingClusterInfo>();
+        for(int i=0; i < form.getActivityWrapperList().size(); i++){  //parse through AOs
+            String foId = form.getActivityWrapperList().get(i).getFormatOffering().getId();
+            String aoId = form.getActivityWrapperList().get(i).getId();
+            if (!foIds.contains(foId)) {   //get AOC if not done yet
+                foIds.add(foId);
+                clusterInfos = getCourseOfferingService().getActivityOfferingClustersByFormatOffering(foId, contextInfo);
+            }
+            for (int j=0; j < clusterInfos.size(); j++){  //parse through AOs and assign aocs to ao wrapper
+                for(ActivityOfferingSetInfo aosInfo : clusterInfos.get(j).getActivityOfferingSets()){
+                    if (aosInfo.getActivityOfferingIds().contains(aoId)) {   //add aocWrapper to aoWrapper
+                        form.getActivityWrapperList().get(i).setAoCluster(clusterInfos.get(j));
+                    }
+                }
+            }
+        }
 
         //turn off authz for now
 //        form.setEditAuthz(checkEditViewAuthz(form));

@@ -73,20 +73,16 @@
                     </property>
                 </bean>
                 <bean parent="Uif-DataField" p:label="FORMAT" p:propertyName="aoInfo.formatOfferingName"/>
-
-                <!-- ARG Notes by Bonnie -->
-                <!-- TODO: need to add CLUSTER column between FORMAT AND STATUS when more than one cluster exist -->
-
+                <bean parent="Uif-DataField" p:label="CLUSTER" p:propertyName="aoCluster.privateName" />
                 <bean parent="Uif-DataField" p:label="STATUS" p:propertyName="stateName" />
                 <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName"/>
-                <bean parent="KS-Schedule-DisplayField" p:label="TBA" p:messageText="@{#line.tbaDisplayName}"/>
+                <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoInfo.maximumEnrollment"/>
                 <bean parent="KS-Schedule-DisplayField" p:label="DAYS" p:messageText="@{#line.daysDisplayName}" />
                 <bean parent="KS-Schedule-DisplayField" p:label="START TIME" p:messageText="@{#line.startTimeDisplay}" />
                 <bean parent="KS-Schedule-DisplayField" p:label="END TIME" p:messageText="@{#line.endTimeDisplay}" />
-                <bean parent="KS-Schedule-DisplayField" p:label="FACILITY" p:messageText="@{#line.buildingName}"/>
+                <bean parent="KS-Schedule-DisplayField" p:label="BLDG" p:messageText="@{#line.buildingName}"/>
                 <bean parent="KS-Schedule-DisplayField" p:label="ROOM" p:messageText="@{#line.roomName}"/>
                 <bean parent="Uif-DataField" p:label="INSTRUCTOR" p:propertyName="firstInstructorDisplayName"/>
-                <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoInfo.maximumEnrollment"/>
                 <bean name="enableApproveButton" parent="Uif-InputField" p:propertyName="enableApproveButton"/>
                 <bean name="enableDraftButton" parent="Uif-InputField" p:propertyName="enableDraftButton"/>
                 <bean name="enableSuspendButton" parent="Uif-InputField" p:propertyName="enableSuspendButton"/>
