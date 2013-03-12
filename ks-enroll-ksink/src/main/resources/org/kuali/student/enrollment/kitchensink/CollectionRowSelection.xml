@@ -26,6 +26,8 @@
         <property name="additionalScriptFiles">
             <list merge="true">
                 <value>ks-krad/scripts/ks-krad-collection-rowSelection.js</value>
+                <!-- sampleFunction() is defined in this script file: -->
+                <value>ks-enroll-ksink/scripts/collectionRowSelection.js</value>
             </list>
         </property>
     </bean>
@@ -34,14 +36,13 @@
         <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
         <property name="includeLineSelectionField" value="true"/>
         <property name="lineSelectPropertyName" value="selected"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <!--
-                    class "uif-kskrad-collection-rowSelection" triggers javascript toggling
-                -->
-                <value>uif-kskrad-collection-rowSelection</value>
-            </list>
-        </property>
+        <!--
+            NOTE: ksAddRowSelectionCheckbox(..) adds a checkbox to the first header cell
+            that, when clicked, triggers the click event for the first checkbox in each
+            row as needed to align the row checkbox with the control header checkbox.
+        -->
+        <property name="onDocumentReadyScript"
+                  value="ksAddRowSelectionCheckbox('KS-KitchenSink-CollectionRowSelection',false,sampleFunction)"/>
     </bean>
 
 
@@ -128,6 +129,14 @@
                                     <map>
                                         <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionRowSelection.xml"
                                                value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionRowSelection.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup" p:label="Javascript File">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="ks-enroll/ks-enroll-web/src/main/webapp/ks-krad/scripts/ks-krad-collection-rowSelection.js"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-web/src/main/webapp/ks-krad/scripts/ks-krad-collection-rowSelection.js"/>
                                     </map>
                                 </property>
                             </bean>
