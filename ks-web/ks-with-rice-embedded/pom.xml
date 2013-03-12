@@ -109,6 +109,18 @@
             <version>${ks.enroll.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.kuali.student.enroll</groupId>
+            <artifactId>ks-enroll-ksink</artifactId>
+            <version>${ks.enroll.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.enroll</groupId>
+            <artifactId>ks-enroll-web</artifactId>
+            <version>${ks.enroll.version}</version>
+            <type>war</type>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-hibernate</artifactId>
             <version>${ks.core.version}</version>

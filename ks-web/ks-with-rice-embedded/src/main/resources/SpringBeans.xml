@@ -71,6 +71,7 @@
 			<list>
                 <!-- rice and basic ks xmls -->
 				<value>classpath:org/kuali/rice/student/bo</value>
+                <value>${krad.js.scriptfiles}</value>
                 <value>classpath:UifKRADOverrideDefinitions.xml</value>
                 <value>classpath:UifKradExtensionDefinitions.xml</value>
 				<value>classpath:UifKSDefinitions.xml</value>
@@ -89,6 +90,17 @@
                 <value>classpath:ks-BuildingInfo-dictionary.xml</value>
                 <value>classpath:ks-RoomInfo-dictionary.xml</value>
                 <value>classpath:ks-SocInfo-dictionary.xml</value>
+                <value>classpath:ks-ResultValueInfo-dictionary.xml</value>
+                <value>classpath:ks-ResultScaleInfo-dictionary.xml</value>
+                <value>classpath:ks-ResultValuesGroupInfo-dictionary.xml</value>
+                <value>classpath:ks-RoomInfo-dictionary.xml</value>
+                <value>classpath:ks-BuildingInfo-dictionary.xml</value>
+                <value>classpath:ks-RoomResponsibleOrgInfo-dictionary.xml</value>
+                <value>classpath:ks-AcademicCalendarInfo-dictionary.xml</value>
+                <value>classpath:ks-HolidayCalendarInfo-dictionary.xml</value>
+                <value>classpath:ks-TermInfo-dictionary.xml</value>
+                <value>classpath:ks-HolidayInfo-dictionary.xml</value>
+                <value>classpath:ks-KeyDateInfo-dictionary.xml</value>
 
                 <!-- KIM Attributes -->
                 <value>classpath:org/kuali/rice/student/bo/KualiStudentKimAttributes.xml</value>
@@ -127,8 +139,17 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/RolloverResultsPageView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/FormatOfferingInfoMaintenanceView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ManageRegistrationGroupsView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagementViewPOC.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagementViewJSONPOC.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagementViewDataTablePOC.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagementView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-SearchInputPagePOC.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-SearchInputPageJSONPOC.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-SearchInputPageDataTablePOC.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-SearchInputPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageCourseOfferingsPagePOC.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageCourseOfferingsPageJSONPOC.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageCourseOfferingsPageDataTablePOC.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageCourseOfferingsPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-CopyCourseOfferingPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageActivityOfferingsPage.xml</value>
@@ -137,6 +158,7 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/PersonnelLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseInfoLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingEditMaintenanceView.xml</value>
+                <!--<value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingRolloverMaintenanceView.xml</value>-->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingCreateMaintenanceView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/OrganizationInfoLookupView.xml</value>
@@ -152,9 +174,13 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ToolbarSection.xml</value>
 
                 <!-- Auto Gen Registratoin Groups -->
-                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagementView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagement-ManageTheCourseOfferingPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-ViewActivityOfferingsSection.xml</value>
+                <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-ViewAOClustersSection.xml</value>
+                <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-ViewRegistrationGroupsSection.xml</value>
                 <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagement-ToolbarSection.xml</value>
+                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagement-ManageCourseOfferingsPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagement-ManageTheCourseOfferingPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagementView.xml</value>
 
                 <!-- East Coast Sandbox (rollover) -->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/DiagnoseRolloverView.xml</value>
@@ -216,6 +242,46 @@
                 <value>classpath:org/kuali/student/ui/admin/lrc/ResultValueInfoAdminInquiryView.xml</value>
                 <value>classpath:org/kuali/student/ui/admin/lrc/ResultValuesGroupInfoAdminLookupView.xml</value>
                 <value>classpath:org/kuali/student/ui/admin/lrc/ResultValuesGroupInfoAdminInquiryView.xml</value>
+
+                <!-- sandbox/test view
+               <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionTest.xml</value> -->
+                <!-- Kitchen Sink-->
+                <value>classpath:org/kuali/student/enrollment/kitchensink/KitchenSinkView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/Buttons.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/Checkboxes.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionActionImages.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionActionLinksOnHover.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionAddBlankLine.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionAsForm.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionColumnSorting.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionHorizontal.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionInForm.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionOptions.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionRowSelection.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionRowSelectionHighlight.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionStacked.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/DateField.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/Growls.xml</value>
+                <!--<value>classpath:org/kuali/student/enrollment/kitchensink/Lightbox.xml</value>-->
+                <value>classpath:org/kuali/student/enrollment/kitchensink/LinkFields.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/LookupSuggest.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/LookupDefaultAction.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/LookupInputConfirmation.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/LookupOverview.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/LookupQuickView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/MessageBox.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/MultiSelectControl.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/Popovers.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/RadioButtons.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/SelectControl.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/SpinnerControl.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/TextAreaField.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/TextField.xml</value>
+                <!-- -->
+                <value>classpath:org/kuali/student/enrollment/kitchensink/ComboBoxes.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionNestedTable.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionTL.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionSL.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">
