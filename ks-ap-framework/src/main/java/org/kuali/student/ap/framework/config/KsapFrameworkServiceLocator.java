@@ -45,7 +45,7 @@ public final class KsapFrameworkServiceLocator implements InitializingBean {
 	private static KsapFrameworkServiceLocator instance;
 
 	private static KsapFrameworkServiceLocator getInstance() {
-		assert instance != null : "Not started";
+		assert instance != null : "Not initialized";
 		return instance;
 	}
 
