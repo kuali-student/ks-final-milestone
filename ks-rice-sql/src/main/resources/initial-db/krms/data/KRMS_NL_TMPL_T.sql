@@ -765,3 +765,90 @@ INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('10373','en','10005','10076','Must meet all of the following',0)
 /
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10374','en','10000','10065','Must have been admitted to a Program offered by <Org>',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10375','en','10000','10019','#if($intValue == 1 && $courseCluSet.getCluList().size() == 1)Must have successfully completed $courseCluSet.getCluSetAsCode()#{else}Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, "course") from $courseCluSet.getCluSetAsCode()#end',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10376','en','10000','10074','Must have achieved a score between <score> and <score> on <test>',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10377','en','10000','10064','Must not have been admitted to the <Program> Program with a class standing of <Class Standing>',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10378','en','10000','10057','May not repeat <course> if repeated <n> times ',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10379','en','10000','10075','Must have achieved a score between <score> and <score> on <test> ',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10380','en','10000','10067','Student must be in a class standing of <class standing> or greater ',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10381','en','10000','10046','Student in <Program> can enrol in a maximum of <n> courses for the term',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10382','en','10000','10062','Must have successfully completed <course> between <term1> and <term2>',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10383','en','10000','10056','Student cannot add Activity Offering with <Activity Offering State>  of <state> ',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10384','en','10000','10069','Must not be in a class standing of <class standing>',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10385','en','10000','10063','Must have successfully completed <course offering>',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10386','en','10000','10058','May not repeat any of  <courses>',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10387','en','10000','10044','Course has more than <n> minutes overlap with already enrolled course',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10388','en','10000','10060','Must have successfully completed <course> as of <term>',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10389','en','10000','10054','Must have successfully completed a minimum of <n> credits from <courses>',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10390','en','10000','10071','Must be concurrently enrolled in all courses from <courses>',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10391','en','10000','10051','Students admitted to <campus> may take no more than <n  credits> at <campus> in <duration> <durationType>',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10392','en','10000','10050','Students admitted to <campus> may take no more than <n> courses at <campus> in <duration> <durationType>',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10393','en','10000','10043','If student is <attribute> AND upon drop total credit hours would be less than <min credit hours>, prevent drop ',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10394','en','10000','10070','Must be currently enrolled in <course offering> ',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10395','en','10000','10072','May not repeat <course> if repeated <n> times ',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10396','en','10000','10061','Must have successfully completed <course> prior to <term>',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10397','en','10000','10068','Student must be in a class standing of <class standing> or less ',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10398','en','10000','10045','Course has less than <n> minutes between start time or end time with already enrolled course',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10399','en','10000','10066','Student must be in a class standing of <class standing>',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10400','en','10000','10073','Student cannot drop <courseOffering> without <permission> of instructor ',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10401','en','10000','10059','Student is in an existing seat pool for the course with an available seat',0)
+/
+Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
+ values ('10402','en','10000','10042','If student is <attribute> AND upon drop total credit hours would be less than <min credit hours>, prevent drop ',0)
+/
