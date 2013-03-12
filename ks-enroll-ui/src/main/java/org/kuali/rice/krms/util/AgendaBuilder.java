@@ -90,7 +90,7 @@ public class AgendaBuilder {
      * @param rule
      * @return
      */
-    private Component buildEditRule(RuleEditor rule) {
+    protected Component buildEditRule(RuleEditor rule) {
         Group group = (Group) ComponentFactory.getNewComponentInstance("KRMS-RuleEdit-Template");
         group.setHeaderText(rule.getDescription() + ruleCounter);
 
@@ -110,7 +110,7 @@ public class AgendaBuilder {
      * @param description
      * @return
      */
-    private Component buildAddRule(String description) {
+    protected Component buildAddRule(String description) {
         Group group = (Group) ComponentFactory.getNewComponentInstance("KRMS-RuleAdd-Template");
         group.setHeaderText(description + ruleCounter);
 

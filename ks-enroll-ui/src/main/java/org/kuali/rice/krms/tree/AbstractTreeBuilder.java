@@ -23,18 +23,7 @@ public abstract class AbstractTreeBuilder implements TreeBuilder {
 
     private RuleManagementService ruleManagementService;
 
-    private String usageId;
-
-    protected String getNaturalLanguageUsageId(){
-        if (usageId == null){
-            NaturalLanguageUsage usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_PREVIEW,
-                    PermissionServiceConstants.KS_SYS_NAMESPACE);
-            if (usage != null){
-                usageId = usage.getId();
-            }
-        }
-        return usageId;
-    }
+    protected String usageId;
 
     public RuleManagementService getRuleManagementService() {
         return ruleManagementService;
@@ -79,5 +68,16 @@ public abstract class AbstractTreeBuilder implements TreeBuilder {
 
         //Build the prefix.
         return "<b>" + prop.getKey() + ".</b> ";
+    }
+
+    protected String getNaturalLanguageUsageId(){
+        if (usageId == null){
+            NaturalLanguageUsage usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_PREVIEW,
+                    PermissionServiceConstants.KS_SYS_NAMESPACE);
+            if (usage != null){
+                usageId = usage.getId();
+            }
+        }
+        return usageId;
     }
 }

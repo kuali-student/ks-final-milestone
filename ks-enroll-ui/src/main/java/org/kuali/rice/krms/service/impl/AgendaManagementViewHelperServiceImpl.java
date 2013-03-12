@@ -142,7 +142,7 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
 
     private RuleViewTreeBuilder getViewTreeBuilder() {
         if (viewTreeBuilder == null) {
-            viewTreeBuilder = new RulePreviewTreeBuilder();
+            viewTreeBuilder = new RuleViewTreeBuilder();
             viewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
         }
         return viewTreeBuilder;
