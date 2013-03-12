@@ -215,6 +215,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=loadNextCO")
     public ModelAndView loadNextCO(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm form) throws Exception {
+        ARGCourseOfferingHandler.loadNextCO(form);
         return getUIFModelAndView(form);
     }
 
