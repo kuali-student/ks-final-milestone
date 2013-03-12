@@ -923,13 +923,13 @@
     <bean id="atpToMilestoneRelatedObjectHelper" class="org.kuali.student.r2.core.acal.service.statehelper.AtpToMilestoneRelatedObjectHelper"/>
 
     <util:map id="calStateHelperMap" map-class="java.util.HashMap">
-         <entry key="kuali.atp" value-ref="atpStateHelper"/>
-         <entry key="kuali.milestone" value-ref="milestoneStateHelper"/>
-     </util:map>
+        <entry key="kuali.atp" value-ref="atpStateHelper"/>
+        <entry key="kuali.milestone" value-ref="milestoneStateHelper"/>
+    </util:map>
 
-     <util:map id="calRelatedObjectHelperMap" map-class="java.util.HashMap">
-         <entry key="kuali.atp:kuali.milestone" value-ref="atpToMilestoneRelatedObjectHelper"/>
-     </util:map>
+    <util:map id="calRelatedObjectHelperMap" map-class="java.util.HashMap">
+        <entry key="kuali.atp:kuali.milestone" value-ref="atpToMilestoneRelatedObjectHelper"/>
+    </util:map>
 
     <alias name="acalServiceValidation" alias="AcademicCalendarService"/>
 
