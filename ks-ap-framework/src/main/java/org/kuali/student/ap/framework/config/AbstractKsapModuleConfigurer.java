@@ -75,6 +75,8 @@ public abstract class AbstractKsapModuleConfigurer extends
 
 	@Override
 	public final void initializeResourceLoaders() throws Exception {
+		if (autowireCandidateResolver != null)
+			LOG.info("Auto-wire resolver " + autowireCandidateResolver);
 		List<String> files = new ArrayList<String>();
 		files.addAll(getPrimarySpringFiles());
 		files.addAll(getAdditionalSpringFiles());
@@ -88,7 +90,8 @@ public abstract class AbstractKsapModuleConfigurer extends
 		if (!files.isEmpty()) {
 			// TODO: Add auto-wiring support to RiceResourceLoaderFactory and
 			// discontinue use of KsapRiceResourceLoaderFactory
-			ResourceLoader rl = KsapRiceResourceLoaderFactory
+			@SuppressWarnings("deprecation")
+			ResourceLoader rl = RiceResourceLoaderFactory
 					.createRootRiceResourceLoader(servletContext, files,
 							getModuleName(), autowireCandidateResolver);
 			rl.start();

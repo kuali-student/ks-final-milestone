@@ -1,8 +1,9 @@
 package org.kuali.student.ap.framework.config;
 
-import java.util.Hashtable;
-import java.util.Map;
+import javax.ejb.EJB;
+import javax.ejb.Singleton;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.ap.framework.context.AtpHelper;
 import org.kuali.student.ap.framework.context.EnumerationHelper;
@@ -23,6 +24,8 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.program.service.ProgramService;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.Lifecycle;
 
 /**
  * Convenience factory for acquiring KSAP provided service.
@@ -32,42 +35,21 @@ import org.kuali.student.r2.lum.program.service.ProgramService;
  * </p>
  * 
  * @author Mark Fyffe <mwfyffe@indiana.edu>
- * @version ksap-0.1.1
+ * @version 0.4.5
+ * @since 0.1.1
  */
-public final class KsapFrameworkServiceLocator {
+@Singleton
+public final class KsapFrameworkServiceLocator implements Lifecycle,
+		InitializingBean {
 
-	/**
-	 * Private constructor.
-	 */
-	private KsapFrameworkServiceLocator() {
-	}
+	private static final Logger LOG = Logger
+			.getLogger(KsapFrameworkServiceLocator.class);
 
-	/**
-	 * Service cache, for minimizing calls to GlobalResourceLoader.
-	 */
-	private static final Map<String, Object> SERVICE_CACHE = new Hashtable<String, Object>(
-			16);
+	private static KsapFrameworkServiceLocator instance;
 
-	/**
-	 * Get a local service.
-	 * 
-	 * @param serviceName
-	 *            The local service name.
-	 * @return The local service.
-	 * @throws AssertionError
-	 *             If assertions are enabled and the service doesn't exist.
-	 */
-	private static <T> T getLocalService(String serviceName) {
-		@SuppressWarnings("unchecked")
-		T rv = (T) SERVICE_CACHE.get(serviceName);
-		if (rv == null) {
-			rv = GlobalResourceLoader.getService(serviceName);
-			if (rv != null) {
-				SERVICE_CACHE.put(serviceName, rv);
-			}
-		}
-		assert rv != null : serviceName + " not defined in Rice";
-		return rv;
+	private static KsapFrameworkServiceLocator getInstance() {
+		assert instance != null : "Not started";
+		return instance;
 	}
 
 	/**
@@ -76,7 +58,7 @@ public final class KsapFrameworkServiceLocator {
 	 * @return The ks-core remote ATP service.
 	 */
 	public static AtpService getAtpService() {
-		return getLocalService("ksCoreAtpService");
+		return getInstance().ksCoreAtpService;
 	}
 
 	/**
@@ -85,7 +67,7 @@ public final class KsapFrameworkServiceLocator {
 	 * @return The ks-core remote type service.
 	 */
 	public static TypeService getTypeService() {
-		return getLocalService("ksCoreTypeService");
+		return getInstance().ksCoreTypeService;
 	}
 
 	/**
@@ -94,7 +76,7 @@ public final class KsapFrameworkServiceLocator {
 	 * @return The ks-core remote message service.
 	 */
 	public static MessageService getMessageService() {
-		return getLocalService("ksCoreMessageService");
+		return getInstance().ksCoreMessageService;
 	}
 
 	/**
@@ -103,7 +85,7 @@ public final class KsapFrameworkServiceLocator {
 	 * @return The ks-core remote organization service.
 	 */
 	public static OrganizationService getOrganizationService() {
-		return getLocalService("ksCoreOrganizationService");
+		return getInstance().ksCoreOrganizationService;
 	}
 
 	/**
@@ -112,7 +94,7 @@ public final class KsapFrameworkServiceLocator {
 	 * @return The ks-core remote enumeration service.
 	 */
 	public static EnumerationManagementService getEnumerationManagementService() {
-		return getLocalService("ksCoreEnumerationManagementService");
+		return getInstance().ksCoreEnumerationManagementService;
 	}
 
 	/**
@@ -121,7 +103,7 @@ public final class KsapFrameworkServiceLocator {
 	 * @return The ks-enroll remote course offering service.
 	 */
 	public static CourseOfferingService getCourseOfferingService() {
-		return getLocalService("ksEnrollCourseOfferingService");
+		return getInstance().ksEnrollCourseOfferingService;
 	}
 
 	/**
@@ -130,7 +112,7 @@ public final class KsapFrameworkServiceLocator {
 	 * @return The ks-enroll remote message service.
 	 */
 	public static AcademicCalendarService getAcademicCalendarService() {
-		return getLocalService("ksEnrollAcalService");
+		return getInstance().ksEnrollAcalService;
 	}
 
 	/**
@@ -139,7 +121,7 @@ public final class KsapFrameworkServiceLocator {
 	 * @return The ks-enroll remote message service.
 	 */
 	public static AcademicRecordService getAcademicRecordService() {
-		return getLocalService("ksEnrollAcademicRecordService");
+		return getInstance().ksEnrollAcademicRecordService;
 	}
 
 	/**
@@ -148,7 +130,7 @@ public final class KsapFrameworkServiceLocator {
 	 * @return The ks-lum remote course service.
 	 */
 	public static CourseService getCourseService() {
-		return getLocalService("ksLumCourseService");
+		return getInstance().ksLumCourseService;
 	}
 
 	/**
@@ -157,7 +139,7 @@ public final class KsapFrameworkServiceLocator {
 	 * @return The program service.
 	 */
 	public static ProgramService getProgramService() {
-		return getLocalService("ksLumProgramService");
+		return getInstance().ksLumProgramService;
 	}
 
 	/**
@@ -166,7 +148,7 @@ public final class KsapFrameworkServiceLocator {
 	 * @return The LRC service.
 	 */
 	public static LRCService getLRCService() {
-		return getLocalService("ksLumLRCService");
+		return getInstance().ksLumLRCService;
 	}
 
 	/**
@@ -175,17 +157,17 @@ public final class KsapFrameworkServiceLocator {
 	 * @return The ks-lum remote clu service.
 	 */
 	public static CluService getCluService() {
-		return getLocalService("ksLumCluService");
+		return getInstance().ksLumCluService;
 	}
 
-    /**
-     * Get the ks-lum remote lrc service.
-     *
-     * @return The ks-lum remote lrc service.
-     */
-    public static LRCService getLrcService(){
-        return getLocalService("ksLumLrcService");
-    }
+	/**
+	 * Get the ks-lum remote lrc service.
+	 * 
+	 * @return The ks-lum remote lrc service.
+	 */
+	public static LRCService getLrcService() {
+		return getInstance().ksLumLrcService;
+	}
 
 	/**
 	 * Get the KSAP context provider.
@@ -193,7 +175,7 @@ public final class KsapFrameworkServiceLocator {
 	 * @return The KSAP context provider.
 	 */
 	public static KsapContext getContext() {
-		return getLocalService("ksapContext");
+		return getInstance().ksapContext;
 	}
 
 	/**
@@ -202,7 +184,7 @@ public final class KsapFrameworkServiceLocator {
 	 * @return The user session helper.
 	 */
 	public static UserSessionHelper getUserSessionHelper() {
-		return getLocalService("ksapUserSessionHelper");
+		return getInstance().ksapUserSessionHelper;
 	}
 
 	/**
@@ -211,7 +193,7 @@ public final class KsapFrameworkServiceLocator {
 	 * @return The ATP help.
 	 */
 	public static AtpHelper getAtpHelper() {
-		return getLocalService("ksapAtpHelper");
+		return getInstance().ksapAtpHelper;
 	}
 
 	/**
@@ -220,7 +202,7 @@ public final class KsapFrameworkServiceLocator {
 	 * @return The Enumeration help.
 	 */
 	public static EnumerationHelper getEnumerationHelper() {
-		return getLocalService("ksapEnumerationHelper");
+		return getInstance().ksapEnumerationHelper;
 	}
 
 	/**
@@ -229,7 +211,7 @@ public final class KsapFrameworkServiceLocator {
 	 * @return The Org help.
 	 */
 	public static OrgHelper getOrgHelper() {
-		return getLocalService("ksapOrgHelper");
+		return getInstance().ksapOrgHelper;
 	}
 
 	/**
@@ -238,7 +220,7 @@ public final class KsapFrameworkServiceLocator {
 	 * @return The academic plan service.
 	 */
 	public static AcademicPlanService getAcademicPlanService() {
-		return getLocalService("academicPlanService");
+		return getInstance().academicPlanService;
 	}
 
 	/**
@@ -247,7 +229,82 @@ public final class KsapFrameworkServiceLocator {
 	 * @return The course search strategy.
 	 */
 	public static CourseSearchStrategy getCourseSearchStrategy() {
-		return getLocalService("courseSearchStrategy");
+		return getInstance().courseSearchStrategy;
+	}
+
+	@EJB
+	private transient AtpService ksCoreAtpService;
+	@EJB
+	private transient TypeService ksCoreTypeService;
+	@EJB
+	private transient MessageService ksCoreMessageService;
+	@EJB
+	private transient OrganizationService ksCoreOrganizationService;
+	@EJB
+	private transient EnumerationManagementService ksCoreEnumerationManagementService;
+	@EJB
+	private transient CourseOfferingService ksEnrollCourseOfferingService;
+	@EJB
+	private transient AcademicCalendarService ksEnrollAcalService;
+	@EJB
+	private transient AcademicRecordService ksEnrollAcademicRecordService;
+	@EJB
+	private transient CourseService ksLumCourseService;
+	@EJB
+	private transient ProgramService ksLumProgramService;
+	@EJB
+	private transient LRCService ksLumLRCService;
+	@EJB
+	private transient CluService ksLumCluService;
+	@EJB
+	private transient LRCService ksLumLrcService;
+	@EJB
+	private transient KsapContext ksapContext;
+	@EJB
+	private transient UserSessionHelper ksapUserSessionHelper;
+	@EJB
+	private transient AtpHelper ksapAtpHelper;
+	@EJB
+	private transient EnumerationHelper ksapEnumerationHelper;
+	@EJB
+	private transient OrgHelper ksapOrgHelper;
+	@EJB
+	private transient AcademicPlanService academicPlanService;
+
+	@EJB
+	@OptionalResource
+	// provided by ks-ap-ui or institution override
+	private transient CourseSearchStrategy courseSearchStrategy;
+
+	public KsapFrameworkServiceLocator() {
+		assert instance == null : instance;
+		LOG.info("KSAP Framework Initialziation Started");
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		instance = GlobalResourceLoader
+				.getService("ksapFrameworkServiceLocator");
+		assert instance != null : "ksapFrameworkServiceLocator is not defined by an environement";
+		LOG.info("KSAP Framework Initialization Complete");
+	}
+
+	@Override
+	public void start() {
+		assert !isRunning() : "Already running";
+		getInstance();
+		assert isRunning() : "Didn't start";
+	}
+
+	@Override
+	public void stop() {
+		assert isRunning() : "Not running";
+		instance = null;
+	}
+
+	@Override
+	public boolean isRunning() {
+		return instance != null;
 	}
 
 }

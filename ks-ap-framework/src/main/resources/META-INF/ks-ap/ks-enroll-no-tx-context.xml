@@ -517,6 +517,8 @@
 		<property name="criteriaLookupService" ref="defaultCriteriaLookupService" />
 		<property name="businessLogic" ref="socBusinessLogic" />
 	</bean>
+	<alias name="socRolloverResultDao" alias="socRorDao" />
+	<alias name="socRolloverResultItemDao" alias="socRorItemDao" />
 
 	<bean id="socBusinessLogic"
 		class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceBusinessLogicImpl">

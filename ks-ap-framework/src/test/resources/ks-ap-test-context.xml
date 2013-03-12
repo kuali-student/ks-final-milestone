@@ -101,6 +101,9 @@
 		<property name="exceptionMessagingScheduler" ref="quartzScheduler" />
 	</bean>
 
+	<bean id="autowireCandidateResolver"
+		class="org.kuali.student.ap.framework.config.BaseAutowireCandidateResolver" />
+
 	<bean id="knsConfigurer" class="org.kuali.rice.krad.config.KRADConfigurer"
     	depends-on="coreConfigurer"/>
 	

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:ws="http://jax-ws.dev.java.net/spring/core"
-       xmlns:wss="http://jax-ws.dev.java.net/spring/servlet" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:ws="http://jax-ws.dev.java.net/spring/core" xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
           http://jax-ws.dev.java.net/spring/core http://jax-ws.dev.java.net/spring/core.xsd
@@ -13,26 +13,33 @@
           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-    <import resource="classpath:ks-degree-audit-data-dictionary-services-configuration.xml" />
-    <import resource="classpath:ks-academic-plan-data-dictionary-services-configuration.xml" />
+	<context:annotation-config />
 
-	<bean name="ksapContext"
+	<import
+		resource="classpath:ks-degree-audit-data-dictionary-services-configuration.xml" />
+	<import
+		resource="classpath:ks-academic-plan-data-dictionary-services-configuration.xml" />
+
+	<bean id="ksapFrameworkServiceLocator"
+		class="org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator" />
+		
+	<bean id="ksapContext"
 		class="org.kuali.student.ap.framework.context.support.DefaultKsapContext" />
 
-	<bean name="ksapAtpHelper"
+	<bean id="ksapAtpHelper"
 		class="org.kuali.student.ap.framework.context.support.DefaultAtpHelper" />
 
-	<bean name="ksapUserSessionHelper"
+	<bean id="ksapUserSessionHelper"
 		class="org.kuali.student.ap.framework.context.support.DefaultUserSessionHelper" />
 
-    <bean name="ksapEnumerationHelper"
-          class="org.kuali.student.ap.framework.context.support.DefaultEnumerationHelper" />
+	<bean id="ksapEnumerationHelper"
+		class="org.kuali.student.ap.framework.context.support.DefaultEnumerationHelper" />
 
-    <bean name="ksapOrgHelper"
-          class="org.kuali.student.ap.framework.context.support.DefaultOrgHelper" />
+	<bean id="ksapOrgHelper"
+		class="org.kuali.student.ap.framework.context.support.DefaultOrgHelper" />
 
-    <import resource="classpath:META-INF/ks-ap/ks-core-client.xml" />
-    <import resource="classpath:META-INF/ks-ap/ks-enroll-client.xml" />
-    <import resource="classpath:META-INF/ks-ap/ks-lum-client.xml" />
+	<import resource="classpath:META-INF/ks-ap/ks-core-client.xml" />
+	<import resource="classpath:META-INF/ks-ap/ks-enroll-client.xml" />
+	<import resource="classpath:META-INF/ks-ap/ks-lum-client.xml" />
 
 </beans>
