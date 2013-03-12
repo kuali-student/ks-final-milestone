@@ -10,9 +10,118 @@
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-ARG-ToolBarSection"/>
-                <ref bean="KS-CourseOfferingManagement-ActivityOfferingListSection"/>
+                <ref bean="KS-CourseOfferingManagement-ARG-ActivityOfferingListSection"/>
             </list>
         </property>
     </bean>
+
+    <bean id="KS-CourseOfferingManagement-ARG-ActivityOfferingListSection" parent="Uif-TableCollectionSection"
+          p:layoutManager.numberOfColumns="3"  p:readOnly="@{#parent.readOnly}" p:renderAddLine="false" p:onDocumentReadyScript="removeColumns(@{#parent.readOnly}, [1], 'KS-CourseOfferingManagement-ActivityOfferingListSection');">
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
+        <property name="propertyName" value="activityWrapperList" />
+        <property name="headerText" value="Activities" />
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
+            </map>
+        </property>
+
+        <!-- ARG Notes by Bonnie -->
+        <!-- TODO: can we replace isChecked input field with the includeLineSelectionField property? -->
+        <!-- also see the example in ks kitchensink:-->
+        <!-- http://staging.ks.kuali.org/portal.do?channelTitle=Collection%20row%20selection%20and%20toggle&channelUrl=http://staging.ks.kuali.org/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionRowSelection-View&methodToCall=collection -->
+
+        <!--<property name="includeLineSelectionField" value="true"/>-->
+        <!--<property name="lineSelectPropertyName" value="selected"/>-->
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:onChangeScript="handleAOToolbar();" p:hidden="@{#dp.currentCourseOfferingWrapper.crossListed}">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:disabled="false"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
+                    <property name="label" value="Label"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-HorizontalBoxGroup-WithRPadding-5px">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false">
+                                            <property name="inquiry">
+                                                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}" p:image.altText="@{#lp.colocatedAoInfoUI}"
+                                  p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
+                                <property name="toolTip">
+                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedAoInfoUI}"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:label="FORMAT" p:propertyName="aoInfo.formatOfferingName"/>
+
+                <!-- ARG Notes by Bonnie -->
+                <!-- TODO: need to add CLUSTER column between FORMAT AND STATUS when more than one cluster exist -->
+
+                <bean parent="Uif-DataField" p:label="STATUS" p:propertyName="stateName" />
+                <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName"/>
+                <bean parent="KS-Schedule-DisplayField" p:label="TBA" p:messageText="@{#line.tbaDisplayName}"/>
+                <bean parent="KS-Schedule-DisplayField" p:label="DAYS" p:messageText="@{#line.daysDisplayName}" />
+                <bean parent="KS-Schedule-DisplayField" p:label="START TIME" p:messageText="@{#line.startTimeDisplay}" />
+                <bean parent="KS-Schedule-DisplayField" p:label="END TIME" p:messageText="@{#line.endTimeDisplay}" />
+                <bean parent="KS-Schedule-DisplayField" p:label="FACILITY" p:messageText="@{#line.buildingName}"/>
+                <bean parent="KS-Schedule-DisplayField" p:label="ROOM" p:messageText="@{#line.roomName}"/>
+                <bean parent="Uif-DataField" p:label="INSTRUCTOR" p:propertyName="firstInstructorDisplayName"/>
+                <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoInfo.maximumEnrollment"/>
+                <bean name="enableApproveButton" parent="Uif-InputField" p:propertyName="enableApproveButton"/>
+                <bean name="enableDraftButton" parent="Uif-InputField" p:propertyName="enableDraftButton"/>
+                <bean name="enableSuspendButton" parent="Uif-InputField" p:propertyName="enableSuspendButton"/>
+                <bean name="enableCancelButton" parent="Uif-InputField" p:propertyName="enableCancelButton"/>
+                <bean name="enableReinstateButton" parent="Uif-InputField" p:propertyName="enableReinstateButton" />
+                <bean name="enableDeleteButton" parent="Uif-InputField" p:propertyName="enableDeleteButton" />
+                <bean name="enableCopyAOActionLink" parent="Uif-InputField" p:propertyName="enableCopyAOActionLink" />
+                <bean name="enableEditAOActionLink" parent="Uif-InputField" p:propertyName="enableEditAOActionLink" />
+            </list>
+        </property>
+        <property name="layoutManager.richTable.hiddenColumns">
+            <set>
+                <value>enableApproveButton</value>
+                <value>enableDraftButton</value>
+                <value>enableSuspendButton</value>
+                <value>enableCancelButton</value>
+                <value>enableReinstateButton</value>
+                <value>enableDeleteButton</value>
+                <value>enableCopyAOActionLink</value>
+                <value>enableEditAOActionLink</value>
+            </set>
+        </property>
+        <property name="layoutManager.actionFieldPrototype">
+            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="Actions"/>
+        </property>
+        <property name="lineActions">
+            <list>
+                <!-- Note by Bonnie: turn off authz on copy and edit link for now -->
+                <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy" p:render="@{#line.isEnableCopyAOActionLink()}" p:actionEvent="copyAOonManageAOsPage" />-->
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy" />
+                <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" p:render="@{#line.isEnableEditAOActionLink()}" p:actionEvent="editAOonManageAOsPage"/>-->
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+            </list>
+        </property>
+    </bean>
+
 
 </beans>
