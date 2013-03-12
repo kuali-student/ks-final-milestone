@@ -78,7 +78,7 @@ public class ActivityOfferingInfo
     private String activityCode;   
 
     @XmlElement
-    private String scheduleId;
+    private List<String> scheduleIds;
     
     @XmlElement
     private String schedulingStateKey;
@@ -183,7 +183,9 @@ public class ActivityOfferingInfo
         
         this.activityId = offering.getActivityId();
         this.termId = offering.getTermId();
-        this.scheduleId = offering.getScheduleId();
+        if (offering.getScheduleIds() != null) {
+            this.scheduleIds = new ArrayList<String>(offering.getScheduleIds());
+        }
         this.schedulingStateKey = offering.getSchedulingStateKey();
         this.activityCode = offering.getActivityCode();
 
@@ -282,12 +284,15 @@ public class ActivityOfferingInfo
     }
 
     @Override
-    public String getScheduleId() {
-        return scheduleId;
+    public List<String> getScheduleIds() {
+        if (this.scheduleIds == null) {
+            return new ArrayList<String>();
+        }
+        return this.scheduleIds;
     }
 
-    public void setScheduleId(String scheduleId) {
-        this.scheduleId = scheduleId;
+    public void setScheduleIds(List<String> scheduleIds) {
+        this.scheduleIds = scheduleIds;
     }
 
     @Override
@@ -534,8 +539,8 @@ public class ActivityOfferingInfo
         builder.append(activityId);
         builder.append(", termId=");
         builder.append(termId);
-        builder.append(", scheduleId=");
-        builder.append(scheduleId);
+        builder.append(", scheduleIds=");
+        builder.append(scheduleIds.toString());
         builder.append(", schedulingStateKey=");
         builder.append(schedulingStateKey);
         builder.append("]");
