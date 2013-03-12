@@ -11,6 +11,8 @@ import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krms.dto.AgendaEditor;
+import org.kuali.rice.krms.dto.AgendaTypeInfo;
+import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ import java.util.Properties;
 public class AgendaBuilder {
 
     private View view;
-    private Map<String, List<String>> typeRelationsMap;
+    private Map<AgendaTypeInfo, List<RuleTypeInfo>> typeRelationsMap;
 
     private int agendaCounter;
     private int ruleCounter;
@@ -37,7 +39,7 @@ public class AgendaBuilder {
         this.view = view;
     }
 
-    public void setTypeRelationsMap(Map<String, List<String>> typeRelationsMap) {
+    public void setTypeRelationsMap(Map<AgendaTypeInfo, List<RuleTypeInfo>> typeRelationsMap) {
         this.typeRelationsMap = typeRelationsMap;
     }
 
@@ -54,14 +56,14 @@ public class AgendaBuilder {
         group.setHeaderText("Agenda " + agendaCounter);
 
         List<Component> components = new ArrayList<Component>();
-        List<String> ruleTypes = typeRelationsMap.get(agenda.getTypeId());
+        List<RuleTypeInfo> ruleTypes = typeRelationsMap.get(agenda.getTypeId());
         List<RuleEditor> ruleEditors = new ArrayList<RuleEditor>();
-        for (String ruleType : ruleTypes) {
+        for (RuleTypeInfo ruleType : ruleTypes) {
 
             // Add all existing rules of this type.
             boolean exist = false;
             for (RuleEditor rule : agenda.getRuleEditors()) {
-                if (rule.getTypeId().equals(ruleType)) {
+                if (rule.getTypeId().equals(ruleType.getType())) {
                     components.add(buildEditRule(rule));
                     exist = true;
 
@@ -71,7 +73,7 @@ public class AgendaBuilder {
 
             // If the ruletype does not exist, add an empty rule section
             if (!exist) {
-                components.add(buildAddRule(ruleType));
+                components.add(buildAddRule(ruleType.getDescription()));
                 ruleEditors.add(new RuleEditor());
             }
 
@@ -96,7 +98,7 @@ public class AgendaBuilder {
 
         Group editSection = (Group) ComponentUtils.findComponentInList((List<Component>) group.getItems(), "KRMS-RuleEdit-Section");
         MessageField messageField = (MessageField) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-Instruction-EditMessage");
-        messageField.setMessageText("Instructional text for rule:" + ruleCounter); // TODO: get test from type map.
+        messageField.setMessageText("Instructional text for rule:" + ruleCounter); // TODO: get text from type map.
 
         TreeGroup treeGroup = (TreeGroup) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-PreviewTree-Section");
         treeGroup.setPropertyName("agendas[" + agendaCounter + "].ruleEditors[" + ruleCounter + "].previewTree");  //TODO: create method to generate agenda.rule path.

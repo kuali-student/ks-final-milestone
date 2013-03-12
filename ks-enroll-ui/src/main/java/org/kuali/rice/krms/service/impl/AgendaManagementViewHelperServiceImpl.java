@@ -13,12 +13,16 @@ import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContract;
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
+import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
+import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.dto.AgendaEditor;
+import org.kuali.rice.krms.dto.AgendaTypeInfo;
+import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.service.AgendaManagementViewHelperService;
 import org.kuali.rice.krms.service.TemplateRegistry;
@@ -29,6 +33,7 @@ import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.form.AgendaManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.uif.service.impl.KSViewHelperServiceImpl;
+import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -43,7 +48,7 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
     private transient KrmsTypeRepositoryService krmsTypeRepositoryService;
 
     private RuleViewTreeBuilder viewTreeBuilder;
-    private Map<String, List<String>> typeRelationsMap;  // TODO: Create AgendaTypeInfo and RuleTypeInfo objects instead to also capture description.
+    private Map<AgendaTypeInfo, List<RuleTypeInfo>> typeRelationsMap;  // TODO: Create AgendaTypeInfo and RuleTypeInfo objects instead to also capture description.
 
     @Override
     protected void addCustomContainerComponents(View view, Object model, Container container) {
@@ -113,26 +118,40 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
      * Setup a map with all the type information required to build an agenda management page.
      * @return
      */
-    private Map<String, List<String>> getTypeRelationsMap(){
+    private Map<AgendaTypeInfo, List<RuleTypeInfo>> getTypeRelationsMap(){
         if (typeRelationsMap == null){
-            typeRelationsMap = new HashMap<String, List<String>>();
+            typeRelationsMap = new HashMap<AgendaTypeInfo, List<RuleTypeInfo>>();
 
             // Get the super type.
             KrmsTypeDefinition requisitesType = this.getKrmsTypeRepositoryService().getTypeByName(PermissionServiceConstants.KS_SYS_NAMESPACE, "kuali.krms.agenda.type.course");
+            NaturalLanguageUsage usageInstruction = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(PermissionServiceConstants.KS_SYS_NAMESPACE, KsKrmsConstants.KRMS_NL_TYPE_INSTRUCTION);
 
             // Get all agenda types linked to super type.
             List<TypeTypeRelation> agendaRelationships = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(requisitesType.getId());
             for (TypeTypeRelation agendaRelationship : agendaRelationships){
-
+                AgendaTypeInfo agendaTypeInfo = new AgendaTypeInfo();
+                agendaTypeInfo.setId(agendaRelationship.getId());
+                NaturalLanguageTemplate templateInstruction = null;
                 // Get all rule types for each agenda type
                 List<TypeTypeRelation> ruleRelationships = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(agendaRelationship.getToTypeId());
-                List<String> ruleTypes = new ArrayList<String>();
+                List<RuleTypeInfo> ruleTypes = new ArrayList<RuleTypeInfo>();
                 for (TypeTypeRelation ruleRelationship : ruleRelationships){
+                    RuleTypeInfo ruleTypeInfo = new RuleTypeInfo();
+                    RuleDefinition ruleDefinition = getRuleManagementService().getRule(ruleRelationship.getToTypeId());
+                    ruleTypeInfo.setDescription(ruleDefinition.getDescription());
+                    ruleTypeInfo.setId(ruleDefinition.getId());
+                    ruleTypeInfo.setType(ruleDefinition.getTypeId());
 
+                    try{
+                        templateInstruction = getRuleManagementService().findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId("en", ruleDefinition.getTypeId(), usageInstruction.getId());
+                    }catch (IndexOutOfBoundsException e){
+                        //Ignore, rice error in NaturalLanguageTemplateBoServiceImpl line l
+                    }
+                    ruleTypeInfo.setInstruction(templateInstruction.getTemplate());
                     // Add rule types to list.
-                    ruleTypes.add(ruleRelationship.getToTypeId());
+                    ruleTypes.add(ruleTypeInfo);
                 }
-                typeRelationsMap.put(agendaRelationship.getToTypeId(), ruleTypes);
+                typeRelationsMap.put(agendaTypeInfo, ruleTypes);
 
                 // TODO: also set the instructional text and rule type description on the info objects.
             }
