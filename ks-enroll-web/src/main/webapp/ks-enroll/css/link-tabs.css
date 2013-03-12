@@ -1,0 +1,66 @@
+/* Tab navigation customizations **********************************************************************************/
+
+.tab-navigation-block {
+    border-bottom: 1px solid black;
+}
+
+/* Jquery Tab customizations **********************************************************************************/
+
+.ks-uif-tabSection .ui-tabs .ui-widget-header {
+    background: none;
+}
+
+.ks-uif-tabSection .ui-tabs-nav li.ui-state-default, .tab-navigation-block li {
+    border: 0px solid #000000;
+}
+
+.ks-uif-tabSection .tab-navigation-block li{
+    border-radius: 5px 5px 0 0;
+}
+
+.ks-uif-tabSection .ui-tabs-nav li.ui-state-active, .tab-navigation-block li.ui-state-active {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.ks-uif-tabSection .ui-tabs-nav li.ui-state-active a, .tab-navigation-block li.ui-state-active a {
+    color: rgb(63,120,38);
+    background-color: transparent;
+}
+
+.ks-uif-tabSection .ui-tabs-nav li.ui-state-hover,
+.ks-uif-tabSection .ui-tabs-nav li.ui-state-focus,
+.tab-navigation-block li a:hover,
+.tab-navigation-block a:focus{
+    /*defines gradient background*/
+    background: transparent; /* Old browsers */
+    color: red;
+    background-color: transparent;
+}
+
+.ks-uif-tabSection div.ui-tabs.ui-widget-content {
+    border: none;
+    border-radius: 0;
+}
+
+.ks-uif-tabSection .ui-tabs-nav li.ui-state-hover a,
+.ks-uif-tabSection .ui-tabs-nav li.ui-state-focus a,
+.tab-navigation-block li.ui-state-hover a, .tab-navigation-block li.ui-state-focus a {
+    color: purple;
+}
+
+.ks-uif-tabSection .ui-tabs-nav li.ui-state-hover a:hover,
+.ks-uif-tabSection .ui-tabs-nav li.ui-state-focus a:hover,
+.tab-navigation-block li.ui-state-hover a:hover, .tab-navigation-block li.ui-state-focus a:hover {
+    /* this is hovering black in IE */
+    color: rgb(63,120,38);
+    /*font-weight: bold;  */
+}
+
+.ks-uif-tabSection .ui-tabs .ui-tabs-panel {
+    background: none repeat scroll 0 0 transparent;
+    border: 0px;
+    clear: left;
+    display: block;
+    padding: 1em 1.4em;
+}

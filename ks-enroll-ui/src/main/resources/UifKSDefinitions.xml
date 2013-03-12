@@ -26,6 +26,7 @@
             <list merge="true">
                 <value>ks-enroll/css/enroll.css</value>
                 <value>ks-enroll/css/ks-jquery.css</value>
+                <value>ks-enroll/css/link-tabs.css</value>
             </list>
         </property>
         <property name="scriptFiles">
@@ -236,6 +237,14 @@
     <bean id="KS-Disclosure-HorizontalCollectionSubSection" parent="KS-Disclosure-HorizontalCollectionSubSection-parent"/>
     <bean id="KS-Disclosure-HorizontalCollectionSubSection-parent" parent="KS-HorizontalCollectionSubSection">
         <property name="disclosure.render" value="true"/>
+    </bean>
+
+    <bean id="KS-Link-Uif-TabSection" parent="Uif-TabGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-uif-tabSection</value>
+            </list>
+        </property>
     </bean>
 
     <!-- Added by David Yin -->

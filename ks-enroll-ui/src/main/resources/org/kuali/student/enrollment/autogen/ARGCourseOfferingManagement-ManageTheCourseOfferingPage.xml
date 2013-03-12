@@ -42,7 +42,7 @@
             <list>
                 <ref bean="KS-CourseOfferingManagement-TheCourseOfferingLinks"/>
                 <!--<ref bean="KS-CourseOfferingManagement-TheCourseOfferingTabs"/>-->
-                <bean parent="Uif-TabGroup" >
+                <bean parent="KS-Link-Uif-TabSection" >
                     <property name="items">
                         <list>
                             <ref bean="KS-CourseOfferingManagement-ViewActivityOfferingsSection"/>
