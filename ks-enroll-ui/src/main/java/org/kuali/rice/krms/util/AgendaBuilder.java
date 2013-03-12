@@ -54,7 +54,6 @@ public class AgendaBuilder {
         ruleCounter = 0;
 
         Group group = (Group) ComponentFactory.getNewComponentInstance("KRMS-AgendaSection-Template");
-        group.setId("KRMS-AgendaSection-" + agendaCounter);
         group.setHeaderText("Agenda " + agendaCounter);
 
         List<Component> components = new ArrayList<Component>();
@@ -98,13 +97,10 @@ public class AgendaBuilder {
      */
     protected Component buildEditRule(RuleEditor rule, RuleTypeInfo ruleTypeInfo) {
         Group group = (Group) ComponentFactory.getNewComponentInstance("KRMS-RuleEdit-Template");
-        group.setId("KRMS-RuleEdit-" + rule.getId());
         group.setHeaderText(ruleTypeInfo.getDescription());
 
         Group editSection = (Group) ComponentUtils.findComponentInList((List<Component>) group.getItems(), "KRMS-RuleEdit-Section");
-        editSection.setId("KRMS-RuleEdit-Section-" + rule.getId());
         LinkGroup links = (LinkGroup) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRSM-RuleEdit-ActionLinks");
-        links.setId("KRMS-RuleEdit-ActionLinks-" + rule.getId());
         links.getExpressionGraph().put("onClickScript", "@{selectedRuleId = '" + rule.getId() + "'}");
         MessageField messageField = (MessageField) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-Instruction-EditMessage");
         messageField.setMessageText(ruleTypeInfo.getInstruction()); // TODO: get text from type map.
@@ -123,13 +119,10 @@ public class AgendaBuilder {
      */
     protected Component buildAddRule(RuleTypeInfo ruleTypeInfo) {
         Group group = (Group) ComponentFactory.getNewComponentInstance("KRMS-RuleAdd-Template");
-        group.setId("KRMS-RuleAdd-" + ruleTypeInfo.getId());
         group.setHeaderText(ruleTypeInfo.getDescription());
 
         Group editSection = (Group) ComponentUtils.findComponentInList((List<Component>) group.getItems(), "KRMS-RuleAdd-Section");
-        editSection.setId("KRMS-RuleAdd-Section-" + ruleTypeInfo.getId());
         LinkGroup links = (LinkGroup) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-RuleAdd-ActionLink");
-        links.setId("KRMS-RuleAdd-ActionLink-" + ruleTypeInfo.getId());
         links.getExpressionGraph().put("onClickScript", "@{selectedRuleType = '" + ruleTypeInfo.getId() + "'}");
         MessageField messageField = (MessageField) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-Instruction-AddMessage");
         messageField.setMessageText(ruleTypeInfo.getInstruction());   // TODO: get test from type map.

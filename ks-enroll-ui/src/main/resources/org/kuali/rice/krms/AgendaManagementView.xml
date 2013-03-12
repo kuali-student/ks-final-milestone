@@ -88,7 +88,7 @@
     <bean id="KRMS-RuleAdd-Links" parent="Uif-LinkGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Add Requisite" p:methodToCall="goToRuleView">
+                <bean parent="Uif-ActionLink" p:actionLabel="Add Requisite">
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
                               p:tooltipContent="Add Requisite to Rule"/>
