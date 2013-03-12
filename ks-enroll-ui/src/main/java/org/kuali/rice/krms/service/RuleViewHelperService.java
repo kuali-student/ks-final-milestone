@@ -17,13 +17,13 @@ import org.kuali.rice.krms.tree.node.CompareTreeNode;
  */
 public interface RuleViewHelperService {
 
-    public String getDescriptionForTypeId(String typeId);
+    public String getNaturalLanguageDescription(PropositionEditor prop);
 
     public TemplateInfo getTemplateForType(String type);
 
     public boolean validateProposition(PropositionEditor proposition, String namespace);
 
-    public void refreshInitTrees(RuleEditor rule);
+    public void refreshInitTrees(RuleEditor rule, boolean refreshNl);
 
     public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original);
 

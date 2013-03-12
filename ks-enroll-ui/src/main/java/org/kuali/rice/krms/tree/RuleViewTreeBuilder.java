@@ -19,7 +19,7 @@ public class RuleViewTreeBuilder extends AbstractTreeBuilder{
 
     private static final long serialVersionUID = 1L;
 
-   public Tree<TreeNode, String> buildTree(RuleEditor rule){
+   public Tree<TreeNode, String> buildTree(RuleEditor rule, boolean refreshNl){
         Tree myTree = new Tree<TreeNode, String>();
 
         Node<TreeNode, String> rootNode = new Node<TreeNode, String>();
@@ -30,7 +30,7 @@ public class RuleViewTreeBuilder extends AbstractTreeBuilder{
 
         if (rule != null){
             PropositionEditor prop = (PropositionEditor) rule.getProposition();
-            buildPreviewTree(rule, rootNode, prop);
+            buildPreviewTree(rule, rootNode, prop, refreshNl);
         }
 
         //Underline the first node in the preview.
@@ -43,14 +43,14 @@ public class RuleViewTreeBuilder extends AbstractTreeBuilder{
         return myTree;
     }
 
-    private void buildPreviewTree(RuleEditor rule, Node<TreeNode, String> currentNode, PropositionEditor prop){
+    private void buildPreviewTree(RuleEditor rule, Node<TreeNode, String> currentNode, PropositionEditor prop, boolean refreshNl){
         if (prop != null) {
 
             Node<TreeNode, String> newNode = new Node<TreeNode, String>();
-            newNode.setNodeLabel(this.buildNodeLabel(rule, prop));
+            newNode.setNodeLabel(this.buildNodeLabel(rule, prop, refreshNl));
             newNode.setNodeType("subruleElement");
 
-            TreeNode tNode = new TreeNode(this.getDescription(prop));
+            TreeNode tNode = new TreeNode(this.getDescription(prop, refreshNl));
             newNode.setData(tNode);
             currentNode.getChildren().add(newNode);
 
@@ -73,7 +73,7 @@ public class RuleViewTreeBuilder extends AbstractTreeBuilder{
                     }
                     first = false;
                     // call to build the childs node
-                    buildPreviewTree(rule, newNode, child);
+                    buildPreviewTree(rule, newNode, child, refreshNl);
                 }
             }
 

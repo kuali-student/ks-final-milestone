@@ -1,5 +1,11 @@
 package org.kuali.rice.krms.service;
 
-public interface AgendaManagementViewHelperService extends TemplateRegistry {
+import org.kuali.rice.krms.dto.AgendaEditor;
+
+import java.util.List;
+
+public interface AgendaManagementViewHelperService {
+
+    public List<AgendaEditor> getAgendaEditors();
 
 }

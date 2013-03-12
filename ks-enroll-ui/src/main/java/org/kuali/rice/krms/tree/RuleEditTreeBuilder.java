@@ -23,7 +23,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
 
     private static final long serialVersionUID = 1L;
 
-    public Tree buildTree(RuleEditor rule) {
+    public Tree buildTree(RuleEditor rule, boolean refreshNl) {
 
         Tree myTree = new Tree<RuleEditorTreeNode, String>();
 
@@ -31,7 +31,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
         myTree.setRootElement(rootNode);
 
         PropositionEditor prop = (PropositionEditor) rule.getProposition();
-        addChildNode(rule, rootNode, prop);
+        addChildNode(rule, rootNode, prop, refreshNl);
 
         return myTree;
     }
@@ -42,7 +42,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
      * @param sprout - parent tree node
      * @param prop   - PropositionBo for which to make the tree node
      */
-    private void addChildNode(RuleEditor rule, Node sprout, PropositionEditor prop) {
+    private void addChildNode(RuleEditor rule, Node sprout, PropositionEditor prop, boolean refreshNl) {
         // Depending on the type of proposition (simple/compound), and the editMode,
         // Create a treeNode of the appropriate type for the node and attach it to the
         // sprout parameter passed in.
@@ -59,7 +59,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
                     KSSimplePropositionEditNode pNode = new KSSimplePropositionEditNode(prop);
                     child.setData(pNode);
                 } else {
-                    child.setNodeLabel(this.buildNodeLabel(rule, prop));
+                    child.setNodeLabel(this.buildNodeLabel(rule, prop, refreshNl));
                     child.setNodeType(KSSimplePropositionNode.NODE_TYPE);
                     KSSimplePropositionNode pNode = new KSSimplePropositionNode(prop);
                     child.setData(pNode);
@@ -76,7 +76,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
                     KSCompoundPropositionEditNode pNode = new KSCompoundPropositionEditNode(prop);
                     aNode.setData(pNode);
                 } else {
-                    aNode.setNodeLabel(this.buildNodeLabel(rule, prop));
+                    aNode.setNodeLabel(this.buildNodeLabel(rule, prop, refreshNl));
                     aNode.setNodeType(RuleEditorTreeNode.COMPOUND_NODE_TYPE);
                     RuleEditorTreeNode pNode = new RuleEditorTreeNode(prop);
                     aNode.setData(pNode);
@@ -91,16 +91,16 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
                     }
                     first = false;
                     // call to build the childs node
-                    addChildNode(rule, aNode, child);
+                    addChildNode(rule, aNode, child, refreshNl);
                 }
             }
         }
     }
 
-    private String buildNodeLabel(RuleEditor rule, PropositionEditor prop) {
+    private String buildNodeLabel(RuleEditor rule, PropositionEditor prop, boolean refreshNl) {
         //Build the node label.
         String prefix = this.getPropositionPrefix(rule, prop);
-        return prefix + StringEscapeUtils.escapeHtml(this.getDescription(prop));
+        return prefix + StringEscapeUtils.escapeHtml(this.getDescription(prop, refreshNl));
     }
 
     /**

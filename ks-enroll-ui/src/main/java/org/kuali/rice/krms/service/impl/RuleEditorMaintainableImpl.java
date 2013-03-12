@@ -227,8 +227,8 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         TermDefinition termDefinition = termBuilder.build();
         if (term.getId() == null) {
             return KrmsRepositoryServiceLocator.getTermBoService().createTerm(termDefinition).getId();
-        } //else {
-        //KrmsRepositoryServiceLocator.getTermBoService(). update term
+        }// else {
+        //    return KrmsRepositoryServiceLocator.getTermBoService().
         //}
 
         return term.getId();

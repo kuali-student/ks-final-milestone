@@ -42,7 +42,7 @@ public class MultiCourseComponentBuilder implements ComponentBuilder {
 
     private LRCService lrcService;
 
-    private static final String CLUSET_KEY = "kuali.reqComponent.field.type.course.cluSet.id";
+    private static final String CLUSET_KEY = "kuali.term.parameter.type.course.cluSet.id";
 
     @Override
     public List<String> getComponentIds() {

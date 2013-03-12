@@ -44,19 +44,23 @@ public abstract class AbstractTreeBuilder implements TreeBuilder {
         this.ruleManagementService = ruleManagementService;
     }
 
-    protected String buildNodeLabel(RuleDefinitionContract rule, PropositionDefinitionContract prop){
-        return StringEscapeUtils.escapeHtml(this.getDescription(prop));
+    protected String buildNodeLabel(RuleDefinitionContract rule, PropositionEditor prop, boolean refreshNl){
+        return StringEscapeUtils.escapeHtml(this.getDescription(prop, refreshNl));
     }
 
-    protected String getDescription(PropositionDefinitionContract proposition) {
+    protected String getDescription(PropositionEditor proposition, boolean refreshNl) {
         if (proposition == null) {
             return StringUtils.EMPTY;
         }
 
-        if (proposition.getTypeId() != null){
+        // Update description from natural language
+        if ((refreshNl) && (proposition.getTypeId() != null)){
             PropositionDefinition.Builder propBuilder = PropositionDefinition.Builder.create(proposition);
-            return this.getRuleManagementService().translateNaturalLanguageForProposition(this.getNaturalLanguageUsageId(), propBuilder.build(), "en");
-        } else if (proposition.getDescription() != null){
+            proposition.setDescription(this.getRuleManagementService().translateNaturalLanguageForProposition(this.getNaturalLanguageUsageId(), propBuilder.build(), "en"));
+        }
+
+        //Return the description
+        if (proposition.getDescription() != null){
             return proposition.getDescription();
         }
 

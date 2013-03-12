@@ -15,6 +15,9 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
+import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
+import org.kuali.rice.krms.api.repository.proposition.PropositionParameter;
+import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
@@ -81,7 +84,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             RuleEditor ruleEditor = (RuleEditor) maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
 
             //Set the editTree and preview tree on the ruleeditor wrapper
-            this.refreshInitTrees(ruleEditor);
+            this.refreshInitTrees(ruleEditor, true);
             this.setLogicSection(ruleEditor);
 
             //Initialize the compare tree
@@ -333,20 +336,23 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         return simplestResolver;
     }
 
-    public String getDescriptionForTypeId(String typeId) {
+    public String getNaturalLanguageDescription(PropositionEditor prop) {
 
         NaturalLanguageUsage usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION, PermissionServiceConstants.KS_SYS_NAMESPACE);
 
-        NaturalLanguageTemplate template = null;
+        String description = null;
         try {
-            template = this.getRuleManagementService().findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId("en", typeId, usage.getId());
+            List<PropositionParameter.Builder> parameters = new ArrayList<PropositionParameter.Builder>();
+            PropositionDefinition.Builder propBuilder = PropositionDefinition.Builder.create(prop.getId(),
+                    prop.getPropositionTypeCode(), prop.getRuleId(), prop.getTypeId(), parameters);
+            description = this.getRuleManagementService().translateNaturalLanguageForProposition("en", propBuilder.build(), usage.getId());
         } catch (IndexOutOfBoundsException e) {
             //Ignore, rice error in NaturalLanguageTemplateBoServiceImpl line l
         }
 
         //TODO: Do translation.
 
-        return template.getTemplate();
+        return description;
     }
 
     /**
@@ -504,12 +510,12 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     @Override
-    public void refreshInitTrees(RuleEditor rule) {
+    public void refreshInitTrees(RuleEditor rule, boolean refreshNl) {
         // Refresh the editing tree
-        rule.setEditTree(this.getEditTreeBuilder().buildTree(rule));
+        rule.setEditTree(this.getEditTreeBuilder().buildTree(rule, refreshNl));
 
         // Refresh the preview tree
-        rule.setPreviewTree(this.getPreviewTreeBuilder().buildTree(rule));
+        rule.setPreviewTree(this.getPreviewTreeBuilder().buildTree(rule, false));
     }
 
     @Override

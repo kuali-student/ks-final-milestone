@@ -7,6 +7,7 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContr
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
+import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 
 import java.util.List;
 
@@ -35,8 +36,7 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         rootNode.getChildren().add(firstNode);
 
         if (original != null) {
-            PropositionDefinitionContract prop = original.getProposition();
-            addTreeNode(firstNode, original.getProposition(), compare.getProposition());
+            addTreeNode(firstNode, (PropositionEditor)original.getProposition(), (PropositionEditor)compare.getProposition());
         }
 
         //Underline the first node in the preview.
@@ -52,13 +52,13 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         return myTree;
     }
 
-    private void addTreeNode(Node<CompareTreeNode, String> currentNode, PropositionDefinitionContract originial, PropositionDefinitionContract compared) {
+    private void addTreeNode(Node<CompareTreeNode, String> currentNode, PropositionEditor originial, PropositionEditor compared) {
         if ((originial == null) && (compared == null)) {
             return;
         }
 
         Node<CompareTreeNode, String> newNode = new Node<CompareTreeNode, String>();
-        CompareTreeNode tNode = new CompareTreeNode(this.buildNodeLabel(null, originial), this.buildNodeLabel(null, compared));
+        CompareTreeNode tNode = new CompareTreeNode(this.buildNodeLabel(null, originial, true), this.buildNodeLabel(null, compared, true));
         if (tNode.getOriginal().equals(tNode.getCompared())){
             newNode.setNodeType("subruleElement");
         } else {
@@ -73,7 +73,7 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         }
     }
 
-    private void addCompoundTreeNode(Node<CompareTreeNode, String> newNode, PropositionDefinitionContract originial, PropositionDefinitionContract compared) {
+    private void addCompoundTreeNode(Node<CompareTreeNode, String> newNode, PropositionEditor originial, PropositionEditor compared) {
 
         // Retrieve the opreator code of the original proposition
         String originalOpCode = this.getOpCode(originial);
@@ -82,8 +82,8 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         String compareOpCode = this.getOpCode(compared);
 
         // Get the children form both nodes.
-        List<? extends PropositionDefinitionContract> originalChildren = originial.getCompoundComponents();
-        List<? extends PropositionDefinitionContract> comparedChildren = compared.getCompoundComponents();
+        List<PropositionEditor> originalChildren = originial.getCompoundEditors();
+        List<PropositionEditor> comparedChildren = compared.getCompoundEditors();
 
         // Get the size of the biggest children list
         int size = Math.max(originalChildren.size(), comparedChildren.size());
@@ -91,7 +91,7 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         for (int i = 0; i < size; i++) {
 
             // Get the original child proposition at current position
-            PropositionDefinitionContract originalChild = null;
+            PropositionEditor originalChild = null;
             if (originalChildren.size() >= i){
                 originalChild = originalChildren.get(i);
             } else {
@@ -99,7 +99,7 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
             }
 
             // Get the compare child proposition at current position
-            PropositionDefinitionContract compareChild = null;
+            PropositionEditor compareChild = null;
             if (comparedChildren.size() >= i){
                 compareChild = comparedChildren.get(i);
             } else {

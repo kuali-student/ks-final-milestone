@@ -1,9 +1,10 @@
-package org.kuali.student.enrollment.class1.krms.dto;
+package org.kuali.rice.krms.dto;
 
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinitionContract;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
+import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 
 import java.util.List;
 import java.util.Map;
@@ -26,9 +27,7 @@ public class AgendaEditor implements AgendaDefinitionContract {
     private Map<String, String> attributes;
     private Long versionNumber;
 
-    private List<AgendaItemDefinition> agendaItems;
-    private List<RuleEditor> ruleEditor;
-
+    private List<RuleEditor> ruleEditors;
 
     public AgendaEditor() {
         super();
@@ -43,22 +42,6 @@ public class AgendaEditor implements AgendaDefinitionContract {
         this.firstItemId = definition.getFirstItemId();
         this.attributes = definition.getAttributes();
         this.versionNumber = definition.getVersionNumber();
-    }
-
-    public List<AgendaItemDefinition> getAgendaItems() {
-        return agendaItems;
-    }
-
-    public void setAgendaItems(List<AgendaItemDefinition> agendaItems) {
-        this.agendaItems = agendaItems;
-    }
-
-    public List<RuleEditor> getRuleEditor() {
-        return ruleEditor;
-    }
-
-    public void setRuleEditor(List<RuleEditor> ruleEditor) {
-        this.ruleEditor = ruleEditor;
     }
 
     public String getId() {
@@ -123,5 +106,13 @@ public class AgendaEditor implements AgendaDefinitionContract {
 
     public void setVersionNumber(Long versionNumber) {
         this.versionNumber = versionNumber;
+    }
+
+    public List<RuleEditor> getRuleEditors() {
+        return ruleEditors;
+    }
+
+    public void setRuleEditors(List<RuleEditor> ruleEditors) {
+        this.ruleEditors = ruleEditors;
     }
 }

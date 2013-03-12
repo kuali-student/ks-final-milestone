@@ -45,29 +45,19 @@
             </list>
         </property>
         <property name="page">
-            <ref bean="KS-AgendaManageRequisites-Page"/>
+            <ref bean="KRMS-AgendaManageRequisites-Page"/>
         </property>
     </bean>
 
-    <bean name="KS-AgendaManageRequisites-Page" parent="Uif-Page">
-        <property name="items">
-            <list>
-                <ref bean="KS-AgendaType-Section-Template"/>
-                <ref bean="KS-RuleType-DisclosureSection-Template"/>
-                <ref bean="KS-RuleTypeFunctionLinks-Template"/>
-                <ref bean="KS-RuleTypeAddLink-Template"/>
-                <ref bean="KS-RuleTypeInstruction-Message"/>
-            </list>
-        </property>
-    </bean>
+    <bean name="KRMS-AgendaManageRequisites-Page" parent="Uif-Page"/>
 
-    <bean id="KS-AgendaType-Section-Template" parent="Uif-VerticalBoxSection">
+    <bean id="KRMS-AgendaSection-Template" parent="Uif-VerticalBoxSection">
         <property name="header">
             <bean parent="Uif-HeaderThree" p:style="border-bottom:solid 2px #000; margin-bottom:5px; margin-top:15px;"/>
         </property>
     </bean>
 
-    <bean id="KS-RuleTypeFunctionLinks-Template" parent="Uif-LinkGroup">
+    <bean id="KRMS-RuleEdit-Links" parent="Uif-LinkGroup">
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
@@ -98,7 +88,7 @@
         </property>
     </bean>
 
-    <bean id="KS-RuleTypeAddLink-Template" parent="Uif-LinkGroup">
+    <bean id="KRMS-RuleAdd-Links" parent="Uif-LinkGroup">
         <property name="items">
             <list>
                 <bean parent="Uif-Link" p:linkText="Add Requisite">
@@ -111,17 +101,19 @@
         </property>
     </bean>
 
-    <bean id="KS-RuleType-DisclosureSection-Template" parent="Uif-Disclosure-VerticalBoxSection">
+    <bean id="KRMS-RuleEdit-Template" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="disclosure.defaultOpen" value="false"/>
         <property name="header">
             <bean parent="Uif-HeaderThree"/>
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-VerticalBoxSection" p:width="500px" p:style="margin-left:1em">
+                <bean id="KRMS-RuleEdit-Section" parent="Uif-VerticalBoxSection" p:width="500px" p:style="margin-left:1em">
                     <property name="items">
                         <list>
-                            <bean id="KS-RuleTypeInstruction-Message" parent="Uif-MessageField" p:messageText="@{}"/>
+                            <bean parent="KRMS-RuleEdit-Links" p:align="right"/>
+                            <bean id="KRMS-Instruction-EditMessage" parent="Uif-MessageField"/>
+                            <!--bean id="KRMS-PreviewTree-Section" parent="KS-ViewTree-Section"/-->
                         </list>
                     </property>
                 </bean>
@@ -129,5 +121,23 @@
         </property>
     </bean>
 
+    <bean id="KRMS-RuleAdd-Template" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="disclosure.defaultOpen" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderThree"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="KRMS-RuleAdd-Section" parent="Uif-VerticalBoxSection" p:width="500px" p:style="margin-left:1em">
+                    <property name="items">
+                        <list>
+                            <bean parent="KRMS-RuleAdd-Links" p:align="right"/>
+                            <bean id="KRMS-Instruction-AddMessage" parent="Uif-MessageField"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
 </beans>

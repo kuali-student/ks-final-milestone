@@ -16,9 +16,9 @@ import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 public class RulePreviewTreeBuilder extends RuleViewTreeBuilder {
 
     @Override
-    protected String buildNodeLabel(RuleDefinitionContract rule, PropositionDefinitionContract prop){
+    protected String buildNodeLabel(RuleDefinitionContract rule, PropositionEditor prop, boolean refreshNl){
         //Build the node label.
-        String prefix = this.getPropositionPrefix((RuleEditor)rule, (PropositionEditor)prop);
-        return prefix + StringEscapeUtils.escapeHtml(this.getDescription(prop));
+        String prefix = this.getPropositionPrefix((RuleEditor)rule, prop);
+        return prefix + StringEscapeUtils.escapeHtml(this.getDescription(prop, refreshNl));
     }
 }

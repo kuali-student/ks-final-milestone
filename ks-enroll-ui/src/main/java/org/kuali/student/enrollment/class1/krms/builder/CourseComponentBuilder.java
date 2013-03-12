@@ -27,7 +27,7 @@ public class CourseComponentBuilder implements ComponentBuilder {
 
     private CourseService courseService;
 
-    private static final String CLU_KEY = "kuali.reqComponent.field.type.course.clu.id";
+    private static final String CLU_KEY = "kuali.term.parameter.type.course.clu.id";
 
     @Override
     public List<String> getComponentIds() {
