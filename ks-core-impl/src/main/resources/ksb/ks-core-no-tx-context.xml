@@ -103,6 +103,7 @@
         <property name="searchManager" ref="orgSearchManager" />
         <property name="extendedOrgDao" ref="extendedOrgDao"/>
         <property name="dictionaryServiceDelegate" ref="coreDictionaryService"/>
+        <property name="criteriaLookupService" ref="coreCriteriaLookupService"/>
         <property name="searchOperations">
             <map>
                 <entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds" value-ref="organizationSearch"/>
@@ -432,6 +433,7 @@
 
     <bean id="typeServiceCacheDecorator" class="org.kuali.student.r2.common.class1.type.decorators.TypeServiceCacheDecorator">
         <property name="nextDecorator" ref="typeService" />
+        <property name="cacheManager" ref="ksCacheManager"/>
     </bean>
 
 
@@ -522,6 +524,7 @@
 
     <bean id="stateServiceCacheDecorator" class="org.kuali.student.r2.core.class1.state.decorators.StateServiceCacheDecorator">
         <property name="nextDecorator" ref="stateService" />
+        <property name="cacheManager" ref="ksCacheManager"/>
     </bean>
 
     <bean id="ks.exp.stateService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
