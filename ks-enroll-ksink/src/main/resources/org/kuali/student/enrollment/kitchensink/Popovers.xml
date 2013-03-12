@@ -245,7 +245,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="ks.krad.widget.js"
-                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll/ks-enroll-web/src/main/webapp/krad/scripts/ks.krad.widget.js"/>
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-web/src/main/webapp/krad/scripts/ks.krad.widget.js"/>
                                     </map>
                                 </property>
                             </bean>
@@ -253,7 +253,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="ks.jquery.bubblepopup.css"
-                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll/ks-enroll-web/src/main/webapp/krad/plugins/tooltip/ks.jquery.bubblepopup.css"/>
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-web/src/main/webapp/krad/plugins/tooltip/ks.jquery.bubblepopup.css"/>
                                     </map>
                                 </property>
                             </bean>
