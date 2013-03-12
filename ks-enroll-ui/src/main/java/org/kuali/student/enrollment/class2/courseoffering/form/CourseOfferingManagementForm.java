@@ -65,7 +65,11 @@ public class CourseOfferingManagementForm extends KSUifForm {
     private CourseOfferingCopyWrapper courseOfferingCopyWrapper;
 
     private boolean isCrossListedCO;
+    private int numOfCrossListedCosToDelete=0;
     private boolean isColocatedCO;
+    private boolean isColocatedCoOnly;
+    private Integer numOfColocatedCosToDelete = 0;
+    private Integer numOfColocatedAosToDelete = 0;
     private List<CourseOfferingListSectionWrapper> selectedCoToDeleteList;
     private int totalAOsToBeDeleted = 0;
     /**
@@ -390,6 +394,38 @@ public class CourseOfferingManagementForm extends KSUifForm {
 
     public void setColocatedCO(boolean colocatedCO) {
         isColocatedCO = colocatedCO;
+    }
+
+    public boolean isColocatedCoOnly() {
+        return isColocatedCoOnly;
+    }
+
+    public void setColocatedCoOnly(boolean colocatedCoOnly) {
+        isColocatedCoOnly = colocatedCoOnly;
+    }
+
+    public Integer getNumOfColocatedCosToDelete() {
+        return numOfColocatedCosToDelete;
+    }
+
+    public void setNumOfColocatedCosToDelete(Integer numOfColocatedCosToDelete) {
+        this.numOfColocatedCosToDelete = numOfColocatedCosToDelete;
+    }
+
+    public Integer getNumOfColocatedAosToDelete() {
+        return numOfColocatedAosToDelete;
+    }
+
+    public void setNumOfColocatedAosToDelete(Integer numOfColocatedAosToDelete) {
+        this.numOfColocatedAosToDelete = numOfColocatedAosToDelete;
+    }
+
+    public int getNumOfCrossListedCosToDelete() {
+        return numOfCrossListedCosToDelete;
+    }
+
+    public void setNumOfCrossListedCosToDelete(int numOfCrossListedCosToDelete) {
+        this.numOfCrossListedCosToDelete = numOfCrossListedCosToDelete;
     }
 
     public Date getTermClassStartDate() {

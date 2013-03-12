@@ -524,6 +524,16 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         List<CourseOfferingListSectionWrapper> coList = form.getCourseOfferingResultList();
         int checked = 0;
         int enabled = 0;
+        int totalCosToDelete = 0;
+        int totalColocatedCos = 0;
+        int totalColocatedAos = 0;
+        boolean iscolocated = false;
+        int totalCrossListedCosToDelete = 0;
+
+        form.setNumOfColocatedCosToDelete(0);
+        form.setNumOfColocatedAosToDelete(0);
+        form.setNumOfCrossListedCosToDelete(0);
+
         List<CourseOfferingListSectionWrapper> qualifiedToDeleteList = form.getSelectedCoToDeleteList();
         qualifiedToDeleteList.clear();
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
@@ -535,6 +545,9 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             boolean hasDeletion = true;
             if (co.getIsChecked()) {
                 checked++;
+                totalCosToDelete++;
+                iscolocated = false;
+
                 List<ActivityOfferingDisplayInfo> aoDisplayInfoList = getCourseOfferingService().getActivityOfferingDisplaysForCourseOffering(co.getCourseOfferingId(), contextInfo);
                 List<ActivityOfferingInfo> aoInfoList = getCourseOfferingService().getActivityOfferingsByCourseOffering(co.getCourseOfferingId(), contextInfo);
 
@@ -586,6 +599,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                             co.setColocated(true);
                             co.setColocatedCoCode(colocateInfo);
                             form.setColocatedCO(true);
+                            totalColocatedAos++;
+                            iscolocated = true;
                         }
                         co.getAoToBeDeletedList().add(aoDisplayWrapper);
                     }
@@ -595,8 +610,12 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     if (co.getAlternateCOCodes() != null && co.getAlternateCOCodes().size() > 0) {
                         co.setCrossListed(true);
                         form.setCrossListedCO(true);
+                        totalCrossListedCosToDelete++;
                     }
-                 }
+                }
+                if(iscolocated) {
+                    totalColocatedCos++;
+                }
                 qualifiedToDeleteList.add(co);
 
                 if (hasDeletion) {
@@ -604,6 +623,12 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 }
             }
         }
+        form.setNumOfCrossListedCosToDelete(totalCrossListedCosToDelete);
+        if(totalColocatedCos == totalCosToDelete) {
+            form.setColocatedCoOnly(true);
+            form.setNumOfColocatedCosToDelete(totalColocatedCos);
+        }
+        form.setNumOfColocatedAosToDelete(totalColocatedAos);
         form.setTotalAOsToBeDeleted(totalAos);
     }
 

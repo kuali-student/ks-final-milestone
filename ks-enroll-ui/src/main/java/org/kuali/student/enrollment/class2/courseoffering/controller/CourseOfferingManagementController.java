@@ -1260,8 +1260,25 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         getViewHelperService(theForm).deleteCourseOfferings(theForm);
-        //reloadCourseOfferings(theForm);
-        return getUIFModelAndView(theForm, CourseOfferingConstants.CO_DELETE_CONFIRM_PAGE);
+        if(theForm.isColocatedCoOnly()) {
+            // display not support dialogs
+            if(theForm.getNumOfColocatedCosToDelete() > 1) {
+                if (!hasDialogBeenAnswered(CourseOfferingConstants.ConfirmDialogs.DELETE_COLO_COS, theForm)) {
+                    return showDialog(CourseOfferingConstants.ConfirmDialogs.DELETE_COLO_COS, theForm, request, response);
+                }
+                theForm.getDialogManager().resetDialogStatus(CourseOfferingConstants.ConfirmDialogs.DELETE_COLO_COS);
+
+            }  else {
+                if (!hasDialogBeenAnswered(CourseOfferingConstants.ConfirmDialogs.DELETE_ONE_COLO_CO, theForm)) {
+                    return showDialog(CourseOfferingConstants.ConfirmDialogs.DELETE_ONE_COLO_CO, theForm, request, response);
+                }
+                theForm.getDialogManager().resetDialogStatus(CourseOfferingConstants.ConfirmDialogs.DELETE_ONE_COLO_CO);
+
+            }
+        } else {
+            return getUIFModelAndView(theForm, CourseOfferingConstants.CO_DELETE_CONFIRM_PAGE);
+        }
+        return getUIFModelAndView(theForm);
     }
 
     @RequestMapping(params = "methodToCall=approveAOs")

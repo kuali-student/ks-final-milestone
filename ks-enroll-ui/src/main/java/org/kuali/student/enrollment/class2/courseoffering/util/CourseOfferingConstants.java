@@ -132,5 +132,9 @@ public class CourseOfferingConstants {
          */
     public static class ConfirmDialogs{
         public static final String APRROVE_CO = "approveCODialog";
+        public static final String DELETE_COLO_COS = "deletingColocationNotSupportedForMultipleCosDialog";
+        public static final String DELETE_ONE_COLO_CO = "deletingColocationNotSupportedForCoDialog";
+        public static final String DELETE_COLO_AOS = "deletingColocationNotSupportedForMultipleAosDialog";
+        public static final String DELETE_ONE_COLO_AO = "deletingColocationNotSupportedForAoDialog";
     }
 }

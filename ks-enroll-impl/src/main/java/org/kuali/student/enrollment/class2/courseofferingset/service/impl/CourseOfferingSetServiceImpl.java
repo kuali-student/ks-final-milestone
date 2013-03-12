@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
@@ -53,7 +54,6 @@ import org.kuali.student.r2.core.class1.state.service.StateTransitionsHelper;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -63,6 +63,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
+    final static Logger LOG = Logger.getLogger(CourseOfferingSetServiceImpl.class);
 
     @Resource
     private SocDao socDao;
@@ -714,13 +715,16 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
 
     @Override
-    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    @Transactional(readOnly = false, timeout=31536000, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo changeSocState(String socId,
                                      String nextStateKey,
                                      ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
+
+        org.springframework.transaction.PlatformTransactionManager mgr;
+
         SocEntity entity = socDao.find(socId);
         if (entity == null) {
             throw new DoesNotExistException(socId);
@@ -747,6 +751,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
                 // Log the state change
                 logStateChange(entity, nextStateKey, contextInfo);
+                LOG.warn(String.format("Updated SOC [%s] state to [%s].", socId, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY));
 
                 entity.setEntityUpdated(contextInfo);
                 socDao.merge(entity);

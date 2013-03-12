@@ -73,8 +73,12 @@
         </property>
         <property name="dialogs">
           <list>
-            <bean id="schedulingConfirmDialog" parent="schedulingConfirmDialog-Group"/>
-            <ref bean="approveCODialog"/>
+              <bean id="schedulingConfirmDialog" parent="schedulingConfirmDialog-Group"/>
+              <ref bean="approveCODialog"/>
+              <ref bean="deletingColocationNotSupportedForMultipleCosDialog"/>
+              <ref bean="deletingColocationNotSupportedForCoDialog"/>
+              <ref bean="deletingColocationNotSupportedForMultipleAosDialog"/>
+              <ref bean="deletingColocationNotSupportedForAoDialog"/>
           </list>
         </property>
     </bean>
@@ -99,6 +103,46 @@
             <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Approve"/>
             <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
           </list>
+        </property>
+    </bean>
+
+    <bean id="deletingColocationNotSupportedForMultipleCosDialog" parent="Uif-DialogGroup"
+          p:promptText="The courses you have selected cannot be deleted at this time because components of the activities are colocated and deleting colocated activities is not currently supported." >
+        <property name="headerText" value="Deleting Colocation Not Supported"/>
+        <property name="availableResponses">
+            <list>
+            <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Close"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="deletingColocationNotSupportedForCoDialog" parent="Uif-DialogGroup"
+          p:promptText="The course you have selected cannot be deleted at this time because it contains activities that are colocated and deleting colocated activities is not currently supported." >
+        <property name="headerText" value="Deleting Colocation Not Supported"/>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Close"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="deletingColocationNotSupportedForMultipleAosDialog" parent="Uif-DialogGroup"
+          p:promptText="The activities you have selected cannot be deleted at this time because components of the activities are colocated and deleting colocated activities is not currently supported." >
+        <property name="headerText" value="Deleting Colocation Not Supported"/>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Close"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="deletingColocationNotSupportedForAoDialog" parent="Uif-DialogGroup"
+          p:promptText="The activity you have selected cannot be deleted at this time because component(s) of the activity are colocated and deleting colocated activities is not currently supported." >
+        <property name="headerText" value="Deleting Colocation Not Supported"/>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Close"/>
+            </list>
         </property>
     </bean>
 

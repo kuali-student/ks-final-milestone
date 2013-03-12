@@ -73,11 +73,34 @@
                     <property name="disclosure.render" value="false"/>
                     <property name="items">
                         <list>
+
+                            <bean parent="Uif-Message"
+                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]  Crosslisted Course Warning"
+                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2" p:render="@{crossListedCO}"/>
+
+                            <bean parent="Uif-Message"
+                                  p:messageText="This is a crosslisted course. You are about to permanently delete the following activity offering(s) from this course offering. [br/]
+                                  Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png&quot;] icon(s) in the table below for details."
+                                  p:style="background-color:#FFEE99;  margin-left: 20px; font-size: 110%" p:colSpan="2"
+                                  p:render="@{crossListedCO and numOfCrossListedCosToDelete le 1}"/>
+
+                            <bean parent="Uif-Message"
+                                  p:messageText="One or more of the selected courses is crosslisted. You are about to permanently delete the course(s) and the following activity offering(s). [br/]
+                                  Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png&quot;] icon(s) in the table below for details."
+                                  p:style="background-color:#FFEE99;  margin-left: 20px; font-size: 110%" p:colSpan="2"
+                                  p:render="@{crossListedCO and numOfCrossListedCosToDelete ge 2}"/>
+
+
                             <bean parent="Uif-Message"
                                   p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]
                                   Colocated Activities Warning"
                                   p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2"
-                                  p:render="@{colocatedCO}"/>
+                                  p:render="@{colocatedCO and !crossListedCO}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="Colocated Activities Warning"
+                                  p:style="background-color:#FFEE99;  margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"
+                                  p:render="@{colocatedCO and crossListedCO}"/>
+
                             <bean parent="Uif-Message"
                                   p:messageText="Components of one or more of the listed activities are co-located."
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"
@@ -87,19 +110,6 @@
                                   Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png&quot;] icon(s) in the table below for more information."
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"
                                   p:render="@{colocatedCO}"/>
-
-                            <bean parent="Uif-Message"
-                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]  Crosslisted Course Warning"
-                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2" p:render="@{crossListedCO and !colocatedCO}"/>
-                            <bean parent="Uif-Message"
-                                  p:messageText="Crosslisted Course Warning"
-                                  p:style="background-color:#FFEE99;  margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2" p:render="@{crossListedCO and colocatedCO}"/>
-
-                            <bean parent="Uif-Message"
-                                  p:messageText="One or more of the selected courses is crosslisted. [br/] You are about to permanently delete the following activity offering(s) from this course offering. [br/]
-                                  Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png&quot;] icon(s) in the table below for details."
-                                  p:style="background-color:#FFEE99;  margin-left: 20px; font-size: 110%" p:colSpan="2"
-                                  p:render="@{crossListedCO}"/>
 
                              <bean parent="Uif-Message"
                                   p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]  Warning"
