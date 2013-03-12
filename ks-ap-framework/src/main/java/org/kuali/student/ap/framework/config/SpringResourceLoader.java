@@ -1,18 +1,27 @@
 package org.kuali.student.ap.framework.config;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.ConfigurationException;
 import org.kuali.rice.core.framework.resourceloader.BaseResourceLoader;
-import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.TypeConverter;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.beans.factory.config.DependencyDescriptor;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.AutowireCandidateResolver;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -23,10 +32,13 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 
 /**
- * @deprecated TODO: Integrate autowiring with Rice source, and remove this
- *             duplication.
+ * Short-term alternate for org.kuali.rice.core.framework.resourceloader.SpringResourceLoader
+ * @deprecated TODO: Move KSAP auto-wiring functionality to Rice.
  */
-public class KsapSpringResourceLoader extends BaseResourceLoader {
+public class SpringResourceLoader extends BaseResourceLoader {
+
+	private static final Logger LOG = Logger
+			.getLogger(SpringResourceLoader.class);
 
 	private SpringResourceLoader parentSpringResourceLoader;
 
@@ -38,6 +50,37 @@ public class KsapSpringResourceLoader extends BaseResourceLoader {
 	private AutowireCandidateResolver autowireCandidateResolver;
 
 	private static final ThreadLocal<PopulatingBean> POPULATING = new ThreadLocal<PopulatingBean>();
+
+	/**
+	 * Get a proxy instance for delaying initialization errors for dependencies
+	 * marked as optional. This allows the container to return a real value for
+	 * missing resources, delaying the failure until the first time the service
+	 * is used.
+	 * 
+	 * <p>
+	 * The proxy returned by this method will always throw
+	 * UnsupportedOperationException with the provided message and cause.
+	 * </p>
+	 * 
+	 * @param message
+	 *            The message to include with the exception.
+	 * @param cause
+	 *            The initialization failure cause.
+	 * @param type
+	 *            The interface to use for the proxy.
+	 * @return A proxy to use for modeling an unsupported feature.
+	 */
+	static <T> T missingOptionalDependency(final String message,
+			final Throwable cause, final Class<T> type) {
+		return type.cast(Proxy.newProxyInstance(type.getClassLoader(),
+				new Class<?>[] { type, }, new InvocationHandler() {
+					@Override
+					public Object invoke(Object proxy, Method method,
+							Object[] args) throws Throwable {
+						throw new UnsupportedOperationException(message, cause);
+					}
+				}));
+	}
 
 	/**
 	 * Tracks meta-information related to the bean currently being populated for
@@ -108,12 +151,33 @@ public class KsapSpringResourceLoader extends BaseResourceLoader {
 					POPULATING.set(obn);
 			}
 		}
+
+		@Override
+		public Object resolveDependency(DependencyDescriptor descriptor,
+				String beanName, Set<String> autowiredBeanNames,
+				TypeConverter typeConverter) throws BeansException {
+			try {
+				return super.resolveDependency(descriptor, beanName,
+						autowiredBeanNames, typeConverter);
+			} catch (NoSuchBeanDefinitionException e) {
+				boolean optional = false;
+				for (Annotation a : descriptor.getAnnotations())
+					optional = optional || (a instanceof OptionalResource);
+				if (optional)
+					return missingOptionalDependency(
+							"Missing optional dependency for "
+									+ descriptor.getDependencyName() + " "
+									+ descriptor.getDependencyType(), e,
+							descriptor.getDependencyType());
+				else
+					throw e;
+			}
+		}
 	}
 
 	private _BeanFactory createBeanFactory() {
 		_BeanFactory rv = new _BeanFactory();
-		if (autowireCandidateResolver != null)
-			rv.setAutowireCandidateResolver(autowireCandidateResolver);
+		doCustomizeBeanFactory(rv);
 		return rv;
 	}
 
@@ -155,7 +219,7 @@ public class KsapSpringResourceLoader extends BaseResourceLoader {
 
 	private final List<String> fileLocs;
 
-	KsapSpringResourceLoader(QName name, List<String> fileLocs,
+	SpringResourceLoader(QName name, List<String> fileLocs,
 			ServletContext servletContextcontext,
 			AutowireCandidateResolver autowireCandidateResolver) {
 		super(name);

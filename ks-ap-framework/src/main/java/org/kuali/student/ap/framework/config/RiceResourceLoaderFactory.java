@@ -30,11 +30,10 @@ import org.kuali.rice.core.framework.resourceloader.SimpleServiceLocator;
 import org.springframework.beans.factory.support.AutowireCandidateResolver;
 
 /**
- * @deprecated TODO: This class was reduced from RiceResourceLoaderFactory in
- *             support of auto-wiring customization. Move changes there and
- *             remove this class.
+ * Short-term alternate for org.kuali.rice.core.framework.resourceloader.RiceResourceLoaderFactory
+ * @deprecated TODO: Move KSAP auto-wiring functionality to Rice.
  */
-public class KsapRiceResourceLoaderFactory {
+public class RiceResourceLoaderFactory {
 
 	private static final String RICE_ROOT_RESOURCE_LOADER_NAME = "RICE_ROOT_RESOURCE_LOADER";
 	private static final String RICE_SPRING_RESOURCE_LOADER_NAME = "RICE_SPRING_RESOURCE_LOADER_NAME";
@@ -71,7 +70,7 @@ public class KsapRiceResourceLoaderFactory {
 		// KSAP MOD: Use KSAP resource loader for auto-wiring support
 		// TODO: Add auto-wiring support to RiceResourceLoaderFactory and remove
 		// this class.
-		final ResourceLoader springResourceLoader = new KsapSpringResourceLoader(
+		final ResourceLoader springResourceLoader = new SpringResourceLoader(
 				spring, springFileLocations, context, autowireCandidateResolver);
 		rootResourceLoader.addResourceLoaderFirst(springResourceLoader);
 
