@@ -18,8 +18,12 @@ import java.util.List;
 public class AgendaManagementForm extends UifFormBase implements Serializable {
 
     private List<AgendaEditor> agendas;
+    private String selectedRuleId;
+    private String selectedRuleType;
 
     public AgendaManagementForm(){
+        selectedRuleId = null;
+        selectedRuleType = null;
     }
 
     public List<AgendaEditor> getAgendas() {
@@ -28,5 +32,21 @@ public class AgendaManagementForm extends UifFormBase implements Serializable {
 
     public void setAgendas(List<AgendaEditor> agendas) {
         this.agendas = agendas;
+    }
+
+    public String getSelectedRuleId() {
+        return selectedRuleId;
+    }
+
+    public void setSelectedRuleId(String selectedRuleId) {
+        this.selectedRuleId = selectedRuleId;
+    }
+
+    public String getSelectedRuleType() {
+        return selectedRuleType;
+    }
+
+    public void setSelectedRuleType(String selectedRuleType) {
+        this.selectedRuleType = selectedRuleType;
     }
 }

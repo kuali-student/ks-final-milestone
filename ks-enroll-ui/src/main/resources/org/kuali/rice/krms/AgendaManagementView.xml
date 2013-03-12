@@ -34,9 +34,6 @@
             <list>
                 <value>krms/scripts/agendaTree.js</value>
                 <value>ks-enroll/scripts/ruleStudentTree.js</value>
-                <value>krms/scripts/requiredAlerts.js</value>
-                <value>ks-enroll/scripts/disableStudentButtons.js</value>
-                <value>krms/scripts/countdownInputs.js</value>
             </list>
         </property>
         <property name="additionalCssFiles">
@@ -91,7 +88,7 @@
     <bean id="KRMS-RuleAdd-Links" parent="Uif-LinkGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-Link" p:linkText="Add Requisite">
+                <bean parent="Uif-ActionLink" p:actionLabel="Add Requisite" p:methodToCall="goToRuleView">
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
                               p:tooltipContent="Add Requisite to Rule"/>
@@ -111,7 +108,7 @@
                 <bean id="KRMS-RuleEdit-Section" parent="Uif-VerticalBoxSection" p:width="500px" p:style="margin-left:1em">
                     <property name="items">
                         <list>
-                            <bean parent="KRMS-RuleEdit-Links" p:align="right"/>
+                            <bean parent="KRMS-RuleEdit-Links" p:id="KRSM-RuleEdit-ActionLinks" p:align="right"/>
                             <bean id="KRMS-Instruction-EditMessage" parent="Uif-MessageField"/>
                             <bean id="KRMS-PreviewTree-Section" parent="KS-ViewTree-Section"/>
                         </list>
@@ -131,7 +128,7 @@
                 <bean id="KRMS-RuleAdd-Section" parent="Uif-VerticalBoxSection" p:width="500px" p:style="margin-left:1em">
                     <property name="items">
                         <list>
-                            <bean parent="KRMS-RuleAdd-Links" p:align="right"/>
+                            <bean parent="KRMS-RuleAdd-Links" p:id="KRMS-RuleAdd-ActionLink" p:align="right"/>
                             <bean id="KRMS-Instruction-AddMessage" parent="Uif-MessageField"/>
                         </list>
                     </property>

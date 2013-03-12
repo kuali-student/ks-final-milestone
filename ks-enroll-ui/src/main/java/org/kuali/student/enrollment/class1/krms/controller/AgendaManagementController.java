@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class1.krms.controller;
 
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krms.util.AgendaBuilder;
 import org.kuali.student.enrollment.class1.krms.form.AgendaManagementForm;
 import org.kuali.rice.krms.service.AgendaManagementViewHelperService;
 import org.kuali.student.r2.core.class1.state.service.StateService;
@@ -49,15 +50,16 @@ public class AgendaManagementController extends UifControllerBase  {
      * Method used to invoke the CO inquiry view from Manage Course Offering screen while search input is Course Offering
      * Code (04a screen)
      */
-    /*@RequestMapping(params = "methodToCall=goToRuleView")
-    public ModelAndView goToRuleView(@ModelAttribute("KualiForm") AgendaManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+    @RequestMapping(params = "methodToCall=goToRuleView")
+    public ModelAndView goToRuleView(@ModelAttribute("KualiForm") UifFormBase theForm, @SuppressWarnings("unused") BindingResult result,
                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+        AgendaManagementForm form =  (AgendaManagementForm) theForm;
 
-        CourseOfferingInfo theCourseOfferingInfo = theForm.getTheCourseOffering();
-        Properties urlParameters = buildAgendaURLParameters(theCourseOfferingInfo, KRADConstants.START_METHOD);
-        String controllerPath = "krmsRuleStudentEditor";
-        return super.performRedirect(theForm, controllerPath, urlParameters);
-    } */
+        /*CourseOfferingInfo theCourseOfferingInfo = theForm.getTheCourseOffering();
+        Properties urlParameters = AgendaBuilder.buildAgendaURLParameters(theCourseOfferingInfo, KRADConstants.START_METHOD);
+        String controllerPath = "krmsRuleStudentEditor";*/
+        return super.refresh(theForm, result, request, response);//performRedirect(theForm, controllerPath, urlParameters);
+    }
 
     /**/
 

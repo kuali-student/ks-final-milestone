@@ -4,6 +4,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Group;
+import org.kuali.rice.krad.uif.container.LinkGroup;
 import org.kuali.rice.krad.uif.container.TreeGroup;
 import org.kuali.rice.krad.uif.field.MessageField;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
@@ -30,7 +31,7 @@ import java.util.Properties;
 public class AgendaBuilder {
 
     private View view;
-    private Map<AgendaTypeInfo, List<RuleTypeInfo>> typeRelationsMap;
+    private Map<String, List<RuleTypeInfo>> typeRelationsMap;
 
     private int agendaCounter;
     private int ruleCounter;
@@ -39,7 +40,7 @@ public class AgendaBuilder {
         this.view = view;
     }
 
-    public void setTypeRelationsMap(Map<AgendaTypeInfo, List<RuleTypeInfo>> typeRelationsMap) {
+    public void setTypeRelationsMap(Map<String, List<RuleTypeInfo>> typeRelationsMap) {
         this.typeRelationsMap = typeRelationsMap;
     }
 
@@ -53,6 +54,7 @@ public class AgendaBuilder {
         ruleCounter = 0;
 
         Group group = (Group) ComponentFactory.getNewComponentInstance("KRMS-AgendaSection-Template");
+        group.setId("KRMS-AgendaSection-" + agendaCounter);
         group.setHeaderText("Agenda " + agendaCounter);
 
         List<Component> components = new ArrayList<Component>();
@@ -63,8 +65,8 @@ public class AgendaBuilder {
             // Add all existing rules of this type.
             boolean exist = false;
             for (RuleEditor rule : agenda.getRuleEditors()) {
-                if (rule.getTypeId().equals(ruleType.getType())) {
-                    components.add(buildEditRule(rule));
+                if (rule.getTypeId().equals(ruleType.getId())) {
+                    components.add(buildEditRule(rule, ruleType));
                     exist = true;
 
                     ruleEditors.add(rule);
@@ -73,8 +75,10 @@ public class AgendaBuilder {
 
             // If the ruletype does not exist, add an empty rule section
             if (!exist) {
-                components.add(buildAddRule(ruleType.getDescription()));
-                ruleEditors.add(new RuleEditor());
+                components.add(buildAddRule(ruleType));
+                RuleEditor ruleEditor = new RuleEditor();
+                ruleEditor.setTypeId(ruleType.getId());
+                ruleEditors.add(ruleEditor);
             }
 
         }
@@ -92,13 +96,18 @@ public class AgendaBuilder {
      * @param rule
      * @return
      */
-    protected Component buildEditRule(RuleEditor rule) {
+    protected Component buildEditRule(RuleEditor rule, RuleTypeInfo ruleTypeInfo) {
         Group group = (Group) ComponentFactory.getNewComponentInstance("KRMS-RuleEdit-Template");
-        group.setHeaderText(rule.getDescription() + ruleCounter);
+        group.setId("KRMS-RuleEdit-" + rule.getId());
+        group.setHeaderText(ruleTypeInfo.getDescription());
 
         Group editSection = (Group) ComponentUtils.findComponentInList((List<Component>) group.getItems(), "KRMS-RuleEdit-Section");
+        editSection.setId("KRMS-RuleEdit-Section-" + rule.getId());
+        LinkGroup links = (LinkGroup) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRSM-RuleEdit-ActionLinks");
+        links.setId("KRMS-RuleEdit-ActionLinks-" + rule.getId());
+        links.getExpressionGraph().put("onClickScript", "@{selectedRuleId = '" + rule.getId() + "'}");
         MessageField messageField = (MessageField) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-Instruction-EditMessage");
-        messageField.setMessageText("Instructional text for rule:" + ruleCounter); // TODO: get text from type map.
+        messageField.setMessageText(ruleTypeInfo.getInstruction()); // TODO: get text from type map.
 
         TreeGroup treeGroup = (TreeGroup) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-PreviewTree-Section");
         treeGroup.setPropertyName("agendas[" + agendaCounter + "].ruleEditors[" + ruleCounter + "].previewTree");  //TODO: create method to generate agenda.rule path.
@@ -109,16 +118,21 @@ public class AgendaBuilder {
 
     /**
      * This method dynamically builds a disclosure section to allow the user to add a new rule for this rule type.
-     * @param description
+     * @param ruleTypeInfo
      * @return
      */
-    protected Component buildAddRule(String description) {
+    protected Component buildAddRule(RuleTypeInfo ruleTypeInfo) {
         Group group = (Group) ComponentFactory.getNewComponentInstance("KRMS-RuleAdd-Template");
-        group.setHeaderText(description + ruleCounter);
+        group.setId("KRMS-RuleAdd-" + ruleTypeInfo.getId());
+        group.setHeaderText(ruleTypeInfo.getDescription());
 
         Group editSection = (Group) ComponentUtils.findComponentInList((List<Component>) group.getItems(), "KRMS-RuleAdd-Section");
+        editSection.setId("KRMS-RuleAdd-Section-" + ruleTypeInfo.getId());
+        LinkGroup links = (LinkGroup) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-RuleAdd-ActionLink");
+        links.setId("KRMS-RuleAdd-ActionLink-" + ruleTypeInfo.getId());
+        links.getExpressionGraph().put("onClickScript", "@{selectedRuleType = '" + ruleTypeInfo.getId() + "'}");
         MessageField messageField = (MessageField) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-Instruction-AddMessage");
-        messageField.setMessageText("Instructional text for rule:" + ruleCounter);   // TODO: get test from type map.
+        messageField.setMessageText(ruleTypeInfo.getInstruction());   // TODO: get test from type map.
 
         ruleCounter++;
         return group;
