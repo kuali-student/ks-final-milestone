@@ -93,7 +93,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" id="max_enrollment" p:label="Total Maximum Enrollment" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment"
-                       p:onChangeScript="calculatePercent(jQuery(this))" p:componentSecurity.editAuthz="true">
+                      p:id="maximumEnrollment" p:onChangeScript="calculatePercent(jQuery(this))" p:componentSecurity.editAuthz="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="3"/>
                     </property>
