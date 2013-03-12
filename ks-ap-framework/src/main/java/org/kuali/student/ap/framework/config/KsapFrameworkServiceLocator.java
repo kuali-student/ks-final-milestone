@@ -4,7 +4,6 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.ap.framework.context.AtpHelper;
 import org.kuali.student.ap.framework.context.EnumerationHelper;
 import org.kuali.student.ap.framework.context.KsapContext;
@@ -25,7 +24,6 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.program.service.ProgramService;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.Lifecycle;
 
 /**
  * Convenience factory for acquiring KSAP provided service.
@@ -39,8 +37,7 @@ import org.springframework.context.Lifecycle;
  * @since 0.1.1
  */
 @Singleton
-public final class KsapFrameworkServiceLocator implements Lifecycle,
-		InitializingBean {
+public final class KsapFrameworkServiceLocator implements InitializingBean {
 
 	private static final Logger LOG = Logger
 			.getLogger(KsapFrameworkServiceLocator.class);
@@ -283,28 +280,9 @@ public final class KsapFrameworkServiceLocator implements Lifecycle,
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		instance = GlobalResourceLoader
-				.getService("ksapFrameworkServiceLocator");
-		assert instance != null : "ksapFrameworkServiceLocator is not defined by an environement";
+		assert instance == null : instance;
+		instance = this;
 		LOG.info("KSAP Framework Initialization Complete");
-	}
-
-	@Override
-	public void start() {
-		assert !isRunning() : "Already running";
-		getInstance();
-		assert isRunning() : "Didn't start";
-	}
-
-	@Override
-	public void stop() {
-		assert isRunning() : "Not running";
-		instance = null;
-	}
-
-	@Override
-	public boolean isRunning() {
-		return instance != null;
 	}
 
 }
