@@ -426,10 +426,15 @@
         <property name="resultSourceDao" ref="resultSourceDao" />
     </bean>
 
+    <bean id="ksCacheManager" class="net.sf.ehcache.CacheManager">
+        <constructor-arg index="0" type="java.net.URL" value="${ks.cache.config.file}" />
+    </bean>
+
     <bean id="lrcServiceBusinessLogic" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl" />
 
     <bean id="lrcServiceCache" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceCacheDecorator">
         <property name="nextDecorator" ref="lrcPersistenceService" />
+        <property name="cacheManager" ref="ksCacheManager"/>
     </bean>
 
     <bean id="lrcPersistenceService" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
