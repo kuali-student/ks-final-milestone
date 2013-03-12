@@ -1855,6 +1855,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = true)
+    //TODO - lets try to use a single DB call to accomplish this!
     public List<RegistrationGroupInfo> getRegistrationGroupsWithActivityOfferings(List<String> activityOfferingIds,
                                                                                   ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
