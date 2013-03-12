@@ -11,6 +11,7 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
@@ -58,7 +59,6 @@ import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -227,6 +227,8 @@ public class ARGUtil {
             }
         }
 
+        ARGUtil.loadRegistrationGroupsByCourseOffering(foIds, (ARGCourseOfferingManagementForm)form);
+
         //turn off authz for now
 //        form.setEditAuthz(checkEditViewAuthz(form));
 
@@ -239,6 +241,98 @@ public class ARGUtil {
 
         ToolbarUtil.processAoToolbarForUser(form.getActivityWrapperList(), form);
 //        return getUIFModelAndView(form, CourseOfferingConstants.MANAGE_AO_PAGE);
+    }
+
+    /**
+     * Grab all the registration groups for the list of FO ids passed in and addes wrapped RGs back to the form
+     * @param foIds list of Format offering ids
+     * @param form The form
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws DoesNotExistException
+     * @throws PermissionDeniedException
+     * @throws OperationFailedException
+     */
+    private static void loadRegistrationGroupsByCourseOffering(List<String> foIds, ARGCourseOfferingManagementForm form) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        List<RegistrationGroupWrapper> wrappedRegGroups = new ArrayList<RegistrationGroupWrapper>();
+
+        HashMap<String, ActivityOfferingWrapper> filteredAOsHM = new HashMap<String, ActivityOfferingWrapper>();
+        for (ActivityOfferingWrapper wrapper : form.getActivityWrapperList()) {
+            filteredAOsHM.put(wrapper.getAoInfo().getId(), wrapper);
+        }
+
+        //Grab the registration groups from the course
+        for(String foId:foIds){
+            List<RegistrationGroupInfo> regGroups = getCourseOfferingService().getRegistrationGroupsByFormatOffering(foId, ContextUtils.createDefaultContextInfo());
+
+            //Wrap the reg groups and put in the form
+            for(RegistrationGroupInfo rgInfo:regGroups){
+                RegistrationGroupWrapper rgWrapper = new RegistrationGroupWrapper();
+                rgWrapper.setRgInfo(rgInfo);
+                String aoActivityCodeText = "", aoStateNameText = "", aoTypeNameText = "", aoInstructorText = "", aoMaxEnrText = "";
+                for (String aoID : rgInfo.getActivityOfferingIds()) {
+                    String cssClass = (filteredAOsHM.get(aoID).getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+                    if (filteredAOsHM.get(aoID).getAoInfo().getActivityCode() != null && !filteredAOsHM.get(aoID).getAoInfo().getActivityCode().equalsIgnoreCase("")) {
+                        aoActivityCodeText = aoActivityCodeText + filteredAOsHM.get(aoID).getAoInfo().getActivityCode() + "<br/>";
+                    }
+                    if (filteredAOsHM.get(aoID).getStateName() != null && !filteredAOsHM.get(aoID).getStateName().equalsIgnoreCase("")) {
+                        aoStateNameText = aoStateNameText + filteredAOsHM.get(aoID).getStateName() + "<br/>";
+                    }
+                    if (filteredAOsHM.get(aoID).getTypeName() != null && !filteredAOsHM.get(aoID).getTypeName().equalsIgnoreCase("")) {
+                        aoTypeNameText = aoTypeNameText + filteredAOsHM.get(aoID).getTypeName() + "<br/>";
+                    }
+                    if (filteredAOsHM.get(aoID).getFirstInstructorDisplayName() != null && !filteredAOsHM.get(aoID).getFirstInstructorDisplayName().equalsIgnoreCase("")) {
+                        aoInstructorText = aoInstructorText + filteredAOsHM.get(aoID).getFirstInstructorDisplayName() + "<br/>";
+                    }
+                    if (filteredAOsHM.get(aoID).getAoInfo().getMaximumEnrollment() != null) {
+                        aoMaxEnrText = aoMaxEnrText + Integer.toString(filteredAOsHM.get(aoID).getAoInfo().getMaximumEnrollment()) + "<br/>";
+                    }
+
+                    if(filteredAOsHM.get(aoID).getStartTimeDisplay() != null){
+                        rgWrapper.setStartTimeDisplay(filteredAOsHM.get(aoID).getStartTimeDisplay(), true, cssClass);
+                    }
+
+                    if(filteredAOsHM.get(aoID).getEndTimeDisplay() != null){
+                        rgWrapper.setEndTimeDisplay(filteredAOsHM.get(aoID).getEndTimeDisplay(), true, cssClass);
+                    }
+
+                    if(filteredAOsHM.get(aoID).getBuildingName() != null){
+                        rgWrapper.setBuildingName(filteredAOsHM.get(aoID).getBuildingName(), true, cssClass);
+                    }
+
+                    if(filteredAOsHM.get(aoID).getRoomName() != null){
+                        rgWrapper.setRoomName(filteredAOsHM.get(aoID).getRoomName(), true, cssClass);
+                    }
+
+                    if(filteredAOsHM.get(aoID).getDaysDisplayName() != null){
+                        rgWrapper.setDaysDisplayName(filteredAOsHM.get(aoID).getDaysDisplayName(), true, cssClass);
+                    }
+                }
+                if (aoActivityCodeText.length() > 0) {
+                    aoActivityCodeText = aoActivityCodeText.substring(0, aoActivityCodeText.lastIndexOf("<br/>"));
+                }
+                if (aoStateNameText.length() > 0) {
+                    aoStateNameText = aoStateNameText.substring(0, aoStateNameText.lastIndexOf("<br/>"));
+                }
+                if (aoTypeNameText.length() > 0) {
+                    aoTypeNameText = aoTypeNameText.substring(0, aoTypeNameText.lastIndexOf("<br/>"));
+                }
+                if (aoInstructorText.length() > 0) {
+                    aoInstructorText = aoInstructorText.substring(0, aoInstructorText.lastIndexOf("<br/>"));
+                }
+                if (aoMaxEnrText.length() > 0) {
+                    aoMaxEnrText = aoMaxEnrText.substring(0, aoMaxEnrText.lastIndexOf("<br/>"));
+                }
+
+                rgWrapper.setAoActivityCodeText(aoActivityCodeText);
+                rgWrapper.setAoStateNameText(aoStateNameText);
+                rgWrapper.setAoTypeNameText(aoTypeNameText);
+                rgWrapper.setAoInstructorText(aoInstructorText);
+                rgWrapper.setAoMaxEnrText(aoMaxEnrText);
+                wrappedRegGroups.add(rgWrapper);
+            }
+        }
+        form.setRgResultList(wrappedRegGroups);
     }
 
     /*

@@ -9,18 +9,18 @@
         <property name="headerText" value="View Registration Groups"/>
         <property name="items">
             <list>
-                <!--<ref bean="KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering" />-->
+                <ref bean="KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering" />
             </list>
         </property>
     </bean>
 
     <bean id="KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering" parent="Uif-TableCollectionSection"
-          p:renderAddLine="false"  p:renderLineActions="false" p:style="display: none">
+          p:renderAddLine="false"  p:renderLineActions="false" >
         <!--<property name="hidden" value="true"/>-->
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper" />
         <property name="propertyName" value="rgResultList" />
         <property name="headerText" value="Registration Groups"/>
-        <property name="instructionalText" value="@{#line.clusterNameForDisplay}" />
+        <!--<property name="instructionalText" value="@{#line.clusterNameForDisplay}" />-->
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
