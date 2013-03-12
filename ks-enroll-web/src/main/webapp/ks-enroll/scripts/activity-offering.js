@@ -6,7 +6,7 @@ function setupColoCheckBoxChange(control){
 
     if(jQuery(control).is(":checked")) {
 
-        jQuery("#max_enrollment").hide();
+        jQuery("#maximumEnrollment").hide();
         jQuery("#ActivityOfferingEdit-MainPage-CoLocation").show();
 
         if(jQuery("#share_seats_control_0").length != 0 && jQuery("#share_seats_control_0").is(":checked")) {
@@ -21,7 +21,7 @@ function setupColoCheckBoxChange(control){
             jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").removeClass("ignoreValid");
         }
     } else {
-        jQuery("#max_enrollment").show();
+        jQuery("#maximumEnrollment").show();
         jQuery("#ActivityOfferingEdit-MainPage-CoLocation").hide();
         jQuery("#shared_max_enr_control").addClass("ignoreValid");
         jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
