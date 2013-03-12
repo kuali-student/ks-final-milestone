@@ -25,6 +25,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.ActivityOfferingNotInAocSubissue;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.CourseOfferingAutogenIssue;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.FormatOfferingAutogenIssue;
@@ -38,9 +39,11 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
+import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
@@ -52,6 +55,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.permutation.PermutationCounter;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -193,8 +197,74 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
 
     @Override
     public ActivityOfferingResult updateActivityOffering(ActivityOfferingInfo aoInfo, ContextInfo context) throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException, OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException {
-        // To be filled by David Y (can change return type if you like).
-        return null;
+        try {
+            //update AO
+            ActivityOfferingInfo activityOfferingInfo = coService.updateActivityOffering(aoInfo.getId(), aoInfo, context);
+            ActivityOfferingResult aoResult = new ActivityOfferingResult();
+            aoResult.setCreatedActivityOffering(activityOfferingInfo);
+
+            // fetch the associated RGs
+            List<String> aoIds = new ArrayList<String>();
+            aoIds.add(activityOfferingInfo.getId());
+            List<RegistrationGroupInfo> rgs = coService.getRegistrationGroupsWithActivityOfferings(aoIds, context);
+
+            if (rgs != null && !rgs.isEmpty()) {
+                //fetch the associated AOC
+                ActivityOfferingClusterInfo cluster = coService.getActivityOfferingCluster(rgs.get(0).getActivityOfferingClusterId(), context);
+
+                if (cluster != null) {
+                    // Make sure FO IDs match up
+                    if (!cluster.getFormatOfferingId().equals(activityOfferingInfo.getFormatOfferingId())) {
+                        throw new DataValidationErrorException("Format Offering Ids do not match");
+                    }
+
+                    //check the max enroll number of the AOC
+                    BulkStatusInfo clusterStatusInfo = new BulkStatusInfo();
+                    clusterStatusInfo.setId(cluster.getId());
+                    clusterStatusInfo.setSuccess(true);
+
+                    List<ValidationResultInfo> validations = coService.validateActivityOfferingCluster(
+                            DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), activityOfferingInfo.getFormatOfferingId(), cluster, context);
+                    for (ValidationResultInfo validation : validations) {
+                        if (validation.isWarn()) {
+                            // If any validation is an error, then make this invalid
+                            clusterStatusInfo.setSuccess(false);
+                            break;
+                        }
+                    }
+                    aoResult.setClusterstatus(clusterStatusInfo);
+
+                }
+
+                //check time conflict
+                List<BulkStatusInfo> rgStatusInfos = new ArrayList<BulkStatusInfo>(rgs.size());
+
+                for (RegistrationGroupInfo rgInfo : rgs) {
+                    BulkStatusInfo rgStatusInfo = new BulkStatusInfo();
+                    rgStatusInfo.setId(rgInfo.getId());
+                    rgStatusInfo.setSuccess(true);
+
+                    List<ValidationResultInfo> validations = coService.verifyRegistrationGroup(rgInfo.getId(), context);
+                    for (ValidationResultInfo validation : validations) {
+                        if (validation.isWarn()) {
+                            // If any validation is an error, then make this invalid
+                            coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, context);
+                            rgStatusInfo.setSuccess(false);
+                            break;
+                        }
+                    }
+                    rgStatusInfos.add(rgStatusInfo);
+                }
+                aoResult.setGeneratedRegistrationGroups(rgStatusInfos);
+
+            }
+            return aoResult;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
     @Override
@@ -694,5 +764,15 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         }
     }
 
+    public CourseOfferingService getCoService() {
+        if(coService == null) {
+            coService = (CourseOfferingService) GlobalResourceLoader.getService("CourseOfferingService");
+        }
 
+        return coService;
+    }
+
+    public void setCoService(CourseOfferingService coService) {
+        this.coService = coService;
+    }
 }

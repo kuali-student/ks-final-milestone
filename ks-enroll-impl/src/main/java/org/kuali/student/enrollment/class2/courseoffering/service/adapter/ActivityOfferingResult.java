@@ -29,6 +29,7 @@ import java.util.List;
 public class ActivityOfferingResult {
     private ActivityOfferingInfo createdActivityOffering;
     private List<BulkStatusInfo> generatedRegistrationGroups;
+    private BulkStatusInfo clusterstatus;
 
     public ActivityOfferingResult() {
     }
@@ -47,5 +48,13 @@ public class ActivityOfferingResult {
 
     public void setGeneratedRegistrationGroups(List<BulkStatusInfo> generatedRegistrationGroups) {
         this.generatedRegistrationGroups = generatedRegistrationGroups;
+    }
+
+    public BulkStatusInfo getClusterstatus() {
+        return clusterstatus;
+    }
+
+    public void setClusterstatus(BulkStatusInfo clusterstatus) {
+        this.clusterstatus = clusterstatus;
     }
 }

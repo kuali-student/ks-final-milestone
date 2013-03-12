@@ -970,15 +970,34 @@
     <bean id="CourseOfferingManagementSearchImpl" class="org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl">
         <property name="genericEntityDao" ref="searchDao"/>
     </bean>
-    
+
+    <!-- autoGen -->
+    <bean id="AutogenCountSearchServiceImpl" class="org.kuali.student.enrollment.class2.courseoffering.service.search.CourseOfferingServiceAutogenCountSearchServiceImpl" autowire="autodetect">
+    </bean>
+    <bean id="autogenRegistrationGroupAppLayer" class="org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapterImpl">
+        <property name="coService" ref="CourseOfferingService" />
+    </bean>
+
     <bean id="searchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
         <property name="searchServices">
             <list>
                  <ref bean="apptWindowCountsSearchImpl" />
                  <ref bean="courseOfferingHistorySearchImpl"/>
                  <ref bean="CourseOfferingManagementSearchImpl"/>
+                 <ref bean="AutogenCountSearchServiceImpl"/>
             </list>
         </property>                
+    </bean>
+    <bean id="ks.exp.autogenRegistrationGroupAppLayer" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
+                <property name="service" ref="autogenRegistrationGroupAppLayer" />
+                <property name="serviceInterface" value="org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter" />
+                <property name="localServiceName" value="AutogenRegGroupServiceAdapter" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/autogenRegistrationGroupAppLayer" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
     </bean>
 
     <bean id="ks.exp.searchService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
