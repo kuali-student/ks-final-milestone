@@ -1326,17 +1326,21 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         boolean bNoDeletion = false;
         int checked = 0;
         int enabled = 0;
+        int totalAosToDelete = 0;
+        int numColocatedAosToDelete = 0;
 
         selectedIndexList.clear();
         for(ActivityOfferingWrapper ao : aoList) {
 
             if(ao.isEnableDeleteButton() && ao.getIsChecked()) {
+                totalAosToDelete++;
                 ao.setActivityCode(ao.getAoInfo().getActivityCode());
                 selectedIndexList.add(ao);
                 if(ao.getAoInfo().getIsPartOfColocatedOfferingSet())  {
                     currentCoWrapper.setColocatedAoToDelete(true);
                     String colocateInfo = ViewHelperUtil.createColocatedDisplayData(ao.getAoInfo(), context);
                     ao.setColocatedAoInfo(colocateInfo);
+                    numColocatedAosToDelete++;
                 }
                 enabled++;
             } else if (ao.getIsChecked()){
@@ -1358,7 +1362,23 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_DELETE);
         }
 
-        return getUIFModelAndView(theForm, CourseOfferingConstants.AO_DELETE_CONFIRM_PAGE);
+        if(totalAosToDelete == numColocatedAosToDelete) {
+            if(numColocatedAosToDelete > 1) {
+                if (!hasDialogBeenAnswered(CourseOfferingConstants.ConfirmDialogs.DELETE_COLO_AOS, theForm)) {
+                    return showDialog(CourseOfferingConstants.ConfirmDialogs.DELETE_COLO_AOS, theForm, request, response);
+                }
+                theForm.getDialogManager().resetDialogStatus(CourseOfferingConstants.ConfirmDialogs.DELETE_COLO_AOS);
+
+            }  else {
+                if (!hasDialogBeenAnswered(CourseOfferingConstants.ConfirmDialogs.DELETE_ONE_COLO_AO, theForm)) {
+                    return showDialog(CourseOfferingConstants.ConfirmDialogs.DELETE_ONE_COLO_AO, theForm, request, response);
+                }
+                theForm.getDialogManager().resetDialogStatus(CourseOfferingConstants.ConfirmDialogs.DELETE_ONE_COLO_AO);
+            }
+        }  else {
+            return getUIFModelAndView(theForm, CourseOfferingConstants.AO_DELETE_CONFIRM_PAGE);
+        }
+        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 
     @RequestMapping(params = "methodToCall=draftAOs")
