@@ -292,7 +292,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     for (ActivityOfferingInfo dto : aoInfos){
                         ColocatedActivity coloAO = new ColocatedActivity();
                         coloAO.setAoId(dto.getId());
-                        coloAO.setMaxEnrollmentCount(coloAO.getMaxEnrollmentCount());
+                        coloAO.setMaxEnrollmentCount(dto.getMaximumEnrollment());
                         coloAO.setCoId(dto.getCourseOfferingId());
                         coloAO.setActivityOfferingCode(dto.getActivityCode());
                         coloAO.setCourseOfferingCode(dto.getCourseOfferingCode());
@@ -528,7 +528,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         } else if (addLine instanceof ColocatedActivity){
             ColocatedActivity colo = (ColocatedActivity)addLine;
 
-            validateNewColocatedActivity(colo,activityOfferingWrapper);
+            return validateNewColocatedActivity(colo,activityOfferingWrapper);
         }
         return super.performAddLineValidation(view, collectionGroup, model, addLine);
     }
@@ -573,6 +573,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             for (ActivityOfferingInfo ao : activityOfferingInfos){
                 if (StringUtils.equalsIgnoreCase(ao.getActivityCode(),colo.getActivityOfferingCode())){
                     colo.setAoId(ao.getId());
+                    colo.setMaxEnrollmentCount(ao.getMaximumEnrollment());
                     isAOMatchFound = true;
                 }
             }
@@ -683,6 +684,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
             Object o = wrapper.getColocatedActivities().remove(lineIndex);
             wrapper.getEditRenderHelper().getManageSeperateEnrollmentList().remove(o);
+            System.out.println(o);
         } else {
             super.processCollectionDeleteLine(view, model, collectionPath, lineIndex);
         }

@@ -16,6 +16,8 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.Serializable;
 
 /**
@@ -42,7 +44,7 @@ public class ColocatedActivity implements Serializable {
     }
 
     public void setCourseOfferingCode(String courseOfferingCode) {
-        this.courseOfferingCode = courseOfferingCode;
+        this.courseOfferingCode = StringUtils.upperCase(courseOfferingCode);
     }
 
     public String getActivityOfferingCode() {
@@ -50,7 +52,7 @@ public class ColocatedActivity implements Serializable {
     }
 
     public void setActivityOfferingCode(String activityOfferingCode) {
-        this.activityOfferingCode = activityOfferingCode;
+        this.activityOfferingCode = StringUtils.upperCase(activityOfferingCode);
     }
 
     public String getCoId() {
