@@ -207,7 +207,8 @@ public class ARGUtil {
         getViewHelperService(form).loadActivityOfferingsByCourseOffering(coInfo, form);
         getViewHelperService(form).loadPreviousAndNextCourseOffering(form);
 
-        form.setEditAuthz(checkEditViewAuthz(form));
+        //turn off authz for now
+//        form.setEditAuthz(checkEditViewAuthz(form));
 
         //TODO: Set SOC State - temporary display, to be removed after testing is finished
         String socState = getSocState(form.getTermInfo().getId());

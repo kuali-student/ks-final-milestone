@@ -19,7 +19,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <bean id="ARGCourseOfferingInfo" parent="CourseOfferingInfo-parent">
+    <bean id="CourseOfferingInfo" parent="CourseOfferingInfo-parent">
         <property name="titleAttribute" value="id"/>
     </bean>
 
@@ -128,8 +128,11 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" p:render="@{#line.isEnableCopyCOActionLink()}" p:actionEvent="copyCOonManageCOsPage"/>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" p:render="@{#line.isEnableEditCOActionLink()}" p:actionEvent="editCOonManageCOsPage"/>
+                <!-- Note by Bonnie: turn off authz on copy and edit link for now -->
+                <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" p:render="@{#line.isEnableCopyCOActionLink()}" p:actionEvent="copyCOonManageCOsPage"/>-->
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" />
+                <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" p:render="@{#line.isEnableEditCOActionLink()}" p:actionEvent="editCOonManageCOsPage"/>-->
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="loadAOs" p:actionLabel="Manage"/>
             </list>
         </property>

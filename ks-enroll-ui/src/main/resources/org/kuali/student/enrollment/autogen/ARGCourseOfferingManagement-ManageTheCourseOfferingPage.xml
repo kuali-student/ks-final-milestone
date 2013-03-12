@@ -38,27 +38,6 @@
                 <value>ks-borderBottom</value>
             </list>
         </property>
-        <property name="header.lowerGroup">
-            <bean parent="Uif-HeaderLowerGroup">
-                <property name="style" value="margin-bottom:px;"/>
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{currentCourseOfferingWrapper.alternateCOCodesUIList}" p:render="@{currentCourseOfferingWrapper.alternateCOCodesUIList != ''}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
-                        <bean parent="Uif-LinkGroup" p:style="float:right">
-                            <property name="items">
-                                <list>
-                                    <bean parent="Uif-ActionLink" p:methodToCall="loadPreviousCO" p:actionLabel="&lt; @{previousCourseOfferingWrapper != null ? previousCourseOfferingWrapper.courseOfferingCode : ''}" p:render="@{previousCourseOfferingWrapper != null}"/>
-                                    <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{previousCourseOfferingWrapper != null}"/>
-                                    <bean parent="Uif-ActionLink" p:methodToCall="loadCOs" p:actionLabel="List All" />
-                                    <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{nextCourseOfferingWrapper != null}"/>
-                                    <bean parent="Uif-ActionLink" p:methodToCall="loadNextCO" p:actionLabel="@{nextCourseOfferingWrapper != null ? nextCourseOfferingWrapper.courseOfferingCode : ''} &gt;" p:render="@{nextCourseOfferingWrapper != null}"/>
-                                </list>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
-        </property>
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-TheCourseOfferingLinks"/>
@@ -101,8 +80,18 @@
                         </list>
                     </property>
                 </bean>
+                <bean parent="Uif-LinkGroup" p:style="float:right">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-ActionLink" p:methodToCall="loadPreviousCO" p:actionLabel="&lt; @{previousCourseOfferingWrapper != null ? previousCourseOfferingWrapper.courseOfferingCode : ''}" p:render="@{previousCourseOfferingWrapper != null}"/>
+                            <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{previousCourseOfferingWrapper != null}"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="loadCOs" p:actionLabel="List All" />
+                            <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{nextCourseOfferingWrapper != null}"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="loadNextCO" p:actionLabel="@{nextCourseOfferingWrapper != null ? nextCourseOfferingWrapper.courseOfferingCode : ''} &gt;" p:render="@{nextCourseOfferingWrapper != null}"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
-
 </beans>

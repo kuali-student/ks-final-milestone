@@ -42,7 +42,7 @@
         </property>
 
         <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="Manage Course Offerings" p:style="padding-left:15px;"/>
+            <bean parent="Uif-HeaderThree" p:headerText="Manage Course Offerings (Auto-Generated RG)" p:style="padding-left:15px;"/>
         </property>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
