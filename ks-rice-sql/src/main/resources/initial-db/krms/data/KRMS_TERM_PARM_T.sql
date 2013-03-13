@@ -633,3 +633,12 @@ INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.program.cluSet.id','10197','10210','7a7ae03e-9b11-4a77-af94-bb3744e11294',1)
 /
+INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
+  VALUES ('kuali.term.parameter.type.course.cluSet.id','10198','10211','7a2da288-609f-488f-903f-489040a68325',1)
+/
+INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
+  VALUES ('kuali.term.parameter.type.course.cluSet.id','10199','10212','7a2da288-609f-488f-903f-489040a68325',1)
+/
+INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
+  VALUES ('kuali.term.parameter.type.free.text','10200','10213','Some free text goes here.',1)
+/
