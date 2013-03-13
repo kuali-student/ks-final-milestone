@@ -146,6 +146,4 @@
             </list>
         </property>
     </bean>
-
-    <bean id="KS-HorizontalBoxGroup-WithRPadding-5px" parent="Uif-HorizontalBoxGroup" p:style="padding-right: 5px" />
 </beans>

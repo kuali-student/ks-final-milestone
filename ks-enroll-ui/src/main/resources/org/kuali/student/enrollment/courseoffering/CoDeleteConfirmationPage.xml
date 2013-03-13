@@ -186,19 +186,14 @@
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="COURSE">
                     <property name="items">
                        <list>
-                           <bean parent="KS-HorizontalBoxGroup-WithRPadding-5px">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-DataField" p:propertyName="courseOfferingCode"/>
-                                    </list>
-                                </property>
-                           </bean>
+                            <bean parent="Uif-DataField" p:propertyName="courseOfferingCode"/>
                            <bean parent="Uif-ImageField" p:hidden="@{#lp.alternateCOCodes.isEmpty()}" p:image.altText="@{#lp.crossListedCodesUI}" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png">
                                <property name="toolTip">
                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.crossListedCodesUI}"/>
                                  </property>
                            </bean>
                            <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedCoCode.isEmpty()}" p:image.altText="@{#lp.crossListedCodesUI}" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
+                               <property name="style" value="padding-left:5px"/>
                                <property name="toolTip">
                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedInfoUI}"/>
                                </property>

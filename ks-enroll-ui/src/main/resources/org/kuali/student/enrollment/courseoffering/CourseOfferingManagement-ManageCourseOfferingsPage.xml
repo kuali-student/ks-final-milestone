@@ -78,18 +78,13 @@
                     <property name="label" value="Label"/>
                     <property name="items">
                        <list>
-                           <bean parent="KS-HorizontalBoxGroup-WithRPadding-5px">
-                               <property name="items">
-                                    <list>
-                                       <bean parent="Uif-DataField" p:propertyName="courseOfferingCode">
-                                           <property name="inquiry">
-                                               <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"  p:inquiryParameters="courseOfferingId" />
-                                           </property>
-                                       </bean>
-                                    </list>
-                                </property>
+                           <bean parent="Uif-DataField" p:propertyName="courseOfferingCode">
+                               <property name="inquiry">
+                                   <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"  p:inquiryParameters="courseOfferingId" />
+                               </property>
                            </bean>
                            <bean parent="Uif-ImageField" p:hidden="@{#lp.alternateCOCodes.isEmpty()}" p:image.altText="@{#lp.crossListedCodesUI}" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png">
+                               <property name="style" value="padding-left:5px"/>
                                <property name="toolTip">
                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.crossListedCodesUI}"/>
                                  </property>
