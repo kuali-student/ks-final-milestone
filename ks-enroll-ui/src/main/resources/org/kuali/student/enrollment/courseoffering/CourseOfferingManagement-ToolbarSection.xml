@@ -49,8 +49,9 @@
             <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                 <property name="items">
                     <list>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Add-AO" parent="KS-CourseOfferingManagement-ToolBar-Add" p:actionLabel="Add Activity"
-                            p:performClientSideValidation="true" p:methodToCall="addActivityOfferings" p:disabled="@{!enableAddButton}"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Add-AO" parent="KS-CourseOfferingManagement-ToolBar-Add"
+                              p:actionLabel="Add Activity" p:disabled="@{!enableAddButton}"
+                              p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm');"/>
                     </list>
                 </property>
             </bean>

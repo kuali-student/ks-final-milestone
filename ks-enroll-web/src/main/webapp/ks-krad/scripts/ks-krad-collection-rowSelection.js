@@ -6,6 +6,7 @@ var g_IsTriggeredByControlCheckbox = false;
  *  the control checkbox will be unchecked whenever one or more of the collection
  *  checkboxes is unchecked; it will only be checked if all checkboxes are checked.
  *  Parameters:
+ *      readOnly        : If true, the control checkbox will not be added
  *      collectionId    : ID of collection to receive selection control checkbox
  *      callClickEvents : Determines whether the individual row selection checkboxes
  *                        will have their click event triggered, or just have the
@@ -15,7 +16,11 @@ var g_IsTriggeredByControlCheckbox = false;
  *                        need to be passed in also, wrap the function in an anonymous
  *                        function, like so: function(){sampleFunction("arg1")}
  */
-function ksAddRowSelectionCheckbox(collectionId, callClickEvents, onClickFunction) {
+function ksAddRowSelectionCheckbox(readOnly, collectionId, callClickEvents, onClickFunction) {
+    if (readOnly === true) {
+        return;
+    }
+
     var newCheckbox = jQuery("<input type='checkbox' id='"+collectionId+"_toggle_control_checkbox'/>");
     newCheckbox.click(function(){
         var checkbox = jQuery(this);

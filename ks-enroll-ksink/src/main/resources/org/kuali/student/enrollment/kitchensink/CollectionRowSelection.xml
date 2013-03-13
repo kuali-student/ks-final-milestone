@@ -42,7 +42,7 @@
             row as needed to align the row checkbox with the control header checkbox.
         -->
         <property name="onDocumentReadyScript"
-                  value="ksAddRowSelectionCheckbox('KS-KitchenSink-CollectionRowSelection',false,sampleFunction)"/>
+                  value="ksAddRowSelectionCheckbox(@{#parent.readOnly},'KS-KitchenSink-CollectionRowSelection',false,sampleFunction)"/>
     </bean>
 
 
