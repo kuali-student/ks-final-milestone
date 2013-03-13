@@ -47,6 +47,13 @@
     margin: 3px;
 }
 
+/*  Manage AO/CO toolbar buttons. Override the default rounded corners.
+    The toolbar is also using styles from krms.css (tree-bar-button).
+    The CSS for KRMS and toolbar needs to be reconciled. */
+.ks-toolbar-button {
+    border-radius: 0px !important;
+}
+
 /* Applying the CSS Grid Columns */
 
 .col_1

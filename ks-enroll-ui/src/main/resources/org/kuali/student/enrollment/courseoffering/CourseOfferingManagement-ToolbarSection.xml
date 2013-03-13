@@ -137,6 +137,8 @@
         <property name="actionImagePlacement" value="TOP"/>
         <property name="cssClasses">
             <list merge="true">
+                <value>ks-toolbar-button</value>
+                <!-- This class is from krms.css and probably needs to be re-thought. -->
                 <value>tree-bar-button</value>
             </list>
         </property>
