@@ -486,6 +486,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
             ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
             activityOfferingWrapper.getEditRenderHelper().getManageSeperateEnrollmentList().add(colo);
+            activityOfferingWrapper.getNewScheduleRequest().getColocatedAOs().add(colo.getEditRenderHelper().getCode());
         }
     }
 
@@ -702,6 +703,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
             Object o = wrapper.getColocatedActivities().remove(lineIndex);
             wrapper.getEditRenderHelper().getManageSeperateEnrollmentList().remove(o);
+            wrapper.getNewScheduleRequest().getColocatedAOs().remove(((ColocatedActivity) o).getEditRenderHelper().getCode());
         } else {
             super.processCollectionDeleteLine(view, model, collectionPath, lineIndex);
         }

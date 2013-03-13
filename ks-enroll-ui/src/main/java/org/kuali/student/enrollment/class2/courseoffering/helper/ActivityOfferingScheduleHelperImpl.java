@@ -22,6 +22,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.ActivityOfferingForm;
 import org.kuali.student.enrollment.class2.courseoffering.helper.infc.ActivityOfferingScheduleHelper;
@@ -187,7 +188,12 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             activityOfferingWrapper.getRevisedScheduleRequestComponents().add(scheduleWrapper);
         }
 
-        activityOfferingWrapper.setNewScheduleRequest(new ScheduleWrapper());
+        ScheduleWrapper newScheduleWrapper = new ScheduleWrapper();
+        for (ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()) {
+            newScheduleWrapper.getColocatedAOs().add(activity.getEditRenderHelper().getCode());
+        }
+
+        activityOfferingWrapper.setNewScheduleRequest(newScheduleWrapper);
 
         return true;
     }

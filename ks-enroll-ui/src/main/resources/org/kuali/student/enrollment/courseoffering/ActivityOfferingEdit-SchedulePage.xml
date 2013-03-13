@@ -121,7 +121,7 @@
                 <bean parent="Uif-DataField" p:label="End Time" p:propertyName="endTimeUI"/>
                 <bean parent="Uif-DataField" p:label="Facility" p:propertyName="buildingName"/>
                 <bean parent="Uif-DataField" p:label="Room" p:propertyName="roomName"/>
-                <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAOs.isEmpty()}" p:image.altText="@{#lp.editRenderHelper.colocatedAOs}"
+                <bean parent="Uif-ImageField" p:label="Options" p:hidden="@{#lp.colocatedAOs.isEmpty()}" p:image.altText="@{#lp.editRenderHelper.colocatedAOs}"
                     p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
                     <property name="toolTip">
                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.editRenderHelper.colocatedAOs}"/>
@@ -136,17 +136,19 @@
         <property name="items">
             <list>
                 <ref bean="ActivityOffering-DeliveryLogistic-New-Section"/>
-                <bean id="ActivityOffering-CoLocated-checkbox" parent="Uif-InputField" p:propertyName="newScheduleRequest.colocatedAOs" p:control.disabled="true" p:forceSessionPersistence="true" p:finalizeMethodToCall="populateColocatedAOs">
+                <bean id="ActivityOffering-CoLocated-checkbox" parent="Uif-InputField" p:propertyName="newScheduleRequest.colocatedAOs" p:forceSessionPersistence="true">
                     <property name="label" value="Colocate With"/>
                     <property name="control">
-                        <bean parent="Uif-HorizontalCheckboxesControl"/>
+                        <bean parent="Uif-HorizontalCheckboxesControl">
+                            <property name="onClickScript" value="onColoCheckBoxChange();"/>
+                        </bean>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ColocatedAOsKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
                 <ref bean="ActivityOffering-DeliveryLogistic-New-Features-Section"/>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="@{deliveryLogisiticsAddButtonText}" p:methodToCall="addScheduleComponent"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="@{deliveryLogisiticsAddButtonText}" p:methodToCall="addScheduleComponent" p:successCallback="addScheduleCallBack();"/>
             </list>
         </property>
     </bean>
@@ -177,7 +179,7 @@
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <bean parent="KSInputField" p:label="Days" p:propertyName="newScheduleRequest.days">
+                <bean parent="KSInputField" p:label="Days" p:propertyName="newScheduleRequest.days" p:defaultValue="mt" p:uppercaseValue="true">
                     <property name="constraintText" value="MTWHFSU"/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10"/>
@@ -219,7 +221,7 @@
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"/>
                     </property>
                 </bean>
-                <bean parent="KSInputField" p:label="Facility" p:propertyName="newScheduleRequest.buildingCode">
+                <bean parent="KSInputField" p:label="Facility" p:propertyName="newScheduleRequest.buildingCode" p:defaultValue="PHY">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20"/>
                     </property>
@@ -230,7 +232,7 @@
                             </map>
                     </property>
                 </bean>
-                <bean parent="KSInputField" p:label="Room" p:propertyName="newScheduleRequest.roomCode">
+                <bean parent="KSInputField" p:label="Room" p:propertyName="newScheduleRequest.roomCode" p:defaultValue="3120">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20"/>
                     </property>

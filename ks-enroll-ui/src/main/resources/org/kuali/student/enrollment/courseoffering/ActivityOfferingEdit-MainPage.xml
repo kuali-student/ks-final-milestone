@@ -139,7 +139,7 @@
         </property>
         <property name="lineActions">
           <list>
-              <bean parent="Uif-DeleteLineAction" p:successCallback="addColocatedAOSuccessCallBack();"/>
+              <bean parent="Uif-DeleteLineAction" p:successCallback="addColocatedAOSuccessCallBack();" p:render="@{#dp.requestedScheduleComponents.isEmpty()}"/>
           </list>
         </property>
         <property name="items">

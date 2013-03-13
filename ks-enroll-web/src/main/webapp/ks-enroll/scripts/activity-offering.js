@@ -73,15 +73,29 @@ function activityEditDocumentOnLoad(){
         });
     }
 
+    onColoCheckBoxChange();
+
 }
 
 function addColocatedAOSuccessCallBack(){
-    retrieveComponent('enr_shared_table');
-    retrieveComponent('ActivityOffering-CoLocated-checkbox', undefined, function () {
-            jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').prop('checked', true);
-        }
-    );
+    retrieveComponent('enr_shared_table',undefined, function () {
+        retrieveComponent('ActivityOffering-CoLocated-checkbox', undefined, function () {
+            onColoCheckBoxChange();
+        });
+    });
+}
 
+function onColoCheckBoxChange(){
+    jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').prop('checked', true);
+    jQuery('label[for^="ActivityOffering-CoLocated-checkbox_control_"]').prop('onclick','');
+    jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').click(function() {
+        jQuery(this).prop('checked', true);
+    });
+}
+
+function addScheduleCallBack(){
+    setupColoCheckBoxChange(jQuery("#is_co_located_control"));
+    onColoCheckBoxChange();
 }
 
 function clearRoomResourcesSelections(sourceLink) {
