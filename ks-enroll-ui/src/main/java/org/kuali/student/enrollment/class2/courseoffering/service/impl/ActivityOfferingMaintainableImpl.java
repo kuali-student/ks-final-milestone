@@ -299,6 +299,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                         coloAO.setActivityOfferingCode(dto.getActivityCode());
                         coloAO.setCourseOfferingCode(dto.getCourseOfferingCode());
                         wrapper.getColocatedActivities().add(coloAO);
+                        wrapper.getNewScheduleRequest().getColocatedAOs().add(coloAO.getEditRenderHelper().getCode());
                     }
 
                     wrapper.getEditRenderHelper().getManageSeperateEnrollmentList().addAll(wrapper.getColocatedActivities());
@@ -620,7 +621,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         return courseOfferingCodes;
     }
 
-    public void populateCrossListedAOs(InputField field, MaintenanceDocumentForm form){
+    public void populateColocatedAOs(InputField field, MaintenanceDocumentForm form){
 
         if (field.isReadOnly()){
             return;
@@ -628,6 +629,8 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
         if (field.getOptionsFinder() == null || ((UifKeyValuesFinderBase)field.getOptionsFinder()).getKeyValues(form).isEmpty()){
             field.getControl().setRender(false);
+        } else {
+            field.getControl().setRender(true);
         }
 
 
@@ -699,7 +702,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
             Object o = wrapper.getColocatedActivities().remove(lineIndex);
             wrapper.getEditRenderHelper().getManageSeperateEnrollmentList().remove(o);
-            System.out.println(o);
         } else {
             super.processCollectionDeleteLine(view, model, collectionPath, lineIndex);
         }

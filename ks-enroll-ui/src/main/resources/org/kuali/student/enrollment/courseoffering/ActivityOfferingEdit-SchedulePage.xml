@@ -121,32 +121,28 @@
                 <bean parent="Uif-DataField" p:label="End Time" p:propertyName="endTimeUI"/>
                 <bean parent="Uif-DataField" p:label="Facility" p:propertyName="buildingName"/>
                 <bean parent="Uif-DataField" p:label="Room" p:propertyName="roomName"/>
-                <!--<bean parent="Uif-InputField" p:label="Capacity" p:propertyName="roomCapacity" p:readOnly="true" p:control.size="5">
-                    <property name="control">
-                        <bean parent="Uif-TextControl"/>
-                    </property>
-                </bean>-->
-                <bean parent="Uif-MessageField" p:messageText="F" p:label="Features">
+                <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAOs.isEmpty()}" p:image.altText="@{#lp.editRenderHelper.colocatedAOs}"
+                    p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
                     <property name="toolTip">
-                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="N/A"/>
-                      </property>
+                       <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.editRenderHelper.colocatedAOs}"/>
+                    </property>
                 </bean>
             </list>
         </property>
     </bean>
 
-    <bean id="ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection" p:render="@{!scheduleCompleted}" p:componentSecurity.viewAuthz="true">
+    <bean id="ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection" p:style="background-color:#f3f3f3; padding-top:4px; padding-left:4px; padding-bottom:4px; border: 1px solid black;" p:render="@{!scheduleCompleted}" p:componentSecurity.viewAuthz="true">
         <property name="headerText" value="Submit New Request"/>
         <property name="items">
             <list>
                 <ref bean="ActivityOffering-DeliveryLogistic-New-Section"/>
-                <bean id="ActivityOffering-CoLocated-checkbox" parent="Uif-InputField" p:propertyName="newScheduleRequest.crossListedAOs" p:forceSessionPersistence="true" p:finalizeMethodToCall="populateCrossListedAOs">
+                <bean id="ActivityOffering-CoLocated-checkbox" parent="Uif-InputField" p:propertyName="newScheduleRequest.colocatedAOs" p:control.disabled="true" p:forceSessionPersistence="true" p:finalizeMethodToCall="populateColocatedAOs">
                     <property name="label" value="Colocate With"/>
                     <property name="control">
                         <bean parent="Uif-HorizontalCheckboxesControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CrossListKeyValues" p:addBlankOption="false" />
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ColocatedAOsKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
                 <ref bean="ActivityOffering-DeliveryLogistic-New-Features-Section"/>

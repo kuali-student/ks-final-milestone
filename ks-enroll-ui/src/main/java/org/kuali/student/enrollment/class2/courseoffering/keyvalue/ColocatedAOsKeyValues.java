@@ -33,7 +33,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-class CrossListKeyValues extends UifKeyValuesFinderBase implements Serializable {
+class ColocatedAOsKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

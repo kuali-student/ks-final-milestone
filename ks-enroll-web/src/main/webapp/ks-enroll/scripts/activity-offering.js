@@ -75,6 +75,15 @@ function activityEditDocumentOnLoad(){
 
 }
 
+function addColocatedAOSuccessCallBack(){
+    retrieveComponent('enr_shared_table');
+    retrieveComponent('ActivityOffering-CoLocated-checkbox', undefined, function () {
+            jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').prop('checked', true);
+        }
+    );
+
+}
+
 function clearRoomResourcesSelections(sourceLink) {
     var divInputField = sourceLink.siblings('div.uif-inputField');
     divInputField.find('option').each(function() {

@@ -48,11 +48,15 @@ public class ScheduleWrapper implements Serializable{
     private String daysUI;
     private String startTimeUI;
     private String endTimeUI;
-    private List<String> crossListedAOs;
+
+    private List<String> colocatedAOs;
+
+    private EditRenderHelper editRenderHelper;
 
     public ScheduleWrapper(){
         features = new ArrayList<String>();
-        this.crossListedAOs = new ArrayList<String>();
+        this.colocatedAOs = new ArrayList<String>();
+        this.editRenderHelper = new EditRenderHelper();
     }
 
     public ScheduleWrapper(ScheduleWrapper wrapper){
@@ -74,7 +78,8 @@ public class ScheduleWrapper implements Serializable{
         this.endTimeUI = wrapper.getEndTimeUI();
         this.room = wrapper.getRoom();
         this.building = wrapper.getBuilding();
-        this.crossListedAOs = new ArrayList<String>();
+        this.colocatedAOs = new ArrayList<String>();
+        this.editRenderHelper = new EditRenderHelper();
     }
 
     public void copyForEditing(ScheduleWrapper wrapper){
@@ -92,16 +97,19 @@ public class ScheduleWrapper implements Serializable{
         this.roomCapacity = wrapper.getRoomCapacity();
         this.room = wrapper.getRoom();
         this.building = wrapper.getBuilding();
-        this.crossListedAOs = new ArrayList<String>();
+        this.colocatedAOs = new ArrayList<String>();
+        this.editRenderHelper = new EditRenderHelper();
     }
 
     public ScheduleWrapper(ScheduleRequestComponentInfo scheduleRequestComponentInfo){
         this.scheduleRequestComponentInfo = scheduleRequestComponentInfo;
-        this.crossListedAOs = new ArrayList<String>();
+        this.colocatedAOs = new ArrayList<String>();
+        this.editRenderHelper = new EditRenderHelper();
     }
 
     public ScheduleWrapper(ScheduleComponentInfo scheduleComponentInfo){
         this.scheduleComponentInfo = scheduleComponentInfo;
+        this.colocatedAOs = new ArrayList<String>();
     }
 
     public TimeSlotInfo getTimeSlot() {
@@ -280,11 +288,28 @@ public class ScheduleWrapper implements Serializable{
         this.buildingId = buildingId;
     }
 
-    public List<String> getCrossListedAOs() {
-        return crossListedAOs;
+    public List<String> getColocatedAOs() {
+        return colocatedAOs;
     }
 
-    public void setCrossListedAOs(List<String> crossListedAOs) {
-        this.crossListedAOs = crossListedAOs;
+    public void setColocatedAOs(List<String> colocatedAOs) {
+        this.colocatedAOs = colocatedAOs;
+    }
+
+    public EditRenderHelper getEditRenderHelper() {
+        return editRenderHelper;
+    }
+
+    public class EditRenderHelper implements Serializable{
+
+        public String getColocatedAOs(){
+            StringBuffer buffer = new StringBuffer();
+            buffer.append("This activity is colocated with:<br>");
+            for (String code : colocatedAOs){
+                buffer.append(code + "<br>");
+            }
+
+            return StringUtils.removeEnd(buffer.toString(),"<br>");
+        }
     }
 }

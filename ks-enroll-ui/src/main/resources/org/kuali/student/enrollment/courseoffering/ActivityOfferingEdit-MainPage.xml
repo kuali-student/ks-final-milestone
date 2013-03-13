@@ -134,12 +134,12 @@
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="addLineActions">
             <list>
-                <bean parent="Uif-AddLineAction" p:successCallback="retrieveComponent('enr_shared_table');retrieveComponent('ActivityOffering-CoLocated-checkbox')"/>
+                <bean parent="Uif-AddLineAction" p:successCallback="addColocatedAOSuccessCallBack();"/>
             </list>
         </property>
         <property name="lineActions">
           <list>
-              <bean parent="Uif-DeleteLineAction" p:successCallback="retrieveComponent('enr_shared_table');retrieveComponent('ActivityOffering-CoLocated-checkbox')"/>
+              <bean parent="Uif-DeleteLineAction" p:successCallback="addColocatedAOSuccessCallBack();"/>
           </list>
         </property>
         <property name="items">
