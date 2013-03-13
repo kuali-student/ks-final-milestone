@@ -103,10 +103,13 @@ public class AgendaBuilder {
         LinkGroup links = (LinkGroup) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRSM-RuleEdit-ActionLinks");
         links.getExpressionGraph().put("onClickScript", "@{selectedRuleId = '" + rule.getId() + "'}");
         MessageField messageField = (MessageField) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-Instruction-EditMessage");
-        messageField.setMessageText(ruleTypeInfo.getInstruction()); // TODO: get text from type map.
+        messageField.setMessageText(ruleTypeInfo.getInstruction());
 
-        TreeGroup treeGroup = (TreeGroup) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-PreviewTree-Section");
-        treeGroup.setPropertyName("agendas[" + agendaCounter + "].ruleEditors[" + ruleCounter + "].previewTree");  //TODO: create method to generate agenda.rule path.
+        Group sectionGroup = (Group) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-PreviewTree-Group");
+        List<TreeGroup> treeGroups = ComponentUtils.getComponentsOfType((List<Component>) sectionGroup.getItems(), TreeGroup.class);
+        if ((treeGroups != null) && (treeGroups.size() > 0)){
+            treeGroups.get(0).setPropertyName("agendas[" + agendaCounter + "].ruleEditors[" + ruleCounter + "].previewTree");
+        }
 
         ruleCounter++;
         return group;
@@ -125,7 +128,7 @@ public class AgendaBuilder {
         LinkGroup links = (LinkGroup) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-RuleAdd-ActionLink");
         links.getExpressionGraph().put("onClickScript", "@{selectedRuleType = '" + ruleTypeInfo.getId() + "'}");
         MessageField messageField = (MessageField) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-Instruction-AddMessage");
-        messageField.setMessageText(ruleTypeInfo.getInstruction());   // TODO: get test from type map.
+        messageField.setMessageText(ruleTypeInfo.getInstruction());
 
         ruleCounter++;
         return group;

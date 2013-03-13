@@ -42,8 +42,10 @@ public class RuleViewTreeBuilder extends AbstractTreeBuilder {
         //Underline the first node in the preview.
         if ((rootNode.getChildren() != null) && (rootNode.getChildren().size() > 0)) {
             Node<TreeNode, String> firstNode = rootNode.getChildren().get(0);
-            firstNode.setNodeType("subruleHeader subruleElement");
-            firstNode.setNodeLabel("<u>" + firstNode.getNodeLabel() + ":</u>");
+            if ((firstNode.getChildren() != null) && (firstNode.getChildren().size() > 0)){
+                firstNode.setNodeType("subruleHeader subruleElement");
+                firstNode.setNodeLabel("<u>" + firstNode.getNodeLabel() + ":</u>");
+            }
         }
 
         return myTree;

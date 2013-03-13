@@ -35,6 +35,8 @@
 .jstree-view .jstree-closed > ins { display: none; }
 .jstree-view .jstree-leaf > ins { display: none; }
 
+.viewModeNode { background-color: #eee !important; }
+
 .jstree-view .ruleBlockSelected { background-color: transparent; border: none; }
 
 .jstree-view .boxLayoutHorizontalItem {padding-bottom: 0em;padding-top: 0em;padding-left: 0em;padding-right: 0em;}

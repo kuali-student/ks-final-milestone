@@ -141,8 +141,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
 
     protected String getNaturalLanguageUsageId(){
         if (usageId == null){
-            //NaturalLanguageUsage usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_RULE_EDIT,
-            NaturalLanguageUsage usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_PREVIEW,
+            NaturalLanguageUsage usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_RULE_EDIT,
                     PermissionServiceConstants.KS_SYS_NAMESPACE);
             if (usage != null){
                 usageId = usage.getId();

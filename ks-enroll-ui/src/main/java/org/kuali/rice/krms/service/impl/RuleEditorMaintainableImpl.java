@@ -251,8 +251,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             if (propositionEditor.getType() == null) {
                 KrmsTypeDefinition type = this.getKrmsTypeRepositoryService().getTypeById(propositionEditor.getTypeId());
                 propositionEditor.setType(type.getName());
-                TermSpecificationDefinition termspec = this.getTermSpecForType(type.getName());
-                String id = termspec.getId();
             }
 
             ComponentBuilder builder = this.getTemplateRegistry().getComponentBuilderForType(propositionEditor.getType());
@@ -272,9 +270,8 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
         Map<String, String> termParameters = new HashMap<String, String>();
         if (proposition.getTerm() == null) {
-            String termId = null;
             if (proposition.getParameters().get(0) != null) {
-                termId = proposition.getParameters().get(0).getValue();
+                String termId = proposition.getParameters().get(0).getValue();
                 proposition.setTerm(KrmsRepositoryServiceLocator.getTermBoService().getTerm(termId));
             } else {
                 return termParameters;

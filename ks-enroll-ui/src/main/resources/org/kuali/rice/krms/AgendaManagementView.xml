@@ -39,6 +39,7 @@
         <property name="additionalCssFiles">
             <list>
                 <value>ks-enroll/css/enroll.css</value>
+                <value>ks-enroll/css/krms.css</value>
             </list>
         </property>
         <property name="page">
@@ -110,7 +111,13 @@
                         <list>
                             <bean parent="KRMS-RuleEdit-Links" p:id="KRSM-RuleEdit-ActionLinks" p:align="right"/>
                             <bean id="KRMS-Instruction-EditMessage" parent="Uif-MessageField"/>
-                            <bean id="KRMS-PreviewTree-Section" parent="KS-ViewTree-Section"/>
+                            <bean id="KRMS-PreviewTree-Group" parent="Uif-VerticalBoxGroup" p:cssClasses="viewModeNode" p:style="border: 1px solid #999999">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="KS-ViewTree-Section"/>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>

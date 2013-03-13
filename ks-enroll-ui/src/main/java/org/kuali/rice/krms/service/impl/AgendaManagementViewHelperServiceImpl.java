@@ -14,16 +14,23 @@ import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContra
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
+import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
+import org.kuali.rice.krms.api.repository.term.TermParameterDefinition;
+import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
+import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.AgendaTypeInfo;
+import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.dto.TemplateInfo;
+import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.service.AgendaManagementViewHelperService;
+import org.kuali.rice.krms.service.TemplateRegistry;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.util.AgendaBuilder;
 import org.kuali.student.enrollment.class1.krms.form.AgendaManagementForm;
@@ -44,7 +51,8 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
     private transient KrmsTypeRepositoryService krmsTypeRepositoryService;
 
     private RuleViewTreeBuilder viewTreeBuilder;
-    private Map<String, AgendaTypeInfo> typeRelationsMap;  // TODO: Create AgendaTypeInfo and RuleTypeInfo objects instead to also capture description.
+    private Map<String, AgendaTypeInfo> typeRelationsMap;
+    private transient TemplateRegistry templateRegistry;
 
     @Override
     protected void addCustomContainerComponents(View view, Object model, Container container) {
@@ -94,8 +102,7 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
                 if (agendaItem.getRuleId() != null) {
                     RuleDefinition rule = this.getRuleManagementService().getRule(treeRuleEntry.getRuleId());
                     RuleEditor ruleEditor = new RuleEditor(rule);
-                    //TODO: Set refreshNl to true to use natural language.
-                    ruleEditor.setPreviewTree(this.getViewTreeBuilder().buildTree(ruleEditor, false));
+                    ruleEditor.setPreviewTree(this.getViewTreeBuilder().buildTree(ruleEditor, true));
                     rules.add(ruleEditor);
                 }
 
@@ -108,6 +115,40 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
         }
 
         return rules;
+    }
+
+    protected void initPropositionEditor(PropositionEditor propositionEditor) {
+        if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(propositionEditor.getPropositionTypeCode())) {
+
+           ComponentBuilder builder = this.getTemplateRegistry().getComponentBuilderForType(propositionEditor.getType());
+            if (builder != null) {
+                this.resolveTermParameters(propositionEditor, builder);
+            }
+        } else {
+            for (PropositionEditor child : propositionEditor.getCompoundEditors()) {
+                initPropositionEditor(child);
+            }
+
+        }
+    }
+
+    protected void resolveTermParameters(PropositionEditor proposition, ComponentBuilder builder) {
+
+        if (proposition.getTerm() == null) {
+            if (proposition.getParameters().get(0) != null) {
+                String termId = proposition.getParameters().get(0).getValue();
+                proposition.setTerm(KrmsRepositoryServiceLocator.getTermBoService().getTerm(termId));
+            } else {
+                return;
+            }
+        }
+
+        Map<String, String> termParameters = new HashMap<String, String>();
+        for (TermParameterDefinition parameter : proposition.getTerm().getParameters()) {
+            termParameters.put(parameter.getName(), parameter.getValue());
+        }
+
+        builder.resolveTermParameters(proposition, termParameters);
     }
 
     /**
@@ -184,5 +225,12 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
             krmsTypeRepositoryService = (KrmsTypeRepositoryService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "krmsTypeRepositoryService"));
         }
         return krmsTypeRepositoryService;
+    }
+
+    private TemplateRegistry getTemplateRegistry() {
+        if (templateRegistry == null) {
+            templateRegistry = (TemplateRegistry) GlobalResourceLoader.getService(QName.valueOf("templateResolverMockService"));
+        }
+        return templateRegistry;
     }
 }
