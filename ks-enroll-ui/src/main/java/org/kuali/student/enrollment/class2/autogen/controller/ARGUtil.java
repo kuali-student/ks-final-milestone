@@ -263,6 +263,7 @@ public class ARGUtil {
             filteredAOsHM.put(wrapper.getAoInfo().getId(), wrapper);
         }
 
+        int index = 0;
         //Grab the registration groups from the course
         for(String foId:foIds){
             List<RegistrationGroupInfo> regGroups = getCourseOfferingService().getRegistrationGroupsByFormatOffering(foId, ContextUtils.createDefaultContextInfo());
@@ -319,6 +320,17 @@ public class ARGUtil {
                         rgWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), true, cssClass);
                     }
 
+                    String editAoLink = "<a onclick=\"actionInvokeHandler(this);\" class=\"uif-action uif-actionLink uif-navigationActionLink uif-boxLayoutHorizontalItem\" tabindex=\"0\" data-ajaxreturntype=\"update-component\" data-loadingmessage=\"Loading...\" data-disableblocking=\"false\" data-ajaxsubmit=\"false\" data-refreshid=\"KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering\" data-validate=\"false\"" +
+                            " data-submit-data='{\"methodToCall\":\"edit\"," +
+                                               "\"actionParameters\\[selectedCollectionPath\\]\":\"rgResultList\"," +
+                                               "\"actionParameters\\[selectedLineIndex\\]\":\""+index+"\"," +
+                                               "\"actionParameters\\[aoId\\]\":\""+aoID+"\"," +
+                                               "\"showHistory\":\"false\"," +
+                                               "\"showHome\":\"false\"," +
+                                               "\"jumpToId\":\"KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering\"}'" +
+                            ">Edit</a>";
+
+                    rgWrapper.setAoEditLink((rgWrapper.getAoEditLink()==null?"":rgWrapper.getAoEditLink()) + editAoLink + "<br/>");
                     rgWrapper.setAoClusterName(aoWrapper.getAoClusterName());
                 }
                 if (aoActivityCodeText.length() > 0) {
@@ -343,6 +355,7 @@ public class ARGUtil {
                 rgWrapper.setAoInstructorText(aoInstructorText);
                 rgWrapper.setAoMaxEnrText(aoMaxEnrText);
                 wrappedRegGroups.add(rgWrapper);
+                index++;
             }
         }
         form.setRgResultList(wrappedRegGroups);
