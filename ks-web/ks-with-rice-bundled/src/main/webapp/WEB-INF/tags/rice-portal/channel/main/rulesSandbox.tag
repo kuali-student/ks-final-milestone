@@ -21,8 +21,8 @@
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="KRMS Components" url="${ConfigProperties.application.url}/kr-krad/krmsComponents?viewId=manageKrmsComponentsView&methodToCall=start"/></li>
         <li><portal:portalLink displayTitle="true" title="Manage Course Offering Agendas" url="${ConfigProperties.application.url}/kr-krad/agendaManagement?viewId=agendaManagementView&methodToCall=start"/></li>
-        <li><portal:portalLink displayTitle="true" title="Edit Agenda" url="${ConfigProperties.application.url}/kr-krad/krmsRuleStudentEditor?viewTypeName=MAINTENANCE&methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.student.enrollment.class1.krms.dto.RuleEditor&viewName=AgendaWithRuleView&id=10065"/></li>
-        <li><portal:portalLink displayTitle="true" title="Edit Agenda 2" url="${ConfigProperties.application.url}/kr-krad/krmsRuleStudentEditor?viewTypeName=MAINTENANCE&methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.student.enrollment.class1.krms.dto.RuleEditor&viewName=AgendaWithRuleView&id=10069"/></li>
+        <li><portal:portalLink displayTitle="true" title="Edit Agenda" url="${ConfigProperties.application.url}/kr-krad/krmsRuleStudentEditor?viewTypeName=MAINTENANCE&methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor&viewName=EnrolRuleEditView&id=10065"/></li>
+        <li><portal:portalLink displayTitle="true" title="Edit Agenda 2" url="${ConfigProperties.application.url}/kr-krad/krmsRuleStudentEditor?viewTypeName=MAINTENANCE&methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor&viewName=EnrolRuleEditView&id=10069"/></li>
         <li><portal:portalLink displayTitle="true" title="Department Lookup" url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class1.krms.dto.DepartmentInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
     </ul>
 </div>
