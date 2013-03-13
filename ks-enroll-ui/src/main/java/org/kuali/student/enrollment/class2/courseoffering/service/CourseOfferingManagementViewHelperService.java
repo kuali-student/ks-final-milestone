@@ -22,7 +22,7 @@ public interface CourseOfferingManagementViewHelperService extends CO_AO_RG_View
 
     public void changeActivityOfferingsState(List<ActivityOfferingWrapper> aoList, CourseOfferingInfo courseOfferingInfo, String selectedAction) throws Exception;
 
-    public void markCourseOfferingsForScheduling(List<CourseOfferingListSectionWrapper> coWrappers) throws Exception;
+    public void markCourseOfferingsForScheduling(List<CourseOfferingListSectionWrapper> coWrappers, String viewId, String socStateKey) throws Exception;
 
     public void loadPreviousAndNextCourseOffering(CourseOfferingManagementForm form);
 
