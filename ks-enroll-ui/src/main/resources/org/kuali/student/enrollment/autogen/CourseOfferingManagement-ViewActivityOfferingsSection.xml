@@ -16,10 +16,10 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ARG-ActivityOfferingListSection" parent="Uif-TableCollectionSection"
-          p:layoutManager.numberOfColumns="3"  p:readOnly="@{#parent.readOnly}" p:renderAddLine="false" p:onDocumentReadyScript="removeColumns(@{#parent.readOnly}, [1], 'KS-CourseOfferingManagement-ActivityOfferingListSection');">
+          p:layoutManager.numberOfColumns="3"  p:readOnly="@{#parent.readOnly}" p:renderAddLine="false" p:onDocumentReadyScript="removeColumns(@{#parent.readOnly}, [1], 'KS-CourseOfferingManagement-ActivityOfferingListSection'); ksAddRowSelectionCheckbox('KS-CourseOfferingManagement-ARG-ActivityOfferingListSection',false,'');">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="activityWrapperList" />
-        <property name="headerText" value="Activities (@{aoCount})" />
+        <property name="headerText" value="Activities" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
@@ -27,7 +27,7 @@
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
-                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
+                <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
                 <entry key="bPaginate" value="false"/>
                 <entry key="bAutoWidth" value="false"/>
             </map>
@@ -52,9 +52,15 @@
                     <property name="label" value="Label"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false">
-                                <property name="inquiry">
-                                    <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
+                            <bean parent="KS-HorizontalBoxGroup-WithRPadding-5px">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false">
+                                            <property name="inquiry">
+                                                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
+                                            </property>
+                                        </bean>
+                                    </list>
                                 </property>
                             </bean>
                             <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}" p:image.altText="@{#lp.colocatedAoInfoUI}"
@@ -71,10 +77,10 @@
                 <bean parent="Uif-DataField" p:label="STATUS" p:propertyName="stateName" />
                 <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName"/>
                 <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoInfo.maximumEnrollment"/>
-                <bean parent="Uif-DataField" p:label="DAYS" p:propertyName="daysDisplayName" />
-                <bean parent="Uif-DataField" p:label="START TIME" p:propertyName="startTimeDisplay" />
-                <bean parent="Uif-DataField" p:label="END TIME" p:propertyName="endTimeDisplay" />
-                <bean parent="KS-Schedule-DisplayField" p:label="BLDG" p:messageText="@{#line.buildingName}"/>
+                <bean parent="KS-Schedule-DisplayField" p:label="DAYS" p:messageText="@{#line.daysDisplayName}" />
+                <bean parent="KS-Schedule-DisplayField" p:label="START TIME" p:messageText="@{#line.startTimeDisplay}" />
+                <bean parent="KS-Schedule-DisplayField" p:label="END TIME" p:messageText="@{#line.endTimeDisplay}" />
+                <bean parent="Uif-DataField" p:label="BLDG" p:propertyName="buildingName"/>
                 <bean parent="KS-Schedule-DisplayField" p:label="ROOM" p:messageText="@{#line.roomName}"/>
                 <bean parent="Uif-DataField" p:label="INSTRUCTOR" p:propertyName="firstInstructorDisplayName"/>
                 <bean name="enableApproveButton" parent="Uif-InputField" p:propertyName="enableApproveButton"/>
