@@ -174,13 +174,23 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 form.setSubjectCode(form.getCourseOfferingResultList().get(0).getSubjectArea());
                 String longNameDescr = getOrgNameDescription(form.getSubjectCode());
                 form.setSubjectCodeDescription(longNameDescr);
-                // Pull out the first CO from the result list and then pull out the org ids from this CO
-                // and pass in the first one as the adminOrg
-//                CourseOfferingInfo firstCO = getCourseOfferingService().getCourseOffering(form.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
-//                List<String> orgIds = firstCO.getUnitsDeploymentOrgIds();
-//                if(orgIds !=null && !orgIds.isEmpty()){
-//                    form.setAdminOrg(orgIds.get(0));
-//                }
+
+                // Pull out the org ids from COs and pass in as the adminOrg
+                String orgIDs = "";
+                for (CourseOfferingListSectionWrapper coWrapper : form.getCourseOfferingResultList()) {
+                    CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+                    List<String> orgIds = coInfo.getUnitsDeploymentOrgIds();
+                    if(orgIds != null && !orgIds.isEmpty()){
+                        for (String orgId : orgIds) {
+                            if (orgIDs.indexOf(orgId + ",") == -1) {
+                                orgIDs = orgIDs + orgId + ",";
+                            }
+                        }
+                    }
+                }
+                if (orgIDs.length() > 0) {
+                    form.setAdminOrg(orgIDs.substring(0, orgIDs.length()-1));
+                }
 
                 ToolbarUtil.processCoToolbarForUser(form.getCourseOfferingResultList(), form);
             } else { // just one course offering is returned
