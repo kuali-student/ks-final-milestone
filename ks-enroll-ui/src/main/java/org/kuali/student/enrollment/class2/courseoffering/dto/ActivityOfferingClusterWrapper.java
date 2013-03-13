@@ -1,18 +1,12 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: huangb
- * Date: 9/11/12
- * Time: 11:00 AM
- * To change this template use File | Settings | File Templates.
- */
 public class ActivityOfferingClusterWrapper implements Serializable {
     public static final String RG_MESSAGE_PARTIAL = "uif-rg-message-partial";
     public static final String RG_MESSAGE_ALL = "uif-rg-message-all";
@@ -25,7 +19,12 @@ public class ActivityOfferingClusterWrapper implements Serializable {
     private String rgStatus = "";
     private String rgMessageStyle = "";
     private String clusterNameForDisplay = "";
+    private String formatNameForDisplay ="";
 
+    private FormatOfferingInfo formatOffering;
+
+    // notes by Bonnie
+    // TODO: the following boolean should be removed after migrate to ARG
     /**
      * hasAllRegGroups=true means all RGs have been generated for
      * a group of AOs within a cluster and rgStatus="All Registration Groups Generated"
@@ -129,11 +128,32 @@ public class ActivityOfferingClusterWrapper implements Serializable {
         else {
             String pubName=aoCluster.getName();
             if (pubName != null && !pubName.isEmpty()) {
-                this.clusterNameForDisplay = aoCluster.getPrivateName()+" ("+pubName+")";
+                this.clusterNameForDisplay = "Cluster: "+aoCluster.getPrivateName()+" ("+pubName+")";
             }
             else{
-                this.clusterNameForDisplay = aoCluster.getPrivateName();
+                this.clusterNameForDisplay = "Cluster: "+aoCluster.getPrivateName();
             }
         }
+    }
+
+    public String getFormatNameForDisplay() {
+        return formatNameForDisplay;
+    }
+
+    public void setFormatNameForDisplay(String formatNameForDisplay) {
+        if(formatOffering == null){
+            this.formatNameForDisplay = formatNameForDisplay;
+        }
+        else {
+            this.formatNameForDisplay = "Format: "+formatOffering.getName();
+        }
+    }
+
+    public FormatOfferingInfo getFormatOffering() {
+        return formatOffering;
+    }
+
+    public void setFormatOffering(FormatOfferingInfo formatOffering) {
+        this.formatOffering = formatOffering;
     }
 }

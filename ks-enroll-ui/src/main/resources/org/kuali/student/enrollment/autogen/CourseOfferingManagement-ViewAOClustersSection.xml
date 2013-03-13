@@ -14,4 +14,41 @@
         </property>
     </bean>
 
+    <bean id="KS-CourseOfferingManagement-AOClustersCollection" parent="KS-HorizontalCollectionSection"
+          p:renderAddLine="false"  p:renderLineActions="false" >
+        <!-- p:onDocumentReadyScript="removeSelfFromDropdowns('KS-ManageRegistrationGroups-ClusterHeaderText');" -->
+        <property name="disclosure.render" value="false"/>
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper" />
+        <property name="propertyName" value="clusterResultList" />
+        <property name="cssClasses" value="aoc_disclosure"/>
+        <property name="headerText" value=""/>
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
+        <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.clusterNameForDisplay}"/>
+        <property name="layoutManager.addLineGroup.header.render" value="false"/>
+
+        <property name="items">
+            <list>
+                <!--<ref bean="KS-ManageRegistrationGroups-LightboxPropsText"/>-->
+                <ref bean="KS-CourseOfferingManagement-ClusterHeaderText"/>
+                <!--<ref bean="KS-ManageRegistrationGroups-StateAndActionLinks"/>-->
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="KS-ManageRegistrationGroups-ActivityOfferingsPerClusterSubSection" />
+                <ref bean="KS-ManageRegistrationGroups-RegistrationGroupsPerClusterSubSection" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-ClusterHeaderText" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:style="display: none">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Label" p:labelText="@{#line.clusterNameForDisplay}" p:renderColon="false" />
+                <bean parent="Uif-Label" p:labelText="@{#line.formatNameForDisplay}"  p:style="float:right" />
+            </list>
+        </property>
+    </bean>
+
 </beans>
