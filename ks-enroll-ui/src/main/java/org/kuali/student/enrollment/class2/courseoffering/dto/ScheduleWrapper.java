@@ -48,9 +48,11 @@ public class ScheduleWrapper implements Serializable{
     private String daysUI;
     private String startTimeUI;
     private String endTimeUI;
+    private List<String> crossListedAOs;
 
     public ScheduleWrapper(){
         features = new ArrayList<String>();
+        this.crossListedAOs = new ArrayList<String>();
     }
 
     public ScheduleWrapper(ScheduleWrapper wrapper){
@@ -72,6 +74,7 @@ public class ScheduleWrapper implements Serializable{
         this.endTimeUI = wrapper.getEndTimeUI();
         this.room = wrapper.getRoom();
         this.building = wrapper.getBuilding();
+        this.crossListedAOs = new ArrayList<String>();
     }
 
     public void copyForEditing(ScheduleWrapper wrapper){
@@ -89,10 +92,12 @@ public class ScheduleWrapper implements Serializable{
         this.roomCapacity = wrapper.getRoomCapacity();
         this.room = wrapper.getRoom();
         this.building = wrapper.getBuilding();
+        this.crossListedAOs = new ArrayList<String>();
     }
 
     public ScheduleWrapper(ScheduleRequestComponentInfo scheduleRequestComponentInfo){
         this.scheduleRequestComponentInfo = scheduleRequestComponentInfo;
+        this.crossListedAOs = new ArrayList<String>();
     }
 
     public ScheduleWrapper(ScheduleComponentInfo scheduleComponentInfo){
@@ -273,5 +278,13 @@ public class ScheduleWrapper implements Serializable{
 
     public void setBuildingId(String buildingId) {
         this.buildingId = buildingId;
+    }
+
+    public List<String> getCrossListedAOs() {
+        return crossListedAOs;
+    }
+
+    public void setCrossListedAOs(List<String> crossListedAOs) {
+        this.crossListedAOs = crossListedAOs;
     }
 }

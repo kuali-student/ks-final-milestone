@@ -10,6 +10,8 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -616,6 +618,19 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         }
 
         return courseOfferingCodes;
+    }
+
+    public void populateCrossListedAOs(InputField field, MaintenanceDocumentForm form){
+
+        if (field.isReadOnly()){
+            return;
+        }
+
+        if (field.getOptionsFinder() == null || ((UifKeyValuesFinderBase)field.getOptionsFinder()).getKeyValues(form).isEmpty()){
+            field.getControl().setRender(false);
+        }
+
+
     }
 
     public List<String> retrieveActivityOfferingCode(String termId,String courseOfferingCode, String activityOfferingCode){

@@ -140,6 +140,15 @@
         <property name="items">
             <list>
                 <ref bean="ActivityOffering-DeliveryLogistic-New-Section"/>
+                <bean id="ActivityOffering-CoLocated-checkbox" parent="Uif-InputField" p:propertyName="newScheduleRequest.crossListedAOs" p:forceSessionPersistence="true" p:finalizeMethodToCall="populateCrossListedAOs">
+                    <property name="label" value="Colocate With"/>
+                    <property name="control">
+                        <bean parent="Uif-HorizontalCheckboxesControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CrossListKeyValues" p:addBlankOption="false" />
+                    </property>
+                </bean>
                 <ref bean="ActivityOffering-DeliveryLogistic-New-Features-Section"/>
                 <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="@{deliveryLogisiticsAddButtonText}" p:methodToCall="addScheduleComponent"/>
             </list>
