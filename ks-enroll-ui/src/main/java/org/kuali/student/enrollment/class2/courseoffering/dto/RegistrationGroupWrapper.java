@@ -43,6 +43,7 @@ public class RegistrationGroupWrapper implements Serializable {
     private String aoMaxEnrText;
     private String rgMaxEnrText;
     private String aoClusterName;
+    private String aoEditLink;
     private String startTimeDisplay = "";
     private String endTimeDisplay = "";
     private String daysDisplayName = "";
@@ -285,5 +286,12 @@ public class RegistrationGroupWrapper implements Serializable {
         this.aoClusterName = aoClusterName;
     }
 
+    public String getAoEditLink() {
+        return aoEditLink;
+    }
+
+    public void setAoEditLink(String aoEditLink) {
+        this.aoEditLink = aoEditLink;
+    }
 
 }
