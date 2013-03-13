@@ -27,7 +27,7 @@
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
-                <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
+                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
                 <entry key="bPaginate" value="false"/>
                 <entry key="bAutoWidth" value="false"/>
             </map>
@@ -52,15 +52,9 @@
                     <property name="label" value="Label"/>
                     <property name="items">
                         <list>
-                            <bean parent="KS-HorizontalBoxGroup-WithRPadding-5px">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false">
-                                            <property name="inquiry">
-                                                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
-                                            </property>
-                                        </bean>
-                                    </list>
+                            <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false">
+                                <property name="inquiry">
+                                    <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
                                 </property>
                             </bean>
                             <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}" p:image.altText="@{#lp.colocatedAoInfoUI}"
@@ -77,10 +71,10 @@
                 <bean parent="Uif-DataField" p:label="STATUS" p:propertyName="stateName" />
                 <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName"/>
                 <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoInfo.maximumEnrollment"/>
-                <bean parent="KS-Schedule-DisplayField" p:label="DAYS" p:messageText="@{#line.daysDisplayName}" />
-                <bean parent="KS-Schedule-DisplayField" p:label="START TIME" p:messageText="@{#line.startTimeDisplay}" />
-                <bean parent="KS-Schedule-DisplayField" p:label="END TIME" p:messageText="@{#line.endTimeDisplay}" />
-                <bean parent="Uif-DataField" p:label="BLDG" p:propertyName="buildingName"/>
+                <bean parent="Uif-DataField" p:label="DAYS" p:propertyName="daysDisplayName" />
+                <bean parent="Uif-DataField" p:label="START TIME" p:propertyName="startTimeDisplay" />
+                <bean parent="Uif-DataField" p:label="END TIME" p:propertyName="endTimeDisplay" />
+                <bean parent="KS-Schedule-DisplayField" p:label="BLDG" p:messageText="@{#line.buildingName}"/>
                 <bean parent="KS-Schedule-DisplayField" p:label="ROOM" p:messageText="@{#line.roomName}"/>
                 <bean parent="Uif-DataField" p:label="INSTRUCTOR" p:propertyName="firstInstructorDisplayName"/>
                 <bean name="enableApproveButton" parent="Uif-InputField" p:propertyName="enableApproveButton"/>
