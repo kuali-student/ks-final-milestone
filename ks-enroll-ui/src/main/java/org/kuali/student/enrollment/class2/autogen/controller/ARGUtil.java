@@ -227,6 +227,7 @@ public class ARGUtil {
                     }
                 }
             }
+            form.setAoCount(i+1);
         }
 
         ARGUtil.loadRegistrationGroupsByCourseOffering(foIds, (ARGCourseOfferingManagementForm)form);

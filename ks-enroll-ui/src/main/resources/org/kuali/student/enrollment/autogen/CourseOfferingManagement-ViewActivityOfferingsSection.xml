@@ -19,7 +19,7 @@
           p:layoutManager.numberOfColumns="3"  p:readOnly="@{#parent.readOnly}" p:renderAddLine="false" p:onDocumentReadyScript="removeColumns(@{#parent.readOnly}, [1], 'KS-CourseOfferingManagement-ActivityOfferingListSection');">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="activityWrapperList" />
-        <property name="headerText" value="Activities" />
+        <property name="headerText" value="Activities (@{aoCount})" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />

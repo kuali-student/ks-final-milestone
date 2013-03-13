@@ -150,6 +150,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     private String formatOfferingIdForViewRG;
     private String formatOfferingName;
     private String clusterIdForAOMove;
+    private int aoCount=0;
 
 
 
@@ -558,5 +559,13 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
 
     public void setNumOfColocatedAosToDelete(Integer numOfColocatedAosToDelete) {
         this.numOfColocatedAosToDelete = numOfColocatedAosToDelete;
+    }
+
+    public int getAoCount() {
+        return aoCount;
+    }
+
+    public void setAoCount(int aoCount) {
+        this.aoCount = aoCount;
     }
 }
