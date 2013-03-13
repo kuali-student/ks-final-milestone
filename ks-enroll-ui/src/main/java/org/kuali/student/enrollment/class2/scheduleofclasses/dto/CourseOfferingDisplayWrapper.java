@@ -22,6 +22,9 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo
 import java.util.ArrayList;
 import java.util.List;
 
+/* TODO : This class needs refactoring; should inherit from CourseOfferingWrapper; see https://jira.kuali.org/browse/KSENROLL-5931
+ */
+
 /**
  * This class //TODO ...
  *

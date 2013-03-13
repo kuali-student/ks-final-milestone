@@ -23,6 +23,9 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import java.util.ArrayList;
 import java.util.List;
 
+/* TODO : see https://jira.kuali.org/browse/KSENROLL-5931
+ */
+
 /**
  * Wrapper class around {@link org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo} to hold all
  * the details related to a course offering used at the presentation layer. This is used to handle the ui

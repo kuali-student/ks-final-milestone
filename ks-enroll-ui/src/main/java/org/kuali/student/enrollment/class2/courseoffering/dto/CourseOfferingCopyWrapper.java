@@ -7,12 +7,16 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistLevelOptionsKeyValues;
 import org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistTypeOptionsKeyValues;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/* TODO : This class needs refactoring; should inherit from CourseOfferingWrapper; see https://jira.kuali.org/browse/KSENROLL-5931
+ */
 public class CourseOfferingCopyWrapper implements Serializable{
 
     private CourseOfferingInfo coInfo;
@@ -239,6 +243,30 @@ public class CourseOfferingCopyWrapper implements Serializable{
 
     public void setExcludeInstructorInformation(boolean excludeInstructorInformation) {
         this.excludeInstructorInformation = excludeInstructorInformation;
+    }
+
+    /**
+     * TODO: this method is duplicated by method of the same name in CourseOfferingWrapper; see https://jira.kuali.org/browse/KSENROLL-5931
+     * (note: also notice that this UI-helper might be better located elsewhere outside of this DTO, like in a static UI-helper class or something)
+     *
+     * This method returns a list of crosslisted course codes for a course as a comma-
+     * separated string
+     *
+     * @see {@link CourseOfferingWrapper}
+     * @return a comma-separated string of cross-listed course codes;
+     *         else, empty string; will not return null
+     */
+    @SuppressWarnings("unused")
+    public String getAlternateCOCodesUIList() {
+        if( coInfo == null || coInfo.getCrossListings() == null ) return "";
+
+        StringBuilder sb = new StringBuilder();
+
+        for( CourseOfferingCrossListingInfo cross : coInfo.getCrossListings() ) {
+            sb.append( cross.getCode() + ", " );
+        }
+
+        return StringUtils.removeEnd( sb.toString(), ", " );
     }
 
 }

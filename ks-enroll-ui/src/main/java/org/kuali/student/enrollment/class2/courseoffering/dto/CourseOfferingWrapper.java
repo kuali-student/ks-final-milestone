@@ -29,6 +29,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/* TODO : see https://jira.kuali.org/browse/KSENROLL-5931
+*/
+
 /**
  * Base class for all the wrappers around CourseOfferingInfo.
  *

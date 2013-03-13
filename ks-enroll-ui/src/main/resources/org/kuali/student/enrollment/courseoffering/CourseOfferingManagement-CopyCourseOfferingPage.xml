@@ -40,6 +40,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:readOnly="true" p:label="Course Offering Code" p:propertyName="courseOfferingCopyWrapper.courseOfferingCode"/>
+                <bean parent="Uif-DataField" p:readOnly="true" p:label="Cross listed as" p:propertyName="courseOfferingCopyWrapper.alternateCOCodesUIList" p:render="@{!courseOfferingCopyWrapper.coInfo.crossListings.empty}"/>
                 <bean parent="Uif-DataField" p:readOnly="true" p:label="Course Title" p:propertyName="courseOfferingCopyWrapper.courseTitle"/>
                 <bean parent="Uif-DataField" p:readOnly="true" p:label="Term ID" p:propertyName="courseOfferingCopyWrapper.termId"/>
                 <bean parent="Uif-DataField" p:readOnly="true" p:label="Credit Count" p:propertyName="courseOfferingCopyWrapper.creditCountUI"/>

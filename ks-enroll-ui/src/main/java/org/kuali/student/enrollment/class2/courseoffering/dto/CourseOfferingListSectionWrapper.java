@@ -24,6 +24,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/* TODO : This class needs refactoring; should inherit from CourseOfferingWrapper; see https://jira.kuali.org/browse/KSENROLL-5931
+ * (note: not sure whether this class should actually be part of the refactoring or not)
+ */
+
 /**
  * This wrapper is used to display a list of {@link org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo} at
  * Manage CO View.
