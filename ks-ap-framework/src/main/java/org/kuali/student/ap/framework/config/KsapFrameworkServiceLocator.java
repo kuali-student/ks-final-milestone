@@ -1,9 +1,7 @@
 package org.kuali.student.ap.framework.config;
 
 import javax.ejb.EJB;
-import javax.ejb.Singleton;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.context.AtpHelper;
 import org.kuali.student.ap.framework.context.EnumerationHelper;
 import org.kuali.student.ap.framework.context.KsapContext;
@@ -23,7 +21,6 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.program.service.ProgramService;
-import org.springframework.beans.factory.InitializingBean;
 
 /**
  * Convenience factory for acquiring KSAP provided service.
@@ -36,17 +33,28 @@ import org.springframework.beans.factory.InitializingBean;
  * @version 0.4.5
  * @since 0.1.1
  */
-@Singleton
-public final class KsapFrameworkServiceLocator implements InitializingBean {
+public final class KsapFrameworkServiceLocator {
 
-	private static final Logger LOG = Logger
-			.getLogger(KsapFrameworkServiceLocator.class);
-
+	/**
+	 * Internally managed singleton instance.
+	 */
 	private static KsapFrameworkServiceLocator instance;
 
-	private static KsapFrameworkServiceLocator getInstance() {
-		assert instance != null : "Not initialized";
-		return instance;
+	/**
+	 * Get a singleton instance.
+	 * <p>
+	 * This method should be indicated as the factory method by at least one
+	 * bean in an auto-wiring container in order to populate {@link EJB}
+	 * instances.
+	 * </p>
+	 * <pre>
+	 * &lt;bean class=&quot;org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator&quot;
+	 * 	factory-method=&quot;getInstance&quot; /&gt;
+	 * </pre>
+	 */
+	public static KsapFrameworkServiceLocator getInstance() {
+		return instance == null ? instance = new KsapFrameworkServiceLocator()
+				: instance;
 	}
 
 	/**
@@ -145,7 +153,7 @@ public final class KsapFrameworkServiceLocator implements InitializingBean {
 	 * @return The LRC service.
 	 */
 	public static LRCService getLRCService() {
-		return getInstance().ksLumLRCService;
+		return getInstance().ksLumLrcService;
 	}
 
 	/**
@@ -250,8 +258,6 @@ public final class KsapFrameworkServiceLocator implements InitializingBean {
 	@EJB
 	private transient ProgramService ksLumProgramService;
 	@EJB
-	private transient LRCService ksLumLRCService;
-	@EJB
 	private transient CluService ksLumCluService;
 	@EJB
 	private transient LRCService ksLumLrcService;
@@ -273,16 +279,7 @@ public final class KsapFrameworkServiceLocator implements InitializingBean {
 	// provided by ks-ap-ui or institution override
 	private transient CourseSearchStrategy courseSearchStrategy;
 
-	public KsapFrameworkServiceLocator() {
-		assert instance == null : instance;
-		LOG.info("KSAP Framework Initialziation Started");
-	}
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		assert instance == null : instance;
-		instance = this;
-		LOG.info("KSAP Framework Initialization Complete");
+	private KsapFrameworkServiceLocator() {
 	}
 
 }

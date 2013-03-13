@@ -101,8 +101,12 @@
 		<property name="exceptionMessagingScheduler" ref="quartzScheduler" />
 	</bean>
 
-	<bean id="autowireCandidateResolver"
+	<!-- KSAP-26: reasonable defaults for auto-wiring support -->
+	<bean id="autowireCandidateResolver" scope="prototype"
 		class="org.kuali.student.ap.framework.config.BaseAutowireCandidateResolver" />
+	<bean id="delegatedBeanFactory"
+		class="org.springframework.beans.factory.support.DefaultListableBeanFactory" />
+	<!-- /KSAP-26 -->
 
 	<bean id="knsConfigurer" class="org.kuali.rice.krad.config.KRADConfigurer"
     	depends-on="coreConfigurer"/>

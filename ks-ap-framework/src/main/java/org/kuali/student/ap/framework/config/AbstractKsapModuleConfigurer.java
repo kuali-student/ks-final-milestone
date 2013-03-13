@@ -28,9 +28,11 @@ import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.framework.config.module.ModuleConfigurer;
 import org.kuali.rice.core.framework.config.module.WebModuleConfiguration;
 import org.kuali.rice.core.framework.resourceloader.BaseResourceLoader;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.support.AutowireCandidateResolver;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.web.context.ServletContextAware;
 
 /**
@@ -70,13 +72,44 @@ public abstract class AbstractKsapModuleConfigurer extends
 	// TODO: Rice JIRA
 	// TODO: Move the customizations below to Rice ModuleConfigurer.
 	// See also ks-ap/pom.xml dependencies section - @EJB requires Java EE 6.0
+
+	/**
+	 * Extension point allowing the auto-wiring mechanism on the container
+	 * controlling this module to inject a cadidate resolve for auto-wiring the
+	 * module's context.
+	 * 
+	 * @see BaseAutowireCandidateResolver
+	 */
 	@EJB
-	private AutowireCandidateResolver autowireCandidateResolver;
+	private transient AutowireCandidateResolver autowireCandidateResolver;
+
+	/**
+	 * Extension point allowing the container controlling this module to inject
+	 * top-down delegate for overriding beans provided by this container,
+	 * eliminating the to overloading bean definitions.
+	 * 
+	 * <p>
+	 * When a bean is present in the delegated factory, it will always be
+	 * preferred over the beans located in the context internally by this
+	 * module.
+	 * </p>
+	 * 
+	 * <p>
+	 * The beanName "delegatedBeanFactory" is explicitly defined on this field
+	 * to prevent Spring from injecting the module's defining bean factory,
+	 * which would break encapsulation.
+	 * </p>
+	 * 
+	 * @see DefaultListableBeanFactory
+	 */
+	@EJB(beanName = "delegatedBeanFactory")
+	private transient BeanFactory delegatedBeanFactory;
 
 	@Override
 	public final void initializeResourceLoaders() throws Exception {
+		LOG.info("Initializing resources for " + getModuleName());
 		if (autowireCandidateResolver != null)
-			LOG.info("Auto-wire resolver " + autowireCandidateResolver);
+			LOG.debug("Auto-wire resolver " + autowireCandidateResolver);
 		List<String> files = new ArrayList<String>();
 		files.addAll(getPrimarySpringFiles());
 		files.addAll(getAdditionalSpringFiles());
@@ -93,7 +126,8 @@ public abstract class AbstractKsapModuleConfigurer extends
 			@SuppressWarnings("deprecation")
 			ResourceLoader rl = RiceResourceLoaderFactory
 					.createRootRiceResourceLoader(servletContext, files,
-							getModuleName(), autowireCandidateResolver);
+							getModuleName(), autowireCandidateResolver,
+							delegatedBeanFactory);
 			rl.start();
 			GlobalResourceLoader.addResourceLoader(rl);
 		}

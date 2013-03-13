@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -25,14 +26,15 @@ import org.springframework.beans.factory.config.DependencyDescriptor;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.AutowireCandidateResolver;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 
 /**
- * Short-term alternate for org.kuali.rice.core.framework.resourceloader.SpringResourceLoader
+ * Short-term alternate for
+ * org.kuali.rice.core.framework.resourceloader.SpringResourceLoader
+ * 
  * @deprecated TODO: Move KSAP auto-wiring functionality to Rice.
  */
 public class SpringResourceLoader extends BaseResourceLoader {
@@ -47,8 +49,21 @@ public class SpringResourceLoader extends BaseResourceLoader {
 	private ServletContext servletContextcontext;
 
 	// BEGIN KSAP MOD
+	/**
+	 * The injected AutowireCandidateResolver to use for injecting resources
+	 * into this module.
+	 */
 	private AutowireCandidateResolver autowireCandidateResolver;
 
+	/**
+	 * The injected BeanFactory to use for top-down bean delegation for this
+	 * module.
+	 */
+	private BeanFactory delegatedBeanFactory;
+
+	/**
+	 * Thread-local used to track
+	 */
 	private static final ThreadLocal<PopulatingBean> POPULATING = new ThreadLocal<PopulatingBean>();
 
 	/**
@@ -118,8 +133,12 @@ public class SpringResourceLoader extends BaseResourceLoader {
 	 * Get meta-information related to the bean currently being populated.
 	 * 
 	 * <p>
-	 * This method may be used internally by {@link AutowireCandidateResolver},
-	 * but should not be accessed externally.
+	 * Rice-aware {@link AutowireCandidateResolver} and {@link BeanFactory}
+	 * implementations can use this utility method to get meta-information about
+	 * the bean currently being populated. This will be the bean definition
+	 * (either XML or annotation driven) that refers to the bean or autowire
+	 * resource within the Rice module that is actively being refresh on the
+	 * current thread.
 	 * </p>
 	 * 
 	 * @return Meta-information related to the bean currently being populated.
@@ -128,13 +147,38 @@ public class SpringResourceLoader extends BaseResourceLoader {
 		return POPULATING.get();
 	}
 
-	private static class _BeanFactory extends DefaultListableBeanFactory {
+	/**
+	 * Internal bean factory for achieving top-down delegation to the injected
+	 * bean factory resource.
+	 */
+	private class _BeanFactory extends DefaultListableBeanFactory {
 
 		private _BeanFactory() {
 		}
 
 		private _BeanFactory(BeanFactory parentBeanFactory) {
 			super(parentBeanFactory);
+		}
+
+		/**
+		 * Call after attaching to the context, such as from
+		 * customizeBeanFactory().
+		 */
+		private void customize() {
+			if (autowireCandidateResolver != null)
+				try {
+					BeanUtils.setProperty(autowireCandidateResolver,
+							"delegate", getAutowireCandidateResolver());
+				} catch (IllegalAccessException e) {
+					throw new IllegalStateException(e);
+				} catch (InvocationTargetException e) {
+					if (e.getCause() instanceof RuntimeException)
+						throw (RuntimeException) e.getCause();
+					if (e.getCause() instanceof Error)
+						throw (Error) e.getCause();
+					throw new IllegalStateException(e);
+				}
+			setAutowireCandidateResolver(autowireCandidateResolver);
 		}
 
 		@Override
@@ -173,61 +217,179 @@ public class SpringResourceLoader extends BaseResourceLoader {
 					throw e;
 			}
 		}
-	}
 
-	private _BeanFactory createBeanFactory() {
-		_BeanFactory rv = new _BeanFactory();
-		doCustomizeBeanFactory(rv);
-		return rv;
-	}
-
-	private class _ApplicationContext extends GenericApplicationContext {
-
-		private _ApplicationContext(ApplicationContext parent,
-				String... resources) {
-			super(createBeanFactory(), parent);
-			setClassLoader(getClass().getClassLoader());
-			XmlBeanDefinitionReader xr = new XmlBeanDefinitionReader(this);
-			for (String rp : resources)
-				xr.loadBeanDefinitions(rp);
-			refresh();
-		}
-
-	}
-
-	private void doCustomizeBeanFactory(_BeanFactory beanFactory) {
-		if (autowireCandidateResolver != null) {
-			if (beanFactory.getAutowireCandidateResolver() != null)
+		@Override
+		public Object getBean(String name) throws BeansException {
+			Object rv = null;
+			if (delegatedBeanFactory != null)
 				try {
-					BeanUtils.setProperty(autowireCandidateResolver,
-							"delegate",
-							beanFactory.getAutowireCandidateResolver());
-				} catch (IllegalAccessException e) {
-					throw new IllegalStateException(e);
-				} catch (InvocationTargetException e) {
-					if (e.getCause() instanceof RuntimeException)
-						throw (RuntimeException) e.getCause();
-					if (e.getCause() instanceof Error)
-						throw (Error) e.getCause();
-					throw new IllegalStateException(e);
+					rv = delegatedBeanFactory.getBean(name);
+				} catch (NoSuchBeanDefinitionException e) {
+					LOG.debug("Delegate bean factory did not supply a bean", e);
 				}
-			beanFactory.setAutowireCandidateResolver(autowireCandidateResolver);
+			if (rv == null)
+				rv = super.getBean(name);
+			return rv;
 		}
+
+		@Override
+		public <T> T getBean(String name, Class<T> requiredType)
+				throws BeansException {
+			T rv = null;
+			if (delegatedBeanFactory != null)
+				try {
+					rv = delegatedBeanFactory.getBean(name, requiredType);
+				} catch (NoSuchBeanDefinitionException e) {
+					LOG.debug("Delegate bean factory did not supply a bean", e);
+				}
+			if (rv == null)
+				rv = super.getBean(name, requiredType);
+			return rv;
+		}
+
+		@Override
+		public <T> T getBean(Class<T> requiredType) throws BeansException {
+			T rv = null;
+			if (delegatedBeanFactory != null)
+				try {
+					rv = delegatedBeanFactory.getBean(requiredType);
+				} catch (NoSuchBeanDefinitionException e) {
+					LOG.debug("Delegate bean factory did not supply a bean", e);
+				}
+			if (rv == null)
+				rv = super.getBean(requiredType);
+			return rv;
+		}
+
+		@Override
+		public Object getBean(String name, Object... args)
+				throws BeansException {
+			Object rv = null;
+			if (delegatedBeanFactory != null)
+				try {
+					rv = delegatedBeanFactory.getBean(name, args);
+				} catch (NoSuchBeanDefinitionException e) {
+					LOG.debug("Delegate bean factory did not supply a bean", e);
+				}
+			if (rv == null)
+				rv = super.getBean(name, args);
+			return rv;
+		}
+
+		@Override
+		public boolean containsBean(String name) {
+			return (delegatedBeanFactory != null && delegatedBeanFactory
+					.containsBean(name)) || super.containsBean(name);
+		}
+
+		@Override
+		public boolean isSingleton(String name)
+				throws NoSuchBeanDefinitionException {
+			if (delegatedBeanFactory != null)
+				try {
+					return delegatedBeanFactory.isSingleton(name);
+				} catch (NoSuchBeanDefinitionException e) {
+					LOG.debug("Delegate bean factory did not supply a bean", e);
+				}
+			return super.isSingleton(name);
+		}
+
+		@Override
+		public boolean isPrototype(String name)
+				throws NoSuchBeanDefinitionException {
+			if (delegatedBeanFactory != null)
+				try {
+					return delegatedBeanFactory.isPrototype(name);
+				} catch (NoSuchBeanDefinitionException e) {
+					LOG.debug("Delegate bean factory did not supply a bean", e);
+				}
+			return super.isPrototype(name);
+		}
+
+		@Override
+		public boolean isTypeMatch(String name, Class<?> targetType)
+				throws NoSuchBeanDefinitionException {
+			if (delegatedBeanFactory != null)
+				try {
+					return delegatedBeanFactory.isTypeMatch(name, targetType);
+				} catch (NoSuchBeanDefinitionException e) {
+					LOG.debug("Delegate bean factory did not supply a bean", e);
+				}
+			return super.isTypeMatch(name, targetType);
+		}
+
+		@Override
+		public Class<?> getType(String name)
+				throws NoSuchBeanDefinitionException {
+			Class<?> rv = null;
+			if (delegatedBeanFactory != null)
+				try {
+					rv = delegatedBeanFactory.getType(name);
+				} catch (NoSuchBeanDefinitionException e) {
+					LOG.debug("Delegate bean factory did not supply a bean", e);
+				}
+			if (rv == null)
+				rv = super.getType(name);
+			return rv;
+		}
+
+		@Override
+		public String[] getAliases(String name) {
+			List<String> aliases = new java.util.LinkedList<String>();
+			if (delegatedBeanFactory != null
+					&& delegatedBeanFactory.getAliases(name) != null)
+				aliases.addAll(Arrays.asList(delegatedBeanFactory
+						.getAliases(name)));
+			if (super.getAliases(name) != null)
+				aliases.addAll(Arrays.asList(super.getAliases(name)));
+			return aliases.toArray(new String[aliases.size()]);
+		}
+
+	}
+
+	/**
+	 * Internal application context for loading beans from one or more XML
+	 * resources.
+	 * 
+	 * <p>
+	 * This context configures the inject auto-wiring and top-down bean factory
+	 * delegation.
+	 * </p>
+	 */
+	private class _ApplicationContext extends ClassPathXmlApplicationContext {
+
+		private _ApplicationContext(String[] resources,
+				ApplicationContext parent) {
+			super(resources, parent);
+		}
+
+		@Override
+		protected DefaultListableBeanFactory createBeanFactory() {
+			return new _BeanFactory(getInternalParentBeanFactory());
+		}
+
+		@Override
+		protected void customizeBeanFactory(
+				DefaultListableBeanFactory beanFactory) {
+			super.customizeBeanFactory(beanFactory);
+			((_BeanFactory) beanFactory).customize();
+		}
+	}
+
+	SpringResourceLoader(QName name, List<String> fileLocs,
+			ServletContext servletContextcontext,
+			AutowireCandidateResolver autowireCandidateResolver,
+			BeanFactory delegatedBeanFactory) {
+		super(name);
+		this.fileLocs = fileLocs;
+		this.servletContextcontext = servletContextcontext;
+		this.autowireCandidateResolver = autowireCandidateResolver;
+		this.delegatedBeanFactory = delegatedBeanFactory;
 	}
 
 	// END KSAP MOD
 
 	private final List<String> fileLocs;
-
-	SpringResourceLoader(QName name, List<String> fileLocs,
-			ServletContext servletContextcontext,
-			AutowireCandidateResolver autowireCandidateResolver) {
-		super(name);
-		this.fileLocs = fileLocs;
-		this.servletContextcontext = servletContextcontext;
-		// KSAP MOD
-		this.autowireCandidateResolver = autowireCandidateResolver;
-	}
 
 	@Override
 	public void start() throws Exception {
@@ -254,7 +416,7 @@ public class SpringResourceLoader extends BaseResourceLoader {
 					protected void customizeBeanFactory(
 							DefaultListableBeanFactory beanFactory) {
 						super.customizeBeanFactory(beanFactory);
-						doCustomizeBeanFactory((_BeanFactory) beanFactory);
+						((_BeanFactory) beanFactory).customize();
 					}
 				};
 				// END KSAP MOD
@@ -264,11 +426,14 @@ public class SpringResourceLoader extends BaseResourceLoader {
 						.toArray(new String[] {}));
 				lContext.refresh();
 				context = lContext;
-			} else
+			} else {
 				// BEGIN KSAP MOD
-				this.context = new _ApplicationContext(parentContext,
-						this.fileLocs.toArray(new String[this.fileLocs.size()]));
-
+				_ApplicationContext lContext = new _ApplicationContext(
+						this.fileLocs.toArray(new String[this.fileLocs.size()]),
+						parentContext);
+				lContext.refresh();
+				this.context = lContext;
+			}
 			super.start();
 		}
 	}

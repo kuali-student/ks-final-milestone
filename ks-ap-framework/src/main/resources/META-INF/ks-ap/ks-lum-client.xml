@@ -24,7 +24,7 @@
 			value="{http://student.kuali.org/wsdl/course}CourseService" />
 	</bean>
 
-	<bean id="ksLumLRCService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+	<bean id="ksLumLrcService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface"
 			value="org.kuali.student.r2.lum.lrc.service.LRCService" />
 		<property name="serviceQName"

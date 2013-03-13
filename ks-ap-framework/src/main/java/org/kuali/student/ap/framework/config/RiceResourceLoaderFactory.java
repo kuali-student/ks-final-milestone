@@ -27,10 +27,13 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.ResourceLoader;
 import org.kuali.rice.core.framework.resourceloader.BaseResourceLoader;
 import org.kuali.rice.core.framework.resourceloader.SimpleServiceLocator;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.support.AutowireCandidateResolver;
 
 /**
- * Short-term alternate for org.kuali.rice.core.framework.resourceloader.RiceResourceLoaderFactory
+ * Short-term alternate for
+ * org.kuali.rice.core.framework.resourceloader.RiceResourceLoaderFactory
+ * 
  * @deprecated TODO: Move KSAP auto-wiring functionality to Rice.
  */
 public class RiceResourceLoaderFactory {
@@ -40,7 +43,8 @@ public class RiceResourceLoaderFactory {
 
 	static ResourceLoader createRootRiceResourceLoader(ServletContext context,
 			List<String> springFileLocations, String prefix,
-			AutowireCandidateResolver autowireCandidateResolver) {
+			AutowireCandidateResolver autowireCandidateResolver,
+			BeanFactory delegatedBeanFactory) {
 		// FIXME: RICE MODULARITY
 		// hack to not break the hack in
 		// ResourceLoaderContainer.moveKSBLoadersDownHack();
@@ -71,7 +75,8 @@ public class RiceResourceLoaderFactory {
 		// TODO: Add auto-wiring support to RiceResourceLoaderFactory and remove
 		// this class.
 		final ResourceLoader springResourceLoader = new SpringResourceLoader(
-				spring, springFileLocations, context, autowireCandidateResolver);
+				spring, springFileLocations, context,
+				autowireCandidateResolver, delegatedBeanFactory);
 		rootResourceLoader.addResourceLoaderFirst(springResourceLoader);
 
 		return rootResourceLoader;

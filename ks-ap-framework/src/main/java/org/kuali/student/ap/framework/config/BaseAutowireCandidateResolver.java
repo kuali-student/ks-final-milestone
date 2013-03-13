@@ -80,6 +80,7 @@ public class BaseAutowireCandidateResolver implements
 		Object rv = null;
 		SpringResourceLoader.PopulatingBean spb = SpringResourceLoader
 				.getPopulatingBean();
+		assert spb != null;
 		if (spb != null) {
 			rv = getSuggestedValue(descriptor, spb.getBeanName(),
 					spb.getDefinition(), optional);

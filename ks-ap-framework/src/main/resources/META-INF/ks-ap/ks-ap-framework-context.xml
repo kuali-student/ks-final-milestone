@@ -20,9 +20,10 @@
 	<import
 		resource="classpath:ks-academic-plan-data-dictionary-services-configuration.xml" />
 
-	<bean id="ksapFrameworkServiceLocator"
-		class="org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator" />
-		
+	<bean
+		class="org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator"
+		factory-method="getInstance" />
+
 	<bean id="ksapContext"
 		class="org.kuali.student.ap.framework.context.support.DefaultKsapContext" />
 
