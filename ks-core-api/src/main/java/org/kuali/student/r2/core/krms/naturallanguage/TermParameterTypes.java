@@ -50,7 +50,8 @@ public enum TermParameterTypes {
     PROGRAM_CLU_KEY("kuali.term.parameter.type.program.clu.id"),
     PROGRAM_CLUSET_KEY("kuali.term.parameter.type.program.cluSet.id"),
     TEST_CLU_KEY("kuali.term.parameter.type.test.clu.id"),//FIXME Why do we have test data in our code?
-    TEST_CLUSET_KEY("kuali.term.parameter.type.test.cluSet.id");
+    TEST_CLUSET_KEY("kuali.term.parameter.type.test.cluSet.id"),
+    FREE_TEXT_KEY("kuali.term.parameter.type.free.text");
 
 	private String id;
 
