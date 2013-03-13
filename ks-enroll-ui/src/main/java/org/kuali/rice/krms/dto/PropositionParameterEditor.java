@@ -1,5 +1,6 @@
-package org.kuali.student.enrollment.class1.krms.dto;
+package org.kuali.rice.krms.dto;
 
+import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameter;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
 
@@ -23,6 +24,14 @@ public class PropositionParameterEditor implements PropositionParameterContract,
 
     public PropositionParameterEditor(){
         super();
+    }
+
+    public PropositionParameterEditor(String parameterType, Integer sequenceNumber){
+        super();
+        this.setParameterType(parameterType);
+        this.setSequenceNumber(sequenceNumber);
+        this.setVersionNumber(new Long(1));
+        this.setValue("");
     }
 
     /**
@@ -92,4 +101,5 @@ public class PropositionParameterEditor implements PropositionParameterContract,
     public void setVersionNumber(Long versionNumber) {
         this.versionNumber = versionNumber;
     }
+
 }

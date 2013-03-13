@@ -22,8 +22,10 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
-import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.enrollment.class1.krms.form.KrmsComponentsForm;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
@@ -56,11 +58,11 @@ public class GradeValuesKeyFinder extends UifKeyValuesFinderBase {
         } else if (model instanceof MaintenanceDocumentForm) {
             MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
             Object dataObject = maintenanceForm.getDocument().getNewMaintainableObject().getDataObject();
-            if (dataObject instanceof RuleEditor) {
-                RuleEditor ruleEditor = (RuleEditor) dataObject;
+            if (dataObject instanceof EnrolRuleEditor) {
+                EnrolRuleEditor ruleEditor = (EnrolRuleEditor) dataObject;
                 PropositionEditor propositionEditor = PropositionTreeUtil.getProposition(ruleEditor) ;
-                if (propositionEditor != null){
-                    gradeScale = propositionEditor.getGradeScale();
+                if ((propositionEditor != null) && (propositionEditor instanceof EnrolPropositionEditor)){
+                    gradeScale = ((EnrolPropositionEditor) propositionEditor).getGradeScale();
                 }
             }
         }

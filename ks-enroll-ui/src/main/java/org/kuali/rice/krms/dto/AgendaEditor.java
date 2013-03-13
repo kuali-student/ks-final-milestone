@@ -2,9 +2,6 @@ package org.kuali.rice.krms.dto;
 
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinitionContract;
-import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
-import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
-import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 
 import java.util.List;
 import java.util.Map;

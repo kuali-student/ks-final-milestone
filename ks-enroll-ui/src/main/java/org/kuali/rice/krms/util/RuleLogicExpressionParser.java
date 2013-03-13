@@ -1,12 +1,11 @@
 package org.kuali.rice.krms.util;
 
 import org.kuali.rice.krms.api.repository.LogicalOperator;
-import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
-import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Stack;
 
 public class RuleLogicExpressionParser {

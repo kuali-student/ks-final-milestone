@@ -14,7 +14,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.AgendaTypeInfo;
 import org.kuali.rice.krms.dto.RuleTypeInfo;
-import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import java.util.Properties;
 public class AgendaBuilder {
 
     private View view;
-    private Map<String, List<RuleTypeInfo>> typeRelationsMap;
+    private Map<String, AgendaTypeInfo> typeRelationsMap;
 
     private int agendaCounter;
     private int ruleCounter;
@@ -40,7 +40,7 @@ public class AgendaBuilder {
         this.view = view;
     }
 
-    public void setTypeRelationsMap(Map<String, List<RuleTypeInfo>> typeRelationsMap) {
+    public void setTypeRelationsMap(Map<String, AgendaTypeInfo> typeRelationsMap) {
         this.typeRelationsMap = typeRelationsMap;
     }
 
@@ -53,13 +53,13 @@ public class AgendaBuilder {
         // Reset the rule counter.
         ruleCounter = 0;
 
+        AgendaTypeInfo agendaType = typeRelationsMap.get(agenda.getTypeId());
         Group group = (Group) ComponentFactory.getNewComponentInstance("KRMS-AgendaSection-Template");
-        group.setHeaderText("Agenda " + agendaCounter);
+        group.setHeaderText(agendaType.getDescription());
 
         List<Component> components = new ArrayList<Component>();
-        List<RuleTypeInfo> ruleTypes = typeRelationsMap.get(agenda.getTypeId());
         List<RuleEditor> ruleEditors = new ArrayList<RuleEditor>();
-        for (RuleTypeInfo ruleType : ruleTypes) {
+        for (RuleTypeInfo ruleType : agendaType.getRuleTypes()) {
 
             // Add all existing rules of this type.
             boolean exist = false;

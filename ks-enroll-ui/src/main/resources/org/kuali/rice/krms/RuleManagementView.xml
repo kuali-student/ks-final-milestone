@@ -26,7 +26,7 @@
             </list>
         </property>
         <property name="viewName" value="AgendaWithRuleView"/>
-        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.RuleEditor"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.rice.krms.service.impl.RuleViewHelperServiceImpl"/>
         <property name="page.items">
@@ -208,7 +208,39 @@
                     <bean parent="Uif-Message"/>
                 </property>
                 <property name="dataGroupPrototype">
-                    <bean parent="Uif-HorizontalBoxGroup" p:style="margin-left: 2em;"/>
+                    <bean parent="Uif-StackedCollectionGroup" p:style="width: 400px; padding: 0;">
+                        <property name="layoutManager">
+                            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                                <property name="lineGroupPrototype">
+                                    <bean parent="Uif-CollectionHorizontalBoxItem">
+                                        <property name="cssClasses">
+                                            <list merge="true">
+                                                <value>ks-stackedPreviewItem</value>
+                                            </list>
+                                        </property>
+                                        <property name="renderFooter" value="false"/>
+                                    </bean>
+                                </property>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ks-stackedCollectionLayout</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </property>
+                        <property name="lineActions">
+                            <list></list>
+                        </property>
+                        <property name="renderAddLine" value="false"/>
+                        <property name="propertyName" value="listItems" />
+                        <property name="collectionObjectClass" value="java.lang.String"/>
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-MessageField" p:messageText="@{#line}" p:style="width: 290px; margin: 0px;"/>
+                            </list>
+                        </property>
+                    </bean>
+
                 </property>
             </bean>
         </property>

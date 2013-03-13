@@ -29,7 +29,7 @@ import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 
@@ -60,8 +60,8 @@ public class PropositionTypeValuesFinder extends UifKeyValuesFinderBase {
         }
 
         String ruleTypeId = null;
-        if (dataObject instanceof RuleEditor){
-            ruleTypeId = ((RuleEditor) dataObject).getTypeId();
+        if (dataObject instanceof EnrolRuleEditor){
+            ruleTypeId = ((EnrolRuleEditor) dataObject).getTypeId();
         }
 
         NaturalLanguageUsage usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION, PermissionServiceConstants.KS_SYS_NAMESPACE);

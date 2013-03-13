@@ -2,11 +2,16 @@ package org.kuali.rice.krms.util;
 
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
+import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
+import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
-import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
-import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.PropositionParameterEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -165,6 +170,94 @@ public class PropositionTreeUtil {
             logicExpression += ")";
         }
         return logicExpression;
+    }
+
+    public static PropositionEditor copyProposition(PropositionDefinitionContract existing, Class<? extends PropositionEditor> propClass) throws IllegalAccessException, InstantiationException {
+        // Note: RuleId is not set
+        PropositionEditor newProp = propClass.newInstance();
+        newProp.setDescription(existing.getDescription());
+        newProp.setPropositionTypeCode(existing.getPropositionTypeCode());
+        newProp.setTypeId(existing.getTypeId());
+        newProp.setCompoundOpCode(existing.getCompoundOpCode());
+        // parameters
+        List<PropositionParameterEditor> newParms = new ArrayList<PropositionParameterEditor>();
+        for (PropositionParameterContract parm : existing.getParameters()) {
+            PropositionParameterEditor p = new PropositionParameterEditor(parm.getParameterType(), parm.getSequenceNumber());
+            p.setValue(parm.getValue());
+            newParms.add(p);
+        }
+        newProp.setParameters(newParms);
+        // compoundComponents
+        List<PropositionEditor> newCompoundComponents = new ArrayList<PropositionEditor>();
+        for (PropositionDefinitionContract component : existing.getCompoundComponents()) {
+            newCompoundComponents.add(copyProposition(component, propClass));
+        }
+        newProp.setCompoundEditors(newCompoundComponents);
+        return newProp;
+    }
+
+    /**
+     * This method creates a partially populated Simple PropositionBo with
+     * three parameters:  a term type paramter (value not assigned)
+     * a operation parameter
+     * a constant parameter (value set to empty string)
+     * The returned PropositionBo has an generatedId. The type code and ruleId properties are assigned the
+     * same value as the sibling param passed in.
+     * Each PropositionParameter has the id generated, and type, sequenceNumber,
+     * propId default values set. The value is set to "".
+     *
+     * @param sibling -
+     * @return a PropositionBo partially populated.
+     */
+    public static PropositionEditor createSimplePropositionBoStub(PropositionEditor sibling, Class<? extends PropositionEditor> propClass) throws IllegalAccessException, InstantiationException {
+        // create a simple proposition Bo
+        PropositionEditor prop = propClass.newInstance();
+        prop.setPropositionTypeCode(PropositionType.SIMPLE.getCode());
+        prop.setEditMode(true);
+        if (sibling != null) {
+            prop.setRuleId(sibling.getRuleId());
+        }
+
+        prop.setParameters(createParameterList());
+
+        return prop;
+    }
+
+    public static List<PropositionParameterEditor> createParameterList(){
+        // create blank proposition parameters
+        PropositionParameterEditor pTerm = new PropositionParameterEditor("T", new Integer("0"));
+        PropositionParameterEditor pOp = new PropositionParameterEditor("O", new Integer("2"));
+        PropositionParameterEditor pConst = new PropositionParameterEditor("C", new Integer("1"));
+
+        return Arrays.asList(pTerm, pConst, pOp);
+    }
+
+    public static PropositionEditor createCompoundPropositionBoStub(PropositionEditor existing, boolean addNewChild, Class<? extends PropositionEditor> propClass) throws InstantiationException, IllegalAccessException {
+        // create a simple proposition Bo
+        PropositionEditor prop = createCompoundPropositionBoStub(existing, propClass);
+
+        if (addNewChild) {
+            PropositionEditor newProp = createSimplePropositionBoStub(existing, propClass);
+            prop.getCompoundEditors().add(newProp);
+            prop.setEditMode(false); // set the parent edit mode back to null or we end up with 2 props in edit mode
+        }
+
+        return prop;
+    }
+
+    public static PropositionEditor createCompoundPropositionBoStub(PropositionEditor existing, Class<? extends PropositionEditor> propClass) throws IllegalAccessException, InstantiationException {
+        // create a simple proposition Bo
+        PropositionEditor prop = propClass.newInstance();
+        prop.setPropositionTypeCode(PropositionType.COMPOUND.getCode());
+        prop.setRuleId(existing.getRuleId());
+        prop.setCompoundOpCode(LogicalOperator.AND.getCode());  // default to and
+        prop.setDescription("");
+        prop.setEditMode(true);
+
+        List<PropositionEditor> components = new ArrayList<PropositionEditor>();
+        components.add(existing);
+        prop.setCompoundEditors(components);
+        return prop;
     }
 
 }

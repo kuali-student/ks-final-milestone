@@ -1,6 +1,6 @@
 package org.kuali.rice.krms.builder;
 
-import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.PropositionEditor;
 
 import java.util.List;
 import java.util.Map;
@@ -12,12 +12,12 @@ import java.util.Map;
  * Time: 11:22 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface ComponentBuilder {
+public interface ComponentBuilder<T extends PropositionEditor> {
 
     public List<String> getComponentIds();
 
-    public void resolveTermParameters(PropositionEditor propositionEditor, Map<String, String> termParameters);
+    public void resolveTermParameters(T propositionEditor, Map<String, String> termParameters);
 
-    public Map<String, String> buildTermParameters(PropositionEditor propositionEditor);
+    public Map<String, String> buildTermParameters(T propositionEditor);
 
 }

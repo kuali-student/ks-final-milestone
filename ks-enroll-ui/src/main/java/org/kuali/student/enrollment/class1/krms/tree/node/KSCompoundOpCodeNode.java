@@ -15,8 +15,8 @@
  */
 package org.kuali.student.enrollment.class1.krms.tree.node;
 
+import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
-import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 
 /**
  * abstract data class for the rule tree {@link org.kuali.rice.core.api.util.tree.Node}s

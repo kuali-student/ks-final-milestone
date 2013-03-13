@@ -11,10 +11,10 @@ package org.kuali.student.enrollment.class1.krms.util;
 import org.junit.Test;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
+import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.util.RuleLogicExpressionParser;
-import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
-import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 
 import java.util.ArrayList;
 import java.util.List;

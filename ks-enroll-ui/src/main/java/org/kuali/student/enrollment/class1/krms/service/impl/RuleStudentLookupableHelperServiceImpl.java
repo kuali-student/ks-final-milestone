@@ -23,7 +23,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.krms.KRMSConstants;
 
 import java.util.List;
@@ -64,7 +64,7 @@ public class RuleStudentLookupableHelperServiceImpl extends LookupableImpl {
             props.put(KRADConstants.RETURN_LOCATION_PARAMETER, lookupForm.getReturnLocation());
         }
 
-        props.put(UifParameters.DATA_OBJECT_CLASS_NAME, RuleEditor.class.getName());
+        props.put(UifParameters.DATA_OBJECT_CLASS_NAME, EnrolRuleEditor.class.getName());
         props.put(UifParameters.VIEW_TYPE_NAME, UifConstants.ViewType.MAINTENANCE.name());
         props.put(UifParameters.VIEW_NAME, KRMSConstants.STUDENT_VIEW);
 

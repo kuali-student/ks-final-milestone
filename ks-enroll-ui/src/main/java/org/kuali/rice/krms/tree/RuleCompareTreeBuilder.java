@@ -6,8 +6,8 @@ import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
+import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
-import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 
 import java.util.List;
 

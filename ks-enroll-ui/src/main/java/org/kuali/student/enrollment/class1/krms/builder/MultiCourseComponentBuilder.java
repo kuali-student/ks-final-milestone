@@ -4,7 +4,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
-import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -36,7 +36,7 @@ import java.util.Map;
  * Time: 1:07 PM
  * To change this template use File | Settings | File Templates.
  */
-public class MultiCourseComponentBuilder implements ComponentBuilder {
+public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropositionEditor> {
 
     private CluService cluService;
 
@@ -50,7 +50,7 @@ public class MultiCourseComponentBuilder implements ComponentBuilder {
     }
 
     @Override
-    public void resolveTermParameters(PropositionEditor propositionEditor, Map<String, String> termParameters) {
+    public void resolveTermParameters(EnrolPropositionEditor propositionEditor, Map<String, String> termParameters) {
         String cluSetId = termParameters.get(CLUSET_KEY);
         if (cluSetId != null) {
             try {
@@ -63,7 +63,7 @@ public class MultiCourseComponentBuilder implements ComponentBuilder {
     }
 
     @Override
-    public Map<String, String> buildTermParameters(PropositionEditor propositionEditor) {
+    public Map<String, String> buildTermParameters(EnrolPropositionEditor propositionEditor) {
         return null;
     }
 

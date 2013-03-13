@@ -27,11 +27,11 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
+import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.rule.AgendaEditorBusRule;
-import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
-import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.rice.krms.service.RuleViewHelperService;
 import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionEditNode;
 import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionNode;
@@ -187,6 +187,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(root, selectedPropKey);
 
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
+        RuleViewHelperService viewHelper = this.getViewHelper(form);
 
         // add new child at appropriate spot
         if (parent != null) {
@@ -204,7 +205,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
                             (isSimpleNode(child.getNodeType()))) {
 
                         // create a new compound proposition
-                        PropositionEditor compound = PropositionEditor.createCompoundPropositionBoStub(child.getData().getProposition(), true);
+                        PropositionEditor compound = viewHelper.createCompoundPropositionBoStub(child.getData().getProposition(), true);
                         compound.setDescription(KRMSConstants.PROP_COMP_DEFAULT_DESCR);
                         // don't set compound.setEditMode(true) as the Simple Prop in the compound prop is the only prop in edit mode
                         ruleEditor.setProposition(compound);
@@ -213,7 +214,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
                     else if (isSimpleNode(child.getNodeType())) {
 
                         // build new Blank Proposition
-                        PropositionEditor blank = PropositionEditor.createSimplePropositionBoStub(child.getData().getProposition(), PropositionType.SIMPLE.getCode());
+                        PropositionEditor blank = viewHelper.createSimplePropositionBoStub(child.getData().getProposition());
                         //add it to the parent
                         PropositionEditor parentProp = parent.getData().getProposition();
                         parentProp.getCompoundEditors().add(((index / 2) + 1), blank);
@@ -227,7 +228,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
             // special case, if root has no children, add a new simple proposition
             // todo: how to add compound proposition. - just add another to the firs simple
             if (root.getChildren().isEmpty()) {
-                PropositionEditor blank = PropositionEditor.createSimplePropositionBoStub(null, PropositionType.SIMPLE.getCode());
+                PropositionEditor blank = viewHelper.createSimplePropositionBoStub(null);
                 blank.setRuleId(ruleEditor.getId());
                 ruleEditor.setPropId(blank.getId());
                 ruleEditor.setProposition(blank);
@@ -424,6 +425,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         String selectedPropKey = ruleEditor.getSelectedKey();
 
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
+        RuleViewHelperService viewHelper = this.getViewHelper(form);
 
         if (!StringUtils.isBlank(selectedPropKey)) {
             // find parent
@@ -436,7 +438,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 PropositionEditor propBo = parent.getChildren().get(index).getData().getProposition();
 
                 // create a new compound proposition
-                PropositionEditor compound = PropositionEditor.createCompoundPropositionBoStub(propBo, true);
+                PropositionEditor compound = viewHelper.createCompoundPropositionBoStub(propBo, true);
                 compound.setDescription(KRMSConstants.PROP_COMP_DEFAULT_DESCR);
                 compound.setEditMode(false);
 
@@ -461,8 +463,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
             }
         }
 
-        this.getViewHelper(form).refreshInitTrees(ruleEditor, false);
-        this.getViewHelper(form).setLogicSection(ruleEditor);
+        viewHelper.refreshInitTrees(ruleEditor, false);
+        viewHelper.setLogicSection(ruleEditor);
         return getUIFModelAndView(form);
     }
 
@@ -473,6 +475,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         boolean cutAction = true;
         RuleEditor ruleEditor = getRuleEditor(form);
+        RuleViewHelperService viewHelper = this.getViewHelper(form);
 
         // get selected id
         String selectedPropKey = ruleEditor.getSelectedKey();
@@ -491,7 +494,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         if (StringUtils.isNotBlank(movePropKey) && !selectedPropKey.equals(movePropKey)) {
 
             Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
-            PropositionEditor newParent = getNewParent(ruleEditor, selectedPropKey, root);
+            PropositionEditor newParent = getNewParent(viewHelper, ruleEditor, selectedPropKey, root);
             PropositionEditor oldParent = PropositionTreeUtil.findParentPropositionNode(root, movePropKey).getData().getProposition();
             PropositionEditor workingProp = null;
 
@@ -503,7 +506,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
                         if (cutAction) {
                             workingProp = oldParent.getCompoundEditors().remove(index);
                         } else {
-                            workingProp = PropositionEditor.copyProposition(oldParent.getCompoundEditors().get(index));
+                            workingProp = viewHelper.copyProposition(oldParent.getCompoundEditors().get(index));
                         }
                         break;
                     }
@@ -512,15 +515,15 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
             // add to new and refresh the tree
             addProposition(selectedPropKey, newParent, workingProp);
-            this.getViewHelper(form).refreshInitTrees(ruleEditor, false);
-            this.getViewHelper(form).setLogicSection(ruleEditor);
+            viewHelper.refreshInitTrees(ruleEditor, false);
+            viewHelper.setLogicSection(ruleEditor);
         }
 
         // call the super method to avoid the agenda tree being reloaded from the db
         return getUIFModelAndView(form);
     }
 
-    private PropositionEditor getNewParent(RuleEditor ruleEditor, String selectedpropKey, Node<RuleEditorTreeNode, String> root) {
+    private PropositionEditor getNewParent(RuleViewHelperService viewHelper, RuleEditor ruleEditor, String selectedpropKey, Node<RuleEditorTreeNode, String> root) {
         Node<RuleEditorTreeNode, String> parentNode = PropositionTreeUtil.findParentPropositionNode(root, selectedpropKey);
         PropositionEditor newParent;
         if (parentNode.equals(root)) {
@@ -528,8 +531,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
             // build new top level compound proposition,
             // add existing as first child
             // then paste cut node as 2nd child
-            newParent = PropositionEditor.createCompoundPropositionBoStub2(
-                    root.getChildren().get(0).getData().getProposition());
+            newParent = viewHelper.createCompoundPropositionBoStub(
+                    root.getChildren().get(0).getData().getProposition(), false);
             newParent.setEditMode(true);
             ruleEditor.setProposition(newParent);
         } else {

@@ -15,29 +15,18 @@
  */
 package org.kuali.rice.krms.util;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.uif.RemotableAttributeError;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.bo.GlobalBusinessObject;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krms.api.KrmsConstants;
-import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
-import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
-import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.framework.type.ActionTypeService;
-import org.kuali.rice.krms.framework.type.AgendaTypeService;
 import org.kuali.rice.krms.impl.authorization.AgendaAuthorizationService;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
-import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
-
-import java.util.List;
-import java.util.Map;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 
 /**
  * This class contains the rules for the AgendaEditor.
@@ -51,8 +40,8 @@ public class RuleEditorBusRule extends MaintenanceDocumentRuleBase {
         Class<?> dataObjectClass = document.getNewMaintainableObject().getDataObjectClass();
 
         // Since the dataObject is a wrapper class we need to return the agendaBo instead.
-        Object oldBo = ((RuleEditor) document.getOldMaintainableObject().getDataObject());
-        Object newDataObject = ((RuleEditor) document.getNewMaintainableObject().getDataObject());
+        Object oldBo = ((EnrolRuleEditor) document.getOldMaintainableObject().getDataObject());
+        Object newDataObject = ((EnrolRuleEditor) document.getNewMaintainableObject().getDataObject());
 
         // We dont do primaryKeyChecks on Global Business Object maintenance documents. This is
         // because it doesnt really make any sense to do so, given the behavior of Globals. When a

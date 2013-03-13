@@ -1,10 +1,11 @@
 package org.kuali.rice.krms.tree;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
-import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
-import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 
 /**
  * Created with IntelliJ IDEA.

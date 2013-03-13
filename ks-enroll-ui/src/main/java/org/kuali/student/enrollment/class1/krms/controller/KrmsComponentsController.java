@@ -19,7 +19,7 @@ package org.kuali.student.enrollment.class1.krms.controller;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.impl.ui.TermParameter;
-import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.form.KrmsComponentsForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -53,8 +53,8 @@ public class KrmsComponentsController extends UifControllerBase {
                               HttpServletRequest request, HttpServletResponse response) {
         KrmsComponentsForm uiTestForm = (KrmsComponentsForm) form;
 
-//        uiTestForm.setProposition(new PropositionEditor());
-//        uiTestForm.setRuleEditor(new RuleEditor());
+//        uiTestForm.setProposition(new EnrolPropositionEditor());
+//        uiTestForm.setRuleEditor(new EnrolRuleEditor());
 //        uiTestForm.setRulePreviewer(new RuleCompareTreeBuilder());
         return getUIFModelAndView(uiTestForm);
     }
@@ -89,7 +89,7 @@ public class KrmsComponentsController extends UifControllerBase {
                                       HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         KrmsComponentsForm krmsComponentsForm = (KrmsComponentsForm) form;
-        PropositionEditor proposition = krmsComponentsForm.getProposition();
+        EnrolPropositionEditor proposition = krmsComponentsForm.getProposition();
         proposition.getTermParameter();
 
         return getUIFModelAndView(form);

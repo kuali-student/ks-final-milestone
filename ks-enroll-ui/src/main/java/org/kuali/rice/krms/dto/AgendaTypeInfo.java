@@ -1,5 +1,7 @@
 package org.kuali.rice.krms.dto;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: danie
@@ -11,6 +13,7 @@ public class AgendaTypeInfo {
 
     private String id;
     private String description;
+    private List<RuleTypeInfo> ruleTypes;
 
     public String getId() {
         return id;
@@ -26,5 +29,13 @@ public class AgendaTypeInfo {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<RuleTypeInfo> getRuleTypes() {
+        return ruleTypes;
+    }
+
+    public void setRuleTypes(List<RuleTypeInfo> ruleTypes) {
+        this.ruleTypes = ruleTypes;
     }
 }

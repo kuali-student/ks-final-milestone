@@ -18,7 +18,6 @@ package org.kuali.rice.krms.service.impl;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
-import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
@@ -36,10 +35,10 @@ import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
+import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.builder.ComponentBuilder;
-import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
-import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.TermEditor;
 import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.service.TemplateRegistry;
@@ -50,10 +49,6 @@ import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
-import org.kuali.student.r2.lum.clu.dto.CluInfo;
-import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -136,7 +131,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     @Override
     public void prepareForSave() {
         // set agenda attributes
-        //RuleEditor ruleEditor = (RuleEditor) getDataObject();
+        //EnrolRuleEditor ruleEditor = (EnrolRuleEditor) getDataObject();
         //ruleEditor.initPreviewTree();
     }
 

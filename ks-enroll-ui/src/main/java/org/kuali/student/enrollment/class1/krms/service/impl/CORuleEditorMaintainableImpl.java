@@ -3,10 +3,10 @@ package org.kuali.student.enrollment.class1.krms.service.impl;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
-import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
+import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
-import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
-import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -28,7 +28,18 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
-        RuleEditor ruleEditor = (RuleEditor) super.retrieveObjectForEditOrCopy(document, dataObjectKeys);
+        Object dataObject = null;
+
+        String ruleId = dataObjectKeys.get("id");
+        RuleDefinition rule = this.getRuleManagementService().getRule(ruleId);
+
+        // Since the dataObject is a wrapper class we need to build it and populate with the agenda bo.
+        EnrolRuleEditor ruleEditor = new EnrolRuleEditor(rule);
+
+        //Initialize the PropositionEditors
+        if ((ruleEditor != null) && (ruleEditor.getProposition() != null)) {
+            this.initPropositionEditor((PropositionEditor) ruleEditor.getProposition());
+        }
 
         String cluId = dataObjectKeys.get("cluId");
 

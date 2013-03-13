@@ -2,10 +2,8 @@ package org.kuali.student.enrollment.class1.krms.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
-import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
-import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -27,7 +25,7 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
-        RuleEditor ruleEditor = (RuleEditor) super.retrieveObjectForEditOrCopy(document, dataObjectKeys);
+        EnrolRuleEditor ruleEditor = (EnrolRuleEditor) super.retrieveObjectForEditOrCopy(document, dataObjectKeys);
 
         String cluId = dataObjectKeys.get("cluId");
 

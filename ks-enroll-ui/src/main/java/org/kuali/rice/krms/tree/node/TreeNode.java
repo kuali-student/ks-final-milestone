@@ -1,8 +1,7 @@
 package org.kuali.rice.krms.tree.node;
 
-import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
-
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,8 +13,17 @@ import java.io.Serializable;
 public class TreeNode implements Serializable {
 
     private String data;
+    private List<String> listItems;
 
     public TreeNode(){
+    }
+
+    public List<String> getListItems() {
+        return listItems;
+    }
+
+    public void setListItems(List<String> listItems) {
+        this.listItems = listItems;
     }
 
     public TreeNode(String data){

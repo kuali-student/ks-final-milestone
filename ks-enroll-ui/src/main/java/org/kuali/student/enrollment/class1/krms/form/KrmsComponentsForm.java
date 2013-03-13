@@ -19,8 +19,8 @@ package org.kuali.student.enrollment.class1.krms.form;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.impl.ui.TermParameter;
-import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
-import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.rice.krms.tree.node.TreeNode;
 import org.kuali.student.enrollment.uif.form.KSUifForm;
 
@@ -36,7 +36,7 @@ import java.util.List;
  */
 public class KrmsComponentsForm extends KSUifForm {
 
-    private PropositionEditor proposition = new PropositionEditor();
+    private EnrolPropositionEditor proposition = new EnrolPropositionEditor();
 
     private String field1;
 
@@ -46,7 +46,7 @@ public class KrmsComponentsForm extends KSUifForm {
 
     private List<TermParameter> list6 = new ArrayList<TermParameter>();
 
-    private RuleEditor rule = new RuleEditor();
+    private EnrolRuleEditor rule = new EnrolRuleEditor();
 
     private String approveCourse;
     private String clueSetCourse;
@@ -93,11 +93,11 @@ public class KrmsComponentsForm extends KSUifForm {
         this.list6 = list6;
     }
 
-    public PropositionEditor getProposition() {
+    public EnrolPropositionEditor getProposition() {
         return proposition;
     }
 
-    public void setProposition(PropositionEditor proposition) {
+    public void setProposition(EnrolPropositionEditor proposition) {
         this.proposition = proposition;
     }
 
@@ -211,7 +211,7 @@ public class KrmsComponentsForm extends KSUifForm {
         return new Node<TreeNode, String>(treeNode, label);
     }
 
-    public RuleEditor getRule() {
+    public EnrolRuleEditor getRule() {
         return rule;
     }
 }

@@ -120,6 +120,12 @@
     background-color: transparent !important;
 }
 
+.ks-stackedPreviewItem {
+    margin-bottom: 0px !important;
+    margin-left: 20px;
+    background-color: transparent !important;
+}
+
 .ks-stackedActionItem {
     margin: 0px !important;
 }

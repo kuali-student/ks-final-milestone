@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class1.krms.dto;
+package org.kuali.rice.krms.dto;
 
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -38,22 +38,11 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     private PropositionEditor proposition;
 
-    private String cluId;
-    private String courseName;
-
     private String ruleType;
     private String copyKey;
     private String selectedKey;
     private String cutKey;
     private List<String> activeSelections;
-
-    //Course Range Dialog.
-    private String searchByCourseRange;
-    private String subjectCode;
-    private String courseNumberRange;
-    private String learningObjective;
-    private Date effectiveFrom;
-    private Date effectiveTo;
 
     //Edit with Logic
     private String logicArea;
@@ -76,7 +65,7 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
         super();
     }
 
-    public RuleEditor(RuleDefinition definition) {
+    public RuleEditor(RuleDefinitionContract definition) {
         this.id = definition.getId();
         this.namespace = definition.getNamespace();
         this.name = definition.getName();
@@ -84,7 +73,7 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
         this.typeId = definition.getTypeId();
         this.propId = definition.getPropId();
         this.active = definition.isActive();
-        this.proposition = new PropositionEditor(definition.getProposition());
+        this.proposition = createPropositionEditor(definition.getProposition());
         this.versionNumber = definition.getVersionNumber();
 
         //TODO: Actions
@@ -130,22 +119,6 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
         this.namespace = namespace;
     }
 
-    public String getCluId() {
-        return cluId;
-    }
-
-    public void setCluId(String cluId) {
-        this.cluId = cluId;
-    }
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
-
     public String getRuleType() {
         return ruleType;
     }
@@ -171,54 +144,6 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     public void setAlpha(AlphaIterator alpha) {
         this.alpha = alpha;
-    }
-
-    public String getSearchByCourseRange() {
-        return searchByCourseRange;
-    }
-
-    public void setSearchByCourseRange(String searchByCourseRange) {
-        this.searchByCourseRange = searchByCourseRange;
-    }
-
-    public String getSubjectCode() {
-        return subjectCode;
-    }
-
-    public void setSubjectCode(String subjectCode) {
-        this.subjectCode = subjectCode;
-    }
-
-    public String getCourseNumberRange() {
-        return courseNumberRange;
-    }
-
-    public void setCourseNumberRange(String courseNumberRange) {
-        this.courseNumberRange = courseNumberRange;
-    }
-
-    public String getLearningObjective() {
-        return learningObjective;
-    }
-
-    public void setLearningObjective(String learningObjective) {
-        this.learningObjective = learningObjective;
-    }
-
-    public Date getEffectiveFrom() {
-        return effectiveFrom;
-    }
-
-    public void setEffectiveFrom(Date effectiveFrom) {
-        this.effectiveFrom = effectiveFrom;
-    }
-
-    public Date getEffectiveTo() {
-        return effectiveTo;
-    }
-
-    public void setEffectiveTo(Date effectiveTo) {
-        this.effectiveTo = effectiveTo;
     }
 
     /**
@@ -365,5 +290,9 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     public void setRuleInstruction(String ruleInstruction) {
         this.ruleInstruction = ruleInstruction;
+    }
+
+    protected PropositionEditor createPropositionEditor(PropositionDefinitionContract definition){
+        return new PropositionEditor(definition);
     }
 }
