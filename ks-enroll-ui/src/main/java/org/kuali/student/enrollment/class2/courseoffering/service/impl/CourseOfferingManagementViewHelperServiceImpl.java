@@ -20,6 +20,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
@@ -81,7 +84,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_ViewHelperServiceImpl implements CourseOfferingManagementViewHelperService{
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingManagementViewHelperServiceImpl.class);
@@ -94,6 +99,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     private LRCService lrcService;
     private AtpService atpService;
     private CourseOfferingSetService socService;
+    private static PermissionService permissionService;
 
     /**
      * This method fetches the <code>TermInfo</code> and validate for exact match
@@ -746,10 +752,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
     /**
      *  Same as markCourseOfferingsForScheduling() but defaults isChecked() == true.
-     *  @param coWrappers The list of CourseOffering wrappers.
+     *  @param coWrappers, viewId, socStateKey provides list of CourseOfferings, viewId, socState.
      */
-    public void  markCourseOfferingsForScheduling(List<CourseOfferingListSectionWrapper> coWrappers) throws Exception {
-        markCourseOfferingsForScheduling(coWrappers, true);
+    public void  markCourseOfferingsForScheduling(List<CourseOfferingListSectionWrapper> coWrappers, String viewId, String socStateKey) throws Exception {
+        markCourseOfferingsForScheduling(coWrappers, viewId, socStateKey, true);
     }
 
     /**
@@ -757,44 +763,78 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
      *  CO was selected on the UI) from "Draft" to "Approved". If the AO has a state other than "Draft" the AO is ignored.
      *  Also, changes the state of the CourseOffering if appropriate.
      *
-     * @param coWrappers The list of CourseOfferings.
+     * @param coWrappers, viewId, socStateKey provides list of CourseOfferings, viewId, socState.
      * @param checkedOnly True if the CO wrapper isChecked() flag should be respected.
      */
-    public void markCourseOfferingsForScheduling(List<CourseOfferingListSectionWrapper> coWrappers, boolean checkedOnly) throws Exception {
-        boolean hasAOWarning = false, hasStateChangedAO = false;
+    public void markCourseOfferingsForScheduling(List<CourseOfferingListSectionWrapper> coWrappers, String viewId, String socStateKey, boolean checkedOnly) throws Exception {
+        boolean hasAOWarning = false, hasStateChangedAO = false, hasOrgWarning = false;
         ContextInfo contextInfo = createContextInfo();
         for (CourseOfferingListSectionWrapper coWrapper : coWrappers) {
             if (coWrapper.getIsChecked() || ! checkedOnly) {
-                List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(coWrapper.getCourseOfferingId(),contextInfo);
-                if (activityOfferingInfos.size() == 0) {
-                    if ( ! hasAOWarning) hasAOWarning = true;
-                    continue;
+                // Checking if the person is authorized to approve
+                Map<String,String> permissionDetails = new HashMap<String,String>();
+                Map<String,String> roleQualifications = new HashMap<String,String>();
+                CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), contextInfo);
+                List<String> orgIds = coInfo.getUnitsDeploymentOrgIds();
+                String orgIDs = "";
+                if(orgIds != null && !orgIds.isEmpty()){
+                    for (String orgId : orgIds) {
+                        orgIDs = orgIDs + orgId + ",";
+                    }
                 }
-                // Iterate through the AOs and state change Draft -> Approved.
-                for (ActivityOfferingInfo activityOfferingInfo : activityOfferingInfos) {
-                    boolean isAOStateDraft = StringUtils.equals(activityOfferingInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
-                    if (isAOStateDraft) {
-                        StatusInfo statusInfo = getCourseOfferingService().changeActivityOfferingState(activityOfferingInfo.getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
-                        if (!statusInfo.getIsSuccess()){
-                            GlobalVariables.getMessageMap().putError("manageCourseOfferingsPage", CourseOfferingConstants.COURSE_OFFERING_STATE_CHANGE_ERROR,coWrapper.getCourseOfferingCode(),statusInfo.getMessage());
-                        }
-                        //  Flag if any AOs can be state changed. This affects the error message whi.
-                        if (statusInfo.getIsSuccess()){
-                            hasStateChangedAO = true;
-                        }
-                    } else {
-                        //  Flag if any AOs are not in a valid state for approval.
+                boolean canApproveAOs = true;
+                if (orgIDs.length() > 0) {
+                    String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+
+                    roleQualifications.put("org", orgIDs.substring(0, orgIDs.length()-1));
+
+                    permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, viewId);
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "approveSubj");
+
+                    String socState = socStateKey==null?null:socStateKey.substring(socStateKey.lastIndexOf('.')+1);
+                    permissionDetails.put("socState", socState);
+
+                    canApproveAOs = getPermissionService().isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications);
+                }
+
+                if (!canApproveAOs) {  // if can't approve AOs for all COs (because they are in a different org)
+                    if (!hasOrgWarning) hasOrgWarning = true;
+                    continue;
+                } else {
+                    List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(coWrapper.getCourseOfferingId(),contextInfo);
+                    if (activityOfferingInfos.size() == 0) {
                         if ( ! hasAOWarning) hasAOWarning = true;
+                        continue;
+                    }
+                    // Iterate through the AOs and state change Draft -> Approved.
+                    for (ActivityOfferingInfo activityOfferingInfo : activityOfferingInfos) {
+                        boolean isAOStateDraft = StringUtils.equals(activityOfferingInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
+                        if (isAOStateDraft) {
+                            StatusInfo statusInfo = getCourseOfferingService().changeActivityOfferingState(activityOfferingInfo.getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
+                            if (!statusInfo.getIsSuccess()){
+                                GlobalVariables.getMessageMap().putError("manageCourseOfferingsPage", CourseOfferingConstants.COURSE_OFFERING_STATE_CHANGE_ERROR,coWrapper.getCourseOfferingCode(),statusInfo.getMessage());
+                            }
+                            //  Flag if any AOs can be state changed. This affects the error message whi.
+                            if (statusInfo.getIsSuccess()){
+                                hasStateChangedAO = true;
+                            }
+                        } else {
+                            //  Flag if any AOs are not in a valid state for approval.
+                            if ( ! hasAOWarning) hasAOWarning = true;
+                        }
                     }
                 }
             }
         }
         //  Set feedback messages.
-        if ( ! hasStateChangedAO) {
+        if (!hasStateChangedAO) {
             GlobalVariables.getMessageMap().putError("manageCourseOfferingsPage", CourseOfferingConstants.COURSEOFFERING_NONE_APPROVED);
         } else {
             if (hasAOWarning) {
                 GlobalVariables.getMessageMap().putWarning("manageCourseOfferingsPage", CourseOfferingConstants.COURSEOFFERING_WITH_AO_DRAFT_APPROVED_ONLY);
+            }
+            if (hasOrgWarning) {
+                GlobalVariables.getMessageMap().putWarning("manageCourseOfferingsPage", CourseOfferingConstants.COURSEOFFERING_WITH_AO_ORG_APPROVED_ONLY);
             }
         }
     }
@@ -954,5 +994,12 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                                                                                     CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return socService;
+    }
+
+    private static PermissionService getPermissionService() {
+        if(permissionService == null){
+            permissionService = KimApiServiceLocator.getPermissionService();
+        }
+        return permissionService;
     }
 }
