@@ -9449,7 +9449,7 @@
     <sequence name="KRMS_AGENDA_ITM_S" nextval="10149"/>
     <sequence name="KRMS_AGENDA_S" nextval="10143"/>
     <sequence name="KRMS_ATTR_DEFN_S" nextval="1007"/>
-    <sequence name="KRMS_CMPND_PROP_PROPS_S" nextval="10248"/>
+    <sequence name="KRMS_CMPND_PROP_PROPS_S" nextval="10252"/>
     <sequence name="KRMS_CNTXT_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_S" nextval="10002"/>
     <sequence name="KRMS_CNTXT_VLD_ACTN_TYP_S" nextval="10000"/>
@@ -9464,17 +9464,17 @@
     <sequence name="KRMS_NL_TMPL_S" nextval="10409"/>
     <sequence name="KRMS_NL_USAGE_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_NL_USAGE_S" nextval="10007"/>
-    <sequence name="KRMS_PROP_PARM_S" nextval="10594"/>
-    <sequence name="KRMS_PROP_S" nextval="10251"/>
+    <sequence name="KRMS_PROP_PARM_S" nextval="10601"/>
+    <sequence name="KRMS_PROP_S" nextval="10254"/>
     <sequence name="KRMS_REF_OBJ_KRMS_OBJ_S" nextval="10143"/>
     <sequence name="KRMS_RULE_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_RULE_S" nextval="10149"/>
-    <sequence name="KRMS_TERM_PARM_S" nextval="10211"/>
+    <sequence name="KRMS_TERM_PARM_S" nextval="10214"/>
     <sequence name="KRMS_TERM_RSLVR_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_TERM_RSLVR_INPUT_SPEC_S" nextval="10000"/>
     <sequence name="KRMS_TERM_RSLVR_PARM_SPEC_S" nextval="10000"/>
-    <sequence name="KRMS_TERM_RSLVR_S" nextval="10014"/>
-    <sequence name="KRMS_TERM_S" nextval="10198"/>
+    <sequence name="KRMS_TERM_RSLVR_S" nextval="10000"/>
+    <sequence name="KRMS_TERM_S" nextval="10201"/>
     <sequence name="KRMS_TERM_SPEC_S" nextval="10014"/>
     <sequence name="KRMS_TYP_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_TYP_RELN_S" nextval="10119"/>

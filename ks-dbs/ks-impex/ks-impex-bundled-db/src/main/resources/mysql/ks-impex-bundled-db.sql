@@ -16117,7 +16117,7 @@ CREATE TABLE KRMS_CMPND_PROP_PROPS_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE KRMS_CMPND_PROP_PROPS_S auto_increment = 10248
+ALTER TABLE KRMS_CMPND_PROP_PROPS_S auto_increment = 10252
 /
 
 # -----------------------------------------------------------------------
@@ -16327,7 +16327,7 @@ CREATE TABLE KRMS_PROP_PARM_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE KRMS_PROP_PARM_S auto_increment = 10594
+ALTER TABLE KRMS_PROP_PARM_S auto_increment = 10601
 /
 
 # -----------------------------------------------------------------------
@@ -16341,7 +16341,7 @@ CREATE TABLE KRMS_PROP_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE KRMS_PROP_S auto_increment = 10251
+ALTER TABLE KRMS_PROP_S auto_increment = 10254
 /
 
 # -----------------------------------------------------------------------
@@ -16397,7 +16397,7 @@ CREATE TABLE KRMS_TERM_PARM_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE KRMS_TERM_PARM_S auto_increment = 10211
+ALTER TABLE KRMS_TERM_PARM_S auto_increment = 10214
 /
 
 # -----------------------------------------------------------------------
@@ -16453,7 +16453,7 @@ CREATE TABLE KRMS_TERM_RSLVR_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE KRMS_TERM_RSLVR_S auto_increment = 10014
+ALTER TABLE KRMS_TERM_RSLVR_S auto_increment = 10000
 /
 
 # -----------------------------------------------------------------------
@@ -16467,7 +16467,7 @@ CREATE TABLE KRMS_TERM_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE KRMS_TERM_S auto_increment = 10198
+ALTER TABLE KRMS_TERM_S auto_increment = 10201
 /
 
 # -----------------------------------------------------------------------
