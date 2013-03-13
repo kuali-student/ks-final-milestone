@@ -221,7 +221,9 @@ public class ARGUtil {
             for (int j=0; j < clusterInfos.size(); j++){  //parse through AOs and assign aocs to ao wrapper
                 for(ActivityOfferingSetInfo aosInfo : clusterInfos.get(j).getActivityOfferingSets()){
                     if (aosInfo.getActivityOfferingIds().contains(aoId)) {   //add aocWrapper to aoWrapper
-                        form.getActivityWrapperList().get(i).setAoCluster(clusterInfos.get(j));
+                        form.getActivityWrapperList().get(i).setAoClusterName(clusterInfos.get(j).getName());
+                        //Should you need to load AOCs - uncomment
+                        //form.getActivityWrapperList().get(i).setAoCluster(clusterInfos.get(j));
                     }
                 }
             }

@@ -27,7 +27,7 @@
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
-                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
+                <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
                 <entry key="bPaginate" value="false"/>
                 <entry key="bAutoWidth" value="false"/>
             </map>
@@ -73,14 +73,14 @@
                     </property>
                 </bean>
                 <bean parent="Uif-DataField" p:label="FORMAT" p:propertyName="aoInfo.formatOfferingName"/>
-                <bean parent="Uif-DataField" p:label="CLUSTER" p:propertyName="aoCluster.privateName" />
+                <bean parent="Uif-DataField" p:label="CLUSTER" p:propertyName="aoClusterName" />
                 <bean parent="Uif-DataField" p:label="STATUS" p:propertyName="stateName" />
                 <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName"/>
                 <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoInfo.maximumEnrollment"/>
                 <bean parent="KS-Schedule-DisplayField" p:label="DAYS" p:messageText="@{#line.daysDisplayName}" />
                 <bean parent="KS-Schedule-DisplayField" p:label="START TIME" p:messageText="@{#line.startTimeDisplay}" />
                 <bean parent="KS-Schedule-DisplayField" p:label="END TIME" p:messageText="@{#line.endTimeDisplay}" />
-                <bean parent="KS-Schedule-DisplayField" p:label="BLDG" p:messageText="@{#line.buildingName}"/>
+                <bean parent="Uif-DataField" p:label="BLDG" p:propertyName="buildingName"/>
                 <bean parent="KS-Schedule-DisplayField" p:label="ROOM" p:messageText="@{#line.roomName}"/>
                 <bean parent="Uif-DataField" p:label="INSTRUCTOR" p:propertyName="firstInstructorDisplayName"/>
                 <bean name="enableApproveButton" parent="Uif-InputField" p:propertyName="enableApproveButton"/>
