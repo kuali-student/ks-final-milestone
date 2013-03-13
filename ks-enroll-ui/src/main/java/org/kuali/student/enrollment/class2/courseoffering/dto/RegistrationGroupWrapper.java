@@ -41,7 +41,8 @@ public class RegistrationGroupWrapper implements Serializable {
     private String aoTypeNameText;
     private String aoInstructorText;
     private String aoMaxEnrText;
-
+    private String rgMaxEnrText;
+    private String aoClusterName;
     private String startTimeDisplay = "";
     private String endTimeDisplay = "";
     private String daysDisplayName = "";
@@ -267,4 +268,22 @@ public class RegistrationGroupWrapper implements Serializable {
             this.roomName = "<span " + cssClass + " >" + roomName + "</span>";
         }
     }
+
+    public String getRgMaxEnrText() {
+        return rgMaxEnrText;
+    }
+
+    public void setRgMaxEnrText(String rgMaxEnrText) {
+        this.rgMaxEnrText = rgMaxEnrText;
+    }
+
+    public String getAoClusterName() {
+        return aoClusterName;
+    }
+
+    public void setAoClusterName(String aoClusterName) {
+        this.aoClusterName = aoClusterName;
+    }
+
+
 }

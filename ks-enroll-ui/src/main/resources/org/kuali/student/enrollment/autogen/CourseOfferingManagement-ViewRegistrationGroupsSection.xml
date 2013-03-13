@@ -39,15 +39,22 @@
                       p:label="REG GROUP ID"
                       p:propertyName="rgInfo.name" p:valign="middle">
                 </bean>
-                <bean parent="Uif-MessageField"
+                <bean parent="Uif-DataField"
                       p:label="STATE"
-                      p:messageText="@{#line.stateKey}">
+                      p:propertyName="rgInfo.stateKey">
                 </bean>
 
                 <!-- ARG Notes By Bonnie -->
                 <!-- TODO: need to add Enroll column -->
                 <!-- TODO: when have more than one Format, display FORMAT column-->
-
+                <bean parent="Uif-DataField"
+                      p:label="CLUSTER"
+                      p:propertyName="aoClusterName">
+                </bean>
+                <bean parent="Uif-DataField"
+                      p:label="ENROLL"
+                      p:propertyName="rgMaxEnrText">
+                </bean>
                 <bean parent="Uif-MessageField"
                       p:label="CODE"
                       p:messageText="@{#line.aoActivityCodeText}">
@@ -86,6 +93,10 @@
                 <bean parent="Uif-MessageField"
                       p:label="INSTRUCTOR"
                       p:messageText="@{#line.aoInstructorText}">
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="ACTIONS"
+                      p:messageText="@{#line.aoEditLink}">
                 </bean>
             </list>
         </property>

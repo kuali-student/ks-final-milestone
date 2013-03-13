@@ -266,49 +266,60 @@ public class ARGUtil {
         //Grab the registration groups from the course
         for(String foId:foIds){
             List<RegistrationGroupInfo> regGroups = getCourseOfferingService().getRegistrationGroupsByFormatOffering(foId, ContextUtils.createDefaultContextInfo());
+            _fixAoIdOrderingInRegGroups(regGroups);
 
             //Wrap the reg groups and put in the form
             for(RegistrationGroupInfo rgInfo:regGroups){
                 RegistrationGroupWrapper rgWrapper = new RegistrationGroupWrapper();
                 rgWrapper.setRgInfo(rgInfo);
                 String aoActivityCodeText = "", aoStateNameText = "", aoTypeNameText = "", aoInstructorText = "", aoMaxEnrText = "";
+                Integer minEntrollment=null;
                 for (String aoID : rgInfo.getActivityOfferingIds()) {
-                    String cssClass = (filteredAOsHM.get(aoID).getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
-                    if (filteredAOsHM.get(aoID).getAoInfo().getActivityCode() != null && !filteredAOsHM.get(aoID).getAoInfo().getActivityCode().equalsIgnoreCase("")) {
-                        aoActivityCodeText = aoActivityCodeText + filteredAOsHM.get(aoID).getAoInfo().getActivityCode() + "<br/>";
+                    ActivityOfferingWrapper aoWrapper = filteredAOsHM.get(aoID);
+
+                    String cssClass = (aoWrapper.getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+                    if (aoWrapper.getAoInfo().getActivityCode() != null && !aoWrapper.getAoInfo().getActivityCode().equalsIgnoreCase("")) {
+                        aoActivityCodeText = aoActivityCodeText + aoWrapper.getAoInfo().getActivityCode() + "<br/>";
                     }
-                    if (filteredAOsHM.get(aoID).getStateName() != null && !filteredAOsHM.get(aoID).getStateName().equalsIgnoreCase("")) {
-                        aoStateNameText = aoStateNameText + filteredAOsHM.get(aoID).getStateName() + "<br/>";
+                    if (aoWrapper.getStateName() != null && !aoWrapper.getStateName().equalsIgnoreCase("")) {
+                        aoStateNameText = aoStateNameText + aoWrapper.getStateName() + "<br/>";
                     }
-                    if (filteredAOsHM.get(aoID).getTypeName() != null && !filteredAOsHM.get(aoID).getTypeName().equalsIgnoreCase("")) {
-                        aoTypeNameText = aoTypeNameText + filteredAOsHM.get(aoID).getTypeName() + "<br/>";
+                    if (aoWrapper.getTypeName() != null && !aoWrapper.getTypeName().equalsIgnoreCase("")) {
+                        aoTypeNameText = aoTypeNameText + aoWrapper.getTypeName() + "<br/>";
                     }
-                    if (filteredAOsHM.get(aoID).getFirstInstructorDisplayName() != null && !filteredAOsHM.get(aoID).getFirstInstructorDisplayName().equalsIgnoreCase("")) {
-                        aoInstructorText = aoInstructorText + filteredAOsHM.get(aoID).getFirstInstructorDisplayName() + "<br/>";
+                    if (aoWrapper.getFirstInstructorDisplayName() != null && !aoWrapper.getFirstInstructorDisplayName().equalsIgnoreCase("")) {
+                        aoInstructorText = aoInstructorText + aoWrapper.getFirstInstructorDisplayName() + "<br/>";
                     }
-                    if (filteredAOsHM.get(aoID).getAoInfo().getMaximumEnrollment() != null) {
-                        aoMaxEnrText = aoMaxEnrText + Integer.toString(filteredAOsHM.get(aoID).getAoInfo().getMaximumEnrollment()) + "<br/>";
+                    if (aoWrapper.getAoInfo().getMaximumEnrollment() != null) {
+                        Integer maximumEnrollment = aoWrapper.getAoInfo().getMaximumEnrollment();
+                        aoMaxEnrText = aoMaxEnrText + Integer.toString(maximumEnrollment) + "<br/>";
+                        //Set the minimum enrollment as the smalled max enr of each AO
+                        if(minEntrollment==null || (maximumEnrollment!=null && maximumEnrollment<minEntrollment)){
+                            minEntrollment = maximumEnrollment;
+                        }
                     }
 
-                    if(filteredAOsHM.get(aoID).getStartTimeDisplay() != null){
-                        rgWrapper.setStartTimeDisplay(filteredAOsHM.get(aoID).getStartTimeDisplay(), true, cssClass);
+                    if(aoWrapper.getStartTimeDisplay() != null){
+                        rgWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), true, cssClass);
                     }
 
-                    if(filteredAOsHM.get(aoID).getEndTimeDisplay() != null){
-                        rgWrapper.setEndTimeDisplay(filteredAOsHM.get(aoID).getEndTimeDisplay(), true, cssClass);
+                    if(aoWrapper.getEndTimeDisplay() != null){
+                        rgWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), true, cssClass);
                     }
 
-                    if(filteredAOsHM.get(aoID).getBuildingName() != null){
-                        rgWrapper.setBuildingName(filteredAOsHM.get(aoID).getBuildingName(), true, cssClass);
+                    if(aoWrapper.getBuildingName() != null){
+                        rgWrapper.setBuildingName(aoWrapper.getBuildingName(), true, cssClass);
                     }
 
-                    if(filteredAOsHM.get(aoID).getRoomName() != null){
-                        rgWrapper.setRoomName(filteredAOsHM.get(aoID).getRoomName(), true, cssClass);
+                    if(aoWrapper.getRoomName() != null){
+                        rgWrapper.setRoomName(aoWrapper.getRoomName(), true, cssClass);
                     }
 
-                    if(filteredAOsHM.get(aoID).getDaysDisplayName() != null){
-                        rgWrapper.setDaysDisplayName(filteredAOsHM.get(aoID).getDaysDisplayName(), true, cssClass);
+                    if(aoWrapper.getDaysDisplayName() != null){
+                        rgWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), true, cssClass);
                     }
+
+                    rgWrapper.setAoClusterName(aoWrapper.getAoClusterName());
                 }
                 if (aoActivityCodeText.length() > 0) {
                     aoActivityCodeText = aoActivityCodeText.substring(0, aoActivityCodeText.lastIndexOf("<br/>"));
@@ -325,7 +336,7 @@ public class ARGUtil {
                 if (aoMaxEnrText.length() > 0) {
                     aoMaxEnrText = aoMaxEnrText.substring(0, aoMaxEnrText.lastIndexOf("<br/>"));
                 }
-
+                rgWrapper.setRgMaxEnrText(Integer.toString(minEntrollment));
                 rgWrapper.setAoActivityCodeText(aoActivityCodeText);
                 rgWrapper.setAoStateNameText(aoStateNameText);
                 rgWrapper.setAoTypeNameText(aoTypeNameText);
