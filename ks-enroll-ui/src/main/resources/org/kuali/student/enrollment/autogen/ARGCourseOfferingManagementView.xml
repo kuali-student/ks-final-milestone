@@ -22,7 +22,7 @@
     <bean id="KS-ARGCourseOfferingManagement-View" parent="KSUifFormView" p:applyDirtyCheck="true"
           p:id="argCourseOfferingManagementView"
           p:entryPageId="searchInputPage"
-          p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl"
+          p:viewHelperServiceClass="org.kuali.student.enrollment.class2.autogen.service.impl.ARGCourseOfferingManagementViewHelperServiceImpl"
           p:formClass="org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm">
 
         <!--<property name="breadCrumbConfigMap">

@@ -25,14 +25,14 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.autogen.util.ARGToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.ToolbarUtil;
+
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -149,7 +149,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
                 String longNameDescr = ARGUtil.getOrgNameDescription(form.getSubjectCode());
                 form.setSubjectCodeDescription(longNameDescr);
 
-                ToolbarUtil.processCoToolbarForUser(form.getCourseOfferingResultList(), form);
+                ARGToolbarUtil.processCoToolbarForUser(form.getCourseOfferingResultList(), form);
                 //ToolbarUtil.processCoToolbarForCentralAdmin(form.getCourseOfferingResultList(), form);
             } else { // just one course offering is returned
                 CourseOfferingListSectionWrapper coListWrapper = form.getCourseOfferingResultList().get(0);

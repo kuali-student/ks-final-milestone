@@ -30,7 +30,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
@@ -67,16 +67,19 @@ import java.util.Properties;
  *
  * @author Kuali Student Team
  */
-public class ARGActivityOfferingClusterHandler extends UifControllerBase {
+public class ARGActivityOfferingClusterHandler {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ARGActivityOfferingClusterHandler.class);
-    private RegistrationGroupManagementViewHelperService viewHelperService;
+//    private RegistrationGroupManagementViewHelperService viewHelperService;
 
+    //Note by Bonnie: What's this method for? I commented out for now
+    /*
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new RegistrationGroupManagementForm();
     }
+    */
 
-    public static boolean loadAOs(CourseOfferingManagementForm form) throws Exception {
+    public static boolean loadAOs(ARGCourseOfferingManagementForm form) throws Exception {
 
         Object selectedObject = ARGUtil.getSelectedObject(form, "Manage");
 
@@ -93,14 +96,14 @@ public class ARGActivityOfferingClusterHandler extends UifControllerBase {
         }
     }
 
-    public static void selectAllActivityOfferings(CourseOfferingManagementForm theForm) throws Exception {
+    public static void selectAllActivityOfferings(ARGCourseOfferingManagementForm theForm) throws Exception {
         List<ActivityOfferingWrapper> list = theForm.getActivityWrapperList();
         for (ActivityOfferingWrapper listElement : list) {
             listElement.setIsChecked(true);
         }
     }
 
-    public static void copyAO(CourseOfferingManagementForm form) {
+    public static void copyAO(ARGCourseOfferingManagementForm form) {
         ActivityOfferingWrapper selectedAO = (ActivityOfferingWrapper) ARGUtil.getSelectedObject(form, "copy");
         try {
             CourseOfferingResourceLoader.loadCourseOfferingService().copyActivityOffering(selectedAO.getAoInfo().getId(), ContextBuilder.loadContextInfo());
@@ -112,7 +115,7 @@ public class ARGActivityOfferingClusterHandler extends UifControllerBase {
         }
     }
 
-    public static void deleteSelectedAoList(CourseOfferingManagementForm theForm) throws Exception {
+    public static void deleteSelectedAoList(ARGCourseOfferingManagementForm theForm) throws Exception {
 
         List<ActivityOfferingWrapper> selectedAolist = theForm.getSelectedToDeleteList();
 
@@ -142,7 +145,7 @@ public class ARGActivityOfferingClusterHandler extends UifControllerBase {
         }
     }
 
-    public static Properties edit(CourseOfferingManagementForm theForm, ActivityOfferingWrapper aoWrapper) throws Exception {
+    public static Properties edit(ARGCourseOfferingManagementForm theForm, ActivityOfferingWrapper aoWrapper) throws Exception {
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
         urlParameters.put(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID, aoWrapper.getAoInfo().getId());
@@ -154,7 +157,7 @@ public class ARGActivityOfferingClusterHandler extends UifControllerBase {
         return urlParameters;
     }
 
-    public static boolean confirmDelete(CourseOfferingManagementForm theForm) throws Exception {
+    public static boolean confirmDelete(ARGCourseOfferingManagementForm theForm) throws Exception {
         Collection<Object> collection;
         Object selectedObject;
         List<ActivityOfferingWrapper> aoList = theForm.getActivityWrapperList();
@@ -215,7 +218,7 @@ public class ARGActivityOfferingClusterHandler extends UifControllerBase {
         return true;
     }
 
-    public static Properties view(CourseOfferingManagementForm theForm, ActivityOfferingWrapper aoWrapper) throws Exception {
+    public static Properties view(ARGCourseOfferingManagementForm theForm, ActivityOfferingWrapper aoWrapper) throws Exception {
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
         urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_ID, aoWrapper.getAoInfo().getId());
@@ -223,7 +226,7 @@ public class ARGActivityOfferingClusterHandler extends UifControllerBase {
         return urlParameters;
     }
 
-    public static void addActivityOfferings(CourseOfferingManagementForm theForm) throws Exception {
+    public static void addActivityOfferings(ARGCourseOfferingManagementForm theForm) throws Exception {
 
         String activityId = theForm.getActivityIdForNewAO();
         String formatId = theForm.getFormatIdForNewAO();
@@ -236,7 +239,7 @@ public class ARGActivityOfferingClusterHandler extends UifControllerBase {
         theForm.setNoOfActivityOfferings(null);
     }
 
-    public static void deleteAOs(CourseOfferingManagementForm theForm) throws Exception {
+    public static void deleteAOs(ARGCourseOfferingManagementForm theForm) throws Exception {
 
         List<ActivityOfferingWrapper> aoList = theForm.getActivityWrapperList();
         List<ActivityOfferingWrapper> selectedIndexList = theForm.getSelectedToDeleteList();
@@ -273,8 +276,8 @@ public class ARGActivityOfferingClusterHandler extends UifControllerBase {
 
     //  RegistrationGroupManagementController related methods:
 
-    public static void filterAOsAndRGsPerFO (RegistrationGroupManagementForm theForm) throws Exception {
-        //First cleanup and reset AOCluster list and filteredUnassignedAOsForSelectedFO
+    public static void filterAOsAndRGsPerFO (ARGCourseOfferingManagementForm theForm) throws Exception {
+/*        //First cleanup and reset AOCluster list and filteredUnassignedAOsForSelectedFO
         List<ActivityOfferingClusterWrapper> filteredAOClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
         theForm.setFilteredAOClusterWrapperList(filteredAOClusterWrapperList);
         List<ActivityOfferingWrapper> filteredAOs = new ArrayList<ActivityOfferingWrapper>();
@@ -309,11 +312,12 @@ public class ARGActivityOfferingClusterHandler extends UifControllerBase {
             List <ActivityOfferingClusterWrapper> aoClusterWrappers = ARGUtil._convertToAOClusterWrappers(aoClusters, theForm);
             theForm.setFilteredAOClusterWrapperList(aoClusterWrappers);
         }
+        */
     }
 
-    public static void createNewCluster(RegistrationGroupManagementForm theForm) throws Exception {
+    public static void createNewCluster(ARGCourseOfferingManagementForm theForm) throws Exception {
 //TODO: Fix forms and references as they get developed
-        String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
+ /*       String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
         if (ARGUtil._isClusterUnique(formatOfferingId, theForm.getPrivateClusterName())){
             //build a new empty cluster
             ActivityOfferingClusterInfo emptyCluster = ARGUtil._buildEmptyAOCluster(formatOfferingId,
@@ -338,10 +342,11 @@ public class ARGActivityOfferingClusterHandler extends UifControllerBase {
         }else{
             GlobalVariables.getMessageMap().putError("privateClusterName", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME);
         }
+        */
     }
-
-    public ModelAndView moveAOToACluster (RegistrationGroupManagementForm theForm) throws Exception {
-/*TODO: Fix forms and references as they get developed
+    /*
+    public ModelAndView moveAOToACluster (ARGCourseOfferingManagementForm theForm) throws Exception {
+           //TODO: Fix forms and references as they get developed
             //get selected AOC info
             if (theForm.getClusterIdIdForNewFO().equals("")){
                 GlobalVariables.getMessageMap().putError("AOCselectionError", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_SELECTION);
@@ -434,11 +439,12 @@ public class ARGActivityOfferingClusterHandler extends UifControllerBase {
 
             theForm.setClusterIdIdForNewFO("");
             //return updated form
-*/            return getUIFModelAndView(theForm);
-        }
+        return getUIFModelAndView(theForm);
 
-    public static void removeAOFromCluster(RegistrationGroupManagementForm theForm) throws Exception {
-        ActivityOfferingWrapper selectedAOWrapper =(ActivityOfferingWrapper)ARGUtil.getSelectedObject(theForm, "Remove");
+    }    */
+
+    public static void removeAOFromCluster(ARGCourseOfferingManagementForm theForm) throws Exception {
+/*        ActivityOfferingWrapper selectedAOWrapper =(ActivityOfferingWrapper)ARGUtil.getSelectedObject(theForm, "Remove");
         String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for Remove");
@@ -494,10 +500,10 @@ public class ARGActivityOfferingClusterHandler extends UifControllerBase {
         //finally, move selected AO from AO table under selected Cluster to the unassigned table
         theClusterWrapper.getAoWrapperList().remove(selectedAOWrapper);
         theForm.getFilteredUnassignedAOsForSelectedFO().add(selectedAOWrapper);
-    }
+ */   }
 
-    public static void deleteACluster(RegistrationGroupManagementForm theForm) throws Exception {
-
+    public static void deleteACluster(ARGCourseOfferingManagementForm theForm) throws Exception {
+       /*
         ActivityOfferingClusterWrapper selectedCluster = (ActivityOfferingClusterWrapper)ARGUtil.getSelectedObject(theForm, "Remove Cluster");
         //first need to move all AOs under the selected Cluster back to filteredUnassignedAOsForSelectedFO
         List<ActivityOfferingWrapper> unassignedAOs = theForm.getFilteredUnassignedAOsForSelectedFO();
@@ -513,9 +519,11 @@ public class ARGActivityOfferingClusterHandler extends UifControllerBase {
         if (aoClusterWrapperList.size() == 0){
             theForm.setHasAOCluster(false);
         }
+        */
     }
 
-    public static void generateRegGroupsPerCluster (RegistrationGroupManagementForm theForm) throws Exception {
+    public static void generateRegGroupsPerCluster (ARGCourseOfferingManagementForm theForm) throws Exception {
+        /*
         ActivityOfferingClusterWrapper selectedClusterWrapper = (ActivityOfferingClusterWrapper)ARGUtil.getSelectedObject(theForm, "Generate Registration Groups");
         String selectedClusterId = selectedClusterWrapper.getAoCluster().getId();
         AOClusterVerifyResultsInfo aoClusterVerifyResultsInfo = ARGUtil.getCourseOfferingService().verifyActivityOfferingClusterForGeneration(selectedClusterId,ContextUtils.createDefaultContextInfo());
@@ -562,11 +570,11 @@ public class ARGActivityOfferingClusterHandler extends UifControllerBase {
                 //validate AO time conflict in RG
                 ARGUtil._performRGTimeConflictValidation(theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster(), rgInfos, i);
             }
-        }
+        }*/
     }
 
-    public static void generateAllRegGroups (RegistrationGroupManagementForm theForm) throws Exception {
-        //Generate RGs for all AOCs
+    public static void generateAllRegGroups (ARGCourseOfferingManagementForm theForm) throws Exception {
+ /*       //Generate RGs for all AOCs
         for (int i = 0; i < theForm.getFilteredAOClusterWrapperList().size(); i++) {
             String selectedClusterId = theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster().getId();
             AOClusterVerifyResultsInfo aoClusterVerifyResultsInfo = ARGUtil.getCourseOfferingService().verifyActivityOfferingClusterForGeneration(selectedClusterId,ContextUtils.createDefaultContextInfo());
@@ -593,9 +601,10 @@ public class ARGActivityOfferingClusterHandler extends UifControllerBase {
                 //validate AO time conflict in RG
                 ARGUtil._performRGTimeConflictValidation(theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster(), rgInfos, i);
             }
-        }
+        } */
     }
 
+    /*
     public static void generateUnconstrainedRegGroups (RegistrationGroupManagementForm theForm) throws Exception {
         String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
 
@@ -630,22 +639,22 @@ public class ARGActivityOfferingClusterHandler extends UifControllerBase {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, RegistrationGroupConstants.MSG_ERROR_INVALID_AOLIST);
         }
     }
-
+    */
     public CourseOfferingService getCourseOfferingService() {
         return CourseOfferingResourceLoader.loadCourseOfferingService();
     }
 
-    public RegistrationGroupManagementViewHelperService getViewHelperService(RegistrationGroupManagementForm theForm){
-
-        if (viewHelperService == null) {
-            if (theForm.getView().getViewHelperServiceClass() != null){
-                viewHelperService = (RegistrationGroupManagementViewHelperService) theForm.getView().getViewHelperService();
-            }else{
-                viewHelperService= (RegistrationGroupManagementViewHelperService) theForm.getPostedView().getViewHelperService();
-            }
-        }
-
-        return viewHelperService;
-    }
+//    public RegistrationGroupManagementViewHelperService getViewHelperService(RegistrationGroupManagementForm theForm){
+//
+//        if (viewHelperService == null) {
+//            if (theForm.getView().getViewHelperServiceClass() != null){
+//                viewHelperService = (RegistrationGroupManagementViewHelperService) theForm.getView().getViewHelperService();
+//            }else{
+//                viewHelperService= (RegistrationGroupManagementViewHelperService) theForm.getPostedView().getViewHelperService();
+//            }
+//        }
+//
+//        return viewHelperService;
+//    }
 
 }

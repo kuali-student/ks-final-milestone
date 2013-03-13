@@ -18,15 +18,13 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEdit
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
-import org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm;
-import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
-import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.util.RegistrationGroupUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.ToolbarUtil;
+import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.autogen.service.ARGCourseOfferingManagementViewHelperService;
+import org.kuali.student.enrollment.class2.autogen.util.ARGToolbarUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
@@ -78,8 +76,9 @@ import java.util.Properties;
 public class ARGUtil {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ARGUtil.class);
 
-    private static CourseOfferingManagementViewHelperService viewHelperService;
-    private static RegistrationGroupManagementViewHelperService regViewHelperService;
+    private static ARGCourseOfferingManagementViewHelperService viewHelperService;
+    //don't think we can have two viewHelperService here
+//    private static RegistrationGroupManagementViewHelperService regViewHelperService;
     private static OrganizationService organizationService;
     private static CourseOfferingSetService socService;
     private static StateService stateService;
@@ -91,13 +90,13 @@ public class ARGUtil {
         return CourseOfferingResourceLoader.loadCourseOfferingService();
     }
 
-    public static CourseOfferingManagementViewHelperService getViewHelperService(CourseOfferingManagementForm theForm) {
+    public static ARGCourseOfferingManagementViewHelperService getViewHelperService(ARGCourseOfferingManagementForm theForm) {
 
         if (viewHelperService == null) {
             if (theForm.getView().getViewHelperServiceClass() != null) {
-                viewHelperService = (CourseOfferingManagementViewHelperService) theForm.getView().getViewHelperService();
+                viewHelperService = (ARGCourseOfferingManagementViewHelperService) theForm.getView().getViewHelperService();
             } else {
-                viewHelperService = (CourseOfferingManagementViewHelperService) theForm.getPostedView().getViewHelperService();
+                viewHelperService = (ARGCourseOfferingManagementViewHelperService) theForm.getPostedView().getViewHelperService();
             }
         }
 
@@ -171,15 +170,16 @@ public class ARGUtil {
 
     }
 
-    public static boolean checkEditViewAuthz(CourseOfferingManagementForm theForm) {
+    public static boolean checkEditViewAuthz(ARGCourseOfferingManagementForm theForm) {
         Person user = GlobalVariables.getUserSession().getPerson();
         return theForm.getView().getAuthorizer().canEditView(theForm.getView(), theForm, user);
     }
 
-    public static void prepareManageAOsModelAndView(CourseOfferingManagementForm form, CourseOfferingListSectionWrapper selectedCO) throws Exception {
+    public static void prepareManageAOsModelAndView(ARGCourseOfferingManagementForm form, CourseOfferingListSectionWrapper selectedCO) throws Exception {
 
-        CourseOfferingWrapper currentCO = new CourseOfferingWrapper(selectedCO.isCrossListed(), selectedCO.getCourseOfferingCode(), selectedCO.getCourseOfferingDesc(), selectedCO.getAlternateCOCodes(), selectedCO.getCourseOfferingId());
-        CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(currentCO.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+        CourseOfferingWrapper currentCO = new CourseOfferingWrapper(selectedCO.isCrossListed(),selectedCO.getCourseOfferingCode(),selectedCO.getCourseOfferingDesc(),selectedCO.getAlternateCOCodes(),selectedCO.getCourseOfferingId());
+        currentCO.setTerm( form.getTermInfo() );
+        CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(currentCO.getCourseOfferingId(),ContextUtils.createDefaultContextInfo());
 
         currentCO.setCourseOfferingInfo(coInfo);
         form.setCurrentCourseOfferingWrapper(currentCO);
@@ -188,7 +188,7 @@ public class ARGUtil {
 
         //Pull out the org ids and pass in the first one as the adminOrg
         List<String> orgIds = coInfo.getUnitsDeploymentOrgIds();
-        if (orgIds != null && !orgIds.isEmpty()) {
+        if(orgIds !=null && !orgIds.isEmpty()){
             OrgInfo org = getOrganizationService().getOrg(orgIds.get(0), contextInfo);
             currentCO.setCoOwningDeptName(org.getShortName());
             // managing multiple orgs
@@ -197,7 +197,7 @@ public class ARGUtil {
                 orgIDs = orgIDs + orgId + ",";
             }
             if (orgIDs.length() > 0) {
-                form.setAdminOrg(orgIDs.substring(0, orgIDs.length() - 1));
+                form.setAdminOrg(orgIDs.substring(0, orgIDs.length()- 1));
             }
         }
 
@@ -239,8 +239,7 @@ public class ARGUtil {
         }
         form.setSocState(socState);
 
-        ToolbarUtil.processAoToolbarForUser(form.getActivityWrapperList(), form);
-//        return getUIFModelAndView(form, CourseOfferingConstants.MANAGE_AO_PAGE);
+        ARGToolbarUtil.processAoToolbarForUser(form.getActivityWrapperList(), form);
     }
 
     /**
@@ -362,22 +361,22 @@ public class ARGUtil {
         return selectedObject;
     }
 
-    public static void reloadCourseOfferings(CourseOfferingManagementForm theForm) throws Exception {
+    public static void reloadCourseOfferings(ARGCourseOfferingManagementForm theForm) throws Exception {
         getViewHelperService(theForm).loadCourseOfferingsByTermAndCourseCode(theForm.getTermInfo().getId(), theForm.getInputCode(), theForm);
         //getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(theForm.getTermInfo().getId(), theForm.getInputCode(),theForm);
-        ToolbarUtil.processCoToolbarForUser(theForm.getCourseOfferingResultList(), theForm);
+        ARGToolbarUtil.processCoToolbarForUser(theForm.getCourseOfferingResultList(), theForm);
     }
 
-    public static void reloadActivityOffering(CourseOfferingManagementForm theForm) throws Exception {
+    public static void reloadActivityOffering(ARGCourseOfferingManagementForm theForm) throws Exception {
         // Reload the AOs
         CourseOfferingInfo theCourseOffering = theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
         loadActivityOfferings(theCourseOffering, theForm);
         getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm);
     }
 
-    public static void loadActivityOfferings(CourseOfferingInfo theCourseOffering, CourseOfferingManagementForm theForm) throws Exception {
+    public static void loadActivityOfferings(CourseOfferingInfo theCourseOffering, ARGCourseOfferingManagementForm theForm) throws Exception {
         ARGUtil.getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
-        ToolbarUtil.processAoToolbarForUser(theForm.getActivityWrapperList(), theForm);
+        ARGToolbarUtil.processAoToolbarForUser(theForm.getActivityWrapperList(), theForm);
     }
 
 
@@ -428,40 +427,41 @@ public class ARGUtil {
         return props;
     }
 
+    // Bonnie: Don't think we need another view helper service
     //  RegistrationGroupManagementController related methods:
+//    public static RegistrationGroupManagementViewHelperService getViewHelperService(RegistrationGroupManagementForm theForm) {
+//
+//        if (regViewHelperService == null) {
+//            if (theForm.getView().getViewHelperServiceClass() != null) {
+//                regViewHelperService = (RegistrationGroupManagementViewHelperService) theForm.getView().getViewHelperService();
+//            } else {
+//                regViewHelperService = (RegistrationGroupManagementViewHelperService) theForm.getPostedView().getViewHelperService();
+//            }
+//        }
+//
+//        return regViewHelperService;
+//    }
 
-    public static RegistrationGroupManagementViewHelperService getViewHelperService(RegistrationGroupManagementForm theForm) {
-
-        if (regViewHelperService == null) {
-            if (theForm.getView().getViewHelperServiceClass() != null) {
-                regViewHelperService = (RegistrationGroupManagementViewHelperService) theForm.getView().getViewHelperService();
-            } else {
-                regViewHelperService = (RegistrationGroupManagementViewHelperService) theForm.getPostedView().getViewHelperService();
-            }
-        }
-
-        return regViewHelperService;
-    }
-
-    public static List<ActivityOfferingWrapper> getAOsWithoutClusterForSelectedFO(String theFOId, RegistrationGroupManagementForm theForm) throws Exception {
-        List<ActivityOfferingWrapper> filterdAOList = theForm.getFilteredUnassignedAOsForSelectedFO();
-        filterdAOList.clear();
-
-        //Turn the following code on once the COServiceImpl supports it
-        List<ActivityOfferingInfo> aoList = getCourseOfferingService().getActivityOfferingsWithoutClusterByFormatOffering(theFOId, ContextUtils.createDefaultContextInfo());
-        for (ActivityOfferingInfo ao : aoList) {
-            ActivityOfferingWrapper aoWrapper = getViewHelperService(theForm).convertAOInfoToWrapper(ao);
-            filterdAOList.add(aoWrapper);
-
-        }
-        return filterdAOList;
-    }
+      //don't need this method any more
+//    public static List<ActivityOfferingWrapper> getAOsWithoutClusterForSelectedFO(String theFOId, RegistrationGroupManagementForm theForm) throws Exception {
+//        List<ActivityOfferingWrapper> filterdAOList = theForm.getFilteredUnassignedAOsForSelectedFO();
+//        filterdAOList.clear();
+//
+//        //Turn the following code on once the COServiceImpl supports it
+//        List<ActivityOfferingInfo> aoList = getCourseOfferingService().getActivityOfferingsWithoutClusterByFormatOffering(theFOId, ContextUtils.createDefaultContextInfo());
+//        for (ActivityOfferingInfo ao : aoList) {
+//            ActivityOfferingWrapper aoWrapper = getViewHelperService(theForm).convertAOInfoToWrapper(ao);
+//            filterdAOList.add(aoWrapper);
+//
+//        }
+//        return filterdAOList;
+//    }
 
     /*
     * convert List<ActivityOfferingClusterInfo> to List<ActivityOfferingClusterWrapper> and set it to the Form
     */
     public static List<ActivityOfferingClusterWrapper> _convertToAOClusterWrappers(List<ActivityOfferingClusterInfo> aoClusterList,
-                                                                                   RegistrationGroupManagementForm theForm) throws Exception {
+                                                                                   ARGCourseOfferingManagementForm theForm) throws Exception {
         List<ActivityOfferingClusterWrapper> aoClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
         int clusterIndex = 0;
         for (ActivityOfferingClusterInfo aoCluster : aoClusterList) {
@@ -473,7 +473,7 @@ public class ARGUtil {
     }
 
     public static ActivityOfferingClusterWrapper _buildAOClusterWrapper(ActivityOfferingClusterInfo aoCluster,
-                                                                        RegistrationGroupManagementForm theForm, int clusterIndex) throws Exception {
+                                                                        ARGCourseOfferingManagementForm theForm, int clusterIndex) throws Exception {
 
         ActivityOfferingClusterWrapper aoClusterWrapper = new ActivityOfferingClusterWrapper();
         aoClusterWrapper.setActivityOfferingClusterId(aoCluster.getId());
@@ -522,7 +522,7 @@ public class ARGUtil {
     *
     */
     public static void _validateRegistrationGroupsPerCluster(List<RegistrationGroupInfo> rgInfos, List<ActivityOfferingInfo> aoList,
-                                                             ActivityOfferingClusterWrapper aoClusterWrapper, RegistrationGroupManagementForm theForm, int clusterIndex) throws Exception {
+                                                             ActivityOfferingClusterWrapper aoClusterWrapper, ARGCourseOfferingManagementForm theForm, int clusterIndex) throws Exception {
 
         Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap =
                 _constructActivityOfferingTypeToAvailableActivityOfferingMap(aoList);
@@ -766,15 +766,16 @@ public class ARGUtil {
         return emptyCluster;
     }
 
-    public static ActivityOfferingClusterInfo _buildDefaultAOCluster (String formatOfferingId,
-                                                                RegistrationGroupManagementForm theForm) throws Exception{
-        ActivityOfferingClusterInfo defaultCluster = _buildEmptyAOCluster(formatOfferingId,"Default Cluster", "Default Cluster");
-        defaultCluster = getCourseOfferingService().createActivityOfferingCluster(formatOfferingId,
-                defaultCluster.getTypeKey(), defaultCluster, ContextUtils.createDefaultContextInfo());
-        List<ActivityOfferingWrapper> filteredAOs = theForm.getFilteredUnassignedAOsForSelectedFO();
-        defaultCluster = _updateAOSets(filteredAOs,defaultCluster,formatOfferingId);
-        return defaultCluster;
-    }
+    //From Bonnie: Do we still need this method?
+//    public static ActivityOfferingClusterInfo _buildDefaultAOCluster (String formatOfferingId,
+//                                                                      ARGCourseOfferingManagementForm theForm) throws Exception{
+//        ActivityOfferingClusterInfo defaultCluster = _buildEmptyAOCluster(formatOfferingId,"Default Cluster", "Default Cluster");
+//        defaultCluster = getCourseOfferingService().createActivityOfferingCluster(formatOfferingId,
+//                defaultCluster.getTypeKey(), defaultCluster, ContextUtils.createDefaultContextInfo());
+//        List<ActivityOfferingWrapper> filteredAOs = theForm.getFilteredUnassignedAOsForSelectedFO();
+//        defaultCluster = _updateAOSets(filteredAOs,defaultCluster,formatOfferingId);
+//        return defaultCluster;
+//    }
 
     public static ActivityOfferingClusterInfo _updateAOSets(List<ActivityOfferingWrapper> aoWrapperList,
                                                        ActivityOfferingClusterInfo clusterInfo, String formatOfferingId) throws Exception {

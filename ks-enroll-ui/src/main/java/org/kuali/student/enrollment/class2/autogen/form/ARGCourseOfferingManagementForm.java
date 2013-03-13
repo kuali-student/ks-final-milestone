@@ -30,7 +30,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class ARGCourseOfferingManagementForm extends CourseOfferingManagementForm {
+public class ARGCourseOfferingManagementForm extends KSUifForm {
     //TODO: do we still need this for manage theCO page?
     //for authorization purpose
     private String adminOrg;
@@ -54,15 +54,18 @@ public class ARGCourseOfferingManagementForm extends CourseOfferingManagementFor
      */
     private List<ActivityOfferingWrapper> activityWrapperList;
     /**
-     * This is used to display AOC list under a specified CO in manage the CO page
+     * This is used to display cluster list under a specified CO in manage the CO page
      * was filteredAOClusterWrapperList in RGManagementForm
      */
-    private List<ActivityOfferingClusterWrapper> aocResultList;
+    private List<ActivityOfferingClusterWrapper> clusterResultList;
     /**
      * This is used to display all registration group list under a specified CO in
      * manage the CO page.
      */
     private List<RegistrationGroupWrapper> rgResultList;
+
+    private boolean hasMoreThanOneFormat = false;
+    private boolean hasMoreThanOneCluster = false;
 
     private TermInfo termInfo;
 
@@ -90,8 +93,6 @@ public class ARGCourseOfferingManagementForm extends CourseOfferingManagementFor
     private CourseOfferingWrapper previousCourseOfferingWrapper;
     private CourseOfferingWrapper nextCourseOfferingWrapper;
 
-    private boolean isCrossListedCO;
-
     //TODO: do we need them?
     private String selectedOfferingAction;
     private String coViewLinkWrapper = "View"; // temp var to hold/store the View Details Link
@@ -117,6 +118,13 @@ public class ARGCourseOfferingManagementForm extends CourseOfferingManagementFor
      */
     private List<ActivityOfferingWrapper> selectedToDeleteList;
     private CourseOfferingCopyWrapper courseOfferingCopyWrapper;
+
+    private boolean isCrossListedCO;
+    private int numOfCrossListedCosToDelete=0;
+    private boolean isColocatedCO;
+    private boolean isColocatedCoOnly;
+    private Integer numOfColocatedCosToDelete = 0;
+    private Integer numOfColocatedAosToDelete = 0;
 
     //TODO: do we need this one?
     private boolean readOnly;
@@ -144,12 +152,13 @@ public class ARGCourseOfferingManagementForm extends CourseOfferingManagementFor
     private String clusterIdForAOMove;
 
 
+
     public ARGCourseOfferingManagementForm (){
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
         courseOfferingResultList = new ArrayList<CourseOfferingListSectionWrapper>();
         selectedCoToDeleteList = new ArrayList<CourseOfferingListSectionWrapper>();
-        aocResultList = new ArrayList<ActivityOfferingClusterWrapper>();
+        clusterResultList = new ArrayList<ActivityOfferingClusterWrapper>();
         rgResultList = new ArrayList<RegistrationGroupWrapper>();
 
         setCourseOfferingCopyWrapper(null);
@@ -336,12 +345,12 @@ public class ARGCourseOfferingManagementForm extends CourseOfferingManagementFor
         this.courseOfferingResultList = courseOfferingResultList;
     }
 
-    public List<ActivityOfferingClusterWrapper> getAocResultList() {
-        return aocResultList;
+    public List<ActivityOfferingClusterWrapper> getClusterResultList() {
+        return clusterResultList;
     }
 
-    public void setAocResultList(List<ActivityOfferingClusterWrapper> aocResultList) {
-        this.aocResultList = aocResultList;
+    public void setClusterResultList(List<ActivityOfferingClusterWrapper> clusterResultList) {
+        this.clusterResultList = clusterResultList;
     }
 
     public List<RegistrationGroupWrapper> getRgResultList() {
@@ -493,5 +502,61 @@ public class ARGCourseOfferingManagementForm extends CourseOfferingManagementFor
 
     public void setClusterIdForAOMove(String clusterIdForAOMove) {
         this.clusterIdForAOMove = clusterIdForAOMove;
+    }
+
+    public boolean isHasMoreThanOneFormat() {
+        return hasMoreThanOneFormat;
+    }
+
+    public void setHasMoreThanOneFormat(boolean hasMoreThanOneFormat) {
+        this.hasMoreThanOneFormat = hasMoreThanOneFormat;
+    }
+
+    public boolean isHasMoreThanOneCluster() {
+        return hasMoreThanOneCluster;
+    }
+
+    public void setHasMoreThanOneCluster(boolean hasMoreThanOneCluster) {
+        this.hasMoreThanOneCluster = hasMoreThanOneCluster;
+    }
+
+    public int getNumOfCrossListedCosToDelete() {
+        return numOfCrossListedCosToDelete;
+    }
+
+    public void setNumOfCrossListedCosToDelete(int numOfCrossListedCosToDelete) {
+        this.numOfCrossListedCosToDelete = numOfCrossListedCosToDelete;
+    }
+
+    public boolean isColocatedCO() {
+        return isColocatedCO;
+    }
+
+    public void setColocatedCO(boolean colocatedCO) {
+        isColocatedCO = colocatedCO;
+    }
+
+    public boolean isColocatedCoOnly() {
+        return isColocatedCoOnly;
+    }
+
+    public void setColocatedCoOnly(boolean colocatedCoOnly) {
+        isColocatedCoOnly = colocatedCoOnly;
+    }
+
+    public Integer getNumOfColocatedCosToDelete() {
+        return numOfColocatedCosToDelete;
+    }
+
+    public void setNumOfColocatedCosToDelete(Integer numOfColocatedCosToDelete) {
+        this.numOfColocatedCosToDelete = numOfColocatedCosToDelete;
+    }
+
+    public Integer getNumOfColocatedAosToDelete() {
+        return numOfColocatedAosToDelete;
+    }
+
+    public void setNumOfColocatedAosToDelete(Integer numOfColocatedAosToDelete) {
+        this.numOfColocatedAosToDelete = numOfColocatedAosToDelete;
     }
 }
