@@ -106,7 +106,7 @@ INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.proposition.type.permission.instructor.required','KS-SYS','simplePropositionTypeService','10034',0)
 /
 INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
-  VALUES ('Y','kuali.krms.proposition.type.course.drop.org.permission.required','KS-SYS','simplePropositionTypeService','10035',0)
+  VALUES ('Y','kuali.krms.proposition.type.permission.admin.org','KS-SYS','simplePropositionTypeService','10035',0)
 /
 INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.proposition.type.notadmitted.to.program','KS-SYS','simplePropositionTypeService','10036',0)
@@ -166,7 +166,7 @@ INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.proposition.type.success.credit.courseset.completed.nof','KS-SYS','simplePropositionTypeService','10054',0)
 /
 INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
-  VALUES ('Y','kuali.krms.proposition.type.success.credit.courseset.completed.nof.org','KS-SYS','simplePropositionTypeService','10055',0)
+  VALUES ('Y','kuali.krms.proposition.type.success.credits.courseset.completed.nof.org','KS-SYS','simplePropositionTypeService','10055',0)
 /
 INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.proposition.type.cant.add.to.activity.offering.due.to.state','KS-SYS','simplePropositionTypeService','10056',0)
