@@ -267,14 +267,15 @@ public class ARGUtil {
         //Grab the registration groups from the course
         for(String foId:foIds){
             List<RegistrationGroupInfo> regGroups = getCourseOfferingService().getRegistrationGroupsByFormatOffering(foId, ContextUtils.createDefaultContextInfo());
+            //Sort the AOs in the reg group
             _fixAoIdOrderingInRegGroups(regGroups);
 
             //Wrap the reg groups and put in the form
             for(RegistrationGroupInfo rgInfo:regGroups){
                 RegistrationGroupWrapper rgWrapper = new RegistrationGroupWrapper();
                 rgWrapper.setRgInfo(rgInfo);
-                String aoActivityCodeText = "", aoStateNameText = "", aoTypeNameText = "", aoInstructorText = "", aoMaxEnrText = "";
-                Integer minEntrollment=null;
+                String aoActivityCodeText = "", aoStateNameText = "", aoTypeNameText = "", aoInstructorText = "", aoMaxEnrText = "", aoEditLinkText = "";
+                Integer minEnrollment=null;
                 for (String aoID : rgInfo.getActivityOfferingIds()) {
                     ActivityOfferingWrapper aoWrapper = filteredAOsHM.get(aoID);
 
@@ -295,8 +296,8 @@ public class ARGUtil {
                         Integer maximumEnrollment = aoWrapper.getAoInfo().getMaximumEnrollment();
                         aoMaxEnrText = aoMaxEnrText + Integer.toString(maximumEnrollment) + "<br/>";
                         //Set the minimum enrollment as the smalled max enr of each AO
-                        if(minEntrollment==null || (maximumEnrollment!=null && maximumEnrollment<minEntrollment)){
-                            minEntrollment = maximumEnrollment;
+                        if(minEnrollment==null || (maximumEnrollment!=null && maximumEnrollment<minEnrollment)){
+                            minEnrollment = maximumEnrollment;
                         }
                     }
 
@@ -320,7 +321,16 @@ public class ARGUtil {
                         rgWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), true, cssClass);
                     }
 
-                    String editAoLink = "<a onclick=\"actionInvokeHandler(this);\" class=\"uif-action uif-actionLink uif-navigationActionLink uif-boxLayoutHorizontalItem\" tabindex=\"0\" data-ajaxreturntype=\"update-component\" data-loadingmessage=\"Loading...\" data-disableblocking=\"false\" data-ajaxsubmit=\"false\" data-refreshid=\"KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering\" data-validate=\"false\"" +
+                    //Manually add links that mirror the functionality of KRAD action links. Pass in the aoID as an action param for the controller to use
+                    aoEditLinkText += "<a onclick=\"actionInvokeHandler(this);\" class=\"uif-action uif-actionLink uif-navigationActionLink uif-boxLayoutVerticalItem\"" +
+                            " tabindex=\"0\"" +
+                            " style=\"margin-bottom:0px;\"" +
+                            " data-ajaxreturntype=\"update-component\"" +
+                            " data-loadingmessage=\"Loading...\"" +
+                            " data-disableblocking=\"false\"" +
+                            " data-ajaxsubmit=\"false\"" +
+                            " data-refreshid=\"KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering\"" +
+                            " data-validate=\"false\"" +
                             " data-submit-data='{\"methodToCall\":\"edit\"," +
                                                "\"actionParameters\\[selectedCollectionPath\\]\":\"rgResultList\"," +
                                                "\"actionParameters\\[selectedLineIndex\\]\":\""+index+"\"," +
@@ -329,8 +339,6 @@ public class ARGUtil {
                                                "\"showHome\":\"false\"," +
                                                "\"jumpToId\":\"KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering\"}'" +
                             ">Edit</a>";
-
-                    rgWrapper.setAoEditLink((rgWrapper.getAoEditLink()==null?"":rgWrapper.getAoEditLink()) + editAoLink + "<br/>");
                     rgWrapper.setAoClusterName(aoWrapper.getAoClusterName());
                 }
                 if (aoActivityCodeText.length() > 0) {
@@ -348,7 +356,9 @@ public class ARGUtil {
                 if (aoMaxEnrText.length() > 0) {
                     aoMaxEnrText = aoMaxEnrText.substring(0, aoMaxEnrText.lastIndexOf("<br/>"));
                 }
-                rgWrapper.setRgMaxEnrText(Integer.toString(minEntrollment));
+
+                rgWrapper.setAoEditLink(aoEditLinkText);
+                rgWrapper.setRgMaxEnrText(Integer.toString(minEnrollment));
                 rgWrapper.setAoActivityCodeText(aoActivityCodeText);
                 rgWrapper.setAoStateNameText(aoStateNameText);
                 rgWrapper.setAoTypeNameText(aoTypeNameText);

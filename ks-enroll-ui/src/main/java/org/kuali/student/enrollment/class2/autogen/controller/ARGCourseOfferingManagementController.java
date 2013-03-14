@@ -374,16 +374,11 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
             Properties urlParameters = ARGCourseOfferingHandler.edit(theForm, (CourseOfferingListSectionWrapper) selectedObject);
             return super.performRedirect(theForm, CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE, urlParameters);
         } else if (selectedObject instanceof ActivityOfferingWrapper) {
-            Properties urlParameters = ARGActivityOfferingClusterHandler.edit(theForm, (ActivityOfferingWrapper) selectedObject);
+            Properties urlParameters = ARGActivityOfferingClusterHandler.editAO(theForm, ((ActivityOfferingWrapper) selectedObject).getAoInfo().getId());
             return super.performRedirect(theForm, "activityOffering", urlParameters);
         } else if (selectedObject instanceof RegistrationGroupWrapper){
-            Properties urlParameters = new Properties();
-            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
-            urlParameters.put(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID, theForm.getActionParameters().get("aoId"));
-            urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID, theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo().getId());
-            urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, ActivityOfferingWrapper.class.getName());
-            urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
-            KSUifUtils.setBreadcrumbRedirectUrlParams(urlParameters, theForm);
+            //Edit link from activity offering
+            Properties urlParameters = ARGActivityOfferingClusterHandler.editAO(theForm, theForm.getActionParameters().get("aoId"));
             return super.performRedirect(theForm, "activityOffering", urlParameters);
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
