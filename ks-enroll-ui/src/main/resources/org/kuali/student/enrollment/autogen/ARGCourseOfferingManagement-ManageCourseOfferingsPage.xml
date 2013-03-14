@@ -43,7 +43,8 @@
 
                 <bean id="KS-ARGCourseOfferingManagement-ApproveSubj" parent="Uif-ActionLink" p:preSubmitCall="return confirm('This will mark all Activity Offerings in this Subject Code as: Ready for Scheduling')"
                       p:methodToCall="markSubjectCodeReadyForScheduling"
-                      p:actionLabel="Approve Subject Code for Scheduling" p:disabled="@{#parent.readOnly}"/>
+                      p:actionLabel="Approve Subject Code for Scheduling" p:disabled="@{#parent.readOnly}"
+                      p:componentSecurity.performActionAuthz="true" p:actionEvent="approveSubj" />
                 <ref bean="KS-CourseOfferingManagement-CO-ToolBarSection"/>
                 <ref bean="KS-ARGCourseOfferingManagement-CourseOfferingListSection"/>
             </list>
