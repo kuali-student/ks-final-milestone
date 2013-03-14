@@ -1,5 +1,7 @@
 package org.kuali.student.myplan.course.dataobject;
 
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +35,7 @@ public class ActivityOfferingItem {
     private String enrollMaximum;
     private String enrollEstimate;
 
-    private boolean planned = false;
-
+    private String planItemId;
     private boolean primary = false;
 
     private String instituteCode;
@@ -318,14 +319,6 @@ public class ActivityOfferingItem {
 //    	return isPrimary() && getSecondaryList().size() == 0;
     }
 
-    public boolean isPlanned() {
-        return planned;
-    }
-
-    public void setPlanned(boolean planned) {
-        this.planned = planned;
-    }
-
     public String getAtpId() {
         return atpId;
     }
@@ -386,5 +379,30 @@ public class ActivityOfferingItem {
         String id = this.getCode()+"-";
         id=id+this.getQtryr().replace("+","");
         return id;
+    }
+
+    public String getPlanItemId() {
+        return planItemId;
+    }
+
+    public void setPlanItemId(String planItemId) {
+        this.planItemId = planItemId;
+    }
+    public String getSummerTerm() {
+        return this.additionalInfo.get(0).getSummerTerm();
+    }
+
+    public void setSummerTerm(String summerTerm) {
+        this.additionalInfo.get(0).setSummerTerm(summerTerm);
+    }
+
+    /*Used to get the Short term name for atp (WI 13 for kuali.uw.atp.2013.1)*/
+    public String getShortTermName() {
+        return KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(this.getAtpId()).toTermName();
+    }
+
+    /*Used to get the Short term name for atp (Winter 13 for kuali.uw.atp.2013.1)*/
+    public String getLongTermName() {
+        return KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(this.getAtpId()).toTermName();
     }
 }

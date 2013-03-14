@@ -27,6 +27,7 @@ public class ActivityOfferingAdditionalInfo {
     private boolean independentStudy;
     private String gradingOption;
     private String sectionComments;
+    private String summerTerm;
 
     public String getInstructor() {
         return instructor;
@@ -151,5 +152,12 @@ public class ActivityOfferingAdditionalInfo {
 
     public void setSectionComments(String sectionComments) {
         this.sectionComments = sectionComments;
+    }
+    public String getSummerTerm() {
+        return summerTerm;
+    }
+
+    public void setSummerTerm(String summerTerm) {
+        this.summerTerm = summerTerm;
     }
 }

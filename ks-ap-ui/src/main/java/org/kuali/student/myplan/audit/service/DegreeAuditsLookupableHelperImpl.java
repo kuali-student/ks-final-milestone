@@ -16,13 +16,13 @@ import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.myplan.audit.dataobject.DegreeAuditItem;
 import org.kuali.student.myplan.audit.dto.AuditReportInfo;
 import org.kuali.student.myplan.audit.util.DegreeAuditDataObjectHelper;
-import org.kuali.student.myplan.course.service.CourseDetailsInquiryViewHelperServiceImpl;
+import org.kuali.student.myplan.course.service.CourseDetailsInquiryHelperImpl;
 import org.kuali.student.myplan.main.service.MyPlanLookupableImpl;
 import org.springframework.dao.DataRetrievalFailureException;
 
 public class DegreeAuditsLookupableHelperImpl extends MyPlanLookupableImpl {
 
-    private final Logger logger = Logger.getLogger(CourseDetailsInquiryViewHelperServiceImpl.class);
+    private final Logger logger = Logger.getLogger(CourseDetailsInquiryHelperImpl.class);
 
     private transient DegreeAuditService degreeAuditService;
 

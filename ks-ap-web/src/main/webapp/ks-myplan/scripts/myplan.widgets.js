@@ -631,6 +631,60 @@ function myPlanAjaxPlanItemMove(id, xid, type, methodToCall, e) {
     jQuery("form#" + id + "_form").remove();
 }
 
+function myplanAjaxSubmitSectionItem(id, methodToCall, action, formData, e) {
+    stopEvent(e);
+    var target = (e.currentTarget) ? e.currentTarget : e.srcElement;
+    var targetText = ( jQuery.trim(jQuery(target).text()) != '') ? jQuery.trim(jQuery(target).text()) : "Error";
+    var elementToBlock = (target.nodeName != 'INPUT') ? jQuery(target) : jQuery(target).parent();
+    var tempForm = '<form id="' + id + '_form" action="' + action + '" method="post" style="display:none;">';
+    tempForm += '<input type="hidden" name="methodToCall" value="' + methodToCall + '" />';
+    jQuery.each(formData, function (name, value) {
+        tempForm += '<input type="hidden" name="' + name + '" value="' + value + '" />';
+    });
+    tempForm += '</form>';
+    jQuery("body").append(tempForm);
+
+    var updateRefreshableComponentCallback = function (htmlContent) {
+        var status = jQuery.trim(jQuery("span#request_status_item_key", htmlContent).text().toLowerCase());
+        eval(jQuery("input[data-for='plan_item_action_response_page']", htmlContent).val().replace("#plan_item_action_response_page", "body"));
+        elementToBlock.unblock();
+        switch (status) {
+            case 'success':
+                var oMessage = { 'message':'<img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"><span class="message">' + jQuery('body').data('validationMessages').serverInfo[0] + '</span>', 'cssClass':'myplan-feedback success' };
+                var json = jQuery.parseJSON(jQuery.trim(jQuery("span#json_events_item_key", htmlContent).text()));
+                for (var key in json) {
+                    if (json.hasOwnProperty(key)) {
+                        eval('jQuery.publish("' + key + '", [' + JSON.stringify(jQuery.extend(json[key], oMessage)) + ']);');
+                    }
+                }
+                setUrlHash('modified', 'true');
+                break;
+            case 'error':
+                var oMessage = { 'message':'<img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"><span class="message">' + jQuery('body').data('validationMessages').serverErrors[0] + '</span>', 'cssClass':'myplan-feedback error' };
+                var sContent = jQuery("<div />").append(oMessage.message).addClass("myplan-feedback error").css({"background-color":"#fff"});
+                var sHtml = jQuery("<div />").append('<div class="uif-headerField uif-sectionHeaderField"><h3 class="uif-header">' + targetText + '</h3></div>').append(sContent);
+                if (jQuery("body").HasBubblePopup()) jQuery("body").RemoveBubblePopup();
+                openDialog(sHtml.html(), e);
+                break;
+        }
+    };
+    var blockOptions = {
+        message:'<img src="../ks-myplan/images/btnLoader.gif"/>',
+        css:{
+            width:'100%',
+            border:'none',
+            backgroundColor:'transparent'
+        },
+        overlayCSS:{
+            backgroundColor:'#fff',
+            opacity:0.6,
+            padding:'0px 1px',
+            margin:'0px -1px'
+        }
+    };
+    myplanAjaxSubmitForm(methodToCall, updateRefreshableComponentCallback, {reqComponentId:id, skipViewInit:'false'}, elementToBlock, id, blockOptions);
+    jQuery("form#" + id + "_form").remove();
+}
 /*
  ######################################################################################
  Function: Retrieve component content through ajax
@@ -1562,5 +1616,12 @@ function expandHiddenSubcollection(actionComponent, expandText, collapseText) {
     }
 }
 
+function myplanReplaceWithJson(id, url, retrieveOptions) {
+    jQuery.getJSON(url, retrieveOptions, function (response) {
+        jQuery("#" + id).fadeOut(250, function () {
+            jQuery(this).html("<strong>" + response.enrollment + "</strong> / " + response.limit).fadeIn(250);
+        });
+    });
+}
 
 

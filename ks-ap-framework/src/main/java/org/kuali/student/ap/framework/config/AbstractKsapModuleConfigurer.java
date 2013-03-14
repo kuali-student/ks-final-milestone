@@ -150,8 +150,8 @@ public abstract class AbstractKsapModuleConfigurer extends
 	 * @return list of registered ModuleConfigurers
 	 */
 	@SuppressWarnings("unchecked")
-	public static Collection<ModuleConfigurer> getCurrentContextConfigurers() {
-		return (Collection<ModuleConfigurer>) ConfigContext
+	public static Collection<Object> getCurrentContextConfigurers() {
+		return (Collection<Object>) ConfigContext
 				.getCurrentContextConfig().getObject(
 						MODULE_CONFIGURERS_CONFIG_KEY);
 	}

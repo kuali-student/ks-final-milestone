@@ -15,7 +15,7 @@ public class SavedCoursesLookupableHelperImpl extends PlanItemLookupableHelperBa
     protected List<PlannedCourseDataObject> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
         try {
-            List<PlannedCourseDataObject> plannedCoursesList = getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST, false, studentId);
+            List<PlannedCourseDataObject> plannedCoursesList = getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST, studentId);
             Collections.sort(plannedCoursesList);
             return plannedCoursesList;
         } catch (Exception e) {

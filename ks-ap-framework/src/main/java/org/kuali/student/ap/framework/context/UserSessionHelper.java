@@ -19,6 +19,13 @@ public interface UserSessionHelper {
 	 */
 	String getStudentId();
 
+    /**
+     * Is the User logged into a session
+     *
+     * @return True if a session is active
+     */
+    public boolean isUserSession();
+
 	/**
 	 * Determines the student id that should be used for queries. If the user
 	 * has the adviser flag set in the session then there should also be a

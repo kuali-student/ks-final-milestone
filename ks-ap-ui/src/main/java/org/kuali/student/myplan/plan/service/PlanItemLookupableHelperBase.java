@@ -14,7 +14,7 @@ import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
 import org.kuali.student.myplan.academicplan.service.AcademicPlanService;
-import org.kuali.student.myplan.course.service.CourseDetailsInquiryViewHelperServiceImpl;
+import org.kuali.student.myplan.course.service.CourseDetailsInquiryHelperImpl;
 import org.kuali.student.myplan.main.service.MyPlanLookupableImpl;
 import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
@@ -30,12 +30,10 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
 	private final Logger logger = Logger
 			.getLogger(PlanItemLookupableHelperBase.class);
 	private transient AcademicPlanService academicPlanService;
-	private transient CourseDetailsInquiryViewHelperServiceImpl courseDetailsInquiryService;
+    private transient CourseDetailsInquiryHelperImpl courseDetailsInquiryHelper;
 
-	protected List<PlannedCourseDataObject> getPlanItems(String planItemType,
-			boolean loadSummaryInfoOnly, String studentId)
-			throws InvalidParameterException, MissingParameterException,
-			DoesNotExistException, OperationFailedException {
+    protected List<PlannedCourseDataObject> getPlanItems(String planItemType, String studentId)
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException {
 
 		List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();
 
@@ -65,16 +63,8 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
 					// If the course info lookup fails just log the error and
 					// omit the item.
 					try {
-						if (loadSummaryInfoOnly) {
-							plannedCourseDO
-									.setCourseDetails(getCourseDetailsInquiryService()
-											.retrieveCourseSummary(courseID,
-													studentId));
-						} else {
-							plannedCourseDO
-									.setCourseDetails(getCourseDetailsInquiryService()
-											.retrieveCourseDetails(courseID,
-													studentId));
+                        if (getCourseDetailsInquiryService().isCourseIdValid(courseID)) {
+                            plannedCourseDO.setCourseDetails(getCourseDetailsInquiryService().retrieveCourseSummaryById(courseID));
 						}
 					} catch (Exception e) {
 						logger.error(
@@ -117,15 +107,15 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
 		this.academicPlanService = academicPlanService;
 	}
 
-	public synchronized CourseDetailsInquiryViewHelperServiceImpl getCourseDetailsInquiryService() {
-		if (this.courseDetailsInquiryService == null) {
-			this.courseDetailsInquiryService = new CourseDetailsInquiryViewHelperServiceImpl();
+	public synchronized CourseDetailsInquiryHelperImpl getCourseDetailsInquiryService() {
+        if (this.courseDetailsInquiryHelper == null) {
+            this.courseDetailsInquiryHelper = new CourseDetailsInquiryHelperImpl();
 		}
-		return courseDetailsInquiryService;
+        return courseDetailsInquiryHelper;
 	}
 
 	public void setCourseDetailsInquiryService(
-			CourseDetailsInquiryViewHelperServiceImpl courseDetailsInquiryService) {
-		this.courseDetailsInquiryService = courseDetailsInquiryService;
+			CourseDetailsInquiryHelperImpl courseDetailsInquiryService) {
+        this.courseDetailsInquiryHelper = courseDetailsInquiryHelper;
 	}
 }

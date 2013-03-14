@@ -25,6 +25,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.EnrollmentStatusHelper;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.myplan.course.controller.CourseSearchController;
@@ -117,8 +118,7 @@ public class QuickAddSuggestHelperService {
 		int year = Calendar.getInstance().get(Calendar.YEAR) - 10;
 		int resultsSize = results.size();
 		for (int i = 0; i < resultsSize; i++) {
-			String[] splitStr = results.get(i).split(
-					"(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
+                EnrollmentStatusHelper.CourseCode courseCode = KsapFrameworkServiceLocator.getEnrollmentStatusHelper().getCourseDivisionAndNumber(results.get(i));
 			List<CourseOfferingInfo> courseOfferingInfo = null;
 			boolean removed = false;
 			/* Filtering courses that are not offered in the given term */
@@ -128,7 +128,7 @@ public class QuickAddSuggestHelperService {
 						.getCourseOfferingService()
 						.getCourseOfferingIdsByTermAndSubjectArea(
 								atpId,
-								splitStr[0].trim(),
+                                courseCode.getSubject(),
 								KsapFrameworkServiceLocator.getContext()
 										.getContextInfo());
 			} catch (DoesNotExistException e) {
@@ -149,8 +149,7 @@ public class QuickAddSuggestHelperService {
 			}
 			/* Filtering courses that are not offered for more than 10 years */
 			if (!removed) {
-				String values = String.format("%s, %s, %s", year,
-						splitStr[0].trim(), splitStr[1].trim());
+                String values = String.format("%s, %s, %s", year, courseCode.getSubject(), courseCode.getNumber());
 				try {
 					courseOfferingInfo = KsapFrameworkServiceLocator
 							.getCourseOfferingService()

@@ -37,8 +37,9 @@ public class PlannedTermsHelperBase {
 			List<PlannedCourseDataObject> plannedCoursesList,
 			List<PlannedCourseDataObject> backupCoursesList,
 			List<StudentCourseRecordInfo> studentCourseRecordInfos,
-			String focusAtpId, boolean isServiceUp) {
-
+			String focusAtpId, boolean isServiceUp,
+            int futureTerms, boolean fullPlanView) {
+        futureTermsCount = futureTerms;
 		YearTerm focusQuarterYear;
 		String globalCurrentAtpId = null;
 		if (isServiceUp)
@@ -133,7 +134,12 @@ public class PlannedTermsHelperBase {
 			} else {
 				minTerm = globalCurrentAtpId;
 			}
-			String maxTerm = globalCurrentAtpId;
+            String maxTerm = null;
+            if (plannedTerms.size() > 0 && fullPlanView) {
+                maxTerm = plannedTerms.get(plannedTerms.size() - 1).getAtpId();
+            } else {
+                maxTerm = globalCurrentAtpId;
+            }
 			populateMockList(minTerm, maxTerm, termsList);
 			if (plannedTerms.size() > 0) {
 				for (PlannedTerm plannedTerm : plannedTerms) {
@@ -150,24 +156,17 @@ public class PlannedTermsHelperBase {
 				for (StudentCourseRecordInfo studentInfo : studentCourseRecordInfos) {
 					if (termsList.containsKey(studentInfo.getTermName())) {
 						AcademicRecordDataObject academicRecordDataObject = new AcademicRecordDataObject();
-						academicRecordDataObject.setAtpId(studentInfo
-								.getTermName());
-						academicRecordDataObject.setPersonId(studentInfo
-								.getPersonId());
-						academicRecordDataObject.setCourseCode(studentInfo
-								.getCourseCode());
+						academicRecordDataObject.setAtpId(studentInfo.getTermName());
+						academicRecordDataObject.setPersonId(studentInfo.getPersonId());
+						academicRecordDataObject.setCourseCode(studentInfo.getCourseCode());
 						/*
 						 * TODO: StudentCourseRecordInfo does not have a
 						 * courseId property so using Id to set the course Id
 						 */
-						academicRecordDataObject.setCourseId(studentInfo
-								.getId());
-						academicRecordDataObject.setCourseTitle(studentInfo
-								.getCourseTitle());
-						academicRecordDataObject.setCredit(studentInfo
-								.getCreditsEarned());
-						if (!"X".equalsIgnoreCase(studentInfo
-								.getCalculatedGradeValue())) {
+						academicRecordDataObject.setCourseId(studentInfo.getId());
+						academicRecordDataObject.setCourseTitle(studentInfo.getCourseTitle());
+						academicRecordDataObject.setCredit(studentInfo.getCreditsEarned());
+						if (!"X".equalsIgnoreCase(studentInfo.getCalculatedGradeValue())) {
 							academicRecordDataObject.setGrade(studentInfo
 									.getCalculatedGradeValue());
 						} else if ("X".equalsIgnoreCase(studentInfo

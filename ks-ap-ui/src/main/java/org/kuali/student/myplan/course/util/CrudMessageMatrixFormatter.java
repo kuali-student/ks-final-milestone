@@ -7,13 +7,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.myplan.course.dataobject.CourseDetails;
 import org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 
 /**
@@ -25,6 +30,20 @@ import org.kuali.student.r2.common.util.date.DateFormatters;
  */
 public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
     private final static Logger logger = Logger.getLogger(CrudMessageMatrixFormatter.class);
+
+    private transient CourseOfferingService courseOfferingService;
+
+    protected CourseOfferingService getCourseOfferingService() {
+        if (this.courseOfferingService == null) {
+            //   TODO: Use constants for namespace.
+            this.courseOfferingService = KsapFrameworkServiceLocator.getCourseOfferingService();
+        }
+        return this.courseOfferingService;
+    }
+
+    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
+        this.courseOfferingService = courseOfferingService;
+    }
 
     @Override
     public void setValue(Object value) {
@@ -42,25 +61,20 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
         *"You took this course on Winter 2012" or
         *"This course was withdrawn on week 6 in Spring 2012" or
         *"You're enrolled in this course for Autumn 2012" */
-        if (courseDetails.getAcademicTerms().size() > 0) {
+        if (courseDetails.getPlannedCourseSummary().getAcademicTerms().size() > 0) {
             List<String> withDrawnCourseTerms = new ArrayList<String>();
             List<String> nonWithDrawnCourseTerms = new ArrayList<String>();
 
-            for (String term : courseDetails.getAcademicTerms()) {
-                String[] str = term.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-                String atpId = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(str[1].trim(), str[0].trim());
-                for (AcademicRecordDataObject academicRecordDataObject : courseDetails.getAcadRecList()) {
-                    if (academicRecordDataObject.getCourseId() != null
-                            && academicRecordDataObject.getCourseId().equalsIgnoreCase(courseDetails.getCourseId())
-                            && atpId.equalsIgnoreCase(academicRecordDataObject.getAtpId())
+            for (String term : courseDetails.getPlannedCourseSummary().getAcademicTerms()) {
+                String atpId = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(term).toATP();
+                for (AcademicRecordDataObject academicRecordDataObject : courseDetails.getPlannedCourseSummary().getAcadRecList()) {
+                    if (atpId.equalsIgnoreCase(academicRecordDataObject.getAtpId())
                             && academicRecordDataObject.getGrade().contains(PlanConstants.WITHDRAWN_GRADE)) {
                         if (!withDrawnCourseTerms.contains(term)) {
                             withDrawnCourseTerms.add(term);
                         }
                     }
-                    if (academicRecordDataObject.getCourseId() != null
-                            && academicRecordDataObject.getCourseId().equalsIgnoreCase(courseDetails.getCourseId())
-                            && atpId.equalsIgnoreCase(academicRecordDataObject.getAtpId())
+                    if (atpId.equalsIgnoreCase(academicRecordDataObject.getAtpId())
                             && !academicRecordDataObject.getGrade().contains(PlanConstants.WITHDRAWN_GRADE)) {
                         if (!nonWithDrawnCourseTerms.contains(term)) {
                             nonWithDrawnCourseTerms.add(term);
@@ -71,9 +85,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
             int counter = 0;
             for (String withdrawnTerm : withDrawnCourseTerms) {
                 String term = withdrawnTerm;
-                String[] splitStr = term.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-                String atpId = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(splitStr[1].trim(), splitStr[0].trim());
-
+                String atpId = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(term).toATP();
                 if (counter == 0) {
                     if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
                         String user = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentName();
@@ -101,24 +113,34 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
             int counter3 = 0;
             for (String nonWithdrawnTerm : nonWithDrawnCourseTerms) {
                 String term = nonWithdrawnTerm;
-                String[] splitStr = term.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-                String atpId = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(splitStr[1].trim(), splitStr[0].trim());
-                List<TermInfo> scheduledTerms = null;
+                String atpId = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(term).toATP();
+                List<String> sections = getSections(courseDetails, term);
                 String currentTerm = KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId();
                 if (atpId.compareToIgnoreCase(currentTerm) >= 0) {
                     if (counter2 == 0) {
-                        String message = "You're currently enrolled in this course for ";
+                        String message = "You are enrolled in ";
                         if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
                             String user = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentName();
                             message = user + ". currently enrolled in this course for ";
                         }
-                        sb = sb.append("<dd>").append(message)
+                        StringBuffer sec = new StringBuffer();
+                        int count = 0;
+                        for (String section : sections) {
+                            if (count == 0) {
+                                sec = sec.append(section);
+                                count++;
+                            } else {
+                                sec = sec.append(" and ").append(section);
+                                count++;
+                            }
+                        }
+                        sb = sb.append("<dd>").append(message).append(sec).append(" for ")
                                 .append("<a href=plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=")
                                 .append(atpId).append(">")
                                 .append(term).append("</a>");
                         currentTermRegistered = true;
                     }
-                    if (counter3 > 0) {
+                    if (counter2 > 0) {
                         sb = sb.append(",").append("<a href=plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=")
                                 .append(atpId).append(">")
                                 .append(term).append("</a>");
@@ -154,15 +176,15 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
         /*When plannedList or backupList are not null then populating message
             *"Added to Spring 2013 Plan, Spring 2014 Plan on 01/18/2012" or
             *"Added to Spring 2013 Plan on 01/18/2012 and Spring 2014 Plan on 09/18/2012" */
-        if (courseDetails.getPlannedList() != null || courseDetails.getBackupList() != null) {
+        if ((courseDetails.getPlannedCourseSummary().getPlannedList() != null && courseDetails.getPlannedCourseSummary().getPlannedList().size() > 0) || (courseDetails.getPlannedCourseSummary().getBackupList() != null && courseDetails.getPlannedCourseSummary().getBackupList().size() > 0)) {
             List<PlanItemDataObject> planItemDataObjects = new ArrayList<PlanItemDataObject>();
-            if (courseDetails.getPlannedList() != null) {
-                for (PlanItemDataObject pl : courseDetails.getPlannedList()) {
+            if (courseDetails.getPlannedCourseSummary().getPlannedList() != null) {
+                for (PlanItemDataObject pl : courseDetails.getPlannedCourseSummary().getPlannedList()) {
                     planItemDataObjects.add(pl);
                 }
             }
-            if (courseDetails.getBackupList() != null) {
-                for (PlanItemDataObject bl : courseDetails.getBackupList()) {
+            if (courseDetails.getPlannedCourseSummary().getBackupList() != null) {
+                for (PlanItemDataObject bl : courseDetails.getPlannedCourseSummary().getBackupList()) {
                     planItemDataObjects.add(bl);
                 }
             }
@@ -200,16 +222,14 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
                     if (planItemsMap.get(key).contains(",")) {
                         String[] terms = planItemsMap.get(key).split(",");
                         for (String term : terms) {
-                            String[] str = term.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-                            sb = startsSub.append("<a href=\"plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=").append(KsapFrameworkServiceLocator.getAtpHelper().getAtpId(str[1].trim(), str[0].trim())).append("\">").append(term).append(" plan").append("</a>").append(", ");
+                            sb = startsSub.append("<a href=\"plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=").append(KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(term).toATP()).append("\">").append(term).append(" plan").append("</a>").append(", ");
                         }
                         String formattedString = sb.substring(0, sb.lastIndexOf(","));
                         StringBuffer formattedSubBuf = new StringBuffer();
                         formattedSubBuf = formattedSubBuf.append(formattedString);
                         sb = formattedSubBuf.append(" on ").append(key);
                     } else {
-                        String[] str = planItemsMap.get(key).split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-                        String atpId = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(str[1].trim(), str[0].trim());
+                        String atpId = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(planItemsMap.get(key)).toATP();
                         if (!currentTermRegistered) {
                             sb = sb.append("<dd>").append("Added to ").append("<a href=\"plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=").append(atpId).append("\">").append(planItemsMap.get(key)).append(" plan").append("</a> ")
                                     .append(" on ").append(key).append(" ");
@@ -224,16 +244,14 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
                     if (planItemsMap.get(key).contains(",")) {
                         String[] terms = planItemsMap.get(key).split(",");
                         for (String term : terms) {
-                            String[] str = term.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-                            sb = sb.append("<a href=\"plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=").append(KsapFrameworkServiceLocator.getAtpHelper().getAtpId(str[1].trim(), str[0].trim())).append("\">").append(term).append(" plan").append("</a> ").append(",");
+                            sb = sb.append("<a href=\"plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=").append(KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(term).toATP()).append("\">").append(term).append(" plan").append("</a> ").append(",");
                         }
                         String formattedString = sb.substring(0, sb.lastIndexOf(",") - 1);
                         StringBuffer formattedSubBuf = new StringBuffer();
                         formattedSubBuf = formattedSubBuf.append(formattedString);
                         sb = formattedSubBuf.append(" on ").append(key);
                     } else {
-                        String[] str = planItemsMap.get(key).split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-                        String atpId = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(str[1].trim(), str[0].trim());
+                        String atpId = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(planItemsMap.get(key)).toATP();
                         sb = sb.append(" and ").append("<a href=\"plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=").append(atpId).append("\">").append(planItemsMap.get(key)).append(" plan").append("</a> ")
                                 .append(" on ").append(key);
                     }
@@ -245,8 +263,8 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
         }
         /*When savedItemId and savedItemDateCreated are not null then populating message
             *"Bookmarked on 8/15/2012"*/
-        if (courseDetails.getSavedItemId() != null && courseDetails.getSavedItemDateCreated() != null) {
-            sb = sb.append("<dd>").append("<a href=lookup?methodToCall=search&viewId=SavedCoursesDetail-LookupView>").append("Bookmarked").append("</a>").append(" on ").append(courseDetails.getSavedItemDateCreated());
+        if (courseDetails.getPlannedCourseSummary().getSavedItemId() != null && courseDetails.getPlannedCourseSummary().getSavedItemDateCreated() != null) {
+            sb = sb.append("<dd>").append("<a href=lookup?methodToCall=search&viewId=SavedCoursesDetail-LookupView>").append("Bookmarked").append("</a>").append(" on ").append(courseDetails.getPlannedCourseSummary().getSavedItemDateCreated());
 
         }
 
@@ -254,4 +272,57 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
         return sb.toString();
     }
 
+    /**
+     * returns the section links string for given courseId and term in the form
+     * ("<a href="http://localhost:8080/student/myplan/inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId=60325fa8-7307-454a-be73-3cc1c642122d#kuali-uw-atp-2013-1-19889"> Section (SLN) </a>")
+     *
+     * @param courseDetails
+     * @param term
+     * @return
+     */
+    private List<String> getSections(CourseDetails courseDetails, String term) {
+        String[] yearAndTerm = term.split(" ");
+
+        List<String> sections = new ArrayList<String>();
+        List<String> sectionAndSln = new ArrayList<String>();
+        for (AcademicRecordDataObject acr : courseDetails.getPlannedCourseSummary().getAcadRecList()) {
+            if (acr.getAtpId().equalsIgnoreCase(KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(term).toATP())) {
+                sections.add(acr.getActivityCode());
+            }
+        }
+        for (String section : sections) {
+            String sln = getSLN(yearAndTerm[1].trim(), yearAndTerm[0].trim(), courseDetails.getCourseSummaryDetails().getSubjectArea(), courseDetails.getCourseSummaryDetails().getCourseNumber(), section);
+            String sectionSln = String.format("Section %s (%s)", section, sln);
+            String sec = String.format("<a href=\"%s\">%s</a>", ConfigContext.getCurrentContextConfig().getProperty("appserver.url") + "/student/myplan/inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId=" + courseDetails.getCourseSummaryDetails().getCourseId() + "#" + KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(term).toATP().replace(".", "-") + "-" + sln, sectionSln);
+            sectionAndSln.add(sec);
+        }
+        return sectionAndSln;
+    }
+
+    /**
+     * returns the SLN for the given params
+     *
+     * @param year
+     * @param term
+     * @param curriculum
+     * @param number
+     * @param section
+     * @return
+     */
+    private String getSLN(String year, String term, String curriculum, String number, String section) {
+        String sln = null;
+        ActivityOfferingInfo activityOfferingInfo = new ActivityOfferingInfo();
+        try {
+            activityOfferingInfo = getCourseOfferingService().getActivityOffering(year + "," + term + "," + curriculum + "," + number + "," + section, CourseSearchConstants.CONTEXT_INFO);
+        } catch (Exception e) {
+            logger.error("could not load the ActivityOfferinInfo from SWS", e);
+        }
+        for (AttributeInfo attributeInfo : activityOfferingInfo.getAttributes()) {
+            if (attributeInfo.getKey().equalsIgnoreCase("SLN")) {
+                sln = attributeInfo.getValue();
+                break;
+            }
+        }
+        return sln;
+    }
 }

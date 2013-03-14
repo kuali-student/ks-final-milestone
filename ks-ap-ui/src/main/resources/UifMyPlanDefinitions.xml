@@ -314,7 +314,10 @@
             </bean>
         </property>
         <property name="lineGroupPrototype">
-            <bean parent="Uif-CollectionVerticalBoxItem"/>
+            <bean parent="Uif-CollectionHorizontalBoxItem">
+                <property name="validationMessages.render" value="false"/>
+                <property name="footer.render" value="false"/>
+            </bean>
         </property>
 
         <property name="subCollectionFieldGroupPrototype">
@@ -502,8 +505,30 @@
 
     <bean id="crud_message_matrix_formatter" class="org.kuali.student.myplan.course.util.CrudMessageMatrixFormatter"/>
 
+
+    <bean id="planned_sections_formatter" class="org.kuali.student.myplan.course.util.PlannedSectionsPropertyEditor"/>
+
+
     <bean id="scheduled_terms_list_formatter" class="org.kuali.student.myplan.course.util.ScheduledTermsPropertyEditor">
+        <property name="applyClassOnItem" value="true"/>
         <property name="emptyListMessage" value="Not currently scheduled"/>
+        <property name="emptyListStyleClasses">
+            <list merge="true">
+                <value>empty</value>
+            </list>
+        </property>
+        <property name="styleClasses">
+            <list merge="true">
+                <value>scheduled</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="section_scheduled_terms_list_formatter"
+          class="org.kuali.student.myplan.course.util.ScheduledTermsPropertyEditor">
+        <property name="applyClassOnItem" value="true"/>
+        <property name="emptyListMessage" value="Not currently scheduled"/>
+        <property name="fullLinks" value="true"/>
         <property name="emptyListStyleClasses">
             <list merge="true">
                 <value>empty</value>
@@ -518,7 +543,7 @@
 
     <bean id="terms_formatter" class="org.kuali.student.myplan.course.util.CollectionListPropertyEditor">
         <property name="emptyListMessage"
-                  value="Projected quarter information is not available for this course. Check with your adviser or the Time Schedule."/>
+                  value="Check with the department or your adviser for more information about this course."/>
         <property name="applyClassOnItem" value="true"/>
         <property name="emptyListStyleClasses">
             <list merge="true">
@@ -541,7 +566,8 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:style="margin:0px;">
+                <bean parent="Uif-HorizontalFieldGroup" p:style="margin:0px;">
+                    <property name="fieldLabel.render" value="false"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message"

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 /**
  * Created with IntelliJ IDEA.
  * User: jasonosgood
@@ -18,6 +17,7 @@ public class CourseOfferingTerm {
     private YearTerm yearTerm;
     private String term;
     private String courseComments;
+
     /*NOTE: Added the institute code in this course offering term
     because in UI accessing the parent element is difficult.*/
     private String instituteCode;

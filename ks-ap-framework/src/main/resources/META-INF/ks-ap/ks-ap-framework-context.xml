@@ -38,6 +38,8 @@
 
 	<bean id="ksapOrgHelper"
 		class="org.kuali.student.ap.framework.context.support.DefaultOrgHelper" />
+    <bean name="enrollStatusHelper"
+          class="org.kuali.student.ap.framework.context.support.DefaultEnrollmentStatusHelper"/>
 
 	<import resource="classpath:META-INF/ks-ap/ks-core-client.xml" />
 	<import resource="classpath:META-INF/ks-ap/ks-enroll-client.xml" />

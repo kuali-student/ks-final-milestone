@@ -20,7 +20,9 @@
     -->
 
     <!-- Tabbed Collection Group -->
-    <bean id="Uif-TabbedCollectionLayout" parent="Uif-StackedCollectionLayoutBase-parentBean">
+    <bean id="Uif-TabbedCollectionLayout" parent="Uif-TabbedCollectionLayout-parentBean"/>
+    <bean id="Uif-TabbedCollectionLayout-parentBean" abstract="true" parent="Uif-StackedCollectionLayoutBase-parentBean"
+          class="org.kuali.rice.krad.uif.layout.extension.TabbedLayoutManager">
         <property name="template" value="/ks-myplan/WEB-INF/ftl/layout/tabbedcollection.ftl"/>
         <property name="templateName" value="uif_tabbedcollection"/>
         <property name="lineGroupPrototype">

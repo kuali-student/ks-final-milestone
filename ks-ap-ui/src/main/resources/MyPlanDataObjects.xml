@@ -21,6 +21,7 @@
                 <ref bean="PlanItemDataObject.refObjId"/>
                 <ref bean="PlanItemDataObject.refObjType"/>
                 <ref bean="PlanItemDataObject.term"/>
+                <ref bean="PlanItemDataObject.termName"/>
                 <ref bean="PlanItemDataObject.year"/>
                 <ref bean="PlanItemDataObject.creditPref"/>
             </list>
@@ -141,6 +142,25 @@
         </property>
     </bean>
 
+    <bean id="PlanItemDataObject.termName" parent="PlanItemDataObject.termName-parentBean"/>
+    <bean id="PlanItemDataObject.termName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="termName"/>
+        <property name="dataType" value="STRING"/>
+        <property name="label" value="term"/>
+        <property name="shortLabel" value="term"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="20"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NoWhitespacePatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10"/>
+        </property>
+    </bean>
+
     <bean id="PlanItemDataObject.term" parent="PlanItemDataObject.term-parentBean"/>
     <bean id="PlanItemDataObject.term-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="term"/>
@@ -218,6 +238,7 @@
             <list>
                 <ref bean="PlannedTerm.plannedList"/>
                 <ref bean="PlannedTerm.backupList"/>
+                <ref bean="PlannedTerm.academicRecord"/>
             </list>
         </property>
     </bean>
@@ -290,6 +311,11 @@
         <property name="name" value="backupList"/>
         <property name="dataObjectClass" value="org.kuali.student.myplan.plan.dataobject.PlanItemDataObject"/>
     </bean>
+
+    <bean id="PlannedTerm.academicRecord" parent="CollectionDefinition">
+        <property name="name" value="academicRecord"/>
+        <property name="dataObjectClass" value="org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject"/>
+    </bean>
     <!--******************PlannedTermDataObject End**************************-->
 
     <!--****************FullPlannedtemsDataObject Start***************-->
@@ -348,85 +374,69 @@
         <property name="titleAttribute" value=""/>
         <property name="complexAttributes">
             <list>
-                <!--<ref bean="PlannedCourseDataObject.planItemDataObject"/>-->
+                <ref bean="PlannedCourseDataObject.planItemDataObject"/>
                 <ref bean="PlannedCourseDataObject.courseDetails"/>
             </list>
         </property>
+        <property name="collections">
+            <list>
+                <ref bean="PlannedCourseDataObject.planActivities"/>
+            </list>
+        </property>
 
+    </bean>
 
+    <bean id="PlannedCourseDataObject.planActivities" parent="CollectionDefinition">
+        <property name="name" value="planActivities"/>
+        <property name="dataObjectClass" value="org.kuali.student.myplan.course.dataobject.ActivityOfferingItem"/>
     </bean>
 
     <bean id="PlannedCourseDataObject.planItemDataObject" parent="ComplexAttributeDefinition">
         <property name="name" value="planItemDataObject"/>
         <property name="dataObjectEntry" ref="PlanItemDataObject"/>
     </bean>
+
     <bean id="PlannedCourseDataObject.courseDetails" parent="ComplexAttributeDefinition">
         <property name="name" value="courseDetails"/>
-        <property name="dataObjectEntry" ref="CourseDetails"/>
+        <property name="dataObjectEntry" ref="CourseSummaryDetails"/>
     </bean>
-
 
     <!-- ***********************PlannedCourseDataObject End******************** -->
 
 
     <!--*********************** Course Details Summary Data Object ******************** -->
 
-
-    <bean id="CourseSummaryDetails" parent="CourseSummaryDetails-parentBean" abstract="true"/>
+    <bean id="CourseSummaryDetails" parent="CourseSummaryDetails-parentBean"/>
     <bean id="CourseSummaryDetails-parentBean" abstract="true" parent="DataObjectEntry">
-        <property name="objectLabel" value="Course Details"/>
+        <property name="objectLabel" value="Course Summary Details"/>
         <property name="dataObjectClass" value="org.kuali.student.myplan.course.dataobject.CourseSummaryDetails"/>
         <property name="titleAttribute" value="courseId"/>
         <property name="attributes">
             <list>
-                <ref bean="CourseSummaryDetails.courseId"/>
+                <ref bean="CourseSummaryDetails.versionIndependentId"/>
                 <ref bean="CourseSummaryDetails.code"/>
+                <ref bean="CourseSummaryDetails.subjectArea"/>
+                <ref bean="CourseSummaryDetails.courseNumber"/>
                 <ref bean="CourseSummaryDetails.courseTitle"/>
                 <ref bean="CourseSummaryDetails.credit"/>
                 <ref bean="CourseSummaryDetails.courseDescription"/>
+                <ref bean="CourseSummaryDetails.curriculumTitle"/>
+                <ref bean="CourseSummaryDetails.lastOffered"/>
+
             </list>
         </property>
 
         <property name="collections">
             <list>
                 <ref bean="CourseSummaryDetails.termsOffered"/>
+                <ref bean="CourseSummaryDetails.campusLocations"/>
+                <ref bean="CourseSummaryDetails.requisites"/>
+                <ref bean="CourseSummaryDetails.genEdRequirements"/>
+                <ref bean="CourseSummaryDetails.abbrGenEdRequirements"/>
+                <ref bean="CourseSummaryDetails.scheduledTerms"/>
             </list>
         </property>
     </bean>
-
-    <!-- ***********************Course Details Summary End******************** -->
-
-
-    <!-- *********************** Course Details Data Object ******************** -->
-
-    <bean id="CourseDetails" parent="CourseDetails-parentBean"/>
-    <bean id="CourseDetails-parentBean" abstract="true" parent="CourseSummaryDetails">
-        <property name="objectLabel" value="Course Details"/>
-        <property name="dataObjectClass" value="org.kuali.student.myplan.course.dataobject.CourseDetails"/>
-        <property name="titleAttribute" value="courseId"/>
-        <property name="attributes">
-            <list merge="true">
-                <ref bean="CourseDetails.curriculumTitle"/>
-                <ref bean="CourseDetails.lastOffered"/>
-
-                <ref bean="CourseDetails.savedItemId"/>
-                <ref bean="CourseDetails.savedItemDateCreated"/>
-
-            </list>
-        </property>
-
-        <property name="collections">
-            <list merge="true">
-                <ref bean="CourseDetails.campusLocations"/>
-                <ref bean="CourseDetails.scheduledTerms"/>
-                <ref bean="CourseDetails.requisites"/>
-                <ref bean="CourseDetails.genEdRequirements"/>
-                <ref bean="CourseDetails.plannedList"/>
-                <ref bean="CourseDetails.backupList"/>
-            </list>
-        </property>
-    </bean>
-
 
     <bean id="CourseSummaryDetails.courseId" parent="CourseSummaryDetails.courseId-parentBean"/>
     <bean id="CourseSummaryDetails.courseId-parentBean" abstract="true" parent="BaseKuali.idField">
@@ -446,6 +456,65 @@
             <bean parent="Uif-TextControl" p:size="100"/>
         </property>
     </bean>
+
+    <bean id="CourseSummaryDetails.versionIndependentId" parent="CourseSummaryDetails.versionIndependentId-parentBean"/>
+    <bean id="CourseSummaryDetails.versionIndependentId-parentBean" abstract="true" parent="BaseKuali.idField">
+        <property name="name" value="courseId"/>
+        <property name="dataType" value="STRING"/>
+        <property name="label" value="Course ID"/>
+        <property name="shortLabel" value="ID"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="100"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NoWhitespacePatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="100"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="100"/>
+        </property>
+    </bean>
+
+    <bean id="CourseSummaryDetails.subjectArea" parent="CourseSummaryDetails.subjectArea-parentBean"/>
+    <bean id="CourseSummaryDetails.subjectArea-parentBean" abstract="true" parent="BaseKuali.string">
+        <property name="name" value="subjectArea"/>
+        <property name="dataType" value="STRING"/>
+        <property name="label" value="Course Subject Area"/>
+        <property name="shortLabel" value="Course"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10"/>
+        </property>
+    </bean>
+
+
+    <bean id="CourseSummaryDetails.courseNumber" parent="CourseSummaryDetails.courseNumber-parentBean"/>
+    <bean id="CourseSummaryDetails.courseNumber-parentBean" abstract="true" parent="BaseKuali.string">
+        <property name="name" value="courseNumber"/>
+        <property name="dataType" value="STRING"/>
+        <property name="label" value="Course Course Number"/>
+        <property name="shortLabel" value="Course"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10"/>
+        </property>
+    </bean>
+
 
     <bean id="CourseSummaryDetails.code" parent="CourseSummaryDetails.code-parentBean"/>
     <bean id="CourseSummaryDetails.code-parentBean" abstract="true" parent="BaseKuali.string">
@@ -535,8 +604,8 @@
         <property name="dataObjectClass" value="java.lang.String"/>
     </bean>
 
-    <bean id="CourseDetails.campusLocations" parent="CourseDetails.campusLocations-parentBean"/>
-    <bean id="CourseDetails.campusLocations-parentBean" abstract="true" parent="CollectionDefinition">
+    <bean id="CourseSummaryDetails.campusLocations" parent="CourseSummaryDetails.campusLocations-parentBean"/>
+    <bean id="CourseSummaryDetails.campusLocations-parentBean" abstract="true" parent="CollectionDefinition">
         <property name="name" value="campusLocations"/>
         <property name="shortLabel" value="Locations"/>
         <property name="summary">
@@ -548,21 +617,9 @@
         <property name="dataObjectClass" value="java.lang.String"/>
     </bean>
 
-    <bean id="CourseDetails.scheduledTerms" parent="CourseDetails.scheduledTerms-parentBean"/>
-    <bean id="CourseDetails.scheduledTerms-parentBean" abstract="true" parent="CollectionDefinition">
-        <property name="name" value="scheduledTerms"/>
-        <property name="shortLabel" value="Scheduled Quarter"/>
-        <property name="summary">
-            <value>Scheduled Quarter</value>
-        </property>
-        <property name="label" value="Scheduled Quarter"/>
-        <property name="minOccurs" value="0"/>
-        <property name="dataObjectClass" value="java.lang.String"/>
-    </bean>
 
-
-    <bean id="CourseDetails.lastOffered" parent="CourseDetails.lastOffered-parentBean"/>
-    <bean id="CourseDetails.lastOffered-parentBean" abstract="true" parent="BaseKuali.stringLong">
+    <bean id="CourseSummaryDetails.lastOffered" parent="CourseSummaryDetails.lastOffered-parentBean"/>
+    <bean id="CourseSummaryDetails.lastOffered-parentBean" abstract="true" parent="BaseKuali.stringLong">
         <property name="name" value="lastOffered"/>
         <property name="dataType" value="STRING"/>
         <property name="label" value="Last Offered"/>
@@ -580,8 +637,8 @@
         </property>
     </bean>
 
-    <bean id="CourseDetails.requisites" parent="CourseDetails.requisites-parentBean"/>
-    <bean id="CourseDetails.requisites-parentBean" abstract="true" parent="CollectionDefinition">
+    <bean id="CourseSummaryDetails.requisites" parent="CourseSummaryDetails.requisites-parentBean"/>
+    <bean id="CourseSummaryDetails.requisites-parentBean" abstract="true" parent="CollectionDefinition">
         <property name="name" value="requisites"/>
         <property name="shortLabel" value="Course Requisites"/>
         <property name="summary">
@@ -593,8 +650,8 @@
         <property name="dataObjectClass" value="java.lang.String"/>
     </bean>
 
-    <bean id="CourseDetails.genEdRequirements" parent="CourseDetails.genEdRequirements-parentBean"/>
-    <bean id="CourseDetails.genEdRequirements-parentBean" abstract="true" parent="CollectionDefinition">
+    <bean id="CourseSummaryDetails.genEdRequirements" parent="CourseSummaryDetails.genEdRequirements-parentBean"/>
+    <bean id="CourseSummaryDetails.genEdRequirements-parentBean" abstract="true" parent="CollectionDefinition">
         <property name="name" value="genEdRequirements"/>
         <property name="shortLabel" value="Gen Edu. Requirements"/>
         <property name="summary">
@@ -606,8 +663,22 @@
         <property name="dataObjectClass" value="java.lang.String"/>
     </bean>
 
-    <bean id="CourseDetails.curriculumTitle" parent="CourseDetails.curriculumTitle-parentBean"/>
-    <bean id="CourseDetails.curriculumTitle-parentBean" abstract="true" parent="BaseKuali.string">
+
+    <bean id="CourseSummaryDetails.abbrGenEdRequirements" parent="CourseSummaryDetails.abbrGenEdRequirements-parentBean"/>
+    <bean id="CourseSummaryDetails.abbrGenEdRequirements-parentBean" abstract="true" parent="CollectionDefinition">
+        <property name="name" value="abbrGenEdRequirements"/>
+        <property name="shortLabel" value="Abbr Gen Edu. Requirements"/>
+        <property name="summary">
+            <value>General Educational Requirements</value>
+        </property>
+        <property name="label" value="Gen Edu. Requirements"/>
+        <property name="elementLabel" value="Gen Edu. Requirements"/>
+        <property name="minOccurs" value="0"/>
+        <property name="dataObjectClass" value="java.lang.String"/>
+    </bean>
+
+    <bean id="CourseSummaryDetails.curriculumTitle" parent="CourseSummaryDetails.curriculumTitle-parentBean"/>
+    <bean id="CourseSummaryDetails.curriculumTitle-parentBean" abstract="true" parent="BaseKuali.string">
         <property name="name" value="curriculumTitle"/>
         <property name="dataType" value="STRING"/>
         <property name="label" value="Curriculum"/>
@@ -626,9 +697,76 @@
     </bean>
 
 
-    <bean id="CourseDetails.savedItemId"
-          parent="CourseDetails.savedItemId-parentBean"/>
-    <bean id="CourseDetails.savedItemId-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="CourseSummaryDetails.scheduledTerms" parent="CourseSummaryDetails.scheduledTerms-parentBean"/>
+    <bean id="CourseSummaryDetails.scheduledTerms-parentBean" abstract="true" parent="CollectionDefinition">
+        <property name="name" value="scheduledTerms"/>
+        <property name="shortLabel" value="Scheduled Terms"/>
+        <property name="summary">
+            <value>Scheduled Terms</value>
+        </property>
+        <property name="label" value="Scheduled Terms"/>
+        <property name="elementLabel" value="Scheduled Terms"/>
+        <property name="minOccurs" value="0"/>
+        <property name="dataObjectClass" value="java.lang.String"/>
+    </bean>
+
+    <!-- ***********************Course Details Summary End******************** -->
+
+
+    <!-- *********************** Course Details Data Object ******************** -->
+
+    <bean id="CourseDetails" parent="CourseDetails-parentBean"/>
+    <bean id="CourseDetails-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="objectLabel" value="Course Details"/>
+        <property name="dataObjectClass" value="org.kuali.student.myplan.course.dataobject.CourseDetails"/>
+        <property name="complexAttributes">
+            <list>
+                <ref bean="CourseDetails.courseSummaryDetails"/>
+                <ref bean="CourseDetails.plannedCourseSummary"/>
+            </list>
+        </property>
+
+        <property name="collections">
+            <list>
+                <ref bean="CourseDetails.courseOfferingInstitutionList"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CourseDetails.courseSummaryDetails" parent="ComplexAttributeDefinition">
+        <property name="name" value="courseSummaryDetails"/>
+        <property name="dataObjectEntry" ref="CourseSummaryDetails"/>
+    </bean>
+
+    <bean id="CourseDetails.plannedCourseSummary" parent="ComplexAttributeDefinition">
+        <property name="name" value="plannedCourseSummary"/>
+        <property name="dataObjectEntry" ref="PlannedCourseSummary"/>
+    </bean>
+
+    <bean id="PlannedCourseSummary" parent="PlannedCourseSummary-parentBean"/>
+    <bean id="PlannedCourseSummary-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="objectLabel" value="Planned Courses Summary"/>
+        <property name="dataObjectClass" value="org.kuali.student.myplan.plan.dataobject.PlannedCourseSummary"/>
+        <property name="attributes">
+            <list>
+                <ref bean="PlannedCourseSummary.savedItemId"/>
+                <ref bean="PlannedCourseSummary.savedItemDateCreated"/>
+            </list>
+        </property>
+
+        <property name="collections">
+            <list>
+                <ref bean="CourseDetails.plannedList"/>
+                <ref bean="CourseDetails.backupList"/>
+                <ref bean="CourseDetails.acadRecList"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="PlannedCourseSummary.savedItemId"
+          parent="PlannedCourseSummary.savedItemId-parentBean"/>
+    <bean id="PlannedCourseSummary.savedItemId-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="savedItemId"/>
         <property name="label" value="Saved Item Id"/>
         <property name="shortLabel" value="Saved Item Id"/>
@@ -647,9 +785,9 @@
     </bean>
 
 
-    <bean id="CourseDetails.savedItemDateCreated"
-          parent="CourseDetails.savedItemDateCreated-parentBean"/>
-    <bean id="CourseDetails.savedItemDateCreated-parentBean" abstract="true"
+    <bean id="PlannedCourseSummary.savedItemDateCreated"
+          parent="PlannedCourseSummary.savedItemDateCreated-parentBean"/>
+    <bean id="PlannedCourseSummary.savedItemDateCreated-parentBean" abstract="true"
           parent="AttributeDefinition">
         <property name="name" value="savedItemDateCreated"/>
         <property name="dataType" value="STRING"/>
@@ -668,6 +806,11 @@
         </property>
     </bean>
 
+    <bean id="CourseDetails.courseOfferingInstitutionList" parent="CollectionDefinition">
+        <property name="name" value="courseOfferingInstitutionList"/>
+        <property name="dataObjectClass" value="org.kuali.student.myplan.course.dataobject.CourseOfferingInstitution"/>
+    </bean>
+
     <bean id="CourseDetails.plannedList" parent="CollectionDefinition">
         <property name="name" value="plannedList"/>
         <property name="dataObjectClass" value="org.kuali.student.myplan.plan.dataobject.PlanItemDataObject"/>
@@ -676,6 +819,11 @@
     <bean id="CourseDetails.backupList" parent="CollectionDefinition">
         <property name="name" value="backupList"/>
         <property name="dataObjectClass" value="org.kuali.student.myplan.plan.dataobject.PlanItemDataObject"/>
+    </bean>
+
+    <bean id="CourseDetails.acadRecList" parent="CollectionDefinition">
+        <property name="name" value="acadRecList"/>
+        <property name="dataObjectClass" value="org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject"/>
     </bean>
 
 

@@ -54,7 +54,7 @@ public class PlanControllerTest {
         planForm.setCourseId("e8a3fe1f-0592-4515-822c-4f806910775a");
         PlanController controller = getPlanController();
         controller.start(planForm, null, null, null);
-        assertTrue(planForm.getCourseDetails() != null);
+        assertTrue(planForm.getCourseSummaryDetails() != null);
     }
 
     @Test

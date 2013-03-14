@@ -3,6 +3,7 @@ package org.kuali.student.ap.framework.config;
 import javax.ejb.EJB;
 
 import org.kuali.student.ap.framework.context.AtpHelper;
+import org.kuali.student.ap.framework.context.EnrollmentStatusHelper;
 import org.kuali.student.ap.framework.context.EnumerationHelper;
 import org.kuali.student.ap.framework.context.KsapContext;
 import org.kuali.student.ap.framework.context.OrgHelper;
@@ -237,6 +238,15 @@ public final class KsapFrameworkServiceLocator {
 		return getInstance().courseSearchStrategy;
 	}
 
+    /**
+     * Get the course search strategy.
+     *
+     * @return The course search strategy.
+     */
+    public static EnrollmentStatusHelper getEnrollmentStatusHelper() {
+        return getInstance().enrollmentStatusHelper;
+    }
+
 	@EJB
 	private transient AtpService ksCoreAtpService;
 	@EJB
@@ -273,7 +283,8 @@ public final class KsapFrameworkServiceLocator {
 	private transient OrgHelper ksapOrgHelper;
 	@EJB
 	private transient AcademicPlanService academicPlanService;
-
+    @EJB
+    private transient EnrollmentStatusHelper enrollmentStatusHelper;
 	@EJB
 	@OptionalResource
 	// provided by ks-ap-ui or institution override

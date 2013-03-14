@@ -22,6 +22,7 @@ public class CourseSearchConstants {
 
     public static final String GEN_EDU_REQUIREMENTS_PREFIX = "course.genEdRequirement.";
 
+
     // Service Constants
     public static final String STATEMENT_SERVICE_NAMESPACE = "http://student.kuali.org/wsdl/statement";
     public static final String ENUM_SERVICE_NAMESPACE = "http://student.kuali.org/wsdl/enumerationmanagement";
@@ -44,6 +45,7 @@ public class CourseSearchConstants {
     public static final String SUBJECT_AREA = "kuali.lu.subjectArea";
 
     public static final String CAMPUS_LOCATION = "kuali.org.College";
+    public static final String CAMPUS_LOCATION_ORG_TYPE = "kuali.org.type.campus";
 
     public static final String SUBJECT_CODE = "kuali.org.SubjectCode";
 
@@ -64,4 +66,27 @@ public class CourseSearchConstants {
     public static final String IS_COURSE_OFFERING_SERVICE_UP = "isCourseOfferingServiceRunning";
 
     public static final String IS_ACADEMIC_RECORD_SERVICE_UP = "isAcademicRecordServiceRunning";
+
+    public static final String LINK = "<a href=\"%s/student/myplan/inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId=%s#%s_tab-%s\">%s</a>";
+
+    public static final String APP_URL = "appserver.url";
+
+    public static final String COURSE_SEARCH_FOR_COURSE_ID = "myplan.course.getcluid";
+
+    public static final String SEARCH_REQUEST_SUBJECT_PARAM = "subject";
+
+    public static final String SEARCH_REQUEST_NUMBER_PARAM = "number";
+
+    public static final String SEARCH_REQUEST_LAST_SCHEDULED_PARAM = "lastScheduledTerm";
+
+    /*Regex to Split Digits and alphabets Eg: COM 348 --> COM  348*/
+    public static final String SPLIT_DIGITS_ALPHABETS = "(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)";
+
+    /*Regex for validating the course Code eg: COM 301*/
+    public static final String FORMATTED_COURSE_CODE_REGEX = "^[A-Z]{1}[A-Z &]{2,6}\\s[0-9]{3}$";
+
+    /*Regex for validating the un-formatted courses eq:com131 or com    131 */
+    public static final String UNFORMATTED_COURSE_CODE_REGEX = "^[a-zA-Z]{1}[a-zA-Z &]{2,7}[0-9]{3}$";
+
+    public static final String COURSE_CODE_WITH_SECTION_REGEX = "^[A-Z]{1}[A-Z &]{2,6}\\s[0-9]{3}\\s[A-Z]{1}[A-Z0-9]{0,1}$";
 }

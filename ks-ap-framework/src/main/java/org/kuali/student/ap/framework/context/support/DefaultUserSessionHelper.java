@@ -41,6 +41,17 @@ public class DefaultUserSessionHelper implements UserSessionHelper {
 		return studentId;
 	}
 
+    /**
+     * Returns true if a user is logged in, false means it's a webservice client.
+     *
+     * @return
+     */
+    @Override
+    public boolean isUserSession() {
+        UserSession session = GlobalVariables.getUserSession();
+        return session != null;
+    }
+
 	@Override
 	public String getStudentName() {
 		UserSession session = GlobalVariables.getUserSession();

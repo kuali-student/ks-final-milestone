@@ -197,5 +197,17 @@
         </property>
     </bean>
 
+    <bean id="course_sections_help_icon" parent="MyPlanHelpImage">
+        <property name="toolTip">
+            <bean parent="MyPlan-Tooltip-Right"
+                  p:tooltipContent="&lt;strong&gt;ENRL/LIMIT&lt;/strong&gt; = section enrollment and overall enrollment limit&lt;/br&gt;
+                  &lt;strong&gt;ENRL. RESTR.&lt;/strong&gt; = applicable enrollment restrictions for each section&lt;/br&gt;
+                  &lt;strong&gt;OTHER&lt;/strong&gt; = additional information for each section&lt;/br&gt;
+                  &lt;strong&gt;PCE&lt;/strong&gt; = Professional &amp; Continuing Education&lt;/br&gt;
+                  &lt;/br&gt;
+                  &lt;a href=javascript:openHelpWindow('http://depts.washington.edu/myplan/help-site/#1308');&gt;Learn more about section details.&lt;/a&gt;
+                  "/>
+        </property>
+    </bean>
 
 </beans>

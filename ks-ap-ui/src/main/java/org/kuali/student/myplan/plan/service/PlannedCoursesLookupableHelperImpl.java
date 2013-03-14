@@ -67,19 +67,19 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
         }
         String[] params = {};
         if(!isServiceStatusOK){
-        GlobalVariables.getMessageMap().putWarningForSectionId(PlanConstants.PLAN_ITEM_RESPONSE_PAGE_ID, PlanConstants.ERROR_TECHNICAL_PROBLEMS, params);
+            GlobalVariables.getMessageMap().putWarningForSectionId(PlanConstants.PLAN_ITEM_RESPONSE_PAGE_ID, PlanConstants.ERROR_TECHNICAL_PROBLEMS, params);
         }
-
 
         /*************PlannedCourseList**************/
         List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();
         if(isServiceStatusOK){
         try {
-            plannedCoursesList = getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED, true, studentId);
+            plannedCoursesList = getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED, studentId);
         } catch (Exception e) {
             logger.error("Could not load plannedCourseslist", e);
 
         }
+
         }
         /****academic record SWS call to get the studentCourseRecordInfo list *****/
         List<StudentCourseRecordInfo> studentCourseRecordInfos = new ArrayList<StudentCourseRecordInfo>();
@@ -96,14 +96,15 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
         List<PlannedCourseDataObject> backupCoursesList = new ArrayList<PlannedCourseDataObject>();
         if(isServiceStatusOK){
         try {
-            backupCoursesList=getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP, true, studentId);
+            backupCoursesList=getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP, studentId);
         } catch (Exception e) {
             logger.error("Could not load backupCourseList", e);
 
         }
+
         }
 
-        List<PlannedTerm> perfectPlannedTerms = PlannedTermsHelperBase.populatePlannedTerms(plannedCoursesList, backupCoursesList, studentCourseRecordInfos, focusAtpId,isServiceStatusOK);
+        List<PlannedTerm> perfectPlannedTerms = PlannedTermsHelperBase.populatePlannedTerms(plannedCoursesList, backupCoursesList, studentCourseRecordInfos, focusAtpId,isServiceStatusOK, 6, false);
         return perfectPlannedTerms;
     }
 }

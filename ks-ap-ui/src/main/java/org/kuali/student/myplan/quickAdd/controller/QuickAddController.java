@@ -24,6 +24,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.EnrollmentStatusHelper;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
@@ -34,7 +35,8 @@ import org.kuali.student.myplan.academicplan.infc.LearningPlan;
 import org.kuali.student.myplan.academicplan.infc.PlanItem;
 import org.kuali.student.myplan.course.controller.CourseSearchController;
 import org.kuali.student.myplan.course.dataobject.CourseDetails;
-import org.kuali.student.myplan.course.service.CourseDetailsInquiryViewHelperServiceImpl;
+import org.kuali.student.myplan.course.dataobject.CourseSummaryDetails;
+import org.kuali.student.myplan.course.service.CourseDetailsInquiryHelperImpl;
 import org.kuali.student.myplan.quickAdd.QuickAddConstants;
 import org.kuali.student.myplan.quickAdd.form.QuickAddForm;
 import org.kuali.student.r2.common.dto.MetaInfo;
@@ -73,7 +75,7 @@ public class QuickAddController extends UifControllerBase {
 	private final CourseSearchStrategy strategy = KsapFrameworkServiceLocator
 			.getCourseSearchStrategy();
 
-	private final CourseDetailsInquiryViewHelperServiceImpl courseDetailsInquiryService = new CourseDetailsInquiryViewHelperServiceImpl();
+	private final CourseDetailsInquiryHelperImpl courseDetailsInquiryService = new CourseDetailsInquiryHelperImpl();
 
 	private final ObjectMapper mapper = new ObjectMapper();
 
@@ -82,13 +84,15 @@ public class QuickAddController extends UifControllerBase {
 		return new QuickAddForm();
 	}
 
+
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView get(@ModelAttribute("KualiForm") UifFormBase form,
 			BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
 		super.start(form, result, request, response);
+        QuickAddForm searchForm = (QuickAddForm) form;
 		form.setViewId("QuickAdd-FormView");
-		form.setView(getViewService().getViewById("QuickAdd-FormView"));
+        form.setView(super.getViewService().getViewById("QuickAdd-FormView"));
 		return getUIFModelAndView(form);
 	}
 
@@ -214,12 +218,10 @@ public class QuickAddController extends UifControllerBase {
 
 		String courseId = null;
 		Map<String, String> divisionMap = strategy.fetchCourseDivisions();
-		String[] splitStr = form.getCourseCd().split(
-				"(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-		if (splitStr.length == 2) {
-			String subject = org.apache.commons.lang.StringUtils
-					.upperCase(splitStr[0]);
-			String number = splitStr[1];
+        EnrollmentStatusHelper.CourseCode courseCode = KsapFrameworkServiceLocator.getEnrollmentStatusHelper().getCourseDivisionAndNumber(form.getCourseCd());
+        if (courseCode.getSubject() != null && courseCode.getNumber() != null) {
+            String subject = courseCode.getSubject();
+            String number = courseCode.getNumber();
 			if (number.length() != 3) {
 				return doOperationFailedError(form, "Course number is wrong",
 						QuickAddConstants.COURSE_NOT_FOUND, null,
@@ -229,30 +231,8 @@ public class QuickAddController extends UifControllerBase {
 			strategy.extractDivisions(divisionMap, subject, divisions, false);
 			if (divisions.size() > 0) {
 				subject = divisions.get(0);
-				SearchRequestInfo req = new SearchRequestInfo(
-						"myplan.course.getcluid");
-				SearchResult res = null;
-				try {
-					req.addParam("number", number);
-					req.addParam("subject", subject.trim());
-					req.addParam("currentTerm", KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId());
-					req.addParam("lastScheduledTerm",
-							KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId());
-
-					res = KsapFrameworkServiceLocator.getCluService().search(
-							req,
-							KsapFrameworkServiceLocator.getContext()
-									.getContextInfo());
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-				for (SearchResultRow row : res.getRows()) {
-					form.setCourseId(KsapFrameworkServiceLocator
-							.getCourseSearchStrategy().getCellValue(row,
-									"lu.resultColumn.cluId"));
-					courseId = form.getCourseId();
-					break;
-				}
+                form.setCourseId(KsapFrameworkServiceLocator.getEnrollmentStatusHelper().getCourseId(subject, number));
+			    courseId = form.getCourseId();
 			} else {
 				return doOperationFailedError(form, "Could not find course",
 						QuickAddConstants.COURSE_NOT_FOUND, null,
@@ -352,10 +332,9 @@ public class QuickAddController extends UifControllerBase {
 		}
 		// Lookup course details as well need them in case there is an error
 		// below.
-		CourseDetails courseDetails = null;
+        CourseSummaryDetails courseDetails = null;
 		try {
-			courseDetails = courseDetailsInquiryService.retrieveCourseSummary(
-					courseId, KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId());
+			courseDetails = courseDetailsInquiryService.retrieveCourseSummaryById(courseId);
 		} catch (Exception e) {
 			return doOperationFailedError(form,
 					"Unable to retrieve Course Details.",
@@ -395,8 +374,7 @@ public class QuickAddController extends UifControllerBase {
 			try {
 				planItem = addPlanItem(plan, courseId, newAtpIds, newType);
 			} catch (DuplicateEntryException e) {
-				return doDuplicatePlanItem(form, newAtpIds.get(0),
-						courseDetails);
+				return doDuplicatePlanItem(form, newAtpIds.get(0), courseDetails);
 			} catch (Exception e) {
 				return doOperationFailedError(form, "Unable to add plan item.",
 						PlanConstants.ERROR_KEY_OPERATION_FAILED, e,
@@ -405,8 +383,7 @@ public class QuickAddController extends UifControllerBase {
 		} else {
 			// Check for duplicates since addPlanItem isn't being called.
 			if (isDuplicate(plan, newAtpIds.get(0), courseId, newType)) {
-				return doDuplicatePlanItem(form, newAtpIds.get(0),
-						courseDetails);
+				return doDuplicatePlanItem(form, newAtpIds.get(0), courseDetails);
 			}
 			// Create wishlist events before updating the plan item.
 			wishlistEvents = makeRemoveEvent(planItem, courseDetails);
@@ -462,7 +439,7 @@ public class QuickAddController extends UifControllerBase {
 	 * @return
 	 */
 	private Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> makeRemoveEvent(
-			PlanItemInfo planItem, CourseDetails courseDetails) {
+			PlanItemInfo planItem, CourseSummaryDetails courseDetails) {
 		Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new LinkedHashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
 		Map<String, String> params = new HashMap<String, String>();
 
@@ -480,9 +457,7 @@ public class QuickAddController extends UifControllerBase {
 		String courseDetailsAsJson;
 		try {
 			if (courseDetails == null) {
-				courseDetails = courseDetailsInquiryService
-						.retrieveCourseSummary(planItem.getRefObjectId(),
-								KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId());
+                courseDetails = courseDetailsInquiryService.retrieveCourseSummaryById(planItem.getRefObjectId());
 			}
 			// Serialize course details into a string of JSON.
 			courseDetailsAsJson = mapper.writeValueAsString(courseDetails);
@@ -732,10 +707,7 @@ public class QuickAddController extends UifControllerBase {
 					String courseID = planItem.getRefObjectId();
 					for (String atp : planItem.getPlanPeriods()) {
 						if (atp.equalsIgnoreCase(termId)) {
-							CourseDetails courseDetails = courseDetailsInquiryService
-									.retrieveCourseSummary(courseID,
-											KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId());
-							if (courseDetails != null
+                            CourseSummaryDetails courseDetails = courseDetailsInquiryService.retrieveCourseSummaryById(courseID);							if (courseDetails != null
 									&& !courseDetails.getCredit().contains(".")) {
 								String[] str = courseDetails.getCredit().split(
 										"\\D");
@@ -877,19 +849,20 @@ public class QuickAddController extends UifControllerBase {
 	 * @throws RuntimeException
 	 *             if anything goes wrong.
 	 */
-	private Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> makeAddEvent(
-			PlanItemInfo planItem, CourseDetails courseDetails) {
+    private Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> makeAddEvent(PlanItemInfo planItem, CourseSummaryDetails courseDetails) {
 		Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new LinkedHashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("planItemId", planItem.getId());
 		params.put("planItemType", formatTypeKey(planItem.getTypeKey()));
 		// Only planned or backup items get an atpId attribute.
-		if (planItem.getTypeKey().equals(
-				PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)
-				|| planItem.getTypeKey().equals(
-						PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)) {
-			params.put("atpId",
-					formatAtpIdForUI(planItem.getPlanPeriods().get(0)));
+        if (planItem.getTypeKey().equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED) ||
+                planItem.getTypeKey().equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)) {
+            params.put("atpId", formatAtpIdForUI(planItem.getPlanPeriods().get(0)));
+            // event for aler Icon
+            List<String> publishedTerms = KsapFrameworkServiceLocator.getAtpHelper().getPublishedTerms();
+            params.put("showAlert", String.valueOf(!KsapFrameworkServiceLocator.getAtpHelper().isCourseOfferedInTerm(planItem.getPlanPeriods().get(0), courseDetails.getCode())));
+            params.put("termName", KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(planItem.getPlanPeriods().get(0)).toTermName());
+            params.put("timeScheduleOpen", String.valueOf(publishedTerms.contains(planItem.getPlanPeriods().get(0))));
 		}
 
 		// Create Javascript events.
@@ -1117,13 +1090,27 @@ public class QuickAddController extends UifControllerBase {
 	/**
 	 * Blow-up response for all plan item actions.
 	 */
-	private ModelAndView doOperationFailedError(QuickAddForm form,
-			String errorMessage, String errorKey, Exception e, String[] params) {
+    private ModelAndView doPageRefreshError(QuickAddForm form, String errorMessage, Exception e) {
+        // <a href="/student/myplan/plan?methodToCall=start&viewId=PlannedCourses-FormView">Reset your academic plan</a>
+        // Removed link because html string is being encoded in the view
+        String[] params = {};
 		if (e != null) {
 			LOG.error(errorMessage, e);
 		} else {
 			LOG.error(errorMessage);
 		}
+        return doErrorPage(form, errorMessage, PlanConstants.ERROR_KEY_PAGE_RESET_REQUIRED, params, e);
+    }
+
+    /**
+     * Blow-up response for all plan item actions.
+     */
+    private ModelAndView doOperationFailedError(QuickAddForm form, String errorMessage, String errorKey, Exception e, String[] params) {
+        if (e != null) {
+            LOG.error(errorMessage, e);
+        } else {
+            LOG.error(errorMessage);
+        }
 		return doErrorPage(form, errorMessage, errorKey, params, e);
 	}
 
@@ -1157,7 +1144,7 @@ public class QuickAddController extends UifControllerBase {
 	 * Blow-up response for all plan item actions.
 	 */
 	private ModelAndView doDuplicatePlanItem(QuickAddForm form, String atpId,
-			CourseDetails courseDetails) {
+			CourseSummaryDetails courseDetails) {
 		/*
 		 * String[] t = {"?", "?"}; try { t =
 		 * KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermNameAndYear(atpId); } catch (RuntimeException e)

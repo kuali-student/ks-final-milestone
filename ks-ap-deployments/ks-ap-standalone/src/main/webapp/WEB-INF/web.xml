@@ -80,8 +80,11 @@
     </listener>
 
     <!-- KRAD listener for finding and loading additional web modules-->
-    <listener>
+    <!--<listener>
         <listener-class>org.kuali.rice.core.framework.config.module.WebModuleLoaderListener</listener-class>
+    </listener>-->
+    <listener>
+        <listener-class>org.kuali.student.ap.framework.config.KsapWebModuleLoaderListener</listener-class>
     </listener>
 
     <!-- -->
@@ -200,9 +203,30 @@
     </filter-mapping>
 
     <!-- Setups for the servlets used in the application -->
-    <servlet>
+    <!--<servlet>
         <servlet-name>action</servlet-name>
         <servlet-class>org.kuali.rice.kns.web.struts.action.KualiActionServlet</servlet-class>
+        <init-param>
+            <param-name>config</param-name>
+            <param-value>/WEB-INF/struts-config.xml</param-value>
+        </init-param>
+        <init-param>
+            <param-name>config/core</param-name>
+            <param-value>/core/WEB-INF/struts-config.xml</param-value>
+        </init-param>
+        <init-param>
+            <param-name>debug</param-name>
+            <param-value>3</param-value>
+        </init-param>
+        <init-param>
+            <param-name>detail</param-name>
+            <param-value>3</param-value>
+        </init-param>
+        <load-on-startup>0</load-on-startup>
+    </servlet>-->
+    <servlet>
+        <servlet-name>action</servlet-name>
+        <servlet-class>org.kuali.student.ap.framework.config.KsapActionServlet</servlet-class>
         <init-param>
             <param-name>config</param-name>
             <param-value>/WEB-INF/struts-config.xml</param-value>

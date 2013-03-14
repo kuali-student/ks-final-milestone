@@ -70,6 +70,10 @@ td.jquerybubblepopup-innerHtml {
     line-height: 1.6667em;
 }
 
+.myplan-view table.dataTable thead th.sorting_disabled {
+    cursor: default;
+}
+
 .smtext {
     font: normal 0.8462/1.8182 Arial, Helvetica, Verdana, sans-serif;
 }
@@ -338,7 +342,8 @@ a:focus {
 
 .myplan-view .uif-pageHeaderField .uif-header {
     border: none;
-    font-size: 1.8462em/1.6667em;
+    font-size: 1.8462em;
+    line-height: 1.6667em;
     padding: 0;
 }
 
@@ -570,6 +575,14 @@ input.myplan-add:hover,
     background-position: -16px 0px;
 }
 
+input.myplan-delete,
+.uif-imageField.myplan-delete img.uif-image {
+    width: 16px;
+    height: 16px;
+    background: url('../images/iconError16.png') no-repeat 0px 0px;
+    vertical-align: middle;
+}
+
 .myplan-stacked-list,
 .myplan-stacked-list ul,
 .myplan-stacked-list li,
@@ -617,6 +630,14 @@ input.myplan-add:hover,
     line-height: 1.8em;
     display: inline-block;
 }
+
+.myplan-data-list .scheduled dl dd a,
+.myplan-data-list dl.scheduled dd a {
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+}
+
 /* Seasonal colors */
 .AU, .FA {
     background: #FFCCCC !important;
@@ -928,8 +949,13 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
 .myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .quick-add-cell {
     height: 25px;
     line-height: 25px;
-    padding: 0 5px 0 22px;
+    padding: 0 5px 0 26px;
 }
+
+.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .schedule {
+    padding: 0 5px 0 4px;
+}
+
 .myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .myplan-course-valid.not-scheduled,
 .myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .myplan-course-invalid.not-scheduled {
     background: url('../images/iconWarning.png') no-repeat 4px;
@@ -1651,6 +1677,16 @@ table.myplan-course-search-results-datatable .blockUI {
     margin: 0 0.33em 0 0;
 }
 */
+
+.myplan-view .myplan-underline-header {
+    border-bottom: solid 2px #f2e4b7;
+    margin-bottom: 20px;
+}
+
+.myplan-view .myplan-underline-header .uif-headerText {
+    font-weight: 700;
+}
+
 .myplan-view .myplan-course-detail-label {
     width: 150px;
     margin-right: 20px;
@@ -1710,35 +1746,58 @@ table.myplan-course-search-results-datatable .blockUI {
 }
 
 .myplan-course-sections .ui-tabs .ui-tabs-nav {
-    margin-bottom: 20px;
+    /* border-right: solid 1px #ddd;
+    border-bottom: solid 1px #ddd;
+    background-image: -ms-linear-gradient(top, #F5F5F5 0%, #EBEBEB 100%);
+    background-image: -moz-linear-gradient(top, #F5F5F5 0%, #EBEBEB 100%);
+    background-image: -o-linear-gradient(top, #F5F5F5 0%, #EBEBEB 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #F5F5F5), color-stop(1, #EBEBEB));
+    background-image: -webkit-linear-gradient(top, #F5F5F5 0%, #EBEBEB 100%);
+    background-image: linear-gradient(to bottom, #F5F5F5 0%, #EBEBEB 100%);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#F5F5F5', endColorstr='#EBEBEB')"; /* IE8 */
 }
 
 .myplan-course-sections .ui-tabs .ui-tabs-nav li {
-    margin: 0 0 0 1em;
-    padding: 0 0 0 1em;
-    border-left: solid 2px #000;
     border-radius: 0px;
-}
-
-.myplan-course-sections .ui-tabs-nav li:first-child {
-    margin: 0;
-    padding: 0;
-    border: none;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 20px;
+    top: 0px;
+    margin-bottom: -1px;
 }
 
 .myplan-course-sections .ui-tabs .ui-tabs-nav li a {
-    font-size: 1.25em;
+    font-size: 1.15em;
+}
+
+.myplan-course-sections .ui-tabs .ui-tabs-nav li.ui-tabs-selected.ui-state-active {
+    border-right: solid 1px #ddd;
+    border-left: solid 1px #ddd;
+    background: #fff;
+    border-bottom: solid 1px #fff;
+}
+
+.myplan-course-sections .ui-tabs .ui-tabs-nav li:first-child {
+    border-left: solid 1px #ddd;
+}
+
+.myplan-course-sections .ui-tabs .ui-tabs-nav li.ui-tabs-selected.ui-state-active:first-child {
+    /*border-left: none;*/
 }
 
 .myplan-course-sections .ui-tabs .ui-tabs-nav li.ui-tabs-selected.ui-state-active a {
     font-weight: 700;
+    font-size: 1.25em;
 }
 
 .myplan-course-sections h5.uif-headerText {
     text-transform: uppercase;
-    color: #5d5d5d;
+    color: #666;
     font-size: 1.4em;
     font-weight: 500;
+    padding: 2px 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
 /* Reset */

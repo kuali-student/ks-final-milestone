@@ -24,7 +24,7 @@ public class AcademicRecordDataObject {
     private transient String grade;
     private transient String credit;
     private transient boolean isRepeated;
-    private transient List<ActivityOfferingItem> activityOfferingItemList;
+    private transient ActivityOfferingItem activityOfferingItem;
 
     public AcademicRecordDataObject() {
         uuid = UUIDHelper.genStringUUID();
@@ -98,12 +98,12 @@ public class AcademicRecordDataObject {
         this.courseId = courseId;
     }
 
-    public List<ActivityOfferingItem> getActivityOfferingItemList() {
-        return activityOfferingItemList;
+    public ActivityOfferingItem getActivityOfferingItem() {
+        return activityOfferingItem;
     }
 
-    public void setActivityOfferingItemList(List<ActivityOfferingItem> activityOfferingItemList) {
-        this.activityOfferingItemList = activityOfferingItemList;
+    public void setActivityOfferingItem(ActivityOfferingItem activityOfferingItem) {
+        this.activityOfferingItem = activityOfferingItem;
     }
 
     public String getActivityCode() {

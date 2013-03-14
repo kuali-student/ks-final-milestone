@@ -1,11 +1,11 @@
 /* Copyright 2011 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the
  * "License"); you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,11 +16,17 @@ package org.kuali.student.myplan.plan.form;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
+import org.kuali.student.myplan.course.dataobject.ActivityOfferingItem;
 import org.kuali.student.myplan.course.dataobject.CourseDetails;
+import org.kuali.student.myplan.course.dataobject.CourseSummaryDetails;
+import org.kuali.student.myplan.plan.dataobject.PlannedCourseSummary;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -54,13 +60,29 @@ public class PlanForm extends UifFormBase {
 
     private String courseId;
 
+
+    /*properties used for section Planning*/
     private String sectionCode;
+
+    private String primarySectionCode;
+
+    private String primaryPlanItemId;
+
+    private String instituteCode;
+
+    private boolean primary;
+
+    private List<String> sectionsToDelete;
 
     //Flag Used for student to hide or un hide
     // plan view to adviser
-    private String enableAdviserView=PlanConstants.LEARNING_PLAN_ITEM_SHARED_TRUE_KEY;
+    private String enableAdviserView= PlanConstants.LEARNING_PLAN_ITEM_SHARED_TRUE_KEY;
 
-    private CourseDetails courseDetails;
+    private CourseSummaryDetails courseSummaryDetails;
+
+    private List<ActivityOfferingItem> planActivities;
+
+    private PlannedCourseSummary plannedCourseSummary;
 
     //  Form fields.
     private String atpId;
@@ -203,12 +225,20 @@ public class PlanForm extends UifFormBase {
         this.termYear = termYear;
     }
 
-    public CourseDetails getCourseDetails() {
-        return this.courseDetails;
+    public CourseSummaryDetails getCourseSummaryDetails() {
+        return this.courseSummaryDetails;
     }
 
-    public void setCourseDetails(CourseDetails courseDetails) {
-        this.courseDetails = courseDetails;
+    public void setCourseSummaryDetails(CourseSummaryDetails courseSummaryDetails) {
+        this.courseSummaryDetails = courseSummaryDetails;
+    }
+
+    public PlannedCourseSummary getPlannedCourseSummary() {
+        return plannedCourseSummary;
+    }
+
+    public void setPlannedCourseSummary(PlannedCourseSummary plannedCourseSummary) {
+        this.plannedCourseSummary = plannedCourseSummary;
     }
 
     public REQUEST_STATUS getRequestStatus() {
@@ -283,6 +313,63 @@ public class PlanForm extends UifFormBase {
         this.courseInBackup = courseInBackup;
     }
 
+    public String getPrimarySectionCode() {
+        return primarySectionCode;
+    }
+
+    public void setPrimarySectionCode(String primarySectionCode) {
+        this.primarySectionCode = primarySectionCode;
+    }
+
+    public String getInstituteCode() {
+        return instituteCode;
+    }
+
+    public void setInstituteCode(String instituteCode) {
+        this.instituteCode = instituteCode;
+    }
+
+    public boolean isPrimary() {
+        return primary;
+    }
+
+    public void setPrimary(boolean primary) {
+        this.primary = primary;
+    }
+
+    public String getPrimaryPlanItemId() {
+        return primaryPlanItemId;
+    }
+
+    public void setPrimaryPlanItemId(String primaryPlanItemId) {
+        this.primaryPlanItemId = primaryPlanItemId;
+    }
+
+    public List<String> getSectionsToDelete() {
+        return sectionsToDelete;
+    }
+
+    public void setSectionsToDelete(List<String> sectionsToDelete) {
+        this.sectionsToDelete = sectionsToDelete;
+    }
+
+    public List<ActivityOfferingItem> getPlanActivities() {
+        return planActivities;
+    }
+
+    public void setPlanActivities(List<ActivityOfferingItem> planActivities) {
+        this.planActivities = planActivities;
+    }
+
+    /*Only used in the Ui for getting the short Term*/
+    public String getShortTerm() {
+        String shortTermName = "";
+        if (getAtpId() != null) {
+            shortTermName = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(getAtpId()).toTermName();
+        }
+        return shortTermName;
+    }
+
     /**
      * Returns the list of events that should be
      */
@@ -305,5 +392,11 @@ public class PlanForm extends UifFormBase {
         return jsonOut;
     }
 
-
+    //  Added this for using in the crud message matrix property editor
+    public CourseDetails getCourseAndPlanSummary() {
+        CourseDetails courseDetails = new CourseDetails();
+        courseDetails.setCourseSummaryDetails(this.getCourseSummaryDetails());
+        courseDetails.setPlannedCourseSummary(this.getPlannedCourseSummary());
+        return courseDetails;
+    }
 }

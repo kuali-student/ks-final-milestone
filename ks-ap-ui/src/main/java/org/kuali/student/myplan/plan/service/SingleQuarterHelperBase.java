@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.myplan.course.dataobject.ActivityOfferingItem;
-import org.kuali.student.myplan.course.service.CourseDetailsInquiryViewHelperServiceImpl;
+import org.kuali.student.myplan.course.service.CourseDetailsInquiryHelperImpl;
 import org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedTerm;
@@ -33,7 +33,7 @@ public class SingleQuarterHelperBase {
     private static String atpTerm4 = "4";
 
 
-    public static List<PlannedTerm> populatePlannedTerms(List<PlannedCourseDataObject> plannedCoursesList, List<PlannedCourseDataObject> backupCoursesList, List<StudentCourseRecordInfo> studentCourseRecordInfos, String termAtp, boolean isServiceUp) {
+    public static PlannedTerm populatePlannedTerms(List<PlannedCourseDataObject> plannedCoursesList, List<PlannedCourseDataObject> backupCoursesList, List<StudentCourseRecordInfo> studentCourseRecordInfos, String termAtp, boolean isServiceUp) {
 
 
         String globalCurrentAtpId = null;
@@ -74,11 +74,12 @@ public class SingleQuarterHelperBase {
         if (studentCourseRecordInfos.size() > 0) {
             for (StudentCourseRecordInfo studentInfo : studentCourseRecordInfos) {
                 if (termAtp.equalsIgnoreCase(studentInfo.getTermName())) {
-                    CourseDetailsInquiryViewHelperServiceImpl courseDetailsService = new CourseDetailsInquiryViewHelperServiceImpl();
+                    CourseDetailsInquiryHelperImpl courseDetailsService = new CourseDetailsInquiryHelperImpl();
                     AcademicRecordDataObject academicRecordDataObject = new AcademicRecordDataObject();
                     academicRecordDataObject.setAtpId(studentInfo.getTermName());
                     academicRecordDataObject.setPersonId(studentInfo.getPersonId());
                     academicRecordDataObject.setCourseCode(studentInfo.getCourseCode());
+
                     /*TODO: StudentCourseRecordInfo does not have a courseId property so using Id to set the course Id*/
                     academicRecordDataObject.setCourseId(studentInfo.getId());
                     academicRecordDataObject.setCourseTitle(studentInfo.getCourseTitle());
@@ -88,15 +89,19 @@ public class SingleQuarterHelperBase {
                     } else if ("X".equalsIgnoreCase(studentInfo.getCalculatedGradeValue()) && KsapFrameworkServiceLocator.getAtpHelper().isAtpCompletedTerm(studentInfo.getTermName())) {
                         academicRecordDataObject.setGrade(studentInfo.getCalculatedGradeValue());
                     }
-                    academicRecordDataObject.setActivityCode(studentInfo.getActivityCode());
+                    if (!KsapFrameworkServiceLocator.getAtpHelper().isAtpCompletedTerm(studentInfo.getTermName())) {
+                        academicRecordDataObject.setActivityCode(studentInfo.getActivityCode());
+                    }
                     academicRecordDataObject.setRepeated(studentInfo.getIsRepeated());
-                    List<ActivityOfferingItem> activityOfferingItemList = courseDetailsService.getActivityOfferingItems(academicRecordDataObject.getCourseId(), academicRecordDataObject.getAtpId(), studentInfo.getCourseCode());
-                    for (ActivityOfferingItem activityOfferingItem : activityOfferingItemList) {
-                        if (activityOfferingItem.getCode().equalsIgnoreCase(academicRecordDataObject.getActivityCode())) {
-                            List<ActivityOfferingItem> activityOfferingItems = new ArrayList<ActivityOfferingItem>();
-                            activityOfferingItems.add(activityOfferingItem);
-                            academicRecordDataObject.setActivityOfferingItemList(activityOfferingItems);
-                            break;
+
+                    if (academicRecordDataObject.getCourseId() != null) {
+                        List<ActivityOfferingItem> activityOfferingItemList = courseDetailsService.getActivityOfferingItemsById(academicRecordDataObject.getCourseId(), academicRecordDataObject.getAtpId());
+                        for (ActivityOfferingItem activityOfferingItem : activityOfferingItemList) {
+                            if (activityOfferingItem.getCode().equalsIgnoreCase(academicRecordDataObject.getActivityCode())) {
+                                academicRecordDataObject.setActivityOfferingItem(activityOfferingItem);
+                                break;
+                            }
+
                         }
                     }
 
@@ -122,15 +127,10 @@ public class SingleQuarterHelperBase {
             plannedTerm.setCurrentTermForView(true);
         }
 
-        List<PlannedTerm> perfectPlannedTerms = new ArrayList<PlannedTerm>();
-        if (plannedTerm != null) {
-            perfectPlannedTerms.add(plannedTerm);
-        }
-
 /*
         populateHelpIconFlags(perfectPlannedTerms);
 */
-        return perfectPlannedTerms;
+        return plannedTerm;
 
     }
 
