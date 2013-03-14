@@ -16,6 +16,7 @@ public class DegreeAuditServiceConstants {
 
     public static final String AUDIT_TYPE_KEY_DEFAULT = "kauli.audit.type.default";
     public static final String AUDIT_TYPE_KEY_HTML = "kauli.audit.type.html";
+    public static final String AUDIT_TYPE_KEY_XML = "kuali.audit.type.xml";
     public static final String AUDIT_TYPE_KEY_PRINT = "kauli.audit.type.print";
     public static final String AUDIT_TYPE_KEY_SUMMARY = "kauli.audit.type.summary";
     public static final String DEGREE_AUDIT_EN_US_LOCALE = "en_US";
