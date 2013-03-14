@@ -21,6 +21,11 @@ function ksAddRowSelectionCheckbox(readOnly, collectionId, callClickEvents, onCl
         return;
     }
 
+    var collectionCheckboxes = jQuery('div#'+collectionId+' tbody > tr').find('td:first input[type="checkbox"]');
+    if (collectionCheckboxes.length == 1) {
+        return;
+    }
+
     var newCheckbox = jQuery("<input type='checkbox' id='"+collectionId+"_toggle_control_checkbox'/>");
     newCheckbox.click(function(){
         var checkbox = jQuery(this);
@@ -46,8 +51,7 @@ function ksAddRowSelectionCheckbox(readOnly, collectionId, callClickEvents, onCl
     jQuery('div#'+ collectionId +' table > thead > tr > th:first').prepend(newCheckbox);
 
     var clickName;
-    jQuery('div#'+collectionId+' tbody > tr').find('td:first input[type="checkbox"]')
-        .each(function(ndx,ctl) {
+    collectionCheckboxes.each(function(ndx,ctl) {
             clickName = "click." + collectionId + "_row_" + ndx;
             jQuery(this).on(clickName, function(){
                 _ksControlCheckboxStatus(collectionId,this);
