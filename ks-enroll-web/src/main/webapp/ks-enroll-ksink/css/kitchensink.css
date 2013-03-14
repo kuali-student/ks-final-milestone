@@ -1,5 +1,8 @@
 /* used by ks-enroll-ksink */
 
+/*.myplan-popup-close { cursor:pointer; position:absolute; top:10px; right:10px; }*/
+/*div.ks-uif-field-with-help .uif-horizontalBoxLayout { white-space:nowrap; }*/
+
 .ks-uif-imageButton {
     background: inherit;
     border: none;
@@ -66,3 +69,13 @@ ul#ul_id_temp li:hover
 .uif-ks-kitchensink-footerLinkGroup-linkDelimiterEnd { margin-left:0.25em; }
 
 .uif-ks-kitchensink-marginTop { margin-top:10px; }
+
+/* styles for form lightbox */
+.ks-uif-lightbox-form { overflow:hidden; }
+.ks-uif-lightbox-form-header { margin-bottom:0; }
+.ks-uif-lightbox-form-header .uif-header { margin-bottom:7px; margin-top:0; }
+.ks-uif-lightbox-form-content { margin-bottom:0; padding:5px; border:solid 1px #555; }
+.ks-uif-lightbox-form-footer { margin-bottom:0; margin-top:7px; }
+.ks-uif-lightbox-form-footer .uif-action { margin-bottom:0; }
+
+x.maxWidth { max-width:75px; }
