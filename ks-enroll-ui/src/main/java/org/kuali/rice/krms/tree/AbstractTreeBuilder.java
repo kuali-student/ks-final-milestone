@@ -2,6 +2,7 @@ package org.kuali.rice.krms.tree;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.krms.api.repository.NaturalLanguageTree;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
@@ -26,12 +27,20 @@ public abstract class AbstractTreeBuilder implements TreeBuilder {
 
     protected String usageId;
 
+    private TreeIterator nlDescriptions;
+
     public RuleManagementService getRuleManagementService() {
         return ruleManagementService;
     }
 
     public void setRuleManagementService(RuleManagementService ruleManagementService) {
         this.ruleManagementService = ruleManagementService;
+    }
+
+    protected void setNaturalLanguageTree(PropositionEditor root){
+        PropositionDefinition.Builder propBuilder = PropositionDefinition.Builder.create(root);
+        NaturalLanguageTree nlTree = this.getRuleManagementService().translateNaturalLanguageTreeForProposition(this.getNaturalLanguageUsageId(), propBuilder.build(), "en");
+        nlDescriptions = new TreeIterator(nlTree);
     }
 
     protected String buildNodeLabel(RuleDefinitionContract rule, PropositionEditor prop, boolean refreshNl){
@@ -44,9 +53,8 @@ public abstract class AbstractTreeBuilder implements TreeBuilder {
         }
 
         // Update description from natural language
-        if ((refreshNl) && (proposition.getTypeId() != null)){
-            PropositionDefinition.Builder propBuilder = PropositionDefinition.Builder.create(proposition);
-            proposition.setDescription(this.getRuleManagementService().translateNaturalLanguageForProposition(this.getNaturalLanguageUsageId(), propBuilder.build(), "en"));
+        if (refreshNl){
+            return nlDescriptions.next();
         }
 
         //Return the description

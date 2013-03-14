@@ -76,8 +76,8 @@ public class NaturalLanguageTree implements NaturalLanguageTreeContract {
             for (NaturalLanguageTreeContract nltree : builder.getChildren()) {
                 list.add(Builder.create(nltree).build());
             }
+            this.children = Collections.unmodifiableList(list);
         }
-        this.children = Collections.unmodifiableList(list);
     }
 
     /**

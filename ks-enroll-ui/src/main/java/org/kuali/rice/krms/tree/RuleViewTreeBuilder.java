@@ -3,6 +3,7 @@ package org.kuali.rice.krms.tree;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
+import org.kuali.rice.krms.api.repository.NaturalLanguageTree;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
@@ -26,6 +27,7 @@ public class RuleViewTreeBuilder extends AbstractTreeBuilder {
     private static final long serialVersionUID = 1L;
 
     public Tree<TreeNode, String> buildTree(RuleEditor rule, boolean refreshNl) {
+
         Tree myTree = new Tree<TreeNode, String>();
 
         Node<TreeNode, String> rootNode = new Node<TreeNode, String>();
@@ -34,15 +36,21 @@ public class RuleViewTreeBuilder extends AbstractTreeBuilder {
         rootNode.setData(new TreeNode("Rule:"));
         myTree.setRootElement(rootNode);
 
-        if (rule != null) {
-            PropositionEditor prop = (PropositionEditor) rule.getProposition();
-            buildPreviewTree(rule, rootNode, prop, refreshNl);
+        if (rule == null) {
+            return myTree;
         }
+
+        PropositionEditor prop = (PropositionEditor) rule.getProposition();
+        if (refreshNl) {
+            this.setNaturalLanguageTree(prop);
+        }
+        buildPreviewTree(rule, rootNode, prop, refreshNl);
+
 
         //Underline the first node in the preview.
         if ((rootNode.getChildren() != null) && (rootNode.getChildren().size() > 0)) {
             Node<TreeNode, String> firstNode = rootNode.getChildren().get(0);
-            if ((firstNode.getChildren() != null) && (firstNode.getChildren().size() > 0)){
+            if ((firstNode.getChildren() != null) && (firstNode.getChildren().size() > 0)) {
                 firstNode.setNodeType("subruleHeader subruleElement");
                 firstNode.setNodeLabel("<u>" + firstNode.getNodeLabel() + ":</u>");
             }
@@ -58,7 +66,7 @@ public class RuleViewTreeBuilder extends AbstractTreeBuilder {
             newNode.setNodeLabel(this.buildNodeLabel(rule, prop, refreshNl));
             newNode.setNodeType("subruleElement");
 
-            TreeNode tNode = new TreeNode(this.getDescription(prop, refreshNl));
+            TreeNode tNode = new TreeNode(newNode.getNodeLabel());
             tNode.setListItems(this.getListItems(prop));
             newNode.setData(tNode);
             currentNode.getChildren().add(newNode);

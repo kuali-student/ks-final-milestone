@@ -38,6 +38,9 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
         myTree.setRootElement(rootNode);
 
         PropositionEditor prop = (PropositionEditor) rule.getProposition();
+        if (refreshNl) {
+            this.setNaturalLanguageTree(prop);
+        }
         addChildNode(rule, rootNode, prop, refreshNl);
 
         return myTree;
@@ -123,20 +126,6 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
         aNode.setNodeType("ruleTreeNode compoundOpCodeNode");
         aNode.setData(new KSCompoundOpCodeNode(prop));
         currentNode.getChildren().add(aNode);
-    }
-
-    protected String getDescription(PropositionEditor proposition, boolean refreshNl) {
-        if (proposition == null) {
-            return StringUtils.EMPTY;
-        }
-
-        // Return editing natural language
-        if ((refreshNl) && (proposition.getTypeId() != null)){
-            PropositionDefinition.Builder propBuilder = PropositionDefinition.Builder.create(proposition);
-            return this.getRuleManagementService().translateNaturalLanguageForProposition(this.getNaturalLanguageUsageId(), propBuilder.build(), "en");
-        }
-
-        return StringUtils.EMPTY;
     }
 
     protected String getNaturalLanguageUsageId(){

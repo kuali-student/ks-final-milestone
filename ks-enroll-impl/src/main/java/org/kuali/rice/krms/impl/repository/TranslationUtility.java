@@ -137,6 +137,7 @@ public class TranslationUtility implements TranslateBusinessMethods {
             for (PropositionDefinition child : proposition.getCompoundComponents()) {
                 children.add(this.translateNaturalLanguageTreeForProposition(naturalLanguageUsageId, child, languageCode));
             }
+            tree.setChildren(children);
             return tree.build();
         }
         throw new RiceIllegalArgumentException("Unknown proposition type: " + proposition.getPropositionTypeCode());
