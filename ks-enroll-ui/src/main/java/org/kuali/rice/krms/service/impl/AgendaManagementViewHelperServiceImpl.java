@@ -2,6 +2,8 @@ package org.kuali.rice.krms.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.tree.Node;
+import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.view.View;
@@ -16,6 +18,7 @@ import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
+import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermParameterDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
@@ -31,7 +34,9 @@ import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.service.AgendaManagementViewHelperService;
 import org.kuali.rice.krms.service.TemplateRegistry;
+import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
+import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.AgendaBuilder;
 import org.kuali.student.enrollment.class1.krms.form.AgendaManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
@@ -53,6 +58,7 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
     private RuleViewTreeBuilder viewTreeBuilder;
     private Map<String, AgendaTypeInfo> typeRelationsMap;
     private transient TemplateRegistry templateRegistry;
+    private RuleCompareTreeBuilder compareTreeBuilder;
 
     @Override
     protected void addCustomContainerComponents(View view, Object model, Container container) {
@@ -62,12 +68,27 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
             builder.setTypeRelationsMap(this.getTypeRelationsMap());
             List<Component> components = new ArrayList<Component>();
 
+            List<AgendaTypeInfo> agendaTypeInfos = new ArrayList<AgendaTypeInfo>(typeRelationsMap.values());
+
             //Retrieve the current editing proposition if exists.
             List<AgendaEditor> agendas = ((AgendaManagementForm) model).getAgendas();
-            for (AgendaEditor agenda : agendas) {
-                components.add(builder.buildAgenda(agenda));
+            for (AgendaTypeInfo agendaTypeInfo : agendaTypeInfos) {
+                boolean exist = false;
+                for(AgendaEditor agenda : agendas) {
+                    if(agenda.getTypeId().equals(agendaTypeInfo.getId())) {
+                        components.add(builder.buildAgenda(agenda));
+                        exist = true;
+                    }
+                }
+                if(!exist) {
+                    AgendaEditor emptyAgenda = new AgendaEditor();
+                    emptyAgenda.setTypeId(agendaTypeInfo.getId());
+                    components.add(builder.buildAgenda(emptyAgenda));
+                }
             }
             container.setItems(components);
+            //Initialize the compare tree
+            ((AgendaManagementForm) model).setCompareTree(this.buildCompareTree(null));
         }
     }
 
@@ -184,7 +205,13 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
                     RuleTypeInfo ruleTypeInfo = new RuleTypeInfo();
                     ruleTypeInfo.setId(ruleRelationship.getToTypeId());
                     ruleTypeInfo.setDescription(this.getDescriptionForTypeAndUsage(ruleRelationship.getToTypeId(), descriptionUsageId));
+                    if(ruleTypeInfo.getDescription().isEmpty()) {
+                        ruleTypeInfo.setDescription("Description is unset rule type");
+                    }
                     ruleTypeInfo.setInstruction(this.getDescriptionForTypeAndUsage(ruleRelationship.getToTypeId(), instructionUsageId));
+                    if(ruleTypeInfo.getInstruction().isEmpty()) {
+                        ruleTypeInfo.setInstruction("Instruction is unset for rule type");
+                    }
                     // Add rule types to list.
                     ruleTypes.add(ruleTypeInfo);
                 }
@@ -193,6 +220,32 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
             }
         }
         return typeRelationsMap;
+    }
+
+    @Override
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original) {
+
+        //Get the CLU Tree.
+        RuleDefinitionContract compare = this.getRuleManagementService().getRule("10063");
+
+        //Build the Tree
+        Tree<CompareTreeNode, String> compareTree = this.getCompareTreeBuilder().buildTree(original, compare);
+
+        //Set data headers on root node.
+        Node<CompareTreeNode, String> node = compareTree.getRootElement();
+        if ((node.getChildren() != null) && (node.getChildren().size() > 0)) {
+            Node<CompareTreeNode, String> childNode = node.getChildren().get(0);
+
+            // Set the headers on the first root child
+            if (childNode.getData() != null) {
+                CompareTreeNode compareTreeNode = childNode.getData();
+                compareTreeNode.setOriginal("CO Rules");
+                compareTreeNode.setCompared("CLU Rules");
+            }
+
+        }
+
+        return compareTree;
     }
 
     private String getDescriptionForTypeAndUsage(String typeId, String usageId){
@@ -232,5 +285,13 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
             templateRegistry = (TemplateRegistry) GlobalResourceLoader.getService(QName.valueOf("templateResolverMockService"));
         }
         return templateRegistry;
+    }
+
+    public RuleCompareTreeBuilder getCompareTreeBuilder() {
+        if (compareTreeBuilder == null) {
+            compareTreeBuilder = new RuleCompareTreeBuilder();
+            compareTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+        }
+        return compareTreeBuilder;
     }
 }

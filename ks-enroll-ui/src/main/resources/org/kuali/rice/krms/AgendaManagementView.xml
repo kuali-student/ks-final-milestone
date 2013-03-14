@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="KS-AgendaManagement-View" parent="KSFormView" p:applyDirtyCheck="true"
+    <bean id="KS-AgendaManagement-View" parent="KSFormView"
           p:id="agendaManagementView"
           p:viewHelperServiceClass="org.kuali.rice.krms.service.impl.AgendaManagementViewHelperServiceImpl"
           p:formClass="org.kuali.student.enrollment.class1.krms.form.AgendaManagementForm"
@@ -45,6 +45,11 @@
         <property name="page">
             <ref bean="KRMS-AgendaManageRequisites-Page"/>
         </property>
+        <property name="dialogs">
+            <list>
+                <bean id="compareRuleLightBox" parent="KRMS-CompareRule"/>
+            </list>
+        </property>
     </bean>
 
     <bean name="KRMS-AgendaManageRequisites-Page" parent="Uif-Page"/>
@@ -59,13 +64,13 @@
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
-                <bean parent="Uif-Link" p:linkText="Copy">
+                <bean parent="Uif-ActionLink" p:actionLabel="Copy">
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
                               p:tooltipContent="Copy Rule to other CO"/>
                     </property>
                 </bean>
-                <bean parent="Uif-Link" p:linkText="Compare">
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare" p:methodToCall="compareRules">
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Compares CLU and CO Rules"/>
                     </property>
@@ -143,5 +148,7 @@
             </list>
         </property>
     </bean>
+
+    <bean id="KRMS-CompareRule" parent="KS-CompareRule-parent"/>
 
 </beans>

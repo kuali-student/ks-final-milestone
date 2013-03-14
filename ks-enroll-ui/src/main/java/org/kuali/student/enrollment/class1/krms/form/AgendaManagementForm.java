@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.tree.node.TreeNode;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
@@ -18,12 +19,9 @@ import java.util.List;
 public class AgendaManagementForm extends UifFormBase implements Serializable {
 
     private List<AgendaEditor> agendas;
-    private String selectedRuleId;
-    private String selectedRuleType;
+    private transient Tree<CompareTreeNode, String> compareTree;
 
     public AgendaManagementForm(){
-        selectedRuleId = null;
-        selectedRuleType = null;
     }
 
     public List<AgendaEditor> getAgendas() {
@@ -34,19 +32,11 @@ public class AgendaManagementForm extends UifFormBase implements Serializable {
         this.agendas = agendas;
     }
 
-    public String getSelectedRuleId() {
-        return selectedRuleId;
+    public Tree<CompareTreeNode, String> getCompareTree() {
+        return compareTree;
     }
 
-    public void setSelectedRuleId(String selectedRuleId) {
-        this.selectedRuleId = selectedRuleId;
-    }
-
-    public String getSelectedRuleType() {
-        return selectedRuleType;
-    }
-
-    public void setSelectedRuleType(String selectedRuleType) {
-        this.selectedRuleType = selectedRuleType;
+    public void setCompareTree(Tree<CompareTreeNode, String> compareTree) {
+        this.compareTree = compareTree;
     }
 }

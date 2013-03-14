@@ -6,6 +6,8 @@ import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.container.LinkGroup;
 import org.kuali.rice.krad.uif.container.TreeGroup;
+import org.kuali.rice.krad.uif.element.Action;
+import org.kuali.rice.krad.uif.element.Link;
 import org.kuali.rice.krad.uif.field.MessageField;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
@@ -63,23 +65,29 @@ public class AgendaBuilder {
 
             // Add all existing rules of this type.
             boolean exist = false;
-            for (RuleEditor rule : agenda.getRuleEditors()) {
-                if (rule.getTypeId().equals(ruleType.getId())) {
-                    components.add(buildEditRule(rule, ruleType));
-                    exist = true;
+            if(agenda.getRuleEditors() != null) {
+                for (RuleEditor rule : agenda.getRuleEditors()) {
+                    if (rule.getTypeId().equals(ruleType.getId())) {
+                        components.add(buildEditRule(rule, ruleType));
+                        exist = true;
 
-                    ruleEditors.add(rule);
+                        ruleEditors.add(rule);
+                    }
                 }
-            }
 
-            // If the ruletype does not exist, add an empty rule section
-            if (!exist) {
+                // If the ruletype does not exist, add an empty rule section
+                if (!exist) {
+                    components.add(buildAddRule(ruleType));
+                    RuleEditor ruleEditor = new RuleEditor();
+                    ruleEditor.setTypeId(ruleType.getId());
+                    ruleEditors.add(ruleEditor);
+                }
+            } else {
                 components.add(buildAddRule(ruleType));
                 RuleEditor ruleEditor = new RuleEditor();
                 ruleEditor.setTypeId(ruleType.getId());
                 ruleEditors.add(ruleEditor);
             }
-
         }
 
         group.setItems(components);
@@ -101,7 +109,10 @@ public class AgendaBuilder {
 
         Group editSection = (Group) ComponentUtils.findComponentInList((List<Component>) group.getItems(), "KRMS-RuleEdit-Section");
         LinkGroup links = (LinkGroup) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRSM-RuleEdit-ActionLinks");
-        links.getExpressionGraph().put("onClickScript", "@{selectedRuleId = '" + rule.getId() + "'}");
+        List<Action> actionLinks = (List<Action>) links.getItems();
+        for(Action actionLink : actionLinks) {
+            actionLink.getActionParameters().put("ruleId", rule.getId());
+        }
         MessageField messageField = (MessageField) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-Instruction-EditMessage");
         messageField.setMessageText(ruleTypeInfo.getInstruction());
 
@@ -126,7 +137,10 @@ public class AgendaBuilder {
 
         Group editSection = (Group) ComponentUtils.findComponentInList((List<Component>) group.getItems(), "KRMS-RuleAdd-Section");
         LinkGroup links = (LinkGroup) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-RuleAdd-ActionLink");
-        links.getExpressionGraph().put("onClickScript", "@{selectedRuleType = '" + ruleTypeInfo.getId() + "'}");
+        List<Action> actionLinks = (List<Action>) links.getItems();
+        for(Action actionLink : actionLinks) {
+            actionLink.getActionParameters().put("ruleType", ruleTypeInfo.getId());
+        }
         MessageField messageField = (MessageField) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-Instruction-AddMessage");
         messageField.setMessageText(ruleTypeInfo.getInstruction());
 
@@ -134,15 +148,13 @@ public class AgendaBuilder {
         return group;
     }
 
-    private Properties buildAgendaURLParameters(RuleEditor ruleEditor, String methodToCall){
+    public Properties buildAgendaURLParameters(RuleEditor ruleEditor, String methodToCall){
         Properties props = new Properties();
-        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-        props.put(KRADConstants.OVERRIDE_KEYS, "cluId");
-        props.put("viewName", "AgendaWithRuleView");
         props.put("viewTypeName", "MAINTENANCE");
-        props.put("cluId", "39b47c39-451a-4aff-9c87-47092e8627f0");
-        props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, RuleEditor.class.getName());
-        props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
+        props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE,"org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor");
+        props.put("viewName", "EnrolRuleEditView");
+        props.put("id", ruleEditor.getId());
         return props;
     }
 }
