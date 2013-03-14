@@ -58,7 +58,7 @@
                 <entry key="kuali.krms.proposition.type.course.courseset.credits.completed.nof">
                     <ref bean="luContext"/>
                 </entry>
-                <entry key="kuali.krms.proposition.type.success.credit.courseset.completed.nof.org">
+                <entry key="kuali.krms.proposition.type.success.credits.courseset.completed.nof.org">
                     <ref bean="luContext"/>
                 </entry>
                 <entry key="kuali.krms.proposition.type.course.courseset.credits.completed.none">
@@ -82,7 +82,7 @@
                         <ref bean="lrcContext"/>
                     </list>
                 </entry>
-                <entry key="kuali.krms.proposition.type.course.drop.org.permission.required">
+                <entry key="kuali.krms.proposition.type.permission.admin.org">
                     <ref bean="orgContext"/>
                 </entry>
                 <entry key="kuali.krms.proposition.type.course.test.score.min">
