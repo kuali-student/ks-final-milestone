@@ -91,7 +91,8 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatsForCreateAOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="activityIdForNewAO" p:label="Activity Type" p:labelPlacement="TOP" p:required="true" p:refreshWhenChangedPropertyNames="formatIdForNewAO">
+                <bean parent="Uif-InputField" p:propertyName="activityIdForNewAO" p:label="Activity Type" p:labelPlacement="TOP"
+                      p:required="true"  p:forceSessionPersistence="true" p:refreshWhenChangedPropertyNames="formatIdForNewAO">
                     <!-- KRAD 2.2.0 Bug: class uif-boxLayoutHorizontalItem is removed on refresh: -->
                     <property name="cssClasses">
                         <list merge="true">
