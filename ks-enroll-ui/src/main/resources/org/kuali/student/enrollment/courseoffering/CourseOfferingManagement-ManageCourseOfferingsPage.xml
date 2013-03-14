@@ -129,7 +129,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" p:render="@{#line.isEnableCopyCOActionLink()}" p:actionEvent="copyCOonManageCOsPage"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" p:render="@{#line.isEnableCopyCOActionLink() and !#line.isCrossListed()}" p:actionEvent="copyCOonManageCOsPage"/>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" p:render="@{#line.isEnableEditCOActionLink()}" p:actionEvent="editCOonManageCOsPage"/>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="loadAOs" p:actionLabel="Manage"/>
             </list>
