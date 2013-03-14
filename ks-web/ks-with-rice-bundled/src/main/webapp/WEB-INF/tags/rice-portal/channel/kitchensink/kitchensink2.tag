@@ -19,7 +19,8 @@
 <div class="body">
     <strong>Progressive Disclosure</strong>
     <ul class="chan">
-        <li></li>
+        <li><portal:portalLink displayTitle="true" title="Expandable Container"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-ContainerExpandable-View&methodToCall=start" /></li>
     </ul>
 
     <strong>Lookups, etc</strong>
