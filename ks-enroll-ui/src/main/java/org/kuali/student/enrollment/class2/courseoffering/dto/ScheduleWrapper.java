@@ -302,7 +302,12 @@ public class ScheduleWrapper implements Serializable{
 
     public class EditRenderHelper implements Serializable{
 
+        private String buildingName;
+
         public String getColocatedAOs(){
+            if (colocatedAOs == null){
+                return StringUtils.EMPTY;
+            }
             StringBuffer buffer = new StringBuffer();
             buffer.append("This activity is colocated with:<br>");
             for (String code : colocatedAOs){
@@ -311,5 +316,14 @@ public class ScheduleWrapper implements Serializable{
 
             return StringUtils.removeEnd(buffer.toString(),"<br>");
         }
+
+        public String getBuildingName() {
+            return buildingName;
+        }
+
+        public void setBuildingName(String buildingName) {
+            this.buildingName = buildingName;
+        }
+
     }
 }

@@ -40,6 +40,10 @@ import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetS
 import org.kuali.student.enrollment.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
@@ -55,6 +59,7 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
+import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -592,6 +597,21 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         }
 
         return true;
+    }
+
+    public List<BuildingInfo> retrieveBuildingInfo(String buildingCode){
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.like("buildingCode", StringUtils.upperCase(buildingCode) + "%"));
+
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        try {
+            List<BuildingInfo> b = getScheduleHelper().getRoomService().searchForBuildings(criteria,createContextInfo());
+            return b;
+        } catch (Exception e) {
+            throw convertServiceExceptionsToUI(e);
+        }
     }
 
     public List<String> retrieveCourseOfferingCode(String termId,String courseOfferingCode){

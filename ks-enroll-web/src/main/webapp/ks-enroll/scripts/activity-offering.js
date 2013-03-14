@@ -20,12 +20,15 @@ function setupColoCheckBoxChange(control){
             jQuery("#shared_max_enr_control").addClass("ignoreValid");
             jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").removeClass("ignoreValid");
         }
+        onColoCheckBoxChange(true);
     } else {
         jQuery("#maximumEnrollment").show();
         jQuery("#ActivityOfferingEdit-MainPage-CoLocation").hide();
         jQuery("#shared_max_enr_control").addClass("ignoreValid");
         jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
+        onColoCheckBoxChange(false);
     }
+
 }
 
 /**
@@ -37,7 +40,7 @@ function activityEditDocumentOnLoad(){
     jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
     jQuery("#shared_max_enr_control").addClass("ignoreValid");
 
-    if(jQuery("#is_co_located").length != 0) {
+    if(jQuery("#is_co_located_control").length != 0) {
         setupColoCheckBoxChange(jQuery("#is_co_located_control"));
     }
 
@@ -73,29 +76,44 @@ function activityEditDocumentOnLoad(){
         });
     }
 
-    onColoCheckBoxChange();
+    onColoCheckBoxChange(true);
 
 }
 
 function addColocatedAOSuccessCallBack(){
     retrieveComponent('enr_shared_table',undefined, function () {
         retrieveComponent('ActivityOffering-CoLocated-checkbox', undefined, function () {
-            onColoCheckBoxChange();
+            onColoCheckBoxChange(true);
         });
     });
 }
 
-function onColoCheckBoxChange(){
-    jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').prop('checked', true);
-    jQuery('label[for^="ActivityOffering-CoLocated-checkbox_control_"]').prop('onclick','');
-    jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').click(function() {
-        jQuery(this).prop('checked', true);
-    });
+function onColoCheckBoxChange(checked){
+    if (checked){
+        if(jQuery("#is_co_located_control").is(":checked")) {
+            jQuery("#ActivityOffering-CoLocated-checkbox").show();
+            jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').prop('checked', checked);
+            jQuery('label[for^="ActivityOffering-CoLocated-checkbox_control_"]').prop('onclick','');
+            jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').click(function() {
+                jQuery(this).prop('checked', true);
+            });
+        } else {
+            jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').unbind("click");
+            jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').prop('checked', checked);
+            jQuery('label[for^="ActivityOffering-CoLocated-checkbox_control_"]').prop('onclick','');
+            jQuery("#ActivityOffering-CoLocated-checkbox").hide();
+        }
+    } else {
+        jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').unbind("click");
+        jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').prop('checked', checked);
+        jQuery('label[for^="ActivityOffering-CoLocated-checkbox_control_"]').prop('onclick','');
+        jQuery("#ActivityOffering-CoLocated-checkbox").hide();
+    }
 }
 
 function addScheduleCallBack(){
     setupColoCheckBoxChange(jQuery("#is_co_located_control"));
-    onColoCheckBoxChange();
+    onColoCheckBoxChange(true);
 }
 
 function clearRoomResourcesSelections(sourceLink) {

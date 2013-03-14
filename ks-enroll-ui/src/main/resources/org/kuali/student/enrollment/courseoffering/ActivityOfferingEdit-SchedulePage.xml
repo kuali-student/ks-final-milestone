@@ -121,7 +121,7 @@
                 <bean parent="Uif-DataField" p:label="End Time" p:propertyName="endTimeUI"/>
                 <bean parent="Uif-DataField" p:label="Facility" p:propertyName="buildingName"/>
                 <bean parent="Uif-DataField" p:label="Room" p:propertyName="roomName"/>
-                <bean parent="Uif-ImageField" p:label="Options" p:hidden="@{#lp.colocatedAOs.isEmpty()}" p:image.altText="@{#lp.editRenderHelper.colocatedAOs}"
+                <bean parent="Uif-ImageField" p:label="Options" p:hidden="@{#lp.colocatedAOs == null or #lp.colocatedAOs.isEmpty()}" p:image.altText="@{#lp.editRenderHelper.colocatedAOs}"
                     p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
                     <property name="toolTip">
                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.editRenderHelper.colocatedAOs}"/>
@@ -221,15 +221,28 @@
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"/>
                     </property>
                 </bean>
-                <bean parent="KSInputField" p:label="Facility" p:propertyName="newScheduleRequest.buildingCode" p:defaultValue="PHY">
+                <bean parent="KSInputField" p:label="Facility" p:propertyName="newScheduleRequest.buildingCode" p:uppercaseValue="true" p:defaultValue="PHY" p:propertyNamesForAdditionalDisplay="newScheduleRequest.editRenderHelper.buildingName">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20"/>
                     </property>
-                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.room.dto.BuildingInfo"/>
+                    <!--<property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.room.dto.BuildingInfo"/>
                         <property name="quickfinder.fieldConversions">
                             <map>
                                 <entry key="buildingCode" value="newScheduleRequest.buildingCode"/>
                             </map>
+                    </property>-->
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="true" p:sourcePropertyName="buildingCode"
+                              p:suggestQuery.dataObjectClassName="org.kuali.student.r2.core.room.dto.BuildingInfo">
+                          <property name="suggestQuery">
+                            <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveBuildingInfo" p:queryFieldMapping="newScheduleRequest.buildingCode:buildingCode" p:returnFieldMapping="buildingCode:newScheduleRequest.buildingCode,name:newScheduleRequest.editRenderHelper.buildingName"/>
+                          </property>
+                          <property name="templateOptions">
+                            <map merge="true">
+                              <entry key="minLength" value="1"/>
+                            </map>
+                          </property>
+                        </bean>
                     </property>
                 </bean>
                 <bean parent="KSInputField" p:label="Room" p:propertyName="newScheduleRequest.roomCode" p:defaultValue="3120">
