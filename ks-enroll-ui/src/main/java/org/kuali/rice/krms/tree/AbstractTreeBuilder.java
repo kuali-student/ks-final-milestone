@@ -14,6 +14,11 @@ import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 
+import java.io.Serializable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * Created with IntelliJ IDEA.
  * User: SW
@@ -88,5 +93,47 @@ public abstract class AbstractTreeBuilder implements TreeBuilder {
             }
         }
         return usageId;
+    }
+
+    /**
+     * Put the natural language descriptions in a queue and retrieve them in
+     * the same order as the propostion tree.
+     */
+    protected class TreeIterator implements Serializable, Iterator<String> {
+
+        private Queue<String> nl;
+
+        public TreeIterator(NaturalLanguageTree tree){
+            nl = new LinkedList<String>();
+            this.addToStack(tree);
+        }
+
+        private void addToStack(NaturalLanguageTree tree){
+            if (tree == null){
+                return;
+            }
+
+            nl.offer(tree.getNaturalLanguage());
+            if (tree.getChildren() != null){
+                for (NaturalLanguageTree child : tree.getChildren()){
+                    addToStack(child);
+                }
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            return !nl.isEmpty();
+        }
+
+        @Override
+        public String next() {
+            return nl.poll();
+        }
+
+        @Override
+        public void remove() {
+            //To change body of implemented methods use File | Settings | File Templates.
+        }
     }
 }
