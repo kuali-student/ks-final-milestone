@@ -15893,7 +15893,7 @@ CREATE TABLE KRIM_ROLE_ID_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE KRIM_ROLE_ID_S auto_increment = 10003
+ALTER TABLE KRIM_ROLE_ID_S auto_increment = 10036
 /
 
 # -----------------------------------------------------------------------
@@ -15907,7 +15907,7 @@ CREATE TABLE KRIM_ROLE_MBR_ID_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE KRIM_ROLE_MBR_ID_S auto_increment = 10041
+ALTER TABLE KRIM_ROLE_MBR_ID_S auto_increment = 10042
 /
 
 # -----------------------------------------------------------------------
