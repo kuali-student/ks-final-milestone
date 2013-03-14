@@ -30,18 +30,16 @@ import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.in;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krms.api.repository.NaturalLanguageTree;
+import org.kuali.rice.krms.api.repository.action.ActionDefinition;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplaterContract;
-import org.kuali.rice.krms.api.repository.proposition.PropositionParameter;
 import org.kuali.rice.krms.impl.repository.language.SimpleNaturalLanguageTemplater;
 
 /**
@@ -55,12 +53,13 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
     private ReferenceObjectBindingBoService referenceObjectBindingBoService = new ReferenceObjectBindingBoServiceImpl();
     private AgendaBoService agendaBoService = new AgendaBoServiceImpl();
     private RuleBoService ruleBoService = new RuleBoServiceImpl();
+    private ActionBoService actionBoService = new ActionBoServiceImpl();
     private PropositionBoService propositionBoService = new PropositionBoServiceImpl();
     private NaturalLanguageUsageBoService naturalLanguageUsageBoService = new NaturalLanguageUsageBoServiceImpl();
     private NaturalLanguageTemplateBoService naturalLanguageTemplateBoService = new NaturalLanguageTemplateBoServiceImpl();
     private ContextBoService contextBoService = new ContextBoServiceImpl();
     private NaturalLanguageTemplaterContract templater = new SimpleNaturalLanguageTemplater ();
-
+    
     public ReferenceObjectBindingBoService getReferenceObjectBindingBoService() {
         return referenceObjectBindingBoService;
     }
@@ -117,6 +116,14 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         this.contextBoService = contextBoService;
     }
 
+    public ActionBoService getActionBoService() {
+        return actionBoService;
+    }
+
+    public void setActionBoService(ActionBoService actionBoService) {
+        this.actionBoService = actionBoService;
+    }
+    
     public NaturalLanguageTemplaterContract getTemplater() {
         return templater;
     }
@@ -124,6 +131,8 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
     public void setTemplater(NaturalLanguageTemplaterContract templater) {
         this.templater = templater;
     }
+    
+    
 
     ////
     //// reference object binding methods
@@ -294,6 +303,44 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
     public void deleteRule(String id) throws RiceIllegalArgumentException {
         ruleBoService.deleteRule(id);
     }
+    
+    
+    ////
+    //// action methods
+    ////
+    @Override
+    public ActionDefinition createAction(ActionDefinition actionDefinition) throws RiceIllegalArgumentException {
+        return actionBoService.createAction(actionDefinition);
+    }
+
+    @Override
+    public void updateAction(ActionDefinition actionDefinition) throws RiceIllegalArgumentException {
+        actionBoService.updateAction(actionDefinition);
+    }
+
+    @Override
+    public void deleteAction(String id) throws RiceIllegalArgumentException {
+        throw new RiceIllegalArgumentException ("not implemented yet because not supported by the bo service");
+//        actionBoService.deleteAction(id);
+    }
+
+    @Override
+    public ActionDefinition getAction(String actionId) {
+        return actionBoService.getActionByActionId(actionId);
+    }
+
+    @Override
+    public List<ActionDefinition> getActions(List<String> actionIds) {
+        // TODO: implement this more efficiently by adding the builk op to the bo service and calling it
+        List<ActionDefinition> list = new ArrayList<ActionDefinition>();
+        for (String id : actionIds) {
+            list.add(this.getAction(id));
+        }
+        return list;
+    }
+    
+    
+
 
     ////
     //// proposition methods
@@ -373,64 +420,24 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
             String krmsObjectId,
             String languageCode)
             throws RiceIllegalArgumentException {
-
-        PropositionDefinition proposition = null;
-        // TODO: find out what RICE intended for this typeId? Was it supposed to be the Simple Class name?
-        if (typeId.equals("proposition")) {
-            proposition = this.getProposition(krmsObjectId);
-            if (proposition == null) {
-                throw new RiceIllegalArgumentException(krmsObjectId + " is not an Id for a proposition");
-            }
-        } else if (typeId.equals("agenda")) {
-            AgendaDefinition agenda = this.getAgenda(krmsObjectId);
-            if (agenda == null) {
-                throw new RiceIllegalArgumentException(krmsObjectId + " is not an Id for an agenda");
-            }
-            if (agenda.getFirstItemId() == null) {
-                throw new RiceIllegalArgumentException("Agenda has no first item");
-            }
-            AgendaItemDefinition item = this.getAgendaItem(agenda.getFirstItemId());
-            if (item.getRuleId() == null) {
-                throw new RiceIllegalArgumentException("Only simple agenda's composed of one item that holds a rule is supported at this time");
-            }
-            RuleDefinition rule = this.getRule(item.getRuleId());
-            proposition = rule.getProposition();
-            if (proposition == null) {
-                throw new RiceIllegalArgumentException("The agenda's rule has a proposition that is null");
-            }
-        }
-        String propositionTypeId = proposition.getTypeId();
-        NaturalLanguageTemplate naturalLanguageTemplate =
-                naturalLanguageTemplateBoService.findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(languageCode,
-                propositionTypeId,
-                naturalLanguageUsageId);
-        if (naturalLanguageTemplate == null) {
-            throw new RiceIllegalArgumentException("no template found for " + languageCode
-                    + " " + typeId
-                    + " " + naturalLanguageUsageId);
-        }
-        return this.translateNaturalLanguageForProposition(naturalLanguageUsageId, proposition, languageCode);
+        TranslationUtility util = new TranslationUtility (this, this.templater);
+        return util.translateNaturalLanguageForObject(naturalLanguageUsageId, typeId, krmsObjectId, languageCode);
     }
 
     @Override
     public String translateNaturalLanguageForProposition(String naturalLanguageUsageId,
             PropositionDefinition proposition, String languageCode)
             throws RiceIllegalArgumentException {
-
-        NaturalLanguageTemplate naturalLanguageTemplate =
-                this.naturalLanguageTemplateBoService.findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(languageCode,
-                proposition.getTypeId(), naturalLanguageUsageId);
-        Map<String, Object> contextMap = new LinkedHashMap<String, Object>();
-        for (PropositionParameter param : proposition.getParameters()) {
-            String paramType = param.getParameterType();
-            contextMap.put(paramType, param.getValue());
-        }
-        return templater.translate(naturalLanguageTemplate, contextMap);
+        TranslationUtility util = new TranslationUtility (this, this.templater);
+        return util.translateNaturalLanguageForProposition(naturalLanguageUsageId, proposition, languageCode);
     }
 
     @Override
-    public NaturalLanguageTree translateNaturalLanguageTreeForProposition(String naturalLanguageUsageId, PropositionDefinition propositionDefinintion, String languageCode) throws RiceIllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public NaturalLanguageTree translateNaturalLanguageTreeForProposition(String naturalLanguageUsageId, 
+    PropositionDefinition propositionDefinintion, 
+    String languageCode) throws RiceIllegalArgumentException {
+        TranslationUtility util = new TranslationUtility (this, this.templater);
+        return util.translateNaturalLanguageTreeForProposition(naturalLanguageUsageId, propositionDefinintion, languageCode);
     }
     
     
@@ -511,6 +518,57 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         return this.naturalLanguageTemplateBoService.findNaturalLanguageTemplatesByTemplate(template);
     }
 
+    @Override
+    public List<String> findContextIds(QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
+        GenericQueryResults<ContextBo> results = getCriteriaLookupService().lookup(ContextBo.class, queryByCriteria);
+        List<String> list = new ArrayList<String> ();
+        for (ContextBo bo : results.getResults()) {
+            list.add (bo.getId());
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> findAgendaIds(QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
+        GenericQueryResults<AgendaBo> results = getCriteriaLookupService().lookup(AgendaBo.class, queryByCriteria);
+        List<String> list = new ArrayList<String> ();
+        for (AgendaBo bo : results.getResults()) {
+            list.add (bo.getId());
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> findRuleIds(QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
+        GenericQueryResults<RuleBo> results = getCriteriaLookupService().lookup(RuleBo.class, queryByCriteria);
+        List<String> list = new ArrayList<String> ();
+        for (RuleBo bo : results.getResults()) {
+            list.add (bo.getId());
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> findPropositionIds(QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
+        GenericQueryResults<PropositionBo> results = getCriteriaLookupService().lookup(PropositionBo.class, queryByCriteria);
+        List<String> list = new ArrayList<String> ();
+        for (PropositionBo bo : results.getResults()) {
+            list.add (bo.getId());
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> findActionIds(QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
+        GenericQueryResults<ActionBo> results = getCriteriaLookupService().lookup(ActionBo.class, queryByCriteria);
+        List<String> list = new ArrayList<String> ();
+        for (ActionBo bo : results.getResults()) {
+            list.add (bo.getId());
+        }
+        return list;
+    }
+    
+    
     /**
      * Sets the businessObjectService property.
      *
@@ -528,6 +586,9 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         if (ruleBoService instanceof RuleBoServiceImpl) {
             ((RuleBoServiceImpl) ruleBoService).setBusinessObjectService(businessObjectService);
         }
+        if (actionBoService instanceof ActionBoServiceImpl) {
+            ((ActionBoServiceImpl) actionBoService).setBusinessObjectService(businessObjectService);
+        }
         if (propositionBoService instanceof PropositionBoServiceImpl) {
             ((PropositionBoServiceImpl) propositionBoService).setBusinessObjectService(businessObjectService);
         }
@@ -540,5 +601,5 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         if (contextBoService instanceof ContextBoServiceImpl) {
             ((ContextBoServiceImpl) contextBoService).setBusinessObjectService(businessObjectService);
         }
-    }
+    }    
 }

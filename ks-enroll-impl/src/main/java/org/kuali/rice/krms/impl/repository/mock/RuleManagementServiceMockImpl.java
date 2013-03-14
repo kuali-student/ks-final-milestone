@@ -16,51 +16,65 @@
 package org.kuali.rice.krms.impl.repository.mock;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
 import org.kuali.rice.krms.api.repository.NaturalLanguageTree;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
+import org.kuali.rice.krms.api.repository.action.ActionDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeDefinition;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.api.repository.context.ContextSelectionCriteria;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
+import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplaterContract;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
-import org.kuali.student.common.mock.MockService;
-import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.rice.krms.impl.repository.TranslationUtility;
+import org.kuali.rice.krms.impl.repository.language.SimpleNaturalLanguageTemplater;
 
-public class RuleManagementServiceMockImpl implements MockService, RuleManagementService {
+public class RuleManagementServiceMockImpl implements RuleManagementService {
     // cache variable 
     // The LinkedHashMap is just so the values come back in a predictable order
 
     private Map<String, ReferenceObjectBinding> referenceObjectBindingMap = new LinkedHashMap<String, ReferenceObjectBinding>();
+    private Map<String, ContextDefinition> contextMap = new LinkedHashMap<String, ContextDefinition>();
     private Map<String, AgendaDefinition> agendaMap = new LinkedHashMap<String, AgendaDefinition>();
     private Map<String, AgendaItemDefinition> agendaItemMap = new LinkedHashMap<String, AgendaItemDefinition>();
     private Map<String, RuleDefinition> ruleMap = new LinkedHashMap<String, RuleDefinition>();
+    private Map<String, ActionDefinition> actionMap = new LinkedHashMap<String, ActionDefinition>();
     private Map<String, PropositionDefinition> propositionMap = new LinkedHashMap<String, PropositionDefinition>();
     private Map<String, NaturalLanguageUsage> naturalLanguageUsageMap = new LinkedHashMap<String, NaturalLanguageUsage>();
-    private Map<String, ContextDefinition> contextMap = new LinkedHashMap<String, ContextDefinition>();
     private Map<String, NaturalLanguageTemplate> naturalLanguageTemplateMap = new LinkedHashMap<String, NaturalLanguageTemplate>();
+    private NaturalLanguageTemplaterContract templater = new SimpleNaturalLanguageTemplater();
 
-    @Override
+    public NaturalLanguageTemplaterContract getTemplater() {
+        return templater;
+    }
+
+    public void setTemplater(NaturalLanguageTemplaterContract templater) {
+        this.templater = templater;
+    }
+
     public void clear() {
         this.referenceObjectBindingMap.clear();
+        this.contextMap.clear();
         this.agendaMap.clear();
         this.agendaItemMap.clear();
         this.ruleMap.clear();
+        this.actionMap.clear();
         this.propositionMap.clear();
         this.naturalLanguageUsageMap.clear();
-        this.contextMap.clear();
         this.naturalLanguageTemplateMap.clear();
     }
 
@@ -74,7 +88,7 @@ public class RuleManagementServiceMockImpl implements MockService, RuleManagemen
         }
         ReferenceObjectBinding.Builder copy = ReferenceObjectBinding.Builder.create(referenceObjectDefinition);
         if (copy.getId() == null) {
-            copy.setId(UUIDHelper.genStringUUID());
+            copy.setId(UUID.randomUUID().toString());
         }
         referenceObjectDefinition = copy.build();
         referenceObjectBindingMap.put(referenceObjectDefinition.getId(), referenceObjectDefinition);
@@ -105,22 +119,37 @@ public class RuleManagementServiceMockImpl implements MockService, RuleManagemen
     @Override
     public List<ReferenceObjectBinding> findReferenceObjectBindingsByReferenceDiscriminatorType(String referenceObjectReferenceDiscriminatorType)
             throws RiceIllegalArgumentException {
-        // UNKNOWN
-        throw new RiceIllegalArgumentException("findReferenceObjectBindingsByReferenceDiscriminatorType has not been implemented");
+        List<ReferenceObjectBinding> list = new ArrayList<ReferenceObjectBinding>();
+        for (ReferenceObjectBinding info : this.referenceObjectBindingMap.values()) {
+            if (info.getReferenceDiscriminatorType().equals(referenceObjectReferenceDiscriminatorType)) {
+                list.add(info);
+            }
+        }
+        return list;
     }
 
     @Override
     public List<ReferenceObjectBinding> findReferenceObjectBindingsByKrmsDiscriminatorType(String referenceObjectKrmsDiscriminatorType)
             throws RiceIllegalArgumentException {
-        // UNKNOWN
-        throw new RiceIllegalArgumentException("findReferenceObjectBindingsByKrmsDiscriminatorType has not been implemented");
+        List<ReferenceObjectBinding> list = new ArrayList<ReferenceObjectBinding>();
+        for (ReferenceObjectBinding info : this.referenceObjectBindingMap.values()) {
+            if (info.getKrmsDiscriminatorType().equals(referenceObjectKrmsDiscriminatorType)) {
+                list.add(info);
+            }
+        }
+        return list;
     }
 
     @Override
     public List<ReferenceObjectBinding> findReferenceObjectBindingsByKrmsObject(String krmsObjectId)
             throws RiceIllegalArgumentException {
-        // UNKNOWN
-        throw new RiceIllegalArgumentException("findReferenceObjectBindingsByKrmsObject has not been implemented");
+        List<ReferenceObjectBinding> list = new ArrayList<ReferenceObjectBinding>();
+        for (ReferenceObjectBinding info : this.referenceObjectBindingMap.values()) {
+            if (info.getKrmsObjectId().equals(krmsObjectId)) {
+                list.add(info);
+            }
+        }
+        return list;
     }
 
     @Override
@@ -151,8 +180,14 @@ public class RuleManagementServiceMockImpl implements MockService, RuleManagemen
     @Override
     public List<String> findReferenceObjectBindingIds(QueryByCriteria queryByCriteria)
             throws RiceIllegalArgumentException {
-        // UNKNOWN
-        throw new RiceIllegalArgumentException("findReferenceObjectBindingIds has not been implemented");
+        CriteriaMatcherInMemory<ReferenceObjectBinding> instance = new CriteriaMatcherInMemory<ReferenceObjectBinding>();
+        instance.setCriteria(queryByCriteria);
+        Collection<ReferenceObjectBinding> selected = instance.findMatching(this.referenceObjectBindingMap.values());
+        List<String> list = new ArrayList<String>();
+        for (ReferenceObjectBinding sel : selected) {
+            list.add(sel.getId());
+        }
+        return list;
     }
 
     @Override
@@ -165,7 +200,7 @@ public class RuleManagementServiceMockImpl implements MockService, RuleManagemen
         }
         AgendaDefinition.Builder copy = AgendaDefinition.Builder.create(agendaDefinition);
         if (copy.getId() == null) {
-            copy.setId(UUIDHelper.genStringUUID());
+            copy.setId(UUID.randomUUID().toString());
         }
         agendaDefinition = copy.build();
         agendaMap.put(agendaDefinition.getId(), agendaDefinition);
@@ -198,15 +233,27 @@ public class RuleManagementServiceMockImpl implements MockService, RuleManagemen
     @Override
     public List<AgendaDefinition> getAgendasByContext(String contextId)
             throws RiceIllegalArgumentException {
-        // UNKNOWN
-        throw new RiceIllegalArgumentException("getAgendasByContext has not been implemented");
+        List<AgendaDefinition> list = new ArrayList<AgendaDefinition>();
+        for (AgendaDefinition info : this.agendaMap.values()) {
+            if (info.getContextId().equals(contextId)) {
+                list.add(info);
+            }
+        }
+        return list;
     }
 
     @Override
     public List<AgendaDefinition> getAgendasByTypeAndContext(String typeId, String contextId)
             throws RiceIllegalArgumentException {
-        // UNKNOWN
-        throw new RiceIllegalArgumentException("getAgendasByTypeAndContext has not been implemented");
+        List<AgendaDefinition> list = new ArrayList<AgendaDefinition>();
+        for (AgendaDefinition info : this.agendaMap.values()) {
+            if (info.getContextId().equals(contextId)) {
+                if (info.getTypeId().equals(typeId)) {
+                    list.add(info);
+                }
+            }
+        }
+        return list;
     }
 
     @Override
@@ -240,7 +287,7 @@ public class RuleManagementServiceMockImpl implements MockService, RuleManagemen
         // CREATE
         AgendaItemDefinition.Builder copy = AgendaItemDefinition.Builder.create(agendaItemDefinition);
         if (copy.getId() == null) {
-            copy.setId(UUIDHelper.genStringUUID());
+            copy.setId(UUID.randomUUID().toString());
         }
         agendaItemDefinition = copy.build();
         agendaItemMap.put(agendaItemDefinition.getId(), agendaItemDefinition);
@@ -276,15 +323,33 @@ public class RuleManagementServiceMockImpl implements MockService, RuleManagemen
     @Override
     public List<AgendaItemDefinition> getAgendaItemsByContext(String contextId)
             throws RiceIllegalArgumentException {
-        // UNKNOWN
-        throw new RiceIllegalArgumentException("getAgendaItemsByContext has not been implemented");
+        List<AgendaDefinition> agendas = this.getAgendasByContext(contextId);
+        List<AgendaItemDefinition> list = new ArrayList<AgendaItemDefinition>();
+        for (AgendaDefinition agenda : agendas) {
+            for (AgendaItemDefinition info : agendaItemMap.values()) {
+                if (agenda.getId().equals(info.getAgendaId())) {
+                    list.add(info);
+                }
+            }
+        }
+        return list;
     }
 
     @Override
     public List<AgendaItemDefinition> getAgendaItemsByTypeAndContext(String typeId, String contextId)
             throws RiceIllegalArgumentException {
-        // UNKNOWN
-        throw new RiceIllegalArgumentException("getAgendaItemsByTypeAndContext has not been implemented");
+        List<AgendaDefinition> agendas = this.getAgendasByContext(contextId);
+        List<AgendaItemDefinition> list = new ArrayList<AgendaItemDefinition>();
+        for (AgendaDefinition agenda : agendas) {
+            if (agenda.getTypeId().equals(typeId)) {
+                for (AgendaItemDefinition info : agendaItemMap.values()) {
+                    if (agenda.getId().equals(info.getAgendaId())) {
+                        list.add(info);
+                    }
+                }
+            }
+        }
+        return list;
     }
 
     @Override
@@ -322,7 +387,7 @@ public class RuleManagementServiceMockImpl implements MockService, RuleManagemen
         }
         RuleDefinition.Builder copy = RuleDefinition.Builder.create(ruleDefinition);
         if (copy.getId() == null) {
-            copy.setId(UUIDHelper.genStringUUID());
+            copy.setId(UUID.randomUUID().toString());
         }
         ruleDefinition = copy.build();
         ruleMap.put(ruleDefinition.getId(), ruleDefinition);
@@ -340,8 +405,11 @@ public class RuleManagementServiceMockImpl implements MockService, RuleManagemen
 
     @Override
     public List<RuleDefinition> getRules(List<String> ruleIds) {
-        // UNKNOWN
-        throw new RiceIllegalArgumentException("getRules has not been implemented");
+        List<RuleDefinition> list = new ArrayList<RuleDefinition>();
+        for (String id : ruleIds) {
+            list.add(this.getRule(id));
+        }
+        return list;
     }
 
     @Override
@@ -370,16 +438,78 @@ public class RuleManagementServiceMockImpl implements MockService, RuleManagemen
     }
 
     @Override
+    public ActionDefinition createAction(ActionDefinition actionDefinition)
+            throws RiceIllegalArgumentException {
+        // CREATE
+        ActionDefinition orig = this.getAction(actionDefinition.getId());
+        if (orig != null) {
+            throw new RiceIllegalArgumentException(actionDefinition.getId());
+        }
+        ActionDefinition.Builder copy = ActionDefinition.Builder.create(actionDefinition);
+        if (copy.getId() == null) {
+            copy.setId(UUID.randomUUID().toString());
+        }
+        actionDefinition = copy.build();
+        actionMap.put(actionDefinition.getId(), actionDefinition);
+        return actionDefinition;
+    }
+
+    @Override
+    public ActionDefinition getAction(String actionId) {
+        // GET_BY_ID
+        if (!this.actionMap.containsKey(actionId)) {
+            throw new RiceIllegalArgumentException(actionId);
+        }
+        return this.actionMap.get(actionId);
+    }
+
+    @Override
+    public List<ActionDefinition> getActions(List<String> actionIds) {
+        List<ActionDefinition> list = new ArrayList<ActionDefinition>();
+        for (String id : actionIds) {
+            list.add(this.getAction(id));
+        }
+        return list;
+    }
+
+    @Override
+    public void updateAction(ActionDefinition actionDefinition)
+            throws RiceIllegalArgumentException {
+        // UPDATE
+        ActionDefinition.Builder copy = ActionDefinition.Builder.create(actionDefinition);
+        ActionDefinition old = this.getAction(actionDefinition.getId());
+        if (!old.getVersionNumber().equals(copy.getVersionNumber())) {
+            throw new RiceIllegalStateException("" + old.getVersionNumber());
+        }
+        copy.setVersionNumber(copy.getVersionNumber() + 1);
+        actionDefinition = copy.build();
+        this.actionMap.put(actionDefinition.getId(), actionDefinition);
+        return;
+    }
+
+    @Override
+    public void deleteAction(String id)
+            throws RiceIllegalArgumentException {
+        // DELETE
+        if (this.actionMap.remove(id) == null) {
+            throw new RiceIllegalArgumentException(id);
+        }
+        return;
+    }
+
+    @Override
     public PropositionDefinition createProposition(PropositionDefinition propositionDefinition)
             throws RiceIllegalArgumentException {
         // CREATE
-        PropositionDefinition orig = this.getProposition(propositionDefinition.getId());
-        if (orig != null) {
-            throw new RiceIllegalArgumentException(propositionDefinition.getId());
+        if (propositionDefinition.getId() != null) {
+            PropositionDefinition orig = this.getProposition(propositionDefinition.getId());
+            if (orig != null) {
+                throw new RiceIllegalArgumentException(propositionDefinition.getId());
+            }
         }
         PropositionDefinition.Builder copy = PropositionDefinition.Builder.create(propositionDefinition);
         if (copy.getId() == null) {
-            copy.setId(UUIDHelper.genStringUUID());
+            copy.setId(UUID.randomUUID().toString());
         }
         propositionDefinition = copy.build();
         propositionMap.put(propositionDefinition.getId(), propositionDefinition);
@@ -412,8 +542,13 @@ public class RuleManagementServiceMockImpl implements MockService, RuleManagemen
     @Override
     public Set<PropositionDefinition> getPropositionsByRule(String ruleId)
             throws RiceIllegalArgumentException {
-        // UNKNOWN
-        throw new RiceIllegalArgumentException("getPropositionsByRule has not been implemented");
+        Set<PropositionDefinition> set = new LinkedHashSet<PropositionDefinition>();
+        for (PropositionDefinition info : this.propositionMap.values()) {
+            if (info.getRuleId().equals(ruleId)) {
+                set.add(info);
+            }
+        }
+        return set;
     }
 
     @Override
@@ -451,7 +586,7 @@ public class RuleManagementServiceMockImpl implements MockService, RuleManagemen
         }
         NaturalLanguageUsage.Builder copy = NaturalLanguageUsage.Builder.create(naturalLanguageUsage);
         if (copy.getId() == null) {
-            copy.setId(UUIDHelper.genStringUUID());
+            copy.setId(UUID.randomUUID().toString());
         }
         naturalLanguageUsage = copy.build();
         naturalLanguageUsageMap.put(naturalLanguageUsage.getId(), naturalLanguageUsage);
@@ -493,28 +628,35 @@ public class RuleManagementServiceMockImpl implements MockService, RuleManagemen
         return;
     }
 
+    ////
+    //// natural language translations
+    ////
     @Override
-    public String translateNaturalLanguageForObject(String naturalLanguageUsageId, String typeId, String krmsObjectId, String languageCode)
+    public String translateNaturalLanguageForObject(String naturalLanguageUsageId,
+            String typeId,
+            String krmsObjectId,
+            String languageCode)
             throws RiceIllegalArgumentException {
-        // UNKNOWN
-        throw new RiceIllegalArgumentException("getNaturalLanguageForType has not been implemented");
+        TranslationUtility util = new TranslationUtility(this, this.templater);
+        return util.translateNaturalLanguageForObject(naturalLanguageUsageId, typeId, krmsObjectId, languageCode);
     }
 
     @Override
     public String translateNaturalLanguageForProposition(String naturalLanguageUsageId,
-            PropositionDefinition propositionDefinintion, String languageCode)
+            PropositionDefinition proposition, String languageCode)
             throws RiceIllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        TranslationUtility util = new TranslationUtility(this, this.templater);
+        return util.translateNaturalLanguageForProposition(naturalLanguageUsageId, proposition, languageCode);
     }
 
     @Override
-    public NaturalLanguageTree translateNaturalLanguageTreeForProposition(String naturalLanguageUsageId, PropositionDefinition propositionDefinintion, String languageCode) throws RiceIllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public NaturalLanguageTree translateNaturalLanguageTreeForProposition(String naturalLanguageUsageId,
+            PropositionDefinition propositionDefinintion,
+            String languageCode) throws RiceIllegalArgumentException {
+        TranslationUtility util = new TranslationUtility(this, this.templater);
+        return util.translateNaturalLanguageTreeForProposition(naturalLanguageUsageId, propositionDefinintion, languageCode);
     }
 
-   
-    
-    
     @Override
     public List<NaturalLanguageUsage> getNaturalLanguageUsagesByNamespace(String namespace) throws RiceIllegalArgumentException {
         List<NaturalLanguageUsage> list = new ArrayList<NaturalLanguageUsage>();
@@ -563,7 +705,7 @@ public class RuleManagementServiceMockImpl implements MockService, RuleManagemen
         }
         ContextDefinition.Builder copy = ContextDefinition.Builder.create(contextDefinition);
         if (copy.getId() == null) {
-            copy.setId(UUIDHelper.genStringUUID());
+            copy.setId(UUID.randomUUID().toString());
         }
         contextDefinition = copy.build();
         contextMap.put(contextDefinition.getId(), contextDefinition);
@@ -629,7 +771,7 @@ public class RuleManagementServiceMockImpl implements MockService, RuleManagemen
         }
         NaturalLanguageTemplate.Builder copy = NaturalLanguageTemplate.Builder.create(naturalLanguageTemplate);
         if (copy.getId() == null) {
-            copy.setId(UUIDHelper.genStringUUID());
+            copy.setId(UUID.randomUUID().toString());
         }
         naturalLanguageTemplate = copy.build();
         naturalLanguageTemplateMap.put(naturalLanguageTemplate.getId(), naturalLanguageTemplate);
@@ -674,35 +816,123 @@ public class RuleManagementServiceMockImpl implements MockService, RuleManagemen
     @Override
     public List<NaturalLanguageTemplate> findNaturalLanguageTemplatesByLanguageCode(String languageCode)
             throws RiceIllegalArgumentException {
-        // UNKNOWN
-        throw new RiceIllegalArgumentException("findNaturalLanguageTemplatesByLanguageCode has not been implemented");
+        List<NaturalLanguageTemplate> list = new ArrayList<NaturalLanguageTemplate>();
+        for (NaturalLanguageTemplate nlt : this.naturalLanguageTemplateMap.values()) {
+            if (nlt.getLanguageCode().equals(languageCode)) {
+                list.add(nlt);
+            }
+        }
+        return list;
     }
 
     @Override
     public NaturalLanguageTemplate findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(String languageCode, String typeId, String naturalLanguageUsageId)
             throws RiceIllegalArgumentException {
-        // UNKNOWN
-        throw new RiceIllegalArgumentException("findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId has not been implemented");
+        for (NaturalLanguageTemplate nlt : this.naturalLanguageTemplateMap.values()) {
+            if (nlt.getLanguageCode().equals(languageCode)) {
+                if (nlt.getTypeId().equals(typeId)) {
+                    if (nlt.getNaturalLanguageUsageId().equals(naturalLanguageUsageId)) {
+                        return nlt;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     @Override
     public List<NaturalLanguageTemplate> findNaturalLanguageTemplatesByNaturalLanguageUsage(String naturalLanguageUsageId)
             throws RiceIllegalArgumentException {
-        // UNKNOWN
-        throw new RiceIllegalArgumentException("findNaturalLanguageTemplatesByNaturalLanguageUsage has not been implemented");
+        List<NaturalLanguageTemplate> list = new ArrayList<NaturalLanguageTemplate>();
+        for (NaturalLanguageTemplate nlt : this.naturalLanguageTemplateMap.values()) {
+            if (nlt.getNaturalLanguageUsageId().equals(naturalLanguageUsageId)) {
+                list.add(nlt);
+            }
+        }
+        return list;
     }
 
     @Override
     public List<NaturalLanguageTemplate> findNaturalLanguageTemplatesByType(String typeId)
             throws RiceIllegalArgumentException {
-        // UNKNOWN
-        throw new RiceIllegalArgumentException("findNaturalLanguageTemplatesByType has not been implemented");
+        List<NaturalLanguageTemplate> list = new ArrayList<NaturalLanguageTemplate>();
+        for (NaturalLanguageTemplate nlt : this.naturalLanguageTemplateMap.values()) {
+            if (nlt.getTypeId().equals(typeId)) {
+                list.add(nlt);
+            }
+        }
+        return list;
     }
 
     @Override
     public List<NaturalLanguageTemplate> findNaturalLanguageTemplatesByTemplate(String template)
             throws RiceIllegalArgumentException {
-        // UNKNOWN
-        throw new RiceIllegalArgumentException("findNaturalLanguageTemplatesByTemplate has not been implemented");
+        List<NaturalLanguageTemplate> list = new ArrayList<NaturalLanguageTemplate>();
+        for (NaturalLanguageTemplate nlt : this.naturalLanguageTemplateMap.values()) {
+            if (nlt.getTemplate().equals(template)) {
+                list.add(nlt);
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> findContextIds(QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
+        CriteriaMatcherInMemory<ContextDefinition> instance = new CriteriaMatcherInMemory<ContextDefinition>();
+        instance.setCriteria(queryByCriteria);
+        Collection<ContextDefinition> selected = instance.findMatching(this.contextMap.values());
+        List<String> list = new ArrayList<String>();
+        for (ContextDefinition sel : selected) {
+            list.add(sel.getId());
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> findAgendaIds(QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
+        CriteriaMatcherInMemory<AgendaDefinition> instance = new CriteriaMatcherInMemory<AgendaDefinition>();
+        instance.setCriteria(queryByCriteria);
+        Collection<AgendaDefinition> selected = instance.findMatching(this.agendaMap.values());
+        List<String> list = new ArrayList<String>();
+        for (AgendaDefinition sel : selected) {
+            list.add(sel.getId());
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> findRuleIds(QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
+        CriteriaMatcherInMemory<RuleDefinition> instance = new CriteriaMatcherInMemory<RuleDefinition>();
+        instance.setCriteria(queryByCriteria);
+        Collection<RuleDefinition> selected = instance.findMatching(this.ruleMap.values());
+        List<String> list = new ArrayList<String>();
+        for (RuleDefinition sel : selected) {
+            list.add(sel.getId());
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> findActionIds(QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
+        CriteriaMatcherInMemory<ActionDefinition> instance = new CriteriaMatcherInMemory<ActionDefinition>();
+        instance.setCriteria(queryByCriteria);
+        Collection<ActionDefinition> selected = instance.findMatching(this.actionMap.values());
+        List<String> list = new ArrayList<String>();
+        for (ActionDefinition sel : selected) {
+            list.add(sel.getId());
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> findPropositionIds(QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
+        CriteriaMatcherInMemory<PropositionDefinition> instance = new CriteriaMatcherInMemory<PropositionDefinition>();
+        instance.setCriteria(queryByCriteria);
+        Collection<PropositionDefinition> selected = instance.findMatching(this.propositionMap.values());
+        List<String> list = new ArrayList<String>();
+        for (PropositionDefinition sel : selected) {
+            list.add(sel.getId());
+        }
+        return list;
     }
 }

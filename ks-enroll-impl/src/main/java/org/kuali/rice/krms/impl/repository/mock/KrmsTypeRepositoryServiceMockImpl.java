@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
 import org.kuali.rice.krms.api.repository.type.KrmsAttributeDefinition;
@@ -26,22 +27,19 @@ import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.api.repository.typerelation.RelationshipType;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
-import org.kuali.student.common.mock.MockService;
-import org.kuali.student.common.util.UUIDHelper;
 
-public class KrmsTypeRepositoryServiceMockImpl implements MockService, KrmsTypeRepositoryService {
+public class KrmsTypeRepositoryServiceMockImpl implements KrmsTypeRepositoryService {
     // cache variable 
     // The LinkedHashMap is just so the values come back in a predictable order
 
     private Map<String, KrmsTypeDefinition> krmsTypeMap = new LinkedHashMap<String, KrmsTypeDefinition>();
-    private Map<String, KrmsAttributeDefinition> krmsAttributeMap = new LinkedHashMap<String, KrmsAttributeDefinition>();
+    private Map<String, KrmsAttributeDefinition> krmsAttributeDefinitionMap = new LinkedHashMap<String, KrmsAttributeDefinition>();
     private Map<String, TypeTypeRelation> typeTypeRelationMap = new LinkedHashMap<String, TypeTypeRelation>();
 
-    @Override
     public void clear() {
         this.krmsTypeMap.clear();
-        this.krmsAttributeMap.clear();
-        this.krmsAttributeMap.clear();
+        this.krmsAttributeDefinitionMap.clear();
+        this.typeTypeRelationMap.clear();
     }
 
     @Override
@@ -50,11 +48,11 @@ public class KrmsTypeRepositoryServiceMockImpl implements MockService, KrmsTypeR
         // CREATE
         KrmsTypeDefinition orig = this.getTypeByName(krmsType.getNamespace(), krmsType.getName());
         if (orig != null) {
-            throw new RiceIllegalArgumentException(krmsType.getNamespace() + "." + krmsType.getName());
+            throw new RiceIllegalArgumentException(krmsType.getNamespace() + "." + krmsType.getName() + " already exists");
         }
         KrmsTypeDefinition.Builder copy = KrmsTypeDefinition.Builder.create(krmsType);
         if (copy.getId() == null) {
-            copy.setId(UUIDHelper.genStringUUID());
+            copy.setId(UUID.randomUUID().toString());
         }
         krmsType = copy.build();
         krmsTypeMap.put(krmsType.getId(), krmsType);
@@ -113,75 +111,72 @@ public class KrmsTypeRepositoryServiceMockImpl implements MockService, KrmsTypeR
 
     @Override
     public List<KrmsTypeDefinition> findAllTypes() {
-       return new ArrayList<KrmsTypeDefinition> (this.krmsTypeMap.values());
+        return new ArrayList<KrmsTypeDefinition>(this.krmsTypeMap.values());
     }
 
     @Override
     public KrmsTypeDefinition getAgendaTypeByAgendaTypeIdAndContextId(String agendaTypeId, String contextId)
             throws RiceIllegalArgumentException {
-        // GET_BY_ID
-        if (!this.krmsTypeMap.containsKey(agendaTypeId)) {
-            throw new RiceIllegalArgumentException(agendaTypeId);
-        }
-        return this.krmsTypeMap.get(agendaTypeId);
+        // UNKNOWN
+        throw new RiceIllegalArgumentException("getAgendaTypeByAgendaTypeIdAndContextId is being deprecated");
     }
 
     @Override
     public List<KrmsTypeDefinition> findAllAgendaTypesByContextId(String contextId)
             throws RiceIllegalArgumentException {
         // UNKNOWN
-        throw new RiceIllegalArgumentException("findAllAgendaTypesByContextId has not been implemented");
+        throw new RiceIllegalArgumentException("findAllAgendaTypesByContextId is being deprecated");
     }
 
     @Override
     public List<KrmsTypeDefinition> findAllRuleTypesByContextId(String contextId)
             throws RiceIllegalArgumentException {
         // UNKNOWN
-        throw new RiceIllegalArgumentException("findAllRuleTypesByContextId has not been implemented");
+        throw new RiceIllegalArgumentException("findAllRuleTypesByContextId is being deprecated");
     }
 
     @Override
     public KrmsTypeDefinition getRuleTypeByRuleTypeIdAndContextId(String ruleTypeId, String contextId)
             throws RiceIllegalArgumentException {
-        // GET_BY_ID
-        if (!this.krmsTypeMap.containsKey(ruleTypeId)) {
-            throw new RiceIllegalArgumentException(ruleTypeId);
-        }
-        return this.krmsTypeMap.get(ruleTypeId);
+        // UNKNOWN
+        throw new RiceIllegalArgumentException("getRuleTypeByRuleTypeIdAndContextId is being deprecated");
     }
 
     @Override
     public List<KrmsTypeDefinition> findAllActionTypesByContextId(String contextId)
             throws RiceIllegalArgumentException {
         // UNKNOWN
-        throw new RiceIllegalArgumentException("findAllActionTypesByContextId has not been implemented");
+        throw new RiceIllegalArgumentException("findAllActionTypesByContextId is being deprecated");
     }
 
     @Override
     public KrmsTypeDefinition getActionTypeByActionTypeIdAndContextId(String actionTypeId, String contextId)
             throws RiceIllegalArgumentException {
-        // GET_BY_ID
-        if (!this.krmsTypeMap.containsKey(actionTypeId)) {
-            throw new RiceIllegalArgumentException(actionTypeId);
-        }
-        return this.krmsTypeMap.get(actionTypeId);
+        // UNKNOWN
+        throw new RiceIllegalArgumentException("getActionTypeByActionTypeIdAndContextId is being deprecated");
     }
 
     @Override
     public KrmsAttributeDefinition getAttributeDefinitionById(String attributeDefinitionId)
             throws RiceIllegalArgumentException {
         // GET_BY_ID
-        if (!this.krmsAttributeMap.containsKey(attributeDefinitionId)) {
+        if (!this.krmsAttributeDefinitionMap.containsKey(attributeDefinitionId)) {
             throw new RiceIllegalArgumentException(attributeDefinitionId);
         }
-        return this.krmsAttributeMap.get(attributeDefinitionId);
+        return this.krmsAttributeDefinitionMap.get(attributeDefinitionId);
     }
 
     @Override
     public KrmsAttributeDefinition getAttributeDefinitionByName(String namespaceCode, String name)
             throws RiceIllegalArgumentException {
-        // UNKNOWN
-        throw new RiceIllegalArgumentException("getAttributeDefinitionByName has not been implemented");
+        for (KrmsAttributeDefinition info : this.krmsAttributeDefinitionMap.values()) {
+            if (info.getNamespace().equals(namespaceCode)) {
+                if (info.getName().equals(name)) {
+                    return info;
+                }
+            }
+        }
+        return null;
     }
 
     @Override
@@ -190,11 +185,11 @@ public class KrmsTypeRepositoryServiceMockImpl implements MockService, KrmsTypeR
         // CREATE
         TypeTypeRelation orig = this.getTypeTypeRelation(typeTypeRelation.getId());
         if (orig != null) {
-            throw new RiceIllegalArgumentException(typeTypeRelation.getId ());
+            throw new RiceIllegalArgumentException(typeTypeRelation.getId() + " already exists");
         }
         TypeTypeRelation.Builder copy = TypeTypeRelation.Builder.create(typeTypeRelation);
         if (copy.getId() == null) {
-            copy.setId(UUIDHelper.genStringUUID());
+            copy.setId(UUID.randomUUID().toString());
         }
         typeTypeRelation = copy.build();
         typeTypeRelationMap.put(typeTypeRelation.getId(), typeTypeRelation);
@@ -239,27 +234,50 @@ public class KrmsTypeRepositoryServiceMockImpl implements MockService, KrmsTypeR
     @Override
     public List<TypeTypeRelation> findTypeTypeRelationsByFromType(String fromTypeId)
             throws RiceIllegalArgumentException {
-        // UNKNOWN
-        throw new RiceIllegalArgumentException("findTypeTypeRelationsByFromType has not been implemented");
+        List<TypeTypeRelation> list = new ArrayList<TypeTypeRelation>();
+        for (TypeTypeRelation rel : this.typeTypeRelationMap.values()) {
+            if (rel.getFromTypeId().equals(fromTypeId)) {
+                list.add(rel);
+            }
+        }
+        return list;
     }
 
     @Override
     public List<TypeTypeRelation> findTypeTypeRelationsByToType(String toTypeId)
             throws RiceIllegalArgumentException {
-        // UNKNOWN
-        throw new RiceIllegalArgumentException("findTypeTypeRelationsByToType has not been implemented");
+        List<TypeTypeRelation> list = new ArrayList<TypeTypeRelation>();
+        for (TypeTypeRelation rel : this.typeTypeRelationMap.values()) {
+            if (rel.getToTypeId().equals(toTypeId)) {
+                list.add(rel);
+            }
+        }
+        return list;
     }
 
     @Override
-    public List<TypeTypeRelation> findTypeTypeRelationsByRelationshipType(RelationshipType relationshipType) throws RiceIllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<TypeTypeRelation> findTypeTypeRelationsByRelationshipType(RelationshipType relationshipType)
+            throws RiceIllegalArgumentException {
+        List<TypeTypeRelation> list = new ArrayList<TypeTypeRelation>();
+        for (TypeTypeRelation rel : this.typeTypeRelationMap.values()) {
+            if (rel.getRelationshipType().equals(relationshipType)) {
+                list.add(rel);
+            }
+        }
+        return list;
     }
 
     @Override
-    public List<KrmsTypeDefinition> findAllTypesByServiceName(String serviceName) throws RiceIllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<KrmsTypeDefinition> findAllTypesByServiceName(String serviceName)
+            throws RiceIllegalArgumentException {
+        List<KrmsTypeDefinition> list = new ArrayList<KrmsTypeDefinition>();
+        for (KrmsTypeDefinition info : this.krmsTypeMap.values()) {
+            if (info.getServiceName().equals(serviceName)) {
+                list.add(info);
+            }
+        }
+        return list;
     }
-
 
     @Override
     public List<KrmsTypeDefinition> findAllContextTypes() throws RiceIllegalArgumentException {
@@ -288,52 +306,47 @@ public class KrmsTypeRepositoryServiceMockImpl implements MockService, KrmsTypeR
 
     @Override
     public List<KrmsTypeDefinition> findAgendaTypesForContextType(String contextTypeId) throws RiceIllegalArgumentException {
-        List<TypeTypeRelation> rels = this.findTypeTypeRelationsByFromType(contextTypeId);
+        return this._findTypesForType(contextTypeId, CONTEXT_SERVICE_NAME, AGENDA_SERVICE_NAME);
+    }
+
+    private List<KrmsTypeDefinition> _findTypesForType(String typeId, String fromServiceName, String toServiceName)
+            throws RiceIllegalArgumentException {
+        KrmsTypeDefinition fromType = this.getTypeById(typeId);
+        if (fromType == null) {
+            throw new RiceIllegalArgumentException(typeId + " does not exist");
+        }
+        if (!fromType.getServiceName().equals(fromServiceName)) {
+            throw new RiceIllegalArgumentException(typeId + " is not a " + fromServiceName);
+        }
+        List<TypeTypeRelation> rels = this.findTypeTypeRelationsByFromType(typeId);
         List<KrmsTypeDefinition> list = new ArrayList<KrmsTypeDefinition>(rels.size());
         for (TypeTypeRelation rel : rels) {
-            list.add(this.getTypeById(rel.getToTypeId()));
+            KrmsTypeDefinition info = this.getTypeById(rel.getToTypeId());
+            if (info.getServiceName().equals(toServiceName)) {
+                list.add(info);
+            }
         }
         return list;
     }
 
     @Override
     public List<KrmsTypeDefinition> findAgendaTypesForAgendaType(String agendaTypeId) throws RiceIllegalArgumentException {
-        List<TypeTypeRelation> rels = this.findTypeTypeRelationsByFromType(agendaTypeId);
-        List<KrmsTypeDefinition> list = new ArrayList<KrmsTypeDefinition>(rels.size());
-        for (TypeTypeRelation rel : rels) {
-            list.add(this.getTypeById(rel.getToTypeId()));
-        }
-        return list;
+        return this._findTypesForType(agendaTypeId, AGENDA_SERVICE_NAME, AGENDA_SERVICE_NAME);
     }
 
     @Override
     public List<KrmsTypeDefinition> findRuleTypesForAgendaType(String agendaTypeId) throws RiceIllegalArgumentException {
-        List<TypeTypeRelation> rels = this.findTypeTypeRelationsByFromType(agendaTypeId);
-        List<KrmsTypeDefinition> list = new ArrayList<KrmsTypeDefinition>(rels.size());
-        for (TypeTypeRelation rel : rels) {
-            list.add(this.getTypeById(rel.getToTypeId()));
-        }
-        return list;
+        return this._findTypesForType(agendaTypeId, AGENDA_SERVICE_NAME, RULE_SERVICE_NAME);
     }
 
     @Override
     public List<KrmsTypeDefinition> findPropositionTypesForRuleType(String ruleTypeId) throws RiceIllegalArgumentException {
-        List<TypeTypeRelation> rels = this.findTypeTypeRelationsByFromType(ruleTypeId);
-        List<KrmsTypeDefinition> list = new ArrayList<KrmsTypeDefinition>(rels.size());
-        for (TypeTypeRelation rel : rels) {
-            list.add(this.getTypeById(rel.getToTypeId()));
-        }
-        return list;
+        return this._findTypesForType(ruleTypeId, RULE_SERVICE_NAME, PROPOSITION_SERVICE_NAME);
     }
 
     @Override
     public List<KrmsTypeDefinition> findPropositionParameterTypesForPropositionType(String propositionTypeId)
             throws RiceIllegalArgumentException {
-        List<TypeTypeRelation> rels = this.findTypeTypeRelationsByFromType(propositionTypeId);
-        List<KrmsTypeDefinition> list = new ArrayList<KrmsTypeDefinition>(rels.size());
-        for (TypeTypeRelation rel : rels) {
-            list.add(this.getTypeById(rel.getToTypeId()));
-        }
-        return list;
+        return this._findTypesForType(propositionTypeId, PROPOSITION_SERVICE_NAME, PROPOSITION_PARAMETER_SERVICE_NAME);
     }
 }

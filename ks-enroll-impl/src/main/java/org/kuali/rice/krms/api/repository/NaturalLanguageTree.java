@@ -89,7 +89,14 @@ public class NaturalLanguageTree implements NaturalLanguageTreeContract {
         private static final long serialVersionUID = -8862851720709537839L;
         private String naturalLanguage;
         private List<? extends NaturalLanguageTreeContract> children;
-
+ 
+        /**
+         * Private constructor for creating a builder with all of it's required
+         * attributes.
+         */
+        private Builder() {
+        }        
+        
         /**
          * Private constructor for creating a builder with all of it's required
          * attributes.
@@ -117,6 +124,20 @@ public class NaturalLanguageTree implements NaturalLanguageTreeContract {
             this.children = children;
         }
 
+        
+        /**
+         * Creates a builder by populating it with data from the given
+         * {@link NaturalLanguageTreeContract}.
+         *
+         * @param contract the contract from which to populate this builder
+         * @return an instance of the builder populated with data from the
+         * contract
+         * @throws IllegalArgumentException if the contract is null
+         */
+        public static NaturalLanguageTree.Builder create() {
+            NaturalLanguageTree.Builder builder = new NaturalLanguageTree.Builder();
+            return builder;
+        }
         /**
          * Creates a builder by populating it with data from the given
          * {@link NaturalLanguageTreeContract}.
@@ -136,7 +157,7 @@ public class NaturalLanguageTree implements NaturalLanguageTreeContract {
         }
 
         /**
-         * Builds an instance of a Agenda based on the current state of the
+         * Builds an instance of a Natural Language Tree based on the current state of the
          * builder.
          *
          * @return the fully-constructed Agenda
