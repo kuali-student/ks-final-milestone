@@ -10,6 +10,9 @@
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-ARG-ToolBarSection"/>
+                <ref bean="KS-CourseOfferingManagement-AddActivityOfferingPopupForm"/>
+                <ref bean="KS-CourseOfferingManagement-AddAOCPopupForm"/>
+                <ref bean="KS-CourseOfferingManagement-MoveAOCPopupForm"/>
                 <ref bean="KS-CourseOfferingManagement-ARG-ActivityOfferingListSection"/>
             </list>
         </property>
@@ -113,5 +116,120 @@
         </property>
     </bean>
 
+    <bean id="KS-CourseOfferingManagement-AddActivityOfferingPopupForm" parent="Uif-HorizontalBoxSection">
+        <!--<property name="render" value="@{enableAddButton and !currentCourseOfferingWrapper.crossListed}"/>-->
+        <property name="hidden" value="true"/>
+        <property name="cssClasses">
+            <list>
+                <value>uif-bubblepopup-content</value>
+            </list>
+        </property>
+        <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="formatIdForNewAO" p:label="Format" p:labelPlacement="TOP" p:required="true">
+                    <property name="readOnly" value="false"/>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.FormatsForCreateAOKeyValues" p:addBlankOption="false" />
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="activityIdForNewAO" p:label="Activity Type" p:labelPlacement="TOP" p:required="true" p:refreshWhenChangedPropertyNames="formatIdForNewAO">
+                    <!-- KRAD 2.2.0 Bug: class uif-boxLayoutHorizontalItem is removed on refresh: -->
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-boxLayoutHorizontalItem</value>
+                        </list>
+                    </property>
+                    <property name="readOnly" value="false"/>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ActivitiesForCreateAOKeyValues" p:addBlankOption="false" />
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="noOfActivityOfferings" p:label="Quantity" p:labelPlacement="TOP" p:required="true">
+                    <property name="readOnly" value="false"/>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="3" p:disabled="@{!#root.editAuthz}"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-SecondaryActionButton-Small">
+                    <property name="style" value="margin-top:1.5em;"/>
+                    <property name="actionLabel" value="Add"/>
+                    <property name="methodToCall" value="addActivityOfferings"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-AddAOCPopupForm" parent="Uif-HorizontalBoxSection">
+        <!--<property name="render" value="@{enableAddButton and !currentCourseOfferingWrapper.crossListed}"/>-->
+        <property name="hidden" value="true"/>
+        <property name="cssClasses">
+            <list>
+                <value>uif-bubblepopup-content</value>
+            </list>
+        </property>
+        <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="formatOfferingIdForViewRG" p:label="Select Format" p:labelPlacement="TOP" p:required="true" >
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.FormatsForCreateRGKeyValues" p:addBlankOption="false" />
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField"  p:id="privateClusterNameForLightBox" p:propertyName="privateClusterNameForLightBox" p:label="Private Name" p:labelPlacement="TOP" p:render="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField"  p:propertyName="publishedClusterNameForLightBox" p:label="Published Name" p:labelPlacement="TOP"  p:render="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-SecondaryActionButton-Small">
+                    <property name="style" value="margin-top:1.5em;"/>
+                    <property name="actionLabel" value="Add"/>
+                    <property name="methodToCall" value="addCluster"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-MoveAOCPopupForm" parent="Uif-HorizontalBoxSection">
+        <!--<property name="render" value="@{enableAddButton and !currentCourseOfferingWrapper.crossListed}"/>-->
+        <property name="hidden" value="true"/>
+        <property name="cssClasses">
+            <list>
+                <value>uif-bubblepopup-content</value>
+            </list>
+        </property>
+        <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="clusterIdForAOMove"  p:label="Move selected offerings to" p:labelPlacement="TOP" >
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ListOfAOClustersForFOKeyValues" p:addBlankOption="false" />
+                    </property>
+                </bean>
+                <bean parent="Uif-SecondaryActionButton-Small">
+                    <property name="style" value="margin-top:1.5em;"/>
+                    <property name="actionLabel" value="Move"/>
+                    <property name="methodToCall" value="moveToCluster"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
 </beans>

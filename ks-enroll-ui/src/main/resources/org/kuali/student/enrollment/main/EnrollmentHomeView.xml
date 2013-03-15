@@ -91,7 +91,7 @@
                 <bean parent="Uif-Link" p:linkText="Schedule of Classes"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/scheduleOfClassesSearch?viewId=scheduleOfClassesSearchView&amp;pageId=scheduleOfClassesSearchInputPage&amp;methodToCall=start"/>
                 <bean parent="Uif-Link" p:linkText="Manage Course Offerings (Auto-Generated RG)"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/argCourseOfferingManagement?viewId=argCourseOfferingManagementView&amp;pageId=searchInputPage&amp;methodToCall=start"/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/argCourseOfferingManagement?viewId=argCourseOfferingManagementView&amp;pageId=searchInputPage&amp;methodToCall=start&amp;withinPortal=false"/>
             </list>
         </property>
     </bean>

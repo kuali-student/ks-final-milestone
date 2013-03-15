@@ -18,8 +18,9 @@
             <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                 <property name="items">
                     <list>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Add-ARG" parent="KS-CourseOfferingManagement-ToolBar-Add" p:actionLabel="Add Activity"
-                            p:performClientSideValidation="true" p:methodToCall="addActivityOfferings" p:disabled="@{!enableAddButton}"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Add-ARG" parent="KS-CourseOfferingManagement-ToolBar-Add" p:actionLabel="Add Activity"  p:disabled="false"
+                            p:performClientSideValidation="true" p:methodToCall="addActivityOfferings"
+                            p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm');"/>
                     </list>
                 </property>
             </bean>
@@ -45,8 +46,10 @@
             <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                 <property name="items">
                     <list>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster-ARG" parent="KS-CourseOfferingManagement-ToolBar-AddCluster" p:methodToCall="addCluster" p:render="@{hasAO}" p:disabled="false"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-MoveTo-ARG" parent="KS-CourseOfferingManagement-ToolBar-MoveTo" p:methodToCall="moveToCluster" p:render="@{hasAO}" p:disabled="false"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster-ARG" parent="KS-CourseOfferingManagement-ToolBar-AddCluster" p:methodToCall="addCluster" p:render="@{hasAO}" p:disabled="false"
+                              p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddAOCPopupForm');"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-MoveTo-ARG" parent="KS-CourseOfferingManagement-ToolBar-MoveTo" p:methodToCall="moveToCluster" p:render="@{hasAO}" p:disabled="false"
+                              p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-MoveAOCPopupForm');"/>
                     </list>
                 </property>
             </bean>

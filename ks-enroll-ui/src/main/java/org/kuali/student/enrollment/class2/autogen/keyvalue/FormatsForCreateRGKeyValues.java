@@ -27,13 +27,10 @@ public class FormatsForCreateRGKeyValues extends UifKeyValuesFinderBase implemen
         ARGCourseOfferingManagementForm rgForm = (ARGCourseOfferingManagementForm) model;
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-//TODO: change back from hardcoded values
-//        CourseOfferingInfo selectedCourseOffering = rgForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
+        CourseOfferingInfo selectedCourseOffering = rgForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
 
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-//TODO: change back from hardcoded values
-CourseOfferingInfo selectedCourseOffering = getCourseOfferingService().getCourseOffering("e6ee1d27-63c4-46ac-927c-ab8f0ec2d2ac", contextInfo);
             String courseOfferingId = selectedCourseOffering.getId();
             List<FormatOfferingInfo> formatOfferingInfos =
                     getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, contextInfo);
