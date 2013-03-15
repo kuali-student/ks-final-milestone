@@ -631,10 +631,10 @@ INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('10304','en','10001','10031','<reqCompFieldType=kuali.reqComponent.field.type.value.freeform.text;reqCompFieldLabel=Text>',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR) 
-  VALUES ('10318','en','10003','10031','$fields.get("kuali.reqComponent.field.type.value.freeform.text")',0)
+  VALUES ('10318','en','10003','10031','$freeText")',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR) 
-  VALUES ('10325','en','10000','10031','$fields.get("kuali.reqComponent.field.type.value.freeform.text")',0)
+  VALUES ('10325','en','10000','10031','$freeText")',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR) 
   VALUES ('10330','en','10000','10021','Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, "credit") from $courseCluSet.getCluSetAsCode()',0)
