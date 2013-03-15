@@ -10,7 +10,7 @@
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-ARG-ToolBarSection"/>
-                <ref bean="KS-CourseOfferingManagement-AddActivityOfferingPopupForm"/>
+                <ref bean="KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen"/>
                 <ref bean="KS-CourseOfferingManagement-AddAOCPopupForm"/>
                 <ref bean="KS-CourseOfferingManagement-MoveAOCPopupForm"/>
                 <ref bean="KS-CourseOfferingManagement-ARG-ActivityOfferingListSection"/>
@@ -116,7 +116,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-AddActivityOfferingPopupForm" parent="Uif-HorizontalBoxSection">
+    <bean id="KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen" parent="Uif-HorizontalBoxSection">
         <!--<property name="render" value="@{enableAddButton and !currentCourseOfferingWrapper.crossListed}"/>-->
         <property name="hidden" value="true"/>
         <property name="cssClasses">
