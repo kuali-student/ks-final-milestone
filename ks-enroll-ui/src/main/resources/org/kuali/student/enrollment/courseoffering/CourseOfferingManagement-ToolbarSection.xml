@@ -43,7 +43,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-AO-ToolBarSection" parent="Uif-HorizontalBoxSection" p:render="@{!currentCourseOfferingWrapper.crossListed}">
+    <bean id="KS-CourseOfferingManagement-AO-ToolBarSection" parent="Uif-HorizontalBoxSection">
         <property name="items">
           <list>
             <bean parent="KS-HorizontalBoxGroup-WithRPadding">
