@@ -31,7 +31,6 @@
   <import resource="classpath:ks-enroll-api-data-dictionary-services-configuration.xml" />
   <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml" />
   <import resource="classpath:enrollDao.xml" />
-  <import resource="classpath:ksb/ks-lu-no-tx-context.xml" />
   <import resource="classpath:statement-context.xml" />
   <!-- import resource="classpath:ks-enroll-mock-room-data-context.xml"/ -->
 
@@ -103,46 +102,6 @@
 
     <bean id="roleService" class="org.kuali.student.kim.permission.mock.RoleServiceMockImpl " />
 
-    <bean id="attributeTransform" class="org.kuali.student.r2.common.criteria.transform.AttributeTransform"/>
-   
-    <bean id="key2IdTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
-        <property name="renameAttributes">
-            <map>
-                <entry key="key" value="id"/>
-            </map>
-        </property>
-    </bean>
-    <bean id="descrTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
-        <property name="renameAttributes">
-            <map>
-                <entry key="descr.plain" value="descrPlain"/>
-                <entry key="descr.formatted" value="descrFormatted"/>
-            </map>
-        </property>
-    </bean>
-    
-    <bean id="metaTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
-        <property name="renameAttributes">
-            <map>
-                <entry key="meta.createId" value="createId"/>
-                <entry key="meta.createTime" value="createTime"/>
-                <entry key="meta.updateId" value="createId"/>
-                <entry key="meta.updateTime" value="updateTime"/>
-                <entry key="meta.versionInd" value="versionInd"/>
-            </map>
-        </property>
-    </bean>
-    <bean id="keyword2LikeTransform" class="org.kuali.student.r2.common.criteria.transform.Keyword2LikeTransform">
-        <property name="keywordAttribute" value="keywordSearch" />    
-        <property name="likeAttributes">
-            <list>
-                <value>name</value>
-                <value>descr.plain</value>
-                <value>descr.formatted</value>                   
-            </list>
-        </property>
-    </bean>
-    
 <!--    THIS SHOULD BE USED FOR ALL Info objects that extend ID or KeyEntity becuase they have name, descr, meta and attributes-->
     <bean id="defaultCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
         <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
@@ -222,11 +181,6 @@
         <constructor-arg index="0" type="java.net.URL" value="${ks.cache.config.file}" />
     </bean>
 
-    <bean id="stateServiceCacheDecorator" class="org.kuali.student.r2.core.class1.state.decorators.StateServiceCacheDecorator">
-        <property name="nextDecorator" ref="stateService" />
-        <property name="cacheManager" ref="ksCacheManager"/>
-    </bean>
-
     <bean id="typeService" class="org.kuali.student.r2.common.class1.type.service.TypeServiceImpl">
         <property name="typeDao" ref="typeDao" />
         <property name="typeTypeRelationDao" ref="typeTypeRelationDao" />
@@ -288,39 +242,6 @@
                         <ref bean="attributeTransform"/>
                     </list>
                 </property>
-            </bean>
-        </property>
-    </bean>
-
-  <bean id="typeServiceCacheDecorator" class="org.kuali.student.r2.common.class1.type.decorators.TypeServiceCacheDecorator">
-     <property name="nextDecorator" ref="typeService" />
-     <property name="cacheManager" ref="ksCacheManager"/>
-  </bean>
-
-
-    <bean id="ks.exp.typeService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-    <property name="serviceDefinition">
-      <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
-        <property name="jaxWsService" value="true" />
-        <property name="service" ref="typeServiceCacheDecorator" />
-        <property name="serviceInterface" value="org.kuali.student.r2.core.class1.type.service.TypeService" />
-        <property name="localServiceName" value="TypeService" />
-        <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/type" />
-        <property name="busSecurity" value="${ks.lum.bus.security}" />
-      </bean>
-    </property>
-  </bean>
-
-<!-- Added by Tanveer 06/14/2012 -->
-    <bean id="ks.exp.stateService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
-                <property name="jaxWsService" value="true" />
-                <property name="service" ref="stateServiceCacheDecorator" />
-                <property name="serviceInterface" value="org.kuali.student.r2.core.class1.state.service.StateService" />
-                <property name="localServiceName" value="StateService" />
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/state" />
-                <property name="busSecurity" value="${ks.lum.bus.security}" />
             </bean>
         </property>
     </bean>
@@ -620,10 +541,6 @@
     <property name="dao" ref="enrollSearchableDao"/>
   </bean>
 
-  <bean id="statementAssembler" class="org.kuali.student.r1.core.statement.service.impl.StatementAssembler">
-    <property name="statementDao" ref="statementDao" />
-  </bean>
-
   <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
     <property name="lprDao" ref="lprDao" />
     <property name="lprTransactionDao" ref="lprTrasactionDao" />
@@ -653,8 +570,6 @@
     <property name="lrrDao" ref="lrrDao" />
     <property name="resultSourceDao" ref="resultSourceDao" />
   </bean>
-
-    <bean id="lrcServiceBusinessLogic" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl" />
 
     <bean id="lrcServiceValidation"
           class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceValidationDecorator">
