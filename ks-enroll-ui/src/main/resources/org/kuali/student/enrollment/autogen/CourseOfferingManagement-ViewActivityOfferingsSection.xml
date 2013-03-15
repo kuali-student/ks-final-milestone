@@ -133,7 +133,7 @@
                         <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.FormatsForCreateAOKeyValues" p:addBlankOption="false" />
+                        <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGFormatsForCreateAOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="activityIdForNewAO" p:label="Activity Type" p:labelPlacement="TOP" p:required="true" p:refreshWhenChangedPropertyNames="formatIdForNewAO">
@@ -148,7 +148,7 @@
                         <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ActivitiesForCreateAOKeyValues" p:addBlankOption="false" />
+                        <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGActivitiesForCreateAOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="noOfActivityOfferings" p:label="Quantity" p:labelPlacement="TOP" p:required="true">
@@ -182,7 +182,7 @@
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.FormatsForCreateRGKeyValues" p:addBlankOption="false" />
+                        <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGFormatsForCreateRGKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
                 <bean parent="Uif-InputField"  p:id="privateClusterNameForLightBox" p:propertyName="privateClusterNameForLightBox" p:label="Private Name" p:labelPlacement="TOP" p:render="true">
@@ -220,7 +220,7 @@
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ListOfAOClustersForFOKeyValues" p:addBlankOption="false" />
+                        <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGListOfAOClustersForFOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
                 <bean parent="Uif-SecondaryActionButton-Small">

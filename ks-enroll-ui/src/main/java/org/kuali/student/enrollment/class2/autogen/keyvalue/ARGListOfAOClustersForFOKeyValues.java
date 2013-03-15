@@ -15,18 +15,20 @@
 
 package org.kuali.student.enrollment.class2.autogen.keyvalue;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
-import org.kuali.student.enrollment.class2.autogen.service.impl.ARGCourseOfferingManagementViewHelperServiceImpl;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 
+import javax.xml.namespace.QName;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,29 +40,34 @@ import java.util.List;
  * @author andrewlubbers
  *
  */
-public class FormatsForCreateAOKeyValues extends UifKeyValuesFinderBase implements Serializable {
-
+public class ARGListOfAOClustersForFOKeyValues extends UifKeyValuesFinderBase implements Serializable {
+    private transient CourseOfferingService courseOfferingService;
+    private static final long serialVersionUID = 1L;
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
-        ARGCourseOfferingManagementForm coForm = (ARGCourseOfferingManagementForm) model;
-        ARGCourseOfferingManagementViewHelperServiceImpl helperService = ((ARGCourseOfferingManagementViewHelperServiceImpl)coForm.getView().getViewHelperService());
+        ARGCourseOfferingManagementForm rgForm = (ARGCourseOfferingManagementForm) model;
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "Select Format Type"));
-        CourseOfferingInfo selectedCourseOffering = coForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
+        keyValues.add(new ConcreteKeyValue("", "Select activity offering cluster..."));
+        String formatOfferingId = rgForm.getFormatOfferingIdForViewRG();
 
         try {
-            String courseOfferingId = selectedCourseOffering.getId();
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-            CourseOfferingService courseOfferingService = helperService.getCourseOfferingService();
-            List<FormatOfferingInfo> formatOfferingInfos =
-                courseOfferingService.getFormatOfferingsByCourseOffering(courseOfferingId, contextInfo);
-            for (FormatOfferingInfo formatOfferingInfo : formatOfferingInfos) {
-                keyValues.add(new ConcreteKeyValue(formatOfferingInfo.getFormatId(), formatOfferingInfo.getName()));
+            List<ActivityOfferingClusterInfo> clusterInfos = getCourseOfferingService().getActivityOfferingClustersByFormatOffering(formatOfferingId, contextInfo);
+            for (ActivityOfferingClusterInfo clusterInfo : clusterInfos) {
+                keyValues.add(new ConcreteKeyValue(clusterInfo.getId(), clusterInfo.getPrivateName()));
             }
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new RuntimeException("Error getting clusters for format offering", e);
         }
         return keyValues;
     }
+
+    protected CourseOfferingService getCourseOfferingService() {
+        if (courseOfferingService == null) {
+            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, "CourseOfferingService"));
+        }
+        return courseOfferingService;
+    }
+
 }

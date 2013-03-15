@@ -42,7 +42,7 @@ import java.util.List;
  * @author andrewlubbers
  *
  */
-public class ActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase implements Serializable {
+public class ARGActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
