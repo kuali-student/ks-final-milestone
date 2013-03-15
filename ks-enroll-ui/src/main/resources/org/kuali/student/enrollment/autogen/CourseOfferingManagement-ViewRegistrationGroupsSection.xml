@@ -19,7 +19,7 @@
         <!--<property name="hidden" value="true"/>-->
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper" />
         <property name="propertyName" value="rgResultList" />
-        <property name="headerText" value="Registration Groups"/>
+        <property name="headerText" value="Registration Groups (@{})"/>
         <!--<property name="instructionalText" value="@{#line.clusterNameForDisplay}" />-->
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />
@@ -40,8 +40,8 @@
                       p:propertyName="rgInfo.name" p:valign="middle">
                 </bean>
                 <bean parent="Uif-DataField"
-                      p:label="STATE"
-                      p:propertyName="rgInfo.stateKey">
+                      p:label="STATE" p:escapeHtmlInPropertyValue="false"
+                      p:propertyName="stateKey">
                 </bean>
 
                 <!-- ARG Notes By Bonnie -->
