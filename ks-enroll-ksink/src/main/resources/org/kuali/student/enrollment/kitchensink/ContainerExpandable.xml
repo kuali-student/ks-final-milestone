@@ -88,7 +88,7 @@
                 <bean parent="KS-KitchenSink-Page" p:header.render="false">
                     <property name="items">
                         <list>
-                            <ref bean="KS-KitchenSink-ContainerExpandable-Content"/>
+                            <ref bean="KS-KitchenSink-ContainerExpandable-Section"/>
                         </list>
                     </property>
                 </bean>
