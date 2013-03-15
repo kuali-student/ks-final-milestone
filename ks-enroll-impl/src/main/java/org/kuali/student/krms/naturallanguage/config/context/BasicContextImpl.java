@@ -32,6 +32,8 @@ public class BasicContextImpl extends AbstractContext<TermDefinitionContract> {
 	 */
 	public final static String NL_HELPER_TOKEN = "NLHelper";
 
+    public final static String FREE_TEXT_TOKEN = "freeText";
+
 	/**
 	 * Constructor.
 	 */
@@ -49,6 +51,13 @@ public class BasicContextImpl extends AbstractContext<TermDefinitionContract> {
     public Map<String, Object> createContextMap(TermDefinitionContract term, ContextInfo contextInfo) throws OperationFailedException {
     	Map<String, Object> contextMap = super.createContextMap(term, contextInfo);
         contextMap.put(NL_HELPER_TOKEN, NLHelper.class);
+
+        Map<String, String> map = getTermParameterMap(term);
+
+        String key = "kuali.term.parameter.type.free.text";
+        if(map.containsKey(key)) {
+            contextMap.put(FREE_TEXT_TOKEN, map.get(key));
+        }
 
         return contextMap;
     }

@@ -108,11 +108,11 @@ public class PropositionNaturalLanguageTemplater implements NaturalLanguageTempl
     /**
      * Builds a proposition type context map.
      *
-     * @param nlTemplateTypeId the natural language template id
+     * @param typeId the natural language template id
      * @param parametersMap map containing the proposition parameter types and their values
      * @throws java.lang.Exception Creating context map failed
      */
-    private Map<String, Object> buildContextMap(String nlTemplateTypeId, Map<String, Object> parametersMap) throws Exception {
+    private Map<String, Object> buildContextMap(String typeId, Map<String, Object> parametersMap) throws Exception {
 
         Map<String, Object> contextMap = new HashMap<String, Object>();
         //Add proposition constant to contextMap.
@@ -124,7 +124,7 @@ public class PropositionNaturalLanguageTemplater implements NaturalLanguageTempl
             contextMap.put(OPERATOR_TOKEN,(String) parametersMap.get(PropositionParameterType.OPERATOR.getCode()));
         }
         //Access type service to retrieve type name.
-        KrmsTypeDefinitionContract type = getKrmsTypeRepositoryService().getTypeById(nlTemplateTypeId);
+        KrmsTypeDefinitionContract type = getKrmsTypeRepositoryService().getTypeById(typeId);
         List<Context<TermDefinitionContract>> contextList = this.contextRegistry.get(type.getName());
         if(contextList == null || contextList.isEmpty()) {
             return contextMap;

@@ -294,6 +294,11 @@
                         <ref bean="orgContext"/>
                     </list>
                 </entry>
+                <entry key="kuali.krms.proposition.type.freeform.text">
+                    <list>
+                        <ref bean="basicContext"/>
+                    </list>
+                </entry>
             </map>
         </constructor-arg>
     </bean>

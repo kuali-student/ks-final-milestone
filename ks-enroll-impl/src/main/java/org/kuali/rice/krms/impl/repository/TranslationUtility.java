@@ -149,8 +149,7 @@ public class TranslationUtility implements TranslateBusinessMethods {
         }
         Map<String, Object> contextMap = new LinkedHashMap<String, Object>();     
         for (PropositionParameter param : proposition.getParameters()) {
-            String paramType = param.getParameterType();
-            contextMap.put("param#" + param.getSequenceNumber(), param.getValue());
+            contextMap.put(param.getParameterType(), param.getValue());
         }
         return contextMap;
     }
@@ -161,11 +160,11 @@ public class TranslationUtility implements TranslateBusinessMethods {
             throw new RiceIllegalArgumentException("proposition us not compound " + proposition.getPropositionTypeCode() + " " + proposition.getId() + proposition.getDescription());
         }
         Map<String, Object> contextMap = new LinkedHashMap<String, Object>();
-        List<String> children = new ArrayList<String>();
+        /*List<String> children = new ArrayList<String>();
         for (PropositionDefinition param : proposition.getCompoundComponents()) {
             children.add(this.translateNaturalLanguageForProposition(naturalLanguageUsageId, proposition, languageCode));
         }
-        contextMap.put(COMPOUND_COMPONENTS, children);
+        contextMap.put(COMPOUND_COMPONENTS, children);*/
         return contextMap;
     }
 

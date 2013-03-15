@@ -96,7 +96,7 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
         List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
 
         //TODO: get all agendas linked to a course offering
-        agendas.add(this.getAgendaEditor("10064"));
+        agendas.add(this.getAgendaEditor("10063"));
         agendas.add(this.getAgendaEditor("10002"));
 
         return agendas;

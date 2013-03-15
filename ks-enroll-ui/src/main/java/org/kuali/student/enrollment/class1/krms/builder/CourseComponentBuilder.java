@@ -5,8 +5,12 @@ import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -24,6 +28,7 @@ import java.util.Map;
 public class CourseComponentBuilder implements ComponentBuilder<EnrolPropositionEditor> {
 
     private CourseService courseService;
+    private CluService cluService;
 
     private static final String CLU_KEY = "kuali.term.parameter.type.course.clu.id";
 
@@ -37,7 +42,8 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
         String courseId = termParameters.get(CLU_KEY);
         if (courseId != null) {
             try {
-                CourseInfo courseInfo = this.getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
+                VersionDisplayInfo versionInfo = this.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, courseId, null);
+                CourseInfo courseInfo = this.getCourseService().getCourse(versionInfo.getId(), ContextUtils.getContextInfo());
                 propositionEditor.setCourseInfo(courseInfo);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -60,5 +66,12 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
             courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, CourseServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseService;
+    }
+
+    protected CluService getCluService() {
+        if (cluService == null) {
+            cluService = (CluService) GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return cluService;
     }
 }
