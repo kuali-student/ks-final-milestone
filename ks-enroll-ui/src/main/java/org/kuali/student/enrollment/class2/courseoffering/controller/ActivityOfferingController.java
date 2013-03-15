@@ -4,11 +4,13 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
+import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
@@ -30,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/activityOffering")
@@ -172,6 +175,30 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         activityOfferingWrapper.setSchedulesRevised(false);
 
         return getUIFModelAndView(form,ActivityOfferingForm.MAIN_PAGE);
+    }
+
+
+    @Override
+    @RequestMapping(params = "methodToCall=route")
+    public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView modelAndView = super.route(form, result, request, response);
+
+        if( form.getFormHistory().getHistoryEntries().isEmpty()){
+            return modelAndView;
+        }
+
+        //Redirect to last page (some hackery here that I'd rather not do
+        //The url has lots of dulpicate params which prevents history from working correctly
+        String url = form.getFormHistory().getHistoryEntries().get(form.getFormHistory().getHistoryEntries().size() - 1).getUrl();
+        url = url.replaceAll("&methodToCall=[a-zA-Z]+","");
+        url = url.replaceAll("&pageId=[a-zA-Z]+","");
+        url = url.replaceAll("\\?methodToCall=[a-zA-Z]+&","?");
+        url = url.replaceAll("\\?pageId=[a-zA-Z]+&","?");
+        form.getFormHistory().getHistoryEntries().get(form.getFormHistory().getHistoryEntries().size() - 1).setUrl(url);
+        modelAndView = returnToHistory(form, false);
+        modelAndView.setViewName(modelAndView.getViewName().replaceFirst("methodToCall="+ UifConstants.MethodToCallNames.REFRESH,"methodToCall=show"));
+        return modelAndView;
     }
 
     /*@RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteLine")

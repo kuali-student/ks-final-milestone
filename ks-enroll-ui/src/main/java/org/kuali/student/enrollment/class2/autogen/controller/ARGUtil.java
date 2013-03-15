@@ -357,6 +357,7 @@ public class ARGUtil {
                     aoMaxEnrText = aoMaxEnrText.substring(0, aoMaxEnrText.lastIndexOf("<br/>"));
                 }
 
+                rgWrapper.setStateKey(rgInfo.getStateKey(), getStateService().getState(rgInfo.getStateKey(), ContextUtils.createDefaultContextInfo()).getName());
                 rgWrapper.setAoEditLink(aoEditLinkText);
                 rgWrapper.setRgMaxEnrText(Integer.toString(minEnrollment));
                 rgWrapper.setAoActivityCodeText(aoActivityCodeText);
