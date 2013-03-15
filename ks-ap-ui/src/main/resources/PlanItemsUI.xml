@@ -1819,7 +1819,7 @@
                                         <bean p:id="movePlannedCourse" parent="Uif-PrimaryActionButton-Small"
                                               p:actionLabel="Move" p:render="@{moveCourse eq true ? true : false}">
                                             <property name="actionScript"
-                                                      value="myplanAjaxSubmitPlanItem('@{planItemId}', 'planItemId', 'movePlanCourse', e, true);"/>
+                                                      value="myplanAjaxSubmitPlanItem('@{planItemId}', '@{planItemId}','planItemId', 'movePlanCourse', e, true);"/>
                                             <property name="onDocumentReadyScript" value="
                                     jQuery('#movePlannedCourse')
                                         .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -2300,7 +2300,7 @@
                                 <property name="propertyReplacers">
                                     <list>
                                         <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                                              p:condition="T(org.kuali.student.myplan.utils.UserSessionHelper).isAdviser()">
+                                              p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isAdviser()">
                                             <property name="replacement">
                                                 <list>
                                                     <bean parent="Uif-Message"

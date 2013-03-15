@@ -709,9 +709,9 @@ public class PlanController extends UifControllerBase {
             courseDetails = getCourseDetailsInquiryService().retrieveCourseSummaryById(courseId);
 
             // Now switch the courseDetails based on the versionIndependent Id
-            if (!courseId.equals(courseDetails.getVersionIndependentId())) {
+           /* if (!courseId.equals(courseDetails.getVersionIndependentId())) {
                 courseDetails = getCourseDetailsInquiryService().retrieveCourseSummaryById(courseDetails.getVersionIndependentId());
-            }
+            }*/
 
             activityOfferings = getCourseDetailsInquiryService().getActivityOfferingItemsById(courseId, form.getAtpId());
         } catch (Exception e) {
@@ -842,8 +842,8 @@ public class PlanController extends UifControllerBase {
                 }
                 if (addPrimaryCourse) {
                     if (primarySectionCode != null) {
-                        primaryPlanItem = addActivityOfferingPlanItem(plan, courseDetails.getCode() + " " + primarySectionCode, newAtpIds, newType);
-                        form.setPrimaryPlanItemId(primaryPlanItem.getId());
+                        //primaryPlanItem = addActivityOfferingPlanItem(plan, courseDetails.getCode() + " " + primarySectionCode, newAtpIds, newType);
+                        //form.setPrimaryPlanItemId(primaryPlanItem.getId());
 
                     } else {
                         return doOperationFailedError(form, "Could not add section to new plan item.", null);
@@ -851,7 +851,7 @@ public class PlanController extends UifControllerBase {
                 }
                 if (addSecondaryCourse) {
                     if (secondarySectionCode != null) {
-                        secondaryPlanItem = addActivityOfferingPlanItem(plan, courseDetails.getCode() + " " + secondarySectionCode, newAtpIds, newType);
+                        //secondaryPlanItem = addActivityOfferingPlanItem(plan, courseDetails.getCode() + " " + secondarySectionCode, newAtpIds, newType);
 
                     } else {
                         return doOperationFailedError(form, "Could not add section to new plan item.", null);
@@ -879,8 +879,8 @@ public class PlanController extends UifControllerBase {
                 }
                 if (addPrimaryCourse) {
                     if (primarySectionCode != null) {
-                        primaryPlanItem = addActivityOfferingPlanItem(plan, courseDetails.getCode() + " " + primarySectionCode, newAtpIds, newType);
-                        form.setPrimaryPlanItemId(primaryPlanItem.getId());
+                        //primaryPlanItem = addActivityOfferingPlanItem(plan, courseDetails.getCode() + " " + primarySectionCode, newAtpIds, newType);
+                        //form.setPrimaryPlanItemId(primaryPlanItem.getId());
 
                     } else {
                         return doOperationFailedError(form, "Could not add section to new plan item.", null);
@@ -888,7 +888,7 @@ public class PlanController extends UifControllerBase {
                 }
                 if (addSecondaryCourse) {
                     if (secondarySectionCode != null) {
-                        secondaryPlanItem = addActivityOfferingPlanItem(plan, courseDetails.getCode() + " " + secondarySectionCode, newAtpIds, newType);
+                        //secondaryPlanItem = addActivityOfferingPlanItem(plan, courseDetails.getCode() + " " + secondarySectionCode, newAtpIds, newType);
 
                     } else {
                         return doOperationFailedError(form, "Could not add section to new plan item.", null);
@@ -1367,8 +1367,14 @@ public class PlanController extends UifControllerBase {
             logger.error("Could not convert ATP ID to a term and year.", e);
         }
         String term = t[0] + " " + t[1];*/
-        String[] params = {courseDetails.getCode(), KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(atpId).toTermName()};
-        return doErrorPage(form, PlanConstants.ERROR_KEY_PLANNED_ITEM_ALREADY_EXISTS, params);
+        if(atpId!=null){
+            String[] params = {courseDetails.getCode(), KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(atpId).toTermName()};
+            return doErrorPage(form, PlanConstants.ERROR_KEY_PLANNED_ITEM_ALREADY_EXISTS, params);
+        }else{
+            String[] params = {};
+            return doErrorPage(form, PlanConstants.ERROR_KEY_PLANNED_ITEM_ALREADY_EXISTS, params);
+        }
+
     }
 
     /**

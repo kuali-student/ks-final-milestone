@@ -185,4 +185,7 @@ public class CourseSummaryDetails {
     public void setScheduledTerms(List<String> scheduledTerms) {
         this.scheduledTerms = scheduledTerms;
     }
+    public String getCourseIdXmlSafe(){
+        return this.courseId.replace(".","-");
+    }
 }

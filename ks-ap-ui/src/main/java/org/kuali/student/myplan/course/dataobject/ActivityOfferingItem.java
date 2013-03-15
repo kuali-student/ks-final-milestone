@@ -360,6 +360,9 @@ public class ActivityOfferingItem {
     }
 
     public String getInstituteCode() {
+        if(this.instituteCode == null){
+           this.instituteCode="Defualt";
+        }
         return instituteCode;
     }
 
@@ -368,6 +371,9 @@ public class ActivityOfferingItem {
     }
 
     public String getInstituteName() {
+        if(this.instituteName == null){
+            this.instituteName="Default";
+        }
         return instituteName;
     }
 
@@ -404,5 +410,9 @@ public class ActivityOfferingItem {
     /*Used to get the Short term name for atp (Winter 13 for kuali.uw.atp.2013.1)*/
     public String getLongTermName() {
         return KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(this.getAtpId()).toTermName();
+    }
+    public String getActivityIdentifier(){
+        String id = this.code+"-"+this.getShortTermName().replace(" ","")+"-"+this.getRegistrationCode()+"sln";
+        return id;
     }
 }

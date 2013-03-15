@@ -509,7 +509,7 @@ public class CourseDetailsInquiryHelperImpl extends
 
                 //  Iterate through the plan items and set flags to indicate whether the item is a planned/backup or saved course.
                 for (PlanItem planItemInPlanTemp : planItemsInPlan) {
-                    if (planItemInPlanTemp.getRefObjectId().equals(course.getVersion().getVersionIndId())) {
+                    if (planItemInPlanTemp.getRefObjectId().equals(course.getId())) {
                         //  Assuming type is planned or backup if not wishlist.
                         String typeKey = planItemInPlanTemp.getTypeKey();
                         if (typeKey.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST)) {
@@ -536,7 +536,7 @@ public class CourseDetailsInquiryHelperImpl extends
 
         // Get  Academic Record Data from the SWS and set that to CourseDetails acadRecordList
         try {
-            List<StudentCourseRecordInfo> studentCourseRecordInfos = getAcademicRecordService().getCompletedCourseRecords(studentId, PlanConstants.CONTEXT_INFO);
+            List<StudentCourseRecordInfo> studentCourseRecordInfos = getAcademicRecordService().getCompletedCourseRecords(studentId, KsapFrameworkServiceLocator.getContext().getContextInfo());
             for (StudentCourseRecordInfo studentInfo : studentCourseRecordInfos) {
                 AcademicRecordDataObject acadrec = new AcademicRecordDataObject();
                 acadrec.setAtpId(studentInfo.getTermName());
@@ -614,7 +614,7 @@ public class CourseDetailsInquiryHelperImpl extends
             // Load course offering comments
             List<CourseOfferingInfo> courseOfferingInfoList = null;
             try {
-                courseOfferingInfoList = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(), atp, CourseSearchConstants.CONTEXT_INFO);
+                courseOfferingInfoList = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(), atp, KsapFrameworkServiceLocator.getContext().getContextInfo());
             } catch (Exception e) {
                 LOG.error(" Could not load course offerings for : " + course.getCode() + " atp : " + atp);
                 return instituteList;
@@ -640,6 +640,7 @@ public class CourseDetailsInquiryHelperImpl extends
             for (ActivityOfferingItem activityOfferingItem : list) {
                 String instituteCode = activityOfferingItem.getInstituteCode();
                 String instituteName = activityOfferingItem.getInstituteName();
+
                 CourseOfferingInstitution courseOfferingInstitution = null;
                 for (CourseOfferingInstitution temp : instituteList) {
                     if (instituteCode.equals(temp.getCode())) {
@@ -693,7 +694,7 @@ public class CourseDetailsInquiryHelperImpl extends
         try {
             CourseInfo course = getCourseService().getCourse(courseId, KsapFrameworkServiceLocator.getContext().getContextInfo());
 
-            List<CourseOfferingInfo> courseOfferingInfoList = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(courseId, termId, CourseSearchConstants.CONTEXT_INFO);
+            List<CourseOfferingInfo> courseOfferingInfoList = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(courseId, termId, KsapFrameworkServiceLocator.getContext().getContextInfo());
             activityOfferingItems = getActivityOfferingItems(course, courseOfferingInfoList, termId);
 
 
@@ -720,11 +721,11 @@ public class CourseDetailsInquiryHelperImpl extends
         for (CourseOfferingInfo courseInfo : courseOfferingInfoList) {
 
             // Activity offerings come back as a list, the first item is primary, the remaining are secondary
-            String courseOfferingID = courseInfo.getCourseId();
+            String courseOfferingID = courseInfo.getId();
             List<ActivityOfferingDisplayInfo> aodiList = null;
 
             try {
-                aodiList = getCourseOfferingService().getActivityOfferingDisplaysForCourseOffering(courseOfferingID, CourseSearchConstants.CONTEXT_INFO);
+                aodiList = getCourseOfferingService().getActivityOfferingDisplaysForCourseOffering(courseOfferingID,KsapFrameworkServiceLocator.getContext().getContextInfo());
             } catch (Exception e) {
                 LOG.error(" Could not load activity offering for course offering: " + courseOfferingID);
                 return activityOfferingItemList;
@@ -775,7 +776,7 @@ public class CourseDetailsInquiryHelperImpl extends
 
                             TimeOfDayInfo startInfo = timeSlot.getStartTime();
                             TimeOfDayInfo endInfo = timeSlot.getEndTime();
-                            if (startInfo != null && endInfo != null) {
+                            if (startInfo != null && endInfo != null && startInfo.getMilliSeconds() != null && endInfo.getMilliSeconds()!=null) {
                                 long startTimeMillis = startInfo.getMilliSeconds();
                                 String startTime = TimeStringMillisConverter.millisToStandardTime(startTimeMillis);
 

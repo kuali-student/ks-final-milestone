@@ -93,10 +93,11 @@
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-click</value>
+                            <value>uif-tooltip</value>
                         </list>
                     </property>
                     <property name="onClickScript"
-                              value="openPlanItemPopUp('@{#line.courseDetails.courseId}','add_remove_course_popover_page',{planItemId:'@{#line.planItemDataObject.id}', courseId:'@{#line.courseDetails.courseId}'},e,'li',{tail:{align:'top'},align:'top'});"/>
+                              value="openPlanItemPopUp('@{#line.courseDetails.courseId}','add_remove_course_popover_page',{planItemId:'@{#line.planItemDataObject.id}', courseId:'@{#line.courseDetails.courseId}'},e,null,{tail:{align:'top'},align:'top'});"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message" p:messageText="@{#line.courseDetails.code}">
@@ -214,7 +215,7 @@
                                                 <list>
                                                     <bean parent="Uif-ConditionalBeanPropertyReplacer"
                                                           p:propertyName="items"
-                                                          p:condition="T(org.kuali.student.myplan.utils.UserSessionHelper).isStudent()">
+                                                          p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isStudent()">
                                                         <property name="replacement">
                                                             <list>
                                                                 <ref bean="degree_audits_list"/>
@@ -258,7 +259,7 @@
         <property name="propertyReplacers">
             <list>
                 <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                      p:condition="T(org.kuali.student.myplan.utils.UserSessionHelper).isAdviser()">
+                      p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isAdviser()">
                     <property name="replacement">
                         <list>
                             <ref bean="bookmark_adviser_actions_message"/>
@@ -450,10 +451,20 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Add to Plan">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>uif-tooltip</value>
+                                    </list>
+                                </property>
                                 <property name="actionScript"
                                           value="openPlanItemPopUp('@{#line.courseDetails.courseId}','add_dialog_page',{courseId:'@{#line.courseDetails.courseId}',pageId:'add_dialog_page', moveCourse:'false'},e,null,{tail:{hidden:true},align:'bottom',position:'right'});"/>
                             </bean>
                             <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Delete">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>uif-tooltip</value>
+                                    </list>
+                                </property>
                                 <property name="actionScript"
                                           value="openPlanItemPopUp('@{#line.planItemDataObject.id}','plan_item_delete_page',{planItemId:'@{#line.planItemDataObject.id}',pageId:'plan_item_delete_page'},e,null,{tail:{hidden:true},align:'bottom',position:'right'});"/>
                             </bean>
@@ -463,7 +474,7 @@
                     <property name="propertyReplacers">
                         <list>
                             <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                                  p:condition="T(org.kuali.student.myplan.utils.UserSessionHelper).isAdviser()">
+                                  p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isAdviser()">
                                 <property name="replacement">
                                     <list>
                                         <bean parent="Uif-Message" p:messageText=""/>

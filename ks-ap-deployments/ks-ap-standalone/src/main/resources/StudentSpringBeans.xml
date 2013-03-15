@@ -29,6 +29,7 @@
 
     <!-- Start Service Configurations -->
     <context:annotation-config/>
+
     <bean id="autowireCandidateResolver" scope="prototype"
           class="org.kuali.student.ap.framework.config.BaseAutowireCandidateResolver" />
 

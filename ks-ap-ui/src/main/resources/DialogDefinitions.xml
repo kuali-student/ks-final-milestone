@@ -280,7 +280,7 @@
                                 <property name="propertyReplacers">
                                     <list>
                                         <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                                              p:condition="T(org.kuali.student.myplan.utils.UserSessionHelper).isAdviser()">
+                                              p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isAdviser()">
                                             <property name="replacement">
                                                 <list>
                                                     <bean parent="Uif-Message" p:messageText=""/>
@@ -304,7 +304,7 @@
                                 <property name="propertyReplacers">
                                     <list>
                                         <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                                              p:condition="T(org.kuali.student.myplan.utils.UserSessionHelper).isAdviser()">
+                                              p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isAdviser()">
                                             <property name="replacement">
                                                 <list>
                                                     <bean parent="Uif-Message" p:messageText=""/>
@@ -329,7 +329,7 @@
                                 <property name="propertyReplacers">
                                     <list>
                                         <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                                              p:condition="T(org.kuali.student.myplan.utils.UserSessionHelper).isAdviser()">
+                                              p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isAdviser()">
                                             <property name="replacement">
                                                 <list>
                                                     <bean parent="Uif-Message" p:messageText=""/>
@@ -408,7 +408,7 @@
                       }
                   });"/>
         <property name="actionScript"
-                  value="myplanAjaxSubmitPlanItem('@{courseSummaryDetails.courseId}', 'courseId', 'addSavedCourse', e);"/>
+                  value="myplanAjaxSubmitPlanItem('@{courseSummaryDetails.courseId}','@{courseSummaryDetails.courseIdXmlSafe}', 'courseId', 'addSavedCourse', e);"/>
     </bean>
 
     <!-- Remove from saved courses list button. -->
@@ -469,7 +469,7 @@
                             <bean p:id="deletePlannedCourse" parent="Uif-PrimaryActionButton-Small"
                                   p:actionLabel="Delete">
                                 <property name="actionScript"
-                                          value="myplanAjaxSubmitPlanItem('@{planItemId}', 'planItemId', 'removeItem', e);"/>
+                                          value="myplanAjaxSubmitPlanItem('@{planItemId}', '@{planItemId}', 'planItemId', 'removeItem', e);"/>
                                 <property name="onDocumentReadyScript" value="
                                     jQuery('#deletePlannedCourse').subscribe('PLAN_ITEM_DELETED', function(data){
                                         fnDisplayMessage(data.message, data.cssClass, 'deletePlannedCourse', true, true);
@@ -681,7 +681,7 @@
                                               p:actionLabel="Add To Plan"
                                               p:render="@{!moveCourse}">
                                             <property name="actionScript"
-                                                      value="myplanAjaxSubmitPlanItem('@{courseSummaryDetails.courseId}', 'courseId', 'addPlannedCourse', e, true);"/>
+                                                      value="myplanAjaxSubmitPlanItem('@{courseSummaryDetails.courseId}','@{courseSummaryDetails.courseIdXmlSafe}', 'courseId', 'addPlanCourse', e, true);"/>
                                             <property name="onDocumentReadyScript" value="
                                            jQuery('#addPlannedCourse')
                                                .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -696,7 +696,7 @@
                                         <bean p:id="movePlannedCourse" parent="Uif-PrimaryActionButton-Small"
                                               p:actionLabel="Move" p:render="@{moveCourse}">
                                             <property name="actionScript"
-                                                      value="myplanAjaxSubmitPlanItem('@{planItemId}', 'planItemId', 'movePlannedCourse', e, true);"/>
+                                                      value="myplanAjaxSubmitPlanItem('@{planItemId}', '@{planItemId}', 'planItemId', 'movePlanCourse', e, true);"/>
                                             <property name="onDocumentReadyScript" value="
                                            jQuery('#movePlannedCourse')
                                                .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -824,7 +824,7 @@
                             <bean p:id="deleteCourseYesButton" parent="Uif-PrimaryActionButton-Small"
                                   p:actionLabel="Delete">
                                 <property name="actionScript"
-                                          value="myplanAjaxSubmitPlanItem('@{courseSummaryDetails.courseId}', 'courseId', 'removeItem', e);"/>
+                                          value="myplanAjaxSubmitPlanItem('@{courseSummaryDetails.courseId}', '@{courseSummaryDetails.courseId}', 'courseId', 'removeItem', e);"/>
                                 <property name="onDocumentReadyScript" value="
                                    jQuery('#deleteCourseYesButton').subscribe('PLAN_ITEM_DELETED', function(data) {
                                        fnDisplayMessage(data.message, data.cssClass, 'deleteCourseYesButton', true, true);
@@ -893,7 +893,7 @@
                                                     <bean p:id="addPlannedCourse" parent="Uif-PrimaryActionButton-Small"
                                                           p:actionLabel="Add To Plan">
                                                         <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{courseSummaryDetails.courseId}', 'courseId', 'addPlannedCourse', e,true);"/>
+                                                                  value="myplanAjaxSubmitPlanItem('@{courseSummaryDetails.courseId}', '@{courseSummaryDetails.courseId}', 'courseId', 'addPlanCourse', e,true);"/>
                                                         <property name="onDocumentReadyScript" value="
                                                        jQuery('#addPlannedCourse')
                                                            .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -990,7 +990,7 @@
                                                           parent="Uif-PrimaryActionButton-Small"
                                                           p:actionLabel="Move">
                                                         <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}', 'planItemId', 'movePlannedCourse', e,true);"/>
+                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}', '@{planItemId}', 'planItemId', 'movePlanCourse', e,true);"/>
                                                         <property name="onDocumentReadyScript" value="
                                                        jQuery('#movePlannedCourse')
                                                            .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -1087,7 +1087,7 @@
                                                           p:render="@{setToPlanning}"
                                                           p:actionLabel="Copy">
                                                         <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}', 'planItemId', 'copyPlannedCourse', e,true);"/>
+                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}', '@{planItemId}', 'planItemId', 'copyPlanCourse', e,true);"/>
                                                         <property name="onDocumentReadyScript" value="
                                                        jQuery('#copyPlannedCourse')
                                                            .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -1103,7 +1103,7 @@
                                                           p:render="@{setToPlanning eq false and planItemId ne null}"
                                                           p:actionLabel="Copy">
                                                         <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}', 'planItemId', 'copyPlannedCourse', e,true);"/>
+                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}', '@{planItemId}', 'planItemId', 'copyPlanCourse', e,true);"/>
                                                         <property name="onDocumentReadyScript" value="
                                                        jQuery('#copyPastPlannedCourse')
                                                            .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -1119,7 +1119,7 @@
                                                           p:render="@{setToPlanning eq false and planItemId eq null}"
                                                           p:actionLabel="Copy">
                                                         <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{courseId}', 'courseId', 'addPlannedCourse', e,true);"/>
+                                                                  value="myplanAjaxSubmitPlanItem('@{courseId}', '@{courseId}', 'courseId', 'addPlanCourse', e,true);"/>
                                                         <property name="onDocumentReadyScript" value="
                                                        jQuery('#copyAcademicCourse')
                                                            .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -1274,7 +1274,7 @@
                                 <property name="propertyReplacers">
                                     <list>
                                         <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                                              p:condition="T(org.kuali.student.myplan.utils.UserSessionHelper).isAdviser()">
+                                              p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isAdviser()">
                                             <property name="replacement">
                                                 <list>
                                                     <bean parent="Uif-Message"
