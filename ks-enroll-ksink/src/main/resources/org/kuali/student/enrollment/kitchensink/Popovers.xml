@@ -28,7 +28,7 @@
             <list>
                 <bean parent="Uif-DataField">
                     <property name="propertyName" value="stringField1"/>
-                    <property name="label" value="Field #1"/>
+                    <property name="label" value="Field ##1"/>
                 </bean>
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
@@ -39,18 +39,24 @@
                                 <property name="actionScript"
                                           value="openPopupContent(e,'KS-KitchenSink-Popovers-PopoverContent-1');"/>
                             </bean>
+                            <!-- Popup content that button #1 displays: -->
+                            <ref bean="KS-KitchenSink-Popovers-PopoverContent-1"/>
                             <!-- Button #2 -->
                             <bean parent="Uif-SecondaryActionButton-Small">
                                 <property name="actionLabel" value="Popover Image"/>
                                 <property name="actionScript"
                                           value="openPopupContent(e,'KS-KitchenSink-Popovers-PopoverContent-2',{themeName:'all-black'},true);"/>
                             </bean>
+                            <!-- Popup content that button #2 displays: -->
+                            <ref bean="KS-KitchenSink-Popovers-PopoverContent-2"/>
                             <!-- Button #3 -->
                             <bean parent="Uif-SecondaryActionButton-Small" id="submitButton2">
                                 <property name="actionLabel" value="Popover Form 2"/>
                                 <property name="actionScript"
                                           value="openPopupContent(e,'KS-KitchenSink-Popovers-PopoverContent-3');"/>
                             </bean>
+                            <!-- Popup content that button #3 displays: -->
+                            <ref bean="KS-KitchenSink-Popovers-PopoverContent-3"/>
                         </list>
                     </property>
                 </bean>
@@ -70,6 +76,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField-LabelTop">
+                    <property name="forceSessionPersistence" value="true"/>
                     <property name="propertyName" value="dropdownSelection"/>
                     <property name="label" value="Dropdown #1"/>
                     <property name="helpSummary" value="Standard KRAD 'helpSummary' property"/>
@@ -85,6 +92,9 @@
                             <value>uif-boxLayoutHorizontalItem</value>
                         </list>
                     </property>
+                    <!-- ??? forceSessionPersistence test to defeat refresh bug after form is submitted once
+                    <property name="forceSessionPersistence" value="true"/>
+                    -->
                     <property name="propertyName" value="dropdownSelection2"/>
                     <property name="label" value="Dropdown #2"/>
                     <!-- causes this div's uif-boxLayoutHorizontalItem class to disappear: -->
@@ -187,9 +197,6 @@
                             </bean>
                             <ref bean="KS-KitchenSink-Popovers-Content"/>
                             <ref bean="KS-KitchenSink-Popovers-Links"/>
-                            <ref bean="KS-KitchenSink-Popovers-PopoverContent-1"/>
-                            <ref bean="KS-KitchenSink-Popovers-PopoverContent-2"/>
-                            <ref bean="KS-KitchenSink-Popovers-PopoverContent-3"/>
                         </list>
                     </property>
                 </bean>
@@ -203,11 +210,7 @@
                 <bean parent="KS-KitchenSink-Page" p:header.render="false">
                     <property name="items">
                         <list>
-                            <ref bean="KS-KitchenSink-Popovers-Content"/>
-                            <ref bean="KS-KitchenSink-Popovers-PopoverContent-1"/>
-                            <ref bean="KS-KitchenSink-Popovers-PopoverContent-2"/>
-                            <ref bean="KS-KitchenSink-Popovers-PopoverContent-3"/>
-                        </list>
+                            <ref bean="KS-KitchenSink-Popovers-Section"/>                        </list>
                     </property>
                 </bean>
             </list>
