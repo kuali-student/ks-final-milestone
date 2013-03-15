@@ -6660,9 +6660,6 @@ INSERT INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
 INSERT INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('0111C','eeb1fe0c-0de7-41b7-a408-a23454547e03','30508231-f2ee-46d5-8de9-30f83ff0a3ce','Agricultural and Resource Economics: Agribusiness','Active','kuali.lu.type.program.identifier.diploma',0)
 /
-INSERT INTO KSLU_CLU_IDENT (ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('eecb197c-0594-4545-b245-9974d5ab2855','530ca20a-35e8-4889-8495-c9b4057b3c7c','Active','kuali.lu.type.CreditCourse.identifier.crosslisting',9)
-/
 INSERT INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('PHILD','ef03eed6-6ca9-4282-9d38-d1e2c62cf5b9','5bae7489-ca8a-428d-84e7-1ce7cc791f15','Philosophy','Active','kuali.lu.type.program.identifier.diploma',0)
 /
@@ -6977,9 +6974,6 @@ INSERT INTO KSLU_CLU_IDENT (ID,OBJ_ID,ST,TYPE,VER_NBR)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENGL313','ENGL','fb14ff2a-132a-456e-a5a7-cfa79788f5f3','American Literature','300','0abdffd5-5dff-4210-be6a-09c061af4fb3','AMERICAN LIT','Superseded','313','kuali.lu.type.CreditCourse.identifier.official',2)
-/
-INSERT INTO KSLU_CLU_IDENT (ID,OBJ_ID,ST,TYPE,VER_NBR)
-  VALUES ('fb265e4c-8533-47a8-b201-878b68ba71cc','c6e56a97-c248-4706-a97e-fafd5171313d','Active','kuali.lu.type.CreditCourse.identifier.crosslisting',8)
 /
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BSCI493','BSCI','fb573a30-3765-4edc-942a-b3e51fc93f15','Medicinal and Poisonous Plants','400','cffdfd87-10d1-403e-835d-2c74f4f583f1','MEDIC & POISONOUS PLANTS','Active','493','kuali.lu.type.CreditCourse.identifier.official',11)
