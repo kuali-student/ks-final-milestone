@@ -7146,3 +7146,9 @@ INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX
 INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('WMST305','WMST','f1c2c3eb-ff06-4782-a837-95ca5f972e06','Feminism in an International Context','300','9075ee3c-13b3-497f-beba-50522faf44db','Feminism in an Internati','Active','305','kuali.lu.type.CreditCourse.identifier.official',3)
 /
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,OBJ_ID,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('ENGL511','ENGL','de8a180e-78bb-4eb2-a122-ff4bc4c54244','ed0b1d20-b3cc-4658-9a2c-b9b9805bd391','Active','511','kuali.lu.type.CreditCourse.identifier.crosslisting',1)
+/
+INSERT INTO KSLU_CLU_IDENT (CD,DIVISION,ID,OBJ_ID,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('WMST511','WMST','682de2fb-7429-4de5-84f3-b94a50e36519','01038dd7-730b-46cd-842d-6ff8c1d8859b','Active','511','kuali.lu.type.CreditCourse.identifier.crosslisting',1)
+/
