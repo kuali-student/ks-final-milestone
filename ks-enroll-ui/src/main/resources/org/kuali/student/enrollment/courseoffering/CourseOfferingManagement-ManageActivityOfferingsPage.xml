@@ -31,7 +31,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-AliasMessageSection" parent="Uif-HorizontalBoxSection">
-        <property name="render" value="@{currentCourseOfferingWrapper.isCrossListed()}"/>
+        <property name="render" value="@{currentCourseOfferingWrapper.crossListed}"/>
         <property name="style" value="background-color:#DDECFF;padding-top: 5px;"/>
         <property name="disclosure.render" value="false"/>
             <property name="items" >
@@ -135,6 +135,7 @@
                 <bean parent="Uif-SecondaryActionButton-Small">
                     <property name="style" value="margin-top:1.5em;"/>
                     <property name="actionLabel" value="Add"/>
+                    <property name="performClientSideValidation" value="true" />
                     <property name="methodToCall" value="addActivityOfferings"/>
                 </bean>
             </list>
