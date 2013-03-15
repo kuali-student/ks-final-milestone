@@ -38,10 +38,14 @@
     </bean>
 
     <alias name="jtaUserTransaction" alias="userTransaction"/>
-    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
+    <!--<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
         <property name="userTransaction" ref="jtaUserTransaction"/>
         <property name="transactionManager" ref="jtaTransactionManager"/>
         <property name="allowCustomIsolationLevels" value="true"/>
+    </bean>-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <bean id="transactionManager" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="transactionManager" />
     </bean>
 
 </beans>
