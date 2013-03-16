@@ -32,7 +32,7 @@
 
     <bean id="KS-CourseOfferingManagement-AliasMessageSection" parent="Uif-HorizontalBoxSection">
         <property name="render" value="@{currentCourseOfferingWrapper.crossListed}"/>
-        <property name="style" value="background-color:#DDECFF;padding-top: 5px;"/>
+        <property name="style" value="background-color:#DDECFF;padding-top: 5px; border: 1px solid #9CC4F9;"/>
         <property name="disclosure.render" value="false"/>
             <property name="items" >
                 <list>
