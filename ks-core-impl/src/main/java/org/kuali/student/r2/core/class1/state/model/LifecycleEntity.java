@@ -29,7 +29,7 @@ public class LifecycleEntity extends MetaEntity implements AttributeOwner<Lifecy
     private String descrFormatted;
     @Column(name = "REF_OBJECT_URI", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable=false)
     private String refObjectUri;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch= FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Set<LifecycleAttributeEntity> attributes = new HashSet<LifecycleAttributeEntity>();
 
     public String getName() {

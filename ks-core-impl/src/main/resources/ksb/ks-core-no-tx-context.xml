@@ -97,10 +97,6 @@
         <property name="persistenceXmlLocation" value="classpath:META-INF/ks-core-persistence.xml" />
         <property name="dataSource" ref="coreDataSource" />
     </bean>
-    <tx:annotation-driven transaction-manager="transactionManager"/>
-    <bean id="transactionManager" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="transactionManager" />
-    </bean>
 
     <bean id="coreEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
         <property name="entityManagerFactory" ref="coreDefaultEntityManagerFactory" />

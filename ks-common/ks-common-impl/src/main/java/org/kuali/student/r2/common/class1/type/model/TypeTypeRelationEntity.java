@@ -32,7 +32,7 @@ public class TypeTypeRelationEntity extends MetaEntity implements AttributeOwner
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch=FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Set<TypeTypeRelationAttributeEntity> attributes = new HashSet<TypeTypeRelationAttributeEntity>();
 
     public TypeTypeRelationEntity() {
