@@ -104,7 +104,7 @@
          </property>
     </bean>
 
-    <bean id="ActivityOffering-DeliveryLogistic-Requested" parent="Uif-TableCollectionSection"
+    <bean id="ActivityOffering-DeliveryLogistic-Requested" parent="Uif-TableCollectionSection" p:forceSessionPersistence="true"
             p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper"
             p:propertyName="requestedScheduleComponents"
             p:render="@{!scheduleCompleted}"
@@ -179,7 +179,7 @@
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <bean parent="KSInputField" p:label="Days" p:propertyName="newScheduleRequest.days" p:defaultValue="mt" p:uppercaseValue="true">
+                <bean parent="Uif-InputField-LabelTop" p:label="Days" p:propertyName="newScheduleRequest.days" p:defaultValue="mt" p:uppercaseValue="true">
                     <property name="constraintText" value="MTWHFSU"/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10"/>
@@ -188,7 +188,7 @@
 						<bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu" p:messageKey="validation.enroll.ao.scheduleValidChars"/>
 					</property>
                 </bean>
-                <bean parent="KSInputField" p:label="Start Time" p:propertyName="newScheduleRequest.startTime">
+                <bean parent="Uif-InputField-LabelTop" p:label="Start Time" p:propertyName="newScheduleRequest.startTime">
                     <property name="constraintText" value="HH:MM"/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"/>
@@ -202,12 +202,12 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="KSInputField" p:label="" p:propertyName="newScheduleRequest.startTimeAMPM" p:style="margin-top:15px">
+                <bean parent="Uif-InputField-LabelTop" p:label="" p:propertyName="newScheduleRequest.startTimeAMPM" p:style="margin-top:15px">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"/>
                     </property>
                 </bean>
-                <bean parent="KSInputField" p:label="End Time" p:propertyName="newScheduleRequest.endTime">
+                <bean parent="Uif-InputField-LabelTop" p:label="End Time" p:propertyName="newScheduleRequest.endTime">
                     <property name="constraintText" value="HH:MM"/>
                      <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"/>
@@ -216,20 +216,23 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="KSInputField" p:label="" p:propertyName="newScheduleRequest.endTimeAMPM" p:style="margin-top:15px">
+                <bean parent="Uif-InputField-LabelTop" p:label="" p:propertyName="newScheduleRequest.endTimeAMPM" p:style="margin-top:15px">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"/>
                     </property>
                 </bean>
-                <bean parent="KSInputField" p:label="Facility" p:propertyName="newScheduleRequest.buildingCode" p:uppercaseValue="true" p:defaultValue="PHY" p:propertyNamesForAdditionalDisplay="newScheduleRequest.editRenderHelper.buildingName">
+                <bean parent="Uif-InputField-LabelTop" p:label="Facility" p:propertyName="newScheduleRequest.buildingCode" p:uppercaseValue="true" p:defaultValue="PHY" >
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20"/>
                     </property>
-                    <!--<property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.room.dto.BuildingInfo"/>
+                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.room.dto.BuildingInfo"/>
                         <property name="quickfinder.fieldConversions">
                             <map>
                                 <entry key="buildingCode" value="newScheduleRequest.buildingCode"/>
                             </map>
+                    </property>
+                   <!-- <property name="attributeQuery">
+                        <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveBuildingInfo" p:queryMethodArgumentFieldList="newScheduleRequest.buildingCode" p:dataObjectClassName="org.kuali.student.r2.core.room.dto.BuildingInfo" p:queryFieldMapping="newScheduleRequest.buildingCode:buildingCode" p:returnFieldMapping="buildingCode:newScheduleRequest.buildingCode,name:newScheduleRequest.editRenderHelper.buildingName"/>
                     </property>-->
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true" p:sourcePropertyName="buildingCode"
@@ -245,7 +248,7 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="KSInputField" p:label="Room" p:propertyName="newScheduleRequest.roomCode" p:defaultValue="3120">
+                <bean parent="Uif-InputField-LabelTop" p:label="Room" p:propertyName="newScheduleRequest.roomCode" p:defaultValue="3120">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20"/>
                     </property>
@@ -262,7 +265,7 @@
                         </map>
                     </property>
                 </bean>
-                <!--<bean parent="KSInputField" p:label="Capacity" p:propertyName="newScheduleRequest.roomCapacity" p:readOnly="true"/>-->
+                <!--<bean parent="Uif-InputField-LabelTop" p:label="Capacity" p:propertyName="newScheduleRequest.roomCapacity" p:readOnly="true"/>-->
             </list>
         </property>
     </bean>

@@ -86,14 +86,15 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
     protected static final String TIME_FORMAT_STRING = "hh:mm a";
 
     public void saveSchedules(ActivityOfferingWrapper wrapper){
-        if (wrapper.isSchedulesRevised()){
+        /*if (wrapper.isSchedulesRevised()){
             processRevisedSchedules(wrapper);
         } else {
             //If Schedule Actuals available but not revised, skip processing schedule request
             if (StringUtils.isBlank(wrapper.getAoInfo().getScheduleId())){
                 createOrUpdateScheduleRequests(wrapper);
             }
-        }
+        }*/
+        createOrUpdateScheduleRequests(wrapper);
     }
 
     public void loadSchedules(ActivityOfferingWrapper wrapper){
@@ -344,20 +345,34 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         }
     }
 
+    protected void buildScheduleRequestInfo(ActivityOfferingWrapper wrapper){
+
+        ScheduleRequestInfo scheduleRequest = wrapper.getScheduleRequestInfo();
+
+        if (scheduleRequest == null){
+            scheduleRequest = new ScheduleRequestInfo();
+        }
+
+        if (wrapper.isColocatedAO()){
+            scheduleRequest.setRefObjectId(wrapper.getColocatedOfferingSetInfo().getId());
+            scheduleRequest.setRefObjectTypeKey(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY);
+            scheduleRequest.setName("Schedule request for the Coloset " + wrapper.getColocatedOfferingSetInfo().getId());
+        } else {
+            scheduleRequest.setRefObjectId(wrapper.getAoInfo().getId());
+            scheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+            scheduleRequest.setName("Schedule request for " + wrapper.getAoInfo().getCourseOfferingCode() + " - " + wrapper.getAoInfo().getActivityCode());
+        }
+
+        scheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
+        scheduleRequest.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
+        wrapper.setScheduleRequestInfo(scheduleRequest);
+    }
+
     public void createOrUpdateScheduleRequests(ActivityOfferingWrapper wrapper) {
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
-        //For revise, schedule  request should be already there.. but for some ref data, it's missing..
-        if (wrapper.getScheduleRequestInfo() == null){
-            ScheduleRequestInfo scheduleRequest = new ScheduleRequestInfo();
-            scheduleRequest.setRefObjectId(wrapper.getAoInfo().getId());
-            scheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
-            scheduleRequest.setName("Schedule request for " + wrapper.getAoInfo().getCourseOfferingCode() + " - " + wrapper.getAoInfo().getActivityCode());
-            scheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
-            scheduleRequest.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
-            wrapper.setScheduleRequestInfo(scheduleRequest);
-        }
+        buildScheduleRequestInfo(wrapper);
 
         wrapper.getScheduleRequestInfo().getScheduleRequestComponents().clear();
 
@@ -530,7 +545,12 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
-            List<ScheduleRequestInfo> requestInfos = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,wrapper.getId(), contextInfo);
+            List<ScheduleRequestInfo> requestInfos;
+            if (wrapper.isColocatedAO()){
+                requestInfos = getSchedulingService().getScheduleRequestsByRefObject(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,wrapper.getColocatedOfferingSetInfo().getId(), contextInfo);
+            } else {
+                requestInfos = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,wrapper.getId(), contextInfo);
+            }
 
             if (requestInfos.size() > 1){  // For M5, we should have only one Schedule Request
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Multiple schedule requests not supported in M5 implementation");
@@ -543,6 +563,12 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                 wrapper.setScheduleRequestInfo(scheduleRequestInfo);
 
                 for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfo.getScheduleRequestComponents()) {
+
+                    /**
+                     * If RDLs exists, dont allow the user to change the crosslist checkbox
+                     */
+                    wrapper.getEditRenderHelper().setPersistedRDLsExists(true);
+
                     ScheduleWrapper scheduleWrapper = new ScheduleWrapper(componentInfo);
                     scheduleWrapper.setTba(componentInfo.getIsTBA());
 
@@ -597,11 +623,20 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                         scheduleWrapper.setBuildingId(room.getBuildingId());
                     }
 
+                    loadColocatedAOs(wrapper,scheduleWrapper);
                     wrapper.getRequestedScheduleComponents().add(scheduleWrapper);
                 }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    protected void loadColocatedAOs(ActivityOfferingWrapper wrapper,ScheduleWrapper scheduleWrapper){
+        if (wrapper.isColocatedAO()){
+            for (ColocatedActivity activity : wrapper.getColocatedActivities()){
+                scheduleWrapper.getColocatedAOs().add(activity.getEditRenderHelper().getCode());
+            }
         }
     }
 

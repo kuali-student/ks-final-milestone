@@ -84,6 +84,7 @@ function addColocatedAOSuccessCallBack(){
     retrieveComponent('enr_shared_table',undefined, function () {
         retrieveComponent('ActivityOffering-CoLocated-checkbox', undefined, function () {
             onColoCheckBoxChange(true);
+            retrieveComponent('ActivityOffering-DeliveryLogistic-Requested');
         });
     });
 }

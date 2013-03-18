@@ -4,6 +4,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -99,6 +100,8 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean maxEnrollmentShared;
     private int sharedMaxEnrollment;
 
+    private ColocatedOfferingSetInfo colocatedOfferingSetInfo;
+
     private EditRenderHelper editRenderHelper;
 
     //This is needed to display the cross listed courses
@@ -122,6 +125,7 @@ public class ActivityOfferingWrapper implements Serializable{
         colocatedActivities = new ArrayList<ColocatedActivity>();
         maxEnrollmentShared = true;
         editRenderHelper = new EditRenderHelper();
+        colocatedOfferingSetInfo = new ColocatedOfferingSetInfo();
     }
 
     public ActivityOfferingWrapper(ActivityOfferingInfo info){
@@ -814,6 +818,14 @@ public class ActivityOfferingWrapper implements Serializable{
         return StringUtils.removeEnd(buffer.toString(),"<br>");
     }
 
+    public ColocatedOfferingSetInfo getColocatedOfferingSetInfo() {
+        return colocatedOfferingSetInfo;
+    }
+
+    public void setColocatedOfferingSetInfo(ColocatedOfferingSetInfo colocatedOfferingSetInfo) {
+        this.colocatedOfferingSetInfo = colocatedOfferingSetInfo;
+    }
+
     /**
      * Returns the Edit Helper.
      *
@@ -829,6 +841,8 @@ public class ActivityOfferingWrapper implements Serializable{
     public class EditRenderHelper implements Serializable {
 
         private List<ColocatedActivity> manageSeperateEnrollmentList;
+
+        private boolean isPersistedRDLsExists;
 
         public EditRenderHelper(){
             manageSeperateEnrollmentList = new ArrayList<ColocatedActivity>();
@@ -854,6 +868,14 @@ public class ActivityOfferingWrapper implements Serializable{
         @SuppressWarnings("unused")
         public void setManageSeperateEnrollmentList(List<ColocatedActivity> manageSeperateEnrollmentList) {
             this.manageSeperateEnrollmentList = manageSeperateEnrollmentList;
+        }
+
+        public boolean isPersistedRDLsExists() {
+            return isPersistedRDLsExists;
+        }
+
+        public void setPersistedRDLsExists(boolean persistedRDLsExists) {
+            isPersistedRDLsExists = persistedRDLsExists;
         }
 
     }

@@ -302,6 +302,14 @@ public class ScheduleWrapper implements Serializable{
 
     public class EditRenderHelper implements Serializable{
 
+        public String getBuildingName() {
+            return buildingName;
+        }
+
+        public void setBuildingName(String buildingName) {
+            this.buildingName = buildingName;
+        }
+
         private String buildingName;
 
         public String getColocatedAOs(){
@@ -315,14 +323,6 @@ public class ScheduleWrapper implements Serializable{
             }
 
             return StringUtils.removeEnd(buffer.toString(),"<br>");
-        }
-
-        public String getBuildingName() {
-            return buildingName;
-        }
-
-        public void setBuildingName(String buildingName) {
-            this.buildingName = buildingName;
         }
 
     }
