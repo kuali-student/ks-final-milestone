@@ -8,6 +8,7 @@ import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.impl.ui.TermParameter;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,7 +30,10 @@ public class EnrolPropositionEditor extends PropositionEditor {
     private CourseInfo courseInfo;
     private CluSetInformation cluSet;
     private String multipleCourseType;
+    private String programType;
     private String gradeScale;
+    private OrgInfo orgInfo;
+
 
     public EnrolPropositionEditor(){
         super();
@@ -54,6 +58,15 @@ public class EnrolPropositionEditor extends PropositionEditor {
     public void setMultipleCourseType(String multipleCourseType) {
         this.multipleCourseType = multipleCourseType;
     }
+
+    public String getProgramType() {
+        return programType;
+    }
+
+    public void setProgramType(String programType) {
+        this.programType = programType;
+    }
+
 
     public String getGradeScale() {
         return gradeScale;
@@ -85,6 +98,14 @@ public class EnrolPropositionEditor extends PropositionEditor {
         } else {
             return 0;
         }
+    }
+
+    public OrgInfo getOrgInfo() {
+        return orgInfo;
+    }
+
+    public void setOrgInfo(OrgInfo orgInfo) {
+        this.orgInfo = orgInfo;
     }
 
     @Override

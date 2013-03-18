@@ -89,7 +89,7 @@
                         <ref bean="luContext"/>
                     </list>
                 </entry>
-                <entry key="kuali.krms.proposition.type.success.credit.courseset.completed.nof.org">
+                <entry key="kuali.krms.proposition.type.success.credits.courseset.completed.nof.org">
                     <list>
                         <ref bean="luContext"/>
                     </list>
@@ -117,7 +117,7 @@
                         <ref bean="lrcContext"/>
                     </list>
                 </entry>
-                <entry key="kuali.krms.proposition.type.course.drop.org.permission.required">
+                <entry key="kuali.krms.proposition.type.permission.admin.org">
                     <list>
                         <ref bean="orgContext"/>
                     </list>

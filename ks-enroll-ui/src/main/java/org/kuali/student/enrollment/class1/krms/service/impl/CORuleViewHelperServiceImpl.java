@@ -241,6 +241,51 @@ public class CORuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
         }
         return displays;
     }
+    public List<KrmsSuggestDisplay> getProgramForSuggest(String programCode) {
+        List<KrmsSuggestDisplay> displays = new ArrayList<KrmsSuggestDisplay>();
+        List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
+        SearchParamInfo qpv1 = new SearchParamInfo();
+
+        qpv1.setKey("lu.queryParam.luOptionalType");
+        qpv1.getValues().add("kuali.lu.type.Program");
+        searchParams.add(qpv1);
+        SearchParamInfo qpv2 = new SearchParamInfo();
+        qpv2.setKey("lu.queryParam.luOptionalCode");
+        qpv2.getValues().add(programCode);
+        searchParams.add(qpv2);
+
+        SearchRequestInfo searchRequest = new SearchRequestInfo();
+        searchRequest.setParams(searchParams);
+        searchRequest.setSearchKey("lu.search.generic");
+
+        try {
+            SearchResultInfo searchResult = getCluService().search(searchRequest, ContextUtils.getContextInfo());
+            if (searchResult.getRows().size() > 0) {
+                for(SearchResultRowInfo srrow : searchResult.getRows()){
+                    KrmsSuggestDisplay display = new KrmsSuggestDisplay();
+                    List<SearchResultCellInfo> srCells = srrow.getCells();
+                    if(srCells != null && srCells.size() > 0){
+                        for(SearchResultCellInfo srcell : srCells){
+                            if (srcell.getKey().equals("lu.resultColumn.cluId")) {
+                                display.setId(srcell.getValue());
+
+                            }
+                            else if(srcell.getKey().equals("lu.resultColumn.luOptionalCode")) {
+                                display.setDisplayName(srcell.getValue());
+                            }
+
+                        }
+                    }
+                    displays.add(display);
+                }
+
+            }
+
+            return displays;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original) {

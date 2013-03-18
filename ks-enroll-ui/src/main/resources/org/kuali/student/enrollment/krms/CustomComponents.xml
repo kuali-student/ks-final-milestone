@@ -493,6 +493,8 @@
         <property name="items">
             <list merge="true">
                 <ref bean="KRMS-TestScore-Field" />
+                <ref bean="KRMS-TestScore-Field" />
+                <ref bean="KRMS-TestName-Field" />
             </list>
         </property>
     </bean>
@@ -701,4 +703,110 @@
         </property>
     </bean>
     <bean id="KRMS-DurationType-Field" parent="KRMS-DurationType-Field-Parent" />
+
+    <bean id="KRMS-Program-Section-Parent" parent="Uif-VerticalBoxSection" p:headerText="Program(s)">
+        <property name="header.headerTagStyle" value="font-size:13px;"/>
+        <property name="instructionalText" value="Add program or program sets. You may add any combination of programs or program sets." />
+        <property name="items">
+            <list>
+                <ref bean="KRMS-Program-Type-Field" />
+                <ref bean="KRMS-ApprovedProgramsStackedCollectionGroup" />
+            </list>
+        </property>
+    </bean>
+    <bean id="KRMS-Program-Section" parent="KRMS-Program-Section-Parent" />
+
+    <bean id="KRMS-Program-Type-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.programType">
+        <property name="instructionalText" value="Add a program or program set" />
+        <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.ProgramTypeValuesFinder"/>
+        </property>
+    </bean>
+    <bean id="KRMS-Program-Type-Field" parent="KRMS-Program-Type-Field-Parent" />
+
+    <bean id="KRMS-ApprovedProgramsStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:headerText="Approved Programs">
+        <property name="layoutManager">
+            <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
+                <property name="summaryFields" value="code"/>
+                <property name="addLineGroup">
+                    <bean parent="KRMS-CollectionGridItem" p:progressiveRender="#np.proposition.programType eq '1'"/>
+                </property>
+            </bean>
+        </property>
+        <property name="propertyName" value="proposition.cluSet.clus"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.enrollment.class1.krms.dto.CluInformation"/>
+        <property name="header">
+            <bean parent="Uif-HeaderSix" p:progressiveRender="#np.proposition.cluListSize gt 0" >
+                <property name="lowerGroup">
+                    <bean parent="Uif-InactiveItemsActionsGroup"/>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.code}" p:style="width: 290px; margin: 0px;"/>
+            </list>
+        </property>
+        <property name="addLineItems">
+            <list>
+                <bean parent="Uif-InputField-LabelTop" p:required="true" p:style="width: 280px;">
+                    <property name="propertyName" value="code"/>
+                    <property name="readOnly" value="true"/>
+                    <property name="label" value="Approved Programs"/>
+                    <!--<property name="suggest">-->
+                        <!--<bean parent="Uif-Suggest">-->
+                            <!--<property nahme="render" value="true"/>-->
+                            <!--<property name="sourcePropertyName" value="displayName"/>-->
+                            <!--<property name="templateOptions" value="minLength:1,delay:0"/>-->
+                            <!--<property name="suggestQuery">-->
+                                <!--<bean parent="Uif-AttributeQueryConfig">-->
+                                    <!--<property name="queryMethodToCall" value="getProgramForSuggest"/>-->
+                                <!--</bean>-->
+                            <!--</property>-->
+                        <!--</bean>-->
+                    <!--</property>-->
+                    <property name="quickfinder">
+                        <bean parent="KRMS-Programs-QuickFinder"/>
+                    </property>
+
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="KRMS-Programs-QuickFinder" parent="KRMS-QuickFinder">
+        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.program.dto.CoreProgramInfo"/>
+        <!--<property name="viewName" value="krmsProgramOnlyLookup"/>-->
+        <property name="fieldConversions">
+            <map>
+                <entry key="code" value="code"/>
+                <entry key="id" value="id"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KRMS-ProgramSet-QuickFinder" parent="KRMS-QuickFinder">
+        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.clu.dto.CluSetInfo"/>
+        <!--<property name="viewName" value="krmsCourseSetsInfoView"/>-->
+        <property name="fieldConversions">
+            <map>
+                <entry key="name" value="name"/>
+                <entry key="id" value="id"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KRMS-CreditAndDepartment-Group" parent="Uif-VerticalFieldGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-Credits-ConstantValue" />
+                <ref bean="KRMS-Department-Field" />
+            </list>
+        </property>
+    </bean>
 </beans>

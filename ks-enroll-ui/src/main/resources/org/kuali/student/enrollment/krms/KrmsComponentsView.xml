@@ -57,6 +57,7 @@
                               value="ajaxSubmitForm('updateChanges', null, jQuery(this).data('submitdata'), null, null, null);"/>
                 </bean>
                 <!--<ref bean="KRMS-MultiCourse-Section"/>-->
+                <!--<ref bean="KRMS-Program-Section"/>-->
                 <ref bean="KRMS-GPA-Field"/>
                 <ref bean="KRMS-TestScore-Field"/>
                 <ref bean="KRMS-TestName-Field"/>
