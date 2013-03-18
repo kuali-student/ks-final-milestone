@@ -22,11 +22,16 @@ function setupColoCheckBoxChange(control){
         }
         onColoCheckBoxChange(true);
     } else {
-        jQuery("#maximumEnrollment").show();
-        jQuery("#ActivityOfferingEdit-MainPage-CoLocation").hide();
-        jQuery("#shared_max_enr_control").addClass("ignoreValid");
-        jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
-        onColoCheckBoxChange(false);
+        var rdlExists = jQuery("#ActivityOffering-DeliveryLogistic-Requested td").length > 0;
+        if (rdlExists){
+            jQuery(control).prop('checked','checked');
+        } else {
+            jQuery("#maximumEnrollment").show();
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocation").hide();
+            jQuery("#shared_max_enr_control").addClass("ignoreValid");
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
+            onColoCheckBoxChange(false);
+        }
     }
 
 }

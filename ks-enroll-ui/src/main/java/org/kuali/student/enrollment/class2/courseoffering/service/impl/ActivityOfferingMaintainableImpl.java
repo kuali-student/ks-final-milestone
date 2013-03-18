@@ -133,6 +133,13 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         }
 
         if (wrapper.isColocatedAO()){
+            coloSet.getActivityOfferingIds().clear();
+
+            for (ColocatedActivity activity : wrapper.getColocatedActivities()){
+                coloSet.getActivityOfferingIds().add(activity.getAoId());
+            }
+            coloSet.getActivityOfferingIds().add(wrapper.getAoInfo().getId());
+
             coloSet.setIsMaxEnrollmentShared(wrapper.isMaxEnrollmentShared());
             if (wrapper.isMaxEnrollmentShared()){
                 coloSet.setMaximumEnrollment(wrapper.getSharedMaxEnrollment());
