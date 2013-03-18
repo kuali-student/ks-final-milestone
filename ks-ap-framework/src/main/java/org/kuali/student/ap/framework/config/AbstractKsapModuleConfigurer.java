@@ -25,7 +25,6 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.resourceloader.ResourceLoader;
 import org.kuali.rice.core.api.resourceloader.ResourceLoaderContainer;
 import org.kuali.rice.core.api.util.RiceConstants;
-import org.kuali.rice.core.framework.config.module.ModuleConfigurer;
 import org.kuali.rice.core.framework.config.module.WebModuleConfiguration;
 import org.kuali.rice.core.framework.resourceloader.BaseResourceLoader;
 import org.springframework.beans.factory.BeanFactory;
@@ -151,9 +150,8 @@ public abstract class AbstractKsapModuleConfigurer extends
 	 */
 	@SuppressWarnings("unchecked")
 	public static Collection<Object> getCurrentContextConfigurers() {
-		return (Collection<Object>) ConfigContext
-				.getCurrentContextConfig().getObject(
-						MODULE_CONFIGURERS_CONFIG_KEY);
+		return (Collection<Object>) ConfigContext.getCurrentContextConfig()
+				.getObject(MODULE_CONFIGURERS_CONFIG_KEY);
 	}
 
 	protected final Logger LOG = Logger.getLogger(getClass());

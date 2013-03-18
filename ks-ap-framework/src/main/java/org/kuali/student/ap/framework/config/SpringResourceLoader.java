@@ -70,7 +70,21 @@ public class SpringResourceLoader extends BaseResourceLoader {
 	/**
 	 * Thread-local used to track the delegating bean.
 	 */
-	private static final ThreadLocal<Callable<Object>> DELEGATING = new ThreadLocal<Callable<Object>>();
+	private static final ThreadLocal<DelegatingBean> DELEGATING = new ThreadLocal<DelegatingBean>();
+
+	/**
+	 * Tracks reference data back to the highest-level factory requesting
+	 * delegation.
+	 */
+	private static class DelegatingBean {
+		private final String beanName;
+		private final Callable<Object> continueGetBean;
+
+		private DelegatingBean(String beanName, Callable<Object> continueGetBean) {
+			this.beanName = beanName;
+			this.continueGetBean = continueGetBean;
+		}
+	}
 
 	/**
 	 * Get a proxy instance for delaying initialization errors for dependencies
@@ -154,15 +168,27 @@ public class SpringResourceLoader extends BaseResourceLoader {
 	}
 
 	/**
-	 * Continue retrieving the delegate bean. When invoked from within a
+	 * Get the non-delegated bean name. When invoked from within a delegated
+	 * bean factory operation, this method will return the original name of the
+	 * non-delegated result bean. This does not trigger actual creation of the
+	 * non-delegated bean like {@link ()} does.
+	 */
+	public static String getNonDelegateBeanName() {
+		return DELEGATING.get() != null ? DELEGATING.get().beanName : null;
+	}
+
+	/**
+	 * Continue retrieving the non-delegated bean. When invoked from within a
 	 * delegated bean factory operation, this method will return the
-	 * non-delegated result for the same operation.
+	 * non-delegated result for the same operation, allowing the delegated
+	 * service to act as a proxy for the original service without knowing any
+	 * actual details beyond the interface type.
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T getNonDelegateBean() {
 		try {
-			return (T) (DELEGATING.get() != null ? DELEGATING.get().call()
-					: null);
+			return (T) (DELEGATING.get() != null ? DELEGATING.get().continueGetBean
+					.call() : null);
 		} catch (RuntimeException e) {
 			throw e;
 		} catch (Exception e) {
@@ -172,7 +198,10 @@ public class SpringResourceLoader extends BaseResourceLoader {
 
 	/**
 	 * Internal bean factory for achieving top-down delegation to the injected
-	 * bean factory resource.
+	 * bean factory resource. During delegated calls, the
+	 * {@link SpringResourceLoader#getNonDelegateBean()} methods can be used to
+	 * get a reference to the non-delegated bean that would normally be returned
+	 * if the call were not delegated.
 	 */
 	private class _BeanFactory extends DefaultListableBeanFactory {
 
@@ -249,14 +278,15 @@ public class SpringResourceLoader extends BaseResourceLoader {
 		public Object getBean(final String name) throws BeansException {
 			Object rv = null;
 			if (delegatedBeanFactory != null) {
-				Callable<Object> odop = DELEGATING.get();
+				DelegatingBean odop = DELEGATING.get();
 				try {
-					DELEGATING.set(new Callable<Object>() {
-						@Override
-						public Object call() throws Exception {
-							return super$getBean(name);
-						}
-					});
+					DELEGATING.set(new DelegatingBean(name,
+							new Callable<Object>() {
+								@Override
+								public Object call() throws Exception {
+									return super$getBean(name);
+								}
+							}));
 					rv = delegatedBeanFactory.getBean(name);
 				} catch (NoSuchBeanDefinitionException e) {
 					LOG.debug("Delegate bean factory did not supply a bean", e);
@@ -282,14 +312,15 @@ public class SpringResourceLoader extends BaseResourceLoader {
 				throws BeansException {
 			T rv = null;
 			if (delegatedBeanFactory != null) {
-				Callable<Object> odop = DELEGATING.get();
+				DelegatingBean odop = DELEGATING.get();
 				try {
-					DELEGATING.set(new Callable<Object>() {
-						@Override
-						public Object call() throws Exception {
-							return super$getBean(name, requiredType);
-						}
-					});
+					DELEGATING.set(new DelegatingBean(name,
+							new Callable<Object>() {
+								@Override
+								public Object call() throws Exception {
+									return super$getBean(name, requiredType);
+								}
+							}));
 					rv = delegatedBeanFactory.getBean(name, requiredType);
 				} catch (NoSuchBeanDefinitionException e) {
 					LOG.debug("Delegate bean factory did not supply a bean", e);
@@ -314,14 +345,17 @@ public class SpringResourceLoader extends BaseResourceLoader {
 		public <T> T getBean(final Class<T> requiredType) throws BeansException {
 			T rv = null;
 			if (delegatedBeanFactory != null) {
-				Callable<Object> odop = DELEGATING.get();
+				DelegatingBean odop = DELEGATING.get();
 				try {
-					DELEGATING.set(new Callable<Object>() {
-						@Override
-						public Object call() throws Exception {
-							return super$getBean(requiredType);
-						}
-					});
+					String rsn = Character.toLowerCase((rsn = requiredType
+							.getSimpleName()).charAt(0)) + rsn.substring(1);
+					DELEGATING.set(new DelegatingBean(rsn,
+							new Callable<Object>() {
+								@Override
+								public Object call() throws Exception {
+									return super$getBean(requiredType);
+								}
+							}));
 					rv = delegatedBeanFactory.getBean(requiredType);
 				} catch (NoSuchBeanDefinitionException e) {
 					LOG.debug("Delegate bean factory did not supply a bean", e);
@@ -346,14 +380,15 @@ public class SpringResourceLoader extends BaseResourceLoader {
 				throws BeansException {
 			Object rv = null;
 			if (delegatedBeanFactory != null) {
-				Callable<Object> odop = DELEGATING.get();
+				DelegatingBean odop = DELEGATING.get();
 				try {
-					DELEGATING.set(new Callable<Object>() {
-						@Override
-						public Object call() throws Exception {
-							return super$getBean(name, args);
-						}
-					});
+					DELEGATING.set(new DelegatingBean(name,
+							new Callable<Object>() {
+								@Override
+								public Object call() throws Exception {
+									return super$getBean(name, args);
+								}
+							}));
 					rv = delegatedBeanFactory.getBean(name, args);
 				} catch (NoSuchBeanDefinitionException e) {
 					LOG.debug("Delegate bean factory did not supply a bean", e);
@@ -370,72 +405,143 @@ public class SpringResourceLoader extends BaseResourceLoader {
 		}
 
 		@Override
-		public boolean containsBean(String name) {
-			return (delegatedBeanFactory != null && delegatedBeanFactory
-					.containsBean(name)) || super.containsBean(name);
+		public boolean containsBean(final String name) {
+			DelegatingBean odop = DELEGATING.get();
+			try {
+				DELEGATING.set(new DelegatingBean(name, new Callable<Object>() {
+					@Override
+					public Object call() throws Exception {
+						return super$getBean(name);
+					}
+				}));
+				return (delegatedBeanFactory != null && delegatedBeanFactory
+						.containsBean(name)) || super.containsBean(name);
+			} finally {
+				if (odop == null)
+					DELEGATING.remove();
+				else
+					DELEGATING.set(odop);
+			}
 		}
 
 		@Override
-		public boolean isSingleton(String name)
+		public boolean isSingleton(final String name)
 				throws NoSuchBeanDefinitionException {
-			if (delegatedBeanFactory != null)
-				try {
-					return delegatedBeanFactory.isSingleton(name);
-				} catch (NoSuchBeanDefinitionException e) {
-					LOG.debug("Delegate bean factory did not supply a bean", e);
-				}
-			return super.isSingleton(name);
+			DelegatingBean odop = DELEGATING.get();
+			try {
+				DELEGATING.set(new DelegatingBean(name, new Callable<Object>() {
+					@Override
+					public Object call() throws Exception {
+						return super$getBean(name);
+					}
+				}));
+				return (delegatedBeanFactory != null
+						&& delegatedBeanFactory.containsBean(name) && delegatedBeanFactory
+							.isSingleton(name)) || super.isSingleton(name);
+			} finally {
+				if (odop == null)
+					DELEGATING.remove();
+				else
+					DELEGATING.set(odop);
+			}
 		}
 
 		@Override
-		public boolean isPrototype(String name)
+		public boolean isPrototype(final String name)
 				throws NoSuchBeanDefinitionException {
-			if (delegatedBeanFactory != null)
-				try {
-					return delegatedBeanFactory.isPrototype(name);
-				} catch (NoSuchBeanDefinitionException e) {
-					LOG.debug("Delegate bean factory did not supply a bean", e);
-				}
-			return super.isPrototype(name);
+			DelegatingBean odop = DELEGATING.get();
+			try {
+				DELEGATING.set(new DelegatingBean(name, new Callable<Object>() {
+					@Override
+					public Object call() throws Exception {
+						return super$getBean(name);
+					}
+				}));
+				return (delegatedBeanFactory != null
+						&& delegatedBeanFactory.containsBean(name) && delegatedBeanFactory
+							.isPrototype(name)) || super.isPrototype(name);
+			} finally {
+				if (odop == null)
+					DELEGATING.remove();
+				else
+					DELEGATING.set(odop);
+			}
 		}
 
 		@Override
-		public boolean isTypeMatch(String name, Class<?> targetType)
+		public boolean isTypeMatch(final String name, Class<?> targetType)
 				throws NoSuchBeanDefinitionException {
-			if (delegatedBeanFactory != null)
-				try {
-					return delegatedBeanFactory.isTypeMatch(name, targetType);
-				} catch (NoSuchBeanDefinitionException e) {
-					LOG.debug("Delegate bean factory did not supply a bean", e);
-				}
-			return super.isTypeMatch(name, targetType);
+			DelegatingBean odop = DELEGATING.get();
+			try {
+				DELEGATING.set(new DelegatingBean(name, new Callable<Object>() {
+					@Override
+					public Object call() throws Exception {
+						return super$getBean(name);
+					}
+				}));
+				return (delegatedBeanFactory != null
+						&& delegatedBeanFactory.containsBean(name) && delegatedBeanFactory
+							.isTypeMatch(name, targetType))
+						|| super.isTypeMatch(name, targetType);
+			} finally {
+				if (odop == null)
+					DELEGATING.remove();
+				else
+					DELEGATING.set(odop);
+			}
 		}
 
 		@Override
-		public Class<?> getType(String name)
+		public Class<?> getType(final String name)
 				throws NoSuchBeanDefinitionException {
-			Class<?> rv = null;
-			if (delegatedBeanFactory != null)
-				try {
+			DelegatingBean odop = DELEGATING.get();
+			try {
+				DELEGATING.set(new DelegatingBean(name, new Callable<Object>() {
+					@Override
+					public Object call() throws Exception {
+						return super$getBean(name);
+					}
+				}));
+				Class<?> rv = null;
+				if (delegatedBeanFactory != null
+						&& delegatedBeanFactory.containsBean(name))
 					rv = delegatedBeanFactory.getType(name);
-				} catch (NoSuchBeanDefinitionException e) {
-					LOG.debug("Delegate bean factory did not supply a bean", e);
-				}
-			if (rv == null)
-				rv = super.getType(name);
-			return rv;
+				if (rv == null)
+					rv = super.getType(name);
+				return rv;
+			} finally {
+				if (odop == null)
+					DELEGATING.remove();
+				else
+					DELEGATING.set(odop);
+			}
 		}
 
 		@Override
-		public String[] getAliases(String name) {
-			List<String> aliases = new java.util.LinkedList<String>();
-			if (delegatedBeanFactory != null
-					&& delegatedBeanFactory.getAliases(name) != null)
-				aliases.addAll(Arrays.asList(delegatedBeanFactory
-						.getAliases(name)));
-			if (super.getAliases(name) != null)
-				aliases.addAll(Arrays.asList(super.getAliases(name)));
-			return aliases.toArray(new String[aliases.size()]);
+		public String[] getAliases(final String name) {
+			DelegatingBean odop = DELEGATING.get();
+			try {
+				DELEGATING.set(new DelegatingBean(name, new Callable<Object>() {
+					@Override
+					public Object call() throws Exception {
+						return super$getBean(name);
+					}
+				}));
+				List<String> aliases = new java.util.LinkedList<String>();
+				if (delegatedBeanFactory != null
+						&& delegatedBeanFactory.containsBean(name)
+						&& delegatedBeanFactory.getAliases(name) != null)
+					aliases.addAll(Arrays.asList(delegatedBeanFactory
+							.getAliases(name)));
+				if (super.getAliases(name) != null)
+					aliases.addAll(Arrays.asList(super.getAliases(name)));
+				return aliases.toArray(new String[aliases.size()]);
+			} finally {
+				if (odop == null)
+					DELEGATING.remove();
+				else
+					DELEGATING.set(odop);
+			}
 		}
 
 	}

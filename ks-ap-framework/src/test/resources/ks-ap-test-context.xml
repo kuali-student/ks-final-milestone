@@ -93,20 +93,20 @@
 		<property name="serverDataSource" ref="apDataSourceXAPool" />
 	</bean>
 
-	<bean name="quartzScheduler"
-			class="org.springframework.scheduling.quartz.SchedulerFactoryBean" />
-			
-	<bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer"
-			depends-on="coreConfigurer">
-		<property name="exceptionMessagingScheduler" ref="quartzScheduler" />
-	</bean>
-
 	<!-- KSAP-26: reasonable defaults for auto-wiring support -->
 	<bean id="autowireCandidateResolver" scope="prototype"
 		class="org.kuali.student.ap.framework.config.BaseAutowireCandidateResolver" />
 	<bean id="delegatedBeanFactory"
 		class="org.springframework.beans.factory.support.DefaultListableBeanFactory" />
+	<bean id="additionalServices" class="org.kuali.rice.core.api.lifecycle.LifecycleBean" />
 	<!-- /KSAP-26 -->
+
+	<bean id="ksbConfigurer" class="org.kuali.student.ap.framework.config.KSBConfigurer"
+		depends-on="coreConfigurer">
+		<property name="exceptionMessagingScheduler">
+			<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean" />
+		</property>
+	</bean>
 
 	<bean id="knsConfigurer" class="org.kuali.rice.krad.config.KRADConfigurer"
     	depends-on="coreConfigurer"/>
