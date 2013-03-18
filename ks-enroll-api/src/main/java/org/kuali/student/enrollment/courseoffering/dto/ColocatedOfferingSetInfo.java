@@ -104,6 +104,9 @@ public class ColocatedOfferingSetInfo
 
     @Override
     public List<String> getActivityOfferingIds() {
+        if (activityOfferingIds == null){
+            activityOfferingIds = new ArrayList<String>();
+        }
         return activityOfferingIds;
     }
 
