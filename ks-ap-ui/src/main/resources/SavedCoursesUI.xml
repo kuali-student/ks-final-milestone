@@ -285,6 +285,7 @@
                 if (data.planItemType === 'wishlist') {
                     fnRemoveSavedItem(data.planItemId, 'myplan-saved-courses-detail');
                     fnUpdateSavedCount( jQuery(this).find('.uif-sectionHeader .uif-headerText strong').text() );
+                    fnCloseAllPopups();
                 }
             });
         "/>
