@@ -20,7 +20,7 @@
                     <list>
                         <bean id="KS-CourseOfferingManagement-ToolBar-Add-ARG" parent="KS-CourseOfferingManagement-ToolBar-Add" p:actionLabel="Add Activity"  p:disabled="false"
                             p:performClientSideValidation="true" p:methodToCall="addActivityOfferings"
-                            p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm');"/>
+                            p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen');"/>
                     </list>
                 </property>
             </bean>
