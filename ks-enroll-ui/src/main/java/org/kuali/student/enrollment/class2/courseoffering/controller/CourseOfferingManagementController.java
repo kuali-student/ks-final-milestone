@@ -860,7 +860,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             boolean hasDeletion = true;
             if (co.getIsChecked()) {
                 checked++;
-                CourseOfferingResourceLoader.loadCourseOfferingService().deleteCourseOfferingCascaded(co.getCourseOfferingId(), ContextBuilder.loadContextInfo());
+                if(!co.isColocated()) {
+                    // dol not delete colocated COs
+                    CourseOfferingResourceLoader.loadCourseOfferingService().deleteCourseOfferingCascaded(co.getCourseOfferingId(), ContextBuilder.loadContextInfo());
+                }
             }
         }
 

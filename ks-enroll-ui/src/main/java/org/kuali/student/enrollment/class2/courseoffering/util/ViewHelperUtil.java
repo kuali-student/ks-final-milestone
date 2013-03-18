@@ -38,11 +38,20 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -296,5 +305,56 @@ public class ViewHelperUtil {
         }
 
         return buffer.toString();
+    }
+
+    /**
+     * This method loads the wrapper details for the joint courses
+     *
+     * @param courseName CourseOfferingCreateWrapper
+     * @throws Exception throws one of the services exceptions
+     */
+    public static List<CourseInfo> getMatchingCoursesFromClu(String courseName) {
+
+        CourseInfo returnCourseInfo;
+        String courseId;
+        List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
+        List<CourseInfo> courseInfoList = new ArrayList<CourseInfo>();
+        CluService cluService = CourseOfferingResourceLoader.loadCluService();
+
+        SearchParamInfo qpv1 = new SearchParamInfo();
+        qpv1.setKey("lu.queryParam.startsWith.cluCode");
+        qpv1.getValues().add(courseName.toUpperCase());
+        searchParams.add(qpv1);
+
+        SearchParamInfo qpv2 = new SearchParamInfo();
+        qpv2.setKey("lu.queryParam.cluState");
+        qpv2.setValues(Arrays.asList("Active"));
+        searchParams.add(qpv2);
+
+        SearchRequestInfo searchRequest = new SearchRequestInfo();
+        searchRequest.setParams(searchParams);
+        searchRequest.setSearchKey("lu.search.cluByCodeAndState");
+
+        try {
+            SearchResultInfo searchResult = cluService.search(searchRequest, ContextUtils.getContextInfo());
+            if (searchResult.getRows().size() > 0) {
+                for (SearchResultRowInfo row : searchResult.getRows()) {
+                    List<SearchResultCellInfo> srCells = row.getCells();
+                    if (srCells != null && srCells.size() > 0) {
+                        for (SearchResultCellInfo cell : srCells) {
+                            if ("lu.resultColumn.cluId".equals(cell.getKey())) {
+                                courseId = cell.getValue();
+                                returnCourseInfo = getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
+                                courseInfoList.add(returnCourseInfo);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return courseInfoList;
     }
 }

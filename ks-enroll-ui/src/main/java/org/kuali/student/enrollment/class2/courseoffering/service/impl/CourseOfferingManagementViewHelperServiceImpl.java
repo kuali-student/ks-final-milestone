@@ -74,6 +74,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
@@ -535,10 +536,12 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         int totalColocatedAos = 0;
         boolean iscolocated = false;
         int totalCrossListedCosToDelete = 0;
+        int totalJointDefinedCosToDelete = 0;
 
         form.setNumOfColocatedCosToDelete(0);
         form.setNumOfColocatedAosToDelete(0);
         form.setNumOfCrossListedCosToDelete(0);
+        form.setNumOfJointDefinedCosToDelete(0);
 
         List<CourseOfferingListSectionWrapper> qualifiedToDeleteList = form.getSelectedCoToDeleteList();
         qualifiedToDeleteList.clear();
@@ -619,8 +622,18 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                         totalCrossListedCosToDelete++;
                     }
                 }
+                co.setJointDefined(false);
+
                 if(iscolocated) {
                     totalColocatedCos++;
+                } else {
+                    // verify whether this CO is joint-defined or not
+                    String jointDefinedCodes = getJointDefinedInfo(co);
+                    if(!jointDefinedCodes.isEmpty()) {
+                        co.setJointDefinedCoCode(jointDefinedCodes);
+                        co.setJointDefined(true);
+                        totalJointDefinedCosToDelete++;
+                    }
                 }
                 qualifiedToDeleteList.add(co);
 
@@ -630,9 +643,13 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             }
         }
         form.setNumOfCrossListedCosToDelete(totalCrossListedCosToDelete);
+        form.setNumOfJointDefinedCosToDelete(totalJointDefinedCosToDelete);
         if(totalColocatedCos == totalCosToDelete) {
             form.setColocatedCoOnly(true);
             form.setNumOfColocatedCosToDelete(totalColocatedCos);
+        }
+        if(totalJointDefinedCosToDelete >= 1)  {
+            form.setJointDefinedCo(true);
         }
         form.setNumOfColocatedAosToDelete(totalColocatedAos);
         form.setTotalAOsToBeDeleted(totalAos);
@@ -882,6 +899,27 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             }
         }
         return null;
+    }
+
+    private String getJointDefinedInfo(CourseOfferingListSectionWrapper co) {
+        if(co == null) return null;
+
+        List<CourseInfo> coInfoList = ViewHelperUtil.getMatchingCoursesFromClu( co.getCourseOfferingCode());
+        StringBuffer jointDefinedCodes  = new StringBuffer();
+
+        for(CourseInfo coInfo : coInfoList) {
+            List<CourseJointInfo> jointList = coInfo.getJoints();
+           if(!jointList.isEmpty() && jointList.size() >= 1 ) {
+               for(CourseJointInfo jointInfo : jointList)  {
+                   jointDefinedCodes.append(jointInfo.getSubjectArea());
+                   jointDefinedCodes.append(jointInfo.getCourseNumberSuffix());
+                   jointDefinedCodes.append(" ");
+               }
+
+            }
+        }
+
+        return jointDefinedCodes.toString();
     }
 
     private CourseOfferingService _getCourseOfferingService() {

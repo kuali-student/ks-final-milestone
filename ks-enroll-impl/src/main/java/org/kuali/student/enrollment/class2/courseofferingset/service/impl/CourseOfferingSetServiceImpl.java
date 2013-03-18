@@ -715,7 +715,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
 
     @Override
-    @Transactional(readOnly = false, timeout=31536000, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    @Transactional(readOnly = false, timeout=6168000, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo changeSocState(String socId,
                                      String nextStateKey,
                                      ContextInfo contextInfo)

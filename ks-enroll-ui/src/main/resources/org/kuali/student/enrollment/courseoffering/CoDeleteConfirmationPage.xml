@@ -111,12 +111,33 @@
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"
                                   p:render="@{colocatedCO}"/>
 
-                             <bean parent="Uif-Message"
+                            <bean parent="Uif-Message"
+                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]
+                                  Joint-Defined Course Warning"
+                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2"
+                                  p:render="@{jointDefinedCo and !colocatedCO and !crossListedCO}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="Joint-Defined Course Warning"
+                                  p:style="background-color:#FFEE99;  margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"
+                                  p:render="@{jointDefinedCo and (colocatedCO or crossListedCO)}"/>
+
+                            <bean parent="Uif-Message"
+                                  p:messageText="This is a joint-defined course. You are about to permanently delete the course and the following activity [br/]
+                                  offering(s). Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/JointIcon6px.png&quot;] icon in the table below for more information."
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"
+                                  p:render="@{jointDefinedCo and numOfJointDefinedCosToDelete le 1}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="One or more of the selected course offerings is joint-defined. You are about to permanently delete the  [br/]
+                                  course and the following activity offering(s). Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/JointIcon6px.png&quot;] icon(s) in the table below for more information."
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"
+                                  p:render="@{jointDefinedCo and numOfJointDefinedCosToDelete ge 2}"/>
+
+                            <bean parent="Uif-Message"
                                   p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]  Warning"
-                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2" p:render="@{!crossListedCO and !colocatedCO}"/>
+                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2" p:render="@{!crossListedCO and !colocatedCO and !jointDefinedCo}"/>
                             <bean parent="Uif-Message"
                                   p:messageText="You are about to permanently delete the following activity offering(s) from the course offering(s)."
-                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{!crossListedCO and !colocatedCO}"/>
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{!crossListedCO and !colocatedCO and !jointDefinedCo}"/>
 
                             <bean parent="Uif-Message"
                                   p:messageText="Affected Activities: @{totalAOsToBeDeleted}"
@@ -196,6 +217,12 @@
                                <property name="style" value="padding-left:5px"/>
                                <property name="toolTip">
                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedInfoUI}"/>
+                               </property>
+                           </bean>
+                           <bean parent="Uif-ImageField" p:hidden="@{#lp.jointDefinedCoCode.isEmpty()}" p:image.altText="@{#lp.jointDefinedCodesUI}" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/JointIcon6px.png">
+                               <property name="style" value="padding-left:5px"/>
+                               <property name="toolTip">
+                                   <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.jointDefinedCodesUI}"/>
                                </property>
                            </bean>
 

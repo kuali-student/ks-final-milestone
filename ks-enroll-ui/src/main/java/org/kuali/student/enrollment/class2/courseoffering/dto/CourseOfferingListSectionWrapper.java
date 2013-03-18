@@ -52,6 +52,7 @@ public class CourseOfferingListSectionWrapper implements Serializable{
 
     private boolean isCrossListed;
     private boolean isColocated;
+    private boolean isJointDefined;
 
     private boolean isLegalToDelete = true;
     private boolean isChecked = false;
@@ -69,6 +70,7 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     private String crossListedCoList;
 
     private String colocatedCoCode = "";
+    private String jointDefinedCoCode = "";
 
     List<ActivityOfferingDisplayWrapper> aoToBeDeletedList;
     private boolean coHasAoToDelete = true;
@@ -298,6 +300,22 @@ public class CourseOfferingListSectionWrapper implements Serializable{
         isColocated = colocated;
     }
 
+    public String getJointDefinedCoCode() {
+        return jointDefinedCoCode;
+    }
+
+    public void setJointDefinedCoCode(String jointDefinedCoCode) {
+        this.jointDefinedCoCode = jointDefinedCoCode;
+    }
+
+    public boolean isJointDefined() {
+        return isJointDefined;
+    }
+
+    public void setJointDefined(boolean jointDefined) {
+        isJointDefined = jointDefined;
+    }
+
     /**
      * @see #setAlternateCOCodes(List<String>)
      * @return
@@ -335,6 +353,21 @@ public class CourseOfferingListSectionWrapper implements Serializable{
         for (String code : alternateCOCodes){
             buffer.append(code + "<br>");
         }
+
+        return StringUtils.removeEnd(buffer.toString(),"<br>");
+    }
+
+    /**
+     * This method returns a list of crosslisted/official course code for a course. This will
+     * be displayed as the tooltip (if crosslisted cos exists) at Manage CO screen.
+     *
+     * @return
+     */
+    @SuppressWarnings("unused")
+    public String getJointDefinedCodesUI(){
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("This course is joint defined with:<br>");
+        buffer.append(jointDefinedCoCode + "<br>");
 
         return StringUtils.removeEnd(buffer.toString(),"<br>");
     }
