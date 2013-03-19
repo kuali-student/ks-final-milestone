@@ -1,11 +1,19 @@
 /**
  * This method handles the colocated checkbox event.
  * @param control colocated checkbox control
+ *
  */
 function setupColoCheckBoxChange(control){
 
-    if(jQuery(control).is(":checked")) {
+    var rdlExists = jQuery("#ActivityOffering-DeliveryLogistic-Requested td").length > 0;
+    //If authz is associated with this control, check the hidden authz related flag before doing this.
+    if (rdlExists){
+        jQuery(control).attr("disabled", true);
+    } else {
+        jQuery(control).attr("disabled", false);
+    }
 
+    if(jQuery(control).is(":checked")) {
         jQuery("#maximumEnrollment").hide();
         jQuery("#ActivityOfferingEdit-MainPage-CoLocation").show();
 
@@ -22,17 +30,12 @@ function setupColoCheckBoxChange(control){
         }
         onColoCheckBoxChange(true);
     } else {
-        var rdlExists = jQuery("#ActivityOffering-DeliveryLogistic-Requested td").length > 0;
-        if (rdlExists){
-            jQuery(control).prop('checked','checked');
-        } else {
-            jQuery("#maximumEnrollment").show();
-            jQuery("#ActivityOfferingEdit-MainPage-CoLocation").hide();
-            jQuery("#shared_max_enr_control").addClass("ignoreValid");
-            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
-            onColoCheckBoxChange(false);
-        }
-    }
+        jQuery("#maximumEnrollment").show();
+        jQuery("#ActivityOfferingEdit-MainPage-CoLocation").hide();
+        jQuery("#shared_max_enr_control").addClass("ignoreValid");
+        jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
+        onColoCheckBoxChange(false);
+}
 
 }
 
@@ -94,6 +97,16 @@ function addColocatedAOSuccessCallBack(){
     });
 }
 
+function deleteRDLCallBack(){
+    var rdlExists = jQuery("#ActivityOffering-DeliveryLogistic-Requested td").length > 0;
+    //If authz is associated with this, check the hidden authz related flag before doing this.
+    if (rdlExists){
+        jQuery("#is_co_located_control").attr("disabled", true);
+    } else {
+        jQuery("#is_co_located_control").attr("disabled", false);
+    }
+}
+
 function onColoCheckBoxChange(checked){
     if (checked){
         if(jQuery("#is_co_located_control").is(":checked")) {
@@ -119,7 +132,6 @@ function onColoCheckBoxChange(checked){
 
 function addScheduleCallBack(){
     setupColoCheckBoxChange(jQuery("#is_co_located_control"));
-    onColoCheckBoxChange(true);
 }
 
 function clearRoomResourcesSelections(sourceLink) {

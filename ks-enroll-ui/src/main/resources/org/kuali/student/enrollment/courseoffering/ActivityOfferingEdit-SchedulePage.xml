@@ -129,6 +129,11 @@
                 </bean>
             </list>
         </property>
+        <property name="lineActions">
+              <list>
+                <bean parent="Uif-DeleteLineAction" p:successCallback="deleteRDLCallBack();"/>
+              </list>
+        </property>
     </bean>
 
     <bean id="ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection" p:style="background-color:#f3f3f3; padding-top:4px; padding-left:4px; padding-bottom:4px; border: 1px solid black;" p:render="@{!scheduleCompleted}" p:componentSecurity.viewAuthz="true">
