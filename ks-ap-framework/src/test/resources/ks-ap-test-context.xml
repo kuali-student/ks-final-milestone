@@ -99,6 +99,7 @@
 	<bean id="delegatedBeanFactory"
 		class="org.springframework.beans.factory.support.DefaultListableBeanFactory" />
 	<bean id="additionalServices" class="org.kuali.rice.core.api.lifecycle.LifecycleBean" />
+	<bean id="additionalComponents" class="org.kuali.rice.core.api.lifecycle.LifecycleBean" />
 	<!-- /KSAP-26 -->
 
 	<bean id="ksbConfigurer" class="org.kuali.student.ap.framework.config.KSBConfigurer"

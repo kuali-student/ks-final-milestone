@@ -7,10 +7,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.kuali.rice.core.api.config.module.RunMode;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.lifecycle.Lifecycle;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.KRADServiceLocatorInternal;
@@ -31,6 +33,13 @@ public class KRADConfigurer extends AbstractKsapModuleConfigurer implements
 	private static final String KRAD_SPRING_BEANS_PATH = "classpath:org/kuali/rice/krad/config/KRADSpringBeans.xml";
 	private static final String KNS_SPRING_BEANS_PATH = "classpath:org/kuali/rice/kns/config/KNSSpringBeans.xml";
 
+	/**
+	 * The application may specify additional UI components for the KRAD module
+	 * to load by providing this {@link Lifecycle} resource.
+	 */
+	@Resource
+	private Lifecycle additionalComponents;
+
 	public KRADConfigurer() {
 		// TODO really the constant value should be "krad" but there's some work
 		// to do in order to make
@@ -43,6 +52,7 @@ public class KRADConfigurer extends AbstractKsapModuleConfigurer implements
 	@Override
 	public void addAdditonalToConfig() {
 		configureDataSource();
+		assert additionalComponents != null;
 	}
 
 	@Override
@@ -64,6 +74,15 @@ public class KRADConfigurer extends AbstractKsapModuleConfigurer implements
 		if (applicationEvent instanceof ContextRefreshedEvent) {
 			loadDataDictionary();
 			publishDataDictionaryComponents();
+			boolean re = additionalComponents.isStarted();
+			try {
+				if (re)
+					additionalComponents.stop();
+				additionalComponents.start();
+			} catch (Exception e) {
+				throw new IllegalStateException("Error " + (re ? "re" : "")
+						+ "starting additional components");
+			}
 		}
 	}
 
