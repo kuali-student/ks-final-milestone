@@ -29,6 +29,7 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterIn
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
@@ -501,11 +502,11 @@ public class ARGUtil {
     * convert List<ActivityOfferingClusterInfo> to List<ActivityOfferingClusterWrapper> and set it to the Form
     */
     public static List<ActivityOfferingClusterWrapper> _convertToAOClusterWrappers(List<ActivityOfferingClusterInfo> aoClusterList,
-                                                                                   ARGCourseOfferingManagementForm theForm) throws Exception {
+                                                                                   ARGCourseOfferingManagementForm theForm, FormatOfferingInfo formatOfferingInfo) throws Exception {
         List<ActivityOfferingClusterWrapper> aoClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
         int clusterIndex = 0;
         for (ActivityOfferingClusterInfo aoCluster : aoClusterList) {
-            ActivityOfferingClusterWrapper aoClusterWrapper = _buildAOClusterWrapper(aoCluster, theForm, clusterIndex);
+            ActivityOfferingClusterWrapper aoClusterWrapper = _buildAOClusterWrapper(aoCluster, theForm, clusterIndex, formatOfferingInfo);
             aoClusterWrapperList.add(aoClusterWrapper);
             clusterIndex++;
         }
@@ -513,12 +514,14 @@ public class ARGUtil {
     }
 
     public static ActivityOfferingClusterWrapper _buildAOClusterWrapper(ActivityOfferingClusterInfo aoCluster,
-                                                                        ARGCourseOfferingManagementForm theForm, int clusterIndex) throws Exception {
+                                                                        ARGCourseOfferingManagementForm theForm, int clusterIndex, FormatOfferingInfo formatOfferingInfo) throws Exception {
 
         ActivityOfferingClusterWrapper aoClusterWrapper = new ActivityOfferingClusterWrapper();
         aoClusterWrapper.setActivityOfferingClusterId(aoCluster.getId());
         aoClusterWrapper.setAoCluster(aoCluster);
         aoClusterWrapper.setClusterNameForDisplay("Forget to set cluster?");
+        aoClusterWrapper.setFormatOffering(formatOfferingInfo);
+        aoClusterWrapper.setFormatNameForDisplay("Forget to set format?");
 
         List<ActivityOfferingInfo> aoInfoList = getCourseOfferingService().getActivityOfferingsByCluster(aoCluster.getId(), ContextUtils.createDefaultContextInfo());
         List<ActivityOfferingWrapper> aoWrapperListPerCluster = new ArrayList<ActivityOfferingWrapper>();

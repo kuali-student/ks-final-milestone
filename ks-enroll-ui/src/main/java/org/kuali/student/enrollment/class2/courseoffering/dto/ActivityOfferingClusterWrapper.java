@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
+import org.apache.cxf.common.util.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 
@@ -142,10 +143,10 @@ public class ActivityOfferingClusterWrapper implements Serializable {
 
     public void setFormatNameForDisplay(String formatNameForDisplay) {
         if(formatOffering == null){
-            this.formatNameForDisplay = formatNameForDisplay;
+            this.formatNameForDisplay += formatNameForDisplay;
         }
         else {
-            this.formatNameForDisplay = "Format: "+formatOffering.getName();
+            this.formatNameForDisplay += "Format: "+formatOffering.getName();
         }
     }
 

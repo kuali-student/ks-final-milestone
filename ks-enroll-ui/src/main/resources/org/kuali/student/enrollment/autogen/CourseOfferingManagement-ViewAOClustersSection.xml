@@ -10,6 +10,7 @@
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-ARG-ToolBarSection"/>
+                <ref bean="KS-CourseOfferingManagement-AOClustersCollection"/>
             </list>
         </property>
     </bean>
@@ -19,34 +20,119 @@
         <!-- p:onDocumentReadyScript="removeSelfFromDropdowns('KS-ManageRegistrationGroups-ClusterHeaderText');" -->
         <property name="disclosure.render" value="false"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper" />
-        <property name="propertyName" value="clusterResultList" />
+        <property name="propertyName" value="filteredAOClusterWrapperList" />
         <property name="cssClasses" value="aoc_disclosure"/>
         <property name="headerText" value=""/>
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
-        <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.clusterNameForDisplay}"/>
+        <!--<property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.clusterNameForDisplay}"/>-->
         <property name="layoutManager.addLineGroup.header.render" value="false"/>
 
         <property name="items">
             <list>
-                <!--<ref bean="KS-ManageRegistrationGroups-LightboxPropsText"/>-->
                 <ref bean="KS-CourseOfferingManagement-ClusterHeaderText"/>
-                <!--<ref bean="KS-ManageRegistrationGroups-StateAndActionLinks"/>-->
             </list>
         </property>
         <property name="subCollections">
             <list>
                 <ref bean="KS-ManageRegistrationGroups-ActivityOfferingsPerClusterSubSection" />
-                <ref bean="KS-ManageRegistrationGroups-RegistrationGroupsPerClusterSubSection" />
+                <!--<ref bean="KS-ManageRegistrationGroups-RegistrationGroupsPerClusterSubSection" />-->
             </list>
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-ClusterHeaderText" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:style="display: none">
+    <bean id="KS-CourseOfferingManagement-ClusterHeaderText" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
         <property name="items">
             <list>
                 <bean parent="Uif-Label" p:labelText="@{#line.clusterNameForDisplay}" p:renderColon="false" />
-                <bean parent="Uif-Label" p:labelText="@{#line.formatNameForDisplay}"  p:style="float:right" />
+                <bean parent="Uif-Label" p:labelText="&#160;&#160;|&#160;&#160;" p:renderColon="false" />
+                <bean parent="Uif-Label" p:labelText="@{#line.formatNameForDisplay}"  p:renderColon="false" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ManageRegistrationGroups-ActivityOfferingsPerClusterSubSection" parent="Uif-TableCollectionSubSection"
+          p:renderAddLine="false"  p:renderLineActions="true">
+        <property name="id" value="activityOfferingsPerCluster" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
+        <property name="propertyName" value="aoWrapperList" />
+        <property name="headerText" value=""/>
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 2, 'asc' ], [0, 'asc']]"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" >
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:disabled="false"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField"
+                      p:label="CODE"
+                      p:propertyName="aoInfo.activityCode">
+                </bean>
+                <bean parent="Uif-DataField"
+                      p:label="STATUS"
+                      p:propertyName="stateName" />
+                <bean parent="Uif-DataField"
+                      p:label="TYPE"
+                      p:propertyName="typeName"/>
+                <bean parent="Uif-DataField"
+                      p:label="MAX ENR"
+                      p:propertyName="aoInfo.maximumEnrollment"/>
+                <bean parent="Uif-MessageField"
+                      p:label="DAYS"
+                      p:messageText="@{#line.daysDisplayName}" />
+                <bean parent="Uif-MessageField"
+                      p:label="START TIME"
+                      p:messageText="@{#line.startTimeDisplay}" />
+                <bean parent="Uif-MessageField"
+                      p:label="END TIME"
+                      p:messageText="@{#line.endTimeDisplay}" />
+                <bean parent="Uif-MessageField"
+                      p:label="BUILDING"
+                      p:messageText="@{#line.buildingName}" />
+                <bean parent="Uif-MessageField"
+                      p:label="ROOM"
+                      p:messageText="@{#line.roomName}" />
+
+                <bean parent="Uif-MessageField"
+                      p:label="INSTRUCTOR"
+                      p:messageText="@{#line.instructorDisplayNames}" />
+            </list>
+        </property>
+
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean id="KS-ManageRegistrationGroups-MoveAOBetweenClusters" parent="Uif-InputField" p:propertyName="clusterIdForAOMove" p:label="Move selected offerings to" p:labelPlacement="TOP">
+                            <property name="control">
+                                <bean parent="Uif-DropdownControl" />
+                            </property>
+                            <property name="optionsFinder">
+                                <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGListOfAOClustersForFOKeyValues" p:addBlankOption="false"/>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Move" p:methodToCall="moveAOBetweenClusters" p:id="move_ao_button" p:valign="BOTTOM" p:align="right" p:style="margin-top:18px;"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+
+        <property name="lineActions">
+            <list>
+                <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="moveAActivityOffering" p:actionLabel="Move"/>-->
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="removeAOFromCluster" p:actionLabel="Remove"/>
             </list>
         </property>
     </bean>
