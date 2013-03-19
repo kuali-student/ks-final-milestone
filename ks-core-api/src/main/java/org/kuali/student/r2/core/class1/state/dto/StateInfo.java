@@ -57,6 +57,9 @@ public class StateInfo
     private String lifecycleKey;
 
     @XmlElement
+    private Boolean isInitialState;
+
+    @XmlElement
     private Date effectiveDate;
 
     @XmlElement
@@ -122,6 +125,15 @@ public class StateInfo
     @Override
     public String getLifecycleKey() {
         return lifecycleKey;
+    }
+
+    @Override
+    public Boolean getIsInitialState() {
+        return this.isInitialState;
+    }
+
+    public void setIsInitialState(Boolean initialState) {
+        this.isInitialState = initialState;
     }
 
     public void setLifecycleKey(String lifecycleKey) {

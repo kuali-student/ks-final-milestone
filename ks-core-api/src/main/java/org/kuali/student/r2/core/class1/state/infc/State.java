@@ -64,4 +64,13 @@ public interface State
      * @required
      */
     public String getLifecycleKey();
+
+    /**
+     * Indicates if this is an initial state
+     *
+     * @name Is Initial State
+     * @readOnly
+     * @impl This field is managed through State service operations
+     */
+    public Boolean getIsInitialState();
 }
