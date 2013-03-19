@@ -283,6 +283,11 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
+    public List<String> getInitialStatesByLifecycle(String lifecycleKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public List<String> searchForStateKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> stateKeys = new ArrayList<String>();
         GenericQueryResults<StateEntity> results = stateCriteriaLookupService.lookup(StateEntity.class, criteria);
@@ -371,6 +376,16 @@ public class StateServiceImpl implements StateService {
         StatusInfo deleteStatus = new StatusInfo();
         deleteStatus.setSuccess(true);
         return deleteStatus;
+    }
+
+    @Override
+    public StatusInfo addInitialStateToLifecycle(String initialStateKey, String lifecycleKey, ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public StatusInfo removeInitialStateFromLifecycle(String initialStateKey, String lifecycleKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException();
     }
 
     @Override
