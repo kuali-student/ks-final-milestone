@@ -99,7 +99,11 @@ public class KSBConfigurer extends AbstractKsapModuleConfigurer implements
 	private PlatformTransactionManager platformTransactionManager;
 
 	private List<Lifecycle> internalLifecycles;
-	
+
+	/**
+	 * The application may specify additional services for the KSB module to
+	 * expose by providing this {@link Lifecycle} resource.
+	 */
 	@Resource
 	private Lifecycle additionalServices;
 

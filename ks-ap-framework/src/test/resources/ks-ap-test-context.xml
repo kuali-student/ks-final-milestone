@@ -102,38 +102,34 @@
 	<!-- /KSAP-26 -->
 
 	<bean id="ksbConfigurer" class="org.kuali.student.ap.framework.config.KSBConfigurer"
-		depends-on="coreConfigurer">
-		<property name="exceptionMessagingScheduler">
-			<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean" />
-		</property>
-	</bean>
+		depends-on="coreConfigurer" />
 
-	<bean id="knsConfigurer" class="org.kuali.rice.krad.config.KRADConfigurer"
-    	depends-on="coreConfigurer"/>
+	<bean id="knsConfigurer" class="org.kuali.student.ap.framework.config.KRADConfigurer"
+    	depends-on="coreConfigurer" />
 	
 	<bean id="coreServiceConfigurer" class="org.kuali.rice.coreservice.impl.config.CoreServiceConfigurer"
-		depends-on="coreConfigurer"/>
+		depends-on="coreConfigurer" />
        
 	<bean id="kimConfigurer" class="org.kuali.rice.kim.config.KIMConfigurer"
 		depends-on="coreConfigurer" />
 		
 	<bean id="kewConfigurer" class="org.kuali.rice.kew.config.KEWConfigurer"
-		depends-on="coreConfigurer"/>
+		depends-on="coreConfigurer" />
   	
 	<bean id="locationConfigurer" class="org.kuali.rice.location.impl.config.LocationConfigurer"
-		depends-on="coreConfigurer"/>
+		depends-on="coreConfigurer" />
   	
 	<bean id="kscoreConfigurer" class="org.kuali.student.ap.framework.config.KSCOREConfigurer"
-		depends-on="coreConfigurer"/>
+		depends-on="coreConfigurer" />
 
 	<bean id="kslumConfigurer" class="org.kuali.student.ap.framework.config.KSLUMConfigurer"
-		depends-on="coreConfigurer"/>
+		depends-on="coreConfigurer" />
 
 	<bean id="ksenrollConfigurer" class="org.kuali.student.ap.framework.config.KSENROLLConfigurer"
-		depends-on="coreConfigurer"/>
+		depends-on="coreConfigurer" />
 
 	<bean id="ksapConfigurer" class="org.kuali.student.ap.framework.config.KSAPConfigurer"
-		depends-on="coreConfigurer"/>
+		depends-on="coreConfigurer" />
 		
 	<import resource="classpath:META-INF/ks-ap/ap-test-context.xml"/>
 

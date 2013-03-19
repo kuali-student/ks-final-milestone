@@ -78,7 +78,7 @@ public class BaseAutowireCandidateResolver implements
 		for (Annotation a : descriptor.getAnnotations())
 			optional = optional || (a instanceof OptionalResource);
 		Object rv = null;
-		SpringResourceLoader.PopulatingBean spb = SpringResourceLoader
+		RiceBeanFactory.PopulatingBean spb = RiceBeanFactory
 				.getPopulatingBean();
 		assert spb != null;
 		if (spb != null) {
@@ -90,7 +90,7 @@ public class BaseAutowireCandidateResolver implements
 				rv = delegate.getSuggestedValue(descriptor);
 			} catch (BeanCreationException e) {
 				if (optional)
-					rv = SpringResourceLoader.missingOptionalDependency(
+					rv = RiceBeanFactory.missingOptionalDependency(
 							"Bean not found resolving dependency "
 									+ descriptor.getDependencyName() + " "
 									+ descriptor.getDependencyType(), e,
@@ -99,7 +99,7 @@ public class BaseAutowireCandidateResolver implements
 					throw e;
 			} catch (IllegalArgumentException e) {
 				if (optional)
-					rv = SpringResourceLoader.missingOptionalDependency(
+					rv = RiceBeanFactory.missingOptionalDependency(
 							"Illegal argument resolving dependency "
 									+ descriptor.getDependencyName() + " "
 									+ descriptor.getDependencyType(), e,
