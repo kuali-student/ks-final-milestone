@@ -88,7 +88,7 @@
                       p:id="is_co_located">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
-                            <property name="onChangeScript" value="setupColoCheckBoxChange(this)"/>
+                            <property name="onChangeScript" value="setupColoCheckBoxChange(this,true)"/>
                         </bean>
                     </property>
                 </bean>

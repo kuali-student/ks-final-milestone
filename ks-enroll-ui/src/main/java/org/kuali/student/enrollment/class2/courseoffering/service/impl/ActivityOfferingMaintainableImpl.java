@@ -112,7 +112,9 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
             saveColocatedAOs(activityOfferingWrapper);
 
-            getScheduleHelper().saveSchedules(activityOfferingWrapper);
+            if (activityOfferingWrapper.isSchedulesModified()){
+                getScheduleHelper().saveSchedules(activityOfferingWrapper);
+            }
 
             try {
                 ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), contextInfo);
@@ -121,16 +123,54 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 throw convertServiceExceptionsToUI(e);
             }
 
+            //All the details on the current AO saved successfully.. Now, update the max enrollment on the other AOs in the coloset if it's shared
+            if (activityOfferingWrapper.isMaxEnrollmentShared()){
+                try {
+                    for(ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()){
+                        if (activity.getActivityOfferingInfo() == null){
+                            activity.setActivityOfferingInfo(getCourseOfferingService().getActivityOffering(activity.getAoId(),createContextInfo()));
+                        }
+                    }
+
+                    for(ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()){
+                        activity.getActivityOfferingInfo().setMaximumEnrollment(activityOfferingWrapper.getSharedMaxEnrollment());
+                        ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(activity.getAoId(),activity.getActivityOfferingInfo(),createContextInfo());
+                        activity.setActivityOfferingInfo(updatedAO);
+                    }
+                } catch (Exception e) {
+                    throw convertServiceExceptionsToUI(e);
+                }
+            }
         }
     }
 
+    /**
+     *
+     * This method handles the logic around the colo saving.
+     *
+     * <p>If the AO is marked for colocation, following should be done
+     *      1.  If max enrollment is shared, update all the AOs in the colo set with the user entered seat details
+     *          We save the AOs later once all the save operation on the current AO is done successfully
+     *      2.  If max enrollment is maintained individually, just update the enrollment information on
+     *          the current AO only.
+     *      3. Create/Update Colo Set
+     *    If the AO is not marked for colocation and the colo set already exists, just delete the current AO
+     *    from the colo set
+     * </p>
+     *
+     * @param wrapper
+     */
     protected void saveColocatedAOs(ActivityOfferingWrapper wrapper){
 
         ColocatedOfferingSetInfo coloSet = wrapper.getColocatedOfferingSetInfo();
+        /**
+         * Set the effective date and expiration date if it's not already there
+         */
         if (coloSet.getEffectiveDate() == null){
             coloSet.setEffectiveDate(new Date());
             coloSet.setExpirationDate(DateUtils.addYears(new Date(),1));
         }
+
 
         if (wrapper.isColocatedAO()){
             coloSet.getActivityOfferingIds().clear();
@@ -145,12 +185,14 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 coloSet.setMaximumEnrollment(wrapper.getSharedMaxEnrollment());
                 wrapper.getAoInfo().setMaximumEnrollment(wrapper.getSharedMaxEnrollment());
             } else {
-                coloSet.setMaximumEnrollment(null);
+                int totalSeats = 0;
                 for (ColocatedActivity activity : wrapper.getEditRenderHelper().getManageSeperateEnrollmentList()){
                     if (activity.getEditRenderHelper().isAllowEnrollmentEdit()){
                         wrapper.getAoInfo().setMaximumEnrollment(activity.getMaxEnrollmentCount());
                     }
+                    totalSeats =+ activity.getMaxEnrollmentCount();
                 }
+                coloSet.setMaximumEnrollment(totalSeats);
             }
             try{
                 if (StringUtils.isNotBlank(coloSet.getId())){
@@ -184,15 +226,15 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         return getScheduleHelper().addScheduleRequestComponent(form);
     }
 
-    @Override
+    /*@Override
     public void prepareForScheduleRevise(ActivityOfferingWrapper wrapper) {
         getScheduleHelper().prepareForScheduleRevise(wrapper);
-    }
+    }*/
 
-    @Override
+   /* @Override
     public void processRevisedSchedules(ActivityOfferingWrapper activityOfferingWrapper) {
         getScheduleHelper().processRevisedSchedules(activityOfferingWrapper);
-    }
+    }*/
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
@@ -378,6 +420,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     coloAO.setActivityOfferingCode(dto.getActivityCode());
                     coloAO.setCourseOfferingCode(dto.getCourseOfferingCode());
                     coloAO.setColoSetInfo(colocatedOfferingSetInfo);
+                    coloAO.setActivityOfferingInfo(dto);
                     wrapper.getColocatedActivities().add(coloAO);
                     wrapper.getNewScheduleRequest().getColocatedAOs().add(coloAO.getEditRenderHelper().getCode());
                 }
@@ -532,6 +575,9 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 }
                 scheduleComponentWrapper.setRoomFeatures(resources.toString());
             }
+            MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
+            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+            activityOfferingWrapper.setSchedulesModified(true);
         } else if (addLine instanceof OfferingInstructorWrapper) {
             // set the person name if it's null, in the case of user-input personell id
             OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
@@ -638,6 +684,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 if (StringUtils.equalsIgnoreCase(ao.getActivityCode(),colo.getActivityOfferingCode())){
                     colo.setAoId(ao.getId());
                     colo.setMaxEnrollmentCount(ao.getMaximumEnrollment());
+                    colo.setActivityOfferingInfo(ao);
                     isAOMatchFound = true;
                 }
             }
@@ -769,15 +816,11 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     @Override
     public void processCollectionDeleteLine(View view, Object model, String collectionPath, int lineIndex) {
 
-        if (StringUtils.endsWith(collectionPath, "revisedScheduleRequestComponents")) {
+        if (StringUtils.endsWith(collectionPath, "requestedScheduleComponents")) {
             ActivityOfferingForm form = (ActivityOfferingForm) model;
-            if (form.isScheduleEditInProgress()) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Editing a schedule request in progress. Please update it first before processing");
-                return;
-            }
             ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
-            wrapper.setSchedulesRevised(true);
-            wrapper.getRevisedScheduleRequestComponents().remove(lineIndex);
+            wrapper.setSchedulesModified(true);
+            wrapper.getRequestedScheduleComponents().remove(lineIndex);
         } else if (StringUtils.endsWith(collectionPath, "colocatedActivities")) {
             ActivityOfferingForm form = (ActivityOfferingForm) model;
             ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();

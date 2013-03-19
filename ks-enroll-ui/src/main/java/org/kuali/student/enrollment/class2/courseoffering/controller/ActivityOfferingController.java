@@ -3,7 +3,6 @@ package org.kuali.student.enrollment.class2.courseoffering.controller;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -32,7 +31,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/activityOffering")
@@ -66,7 +64,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=reviseSchedule")
+    /*@RequestMapping(params = "methodToCall=reviseSchedule")
     public ModelAndView reviseSchedule(@ModelAttribute("KualiForm") ActivityOfferingForm form) throws Exception {
 
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
@@ -75,7 +73,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         form.setDeliveryLogisiticsAddButtonText("Add");
 
         return getUIFModelAndView(form,ActivityOfferingForm.SCHEDULE_PAGE);
-    }
+    }*/
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=editScheduleComponent")
     public ModelAndView editScheduleComponent(@ModelAttribute("KualiForm") ActivityOfferingForm form) throws Exception {
@@ -86,8 +84,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         ScheduleWrapper newSchedule = new ScheduleWrapper();
         newSchedule.copyForEditing(scheduleWrapper);
         activityOfferingWrapper.setNewScheduleRequest(newSchedule);
-        activityOfferingWrapper.getRevisedScheduleRequestComponents().remove(scheduleWrapper);
-        form.setDeliveryLogisiticsAddButtonText("Update Request");
+        activityOfferingWrapper.getRequestedScheduleComponents().remove(scheduleWrapper);
         form.setScheduleEditInProgress(true);
 
         return getUIFModelAndView(form);
@@ -107,16 +104,16 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
         boolean success = viewHelper.addScheduleRequestComponent(form);
 
-        if (form.isSchedulePage() && success){
-            form.setDeliveryLogisiticsAddButtonText("Add");
+        if (success){
+//            form.setDeliveryLogisiticsAddButtonText("Add");
             form.setScheduleEditInProgress(false);
-            activityOfferingWrapper.setSchedulesRevised(true);
+            activityOfferingWrapper.setSchedulesModified(true);
         }
         
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=saveRevisedSchedules")
+    /*@RequestMapping(params = "methodToCall=saveRevisedSchedules")
     public ModelAndView saveRevisedSchedules(@ModelAttribute("KualiForm") ActivityOfferingForm form) throws Exception {
 
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
@@ -159,7 +156,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
 
         activityOfferingWrapper.setNewScheduleRequest(new ScheduleWrapper());
         activityOfferingWrapper.getRevisedScheduleRequestComponents().clear();
-        activityOfferingWrapper.setSchedulesRevised(false);
+        activityOfferingWrapper.setSchedulesModified(false);
 
         GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Schedule has been successfully processed");
 
@@ -172,10 +169,10 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
         activityOfferingWrapper.getRevisedScheduleRequestComponents().clear();
-        activityOfferingWrapper.setSchedulesRevised(false);
+        activityOfferingWrapper.setSchedulesModified(false);
 
         return getUIFModelAndView(form,ActivityOfferingForm.MAIN_PAGE);
-    }
+    }*/
 
 
     @Override

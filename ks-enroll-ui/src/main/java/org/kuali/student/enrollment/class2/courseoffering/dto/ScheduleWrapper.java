@@ -102,14 +102,13 @@ public class ScheduleWrapper implements Serializable{
     }
 
     public ScheduleWrapper(ScheduleRequestComponentInfo scheduleRequestComponentInfo){
+        this();
         this.scheduleRequestComponentInfo = scheduleRequestComponentInfo;
-        this.colocatedAOs = new ArrayList<String>();
-        this.editRenderHelper = new EditRenderHelper();
     }
 
     public ScheduleWrapper(ScheduleComponentInfo scheduleComponentInfo){
+        this();
         this.scheduleComponentInfo = scheduleComponentInfo;
-        this.colocatedAOs = new ArrayList<String>();
     }
 
     public TimeSlotInfo getTimeSlot() {
@@ -311,6 +310,10 @@ public class ScheduleWrapper implements Serializable{
         }
 
         private String buildingName;
+
+        public boolean isShowColocateToolTip(){
+            return colocatedAOs != null && !colocatedAOs.isEmpty();
+        }
 
         public String getColocatedAOs(){
             if (colocatedAOs == null){

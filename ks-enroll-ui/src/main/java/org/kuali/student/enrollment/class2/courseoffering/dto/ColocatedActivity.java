@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 
 import java.io.Serializable;
@@ -35,6 +36,7 @@ public class ColocatedActivity implements Serializable {
     private int maxEnrollmentCount;
 
     private ColocatedOfferingSetInfo coloSetInfo;
+    private ActivityOfferingInfo activityOfferingInfo;
 
     private EditRenderHelper editRenderHelper;
 
@@ -106,6 +108,14 @@ public class ColocatedActivity implements Serializable {
 
     public void setColoSetInfo(ColocatedOfferingSetInfo coloSetInfo) {
         this.coloSetInfo = coloSetInfo;
+    }
+
+    public ActivityOfferingInfo getActivityOfferingInfo() {
+        return activityOfferingInfo;
+    }
+
+    public void setActivityOfferingInfo(ActivityOfferingInfo activityOfferingInfo) {
+        this.activityOfferingInfo = activityOfferingInfo;
     }
 
     /**

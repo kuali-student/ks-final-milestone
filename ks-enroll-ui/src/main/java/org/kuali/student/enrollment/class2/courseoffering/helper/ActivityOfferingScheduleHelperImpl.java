@@ -86,7 +86,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
     protected static final String TIME_FORMAT_STRING = "hh:mm a";
 
     public void saveSchedules(ActivityOfferingWrapper wrapper){
-        /*if (wrapper.isSchedulesRevised()){
+        /*if (wrapper.isSchedulesModified()){
             processRevisedSchedules(wrapper);
         } else {
             //If Schedule Actuals available but not revised, skip processing schedule request
@@ -94,7 +94,12 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                 createOrUpdateScheduleRequests(wrapper);
             }
         }*/
-        createOrUpdateScheduleRequests(wrapper);
+        if (StringUtils.isNotBlank(wrapper.getAoInfo().getScheduleId())){
+            processRevisedSchedules(wrapper);
+        } else {
+            createOrUpdateScheduleRequests(wrapper);
+        }
+
     }
 
     public void loadSchedules(ActivityOfferingWrapper wrapper){
@@ -183,11 +188,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             scheduleWrapper.setEndTimeUI(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM());
         }
 
-        if (form.isMainPage()){
-            activityOfferingWrapper.getRequestedScheduleComponents().add(scheduleWrapper);
-        } else {
-            activityOfferingWrapper.getRevisedScheduleRequestComponents().add(scheduleWrapper);
-        }
+        activityOfferingWrapper.getRequestedScheduleComponents().add(scheduleWrapper);
 
         ScheduleWrapper newScheduleWrapper = new ScheduleWrapper();
         for (ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()) {
@@ -322,13 +323,13 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         GlobalVariables.getMessageMap().putError(input.getBeanId(), RiceKeyConstants.ERROR_CUSTOM, message);
     }
 
-    public void prepareForScheduleRevise(ActivityOfferingWrapper wrapper){
+    /*public void prepareForScheduleRevise(ActivityOfferingWrapper wrapper){
          wrapper.getRevisedScheduleRequestComponents().clear();
         for (ScheduleWrapper scheduleWrapper : wrapper.getRequestedScheduleComponents()) {
             ScheduleWrapper forRevise = new ScheduleWrapper(scheduleWrapper);
             wrapper.getRevisedScheduleRequestComponents().add(forRevise);
         }
-    }
+    }*/
 
     protected boolean deleteScheduleRequest(ActivityOfferingWrapper wrapper){
         StatusInfo statusInfo;
@@ -411,7 +412,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
     private ScheduleRequestComponentInfo buildScheduleComponentRequest(ScheduleWrapper scheduleWrapper){
 
         ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
-        componentInfo.setId(UUIDHelper.genStringUUID());
+//        componentInfo.setId(UUIDHelper.genStringUUID());
         componentInfo.setIsTBA(scheduleWrapper.isTba());
 
         if(scheduleWrapper.getRoom() != null) {
@@ -696,6 +697,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                     scheduleWrapper.setBuildingCode(buildingInfo.getBuildingCode());
                 }
 
+                loadColocatedAOs(wrapper,scheduleWrapper);
                 wrapper.getActualScheduleComponents().add(scheduleWrapper);
             }
 

@@ -67,7 +67,7 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private List<ScheduleWrapper> actualScheduleComponents;
     private List<ScheduleWrapper> requestedScheduleComponents;
-    private List<ScheduleWrapper> revisedScheduleRequestComponents;
+//    private List<ScheduleWrapper> revisedScheduleRequestComponents;
     private ScheduleWrapper newScheduleRequest;
 
     private ScheduleRequestInfo scheduleRequestInfo;
@@ -82,7 +82,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private String tbaDisplayName = "";
     private String colocatedAoInfo = "";
 
-    private boolean schedulesRevised;
+    private boolean schedulesModified;
 
     private String adminOrg;
 
@@ -121,7 +121,7 @@ public class ActivityOfferingWrapper implements Serializable{
         this.setIsChecked(false);
         actualScheduleComponents = new ArrayList<ScheduleWrapper>();
         requestedScheduleComponents = new ArrayList<ScheduleWrapper>();
-        revisedScheduleRequestComponents = new ArrayList<ScheduleWrapper>();
+//        revisedScheduleRequestComponents = new ArrayList<ScheduleWrapper>();
         newScheduleRequest = new ScheduleWrapper();
         colocatedActivities = new ArrayList<ColocatedActivity>();
         maxEnrollmentShared = true;
@@ -697,7 +697,7 @@ public class ActivityOfferingWrapper implements Serializable{
         this.typeKey = typeKey;
     }
 
-    public List<ScheduleWrapper> getRevisedScheduleRequestComponents() {
+    /*public List<ScheduleWrapper> getRevisedScheduleRequestComponents() {
         if (revisedScheduleRequestComponents == null){
             revisedScheduleRequestComponents = new ArrayList<ScheduleWrapper>();
         }
@@ -706,14 +706,14 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setRevisedScheduleRequestComponents(List<ScheduleWrapper> revisedScheduleRequestComponents) {
         this.revisedScheduleRequestComponents = revisedScheduleRequestComponents;
+    }*/
+
+    public boolean isSchedulesModified() {
+       return schedulesModified;
     }
 
-    public boolean isSchedulesRevised() {
-       return schedulesRevised;
-    }
-
-    public void setSchedulesRevised(boolean schedulesRevised) {
-       this.schedulesRevised = schedulesRevised;
+    public void setSchedulesModified(boolean schedulesModified) {
+       this.schedulesModified = schedulesModified;
     }
 
     public SocInfo getSocInfo() {

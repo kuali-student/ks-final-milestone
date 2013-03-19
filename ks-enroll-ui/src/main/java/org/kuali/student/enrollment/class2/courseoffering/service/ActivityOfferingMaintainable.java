@@ -8,7 +8,7 @@ public interface ActivityOfferingMaintainable extends KSMaintainable{
 
     public boolean addScheduleRequestComponent(ActivityOfferingForm form);
 
-    public void prepareForScheduleRevise(ActivityOfferingWrapper wrapper);
+//    public void prepareForScheduleRevise(ActivityOfferingWrapper wrapper);
 
-    public void processRevisedSchedules(ActivityOfferingWrapper activityOfferingWrapper);
+//    public void processRevisedSchedules(ActivityOfferingWrapper activityOfferingWrapper);
 }

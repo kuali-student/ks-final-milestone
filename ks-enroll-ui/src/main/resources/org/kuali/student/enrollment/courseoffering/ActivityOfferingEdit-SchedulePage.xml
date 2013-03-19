@@ -20,7 +20,7 @@
      limitations under the License.
     -->
 
-    <bean id="ActivityOfferingEdit-SchedulePage" parent="Uif-Page" p:id="ActivityOfferingEdit-SchedulePage">
+    <!--<bean id="ActivityOfferingEdit-SchedulePage" parent="Uif-Page" p:id="ActivityOfferingEdit-SchedulePage">
         <property name="items">
             <list>
                 <ref bean="ActivityOffering-DeliveryLogistic-SchedulePage-Actuals"/>
@@ -57,15 +57,16 @@
                 <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete"/>
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="ActivityOffering-DeliveryLogistic-Actuals" parent="Uif-TableCollectionSection"
             p:headerText="Actual Delivery Logistics"
             p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper"
             p:propertyName="actualScheduleComponents"
             p:readOnly="true"
+            p:render="@{!#dp.actualScheduleComponents.isEmpty()}"
             p:layoutManager.renderSequenceField="false">
-        <property name="header.lowerGroup">
+        <!--<property name="header.lowerGroup">
             <bean id="reviseSchedule" parent="Uif-HorizontalBoxGroup" p:componentSecurity.viewAuthz="true">
                 <property name="render" value="@{scheduleCompleted and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                 <property name="items">
@@ -74,7 +75,7 @@
                     </list>
                 </property>
             </bean>
-        </property>
+        </property>-->
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
@@ -84,35 +85,42 @@
                 <bean parent="Uif-DataField" p:label="End Time" p:propertyName="endTimeUI"/>
                 <bean parent="Uif-DataField" p:label="Facility" p:propertyName="buildingName"/>
                 <bean parent="Uif-DataField" p:label="Room" p:propertyName="roomCode"/>
+                <bean parent="Uif-ImageField" p:label="Options" p:hidden="@{!#lp.editRenderHelper.isShowColocateToolTip()}" p:image.altText="@{#lp.editRenderHelper.colocatedAOs}"
+                    p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
+                    <property name="toolTip">
+                       <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.editRenderHelper.colocatedAOs}"/>
+                    </property>
+                </bean>
                 <!--<bean parent="Uif-InputField" p:label="Capacity" p:propertyName="roomCapacity" p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"/>
                     </property>
                 </bean>-->
-                <bean parent="Uif-MessageField" p:messageText="F" p:label="Features">
+                <!--<bean parent="Uif-MessageField" p:messageText="F" p:label="Features">
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="N/A"/>
                       </property>
-                </bean>
+                </bean>-->
             </list>
         </property>
-        <property name="propertyReplacers">
+        <!--<property name="propertyReplacers">
               <list>
                 <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="headerText"
                       p:condition="@{!scheduleCompleted}" p:replacement="Actual Delivery Logistics (Unassigned)"/>
               </list>
-         </property>
+         </property>-->
     </bean>
 
     <bean id="ActivityOffering-DeliveryLogistic-Requested" parent="Uif-TableCollectionSection" p:forceSessionPersistence="true"
             p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper"
             p:propertyName="requestedScheduleComponents"
-            p:render="@{!scheduleCompleted}"
             p:renderAddLine="false"
             p:layoutManager.renderSequenceField="false"
             p:componentSecurity.editAuthz="true">
         <property name="headerText" value="Requested Delivery Logistics"/>
         <property name="layoutManager.richTable.render" value="false" />
+        <property name="disclosure.render" value="@{scheduleCompleted}"/>
+        <property name="disclosure.defaultOpen" value="false"/>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:label="TBA" p:propertyName="tbaUI"/>
@@ -121,7 +129,7 @@
                 <bean parent="Uif-DataField" p:label="End Time" p:propertyName="endTimeUI"/>
                 <bean parent="Uif-DataField" p:label="Facility" p:propertyName="buildingName"/>
                 <bean parent="Uif-DataField" p:label="Room" p:propertyName="roomName"/>
-                <bean parent="Uif-ImageField" p:label="Options" p:hidden="@{#lp.colocatedAOs == null or #lp.colocatedAOs.isEmpty()}" p:image.altText="@{#lp.editRenderHelper.colocatedAOs}"
+                <bean parent="Uif-ImageField" p:label="Options" p:hidden="@{!#lp.editRenderHelper.isShowColocateToolTip()}" p:image.altText="@{#lp.editRenderHelper.colocatedAOs}"
                     p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
                     <property name="toolTip">
                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.editRenderHelper.colocatedAOs}"/>
@@ -131,13 +139,17 @@
         </property>
         <property name="lineActions">
               <list>
-                <bean parent="Uif-DeleteLineAction" p:successCallback="deleteRDLCallBack();"/>
+                  <bean parent="Uif-NavigationActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:render="@{scheduleCompleted}"/>
+                  <bean parent="Uif-DeleteLineAction" p:successCallback="deleteRDLCallBack();"/>
               </list>
         </property>
     </bean>
 
-    <bean id="ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection" p:style="background-color:#f3f3f3; padding-top:4px; padding-left:4px; padding-bottom:4px; border: 1px solid black;" p:render="@{!scheduleCompleted}" p:componentSecurity.viewAuthz="true">
-        <property name="headerText" value="Submit New Request"/>
+    <bean id="ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection" p:style="background-color:#f3f3f3; padding-top:4px; padding-left:4px; padding-bottom:4px; border: 1px solid black;" p:componentSecurity.viewAuthz="true">
+        <property name="headerText" value="Add New Delivery Logistics"/>
+        <property name="header">
+          <bean parent="Uif-HeaderFour"/>
+        </property>
         <property name="items">
             <list>
                 <ref bean="ActivityOffering-DeliveryLogistic-New-Section"/>
@@ -153,7 +165,7 @@
                     </property>
                 </bean>
                 <ref bean="ActivityOffering-DeliveryLogistic-New-Features-Section"/>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="@{deliveryLogisiticsAddButtonText}" p:methodToCall="addScheduleComponent" p:successCallback="addScheduleCallBack();"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Add" p:methodToCall="addScheduleComponent" p:successCallback="addScheduleCallBack();"/>
             </list>
         </property>
     </bean>
