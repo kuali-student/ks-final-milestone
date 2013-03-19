@@ -49,6 +49,7 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.uif.util.GrowlIcon;
 import org.kuali.student.enrollment.uif.util.KSUifUtils;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.springframework.validation.BindingResult;
@@ -315,69 +316,86 @@ public class ARGActivityOfferingClusterHandler {
         */
     }
 
-    public static void createNewCluster(ARGCourseOfferingManagementForm theForm) throws Exception {
-//TODO: Fix forms and references as they get developed
- /*       String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
-        if (ARGUtil._isClusterUnique(formatOfferingId, theForm.getPrivateClusterName())){
+    public static ARGCourseOfferingManagementForm createNewCluster(ARGCourseOfferingManagementForm theForm) throws Exception {
+
+       String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
+        if (ARGUtil._isClusterUnique(formatOfferingId, theForm.getPrivateClusterNamePopover())){
             //build a new empty cluster
             ActivityOfferingClusterInfo emptyCluster = ARGUtil._buildEmptyAOCluster(formatOfferingId,
-                    theForm.getPrivateClusterName(), theForm.getPrivateClusterName());
+                    theForm.getPrivateClusterNamePopover(), theForm.getPrivateClusterNamePopover());
 
             //persist it in DB , comment out for now since it does not work for now
             emptyCluster = ARGUtil.getCourseOfferingService().createActivityOfferingCluster(formatOfferingId,
                     emptyCluster.getTypeKey(), emptyCluster, ContextUtils.createDefaultContextInfo());
 
-            List<ActivityOfferingClusterWrapper> aoClusterWrapperList = theForm.getFilteredAOClusterWrapperList();
+            List<ActivityOfferingClusterWrapper> aoClusterWrapperList = theForm.getClusterResultList();
             ActivityOfferingClusterWrapper aoClusterWrapper = new ActivityOfferingClusterWrapper();
             aoClusterWrapper.setActivityOfferingClusterId(emptyCluster.getId());
             aoClusterWrapper.setAoCluster(emptyCluster);
             aoClusterWrapper.setClusterNameForDisplay("Forget to set cluster?");
 
             aoClusterWrapperList.add(aoClusterWrapper);
-            theForm.setFilteredAOClusterWrapperList(aoClusterWrapperList);
-            theForm.setHasAOCluster(true);
-            theForm.setPrivateClusterName("");
-            theForm.setPublishedClusterName("");
-            theForm.setClusterIdIdForNewFO(emptyCluster.getId());
+            theForm.setClusterResultList(aoClusterWrapperList);
+            theForm.setPrivateClusterNamePopover("");
+            theForm.setPublishedClusterNamePopover("");
         }else{
             GlobalVariables.getMessageMap().putError("privateClusterName", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME);
         }
-        */
-    }
-    /*
-    public ModelAndView moveAOToACluster (ARGCourseOfferingManagementForm theForm) throws Exception {
-           //TODO: Fix forms and references as they get developed
-            //get selected AOC info
-            if (theForm.getClusterIdIdForNewFO().equals("")){
-                GlobalVariables.getMessageMap().putError("AOCselectionError", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_SELECTION);
-                return getUIFModelAndView(theForm);
-            }
-            ActivityOfferingClusterInfo selectedAOCInfo = getCourseOfferingService().getActivityOfferingCluster(theForm.getClusterIdIdForNewFO(),ContextUtils.createDefaultContextInfo());
 
-            //get FOs and add them to the selected AOC
-            List<ActivityOfferingWrapper> aoWrapperList = theForm.getFilteredUnassignedAOsForSelectedFO();
-            boolean aoChecked = false; //at least one AO must be checked
-            for (ActivityOfferingWrapper aoWrapper : aoWrapperList) {
-                if (aoWrapper.getIsChecked()) {
-                    aoChecked = true;
-                    //add to appropriate aosIds
-                    for ( int i=0; i < selectedAOCInfo.getActivityOfferingSets().size(); i++) {
-                        if ( selectedAOCInfo.getActivityOfferingSets().get(i).getActivityOfferingType().equals(aoWrapper.getAoInfo().getTypeKey()) ) {  //add aoId
-                            selectedAOCInfo.getActivityOfferingSets().get(i).getActivityOfferingIds().add(aoWrapper.getAoInfo().getId());
-                            break;
-                        }
+        return theForm;
+    }
+
+    public static ARGCourseOfferingManagementForm moveAOToACluster (ARGCourseOfferingManagementForm theForm) throws Exception {
+
+        ContextInfo context = ContextUtils.createDefaultContextInfo();
+
+        //get selected AOC info
+        if (theForm.getClusterIdForAOMove().equals("")){
+            GlobalVariables.getMessageMap().putError("AOCselectionError", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_SELECTION);
+            return theForm;
+        }
+        ActivityOfferingClusterInfo selectedToAOCInfo = getCourseOfferingService().getActivityOfferingCluster(theForm.getClusterIdForAOMove(),context);
+
+        //get FOs and add them to the selected AOC
+        List<ActivityOfferingWrapper> aoWrapperList = theForm.getActivityWrapperList();
+        List<ActivityOfferingWrapper> selectedFromAoWrapperList = new ArrayList<ActivityOfferingWrapper>();
+        boolean aoChecked = false; //at least one AO must be checked
+        for (ActivityOfferingWrapper aoWrapper : aoWrapperList) {
+            if (aoWrapper.getIsChecked()) {
+                aoChecked = true;
+                //remove selected AOIDs from AOCFROM list AOCSET(s)
+                ActivityOfferingClusterInfo selectedFromAOCInfo = getCourseOfferingService().getActivityOfferingCluster(aoWrapper.getAoClusterID(),context);
+                for ( int i=0; i < selectedFromAOCInfo.getActivityOfferingSets().size(); i++) {
+                    if (selectedFromAOCInfo.getActivityOfferingSets().get(i).getActivityOfferingIds().contains(aoWrapper.getAoInfo().getId())) {
+                        selectedFromAOCInfo.getActivityOfferingSets().get(i).getActivityOfferingIds().remove(aoWrapper.getAoInfo().getId());
+                    }
+                }
+                //add to stored list for updates
+                selectedFromAoWrapperList.add(aoWrapper);
+                //persist selectedFrom
+                ActivityOfferingClusterInfo updatedSelectedAOCInfoFrom = getCourseOfferingService().updateActivityOfferingCluster(selectedFromAOCInfo.getFormatOfferingId(),
+                                    selectedFromAOCInfo.getId(), selectedFromAOCInfo, context);
+
+                //add selected AOIDs to AOCTO > AOCSET
+                for ( int i=0; i < selectedToAOCInfo.getActivityOfferingSets().size(); i++) {
+                    if ( selectedToAOCInfo.getActivityOfferingSets().get(i).getActivityOfferingType().equals(aoWrapper.getAoInfo().getTypeKey()) ) {  //add aoId
+                        selectedToAOCInfo.getActivityOfferingSets().get(i).getActivityOfferingIds().add(aoWrapper.getAoInfo().getId());
+                        break;
                     }
                 }
             }
-            if (!aoChecked) {
-                GlobalVariables.getMessageMap().putError("AOCselectionError", RegistrationGroupConstants.MSG_ERROR_INVALID_AO_SELECTION);
-                return getUIFModelAndView(theForm);
-            }
+        }
+        if (!aoChecked) {
+            GlobalVariables.getMessageMap().putError("AOCselectionError", RegistrationGroupConstants.MSG_ERROR_INVALID_AO_SELECTION);
+            return theForm;
+        }
 
-            //persist selected AOC
-            ActivityOfferingClusterInfo updatedSelectedAOCInfo = getCourseOfferingService().updateActivityOfferingCluster(theForm.getFormatOfferingIdForViewRG(),
-                    theForm.getClusterIdIdForNewFO(),
-                    selectedAOCInfo, ContextUtils.createDefaultContextInfo());
+        //persist AOC AO(s) were selected to move TO
+        ActivityOfferingClusterInfo updatedSelectedToAOCInfo = getCourseOfferingService().updateActivityOfferingCluster(selectedToAOCInfo.getFormatOfferingId(),
+                selectedToAOCInfo.getId(), selectedToAOCInfo, context);
+
+
+/*
             //update AO list without cluster
             List<ActivityOfferingWrapper> filteredAOs = getAOsWithoutClusterForSelectedFO(updatedSelectedAOCInfo.getFormatOfferingId(), theForm);
 
@@ -436,12 +454,12 @@ public class ARGActivityOfferingClusterHandler {
                     _performRGTimeConflictValidation(theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster(), rgInfos, i);
                 }
             }
-
-            theForm.setClusterIdIdForNewFO("");
+*/
+            theForm.setClusterIdForAOMove("");
             //return updated form
-        return getUIFModelAndView(theForm);
+        return theForm;
 
-    }    */
+    }
 
     public static void removeAOFromCluster(ARGCourseOfferingManagementForm theForm) throws Exception {
 /*        ActivityOfferingWrapper selectedAOWrapper =(ActivityOfferingWrapper)ARGUtil.getSelectedObject(theForm, "Remove");
@@ -640,7 +658,7 @@ public class ARGActivityOfferingClusterHandler {
         }
     }
     */
-    public CourseOfferingService getCourseOfferingService() {
+    public static CourseOfferingService getCourseOfferingService() {
         return CourseOfferingResourceLoader.loadCourseOfferingService();
     }
 

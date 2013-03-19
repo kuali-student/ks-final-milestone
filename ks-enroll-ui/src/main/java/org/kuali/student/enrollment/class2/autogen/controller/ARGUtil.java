@@ -222,11 +222,13 @@ public class ARGUtil {
                 for(ActivityOfferingSetInfo aosInfo : clusterInfos.get(j).getActivityOfferingSets()){
                     if (aosInfo.getActivityOfferingIds().contains(aoId)) {   //add aocWrapper to aoWrapper
                         form.getActivityWrapperList().get(i).setAoClusterName(clusterInfos.get(j).getName());
+                        form.getActivityWrapperList().get(i).setAoClusterID(clusterInfos.get(j).getId());
                         //Should you need to load AOCs - uncomment
                         //form.getActivityWrapperList().get(i).setAoCluster(clusterInfos.get(j));
                     }
                 }
             }
+            form .setFormatOfferingIds(foIds);
             form.setAoCount(i+1);
         }
 

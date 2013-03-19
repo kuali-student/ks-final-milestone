@@ -29,6 +29,7 @@ public class ActivityOfferingWrapper implements Serializable{
     //added for ARG
     private ActivityOfferingClusterInfo aoCluster;
     private String aoClusterName;
+    private String aoClusterID;
 
     private ActivityOfferingInfo aoInfo;
     private FormatOfferingInfo formatOffering;
@@ -149,6 +150,14 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setAoClusterName(String aoClusterName) {
         this.aoClusterName = aoClusterName;
+    }
+
+    public String getAoClusterID() {
+        return aoClusterID;
+    }
+
+    public void setAoClusterID(String aoClusterID) {
+        this.aoClusterID = aoClusterID;
     }
 
     public boolean isEnableApproveButton() {

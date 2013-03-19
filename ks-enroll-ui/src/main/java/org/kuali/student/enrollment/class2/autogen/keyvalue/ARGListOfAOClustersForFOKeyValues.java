@@ -48,12 +48,14 @@ public class ARGListOfAOClustersForFOKeyValues extends UifKeyValuesFinderBase im
         ARGCourseOfferingManagementForm rgForm = (ARGCourseOfferingManagementForm) model;
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        List<ActivityOfferingClusterInfo> clusterInfos = new ArrayList<ActivityOfferingClusterInfo>();
         keyValues.add(new ConcreteKeyValue("", "Select activity offering cluster..."));
-        String formatOfferingId = rgForm.getFormatOfferingIdForViewRG();
 
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-            List<ActivityOfferingClusterInfo> clusterInfos = getCourseOfferingService().getActivityOfferingClustersByFormatOffering(formatOfferingId, contextInfo);
+            for (String formatOfferingId : rgForm.getFormatOfferingIds()) {
+                clusterInfos = getCourseOfferingService().getActivityOfferingClustersByFormatOffering(formatOfferingId, contextInfo);
+            }
             for (ActivityOfferingClusterInfo clusterInfo : clusterInfos) {
                 keyValues.add(new ConcreteKeyValue(clusterInfo.getId(), clusterInfo.getPrivateName()));
             }

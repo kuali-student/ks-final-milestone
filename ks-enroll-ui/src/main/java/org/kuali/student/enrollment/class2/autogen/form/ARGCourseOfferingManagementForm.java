@@ -145,10 +145,11 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     private Date termClassStartDate;
 
     //for manage AOs, Clusters, and RGs under a CO
-    private String privateClusterNameForLightBox;
-    private String publishedClusterNameForLightBox;
+    private String privateClusterNamePopover;
+    private String publishedClusterNamePopover;
     private String formatOfferingIdForViewRG;
     private String formatOfferingName;
+    private List<String> formatOfferingIds;
     private String clusterIdForAOMove;
     private int aoCount=0;
 
@@ -465,20 +466,20 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
         this.termClassStartDate = termClassStartDate;
     }
 
-    public String getPrivateClusterNameForLightBox() {
-        return privateClusterNameForLightBox;
+    public String getPrivateClusterNamePopover() {
+        return privateClusterNamePopover;
     }
 
-    public void setPrivateClusterNameForLightBox(String privateClusterNameForLightBox) {
-        this.privateClusterNameForLightBox = privateClusterNameForLightBox;
+    public void setPrivateClusterNamePopover(String privateClusterNamePopover) {
+        this.privateClusterNamePopover = privateClusterNamePopover;
     }
 
-    public String getPublishedClusterNameForLightBox() {
-        return publishedClusterNameForLightBox;
+    public String getPublishedClusterNamePopover() {
+        return publishedClusterNamePopover;
     }
 
-    public void setPublishedClusterNameForLightBox(String publishedClusterNameForLightBox) {
-        this.publishedClusterNameForLightBox = publishedClusterNameForLightBox;
+    public void setPublishedClusterNamePopover(String publishedClusterNamePopover) {
+        this.publishedClusterNamePopover = publishedClusterNamePopover;
     }
 
     public String getFormatOfferingIdForViewRG() {
@@ -497,6 +498,14 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
         this.formatOfferingName = formatOfferingName;
     }
 
+    public List<String> getFormatOfferingIds() {
+        return formatOfferingIds;
+    }
+
+    public void setFormatOfferingIds(List<String> formatOfferingIds) {
+        this.formatOfferingIds = formatOfferingIds;
+    }
+    
     public String getClusterIdForAOMove() {
         return clusterIdForAOMove;
     }
