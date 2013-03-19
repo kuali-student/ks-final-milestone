@@ -19,7 +19,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ARG-ActivityOfferingListSection" parent="Uif-TableCollectionSection"
-          p:layoutManager.numberOfColumns="3"  p:readOnly="@{#parent.readOnly}" p:renderAddLine="false" p:onDocumentReadyScript="removeColumns(@{#parent.readOnly}, [1], 'KS-CourseOfferingManagement-ActivityOfferingListSection'); ksAddRowSelectionCheckbox('KS-CourseOfferingManagement-ARG-ActivityOfferingListSection',false,'');">
+          p:layoutManager.numberOfColumns="3"  p:readOnly="@{#parent.readOnly}" p:renderAddLine="false" p:onDocumentReadyScript="removeColumns(@{#parent.readOnly}, [1], 'KS-CourseOfferingManagement-ActivityOfferingListSection'); ksAddRowSelectionCheckbox(false, 'KS-CourseOfferingManagement-ARG-ActivityOfferingListSection',false,'');">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="activityWrapperList" />
         <property name="headerText" value="Activities (@{aoCount})" />
