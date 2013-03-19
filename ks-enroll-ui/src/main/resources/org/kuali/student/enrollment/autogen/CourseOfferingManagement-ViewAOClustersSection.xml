@@ -47,6 +47,9 @@
                 <bean parent="Uif-Label" p:labelText="@{#line.clusterNameForDisplay}" p:renderColon="false" />
                 <bean parent="Uif-Label" p:labelText="&#160;&#160;|&#160;&#160;" p:renderColon="false" />
                 <bean parent="Uif-Label" p:labelText="@{#line.formatNameForDisplay}"  p:renderColon="false" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="removeAOFromCluster" p:actionLabel="Rename" p:style="float:right"/>
+                <bean parent="Uif-Label" p:labelText="&#160;&#160;|&#160;&#160;" p:renderColon="false" p:style="float:right"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="removeAOFromCluster" p:actionLabel="Delete" p:style="float:right"/>
             </list>
         </property>
     </bean>
@@ -132,7 +135,7 @@
         <property name="lineActions">
             <list>
                 <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="moveAActivityOffering" p:actionLabel="Move"/>-->
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="removeAOFromCluster" p:actionLabel="Remove"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="removeAOFromCluster" p:actionLabel="Edit"/>
             </list>
         </property>
     </bean>
