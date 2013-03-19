@@ -6495,6 +6495,8 @@
         <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column default="0" name="IS_INITIAL_STATE" required="true"
+            size="1" type="DECIMAL"/>
         <foreign-key foreignTable="KSEN_STATE_LIFECYCLE" name="KSEN_STATE_FK1">
             <reference foreign="ID" local="LIFECYCLE_KEY"/>
         </foreign-key>
