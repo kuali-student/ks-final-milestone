@@ -105,6 +105,11 @@ public enum LuiPersonRelationStateEnum implements State, Serializable {
     }
 
     @Override
+    public Boolean getIsInitialState() {
+        return Boolean.FALSE;
+    }
+
+    @Override
     public String getName() {
         return this.name;
     }
