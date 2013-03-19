@@ -18,6 +18,7 @@ import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.KRADServiceLocatorInternal;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.ksb.service.KSBServiceLocator;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.SmartApplicationListener;
@@ -140,33 +141,28 @@ public class KRADConfigurer extends AbstractKsapModuleConfigurer implements
 			long delay = getComponentPublishingDelay();
 			LOG.info("Publishing of Data Dictionary components is enabled, scheduling publish after "
 					+ delay + " millisecond delay");
-			ScheduledExecutorService scheduler = Executors
-					.newScheduledThreadPool(1);
-			try {
-				scheduler.schedule(new Runnable() {
-					@Override
-					public void run() {
-						long start = System.currentTimeMillis();
-						LOG.info("Executing scheduled Data Dictionary component publishing...");
-						try {
-							KRADServiceLocatorInternal
-									.getDataDictionaryComponentPublisherService()
-									.publishAllComponents();
-						} catch (RuntimeException e) {
-							LOG.error(
-									"Failed to publish data dictionary components.",
-									e);
-							throw e;
-						} finally {
-							long end = System.currentTimeMillis();
-							LOG.info("... finished scheduled execution of Data Dictionary component publishing.  Took "
-									+ (end - start) + " milliseconds");
+			KSBServiceLocator.getScheduledPool().scheduleAtFixedRate(
+					new Runnable() {
+						@Override
+						public void run() {
+							long start = System.currentTimeMillis();
+							LOG.info("Executing scheduled Data Dictionary component publishing...");
+							try {
+								KRADServiceLocatorInternal
+										.getDataDictionaryComponentPublisherService()
+										.publishAllComponents();
+							} catch (RuntimeException e) {
+								LOG.error(
+										"Failed to publish data dictionary components.",
+										e);
+								throw e;
+							} finally {
+								long end = System.currentTimeMillis();
+								LOG.info("... finished scheduled execution of Data Dictionary component publishing.  Took "
+										+ (end - start) + " milliseconds");
+							}
 						}
-					}
-				}, delay, TimeUnit.MILLISECONDS);
-			} finally {
-				scheduler.shutdown();
-			}
+					}, delay, delay, TimeUnit.MILLISECONDS);
 		}
 	}
 
