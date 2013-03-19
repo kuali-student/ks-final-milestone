@@ -123,13 +123,15 @@
         		<groupId>org.kuali.rice</groupId>
         		<artifactId>rice-impl</artifactId>
         		<version>${kuali.rice.version}</version>
-						<scope>test</scope>
+	            <!-- KSAP-26: Uncomment after moving auto-wiring to rice-impl
+					<scope>test</scope>
+    	         -->
        	</dependency>
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc14</artifactId>
             <version>${oracle.ojdbc.version}</version>
-						<scope>test</scope>
+			<scope>test</scope>
        	</dependency>
         <dependency>
             <groupId>log4j</groupId>
