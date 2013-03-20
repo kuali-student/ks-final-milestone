@@ -230,6 +230,29 @@ public class TestStateServiceMockImpl {
         }
     }
 
+    @Test
+    public void testGetInitialStatesByLifecycle() throws Exception {
+
+        // create a life-cycle with 3 states, 2 being initial-states (this is the one we are testing for)
+        LifecycleInfo lifecycle_1 = addLifecycle( "lifecycle-1" );
+        addState( lifecycle_1, "l1_state_1_initial" );
+        addState( lifecycle_1, "l1_state_2_initial" );
+        addState( lifecycle_1, "l1_state_3" );
+        this.stateService.addInitialStateToLifecycle( "l1_state_1_initial", "lifecycle-1", callContext );
+        this.stateService.addInitialStateToLifecycle( "l1_state_2_initial", "lifecycle-1", callContext );
+
+        // create life-cycle 2 with 1 initial-state (this is the one we don't want to get back from our test-call)
+        LifecycleInfo lifecycle_2 = addLifecycle( "lifecycle-2" );
+        addState( lifecycle_2, "l2_state_1_initial" );
+        this.stateService.addInitialStateToLifecycle("l2_state_1_initial", "lifecycle-2", callContext);
+
+        // validate
+        List<String> initialStatesForLifecycle1 = stateService.getInitialStatesByLifecycle( lifecycle_1.getKey(), callContext );
+        assertEquals( 2, initialStatesForLifecycle1.size() );
+        assertTrue(initialStatesForLifecycle1.contains("l1_state_1_initial"));
+        assertTrue(initialStatesForLifecycle1.contains("l1_state_2_initial"));
+    }
+
     private LifecycleInfo addLifecycle( String name ) throws Exception {
 
         LifecycleInfo origLife = new LifecycleInfo();
@@ -267,29 +290,6 @@ public class TestStateServiceMockImpl {
         attr.setValue("attribute value");
         orig.getAttributes().add(attr);
         return stateService.createState(orig.getLifecycleKey(), orig.getKey(), orig, callContext);
-    }
-
-    @Test
-    public void testGetInitialStatesByLifecycle() throws Exception {
-
-        // create a life-cycle with 3 states, 2 being initial-states (this is the one we are testing for)
-        LifecycleInfo lifecycle_1 = addLifecycle( "lifecycle-1" );
-        addState( lifecycle_1, "l1_state_1_initial" );
-        addState( lifecycle_1, "l1_state_2_initial" );
-        addState( lifecycle_1, "l1_state_3" );
-        this.stateService.addInitialStateToLifecycle( "l1_state_1_initial", "lifecycle-1", callContext );
-        this.stateService.addInitialStateToLifecycle( "l1_state_2_initial", "lifecycle-1", callContext );
-
-        // create life-cycle 2 with 1 initial-state (this is the one we don't want to get back from our test-call)
-        LifecycleInfo lifecycle_2 = addLifecycle( "lifecycle-2" );
-        addState( lifecycle_2, "l2_state_1_initial" );
-        this.stateService.addInitialStateToLifecycle("l2_state_1_initial", "lifecycle-2", callContext);
-
-        // validate
-        List<String> initialStatesForLifecycle1 = stateService.getInitialStatesByLifecycle( lifecycle_1.getKey(), callContext );
-        assertEquals( 2, initialStatesForLifecycle1.size() );
-        assertTrue(initialStatesForLifecycle1.contains("l1_state_1_initial"));
-        assertTrue(initialStatesForLifecycle1.contains("l1_state_2_initial"));
     }
 
     private StateChangeInfo createStateChange() throws Exception {
