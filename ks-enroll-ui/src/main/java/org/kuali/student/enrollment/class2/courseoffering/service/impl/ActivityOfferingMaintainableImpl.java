@@ -588,15 +588,10 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     instructor.getOfferingInstructorInfo().setPersonName(personList.get(0).getName());
                 }
             }
-        }
-    }
-
-    @Override
-    protected void addLine(Collection<Object> collection, Object addLine, boolean insertFirst){
-        super.addLine(collection,addLine,insertFirst);
-        if (addLine instanceof ColocatedActivity) {
+        } else if (addLine instanceof ColocatedActivity) {
             ColocatedActivity colo = (ColocatedActivity)addLine;
-            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)getDataObject();
+            MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
+            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
             activityOfferingWrapper.getEditRenderHelper().getManageSeperateEnrollmentList().add(colo);
             activityOfferingWrapper.getNewScheduleRequest().getColocatedAOs().add(colo.getEditRenderHelper().getCode());
         }
