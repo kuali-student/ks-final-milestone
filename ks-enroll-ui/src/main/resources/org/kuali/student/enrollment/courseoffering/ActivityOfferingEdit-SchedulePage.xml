@@ -139,7 +139,7 @@
         </property>
         <property name="lineActions">
               <list>
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:render="@{scheduleCompleted}"/>
+                  <bean parent="Uif-NavigationActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:ajaxReturnType="update-component" p:ajaxSubmit="true" p:refreshId="ActivityOffering-DeliveryLogistic-Requested" p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-New');" p:render="@{scheduleCompleted}"/>
                   <bean parent="Uif-DeleteLineAction" p:successCallback="deleteRDLCallBack();"/>
               </list>
         </property>
@@ -165,7 +165,7 @@
                     </property>
                 </bean>
                 <ref bean="ActivityOffering-DeliveryLogistic-New-Features-Section"/>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Add" p:methodToCall="addScheduleComponent" p:successCallback="addScheduleCallBack();"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Add" p:methodToCall="addScheduleComponent" p:ajaxReturnType="update-component" p:ajaxSubmit="true" p:refreshId="ActivityOffering-DeliveryLogistic-New" p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-Requested');"/>
             </list>
         </property>
     </bean>
