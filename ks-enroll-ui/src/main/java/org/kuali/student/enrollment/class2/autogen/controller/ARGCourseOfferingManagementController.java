@@ -248,9 +248,9 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      * @return
      * @throws Exception
      */
-    @RequestMapping(params = "methodToCall=loadAOs")
-    public ModelAndView loadAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm form) throws Exception {
-        if (ARGActivityOfferingClusterHandler.loadAOs(form)) {
+    @RequestMapping(params = "methodToCall=loadAOs_RGs_AOCs")
+    public ModelAndView loadAOs_RGs_AOCs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm form) throws Exception {
+        if (ARGActivityOfferingClusterHandler.loadAOs_RGs_AOCs(form)) {
             return getUIFModelAndView(form, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
         } else {
             return getUIFModelAndView(form, CourseOfferingConstants.MANAGE_ARG_CO_PAGE);

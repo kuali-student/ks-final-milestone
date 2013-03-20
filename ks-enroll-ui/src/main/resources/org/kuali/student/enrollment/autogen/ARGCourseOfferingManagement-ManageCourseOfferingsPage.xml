@@ -134,7 +134,7 @@
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" />
                 <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" p:render="@{#line.isEnableEditCOActionLink()}" p:actionEvent="editCOonManageCOsPage"/>-->
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="loadAOs" p:actionLabel="Manage"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="loadAOs_RGs_AOCs" p:actionLabel="Manage"/>
             </list>
         </property>
     </bean>

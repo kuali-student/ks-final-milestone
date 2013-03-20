@@ -178,20 +178,19 @@ public class ARGUtil {
 
     public static void prepareManageAOsModelAndView(ARGCourseOfferingManagementForm form, CourseOfferingListSectionWrapper selectedCO) throws Exception {
 
-        CourseOfferingWrapper currentCO = new CourseOfferingWrapper(selectedCO.isCrossListed(),selectedCO.getCourseOfferingCode(),selectedCO.getCourseOfferingDesc(),selectedCO.getAlternateCOCodes(),selectedCO.getCourseOfferingId());
-        currentCO.setTerm( form.getTermInfo() );
-        CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(currentCO.getCourseOfferingId(),ContextUtils.createDefaultContextInfo());
+        CourseOfferingWrapper currentCOWrapper = new CourseOfferingWrapper(selectedCO.isCrossListed(),selectedCO.getCourseOfferingCode(),selectedCO.getCourseOfferingDesc(),selectedCO.getAlternateCOCodes(),selectedCO.getCourseOfferingId());
+        currentCOWrapper.setTerm( form.getTermInfo() );
+        
+        CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(currentCOWrapper.getCourseOfferingId(),ContextUtils.createDefaultContextInfo());
+        currentCOWrapper.setCourseOfferingInfo(coInfo);
 
-        currentCO.setCourseOfferingInfo(coInfo);
-        form.setCurrentCourseOfferingWrapper(currentCO);
-        form.setSubjectCode(selectedCO.getSubjectArea());
-        ContextInfo contextInfo =  ContextUtils.createDefaultContextInfo();
 
         //Pull out the org ids and pass in the first one as the adminOrg
+        ContextInfo contextInfo =  ContextUtils.createDefaultContextInfo();
         List<String> orgIds = coInfo.getUnitsDeploymentOrgIds();
         if(orgIds !=null && !orgIds.isEmpty()){
             OrgInfo org = getOrganizationService().getOrg(orgIds.get(0), contextInfo);
-            currentCO.setCoOwningDeptName(org.getShortName());
+            currentCOWrapper.setCoOwningDeptName(org.getShortName());
             // managing multiple orgs
             String orgIDs = "";
             for (String orgId : orgIds) {
@@ -202,13 +201,20 @@ public class ARGUtil {
             }
         }
 
+        form.setCurrentCourseOfferingWrapper(currentCOWrapper);
+        form.setInputCode(currentCOWrapper.getCourseOfferingCode());
+        form.setSubjectCode(selectedCO.getSubjectArea());
+
         form.setFormatIdForNewAO(null);
         form.setActivityIdForNewAO(null);
         form.setNoOfActivityOfferings(null);
 
-        getViewHelperService(form).loadActivityOfferingsByCourseOffering(coInfo, form);
         getViewHelperService(form).loadPreviousAndNextCourseOffering(form);
-        
+
+        getViewHelperService(form).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(form, currentCOWrapper);
+        /* commented out by bonnie, replace it with a new method
+
+//        getViewHelperService(form).loadActivityOfferingsByCourseOffering(coInfo, form);
         //get cluster info and add to the form
         List<String> foIds = new ArrayList<String>();
         List<ActivityOfferingClusterInfo> clusterInfos = new ArrayList<ActivityOfferingClusterInfo>();
@@ -232,8 +238,15 @@ public class ARGUtil {
             form .setFormatOfferingIds(foIds);
             form.setAoCount(i+1);
         }
-
-        ARGUtil.loadRegistrationGroupsByCourseOffering(foIds, (ARGCourseOfferingManagementForm)form);
+        */
+        List<FormatOfferingInfo> formatOfferingList = getCourseOfferingService().getFormatOfferingsByCourseOffering(coInfo.getId(),ContextUtils.createDefaultContextInfo());
+        List<String> foIds = new ArrayList<String>();
+        for(FormatOfferingInfo foInfo:formatOfferingList){
+            foIds.add(foInfo.getId());
+        }
+        
+        ARGUtil.loadRegistrationGroupsByCourseOffering(foIds, form);
+        
 
         //turn off authz for now
 //        form.setEditAuthz(checkEditViewAuthz(form));

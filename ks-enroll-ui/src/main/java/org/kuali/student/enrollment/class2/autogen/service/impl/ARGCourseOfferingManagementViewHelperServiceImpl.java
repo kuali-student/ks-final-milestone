@@ -28,25 +28,31 @@ import org.kuali.student.enrollment.class2.autogen.util.ARGToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CO_AO_RG_ViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
+import org.kuali.student.enrollment.class2.courseoffering.service.util.RegistrationGroupUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.uif.util.GrowlIcon;
 import org.kuali.student.enrollment.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.permutation.PermutationUtils;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
@@ -184,6 +190,352 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
 
     }
+
+    /**
+     * This method fetches, prepares and sets
+     *  activityWrapperList for View All Activities tab,
+     *  clusterResultList for View byClusters
+     *  rgResultList for View Registration Groupsall the course offerings for a term and course/subject code.
+     *
+     * @param form
+     * @param theCourseOffering
+     * @throws Exception
+     */
+    public void build_AOs_RGs_AOCs_Lists_For_TheCourseOffering (ARGCourseOfferingManagementForm form, CourseOfferingWrapper theCourseOffering) throws Exception{
+        //First cleanup and reset three lists
+        List<ActivityOfferingWrapper> activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
+        List<ActivityOfferingClusterWrapper> clusterResultList = new ArrayList<ActivityOfferingClusterWrapper>();
+        List<RegistrationGroupWrapper> rgResultList = new ArrayList<RegistrationGroupWrapper>();
+        
+        form.setActivityWrapperList(activityWrapperList);
+        form.setClusterResultList(clusterResultList);
+        form.setRgResultList(rgResultList);
+
+        List<FormatOfferingInfo> formatOfferingList = getCourseOfferingService().getFormatOfferingsByCourseOffering(theCourseOffering.getId(),ContextUtils.createDefaultContextInfo());
+        if  (formatOfferingList.size()>1){
+            form.setHasMoreThanOneFormat(true);
+        }
+        else {
+            form.setHasMoreThanOneFormat(false);
+        }
+        int numberOfClusters = 0;
+        for (FormatOfferingInfo foInfo : formatOfferingList) {
+            List<ActivityOfferingClusterInfo> aoClusterList = getCourseOfferingService().getActivityOfferingClustersByFormatOffering(foInfo.getId(), ContextUtils.createDefaultContextInfo());
+            numberOfClusters=+aoClusterList.size();
+            
+            // convert List<ActivityOfferingClusterInfo> to List<ActivityOfferingClusterWrapper> 
+            // and set it to the Form
+            List<ActivityOfferingClusterWrapper> aoClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
+            int clusterIndex =0;
+            for (ActivityOfferingClusterInfo aoCluster: aoClusterList) {
+                ActivityOfferingClusterWrapper aoClusterWrapper = _buildAOClusterWrapper (foInfo, aoCluster, form, clusterIndex);
+                aoClusterWrapperList.add(aoClusterWrapper);
+                clusterIndex++;
+            }
+            clusterResultList.addAll(aoClusterWrapperList);
+        }
+        if (numberOfClusters>1) {
+            form.setHasMoreThanOneCluster(true);
+        }
+        else {
+            form.setHasMoreThanOneCluster(false);
+        }
+        //unnecessary
+//        form.setClusterResultList(clusterResultList);
+            
+
+    }
+    
+    private  ActivityOfferingClusterWrapper _buildAOClusterWrapper (FormatOfferingInfo foInfo,
+                            ActivityOfferingClusterInfo aoCluster, ARGCourseOfferingManagementForm theForm,
+                                                                    int clusterIndex) throws Exception{
+
+        ActivityOfferingClusterWrapper aoClusterWrapper = new ActivityOfferingClusterWrapper();
+        aoClusterWrapper.setActivityOfferingClusterId(aoCluster.getId());
+        aoClusterWrapper.setAoCluster(aoCluster);
+        aoClusterWrapper.setClusterNameForDisplay("Forget to set cluster?");
+
+        List<ActivityOfferingInfo> aoInfoList = getCourseOfferingService().getActivityOfferingsByCluster(aoCluster.getId(), ContextUtils.createDefaultContextInfo());
+        List<ActivityOfferingWrapper> aoWrapperListPerCluster = new ArrayList<ActivityOfferingWrapper>();
+        for(ActivityOfferingInfo aoInfo: aoInfoList){
+            ActivityOfferingWrapper aoWrapper = convertAOInfoToWrapper(aoInfo);
+
+            String cssClass = (aoInfo.getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
+            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
+            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
+            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
+            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
+
+            //set AOC related info in an AOWrapper
+            aoWrapper.setAoCluster(aoCluster);
+            aoWrapper.setAoClusterID(aoCluster.getId());
+            aoWrapper.setAoClusterName(aoCluster.getName());
+
+            //set FO related info in an AOWrapper
+            aoWrapper.setFormatOffering(foInfo);
+            aoWrapper.setFormatOfferingName(foInfo.getName());
+            
+            aoWrapperListPerCluster.add(aoWrapper);
+
+            //add to the activityWrapperList
+            theForm.getActivityWrapperList().add(aoWrapper);
+        }
+        aoClusterWrapper.setAoWrapperList(aoWrapperListPerCluster);
+
+        List<RegistrationGroupWrapper> rgListPerCluster = new ArrayList<RegistrationGroupWrapper>();
+        List<RegistrationGroupInfo> rgInfos =getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(aoCluster.getId(), ContextUtils.createDefaultContextInfo());
+        if (rgInfos.size() > 0 ){
+            _validateRegistrationGroupsPerCluster(rgInfos, aoInfoList, aoClusterWrapper, theForm, clusterIndex);
+            rgListPerCluster= _getRGsForSelectedFO(rgInfos, aoWrapperListPerCluster);
+        }
+        //TODO: seem we don't need to keep track the following info any more!
+//        else {
+//            aoClusterWrapper.setHasAllRegGroups(false);
+//            aoClusterWrapper.setRgStatus(RegistrationGroupConstants.RGSTATUS_NO_RG_GENERATED);
+//            aoClusterWrapper.setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_NONE);
+//        }
+        aoClusterWrapper.setRgWrapperList(rgListPerCluster);
+        return aoClusterWrapper;
+    }
+
+    /*
+    * Perform several validations:
+    * 1. check if All RGs have been generated given AOs in a cluster
+    *    if not, set rgStatus="Only Some Registration Groups Generated" and
+    *            set hasAllRegGroups=false, therefore "Generate Registration Group" action link will show up
+    *    if yes, set rgStatus="All Registration Groups Generated" and
+    *            set hasAllRegGroups=true, therefore "View Registration Group" action link will show up
+    * 2. when #1 validation result is yes, need to perform max enrollment validation.
+    * 3. when #1 validation result is yes, need to perform time conflict validation
+    *
+    */
+    private void _validateRegistrationGroupsPerCluster(List<RegistrationGroupInfo> rgInfos, List<ActivityOfferingInfo> aoList,
+                                                       ActivityOfferingClusterWrapper aoClusterWrapper,
+                                                       ARGCourseOfferingManagementForm theForm, int clusterIndex) throws Exception{
+
+        Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap =
+                _constructActivityOfferingTypeToAvailableActivityOfferingMap(aoList);
+
+        List<List<String>> generatedPermutations = new ArrayList<List<String>>();
+        List<List<String>> foundList = new ArrayList<List<String>>();
+
+        PermutationUtils.generatePermutations(new ArrayList<String>(
+                activityOfferingTypeToAvailableActivityOfferingMap.keySet()),
+                new ArrayList<String>(),
+                activityOfferingTypeToAvailableActivityOfferingMap,
+                generatedPermutations);
+
+        List<RegistrationGroupInfo> rgInfosCopy = new ArrayList<RegistrationGroupInfo>(rgInfos.size());
+        for(RegistrationGroupInfo rgInfo:rgInfos) {
+            rgInfosCopy.add(rgInfo);
+        }
+
+        for (List<String> activityOfferingPermutation : generatedPermutations) {
+            for (RegistrationGroupInfo rgInfo : rgInfosCopy){
+                if (_hasGeneratedRegGroup(activityOfferingPermutation,rgInfo)){
+                    rgInfosCopy.remove(rgInfo);
+                    foundList.add(activityOfferingPermutation);
+                    break;
+                }
+            }
+        }
+        if (generatedPermutations.size() != foundList.size() )  {
+            aoClusterWrapper.setRgStatus(RegistrationGroupConstants.RGSTATUS_SOME_RG_GENERATED);
+            aoClusterWrapper.setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_PARTIAL);
+            aoClusterWrapper.setHasAllRegGroups(false);
+        }
+        else {
+            aoClusterWrapper.setRgStatus(RegistrationGroupConstants.RGSTATUS_ALL_RG_GENERATED);
+            aoClusterWrapper.setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_ALL);
+            aoClusterWrapper.setHasAllRegGroups(true);
+            // perform max enrollment validation
+            _performMaxEnrollmentValidation(theForm.getFormatOfferingIdForViewRG(), aoClusterWrapper.getAoCluster(), clusterIndex);
+            //validate AO time conflict in RG
+            _performRGTimeConflictValidation(aoClusterWrapper.getAoCluster(), rgInfos, clusterIndex);
+
+        }
+        if (!rgInfosCopy.isEmpty()){
+            GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerFormatSection", CourseOfferingConstants.REGISTRATIONGROUP_INVALID_REGGROUPS);
+        }
+    }
+
+    private Map<String, List<String>> _constructActivityOfferingTypeToAvailableActivityOfferingMap(List<ActivityOfferingInfo> aoList) {
+        Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap = new HashMap<String, List<String>>();
+
+        for (ActivityOfferingInfo info : aoList) {
+            String activityType = info.getTypeKey();
+            List<String> activityList = activityOfferingTypeToAvailableActivityOfferingMap
+                    .get(activityType);
+
+            if (activityList == null) {
+                activityList = new ArrayList<String>();
+                activityOfferingTypeToAvailableActivityOfferingMap.put(
+                        activityType, activityList);
+            }
+
+            activityList.add(info.getId());
+
+        }
+        return activityOfferingTypeToAvailableActivityOfferingMap;
+    }
+
+    private boolean _hasGeneratedRegGroup(List<String>activityOfferingPermutation, RegistrationGroupInfo rgInfo){
+        boolean isMatched = true;
+        List<String> aoIds = rgInfo.getActivityOfferingIds();
+        List<String> aoIdsCopy = new ArrayList<String>(aoIds.size());
+        for (String aoId: aoIds){
+            aoIdsCopy.add(aoId);
+        }
+        List<String> foundList = new ArrayList<String>();
+        for (String activityOfferingPermutationItem : activityOfferingPermutation){
+            for (String aoId: aoIdsCopy){
+                if (activityOfferingPermutationItem.equals(aoId)){
+                    aoIdsCopy.remove(aoId);
+                    foundList.add(activityOfferingPermutationItem);
+                    break;
+                }
+            }
+        }
+        if (activityOfferingPermutation.size() != foundList.size() ||!aoIdsCopy.isEmpty()  )  {
+            isMatched = false;
+        }
+        return isMatched;
+    }
+
+
+
+    private void _performMaxEnrollmentValidation(String formateOfferingId, ActivityOfferingClusterInfo aoCluster, int clusterIndex) throws Exception{
+        List<ValidationResultInfo> validationResultInfoList = getCourseOfferingService().validateActivityOfferingCluster(
+                DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), formateOfferingId, aoCluster, ContextUtils.createDefaultContextInfo());
+
+        if (validationResultInfoList.get(0).isWarn())  {
+            GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_MAX_ENROLLMENT, aoCluster.getPrivateName());
+            GlobalVariables.getMessageMap().putWarningForSectionId("activityOfferingsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_MAX_ENROLLMENT, aoCluster.getPrivateName());
+        }
+    }
+
+    private List<Integer> _performRGTimeConflictValidation(ActivityOfferingClusterInfo aoCluster, List<RegistrationGroupInfo> registrationGroupInfos, int clusterIndex) throws Exception{
+        List<Integer> rgIndexList = new ArrayList<Integer>();
+        rgIndexList.clear();
+
+        if (aoCluster != null && registrationGroupInfos != null && !registrationGroupInfos.isEmpty()) {
+            int rgIndex = 0;
+            for (RegistrationGroupInfo registrationGroupInfo : registrationGroupInfos) {
+                List<ValidationResultInfo> validationResultInfoList = getCourseOfferingService().verifyRegistrationGroup(registrationGroupInfo.getId(), ContextUtils.createDefaultContextInfo());
+                if (validationResultInfoList.get(0).isWarn())  {
+                    getCourseOfferingService().changeRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, ContextUtils.createDefaultContextInfo());
+                    rgIndexList.add(rgIndex);
+                }
+
+                rgIndex++;
+            }
+
+            if (!rgIndexList.isEmpty()) {
+                GlobalVariables.getMessageMap().putWarningForSectionId("activityOfferingsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_AO_TIMECONFLICT, aoCluster.getPrivateName());
+                GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_AO_TIMECONFLICT, aoCluster.getPrivateName());
+            }
+        }
+
+        return rgIndexList;
+    }
+
+
+    private List<RegistrationGroupWrapper> _getRGsForSelectedFO(List<RegistrationGroupInfo> rgInfos, List<ActivityOfferingWrapper> filteredAOs) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        _fixAoIdOrderingInRegGroups(rgInfos);
+        List<RegistrationGroupWrapper> filterdRGList = new ArrayList<RegistrationGroupWrapper>();
+
+        HashMap<String, ActivityOfferingWrapper> filteredAOsHM = new HashMap<String, ActivityOfferingWrapper>();
+        for (ActivityOfferingWrapper wrapper : filteredAOs) {
+            filteredAOsHM.put(wrapper.getAoInfo().getId(), wrapper);
+        }
+
+        for (RegistrationGroupInfo rgInfo : rgInfos) {
+            RegistrationGroupWrapper rgWrapper = new RegistrationGroupWrapper();
+            rgWrapper.setRgInfo(rgInfo);
+            String aoActivityCodeText = "", aoStateNameText = "", aoTypeNameText = "", aoInstructorText = "", aoMaxEnrText = "";
+            for (String aoID : rgInfo.getActivityOfferingIds()) {
+                String cssClass = (filteredAOsHM.get(aoID).getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+                if (filteredAOsHM.get(aoID).getAoInfo().getActivityCode() != null && !filteredAOsHM.get(aoID).getAoInfo().getActivityCode().equalsIgnoreCase("")) {
+                    aoActivityCodeText = aoActivityCodeText + filteredAOsHM.get(aoID).getAoInfo().getActivityCode() + "<br/>";
+                }
+                if (filteredAOsHM.get(aoID).getStateName() != null && !filteredAOsHM.get(aoID).getStateName().equalsIgnoreCase("")) {
+                    aoStateNameText = aoStateNameText + filteredAOsHM.get(aoID).getStateName() + "<br/>";
+                }
+                if (filteredAOsHM.get(aoID).getTypeName() != null && !filteredAOsHM.get(aoID).getTypeName().equalsIgnoreCase("")) {
+                    aoTypeNameText = aoTypeNameText + filteredAOsHM.get(aoID).getTypeName() + "<br/>";
+                }
+                if (filteredAOsHM.get(aoID).getFirstInstructorDisplayName() != null && !filteredAOsHM.get(aoID).getFirstInstructorDisplayName().equalsIgnoreCase("")) {
+                    aoInstructorText = aoInstructorText + filteredAOsHM.get(aoID).getFirstInstructorDisplayName() + "<br/>";
+                }
+                if (filteredAOsHM.get(aoID).getAoInfo().getMaximumEnrollment() != null) {
+                    aoMaxEnrText = aoMaxEnrText + Integer.toString(filteredAOsHM.get(aoID).getAoInfo().getMaximumEnrollment()) + "<br/>";
+                }
+
+                if(filteredAOsHM.get(aoID).getStartTimeDisplay() != null){
+                    rgWrapper.setStartTimeDisplay(filteredAOsHM.get(aoID).getStartTimeDisplay(), true, cssClass);
+                }
+
+                if(filteredAOsHM.get(aoID).getEndTimeDisplay() != null){
+                    rgWrapper.setEndTimeDisplay(filteredAOsHM.get(aoID).getEndTimeDisplay(), true, cssClass);
+                }
+
+                if(filteredAOsHM.get(aoID).getBuildingName() != null){
+                    rgWrapper.setBuildingName(filteredAOsHM.get(aoID).getBuildingName(), true, cssClass);
+                }
+
+                if(filteredAOsHM.get(aoID).getRoomName() != null){
+                    rgWrapper.setRoomName(filteredAOsHM.get(aoID).getRoomName(), true, cssClass);
+                }
+
+                if(filteredAOsHM.get(aoID).getDaysDisplayName() != null){
+                    rgWrapper.setDaysDisplayName(filteredAOsHM.get(aoID).getDaysDisplayName(), true, cssClass);
+                }
+            }
+            if (aoActivityCodeText.length() > 0) {
+                aoActivityCodeText = aoActivityCodeText.substring(0, aoActivityCodeText.lastIndexOf("<br/>"));
+            }
+            if (aoStateNameText.length() > 0) {
+                aoStateNameText = aoStateNameText.substring(0, aoStateNameText.lastIndexOf("<br/>"));
+            }
+            if (aoTypeNameText.length() > 0) {
+                aoTypeNameText = aoTypeNameText.substring(0, aoTypeNameText.lastIndexOf("<br/>"));
+            }
+            if (aoInstructorText.length() > 0) {
+                aoInstructorText = aoInstructorText.substring(0, aoInstructorText.lastIndexOf("<br/>"));
+            }
+            if (aoMaxEnrText.length() > 0) {
+                aoMaxEnrText = aoMaxEnrText.substring(0, aoMaxEnrText.lastIndexOf("<br/>"));
+            }
+
+            rgWrapper.setAoActivityCodeText(aoActivityCodeText);
+            rgWrapper.setAoStateNameText(aoStateNameText);
+            rgWrapper.setAoTypeNameText(aoTypeNameText);
+            rgWrapper.setAoInstructorText(aoInstructorText);
+            rgWrapper.setAoMaxEnrText(aoMaxEnrText);
+            filterdRGList.add(rgWrapper);
+
+            try{
+                rgWrapper.setStateKey(rgInfo.getStateKey(), getStateService().getState(rgInfo.getStateKey(), ContextUtils.createDefaultContextInfo()).getName());
+            }catch (Exception e){
+                LOG.info("Error occured to get the StateService" + e.getMessage());
+            }
+        }
+
+        return filterdRGList;
+    }
+
+    private void _fixAoIdOrderingInRegGroups(List<RegistrationGroupInfo> rgInfos)
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException,
+            OperationFailedException, PermissionDeniedException {
+
+        for (RegistrationGroupInfo regGroup: rgInfos) {
+            Map<String, String> aoIdsToAoTypes =
+                    RegistrationGroupUtil.createAoIdsToAoTypesMap(regGroup.getActivityOfferingIds(), getCourseOfferingService(), ContextUtils.createDefaultContextInfo());
+            RegistrationGroupUtil.orderActivityOfferingIdsInRegistrationGroup(regGroup, aoIdsToAoTypes);
+        }
+    }
+
 
     /**
      * This method fetches all the course offerings for a term and course/subject code.

@@ -82,7 +82,7 @@ public class ARGActivityOfferingClusterHandler {
     }
     */
 
-    public static boolean loadAOs(ARGCourseOfferingManagementForm form) throws Exception {
+    public static boolean loadAOs_RGs_AOCs(ARGCourseOfferingManagementForm form) throws Exception {
 
         Object selectedObject = ARGUtil.getSelectedObject(form, "Manage");
 
@@ -94,7 +94,7 @@ public class ARGActivityOfferingClusterHandler {
             form.setCurrentCourseOfferingWrapper(currentCOWrapper);
 
             // Get Clusters
-            filterAOsAndRGsPerFO(form, courseOffering);
+//            build_AOs_RGs_AOCs_Lists(form, courseOffering);
             ARGUtil.prepareManageAOsModelAndView(form, coWrapper);
             return true;
         } else {
@@ -279,41 +279,41 @@ public class ARGActivityOfferingClusterHandler {
         }
     }
 
+    /*
+       //  RegistrationGroupManagementController related methods:
 
-    //  RegistrationGroupManagementController related methods:
+       public static void filterAOsAndRGsPerFO (ARGCourseOfferingManagementForm theForm, CourseOfferingInfo courseOffering) throws Exception {
+           //First cleanup and reset AOCluster list and filteredUnassignedAOsForSelectedFO
+           List<FormatOfferingInfo> formatOfferings = ARGUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOffering.getId(),ContextUtils.createDefaultContextInfo());
+           List<ActivityOfferingClusterWrapper> filteredAOClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
+           theForm.setFilteredAOClusterWrapperList(filteredAOClusterWrapperList);
+           List<ActivityOfferingWrapper> filteredAOs = new ArrayList<ActivityOfferingWrapper>();
 
-    public static void filterAOsAndRGsPerFO (ARGCourseOfferingManagementForm theForm, CourseOfferingInfo courseOffering) throws Exception {
-        //First cleanup and reset AOCluster list and filteredUnassignedAOsForSelectedFO
-        List<FormatOfferingInfo> formatOfferings = ARGUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOffering.getId(),ContextUtils.createDefaultContextInfo());
-        List<ActivityOfferingClusterWrapper> filteredAOClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
-        theForm.setFilteredAOClusterWrapperList(filteredAOClusterWrapperList);
-        List<ActivityOfferingWrapper> filteredAOs = new ArrayList<ActivityOfferingWrapper>();
+   //        ARGUtil.getCourseOfferingService().getActivityOffering(courseOffering.getId(), ContextUtils.createDefaultContextInfo());
 
-//        ARGUtil.getCourseOfferingService().getActivityOffering(courseOffering.getId(), ContextUtils.createDefaultContextInfo());
+           //get clusters if any for the selected FO
+           List<ActivityOfferingClusterInfo> aoClusters = new ArrayList<ActivityOfferingClusterInfo>();
+           Map<FormatOfferingInfo, List<ActivityOfferingClusterInfo>> formatOfferingActivityOfferingMap = new HashMap<FormatOfferingInfo, List<ActivityOfferingClusterInfo>>();
+           for(FormatOfferingInfo foInfo : formatOfferings){
+   //            aoClusters.addAll(ARGUtil.getCourseOfferingService().getActivityOfferingClustersByFormatOffering(foInfo.getId(), ContextUtils.createDefaultContextInfo()));
+               List<ActivityOfferingClusterInfo> aoClusterList = ARGUtil.getCourseOfferingService().getActivityOfferingClustersByFormatOffering(foInfo.getId(), ContextUtils.createDefaultContextInfo());
+               formatOfferingActivityOfferingMap.put(foInfo, aoClusterList);
 
-        //get clusters if any for the selected FO
-        List<ActivityOfferingClusterInfo> aoClusters = new ArrayList<ActivityOfferingClusterInfo>();
-        Map<FormatOfferingInfo, List<ActivityOfferingClusterInfo>> formatOfferingActivityOfferingMap = new HashMap<FormatOfferingInfo, List<ActivityOfferingClusterInfo>>();
-        for(FormatOfferingInfo foInfo : formatOfferings){
-//            aoClusters.addAll(ARGUtil.getCourseOfferingService().getActivityOfferingClustersByFormatOffering(foInfo.getId(), ContextUtils.createDefaultContextInfo()));
-            List<ActivityOfferingClusterInfo> aoClusterList = ARGUtil.getCourseOfferingService().getActivityOfferingClustersByFormatOffering(foInfo.getId(), ContextUtils.createDefaultContextInfo());
-            formatOfferingActivityOfferingMap.put(foInfo, aoClusterList);
+           }
+           if (formatOfferingActivityOfferingMap.isEmpty()){
+               theForm.setHasAOCluster(false);
+           }
+           else {
+               theForm.setHasAOCluster(true);
+               List <ActivityOfferingClusterWrapper> aoClusterWrappers = new ArrayList <ActivityOfferingClusterWrapper>();
+               for(Map.Entry<FormatOfferingInfo, List<ActivityOfferingClusterInfo>> formatOfferingMap : formatOfferingActivityOfferingMap.entrySet()){
+                   aoClusterWrappers.addAll(ARGUtil._convertToAOClusterWrappers(formatOfferingMap.getValue(), theForm, formatOfferingMap.getKey()));
 
-        }
-        if (formatOfferingActivityOfferingMap.isEmpty()){
-            theForm.setHasAOCluster(false);
-        }
-        else {
-            theForm.setHasAOCluster(true);
-            List <ActivityOfferingClusterWrapper> aoClusterWrappers = new ArrayList <ActivityOfferingClusterWrapper>();
-            for(Map.Entry<FormatOfferingInfo, List<ActivityOfferingClusterInfo>> formatOfferingMap : formatOfferingActivityOfferingMap.entrySet()){
-                aoClusterWrappers.addAll(ARGUtil._convertToAOClusterWrappers(formatOfferingMap.getValue(), theForm, formatOfferingMap.getKey()));
-
-            }
-            theForm.setFilteredAOClusterWrapperList(aoClusterWrappers);
-        }
-    }
-
+               }
+               theForm.setFilteredAOClusterWrapperList(aoClusterWrappers);
+           }
+       }
+    */
     public static ARGCourseOfferingManagementForm createNewCluster(ARGCourseOfferingManagementForm theForm) throws Exception {
 
        String formatOfferingId = theForm.getFormatOfferingIdForViewRG();

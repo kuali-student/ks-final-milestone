@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.autogen.service;
 
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CO_AO_RG_ViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
@@ -52,4 +53,5 @@ public interface ARGCourseOfferingManagementViewHelperService extends CO_AO_RG_V
     public void approveActivityOfferings(ARGCourseOfferingManagementForm form) throws Exception;
     public void draftActivityOfferings(ARGCourseOfferingManagementForm form) throws Exception;
 
+    public void build_AOs_RGs_AOCs_Lists_For_TheCourseOffering (ARGCourseOfferingManagementForm form, CourseOfferingWrapper theCourseOffering) throws Exception;
 }

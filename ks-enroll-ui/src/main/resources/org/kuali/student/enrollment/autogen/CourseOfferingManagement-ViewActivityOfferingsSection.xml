@@ -215,14 +215,14 @@
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="clusterIdForAOMove"  p:label="Move selected offerings to" p:labelPlacement="TOP" >
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGListOfAOClustersForFOKeyValues" p:addBlankOption="false" />
-                    </property>
-                </bean>
+                <!--<bean parent="Uif-InputField" p:propertyName="clusterIdForAOMove"  p:label="Move selected offerings to" p:labelPlacement="TOP" >-->
+                    <!--<property name="control">-->
+                        <!--<bean parent="Uif-DropdownControl"/>-->
+                    <!--</property>-->
+                    <!--<property name="optionsFinder">-->
+                        <!--<bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGListOfAOClustersForFOKeyValues" p:addBlankOption="false" />-->
+                    <!--</property>-->
+                <!--</bean>-->
                 <bean parent="Uif-SecondaryActionButton-Small">
                     <property name="style" value="margin-top:1.5em;"/>
                     <property name="actionLabel" value="Move"/>

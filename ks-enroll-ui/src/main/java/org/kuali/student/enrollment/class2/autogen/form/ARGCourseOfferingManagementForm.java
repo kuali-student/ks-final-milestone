@@ -154,7 +154,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     private int aoCount=0;
 
 //  Begin Cluster Related Properties:
-    private List<ActivityOfferingClusterWrapper> filteredAOClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
+//    private List<ActivityOfferingClusterWrapper> filteredAOClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
 //    private List<ActivityOfferingWrapper> filteredUnassignedAOsForSelectedFO;
     private boolean hasAOCluster;
 
@@ -173,13 +173,13 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
 //        this.filteredUnassignedAOsForSelectedFO = filteredUnassignedAOsForSelectedFO;
 //    }
 
-    public List<ActivityOfferingClusterWrapper> getFilteredAOClusterWrapperList() {
-        return filteredAOClusterWrapperList;
-    }
-
-    public void setFilteredAOClusterWrapperList(List<ActivityOfferingClusterWrapper> filteredAOClusterWrapperList) {
-        this.filteredAOClusterWrapperList = filteredAOClusterWrapperList;
-    }
+//    public List<ActivityOfferingClusterWrapper> getFilteredAOClusterWrapperList() {
+//        return filteredAOClusterWrapperList;
+//    }
+//
+//    public void setFilteredAOClusterWrapperList(List<ActivityOfferingClusterWrapper> filteredAOClusterWrapperList) {
+//        this.filteredAOClusterWrapperList = filteredAOClusterWrapperList;
+//    }
 
 
 //  End Cluster Related Properties:
