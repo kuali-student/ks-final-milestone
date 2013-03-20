@@ -77,17 +77,15 @@
                 <bean parent="Uif-DataField" p:propertyName="populationInfo.descr.plain" p:label="Description"/>
                 <bean parent="Uif-DataField" p:propertyName="populationRuleTypeKeyName"  p:label="Type"/>
                 <bean parent="Uif-DataField" p:propertyName="populationStateKeyName"  p:label="State"/>
+                <bean parent="Uif-FieldGroupBase">
+                    <property name="label" value="Actions"/>
+                    <property name="group">
+                        <bean parent="KS-LookupView-ResultActions"/>
+                    </property>
+                </bean>
             </list>
         </property>
-        <!-- use KS-LookupView-ResultActions to display edit link only -->
-        <property name="resultsActionsFieldGroup">
-            <bean parent="Uif-FieldGroupBase">
-                <property name="label" value="Actions"/>
-                <property name="group">
-                    <bean parent="KS-LookupView-ResultActions"/>
-                </property>
-            </bean>
-        </property>
+        <property name="suppressActions" value="true" />
     </bean>
 
     <!-- InquiryView -->
