@@ -232,25 +232,23 @@ public class TestStateServiceMockImpl {
 
     @Test
     public void testGetInitialStatesByLifecycle() throws Exception {
+        System.out.println("\n\n\n*********************** TGISBL ********** \n\n\n");
 
         // create a life-cycle with 3 states, 2 being initial-states (this is the one we are testing for)
         LifecycleInfo lifecycle_1 = addLifecycle( "lifecycle-1" );
-        addState( lifecycle_1, "l1_state_1_initial" );
-        addState( lifecycle_1, "l1_state_2_initial" );
-        addState( lifecycle_1, "l1_state_3" );
-        this.stateService.addInitialStateToLifecycle( "l1_state_1_initial", "lifecycle-1", callContext );
-        this.stateService.addInitialStateToLifecycle( "l1_state_2_initial", "lifecycle-1", callContext );
+        addState( lifecycle_1, "l1_state_1_initial", true );
+        addState(lifecycle_1, "l1_state_2_initial", true);
+        addState(lifecycle_1, "l1_state_3", false);
 
         // create life-cycle 2 with 1 initial-state (this is the one we don't want to get back from our test-call)
         LifecycleInfo lifecycle_2 = addLifecycle( "lifecycle-2" );
-        addState( lifecycle_2, "l2_state_1_initial" );
-        this.stateService.addInitialStateToLifecycle("l2_state_1_initial", "lifecycle-2", callContext);
+        addState(lifecycle_2, "l2_state_1_initial", true);
 
         // validate
-        List<String> initialStatesForLifecycle1 = stateService.getInitialStatesByLifecycle( lifecycle_1.getKey(), callContext );
-        assertEquals( 2, initialStatesForLifecycle1.size() );
-        assertTrue(initialStatesForLifecycle1.contains("l1_state_1_initial"));
-        assertTrue(initialStatesForLifecycle1.contains("l1_state_2_initial"));
+        List<String> initialStatesForTargetLifecycle = stateService.getInitialStatesByLifecycle( "lifecycle-1", callContext );
+        assertEquals( 2, initialStatesForTargetLifecycle.size() );
+        assertTrue(initialStatesForTargetLifecycle.contains("l1_state_1_initial"));
+        assertTrue(initialStatesForTargetLifecycle.contains("l1_state_2_initial"));
     }
 
     private LifecycleInfo addLifecycle( String name ) throws Exception {
@@ -267,10 +265,11 @@ public class TestStateServiceMockImpl {
         attr.setKey("attribute.key");
         attr.setValue("attribute value");
         origLife.getAttributes().add(attr);
+
         return stateService.createLifecycle(origLife.getKey(), origLife, callContext);
     }
 
-    private StateInfo addState( LifecycleInfo lifecycleInfo, String state ) throws Exception {
+    private StateInfo addState( LifecycleInfo lifecycleInfo, String state, boolean isInitialState ) throws Exception {
 
         StateInfo orig = new StateInfo();
         orig.setKey(state);
@@ -289,6 +288,8 @@ public class TestStateServiceMockImpl {
         attr.setKey("attribute.key");
         attr.setValue("attribute value");
         orig.getAttributes().add(attr);
+        orig.setIsInitialState(isInitialState);
+
         return stateService.createState(orig.getLifecycleKey(), orig.getKey(), orig, callContext);
     }
 
