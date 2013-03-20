@@ -153,9 +153,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     private String clusterIdForAOMove;
     private int aoCount=0;
 
-//  Begin Cluster Related Properties:
-//    private List<ActivityOfferingClusterWrapper> filteredAOClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
-//    private List<ActivityOfferingWrapper> filteredUnassignedAOsForSelectedFO;
+    //TODO: do we still need this parameter?
     private boolean hasAOCluster;
 
     public boolean isHasAOCluster() {
@@ -165,24 +163,6 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     public void setHasAOCluster(boolean hasAOCluster) {
         this.hasAOCluster = hasAOCluster;
     }
-//    public List<ActivityOfferingWrapper> getFilteredUnassignedAOsForSelectedFO() {
-//        return filteredUnassignedAOsForSelectedFO;
-//    }
-//
-//    public void setFilteredUnassignedAOsForSelectedFO(List<ActivityOfferingWrapper> filteredUnassignedAOsForSelectedFO) {
-//        this.filteredUnassignedAOsForSelectedFO = filteredUnassignedAOsForSelectedFO;
-//    }
-
-//    public List<ActivityOfferingClusterWrapper> getFilteredAOClusterWrapperList() {
-//        return filteredAOClusterWrapperList;
-//    }
-//
-//    public void setFilteredAOClusterWrapperList(List<ActivityOfferingClusterWrapper> filteredAOClusterWrapperList) {
-//        this.filteredAOClusterWrapperList = filteredAOClusterWrapperList;
-//    }
-
-
-//  End Cluster Related Properties:
 
     public ARGCourseOfferingManagementForm (){
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();

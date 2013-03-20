@@ -253,7 +253,9 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         ActivityOfferingClusterWrapper aoClusterWrapper = new ActivityOfferingClusterWrapper();
         aoClusterWrapper.setActivityOfferingClusterId(aoCluster.getId());
         aoClusterWrapper.setAoCluster(aoCluster);
-        aoClusterWrapper.setClusterNameForDisplay("Forget to set cluster?");
+        aoClusterWrapper.setClusterNameForDisplay("Forget to set cluster name?");
+        aoClusterWrapper.setFormatOffering(foInfo);
+        aoClusterWrapper.setFormatNameForDisplay("Forget to set format name?");
 
         List<ActivityOfferingInfo> aoInfoList = getCourseOfferingService().getActivityOfferingsByCluster(aoCluster.getId(), ContextUtils.createDefaultContextInfo());
         List<ActivityOfferingWrapper> aoWrapperListPerCluster = new ArrayList<ActivityOfferingWrapper>();
