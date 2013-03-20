@@ -293,6 +293,8 @@ public class StateServiceMockImpl
         this.stateMap.put(stateKey, stateInfo);
         this.lifeCycleStatesMap.get(lifecycleKey).add(stateKey);
 
+        if( stateInfo.getIsInitialState() != null && stateInfo.getIsInitialState() ) this.addInitialStateToLifecycle( stateKey, lifecycleKey, contextInfo );
+
         return stateInfo;
     }
 
