@@ -72,6 +72,7 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -587,10 +588,15 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     instructor.getOfferingInstructorInfo().setPersonName(personList.get(0).getName());
                 }
             }
-        } else if (addLine instanceof ColocatedActivity) {
+        }
+    }
+
+    @Override
+    protected void addLine(Collection<Object> collection, Object addLine, boolean insertFirst){
+        super.addLine(collection,addLine,insertFirst);
+        if (addLine instanceof ColocatedActivity) {
             ColocatedActivity colo = (ColocatedActivity)addLine;
-            MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
-            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)getDataObject();
             activityOfferingWrapper.getEditRenderHelper().getManageSeperateEnrollmentList().add(colo);
             activityOfferingWrapper.getNewScheduleRequest().getColocatedAOs().add(colo.getEditRenderHelper().getCode());
         }
@@ -645,10 +651,12 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
     protected boolean validateNewColocatedActivity(ColocatedActivity colo,ActivityOfferingWrapper activityOfferingWrapper){
 
+        String groupId = "ActivityOfferingEdit-MainPage-CoLocatedActivities";
+
         for (ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()){
             if (StringUtils.equals(activity.getCourseOfferingCode(),colo.getCourseOfferingCode()) &&
                 StringUtils.equals(activity.getActivityOfferingCode(),colo.getActivityOfferingCode())){
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Duplicate Entry");
+                GlobalVariables.getMessageMap().putError(groupId, RiceKeyConstants.ERROR_CUSTOM, "Duplicate Entry");
                 return false;
             }
         }
@@ -663,10 +671,10 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         try {
             List<CourseOfferingInfo> courseOfferings = getCourseOfferingService().searchForCourseOfferings(criteria, createContextInfo());
             if (courseOfferings.isEmpty()){
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Course Offering code");
+                GlobalVariables.getMessageMap().putError(groupId, RiceKeyConstants.ERROR_CUSTOM, "Invalid Course Offering code");
                 return false;
             } else if (courseOfferings.size() > 1){
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "More than one course offering exists for the code " + colo.getCourseOfferingCode());
+                GlobalVariables.getMessageMap().putError(groupId, RiceKeyConstants.ERROR_CUSTOM, "More than one course offering exists for the code " + colo.getCourseOfferingCode());
                 return false;
             } else {
                 colo.setCoId(courseOfferings.get(0).getId());
@@ -675,7 +683,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferings.get(0).getId(),createContextInfo());
 
             if (activityOfferingInfos.isEmpty()){
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Activity Offerings doesnt exists for " + colo.getCourseOfferingCode());
+                GlobalVariables.getMessageMap().putError(groupId, RiceKeyConstants.ERROR_CUSTOM, "Activity Offerings doesnt exists for " + colo.getCourseOfferingCode());
                 return false;
             }
 
@@ -690,7 +698,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             }
 
             if (!isAOMatchFound){
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Activity Offering code");
+                GlobalVariables.getMessageMap().putError(groupId, RiceKeyConstants.ERROR_CUSTOM, "Invalid Activity Offering code");
                 return false;
             }
 

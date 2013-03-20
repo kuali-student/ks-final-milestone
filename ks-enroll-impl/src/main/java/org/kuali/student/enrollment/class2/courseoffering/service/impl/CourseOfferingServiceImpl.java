@@ -2902,39 +2902,41 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 }
             }
 
-            List<LprInfo> lprs = new ArrayList<LprInfo>();
+            if (coIds.isEmpty()){
+                List<LprInfo> lprs = new ArrayList<LprInfo>();
 
-            //create the map to store co-lprList relationship
-            try {
-                lprs = getLprService().getLprsByLuis(coIds, context);
-                Map<String, List<LprInfo>> coLprMap = new HashMap<String, List<LprInfo>>(courseOfferings.size());
-                for (LprInfo lpr : lprs) {
-                    int mapIndex = 0;
-                    for (Map.Entry<String, List<LprInfo>> entry : coLprMap.entrySet()) {
-                        if (entry.getKey().equals(lpr.getLuiId())) {
-                            entry.getValue().add(lpr);
-                            break;
+                //create the map to store co-lprList relationship
+                try {
+                    lprs = getLprService().getLprsByLuis(coIds, context);
+                    Map<String, List<LprInfo>> coLprMap = new HashMap<String, List<LprInfo>>(courseOfferings.size());
+                    for (LprInfo lpr : lprs) {
+                        int mapIndex = 0;
+                        for (Map.Entry<String, List<LprInfo>> entry : coLprMap.entrySet()) {
+                            if (entry.getKey().equals(lpr.getLuiId())) {
+                                entry.getValue().add(lpr);
+                                break;
+                            }
+                            mapIndex++;
                         }
-                        mapIndex++;
-                    }
-                    if (mapIndex == coLprMap.size()) {
-                        List<LprInfo> lprsForCo = new ArrayList<LprInfo>();
-                        lprsForCo.add(lpr);
-                        coLprMap.put(lpr.getLuiId(), lprsForCo);
+                        if (mapIndex == coLprMap.size()) {
+                            List<LprInfo> lprsForCo = new ArrayList<LprInfo>();
+                            lprsForCo.add(lpr);
+                            coLprMap.put(lpr.getLuiId(), lprsForCo);
+                        }
+
                     }
 
+                    //assemble instructors to CO
+                    for (CourseOfferingInfo coInfo : courseOfferings) {
+                        List<LprInfo> lprsForAssemble = coLprMap.get(coInfo.getId());
+
+                        if (lprsForAssemble != null && lprsForAssemble.size() > 0) {
+                            courseOfferingTransformer.assembleInstructorsByLprs(coInfo, lprsForAssemble);
+                        }
+                    }
+                } catch(Exception e){
+                    throw new OperationFailedException("Failed to retrieve Lprs", e);
                 }
-
-                //assemble instructors to CO
-                for (CourseOfferingInfo coInfo : courseOfferings) {
-                    List<LprInfo> lprsForAssemble = coLprMap.get(coInfo.getId());
-
-                    if (lprsForAssemble != null && lprsForAssemble.size() > 0) {
-                        courseOfferingTransformer.assembleInstructorsByLprs(coInfo, lprsForAssemble);
-                    }
-                }
-            } catch(Exception e){
-                throw new OperationFailedException("Failed to retrieve Lprs", e);
             }
         }
 
