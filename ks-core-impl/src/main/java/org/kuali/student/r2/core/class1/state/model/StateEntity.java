@@ -24,19 +24,28 @@ public class StateEntity extends MetaEntity implements AttributeOwner<StateAttri
 
     @Column(name = "NAME")
     private String name;
+
     @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable=false)
     private String descrPlain;
+
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String descrFormatted;
+
     // TODO: consider storing this as a related JPA entity instead of as a string
     @Column(name = "LIFECYCLE_KEY")
     private String lifecycleKey;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
     private Date effectiveDate;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
+
+    @Column(name = "IS_INITIAL_STATE", nullable = false)
+    private boolean initialState;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Set<StateAttributeEntity> attributes = new HashSet<StateAttributeEntity>();
 
@@ -87,6 +96,14 @@ public class StateEntity extends MetaEntity implements AttributeOwner<StateAttri
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    public boolean isInitialState() {
+        return initialState;
+    }
+
+    public void setInitialState(boolean initialState) {
+        this.initialState = initialState;
     }
 
     public Set<StateAttributeEntity> getAttributes() {
