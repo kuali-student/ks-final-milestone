@@ -244,7 +244,8 @@ public class ARGUtil {
         for(FormatOfferingInfo foInfo:formatOfferingList){
             foIds.add(foInfo.getId());
         }
-        
+        form.setFormatOfferingIds(foIds); 
+        form.setAoCount(form.getActivityWrapperList().size());
         ARGUtil.loadRegistrationGroupsByCourseOffering(foIds, form);
         
 
