@@ -20,7 +20,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
@@ -373,6 +372,35 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
+       /* *//**
+         * 1. If the AO is colocated on load and user unchecks that, then we
+         *//*
+        try{
+            if (wrapper.getScheduleRequestInfo() != null && StringUtils.isNotBlank(wrapper.getScheduleRequestInfo().getId())){
+                if (wrapper.isPartOfColoSetOnLoadAlready()){
+                    if (!wrapper.isColocatedAO()){
+                        //create new RDL for this AO
+
+                    }
+                } else {
+                    if (wrapper.isColocatedAO()){
+                        String refObjectType = LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY;
+                        String refObjectId = wrapper.getColocatedOfferingSetInfo().getId();
+                        //create new RDL and delete the RDL for AO
+                        StatusInfo statusInfo = getSchedulingService().deleteScheduleRequest(wrapper.getScheduleRequestInfo().getId(),contextInfo);
+                        if (!statusInfo.getIsSuccess()){
+                             throw new RuntimeException("Error deleting schedule request for the AO - " + statusInfo.getMessage());
+                        }
+
+                        getSchedulingService().getScheduleRequest()
+                        buildScheduleRequestInfo
+                    }
+                }
+            }
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }*/
+
         buildScheduleRequestInfo(wrapper);
 
         wrapper.getScheduleRequestInfo().getScheduleRequestComponents().clear();
@@ -397,9 +425,33 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             }
 
         } else {
+            ScheduleRequestInfo requestInfo = wrapper.getScheduleRequestInfo();
 
             try{
-               ScheduleRequestInfo updatedScheduleRequestInfo = getSchedulingService().updateScheduleRequest(wrapper.getScheduleRequestInfo().getId(),wrapper.getScheduleRequestInfo(), contextInfo);
+             /*   if (wrapper.isPartOfColoSetOnLoadAlready()){
+                    if (!wrapper.isColocatedAO()){
+                        ScheduleRequestInfo newRequest = new ScheduleRequestInfo(requestInfo);
+                        newRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+                        newRequest.setRefObjectId(wrapper.getAoInfo().getId());
+                        newRequest.setId("");
+                        newRequest.setName("Schedule Request for AO");
+                        newRequest.setStateKey(requestInfo.getStateKey());
+                        newRequest.setTypeKey(requestInfo.getTypeKey());
+                        RichTextInfo desc = new RichTextInfo();
+                        desc.setPlain("Schedule Request for AO");
+                        newRequest.setDescr(desc);
+                        ScheduleRequestInfo createdScheduleRequestInfo = getSchedulingService().createScheduleRequest(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST,wrapper.getScheduleRequestInfo(), contextInfo);
+                        wrapper.setScheduleRequestInfo(createdScheduleRequestInfo);
+                    }
+                } else {
+                    if (wrapper.isColocatedAO()){
+                        requestInfo.setRefObjectTypeKey(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY);
+                        requestInfo.setRefObjectId(wrapper.getColocatedOfferingSetInfo().getId());
+                    }
+                }
+*/
+
+               ScheduleRequestInfo updatedScheduleRequestInfo = getSchedulingService().updateScheduleRequest(requestInfo.getId(),requestInfo, contextInfo);
                wrapper.setScheduleRequestInfo(updatedScheduleRequestInfo);
             } catch (Exception e){
                 throw new RuntimeException(e);
@@ -802,6 +854,27 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
         public String getRequiredMessage() {
             return requiredMessage;
+        }
+    }
+
+    public void deleteRequestedAndActualSchedules(ActivityOfferingInfo activity){
+        try {
+            List<ScheduleRequestInfo> rdls = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,activity.getId(),ContextUtils.createDefaultContextInfo());
+            for (ScheduleRequestInfo rdl : rdls) {
+                StatusInfo status = getSchedulingService().deleteScheduleRequest(rdl.getId(),ContextUtils.createDefaultContextInfo());
+                if (!status.getIsSuccess()){
+                     throw new RuntimeException("Cant delete RDL");
+                }
+            }
+            if (StringUtils.isNotBlank(activity.getScheduleId())){
+                 StatusInfo status = getSchedulingService().deleteSchedule(activity.getScheduleId(),ContextUtils.createDefaultContextInfo());
+                 if (!status.getIsSuccess()){
+                     throw new RuntimeException("Cant delete RDL");
+                 }
+                activity.setScheduleId("");
+            }
+        }catch (Exception e){
+            throw new RuntimeException(e);
         }
     }
 

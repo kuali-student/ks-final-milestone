@@ -120,7 +120,7 @@
         <property name="headerText" value="Requested Delivery Logistics"/>
         <property name="layoutManager.richTable.render" value="false" />
         <property name="disclosure.render" value="@{scheduleCompleted}"/>
-        <property name="disclosure.defaultOpen" value="false"/>
+        <property name="disclosure.defaultOpen" value="true"/>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:label="TBA" p:propertyName="tbaUI"/>
@@ -139,8 +139,8 @@
         </property>
         <property name="lineActions">
               <list>
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:ajaxReturnType="update-component" p:ajaxSubmit="true" p:refreshId="ActivityOffering-DeliveryLogistic-Requested" p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-New');" p:render="@{scheduleCompleted}"/>
-                  <bean parent="Uif-DeleteLineAction" p:successCallback="deleteRDLCallBack();"/>
+                  <bean parent="Uif-NavigationActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:focusOnIdAfterSubmit="rdl_days_control" p:ajaxReturnType="update-component" p:ajaxSubmit="true" p:refreshId="ActivityOffering-DeliveryLogistic-Requested" p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-New');" p:render="@{scheduleCompleted}"/>
+                  <bean parent="Uif-DeleteLineAction" />
               </list>
         </property>
     </bean>
@@ -165,7 +165,7 @@
                     </property>
                 </bean>
                 <ref bean="ActivityOffering-DeliveryLogistic-New-Features-Section"/>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Add" p:methodToCall="addScheduleComponent" p:ajaxReturnType="update-component" p:ajaxSubmit="true" p:refreshId="ActivityOffering-DeliveryLogistic-New" p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-Requested');"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="@{!scheduleEditInProgress ? 'Add' : 'Update'}" p:methodToCall="addScheduleComponent" p:ajaxReturnType="update-component" p:ajaxSubmit="true" p:refreshId="ActivityOffering-DeliveryLogistic-New" p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-Requested');"/>
             </list>
         </property>
     </bean>
@@ -196,7 +196,7 @@
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="Days" p:propertyName="newScheduleRequest.days" p:defaultValue="mt" p:uppercaseValue="true">
+                <bean id="rdl_days" parent="Uif-InputField-LabelTop" p:label="Days" p:propertyName="newScheduleRequest.days" p:defaultValue="mt" p:uppercaseValue="true">
                     <property name="constraintText" value="MTWHFSU"/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10"/>

@@ -72,7 +72,6 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -124,23 +123,31 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 throw convertServiceExceptionsToUI(e);
             }
 
-            //All the details on the current AO saved successfully.. Now, update the max enrollment on the other AOs in the coloset if it's shared
-            if (activityOfferingWrapper.isMaxEnrollmentShared()){
-                try {
-                    for(ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()){
-                        if (activity.getActivityOfferingInfo() == null){
-                            activity.setActivityOfferingInfo(getCourseOfferingService().getActivityOffering(activity.getAoId(),createContextInfo()));
-                        }
+            //All the details on the current AO saved successfully.. Now, update the max enrollment on other AOs in the coloset
+            try {
+                for(ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()){
+                    //If an activity is newly added in this session for colo, delete it's RDLs and ADLs if exists
+
+                    if (activityOfferingWrapper.isColocatedAO() && !activity.isAlreadyPersisted()){
+                        activity.getActivityOfferingInfo().setScheduleId(null);
                     }
 
-                    for(ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()){
+                    activity.getActivityOfferingInfo().setIsPartOfColocatedOfferingSet(activityOfferingWrapper.isColocatedAO());
+                    if (activityOfferingWrapper.isColocatedAO() && activityOfferingWrapper.isMaxEnrollmentShared()){
                         activity.getActivityOfferingInfo().setMaximumEnrollment(activityOfferingWrapper.getSharedMaxEnrollment());
-                        ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(activity.getAoId(),activity.getActivityOfferingInfo(),createContextInfo());
-                        activity.setActivityOfferingInfo(updatedAO);
                     }
-                } catch (Exception e) {
-                    throw convertServiceExceptionsToUI(e);
+                    if (activityOfferingWrapper.isColocatedAO()){
+//                        activity.getActivityOfferingInfo().setScheduleId(activityOfferingWrapper.getAoInfo().getScheduleId());
+                    }
+                    ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(activity.getAoId(),activity.getActivityOfferingInfo(),createContextInfo());
+                    activity.setActivityOfferingInfo(updatedAO);
+
+                    if (activityOfferingWrapper.isColocatedAO() && !activity.isAlreadyPersisted()){
+                        getScheduleHelper().deleteRequestedAndActualSchedules(activity.getActivityOfferingInfo());
+                    }
                 }
+            } catch (Exception e) {
+                throw convertServiceExceptionsToUI(e);
             }
         }
     }
@@ -191,7 +198,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     if (activity.getEditRenderHelper().isAllowEnrollmentEdit()){
                         wrapper.getAoInfo().setMaximumEnrollment(activity.getMaxEnrollmentCount());
                     }
-                    totalSeats =+ activity.getMaxEnrollmentCount();
+                    totalSeats = totalSeats + activity.getMaxEnrollmentCount();
                 }
                 coloSet.setMaximumEnrollment(totalSeats);
             }
@@ -393,6 +400,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     protected void loadColocatedAOs(ActivityOfferingWrapper wrapper) throws Exception {
 
         ActivityOfferingInfo info = wrapper.getAoInfo();
+        wrapper.setPartOfColoSetOnLoadAlready(info.getIsPartOfColocatedOfferingSet());
 
         if (info.getIsPartOfColocatedOfferingSet()){
 
@@ -416,11 +424,14 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 for (ActivityOfferingInfo dto : aoInfos){
                     ColocatedActivity coloAO = new ColocatedActivity();
                     coloAO.setAoId(dto.getId());
-                    coloAO.setMaxEnrollmentCount(dto.getMaximumEnrollment());
+                    if (dto.getMaximumEnrollment() != null){
+                        coloAO.setMaxEnrollmentCount(dto.getMaximumEnrollment());
+                    }
                     coloAO.setCoId(dto.getCourseOfferingId());
                     coloAO.setActivityOfferingCode(dto.getActivityCode());
                     coloAO.setCourseOfferingCode(dto.getCourseOfferingCode());
                     coloAO.setColoSetInfo(colocatedOfferingSetInfo);
+                    coloAO.setAlreadyPersisted(true);
                     coloAO.setActivityOfferingInfo(dto);
                     wrapper.getColocatedActivities().add(coloAO);
                     wrapper.getNewScheduleRequest().getColocatedAOs().add(coloAO.getEditRenderHelper().getCode());
@@ -686,8 +697,15 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             for (ActivityOfferingInfo ao : activityOfferingInfos){
                 if (StringUtils.equalsIgnoreCase(ao.getActivityCode(),colo.getActivityOfferingCode())){
                     colo.setAoId(ao.getId());
-                    colo.setMaxEnrollmentCount(ao.getMaximumEnrollment());
+                    if (ao.getMaximumEnrollment() != null){
+                        colo.setMaxEnrollmentCount(ao.getMaximumEnrollment());
+                    }
                     colo.setActivityOfferingInfo(ao);
+
+                    if (ao.getIsPartOfColocatedOfferingSet()){
+                        GlobalVariables.getMessageMap().putError(groupId, RiceKeyConstants.ERROR_CUSTOM, "This Activity is already part of another colocate set");
+                        return false;
+                    }
                     isAOMatchFound = true;
                 }
             }

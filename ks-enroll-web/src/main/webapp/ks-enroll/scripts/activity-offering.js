@@ -5,31 +5,28 @@
  */
 function setupColoCheckBoxChange(control,doRDLCheck){
 
-    var rdlExists = jQuery("#ActivityOffering-DeliveryLogistic-Requested td").length > 0;
-
     if(jQuery(control).is(":checked")) {
 
-        if (rdlExists && doRDLCheck){
-            jQuery(control).prop("checked","");
-        } else {
-            jQuery("#maximumEnrollment").hide();
-            jQuery("#ActivityOfferingEdit-MainPage-CoLocation").show();
+        jQuery("#maximumEnrollment").hide();
+        jQuery("#ActivityOfferingEdit-MainPage-CoLocation").show();
 
-            if(jQuery("#share_seats_control_0").length != 0 && jQuery("#share_seats_control_0").is(":checked")) {
-                jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").hide();
-                jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").show();
-                jQuery("#shared_max_enr_control").removeClass("ignoreValid");
-                jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
-            } else {
-                jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").show();
-                jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").hide();
-                jQuery("#shared_max_enr_control").addClass("ignoreValid");
-                jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").removeClass("ignoreValid");
-            }
-            onColoCheckBoxChange(true);
+        if(jQuery("#share_seats_control_0").length != 0 && jQuery("#share_seats_control_0").is(":checked")) {
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").hide();
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").show();
+            jQuery("#shared_max_enr_control").removeClass("ignoreValid");
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
+        } else {
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate").show();
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared").hide();
+            jQuery("#shared_max_enr_control").addClass("ignoreValid");
+            jQuery("#ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate :text").removeClass("ignoreValid");
         }
+        onColoCheckBoxChange(true);
 
     } else {
+
+        var rdlExists = jQuery("#ActivityOffering-DeliveryLogistic-Requested td").length > 0;
+
         if (rdlExists && doRDLCheck){
             jQuery(control).prop("checked","checked");
         } else {
@@ -101,7 +98,7 @@ function addColocatedAOSuccessCallBack(){
     });
 }
 
-function deleteRDLCallBack(){
+/*function deleteRDLCallBack(){
     var rdlExists = jQuery("#ActivityOffering-DeliveryLogistic-Requested td").length > 0;
     //If authz is associated with this, check the hidden authz related flag before doing this.
     if (rdlExists){
@@ -109,7 +106,7 @@ function deleteRDLCallBack(){
     } else {
         jQuery("#is_co_located_control").attr("disabled", false);
     }
-}
+}*/
 
 function onColoCheckBoxChange(checked){
     if (checked){

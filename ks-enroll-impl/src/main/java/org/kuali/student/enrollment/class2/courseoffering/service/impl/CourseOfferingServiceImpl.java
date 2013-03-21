@@ -1727,7 +1727,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         StatusInfo result = new StatusInfo();
 
         // find the schedule for this AO
-        List<ScheduleRequestInfo> requests = schedulingService.getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityOfferingId, contextInfo);
+        List<ScheduleRequestInfo> requests = new ArrayList<ScheduleRequestInfo>();
+        if (aoInfo.getIsPartOfColocatedOfferingSet()){
+            List<ColocatedOfferingSetInfo> coloSet = getColocatedOfferingSetsByActivityOffering(activityOfferingId,contextInfo);
+            if (!coloSet.isEmpty()){
+                if (coloSet.size() > 1){
+                    throw new OperationFailedException("Multiple Colocated Set not supported.");
+                }
+                requests = schedulingService.getScheduleRequestsByRefObject(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY, coloSet.get(0).getId(), contextInfo);
+            }
+        } else {
+            requests = schedulingService.getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityOfferingId, contextInfo);
+        }
 
         if(requests.isEmpty()) {
             result.setSuccess(true);

@@ -104,6 +104,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private ColocatedOfferingSetInfo colocatedOfferingSetInfo;
 
     private EditRenderHelper editRenderHelper;
+    private boolean isPartOfColoSetOnLoadAlready;
 
     //This is needed to display the cross listed courses
     private CourseInfo course;
@@ -835,6 +836,14 @@ public class ActivityOfferingWrapper implements Serializable{
         this.colocatedOfferingSetInfo = colocatedOfferingSetInfo;
     }
 
+    public boolean isPartOfColoSetOnLoadAlready() {
+        return isPartOfColoSetOnLoadAlready;
+    }
+
+    public void setPartOfColoSetOnLoadAlready(boolean isPartOfColoSetOnLoadAlready) {
+        this.isPartOfColoSetOnLoadAlready = isPartOfColoSetOnLoadAlready;
+    }
+
     /**
      * Returns the Edit Helper.
      *
@@ -887,6 +896,13 @@ public class ActivityOfferingWrapper implements Serializable{
             isPersistedRDLsExists = persistedRDLsExists;
         }
 
+        public String getColocatedActivitiesAsString(){
+            StringBuffer s = new StringBuffer();
+            for (ColocatedActivity colo : getColocatedActivities()){
+                s.append(colo.getEditRenderHelper().getCode() + ", ");
+            }
+            return StringUtils.stripEnd(s.toString(),", ");
+        }
     }
 
 }

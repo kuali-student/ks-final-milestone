@@ -40,6 +40,8 @@ public class ColocatedActivity implements Serializable {
 
     private EditRenderHelper editRenderHelper;
 
+    private boolean isAlreadyPersisted;
+
     public ColocatedActivity(){
         editRenderHelper = new EditRenderHelper();
     }
@@ -116,6 +118,14 @@ public class ColocatedActivity implements Serializable {
 
     public void setActivityOfferingInfo(ActivityOfferingInfo activityOfferingInfo) {
         this.activityOfferingInfo = activityOfferingInfo;
+    }
+
+    public boolean isAlreadyPersisted() {
+        return isAlreadyPersisted;
+    }
+
+    public void setAlreadyPersisted(boolean alreadyPersisted) {
+        isAlreadyPersisted = alreadyPersisted;
     }
 
     /**
