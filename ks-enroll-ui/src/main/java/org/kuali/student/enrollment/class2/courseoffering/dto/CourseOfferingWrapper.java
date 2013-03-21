@@ -49,6 +49,8 @@ public class CourseOfferingWrapper implements Serializable{
     private String courseOfferingId;
     private boolean isCrossListed;
     private List<String> alternateCOCodes;
+    private List<String> ownerAliases;
+    private String ownerCode;
     private String coOwningDeptName;
 
     private boolean isColocatedAoToDelete;
@@ -68,6 +70,7 @@ public class CourseOfferingWrapper implements Serializable{
 
     public CourseOfferingWrapper(){
         alternateCOCodes = new ArrayList<String>();
+        ownerAliases = new ArrayList<String>();
     }
 
     /**
@@ -77,6 +80,7 @@ public class CourseOfferingWrapper implements Serializable{
     public CourseOfferingWrapper(CourseOfferingInfo courseOfferingInfo){
         this.courseOfferingInfo = courseOfferingInfo;
         this.alternateCOCodes = new ArrayList<String>();
+        this.ownerAliases = new ArrayList<String>();
     }
 
     /**
@@ -99,6 +103,24 @@ public class CourseOfferingWrapper implements Serializable{
             this.alternateCOCodes = alternateCOCodes;
         }
         this.courseOfferingId = courseOfferingId;
+    }
+
+    public CourseOfferingWrapper(boolean isCrossListed, String courseOfferingCode, String courseOfferingDesc,List<String> alternateCOCodes,String courseOfferingId, String ownerCode, List<String> ownerAliases){
+        this.isCrossListed = isCrossListed;
+        this.courseOfferingCode = courseOfferingCode;
+        this.courseOfferingDesc = courseOfferingDesc;
+        if (alternateCOCodes == null){
+            this.alternateCOCodes = new ArrayList<String>();
+        } else {
+            this.alternateCOCodes = alternateCOCodes;
+        }
+        this.courseOfferingId = courseOfferingId;
+        this.ownerCode = ownerCode;
+        if (ownerAliases == null){
+            this.ownerAliases = new ArrayList<String>();
+        } else {
+            this.ownerAliases = ownerAliases;
+        }
     }
 
     public CourseInfo getCourse() {
@@ -224,6 +246,31 @@ public class CourseOfferingWrapper implements Serializable{
        }
        return StringUtils.removeEnd(buffer.toString(), "<br>");
    }
+
+    public List<String> getOwnerAliases() {
+        return ownerAliases;
+    }
+
+    public void setOwnerAliases(List<String> ownerAliases) {
+        this.ownerAliases = ownerAliases;
+    }
+
+    public String getOwnerCode() {
+        return ownerCode;
+    }
+
+    public void setOwnerCode(String ownerCode) {
+        this.ownerCode = ownerCode;
+    }
+
+    public String getOwnerAliasesUIList(){
+         StringBuffer buffer = new StringBuffer();
+         for (String code : ownerAliases){
+             buffer.append(code + ", ");
+         }
+
+         return StringUtils.removeEnd(buffer.toString(), ", ");
+     }
 
     /**
      * This method returns the course offering id.

@@ -261,6 +261,12 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 else if(CourseOfferingManagementSearchImpl.SearchResultColumns.CROSS_LISTED_COURSES.equals(cellInfo.getKey())){
                     coListWrapper.setAlternateCOCodes(Arrays.asList(StringUtils.split(value, ",")));
                 }
+                else if(CourseOfferingManagementSearchImpl.SearchResultColumns.OWNER_CODE.equals(cellInfo.getKey())){
+                   coListWrapper.setOwnerCode(value);
+               }
+                else if(CourseOfferingManagementSearchImpl.SearchResultColumns.OWNER_ALIASES.equals(cellInfo.getKey())){
+                    coListWrapper.setOwnerAliases(Arrays.asList(StringUtils.split(value, ",")));
+               }
 
             }
             form.getCourseOfferingResultList().add(coListWrapper);

@@ -66,6 +66,8 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         public static final String SUBJECT_AREA = "subjectArea";
         public static final String IS_CROSS_LISTED = "isCrossListedCode";
         public static final String CROSS_LISTED_COURSES = "crossListedCodes";
+        public static final String OWNER_CODE = "ownerCode";
+        public static final String OWNER_ALIASES = "ownerAliases";
 
     }
     public static final TypeInfo CO_MANAGEMENT_SEARCH;
@@ -190,6 +192,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         resultInfo.setTotalResults(results.size());
         resultInfo.setStartAt(0);
 
+
         Map<String,String> luiIds2ResultRow = new HashMap<String, String>();
 
         for (Object[] result : results) {
@@ -254,13 +257,25 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                 boolean isCrossListed = BooleanUtils.toBoolean(row.getCells().get(7).getValue());
 
                 String alternateCodes = luiIds2ResultRow.get(courseOfferingId);
-
+                String ownerCode;
+                String ownerAliases;
                 if (!isCrossListed){
                     alternateCodes = StringUtils.remove(alternateCodes,courseOfferingCode + OWNER_UI_SUFFIX);
+                    ownerCode = courseOfferingCode;
                 } else {
                     alternateCodes = StringUtils.remove(alternateCodes,courseOfferingCode);
+                    String partOfCodes = alternateCodes.substring(0, alternateCodes.indexOf(OWNER_UI_SUFFIX));
+                    int idx = alternateCodes.substring(0, alternateCodes.indexOf(OWNER_UI_SUFFIX)).lastIndexOf(",");
+                    if(idx > 0){
+                        ownerCode = partOfCodes.substring(idx);
+                    }else{
+                        ownerCode = partOfCodes.substring(0);
+                    }
                 }
 
+                ownerAliases = StringUtils.remove(luiIds2ResultRow.get(courseOfferingId),ownerCode + OWNER_UI_SUFFIX);
+                row.addCell(SearchResultColumns.OWNER_CODE,ownerCode);
+                row.addCell(SearchResultColumns.OWNER_ALIASES,ownerAliases);
                 row.addCell(SearchResultColumns.CROSS_LISTED_COURSES,alternateCodes);
 
             }

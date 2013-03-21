@@ -49,6 +49,8 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     private String adminOrg;
 
     private List<String> alternateCOCodes;
+    private String ownerCode;
+    private List<String> ownerAliases;
 
     private boolean isCrossListed;
     private boolean isColocated;
@@ -77,6 +79,7 @@ public class CourseOfferingListSectionWrapper implements Serializable{
 
     public CourseOfferingListSectionWrapper () {
         this.alternateCOCodes = new ArrayList<String>();
+        this.ownerAliases = new ArrayList<String>();
         aoToBeDeletedList =  new ArrayList<ActivityOfferingDisplayWrapper>();
     }
 
@@ -330,6 +333,22 @@ public class CourseOfferingListSectionWrapper implements Serializable{
      */
     public void setAlternateCOCodes(List<String> alternateCOCodes) {
         this.alternateCOCodes = alternateCOCodes;
+    }
+
+    public String getOwnerCode() {
+        return ownerCode;
+    }
+
+    public void setOwnerCode(String ownerCode) {
+        this.ownerCode = ownerCode;
+    }
+
+    public List<String> getOwnerAliases() {
+        return ownerAliases;
+    }
+
+    public void setOwnerAliases(List<String> ownerAliases) {
+        this.ownerAliases = ownerAliases;
     }
 
     public String getColocatedCoCode() {

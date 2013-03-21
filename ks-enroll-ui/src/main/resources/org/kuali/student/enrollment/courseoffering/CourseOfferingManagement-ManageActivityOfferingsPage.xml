@@ -51,7 +51,7 @@
 
     <bean id="KS-CourseOfferingManagement-ActivityOfferingResultSection" p:id="ActivityOfferingResultSection" parent="Uif-VerticalBoxSection">
         <property name="componentSecurity.viewAuthz" value="true"/>
-        <property name="headerText" value="@{currentCourseOfferingWrapper.courseOfferingCode} - @{currentCourseOfferingWrapper.courseOfferingDesc} (@{currentCourseOfferingWrapper.creditCnt} Credits, SOC State: @{socState})" />
+        <property name="headerText" value="@{currentCourseOfferingWrapper.ownerCode} - @{currentCourseOfferingWrapper.courseOfferingDesc} (@{currentCourseOfferingWrapper.creditCnt} Credits, SOC State: @{socState})" />
         <property name="disclosure.render" value="false"/>
         <property name="header.cssClasses">
             <list merge="true">
@@ -63,7 +63,7 @@
                 <property name="style" value="margin-bottom:px;"/>
                 <property name="items">
                     <list>
-                        <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{currentCourseOfferingWrapper.alternateCOCodesUIList}" p:render="@{currentCourseOfferingWrapper.alternateCOCodesUIList != ''}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
+                        <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{currentCourseOfferingWrapper.ownerAliasesUIList}" p:render="@{currentCourseOfferingWrapper.ownerAliasesUIList != ''}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
                         <bean parent="Uif-LinkGroup" p:style="float:right">
                             <property name="items">
                                 <list>
