@@ -38,6 +38,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @WebService(name = "StateService", serviceName = "StateService", portName = "StateService", targetNamespace = "http://student.kuali.org/wsdl/state")
@@ -284,7 +285,21 @@ public class StateServiceImpl implements StateService {
 
     @Override
     public List<String> getInitialStatesByLifecycle(String lifecycleKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+
+        if( StringUtils.isEmpty(lifecycleKey) ) throw new MissingParameterException( "lifecycle key must be supplied" );
+        lifecycleKey = lifecycleKey.trim();
+
+        List<String> result = new ArrayList<String>();
+        try {
+            List<String> initialStateKeys = stateDao.getInitialStateKeys( lifecycleKey );
+            if( initialStateKeys != null ) {
+                result.addAll( initialStateKeys );
+            }
+        } catch ( Exception e ) {
+            throw new OperationFailedException( "unable to get initial-state-keys for lifecycle(" + lifecycleKey + ")", e );
+        }
+
+        return result;
     }
 
     @Override
