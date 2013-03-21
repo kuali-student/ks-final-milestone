@@ -23,7 +23,6 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.form.ActivityOfferingForm;
 import org.kuali.student.enrollment.class2.courseoffering.helper.infc.ActivityOfferingScheduleHelper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -173,9 +172,8 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
     }
 
-    public boolean addScheduleRequestComponent(ActivityOfferingForm form){
+    public boolean addScheduleRequestComponent(ActivityOfferingWrapper activityOfferingWrapper){
 
-        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
         ScheduleWrapper scheduleWrapper = activityOfferingWrapper.getNewScheduleRequest();
 
         boolean success = validateNewScheduleRequest(scheduleWrapper);

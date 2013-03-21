@@ -14,7 +14,6 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.form.ActivityOfferingForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.uif.form.KSUifMaintenanceDocumentForm;
@@ -39,9 +38,9 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
 
     @Override
     protected MaintenanceDocumentForm createInitialForm(HttpServletRequest request) {
-        return new ActivityOfferingForm();
+        return new KSUifMaintenanceDocumentForm();
     }
-
+    
     /**
      * Setups a new <code>MaintenanceDocumentView</code> with the edit maintenance
      * action
@@ -66,18 +65,18 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
     }
 
     /*@RequestMapping(params = "methodToCall=reviseSchedule")
-    public ModelAndView reviseSchedule(@ModelAttribute("KualiForm") ActivityOfferingForm form) throws Exception {
+    public ModelAndView reviseSchedule(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
         ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
         viewHelper.prepareForScheduleRevise(activityOfferingWrapper);
         form.setDeliveryLogisiticsAddButtonText("Add");
 
-        return getUIFModelAndView(form,ActivityOfferingForm.SCHEDULE_PAGE);
+        return getUIFModelAndView(form,MaintenanceDocumentForm.SCHEDULE_PAGE);
     }*/
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=editScheduleComponent")
-    public ModelAndView editScheduleComponent(@ModelAttribute("KualiForm") ActivityOfferingForm form) throws Exception {
+    public ModelAndView editScheduleComponent(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
         ScheduleWrapper scheduleWrapper = (ScheduleWrapper)getSelectedObject(form);
@@ -86,13 +85,13 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         newSchedule.copyForEditing(scheduleWrapper);
         activityOfferingWrapper.setNewScheduleRequest(newSchedule);
         activityOfferingWrapper.getRequestedScheduleComponents().remove(scheduleWrapper);
-        form.setScheduleEditInProgress(true);
+        activityOfferingWrapper.getEditRenderHelper().setScheduleEditInProgress(true);
 
         return getUIFModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=addScheduleComponent")
-    public ModelAndView addScheduleComponent(@ModelAttribute("KualiForm") ActivityOfferingForm form) throws Exception {
+    public ModelAndView addScheduleComponent(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
@@ -103,11 +102,11 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         }
 
         ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
-        boolean success = viewHelper.addScheduleRequestComponent(form);
+        boolean success = viewHelper.addScheduleRequestComponent(activityOfferingWrapper);
 
         if (success){
 //            form.setDeliveryLogisiticsAddButtonText("Add");
-            form.setScheduleEditInProgress(false);
+            activityOfferingWrapper.getEditRenderHelper().setScheduleEditInProgress(false);
             activityOfferingWrapper.setSchedulesModified(true);
             if (activityOfferingWrapper.isColocatedAO() && !activityOfferingWrapper.getColocatedActivities().isEmpty()){
                 GlobalVariables.getMessageMap().putWarning("ActivityOffering-DeliveryLogistic-Requested", RiceKeyConstants.ERROR_CUSTOM,activityOfferingWrapper.getEditRenderHelper().getColocatedActivitiesAsString());
@@ -118,13 +117,13 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
     }
 
     /*@RequestMapping(params = "methodToCall=saveRevisedSchedules")
-    public ModelAndView saveRevisedSchedules(@ModelAttribute("KualiForm") ActivityOfferingForm form) throws Exception {
+    public ModelAndView saveRevisedSchedules(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
         if (form.isScheduleEditInProgress()){
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Editing a schedule request in progress. Please update it first before processing");
-            return getUIFModelAndView(form,ActivityOfferingForm.SCHEDULE_PAGE);
+            return getUIFModelAndView(form,MaintenanceDocumentForm.SCHEDULE_PAGE);
         }
 
         activityOfferingWrapper.getRequestedScheduleComponents().clear();
@@ -136,17 +135,17 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         activityOfferingWrapper.setNewScheduleRequest(new ScheduleWrapper());
         activityOfferingWrapper.getRevisedScheduleRequestComponents().clear();
 
-        return getUIFModelAndView(form,ActivityOfferingForm.MAIN_PAGE);
+        return getUIFModelAndView(form,MaintenanceDocumentForm.MAIN_PAGE);
     }
 
     @RequestMapping(params = "methodToCall=processRevisedSchedules")
-    public ModelAndView processRevisedSchedules(@ModelAttribute("KualiForm") ActivityOfferingForm form) throws Exception {
+    public ModelAndView processRevisedSchedules(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
         if (form.isScheduleEditInProgress()){
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Editing a schedule request in progress. Please update it first before processing");
-            return getUIFModelAndView(form,ActivityOfferingForm.SCHEDULE_PAGE);
+            return getUIFModelAndView(form,MaintenanceDocumentForm.SCHEDULE_PAGE);
         }
 
         activityOfferingWrapper.getRequestedScheduleComponents().clear();
@@ -164,18 +163,18 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
 
         GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Schedule has been successfully processed");
 
-        return getUIFModelAndView(form,ActivityOfferingForm.MAIN_PAGE);
+        return getUIFModelAndView(form,MaintenanceDocumentForm.MAIN_PAGE);
     }
 
     @RequestMapping(params = "methodToCall=cancelScheduleRevise")
-    public ModelAndView cancelScheduleRevise(@ModelAttribute("KualiForm") ActivityOfferingForm form) throws Exception {
+    public ModelAndView cancelScheduleRevise(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
         activityOfferingWrapper.getRevisedScheduleRequestComponents().clear();
         activityOfferingWrapper.setSchedulesModified(false);
 
-        return getUIFModelAndView(form,ActivityOfferingForm.MAIN_PAGE);
+        return getUIFModelAndView(form,MaintenanceDocumentForm.MAIN_PAGE);
     }*/
 
 
@@ -203,7 +202,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
     }
 
     /*@RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteLine")
-    public ModelAndView deleteLine(@ModelAttribute("KualiForm") ActivityOfferingForm form, BindingResult result,
+    public ModelAndView deleteLine(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
@@ -230,7 +229,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
 
     }*/
 
-    private Object getSelectedObject(ActivityOfferingForm form){
+    private Object getSelectedObject(MaintenanceDocumentForm form){
         String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set");

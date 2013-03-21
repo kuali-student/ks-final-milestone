@@ -7,6 +7,7 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
@@ -844,6 +845,15 @@ public class ActivityOfferingWrapper implements Serializable{
         this.isPartOfColoSetOnLoadAlready = isPartOfColoSetOnLoadAlready;
     }
 
+    public boolean isScheduleCompleted(){
+        if (getSocInfo() != null){
+            if (StringUtils.equals(CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED,getSocInfo().getSchedulingStateKey())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Returns the Edit Helper.
      *
@@ -860,6 +870,7 @@ public class ActivityOfferingWrapper implements Serializable{
 
         private List<ColocatedActivity> manageSeperateEnrollmentList;
 
+        private boolean scheduleEditInProgress;
         private boolean isPersistedRDLsExists;
 
         public EditRenderHelper(){
@@ -902,6 +913,14 @@ public class ActivityOfferingWrapper implements Serializable{
                 s.append(colo.getEditRenderHelper().getCode() + ", ");
             }
             return StringUtils.stripEnd(s.toString(),", ");
+        }
+
+        public boolean isScheduleEditInProgress() {
+            return scheduleEditInProgress;
+        }
+
+        public void setScheduleEditInProgress(boolean scheduleEditInProgress) {
+            this.scheduleEditInProgress = scheduleEditInProgress;
         }
     }
 

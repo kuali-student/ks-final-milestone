@@ -25,7 +25,6 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructor
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.form.ActivityOfferingForm;
 import org.kuali.student.enrollment.class2.courseoffering.helper.ActivityOfferingScheduleHelperImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.service.SeatPoolUtilityService;
@@ -228,8 +227,8 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     }
 
     @Override
-    public boolean addScheduleRequestComponent(ActivityOfferingForm form) {
-        return getScheduleHelper().addScheduleRequestComponent(form);
+    public boolean addScheduleRequestComponent(ActivityOfferingWrapper activityOfferingWrapper) {
+        return getScheduleHelper().addScheduleRequestComponent(activityOfferingWrapper);
     }
 
     /*@Override
@@ -877,13 +876,12 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     @Override
     public void processCollectionDeleteLine(View view, Object model, String collectionPath, int lineIndex) {
 
+        MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
         if (StringUtils.endsWith(collectionPath, "requestedScheduleComponents")) {
-            ActivityOfferingForm form = (ActivityOfferingForm) model;
             ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
             wrapper.setSchedulesModified(true);
             wrapper.getRequestedScheduleComponents().remove(lineIndex);
         } else if (StringUtils.endsWith(collectionPath, "colocatedActivities")) {
-            ActivityOfferingForm form = (ActivityOfferingForm) model;
             ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
             ColocatedActivity deleteCOLO = wrapper.getColocatedActivities().remove(lineIndex);
             wrapper.getEditRenderHelper().getManageSeperateEnrollmentList().remove(deleteCOLO);
