@@ -125,13 +125,13 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
     public void processRevisedSchedules(ActivityOfferingWrapper activityOfferingWrapper){
 
-        if (activityOfferingWrapper.getRequestedScheduleComponents().isEmpty()){
-            //If there are no schedule components, it's not needed to have the request
-            deleteScheduleRequest(activityOfferingWrapper);
-        } else {
+//        if (activityOfferingWrapper.getRequestedScheduleComponents().isEmpty()){
+//            //If there are no schedule components, it's not needed to have the request
+//            deleteScheduleRequest(activityOfferingWrapper);
+//        } else {
             //Create/update schedule requests
             createOrUpdateScheduleRequests(activityOfferingWrapper);
-        }
+//        }
 
         try {
 
@@ -154,6 +154,15 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             activityOfferingWrapper.getAoInfo().setStateKey(latestAO.getStateKey());
             activityOfferingWrapper.getAoInfo().setScheduleId(latestAO.getScheduleId());
             activityOfferingWrapper.getAoInfo().setSchedulingStateKey(latestAO.getSchedulingStateKey());
+
+            if (activityOfferingWrapper.isColocatedAO()){
+                for (ColocatedActivity colocatedActivity : activityOfferingWrapper.getColocatedActivities()){
+                    ActivityOfferingInfo ao = getCourseOfferingService().getActivityOffering(colocatedActivity.getActivityOfferingInfo().getId(),contextInfo);
+                    ActivityOfferingInfo updatedAO = updateScheduledActivityOffering(ao, getCourseOfferingService(), getCourseOfferingSetService(), contextInfo);
+                    colocatedActivity.setActivityOfferingInfo(updatedAO);
+                    colocatedActivity.setAoId(updatedAO.getId());
+                }
+            }
 
             //Set it in the wrapper and load all the revised schedule Actuals
             loadScheduleActuals(activityOfferingWrapper);
@@ -372,41 +381,47 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
-       /* *//**
-         * 1. If the AO is colocated on load and user unchecks that, then we
-         *//*
+        boolean createScheduleComponent = false;
+
+       /**
+         * This block should cover these scenarios.
+         * 1. When the user opens an AO and it was not colocated on load and then user decides to change the AO to colocated
+         *        In this case, If there are RDLs already exists, change those to be a crosslisted RDLs
+         *  2. When the user opens a cross listed AO and then user decides to change it to non cross listed AO
+         *        For M6, this should not be the problem as user has to delete all the RDLs first before uncheck
+         */
         try{
             if (wrapper.getScheduleRequestInfo() != null && StringUtils.isNotBlank(wrapper.getScheduleRequestInfo().getId())){
                 if (wrapper.isPartOfColoSetOnLoadAlready()){
                     if (!wrapper.isColocatedAO()){
-                        //create new RDL for this AO
-
+                        //If there are no activities associated with the colo, then delete the RDL for colo
+                        if (wrapper.getColocatedOfferingSetInfo().getActivityOfferingIds().isEmpty()){
+                            StatusInfo statusInfo = getSchedulingService().deleteScheduleRequest(wrapper.getScheduleRequestInfo().getId(),contextInfo);
+                            if (!statusInfo.getIsSuccess()){
+                                 throw new RuntimeException("Error deleting RDLs for the coloset");
+                            }
+                        }
+                        //create new RDL for this AO and copy Colo RDL data to create new RDL for this AO
+                        wrapper.setScheduleRequestInfo(new ScheduleRequestInfo());
+                        createScheduleComponent = true;
                     }
                 } else {
                     if (wrapper.isColocatedAO()){
-                        String refObjectType = LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY;
-                        String refObjectId = wrapper.getColocatedOfferingSetInfo().getId();
-                        //create new RDL and delete the RDL for AO
-                        StatusInfo statusInfo = getSchedulingService().deleteScheduleRequest(wrapper.getScheduleRequestInfo().getId(),contextInfo);
-                        if (!statusInfo.getIsSuccess()){
-                             throw new RuntimeException("Error deleting schedule request for the AO - " + statusInfo.getMessage());
-                        }
-
-                        getSchedulingService().getScheduleRequest()
-                        buildScheduleRequestInfo
+                        //Should not be the problem. We just need to change the RDLs to point to Colo instead of AO, which is
+                        // already happening at buildScheduleRequestInfo(wrapper)
                     }
                 }
             }
         }catch (Exception e){
             throw new RuntimeException(e);
-        }*/
+        }
 
         buildScheduleRequestInfo(wrapper);
 
         wrapper.getScheduleRequestInfo().getScheduleRequestComponents().clear();
 
         for (ScheduleWrapper scheduleWrapper : wrapper.getRequestedScheduleComponents()) {
-            if (!scheduleWrapper.isRequestAlreadySaved()){
+            if (!scheduleWrapper.isRequestAlreadySaved() || createScheduleComponent){
                 ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(scheduleWrapper);
                 wrapper.getScheduleRequestInfo().getScheduleRequestComponents().add(componentInfo);
             }

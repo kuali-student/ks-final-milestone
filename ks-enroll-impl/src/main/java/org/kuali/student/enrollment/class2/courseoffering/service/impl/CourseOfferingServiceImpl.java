@@ -1728,18 +1728,21 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         // find the schedule for this AO
         List<ScheduleRequestInfo> requests = new ArrayList<ScheduleRequestInfo>();
+        ColocatedOfferingSetInfo colocatedOfferingSetInfo = null;
         if (aoInfo.getIsPartOfColocatedOfferingSet()){
             List<ColocatedOfferingSetInfo> coloSet = getColocatedOfferingSetsByActivityOffering(activityOfferingId,contextInfo);
             if (!coloSet.isEmpty()){
                 if (coloSet.size() > 1){
                     throw new OperationFailedException("Multiple Colocated Set not supported.");
                 }
+                colocatedOfferingSetInfo = coloSet.get(0);
                 requests = schedulingService.getScheduleRequestsByRefObject(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY, coloSet.get(0).getId(), contextInfo);
             }
         } else {
             requests = schedulingService.getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityOfferingId, contextInfo);
         }
 
+        String newScheduleId = "";
         if(requests.isEmpty()) {
             result.setSuccess(true);
             result.setMessage("No scheduling requests were found");
@@ -1760,8 +1763,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 throw new OperationFailedException("createSchedule failed due to the following uncaught exception: " + e.getClass().getSimpleName() + " " + e.getMessage(), e);
             }
 
+            newScheduleId = persistedSchedule.getId();
+
             // set the id of the new schedule to the AO and update the entity
-            aoInfo.setScheduleId(persistedSchedule.getId());
+            aoInfo.setScheduleId(newScheduleId);
 
             result.setSuccess(true);
             result.setMessage("New Schedule Successfully created");
@@ -1771,6 +1776,23 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             updateActivityOffering(aoInfo.getId(), aoInfo, contextInfo);
         } catch (Exception e) {
             throw new OperationFailedException("createSchedule failed due to the following uncaught exception: " + e.getClass().getSimpleName() + " " + e.getMessage(), e);
+        }
+
+        if (StringUtils.isNotBlank(newScheduleId) && colocatedOfferingSetInfo != null && !colocatedOfferingSetInfo.getActivityOfferingIds().isEmpty()){
+            List<String> activityOfferingIds = new ArrayList<String>(colocatedOfferingSetInfo.getActivityOfferingIds());
+            activityOfferingIds.remove(aoInfo.getId());
+            if (!activityOfferingIds.isEmpty()) {
+                List<ActivityOfferingInfo> aoInfos = getActivityOfferingsByIds(activityOfferingIds,contextInfo);
+
+                for (ActivityOfferingInfo ao : aoInfos){
+                    ao.setScheduleId(newScheduleId);
+                    try {
+                        updateActivityOffering(ao.getId(),ao,contextInfo);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
         }
 
         // if the activity offering has an existing schedule, delete that schedule

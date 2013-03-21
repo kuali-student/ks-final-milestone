@@ -120,7 +120,7 @@
         <property name="headerText" value="Requested Delivery Logistics"/>
         <property name="layoutManager.richTable.render" value="false" />
         <property name="disclosure.render" value="@{scheduleCompleted}"/>
-        <property name="disclosure.defaultOpen" value="true"/>
+        <property name="disclosure.defaultOpen" value="false"/>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:label="TBA" p:propertyName="tbaUI"/>
@@ -139,7 +139,7 @@
         </property>
         <property name="lineActions">
               <list>
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:focusOnIdAfterSubmit="rdl_days_control" p:ajaxReturnType="update-component" p:ajaxSubmit="true" p:refreshId="ActivityOffering-DeliveryLogistic-Requested" p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-New');" p:render="@{scheduleCompleted}"/>
+                  <bean parent="Uif-ActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-New');" p:render="@{scheduleCompleted}"/>
                   <bean parent="Uif-DeleteLineAction" />
               </list>
         </property>

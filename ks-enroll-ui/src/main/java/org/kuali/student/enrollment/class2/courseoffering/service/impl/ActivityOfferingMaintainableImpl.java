@@ -13,10 +13,12 @@ import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.field.InputField;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
@@ -72,6 +74,7 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -112,7 +115,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
             saveColocatedAOs(activityOfferingWrapper);
 
-            if (activityOfferingWrapper.isSchedulesModified()){
+            if (activityOfferingWrapper.isSchedulesModified() || !(activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && activityOfferingWrapper.isColocatedAO())){
                 getScheduleHelper().saveSchedules(activityOfferingWrapper);
             }
 
@@ -128,17 +131,11 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 for(ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()){
                     //If an activity is newly added in this session for colo, delete it's RDLs and ADLs if exists
 
-                    if (activityOfferingWrapper.isColocatedAO() && !activity.isAlreadyPersisted()){
-                        activity.getActivityOfferingInfo().setScheduleId(null);
-                    }
-
                     activity.getActivityOfferingInfo().setIsPartOfColocatedOfferingSet(activityOfferingWrapper.isColocatedAO());
                     if (activityOfferingWrapper.isColocatedAO() && activityOfferingWrapper.isMaxEnrollmentShared()){
                         activity.getActivityOfferingInfo().setMaximumEnrollment(activityOfferingWrapper.getSharedMaxEnrollment());
                     }
-                    if (activityOfferingWrapper.isColocatedAO()){
-//                        activity.getActivityOfferingInfo().setScheduleId(activityOfferingWrapper.getAoInfo().getScheduleId());
-                    }
+
                     ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(activity.getAoId(),activity.getActivityOfferingInfo(),createContextInfo());
                     activity.setActivityOfferingInfo(updatedAO);
 
@@ -225,6 +222,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 } catch (Exception e) {
                     throw convertServiceExceptionsToUI(e);
                 }
+                //TODO: If there are no activities in the coloset, then delete the coloset
             }
         }
     }
@@ -560,7 +558,46 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     }
 
     @Override
-    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    public void processCollectionAddLine(View view, Object model, String collectionPath) {
+        // get the collection group from the view
+        CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(collectionPath);
+        if (collectionGroup == null) {
+            logAndThrowRuntime("Unable to get collection group component for path: " + collectionPath);
+        }
+
+        // get the collection instance for adding the new line
+        Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(model, collectionPath);
+        if (collection == null) {
+            logAndThrowRuntime("Unable to get collection property from model for path: " + collectionPath);
+        }
+
+        // now get the new line we need to add
+        String addLinePath = collectionGroup.getAddLineBindingInfo().getBindingPath();
+        Object addLine = ObjectPropertyUtils.getPropertyValue(model, addLinePath);
+        if (addLine == null) {
+            logAndThrowRuntime("Add line instance not found for path: " + addLinePath);
+        }
+
+        processBeforeAddLine(view, collectionGroup, model, addLine);
+
+        // validate the line to make sure it is ok to add
+        boolean isValidLine = performAddLineValidation(view, collectionGroup, model, addLine);
+        if (isValidLine) {
+            // TODO: should check to see if there is an add line method on the
+            // collection parent and if so call that instead of just adding to
+            // the collection (so that sequence can be set)
+            addLine(collection, addLine, collectionGroup.getAddLinePlacement().equals("TOP"));
+
+            // make a new instance for the add line
+            collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
+        }
+
+        ((UifFormBase) model).getAddedCollectionItems().add(addLine);
+
+        processAfterAddLine(view, collectionGroup, model, addLine,isValidLine);
+    }
+
+    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine,boolean isValidLine) {
         super.processAfterAddLine(view, collectionGroup, model, addLine);
 
         if (addLine instanceof ScheduleComponentWrapper) {
@@ -599,7 +636,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     instructor.getOfferingInstructorInfo().setPersonName(personList.get(0).getName());
                 }
             }
-        } else if (addLine instanceof ColocatedActivity) {
+        } else if (addLine instanceof ColocatedActivity && isValidLine) {
             ColocatedActivity colo = (ColocatedActivity)addLine;
             MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
             ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
@@ -704,6 +741,9 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
                     if (ao.getIsPartOfColocatedOfferingSet()){
                         GlobalVariables.getMessageMap().putError(groupId, RiceKeyConstants.ERROR_CUSTOM, "This Activity is already part of another colocate set");
+                        return false;
+                    } else if (StringUtils.equals(ao.getId(),activityOfferingWrapper.getAoInfo().getId())){
+                        GlobalVariables.getMessageMap().putError(groupId, RiceKeyConstants.ERROR_CUSTOM, "You are adding the current Activity Offering to the Colocate set.");
                         return false;
                     }
                     isAOMatchFound = true;
