@@ -266,8 +266,8 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                     alternateCodes = StringUtils.remove(alternateCodes,courseOfferingCode);
                     String partOfCodes = alternateCodes.substring(0, alternateCodes.indexOf(OWNER_UI_SUFFIX));
                     int idx = alternateCodes.substring(0, alternateCodes.indexOf(OWNER_UI_SUFFIX)).lastIndexOf(",");
-                    if(idx > 0){
-                        ownerCode = partOfCodes.substring(idx);
+                    if(idx >= 0){
+                        ownerCode = partOfCodes.substring(idx + 1);
                     }else{
                         ownerCode = partOfCodes.substring(0);
                     }
