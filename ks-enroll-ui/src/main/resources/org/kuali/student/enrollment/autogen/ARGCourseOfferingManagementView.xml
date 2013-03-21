@@ -71,6 +71,7 @@
                 <ref bean="KS-CourseOfferingManagement-ManageTheCourseOfferingPage"/>
                 <ref bean="KS-CourseOfferingManagement-CoDeleteConfirmationPage"/>
                 <ref bean="KS-CourseOfferingManagement-SelectedAoDeleteConfirmationPage"/>
+                <ref bean="KS-CourseOfferingManagement-ClusterDeleteConfirmationPage"/>
             </list>
         </property>
         <property name="dialogs">

@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.autogen.controller;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -33,7 +34,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupW
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupManagementViewHelperService;
-import org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapterImpl;
+import org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -50,15 +51,18 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.uif.util.GrowlIcon;
 import org.kuali.student.enrollment.uif.util.KSUifUtils;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -302,7 +306,6 @@ public class ARGActivityOfferingClusterHandler {
     public static ARGCourseOfferingManagementForm moveAOToACluster (ARGCourseOfferingManagementForm theForm) throws Exception {
 
         ContextInfo context = ContextUtils.createDefaultContextInfo();
-        AutogenRegGroupServiceAdapterImpl serviceAdapter = new AutogenRegGroupServiceAdapterImpl();
         boolean aoChecked = false;
         String aocId;
 
@@ -323,7 +326,7 @@ public class ARGActivityOfferingClusterHandler {
         //move AO
         for (ActivityOfferingWrapper aoWrapper : theForm.getActivityWrapperList()) {
             if (aoWrapper.getIsChecked()) {
-                serviceAdapter.moveActivityOffering(aoWrapper.getAoInfo().getId(), aoWrapper.getAoClusterID(), aocId, context);
+                ARGUtil.getArgServiceAdapter().moveActivityOffering(aoWrapper.getAoInfo().getId(), aoWrapper.getAoClusterID(), aocId, context);
                 aoChecked = true;
             }
         }
@@ -551,5 +554,25 @@ public class ARGActivityOfferingClusterHandler {
 //
 //        return viewHelperService;
 //    }
+
+    public static void showDeleteClusterConfirmPage(ARGCourseOfferingManagementForm theForm) throws Exception {
+
+        Object selectedObject = ARGUtil.getSelectedObject(theForm, "Delete");
+        if (selectedObject instanceof ActivityOfferingClusterWrapper) {
+            ActivityOfferingClusterWrapper clusterWrapper = (ActivityOfferingClusterWrapper)selectedObject;
+            theForm.setSelectedCluster(clusterWrapper);
+            theForm.setSelectedToDeleteList(clusterWrapper.getAoWrapperList());
+            theForm.setTotalAOsToBeDeleted(clusterWrapper.getAoWrapperList().size());
+
+
+
+        }
+    }
+
+    public static void deleteClusterCascaded(ARGCourseOfferingManagementForm theForm) throws Exception {
+        ActivityOfferingClusterWrapper aoWrapper = theForm.getSelectedCluster();
+        ARGUtil.getArgServiceAdapter().deleteActivityOfferingCluster(aoWrapper.getActivityOfferingClusterId(), ContextBuilder.loadContextInfo());
+    }
+
 
 }

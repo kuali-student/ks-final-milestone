@@ -18,6 +18,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEdit
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter;
 import org.kuali.student.enrollment.class2.courseoffering.service.util.RegistrationGroupUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -86,6 +87,8 @@ public class ARGUtil {
     private static LRCService lrcService;
     private static TypeService typeService;
     private static AcademicCalendarService academicCalendarService;
+    private static AutogenRegGroupServiceAdapter argServiceAdapter;
+
 
     public static CourseOfferingService getCourseOfferingService() {
         return CourseOfferingResourceLoader.loadCourseOfferingService();
@@ -147,6 +150,13 @@ public class ARGUtil {
                     CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return socService;
+    }
+
+    public static AutogenRegGroupServiceAdapter getArgServiceAdapter() {
+        if (argServiceAdapter == null) {
+            argServiceAdapter = (AutogenRegGroupServiceAdapter) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/autogenRegistrationGroupAppLayer", "AutogenRegGroupServiceAdapter"));
+        }
+        return argServiceAdapter;
     }
 
     public static String getSocState(String termCode) {

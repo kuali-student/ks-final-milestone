@@ -151,6 +151,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     private String formatOfferingName;
     private List<String> formatOfferingIds;
     private String clusterIdForAOMove;
+    private ActivityOfferingClusterWrapper selectedCluster;
     private int aoCount=0;
 
     //TODO: do we still need this parameter?
@@ -586,4 +587,14 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     public void setAoCount(int aoCount) {
         this.aoCount = aoCount;
     }
+
+    public ActivityOfferingClusterWrapper getSelectedCluster() {
+        return selectedCluster;
+    }
+
+    public void setSelectedCluster(ActivityOfferingClusterWrapper selectedCluster) {
+        this.selectedCluster = selectedCluster;
+    }
+
+
 }

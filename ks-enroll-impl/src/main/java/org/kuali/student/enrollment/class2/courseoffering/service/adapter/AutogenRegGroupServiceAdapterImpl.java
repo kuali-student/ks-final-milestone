@@ -38,6 +38,7 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
@@ -353,6 +354,16 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         StatusInfo status = coService.deleteActivityOfferingClusterCascaded(aocId, context);
         // Delete each AO
         for (ActivityOfferingInfo aoInfo: aoInfos) {
+            // get seat pools to delete
+            List<SeatPoolDefinitionInfo> seatPools = coService.getSeatPoolDefinitionsForActivityOffering(aoInfo.getId(), context);
+
+            // remove seat pool reference  to AO then delete orphaned seat pool
+            for (SeatPoolDefinitionInfo seatPool : seatPools) {
+                coService.removeSeatPoolDefinitionFromActivityOffering(seatPool.getId(), aoInfo.getId(), context);
+                coService.deleteSeatPoolDefinition(seatPool.getId(), context);
+            }
+
+            // delete AO
             coService.deleteActivityOffering(aoInfo.getId(), context);
         }
     }
