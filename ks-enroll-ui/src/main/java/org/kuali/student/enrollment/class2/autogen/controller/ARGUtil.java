@@ -208,6 +208,8 @@ public class ARGUtil {
         form.setFormatIdForNewAO(null);
         form.setActivityIdForNewAO(null);
         form.setNoOfActivityOfferings(null);
+        form.setPrivateClusterNamePopover("");
+        form.setPublishedClusterNamePopover("");
 
         getViewHelperService(form).loadPreviousAndNextCourseOffering(form);
 

@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.ActivityOfferingNotInAocSubissue;
@@ -284,6 +285,9 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
             VersionMismatchException {
+        if(coService == null) {
+            coService = getCoService();
+        }
         // Fetch the AOInfo
         ActivityOfferingInfo aoInfo = coService.getActivityOffering(aoId, context);
         // Fetch the source AOC
@@ -739,6 +743,9 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
                 InvalidParameterException, ReadOnlyException, OperationFailedException,
                 MissingParameterException, DoesNotExistException, VersionMismatchException {
 
+        if(coService == null) {
+            coService = getCoService();
+        }
         List<RegistrationGroupInfo> regGroupList = coService.getRegistrationGroupsByActivityOfferingCluster(clusterId, context);
         for(RegistrationGroupInfo regGroupInfo : regGroupList) {
             if (!regGroupInfo.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY)) {
@@ -766,7 +773,9 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
 
     public CourseOfferingService getCoService() {
         if(coService == null) {
-            coService = (CourseOfferingService) GlobalResourceLoader.getService("CourseOfferingService");
+//            coService = (CourseOfferingService) GlobalResourceLoader.getService("CourseOfferingService");
+            coService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
+                    CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
 
         return coService;

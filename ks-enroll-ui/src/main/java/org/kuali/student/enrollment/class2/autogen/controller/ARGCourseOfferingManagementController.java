@@ -575,16 +575,15 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     public ModelAndView addCluster(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        return getUIFModelAndView(ARGActivityOfferingClusterHandler.createNewCluster(theForm));
-
+        return show(ARGActivityOfferingClusterHandler.createNewCluster(theForm));
     }
 
     @RequestMapping(params = "methodToCall=moveToCluster")
     public ModelAndView moveToCluster(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        return getUIFModelAndView(ARGActivityOfferingClusterHandler.moveAOToACluster(theForm));
-
+        //return getUIFModelAndView(ARGActivityOfferingClusterHandler.moveAOToACluster(theForm));
+        return show(ARGActivityOfferingClusterHandler.moveAOToACluster(theForm));
     }
 
     @RequestMapping(params = "methodToCall=copyAOs")
