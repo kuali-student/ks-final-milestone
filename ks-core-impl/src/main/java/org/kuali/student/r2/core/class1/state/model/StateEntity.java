@@ -135,6 +135,7 @@ public class StateEntity extends MetaEntity implements AttributeOwner<StateAttri
         }
         this.effectiveDate = state.getEffectiveDate();
         this.expirationDate = state.getExpirationDate();
+        this.initialState = (state.getIsInitialState() == null ? false : state.getIsInitialState() );
         this.setAttributes(new HashSet<StateAttributeEntity>());
         for (Attribute att : state.getAttributes()) {
             StateAttributeEntity attEntity = new StateAttributeEntity(att, this);
@@ -150,6 +151,7 @@ public class StateEntity extends MetaEntity implements AttributeOwner<StateAttri
         info.setDescr(new RichTextHelper().toRichTextInfo(descrPlain, descrFormatted));
         info.setEffectiveDate(effectiveDate);
         info.setExpirationDate(expirationDate);
+        info.setIsInitialState(initialState);
         info.setMeta(super.toDTO());
         for (StateAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
