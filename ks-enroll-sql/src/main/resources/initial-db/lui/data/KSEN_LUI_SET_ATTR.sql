@@ -200,3 +200,11 @@ INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('k
 /
 INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.max.enrollment','40','9b497649-51a4-42e4-8478-0a07ceec00e1','d02a3980-e7f5-4b7c-a9d6-2b14c53421cd','05c700f9-e1b1-45ab-a116-9e9a81e02f8b')
 /
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.is.max.enrollment.shared','N','6960f089-a725-497b-b165-0723d0c0fa69','bf6babb3-a7a1-4acc-9eeb-d862affdb8dc','8b11eac5-0395-4f9d-9cad-449be1802694')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.max.enrollment','138','ed93a818-3556-4ef5-a62c-2aefb8b5d9df','9bcf3ce6-41be-401b-b765-51a956d71bfd','8b11eac5-0395-4f9d-9cad-449be1802694')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.is.max.enrollment.shared','N','49327d50-9e0e-4205-83ac-bc73b16e6554','f156825e-9c6e-49c6-8903-4b3b49b9a011','6bc18760-430b-495e-a1ad-a023cb954d5f')
+/
+INSERT INTO KSEN_LUI_SET_ATTR (ATTR_KEY,ATTR_VALUE,ID,OBJ_ID,OWNER_ID)VALUES ('kuali.attribute.colocatedset.max.enrollment','138','fb9943ce-1c45-4d3f-9203-f2419acfd670','ea6aad89-6404-4d5f-aa7a-d9d8883a4408','6bc18760-430b-495e-a1ad-a023cb954d5f')
+/
