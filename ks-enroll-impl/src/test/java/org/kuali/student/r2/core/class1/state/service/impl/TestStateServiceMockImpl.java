@@ -230,9 +230,16 @@ public class TestStateServiceMockImpl {
         }
     }
 
+    /* TODO: when this test was introduced, though it works (in both the mock-impl and real-impl
+     * scenarios), the entire collection of tests in the real-impl started failing due to an exception
+     * being thrown that complained about duplicate data being persisted.  This was temporarily resolved
+     * in the real-impl's loadStateData() by trapping the exception and ignoring it.
+     *
+     * See TestStateChangeServiceImpl#loadStateData()
+     * Also see jira KSENROLL-5970
+     */
     @Test
     public void testGetInitialStatesByLifecycle() throws Exception {
-        System.out.println("\n\n\n*********************** TGISBL ********** \n\n\n");
 
         // create a life-cycle with 3 states, 2 being initial-states (this is the one we are testing for)
         LifecycleInfo lifecycle_1 = addLifecycle( "lifecycle-1" );

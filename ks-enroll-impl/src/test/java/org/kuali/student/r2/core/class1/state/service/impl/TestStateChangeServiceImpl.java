@@ -92,6 +92,15 @@ public class TestStateChangeServiceImpl extends TestStateServiceMockImpl{
         super.testDeleteStatePropagation();
     }
 
+
+
+    /* TODO: upon adding a new test to the mock-impl, which works fine, the entire collection of tests in this suite
+     * started failing due to this method throwing an exception which complained about duplicate data being persisted.
+     * This was temporarily resolved by trapping the exception in this method and then ignoring it.
+     *
+     * See TestStateServiceMockImpl#testGetInitialStatesByLifecycle()
+     * Also see jira KSENROLL-5970
+     */
     private void loadStateData()throws Exception{
         try {
             String lifecycleKey = createLifecycle(CourseOfferingSetServiceConstants.SOC_LIFECYCLE_KEY, "kuali.soc.lifecycle", "Set of Courses State Lifecycle", CourseOfferingSetServiceConstants.REF_OBJECT_URI_SOC);
