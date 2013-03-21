@@ -14,5 +14,7 @@
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
 	<context:annotation-config />
+	
+	<bean class="org.kuali.student.ap.framework.config.KradApplicationContextListener" />
 
 </beans>

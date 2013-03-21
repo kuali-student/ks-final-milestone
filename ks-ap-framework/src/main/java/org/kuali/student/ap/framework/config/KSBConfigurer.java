@@ -22,7 +22,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.apache.commons.httpclient.contrib.ssl.EasySSLProtocolSocketFactory;
@@ -100,13 +99,6 @@ public class KSBConfigurer extends AbstractKsapModuleConfigurer implements
 
 	private List<Lifecycle> internalLifecycles;
 
-	/**
-	 * The application may specify additional services for the KSB module to
-	 * expose by providing this {@link Lifecycle} resource.
-	 */
-	@Resource
-	private Lifecycle additionalServices;
-
 	public KSBConfigurer() {
 		super(KsbApiConstants.KSB_MODULE_NAME);
 		setValidRunModes(Arrays.asList(RunMode.THIN, RunMode.REMOTE,
@@ -120,7 +112,6 @@ public class KSBConfigurer extends AbstractKsapModuleConfigurer implements
 		configureScheduler();
 		configurePlatformTransactionManager();
 		configureAlternateEndpoints();
-		assert additionalServices != null;
 	}
 
 	@Override
@@ -257,8 +248,6 @@ public class KSBConfigurer extends AbstractKsapModuleConfigurer implements
 			internalLifecycles.add(threadPool);
 			scheduledThreadPool.start();
 			internalLifecycles.add(scheduledThreadPool);
-			additionalServices.start();
-			internalLifecycles.add(additionalServices);
 		} catch (Exception e) {
 			if (e instanceof RuntimeException) {
 				throw (RuntimeException) e;

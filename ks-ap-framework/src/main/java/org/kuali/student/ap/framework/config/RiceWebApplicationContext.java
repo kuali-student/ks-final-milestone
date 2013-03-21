@@ -23,7 +23,6 @@ public class RiceWebApplicationContext extends XmlWebApplicationContext {
 	private final BeanFactory delegatedBeanFactory;
 
 	public RiceWebApplicationContext() {
-		super();
 		this.autowireCandidateResolver = GlobalResourceLoader
 				.getService("autowireCandidateResolver");
 		this.delegatedBeanFactory = GlobalResourceLoader
@@ -33,8 +32,14 @@ public class RiceWebApplicationContext extends XmlWebApplicationContext {
 	}
 
 	public RiceWebApplicationContext(ServletContext ctx, String[] resources,
-			ApplicationContext parent) {
-		this();
+			ApplicationContext parent,
+			AutowireCandidateResolver autowireCandidateResolver,
+			BeanFactory delegatedBeanFactory) {
+		super();
+		assert autowireCandidateResolver != null;
+		assert delegatedBeanFactory != null;
+		this.autowireCandidateResolver = autowireCandidateResolver;
+		this.delegatedBeanFactory = delegatedBeanFactory;
 		setServletContext(ctx);
 		setParent(parent);
 		setConfigLocations(resources);

@@ -27,15 +27,6 @@
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <!-- Start Service Configurations -->
-    <context:annotation-config/>
-
-    <bean id="autowireCandidateResolver" scope="prototype"
-          class="org.kuali.student.ap.framework.config.BaseAutowireCandidateResolver" />
-
-    <bean id="delegatedBeanFactory"
-          class="org.springframework.beans.factory.support.DefaultListableBeanFactory" />
-
     <!-- Student Core Configurer-->
     <bean id="kscoreConfigurer" class="org.kuali.student.ap.framework.config.KSCOREConfigurer"
           depends-on="coreConfigurer"/>

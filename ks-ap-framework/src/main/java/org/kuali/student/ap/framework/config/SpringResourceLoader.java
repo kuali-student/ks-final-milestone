@@ -68,7 +68,8 @@ public class SpringResourceLoader extends BaseResourceLoader {
 				RiceWebApplicationContext lContext = new RiceWebApplicationContext(
 						servletContextcontext,
 						this.fileLocs.toArray(new String[this.fileLocs.size()]),
-						parentContext);
+						parentContext, autowireCandidateResolver,
+						delegatedBeanFactory);
 				lContext.refresh();
 				context = lContext;
 			} else {

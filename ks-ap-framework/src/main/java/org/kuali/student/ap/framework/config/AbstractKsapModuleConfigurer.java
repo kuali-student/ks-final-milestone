@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.xml.namespace.QName;
@@ -104,6 +105,13 @@ public abstract class AbstractKsapModuleConfigurer extends
 	@EJB(beanName = "delegatedBeanFactory")
 	private transient BeanFactory delegatedBeanFactory;
 
+	/**
+	 * The application may specify additional services for the module to expose
+	 * by providing this {@link Lifecycle} resource.
+	 */
+	@Resource
+	private Lifecycle additionalServices;
+
 	@Override
 	public final void initializeResourceLoaders() throws Exception {
 		LOG.info("Initializing resources for " + getModuleName());
@@ -177,6 +185,7 @@ public abstract class AbstractKsapModuleConfigurer extends
 	@Override
 	public final void start() throws Exception {
 		super.start();
+		additionalServices.start();
 		doAdditionalModuleStartLogic();
 	}
 
@@ -184,9 +193,15 @@ public abstract class AbstractKsapModuleConfigurer extends
 	public final void stop() throws Exception {
 		try {
 			doAdditionalModuleStopLogic();
-		} finally {
-			super.stop();
+		} catch (Throwable e) {
+			LOG.error("Error in doAdditionalModuleStopLogic()", e);
 		}
+		try {
+			additionalServices.stop();
+		} catch (Throwable e) {
+			LOG.error("Error stopping additionalServices", e);
+		}
+		super.stop();
 	}
 
 	protected void doAdditionalModuleStopLogic() throws Exception {
@@ -377,6 +392,8 @@ public abstract class AbstractKsapModuleConfigurer extends
 
 		registerConfigurerWithConfig();
 		addAdditonalToConfig();
+		// KSAP-26 verify that additionalServices are available
+		assert additionalServices != null;
 	}
 
 	protected void addAdditonalToConfig() {
