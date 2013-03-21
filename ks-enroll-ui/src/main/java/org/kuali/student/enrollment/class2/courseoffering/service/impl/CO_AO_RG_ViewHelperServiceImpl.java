@@ -6,6 +6,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.CO_AO_RG_ViewH
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -14,6 +15,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
@@ -55,9 +57,27 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         TypeInfo typeInfo = getTypeInfo(aoInfo.getTypeKey());
         aoWrapper.setTypeName(typeInfo.getName());
 
+        ColocatedOfferingSetInfo colocatedOfferingSetInfo = null;
+
         if(aoInfo.getIsPartOfColocatedOfferingSet()) {
-            String colocateInfo = ViewHelperUtil.createColocatedDisplayData(aoInfo, contextInfo);
-            aoWrapper.setColocatedAoInfo(colocateInfo);
+
+            StringBuffer buffer = new StringBuffer();
+            buffer.append(" ");
+            CourseOfferingService coService = CourseOfferingResourceLoader.loadCourseOfferingService();
+            List<ColocatedOfferingSetInfo> coloSetList = coService.getColocatedOfferingSetsByActivityOffering(aoInfo.getId(),createContextInfo());
+
+            if (!coloSetList.isEmpty()){
+                for(ColocatedOfferingSetInfo coloSet : coloSetList) {
+                    List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByIds(coloSet.getActivityOfferingIds(), createContextInfo());
+                    for(ActivityOfferingInfo coloActivity : aoList) {
+                        if (!StringUtils.equals(coloActivity.getId(),aoInfo.getId())){
+                            buffer.append(coloActivity.getCourseOfferingCode() + " " + coloActivity.getActivityCode() + "<br>");
+                        }
+                    }
+                }
+                aoWrapper.setColocatedAoInfo(buffer.toString());
+                colocatedOfferingSetInfo = coloSetList.get(0);
+            }
          }
 
         FormatOfferingInfo fo = getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
@@ -109,7 +129,13 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
         }else{
 
-            List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoInfo.getId(), contextInfo);
+            List<ScheduleRequestInfo> scheduleRequestInfoList;
+
+            if (colocatedOfferingSetInfo != null){
+                scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY, colocatedOfferingSetInfo.getId(), contextInfo);
+            } else {
+                scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoInfo.getId(), contextInfo);
+            }
 
             if (!scheduleRequestInfoList.isEmpty()){
 
