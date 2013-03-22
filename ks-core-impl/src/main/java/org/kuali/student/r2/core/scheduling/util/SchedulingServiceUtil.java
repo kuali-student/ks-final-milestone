@@ -157,8 +157,7 @@ public class SchedulingServiceUtil {
      * @param request
      * @return
      */
-    public static ScheduleInfo requestToSchedule(ScheduleRequestInfo request) {
-        ScheduleInfo result = new ScheduleInfo();
+    public static ScheduleInfo requestToSchedule(ScheduleRequestInfo request,ScheduleInfo result) {
         result.setStateKey(SchedulingServiceConstants.SCHEDULE_STATE_ACTIVE);
         result.setTypeKey(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE);
         result.setScheduleComponents(new ArrayList<ScheduleComponentInfo>(request.getScheduleRequestComponents().size()));
