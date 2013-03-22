@@ -50,6 +50,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.state.service.StateTransitionsHelper;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,6 +75,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     private CourseOfferingSetServiceBusinessLogic businessLogic;
     private CriteriaLookupService criteriaLookupService;
     private StateTransitionsHelper stateTransitionsHelper;
+    private StateService stateService;
 
     public CourseOfferingSetServiceBusinessLogic getBusinessLogic() {
         return businessLogic;
@@ -129,6 +131,14 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         if (!typeKey.equals(info.getTypeKey())) {
             throw new InvalidParameterException("typeKey does not match the value in the info object");
         }
+        // verify socInfo has the the inital state of the Soc
+         List<String> initSocStates = stateService.getInitialStatesByLifecycle(CourseOfferingSetServiceConstants.SOC_LIFECYCLE_KEY, context);
+        if(!initSocStates.isEmpty()) {
+            if(!initSocStates.contains(info.getStateKey())) {
+                throw new InvalidParameterException("Wrong initial SOC state key");
+            }
+        }
+
         SocEntity entity = new SocEntity(info);
         this.logStateChange(entity, entity.getSocState(), context);
         entity.setEntityCreated(context);
@@ -818,6 +828,12 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         }
         return infos;
     }
-    
-    
+
+    public StateService getStateService() {
+        return stateService;
+    }
+
+    public void setStateService(StateService stateService) {
+        this.stateService = stateService;
+    }
 }

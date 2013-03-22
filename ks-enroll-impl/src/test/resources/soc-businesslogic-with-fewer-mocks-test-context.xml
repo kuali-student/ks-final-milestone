@@ -100,6 +100,7 @@
         <property name="socRorDao" ref="socRolloverResultDao" />
         <property name="socRorItemDao" ref="socRolloverResultItemDao" />
         <property name="businessLogic" ref="socBusinessLogic" />
+        <property name="stateService" ref="stateService" />
     </bean>
 
     <bean id="socDao" class="org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao">
@@ -115,7 +116,7 @@
     <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 
     <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>
-    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceMockDataImpl" />
+    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.mock.StateServiceMockImpl" />
     <bean id="lrcService" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceMockImpl" />
     <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl"/>
     <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl"/>
