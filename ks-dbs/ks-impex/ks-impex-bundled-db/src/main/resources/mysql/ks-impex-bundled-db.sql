@@ -16510,7 +16510,7 @@ CREATE TABLE KRMS_TYP_RELN_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE KRMS_TYP_RELN_S auto_increment = 10119
+ALTER TABLE KRMS_TYP_RELN_S auto_increment = 10117
 /
 
 # -----------------------------------------------------------------------

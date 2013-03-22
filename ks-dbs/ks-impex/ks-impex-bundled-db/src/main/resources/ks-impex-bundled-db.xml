@@ -9479,7 +9479,7 @@
     <sequence name="KRMS_TERM_S" nextval="10201"/>
     <sequence name="KRMS_TERM_SPEC_S" nextval="10014"/>
     <sequence name="KRMS_TYP_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_TYP_RELN_S" nextval="10119"/>
+    <sequence name="KRMS_TYP_RELN_S" nextval="10117"/>
     <sequence name="KRMS_TYP_S" nextval="10078"/>
     <sequence name="KRNS_DOC_TYP_ATTR_S" nextval="1000"/>
     <sequence name="KRNS_LOCK_S" nextval="2000"/>
