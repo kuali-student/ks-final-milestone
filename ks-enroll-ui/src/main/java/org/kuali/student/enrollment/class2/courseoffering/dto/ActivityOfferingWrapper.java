@@ -845,7 +845,7 @@ public class ActivityOfferingWrapper implements Serializable{
         this.isPartOfColoSetOnLoadAlready = isPartOfColoSetOnLoadAlready;
     }
 
-    public boolean isScheduleCompleted(){
+    public boolean isSchedulingCompleted(){
         if (getSocInfo() != null){
             if (StringUtils.equals(CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED,getSocInfo().getSchedulingStateKey())){
                 return true;

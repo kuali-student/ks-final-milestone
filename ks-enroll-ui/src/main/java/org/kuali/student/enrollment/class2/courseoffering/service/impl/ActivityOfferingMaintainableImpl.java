@@ -114,16 +114,30 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
             saveColocatedAOs(activityOfferingWrapper);
 
-            if (activityOfferingWrapper.isSchedulesModified() || !(activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && activityOfferingWrapper.isColocatedAO())){
-                getScheduleHelper().saveSchedules(activityOfferingWrapper);
-            }
-
+            /**
+             * Save the AO first before processing schedule. (It's important to save first as scheduleAcivityOffering() service method
+             * just accepts the ao id as param and fetches the DTO from the DB.)
+             */
             try {
                 ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), contextInfo);
                 activityOfferingWrapper.setAoInfo(activityOfferingInfo);
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
             }
+
+            /**
+             * Even if the user doesnt change any RDL data, here are the scenarios whether we need to process schedules
+             * 1. If the user checks/unchecks the colo checkbox even the user has not changed anything in the schedules
+             * 2. If the user opens an activity after scheduling and without changing any schedule details, submits the doc.
+             * Once user submits a doc after scheduling complemented, all the RDLs should be converted to ADLs
+             */
+            if (activityOfferingWrapper.isSchedulesModified() ||
+               (activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()) ||
+               (!activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && activityOfferingWrapper.isColocatedAO()) ||
+               (activityOfferingWrapper.isSchedulingCompleted() && !activityOfferingWrapper.getRequestedScheduleComponents().isEmpty())){
+                getScheduleHelper().saveSchedules(activityOfferingWrapper);
+            }
+
 
             //All the details on the current AO saved successfully.. Now, update the max enrollment on other AOs in the coloset
             try {

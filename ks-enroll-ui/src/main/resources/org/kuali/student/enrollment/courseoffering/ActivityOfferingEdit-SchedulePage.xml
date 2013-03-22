@@ -119,7 +119,7 @@
             p:componentSecurity.editAuthz="true">
         <property name="headerText" value="Requested Delivery Logistics"/>
         <property name="layoutManager.richTable.render" value="false" />
-        <property name="disclosure.render" value="@{#dp.scheduleCompleted}"/>
+        <property name="disclosure.render" value="@{#dp.schedulingCompleted and !#dp.requestedScheduleComponents.isEmpty()}"/>
         <property name="disclosure.defaultOpen" value="false"/>
         <property name="items">
             <list>
@@ -139,7 +139,7 @@
         </property>
         <property name="lineActions">
               <list>
-                  <bean parent="Uif-ActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-New');" p:render="@{#dp.scheduleCompleted}"/>
+                  <bean parent="Uif-ActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-New');" p:render="@{#dp.schedulingCompleted}"/>
                   <bean parent="Uif-DeleteLineAction" />
               </list>
         </property>

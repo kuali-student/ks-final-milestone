@@ -92,7 +92,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                 createOrUpdateScheduleRequests(wrapper);
             }
         }*/
-        if (StringUtils.isNotBlank(wrapper.getAoInfo().getScheduleId())){
+        if (wrapper.isSchedulingCompleted()){
             processRevisedSchedules(wrapper);
         } else {
             createOrUpdateScheduleRequests(wrapper);
@@ -147,17 +147,21 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             ActivityOfferingInfo latestAO = getCourseOfferingService().getActivityOffering(activityOfferingWrapper.getAoInfo().getId(), contextInfo);
 
             //This will change the AO/FO/CO state and gets the updated AO
-            latestAO = updateScheduledActivityOffering(latestAO, getCourseOfferingService(), getCourseOfferingSetService(), contextInfo);
+            latestAO = updateScheduledActivityOffering(latestAO, contextInfo);
 
+            activityOfferingWrapper.setAoInfo(latestAO);
             //Copy only certain fields to the existing DTO to avoid unnecessary overwriting to the user modifications
-            activityOfferingWrapper.getAoInfo().setStateKey(latestAO.getStateKey());
-            activityOfferingWrapper.getAoInfo().setScheduleId(latestAO.getScheduleId());
-            activityOfferingWrapper.getAoInfo().setSchedulingStateKey(latestAO.getSchedulingStateKey());
+//            activityOfferingWrapper.getAoInfo().setStateKey(latestAO.getStateKey());
+//            activityOfferingWrapper.getAoInfo().setScheduleId(latestAO.getScheduleId());
+//            activityOfferingWrapper.getAoInfo().setSchedulingStateKey(latestAO.getSchedulingStateKey());
 
             if (activityOfferingWrapper.isColocatedAO()){
                 for (ColocatedActivity colocatedActivity : activityOfferingWrapper.getColocatedActivities()){
                     ActivityOfferingInfo ao = getCourseOfferingService().getActivityOffering(colocatedActivity.getActivityOfferingInfo().getId(),contextInfo);
-                    ActivityOfferingInfo updatedAO = updateScheduledActivityOffering(ao, getCourseOfferingService(), getCourseOfferingSetService(), contextInfo);
+                    ActivityOfferingInfo updatedAO = updateScheduledActivityOffering(ao, contextInfo);
+                    updatedAO.setStateKey(latestAO.getStateKey());
+                    updatedAO.setScheduleId(latestAO.getScheduleId());
+                    updatedAO.setSchedulingStateKey(latestAO.getSchedulingStateKey());
                     colocatedActivity.setActivityOfferingInfo(updatedAO);
                     colocatedActivity.setAoId(updatedAO.getId());
                 }
@@ -377,6 +381,12 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
     public void createOrUpdateScheduleRequests(ActivityOfferingWrapper wrapper) {
 
+        //If there are no already persisted RDLs and no schedule request components exists, skip creating an empty RDL
+        if ((wrapper.getScheduleRequestInfo() == null || StringUtils.isBlank(wrapper.getScheduleRequestInfo().getId())) &&
+            wrapper.getRequestedScheduleComponents().isEmpty()){
+            return;
+        }
+
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         boolean createScheduleComponent = false;
@@ -441,29 +451,6 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             ScheduleRequestInfo requestInfo = wrapper.getScheduleRequestInfo();
 
             try{
-             /*   if (wrapper.isPartOfColoSetOnLoadAlready()){
-                    if (!wrapper.isColocatedAO()){
-                        ScheduleRequestInfo newRequest = new ScheduleRequestInfo(requestInfo);
-                        newRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
-                        newRequest.setRefObjectId(wrapper.getAoInfo().getId());
-                        newRequest.setId("");
-                        newRequest.setName("Schedule Request for AO");
-                        newRequest.setStateKey(requestInfo.getStateKey());
-                        newRequest.setTypeKey(requestInfo.getTypeKey());
-                        RichTextInfo desc = new RichTextInfo();
-                        desc.setPlain("Schedule Request for AO");
-                        newRequest.setDescr(desc);
-                        ScheduleRequestInfo createdScheduleRequestInfo = getSchedulingService().createScheduleRequest(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST,wrapper.getScheduleRequestInfo(), contextInfo);
-                        wrapper.setScheduleRequestInfo(createdScheduleRequestInfo);
-                    }
-                } else {
-                    if (wrapper.isColocatedAO()){
-                        requestInfo.setRefObjectTypeKey(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY);
-                        requestInfo.setRefObjectId(wrapper.getColocatedOfferingSetInfo().getId());
-                    }
-                }
-*/
-
                ScheduleRequestInfo updatedScheduleRequestInfo = getSchedulingService().updateScheduleRequest(requestInfo.getId(),requestInfo, contextInfo);
                wrapper.setScheduleRequestInfo(updatedScheduleRequestInfo);
             } catch (Exception e){
@@ -771,21 +758,21 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         }
     }
 
-    protected ActivityOfferingInfo updateScheduledActivityOffering(ActivityOfferingInfo activityOfferingInfo, CourseOfferingService coService, CourseOfferingSetService socService, ContextInfo context)
+    protected ActivityOfferingInfo updateScheduledActivityOffering(ActivityOfferingInfo activityOfferingInfo,ContextInfo context)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException {
 
         // Keep track of the state before any changes, to avoid extra processing if the AO state does not change
         String aoCurrentState = activityOfferingInfo.getStateKey();
 
         // Find the term-level SOC for this activity offering and find out its state
-        List<String> socIds = socService.getSocIdsByTerm(activityOfferingInfo.getTermId(), context);
+        List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(activityOfferingInfo.getTermId(), context);
 
         // should be only one, if none or more than one is found, throw an exception
         if (socIds == null || socIds.size() != 1) {
             throw new OperationFailedException("Unexpected results from socService.getSocIdsByTerm, expecting exactly one soc id, received: " + socIds);
         }
 
-        SocInfo socInfo = socService.getSoc(socIds.get(0), context);
+        SocInfo socInfo = getCourseOfferingSetService().getSoc(socIds.get(0), context);
 
         String aoNextState = null;
 
@@ -808,11 +795,11 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             return activityOfferingInfo;
         }
         else {
-            StatusInfo statusInfo = coService.changeActivityOfferingState(activityOfferingInfo.getId(), aoNextState, context);
+            StatusInfo statusInfo = getCourseOfferingService().changeActivityOfferingState(activityOfferingInfo.getId(), aoNextState, context);
             if (!statusInfo.getIsSuccess()){
                 throw new OperationFailedException("Error updating Activity offering state to " + aoNextState + " " + statusInfo);
             }
-            return coService.getActivityOffering(activityOfferingInfo.getId(), context);
+            return getCourseOfferingService().getActivityOffering(activityOfferingInfo.getId(), context);
         }
     }
 
