@@ -1,26 +1,22 @@
 package org.kuali.student.ap.framework.config;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.xml.namespace.QName;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.ConfigurationException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.framework.config.module.ModuleConfigurer;
 import org.kuali.rice.core.framework.config.module.WebModuleConfiguration;
-import org.kuali.rice.core.framework.resourceloader.*;
-
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: johglove
- * Date: 3/14/13
- * Time: 10:09 AM
- * To change this template use File | Settings | File Templates.
+ * @deprecated TODO: KSAP-26 Move KsapAbstractModuleConfigurer to Rice.
  */
 public class KsapWebModuleLoaderListener implements ServletContextListener {
 
@@ -50,7 +46,6 @@ public class KsapWebModuleLoaderListener implements ServletContextListener {
     protected List<String> getSpringFileLocations() {
         List<String> springFileLocations = new ArrayList<String>();
         // loop over the installed modules, adding their web module configuration spring files
-        @SuppressWarnings("unchecked")
         final Collection<Object> riceModules = AbstractKsapModuleConfigurer.getCurrentContextConfigurers();
         Object[] tempModules = new Object[riceModules.size()];
         tempModules = riceModules.toArray();

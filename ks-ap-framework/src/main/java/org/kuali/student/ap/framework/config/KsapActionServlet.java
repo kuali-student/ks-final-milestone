@@ -1,5 +1,19 @@
 package org.kuali.student.ap.framework.config;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.BigDecimalConverter;
 import org.apache.commons.beanutils.converters.BigIntegerConverter;
@@ -11,7 +25,6 @@ import org.apache.commons.beanutils.converters.FloatConverter;
 import org.apache.commons.beanutils.converters.IntegerConverter;
 import org.apache.commons.beanutils.converters.LongConverter;
 import org.apache.commons.beanutils.converters.ShortConverter;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.iterators.IteratorEnumeration;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -20,29 +33,14 @@ import org.kuali.rice.core.api.config.ConfigurationException;
 import org.kuali.rice.core.framework.config.module.ModuleConfigurer;
 import org.kuali.rice.core.framework.config.module.WebModuleConfiguration;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
- * Created with IntelliJ IDEA.
- * User: johglove
- * Date: 3/14/13
- * Time: 10:36 AM
- * To change this template use File | Settings | File Templates.
+ * @deprecated TODO: KSAP-26 Move KsapAbstractModuleConfigurer to Rice.
  */
 public class KsapActionServlet extends ActionServlet {
-    private static final Logger LOG = Logger.getLogger(KsapActionServlet.class);
+
+	private static final long serialVersionUID = 7937712460359668856L;
+
+	private static final Logger LOG = Logger.getLogger(KsapActionServlet.class);
 
     // KULRICE-8176: KFS Notes/Attachments Tab Functionality for Note Text Error - Visible/Special characters, spaces, or tabs
     private String parameterEncoding = "";

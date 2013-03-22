@@ -16,12 +16,12 @@
     <bean id="apConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
         <property name="configLocations">
             <list>
-                <value>classpath:META-INF/ks-ap-config.xml</value>
+                <value>classpath:META-INF/ks-ap/ks-ap-config.xml</value>
                 <value>classpath:META-INF/ks-ap/ks-ap-config-override.xml</value>
             </list>
         </property>
     </bean>
-    
+
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{apConfig.getProperties()}" />
     </bean>
