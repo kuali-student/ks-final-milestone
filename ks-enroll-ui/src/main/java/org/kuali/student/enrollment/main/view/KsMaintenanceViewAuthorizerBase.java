@@ -42,7 +42,7 @@ public class KsMaintenanceViewAuthorizerBase extends MaintenanceViewAuthorizerBa
 
     @Override
     protected void addRoleQualification(Object primaryDataObjectOrDocument, Map<String, String> attributes) {
-        if (primaryDataObjectOrDocument !=null && primaryDataObjectOrDocument instanceof MaintenanceDocument) {
+        if (primaryDataObjectOrDocument != null && primaryDataObjectOrDocument instanceof MaintenanceDocument) {
             MaintenanceDocument document = (MaintenanceDocument)primaryDataObjectOrDocument;
             if(document.getOldMaintainableObject() instanceof CourseOfferingEditMaintainableImpl){
                 CourseOfferingEditMaintainableImpl theForm = (CourseOfferingEditMaintainableImpl) document.getOldMaintainableObject();
@@ -50,33 +50,33 @@ public class KsMaintenanceViewAuthorizerBase extends MaintenanceViewAuthorizerBa
                 if(wrapper.getAdminOrg() != null){
                     attributes.putAll(wrapper.getAdminOrg());
                 }
-                if(wrapper.getCourseOfferingInfo()!=null){
-                    attributes.put("subjectArea",wrapper.getCourseOfferingInfo().getSubjectArea());
+                if(wrapper.getCourseOfferingInfo()!= null){
+                    attributes.put("subjectArea", wrapper.getCourseOfferingInfo().getSubjectArea());
                 }
             }
             if(document.getOldMaintainableObject() instanceof ActivityOfferingMaintainableImpl){
                 ActivityOfferingMaintainableImpl theForm = (ActivityOfferingMaintainableImpl)document.getOldMaintainableObject();
                 ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)theForm.getDataObject();
-                if(wrapper.getAdminOrg()!=null){
-                    attributes.put("org",wrapper.getAdminOrg());
+                if(wrapper.getAdminOrg() != null){
+                    attributes.put("org", wrapper.getAdminOrg());
                 }
                 if(wrapper.getCourse() != null){
-                    attributes.put("subjectArea",wrapper.getCourse().getSubjectArea());
+                    attributes.put("subjectArea", wrapper.getCourse().getSubjectArea());
                 }
 
             }
         }
-        if (primaryDataObjectOrDocument !=null && primaryDataObjectOrDocument instanceof MaintenanceDocumentForm) {
+        if (primaryDataObjectOrDocument != null && primaryDataObjectOrDocument instanceof MaintenanceDocumentForm) {
             MaintenanceDocumentForm mntnForm = (MaintenanceDocumentForm)primaryDataObjectOrDocument;
             MaintenanceDocument document = mntnForm.getDocument();
             if(document != null && document.getNewMaintainableObject() instanceof CourseOfferingCreateMaintainableImpl) {
                 CourseOfferingCreateMaintainableImpl theForm = (CourseOfferingCreateMaintainableImpl)document.getNewMaintainableObject();
                 CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) theForm.getDataObject();
                 if(wrapper.getAdminOrg() != null){
-                    attributes.put("org",wrapper.getAdminOrg());
+                    attributes.put("org", wrapper.getAdminOrg());
                 }
-                if(wrapper.getCourseOfferingInfo() != null){
-                    attributes.put("subjectArea",wrapper.getCourseOfferingInfo().getSubjectArea());
+                if(wrapper.getCourse() != null){
+                    attributes.put("subjectArea", wrapper.getCourse().getSubjectArea());
                 }
             }
         }
