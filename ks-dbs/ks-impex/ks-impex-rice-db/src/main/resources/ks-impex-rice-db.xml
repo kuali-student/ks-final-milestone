@@ -3826,7 +3826,7 @@
     <sequence name="KRIM_PRNCPL_ID_S" nextval="10000"/>
     <sequence name="KRIM_ROLE_ID_S" nextval="10036"/>
     <sequence name="KRIM_ROLE_MBR_ID_S" nextval="10042"/>
-    <sequence name="KRIM_ROLE_PERM_ID_S" nextval="1253"/>
+    <sequence name="KRIM_ROLE_PERM_ID_S" nextval="1255"/>
     <sequence name="KRIM_ROLE_RSP_ACTN_ID_S" nextval="10000"/>
     <sequence name="KRIM_ROLE_RSP_ID_S" nextval="10000"/>
     <sequence name="KRIM_RSP_ID_S" nextval="10000"/>

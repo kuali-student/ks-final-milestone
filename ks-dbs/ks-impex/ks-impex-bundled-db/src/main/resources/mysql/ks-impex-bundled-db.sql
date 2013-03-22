@@ -15922,7 +15922,7 @@ CREATE TABLE KRIM_ROLE_PERM_ID_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE KRIM_ROLE_PERM_ID_S auto_increment = 1253
+ALTER TABLE KRIM_ROLE_PERM_ID_S auto_increment = 1255
 /
 
 # -----------------------------------------------------------------------
