@@ -40,12 +40,6 @@ INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en','10012','10002','Student in Music Performance can enrol in a maximum of 12 credits for the term','10047',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
-  VALUES ('en','10013','10002','Students admitted to Music Performance may take no more than 2 courses in the Music Dept in 8 Weeks','10048',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
-  VALUES ('en','10014','10002','Students not admitted to Music Performance may take no more than 3 courses in the Music Dept in 1 Year','10049',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en','10015','10002','Student is in an existing seat pool for the course with an available seat','10059',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
@@ -244,12 +238,6 @@ INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en','10081','10004','Student in <Program> can enrol in a maximum of <n> credits for the term','10047',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
-  VALUES ('en','10082','10004','Students admitted to <Program> may take no more than <n> courses in the <org> in <duration> <durationType>','10048',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
-  VALUES ('en','10083','10004','Students not admitted to <Program> may take no more than <n> courses in the <org> in <duration> <durationType>','10049',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en','10084','10004','Student is in an existing seat pool for the course with an available seat','10059',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
@@ -399,13 +387,7 @@ INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR) 
   VALUES ('10133','en','10000','10018','#if($courseCluSet.getCluList().size() == 1)Must have successfully completed $courseCluSet.getCluSetAsCode()#{else}Must have successfully completed all courses from $courseCluSet.getCluSetAsCode()#end',0)
 /
-INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR) 
-  VALUES ('10134','en','10000','10048','Students admitted to $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, "course") in the $org.getLongName() in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR) 
-  VALUES ('10161','en','10000','10049','Students not admitted to $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, "course") in the $org.getLongName() in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR) 
+INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('10169','en','10000','10033','Must be admitted to any program offered at the course campus location',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR) 
@@ -489,13 +471,7 @@ INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR) 
   VALUES ('10220','en','10001','10028','<reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number of Courses> from <reqCompFieldType=kuali.reqComponent.field.type.course.cluSet.id;reqCompFieldLabel=Courses> with <reqCompFieldType=kuali.reqComponent.field.type.gradeType.id;reqCompFieldLabel=Grade Type> of <reqCompFieldType=kuali.reqComponent.field.type.grade.id;reqCompFieldLabel=Grade>',0)
 /
-INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR) 
-  VALUES ('10221','en','10001','10048','<reqCompFieldType=kuali.reqComponent.field.type.program.cluSet.id;reqCompFieldLabel=Program(s)> no more than <reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number of Courses> in <reqCompFieldType=kuali.reqComponent.field.type.org.id;reqCompFieldLabel=Department> in <reqCompFieldType=kuali.reqComponent.field.type.duration;reqCompFieldLabel=Duration Count> of type <reqCompFieldType=kuali.reqComponent.field.type.durationType.id;reqCompFieldLabel=Duration Type>',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR) 
-  VALUES ('10222','en','10001','10049','<reqCompFieldType=kuali.reqComponent.field.type.program.cluSet.id;reqCompFieldLabel=Program(s)> no more than <reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number of Courses> in <reqCompFieldType=kuali.reqComponent.field.type.org.id;reqCompFieldLabel=Department> in <reqCompFieldType=kuali.reqComponent.field.type.duration;reqCompFieldLabel=Duration Count> of type <reqCompFieldType=kuali.reqComponent.field.type.durationType.id;reqCompFieldLabel=Duration Type>',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR) 
+INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('10224','en','10001','10036','<reqCompFieldType=kuali.reqComponent.field.type.program.cluSet.id;reqCompFieldLabel=Program(s)>',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR) 
@@ -582,13 +558,7 @@ INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR) 
   VALUES ('10279','en','10003','10028','Must successfully complete a minimum of $intValue $NLHelper.getProperGrammar($intValue, "course") with a minimum grade of #if($gradeType.getId().equals("kuali.result.scale.grade.letter") || $gradeType.getId().equals("kuali.result.scale.grade.percentage"))$gradeType.getName().toLowerCase() #{end}$grade from',0)
 /
-INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR) 
-  VALUES ('10280','en','10003','10048','Students admitted to $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, "course") in the $org.getLongName() in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR) 
-  VALUES ('10281','en','10003','10049','Students not admitted to $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, "course") in the $org.getLongName() in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR) 
+INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('10282','en','10003','10033','Must be admitted to any program offered at the course campus location',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR) 

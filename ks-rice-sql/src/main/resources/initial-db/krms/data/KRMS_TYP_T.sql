@@ -145,12 +145,6 @@ INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.proposition.type.max.limit.credits.for.program','KS-SYS','simplePropositionTypeService','10047',0)
 /
 INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
-  VALUES ('Y','kuali.krms.proposition.type.max.limit.courses.at.org.for.program','KS-SYS','simplePropositionTypeService','10048',0)
-/
-INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
-  VALUES ('Y','kuali.krms.proposition.type.max.limit.courses.at.org.duration.for.program','KS-SYS','simplePropositionTypeService','10049',0)
-/
-INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.proposition.type.max.limit.courses.for.campus.duration','KS-SYS','simplePropositionTypeService','10050',0)
 /
 INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
