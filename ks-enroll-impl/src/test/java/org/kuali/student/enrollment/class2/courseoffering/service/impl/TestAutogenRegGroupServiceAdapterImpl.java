@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.test.spring.log4j.KSLog4JConfigurer;
+import org.kuali.student.enrollment.class2.acal.util.MockAcalTestDataLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.ActivityOfferingResult;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader.CourseOfferingCreationDetails;
@@ -62,6 +63,7 @@ import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -444,4 +446,30 @@ AtpInfo atp = atpService.getAtp(CourseOfferingServiceTestDataLoader.FALL_2012_TE
         
         
     }
+
+    @Test
+    public void copyCourseOfferingToTargetTerm() throws InvalidParameterException, PermissionDeniedException, DataValidationErrorException,
+            AlreadyExistsException, ReadOnlyException, OperationFailedException, MissingParameterException,
+            DoesNotExistException, UnsupportedActionException, DependentObjectsExistException, CircularRelationshipException, VersionMismatchException {
+
+        // Create new Course Offering
+        MockAcalTestDataLoader acalLoader = new MockAcalTestDataLoader(this.acalService);
+        TermInfo term = acalLoader.loadTerm("2012SP", "Spring 2012", "2012-03-01 00:00:00.0", "2012-05-31 00:00:00.0", AtpServiceConstants.ATP_SPRING_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Spring Term 2012");
+        assertEquals("2012SP", term.getCode());
+        TestAutogenRegGroupUserStoryThreeCourseOfferingCreationDetails details;
+        String courseOfferingId = dataLoader.createCourseOffering(term, details = new TestAutogenRegGroupUserStoryThreeCourseOfferingCreationDetails(), contextInfo);
+        CourseOfferingInfo co = coService.getCourseOffering(courseOfferingId, contextInfo);
+        assertEquals("MATH123", co.getCourseOfferingCode());
+
+        // Create targetTerm
+        TermInfo targetTerm = acalLoader.loadTerm("2012FA", "Fall 2012", "2012-09-01 00:00:00.0", "2012-12-31 00:00:00.0", AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Fall Term 2012");
+        assertEquals("2012FA", targetTerm.getCode());
+
+        // App layer call
+        CourseOfferingInfo coResult = serviceAdapter.copyCourseOfferingToTargetTerm(co, targetTerm, null, contextInfo);
+        assertEquals(co.getCourseCode(), coResult.getCourseCode());
+        assertEquals(targetTerm.getId(), coResult.getTermId());
+        assertEquals(co.getCourseId(), coResult.getCourseId());
+    }
+
 }
