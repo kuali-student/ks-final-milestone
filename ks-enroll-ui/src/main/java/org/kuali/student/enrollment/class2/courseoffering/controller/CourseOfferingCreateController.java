@@ -122,12 +122,6 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
-        if (form.getView() != null) {
-            String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
-            checkViewAuthorization(form, methodToCall);
-
-        }
-
         coWrapper.clear();
 
         if (matchingCourses.size() == 1 && term != null) {
@@ -144,12 +138,14 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                     coWrapper.setAdminOrg(orgIDs.substring(0, orgIDs.length()-1));
                 }
             }
+            coWrapper.setCourse(course);
             Person user = GlobalVariables.getUserSession().getPerson();
-            boolean canEditView = form.getView().getAuthorizer().canEditView(form.getView(), form, user);
+            boolean canOpenView = form.getView().getAuthorizer().canOpenView(form.getView(), form, user);
 
-            if (!canEditView) {
+            if (!canOpenView) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "You are not authorized to create a New Course Offering from " + courseCode + " Catalog Course Code");
                 coWrapper.setAdminOrg(null);
+                coWrapper.setCourse(null);
                 coWrapper.setEnableCreateButton(false);
 
                 return getUIFModelAndView(form);
