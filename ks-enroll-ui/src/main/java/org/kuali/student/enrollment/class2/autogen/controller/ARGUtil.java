@@ -390,7 +390,9 @@ public class ARGUtil {
 
                 rgWrapper.setStateKey(rgInfo.getStateKey(), getStateService().getState(rgInfo.getStateKey(), ContextUtils.createDefaultContextInfo()).getName());
                 rgWrapper.setAoEditLink(aoEditLinkText);
-                rgWrapper.setRgMaxEnrText(Integer.toString(minEnrollment));
+                if (minEnrollment!=null) {
+                    rgWrapper.setRgMaxEnrText(Integer.toString(minEnrollment));
+                }
                 rgWrapper.setAoActivityCodeText(aoActivityCodeText);
                 rgWrapper.setAoStateNameText(aoStateNameText);
                 rgWrapper.setAoTypeNameText(aoTypeNameText);

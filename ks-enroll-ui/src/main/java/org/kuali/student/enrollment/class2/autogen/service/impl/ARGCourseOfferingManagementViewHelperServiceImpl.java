@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.autogen.service.ARGCourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.autogen.util.ARGToolbarUtil;
@@ -706,6 +707,8 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         String termcode;
         FormatInfo format = null;
         CourseInfo course;
+        //the AO clusters associated with the given FO
+        List<ActivityOfferingClusterInfo> clusters = null;
         CourseOfferingInfo courseOffering = form.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
 
         ContextInfo contextInfo = createContextInfo();
@@ -771,6 +774,13 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             throw new RuntimeException(e);
         }
 
+        //fetch the AO clusters associated with the given FO
+        try {
+            clusters=_getCourseOfferingService().getActivityOfferingClustersByFormatOffering(formatOfferingInfo.getId(), contextInfo);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         for (int i=0;i<noOfActivityOfferings;i++){
             ActivityOfferingInfo aoInfo = new ActivityOfferingInfo();
             aoInfo.setActivityId(activityId);
@@ -784,8 +794,15 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             aoInfo.setCourseOfferingTitle(courseOffering.getCourseOfferingTitle());
             aoInfo.setCourseOfferingCode(courseOffering.getCourseOfferingCode());
 
+            ActivityOfferingInfo activityOfferingInfo = null;
             try {
-                ActivityOfferingInfo activityOfferingInfo = _getCourseOfferingService().createActivityOffering(formatOfferingInfo.getId(), activityId, activityOfferingType.getKey(), aoInfo, contextInfo);
+                //Temp solution here: if there is cluster(s) assocaited with the given FO, call createAO method in adapter
+                //It will associate created AOs with the first cluster of the given FO
+                if (clusters!=null && clusters.size()>0) {
+                    activityOfferingInfo = ARGUtil.getArgServiceAdapter().createActivityOffering(aoInfo, clusters.get(0).getId(), contextInfo).getCreatedActivityOffering();
+                } else {
+                    activityOfferingInfo = _getCourseOfferingService().createActivityOffering(formatOfferingInfo.getId(), activityId, activityOfferingType.getKey(), aoInfo, contextInfo);
+                }
                 ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(activityOfferingInfo);
                 StateInfo state = getStateService().getState(wrapper.getAoInfo().getStateKey(), contextInfo);
                 wrapper.setStateName(state.getName());
