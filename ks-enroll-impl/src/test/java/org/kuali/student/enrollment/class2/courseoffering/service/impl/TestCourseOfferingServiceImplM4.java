@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import junit.framework.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.test.util.AttributeTester;
@@ -18,10 +19,7 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
-import org.kuali.student.r2.common.dto.BulkStatusInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -34,6 +32,9 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
@@ -50,9 +51,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -85,6 +84,8 @@ public class TestCourseOfferingServiceImplM4 {
     protected AcademicCalendarService acalService;
     @Resource
     protected TypeService typeService;
+    @Resource
+    protected StateService stateService;
     
     protected ContextInfo contextInfo;
 
@@ -92,6 +93,102 @@ public class TestCourseOfferingServiceImplM4 {
     protected LuiServiceDataLoader dataLoader = new LuiServiceDataLoader();
 
     protected MockAcalTestDataLoader acalTestDataLoader;
+
+    public static String principalId = "123";
+    public ContextInfo callContext = null;
+
+    @Before
+    public void setup() throws Exception {
+        callContext = new ContextInfo();
+        callContext.setPrincipalId(principalId);
+
+        createStateTestData();
+    }
+
+    private void createStateTestData() throws Exception {
+
+        // ActivityOffering statess
+        cleanupStateTestData( LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY );
+        cleanupLifecycleTestData( LuiServiceConstants.ACTIVITY_OFFERING_LIFECYCLE_KEY );
+        LifecycleInfo aoLifecycle = addLifecycle( LuiServiceConstants.ACTIVITY_OFFERING_LIFECYCLE_KEY );
+        addState( aoLifecycle, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, true );
+
+        // FormatOffering states
+        cleanupStateTestData( LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY );
+        cleanupLifecycleTestData( LuiServiceConstants.FORMAT_OFFERING_LIFECYCLE_KEY );
+        LifecycleInfo foLifecycle = addLifecycle( LuiServiceConstants.FORMAT_OFFERING_LIFECYCLE_KEY );
+        addState( foLifecycle, LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY, true );
+
+        // CourseOffering states
+        cleanupStateTestData( LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY );
+        cleanupLifecycleTestData( LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_KEY );
+        LifecycleInfo coLifecycle = addLifecycle( LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_KEY );
+        addState( coLifecycle, LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY, true );
+
+        // RegistrationGroup states
+        cleanupStateTestData( LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY );
+        cleanupStateTestData( LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY );
+        cleanupLifecycleTestData( LuiServiceConstants.REGISTRATION_GROUP_LIFECYCLE_KEY );
+        LifecycleInfo rgLifecycle = addLifecycle( LuiServiceConstants.REGISTRATION_GROUP_LIFECYCLE_KEY );
+        addState( rgLifecycle, LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY, true );
+        addState( rgLifecycle, LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY, true );
+    }
+
+    // TODO: temporary stop-gap because SS throws an error about duplicate-data; this cleans state from previous runs
+    private void cleanupStateTestData( String state ) {
+        try {
+            stateService.deleteState( state, callContext );
+        } catch( Exception e ) { }
+    }
+
+    // TODO: temporary stop-gap because SS throws an error about duplicate-data; this cleans state from previous runs
+    private void cleanupLifecycleTestData( String name ) {
+        try {
+            stateService.deleteLifecycle( name, callContext );
+        } catch( Exception e ) { }
+    }
+
+    private LifecycleInfo addLifecycle( String name ) throws Exception {
+
+        LifecycleInfo origLife = new LifecycleInfo();
+        RichTextInfo rti = new RichTextInfo();
+        rti.setFormatted("<b>Formatted</b> lifecycle for testing purposes");
+        rti.setPlain("Plain lifecycle for testing purposes");
+        origLife.setDescr(rti);
+        origLife.setKey( name );
+        origLife.setName( "TEST_NAME" );
+        origLife.setRefObjectUri( "TEST_URI" );
+        AttributeInfo attr = new AttributeInfo();
+        attr.setKey("attribute.key");
+        attr.setValue("attribute value");
+        origLife.getAttributes().add(attr);
+
+        return stateService.createLifecycle(origLife.getKey(), origLife, callContext);
+    }
+
+    private StateInfo addState( LifecycleInfo lifecycleInfo, String state, boolean isInitialState ) throws Exception {
+
+        StateInfo orig = new StateInfo();
+        orig.setKey(state);
+        orig.setLifecycleKey(lifecycleInfo.getKey());
+        RichTextInfo rti = new RichTextInfo();
+        rti.setFormatted("<b>Formatted again</b> state for testing purposes");
+        rti.setPlain("Plain state again for testing purposes");
+        orig.setDescr(rti);
+        orig.setName("Testing state");
+        Date effDate = new Date();
+        orig.setEffectiveDate(effDate);
+        Calendar cal = Calendar.getInstance();
+        cal.set(2022, 8, 23);
+        orig.setExpirationDate(cal.getTime());
+        AttributeInfo attr = new AttributeInfo();
+        attr.setKey("attribute.key");
+        attr.setValue("attribute value");
+        orig.getAttributes().add(attr);
+        orig.setIsInitialState(isInitialState);
+
+        return stateService.createState(orig.getLifecycleKey(), orig.getKey(), orig, callContext);
+    }
 
     protected void before() {
         if(contextInfo == null) {

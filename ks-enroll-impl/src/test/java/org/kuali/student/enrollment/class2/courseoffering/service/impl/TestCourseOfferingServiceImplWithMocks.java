@@ -35,6 +35,9 @@ import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -44,10 +47,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -64,6 +64,8 @@ public class TestCourseOfferingServiceImplWithMocks {
     public ContextInfo callContext = null;
     @Resource(name = "courseService")
     protected CourseService courseService;
+    @Resource(name="stateService")
+    protected StateService stateService;
     @Resource(name = "luiService")
     protected LuiService luiService;
     @Resource(name = "acalService")
@@ -86,10 +88,89 @@ public class TestCourseOfferingServiceImplWithMocks {
             acalLoader.loadTerm("testAtpId1", "test1", "2000-01-01 00:00:00.0", "2100-12-31 00:00:00.0", AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "description 1");
             new MockAcalTestDataLoader(this.acalService).loadData();
             new MockLrcTestDataLoader(this.lrcService).loadData();
+
+            createStateTestData();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
 
+    }
+
+    private void createStateTestData() throws Exception {
+
+        // ActivityOffering state
+        cleanupStateTestData( LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY );
+        cleanupLifecycleTestData( LuiServiceConstants.ACTIVITY_OFFERING_LIFECYCLE_KEY );
+        LifecycleInfo aoLifecycle = addLifecycle( LuiServiceConstants.ACTIVITY_OFFERING_LIFECYCLE_KEY );
+        addState( aoLifecycle, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, true );
+
+        // FormatOffering state
+        cleanupStateTestData( LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY );
+        cleanupLifecycleTestData( LuiServiceConstants.FORMAT_OFFERING_LIFECYCLE_KEY );
+        LifecycleInfo foLifecycle = addLifecycle( LuiServiceConstants.FORMAT_OFFERING_LIFECYCLE_KEY );
+        addState( foLifecycle, LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY, true );
+
+        // CourseOffering state
+        cleanupStateTestData( LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY );
+        cleanupLifecycleTestData( LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_KEY );
+        LifecycleInfo coLifecycle = addLifecycle( LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_KEY );
+        addState( coLifecycle, LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY, true );
+    }
+
+    // TODO: temporary stop-gap because SS throws an error about duplicate-data; this cleans state from previous runs
+    private void cleanupStateTestData( String state ) {
+        try {
+            stateService.deleteState( state, callContext );
+        } catch( Exception e ) { }
+    }
+
+    // TODO: temporary stop-gap because SS throws an error about duplicate-data; this cleans state from previous runs
+    private void cleanupLifecycleTestData( String name ) {
+        try {
+            stateService.deleteLifecycle( name, callContext );
+        } catch( Exception e ) { }
+    }
+
+    private LifecycleInfo addLifecycle( String name ) throws Exception {
+
+        LifecycleInfo origLife = new LifecycleInfo();
+        RichTextInfo rti = new RichTextInfo();
+        rti.setFormatted("<b>Formatted</b> lifecycle for testing purposes");
+        rti.setPlain("Plain lifecycle for testing purposes");
+        origLife.setDescr(rti);
+        origLife.setKey( name );
+        origLife.setName( "TEST_NAME" );
+        origLife.setRefObjectUri( "TEST_URI" );
+        AttributeInfo attr = new AttributeInfo();
+        attr.setKey("attribute.key");
+        attr.setValue("attribute value");
+        origLife.getAttributes().add(attr);
+
+        return stateService.createLifecycle(origLife.getKey(), origLife, callContext);
+    }
+
+    private StateInfo addState( LifecycleInfo lifecycleInfo, String state, boolean isInitialState ) throws Exception {
+
+        StateInfo orig = new StateInfo();
+        orig.setKey(state);
+        orig.setLifecycleKey(lifecycleInfo.getKey());
+        RichTextInfo rti = new RichTextInfo();
+        rti.setFormatted("<b>Formatted again</b> state for testing purposes");
+        rti.setPlain("Plain state again for testing purposes");
+        orig.setDescr(rti);
+        orig.setName("Testing state");
+        Date effDate = new Date();
+        orig.setEffectiveDate(effDate);
+        Calendar cal = Calendar.getInstance();
+        cal.set(2022, 8, 23);
+        orig.setExpirationDate(cal.getTime());
+        AttributeInfo attr = new AttributeInfo();
+        attr.setKey("attribute.key");
+        attr.setValue("attribute value");
+        orig.getAttributes().add(attr);
+        orig.setIsInitialState(isInitialState);
+
+        return stateService.createState(orig.getLifecycleKey(), orig.getKey(), orig, callContext);
     }
 
     @Test
@@ -118,7 +199,7 @@ public class TestCourseOfferingServiceImplWithMocks {
         orig.setCourseId(course.getId());
         orig.setTermId("testAtpId1");
         orig.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
-        orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
+        orig.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
         orig.setCourseOfferingTitle("my name");
         orig.setWaitlistLevelTypeKey("waitlist key");
         orig.setHasWaitlist(true);
@@ -264,7 +345,7 @@ public class TestCourseOfferingServiceImplWithMocks {
         orig.setFormatId("COURSE1-FORMAT1");
         orig.setActivityOfferingTypeKeys(Arrays.asList(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY));
         orig.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
-        orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
+        orig.setStateKey(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY);
         FormatOfferingInfo info = courseOfferingService.createFormatOffering(orig.getCourseOfferingId(), orig.getFormatId(), orig.getTypeKey(), orig, callContext);
         assertNotNull(info);
         assertNotNull(info.getId());
@@ -321,7 +402,7 @@ public class TestCourseOfferingServiceImplWithMocks {
         orig.setFormatOfferingId(fo.getId());
         orig.setActivityId(fo.getId() + "." + LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY);
         orig.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
-        orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
+        orig.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
         orig.setMinimumEnrollment(100);
         orig.setMaximumEnrollment(150);
         orig.setIsEvaluated(true);

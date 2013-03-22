@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.cxf.common.i18n.Message;
+import org.apache.cxf.common.i18n.UncheckedException;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
@@ -47,12 +49,7 @@ import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.dto.LuiSetInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.BulkStatusInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -76,6 +73,7 @@ import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.state.service.StateTransitionsHelper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
@@ -257,9 +255,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
     }
 
+    private void validateLuiIsInValidInitialState( TypeStateEntityInfo lui, String luiLifecycleKey, ContextInfo context )
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException
+    {
+        List<String> validInitialStates = stateService.getInitialStatesByLifecycle( luiLifecycleKey, context );
+        if( !validInitialStates.contains( lui.getStateKey() ) ) {
+            throw new DataValidationErrorException( "LUI has invalid initial state(" + lui.getStateKey()
+                    + "); must be one of: " + validInitialStates );
+        }
+    }
+
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public RegistrationGroupInfo createRegistrationGroup(String formatOfferingId, String activityOfferingClusterId, String registrationGroupTypeKey, RegistrationGroupInfo registrationGroupInfo,  ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+
+        validateLuiIsInValidInitialState( registrationGroupInfo, LuiServiceConstants.REGISTRATION_GROUP_LIFECYCLE_KEY, context );
+
         FormatOfferingInfo fo = this.getFormatOffering(formatOfferingId, context);
         _cRG_validateCreateRegistrationGroup(registrationGroupInfo, registrationGroupTypeKey, fo);
         registrationGroupInfo.setTermId(fo.getTermId());
@@ -599,6 +610,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         if (!courseOfferingTypeKey.equals(coInfo.getTypeKey())) {
             throw new InvalidParameterException(courseOfferingTypeKey + " does not match the corresponding value in the object " + coInfo.getTypeKey());
         }
+
+        validateLuiIsInValidInitialState( coInfo, LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_KEY, context );
+
         // check the term and course
         TermInfo term = acalService.getTerm(termId, context);
         CourseInfo courseInfo = _getCourse(courseId);
@@ -886,6 +900,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         if (!formatOfferingType.equals(foInfo.getTypeKey())) {
             throw new InvalidParameterException(formatOfferingType + " does not match the corresponding value in the object " + foInfo.getTypeKey());
         }
+
+        validateLuiIsInValidInitialState( foInfo, LuiServiceConstants.FORMAT_OFFERING_LIFECYCLE_KEY, context );
+
         // get the course offering
         CourseOfferingInfo co = this.getCourseOffering(courseOfferingId, context);
         if (foInfo.getTermId() != null) {
@@ -1268,6 +1285,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         // validate params (may throw InvalidParameterException)
         _cAO_validateParams(aoInfo, formatOfferingId, activityId, activityOfferingTypeKey);
+
+        validateLuiIsInValidInitialState( aoInfo, LuiServiceConstants.ACTIVITY_OFFERING_LIFECYCLE_KEY, context );
 
         // get the required objects checking they exist
         FormatOfferingInfo fo = this.getFormatOffering(formatOfferingId, context);

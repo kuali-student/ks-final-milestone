@@ -214,8 +214,8 @@
     <property name="em" ref="entityManager" />
   </bean>
 
-    <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>
-    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceMockDataImpl"/>
+  <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>
+    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.mock.StateServiceMockImpl"/>
 
   <alias alias="CourseOfferingService" name="coService" />
   

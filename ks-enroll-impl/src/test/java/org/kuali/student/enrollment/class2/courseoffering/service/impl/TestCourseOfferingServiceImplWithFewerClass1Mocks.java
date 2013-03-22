@@ -25,6 +25,8 @@ public class TestCourseOfferingServiceImplWithFewerClass1Mocks extends TestCours
             new LuiServiceDataLoader(this.luiService).loadData();
             new MockAcalTestDataLoader(this.acalService).loadData();
             new MockLrcTestDataLoader(this.lrcService).loadData();
+
+            createStateTestData();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }

@@ -53,19 +53,19 @@
     </bean>
     
     <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>
-    
-    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceMockDataImpl" />
-    <bean id="LrcService" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceMockImpl" />
-    <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl"/>
-    
-    <bean id="roomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplM5"/>
-    <bean id="organizationService" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceMockImpl"/>
-	<bean id="courseDataLoader" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader" autowire="default">
-		<property name="coService" ref="coService"/>
-	</bean>
-	 
-	<bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
 
-	<bean id="courseCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl" />		
-</beans>
+        <bean id="stateService" class="org.kuali.student.r2.core.class1.state.mock.StateServiceMockImpl" />
+        <bean id="LrcService" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceMockImpl" />
+        <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl"/>
+
+        <bean id="roomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplM5"/>
+        <bean id="organizationService" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceMockImpl"/>
+        <bean id="courseDataLoader" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader" autowire="default">
+            <property name="coService" ref="coService"/>
+        </bean>
+
+        <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
+
+        <bean id="courseCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl" />
+    </beans>
 
