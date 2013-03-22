@@ -31,9 +31,6 @@ values ('Y','10010','A',1,'10052','10116',0)
 insert into krms_typ_reln_t (actv,from_typ_id,reln_typ,seq_no,to_typ_id,typ_reln_id,ver_nbr)
 values ('Y','10010','A',1,'10048','10117',0)
 /
-insert into krms_typ_reln_t (actv,from_typ_id,reln_typ,seq_no,to_typ_id,typ_reln_id,ver_nbr)
-values ('Y','10010','A',1,'10049','10118',0)
-/
 update krms_rule_t
 set typ_id = 10010
 where typ_id = 10007
