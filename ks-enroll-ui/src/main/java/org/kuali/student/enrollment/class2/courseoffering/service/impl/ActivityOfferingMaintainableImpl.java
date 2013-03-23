@@ -115,6 +115,13 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             saveColocatedAOs(activityOfferingWrapper);
 
             /**
+             * Detach the AO from colo schedule if it's not a part of colo anymore
+             */
+            if (activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()){
+                activityOfferingWrapper.getAoInfo().setScheduleId(null);
+            }
+
+            /**
              * Save the AO first before processing schedule. (It's important to save first as scheduleAcivityOffering() service method
              * just accepts the ao id as param and fetches the DTO from the DB.)
              */
