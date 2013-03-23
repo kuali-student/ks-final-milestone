@@ -215,7 +215,7 @@
   </bean>
 
   <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>
-    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.mock.StateServiceMockImpl"/>
+  <bean id="stateService" class="org.kuali.student.r2.core.class1.state.mock.StateServiceMockImpl"/>
 
   <alias alias="CourseOfferingService" name="coService" />
   
@@ -281,6 +281,7 @@
 
   <bean id="acalService" class="org.kuali.student.r2.core.acal.service.impl.AcademicCalendarServiceImpl">
     <property name="atpService" ref="atpService" />
+    <property name="stateService" ref="stateService" />
     <property name="acalAssembler" ref="acalAssembler" />
     <property name="termAssembler" ref="termAssembler" />
     <property name="typeService" ref="typeService" />
