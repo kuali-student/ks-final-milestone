@@ -2,6 +2,7 @@ package org.kuali.student.r2.core.acal.service.impl;
 
 import org.apache.commons.httpclient.util.DateUtil;
 import org.apache.commons.lang.StringUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -9,10 +10,7 @@ import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -33,7 +31,9 @@ import org.kuali.student.r2.core.acal.infc.AcademicCalendar;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.atp.service.impl.AtpTestDataLoader;
+import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.slf4j.Logger;
@@ -79,6 +79,10 @@ public class TestAcademicCalendarServiceImpl {
     @Qualifier("atpServiceAuthorization")
     private AtpService atpService;
 
+    @Autowired
+    @Qualifier("stateService")
+    private StateService stateService;
+
     public static String principalId = "123";
     public ContextInfo callContext = null;
 
@@ -89,9 +93,85 @@ public class TestAcademicCalendarServiceImpl {
         callContext.setPrincipalId(principalId);
         try {
             loadData();
+            createStateTestData();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    @After
+    public void teardown() throws Exception {
+        destroyStateTestData();
+    }
+
+    private void createStateTestData() throws Exception {
+
+        // ATP state
+        LifecycleInfo atpLifecycle = addLifecycle( AtpServiceConstants.ATP_LIFECYCLE_KEY );
+        addState( atpLifecycle, AtpServiceConstants.ATP_DRAFT_STATE_KEY, true );
+        addState( atpLifecycle, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, false );
+    }
+
+    private void destroyStateTestData() throws Exception {
+
+        // ATP state
+        cleanupStateTestData( AtpServiceConstants.ATP_DRAFT_STATE_KEY );
+        cleanupStateTestData( AtpServiceConstants.ATP_OFFICIAL_STATE_KEY );
+        cleanupLifecycleTestData( AtpServiceConstants.ATP_LIFECYCLE_KEY );
+    }
+
+    private LifecycleInfo addLifecycle( String name ) throws Exception {
+
+        LifecycleInfo origLife = new LifecycleInfo();
+        RichTextInfo rti = new RichTextInfo();
+        rti.setFormatted("<b>Formatted</b> lifecycle for testing purposes");
+        rti.setPlain("Plain lifecycle for testing purposes");
+        origLife.setDescr(rti);
+        origLife.setKey( name );
+        origLife.setName( "TEST_NAME" );
+        origLife.setRefObjectUri( "TEST_URI" );
+        AttributeInfo attr = new AttributeInfo();
+        attr.setKey("attribute.key");
+        attr.setValue("attribute value");
+        origLife.getAttributes().add(attr);
+
+        return stateService.createLifecycle(origLife.getKey(), origLife, callContext);
+    }
+
+    private StateInfo addState( LifecycleInfo lifecycleInfo, String state, boolean isInitialState ) throws Exception {
+
+        StateInfo orig = new StateInfo();
+        orig.setKey(state);
+        orig.setLifecycleKey(lifecycleInfo.getKey());
+        RichTextInfo rti = new RichTextInfo();
+        rti.setFormatted("<b>Formatted again</b> state for testing purposes");
+        rti.setPlain("Plain state again for testing purposes");
+        orig.setDescr(rti);
+        orig.setName("Testing state");
+        Date effDate = new Date();
+        orig.setEffectiveDate(effDate);
+        Calendar cal = Calendar.getInstance();
+        cal.set(2022, 8, 23);
+        orig.setExpirationDate(cal.getTime());
+        AttributeInfo attr = new AttributeInfo();
+        attr.setKey("attribute.key");
+        attr.setValue("attribute value");
+        orig.getAttributes().add(attr);
+        orig.setIsInitialState(isInitialState);
+
+        return stateService.createState(orig.getLifecycleKey(), orig.getKey(), orig, callContext);
+    }
+
+    private void cleanupStateTestData( String state ) {
+        try {
+            stateService.deleteState( state, callContext );
+        } catch( Exception e ) { }
+    }
+
+    private void cleanupLifecycleTestData( String name ) {
+        try {
+            stateService.deleteLifecycle(name, callContext);
+        } catch( Exception e ) { }
     }
 
     private void loadData() throws DoesNotExistException, InvalidParameterException,
@@ -527,7 +607,7 @@ public class TestAcademicCalendarServiceImpl {
         StateInfo result = acalService.getTermState(AtpServiceConstants.ATP_DRAFT_STATE_KEY, callContext);
 
         assertNotNull(result);
-        assertEquals(result.getName(), "Draft");
+        assertEquals(result.getName(), "Testing state");
 
         StateInfo fakeState = null;
         try {

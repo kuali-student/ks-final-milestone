@@ -242,11 +242,15 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     @Transactional(readOnly = false)
     public AcademicCalendarInfo createAcademicCalendar(String academicCalendarTypeKey, AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws DataValidationErrorException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
         // TODO: move this to a validation layer
         try {
             AtpInfo toCreate = acalAssembler.disassemble(academicCalendarInfo, context);
+            if(!isInitialState(AtpServiceConstants.ATP_LIFECYCLE_KEY, toCreate.getStateKey(), context)) {
+                throw new OperationFailedException("Wrong initial Academic Calendar Info state Key!");
+            }
+
             AtpInfo createdAtp = atpService.createAtp(toCreate.getTypeKey(), toCreate, context);
             try {
                 createDeleteAtpAtpRelations(createdAtp.getId(),
@@ -371,7 +375,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     @Transactional(readOnly = false)
     public HolidayCalendarInfo createHolidayCalendar(String holidayCalendarTypeKey, HolidayCalendarInfo holidayCalendarInfo, ContextInfo context) throws DataValidationErrorException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         if(!checkTypeForHolidayCalendar(holidayCalendarInfo.getTypeKey())){
             throw new InvalidParameterException("HolidayCalendar type " + holidayCalendarInfo.getTypeKey() + " not right");
         }
@@ -382,6 +386,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         } catch (AssemblyException ex) {
             throw new OperationFailedException("Unexpected", ex);
         }
+
+        if(!isInitialState(AtpServiceConstants.ATP_LIFECYCLE_KEY, atpInfo.getStateKey(), context)) {
+            throw new OperationFailedException("Wrong initial HolidayCalendar state Key!");
+        }
+
         try {
             System.out.println("AcademicCalendarServiceImp: creating atp for holiday calendar ");
             atpInfo = atpService.createAtp(atpInfo.getTypeKey(), atpInfo, context);
@@ -639,12 +648,15 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     @Transactional(readOnly = false)
     public TermInfo createTerm(String termTypeKey, TermInfo termInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+            OperationFailedException, PermissionDeniedException, DoesNotExistException {
         AtpInfo atp;
 
         if (checkTypeForTermType(termTypeKey, context)) {
                 try {
                     atp = termAssembler.disassemble(termInfo, context);
+                    if(!isInitialState(AtpServiceConstants.ATP_LIFECYCLE_KEY, atp.getStateKey(), context)) {
+                        throw new OperationFailedException("Wrong initial TermInfo state Key!");
+                    }
                 } catch (AssemblyException e) {
                     throw new OperationFailedException("AssemblyException : " + e.getMessage());
                 }
@@ -1681,6 +1693,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Transactional(readOnly = false)
     public KeyDateInfo createKeyDate(String termId, String keyDateTypeKey, KeyDateInfo keyDateInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+
         KeyDateInfo newKeyDateInfo = null;
         MilestoneInfo milestoneInfo = null;
 
@@ -1690,6 +1703,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             milestoneInfo = keyDateAssembler.disassemble(keyDateInfo, contextInfo);
 
             if (milestoneInfo != null) {
+
+                if(!isInitialState(AtpServiceConstants.MILESTONE_PROCESS_KEY, milestoneInfo.getStateKey(), contextInfo)) {
+                    throw new OperationFailedException("Wrong initial MilestoneInfo state Key!");
+                }
+
                 if (StringUtils.isBlank(milestoneInfo.getTypeKey())) {
                     milestoneInfo.setTypeKey(keyDateTypeKey);
                 }
@@ -1869,6 +1887,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                     MilestoneInfo milestoneInfo = acalEventAssembler.disassemble(acalEventInfo, contextInfo);
                     if (StringUtils.isBlank(milestoneInfo.getTypeKey())) {
                         milestoneInfo.setTypeKey(acalEventTypeKey);
+                    }
+                    if(!isInitialState(AtpServiceConstants.MILESTONE_PROCESS_KEY, milestoneInfo.getStateKey(), contextInfo)) {
+                        throw new OperationFailedException("Wrong initial MilestoneInfo state Key!");
                     }
 
                     MilestoneInfo newMilestone = atpService.createMilestone(acalEventTypeKey, milestoneInfo, contextInfo);
@@ -2073,6 +2094,10 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                 throw new OperationFailedException("AssemblyException in disassembling: " + e.getMessage());
             }
 
+            if(!isInitialState(AtpServiceConstants.MILESTONE_PROCESS_KEY, milestoneInfo.getStateKey(), contextInfo)) {
+                throw new OperationFailedException("Wrong initial MilestoneInfo state Key!");
+            }
+
             if (milestoneInfo != null) {
                 if (StringUtils.isBlank(milestoneInfo.getTypeKey())) {
                     milestoneInfo.setTypeKey(holidayTypeKey);
@@ -2241,5 +2266,18 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     public void setStateTransitionsHelper(StateTransitionsHelper stateTransitionsHelper) {
         this.stateTransitionsHelper = stateTransitionsHelper;
+    }
+
+    public boolean isInitialState(String lifecycleKey, String initState, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        List<String>  initStates = null;
+
+        initStates = stateService.getInitialStatesByLifecycle(lifecycleKey, context);
+        if(initStates != null && !initStates.isEmpty()) {
+            if(!initStates.contains(initState)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
