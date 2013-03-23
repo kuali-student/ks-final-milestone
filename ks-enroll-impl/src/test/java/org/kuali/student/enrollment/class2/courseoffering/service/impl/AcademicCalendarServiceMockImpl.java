@@ -104,6 +104,9 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
 
     @Override
     public AcademicCalendarInfo createAcademicCalendar(String academicCalendarTypeKey, AcademicCalendarInfo academicCalendarInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+
+        if( true ) throw new Error("bah");
+
         AcademicCalendarInfo copy = new AcademicCalendarInfo(academicCalendarInfo);
         if (copy.getId() == null) {
             copy.setId(UUIDHelper.genStringUUID());
