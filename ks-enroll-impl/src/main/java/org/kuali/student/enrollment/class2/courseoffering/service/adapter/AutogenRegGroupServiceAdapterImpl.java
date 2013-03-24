@@ -190,7 +190,6 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         // Note: this may generate RGs that do NOT include the AO just added
         List<BulkStatusInfo> status =
                 coService.generateRegistrationGroupsForCluster(updated.getId(), context);
-        changeClusterRegistrationGroupState(updated.getId(), context);
         ActivityOfferingResult aoResult = new ActivityOfferingResult();
         aoResult.setCreatedActivityOffering(created);
         aoResult.setGeneratedRegistrationGroups(status);
@@ -342,7 +341,6 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         // Generate missing RGs
         List<BulkStatusInfo> created =
                 coService.generateRegistrationGroupsForCluster(updated.getId(), context);
-        changeClusterRegistrationGroupState(updated.getId(), context);
         return created;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -749,39 +747,6 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         
     }
     
-    public void changeClusterRegistrationGroupState(String clusterId, ContextInfo context)
-        throws PermissionDeniedException, DataValidationErrorException,
-                InvalidParameterException, ReadOnlyException, OperationFailedException,
-                MissingParameterException, DoesNotExistException, VersionMismatchException {
-
-        if(coService == null) {
-            coService = getCoService();
-        }
-        List<RegistrationGroupInfo> regGroupList = coService.getRegistrationGroupsByActivityOfferingCluster(clusterId, context);
-        for(RegistrationGroupInfo regGroupInfo : regGroupList) {
-            if (!regGroupInfo.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY)) {
-                List<String> aoIds = regGroupInfo.getActivityOfferingIds();
-                String regGroupStateKey = LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY;
-                for (String aoId : aoIds) {
-                    ActivityOfferingInfo aoInfo = coService.getActivityOffering(aoId, context);
-                    if (aoInfo.getStateKey().equals(LuiServiceConstants.LUI_AO_STATE_SUSPENDED_KEY)) {
-                        regGroupStateKey = LuiServiceConstants.REGISTRATION_GROUP_SUSPENDED_STATE_KEY;
-                        break;
-                    } else if (aoInfo.getStateKey().equals(LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY)) {
-                        regGroupStateKey = LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY;
-                        break;
-                    } else if (!aoInfo.getStateKey().equals(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY)) {
-                        regGroupStateKey = LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY;
-                        break;
-                    }
-                }
-                if(!regGroupInfo.getStateKey().equals(regGroupStateKey)) {
-                    StatusInfo statusInfo = coService.changeRegistrationGroupState(regGroupInfo.getId(), regGroupStateKey, context);
-                }
-            }
-        }
-    }
-
     public CourseOfferingService getCoService() {
         if(coService == null) {
 //            coService = (CourseOfferingService) GlobalResourceLoader.getService("CourseOfferingService");
