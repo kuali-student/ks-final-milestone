@@ -343,7 +343,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             List<ActivityOfferingClusterInfo> targetClusters =
                     _RCO_rolloverActivityOfferingClusters(sourceFo, targetFo, context, sourceAoIdToTargetAoId);
             for (ActivityOfferingClusterInfo cluster: targetClusters) {
-                // TODO (KSENROLL-5800): Call generateRegistrationGroupsForCluster on cluster
+                List<BulkStatusInfo> changes = generateRegistrationGroupsForCluster(cluster.getId(), context);
             }
         }
         SocRolloverResultItemInfo item = new SocRolloverResultItemInfo();
@@ -695,6 +695,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                         break;
                     }
                 }
+
+                _gRGFC_changeClusterRegistrationGroupState(rgInfo, contextInfo);
+
             } catch (DataValidationErrorException e) {
                 throw new OperationFailedException("Failed to validate registration group", e);
             } catch (ReadOnlyException e) {
@@ -731,6 +734,33 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             typeList.add(activityOfferingSetInfo.getActivityOfferingType());
         }
         return typeList;
+    }
+
+    private void _gRGFC_changeClusterRegistrationGroupState(RegistrationGroupInfo regGroupInfo, ContextInfo context) {
+        try {
+            if (!regGroupInfo.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY)) {
+                List<String> aoIds = regGroupInfo.getActivityOfferingIds();
+                String regGroupStateKey = LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY;
+                for (String aoId : aoIds) {
+                    ActivityOfferingInfo aoInfo = coService.getActivityOffering(aoId, context);
+                    if (aoInfo.getStateKey().equals(LuiServiceConstants.LUI_AO_STATE_SUSPENDED_KEY)) {
+                        regGroupStateKey = LuiServiceConstants.REGISTRATION_GROUP_SUSPENDED_STATE_KEY;
+                        break;
+                    } else if (aoInfo.getStateKey().equals(LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY)) {
+                        regGroupStateKey = LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY;
+                        break;
+                    } else if (!aoInfo.getStateKey().equals(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY)) {
+                        regGroupStateKey = LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY;
+                        break;
+                    }
+                }
+                if(!regGroupInfo.getStateKey().equals(regGroupStateKey)) {
+                    StatusInfo statusInfo = coService.changeRegistrationGroupState(regGroupInfo.getId(), regGroupStateKey, context);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
