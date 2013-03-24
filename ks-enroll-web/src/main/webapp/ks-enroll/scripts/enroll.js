@@ -755,55 +755,41 @@ function dataTableShow(url, containerId, tableId) {
     });
 }
 
-/*
- function updateCollectionAndRelatedItem(jqObject, collectionGroupId, updateAfterId){
- if(jqObject && collectionGroupId){
- collectionGroupId = jqObject.closest("[id^='" + collectionGroupId + "']").attr("id");
- collectionGroupId = collectionGroupId.replace("_group", "");
- var otherElementToBlock = jq("#" + updateAfterId + "_div");
- var updateComponentCallback = function(htmlContent){
- var component = jq("#" + updateAfterId + "_div", htmlContent);
+function addTabs(aoTabName , regTabName, aoDivIdPrefix, regDivIdPrefix){
+    var aoDiv = jQuery('div[id^="' + aoDivIdPrefix + '"]');
 
- otherElementToBlock.unblock({onUnblock: function(){
- //replace component
- if(jq("#" + updateAfterId + "_div").length){
- jq("#" + updateAfterId + "_div").replaceWith(component);
-        }
- runHiddenScripts(updateAfterId + "_div");
-    }
- });
-    };
- var elementToBlock = jq("#" + collectionGroupId + "_div");
- var updateCollectionCallback = function(htmlContent){
- var component = jq("#" + collectionGroupId + "_div", htmlContent);
+    jQuery.each(aoDiv, function(index){
+        var ul = jQuery("<ul class='ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all' />");
+        var aoLi = jQuery("<li class='ui-state-default ui-corner-top ui-tabs-selected ui-state-active ui-state-hover'/>");
+        var aoAnchor = jQuery("<a href='#'>" + aoTabName + "</a>");
+        //ui-state-default ui-corner-top ui-tabs-selected ui-state-active ui-state-hover
+//        ui-state-default ui-corner-top
+        aoLi.html(aoAnchor);
 
- elementToBlock.unblock({onUnblock: function(){
- //replace component
- if(jq("#" + collectionGroupId + "_div").length){
- jq("#" + collectionGroupId + "_div").replaceWith(component);
-        }
- runHiddenScripts(collectionGroupId + "_div");
- ajaxSubmitForm("updateComponent", updateComponentCallback,
- {reqComponentId: updateAfterId, skipViewInit: "true"}, otherElementToBlock);
- }
+        var rgLi = jQuery("<li class='ui-state-default ui-corner-top'/>");
+        var rgAnchor = jQuery("<a href='#'>" + regTabName + "</a>");
+        rgLi.html(rgAnchor);
+        //jQuery(rgLi).text(regTabName);
+
+        //jQuery(aoLi).text(aoTabName);
+        var aoDivId = jQuery(this).attr('id');
+        var index = aoDivId.split(aoDivIdPrefix)[1];
+        var regDivId = regDivIdPrefix + index;
+        aoLi.click(function () {
+            jQuery(aoLi).addClass("ui-tabs-selected ui-state-active ui-state-hover");
+            jQuery(rgLi).removeClass("ui-tabs-selected ui-state-active ui-state-hover");
+            jQuery("#" + aoDivId).find("table").show();
+            jQuery("#" + regDivId).hide();
         });
-    };
+        ul.append(aoLi);
+        rgLi.click(function () {
+            jQuery(rgLi).addClass("ui-tabs-selected ui-state-active ui-state-hover");
+            jQuery(aoLi).removeClass("ui-tabs-selected ui-state-active ui-state-hover");
+            jQuery("#" + regDivId).show();
+            jQuery("#" + aoDivId).find("table").hide();
+        });
+        ul.append(rgLi);
+        jQuery(this).prepend(ul);
 
- var methodToCall = jq("input[name='methodToCall']").val();
- ajaxSubmitForm(methodToCall, updateCollectionCallback, {reqComponentId: collectionGroupId, skipViewInit: "true"},
- elementToBlock);
-    }
-                }
-
- function removeFromCart(){
- var row = jq(this).closest("tr.keyRow");
- var name = jq(row).find(".timeKeyName").text();
- if(confirm("Remove "+ name +" from your cart?")){
- var id = jq(row).attr("name");
- writeHiddenToForm("methodToCall", "removeFromCart");
- writeHiddenToForm('jumpToId' , 'TOP');
- writeHiddenToForm('renderFullView' , 'true');
- writeHiddenToForm('actionParameters[itemId]' , id);
- jq('#kualiForm').submit();
-                }
- }*/
+    });
+}

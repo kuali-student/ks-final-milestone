@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseOfferingManagement-ViewAOClustersSection" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseOfferingManagement-ViewAOClustersSection" parent="Uif-VerticalBoxSection" p:onDocumentReadyScript="addTabs('View Activities', 'View Registration Groups', 'ARG-activityOfferingsPerCluster', 'ARG-registrationGroupsPerCluster');">
         <property name="headerText" value="View Clusters"/>
         <property name="items">
             <list>
@@ -123,8 +123,10 @@
         </property>
     </bean>
 
+    <!--p:style="display: none"-->
+
     <bean id="KS-CourseOfferingManagement-RegistrationGroupsPerClusterSubSection" parent="Uif-Disclosure-TableCollectionSubSection"
-          p:renderAddLine="false"  p:renderLineActions="false" >
+          p:renderAddLine="false"  p:renderLineActions="false" p:style="display: none">
         <property name="id" value="ARG-registrationGroupsPerCluster" />
         <!--<property name="hidden" value="true"/>-->
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper" />
