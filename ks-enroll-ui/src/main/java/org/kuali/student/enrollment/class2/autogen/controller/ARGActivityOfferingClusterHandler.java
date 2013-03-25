@@ -52,6 +52,7 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.uif.util.GrowlIcon;
 import org.kuali.student.enrollment.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -107,7 +108,20 @@ public class ARGActivityOfferingClusterHandler {
     public static void copyAO(ARGCourseOfferingManagementForm form) {
         ActivityOfferingWrapper selectedAO = (ActivityOfferingWrapper) ARGUtil.getSelectedObject(form, "copy");
         try {
-            CourseOfferingResourceLoader.loadCourseOfferingService().copyActivityOffering(selectedAO.getAoInfo().getId(), ContextBuilder.loadContextInfo());
+            ActivityOfferingInfo newAOInfo = CourseOfferingResourceLoader.loadCourseOfferingService().copyActivityOffering(selectedAO.getAoInfo().getId(), ContextBuilder.loadContextInfo());
+
+            ActivityOfferingClusterInfo selectedAOCluster = selectedAO.getAoCluster();
+            for (ActivityOfferingSetInfo set: selectedAOCluster.getActivityOfferingSets()) {
+                // Pick first AO set with matching type
+                if (set.getActivityOfferingType().equals(newAOInfo.getTypeKey())) {
+                    set.getActivityOfferingIds().add(newAOInfo.getId());
+                    break;
+                }
+            }
+            // update target AOC
+            ActivityOfferingClusterInfo updatedCluster = ARGUtil.getCourseOfferingService().updateActivityOfferingCluster(newAOInfo.getFormatOfferingId(), selectedAOCluster.getId(), selectedAOCluster, ContextBuilder.loadContextInfo());
+            // Generate missing RGs
+            List<BulkStatusInfo> created = ARGUtil.getCourseOfferingService().generateRegistrationGroupsForCluster(updatedCluster.getId(), ContextBuilder.loadContextInfo());
 
             //reload AOs including the new one just created
             ARGUtil.reloadActivityOffering(form);
