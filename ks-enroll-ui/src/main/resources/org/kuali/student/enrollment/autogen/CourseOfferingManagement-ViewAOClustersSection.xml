@@ -75,7 +75,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" >
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:onChangeScript="handleARGAOToolbar();">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>

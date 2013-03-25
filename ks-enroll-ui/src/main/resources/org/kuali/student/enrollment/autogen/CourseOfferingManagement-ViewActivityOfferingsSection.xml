@@ -46,7 +46,7 @@
 
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" >
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:onChangeScript="handleARGAOToolbar();">
                     <!--p:onChangeScript="handleARGAOToolbar();" p:hidden="@{#dp.currentCourseOfferingWrapper.crossListed}" -->
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
