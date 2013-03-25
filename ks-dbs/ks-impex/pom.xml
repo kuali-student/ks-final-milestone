@@ -42,6 +42,10 @@
         <oracle.dba.username>master</oracle.dba.username>
         <oracle.dba.password>ENC(eEFVZmL4+y/5KlzDMCt6dGlBKQzXevFp)</oracle.dba.password>
         <oracle.dba.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</oracle.dba.url>
+        <!-- KS Source db is pure SQL not .mpx -->
+        <sql.data.concurrent.progress.label>SQL Count</sql.data.concurrent.progress.label>
+        <sql.data.concurrent.progress.label.throughput>SQL/s</sql.data.concurrent.progress.label.throughput>
+        <sql.data.concurrent.trackProgressByUpdateCount>false</sql.data.concurrent.trackProgressByUpdateCount>
 
         <!-- Schemas -->
         <db.rice.baseline.schema>rice-impex-server-bootstrap</db.rice.baseline.schema>
