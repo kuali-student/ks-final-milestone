@@ -35,7 +35,7 @@
           <executions>
             <execution>
               <id>load</id>
-              <phase>initialize</phase>
+              <phase>${spring.load.phase}</phase>
               <goals>
                 <goal>load</goal>
               </goals>

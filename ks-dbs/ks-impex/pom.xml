@@ -20,6 +20,8 @@
     <jdbc.source.db.username>KS_SOURCE_DB${db.branch.qualifier}</jdbc.source.db.username>
     <jdbc.password>${jdbc.username}</jdbc.password>
     <impex.metainf.context>org.kuali.common.impex.spring.MetaInfMpxConfig</impex.metainf.context>
+    <spring.annotatedClass>${impex.metainf.context}</spring.annotatedClass>
+    <spring.load.phase>prepare-package</spring.load.phase>
     <impex.data.resources>META-INF/${project.artifactId}-data.resources</impex.data.resources>
     <impex.metainf.outputFile>${project.build.outputDirectory}/${impex.data.resources}</impex.metainf.outputFile>
   </properties>
@@ -29,6 +31,7 @@
       <id>source-db</id>
       <properties>
         <spring.annotatedClass>org.kuali.common.jdbc.spring.MavenResetConfig</spring.annotatedClass>
+        <spring.load.phase>initialize</spring.load.phase>
         <properties.decrypt>true</properties.decrypt>
         <properties.enc.password>${kuali.enc.password}</properties.enc.password>
         <properties.maven.exclude>kuali.scm.url</properties.maven.exclude>
