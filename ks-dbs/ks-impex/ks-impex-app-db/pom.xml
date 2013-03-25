@@ -26,7 +26,7 @@
             </goals>
             <phase>prepare-package</phase>
             <configuration>
-              <location>${impex.metainf.context}</location>
+              <annotatedClass>${impex.metainf.context}</annotatedClass>
             </configuration>
           </execution>
         </executions>
