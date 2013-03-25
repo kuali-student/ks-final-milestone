@@ -9412,7 +9412,7 @@
     <sequence name="KREW_TYP_ATTR_S" nextval="10000"/>
     <sequence name="KREW_TYP_S" nextval="10000"/>
     <sequence name="KREW_USR_S" nextval="100000000000"/>
-    <sequence name="KRIM_ATTR_DATA_ID_S" nextval="10261"/>
+    <sequence name="KRIM_ATTR_DATA_ID_S" nextval="10262"/>
     <sequence name="KRIM_ATTR_DEFN_ID_S" nextval="10013"/>
     <sequence name="KRIM_DLGN_ID_S" nextval="10000"/>
     <sequence name="KRIM_DLGN_MBR_ID_S" nextval="10000"/>

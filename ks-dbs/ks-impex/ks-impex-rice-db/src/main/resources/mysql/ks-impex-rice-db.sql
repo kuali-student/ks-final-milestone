@@ -6733,7 +6733,7 @@ CREATE TABLE KRIM_ATTR_DATA_ID_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE KRIM_ATTR_DATA_ID_S auto_increment = 10261
+ALTER TABLE KRIM_ATTR_DATA_ID_S auto_increment = 10262
 /
 
 # -----------------------------------------------------------------------
