@@ -40,7 +40,7 @@
                 <goal>load</goal>
               </goals>
               <configuration>
-                <annotatedClass>org.kuali.common.jdbc.spring.MavenResetConfig</annotatedClass>
+                <annotatedClass>${spring.annotatedClass}</annotatedClass>
               </configuration>
             </execution>
           </executions>
