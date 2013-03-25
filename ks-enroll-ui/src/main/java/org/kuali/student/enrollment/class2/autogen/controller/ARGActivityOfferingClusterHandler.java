@@ -287,6 +287,14 @@ public class ARGActivityOfferingClusterHandler {
         if (checked > enabled) {
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_DELETE);
         }
+
+        if (!selectedIndexList.isEmpty()) {
+            for (ActivityOfferingWrapper ao : selectedIndexList) {
+                ARGUtil.getArgServiceAdapter().deleteActivityOfferingCascaded(ao.getAoInfo().getId(), ao.getAoClusterID(), ContextBuilder.loadContextInfo());
+            }
+
+            ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
+        }
     }
 
     public static ARGCourseOfferingManagementForm createNewCluster(ARGCourseOfferingManagementForm theForm) throws Exception {
