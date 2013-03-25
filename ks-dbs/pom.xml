@@ -35,13 +35,12 @@
           <executions>
             <execution>
               <id>load</id>
-              <phase>${db.populate.phase}</phase>
+              <phase>initialize</phase>
               <goals>
                 <goal>load</goal>
               </goals>
               <configuration>
-                <location>${plugin.spring.context.db}</location>
-                <propertiesBeanName>deploy.mavenProperties</propertiesBeanName>
+                <annotatedClass>org.kuali.common.jdbc.spring.MavenResetConfig</annotatedClass>
               </configuration>
             </execution>
           </executions>
