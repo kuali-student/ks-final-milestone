@@ -316,7 +316,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=cancelDeleteAOs")
     public ModelAndView cancelDeleteAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
-        ARGUtil.reloadActivityOffering(theForm);
+        ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 
@@ -532,7 +532,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         ARGUtil.getViewHelperService(theForm).approveActivityOfferings(theForm);
-        ARGUtil.reloadActivityOffering(theForm);
+        ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
     }
 
@@ -571,7 +571,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     public ModelAndView draftAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                  @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         ARGUtil.getViewHelperService(theForm).draftActivityOfferings(theForm);
-        ARGUtil.reloadActivityOffering(theForm);
+        ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
     }
 

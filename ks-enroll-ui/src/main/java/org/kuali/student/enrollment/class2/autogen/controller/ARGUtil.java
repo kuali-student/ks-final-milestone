@@ -438,7 +438,7 @@ public class ARGUtil {
         ARGToolbarUtil.processCoToolbarForUser(theForm.getCourseOfferingResultList(), theForm);
     }
 
-    public static void reloadActivityOffering(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static void reloadTheCourseOfferingWithAOs_RGs_Clusters(ARGCourseOfferingManagementForm theForm) throws Exception {
         // Reload the AOs
         CourseOfferingInfo theCourseOffering = theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
 //        loadActivityOfferings(theCourseOffering, theForm);

@@ -124,7 +124,7 @@ public class ARGActivityOfferingClusterHandler {
             List<BulkStatusInfo> created = ARGUtil.getCourseOfferingService().generateRegistrationGroupsForCluster(updatedCluster.getId(), ContextBuilder.loadContextInfo());
 
             //reload AOs including the new one just created
-            ARGUtil.reloadActivityOffering(form);
+            ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(form);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -146,7 +146,7 @@ public class ARGActivityOfferingClusterHandler {
             throw new RuntimeException(e);
         }
 
-        ARGUtil.reloadActivityOffering(theForm);
+        ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
 
         if (selectedAolist.size() > 0 && theForm.isSelectedIllegalAOInDeletion()) {
             GlobalVariables.getMessageMap().putWarningForSectionId("manageActivityOfferingsPage",
@@ -248,6 +248,7 @@ public class ARGActivityOfferingClusterHandler {
         int aoCount = Integer.parseInt(theForm.getNoOfActivityOfferings());
 
         ARGUtil.getViewHelperService(theForm).createActivityOfferings(formatId, activityId, aoCount, theForm);
+        ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
 
         theForm.setFormatIdForNewAO(null);
         theForm.setActivityIdForNewAO(null);
