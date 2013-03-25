@@ -441,8 +441,21 @@ public class ARGUtil {
     public static void reloadActivityOffering(ARGCourseOfferingManagementForm theForm) throws Exception {
         // Reload the AOs
         CourseOfferingInfo theCourseOffering = theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
-        loadActivityOfferings(theCourseOffering, theForm);
+//        loadActivityOfferings(theCourseOffering, theForm);
+
+        CourseOfferingWrapper coWrapper = new CourseOfferingWrapper(theCourseOffering);
+        getViewHelperService(theForm).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(theForm, coWrapper);
+
+        List<FormatOfferingInfo> foList = getCourseOfferingService().getFormatOfferingsByCourseOffering(theCourseOffering.getId(), ContextUtils.createDefaultContextInfo());
+        List<String> foIDs = new ArrayList<String>();
+        for (FormatOfferingInfo fo : foList) {
+            foIDs.add(fo.getId());
+        }
+        loadRegistrationGroupsByCourseOffering(foIDs, theForm);
+
         getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm);
+
+        ARGToolbarUtil.processAoToolbarForUser(theForm.getActivityWrapperList(), theForm);
     }
 
     public static void loadActivityOfferings(CourseOfferingInfo theCourseOffering, ARGCourseOfferingManagementForm theForm) throws Exception {
