@@ -187,7 +187,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         for (FormatOfferingWrapper foWrapper : wrapper.getFormatOfferingWrappers()) {
             if (!foWrapper.isJointOffering()){
-                foWrapper.getFormatOfferingInfo().setStateKey(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY);
+                foWrapper.getFormatOfferingInfo().setStateKey(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY);
                 foWrapper.getFormatOfferingInfo().setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
                 foWrapper.getFormatOfferingInfo().setTermId(wrapper.getCourseOfferingInfo().getTermId());
                 foWrapper.getFormatOfferingInfo().setCourseOfferingId(wrapper.getCourseOfferingInfo().getId());
@@ -215,7 +215,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                  LOG.debug("Creating offerings for the joint course " + jointWrapper.getCourseCode());
                   CourseOfferingInfo coInfo = createCourseOfferingInfo(wrapper.getTerm().getId(), jointWrapper.getCourseInfo(), StringUtils.EMPTY, new CourseOfferingInfo());
                   for (FormatOfferingWrapper foWrapper : jointWrapper.getFormatOfferingWrappers()){
-                      foWrapper.getFormatOfferingInfo().setStateKey(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY);
+                      foWrapper.getFormatOfferingInfo().setStateKey(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY);
                       foWrapper.getFormatOfferingInfo().setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
                       foWrapper.getFormatOfferingInfo().setTermId(wrapper.getCourseOfferingInfo().getTermId());
                       foWrapper.getFormatOfferingInfo().setCourseOfferingId(coInfo.getId());
