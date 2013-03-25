@@ -12,13 +12,13 @@
         These are HorizontalBoxSections containing toolbar in manage CO and AO pages.
     -->
 
-     <bean id="KS-CourseOfferingManagement-ARG-ToolBarSection" parent="Uif-HorizontalBoxSection" p:render="@{!currentCourseOfferingWrapper.crossListed}">
+     <bean id="KS-CourseOfferingManagement-ARG-AO-ToolBarSection" parent="Uif-HorizontalBoxSection" p:render="@{!currentCourseOfferingWrapper.crossListed}">
         <property name="items">
           <list>
             <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                 <property name="items">
                     <list>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Add-ARG" parent="KS-CourseOfferingManagement-ToolBar-Add" p:actionLabel="Add Activity"  p:disabled="false"
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Add-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Add" p:actionLabel="Add Activity"  p:disabled="false"
                             p:performClientSideValidation="true" p:methodToCall="addActivityOfferings"
                             p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen');"/>
                     </list>
@@ -27,19 +27,19 @@
             <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                 <property name="items">
                     <list>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Approve-ARG" parent="KS-CourseOfferingManagement-ToolBar-Approve" p:methodToCall="approveAOs" p:render="@{hasAO}"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Draft-ARG" parent="KS-CourseOfferingManagement-ToolBar-Draft" p:methodToCall="draftAOs" p:render="@{hasAO}"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Approve-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Approve" p:methodToCall="approveAOs" p:render="@{hasAO}"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Draft-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Draft" p:methodToCall="draftAOs" p:render="@{hasAO}"/>
                     </list>
                 </property>
             </bean>
             <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                 <property name="items">
                     <list>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Copy-ARG" parent="KS-CourseOfferingManagement-ToolBar-Copy" p:methodToCall="copyAOs" p:render="@{hasAO}"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-ARG" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendAOs" p:render="@{hasAO}"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-ARG" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelAOs" p:render="@{hasAO}"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-ARG" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateAOs" p:render="@{hasAO}"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Delete-ARG" parent="KS-CourseOfferingManagement-ToolBar-Delete" p:methodToCall="deleteAOs" p:render="@{hasAO}"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Copy-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Copy" p:methodToCall="copyAOs" p:render="@{hasAO}"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendAOs" p:render="@{hasAO}"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelAOs" p:render="@{hasAO}"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateAOs" p:render="@{hasAO}"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Delete-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Delete" p:methodToCall="deleteAOs" p:render="@{hasAO}"/>
                     </list>
                 </property>
             </bean>

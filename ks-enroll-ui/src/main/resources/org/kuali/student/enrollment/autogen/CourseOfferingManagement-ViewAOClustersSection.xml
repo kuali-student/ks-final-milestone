@@ -9,7 +9,7 @@
         <property name="headerText" value="View by Clusters"/>
         <property name="items">
             <list>
-                <ref bean="KS-CourseOfferingManagement-ARG-ToolBarSection"/>
+                <ref bean="KS-CourseOfferingManagement-ARG-AO-ToolBarSection"/>
                 <ref bean="KS-CourseOfferingManagement-AOClustersCollection"/>
             </list>
         </property>

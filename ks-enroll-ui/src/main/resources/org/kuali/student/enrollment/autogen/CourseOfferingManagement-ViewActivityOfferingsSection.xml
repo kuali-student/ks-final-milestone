@@ -9,7 +9,7 @@
         <property name="headerText" value="View All Activities" />
         <property name="items">
             <list>
-                <ref bean="KS-CourseOfferingManagement-ARG-ToolBarSection"/>
+                <ref bean="KS-CourseOfferingManagement-ARG-AO-ToolBarSection"/>
                 <ref bean="KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen"/>
                 <ref bean="KS-CourseOfferingManagement-AddAOCPopupForm"/>
                 <ref bean="KS-CourseOfferingManagement-MoveAOCPopupForm"/>
@@ -47,7 +47,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" >
-                    <!--p:onChangeScript="handleAOToolbar();" p:hidden="@{#dp.currentCourseOfferingWrapper.crossListed}" -->
+                    <!--p:onChangeScript="handleARGAOToolbar();" p:hidden="@{#dp.currentCourseOfferingWrapper.crossListed}" -->
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
