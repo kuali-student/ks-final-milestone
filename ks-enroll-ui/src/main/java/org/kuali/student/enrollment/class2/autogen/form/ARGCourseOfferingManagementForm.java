@@ -125,6 +125,9 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     private boolean isColocatedCoOnly;
     private Integer numOfColocatedCosToDelete = 0;
     private Integer numOfColocatedAosToDelete = 0;
+    private boolean isJointDefinedCo;
+    private boolean isJointDefinedCoOnly;
+    private Integer numOfJointDefinedCosToDelete = 0;
 
     //TODO: do we need this one?
     private boolean readOnly;
@@ -546,6 +549,30 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
 
     public void setNumOfCrossListedCosToDelete(int numOfCrossListedCosToDelete) {
         this.numOfCrossListedCosToDelete = numOfCrossListedCosToDelete;
+    }
+
+    public boolean isJointDefinedCo() {
+        return isJointDefinedCo;
+    }
+
+    public void setJointDefinedCo(boolean jointDefinedCo) {
+        isJointDefinedCo = jointDefinedCo;
+    }
+
+    public boolean isJointDefinedCoOnly() {
+        return isJointDefinedCoOnly;
+    }
+
+    public void setJointDefinedCoOnly(boolean jointDefinedCoOnly) {
+        isJointDefinedCoOnly = jointDefinedCoOnly;
+    }
+
+    public Integer getNumOfJointDefinedCosToDelete() {
+        return numOfJointDefinedCosToDelete;
+    }
+
+    public void setNumOfJointDefinedCosToDelete(Integer numOfJointDefinedCosToDelete) {
+        this.numOfJointDefinedCosToDelete = numOfJointDefinedCosToDelete;
     }
 
     public boolean isColocatedCO() {

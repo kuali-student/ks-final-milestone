@@ -20,6 +20,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
@@ -79,6 +82,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
@@ -103,6 +107,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     private LRCService lrcService;
     private AtpService atpService;
     private CourseOfferingSetService socService;
+    private static PermissionService permissionService;
 
     /**
      * This method fetches the <code>TermInfo</code> and validate for exact match
@@ -611,6 +616,12 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 else if(CourseOfferingManagementSearchImpl.SearchResultColumns.CROSS_LISTED_COURSES.equals(cellInfo.getKey())){
                     coListWrapper.setAlternateCOCodes(Arrays.asList(StringUtils.split(value, ",")));
                 }
+                else if(CourseOfferingManagementSearchImpl.SearchResultColumns.OWNER_CODE.equals(cellInfo.getKey())){
+                    coListWrapper.setOwnerCode(value);
+                }
+                else if(CourseOfferingManagementSearchImpl.SearchResultColumns.OWNER_ALIASES.equals(cellInfo.getKey())){
+                    coListWrapper.setOwnerAliases(Arrays.asList(StringUtils.split(value, ",")));
+                }
 
             }
             form.getCourseOfferingResultList().add(coListWrapper);
@@ -902,10 +913,12 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         int totalColocatedAos = 0;
         boolean iscolocated = false;
         int totalCrossListedCosToDelete = 0;
+        int totalJointDefinedCosToDelete = 0;
 
         form.setNumOfColocatedCosToDelete(0);
         form.setNumOfColocatedAosToDelete(0);
         form.setNumOfCrossListedCosToDelete(0);
+        form.setNumOfJointDefinedCosToDelete(0);
 
         List<CourseOfferingListSectionWrapper> qualifiedToDeleteList = form.getSelectedCoToDeleteList();
         qualifiedToDeleteList.clear();
@@ -986,8 +999,18 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                         totalCrossListedCosToDelete++;
                     }
                 }
+                co.setJointDefined(false);
+
                 if(iscolocated) {
                     totalColocatedCos++;
+                }else {
+                    // verify whether this CO is joint-defined or not
+                    String jointDefinedCodes = getJointDefinedInfo(co);
+                    if(!jointDefinedCodes.isEmpty()) {
+                        co.setJointDefinedCoCode(jointDefinedCodes);
+                        co.setJointDefined(true);
+                        totalJointDefinedCosToDelete++;
+                    }
                 }
                 qualifiedToDeleteList.add(co);
 
@@ -997,9 +1020,13 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             }
         }
         form.setNumOfCrossListedCosToDelete(totalCrossListedCosToDelete);
+        form.setNumOfJointDefinedCosToDelete(totalJointDefinedCosToDelete);
         if(totalColocatedCos == totalCosToDelete) {
             form.setColocatedCoOnly(true);
             form.setNumOfColocatedCosToDelete(totalColocatedCos);
+        }
+        if(totalJointDefinedCosToDelete >= 1)  {
+            form.setJointDefinedCo(true);
         }
         form.setNumOfColocatedAosToDelete(totalColocatedAos);
         form.setTotalAOsToBeDeleted(totalAos);
@@ -1121,8 +1148,8 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
      *  Same as markCourseOfferingsForScheduling() but defaults isChecked() == true.
      *  @param coWrappers The list of CourseOffering wrappers.
      */
-    public void  markCourseOfferingsForScheduling(List<CourseOfferingListSectionWrapper> coWrappers) throws Exception {
-        markCourseOfferingsForScheduling(coWrappers, true);
+    public void  markCourseOfferingsForScheduling(List<CourseOfferingListSectionWrapper> coWrappers, String viewId, String socStateKey) throws Exception {
+        markCourseOfferingsForScheduling(coWrappers, viewId, socStateKey,true);
     }
 
     /**
@@ -1130,34 +1157,67 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
      *  CO was selected on the UI) from "Draft" to "Approved". If the AO has a state other than "Draft" the AO is ignored.
      *  Also, changes the state of the CourseOffering if appropriate.
      *
-     * @param coWrappers The list of CourseOfferings.
+     * @param coWrappers, viewId, socStateKey provides list of CourseOfferings, viewId, socState.
      * @param checkedOnly True if the CO wrapper isChecked() flag should be respected.
      */
-    public void markCourseOfferingsForScheduling(List<CourseOfferingListSectionWrapper> coWrappers, boolean checkedOnly) throws Exception {
-        boolean hasAOWarning = false, hasStateChangedAO = false;
+    public void markCourseOfferingsForScheduling(List<CourseOfferingListSectionWrapper> coWrappers,
+                                                 String viewId, String socStateKey, boolean checkedOnly) throws Exception {
+        boolean hasAOWarning = false, hasStateChangedAO = false, hasOrgWarning = false;
         ContextInfo contextInfo = createContextInfo();
         for (CourseOfferingListSectionWrapper coWrapper : coWrappers) {
             if (coWrapper.getIsChecked() || ! checkedOnly) {
-                List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(coWrapper.getCourseOfferingId(),contextInfo);
-                if (activityOfferingInfos.size() == 0) {
-                    if ( ! hasAOWarning) hasAOWarning = true;
-                    continue;
+                // Checking if the person is authorized to approve
+                Map<String,String> permissionDetails = new HashMap<String,String>();
+                Map<String,String> roleQualifications = new HashMap<String,String>();
+                CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), contextInfo);
+                List<String> orgIds = coInfo.getUnitsDeploymentOrgIds();
+                String orgIDs = "";
+                if(orgIds != null && !orgIds.isEmpty()){
+                    for (String orgId : orgIds) {
+                        orgIDs = orgIDs + orgId + ",";
+                    }
                 }
-                // Iterate through the AOs and state change Draft -> Approved.
-                for (ActivityOfferingInfo activityOfferingInfo : activityOfferingInfos) {
-                    boolean isAOStateDraft = StringUtils.equals(activityOfferingInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
-                    if (isAOStateDraft) {
-                        StatusInfo statusInfo = getCourseOfferingService().changeActivityOfferingState(activityOfferingInfo.getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
-                        if (!statusInfo.getIsSuccess()){
-                            GlobalVariables.getMessageMap().putError("manageCourseOfferingsPage", CourseOfferingConstants.COURSE_OFFERING_STATE_CHANGE_ERROR,coWrapper.getCourseOfferingCode(),statusInfo.getMessage());
-                        }
-                        //  Flag if any AOs can be state changed. This affects the error message whi.
-                        if (statusInfo.getIsSuccess()){
-                            hasStateChangedAO = true;
-                        }
-                    } else {
-                        //  Flag if any AOs are not in a valid state for approval.
+                boolean canApproveAOs = true;
+                if (orgIDs.length() > 0) {
+                    String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+
+                    roleQualifications.put("org", orgIDs.substring(0, orgIDs.length()-1));
+
+                    permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, viewId);
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "approveSubj");
+
+                    String socState = socStateKey==null?null:socStateKey.substring(socStateKey.lastIndexOf('.')+1);
+                    permissionDetails.put("socState", socState);
+
+                    canApproveAOs = getPermissionService().isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications);
+                }
+
+                if (!canApproveAOs) {  // if can't approve AOs for all COs (because they are in a different org)
+                    if (!hasOrgWarning) hasOrgWarning = true;
+                    continue;
+                } else {
+
+                    List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(coWrapper.getCourseOfferingId(),contextInfo);
+                    if (activityOfferingInfos.size() == 0) {
                         if ( ! hasAOWarning) hasAOWarning = true;
+                        continue;
+                    }
+                    // Iterate through the AOs and state change Draft -> Approved.
+                    for (ActivityOfferingInfo activityOfferingInfo : activityOfferingInfos) {
+                        boolean isAOStateDraft = StringUtils.equals(activityOfferingInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
+                        if (isAOStateDraft) {
+                            StatusInfo statusInfo = getCourseOfferingService().changeActivityOfferingState(activityOfferingInfo.getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
+                            if (!statusInfo.getIsSuccess()){
+                                GlobalVariables.getMessageMap().putError("manageCourseOfferingsPage", CourseOfferingConstants.COURSE_OFFERING_STATE_CHANGE_ERROR,coWrapper.getCourseOfferingCode(),statusInfo.getMessage());
+                            }
+                            //  Flag if any AOs can be state changed. This affects the error message whi.
+                            if (statusInfo.getIsSuccess()){
+                                hasStateChangedAO = true;
+                            }
+                        } else {
+                            //  Flag if any AOs are not in a valid state for approval.
+                            if ( ! hasAOWarning) hasAOWarning = true;
+                        }
                     }
                 }
             }
@@ -1168,6 +1228,9 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         } else {
             if (hasAOWarning) {
                 GlobalVariables.getMessageMap().putWarning("manageCourseOfferingsPage", CourseOfferingConstants.COURSEOFFERING_WITH_AO_DRAFT_APPROVED_ONLY);
+            }
+            if (hasOrgWarning) {
+                GlobalVariables.getMessageMap().putWarning("manageCourseOfferingsPage", CourseOfferingConstants.COURSEOFFERING_WITH_AO_ORG_APPROVED_ONLY);
             }
         }
     }
@@ -1215,6 +1278,27 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             }
         }
         return null;
+    }
+
+    private String getJointDefinedInfo(CourseOfferingListSectionWrapper co) {
+        if(co == null) return null;
+
+        List<CourseInfo> coInfoList = ViewHelperUtil.getMatchingCoursesFromClu( co.getCourseOfferingCode());
+        StringBuffer jointDefinedCodes  = new StringBuffer();
+
+        for(CourseInfo coInfo : coInfoList) {
+            List<CourseJointInfo> jointList = coInfo.getJoints();
+            if(!jointList.isEmpty() && jointList.size() >= 1 ) {
+                for(CourseJointInfo jointInfo : jointList)  {
+                    jointDefinedCodes.append(jointInfo.getSubjectArea());
+                    jointDefinedCodes.append(jointInfo.getCourseNumberSuffix());
+                    jointDefinedCodes.append(" ");
+                }
+
+            }
+        }
+
+        return jointDefinedCodes.toString();
     }
 
     private CourseOfferingService _getCourseOfferingService() {
@@ -1328,5 +1412,13 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
         return socService;
     }
+
+    private static PermissionService getPermissionService() {
+        if(permissionService == null){
+            permissionService = KimApiServiceLocator.getPermissionService();
+        }
+        return permissionService;
+    }
+
 
 }
