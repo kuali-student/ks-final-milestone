@@ -35,10 +35,10 @@
             <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                 <property name="items">
                     <list>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Copy-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Copy" p:methodToCall="copyAOs" p:render="@{hasAO}"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendAOs" p:render="@{hasAO}"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelAOs" p:render="@{hasAO}"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateAOs" p:render="@{hasAO}"/>
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Copy-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Copy" p:methodToCall="copyAOs" p:render="@{hasAO}"/>-->
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Suspend-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendAOs" p:render="@{hasAO}"/>-->
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Cancel-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelAOs" p:render="@{hasAO}"/>-->
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateAOs" p:render="@{hasAO}"/>-->
                         <bean id="KS-CourseOfferingManagement-ToolBar-Delete-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Delete" p:methodToCall="deleteAOs" p:render="@{hasAO}"/>
                     </list>
                 </property>

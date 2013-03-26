@@ -118,6 +118,7 @@
         <property name="lineActions">
             <list>
                 <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="moveAActivityOffering" p:actionLabel="Move"/>-->
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy" />
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
             </list>
         </property>
@@ -221,10 +222,10 @@
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Copy-AO-ARG-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Copy" p:methodToCall="copyAOs" p:render="@{hasAO}"/>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-AO-ARG-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendAOs" p:render="@{hasAO}"/>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-AO-ARG-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelAOs" p:render="@{hasAO}"/>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-AO-ARG-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateAOs" p:render="@{hasAO}"/>
+                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-Copy-AO-ARG-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Copy" p:methodToCall="copyAOs" p:render="@{hasAO}"/>-->
+                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-Suspend-AO-ARG-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendAOs" p:render="@{hasAO}"/>-->
+                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-Cancel-AO-ARG-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelAOs" p:render="@{hasAO}"/>-->
+                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-AO-ARG-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateAOs" p:render="@{hasAO}"/>-->
                             <bean id="KS-CourseOfferingManagement-ToolBar-Delete-AO-ARG-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Delete" p:methodToCall="deleteAOs" p:render="@{hasAO}"/>
                         </list>
 
