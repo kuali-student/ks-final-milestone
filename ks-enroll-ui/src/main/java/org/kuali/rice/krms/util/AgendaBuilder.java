@@ -155,6 +155,7 @@ public class AgendaBuilder {
         props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE,"org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor");
         props.put("viewName", "EnrolRuleEditView");
         props.put("id", ruleEditor.getId());
+        props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
         return props;
     }
 }
