@@ -79,6 +79,9 @@ public class RuleLogicExpressionParser {
             errorMessages.add("() not in pair");
             return false;
         }
+        if (!validateAndOr(errorMessages,tokens)){
+            return false;
+        }
         // condition cannot duplicate
         for (int i = 0; i < tokens.size(); i++) {
             ExpressionToken token = tokens.get(i);
@@ -111,6 +114,31 @@ public class RuleLogicExpressionParser {
             }
         }
         return valid;
+    }
+
+    private boolean validateAndOr(List<String> errorMessages, List<ExpressionToken> nodeList) {
+        Stack<ExpressionToken> operatorStack = new Stack<ExpressionToken>();
+
+        for (ExpressionToken token : nodeList) {
+            if (token.type == ExpressionToken.Condition) {
+                //do nothing
+            } else if (token.type == ExpressionToken.EndParenthesis) {
+                ExpressionToken operator = operatorStack.pop();
+                while (operatorStack.peek().type != ExpressionToken.StartParenthesis) {
+                    ExpressionToken next = operatorStack.pop();
+                    if (next.type != operator.type){
+                        errorMessages.add("Operators within parenthesis must be the same type.");
+                        return false;
+                    }
+                }
+
+                operatorStack.pop();// pop the (
+            } else {
+                operatorStack.push(token);
+            }
+        }
+
+        return true;
     }
 
     private int countToken(List<ExpressionToken> tokenList, int type) {
@@ -332,33 +360,21 @@ public class RuleLogicExpressionParser {
         for (ExpressionToken token : nodeList) {
             if (token.type == ExpressionToken.Condition) {
                 rpnList.add(token);
-
-            } else if (token.type == ExpressionToken.And) {
-                operatorStack.push(token);
-            } else if (token.type == ExpressionToken.StartParenthesis) {
-                operatorStack.push(token);
-            } else if (token.type == ExpressionToken.Or) {
-
-                if (operatorStack.isEmpty() == false && operatorStack.peek().type == ExpressionToken.And) {
-                    do {
-                        rpnList.add(operatorStack.pop());
-                    }
-                    while (operatorStack.isEmpty() == false && operatorStack.peek().type == ExpressionToken.And);
-                }
-
-                operatorStack.push(token);
             } else if (token.type == ExpressionToken.EndParenthesis) {
                 while (operatorStack.peek().type != ExpressionToken.StartParenthesis) {
                     rpnList.add(operatorStack.pop());
                 }
                 operatorStack.pop();// pop the (
+            } else {
+                operatorStack.push(token);
             }
         }
-        if (operatorStack.isEmpty() == false) {
-            do {
-                rpnList.add(operatorStack.pop());
-            } while (operatorStack.isEmpty() == false);
+
+        //Add remaining operators to rpnlist
+        while (operatorStack.isEmpty() == false){
+            rpnList.add(operatorStack.pop());
         }
+
         return rpnList;
     }
 
@@ -376,27 +392,26 @@ public class RuleLogicExpressionParser {
         for (ExpressionToken token : rpnList) {
             if (token.type == ExpressionToken.Condition) {
                 PropositionEditor rc = lookupPropositionEditor(rcs, token.value);
+                if (rc.getPropositionTypeCode().equals("C")){
+                    rc.setCompoundEditors(new ArrayList<PropositionEditor>());
+                }
                 conditionStack.push(rc);
             } else {
-                PropositionEditor right = conditionStack.pop();
-                PropositionEditor left = conditionStack.pop();
-                simpleProps.push(right);
+                if(simpleProps.empty()){
+                    simpleProps.push(conditionStack.pop());
+                }
+                simpleProps.push(conditionStack.pop());
                 if(conditionStack.peek().getPropositionTypeCode().equals("C")) {
-                    simpleProps.push(left);
                     PropositionEditor compound = conditionStack.pop();
                     if (token.type == ExpressionToken.And){
                         PropositionTreeUtil.setTypeForCompoundOpCode(compound, LogicalOperator.AND.getCode());
                     } else if (token.type == ExpressionToken.Or) {
                         PropositionTreeUtil.setTypeForCompoundOpCode(compound, LogicalOperator.OR.getCode());
                     }
-                    List<PropositionEditor> props = new ArrayList<PropositionEditor>();
                     while (!simpleProps.empty()) {
-                        props.add(simpleProps.pop());
+                        compound.getCompoundEditors().add(simpleProps.pop());
                     }
-                    compound.setCompoundEditors(props);
                     conditionStack.push(compound);
-                } else {
-                    conditionStack.push(left);
                 }
             }
         }

@@ -17,6 +17,7 @@ import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.util.RuleLogicExpressionParser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -27,6 +28,22 @@ import static org.junit.Assert.assertEquals;
  * @author Kuali Student Team (ks.collab@kuali.org)
  */
 public class TestRuleLogicExpressionParser {
+
+    @Test
+    public void testExpressionValidation(){
+        String[] array = new String[] { "A","E","C","D" };
+        List<String> errorMessages = new ArrayList<String>();
+        RuleLogicExpressionParser parser = new RuleLogicExpressionParser();
+
+        parser.setExpression("A(E AND C AND D)");
+        parser.validateExpression(errorMessages, Arrays.asList(array));
+        assertEquals(0, errorMessages.size());
+
+        parser.setExpression("A(E AND C OR D)");
+        parser.validateExpression(errorMessages, Arrays.asList(array));
+        assertEquals(1, errorMessages.size());
+
+    }
 
     @Test
     public void testParseExpressionToRule(){
@@ -60,7 +77,7 @@ public class TestRuleLogicExpressionParser {
         assertEquals("A(E AND C AND D)", returnExp);
     }
 
-    /*@Test
+    @Test
     public void testParseExpressionForAndOr(){
         RuleLogicExpressionParser parser = new RuleLogicExpressionParser();
 
@@ -72,9 +89,26 @@ public class TestRuleLogicExpressionParser {
         parser.setExpression("A(E AND C OR D)");
         PropositionEditor propositionEditor = parser.parseExpressionIntoRule(rule);
 
+        //Even though the second operator is an OR, the parser should ignore it.
         String returnExp = PropositionTreeUtil.configureLogicExpression(propositionEditor);
-        assertEquals("A(E OR C OR D)", returnExp);
-    } */
+        assertEquals("A(E AND C AND D)", returnExp);
+    }
+
+    @Test
+    public void testParseExpressionForAndOrWithCompoundChild(){
+        RuleLogicExpressionParser parser = new RuleLogicExpressionParser();
+
+        RuleEditor rule = this.getThirdRuleEditor();
+        String origExp = PropositionTreeUtil.configureLogicExpression((PropositionEditor) rule.getProposition());
+        assertEquals(origExp, "A(F AND B(C OR D) AND E)");
+
+        //Build the expression:
+        parser.setExpression("A(C AND B(E OR D) AND F)");
+        PropositionEditor propositionEditor = parser.parseExpressionIntoRule(rule);
+
+        String returnExp = PropositionTreeUtil.configureLogicExpression(propositionEditor);
+        assertEquals("A(C AND B(E OR D) AND F)", returnExp);
+    }
 
     private RuleEditor getFirstRuleEditor(){
         //Build the root proposition
@@ -109,6 +143,31 @@ public class TestRuleLogicExpressionParser {
         List<PropositionEditor> editors = new ArrayList<PropositionEditor>();
         editors.add(this.createSimpleProposition("C", "Must have a big grade"));
         editors.add(this.createSimpleProposition("D", "Must have permission"));
+        editors.add(this.createSimpleProposition("E", "Must have MATH100"));
+        rootProp.setCompoundEditors(editors);
+        rule.setProposition(rootProp);
+
+        return rule;
+    }
+
+    private RuleEditor getThirdRuleEditor(){
+        //Build the root proposition
+        PropositionEditor rootProp = this.createCompoundANDProposition("A", "Must have all of the following:");
+
+        //Build the "B" proposition
+        PropositionEditor beeProp = this.createCompoundORProposition("B", "Must have 1 of the following");
+
+        //Add cee and dee to bee
+        List<PropositionEditor> editors = new ArrayList<PropositionEditor>();
+        editors.add(this.createSimpleProposition("C", "Must have a big grade"));
+        editors.add(this.createSimpleProposition("D", "Must have permission"));
+        beeProp.setCompoundEditors(editors);
+
+        //Build the RuleEditor
+        RuleEditor rule = new RuleEditor();
+        editors = new ArrayList<PropositionEditor>();
+        editors.add(this.createSimpleProposition("F", "Must have MATH200"));
+        editors.add(beeProp);
         editors.add(this.createSimpleProposition("E", "Must have MATH100"));
         rootProp.setCompoundEditors(editors);
         rule.setProposition(rootProp);
