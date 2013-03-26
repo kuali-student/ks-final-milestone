@@ -11,8 +11,41 @@
 
         These are HorizontalBoxSections containing toolbar in manage CO and AO pages.
     -->
+    <bean id="KS-ARGCourseOfferingManagement-CO-ToolBarSection" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                    <property name="items">
+                        <list>
+                            <!-- Note: temporarily take out p:disabled="@{!enableAddButton}" for Add Course button since authz is not applied to ARG yet. -->
+                            <!-- TODO: Need to put it back with the proper authz logic -->
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Add-CO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Add" p:methodToCall="createCourseOffering" p:disabled="false"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                    <property name="items">
+                        <list>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Approve-CO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Approve" p:methodToCall="approveCOs" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                    <property name="items">
+                        <list>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-CO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendCOs" p:render="false"/>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-CO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelCOs"  p:render="false"/>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-CO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateCOs"  p:render="false"/>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Delete-CO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Delete"  p:methodToCall="deleteCOs"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
-     <bean id="KS-CourseOfferingManagement-ARG-AO-ToolBarSection" parent="Uif-HorizontalBoxSection" p:render="@{!currentCourseOfferingWrapper.crossListed}">
+
+     <bean id="KS-ARGCourseOfferingManagement-AO-ToolBarSection" parent="Uif-HorizontalBoxSection" p:render="@{!currentCourseOfferingWrapper.crossListed}">
         <property name="items">
           <list>
             <bean parent="KS-HorizontalBoxGroup-WithRPadding">

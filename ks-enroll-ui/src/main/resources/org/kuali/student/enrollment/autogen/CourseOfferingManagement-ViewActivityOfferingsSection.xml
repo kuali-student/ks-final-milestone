@@ -9,16 +9,16 @@
         <property name="headerText" value="View All Activities" />
         <property name="items">
             <list>
-                <ref bean="KS-CourseOfferingManagement-ARG-AO-ToolBarSection"/>
+                <ref bean="KS-ARGCourseOfferingManagement-AO-ToolBarSection"/>
                 <ref bean="KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen"/>
                 <ref bean="KS-CourseOfferingManagement-AddAOCPopupForm"/>
                 <ref bean="KS-CourseOfferingManagement-MoveAOCPopupForm"/>
-                <ref bean="KS-CourseOfferingManagement-ARG-ActivityOfferingListSection"/>
+                <ref bean="KS-ARGCourseOfferingManagement-ActivityOfferingListSection"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-ARG-ActivityOfferingListSection" parent="Uif-TableCollectionSection"
+    <bean id="KS-ARGCourseOfferingManagement-ActivityOfferingListSection" parent="Uif-TableCollectionSection"
           p:layoutManager.numberOfColumns="3"  p:readOnly="@{#parent.readOnly}" p:renderAddLine="false" p:onDocumentReadyScript="removeColumns(@{#parent.readOnly}, [1], 'KS-CourseOfferingManagement-ActivityOfferingListSection'); ksAddRowSelectionCheckbox(false, 'KS-CourseOfferingManagement-ARG-ActivityOfferingListSection',false,'');">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="activityWrapperList" />
