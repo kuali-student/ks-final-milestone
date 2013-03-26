@@ -217,6 +217,23 @@
   <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>
   <bean id="stateService" class="org.kuali.student.r2.core.class1.state.mock.StateServiceMockImpl"/>
 
+
+    <!-- Search Service setup -->
+    <bean id="AutogenCountSearchServiceImpl" class="org.kuali.student.enrollment.class2.courseoffering.service.search.CourseOfferingServiceAutogenCountSearchServiceImpl" autowire="autodetect">
+    </bean>
+
+    <bean id="ActivityOfferingSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl" autowire="autodetect" />
+
+    <bean id="SearchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
+        <property name="searchServices">
+            <list>
+                <ref bean="AutogenCountSearchServiceImpl"/>
+                <ref bean="ActivityOfferingSearchServiceImpl"/>
+            </list>
+        </property>
+    </bean>
+
+
   <alias alias="CourseOfferingService" name="coService" />
   
   <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
@@ -236,6 +253,7 @@
     <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao" />
     <property name="schedulingService" ref="schedulingService"/>
     <property name="colocatedOfferingSetTransformer" ref="colocatedOfferingSetTransformer"/>
+    <property name="searchService" ref="SearchService" />
   </bean>
 
     <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl">
@@ -374,7 +392,7 @@
     <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorDBImpl">
         <property name="codeGeneratorLocksDao" ref="codeGeneratorLocksDao" />
     </bean>
-        
+
     <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
     
 </beans>

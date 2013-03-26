@@ -894,7 +894,7 @@
     </bean>
 
     <bean id="ActivityOfferingSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl">
-        <property name="genericEntityDao" ref="searchDao"/>
+        <property name="entityManager" ref="enrollEntityManager"/>
     </bean>
 
     <bean id="searchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">

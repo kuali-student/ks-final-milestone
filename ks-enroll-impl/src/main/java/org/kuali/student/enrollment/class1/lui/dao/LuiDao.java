@@ -28,4 +28,9 @@ public class LuiDao extends GenericEntityDao<LuiEntity> {
     public  List<String> getLuisIdsByAtpAndType(String atpId, String typeKey)   {
         return  (List<String>) em.createNamedQuery("Lui.getLuiIdsByAtpAndType").setParameter("typeKey", typeKey).setParameter("atpId", atpId).getResultList();
     }
+
+    public  List<String> getScheduleIdByLuiId(String aoId)   {
+        return  (List<String>) em.createNamedQuery("Lui.getScheduleIdByLuiId").setParameter("aoId", aoId).getResultList();
+    }
+
 }

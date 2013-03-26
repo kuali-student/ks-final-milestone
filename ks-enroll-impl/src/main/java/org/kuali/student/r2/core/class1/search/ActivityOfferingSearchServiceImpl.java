@@ -1,8 +1,10 @@
 package org.kuali.student.r2.core.class1.search;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
+import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity;
 import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImpl;
-import org.kuali.student.r2.common.dao.GenericEntityDao;
+import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImplBase;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -15,6 +17,10 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.util.SearchRequestHelper;
 
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,9 +32,10 @@ import java.util.List;
  * This class is to be used to call ActivityOffering specific DB searches.
  *
  */
-public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHardwiredImpl {
+public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHardwiredImplBase {
 
-    private GenericEntityDao genericEntityDao;
+    @Resource
+    private EntityManager entityManager;
 
     public static final TypeInfo SCH_ID_BY_AO_SEARCH_TYPE;
 
@@ -96,14 +103,10 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             throw new RuntimeException("Activity Offering id is required");
         }
 
-        String query = "SELECT " +
-                "    lui.scheduleId " +
-                "FROM " +
-                "    LuiEntity lui " +
-                "WHERE " +
-                "    lui.id = '" + aoId + "'";
+        List<String> results = entityManager.createNamedQuery("Lui.getScheduleIdByLuiId").setParameter("aoId", aoId).getResultList();
 
-        List<String> results = genericEntityDao.getEm().createQuery(query).getResultList();
+
+         //= getEntityManager().createQuery(query).getResultList();
 
         SearchResultInfo resultInfo = new SearchResultInfo();
         resultInfo.setTotalResults(results.size());
@@ -131,7 +134,13 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         return sb.toString();
     }
 
-    public void setGenericEntityDao(GenericEntityDao genericEntityDao) {
-        this.genericEntityDao = genericEntityDao;
+    public EntityManager getEntityManager() {
+        return entityManager;
     }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+
 }
