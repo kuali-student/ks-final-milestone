@@ -181,6 +181,7 @@
                 <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagement-ManageCourseOfferingsPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagement-ManageTheCourseOfferingPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagementView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-DeleteClusterConfirmPage.xml</value>
 
                 <!-- East Coast Sandbox (rollover) -->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/DiagnoseRolloverView.xml</value>
@@ -260,6 +261,7 @@
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionRowSelection.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionRowSelectionHighlight.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionStacked.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/ContainerExpandable.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/DateField.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/Growls.xml</value>
                 <!--<value>classpath:org/kuali/student/enrollment/kitchensink/Lightbox.xml</value>-->
