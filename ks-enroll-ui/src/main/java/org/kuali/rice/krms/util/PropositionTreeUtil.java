@@ -33,8 +33,13 @@ public class PropositionTreeUtil {
         } else if (LogicalOperator.OR.getCode().equalsIgnoreCase(compoundOpCode)) {
             proposition.setType("kuali.krms.proposition.type.compound.or");
         }
-        KrmsTypeDefinition type = KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService().getTypeByName(PermissionServiceConstants.KS_SYS_NAMESPACE, proposition.getType());
-        proposition.setTypeId(type.getId());
+        try{
+            KrmsTypeDefinition type = KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService().getTypeByName(PermissionServiceConstants.KS_SYS_NAMESPACE, proposition.getType());
+            proposition.setTypeId(type.getId());
+        } catch (Exception e){
+            //ignore if service not available.
+        }
+
     }
 
     public static Node<RuleEditorTreeNode, String> findParentPropositionNode(Node<RuleEditorTreeNode, String> currentNode, String selectedPropKey) {

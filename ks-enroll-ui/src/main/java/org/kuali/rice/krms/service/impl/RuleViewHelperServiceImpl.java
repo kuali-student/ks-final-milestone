@@ -332,7 +332,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         rule.setEditTree(this.getEditTreeBuilder().buildTree(rule, refreshNl));
 
         // Refresh the preview tree
-        rule.setPreviewTree(this.getPreviewTreeBuilder().buildTree(rule, refreshNl));
+        rule.setPreviewTree(this.getPreviewTreeBuilder().buildTree(rule, true));
     }
 
     @Override

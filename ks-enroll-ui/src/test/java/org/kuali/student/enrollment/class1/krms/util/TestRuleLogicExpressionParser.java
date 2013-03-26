@@ -60,6 +60,22 @@ public class TestRuleLogicExpressionParser {
         assertEquals("A(E AND C AND D)", returnExp);
     }
 
+    /*@Test
+    public void testParseExpressionForAndOr(){
+        RuleLogicExpressionParser parser = new RuleLogicExpressionParser();
+
+        RuleEditor rule = this.getSecondRuleEditor();
+        String origExp = PropositionTreeUtil.configureLogicExpression((PropositionEditor) rule.getProposition());
+        assertEquals("A(C AND D AND E)", origExp);
+
+        //Build the expression:
+        parser.setExpression("A(E AND C OR D)");
+        PropositionEditor propositionEditor = parser.parseExpressionIntoRule(rule);
+
+        String returnExp = PropositionTreeUtil.configureLogicExpression(propositionEditor);
+        assertEquals("A(E OR C OR D)", returnExp);
+    } */
+
     private RuleEditor getFirstRuleEditor(){
         //Build the root proposition
         PropositionEditor rootProp = this.createCompoundANDProposition("A", "Must have all of the following:");
