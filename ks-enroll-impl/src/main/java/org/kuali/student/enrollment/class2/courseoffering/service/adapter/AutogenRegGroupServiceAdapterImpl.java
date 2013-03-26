@@ -177,10 +177,24 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         }
         ActivityOfferingInfo created = coService.createActivityOffering(aoInfo.getFormatOfferingId(), aoInfo.getActivityId(),
                 aoInfo.getTypeKey(), aoInfo, context);
+        return _addActivityOfferingToClusterCommon(created, cluster, context);
+
+    }
+
+    /**
+     * Used by both createActivityOffering and copyActivityOfferingToCluster
+     * @param aoInfo AO info just created/copied
+     * @param cluster The cluster to place it in
+     * @param context
+     * @return A result with RGs generated
+     */
+    private ActivityOfferingResult _addActivityOfferingToClusterCommon(ActivityOfferingInfo aoInfo, ActivityOfferingClusterInfo cluster, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         // Now add the AO ID to the correct AOC set
         for (ActivityOfferingSetInfo set: cluster.getActivityOfferingSets()) {
-            if (set.getActivityOfferingType().equals(created.getTypeKey())) {
-                set.getActivityOfferingIds().add(created.getId()); // Found set, add the ID
+            if (set.getActivityOfferingType().equals(aoInfo.getTypeKey())) {
+                set.getActivityOfferingIds().add(aoInfo.getId()); // Found set, add the ID
                 break;
             }
         }
@@ -191,9 +205,26 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         List<BulkStatusInfo> status =
                 coService.generateRegistrationGroupsForCluster(updated.getId(), context);
         ActivityOfferingResult aoResult = new ActivityOfferingResult();
-        aoResult.setCreatedActivityOffering(created);
+        aoResult.setCreatedActivityOffering(aoInfo);
         aoResult.setGeneratedRegistrationGroups(status);
         return aoResult;
+    }
+
+    @Override
+    public ActivityOfferingResult copyActivityOfferingToCluster(String origAoId, String aocId, ContextInfo context)
+            throws PermissionDeniedException, DataValidationErrorException,
+            InvalidParameterException, ReadOnlyException, OperationFailedException,
+            MissingParameterException, DoesNotExistException, VersionMismatchException {
+        // Fetch cluster first, so if it fails, we don't continue on
+        ActivityOfferingClusterInfo cluster =
+                coService.getActivityOfferingCluster(aocId, context);
+        // Make a new copy
+        ActivityOfferingInfo copyAoInfo = coService.copyActivityOffering(origAoId, context);
+        // Make sure FO IDs match up
+        if (!cluster.getFormatOfferingId().equals(copyAoInfo.getFormatOfferingId())) {
+            throw new DataValidationErrorException("Format Offering Ids do not match");
+        }
+        return _addActivityOfferingToClusterCommon(copyAoInfo, cluster, context);
     }
 
     @Override

@@ -34,6 +34,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupW
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupManagementViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.service.adapter.ActivityOfferingResult;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
@@ -108,22 +109,12 @@ public class ARGActivityOfferingClusterHandler {
     public static void copyAO(ARGCourseOfferingManagementForm form) {
         ActivityOfferingWrapper selectedAO = (ActivityOfferingWrapper) ARGUtil.getSelectedObject(form, "copy");
         try {
-            ActivityOfferingInfo newAOInfo = CourseOfferingResourceLoader.loadCourseOfferingService().copyActivityOffering(selectedAO.getAoInfo().getId(), ContextBuilder.loadContextInfo());
+            String aoIdToCopy = selectedAO.getAoInfo().getId(); // Create a copy of this AO
+            String clusterId = selectedAO.getAoCluster().getId(); // Use this AO cluster
+            ActivityOfferingResult aoResult =
+                    ARGUtil.getArgServiceAdapter().copyActivityOfferingToCluster(aoIdToCopy, clusterId, ContextBuilder.loadContextInfo());
 
-            ActivityOfferingClusterInfo selectedAOCluster = selectedAO.getAoCluster();
-            for (ActivityOfferingSetInfo set: selectedAOCluster.getActivityOfferingSets()) {
-                // Pick first AO set with matching type
-                if (set.getActivityOfferingType().equals(newAOInfo.getTypeKey())) {
-                    set.getActivityOfferingIds().add(newAOInfo.getId());
-                    break;
-                }
-            }
-            // update target AOC
-            ActivityOfferingClusterInfo updatedCluster = ARGUtil.getCourseOfferingService().updateActivityOfferingCluster(newAOInfo.getFormatOfferingId(), selectedAOCluster.getId(), selectedAOCluster, ContextBuilder.loadContextInfo());
-            // Generate missing RGs
-            List<BulkStatusInfo> created = ARGUtil.getCourseOfferingService().generateRegistrationGroupsForCluster(updatedCluster.getId(), ContextBuilder.loadContextInfo());
-
-            //reload AOs including the new one just created
+            // reload AOs including the new one just created
             ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(form);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -136,7 +127,8 @@ public class ARGActivityOfferingClusterHandler {
 
         try {
             for (ActivityOfferingWrapper ao : selectedAolist) {
-                ARGUtil.getCourseOfferingService().deleteActivityOfferingCascaded(ao.getAoInfo().getId(), ContextBuilder.loadContextInfo());
+                // The adapter does not technically need an AOC ID, so I'm setting it to null
+                ARGUtil.getArgServiceAdapter().deleteActivityOfferingCascaded(ao.getAoInfo().getId(), null, ContextBuilder.loadContextInfo());
             }
 
             // check for changes to states in CO and related FOs
