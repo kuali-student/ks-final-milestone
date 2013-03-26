@@ -595,6 +595,7 @@ public class ARGActivityOfferingClusterHandler {
     public static void deleteClusterCascaded(ARGCourseOfferingManagementForm theForm) throws Exception {
         ActivityOfferingClusterWrapper aoWrapper = theForm.getSelectedCluster();
         ARGUtil.getArgServiceAdapter().deleteActivityOfferingCluster(aoWrapper.getActivityOfferingClusterId(), ContextBuilder.loadContextInfo());
+        ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
     }
 
 

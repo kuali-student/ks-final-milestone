@@ -37,7 +37,7 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Delete Activity Offering(s)" p:id="ARG-deleteClusterButton"
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Delete Cluster" p:id="ARG-deleteClusterButton"
                               p:methodToCall="deleteClusterCascaded"/>
                         <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:id="ARG-cancelDeleteClusterButton" p:methodToCall="cancelDeleteCluster"/>
                     </list>
@@ -52,7 +52,7 @@
           p:id="ARG-clusterDeleteConfirmationResultSection"
           p:colSpan="3"
           p:style="underline"
-          p:headerText="Delete Activity Offering(s)">
+          p:headerText="Delete Cluster with Activity Offering(s)">
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>
