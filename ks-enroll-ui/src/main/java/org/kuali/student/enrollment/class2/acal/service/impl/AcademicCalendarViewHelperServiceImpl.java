@@ -813,10 +813,12 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                     setKeyDateEndDate(keyDateWrapper);
 
                     if (keyDateWrapper.isNew()){
-                        if (isOfficial){
-                            keyDate.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
-                        }
+                        keyDate.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
                         KeyDateInfo newKeyDate = getAcalService().createKeyDate(termWrapper.getTermInfo().getId(),keyDate.getTypeKey(),keyDate,createContextInfo());
+                        if (isOfficial){
+                            //Make official once created
+                            getAcalService().changeKeyDateState(newKeyDate.getId(),AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY,createContextInfo());
+                        }
                         keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(newKeyDate.getId(),createContextInfo()));
                     } else {
                         KeyDateInfo updatedKeyDate = getAcalService().updateKeyDate(keyDate.getId(), keyDate, createContextInfo());
