@@ -52,6 +52,7 @@
 
     <bean name="KS-EditWithLogic-EditGroup" parent="Uif-VerticalBoxGroup"
           p:style="padding: 5px; margin: 5px; background: white; margin-top:null">
+        <property name="refreshWhenChangedPropertyNames" value="logicArea"/>
         <property name="items">
             <list>
                 <bean parent="KS-LogicInput-SubSection"/>

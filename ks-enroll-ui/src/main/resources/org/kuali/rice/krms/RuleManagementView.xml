@@ -85,6 +85,7 @@
                 </bean>
 
                 <bean id="KS-RuleEdit-TabSection" parent="Uif-TabSection">
+                    <property name="forceSessionPersistence" value="true"/>
                     <property name="items">
                         <list>
                             <bean parent="KS-EditWithObject-EditSection"/>

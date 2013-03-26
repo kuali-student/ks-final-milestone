@@ -108,7 +108,13 @@ public class TranslationUtility implements TranslateBusinessMethods {
         if (naturalLanguageTemplate == null) {
             throw new RiceIllegalArgumentException(languageCode + "." + proposition.getTypeId() + "." + naturalLanguageUsageId);
         }
-        return null;
+        Map<String, Object> contextMap;
+        if (proposition.getPropositionTypeCode().equals(PropositionType.SIMPLE.getCode())) {
+            contextMap = this.buildSimplePropositionContextMap(proposition);
+        } else {
+            contextMap = this.buildCompoundPropositionContextMap(null, proposition, null);
+        }
+        return templater.translate(naturalLanguageTemplate, contextMap);
     }
 
     @Override

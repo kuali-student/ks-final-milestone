@@ -93,18 +93,24 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
                 }
                 sprout.getChildren().add(aNode);
 
-                boolean first = true;
+                int counter = 0;
                 for (PropositionEditor child : prop.getCompoundEditors()) {
                     // add an opcode node in between each of the children.
-                    if (!first) {
-                        addOpCodeNode(aNode, prop);
+                    if (counter > 0) {
+                        addOpCodeNode(aNode, prop, counter);
                     }
-                    first = false;
+                    counter++;
                     // call to build the childs node
                     addChildNode(rule, aNode, child, refreshNl);
                 }
             }
         }
+    }
+
+    protected String getDescription(PropositionEditor proposition, boolean refreshNl) {
+
+        proposition.setDescription(super.getDescription(proposition, refreshNl));
+        return proposition.getDescription();
     }
 
     private String buildNodeLabel(RuleEditor rule, PropositionEditor prop, boolean refreshNl) {
@@ -120,11 +126,18 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
      * @param prop
      * @return
      */
-    private void addOpCodeNode(Node currentNode, PropositionEditor prop) {
-        Node<RuleEditorTreeNode, String> aNode = new Node<RuleEditorTreeNode, String>();
+    private void addOpCodeNode(Node currentNode, PropositionEditor prop, int counter) {
+        //Create the node.
+        Node<KSCompoundOpCodeNode, String> aNode = new Node<KSCompoundOpCodeNode, String>();
         aNode.setNodeLabel("");
         aNode.setNodeType("ruleTreeNode compoundOpCodeNode");
-        aNode.setData(new KSCompoundOpCodeNode(prop));
+
+        //Add a dummy editor.
+        PropositionEditor editor = new PropositionEditor();
+        editor.setKey(prop.getKey() + counter);
+        editor.setCompoundOpCode(prop.getCompoundOpCode());
+
+        aNode.setData(new KSCompoundOpCodeNode(editor));
         currentNode.getChildren().add(aNode);
     }
 

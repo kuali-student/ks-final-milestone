@@ -157,19 +157,17 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
     public String getNaturalLanguageDescription(PropositionEditor prop) {
 
-        NaturalLanguageUsage usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION, PermissionServiceConstants.KS_SYS_NAMESPACE);
+        NaturalLanguageUsage usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_RULE_EDIT, PermissionServiceConstants.KS_SYS_NAMESPACE);
 
         String description = null;
         try {
             List<PropositionParameter.Builder> parameters = new ArrayList<PropositionParameter.Builder>();
             PropositionDefinition.Builder propBuilder = PropositionDefinition.Builder.create(prop.getId(),
                     prop.getPropositionTypeCode(), prop.getRuleId(), prop.getTypeId(), parameters);
-            description = this.getRuleManagementService().translateNaturalLanguageForProposition("en", propBuilder.build(), usage.getId());
+            description = this.getRuleManagementService().translateNaturalLanguageForProposition(usage.getId(), propBuilder.build(), "en");
         } catch (IndexOutOfBoundsException e) {
             //Ignore, rice error in NaturalLanguageTemplateBoServiceImpl line l
         }
-
-        //TODO: Do translation.
 
         return description;
     }

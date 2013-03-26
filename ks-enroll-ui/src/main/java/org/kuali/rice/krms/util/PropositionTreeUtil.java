@@ -5,10 +5,13 @@ import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
+import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.PropositionParameterEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
+import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,12 +26,23 @@ import java.util.List;
  */
 public class PropositionTreeUtil {
 
-    public static Node<RuleEditorTreeNode, String> findParentPropositionNode(Node<RuleEditorTreeNode, String> currentNode, String selectedPropKey){
-        Node<RuleEditorTreeNode,String> bingo = null;
+    public static void setTypeForCompoundOpCode(PropositionEditor proposition, String compoundOpCode) {
+        proposition.setCompoundOpCode(compoundOpCode);
+        if (LogicalOperator.AND.getCode().equalsIgnoreCase(compoundOpCode)) {
+            proposition.setType("kuali.krms.proposition.type.compound.and");
+        } else if (LogicalOperator.OR.getCode().equalsIgnoreCase(compoundOpCode)) {
+            proposition.setType("kuali.krms.proposition.type.compound.or");
+        }
+        KrmsTypeDefinition type = KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService().getTypeByName(PermissionServiceConstants.KS_SYS_NAMESPACE, proposition.getType());
+        proposition.setTypeId(type.getId());
+    }
+
+    public static Node<RuleEditorTreeNode, String> findParentPropositionNode(Node<RuleEditorTreeNode, String> currentNode, String selectedPropKey) {
+        Node<RuleEditorTreeNode, String> bingo = null;
         if (selectedPropKey != null) {
             // if it's in children, we have the parent
-            List<Node<RuleEditorTreeNode,String>> children = currentNode.getChildren();
-            for( Node<RuleEditorTreeNode,String> child : children){
+            List<Node<RuleEditorTreeNode, String>> children = currentNode.getChildren();
+            for (Node<RuleEditorTreeNode, String> child : children) {
                 RuleEditorTreeNode dataNode = child.getData();
                 if (selectedPropKey.equalsIgnoreCase(dataNode.getProposition().getKey())) {
                     return currentNode;
@@ -36,7 +50,7 @@ public class PropositionTreeUtil {
             }
 
             // if not found check grandchildren
-            for( Node<RuleEditorTreeNode,String> kid : children){
+            for (Node<RuleEditorTreeNode, String> kid : children) {
                 bingo = findParentPropositionNode(kid, selectedPropKey);
                 if (bingo != null) {
                     break;
@@ -59,27 +73,27 @@ public class PropositionTreeUtil {
         return null;
     }
 
-    private static PropositionEditor findProposition(Node<RuleEditorTreeNode, String> currentNode, String selectedPropKey) {
+    public static PropositionEditor findProposition(Node<RuleEditorTreeNode, String> currentNode, String selectedPropKey) {
 
         if (selectedPropKey == null) {
             return null;
-        } else if(selectedPropKey.isEmpty()) {
+        } else if (selectedPropKey.isEmpty()) {
             return currentNode.getChildren().get(0).getData().getProposition();
         }
 
         // if it's in children, we have the parent
         for (Node<RuleEditorTreeNode, String> child : currentNode.getChildren()) {
             PropositionEditor proposition = child.getData().getProposition();
-            if ("S".equals(proposition.getPropositionTypeCode()) && proposition.isEditMode()) {
+            if (selectedPropKey.equalsIgnoreCase(proposition.getKey())) {
                 return proposition;
-            } else if(!proposition.isEditMode()) {
+            } else if ("S".equals(proposition.getPropositionTypeCode()) && proposition.isEditMode()) {
+                return proposition;
+            } else if (!proposition.isEditMode()) {
                 // if not found check grandchildren
                 proposition = findProposition(child, selectedPropKey);
                 if (proposition != null) {
                     return proposition;
                 }
-            } else if(selectedPropKey.equalsIgnoreCase(proposition.getKey())){
-                return proposition;
             }
         }
 
@@ -223,7 +237,7 @@ public class PropositionTreeUtil {
         return prop;
     }
 
-    public static List<PropositionParameterEditor> createParameterList(){
+    public static List<PropositionParameterEditor> createParameterList() {
         // create blank proposition parameters
         PropositionParameterEditor pTerm = new PropositionParameterEditor("T", new Integer("0"));
         PropositionParameterEditor pOp = new PropositionParameterEditor("O", new Integer("2"));

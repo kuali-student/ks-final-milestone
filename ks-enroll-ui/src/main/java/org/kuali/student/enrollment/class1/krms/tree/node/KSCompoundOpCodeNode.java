@@ -20,7 +20,7 @@ import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 
 /**
  * abstract data class for the rule tree {@link org.kuali.rice.core.api.util.tree.Node}s
- * 
+ *
  * @author Kuali Rice Team (rice.collab@kuali.org)
  *
  */

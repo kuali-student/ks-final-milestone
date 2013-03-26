@@ -17,6 +17,7 @@ package org.kuali.rice.krms.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.tree.Node;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -24,6 +25,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
@@ -38,6 +40,7 @@ import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionNod
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.util.RuleLogicExpressionParser;
+import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.uif.util.KSControllerHelper;
 import org.kuali.student.krms.KRMSConstants;
 import org.springframework.validation.BindingResult;
@@ -56,8 +59,6 @@ import java.util.List;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
 public class RuleEditorController extends MaintenanceDocumentController {
-
-    private SequenceAccessorService sequenceAccessorService;
 
     /**
      * This method updates the existing rule in the agenda.
@@ -164,7 +165,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 proposition.setType(null);
             } else {
 
-                KrmsTypeDefinition type = this.getKrmsTypeRepositoryService().getTypeById(propositionTypeId);
+                KrmsTypeDefinition type = KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService().getTypeById(propositionTypeId);
                 if (type != null) {
                     proposition.setType(type.getName());
                 }
@@ -593,9 +594,18 @@ public class RuleEditorController extends MaintenanceDocumentController {
                                                HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
+        RuleViewHelperService viewHelper = this.getViewHelper(form);
         RuleEditor ruleEditor = getRuleEditor(form);
-        this.getViewHelper(form).refreshInitTrees(ruleEditor, false);
-        this.getViewHelper(form).setLogicSection(ruleEditor);
+        String selectedpropKey = ruleEditor.getSelectedKey();
+        Node<RuleEditorTreeNode, String> parentNode = PropositionTreeUtil.findParentPropositionNode(ruleEditor.getEditTree().getRootElement(), selectedpropKey);
+        PropositionEditor parent = parentNode.getData().getProposition();
+
+        PropositionEditor proposition = PropositionTreeUtil.findProposition(parentNode, selectedpropKey);
+        PropositionTreeUtil.setTypeForCompoundOpCode(parent, proposition.getCompoundOpCode());
+        parent.setDescription(viewHelper.getNaturalLanguageDescription(parent));
+
+        viewHelper.refreshInitTrees(ruleEditor, false);
+        viewHelper.setLogicSection(ruleEditor);
 
         return getUIFModelAndView(form);
     }
@@ -605,10 +615,11 @@ public class RuleEditorController extends MaintenanceDocumentController {
                                       HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         RuleEditor ruleEditor = getRuleEditor(form);
-        this.updateDescription(ruleEditor.getEditTree().getRootElement(), form);
-        this.getViewHelper(form).refreshInitTrees(ruleEditor, false);
+        //this.updateDescription(ruleEditor.getEditTree().getRootElement(), form);
+        //this.getViewHelper(form).refreshInitTrees(ruleEditor, true);
         this.getViewHelper(form).setLogicSection(ruleEditor);
 
+        PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
         return getUIFModelAndView(form);
     }
 
@@ -620,10 +631,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
     public void updateDescription(Node<RuleEditorTreeNode, String> currentNode, UifFormBase form) {
         if (currentNode.getData() != null) {
             PropositionEditor proposition = currentNode.getData().getProposition();
-            if (proposition.isEditMode()){
-                proposition.setEditMode(false);
-                proposition.setDescription(this.getViewHelper(form).getNaturalLanguageDescription(proposition));
-            }
+            proposition.setDescription(this.getViewHelper(form).getNaturalLanguageDescription(proposition));
         }
         for (Node<RuleEditorTreeNode, String> child : currentNode.getChildren()) {
             updateDescription(child, form);
@@ -646,7 +654,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         //show errors and don't change anything else
         if (!validExpression) {
-            for(int i = 0; i < errorMessages.size() ; i++) {
+            for (int i = 0; i < errorMessages.size(); i++) {
                 GlobalVariables.getMessageMap().putError("logicArea", errorMessages.get(i));
             }
             // reload page1
@@ -654,18 +662,17 @@ public class RuleEditorController extends MaintenanceDocumentController {
             return getUIFModelAndView(form);
         }
 
-       ruleEditor.setSelectedTab("1");
+        ruleEditor.setSelectedTab("1");
 
         ruleEditor.setProposition(ruleLogicExpressionParser.parseExpressionIntoRule(ruleEditor));
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
-        this.getViewHelper(form).refreshInitTrees(ruleEditor, false);
 
         return getUIFModelAndView(form);
     }
 
-    private List<String> getPropositionKeys(List<String> propositionKeys, PropositionEditor propositionEditor){
+    private List<String> getPropositionKeys(List<String> propositionKeys, PropositionEditor propositionEditor) {
         propositionKeys.add(propositionEditor.getKey());
-        if(propositionEditor.getCompoundComponents() != null) {
+        if (propositionEditor.getCompoundComponents() != null) {
             for (PropositionEditor child : propositionEditor.getCompoundEditors()) {
                 this.getPropositionKeys(propositionKeys, child);
             }
@@ -697,31 +704,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         return getUIFModelAndView(form);
     }
-//    @RequestMapping(params = "methodToCall=addRange")
-//    public ModelAndView addRange(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-//                              HttpServletRequest request, HttpServletResponse response) throws Exception {
-//String dialog1 = "courseRangeLightBox";
-//    KrmsComponentsForm krmsComponentsForm = (KrmsComponentsForm) form;
-//    TermParameter termParameter = new TermParameter();
-//    if (krmsComponentsForm.getSearchByCourseRange().equals("1")) {
-//        termParameter.setParameter("SubjectCode: " + krmsComponentsForm.getSubjectCode() + "CourseNumberRange: " + krmsComponentsForm.getCourseNumberRange());
-//    } else if (krmsComponentsForm.getSearchByCourseRange().equals("2")) {
-////            termParameter.setParameter("SubjectCode: " + krmsComponentsForm.getSubjectCode() + "CourseNumberRange: " + krmsComponentsForm.getCourseNumberRange());
-//    } else if (krmsComponentsForm.getSearchByCourseRange().equals("3")) {
-////            termParameter.setParameter("SubjectCode: " + krmsComponentsForm.getSubjectCode() + "CourseNumberRange: " + krmsComponentsForm.getCourseNumberRange());
-//    } else {
-//        return showDialog(dialog1, form, request, response);
-//    }
-//
-//    krmsComponentsForm.getProposition().getTermParameterList().add(termParameter);
-//    form.getDialogManager().addDialog(dialog1,null );
-//    // clear dialog history so they can press the button again
-//    form.getDialogManager().removeDialog(dialog1);
-//    // reload page1
-//
-//    return getUIFModelAndView(krmsComponentsForm, "manageKrmsComponentsView");
-//
-//    }
+
     private void configureProposition(UifFormBase form, PropositionEditor proposition) {
 
         if (proposition != null) {
@@ -738,7 +721,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
             RuleViewHelperService viewHelper = this.getViewHelper(form);
 
-            KrmsTypeDefinition type = this.getKrmsTypeRepositoryService().getTypeById(propositionTypeId);
+            KrmsTypeDefinition type = KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService().getTypeById(propositionTypeId);
             if (type != null) {
 
                 proposition.setType(type.getName());
@@ -785,10 +768,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
     private void setValueForProposition(PropositionEditor proposition, String value) {
         proposition.getParameters().get(1).setValue(value);
-    }
-
-    public KrmsTypeRepositoryService getKrmsTypeRepositoryService() {
-        return KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService();
     }
 
     private RuleViewHelperService getViewHelper(UifFormBase form) {

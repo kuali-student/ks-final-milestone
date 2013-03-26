@@ -189,18 +189,6 @@ function initRuleTree(componentId){
         /* make the tree load with all nodes expanded */
         jq('#' + componentId).jstree('open_all');
 
-        // refresh the proposition tree on category selection
-        jq('select.categorySelect').change( function() {
-            ajaxCallPropositionTree('ajaxRefresh', 'RuleStudentEditorView-Tree')
-        });
-
-        // refresh the proposition tree on parameterized term selection
-        jq('select.termSelect').change( function() {
-            if (this.value.match(/parameterized:.*/)) {
-                retrieveComponent('RuleStudentEditorView-TreeGroup', 'ajaxRefresh');
-            }
-        });
-
         // hide quick action icons (edit and add parent) on proposition tree nodes
         jq(this).find(".actionReveal").hide();
 
@@ -267,7 +255,13 @@ function initRuleTree(componentId){
                 );
             }).val(jq(this).val());
 
-            ajaxCallPropositionTree('updateCompoundOperator', 'RuleStudentEditorView-Tree');
+            /* Set the selected id */
+            var parentLiNode = jq(this).closest('li');
+            var propositionId = getPropositionIdFromParentLi(parentLiNode);
+            var selectedItemTracker = getSelectedPropositionInput();
+            selectedItemTracker.val(propositionId);
+
+            ajaxCallPropositionTree('updateCompoundOperator', 'KS-RuleEdit-TabSection');
         })
 
     });

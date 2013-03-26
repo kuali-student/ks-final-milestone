@@ -385,9 +385,9 @@ public class RuleLogicExpressionParser {
                     simpleProps.push(left);
                     PropositionEditor compound = conditionStack.pop();
                     if (token.type == ExpressionToken.And){
-                        compound.setCompoundOpCode(LogicalOperator.AND.getCode());
+                        PropositionTreeUtil.setTypeForCompoundOpCode(compound, LogicalOperator.AND.getCode());
                     } else if (token.type == ExpressionToken.Or) {
-                        compound.setCompoundOpCode(LogicalOperator.OR.getCode());
+                        PropositionTreeUtil.setTypeForCompoundOpCode(compound, LogicalOperator.OR.getCode());
                     }
                     List<PropositionEditor> props = new ArrayList<PropositionEditor>();
                     while (!simpleProps.empty()) {
