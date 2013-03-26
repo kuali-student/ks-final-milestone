@@ -184,9 +184,6 @@ INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.proposition.type.success.compl.course.between.terms','KS-SYS','simplePropositionTypeService','10062',0)
 /
 INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
-  VALUES ('Y','kuali.krms.proposition.type.success.compl.course.offer','KS-SYS','simplePropositionTypeService','10063',0)
-/
-INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.proposition.type.notadmitted.to.program.in.class.standing','KS-SYS','simplePropositionTypeService','10064',0)
 /
 INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
@@ -205,16 +202,10 @@ INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.proposition.type.notin.class.standing','KS-SYS','simplePropositionTypeService','10069',0)
 /
 INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
-  VALUES ('Y','kuali.krms.proposition.type.course.offering.enrolled','KS-SYS','simplePropositionTypeService','10070',0)
-/
-INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.proposition.type.course.courseset.enrolled','KS-SYS','simplePropositionTypeService','10071',0)
 /
 INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.proposition.type.no.repeat.course.nof','KS-SYS','simplePropositionTypeService','10072',0)
-/
-INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
-  VALUES ('N','kuali.krms.proposition.type.course.offering.drop.instructor.permission.required','KS-SYS','simplePropositionTypeService','10073',0)
 /
 INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.proposition.type.test.score.between.values','KS-SYS','simplePropositionTypeService','10074',0)
