@@ -45,8 +45,8 @@
                 <bean parent="KS-Link-Uif-TabSection" >
                     <property name="items">
                         <list>
-                            <ref bean="KS-CourseOfferingManagement-ViewActivityOfferingsSection"/>
                             <ref bean="KS-CourseOfferingManagement-ViewAOClustersSection"/>
+                            <ref bean="KS-CourseOfferingManagement-ViewActivityOfferingsSection"/>
                             <ref bean="KS-CourseOfferingManagement-ViewRegistrationGroupsSection"/>
                         </list>
                     </property>
