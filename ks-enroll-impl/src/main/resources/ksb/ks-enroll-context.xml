@@ -359,6 +359,7 @@
         <property name="lrcService" ref="lrcServiceCache"/>
         <property name="stateTransitionsHelper" ref="stateTransitionsHelper"/>
         <property name="colocatedOfferingSetTransformer" ref="colocatedOfferingSetTransformer"/>
+        <property name="searchService" ref="searchService" />
   </bean>
 
     <bean id="stateTransitionsHelper" class="org.kuali.student.r2.core.class1.state.service.impl.StateTransitionsHelperImpl">
@@ -892,6 +893,10 @@
         <property name="coService" ref="CourseOfferingService" />
     </bean>
 
+    <bean id="ActivityOfferingSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl">
+        <property name="genericEntityDao" ref="searchDao"/>
+    </bean>
+
     <bean id="searchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
         <property name="searchServices">
             <list>
@@ -899,6 +904,7 @@
                  <ref bean="courseOfferingHistorySearchImpl"/>
                  <ref bean="CourseOfferingManagementSearchImpl"/>
                  <ref bean="AutogenCountSearchServiceImpl"/>
+                 <ref bean="ActivityOfferingSearchServiceImpl"/>
             </list>
         </property>                
     </bean>

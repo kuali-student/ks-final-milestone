@@ -1,8 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.cxf.common.i18n.Message;
-import org.apache.cxf.common.i18n.UncheckedException;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
@@ -49,7 +47,13 @@ import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.dto.LuiSetInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
-import org.kuali.student.r2.common.dto.*;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -69,11 +73,11 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.state.service.StateTransitionsHelper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
@@ -83,6 +87,11 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
@@ -124,6 +133,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private RoomService roomService;
     private StateTransitionsHelper stateTransitionsHelper;
     private ColocatedOfferingSetTransformer colocatedOfferingSetTransformer;
+    private SearchService searchService;
 
     private static final Logger LOGGER = Logger.getLogger(CourseOfferingServiceImpl.class);
 
@@ -1101,6 +1111,47 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         _populateActivityOfferingRelationships(ao, context);
         return ao;
     }
+
+    /**
+     * For this method we need to find the scheduleId for a particular AO ID. This method was created because the
+     * code was originally calling the service to get a full AO object from the db. Getting a full AO is a dozen or so
+     * calls to the DB and a couple thousand lines of code.
+     *
+     * This method is a single call to the db. Much faster.
+     *
+     * This is a first iteration. It is my hope that this method is no longer needed.
+     *
+     * @param activityOfferingId
+     * @param contextInfo
+     * @return returns the scheduleId for a particular Activity Offering
+     */
+    protected String retrieveScheduleId(String activityOfferingId, ContextInfo contextInfo){
+
+        String sRet = null;
+
+        SearchRequestInfo searchRequest = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.SCH_ID_BY_AO_SEARCH_TYPE.getKey());
+        searchRequest.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_ID, activityOfferingId);
+
+        SearchResultInfo searchResult = null;
+        try {
+            searchResult = getSearchService().search(searchRequest, contextInfo);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        for (SearchResultRowInfo row : searchResult.getRows()) {
+            for(SearchResultCellInfo cellInfo : row.getCells()){
+                if(ActivityOfferingSearchServiceImpl.SearchResultColumns.SCHEDULE_ID.equals(cellInfo.getKey())){
+                    sRet = cellInfo.getValue();
+                }
+
+            }
+        }
+
+        return sRet;
+    }
+
+
 
     private void _populateActivityOfferingRelationships(ActivityOfferingInfo ao, ContextInfo context) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
         String foId = context.getAttributeValue("FOId");
@@ -2311,13 +2362,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
 
     private List<String> _getTimeSlotIdsbyActivityOffering(String activityOfferingId, String deliveryLogisticsType, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        ActivityOfferingInfo aoInfo = getActivityOffering(activityOfferingId, context);
+        String scheduleId = retrieveScheduleId(activityOfferingId,context);  // we just want the schedule ID at this point. Code was previously pulling the entire AO to just get an id.
         List<String> timeSlotIds = new ArrayList<String>();
 
         if (deliveryLogisticsType.equals("actual")) {
-            if (aoInfo.getScheduleId() != null && aoInfo.getScheduleId().length() > 0) {
+            if (scheduleId != null && !scheduleId.isEmpty()) {
                 // Only do this if there's an schedule ID with length greater than 0.
-                ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(aoInfo.getScheduleId(), context);
+                ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(scheduleId, context);
                 if (scheduleInfo != null) {
                     List<ScheduleComponentInfo> scheduleComponentInfos = scheduleInfo.getScheduleComponents();
                     if (scheduleComponentInfos != null) {
@@ -3788,5 +3839,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     public void setColocatedOfferingSetTransformer(ColocatedOfferingSetTransformer colocatedOfferingSetTransformer) {
         this.colocatedOfferingSetTransformer = colocatedOfferingSetTransformer;
+    }
+
+    public SearchService getSearchService() {
+        return searchService;
+    }
+
+    public void setSearchService(SearchService searchService) {
+        this.searchService = searchService;
     }
 }
