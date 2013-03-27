@@ -206,6 +206,17 @@
                         <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGActivitiesForCreateAOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
+
+                <bean parent="Uif-InputField" p:propertyName="clusterIdForNewAO" p:label="Cluster" p:labelPlacement="TOP" p:required="true" p:refreshWhenChangedPropertyNames="formatOfferingIdForNewAO">
+                    <property name="readOnly" value="false"/>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGClustersForCreateAOKeyValues" p:addBlankOption="false" />
+                    </property>
+                </bean>
+
                 <bean parent="Uif-InputField" p:propertyName="noOfActivityOfferings" p:label="Quantity" p:labelPlacement="TOP" p:required="true">
                     <property name="readOnly" value="false"/>
                     <property name="control">

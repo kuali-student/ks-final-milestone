@@ -717,12 +717,14 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
     }
 
-    public void createActivityOfferings(String formatOfferingId, String activityId, int noOfActivityOfferings, ARGCourseOfferingManagementForm      form){
+    public void createActivityOfferings(String formatOfferingId, String activityId, int noOfActivityOfferings, ARGCourseOfferingManagementForm form){
         String termcode;
         FormatInfo format = null;
         FormatOfferingInfo formatOfferingInfo = null;
         TypeInfo activityOfferingType = null;
         CourseInfo course;
+        String clusterId = form.getClusterIdForNewAO();
+
         //the AO clusters associated with the given FO
         List<ActivityOfferingClusterInfo> clusters = null;
         CourseOfferingInfo courseOffering = form.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
@@ -789,13 +791,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             throw new RuntimeException(e);
         }
 
-        //fetch the AO clusters associated with the given FO
-        try {
-            clusters = getCourseOfferingService().getActivityOfferingClustersByFormatOffering(formatOfferingId, contextInfo);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
         for (int i = 0; i < noOfActivityOfferings; i++) {
             ActivityOfferingInfo aoInfo = new ActivityOfferingInfo();
             aoInfo.setActivityId(activityId);
@@ -813,8 +808,8 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             try {
                 //Temp solution here: if there is cluster(s) assocaited with the given FO, call createAO method in adapter
                 //It will associate created AOs with the first cluster of the given FO
-                if (clusters != null && clusters.size() > 0) {
-                    activityOfferingInfo = ARGUtil.getArgServiceAdapter().createActivityOffering(aoInfo, clusters.get(0).getId(), contextInfo).getCreatedActivityOffering();
+                if (clusterId != null && !clusterId.isEmpty()) {
+                    activityOfferingInfo = ARGUtil.getArgServiceAdapter().createActivityOffering(aoInfo, clusterId, contextInfo).getCreatedActivityOffering();
                 } else {
                     activityOfferingInfo = _getCourseOfferingService().createActivityOffering(formatOfferingInfo.getId(), activityId, activityOfferingType.getKey(), aoInfo, contextInfo);
                 }
