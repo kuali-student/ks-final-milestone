@@ -6,6 +6,7 @@ import org.kuali.rice.krms.api.repository.NaturalLanguageTree;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
+import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
@@ -48,11 +49,11 @@ public abstract class AbstractTreeBuilder implements TreeBuilder {
         nlDescriptions = new TreeIterator(nlTree);
     }
 
-    protected String buildNodeLabel(RuleDefinitionContract rule, PropositionEditor prop, boolean refreshNl){
+    protected String buildNodeLabel(RuleDefinitionContract rule, PropositionDefinitionContract prop, boolean refreshNl){
         return StringEscapeUtils.escapeHtml(this.getDescription(prop, refreshNl));
     }
 
-    protected String getDescription(PropositionEditor proposition, boolean refreshNl) {
+    protected String getDescription(PropositionDefinitionContract proposition, boolean refreshNl) {
         if (proposition == null) {
             return StringUtils.EMPTY;
         }

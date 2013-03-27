@@ -1,8 +1,12 @@
 package org.kuali.rice.krms.tree;
 
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
+import org.kuali.rice.krms.api.repository.NaturalLanguageTree;
+import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
@@ -22,6 +26,9 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
 
     private static final long serialVersionUID = 1L;
 
+    private TreeIterator originalNlTree;
+    private TreeIterator compareNlTree;
+
     public Tree<CompareTreeNode, String> buildTree(RuleDefinitionContract original, RuleDefinitionContract compare) {
         Tree<CompareTreeNode, String> myTree = new Tree<CompareTreeNode, String>();
 
@@ -36,7 +43,13 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         rootNode.getChildren().add(firstNode);
 
         if (original != null) {
-            addTreeNode(firstNode, (PropositionEditor)original.getProposition(), (PropositionEditor)compare.getProposition());
+            PropositionDefinition.Builder originalBuilder = PropositionDefinition.Builder.create(original.getProposition());
+            originalNlTree = new TreeIterator(this.getRuleManagementService().translateNaturalLanguageTreeForProposition(this.getNaturalLanguageUsageId(), originalBuilder.build(), "en"));
+
+            PropositionDefinition.Builder compareBuilder = PropositionDefinition.Builder.create(compare.getProposition());
+            compareNlTree = new TreeIterator(this.getRuleManagementService().translateNaturalLanguageTreeForProposition(this.getNaturalLanguageUsageId(), compareBuilder.build(), "en"));
+
+            addTreeNode(firstNode, original.getProposition(), compare.getProposition());
         }
 
         //Underline the first node in the preview.
@@ -52,13 +65,13 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         return myTree;
     }
 
-    private void addTreeNode(Node<CompareTreeNode, String> currentNode, PropositionEditor originial, PropositionEditor compared) {
+    private void addTreeNode(Node<CompareTreeNode, String> currentNode, PropositionDefinitionContract originial, PropositionDefinitionContract compared) {
         if ((originial == null) && (compared == null)) {
             return;
         }
 
         Node<CompareTreeNode, String> newNode = new Node<CompareTreeNode, String>();
-        CompareTreeNode tNode = new CompareTreeNode(this.buildNodeLabel(null, originial, true), this.buildNodeLabel(null, compared, true));
+        CompareTreeNode tNode = new CompareTreeNode(originalNlTree.next(), compareNlTree.next());
         if (tNode.getOriginal().equals(tNode.getCompared())){
             newNode.setNodeType("subruleElement");
         } else {
@@ -73,7 +86,7 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         }
     }
 
-    private void addCompoundTreeNode(Node<CompareTreeNode, String> newNode, PropositionEditor originial, PropositionEditor compared) {
+    private void addCompoundTreeNode(Node<CompareTreeNode, String> newNode, PropositionDefinitionContract originial, PropositionDefinitionContract compared) {
 
         // Retrieve the opreator code of the original proposition
         String originalOpCode = this.getOpCode(originial);
@@ -82,8 +95,8 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         String compareOpCode = this.getOpCode(compared);
 
         // Get the children form both nodes.
-        List<PropositionEditor> originalChildren = originial.getCompoundEditors();
-        List<PropositionEditor> comparedChildren = compared.getCompoundEditors();
+        List<? extends PropositionDefinitionContract> originalChildren = originial.getCompoundComponents();
+        List<? extends PropositionDefinitionContract> comparedChildren = compared.getCompoundComponents();
 
         // Get the size of the biggest children list
         int size = Math.max(originalChildren.size(), comparedChildren.size());
@@ -91,16 +104,16 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         for (int i = 0; i < size; i++) {
 
             // Get the original child proposition at current position
-            PropositionEditor originalChild = null;
-            if (originalChildren.size() >= i){
+            PropositionDefinitionContract originalChild = null;
+            if (originalChildren.size() > i){
                 originalChild = originalChildren.get(i);
             } else {
                 originalOpCode = "";
             }
 
             // Get the compare child proposition at current position
-            PropositionEditor compareChild = null;
-            if (comparedChildren.size() >= i){
+            PropositionDefinitionContract compareChild = null;
+            if (comparedChildren.size() > i){
                 compareChild = comparedChildren.get(i);
             } else {
                 compareOpCode = "";

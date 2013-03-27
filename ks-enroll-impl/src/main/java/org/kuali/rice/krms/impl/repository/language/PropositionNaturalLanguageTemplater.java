@@ -15,6 +15,7 @@
 
 package org.kuali.rice.krms.impl.repository.language;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.exception.VelocityException;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplaterContract;
@@ -84,6 +85,11 @@ public class PropositionNaturalLanguageTemplater implements NaturalLanguageTempl
     }
 
     public String translate(NaturalLanguageTemplate naturalLanguageTemplate, Map<String,Object>parametersMap) {
+
+        if (naturalLanguageTemplate == null){
+            return StringUtils.EMPTY;
+        }
+
         Map<String, Object> contextMap = null;
         try {
             contextMap = buildContextMap(naturalLanguageTemplate.getTypeId(),parametersMap);

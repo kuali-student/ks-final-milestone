@@ -51,6 +51,12 @@
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/clu}CluService"/>
     </bean>
 
+    <bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.r2.core.organization.service.OrganizationService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService"/>
+    </bean>
+
     <bean id="basicContext" class="org.kuali.student.krms.naturallanguage.config.context.BasicContextImpl">
     </bean>
     <bean id="luContext" class="org.kuali.student.krms.naturallanguage.config.context.CluContextImpl">
@@ -63,6 +69,7 @@
     <bean id="personContext" class="org.kuali.student.krms.naturallanguage.config.context.PersonContextImpl">
     </bean>
     <bean id="orgContext" class="org.kuali.student.krms.naturallanguage.config.context.OrganizationContextImpl">
+        <property name="organizationService" ref="orgClient"/>
     </bean>
     <bean id="atpContext" class="org.kuali.student.krms.naturallanguage.config.context.AtpContextImpl">
     </bean>

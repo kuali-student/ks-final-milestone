@@ -1,6 +1,7 @@
 package org.kuali.rice.krms.tree;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
@@ -17,9 +18,9 @@ import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 public class RulePreviewTreeBuilder extends RuleViewTreeBuilder {
 
     @Override
-    protected String buildNodeLabel(RuleDefinitionContract rule, PropositionEditor prop, boolean refreshNl){
+    protected String buildNodeLabel(RuleDefinitionContract rule, PropositionDefinitionContract prop, boolean refreshNl){
         //Build the node label.
-        String prefix = this.getPropositionPrefix((RuleEditor)rule, prop);
+        String prefix = this.getPropositionPrefix((RuleEditor)rule, (PropositionEditor)prop);
         return prefix + StringEscapeUtils.escapeHtml(this.getDescription(prop, refreshNl));
     }
 }

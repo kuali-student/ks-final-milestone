@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.krms.api.repository.NaturalLanguageTree;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
@@ -26,7 +27,6 @@ import org.kuali.rice.krms.api.repository.term.TermParameterDefinition;
 import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
 
 /**
- *
  * @author nwright
  */
 public class TranslationUtility implements TranslateBusinessMethods {
@@ -35,7 +35,7 @@ public class TranslationUtility implements TranslateBusinessMethods {
     private NaturalLanguageTemplaterContract templater;
 
     public TranslationUtility(RuleManagementService ruleManagementService,
-            NaturalLanguageTemplaterContract templater) {
+                              NaturalLanguageTemplaterContract templater) {
         this.ruleManagementService = ruleManagementService;
         this.templater = templater;
     }
@@ -88,8 +88,8 @@ public class TranslationUtility implements TranslateBusinessMethods {
         String propositionTypeId = proposition.getTypeId();
         NaturalLanguageTemplate naturalLanguageTemplate =
                 this.ruleManagementService.findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(languageCode,
-                propositionTypeId,
-                naturalLanguageUsageId);
+                        propositionTypeId,
+                        naturalLanguageUsageId);
         if (naturalLanguageTemplate == null) {
             throw new RiceIllegalArgumentException("no template found for " + languageCode
                     + " " + typeId
@@ -100,11 +100,11 @@ public class TranslationUtility implements TranslateBusinessMethods {
 
     @Override
     public String translateNaturalLanguageForProposition(String naturalLanguageUsageId,
-            PropositionDefinition proposition, String languageCode)
+                                                         PropositionDefinition proposition, String languageCode)
             throws RiceIllegalArgumentException {
         NaturalLanguageTemplate naturalLanguageTemplate =
                 this.ruleManagementService.findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(languageCode,
-                proposition.getTypeId(), naturalLanguageUsageId);
+                        proposition.getTypeId(), naturalLanguageUsageId);
         if (naturalLanguageTemplate == null) {
             throw new RiceIllegalArgumentException(languageCode + "." + proposition.getTypeId() + "." + naturalLanguageUsageId);
         }
@@ -119,14 +119,18 @@ public class TranslationUtility implements TranslateBusinessMethods {
 
     @Override
     public NaturalLanguageTree translateNaturalLanguageTreeForProposition(String naturalLanguageUsageId,
-            PropositionDefinition proposition,
-            String languageCode) throws RiceIllegalArgumentException {
-        NaturalLanguageTemplate naturalLanguageTemplate =
-                this.ruleManagementService.findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(languageCode,
-                proposition.getTypeId(), naturalLanguageUsageId);
-        if (naturalLanguageTemplate == null) {
-            throw new RiceIllegalArgumentException(languageCode + "." + proposition.getTypeId() + "." + naturalLanguageUsageId);
+                                                                          PropositionDefinition proposition,
+                                                                          String languageCode) throws RiceIllegalArgumentException {
+        NaturalLanguageTemplate naturalLanguageTemplate = null;
+        //Continue if typeid is null, some children may not be initialized yet.
+        if (proposition.getTypeId() != null) {
+            naturalLanguageTemplate = this.ruleManagementService.findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(languageCode,
+                    proposition.getTypeId(), naturalLanguageUsageId);
+            if (naturalLanguageTemplate == null) {
+                throw new RiceIllegalArgumentException(languageCode + "." + proposition.getTypeId() + "." + naturalLanguageUsageId);
+            }
         }
+
         if (proposition.getPropositionTypeCode().equals(PropositionType.SIMPLE.getCode())) {
             NaturalLanguageTree.Builder tree = NaturalLanguageTree.Builder.create();
             Map<String, Object> contextMap = this.buildSimplePropositionContextMap(proposition);
@@ -153,12 +157,13 @@ public class TranslationUtility implements TranslateBusinessMethods {
         if (!proposition.getPropositionTypeCode().equals(PropositionType.SIMPLE.getCode())) {
             throw new RiceIllegalArgumentException("proposition us not simple " + proposition.getPropositionTypeCode() + " " + proposition.getId() + proposition.getDescription());
         }
-        Map<String, Object> contextMap = new LinkedHashMap<String, Object>();     
+        Map<String, Object> contextMap = new LinkedHashMap<String, Object>();
         for (PropositionParameter param : proposition.getParameters()) {
             contextMap.put(param.getParameterType(), param.getValue());
         }
         return contextMap;
     }
+
     public static final String COMPOUND_COMPONENTS = "compoundComponent";
 
     protected Map<String, Object> buildCompoundPropositionContextMap(String naturalLanguageUsageId, PropositionDefinition proposition, String languageCode) {
@@ -199,7 +204,7 @@ public class TranslationUtility implements TranslateBusinessMethods {
     }
 
     protected String translateSimpleProposition(NaturalLanguageTemplate naturalLanguageTemplate,
-            PropositionDefinition proposition)
+                                                PropositionDefinition proposition)
             throws RiceIllegalArgumentException {
         if (!proposition.getPropositionTypeCode().equals(PropositionType.SIMPLE.getCode())) {
             throw new RiceIllegalArgumentException("proposition not simple " + proposition.getPropositionTypeCode() + " " + proposition.getId() + proposition.getDescription());
