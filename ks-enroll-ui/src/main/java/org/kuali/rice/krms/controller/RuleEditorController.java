@@ -644,7 +644,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         //show errors and don't change anything else
         if (!validExpression) {
             for (int i = 0; i < errorMessages.size(); i++) {
-                GlobalVariables.getMessageMap().putError("logicArea", errorMessages.get(i));
+                GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.logicArea", errorMessages.get(i));
             }
             // reload page1
             ruleEditor.setSelectedTab("1");
