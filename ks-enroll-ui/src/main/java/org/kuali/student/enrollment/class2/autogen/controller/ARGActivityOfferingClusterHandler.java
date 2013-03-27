@@ -236,13 +236,14 @@ public class ARGActivityOfferingClusterHandler {
     public static void addActivityOfferings(ARGCourseOfferingManagementForm theForm) throws Exception {
 
         String activityId = theForm.getActivityIdForNewAO();
-        String formatId = theForm.getFormatIdForNewAO();
+        String formatOfferingId = theForm.getFormatOfferingIdForNewAO();
         int aoCount = Integer.parseInt(theForm.getNoOfActivityOfferings());
 
-        ARGUtil.getViewHelperService(theForm).createActivityOfferings(formatId, activityId, aoCount, theForm);
+        ARGUtil.getViewHelperService(theForm).createActivityOfferings(formatOfferingId, activityId, aoCount, theForm);
         ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
 
         theForm.setFormatIdForNewAO(null);
+        theForm.setFormatOfferingIdForNewAO(null);
         theForm.setActivityIdForNewAO(null);
         theForm.setNoOfActivityOfferings(null);
     }

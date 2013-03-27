@@ -180,7 +180,7 @@
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="formatIdForNewAO" p:label="Format" p:labelPlacement="TOP" p:required="true">
+                <bean parent="Uif-InputField" p:propertyName="formatOfferingIdForNewAO" p:label="Format Offering" p:labelPlacement="TOP" p:required="true">
                     <property name="readOnly" value="false"/>
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
@@ -189,7 +189,7 @@
                         <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGFormatsForCreateAOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="activityIdForNewAO" p:label="Activity Type" p:labelPlacement="TOP" p:required="true" p:refreshWhenChangedPropertyNames="formatIdForNewAO">
+                <bean parent="Uif-InputField" p:propertyName="activityIdForNewAO" p:label="Activity Type" p:labelPlacement="TOP" p:required="true" p:refreshWhenChangedPropertyNames="formatOfferingIdForNewAO">
                     <!-- KRAD 2.2.0 Bug: class uif-boxLayoutHorizontalItem is removed on refresh: -->
                     <property name="cssClasses">
                         <list merge="true">

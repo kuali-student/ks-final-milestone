@@ -82,7 +82,9 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
 
     //For Adding Activity
     private String formatIdForNewAO;
+    private String formatOfferingIdForNewAO;
     private String activityIdForNewAO;
+    private String clusterIdForNewAO;
     private String noOfActivityOfferings;
 
     //TODO: why do we need wrapper objects here. why can't be COInfo.id?
@@ -623,5 +625,19 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
         this.selectedCluster = selectedCluster;
     }
 
+    public String getClusterIdForNewAO() {
+        return clusterIdForNewAO;
+    }
 
+    public void setClusterIdForNewAO(String clusterIdForNewAO) {
+        this.clusterIdForNewAO = clusterIdForNewAO;
+    }
+
+    public String getFormatOfferingIdForNewAO() {
+        return formatOfferingIdForNewAO;
+    }
+
+    public void setFormatOfferingIdForNewAO(String formatOfferingIdForNewAO) {
+        this.formatOfferingIdForNewAO = formatOfferingIdForNewAO;
+    }
 }

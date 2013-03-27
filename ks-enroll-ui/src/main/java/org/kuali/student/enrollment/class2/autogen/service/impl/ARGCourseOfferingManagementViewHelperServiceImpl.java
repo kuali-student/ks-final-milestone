@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -70,8 +71,10 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentDisplayInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
@@ -714,9 +717,11 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
     }
 
-    public void createActivityOfferings(String formatId, String activityId, int noOfActivityOfferings, ARGCourseOfferingManagementForm      form){
+    public void createActivityOfferings(String formatOfferingId, String activityId, int noOfActivityOfferings, ARGCourseOfferingManagementForm      form){
         String termcode;
         FormatInfo format = null;
+        FormatOfferingInfo formatOfferingInfo = null;
+        TypeInfo activityOfferingType = null;
         CourseInfo course;
         //the AO clusters associated with the given FO
         List<ActivityOfferingClusterInfo> clusters = null;
@@ -726,9 +731,10 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
         // Get the format object for the id selected
         try {
+            formatOfferingInfo = getCourseOfferingService().getFormatOffering(formatOfferingId, contextInfo);
             course = getCourseService().getCourse(courseOffering.getCourseId(), contextInfo);
             for (FormatInfo f : course.getFormats()) {
-                if(f.getId().equals(formatId)) {
+                if (f.getId().equals(formatOfferingInfo.getFormatId())) {
                     format = f;
                     break;
                 }
@@ -738,7 +744,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
 
         // find the format offering object for the selected format
-        FormatOfferingInfo formatOfferingInfo = null;
+        /*FormatOfferingInfo formatOfferingInfo = null;
         try {
             List<FormatOfferingInfo> courseOfferingFOs = getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOffering.getId(), contextInfo);
             for(FormatOfferingInfo fo : courseOfferingFOs) {
@@ -749,7 +755,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }
+        }*/
 
         // find the Activity object that matches the activity id selected
         ActivityInfo activity = null;
@@ -762,18 +768,16 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
 
         // Get the matching activity offering type for the selected activity
-        TypeInfo activityOfferingType;
         try {
-            List<TypeInfo> types = getTypeService().getAllowedTypesForType(activity.getTypeKey(), contextInfo);
-            // only one AO type should be mapped to each Activity type
-            if(types.size() > 1) {
-                throw new RuntimeException("More than one allowed type is matched to activity type of: " + activity.getTypeKey());
-            }
-            if(types.isEmpty()){
-                throw new RuntimeException("No Clu to Lui type mapping found in TypeService for: " + activity.getTypeKey());
-            }
+            for (String aoTypeKey : formatOfferingInfo.getActivityOfferingTypeKeys()) {
+                List<TypeTypeRelationInfo> typeTypeRelationInfos = getTypeService().getTypeTypeRelationsByRelatedTypeAndType(aoTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, ContextUtils.getContextInfo());
+                if (typeTypeRelationInfos != null && typeTypeRelationInfos.size() > 0) {
+                    if (StringUtils.equals(activity.getTypeKey(), typeTypeRelationInfos.get(0).getOwnerTypeKey())) {
+                        activityOfferingType = getTypeService().getType(aoTypeKey, contextInfo);
+                    }
 
-            activityOfferingType = types.get(0);
+                }
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -787,12 +791,12 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
         //fetch the AO clusters associated with the given FO
         try {
-            clusters=_getCourseOfferingService().getActivityOfferingClustersByFormatOffering(formatOfferingInfo.getId(), contextInfo);
+            clusters = getCourseOfferingService().getActivityOfferingClustersByFormatOffering(formatOfferingId, contextInfo);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        for (int i=0;i<noOfActivityOfferings;i++){
+        for (int i = 0; i < noOfActivityOfferings; i++) {
             ActivityOfferingInfo aoInfo = new ActivityOfferingInfo();
             aoInfo.setActivityId(activityId);
             aoInfo.setFormatOfferingId(formatOfferingInfo.getId());
@@ -809,7 +813,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             try {
                 //Temp solution here: if there is cluster(s) assocaited with the given FO, call createAO method in adapter
                 //It will associate created AOs with the first cluster of the given FO
-                if (clusters!=null && clusters.size()>0) {
+                if (clusters != null && clusters.size() > 0) {
                     activityOfferingInfo = ARGUtil.getArgServiceAdapter().createActivityOffering(aoInfo, clusters.get(0).getId(), contextInfo).getCreatedActivityOffering();
                 } else {
                     activityOfferingInfo = _getCourseOfferingService().createActivityOffering(formatOfferingInfo.getId(), activityId, activityOfferingType.getKey(), aoInfo, contextInfo);
@@ -826,7 +830,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
 
         ARGToolbarUtil.processAoToolbarForUser(form.getActivityWrapperList(), form);
-        if(noOfActivityOfferings == 1){
+        if (noOfActivityOfferings == 1) {
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS);
         } else {
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS);

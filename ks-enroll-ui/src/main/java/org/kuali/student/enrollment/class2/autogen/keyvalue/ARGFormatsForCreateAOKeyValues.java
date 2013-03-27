@@ -56,7 +56,7 @@ public class ARGFormatsForCreateAOKeyValues extends UifKeyValuesFinderBase imple
             List<FormatOfferingInfo> formatOfferingInfos =
                 courseOfferingService.getFormatOfferingsByCourseOffering(courseOfferingId, contextInfo);
             for (FormatOfferingInfo formatOfferingInfo : formatOfferingInfos) {
-                keyValues.add(new ConcreteKeyValue(formatOfferingInfo.getFormatId(), formatOfferingInfo.getName()));
+                keyValues.add(new ConcreteKeyValue(formatOfferingInfo.getId(), formatOfferingInfo.getName()));
             }
         } catch (Exception e) {
             throw new RuntimeException();
