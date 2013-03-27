@@ -69,7 +69,8 @@
                             <bean parent="Uif-HeaderFour" p:headerText="@{currentCourseOfferingWrapper.courseOfferingCode} - @{currentCourseOfferingWrapper.courseOfferingInfo.courseOfferingTitle} (@{currentCourseOfferingWrapper.courseOfferingInfo.creditCnt} Credits)"/>
                             <bean parent="Uif-DataField" p:label="Term:" p:propertyName="termInfo.name"
                                   p:fieldLabel.renderColon="false"  p:readOnly="true"/>
-
+                            <bean parent="Uif-DataField" p:propertyName="selectedCluster.clusterNameForDisplay"
+                                  p:fieldLabel.renderColon="false"  p:readOnly="true"/>
                         </list>
                     </property>
                 </bean>
