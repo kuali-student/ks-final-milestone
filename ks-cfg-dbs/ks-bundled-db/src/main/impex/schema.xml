@@ -799,6 +799,7 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="DOC_SEARCH_HELP_URL" size="4000" type="VARCHAR"/>
         <column name="DOC_HDR_ID" size="40" type="VARCHAR"/>
+        <column name="AUTHORIZER" size="255" type="VARCHAR"/>
         <unique name="KREW_DOC_TYP_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -1042,7 +1043,7 @@
     </table>
     <table name="KREW_RTE_NODE_INSTN_LNK_T">
         <column name="FROM_RTE_NODE_INSTN_ID" primaryKey="true"
-            size="40" type="VARCHAR"/>
+                size="40" type="VARCHAR"/>
         <column name="TO_RTE_NODE_INSTN_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <index name="KREW_RTE_NODE_INSTN_LNK_TI1">
             <index-column name="FROM_RTE_NODE_INSTN_ID"/>
@@ -9489,12 +9490,12 @@
     <sequence name="KREN_RECIP_S" nextval="1000"/>
     <sequence name="KREN_RVWER_S" nextval="1000"/>
     <sequence name="KREN_SNDR_S" nextval="1000"/>
-    <sequence name="KREW_ACTN_ITM_S" nextval="10231"/>
+    <sequence name="KREW_ACTN_ITM_S" nextval="10226"/>
     <sequence name="KREW_ACTN_LIST_OPTN_S" nextval="1269"/>
-    <sequence name="KREW_ACTN_RQST_S" nextval="2374"/>
-    <sequence name="KREW_ACTN_TKN_S" nextval="2334"/>
+    <sequence name="KREW_ACTN_RQST_S" nextval="2369"/>
+    <sequence name="KREW_ACTN_TKN_S" nextval="2329"/>
     <sequence name="KREW_ATTR_DEFN_S" nextval="10000"/>
-    <sequence name="KREW_DOC_HDR_S" nextval="3015"/>
+    <sequence name="KREW_DOC_HDR_S" nextval="3010"/>
     <sequence name="KREW_DOC_LNK_S" nextval="2000"/>
     <sequence name="KREW_DOC_NTE_S" nextval="2020"/>
     <sequence name="KREW_DOC_TYP_ATTR_S" nextval="2010"/>
@@ -9507,11 +9508,11 @@
     <sequence name="KREW_PPL_FLW_S" nextval="10000"/>
     <sequence name="KREW_RSP_S" nextval="2065"/>
     <sequence name="KREW_RTE_NODE_CFG_PARM_S" nextval="2485"/>
-    <sequence name="KREW_RTE_NODE_S" nextval="3017"/>
+    <sequence name="KREW_RTE_NODE_S" nextval="2923"/>
     <sequence name="KREW_RTE_TMPL_S" nextval="1645"/>
     <sequence name="KREW_RULE_EXPR_S" nextval="2002"/>
     <sequence name="KREW_RULE_TMPL_OPTN_S" nextval="2020"/>
-    <sequence name="KREW_SRCH_ATTR_S" nextval="2078"/>
+    <sequence name="KREW_SRCH_ATTR_S" nextval="2060"/>
     <sequence name="KREW_TYP_ATTR_S" nextval="10000"/>
     <sequence name="KREW_TYP_S" nextval="10000"/>
     <sequence name="KREW_USR_S" nextval="100000000000"/>
