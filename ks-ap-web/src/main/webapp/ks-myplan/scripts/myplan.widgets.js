@@ -1386,7 +1386,7 @@ function openQuickAddPopUp(id, getId, retrieveOptions, e, selector, popupOptions
     }
 
     fnCloseAllPopups();
-
+    initBubblePopups();
     popupBox.SetBubblePopupOptions(popupSettings, true);
     popupBox.SetBubblePopupInnerHtml(popupSettings.innerHTML, true);
     popupBox.ShowBubblePopup();
@@ -1406,6 +1406,7 @@ function openQuickAddPopUp(id, getId, retrieveOptions, e, selector, popupOptions
     var tempFormInputs = '<div style="display:none;"><input type="hidden" name="viewId" value="QuickAdd-FormView" />';
     jQuery.each(retrieveOptions, function (name, value) {
         tempFormInputs += '<input type="hidden" name="' + name + '" value="' + value + '" />';
+        tempFormInputs = ksapAddPostOptionsToForm(tempFormInputs);
     });
     tempFormInputs += '</div>';
     jQuery(tempForm).append(tempFormInputs);
@@ -1435,6 +1436,14 @@ function openQuickAddPopUp(id, getId, retrieveOptions, e, selector, popupOptions
                 });
             }
             runHiddenScripts(getId);
+
+            jQuery(document).on('click', function (e) {
+                var tempTarget = (e.target) ? e.target : e.srcElement;
+                if (jQuery(tempTarget).parents("div.jquerybubblepopup.jquerybubblepopup-myplan").length === 0) {
+                    popupBox.HideBubblePopup();
+                    fnCloseAllPopups();
+                }
+            });
         }});
     };
 

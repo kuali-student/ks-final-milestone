@@ -86,7 +86,7 @@
 	<bean id="additionalComponents" class="org.kuali.rice.core.api.lifecycle.LifecycleBean" />
 	<!-- KSAP-26: TODO - merge with Rice and remove these alternate configurers -->
 	<bean id="ksbConfigurer" class="org.kuali.student.ap.framework.config.KSBConfigurer" depends-on="coreConfigurer" />
-	<bean id="knsConfigurer" class="org.kuali.student.ap.framework.config.KRADConfigurer" depends-on="coreConfigurer" />
+	<!--<bean id="knsConfigurer" class="org.kuali.student.ap.framework.config.KRADConfigurer" depends-on="coreConfigurer" />-->
 	<!-- /KSAP-26 -->
 
     <!-- Allows for the use of Annotations when setting up Data Object Beans -->

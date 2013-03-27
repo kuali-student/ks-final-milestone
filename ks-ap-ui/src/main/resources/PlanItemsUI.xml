@@ -370,14 +370,21 @@
             	var atpId = jQuery(this).parents('.myplan-carousel-term').data('atpid');
             	var planType = jQuery(this).parents('.myplan-carousel-term').data('plantype');
             	var size = jQuery(this).parents('.myplan-carousel-term').data('size');
-            	var jQuickAdd = jQuery('&lt;div /&gt;').addClass('quick-add-cell').html('Add a course to plan').click(function(e){
-            		openQuickAddPopUp('quick_Add','quickAdd_dialog_page',{atpId:atpId,pageId:'quickAdd_dialog_page',planType:planType},e,null,{tail:{hidden:true},align:'bottom',position:'right'});
+            	var id = 'quick_Add_'+atpId+planType;
+                var tempId = id.replace(/\./g,'_');
+            	var jQuickAdd = jQuery('&lt;div /&gt;').attr('id',tempId+'_button').addClass('quick-add-cell uif-tooltip').html('Add a course to plan').click(function(e){
+            		openQuickAddPopUp(tempId,'quickAdd_dialog_page',{atpId:atpId,pageId:'quickAdd_dialog_page',planType:planType},e,null,{tail:{hidden:true},align:'bottom',position:'right'});
             	});
+            	var scriptTemp =&quot;jQuery('#&quot;+tempId+&quot;_button').click(function(e){
+            		openQuickAddPopUp('&quot;+tempId+&quot;','quickAdd_dialog_page',{atpId:'&quot;+atpId+&quot;',pageId:'quickAdd_dialog_page',planType:'&quot;+planType+&quot;'},e,null,{tail:{hidden:true},align:'bottom',position:'right'});
+            	});&quot;;
+            	var jQuickAddHidden = jQuery('&lt;input type=&quot;hidden&quot; /&gt;').attr('data-role','dataScript').attr('data-for',tempId+'_button').attr('value',scriptTemp).attr('script','first_run');
             	if (size &lt; 8) {
             		jQuery(this).append(jQuickAdd.show());
             	} else {
             		jQuery(this).append(jQuickAdd.hide());
             	}
+            	jQuery(this).append(jQuickAddHidden);
             });
 
             if ( jQuery('#planned_courses_detail_list ul:not(.errorLines) li').length > 0 ) {
