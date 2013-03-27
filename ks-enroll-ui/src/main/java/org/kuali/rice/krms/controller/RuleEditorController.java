@@ -208,7 +208,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
                         // create a new compound proposition
                         PropositionEditor compound = viewHelper.createCompoundPropositionBoStub(child.getData().getProposition(), true);
-                        compound.setFlag(true);
                         compound.setDescription(KRMSConstants.PROP_COMP_DEFAULT_DESCR);
                         // don't set compound.setEditMode(true) as the Simple Prop in the compound prop is the only prop in edit mode
                         ruleEditor.setProposition(compound);
@@ -218,7 +217,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
                         // build new Blank Proposition
                         PropositionEditor blank = viewHelper.createSimplePropositionBoStub(child.getData().getProposition());
-                        blank.setFlag(true);
                         //add it to the parent
                         PropositionEditor parentProp = parent.getData().getProposition();
                         parentProp.getCompoundEditors().add(((index / 2) + 1), blank);
@@ -618,40 +616,21 @@ public class RuleEditorController extends MaintenanceDocumentController {
                                       HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         RuleEditor ruleEditor = getRuleEditor(form);
-        PropositionEditor  proposition = (PropositionEditor) ruleEditor.getProposition();
-        int i = 0;
-        while (i < proposition.getCompoundEditors().size()) {
-            PropositionEditor child = proposition.getCompoundEditors().get(i);
-            if (child.isFlag()){
-
-                proposition.getCompoundEditors().get(i).setFlag(false);
-            }
-            i++;
-        }
-
-        //this.updateDescription(ruleEditor.getEditTree().getRootElement(), form);
-        //this.getViewHelper(form).refreshInitTrees(ruleEditor, true);
-        this.getViewHelper(form).setLogicSection(ruleEditor);
+        PropositionEditor proposition = (PropositionEditor) ruleEditor.getProposition();
+        //resetNewProp(proposition);
 
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
+        this.getViewHelper(form).setLogicSection(ruleEditor);
 
         return getUIFModelAndView(form);
     }
 
-    /**
-     * disable edit mode for all Nodes beneath and including the passed in Node
-     *
-     * @param currentNode
-     */
-    public void updateDescription(Node<RuleEditorTreeNode, String> currentNode, UifFormBase form) {
-        if (currentNode.getData() != null) {
-            PropositionEditor proposition = currentNode.getData().getProposition();
-            proposition.setDescription(this.getViewHelper(form).getNaturalLanguageDescription(proposition));
-        }
-        for (Node<RuleEditorTreeNode, String> child : currentNode.getChildren()) {
-            updateDescription(child, form);
-        }
-    }
+    //private void resetNewProp(PropositionEditor proposition){
+    //    for (PropositionEditor child : proposition.getCompoundEditors()){
+    //        child.setNewProp(false);
+    //        resetNewProp(child);
+    //    }
+    //}
 
     @RequestMapping(params = "methodToCall=updatePreview")
     public ModelAndView updatePreview(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
@@ -707,7 +686,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         int i = 0;
         while (i < proposition.getCompoundEditors().size()) {
             PropositionEditor child = proposition.getCompoundEditors().get(i);
-            if (child.isFlag()){
+            if (child.isNewProp()){
                 proposition.getCompoundEditors().remove(child);
                 continue;
             }

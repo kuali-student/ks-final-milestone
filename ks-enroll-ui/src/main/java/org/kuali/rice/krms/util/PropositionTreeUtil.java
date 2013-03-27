@@ -232,6 +232,7 @@ public class PropositionTreeUtil {
         // create a simple proposition Bo
         PropositionEditor prop = propClass.newInstance();
         prop.setPropositionTypeCode(PropositionType.SIMPLE.getCode());
+        prop.setNewProp(true);
         prop.setEditMode(true);
         if (sibling != null) {
             prop.setRuleId(sibling.getRuleId());
@@ -267,6 +268,7 @@ public class PropositionTreeUtil {
     public static PropositionEditor createCompoundPropositionBoStub(PropositionEditor existing, Class<? extends PropositionEditor> propClass) throws IllegalAccessException, InstantiationException {
         // create a simple proposition Bo
         PropositionEditor prop = propClass.newInstance();
+        prop.setNewProp(true);
         prop.setPropositionTypeCode(PropositionType.COMPOUND.getCode());
         prop.setRuleId(existing.getRuleId());
         prop.setCompoundOpCode(LogicalOperator.AND.getCode());  // default to and

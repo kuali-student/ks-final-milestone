@@ -44,7 +44,7 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
     private List<TermParameter> termParameterList = new ArrayList<TermParameter>();
     private String type;
     private boolean editMode = false;
-    private boolean flag = false;
+    private boolean newProp = false;
 
     private String newTermDescription = "new term " + UUID.randomUUID().toString();
 
@@ -209,11 +209,11 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
         return newTermDescription;
     }
 
-    public boolean isFlag() {
-        return flag;
+    public boolean isNewProp() {
+        return newProp;
     }
 
-    public void setFlag(boolean flag) {
-        this.flag = flag;
+    public void setNewProp(boolean newProp) {
+        this.newProp = newProp;
     }
 }
