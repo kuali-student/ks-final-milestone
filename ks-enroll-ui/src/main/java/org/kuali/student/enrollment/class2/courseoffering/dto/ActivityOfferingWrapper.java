@@ -40,6 +40,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private List<SeatPoolWrapper> seatpools;
     private boolean readOnlyView;
     private boolean isChecked;
+    private boolean isCheckedByCluster;
     private String courseOfferingId;
     // Tanveer 06/13/2012
     private String stateName;
@@ -390,6 +391,15 @@ public class ActivityOfferingWrapper implements Serializable{
     public void setIsChecked(boolean checked) {
         this.isChecked = checked;
     }
+
+    public boolean getIsCheckedByCluster() {
+        return isCheckedByCluster;
+    }
+
+    public void setIsCheckedByCluster(boolean checkedByCluster) {
+        isCheckedByCluster = checkedByCluster;
+    }
+
 
     public String getStateName() {
         return stateName;

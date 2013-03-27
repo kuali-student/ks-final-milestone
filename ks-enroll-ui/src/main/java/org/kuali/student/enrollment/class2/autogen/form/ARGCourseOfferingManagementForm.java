@@ -159,10 +159,12 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     private ActivityOfferingClusterWrapper selectedCluster;
     private int aoCount=0;
 
+    private String selectedTabId; //Which tab was selected
+
     //TODO: do we still need this parameter?
     private boolean hasAOCluster;
 
-    public boolean isHasAOCluster() {
+    public boolean getHasAOCluster() {
         return hasAOCluster;
     }
 
@@ -640,4 +642,13 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     public void setFormatOfferingIdForNewAO(String formatOfferingIdForNewAO) {
         this.formatOfferingIdForNewAO = formatOfferingIdForNewAO;
     }
+
+    public String getSelectedTabId() {
+        return selectedTabId;
+    }
+
+    public void setSelectedTabId(String selectedTabId) {
+        this.selectedTabId = selectedTabId;
+    }
+
 }

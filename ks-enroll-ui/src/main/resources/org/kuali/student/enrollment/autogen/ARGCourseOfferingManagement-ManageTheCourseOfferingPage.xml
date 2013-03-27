@@ -42,7 +42,18 @@
             <list>
                 <ref bean="KS-CourseOfferingManagement-TheCourseOfferingLinks"/>
                 <!--<ref bean="KS-CourseOfferingManagement-TheCourseOfferingTabs"/>-->
-                <bean parent="KS-Link-Uif-TabSection" >
+                <bean id="KS-Tab-Hidden-Input" parent="Uif-InputField" p:defaultValue="0" p:showLabel="false" p:propertyName="selectedTabId">
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl"/>
+                    </property>
+                </bean>
+                <bean id="KS-CourseOfferingManagement-ManageTheCourseOfferingSection-Tabs" parent="KS-Link-Uif-TabSection" >
+                    <property name="tabsWidget">
+                        <bean parent="Uif-Tabs">
+                            <!-- set the selectedTabId to the value clicked-->
+                            <property name="templateOptionsJSString" value="{select:function(event, ui){jQuery('#KS-Tab-Hidden-Input>input[name=selectedTabId]').val(ui.index);}}"/>
+                        </bean>
+                    </property>
                     <property name="items">
                         <list>
                             <ref bean="KS-CourseOfferingManagement-ViewAOClustersSection"/>

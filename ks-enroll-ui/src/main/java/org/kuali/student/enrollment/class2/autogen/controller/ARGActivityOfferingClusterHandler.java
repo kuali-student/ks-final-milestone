@@ -196,9 +196,11 @@ public class ARGActivityOfferingClusterHandler {
             // check if there is Draft AO selected
             selectedIndexList.clear();
             for (ActivityOfferingWrapper ao : aoList) {
-                if (ao.isLegalToDelete() && ao.getIsChecked()) {
+                if (ao.isLegalToDelete() && ((!"0".equals(theForm.getSelectedTabId()))&& ao.getIsChecked()||
+                                             ( "0".equals(theForm.getSelectedTabId()))&& ao.getIsCheckedByCluster())) {
                     selectedIndexList.add(ao);
-                } else if (ao.getIsChecked()) {
+                } else if ((!"0".equals(theForm.getSelectedTabId()))&& ao.getIsChecked()||
+                        ( "0".equals(theForm.getSelectedTabId()))&& ao.getIsCheckedByCluster()) {
                     if (!bEncounteredNonDraftAOInDeletion) {
                         bEncounteredNonDraftAOInDeletion = true;
                     }
@@ -259,10 +261,12 @@ public class ARGActivityOfferingClusterHandler {
         selectedIndexList.clear();
         for (ActivityOfferingWrapper ao : aoList) {
 
-            if (ao.isEnableDeleteButton() && ao.getIsChecked()) {
+            if (ao.isEnableDeleteButton() && ((!"0".equals(theForm.getSelectedTabId()))&& ao.getIsChecked())||
+                    ( "0".equals(theForm.getSelectedTabId()))&& ao.getIsCheckedByCluster()) {
                 selectedIndexList.add(ao);
                 enabled++;
-            } else if (ao.getIsChecked()) {
+            } else if ((!"0".equals(theForm.getSelectedTabId()))&& ao.getIsChecked() ||
+                    ( "0".equals(theForm.getSelectedTabId()))&& ao.getIsCheckedByCluster()) {
                 checked++;
                 if (!bNoDeletion) {
                     bNoDeletion = true;
@@ -341,7 +345,8 @@ public class ARGActivityOfferingClusterHandler {
 
         //move AO
         for (ActivityOfferingWrapper aoWrapper : theForm.getActivityWrapperList()) {
-            if (aoWrapper.getIsChecked()) {
+            if ((!"0".equals(theForm.getSelectedTabId())&& aoWrapper.getIsChecked())||
+                ( "0".equals(theForm.getSelectedTabId())&& aoWrapper.getIsCheckedByCluster())) {
                 ARGUtil.getArgServiceAdapter().moveActivityOffering(aoWrapper.getAoInfo().getId(), aoWrapper.getAoClusterID(), aocId, context);
                 aoChecked = true;
             }

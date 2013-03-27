@@ -53,15 +53,15 @@
                     <list>
                         <bean id="KS-CourseOfferingManagement-ToolBar-Add-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Add" p:actionLabel="Add Activity"  p:disabled="false"
                             p:performClientSideValidation="true" p:methodToCall="addActivityOfferings"
-                            p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen');"/>
+                            p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen').find('input[type=text],select').val('');}});"/>
                     </list>
                 </property>
             </bean>
             <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                 <property name="items">
                     <list>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Approve-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Approve" p:methodToCall="approveAOs" p:render="@{hasAO}"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Draft-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Draft" p:methodToCall="draftAOs" p:render="@{hasAO}"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Approve-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Approve" p:methodToCall="approveAOs" p:render="true"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Draft-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Draft" p:methodToCall="draftAOs" p:render="true"/>
                     </list>
                 </property>
             </bean>
@@ -72,7 +72,7 @@
                         <!--<bean id="KS-CourseOfferingManagement-ToolBar-Suspend-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendAOs" p:render="@{hasAO}"/>-->
                         <!--<bean id="KS-CourseOfferingManagement-ToolBar-Cancel-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelAOs" p:render="@{hasAO}"/>-->
                         <!--<bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateAOs" p:render="@{hasAO}"/>-->
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Delete-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Delete" p:methodToCall="deleteAOs" p:render="@{hasAO}"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Delete-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Delete" p:methodToCall="deleteAOs" p:render="true"/>
                     </list>
                 </property>
             </bean>
@@ -81,10 +81,10 @@
                     <list>
                         <!--
                         <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster-ARG" parent="KS-CourseOfferingManagement-ToolBar-AddCluster" p:methodToCall="addCluster" p:render="@{hasAO}" p:disabled="false"
-                              p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddAOCPopupForm');"/>
+                              p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddAOCPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddAOCPopupForm').find('input[type=text],select').val('');}});"/>
                               -->
-                        <bean id="KS-CourseOfferingManagement-ToolBar-MoveTo-ARG" parent="KS-CourseOfferingManagement-ToolBar-MoveTo" p:methodToCall="moveToCluster" p:render="@{hasAO}" p:disabled="false"
-                              p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-MoveAOCPopupForm');"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-MoveTo-ARG" parent="KS-CourseOfferingManagement-ToolBar-MoveTo" p:methodToCall="moveToCluster" p:render="true" p:disabled="false"
+                              p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-MoveAOCPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-MoveAOCPopupForm').find('input[type=text],select').val('');}});"/>
                     </list>
                 </property>
             </bean>
