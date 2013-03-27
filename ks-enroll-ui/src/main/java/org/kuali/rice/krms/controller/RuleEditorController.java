@@ -617,7 +617,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
             throws Exception {
         RuleEditor ruleEditor = getRuleEditor(form);
         PropositionEditor proposition = (PropositionEditor) ruleEditor.getProposition();
-        //resetNewProp(proposition);
+        PropositionTreeUtil.resetNewProp(proposition);
 
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
         this.getViewHelper(form).setLogicSection(ruleEditor);
@@ -625,12 +625,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    //private void resetNewProp(PropositionEditor proposition){
-    //    for (PropositionEditor child : proposition.getCompoundEditors()){
-    //        child.setNewProp(false);
-    //        resetNewProp(child);
-    //    }
-    //}
+
 
     @RequestMapping(params = "methodToCall=updatePreview")
     public ModelAndView updatePreview(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
@@ -683,16 +678,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         PropositionEditor  proposition = (PropositionEditor) ruleEditor.getProposition();
 
         //Reset the editing tree.
-        int i = 0;
-        while (i < proposition.getCompoundEditors().size()) {
-            PropositionEditor child = proposition.getCompoundEditors().get(i);
-            if (child.isNewProp()){
-                proposition.getCompoundEditors().remove(child);
-                continue;
-            }
-            i++;
-        }
-
+        PropositionTreeUtil.cancelNewProp(proposition);
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
         this.getViewHelper(form).refreshInitTrees(ruleEditor, false);
 
