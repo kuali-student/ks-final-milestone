@@ -32,6 +32,8 @@ public class ActivityOfferingResult {
     private BulkStatusInfo clusterstatus;
 
     public ActivityOfferingResult() {
+        clusterstatus = new BulkStatusInfo();
+        clusterstatus.setSuccess(Boolean.TRUE); // By default, set it true
     }
 
     public ActivityOfferingInfo getCreatedActivityOffering() {

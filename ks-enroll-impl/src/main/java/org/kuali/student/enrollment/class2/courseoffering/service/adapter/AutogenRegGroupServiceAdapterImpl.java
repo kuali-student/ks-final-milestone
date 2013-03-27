@@ -202,12 +202,27 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         ActivityOfferingClusterInfo updated =
                 coService.updateActivityOfferingCluster(cluster.getFormatOfferingId(), cluster.getId(), cluster, context);
         // Note: this may generate RGs that do NOT include the AO just added
-        List<BulkStatusInfo> status =
-                coService.generateRegistrationGroupsForCluster(updated.getId(), context);
         ActivityOfferingResult aoResult = new ActivityOfferingResult();
         aoResult.setCreatedActivityOffering(aoInfo);
-        aoResult.setGeneratedRegistrationGroups(status);
+        if (_clusterCanGenerateRgs(updated)) {
+            List<BulkStatusInfo> status =
+                    coService.generateRegistrationGroupsForCluster(updated.getId(), context);
+            aoResult.setGeneratedRegistrationGroups(status);
+        } else {
+            aoResult.setGeneratedRegistrationGroups(new ArrayList<BulkStatusInfo>());
+            aoResult.getClusterstatus().setSuccess(Boolean.FALSE);
+            aoResult.getClusterstatus().setMessage("Error: empty AO sets exist--can't generate reg groups");
+        }
         return aoResult;
+    }
+
+    private boolean _clusterCanGenerateRgs(ActivityOfferingClusterInfo updated) {
+        for (ActivityOfferingSetInfo set: updated.getActivityOfferingSets()) {
+            if (set.getActivityOfferingIds().isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -370,9 +385,13 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         ActivityOfferingClusterInfo updated =
                 coService.updateActivityOfferingCluster(aoInfo.getFormatOfferingId(), targetAocId, targetAoc, context);
         // Generate missing RGs
-        List<BulkStatusInfo> created =
-                coService.generateRegistrationGroupsForCluster(updated.getId(), context);
-        return created;  //To change body of implemented methods use File | Settings | File Templates.
+        if (_clusterCanGenerateRgs(updated)) {
+            List<BulkStatusInfo> created =
+                    coService.generateRegistrationGroupsForCluster(updated.getId(), context);
+            return created;  //To change body of implemented methods use File | Settings | File Templates.
+        } else {
+            return new ArrayList<BulkStatusInfo>(); // Unable to generate so return empty list
+        }
     }
 
     @Override
