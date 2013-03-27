@@ -40,6 +40,17 @@ function ajaxCallPropositionTree(controllerMethod, collectionGroupId) {
     retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
 }
 
+function ajaxAddPropositionTree(controllerMethod, collectionGroupId) {
+    var selectedItemInput = getSelectedPropositionInput();
+    var selectedItemId = selectedItemInput.val();
+    var actionRevealCallBack = function (htmlContent) {
+        jq('.editModeNode').find(".actionReveal").first().hide();
+
+        resetControlKeys();
+    };
+    retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
+}
+
 function ajaxCutPropositionTree() {
     var selectedItemTracker = getSelectedPropositionInput();
     var selectedItemId = selectedItemTracker.val();
@@ -146,6 +157,18 @@ function handlePropositionNodeClick(parentLiNode) {
     }
 }
 
+function handleEditNodeClick(parentLiNode) {
+    var propositionId = getPropositionIdFromParentLi(parentLiNode);
+    var selectedItemTracker = getSelectedPropositionInput();
+
+    // remove selection from other li's
+    jq('li').each(function() {
+        jq(this).removeClass('ruleBlockSelected');
+    });
+
+    selectedItemTracker.val(propositionId);
+}
+
 /**
  * Check if a proposition is missing a description.
  *
@@ -206,9 +229,9 @@ function initRuleTree(componentId){
         });
 
         // rule node clicks should set the selected item
-        jq('li.simplePropositionEditNode').click( function() {
+        jq('li.simpleEditNode').click( function() {
             var parentLiNode = jq(this).closest('li');
-            handlePropositionNodeClick(parentLiNode);
+            handleEditNodeClick(parentLiNode);
         });
 
         // set type to 'logic' on logic nodes -- this prevents them from being selected

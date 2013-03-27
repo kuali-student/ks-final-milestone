@@ -88,9 +88,7 @@
             <list>
 
                 <!-- Hidden ID field -->
-                <bean parent="KS-Rules-HiddenField" p:propertyName="proposition.id"
-                      p:showLabel="false" p:label="id" p:maxLength="255">
-                </bean>
+                <bean parent="KS-PropKey-HiddenField"/>
 
                 <!--Add the type droplist-->
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.typeId"

@@ -28,7 +28,7 @@ public class KSSimplePropositionEditNode extends RuleEditorTreeNode {
 
     private static final long serialVersionUID = -5650654824214437325L;
 
-    public static final String NODE_TYPE = KSSimplePropositionNode.NODE_TYPE + " editNode";
+    public static final String NODE_TYPE = KSSimplePropositionNode.NODE_TYPE + "EditNode";
 
     public KSSimplePropositionEditNode(PropositionEditor proposition){
         super(proposition);

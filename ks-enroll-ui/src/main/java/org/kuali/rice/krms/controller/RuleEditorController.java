@@ -203,26 +203,28 @@ public class RuleEditorController extends MaintenanceDocumentController {
                     // in this case, we need to change the root level proposition to a compound proposition
                     // move the existing simple proposition as the first compound component,
                     // then add a new blank simple prop as the second compound component.
+                    PropositionEditor blank = null;
                     if (parent.equals(root) &&
                             (isSimpleNode(child.getNodeType()))) {
 
                         // create a new compound proposition
-                        PropositionEditor compound = viewHelper.createCompoundPropositionBoStub(child.getData().getProposition(), true);
-                        compound.setDescription(KRMSConstants.PROP_COMP_DEFAULT_DESCR);
+                        blank = viewHelper.createCompoundPropositionBoStub(child.getData().getProposition(), true);
+                        blank.setDescription(KRMSConstants.PROP_COMP_DEFAULT_DESCR);
                         // don't set compound.setEditMode(true) as the Simple Prop in the compound prop is the only prop in edit mode
-                        ruleEditor.setProposition(compound);
+                        ruleEditor.setProposition(blank);
                     }
                     // handle regular case of adding a simple prop to an existing compound prop
                     else if (isSimpleNode(child.getNodeType())) {
 
                         // build new Blank Proposition
-                        PropositionEditor blank = viewHelper.createSimplePropositionBoStub(child.getData().getProposition());
+                        blank = viewHelper.createSimplePropositionBoStub(child.getData().getProposition());
                         //add it to the parent
                         PropositionEditor parentProp = parent.getData().getProposition();
                         parentProp.getCompoundEditors().add(((index / 2) + 1), blank);
                     }
                     this.getViewHelper(form).refreshInitTrees(ruleEditor, false);
                     this.getViewHelper(form).setLogicSection(ruleEditor);
+                    ruleEditor.setSelectedKey(blank.getKey());
                     break;
                 }
             }

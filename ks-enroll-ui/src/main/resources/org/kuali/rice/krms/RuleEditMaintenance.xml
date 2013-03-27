@@ -190,7 +190,7 @@
                         <list>
                             <bean parent="KS-RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('add');
                                 if (enabled) {
-                                ajaxCallPropositionTree('addProposition', 'RuleStudentEditorView-Tree');}"
+                                ajaxAddPropositionTree('addProposition', 'RuleStudentEditorView-Tree');}"
                                 p:actionLabel="Add Requisite" p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');" p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
                                 <property name="actionImage">
                                     <bean parent="Uif-Image"

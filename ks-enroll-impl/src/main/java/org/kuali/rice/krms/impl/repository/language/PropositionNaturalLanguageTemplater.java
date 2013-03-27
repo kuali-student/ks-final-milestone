@@ -44,8 +44,10 @@ import java.util.Map;
  * natural language. This class is not thread safe.
  */
 public class PropositionNaturalLanguageTemplater implements NaturalLanguageTemplaterContract {
-    /** SLF4J logging framework */
-	private final static Logger logger = LoggerFactory.getLogger(PropositionNaturalLanguageTemplater.class);
+    /**
+     * SLF4J logging framework
+     */
+    private final static Logger logger = LoggerFactory.getLogger(PropositionNaturalLanguageTemplater.class);
 
     private ContextRegistry<Context<TermDefinitionContract>> contextRegistry;
 
@@ -68,8 +70,7 @@ public class PropositionNaturalLanguageTemplater implements NaturalLanguageTempl
 
 
     /**
-	 * Constructs a new proposition natural language templater.
-	 *
+     * Constructs a new proposition natural language templater.
      */
     public PropositionNaturalLanguageTemplater() {
     }
@@ -81,30 +82,30 @@ public class PropositionNaturalLanguageTemplater implements NaturalLanguageTempl
      * @param contextRegistry Template context registry
      */
     public void setContextRegistry(final ContextRegistry<Context<TermDefinitionContract>> contextRegistry) {
-    	this.contextRegistry = contextRegistry;
+        this.contextRegistry = contextRegistry;
     }
 
-    public String translate(NaturalLanguageTemplate naturalLanguageTemplate, Map<String,Object>parametersMap) {
+    public String translate(NaturalLanguageTemplate naturalLanguageTemplate, Map<String, Object> parametersMap) {
 
-        if (naturalLanguageTemplate == null){
+        if (naturalLanguageTemplate == null) {
             return StringUtils.EMPTY;
         }
 
         Map<String, Object> contextMap = null;
         try {
-            contextMap = buildContextMap(naturalLanguageTemplate.getTypeId(),parametersMap);
+            contextMap = buildContextMap(naturalLanguageTemplate.getTypeId(), parametersMap);
         } catch (Exception e) {
             e.printStackTrace();  //TODO hand back to service.
         }
 
         try {
             String nl = this.templateEngine.evaluate(contextMap, naturalLanguageTemplate.getTemplate());
-            if(logger.isInfoEnabled()) {
-                logger.info("nl="+nl);
+            if (logger.isInfoEnabled()) {
+                logger.info("nl=" + nl);
             }
             return nl;
         } catch (VelocityException e) {
-            String msg = "Generating template for proposition failed: template='"+naturalLanguageTemplate.getTemplate()+"', contextMap="+contextMap;
+            String msg = "Generating template for proposition failed: template='" + naturalLanguageTemplate.getTemplate() + "', contextMap=" + contextMap;
             logger.error(msg, e);
             //TODO hand back to service throw new Exception(msg);
         }
@@ -114,7 +115,7 @@ public class PropositionNaturalLanguageTemplater implements NaturalLanguageTempl
     /**
      * Builds a proposition type context map.
      *
-     * @param typeId the natural language template id
+     * @param typeId        the natural language template id
      * @param parametersMap map containing the proposition parameter types and their values
      * @throws java.lang.Exception Creating context map failed
      */
@@ -122,30 +123,33 @@ public class PropositionNaturalLanguageTemplater implements NaturalLanguageTempl
 
         Map<String, Object> contextMap = new HashMap<String, Object>();
         //Add proposition constant to contextMap.
-        if(parametersMap.containsKey(PropositionParameterType.CONSTANT.getCode())){
-            contextMap.put(CONSTANT_VALUE_TOKEN,(String) parametersMap.get(PropositionParameterType.CONSTANT.getCode()));
+        if (parametersMap.containsKey(PropositionParameterType.CONSTANT.getCode())) {
+            contextMap.put(CONSTANT_VALUE_TOKEN, (String) parametersMap.get(PropositionParameterType.CONSTANT.getCode()));
         }
         //Add proposition operator to contextMap.
-        if(parametersMap.containsKey(PropositionParameterType.OPERATOR.getCode())){
-            contextMap.put(OPERATOR_TOKEN,(String) parametersMap.get(PropositionParameterType.OPERATOR.getCode()));
+        if (parametersMap.containsKey(PropositionParameterType.OPERATOR.getCode())) {
+            contextMap.put(OPERATOR_TOKEN, (String) parametersMap.get(PropositionParameterType.OPERATOR.getCode()));
         }
         //Access type service to retrieve type name.
         KrmsTypeDefinitionContract type = getKrmsTypeRepositoryService().getTypeById(typeId);
         List<Context<TermDefinitionContract>> contextList = this.contextRegistry.get(type.getName());
-        if(contextList == null || contextList.isEmpty()) {
+        if (contextList == null || contextList.isEmpty()) {
             return contextMap;
         }
         //Retrieve term id from proposition parameters and load.
-        if(parametersMap.containsKey(PropositionParameterType.TERM.getCode())){
-        TermDefinitionContract term = getTermBoService().getTerm((String) parametersMap.get(PropositionParameterType.TERM.getCode()));
-        for(Context<TermDefinitionContract> context : contextList) {
-    		Map<String, Object> cm = context.createContextMap(term, new org.kuali.student.r2.common.dto.ContextInfo());  // KS contextInfo is not passed through here
-    		contextMap.putAll(cm);
-    	}
+        if (parametersMap.containsKey(PropositionParameterType.TERM.getCode())) {
+            String termId = (String) parametersMap.get(PropositionParameterType.TERM.getCode());
+            if (termId != null){
+                TermDefinitionContract term = getTermBoService().getTerm(termId);
+                for (Context<TermDefinitionContract> context : contextList) {
+                    Map<String, Object> cm = context.createContextMap(term, new org.kuali.student.r2.common.dto.ContextInfo());  // KS contextInfo is not passed through here
+                    contextMap.putAll(cm);
+                }
+            }
         }
-        if(logger.isInfoEnabled()) {
-			logger.info("contextMap="+contextMap);
-		}
+        if (logger.isInfoEnabled()) {
+            logger.info("contextMap=" + contextMap);
+        }
         return contextMap;
     }
 
@@ -154,11 +158,11 @@ public class PropositionNaturalLanguageTemplater implements NaturalLanguageTempl
         return krmsTypeRepositoryService;
     }
 
-    private TermBoService getTermBoService(){
+    private TermBoService getTermBoService() {
         return termBoService;
     }
 
-   public void setKrmsTypeRepositoryService(KrmsTypeRepositoryService krmsTypeRepositoryService) {
+    public void setKrmsTypeRepositoryService(KrmsTypeRepositoryService krmsTypeRepositoryService) {
         this.krmsTypeRepositoryService = krmsTypeRepositoryService;
     }
 
