@@ -14,36 +14,6 @@
         <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
         <ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
     </properties>
-    <profiles>
-        <profile>
-            <id>kdo</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.kuali.maven.plugins</groupId>
-                        <artifactId>spring-maven-plugin</artifactId>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.kuali.student.db</groupId>
-                                <artifactId>ks-impex-rice-db</artifactId>
-                                <version>${ks.deployments.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.kuali.student.db</groupId>
-                                <artifactId>ks-impex-app-db</artifactId>
-                                <version>${ks.deployments.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.kuali.student.db</groupId>
-                                <artifactId>ks-impex-bundled-db</artifactId>
-                                <version>${ks.deployments.version}</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
     <build>
         <resources>
             <resource>

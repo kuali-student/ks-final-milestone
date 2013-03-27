@@ -24,6 +24,43 @@
             </modules>
         </profile>
         <profile>
+            <id>kdo</id>
+            <properties>
+                <!--
+                Remove this override of the Kuali Deploy version once the top level KS pom is safely on the latest version 
+                of the kuali-common pom.
+                -->
+                <kuali-deploy.version>2.1.6</kuali-deploy.version>
+                <!-- Do "something" better here. The top level kdo profile sets this to NONE which breaks Maven's dependency resolution logic -->
+                <project.classifier/>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.kuali.maven.plugins</groupId>
+                        <artifactId>spring-maven-plugin</artifactId>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.kuali.student.db</groupId>
+                                <artifactId>ks-impex-rice-db</artifactId>
+                                <version>${ks.deployments.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.kuali.student.db</groupId>
+                                <artifactId>ks-impex-app-db</artifactId>
+                                <version>${ks.deployments.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.kuali.student.db</groupId>
+                                <artifactId>ks-impex-bundled-db</artifactId>
+                                <version>${ks.deployments.version}</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>skip-all-wars</id>
             <modules/>
         </profile>
