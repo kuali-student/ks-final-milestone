@@ -19,7 +19,7 @@
     </bean>
 
     <bean id="KS-ARGCourseOfferingManagement-ActivityOfferingListSection" parent="Uif-TableCollectionSection"
-          p:layoutManager.numberOfColumns="3"  p:readOnly="@{#parent.readOnly}" p:renderAddLine="false" p:onDocumentReadyScript="removeColumns(@{#parent.readOnly}, [1], 'KS-CourseOfferingManagement-ActivityOfferingListSection'); ksAddRowSelectionCheckbox(false, 'KS-CourseOfferingManagement-ARG-ActivityOfferingListSection',false,'');">
+          p:layoutManager.numberOfColumns="3"  p:readOnly="@{#parent.readOnly}" p:renderAddLine="false" p:onDocumentReadyScript="removeColumns(@{#parent.readOnly}, [1], 'KS-CourseOfferingManagement-ActivityOfferingListSection'); ksAddRowSelectionCheckbox(false, 'KS-ARGCourseOfferingManagement-ActivityOfferingListSection',false,'');">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="activityWrapperList" />
         <property name="headerText" value="Activities (@{aoCount})" />
@@ -46,7 +46,7 @@
 
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:onChangeScript="handleARGAOToolbar('KS-CourseOfferingManagement-ARG-ActivityOfferingListSection');">
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:onChangeScript="handleARGAOToolbar('KS-ARGCourseOfferingManagement-ActivityOfferingListSection');">
                     <!--p:onChangeScript="handleARGAOToolbar();" p:hidden="@{#dp.currentCourseOfferingWrapper.crossListed}" -->
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
