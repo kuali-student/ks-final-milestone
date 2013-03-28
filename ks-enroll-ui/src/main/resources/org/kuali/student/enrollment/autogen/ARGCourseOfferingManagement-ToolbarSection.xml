@@ -226,6 +226,8 @@
                 <bean parent="Uif-SecondaryActionButton-Small">
                     <property name="style" value="margin-top:1.5em;"/>
                     <property name="actionLabel" value="Add"/>
+                    <property name="successCallback" value="jQuery('div[id=KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen]:gt(0)').detach();"/>
+                    <property name="errorCallback" value="jQuery('div[id=KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen]:gt(0)').detach();"/>
                     <property name="methodToCall" value="addActivityOfferings"/>
                 </bean>
             </list>
@@ -264,6 +266,8 @@
                 <bean parent="Uif-SecondaryActionButton-Small">
                     <property name="style" value="margin-top:1.5em;"/>
                     <property name="actionLabel" value="Add"/>
+                    <property name="successCallback" value="jQuery('div[id=KS-CourseOfferingManagement-AddAOCPopupForm]:gt(0)').detach();"/>
+                    <property name="errorCallback" value="jQuery('div[id=KS-CourseOfferingManagement-AddAOCPopupForm]:gt(0)').detach();"/>
                     <property name="methodToCall" value="addCluster"/>
                 </bean>
             </list>
@@ -292,6 +296,8 @@
                 <bean parent="Uif-SecondaryActionButton-Small">
                     <property name="style" value="margin-top:1.5em;"/>
                     <property name="actionLabel" value="Move"/>
+                    <property name="successCallback" value="jQuery('div[id=KS-CourseOfferingManagement-MoveAOCPopupForm]:gt(0)').detach();"/>
+                    <property name="errorCallback" value="jQuery('div[id=KS-CourseOfferingManagement-MoveAOCPopupForm]:gt(0)').detach();"/>
                     <property name="methodToCall" value="moveToCluster"/>
                 </bean>
             </list>

@@ -244,7 +244,7 @@
                         <list>
                             <bean id="KS-CourseOfferingManagement-ToolBar-Add-AO-ARG-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Add" p:actionLabel="Add Activity"  p:disabled="false"
                                   p:performClientSideValidation="true" p:methodToCall="addActivityOfferings"
-                                  p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen-ClusterTab').find('input[type=text],select').val('');}});"/>
+                                  p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen').find('input[type=text],select').val('');}});"/>
                         </list>
                     </property>
                 </bean>

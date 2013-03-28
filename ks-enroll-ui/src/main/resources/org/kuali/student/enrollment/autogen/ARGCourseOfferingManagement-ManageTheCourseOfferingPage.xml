@@ -25,6 +25,9 @@
             <list>
                 <ref bean="KS-CourseOfferingManagement-CriteriaSection"/>
                 <ref bean="KS-CourseOfferingManagement-ManageTheCourseOfferingSection"/>
+                <ref bean="KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen"/>
+                <ref bean="KS-CourseOfferingManagement-AddAOCPopupForm"/>
+                <ref bean="KS-CourseOfferingManagement-MoveAOCPopupForm"/>
             </list>
         </property>
     </bean>
@@ -51,7 +54,7 @@
                     <property name="tabsWidget">
                         <bean parent="Uif-Tabs">
                             <!-- set the selectedTabId to the value clicked-->
-                            <property name="templateOptionsJSString" value="{select:function(event, ui){jQuery('#KS-Tab-Hidden-Input>input[name=selectedTabId]').val(ui.index);}}"/>
+                            <property name="templateOptionsJSString" value="{select:function(event, ui){jQuery('#KS-Tab-Hidden-Input>input[name=selectedTabId]').val(ui.index);jQuery('.uif-tooltip').HideAllBubblePopups();}}"/>
                         </bean>
                     </property>
                     <property name="items">
