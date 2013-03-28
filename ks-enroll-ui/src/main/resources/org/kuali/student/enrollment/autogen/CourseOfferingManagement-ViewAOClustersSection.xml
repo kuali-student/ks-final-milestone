@@ -75,7 +75,8 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isCheckedByCluster" p:required="false" p:onChangeScript="handleARGAOToolbar('KS-CourseOfferingManagement-AOClustersCollection');">
+                <bean parent="Uif-InputField" p:propertyName="isCheckedByCluster" p:required="false"
+                      p:onChangeScript="handleToolbar('KS-CourseOfferingManagement-AOClustersCollection',['enableApproveButton', 'enableDeleteButton', 'enableDraftButton'], ['KS-CourseOfferingManagement-ToolBar-Approve-AO-ARG-ClusterTab','KS-CourseOfferingManagement-ToolBar-Delete-AO-ARG-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Draft-AO-ARG-ClusterTab']);">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
@@ -127,7 +128,28 @@
                 <bean parent="Uif-MessageField"
                       p:label="INSTRUCTOR"
                       p:messageText="@{#line.instructorDisplayNames}" />
+                <bean name="enableApproveButton" parent="Uif-InputField" p:propertyName="enableApproveButton"/>
+                <bean name="enableDraftButton" parent="Uif-InputField" p:propertyName="enableDraftButton"/>
+                <bean name="enableSuspendButton" parent="Uif-InputField" p:propertyName="enableSuspendButton"/>
+                <bean name="enableCancelButton" parent="Uif-InputField" p:propertyName="enableCancelButton"/>
+                <bean name="enableReinstateButton" parent="Uif-InputField" p:propertyName="enableReinstateButton" />
+                <bean name="enableDeleteButton" parent="Uif-InputField" p:propertyName="enableDeleteButton" />
+                <bean name="enableCopyAOActionLink" parent="Uif-InputField" p:propertyName="enableCopyAOActionLink" />
+                <bean name="enableEditAOActionLink" parent="Uif-InputField" p:propertyName="enableEditAOActionLink" />
             </list>
+        </property>
+
+        <property name="layoutManager.richTable.hiddenColumns">
+            <set>
+                <value>enableApproveButton</value>
+                <value>enableDraftButton</value>
+                <value>enableSuspendButton</value>
+                <value>enableCancelButton</value>
+                <value>enableReinstateButton</value>
+                <value>enableDeleteButton</value>
+                <value>enableCopyAOActionLink</value>
+                <value>enableEditAOActionLink</value>
+            </set>
         </property>
 
         <property name="lineActions">
