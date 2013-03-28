@@ -734,7 +734,7 @@
                         trim( id.SUFX_CD ) = :number
                         AND
                         trim( id.DIVISION ) = :subject
-                        AND clu.EXP_FIRST_ATP = (select min(c.EXP_FIRST_ATP) FROM KSLU_CLU c where c.ver_ind_id = clu.ver_ind_id and c.LAST_ATP &gt;= :lastScheduledTerm group by c.ver_ind_id )
+                        AND clu.EXP_FIRST_ATP = (select min(c.EXP_FIRST_ATP) FROM KSLU_CLU c where c.ver_ind_id = clu.ver_ind_id group by c.ver_ind_id )
                     </value>
                 </entry>
                 <entry key="myplan.course.getCourseTitleAndId">

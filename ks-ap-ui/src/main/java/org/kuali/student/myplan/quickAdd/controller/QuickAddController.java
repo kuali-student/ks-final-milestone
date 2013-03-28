@@ -197,7 +197,7 @@ public class QuickAddController extends UifControllerBase {
 		response.getWriter().println(jsonStr);
 	}
 
-	@RequestMapping(params = "methodToCall=quickAddCourse")
+	@RequestMapping(params = "methodToCall=quickAddNewCourse")
 	public ModelAndView quickAddCourse(
 			@ModelAttribute("KualiForm") QuickAddForm form,
 			BindingResult result, HttpServletRequest request,

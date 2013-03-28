@@ -162,7 +162,10 @@
 
     <bean id="quickAddCourse" p:id="quickAddCourse" parent="Uif-PrimaryActionButton-Small" p:actionLabel="Add to Plan">
         <property name="actionScript"
-                  value="myplanAjaxSubmitQuickAdd('quick_Add',{ atpId:'@{atpId}',planType:'@{planType}'},'quickAddCourse',e);"/>
+                  value="
+                var id = 'quick_Add_'+'@{atpId}'+'@{planType}';
+                var tempId = id.replace(/\./g,'_');
+                myplanAjaxSubmitQuickAdd(tempId,{ atpId:'@{atpId}',planType:'@{planType}'},'quickAddNewCourse',e);"/>
         <property name="onDocumentReadyScript" value="
                                     jQuery('#quickAddCourse')
                                         .subscribe('PLAN_ITEM_ADDED', function(data){
