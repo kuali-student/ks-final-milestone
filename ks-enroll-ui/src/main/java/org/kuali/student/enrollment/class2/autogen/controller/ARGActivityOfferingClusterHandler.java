@@ -300,7 +300,7 @@ public class ARGActivityOfferingClusterHandler {
         if (ARGUtil._isClusterUnique(formatOfferingId, theForm.getPrivateClusterNamePopover())){
             //build a new empty cluster
             ActivityOfferingClusterInfo emptyCluster = ARGUtil._buildEmptyAOCluster(formatOfferingId,
-                    theForm.getPrivateClusterNamePopover(), theForm.getPrivateClusterNamePopover());
+                    theForm.getPrivateClusterNamePopover(), theForm.getPublishedClusterNamePopover());
 
             //persist it in DB , comment out for now since it does not work for now
             emptyCluster = ARGUtil.getCourseOfferingService().createActivityOfferingCluster(formatOfferingId,
