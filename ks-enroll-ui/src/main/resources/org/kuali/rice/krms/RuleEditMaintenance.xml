@@ -115,10 +115,10 @@
                             <bean id="PropEditButtonPanel" parent="Uif-HorizontalBoxGroup">
                                 <property name="items">
                                     <list>
-                                        <bean id="update-button" parent="Uif-SecondaryActionButton-Small">
+                                        <bean id="update-button" parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true">
                                             <property name="actionLabel" value="Update"/>
-                                            <property name="actionScript"
-                                                      value="ajaxSubmitForm('updateChanges', null, jQuery(this).data('submitdata'), null, null, null);"/>
+                                            <property name="methodToCall"
+                                                      value="updateChanges"/>
                                         </bean>
                                         <bean id="cancel-button" parent="Uif-ActionLink" p:style="margin-left: 0.5em;margin-top: 0.3em;">
                                             <property name="actionLabel" value="Cancel"/>

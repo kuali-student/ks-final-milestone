@@ -92,7 +92,7 @@
 
                 <!--Add the type droplist-->
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.typeId"
-                      p:showLabel="true" p:label="Select rule type" p:maxLength="40">
+                      p:showLabel="true" p:label="Select rule type" p:maxLength="40" p:required="true">
                     <property name="instructionalText"
                               value="Use the list below to select the type or rule you would like to add to this requirement."/>
                     <property name="control">
