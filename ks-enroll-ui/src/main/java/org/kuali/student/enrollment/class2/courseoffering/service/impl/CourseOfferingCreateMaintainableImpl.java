@@ -32,10 +32,19 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
@@ -192,7 +201,10 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                 foWrapper.getFormatOfferingInfo().setTermId(wrapper.getCourseOfferingInfo().getTermId());
                 foWrapper.getFormatOfferingInfo().setCourseOfferingId(wrapper.getCourseOfferingInfo().getId());
                 try {
+                    // KSENROLL-6071
+                    _addActivityOfferingTypesToFormatOffering(foWrapper.getFormatOfferingInfo(), wrapper.getCourse(), contextInfo);
                     FormatOfferingInfo createdFormatOffering = getCourseOfferingService().createFormatOffering(wrapper.getCourseOfferingInfo().getId(), foWrapper.getFormatId(), foWrapper.getFormatOfferingInfo().getTypeKey(), foWrapper.getFormatOfferingInfo(), contextInfo);
+
                     foWrapper.setFormatOfferingInfo(createdFormatOffering);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -201,6 +213,60 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         }
     }
 
+    /**
+     * Adds correct AO types to the format offering
+     * (Code fix for KSENROLL-6071, KSNEROLL-6074)
+     * @param fo The FO to fix up
+     * @param course Which course this is pertinent to
+     * @param context
+     * @throws PermissionDeniedException
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
+     */
+    private void _addActivityOfferingTypesToFormatOffering(FormatOfferingInfo fo, CourseInfo course, ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException,
+                   DoesNotExistException {
+        if (fo.getActivityOfferingTypeKeys() != null && !fo.getActivityOfferingTypeKeys().isEmpty()) {
+            // Only bother with this if there are no AO type keys
+            return;
+        }
+        List<FormatInfo> formats = course.getFormats();
+        FormatInfo format = null;
+        for (FormatInfo f: formats) {
+            if (f.getId().equals(fo.getFormatId())) {
+                // Find correct format
+                format = f;
+                break;
+            }
+        }
+        // Get the activity types
+        List<String> activityTypes = new ArrayList<String>();
+        for (ActivityInfo activityInfo: format.getActivities()) {
+            activityTypes.add(activityInfo.getTypeKey());
+        }
+        // Use type service to find corresponding AO types--assumes 1-1 mapping of Activity types to AO types
+        TypeService typeService = getTypeService();
+        List<String> aoTypeKeys = new ArrayList<String>();
+        for (String activityType: activityTypes) {
+            List<TypeTypeRelationInfo> typeTypeRels =
+                    typeService.getTypeTypeRelationsByOwnerAndType(activityType,
+                        TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY,
+                        context);
+            if (typeTypeRels.size() != 1) {
+                // Ref data currently only has a 1-1 mapping between Activity types (CLU) and AO types (LUI)
+                // The UI screens only support this.  Should there be a many-to-1 relation between AO types and Activity
+                // types (as they were originally envisioned), then this exception will be thrown.
+                throw new UnsupportedOperationException("Can't handle Activity Type -> AO Type that isn't 1-1.  Search for this message in Java code");
+            } else {
+                String aoType = typeTypeRels.get(0).getRelatedTypeKey();
+                aoTypeKeys.add(aoType);
+            }
+        }
+        // Finally, set the ao types for this fo
+        fo.setActivityOfferingTypeKeys(aoTypeKeys);
+    }
     /**
      * This method creates all the Course Offerings for joint courses.
      *
