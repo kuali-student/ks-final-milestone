@@ -61,7 +61,8 @@ public class ARGClustersForCreateAOKeyValues extends UifKeyValuesFinderBase impl
                 //if there are clusters for the given FO, display them in the dropdown, otherwise create a default cluster to display
                 if (clusters!=null && clusters.size()>0) {
                     for (ActivityOfferingClusterInfo cluster : clusters) {
-                        keyValues.add(new ConcreteKeyValue(cluster.getId(), cluster.getName()));
+                        keyValues.add(new ConcreteKeyValue(cluster.getId(), cluster.getPrivateName()));
+                        coForm.setHasAOCluster(true);
                     }
                 } else {
                     ActivityOfferingClusterInfo defaultCluster = ARGUtil.getArgServiceAdapter().createDefaultCluster(formatOfferingId, ContextUtils.getContextInfo());
