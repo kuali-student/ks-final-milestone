@@ -514,19 +514,22 @@ function openDialog(sText, e, close) {
         closingSpeed:0
     };
 
-    var popupBox = jQuery("#myplan_dialog_anchor").first();
+    var popupBox;
+    var target = (e.currentTarget) ? e.currentTarget : e.srcElement;
+    popupBox = jQuery(target);
 
     fnCloseAllPopups();
-
+    initBubblePopups();
     popupBox.SetBubblePopupOptions(popupSettings, true);
     popupBox.SetBubblePopupInnerHtml(popupSettings.innerHTML, true);
     popupBox.ShowBubblePopup();
     var popupBoxId = popupBox.GetBubblePopupID();
-    popupBox.FreezeBubblePopup();
+
 
     if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").append('<img src="../ks-myplan/images/btnClose.png" class="myplan-popup-close"/>');
 
     fnPositionPopUp(popupBoxId);
+    popupBox.FreezeBubblePopup();
 
     jQuery(document).on('click', function (e) {
         var tempTarget = (e.target) ? e.target : e.srcElement;
@@ -645,22 +648,27 @@ function myplanAjaxSubmitSectionItem(id, methodToCall, action, formData, e) {
     jQuery("body").append(tempForm);
 
     var updateRefreshableComponentCallback = function (htmlContent) {
-        var status = jQuery.trim(jQuery("span#request_status_item_key", htmlContent).text().toLowerCase());
+        var status = jQuery.trim(jQuery("span#request_status_item_key_control", htmlContent).text().toLowerCase());
         eval(jQuery("input[data-for='plan_item_action_response_page']", htmlContent).val().replace("#plan_item_action_response_page", "body"));
         elementToBlock.unblock();
         switch (status) {
             case 'success':
-                var oMessage = { 'message':'<img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"><span class="message">' + jQuery('body').data('validationMessages').serverInfo[0] + '</span>', 'cssClass':'myplan-feedback success' };
-                var json = jQuery.parseJSON(jQuery.trim(jQuery("span#json_events_item_key", htmlContent).text()));
+                var oMessage = { 'message':'<img src="../ks-myplan/images/pixel.gif" alt="" class="icon"><span class="message">' + jQuery('body').data('validationMessages').serverInfo[0] + '</span>', 'cssClass':'myplan-feedback success' };
+               /* var json = jQuery.parseJSON(jQuery.trim(jQuery("span#json_events_item_key_control", htmlContent).text()));
                 for (var key in json) {
                     if (json.hasOwnProperty(key)) {
                         eval('jQuery.publish("' + key + '", [' + JSON.stringify(jQuery.extend(json[key], oMessage)) + ']);');
                     }
-                }
-                setUrlHash('modified', 'true');
+                }*/
+                var sContent = jQuery("<div />").append(oMessage.message).addClass("myplan-feedback success").css({"background-color":"#fff"});
+                var sHtml = jQuery("<div />").append('<div class="uif-headerField uif-sectionHeaderField"><h3 class="uif-header">' + "Success" + '</h3></div>').append(sContent);
+
+                if (jQuery("body").HasBubblePopup()) jQuery("body").RemoveBubblePopup();
+                openDialog(sHtml.html(), e);
+                setUrlHash('modified', 'yes');
                 break;
             case 'error':
-                var oMessage = { 'message':'<img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"><span class="message">' + jQuery('body').data('validationMessages').serverErrors[0] + '</span>', 'cssClass':'myplan-feedback error' };
+                var oMessage = { 'message':'<img src="../ks-myplan/images/pixel.gif" alt="" class="icon"><span class="message">' + jQuery('body').data('validationMessages').serverErrors[0] + '</span>', 'cssClass':'myplan-feedback error' };
                 var sContent = jQuery("<div />").append(oMessage.message).addClass("myplan-feedback error").css({"background-color":"#fff"});
                 var sHtml = jQuery("<div />").append('<div class="uif-headerField uif-sectionHeaderField"><h3 class="uif-header">' + targetText + '</h3></div>').append(sContent);
                 if (jQuery("body").HasBubblePopup()) jQuery("body").RemoveBubblePopup();

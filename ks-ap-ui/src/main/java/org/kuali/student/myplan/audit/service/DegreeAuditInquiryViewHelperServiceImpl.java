@@ -3,6 +3,7 @@ package org.kuali.student.myplan.audit.service;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.myplan.audit.dataobject.DegreeAuditItem;
 import org.kuali.student.myplan.audit.dto.AuditReportInfo;
 import org.kuali.student.myplan.audit.util.DegreeAuditDataObjectHelper;
@@ -40,7 +41,7 @@ public class DegreeAuditInquiryViewHelperServiceImpl extends KualiInquirableImpl
         AuditReportInfo degreeAuditReport = null;
         try {
             degreeAuditReport = getDegreeAuditService().getAuditReport(degreeAuditId,
-                    auditType, DegreeAuditConstants.CONTEXT_INFO);
+                    auditType, KsapFrameworkServiceLocator.getContext().getContextInfo());
         } catch (Exception e) {
             throw new RuntimeException(String.format("Failed to fetch audit report [%s].", degreeAuditId), e);
         }

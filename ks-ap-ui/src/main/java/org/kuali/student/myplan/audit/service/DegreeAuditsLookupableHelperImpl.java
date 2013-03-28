@@ -48,7 +48,7 @@ public class DegreeAuditsLookupableHelperImpl extends MyPlanLookupableImpl {
         Date begin = new Date();
         Date end = new Date();
         try {
-            audits = degreeAuditService.getAuditsForStudentInDateRange(studentId, begin, end, DegreeAuditConstants.CONTEXT_INFO);
+            audits = degreeAuditService.getAuditsForStudentInDateRange(studentId, begin, end, KsapFrameworkServiceLocator.getContext().getContextInfo());
         } catch (Exception e) {
             e.printStackTrace();
             String[] params = {};

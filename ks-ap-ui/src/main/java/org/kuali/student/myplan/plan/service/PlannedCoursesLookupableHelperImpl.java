@@ -85,7 +85,7 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
         List<StudentCourseRecordInfo> studentCourseRecordInfos = new ArrayList<StudentCourseRecordInfo>();
         if(isServiceStatusOK){
         try {
-            studentCourseRecordInfos = getAcademicRecordService().getCompletedCourseRecords(studentId, PlanConstants.CONTEXT_INFO);
+            studentCourseRecordInfos = getAcademicRecordService().getCompletedCourseRecords(studentId,KsapFrameworkServiceLocator.getContext().getContextInfo());
         } catch (Exception e) {
             GlobalVariables.getMessageMap().putWarningForSectionId(PlanConstants.PLAN_ITEM_RESPONSE_PAGE_ID, PlanConstants.ERROR_TECHNICAL_PROBLEMS, params);
             logger.error("Could not retrieve StudentCourseRecordInfo from the SWS.", e);

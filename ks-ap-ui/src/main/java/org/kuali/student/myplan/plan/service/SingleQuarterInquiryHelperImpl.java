@@ -5,7 +5,6 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
@@ -110,7 +109,7 @@ public class SingleQuarterInquiryHelperImpl extends KualiInquirableImpl {
         /****academic record SWS call to get the studentCourseRecordInfo list *****/
         List<StudentCourseRecordInfo> studentCourseRecordInfos = new ArrayList<StudentCourseRecordInfo>();
         try {
-            studentCourseRecordInfos = getAcademicRecordService().getCompletedCourseRecords(studentId, PlanConstants.CONTEXT_INFO);
+            studentCourseRecordInfos = getAcademicRecordService().getCompletedCourseRecords(studentId, KsapFrameworkServiceLocator.getContext().getContextInfo());
         } catch (Exception e) {
             GlobalVariables.getMessageMap().putWarningForSectionId(PlanConstants.PLAN_ITEM_RESPONSE_PAGE_ID, PlanConstants.ERROR_TECHNICAL_PROBLEMS, params);
             logger.error("Could not retrieve StudentCourseRecordInfo from the SWS.", e);
@@ -118,16 +117,16 @@ public class SingleQuarterInquiryHelperImpl extends KualiInquirableImpl {
 
         /*************BackupCourseList**************/
         List<PlannedCourseDataObject> backupCoursesList = new ArrayList<PlannedCourseDataObject>();
-            try {
-                backupCoursesList = getPlanItemListByTermId(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP, studentId, termAtpId);
-            } catch (Exception e) {
-                logger.error("Could not load backupCourseList", e);
+        try {
+            backupCoursesList = getPlanItemListByTermId(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP, studentId, termAtpId);
+        } catch (Exception e) {
+            logger.error("Could not load backupCourseList", e);
 
-            }
-            for (PlannedCourseDataObject pl : backupCoursesList) {
-                pl.setShowAlert(!KsapFrameworkServiceLocator.getAtpHelper().isCourseOfferedInTerm(pl.getPlanItemDataObject().getAtp(), pl.getCourseDetails().getCode()));
-                pl.setTimeScheduleOpen(publishedTerms.contains(pl.getPlanItemDataObject().getAtp()));
-            }
+        }
+        for (PlannedCourseDataObject pl : backupCoursesList) {
+            pl.setShowAlert(!KsapFrameworkServiceLocator.getAtpHelper().isCourseOfferedInTerm(pl.getPlanItemDataObject().getAtp(), pl.getCourseDetails().getCode()));
+            pl.setTimeScheduleOpen(publishedTerms.contains(pl.getPlanItemDataObject().getAtp()));
+        }
 
         PlannedTerm perfectPlannedTerm = SingleQuarterHelperBase.populatePlannedTerms(plannedCoursesList, backupCoursesList, studentCourseRecordInfos, termAtpId, true);
         return perfectPlannedTerm;
@@ -139,11 +138,11 @@ public class SingleQuarterInquiryHelperImpl extends KualiInquirableImpl {
         List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();
 
         AcademicPlanService academicPlanService = getAcademicPlanService();
-        ContextInfo context = CourseSearchConstants.CONTEXT_INFO;
+        ContextInfo context = KsapFrameworkServiceLocator.getContext().getContextInfo();
 
         String planTypeKey = PlanConstants.LEARNING_PLAN_TYPE_PLAN;
 
-        List<LearningPlanInfo> learningPlanList = academicPlanService.getLearningPlansForStudentByType(studentId, planTypeKey, CourseSearchConstants.CONTEXT_INFO);
+        List<LearningPlanInfo> learningPlanList = academicPlanService.getLearningPlansForStudentByType(studentId, planTypeKey, KsapFrameworkServiceLocator.getContext().getContextInfo());
         for (LearningPlanInfo learningPlan : learningPlanList) {
             String learningPlanID = learningPlan.getId();
             List<PlanItemInfo> planItemList = academicPlanService.getPlanItemsInPlan(learningPlanID, context);

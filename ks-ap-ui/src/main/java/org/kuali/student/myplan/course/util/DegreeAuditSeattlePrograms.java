@@ -5,6 +5,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.myplan.audit.dto.AuditProgramInfo;
 import org.kuali.student.myplan.audit.service.DegreeAuditConstants;
 import org.kuali.student.myplan.audit.service.DegreeAuditService;
@@ -44,7 +45,7 @@ public class DegreeAuditSeattlePrograms extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<AuditProgramInfo> auditProgramInfoList = new ArrayList<AuditProgramInfo>();
         try {
-            auditProgramInfoList = getDegreeAuditService().getAuditPrograms(DegreeAuditConstants.CONTEXT_INFO);
+            auditProgramInfoList = getDegreeAuditService().getAuditPrograms(KsapFrameworkServiceLocator.getContext().getContextInfo());
         } catch (Exception e) {
             logger.error("could not retrieve AuditPrograms", e);
         }

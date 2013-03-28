@@ -204,7 +204,7 @@ public class DegreeAuditController extends UifControllerBase {
 						try {
 							auditProgramInfoList = getDegreeAuditService()
 									.getAuditPrograms(
-											DegreeAuditConstants.CONTEXT_INFO);
+                                            KsapFrameworkServiceLocator.getContext().getContextInfo());
 						} catch (Exception e) {
 							logger.error("could not retrieve AuditPrograms", e);
 						}

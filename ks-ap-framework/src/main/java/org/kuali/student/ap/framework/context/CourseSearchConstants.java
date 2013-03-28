@@ -1,7 +1,5 @@
 package org.kuali.student.ap.framework.context;
 
-import org.kuali.student.r2.common.dto.ContextInfo;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -28,9 +26,6 @@ public class CourseSearchConstants {
     public static final String ENUM_SERVICE_NAMESPACE = "http://student.kuali.org/wsdl/enumerationmanagement";
     public static final String ORG_SERVICE_NAMESPACE = "http://student.kuali.org/wsdl/organization";
 
-    //  Global context info for use in service methods which need caching, but don't use the context argument.
-    @Deprecated
-    public static final ContextInfo CONTEXT_INFO = new ContextInfo();
     //  Process key for use in service methods which need caching, but don't use the process key argument.
     public static final String PROCESS_KEY = "Null";
 
@@ -39,8 +34,8 @@ public class CourseSearchConstants {
     public static final Pattern ATP_REGEX = Pattern.compile("([0-9]{4})([1-4])");
     public static final String ATP_FORMAT = "%d%d";
 
-    public static List<String> TERM_ID_LIST = Arrays.asList("winter", "spring", "summer i","summer ii",  "autumn");
-    public static List<String> TERM_LABELS_LIST = Arrays.asList("Winter", "Spring", "Summer1","Summer2", "Fall");
+    public static List<String> TERM_ID_LIST = Arrays.asList("winter", "spring", "summer i", "summer ii", "autumn");
+    public static List<String> TERM_LABELS_LIST = Arrays.asList("Winter", "Spring", "Summer1", "Summer2", "Fall");
 
     public static final String SUBJECT_AREA = "kuali.lu.subjectArea";
 
@@ -60,7 +55,7 @@ public class CourseSearchConstants {
     public static final String ORG_QUERY_SEARCH_SUBJECT_AREAS = "org.search.orgCurriculum";
 
     public static final String ORG_TYPE_PARAM = "org_queryParam_orgType";
-    
+
     public static final String IS_ACADEMIC_CALENDER_SERVICE_UP = "isAcademicCalenderServiceRunning";
 
     public static final String IS_COURSE_OFFERING_SERVICE_UP = "isCourseOfferingServiceRunning";

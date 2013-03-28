@@ -27,6 +27,7 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.myplan.academicplan.service.AcademicPlanService;
@@ -140,7 +141,7 @@ public class AdviserController extends UifControllerBase {
         List<LearningPlanInfo> plan = null;
         try {
             //  Throws RuntimeException is there is a problem. Otherwise, returns a plan or null.
-            plan = getAcademicPlanService().getLearningPlansForStudentByType(studentId, PlanConstants.LEARNING_PLAN_TYPE_PLAN, PlanConstants.CONTEXT_INFO);
+            plan = getAcademicPlanService().getLearningPlansForStudentByType(studentId, PlanConstants.LEARNING_PLAN_TYPE_PLAN, KsapFrameworkServiceLocator.getContext().getContextInfo());
         } catch (Exception e) {
             logger.error("Query for learning plan failed.", e);
         }

@@ -71,7 +71,7 @@ public class FullPlanItemsLookupableHelperImpl extends PlanItemLookupableHelperB
 
         List<StudentCourseRecordInfo> studentCourseRecordInfos = new ArrayList<StudentCourseRecordInfo>();
         try {
-            studentCourseRecordInfos = getAcademicRecordService().getCompletedCourseRecords(studentId, PlanConstants.CONTEXT_INFO);
+            studentCourseRecordInfos = getAcademicRecordService().getCompletedCourseRecords(studentId,KsapFrameworkServiceLocator.getContext().getContextInfo());
         } catch (Exception e) {
             logger.error("Could not retrieve StudentCourseRecordInfo from the SWS.", e);
         }

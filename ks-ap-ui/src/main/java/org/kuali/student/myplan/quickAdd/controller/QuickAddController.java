@@ -553,7 +553,7 @@ public class QuickAddController extends UifControllerBase {
 		try {
 			planItems = KsapFrameworkServiceLocator.getAcademicPlanService()
 					.getPlanItemsInPlanByAtp(planId, atpId, planItemType,
-							PlanConstants.CONTEXT_INFO);
+                            KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (Exception e) {
 			throw new RuntimeException("Could not retrieve plan items.", e);
 		}
@@ -666,7 +666,7 @@ public class QuickAddController extends UifControllerBase {
 		try {
 			studentCourseRecordInfos = KsapFrameworkServiceLocator
 					.getAcademicRecordService().getCompletedCourseRecords(
-							studentID, PlanConstants.CONTEXT_INFO);
+							studentID, KsapFrameworkServiceLocator.getContext().getContextInfo());
 
 		} catch (Exception e) {
 			LOG.error("Query to fetch Academic records failed with SWS");
@@ -701,7 +701,7 @@ public class QuickAddController extends UifControllerBase {
 						.getAcademicPlanService().getPlanItemsInPlanByType(
 								learningPlanID,
 								PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED,
-								PlanConstants.CONTEXT_INFO);
+                                KsapFrameworkServiceLocator.getContext().getContextInfo());
 
 				for (PlanItemInfo planItem : planItemList) {
 					String courseID = planItem.getRefObjectId();
@@ -909,7 +909,7 @@ public class QuickAddController extends UifControllerBase {
 			planItems = KsapFrameworkServiceLocator.getAcademicPlanService()
 					.getPlanItemsInPlanByType(learningPlan.getId(),
 							PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST,
-							PlanConstants.CONTEXT_INFO);
+                            KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (Exception e) {
 			throw new RuntimeException("Could not retrieve plan items.", e);
 		}
@@ -950,7 +950,7 @@ public class QuickAddController extends UifControllerBase {
 		try {
 			planItems = KsapFrameworkServiceLocator.getAcademicPlanService()
 					.getPlanItemsInPlanByType(plan.getId(), typeKey,
-							PlanConstants.CONTEXT_INFO);
+                            KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (Exception e) {
 			throw new RuntimeException("Could not retrieve plan items.", e);
 		}
@@ -1024,7 +1024,7 @@ public class QuickAddController extends UifControllerBase {
 			learningPlans = KsapFrameworkServiceLocator
 					.getAcademicPlanService().getLearningPlansForStudentByType(
 							studentId, PlanConstants.LEARNING_PLAN_TYPE_PLAN,
-							PlanConstants.CONTEXT_INFO);
+                            KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (Exception e) {
 			throw new RuntimeException(String.format(
 					"Could not fetch plan for user [%s].", studentId), e);

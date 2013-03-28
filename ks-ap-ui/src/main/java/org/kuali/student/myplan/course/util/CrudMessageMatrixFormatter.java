@@ -1,18 +1,10 @@
 package org.kuali.student.myplan.course.util;
 
-import java.beans.PropertyEditorSupport;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.YearTerm;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.myplan.course.dataobject.CourseDetails;
@@ -20,6 +12,12 @@ import org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+
+import java.beans.PropertyEditorSupport;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -194,7 +192,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 
                 for (PlanItemDataObject pl : planItemDataObjects) {
                     YearTerm yearTerm = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(pl.getAtp());
-                    String date = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(DateFormatters.DEFAULT_DATE_FORMATTER.parse(pl.getDateAdded().toString().substring(0,10)));
+                    String date = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(DateFormatters.DEFAULT_DATE_FORMATTER.parse(pl.getDateAdded().toString().substring(0, 10)));
                     if (planItemsMap.containsKey(date)) {
                         StringBuffer sbuf = new StringBuffer();
                         sbuf = sbuf.append(planItemsMap.get(date)).append(",").append(yearTerm.toTermName());
@@ -313,7 +311,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
         String sln = null;
         ActivityOfferingInfo activityOfferingInfo = new ActivityOfferingInfo();
         try {
-            activityOfferingInfo = getCourseOfferingService().getActivityOffering(year + "," + term + "," + curriculum + "," + number + "," + section, CourseSearchConstants.CONTEXT_INFO);
+            activityOfferingInfo = getCourseOfferingService().getActivityOffering(year + "," + term + "," + curriculum + "," + number + "," + section, KsapFrameworkServiceLocator.getContext().getContextInfo());
         } catch (Exception e) {
             logger.error("could not load the ActivityOfferinInfo from SWS", e);
         }

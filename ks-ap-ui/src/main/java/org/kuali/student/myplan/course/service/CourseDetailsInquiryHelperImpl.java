@@ -500,12 +500,12 @@ public class CourseDetailsInquiryHelperImpl extends
         //   Get the first learning plan. There should only be one ...
         String planTypeKey = AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN;
         try {
-            List<LearningPlanInfo> plans = academicPlanService.getLearningPlansForStudentByType(studentId, planTypeKey, PlanConstants.CONTEXT_INFO);
+            List<LearningPlanInfo> plans = academicPlanService.getLearningPlansForStudentByType(studentId, planTypeKey,KsapFrameworkServiceLocator.getContext().getContextInfo());
             if (plans.size() > 0) {
                 LearningPlan plan = plans.get(0);
 
                 //  Fetch the plan items which are associated with the plan.
-                List<PlanItemInfo> planItemsInPlan = academicPlanService.getPlanItemsInPlan(plan.getId(), PlanConstants.CONTEXT_INFO);
+                List<PlanItemInfo> planItemsInPlan = academicPlanService.getPlanItemsInPlan(plan.getId(),KsapFrameworkServiceLocator.getContext().getContextInfo());
 
                 //  Iterate through the plan items and set flags to indicate whether the item is a planned/backup or saved course.
                 for (PlanItem planItemInPlanTemp : planItemsInPlan) {

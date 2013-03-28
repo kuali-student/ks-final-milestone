@@ -1,14 +1,10 @@
 package org.kuali.student.myplan.audit.service;
 
-import org.kuali.student.r2.common.dto.ContextInfo;
-
 public class DegreeAuditConstants extends DegreeAuditServiceConstants {
 
-    public static final ContextInfo CONTEXT_INFO = new ContextInfo();
-
-    public static final String DEFAULT_KEY="default";
-    public static final String DEFAULT_VALUE="Select a degree program or minor";
-    public static final String SELECT_CAMPUS_TO_POPULATE_ITS_RELATED_PROGRAMS="Select a campus (from above) to populate its related programs.";
+    public static final String DEFAULT_KEY = "default";
+    public static final String DEFAULT_VALUE = "Select a degree program or minor";
+    public static final String SELECT_CAMPUS_TO_POPULATE_ITS_RELATED_PROGRAMS = "Select a campus (from above) to populate its related programs.";
     public static final String AUDIT_PARAM_ID = "auditId";
     public static final String AUDIT_PARAM_TYPE = "auditType";
     public static final String AUDIT_EMPTY_PAGE = "degree_audit_empty_page";
@@ -26,9 +22,9 @@ public class DegreeAuditConstants extends DegreeAuditServiceConstants {
     public static final String AUDIT_RETRIEVAL_FAILED = "myplan.text.error.message.auditRetrievalFailed";
     public static final String AUDIT_SUMMARY_VIEW = "degree_audits_list";
     public static final String TECHNICAL_PROBLEM = "myplan.text.error.technicalProblems";
-    public static final String NO_SYSTEM_KEY="myplan.text.error.noSystemKey";
+    public static final String NO_SYSTEM_KEY = "myplan.text.error.noSystemKey";
     public static final String DEGREE_AUDIT_INFO_SELECT_PROGRAM_BEFORE_SUBMIT = "myplan.text.warning.degree.audit.select.a.program";
-    public static final String APPLICATION_URL="application.url";
+    public static final String APPLICATION_URL = "application.url";
 //
 //    public static final String AUDIT_FAILED_HTML =  "<div class=\"uif-validationMessages uif-groupValidationMessages uif-pageValidationMessages " +
 //                                                    "uif-pageValidationMessages-error\" style=\"\" data-messagesfor=\"degree_audit\"><h3 tabindex=\"0\" " +
@@ -43,7 +39,7 @@ public class DegreeAuditConstants extends DegreeAuditServiceConstants {
 //                                                    "<input name=\"script\" type=\"hidden\" data-role=\"script\" value=\"removeCookie();\"/></div>";
 
 
-    public static final String AUDIT_FAILED_HTML =  "<div class=\"uif-validationMessages uif-groupValidationMessages uif-pageValidationMessages " +
+    public static final String AUDIT_FAILED_HTML = "<div class=\"uif-validationMessages uif-groupValidationMessages uif-pageValidationMessages " +
             "uif-pageValidationMessages-error\" style=\"\" data-messagesfor=\"degree_audit\"><h3 tabindex=\"0\" " +
             "class=\"uif-pageValidationHeader\" id=\"pageValidationHeader\">" +
             "<img class=\"uif-validationImage\" src=\"%s/krad/images/validation/error.png\" alt=\"Error\"> " +
@@ -55,8 +51,6 @@ public class DegreeAuditConstants extends DegreeAuditServiceConstants {
             "</ul>" +
             "<input name=\"script\" type=\"hidden\" data-role=\"script\" value=\"removeCookie();\"/></div>";
     public static final String IS_AUDIT_SERVICE_UP = "isAuditServiceRunning";
-
-
 
 
 }
