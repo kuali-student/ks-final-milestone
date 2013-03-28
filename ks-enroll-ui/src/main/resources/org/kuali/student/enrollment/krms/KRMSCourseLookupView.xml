@@ -52,7 +52,7 @@
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="courseTitle"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code"/>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr.plain"/>
 
             </list>
         </property>
@@ -61,7 +61,7 @@
                 <bean parent="Uif-DataField" p:propertyName="name"/>
                 <bean parent="Uif-InputField" p:propertyName="code" />
                 <bean parent="Uif-InputField" p:propertyName="state"/>
-                <bean parent="Uif-InputField" p:propertyName="descr"/>
+                <bean parent="Uif-InputField" p:propertyName="descr.plain"/>
             </list>
         </property>
     </bean>
