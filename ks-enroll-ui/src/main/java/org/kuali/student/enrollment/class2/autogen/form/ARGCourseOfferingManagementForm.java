@@ -16,8 +16,12 @@
  */
 package org.kuali.student.enrollment.class2.autogen.form;
 
-import org.kuali.student.enrollment.class2.courseoffering.dto.*;
-import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.uif.form.KSUifForm;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
@@ -152,6 +156,8 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     //for manage AOs, Clusters, and RGs under a CO
     private String privateClusterNamePopover;
     private String publishedClusterNamePopover;
+    private String privateClusterNameForRenamePopover;
+    private String publishedClusterNameForRenamePopover;
     private String formatOfferingIdForViewRG;
     private String formatOfferingName;
     private List<String> formatOfferingIds;
@@ -497,6 +503,23 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
 
     public void setPublishedClusterNamePopover(String publishedClusterNamePopover) {
         this.publishedClusterNamePopover = publishedClusterNamePopover;
+    }
+
+
+    public String getPrivateClusterNameForRenamePopover() {
+        return privateClusterNameForRenamePopover;
+    }
+
+    public void setPrivateClusterNameForRenamePopover(String privateClusterNameForRenamePopover) {
+        this.privateClusterNameForRenamePopover = privateClusterNameForRenamePopover;
+    }
+
+    public String getPublishedClusterNameForRenamePopover() {
+        return publishedClusterNameForRenamePopover;
+    }
+
+    public void setPublishedClusterNameForRenamePopover(String publishedClusterNameForRenamePopover) {
+        this.publishedClusterNameForRenamePopover = publishedClusterNameForRenamePopover;
     }
 
     public String getFormatOfferingIdForViewRG() {

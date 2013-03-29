@@ -12,6 +12,7 @@
                 <ref bean="KS-CourseOfferingManagement-ARG-AO-ToolBarSection-ClusterTab"/>
 
                 <ref bean="KS-CourseOfferingManagement-AOClustersCollection"/>
+                <ref bean="KS-CourseOfferingManagement-RenameAOCPopupForm"/>
             </list>
         </property>
     </bean>
@@ -57,10 +58,45 @@
                 <bean parent="Uif-Label" p:labelText="@{#line.clusterNameForDisplay}" p:renderColon="false" />
                 <bean parent="Uif-Label" p:labelText="&#160;&#160;|&#160;&#160;" p:renderColon="false" />
                 <bean parent="Uif-Label" p:labelText="@{#line.formatNameForDisplay}"  p:renderColon="false" />
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="removeAOFromCluster" p:actionLabel="Rename" p:style="float:right"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="renameAClusterThroughDialog" p:actionLabel="Rename"
+                      p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;); writeHiddenToForm(&quot;actionParameters[selectedCollectionPath]&quot;, &quot;clusterResultList&quot;);"
+                      p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-RenameAOCPopupForm',{align:'right'});" p:style="float:right"
+                p:successCallback="jQuery('div[id=KS-CourseOfferingManagement-RenameAOCPopupForm]:gt(0)').detach();"
+                p:errorCallback="jQuery('div[id=KS-CourseOfferingManagement-RenameAOCPopupForm]:gt(0)').detach();"
+                        />
                 <bean parent="Uif-Label" p:labelText="&#160;&#160;|&#160;&#160;" p:renderColon="false" p:style="float:right"/>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="showDeleteClusterConfirmPage" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:actionLabel="Delete" p:style="float:right"/>
 
+            </list>
+        </property>
+
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-RenameAOCPopupForm" parent="Uif-HorizontalBoxSection">
+        <property name="hidden" value="true"/>
+        <property name="cssClasses">
+            <list>
+                <value>uif-bubblepopup-content</value>
+            </list>
+        </property>
+        <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField"  p:id="privateClusterNameForRename"  p:label="Private Name" p:propertyName="privateClusterNameForRenamePopover" p:labelPlacement="TOP" p:render="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:id="publishedClusterNameForRename"  p:propertyName="publishedClusterNameForRenamePopover" p:label="Published Name" p:render="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-SecondaryActionButton-Small">
+                    <property name="style" value="margin-top:1.5em;"/>
+                    <property name="actionLabel" value="Rename"/>
+                    <property name="methodToCall" value="renameAClusterThroughDialog"/>
+                </bean>
             </list>
         </property>
     </bean>

@@ -18,58 +18,34 @@ package org.kuali.student.enrollment.class2.autogen.controller;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.controller.UifControllerBase;
-import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
-import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
-import org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm;
-import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.ActivityOfferingResult;
-import org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
-import org.kuali.student.enrollment.courseoffering.dto.AOClusterVerifyResultsInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.uif.util.GrowlIcon;
 import org.kuali.student.enrollment.uif.util.KSUifUtils;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.search.service.SearchService;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.namespace.QName;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -585,6 +561,14 @@ public class ARGActivityOfferingClusterHandler {
 
 
 
+        }
+    }
+
+    public static void renameAClusterThroughDialog(ARGCourseOfferingManagementForm theForm) throws Exception {
+        Object selectedObject = ARGUtil.getSelectedObject(theForm, "Rename");
+        if (selectedObject instanceof ActivityOfferingClusterWrapper) {
+            ActivityOfferingClusterWrapper clusterWrapper = (ActivityOfferingClusterWrapper)selectedObject;
+            theForm.setSelectedCluster(clusterWrapper);
         }
     }
 
