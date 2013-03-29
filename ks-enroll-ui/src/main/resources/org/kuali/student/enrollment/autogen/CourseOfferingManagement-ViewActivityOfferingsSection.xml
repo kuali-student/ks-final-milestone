@@ -6,7 +6,7 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="KS-CourseOfferingManagement-ViewActivityOfferingsSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false">
-        <property name="headerText" value="View All Activities" />
+        <property name="headerText" value="View All Activities (@{activityWrapperList.size()})" />
         <property name="items">
             <list>
                 <ref bean="KS-ARGCourseOfferingManagement-AO-ToolBarSection"/>

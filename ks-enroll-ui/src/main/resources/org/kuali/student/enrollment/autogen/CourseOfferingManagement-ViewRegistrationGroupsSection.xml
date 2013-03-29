@@ -6,7 +6,7 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="KS-CourseOfferingManagement-ViewRegistrationGroupsSection" parent="Uif-VerticalBoxSection">
-        <property name="headerText" value="View Registration Groups"/>
+        <property name="headerText" value="View Registration Groups (@{rgResultList.size()})"/>
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering" />
@@ -19,7 +19,7 @@
         <!--<property name="hidden" value="true"/>-->
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper" />
         <property name="propertyName" value="rgResultList" />
-        <property name="headerText" value="Registration Groups (@{})"/>
+        <property name="headerText" value="Registration Groups "/>
         <!--<property name="instructionalText" value="@{#line.clusterNameForDisplay}" />-->
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />
