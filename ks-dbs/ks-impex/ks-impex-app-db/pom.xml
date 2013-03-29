@@ -20,7 +20,7 @@
         <artifactId>spring-maven-plugin</artifactId>
         <executions>
           <execution>
-            <id>metainf</id>
+            <id>mpx-metainf</id>
             <goals>
               <goal>load</goal>
             </goals>
