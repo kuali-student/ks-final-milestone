@@ -10,6 +10,7 @@
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-ARG-AO-ToolBarSection-ClusterTab"/>
+
                 <ref bean="KS-CourseOfferingManagement-AOClustersCollection"/>
             </list>
         </property>
@@ -31,12 +32,21 @@
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-ClusterHeaderText"/>
+                <ref bean="KS-CourseOfferingManagement-ClusterAOHeaderText"/>
             </list>
         </property>
         <property name="subCollections">
             <list>
                 <ref bean="KS-CourseOfferingManagement-ActivityOfferingsPerClusterSubSection" />
                 <ref bean="KS-CourseOfferingManagement-RegistrationGroupsPerClusterSubSection" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-ClusterAOHeaderText" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Label" p:labelText="Activites (@{#line.aoWrapperList.size()})" p:renderColon="false" />
             </list>
         </property>
     </bean>
