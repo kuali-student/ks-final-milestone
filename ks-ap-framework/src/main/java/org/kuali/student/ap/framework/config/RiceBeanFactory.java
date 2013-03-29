@@ -171,6 +171,18 @@ public class RiceBeanFactory extends DefaultListableBeanFactory {
 		try {
 			return (T) (DELEGATING.get() != null ? DELEGATING.get().continueGetBean
 					.call() : null);
+		} catch (NoSuchBeanDefinitionException e) {
+			// This can happen when a bean defined in the parent factory depends
+			// on a reference to a bean defined in this factory. In such a case,
+			// containsBean() will be true, but getBean() will throw the
+			// exception when attempting to resolve the reference.
+			// Enable DEBUG logs to distinguish a null return value and inspect
+			// the error
+			if (LOG.isDebugEnabled())
+				LOG.debug(
+						"Non-delegate bean is not available from this bean factory",
+						e);
+			return null;
 		} catch (RuntimeException e) {
 			throw e;
 		} catch (Exception e) {
