@@ -30,7 +30,6 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
 
     public AcademicRecordService getAcademicRecordService() {
         if (this.academicRecordService == null) {
-            //   TODO: Use constants for namespace.
             this.academicRecordService = KsapFrameworkServiceLocator.getAcademicRecordService();
         }
 
@@ -59,20 +58,10 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
         String focusAtpId =request.getParameter(PlanConstants.FOCUS_ATP_ID_KEY);
         String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
         boolean isServiceStatusOK=true;
-        /*Setting the Warning message if isServiceStatusOK is false*/
-        if (!Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_CALENDER_SERVICE_UP).toString())
-                || !Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_RECORD_SERVICE_UP).toString())) {
-            isServiceStatusOK=false;
-           KsapFrameworkServiceLocator.getAtpHelper().addServiceError("qtrYear");
-        }
         String[] params = {};
-        if(!isServiceStatusOK){
-            GlobalVariables.getMessageMap().putWarningForSectionId(PlanConstants.PLAN_ITEM_RESPONSE_PAGE_ID, PlanConstants.ERROR_TECHNICAL_PROBLEMS, params);
-        }
 
         /*************PlannedCourseList**************/
         List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();
-        if(isServiceStatusOK){
         try {
             plannedCoursesList = getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED, studentId);
         } catch (Exception e) {
@@ -80,27 +69,21 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
 
         }
 
-        }
         /****academic record SWS call to get the studentCourseRecordInfo list *****/
         List<StudentCourseRecordInfo> studentCourseRecordInfos = new ArrayList<StudentCourseRecordInfo>();
-        if(isServiceStatusOK){
         try {
             studentCourseRecordInfos = getAcademicRecordService().getCompletedCourseRecords(studentId,KsapFrameworkServiceLocator.getContext().getContextInfo());
         } catch (Exception e) {
             GlobalVariables.getMessageMap().putWarningForSectionId(PlanConstants.PLAN_ITEM_RESPONSE_PAGE_ID, PlanConstants.ERROR_TECHNICAL_PROBLEMS, params);
             logger.error("Could not retrieve StudentCourseRecordInfo from the SWS.", e);
         }
-        }
 
         /*************BackupCourseList**************/
         List<PlannedCourseDataObject> backupCoursesList = new ArrayList<PlannedCourseDataObject>();
-        if(isServiceStatusOK){
         try {
             backupCoursesList=getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP, studentId);
         } catch (Exception e) {
             logger.error("Could not load backupCourseList", e);
-
-        }
 
         }
 

@@ -146,7 +146,8 @@ public class PlannedTermsHelperBase {
 					if (termsList.containsKey(plannedTerm.getAtpId())) {
 						if (plannedTerm.getPlannedList().size() > 0
 								|| plannedTerm.getBackupList().size() > 0) {
-							termsList.get(plannedTerm.getAtpId());
+							plannedTerm.setQtrYear(termsList.get(plannedTerm.getAtpId()).getQtrYear());
+
 							termsList.put(plannedTerm.getAtpId(), plannedTerm);
 						}
 					}
@@ -191,13 +192,16 @@ public class PlannedTermsHelperBase {
 				perfectPlannedTerms.add(termsList.get(key));
 			}
 
+            /*
+            Sort terms in order
+             */
 			Collections.sort(perfectPlannedTerms,
 					new Comparator<PlannedTerm>() {
 						@Override
 						public int compare(PlannedTerm plannedTerm1,
 								PlannedTerm plannedTerm2) {
-							return plannedTerm1.getAtpId().compareTo(
-									plannedTerm2.getAtpId());
+							return KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(plannedTerm2.getAtpId()).compareTo(KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(plannedTerm1.getAtpId()));
+                            //return plannedTerm1.getAtpId().compareTo(plannedTerm2.getAtpId());
 						}
 					});
 			// Can't do this step until the sort has been done else the index
@@ -267,6 +271,15 @@ public class PlannedTermsHelperBase {
 		}
 	}
 
+    // Needs to be rewrote to handle the data (Term names, how terms are mapped to the ui, etc)
+
+    /**
+     * Populates  a list of terms sequencial between two atp terms.
+     * The terms are empty
+     * @param minTerm
+     * @param maxTerm
+     * @param map - Map of Terms filled.
+     */
 	private static void populateMockList(String minTerm, String maxTerm,
 			Map<String, PlannedTerm> map) {
         YearTerm tempMinTerms = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(minTerm);
@@ -335,6 +348,11 @@ public class PlannedTermsHelperBase {
 		}
 	}
 
+    /**
+     * Populates a list of terms starting from the year containing a specified term id.
+     * @param termId
+     * @param plannedTermList
+     */
 	private static void populateFutureData(String termId,
 			List<PlannedTerm> plannedTermList) {
 		YearTerm yearTerm = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(termId);
@@ -376,6 +394,11 @@ public class PlannedTermsHelperBase {
 		}
 	}
 
+    /**
+     * Sets display statuses used to by the ui for the help icons.
+     * Sets statuses for all entries in a list of terms.
+     * @param plannedTerms
+     */
 	private static void populateHelpIconFlags(List<PlannedTerm> plannedTerms) {
 
 		int index = plannedTerms.size() - 1;
