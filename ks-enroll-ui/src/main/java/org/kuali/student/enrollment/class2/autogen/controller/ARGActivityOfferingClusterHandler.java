@@ -250,6 +250,11 @@ public class ARGActivityOfferingClusterHandler {
         theForm.setNoOfActivityOfferings(null);
     }
 
+    /**
+     * This method does not delete, just marks which AOs are to be deleted.
+     * @param theForm the form that has a list of activityWrappers that are checked or not
+     * @throws Exception
+     */
     public static void deleteAOs(ARGCourseOfferingManagementForm theForm) throws Exception {
 
         List<ActivityOfferingWrapper> aoList = theForm.getActivityWrapperList();
@@ -285,13 +290,6 @@ public class ARGActivityOfferingClusterHandler {
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_DELETE);
         }
 
-        if (!selectedIndexList.isEmpty()) {
-            for (ActivityOfferingWrapper ao : selectedIndexList) {
-                ARGUtil.getArgServiceAdapter().deleteActivityOfferingCascaded(ao.getAoInfo().getId(), ao.getAoClusterID(), ContextBuilder.loadContextInfo());
-            }
-
-            ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
-        }
     }
 
     public static ARGCourseOfferingManagementForm createNewCluster(ARGCourseOfferingManagementForm theForm) throws Exception {

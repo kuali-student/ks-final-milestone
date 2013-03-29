@@ -319,7 +319,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=cancelDeleteAOs")
     public ModelAndView cancelDeleteAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
         ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
-        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
+        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
     }
 
     /*
@@ -328,7 +328,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=deleteSelectedAoList")
     public ModelAndView deleteSelectedAoList(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
         ARGActivityOfferingClusterHandler.deleteSelectedAoList(theForm);
-        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
+        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
     }
 
     /*
