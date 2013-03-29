@@ -1712,9 +1712,44 @@
 		<search:dataType>String</search:dataType>
 	</search:resultColumn>
 
+    <!-- lu.search.current.quick-->
+    <search:searchType id="lu.search.relatedTypes">
+        <search:name>Quick search for current courses</search:name>
+        <search:desc>Returns all current courses</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="lu.result.relatedTypes" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <ref bean="lu.criteria.relatedTypes"/>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchResultTypeInfo id="lu.result.relatedTypes" parent="lu.result.relatedTypes-parent"/>
+    <search:searchResultTypeInfo id="lu.result.relatedTypes-parent"  abstract="true">
+        <search:name>Related Lu Types</search:name>
+        <search:desc>List of the types associated with an LU</search:desc>
+        <search:resultColumns>
+            <ref bean="lu.resultColumn.cluType" />
+        </search:resultColumns>
+    </search:searchResultTypeInfo>
+
+    <search:searchCriteriaTypeInfo id="lu.criteria.relatedTypes" parent="lu.criteria.relatedTypes-parent"/>
+    <search:searchCriteriaTypeInfo id="lu.criteria.relatedTypes-parent"  abstract="true">
+        <search:name>LuAdvancedCriteria</search:name>
+        <search:desc>Advanced criteria</search:desc>
+        <search:queryParams>
+            <ref bean="lu.queryParam.cluId"/>
+            <ref bean="lu.queryParam.luOptionalRelationType"/>
+        </search:queryParams>
+    </search:searchCriteriaTypeInfo>
+
     <bean id="queryMap-parent" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
+                <entry key="lu.search.relatedTypes">
+                    <value>SELECT rel.relatedClu.luType.id FROM CluCluRelation rel WHERE rel.clu.id = :lu_queryParam_cluId</value>
+                </entry>
+
 				<entry key="lu.search.clu.versions">
 					<value>SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
                     officialIdentifier.code, officialIdentifier.level,
