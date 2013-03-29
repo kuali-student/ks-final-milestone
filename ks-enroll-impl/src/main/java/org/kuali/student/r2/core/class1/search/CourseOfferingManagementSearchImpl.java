@@ -17,6 +17,7 @@ package org.kuali.student.r2.core.class1.search;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImpl;
 import org.kuali.student.r2.common.dao.GenericEntityDao;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -47,6 +48,8 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
     private GenericEntityDao genericEntityDao;
 
     private static final String OWNER_UI_SUFFIX = " (Owner)";
+
+    private static final Logger LOGGER = Logger.getLogger(CourseOfferingManagementSearchImpl.class);
 
     public static final class SearchParameters {
         public static final String COURSE_CODE = "courseCode";
@@ -157,33 +160,32 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                         "    lui.id = ident.lui.id" +
                         "    AND lui.atpId = '" + searchAtpId + "' " +
                         "    AND lrc_rvg1.id = lui_rvg1" +
-                        "    AND lrc_rvg1.resultScaleId LIKE 'kuali.result.scale.credit.%'    " +
+                        "    AND lrc_rvg1.resultScaleId IN (SELECT scale.id FROM ResultScaleEntity scale WHERE scale.type = 'kuali.result.scale.type.credit') " +
                         "    AND lrc_rvg2.id = lui_rvg2" +
-                        "    AND lrc_rvg2.resultScaleId LIKE 'kuali.result.scale.grade.%'" +
+                        "    AND lrc_rvg2.resultScaleId IN (SELECT scale.id FROM ResultScaleEntity scale WHERE scale.type = 'kuali.result.scale.type.grade') " +
                         //Exclude these two types that can cause duplicates.
                         // audit and passfail are moved into different fields, after that there can be only one grading option
                         // of Satisfactory, Letter, or Percentage
-                        "    AND lrc_rvg2 NOT IN ('kuali.resultComponent.grade.audit','kuali.resultComponent.grade.passFail') " +
-                        "    AND ident.lui.id IN (SELECT ident_subquery.lui.id FROM LuiIdentifierEntity ident_subquery WHERE ";
+                        "    AND lrc_rvg2 NOT IN ('kuali.resultComponent.grade.audit','kuali.resultComponent.grade.passFail') ";
 
         String coCodeSearchString;
-        if (isExactMatchSearch){
-            coCodeSearchString = " ident_subquery.code = '" + searchCourseCode + "' ";
+        if(isExactMatchSearch){
+            coCodeSearchString = "AND ident.code = '" + searchCourseCode + "' ";
         } else {
-            coCodeSearchString = " ident_subquery.code like '" + searchCourseCode + "%' ";
+            coCodeSearchString = "AND ident.code like '" + searchCourseCode + "%' ";
         }
 
         if (StringUtils.isNotBlank(searchSubjectArea)){
             if (StringUtils.isBlank(searchCourseCode)){
-                query = query + " ident_subquery.division = '" + searchSubjectArea + "' ";
+                query = query + "AND ident.division = '" + searchSubjectArea + "' ";
             } else {
-                query = query + " ident_subquery.division = '" + searchSubjectArea + "' AND " + coCodeSearchString;
+                query = query + "AND ident.division = '" + searchSubjectArea + "' " + coCodeSearchString;
             }
         } else {
-            query = query + coCodeSearchString;
+                query = query + coCodeSearchString;
         }
 
-        query = query + ") ORDER BY ident.code";
+        query = query + " ORDER BY ident.code";
 
         /**
          * Search for the course offerings first for a term and subjectarea/coursecode
@@ -191,7 +193,6 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         List<Object[]> results = genericEntityDao.getEm().createQuery(query).getResultList();
         resultInfo.setTotalResults(results.size());
         resultInfo.setStartAt(0);
-
 
         Map<String,String> luiIds2ResultRow = new HashMap<String, String>();
 
@@ -282,7 +283,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         }
 
         long end = System.currentTimeMillis();
-        System.out.println("******TIME TAKEN TO SEARCH CO FOR (Subject Area=" + searchSubjectArea + ",Term=" + searchAtpId + ",Course=" + searchCourseCode + ")*************"+(end-start) + " ms");
+        LOGGER.info("******TIME TAKEN TO SEARCH CO FOR (Subject Area=" + searchSubjectArea + ",Term=" + searchAtpId + ",Course=" + searchCourseCode + ")*************"+(end-start) + " ms");
 
         resultInfo.setStartAt(0);
         return resultInfo;
