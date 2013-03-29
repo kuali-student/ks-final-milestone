@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseOfferingManagement-ViewAOClustersSection" parent="Uif-VerticalBoxSection" p:onDocumentReadyScript="addTabs('View Activities', 'View Registration Groups', 'ARG-activityOfferingsPerCluster', 'ARG-registrationGroupsPerCluster');">
+    <bean id="KS-CourseOfferingManagement-ViewAOClustersSection" parent="Uif-VerticalBoxSection" >
         <property name="headerText" value="View by Clusters"/>
         <property name="items">
             <list>
@@ -164,17 +164,18 @@
     <!--p:style="display: none"-->
 
     <bean id="KS-CourseOfferingManagement-RegistrationGroupsPerClusterSubSection" parent="Uif-Disclosure-TableCollectionSubSection"
-          p:renderAddLine="false"  p:renderLineActions="false" p:style="display: none">
+          p:renderAddLine="false"  p:renderLineActions="false" >
         <property name="id" value="ARG-registrationGroupsPerCluster" />
         <!--<property name="hidden" value="true"/>-->
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper" />
         <property name="propertyName" value="rgWrapperList" />
-        <property name="headerText" value="View Registration Groups"/>
+        <property name="headerText" value="View Registration Groups (@{#line.rgWrapperList.size()})"/>
         <property name="instructionalText" value="@{#line.clusterNameForDisplay}" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="disclosure.defaultOpen" value="false"/>
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
