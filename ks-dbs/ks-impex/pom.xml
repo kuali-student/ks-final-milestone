@@ -28,8 +28,6 @@
       <!-- This profile builds the full KS database from the "system of record" set of Oracle sql files checked into SCM -->
       <id>source-db</id>
       <properties>
-        <spring.annotatedClass>org.kuali.common.jdbc.spring.MavenResetConfig</spring.annotatedClass>
-        <spring.load.phase>initialize</spring.load.phase>
         <properties.decrypt>true</properties.decrypt>
         <properties.enc.password>${kuali.enc.password}</properties.enc.password>
         <properties.maven.exclude>kuali.scm.url</properties.maven.exclude>
