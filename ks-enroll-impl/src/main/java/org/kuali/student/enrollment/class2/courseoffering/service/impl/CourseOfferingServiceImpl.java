@@ -1667,11 +1667,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public StatusInfo deleteActivityOffering(String activityOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-
         LuiInfo lui = luiService.getLui(activityOfferingId, context);
 
         if (!_checkTypeForActivityOfferingType(lui.getTypeKey(), context)) {
             throw new InvalidParameterException("Given lui id ( " + activityOfferingId + " ) is not an Activity Offering");
+        }
+
+        // Remove from colocated sets
+        try {
+            // Wow, this throws a lot of exceptions
+            _dAOC_removeAOIdFromColocatedSet(activityOfferingId, context);
+        } catch (VersionMismatchException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (ReadOnlyException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (DataValidationErrorException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
         try {
@@ -1738,7 +1749,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                                                      ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-
         // get seat pools to delete
         List<SeatPoolDefinitionInfo> seatPools = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
 
@@ -1762,6 +1772,21 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         // Delete the Activity offering
         return deleteActivityOffering(activityOfferingId, context);
 
+    }
+
+    private void _dAOC_removeAOIdFromColocatedSet(String activityOfferingId, ContextInfo context)
+            throws MissingParameterException, InvalidParameterException, OperationFailedException,
+            PermissionDeniedException, VersionMismatchException, ReadOnlyException, DataValidationErrorException,
+            DoesNotExistException {
+        List<ColocatedOfferingSetInfo> coloSets = getColocatedOfferingSetsByActivityOffering(activityOfferingId, context);
+        for (ColocatedOfferingSetInfo colo: coloSets) {
+            colo.getActivityOfferingIds().remove(activityOfferingId);
+            ColocatedOfferingSetInfo saved = updateColocatedOfferingSet(colo.getId(), colo, context);
+            if (saved.getActivityOfferingIds().isEmpty()) {
+                // Delete COLO set if there are no more AO IDs in it.
+                deleteColocatedOfferingSet(saved.getId(), context);
+            }
+        }
     }
 
 
