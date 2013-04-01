@@ -141,56 +141,62 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         }
 
         String query = "SELECT" +
-                        "    ident.code," +
-                        "    ident.longName," +
-                        "    lui.luiState," +
-                        "    lui_rvg1," +
-                        "    lui_rvg2,        " +
-                        "    lui.id,        " +
-                        "    ident.division,        " +
-                        "    ident.type  " +
-                        "FROM" +
-                        "    LuiIdentifierEntity ident," +
-                        "    LuiEntity lui," +
-                        "    IN(lui.resultValuesGroupKeys) lui_rvg1," +
-                        "    ResultValuesGroupEntity lrc_rvg1,    " +
-                        "    IN(lui.resultValuesGroupKeys) lui_rvg2," +
-                        "    ResultValuesGroupEntity lrc_rvg2  " +
-                        "WHERE" +
-                        "    lui.id = ident.lui.id" +
-                        "    AND lui.atpId = '" + searchAtpId + "' " +
-                        "    AND lrc_rvg1.id = lui_rvg1" +
-                        "    AND lrc_rvg1.resultScaleId IN (SELECT scale.id FROM ResultScaleEntity scale WHERE scale.type = 'kuali.result.scale.type.credit') " +
-                        "    AND lrc_rvg2.id = lui_rvg2" +
-                        "    AND lrc_rvg2.resultScaleId IN (SELECT scale.id FROM ResultScaleEntity scale WHERE scale.type = 'kuali.result.scale.type.grade') " +
-                        //Exclude these two types that can cause duplicates.
-                        // audit and passfail are moved into different fields, after that there can be only one grading option
-                        // of Satisfactory, Letter, or Percentage
-                        "    AND lrc_rvg2 NOT IN ('kuali.resultComponent.grade.audit','kuali.resultComponent.grade.passFail') ";
+                "    ident.code," +
+                "    ident.longName," +
+                "    lui.luiState," +
+                "    lui_rvg1," +
+                "    lui_rvg2,        " +
+                "    lui.id,        " +
+                "    ident.division,        " +
+                "    ident.type  " +
+                "FROM" +
+                "    LuiIdentifierEntity ident," +
+                "    LuiEntity lui," +
+                "    IN(lui.resultValuesGroupKeys) lui_rvg1," +
+                "    ResultValuesGroupEntity lrc_rvg1,    " +
+                "    IN(lui.resultValuesGroupKeys) lui_rvg2," +
+                "    ResultValuesGroupEntity lrc_rvg2  " +
+                "WHERE" +
+                "    lui.id = ident.lui.id" +
+                "    AND lui.atpId = '" + searchAtpId + "' " +
+                "    AND lrc_rvg1.id = lui_rvg1" +
+                "    AND lrc_rvg1.resultScaleId LIKE 'kuali.result.scale.credit.%'    " +
+                "    AND lrc_rvg2.id = lui_rvg2" +
+                "    AND lrc_rvg2.resultScaleId LIKE 'kuali.result.scale.grade.%'" +
+                //Exclude these two types that can cause duplicates.
+                // audit and passfail are moved into different fields, after that there can be only one grading option
+                // of Satisfactory, Letter, or Percentage
+                "    AND lrc_rvg2 NOT IN ('kuali.resultComponent.grade.audit','kuali.resultComponent.grade.passFail') " +
+                "    AND ident.lui.id IN (SELECT ident_subquery.lui.id FROM LuiIdentifierEntity ident_subquery WHERE ";
 
         String coCodeSearchString;
-        if(isExactMatchSearch){
-            coCodeSearchString = "AND ident.code = '" + searchCourseCode + "' ";
+        if (isExactMatchSearch){
+            coCodeSearchString = " ident_subquery.code = '" + searchCourseCode + "' ";
         } else {
-            coCodeSearchString = "AND ident.code like '" + searchCourseCode + "%' ";
+            coCodeSearchString = " ident_subquery.code like '" + searchCourseCode + "%' ";
         }
 
         if (StringUtils.isNotBlank(searchSubjectArea)){
             if (StringUtils.isBlank(searchCourseCode)){
-                query = query + "AND ident.division = '" + searchSubjectArea + "' ";
+                query = query + " ident_subquery.division = '" + searchSubjectArea + "' ";
             } else {
-                query = query + "AND ident.division = '" + searchSubjectArea + "' " + coCodeSearchString;
+                query = query + " ident_subquery.division = '" + searchSubjectArea + "' AND " + coCodeSearchString;
             }
         } else {
-                query = query + coCodeSearchString;
+            query = query + coCodeSearchString;
         }
 
-        query = query + " ORDER BY ident.code";
+        query = query + ") ORDER BY ident.code";
+
+
+
+
 
         /**
          * Search for the course offerings first for a term and subjectarea/coursecode
          */
         List<Object[]> results = genericEntityDao.getEm().createQuery(query).getResultList();
+
         resultInfo.setTotalResults(results.size());
         resultInfo.setStartAt(0);
 
