@@ -6,7 +6,7 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="KS-CourseOfferingManagement-ViewAOClustersSection" parent="Uif-VerticalBoxSection" >
-        <property name="headerText" value="View by Clusters (@{clusterResultList.size()})"/>
+        <property name="headerText" value="Clusters (@{clusterResultList.size()})"/>
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-ARG-AO-ToolBarSection-ClusterTab"/>
@@ -202,7 +202,8 @@
             <list>
                 <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="moveAActivityOffering" p:actionLabel="Move"/>-->
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy" />
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="&#160;&#160;|&#160;&#160;Edit" />
             </list>
         </property>
     </bean>
@@ -279,6 +280,11 @@
                       p:label="INSTRUCTOR"
                       p:messageText="@{#line.aoInstructorText}">
                 </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
             </list>
         </property>
     </bean>

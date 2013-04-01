@@ -6,7 +6,7 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="KS-CourseOfferingManagement-ViewRegistrationGroupsSection" parent="Uif-VerticalBoxSection">
-        <property name="headerText" value="View Registration Groups (@{rgResultList.size()})"/>
+        <property name="headerText" value=""/>
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering" />
@@ -16,7 +16,7 @@
 
     <bean id="KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering" parent="Uif-TableCollectionSection"
           p:renderAddLine="false"  p:renderLineActions="false" >
-        <!--<property name="hidden" value="true"/>-->
+        <property name="hidden" value="true"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper" />
         <property name="propertyName" value="rgResultList" />
         <property name="headerText" value="Registration Groups (@{rgResultList.size()})"/>
@@ -93,10 +93,6 @@
                 <bean parent="Uif-MessageField"
                       p:label="INSTRUCTOR"
                       p:messageText="@{#line.aoInstructorText}">
-                </bean>
-                <bean parent="Uif-MessageField"
-                      p:label="ACTIONS"
-                      p:messageText="@{#line.aoEditLink}">
                 </bean>
             </list>
         </property>

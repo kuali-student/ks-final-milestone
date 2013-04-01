@@ -50,21 +50,8 @@
                         <bean parent="Uif-HiddenControl"/>
                     </property>
                 </bean>
-                <bean id="KS-CourseOfferingManagement-ManageTheCourseOfferingSection-Tabs" parent="KS-Link-Uif-TabSection" >
-                    <property name="tabsWidget">
-                        <bean parent="Uif-Tabs">
-                            <!-- set the selectedTabId to the value clicked-->
-                            <property name="templateOptionsJSString" value="{select:function(event, ui){jQuery('#KS-Tab-Hidden-Input>input[name=selectedTabId]').val(ui.index);jQuery('.uif-tooltip').HideAllBubblePopups();}}"/>
-                        </bean>
-                    </property>
-                    <property name="items">
-                        <list>
-                            <ref bean="KS-CourseOfferingManagement-ViewAOClustersSection"/>
-                            <ref bean="KS-CourseOfferingManagement-ViewActivityOfferingsSection"/>
-                            <ref bean="KS-CourseOfferingManagement-ViewRegistrationGroupsSection"/>
-                        </list>
-                    </property>
-                </bean>
+                <ref bean="KS-CourseOfferingManagement-ViewAOClustersSection"/>
+                <ref bean="KS-CourseOfferingManagement-ViewRegistrationGroupsSection"/>
             </list>
         </property>
     </bean>
@@ -88,6 +75,8 @@
                                         <bean id="edit_co" parent="Uif-ActionLink" p:methodToCall="editTheCO" p:actionLabel=" | Edit" />
                                         <!--<bean id="delete_co" parent="Uif-ActionLink" p:id="ActivityOfferingResultSection-deleteOneCoWithLink" p:methodToCall="deleteOneCoWithLink" p:actionLabel=" | Delete" p:disabled="@{#parent.readOnly}" p:render = "@{currentCourseOfferingWrapper.stateKey eq 'kuali.lui.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.planned'  or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.activity.offering.state.offered' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.offered'}" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCO" />-->
                                         <bean id="delete_co" parent="Uif-ActionLink" p:methodToCall="deleteOneCoWithLink" p:actionLabel=" | Delete" />
+                                        <bean parent="Uif-ActionLink" p:actionLabel=" | View All Registration Groups (@{rgResultList.size()})"
+                                              p:actionScript = "showLightbox('KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering', '@{#ConfigProperties['application.url']}');"/>
                                     </list>
                                 </property>
                             </bean>
