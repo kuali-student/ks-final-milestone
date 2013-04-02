@@ -136,8 +136,8 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingRolloverManagement-ReleaseToDeptsPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingWrapperLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ManageSOCView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingEdit-MainPage.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingEdit-SchedulePage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingEditPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingEdit-ScheduleSection.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/BuildingLookupAndInquiry.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/RoomLookupAndInquiry.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ToolbarSection.xml</value>
