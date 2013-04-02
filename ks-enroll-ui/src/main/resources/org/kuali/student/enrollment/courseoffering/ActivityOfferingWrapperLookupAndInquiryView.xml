@@ -60,15 +60,15 @@
             <list>
                 <bean parent="Uif-HeaderFour" p:headerText="@{dataObject.courseOfferingCode} - @{dataObject.courseOfferingTitle} (@{dataObject.credits} Credits)"/>
                 <bean parent="Uif-HeaderThree" p:headerText="Activity Offering: @{dataObject.activityCode} (@{dataObject.abbreviatedCourseType})"/>
-                <ref bean="ActivityOfferingEdit-MainPage-section1"/>
-                <ref bean="ActivityOfferingEdit-MainPage-section2"/>
+                <ref bean="ActivityOfferingEdit-section1"/>
+                <ref bean="ActivityOfferingEdit-section2"/>
                 <ref bean="ActivityOffering-Inquiry-DeliveryLogistic-Actuals"/>
                 <ref bean="ActivityOffering-Inquiry-DeliveryLogistic-Requested"/>
-                <ref bean="ActivityOfferingEdit-MainPage-PersonnelSection"/>
-                <ref bean="ActivityOfferingEdit-MainPage-SeatPool"/>
+                <ref bean="ActivityOfferingEdit-PersonnelSection"/>
+                <ref bean="ActivityOfferingEdit-SeatPool"/>
                 <ref bean="KS-ActivityOffering-Inquiry-HonorsOffering"/>
                 <ref bean="KS-ActivityOffering-Inquiry-Evaluation"/>
-                <ref bean="ActivityOfferingEdit-Inquiry-MainPage-Miscellaneous"/>
+                <ref bean="ActivityOfferingEdit-Inquiry-Miscellaneous"/>
             </list>
         </property>
     </bean>
@@ -210,7 +210,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-Inquiry-MainPage-Miscellaneous" parent="Uif-VerticalBoxSection" p:headerText="Miscellaneous" p:id="aoInfo.Miscellaneous">
+    <bean id="ActivityOfferingEdit-Inquiry-Miscellaneous" parent="Uif-VerticalBoxSection" p:headerText="Miscellaneous" p:id="aoInfo.Miscellaneous">
         <property name="items">
             <list>
                 <bean parent="Uif-InputField-LabelTop"

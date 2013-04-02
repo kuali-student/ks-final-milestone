@@ -20,24 +20,24 @@
      limitations under the License.
     -->
 
-    <bean id="ActivityOfferingEdit-MainPage" parent="Uif-Page" p:id="ActivityOfferingEdit-MainPage" p:onDocumentReadyScript="replaceBreadCrumbs('@{breadCrumbJSON}');">
+    <bean id="ActivityOfferingEditPage" parent="Uif-Page" p:onDocumentReadyScript="replaceBreadCrumbs('@{breadCrumbJSON}');">
         <property name="items">
             <list>
                 <bean parent="Uif-HeaderFour" p:headerText="@{document.newMaintainableObject.dataObject.courseOfferingCode} - @{document.newMaintainableObject.dataObject.courseOfferingTitle} (@{document.newMaintainableObject.dataObject.credits} Credits)"/>
                 <bean parent="Uif-HeaderThree" p:headerText="Edit @{document.newMaintainableObject.dataObject.activityCode} (@{document.newMaintainableObject.dataObject.abbreviatedCourseType})"/>
                 <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{#dp.crossListedCourseCodes}" p:render="@{#dp.crossListedCourseCodes != ''}" p:style="font-weight:bold; margin-bottom:8px;"/>
 
-                <ref bean="ActivityOfferingEdit-MainPage-section1"/>
-                <ref bean="ActivityOfferingEdit-MainPage-section2"/>
-                <ref bean="ActivityOfferingEdit-MainPage-CoLocation"/>
+                <ref bean="ActivityOfferingEdit-section1"/>
+                <ref bean="ActivityOfferingEdit-section2"/>
+                <ref bean="ActivityOfferingEdit-CoLocation"/>
 
                 <ref bean="ActivityOffering-DeliveryLogistic-Actuals"/>
                 <ref bean="ActivityOffering-DeliveryLogistic-New"/>
                 <ref bean="ActivityOffering-DeliveryLogistic-Requested"/>
 
-                <ref bean="ActivityOfferingEdit-MainPage-PersonnelSection"/>
-                <ref bean="ActivityOfferingEdit-MainPage-SeatPool"/>
-                <ref bean="ActivityOfferingEdit-MainPage-Miscellaneous"/>
+                <ref bean="ActivityOfferingEdit-PersonnelSection"/>
+                <ref bean="ActivityOfferingEdit-SeatPool"/>
+                <ref bean="ActivityOfferingEdit-Miscellaneous"/>
 
                 <!-- This is needed for autosuggest-->
                 <bean parent="Uif-InputField" p:propertyName="termId" p:hidden="true"/>
@@ -47,11 +47,16 @@
           <bean parent="Uif-FooterBase"/>
         </property>
         <property name="footer.items">
-            <ref bean="KSDocumentPageFooter_SubmitCancel" />
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:preSubmitCall="return checkAOEditWIP();"/>
+                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-MainPage-section1" parent="Uif-VerticalBoxSection">
+    <bean id="ActivityOfferingEdit-section1" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" id="status" p:label="Status" p:propertyName="stateName"/>
@@ -74,7 +79,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-MainPage-section2" parent="Uif-VerticalBoxSection" p:onDocumentReadyScript="calculatePercent()">
+    <bean id="ActivityOfferingEdit-section2" parent="Uif-VerticalBoxSection" p:onDocumentReadyScript="calculatePercent()">
         <property name="headerText" value="Activity Offering Information"/>
         <property name="items">
             <list>
@@ -102,11 +107,11 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-MainPage-CoLocation" parent="Uif-VerticalBoxSection" p:style="width:600px;border: 1px solid black;" p:layoutManager.style="margin-left:10px;margin-right:10px;">
+    <bean id="ActivityOfferingEdit-CoLocation" parent="Uif-VerticalBoxSection" p:style="width:600px;border: 1px solid black;" p:layoutManager.style="margin-left:10px;margin-right:10px;">
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="Select Activities for Colocation" p:style="font-size:15px;"/>
-                <ref bean="ActivityOfferingEdit-MainPage-CoLocatedActivities"/>
+                <ref bean="ActivityOfferingEdit-CoLocatedActivities"/>
                 <bean parent="Uif-Message" p:messageText="Set Maximum Enrollment" p:style="font-size:15px;"/>
                 <bean id="share_seats" parent="Uif-InputField" p:propertyName="maxEnrollmentShared">
                   <property name="control">
@@ -120,13 +125,13 @@
                     </bean>
                   </property>
                 </bean>
-                <ref bean="ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared"/>
-                <ref bean="ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate"/>
+                <ref bean="ActivityOfferingEdit-CoLocatedEnrollmentShared"/>
+                <ref bean="ActivityOfferingEdit-CoLocatedEnrollmentSeperate"/>
             </list>
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-MainPage-CoLocatedActivities" parent="Uif-TableCollectionSection" p:layoutManager.style="width:150px;">
+    <bean id="ActivityOfferingEdit-CoLocatedActivities" parent="Uif-TableCollectionSection" p:layoutManager.style="width:150px;">
         <property name="header.render" value="false"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity" />
         <property name="propertyName" value="colocatedActivities"/>
@@ -134,7 +139,7 @@
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="addLineActions">
             <list>
-                <bean parent="Uif-AddLineAction" p:successCallback="addColocatedAOSuccessCallBack();"/>
+                <bean parent="Uif-AddLineAction" p:successCallback="addColocatedAOSuccessCallBack();" p:actionScript="addColocatedAO(this);"/>
             </list>
         </property>
         <property name="lineActions">
@@ -200,7 +205,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-MainPage-CoLocatedEnrollmentShared" parent="Uif-VerticalBoxSection">
+    <bean id="ActivityOfferingEdit-CoLocatedEnrollmentShared" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean id="shared_max_enr" parent="Uif-InputField" p:propertyName="sharedMaxEnrollment" p:label="Shared Maximum Enrollment" p:required="true" p:exclusiveMin="0">
@@ -215,7 +220,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-MainPage-CoLocatedEnrollmentSeperate" parent="Uif-VerticalBoxSection">
+    <bean id="ActivityOfferingEdit-CoLocatedEnrollmentSeperate" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean id="enr_shared_table" parent="Uif-TableCollectionSection" p:style="width:250px;float:right;" p:forceSessionPersistence="true" >
@@ -252,7 +257,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-MainPage-PersonnelSection" parent="Uif-VerticalBoxSection">
+    <bean id="ActivityOfferingEdit-PersonnelSection" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Personnel"/>
         <property name="items">
             <list>
@@ -317,7 +322,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-MainPage-SeatPool" parent="Uif-VerticalBoxSection">
+    <bean id="ActivityOfferingEdit-SeatPool" parent="Uif-VerticalBoxSection">
         <property name="componentSecurity.viewAuthz" value="true"/>
         <property name="componentSecurity.editAuthz" value="true"/>
         <property name="items">
@@ -445,7 +450,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-MainPage-Miscellaneous" parent="Uif-VerticalBoxSection" p:headerText="Miscellaneous" p:id="aoInfo.Miscellaneous">
+    <bean id="ActivityOfferingEdit-Miscellaneous" parent="Uif-VerticalBoxSection" p:headerText="Miscellaneous" p:id="aoInfo.Miscellaneous">
         <property name="items">
             <list>
                 <bean id="course_url" parent="Uif-InputField-LabelTop"

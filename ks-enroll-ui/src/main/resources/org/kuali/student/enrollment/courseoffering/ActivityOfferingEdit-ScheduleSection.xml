@@ -20,45 +20,6 @@
      limitations under the License.
     -->
 
-    <!--<bean id="ActivityOfferingEdit-SchedulePage" parent="Uif-Page" p:id="ActivityOfferingEdit-SchedulePage">
-        <property name="items">
-            <list>
-                <ref bean="ActivityOffering-DeliveryLogistic-SchedulePage-Actuals"/>
-                <ref bean="ActivityOffering-DeliveryLogistic-SchedulePage-New"/>
-                <ref bean="ActivityOffering-DeliveryLogistic-SchedulePage-Requested"/>
-            </list>
-        </property>
-        <property name="footer">
-          <bean parent="Uif-FooterBase"/>
-        </property>
-        <property name="footer.items">
-            <list>
-                <bean parent="Uif-PrimaryActionButton" p:methodToCall="saveRevisedSchedules" p:actionLabel="Save Request"/>
-                <bean parent="Uif-PrimaryActionButton" p:methodToCall="processRevisedSchedules" p:actionLabel="Save and Process Request"/>
-                <bean parent="Uif-ActionLink" p:methodToCall="cancelScheduleRevise" p:actionLabel="Cancel" />
-            </list>
-        </property>
-    </bean>
-
-    <bean id="ActivityOffering-DeliveryLogistic-SchedulePage-Actuals" parent="ActivityOffering-DeliveryLogistic-Actuals">
-         <property name="header.lowerGroup.render" value="false"/>
-    </bean>
-
-    <bean id="ActivityOffering-DeliveryLogistic-SchedulePage-New" parent="ActivityOffering-DeliveryLogistic-New" p:componentSecurity.viewAuthz="false">
-         <property name="render" value="true"/>
-    </bean>
-
-    <bean id="ActivityOffering-DeliveryLogistic-SchedulePage-Requested" parent="ActivityOffering-DeliveryLogistic-Requested" p:componentSecurity.editAuthz="false">
-        <property name="render" value="true"/>
-        <property name="propertyName" value="revisedScheduleRequestComponents"/>
-        <property name="lineActions">
-            <list>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit"/>
-                <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete"/>
-            </list>
-        </property>
-    </bean>-->
-
     <bean id="ActivityOffering-DeliveryLogistic-Actuals" parent="Uif-TableCollectionSection"
             p:headerText="Actual Delivery Logistics"
             p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper"
@@ -66,16 +27,6 @@
             p:readOnly="true"
             p:render="@{!#dp.actualScheduleComponents.isEmpty()}"
             p:layoutManager.renderSequenceField="false">
-        <!--<property name="header.lowerGroup">
-            <bean id="reviseSchedule" parent="Uif-HorizontalBoxGroup" p:componentSecurity.viewAuthz="true">
-                <property name="render" value="@{scheduleCompleted and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-ActionLink" p:methodToCall="reviseSchedule" p:actionLabel="Revise" />
-                    </list>
-                </property>
-            </bean>
-        </property>-->
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
@@ -103,12 +54,6 @@
                 </bean>-->
             </list>
         </property>
-        <!--<property name="propertyReplacers">
-              <list>
-                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="headerText"
-                      p:condition="@{!scheduleCompleted}" p:replacement="Actual Delivery Logistics (Unassigned)"/>
-              </list>
-         </property>-->
     </bean>
 
     <bean id="ActivityOffering-DeliveryLogistic-Requested" parent="Uif-TableCollectionSection" p:forceSessionPersistence="true"
@@ -140,7 +85,7 @@
         <property name="lineActions">
               <list>
                   <!--<bean parent="Uif-ActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-New');" p:render="@{#dp.schedulingCompleted}"/>-->
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:render="@{#dp.schedulingCompleted}"/>
+                  <bean parent="Uif-NavigationActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:render="@{#dp.schedulingCompleted}" p:preSubmitCall="return checkAOEditWIP();"/>
                   <bean parent="Uif-DeleteLineAction" />
               </list>
         </property>
@@ -166,7 +111,7 @@
                     </property>
                 </bean>
                 <ref bean="ActivityOffering-DeliveryLogistic-New-Features-Section"/>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="@{!#dp.editRenderHelper.scheduleEditInProgress ? 'Add' : 'Update'}" p:methodToCall="addScheduleComponent" p:ajaxReturnType="update-component" p:ajaxSubmit="true" p:refreshId="ActivityOffering-DeliveryLogistic-New" p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-Requested');"/>
+                <bean id="add_rdl_button" parent="Uif-SecondaryActionButton-Small" p:actionLabel="@{!#dp.editRenderHelper.scheduleEditInProgress ? 'Add' : 'Update'}" p:methodToCall="addScheduleComponent" p:ajaxReturnType="update-component" p:ajaxSubmit="true" p:refreshId="ActivityOffering-DeliveryLogistic-New" p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-Requested');"/>
             </list>
         </property>
     </bean>

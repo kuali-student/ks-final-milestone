@@ -714,7 +714,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
     protected boolean validateNewColocatedActivity(ColocatedActivity colo,ActivityOfferingWrapper activityOfferingWrapper){
 
-        String groupId = "ActivityOfferingEdit-MainPage-CoLocatedActivities";
+        String groupId = "ActivityOfferingEdit-CoLocatedActivities";
 
         for (ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()){
             if (StringUtils.equals(activity.getCourseOfferingCode(),colo.getCourseOfferingCode()) &&
