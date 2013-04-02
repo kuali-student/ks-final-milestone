@@ -96,6 +96,10 @@
         <property name="bindingInfo.bindToForm" value="true"/>
     </bean>
 
+    <bean id="Uif-MainteanceDialogExplanation" parent="Uif-DialogExplanation">
+        <property name="bindingInfo.bindToForm" value="true"/>
+    </bean>
+
     <bean id="jointCourseFormatsDeleteDialog" parent="Uif-DialogGroup"
           p:promptText="Note that the deselecting @{document.newMaintainableObject.dataObject.selectedJointCourseCode} will delete the delivery formats already assigned for this course." >
         <property name="headerText" value="Warning - Formats Already Assigned"/>
@@ -107,6 +111,9 @@
         </property>
         <property name="responseInputField">
           <bean parent="Uif-MainteanceDialogResponse"/>
+        </property>
+        <property name="explanation">
+          <bean parent="Uif-MainteanceDialogExplanation"/>
         </property>
         <property name="items">
             <list>

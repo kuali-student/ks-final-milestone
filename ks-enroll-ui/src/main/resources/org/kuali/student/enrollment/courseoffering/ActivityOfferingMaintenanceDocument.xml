@@ -131,6 +131,9 @@
               <property name="onChangeScript" value="jQuery.fancybox.close();"/>
           </bean>
         </property>
+        <property name="explanation">
+          <bean parent="Uif-MainteanceDialogExplanation"/>
+        </property>
     </bean>
 
     <bean id="ActivityOfferingMaintenanceDocument" parent="ActivityOfferingMaintenanceDocument-parentBean"/>
