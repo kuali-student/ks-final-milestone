@@ -177,10 +177,10 @@
                 <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-ViewActivityOfferingsSection.xml</value>
                 <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-ViewAOClustersSection.xml</value>
                 <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-ViewRegistrationGroupsSection.xml</value>
-                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagement-ToolbarSection.xml</value>
-                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagement-ManageCourseOfferingsPage.xml</value>
-                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagement-ManageTheCourseOfferingPage.xml</value>
-                <value>classpath:org/kuali/student/enrollment/autogen/ARGCourseOfferingManagementView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-ToolbarSection.xml</value>
+                <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-ManageCourseOfferingsPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-ManageTheCourseOfferingPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagementView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-DeleteClusterConfirmPage.xml</value>
 
                 <!-- East Coast Sandbox (rollover) -->
