@@ -640,7 +640,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
         // If any of the AO sets is empty, we'll bail out and not generate.  This is more the expected behavior.
         if (_hasEmptyAoSets(cluster)) {
-            return new ArrayList<BulkStatusInfo>(); // KSENROLL-6193
+            return new ArrayList<BulkStatusInfo>(); // KSENROLL-6193, KSENROLL-6181
         }
 
         List<RegistrationGroupInfo> existingRegistrationGroups =
