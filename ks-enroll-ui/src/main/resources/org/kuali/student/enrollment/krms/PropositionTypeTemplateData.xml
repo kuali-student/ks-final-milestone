@@ -195,6 +195,7 @@
                           p:termSpecName="FreeFormText"
                           p:value="true">
                         <property name="componentId" value="KRMS-FreeForm-InputField"/>
+                        <property name="componentBuilderClass" value="org.kuali.rice.krms.builder.SimpleTextComponentBuilder"/>
                     </bean>
                 </entry>
 

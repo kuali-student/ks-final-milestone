@@ -56,7 +56,7 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
     private transient AlphaIterator alpha;
 
     // for Compare
-    private transient Tree<CompareTreeNode, String> compareTree;
+    private Tree<CompareTreeNode, String> compareTree;
 
     //Rule Instruction
     private String ruleInstruction;

@@ -66,7 +66,7 @@ public class TermParameterEditor implements TermParameterDefinitionContract {
 
     @Override
     public String getId() {
-        return this.getId();
+        return this.id;
     }
 
     @Override

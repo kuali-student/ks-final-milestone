@@ -70,8 +70,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             this.refreshInitTrees(ruleEditor, true);
             this.setLogicSection(ruleEditor);
 
-            //Initialize the compare tree
-            ruleEditor.setCompareTree(this.buildCompareTree(null));
         }
         super.performInitialization(view, model);
 
@@ -336,7 +334,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     @Override
-    public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original) {
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original) throws Exception {
 
         //Get the CLU Tree.
         RuleDefinitionContract compare = this.getRuleManagementService().getRule("10063");

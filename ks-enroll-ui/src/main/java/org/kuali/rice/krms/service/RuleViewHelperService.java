@@ -26,7 +26,7 @@ public interface RuleViewHelperService {
 
     public void refreshInitTrees(RuleEditor rule, boolean refreshNl);
 
-    public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original);
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original) throws Exception;
 
     public void setLogicSection(RuleEditor ruleEditor);
 

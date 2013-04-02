@@ -31,6 +31,7 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermParameterDefinition;
+import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
@@ -42,6 +43,7 @@ import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.dto.TermEditor;
 import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.service.TemplateRegistry;
+import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.service.RuleEditorMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
@@ -68,6 +70,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
     private transient RuleManagementService ruleManagementService;
     private transient KrmsTypeRepositoryService krmsTypeRepositoryService;
+    private transient TermRepositoryService termRepositoryService;
 
     private transient ContextInfo contextInfo;
     private transient TemplateRegistry templateRegistry;
@@ -108,9 +111,28 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             this.initPropositionEditor((PropositionEditor) ruleEditor.getProposition());
         }
 
+        //Initialize the compare tree
+        ruleEditor.setCompareTree(this.initCompareTree());
+
         dataObject = ruleEditor;
 
         return dataObject;
+    }
+
+    public Tree<CompareTreeNode, String> initCompareTree() {
+        Tree<CompareTreeNode, String> myTree = new Tree<CompareTreeNode, String>();
+
+        Node<CompareTreeNode, String> rootNode = new Node<CompareTreeNode, String>();
+        rootNode.setNodeType("subruleElement");
+        rootNode.setData(new CompareTreeNode());
+        myTree.setRootElement(rootNode);
+
+        Node<CompareTreeNode, String> firstNode = new Node<CompareTreeNode, String>();
+        firstNode.setNodeType("subruleElement");
+        firstNode.setData(new CompareTreeNode());
+        rootNode.getChildren().add(firstNode);
+
+        return myTree;
     }
 
     /**
@@ -207,7 +229,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                     }
                 }
 
-                //Create a new parameter of not exist.
+                //Create a new parameter if not exist.
                 if (parameterEditor == null) {
                     parameterEditor = new TermParameterEditor();
                     parameterEditor.setName(entry.getKey());
@@ -221,12 +243,14 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         TermDefinition.Builder termBuilder = TermDefinition.Builder.create(term);
         TermDefinition termDefinition = termBuilder.build();
         if (term.getId() == null) {
-            return KrmsRepositoryServiceLocator.getTermBoService().createTerm(termDefinition).getId();
-        }// else {
-        //    return KrmsRepositoryServiceLocator.getTermBoService().
-        //}
+            termDefinition = this.getTermRepositoryService().createTerm(termDefinition);
 
-        return term.getId();
+        } else {
+            this.getTermRepositoryService().updateTerm(termDefinition);
+        }
+        propositionEditor.setTerm(termDefinition);
+
+        return termDefinition.getId();
     }
 
     protected TermSpecificationDefinition getTermSpecForType(String type) {
@@ -234,7 +258,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         //Get the term output name for this type.
         String termSpecName = this.getTemplateRegistry().getTermSpecNameForType(type);
 
-        List<TermResolverDefinition> matchingTermResolvers = KrmsRepositoryServiceLocator.getTermBoService().findTermResolversByNamespace(PermissionServiceConstants.KS_SYS_NAMESPACE);
+        List<TermResolverDefinition> matchingTermResolvers = this.getTermRepositoryService().findTermResolversByNamespace(PermissionServiceConstants.KS_SYS_NAMESPACE);
         for (TermResolverDefinition termResolver : matchingTermResolvers) {
             TermSpecificationDefinition termSpec = termResolver.getOutput();
             if (termSpec.getName().equals(termSpecName)) {
@@ -272,7 +296,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         if (proposition.getTerm() == null) {
             if (proposition.getParameters().get(0) != null) {
                 String termId = proposition.getParameters().get(0).getValue();
-                proposition.setTerm(KrmsRepositoryServiceLocator.getTermBoService().getTerm(termId));
+                proposition.setTerm(this.getTermRepositoryService().getTerm(termId));
             } else {
                 return termParameters;
             }
@@ -339,6 +363,13 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             krmsTypeRepositoryService = (KrmsTypeRepositoryService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "krmsTypeRepositoryService"));
         }
         return krmsTypeRepositoryService;
+    }
+
+    public TermRepositoryService getTermRepositoryService() {
+        if (termRepositoryService == null) {
+            termRepositoryService = (TermRepositoryService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "termRepositoryService"));
+        }
+        return termRepositoryService;
     }
 
     private TemplateRegistry getTemplateRegistry() {

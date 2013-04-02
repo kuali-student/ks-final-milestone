@@ -13,9 +13,11 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
+import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameter;
+import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
@@ -38,10 +40,13 @@ import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
 import org.kuali.student.enrollment.class1.krms.tree.CORulePreviewTreeBuilder;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.OrganizationServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -49,8 +54,12 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -68,6 +77,7 @@ import java.util.Map;
 public class CORuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
 
     private CluService cluService;
+    private CourseOfferingService courseOfferingService;
     private ContextInfo contextInfo;
     private OrganizationService organizationService;
 
@@ -288,9 +298,12 @@ public class CORuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     }
 
     @Override
-    public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original) {
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original) throws Exception {
 
         //Get the CLU Tree.
+        CourseOfferingInfo courseOffering = this.getCourseOfferingService().getCourseOffering("0f074dc5-91ec-4a9d-9f27-decbdbb79e8e", ContextUtils.createDefaultContextInfo());
+        ReferenceObjectBinding referenceObject = this.getRuleManagementService().getReferenceObjectBinding(courseOffering.getCourseId());
+        AgendaDefinition agenda = this.getRuleManagementService().getAgenda(referenceObject.getKrmsObjectId());
         RuleDefinitionContract compare = this.getRuleManagementService().getRule("10063");
 
         //Build the Tree
@@ -327,6 +340,14 @@ public class CORuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             cluService = (CluService) GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return cluService;
+    }
+
+    private CourseOfferingService getCourseOfferingService() {
+        if (courseOfferingService == null) {
+            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
+                    CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return courseOfferingService;
     }
 
     private ContextInfo getContextInfo() {

@@ -4,6 +4,7 @@ import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,13 +26,19 @@ public class CluSetInformation implements Serializable {
         this.id = id;
     }
     public List<CluInformation> getClus() {
-        return clus;
+        if(clus == null){
+            this.clus = new ArrayList<CluInformation>();
+        }
+        return this.clus;
     }
     public void setClus(List<CluInformation> clus) {
         this.clus = clus;
     }
     public List<CluSetInfo> getCluSets() {
-        return cluSets;
+        if(this.cluSets == null) {
+            this.cluSets = new ArrayList<CluSetInfo>();
+        }
+        return this.cluSets;
     }
     public void setCluSets(List<CluSetInfo> cluSets) {
         this.cluSets = cluSets;

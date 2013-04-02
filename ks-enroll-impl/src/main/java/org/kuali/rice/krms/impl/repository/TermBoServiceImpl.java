@@ -171,10 +171,10 @@ public class TermBoServiceImpl implements TermBoService {
         // copy all updateable fields to bo
         TermBo boToUpdate = TermBo.from(toUpdate);
 
-        // delete any old, existing attributes
+        // delete any old, existing parameters
         Map<String, String> fields = new HashMap<String, String>(1);
         fields.put(KrmsImplConstants.PropertyNames.Term.TERM_ID, toUpdate.getId());
-        businessObjectService.deleteMatching(TermResolverAttributeBo.class, fields);
+        businessObjectService.deleteMatching(TermParameterBo.class, fields);
 
         // update the rule and create new attributes
         businessObjectService.save(boToUpdate);

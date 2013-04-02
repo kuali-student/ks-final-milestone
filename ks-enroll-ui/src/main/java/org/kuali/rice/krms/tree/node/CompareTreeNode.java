@@ -1,5 +1,7 @@
 package org.kuali.rice.krms.tree.node;
 
+import java.io.Serializable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: SW
@@ -7,7 +9,7 @@ package org.kuali.rice.krms.tree.node;
  * Time: 10:10 AM
  * To change this template use File | Settings | File Templates.
  */
-public class CompareTreeNode {
+public class CompareTreeNode implements Serializable {
 
     private String original;
     private String compared;

@@ -56,7 +56,7 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
     public Map<String, String> buildTermParameters(EnrolPropositionEditor propositionEditor) {
         Map<String, String> termParameters = new HashMap<String, String>();
         if (propositionEditor.getCourseInfo() != null){
-            termParameters.put(CLU_KEY, propositionEditor.getCourseInfo().getId());
+            termParameters.put(CLU_KEY, propositionEditor.getCourseInfo().getVersion().getVersionIndId());
         }
         return termParameters;
     }

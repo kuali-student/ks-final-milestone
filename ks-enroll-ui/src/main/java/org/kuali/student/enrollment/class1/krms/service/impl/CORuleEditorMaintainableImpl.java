@@ -67,6 +67,9 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             ruleEditor.setCourseName(courseNameBuilder.toString());
         }
 
+        //Initialize the compare tree
+        ruleEditor.setCompareTree(this.initCompareTree());
+
         return ruleEditor;
     }
 
