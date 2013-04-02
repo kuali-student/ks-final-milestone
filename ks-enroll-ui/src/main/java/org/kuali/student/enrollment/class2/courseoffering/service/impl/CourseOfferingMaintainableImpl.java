@@ -238,7 +238,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
 
     /**
      * This method populates {@link CourseCrossListingInfo} in to the {@link CourseOfferingInfo}
-     * based on the user selection at create or edit CO. Note: If the <code>kuali.ks.enrollment.options.selective-crossListing-allowed</code>
+     * based on the user selection at create or edit CO. Note: If the <code>kuali.ks.enrollment.options.selective-crosslisting-allowed</code>
      * property is enabled, this method creates cross listing dtos for all the alternate course codes.
      *
      * @param wrapper either {@link CourseOfferingCreateWrapper} or {@link org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper}

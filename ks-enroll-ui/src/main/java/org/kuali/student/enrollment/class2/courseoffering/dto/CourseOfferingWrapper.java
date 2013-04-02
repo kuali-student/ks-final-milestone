@@ -20,6 +20,7 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -338,7 +339,7 @@ public class CourseOfferingWrapper implements Serializable{
 
     /**
      * This method returns whether alternate code selection is allowed or not.
-     * This method reads the configuration property <code>kuali.ks.enrollment.options.selective-crossListing-allowed</code>
+     * This method reads the configuration property <code>kuali.ks.enrollment.options.selective-crosslisting-allowed</code>
      * and returns its value (true/false). This is to allow the institutional configuration to decide whether the users
      * should be allowed to pick alternate codes or just select all the alternate codes by default.
      *
@@ -346,12 +347,12 @@ public class CourseOfferingWrapper implements Serializable{
      */
     public boolean isSelectCrossListingAllowed() {
          if (selectCrossListingAllowed == null) {
-             String selectiveColocationAllowed = ConfigContext.getCurrentContextConfig().getProperty("kuali.ks.enrollment.options.selective-crossListing-allowed");
-             if("false".equalsIgnoreCase(selectiveColocationAllowed)) {
+             String isSelectiveCrosslistingAllowed = ConfigContext.getCurrentContextConfig().getProperty(CourseOfferingConstants.CONFIG_PARAM_KEY_SELECTIVE_CROSSLISTING);
+             if ("false".equalsIgnoreCase(isSelectiveCrosslistingAllowed)) {
                  selectCrossListingAllowed = false;
              } else {
                  selectCrossListingAllowed = true;
-             };
+             }
          }
 
         return true;
