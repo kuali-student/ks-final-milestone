@@ -9,7 +9,7 @@
         <property name="headerText" value="Clusters (@{clusterResultList.size()})"/>
         <property name="items">
             <list>
-                <ref bean="KS-CourseOfferingManagement-ARG-AO-ToolBarSection-ClusterTab"/>
+                <ref bean="KS-CourseOfferingManagement-AO-ToolBarSection-ClusterTab"/>
 
                 <ref bean="KS-CourseOfferingManagement-AOClustersCollection"/>
                 <ref bean="KS-CourseOfferingManagement-RenameAOCPopupForm"/>
@@ -103,7 +103,7 @@
 
     <bean id="KS-CourseOfferingManagement-ActivityOfferingsPerClusterSubSection" parent="Uif-TableCollectionSubSection"
           p:renderAddLine="false"  p:renderLineActions="true">
-        <property name="id" value="ARG-activityOfferingsPerCluster" />
+        <property name="id" value="activityOfferingsPerCluster" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="aoWrapperList" />
         <property name="headerText" value=""/>
@@ -122,14 +122,12 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="isCheckedByCluster" p:required="false"
-                      p:onChangeScript="handleToolbar('KS-CourseOfferingManagement-AOClustersCollection',['enableApproveButton', 'enableDeleteButton', 'enableDraftButton'], ['KS-CourseOfferingManagement-ToolBar-Approve-AO-ARG-ClusterTab','KS-CourseOfferingManagement-ToolBar-Delete-AO-ARG-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Draft-AO-ARG-ClusterTab']);">
+                      p:onChangeScript="handleToolbar('KS-CourseOfferingManagement-AOClustersCollection',['enableApproveButton', 'enableDeleteButton', 'enableDraftButton'], ['KS-CourseOfferingManagement-ToolBar-Approve-AO-ClusterTab','KS-CourseOfferingManagement-ToolBar-Delete-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Draft-AO-ClusterTab']);">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
                 </bean>
-
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
-                    <property name="label" value="Label"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false">
@@ -137,8 +135,10 @@
                                     <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}" p:image.altText="@{#lp.colocatedAoInfoUI}"
+                            <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}"
+                                  p:image.altText="@{#line.colocatedAoInfoUI}"
                                   p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
+                                <property name="style" value="padding-left:5px"/>
                                 <property name="toolTip">
                                     <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedAoInfoUI}"/>
                                 </property>
@@ -212,7 +212,7 @@
 
     <bean id="KS-CourseOfferingManagement-RegistrationGroupsPerClusterSubSection" parent="Uif-Disclosure-TableCollectionSubSection"
           p:renderAddLine="false"  p:renderLineActions="false" >
-        <property name="id" value="ARG-registrationGroupsPerCluster" />
+        <property name="id" value="registrationGroupsPerCluster" />
         <!--<property name="hidden" value="true"/>-->
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper" />
         <property name="propertyName" value="rgWrapperList" />
@@ -289,43 +289,43 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-ARG-AO-ToolBarSection-ClusterTab" parent="Uif-HorizontalBoxSection" p:render="@{!currentCourseOfferingWrapper.crossListed}">
+    <bean id="KS-CourseOfferingManagement-AO-ToolBarSection-ClusterTab" parent="Uif-HorizontalBoxSection" p:render="@{!currentCourseOfferingWrapper.crossListed}">
         <property name="items">
             <list>
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Add-AO-ARG-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Add" p:actionLabel="Add Activity"  p:disabled="false"
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Add-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Add-parent" p:actionLabel="Add Activity"  p:disabled="false"
                                   p:performClientSideValidation="true" p:methodToCall="addActivityOfferings"
-                                  p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen').find('input[type=text],select').val('');}});"/>
+                                  p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddActivityOfferingPopupForm').find('input[type=text],select').val('');}});"/>
                         </list>
                     </property>
                 </bean>
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Approve-AO-ARG-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Approve" p:methodToCall="approveAOs" p:render="@{hasAO}"/>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Draft-AO-ARG-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Draft" p:methodToCall="draftAOs" p:render="@{hasAO}"/>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Approve-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Approve-parent" p:methodToCall="approveAOs" p:render="@{hasAO}"/>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Draft-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Draft-parent" p:methodToCall="draftAOs" p:render="@{hasAO}"/>
                         </list>
                     </property>
                 </bean>
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-Copy-AO-ARG-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Copy" p:methodToCall="copyAOs" p:render="@{hasAO}"/>-->
-                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-Suspend-AO-ARG-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendAOs" p:render="@{hasAO}"/>-->
-                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-Cancel-AO-ARG-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelAOs" p:render="@{hasAO}"/>-->
-                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-AO-ARG-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateAOs" p:render="@{hasAO}"/>-->
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Delete-AO-ARG-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Delete" p:methodToCall="deleteAOs" p:render="@{hasAO}"/>
+                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-Copy-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Copy" p:methodToCall="copyAOs" p:render="@{hasAO}"/>-->
+                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-Suspend-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendAOs" p:render="@{hasAO}"/>-->
+                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-Cancel-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelAOs" p:render="@{hasAO}"/>-->
+                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateAOs" p:render="@{hasAO}"/>-->
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Delete-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Delete-parent" p:methodToCall="deleteAOs" p:render="@{hasAO}"/>
                         </list>
                     </property>
                 </bean>
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster-AO-ARG-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-AddCluster" p:methodToCall="addCluster" p:render="@{hasAO}" p:disabled="false"
+                            <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-AddCluster-parent" p:methodToCall="addCluster" p:render="@{hasAO}" p:disabled="false"
                                   p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddAOCPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddAOCPopupForm').find('input[type=text],select').val('');}});"/>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-MoveTo-AO-ARG-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-MoveTo" p:methodToCall="moveToCluster" p:render="@{hasAO}" p:disabled="false"
+                            <bean id="KS-CourseOfferingManagement-ToolBar-MoveTo-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-MoveTo-parent" p:methodToCall="moveToCluster" p:render="@{hasAO}" p:disabled="false"
                                   p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-MoveAOCPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-MoveAOCPopupForm').find('input[type=text],select').val('');}});"/>
                         </list>
                     </property>

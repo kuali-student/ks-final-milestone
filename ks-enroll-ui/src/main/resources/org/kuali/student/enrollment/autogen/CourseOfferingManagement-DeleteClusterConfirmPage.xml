@@ -22,7 +22,7 @@
     -->
 
     <bean id="KS-CourseOfferingManagement-ClusterDeleteConfirmationPage" parent="Uif-Page"
-          p:id="ARG-clusterDeleteConfirmationPage"
+          p:id="ClusterDeleteConfirmationPage"
           p:headerText="">
         <!--<property name="header">
             <bean parent="Uif-HeaderTwo"/>
@@ -37,9 +37,9 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Delete Cluster" p:id="ARG-deleteClusterButton"
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Delete Cluster" p:id="deleteClusterButton"
                               p:methodToCall="deleteClusterCascaded"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:id="ARG-cancelDeleteClusterButton" p:methodToCall="cancelDeleteCluster"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:id="cancelDeleteClusterButton" p:methodToCall="cancelDeleteCluster"/>
                     </list>
                 </property>
             </bean>
@@ -49,7 +49,7 @@
 
     <bean id="KS-CourseOfferingManagement-ClusterDeleteConfirmationResultSection" parent="Uif-VerticalBoxGroup"
           p:disclosure.render="false"
-          p:id="ARG-clusterDeleteConfirmationResultSection"
+          p:id="ClusterDeleteConfirmationResultSection"
           p:colSpan="3"
           p:style="underline"
           p:headerText="Delete Cluster with Activity Offering(s)">

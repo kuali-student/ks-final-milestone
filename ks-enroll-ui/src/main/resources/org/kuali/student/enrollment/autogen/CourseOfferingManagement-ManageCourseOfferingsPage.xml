@@ -23,17 +23,17 @@
         <property name="titleAttribute" value="id"/>
     </bean>
 
-    <bean id="KS-ARGCourseOfferingManagement-ManageCourseOfferingsPage" parent="Uif-Page" p:disclosure.render="false"
-          p:id="argManageCourseOfferingsPage">
+    <bean id="KS-CourseOfferingManagement-ManageCourseOfferingsPage" parent="Uif-Page" p:disclosure.render="false"
+          p:id="manageCourseOfferingsPage">
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-CriteriaSection"/>
-                <ref bean="KS-ARGCourseOfferingManagement-CourseOfferingResultSection"/>
+                <ref bean="KS-CourseOfferingManagement-CourseOfferingResultSection"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-ARGCourseOfferingManagement-CourseOfferingResultSection" parent="Uif-VerticalBoxSection" p:id="argSearchResultSection">
+    <bean id="KS-CourseOfferingManagement-CourseOfferingResultSection" parent="Uif-VerticalBoxSection" p:id="searchResultSection">
         <!-- turn off the authz to get ARG screen to work -->
         <!--<property name="componentSecurity.viewAuthz" value="true"/>-->
         <property name="headerText" value="@{subjectCode} - @{subjectCodeDescription}" />
@@ -41,18 +41,18 @@
         <property name="items">
             <list>
 
-                <bean id="KS-ARGCourseOfferingManagement-ApproveSubj" parent="Uif-ActionLink" p:preSubmitCall="return confirm('This will mark all Activity Offerings in this Subject Code as: Ready for Scheduling')"
+                <bean id="KS-CourseOfferingManagement-ApproveSubj" parent="Uif-ActionLink" p:preSubmitCall="return confirm('This will mark all Activity Offerings in this Subject Code as: Ready for Scheduling')"
                       p:methodToCall="markSubjectCodeReadyForScheduling"
                       p:actionLabel="Approve Subject Code for Scheduling" p:disabled="@{#parent.readOnly}"
                       p:componentSecurity.performActionAuthz="true" p:actionEvent="approveSubj" />
-                <ref bean="KS-ARGCourseOfferingManagement-CO-ToolBarSection"/>
-                <ref bean="KS-ARGCourseOfferingManagement-CourseOfferingListSection"/>
+                <ref bean="KS-CourseOfferingManagement-CO-ToolBarSection"/>
+                <ref bean="KS-CourseOfferingManagement-CourseOfferingListSection"/>
             </list>
         </property>
     </bean>
 
 
-    <bean id="KS-ARGCourseOfferingManagement-CourseOfferingListSection" parent="Uif-TableCollectionSection" p:renderAddLine="false"
+    <bean id="KS-CourseOfferingManagement-CourseOfferingListSection" parent="Uif-TableCollectionSection" p:renderAddLine="false"
           p:onDocumentReadyScript="removeColumns(@{#parent.readOnly}, [1], 'KS-CourseOfferingManagement-CourseOfferingListSection'); addActionColumn(@{#parent.readOnly}, 'KS-CourseOfferingManagement-CourseOfferingListSection');">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper" />
         <property name="propertyName" value="courseOfferingResultList" />
@@ -71,7 +71,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false"
-                      p:onChangeScript="handleToolbar('KS-ARGCourseOfferingManagement-CourseOfferingListSection',['enableApproveButton', 'enableDeleteButton'], ['KS-CourseOfferingManagement-ToolBar-Approve-CO-ARG', 'KS-CourseOfferingManagement-ToolBar-Delete-CO-ARG'] );"
+                      p:onChangeScript="handleToolbar('KS-CourseOfferingManagement-CourseOfferingListSection',['enableApproveButton', 'enableDeleteButton'], ['KS-CourseOfferingManagement-ToolBar-Approve-CO', 'KS-CourseOfferingManagement-ToolBar-Delete-CO'] );"
                       p:hidden="@{#lp.crossListed}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>

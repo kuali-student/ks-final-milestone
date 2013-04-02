@@ -9,14 +9,14 @@
         <property name="headerText" value="View All Activities (@{activityWrapperList.size()})" />
         <property name="items">
             <list>
-                <ref bean="KS-ARGCourseOfferingManagement-AO-ToolBarSection"/>
-                <ref bean="KS-ARGCourseOfferingManagement-ActivityOfferingListSection"/>
+                <ref bean="KSCourseOfferingManagement-AO-ToolBarSection"/>
+                <ref bean="KSCourseOfferingManagement-ActivityOfferingListSection"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-ARGCourseOfferingManagement-ActivityOfferingListSection" parent="Uif-TableCollectionSection"
-          p:layoutManager.numberOfColumns="3"  p:readOnly="@{#parent.readOnly}" p:renderAddLine="false" p:onDocumentReadyScript="removeColumns(@{#parent.readOnly}, [1], 'KS-CourseOfferingManagement-ActivityOfferingListSection'); ksAddRowSelectionCheckbox(false, 'KS-ARGCourseOfferingManagement-ActivityOfferingListSection',false,'');">
+    <bean id="KSCourseOfferingManagement-ActivityOfferingListSection" parent="Uif-TableCollectionSection"
+          p:layoutManager.numberOfColumns="3"  p:readOnly="@{#parent.readOnly}" p:renderAddLine="false" p:onDocumentReadyScript="removeColumns(@{#parent.readOnly}, [1], 'KS-CourseOfferingManagement-ActivityOfferingListSection'); ksAddRowSelectionCheckbox(false, 'KSCourseOfferingManagement-ActivityOfferingListSection',false,'');">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="activityWrapperList" />
         <property name="headerText" value="Activities (@{activityWrapperList.size()})" />
@@ -44,14 +44,13 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false"
-                      p:onChangeScript="handleToolbar('KS-ARGCourseOfferingManagement-ActivityOfferingListSection', ['enableApproveButton', 'enableDeleteButton', 'enableDraftButton'], ['KS-CourseOfferingManagement-ToolBar-Approve-AO-ARG','KS-CourseOfferingManagement-ToolBar-Delete-AO-ARG', 'KS-CourseOfferingManagement-ToolBar-Draft-AO-ARG']);">
+                      p:onChangeScript="handleToolbar('KSCourseOfferingManagement-ActivityOfferingListSection', ['enableApproveButton', 'enableDeleteButton', 'enableDraftButton'], ['KS-CourseOfferingManagement-ToolBar-Approve-AO','KS-CourseOfferingManagement-ToolBar-Delete-AO', 'KS-CourseOfferingManagement-ToolBar-Draft-AO']);">
                     <!--p:onChangeScript="handleARGAOToolbar();" p:hidden="@{#dp.currentCourseOfferingWrapper.crossListed}" -->
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
                 </bean>
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
-                    <property name="label" value="Label"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false">
@@ -59,8 +58,10 @@
                                     <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}" p:image.altText="@{#lp.colocatedAoInfoUI}"
+                            <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}"
+                                  p:image.altText="@{#line.colocatedAoInfoUI}"
                                   p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
+                                <property name="style" value="padding-left:5px"/>
                                 <property name="toolTip">
                                     <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedAoInfoUI}"/>
                                 </property>

@@ -72,8 +72,13 @@ import java.util.Properties;
  * @see CourseOfferingManagementForm
  * @see CourseOfferingManagementViewHelperService
  */
-@Controller
-@RequestMapping(value = "/courseOfferingManagement")
+//@Controller
+//@RequestMapping(value = "/courseOfferingManagement")
+@Deprecated
+/**
+ * @deprecated
+ * @see org.kuali.student.enrollment.class2.autogen.controller.ARGCourseOfferingManagementController
+ */
 public class CourseOfferingManagementController extends UifControllerBase  {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingManagementController.class);
     private LRCService lrcService;

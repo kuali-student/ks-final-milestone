@@ -53,7 +53,7 @@ import java.util.Properties;
  * @author Kuali Student Team
  */
 @Controller
-@RequestMapping(value = "/argCourseOfferingManagement")
+@RequestMapping(value = "/courseOfferingManagement")
 public class ARGCourseOfferingManagementController extends UifControllerBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ARGCourseOfferingManagementController.class);
 

@@ -11,7 +11,7 @@
 
         These are HorizontalBoxSections containing toolbar in manage CO and AO pages.
     -->
-    <bean id="KS-ARGCourseOfferingManagement-CO-ToolBarSection" parent="Uif-HorizontalBoxSection">
+    <bean id="KS-CourseOfferingManagement-CO-ToolBarSection" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
@@ -19,24 +19,24 @@
                         <list>
                             <!-- Note: temporarily take out p:disabled="@{!enableAddButton}" for Add Course button since authz is not applied to ARG yet. -->
                             <!-- TODO: Need to put it back with the proper authz logic -->
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Add-CO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Add" p:methodToCall="createCourseOffering" p:disabled="false"/>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Add-CO" parent="KS-CourseOfferingManagement-ToolBar-Add-parent" p:methodToCall="createCourseOffering" p:disabled="false"/>
                         </list>
                     </property>
                 </bean>
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Approve-CO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Approve" p:methodToCall="approveCOs" />
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Approve-CO" parent="KS-CourseOfferingManagement-ToolBar-Approve-parent" p:methodToCall="approveCOs" />
                         </list>
                     </property>
                 </bean>
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-CO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendCOs" p:render="false"/>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-CO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelCOs"  p:render="false"/>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-CO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateCOs"  p:render="false"/>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Delete-CO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Delete"  p:methodToCall="deleteCOs"/>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-CO" parent="KS-CourseOfferingManagement-ToolBar-Suspend-parent" p:methodToCall="suspendCOs" p:render="false"/>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-CO" parent="KS-CourseOfferingManagement-ToolBar-Cancel-parent" p:methodToCall="cancelCOs"  p:render="false"/>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-CO" parent="KS-CourseOfferingManagement-ToolBar-Reinstate-parent" p:methodToCall="reinstateCOs"  p:render="false"/>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Delete-CO" parent="KS-CourseOfferingManagement-ToolBar-Delete-parent"  p:methodToCall="deleteCOs"/>
                         </list>
                     </property>
                 </bean>
@@ -45,34 +45,34 @@
     </bean>
 
 
-     <bean id="KS-ARGCourseOfferingManagement-AO-ToolBarSection" parent="Uif-HorizontalBoxSection" p:render="@{!currentCourseOfferingWrapper.crossListed}">
+     <bean id="KSCourseOfferingManagement-AO-ToolBarSection" parent="Uif-HorizontalBoxSection" p:render="@{!currentCourseOfferingWrapper.crossListed}">
         <property name="items">
           <list>
             <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                 <property name="items">
                     <list>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Add-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Add" p:actionLabel="Add Activity"  p:disabled="false"
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Add-AO" parent="KS-CourseOfferingManagement-ToolBar-Add-parent" p:actionLabel="Add Activity"  p:disabled="false"
                             p:performClientSideValidation="true" p:methodToCall="addActivityOfferings"
-                            p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen').find('input[type=text],select').val('');}});"/>
+                            p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddActivityOfferingPopupForm').find('input[type=text],select').val('');}});"/>
                     </list>
                 </property>
             </bean>
             <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                 <property name="items">
                     <list>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Approve-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Approve" p:methodToCall="approveAOs" p:render="true"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Draft-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Draft" p:methodToCall="draftAOs" p:render="true"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Approve-AO" parent="KS-CourseOfferingManagement-ToolBar-Approve-parent" p:methodToCall="approveAOs" p:render="true"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Draft-AO" parent="KS-CourseOfferingManagement-ToolBar-Draft-parent" p:methodToCall="draftAOs" p:render="true"/>
                     </list>
                 </property>
             </bean>
             <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                 <property name="items">
                     <list>
-                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Copy-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Copy" p:methodToCall="copyAOs" p:render="@{hasAO}"/>-->
-                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Suspend-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendAOs" p:render="@{hasAO}"/>-->
-                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Cancel-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelAOs" p:render="@{hasAO}"/>-->
-                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateAOs" p:render="@{hasAO}"/>-->
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Delete-AO-ARG" parent="KS-CourseOfferingManagement-ToolBar-Delete" p:methodToCall="deleteAOs" p:render="true"/>
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Copy-AO" parent="KS-CourseOfferingManagement-ToolBar-Copy" p:methodToCall="copyAOs" p:render="@{hasAO}"/>-->
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Suspend-AO" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendAOs" p:render="@{hasAO}"/>-->
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Cancel-AO" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelAOs" p:render="@{hasAO}"/>-->
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-AO" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateAOs" p:render="@{hasAO}"/>-->
+                        <bean id="KS-CourseOfferingManagement-ToolBar-Delete-AO" parent="KS-CourseOfferingManagement-ToolBar-Delete-parent" p:methodToCall="deleteAOs" p:render="true"/>
                     </list>
                 </property>
             </bean>
@@ -80,10 +80,10 @@
                 <property name="items">
                     <list>
                         <!--
-                        <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster-ARG" parent="KS-CourseOfferingManagement-ToolBar-AddCluster" p:methodToCall="addCluster" p:render="@{hasAO}" p:disabled="false"
+                        <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster" parent="KS-CourseOfferingManagement-ToolBar-AddCluster" p:methodToCall="addCluster" p:render="@{hasAO}" p:disabled="false"
                               p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddAOCPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddAOCPopupForm').find('input[type=text],select').val('');}});"/>
                               -->
-                        <bean id="KS-CourseOfferingManagement-ToolBar-MoveTo-ARG" parent="KS-CourseOfferingManagement-ToolBar-MoveTo" p:methodToCall="moveToCluster" p:render="true" p:disabled="false"
+                        <bean id="KS-CourseOfferingManagement-ToolBar-MoveTo" parent="KS-CourseOfferingManagement-ToolBar-MoveTo-parent" p:methodToCall="moveToCluster" p:render="true" p:disabled="false"
                               p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-MoveAOCPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-MoveAOCPopupForm').find('input[type=text],select').val('');}});"/>
                     </list>
                 </property>
@@ -92,70 +92,70 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster" parent="KS-CourseOfferingManagement-ToolBar-Button">
+    <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
         <property name="actionLabel" value="Add Cluster"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/add_cluster.png"/>
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-ToolBar-MoveTo" parent="KS-CourseOfferingManagement-ToolBar-Button">
+    <bean id="KS-CourseOfferingManagement-ToolBar-MoveTo-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
         <property name="actionLabel" value="Move to"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/move_to_cluster.png"/>
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-ToolBar-Add" parent="KS-CourseOfferingManagement-ToolBar-Button">
+    <bean id="KS-CourseOfferingManagement-ToolBar-Add-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
          <property name="actionLabel" value="Add Course"/>
          <property name="actionImage">
              <bean parent="Uif-Image" p:source="@{enableAddButton ? #ConfigProperties['ks.externalizable.images.url']+'/add_enabled.png' : #ConfigProperties['ks.externalizable.images.url']+'/add_disabled.png'}"/>
          </property>
      </bean>
 
-     <bean id="KS-CourseOfferingManagement-ToolBar-Approve" parent="KS-CourseOfferingManagement-ToolBar-Button">
+     <bean id="KS-CourseOfferingManagement-ToolBar-Approve-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
          <property name="actionLabel" value="Approve"/>
          <property name="actionImage">
              <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/approve_disabled.png"/>
          </property>
      </bean>
 
-    <bean id="KS-CourseOfferingManagement-ToolBar-Suspend" parent="KS-CourseOfferingManagement-ToolBar-Button">
+    <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
         <property name="actionLabel" value="Suspend"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/suspend_disabled.png"/>
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-ToolBar-Cancel" parent="KS-CourseOfferingManagement-ToolBar-Button">
+    <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
          <property name="actionLabel" value="Cancel"/>
          <property name="actionImage">
              <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cancel_disabled.png"/>
          </property>
      </bean>
 
-     <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate" parent="KS-CourseOfferingManagement-ToolBar-Button">
+     <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
          <property name="actionLabel" value="Reinstate"/>
          <property name="actionImage">
              <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/reinstate_disabled.png"/>
          </property>
      </bean>
 
-     <bean id="KS-CourseOfferingManagement-ToolBar-Delete" parent="KS-CourseOfferingManagement-ToolBar-Button">
+     <bean id="KS-CourseOfferingManagement-ToolBar-Delete-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
          <property name="actionLabel" value="Delete"/>
          <property name="actionImage">
              <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/delete_disabled.png"/>
          </property>
      </bean>
 
-    <bean id="KS-CourseOfferingManagement-ToolBar-Draft" parent="KS-CourseOfferingManagement-ToolBar-Button">
+    <bean id="KS-CourseOfferingManagement-ToolBar-Draft-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
         <property name="actionLabel" value="Set as Draft"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/draft_disabled.png"/>
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-ToolBar-Copy" parent="KS-CourseOfferingManagement-ToolBar-Button">
+    <bean id="KS-CourseOfferingManagement-ToolBar-Copy-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
         <property name="actionLabel" value="Copy"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/copy_disabled.png"/>
@@ -171,7 +171,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen" parent="Uif-HorizontalBoxSection">
+    <bean id="KS-CourseOfferingManagement-AddActivityOfferingPopupForm" parent="Uif-HorizontalBoxSection">
         <!--<property name="render" value="@{enableAddButton and !currentCourseOfferingWrapper.crossListed}"/>-->
         <property name="hidden" value="true"/>
         <property name="cssClasses">
@@ -226,8 +226,8 @@
                 <bean parent="Uif-SecondaryActionButton-Small">
                     <property name="style" value="margin-top:1.5em;"/>
                     <property name="actionLabel" value="Add"/>
-                    <property name="successCallback" value="jQuery('div[id=KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen]:gt(0)').detach();"/>
-                    <property name="errorCallback" value="jQuery('div[id=KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen]:gt(0)').detach();"/>
+                    <property name="successCallback" value="jQuery('div[id=KS-CourseOfferingManagement-AddActivityOfferingPopupForm]:gt(0)').detach();"/>
+                    <property name="errorCallback" value="jQuery('div[id=KS-CourseOfferingManagement-AddActivityOfferingPopupForm]:gt(0)').detach();"/>
                     <property name="methodToCall" value="addActivityOfferings"/>
                 </bean>
             </list>

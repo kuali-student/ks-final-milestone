@@ -67,8 +67,8 @@ public class CourseOfferingConstants {
     public static final String SEARCH_PAGE_POC = "searchInputPagePOC";
     public static final String SEARCH_PAGE_JSON_POC = "searchInputPageJSONPOC";
     public static final String MANAGE_THE_CO_PAGE = "manageTheCourseOfferingPage";
-    public static final String MANAGE_ARG_CO_PAGE = "argManageCourseOfferingsPage";
-    public static final String MANAGE_ARG_DELETE_CLUSTER_CONFIRM_PAGE = "ARG-clusterDeleteConfirmationPage";
+    public static final String MANAGE_ARG_CO_PAGE = "manageCourseOfferingsPage";
+    public static final String MANAGE_ARG_DELETE_CLUSTER_CONFIRM_PAGE = "ClusterDeleteConfirmationPage";
 
 
     // Display text

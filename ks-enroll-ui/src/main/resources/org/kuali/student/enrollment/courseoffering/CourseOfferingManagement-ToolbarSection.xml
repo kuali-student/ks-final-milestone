@@ -12,137 +12,137 @@
         These are HorizontalBoxSections containing toolbar in manage CO and AO pages.
     -->
 
-    <bean id="KS-CourseOfferingManagement-CO-ToolBarSection" parent="Uif-HorizontalBoxSection">
-        <property name="items">
-          <list>
-            <bean parent="KS-HorizontalBoxGroup-WithRPadding">
-                <property name="items">
-                    <list>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Add-CO" parent="KS-CourseOfferingManagement-ToolBar-Add" p:methodToCall="createCourseOffering" p:disabled="@{!enableAddButton}"/>
-                    </list>
-                </property>
-            </bean>
-            <bean parent="KS-HorizontalBoxGroup-WithRPadding">
-                <property name="items">
-                    <list>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Approve-CO" parent="KS-CourseOfferingManagement-ToolBar-Approve" p:methodToCall="approveCOs" />
-                    </list>
-                </property>
-            </bean>
-            <bean parent="KS-HorizontalBoxGroup-WithRPadding">
-                <property name="items">
-                    <list>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-CO" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendCOs" p:render="false"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-CO" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelCOs"  p:render="false"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-CO" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateCOs"  p:render="false"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Delete-CO" parent="KS-CourseOfferingManagement-ToolBar-Delete"  p:methodToCall="deleteCOs"/>
-                    </list>
-                </property>
-            </bean>
-          </list>
-        </property>
-    </bean>
+    <!--<bean id="KS-CourseOfferingManagement-CO-ToolBarSection" parent="Uif-HorizontalBoxSection">-->
+        <!--<property name="items">-->
+          <!--<list>-->
+            <!--<bean parent="KS-HorizontalBoxGroup-WithRPadding">-->
+                <!--<property name="items">-->
+                    <!--<list>-->
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Add-CO" parent="KS-CourseOfferingManagement-ToolBar-Add" p:methodToCall="createCourseOffering" p:disabled="@{!enableAddButton}"/>-->
+                    <!--</list>-->
+                <!--</property>-->
+            <!--</bean>-->
+            <!--<bean parent="KS-HorizontalBoxGroup-WithRPadding">-->
+                <!--<property name="items">-->
+                    <!--<list>-->
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Approve-CO" parent="KS-CourseOfferingManagement-ToolBar-Approve" p:methodToCall="approveCOs" />-->
+                    <!--</list>-->
+                <!--</property>-->
+            <!--</bean>-->
+            <!--<bean parent="KS-HorizontalBoxGroup-WithRPadding">-->
+                <!--<property name="items">-->
+                    <!--<list>-->
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Suspend-CO" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendCOs" p:render="false"/>-->
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Cancel-CO" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelCOs"  p:render="false"/>-->
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-CO" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateCOs"  p:render="false"/>-->
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Delete-CO" parent="KS-CourseOfferingManagement-ToolBar-Delete"  p:methodToCall="deleteCOs"/>-->
+                    <!--</list>-->
+                <!--</property>-->
+            <!--</bean>-->
+          <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
 
-    <bean id="KS-CourseOfferingManagement-AO-ToolBarSection" parent="Uif-HorizontalBoxSection">
-        <property name="items">
-          <list>
-            <bean parent="KS-HorizontalBoxGroup-WithRPadding">
-                <property name="items">
-                    <list>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Add-AO" parent="KS-CourseOfferingManagement-ToolBar-Add"
-                              p:actionLabel="Add Activity" p:disabled="@{!enableAddButton}"
-                              p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm');"/>
-                    </list>
-                </property>
-            </bean>
-            <bean parent="KS-HorizontalBoxGroup-WithRPadding">
-                <property name="items">
-                    <list>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Approve-AO" parent="KS-CourseOfferingManagement-ToolBar-Approve" p:methodToCall="approveAOs" p:render="@{hasAO}"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Draft-AO" parent="KS-CourseOfferingManagement-ToolBar-Draft" p:methodToCall="draftAOs" p:render="@{hasAO}"/>
-                    </list>
-                </property>
-            </bean>
-            <bean parent="KS-HorizontalBoxGroup-WithRPadding">
-                <property name="items">
-                    <list>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-AO" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendAOs" p:render="false"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-AO" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelAOs"  p:render="false"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-AO" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateAOs" p:render="false"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Delete-AO" parent="KS-CourseOfferingManagement-ToolBar-Delete" p:methodToCall="deleteAOs" p:render="@{hasAO}"/>
-                    </list>
-                </property>
-            </bean>
-          </list>
-        </property>
-    </bean>
+    <!--<bean id="KS-CourseOfferingManagement-AO-ToolBarSection" parent="Uif-HorizontalBoxSection">-->
+        <!--<property name="items">-->
+          <!--<list>-->
+            <!--<bean parent="KS-HorizontalBoxGroup-WithRPadding">-->
+                <!--<property name="items">-->
+                    <!--<list>-->
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Add-AO" parent="KS-CourseOfferingManagement-ToolBar-Add"-->
+                              <!--p:actionLabel="Add Activity" p:disabled="@{!enableAddButton}"-->
+                              <!--p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm');"/>-->
+                    <!--</list>-->
+                <!--</property>-->
+            <!--</bean>-->
+            <!--<bean parent="KS-HorizontalBoxGroup-WithRPadding">-->
+                <!--<property name="items">-->
+                    <!--<list>-->
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Approve-AO" parent="KS-CourseOfferingManagement-ToolBar-Approve" p:methodToCall="approveAOs" p:render="@{hasAO}"/>-->
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Draft-AO" parent="KS-CourseOfferingManagement-ToolBar-Draft" p:methodToCall="draftAOs" p:render="@{hasAO}"/>-->
+                    <!--</list>-->
+                <!--</property>-->
+            <!--</bean>-->
+            <!--<bean parent="KS-HorizontalBoxGroup-WithRPadding">-->
+                <!--<property name="items">-->
+                    <!--<list>-->
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Suspend-AO" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendAOs" p:render="false"/>-->
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Cancel-AO" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelAOs"  p:render="false"/>-->
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-AO" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateAOs" p:render="false"/>-->
+                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Delete-AO" parent="KS-CourseOfferingManagement-ToolBar-Delete" p:methodToCall="deleteAOs" p:render="@{hasAO}"/>-->
+                    <!--</list>-->
+                <!--</property>-->
+            <!--</bean>-->
+          <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
 
-    <bean id="KS-CourseOfferingManagement-ToolBar-Add" parent="KS-CourseOfferingManagement-ToolBar-Button">
-         <property name="actionLabel" value="Add Course"/>
-         <property name="actionImage">
-             <bean parent="Uif-Image" p:source="@{enableAddButton ? #ConfigProperties['ks.externalizable.images.url']+'/add_enabled.png' : #ConfigProperties['ks.externalizable.images.url']+'/add_disabled.png'}"/>
-         </property>
-     </bean>
+    <!--<bean id="KS-CourseOfferingManagement-ToolBar-Add" parent="KS-CourseOfferingManagement-ToolBar-Button">-->
+         <!--<property name="actionLabel" value="Add Course"/>-->
+         <!--<property name="actionImage">-->
+             <!--<bean parent="Uif-Image" p:source="@{enableAddButton ? #ConfigProperties['ks.externalizable.images.url']+'/add_enabled.png' : #ConfigProperties['ks.externalizable.images.url']+'/add_disabled.png'}"/>-->
+         <!--</property>-->
+     <!--</bean>-->
 
-     <bean id="KS-CourseOfferingManagement-ToolBar-Approve" parent="KS-CourseOfferingManagement-ToolBar-Button">
-         <property name="actionLabel" value="Approve"/>
-         <property name="actionImage">
-             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/approve_disabled.png"/>
-         </property>
-     </bean>
+     <!--<bean id="KS-CourseOfferingManagement-ToolBar-Approve" parent="KS-CourseOfferingManagement-ToolBar-Button">-->
+         <!--<property name="actionLabel" value="Approve"/>-->
+         <!--<property name="actionImage">-->
+             <!--<bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/approve_disabled.png"/>-->
+         <!--</property>-->
+     <!--</bean>-->
 
-    <bean id="KS-CourseOfferingManagement-ToolBar-Suspend" parent="KS-CourseOfferingManagement-ToolBar-Button">
-        <property name="actionLabel" value="Suspend"/>
-        <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/suspend_disabled.png"/>
-        </property>
-    </bean>
+    <!--<bean id="KS-CourseOfferingManagement-ToolBar-Suspend" parent="KS-CourseOfferingManagement-ToolBar-Button">-->
+        <!--<property name="actionLabel" value="Suspend"/>-->
+        <!--<property name="actionImage">-->
+            <!--<bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/suspend_disabled.png"/>-->
+        <!--</property>-->
+    <!--</bean>-->
 
-    <bean id="KS-CourseOfferingManagement-ToolBar-Cancel" parent="KS-CourseOfferingManagement-ToolBar-Button">
-         <property name="actionLabel" value="Cancel"/>
-         <property name="actionImage">
-             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cancel_disabled.png"/>
-         </property>
-     </bean>
+    <!--<bean id="KS-CourseOfferingManagement-ToolBar-Cancel" parent="KS-CourseOfferingManagement-ToolBar-Button">-->
+         <!--<property name="actionLabel" value="Cancel"/>-->
+         <!--<property name="actionImage">-->
+             <!--<bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cancel_disabled.png"/>-->
+         <!--</property>-->
+     <!--</bean>-->
 
-     <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate" parent="KS-CourseOfferingManagement-ToolBar-Button">
-         <property name="actionLabel" value="Reinstate"/>
-         <property name="actionImage">
-             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/reinstate_disabled.png"/>
-         </property>
-     </bean>
+     <!--<bean id="KS-CourseOfferingManagement-ToolBar-Reinstate" parent="KS-CourseOfferingManagement-ToolBar-Button">-->
+         <!--<property name="actionLabel" value="Reinstate"/>-->
+         <!--<property name="actionImage">-->
+             <!--<bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/reinstate_disabled.png"/>-->
+         <!--</property>-->
+     <!--</bean>-->
 
-     <bean id="KS-CourseOfferingManagement-ToolBar-Delete" parent="KS-CourseOfferingManagement-ToolBar-Button">
-         <property name="actionLabel" value="Delete"/>
-         <property name="actionImage">
-             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/delete_disabled.png"/>
-         </property>
-     </bean>
+     <!--<bean id="KS-CourseOfferingManagement-ToolBar-Delete" parent="KS-CourseOfferingManagement-ToolBar-Button">-->
+         <!--<property name="actionLabel" value="Delete"/>-->
+         <!--<property name="actionImage">-->
+             <!--<bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/delete_disabled.png"/>-->
+         <!--</property>-->
+     <!--</bean>-->
 
-    <bean id="KS-CourseOfferingManagement-ToolBar-Draft" parent="KS-CourseOfferingManagement-ToolBar-Button">
-        <property name="actionLabel" value="Set as Draft"/>
-        <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/draft_disabled.png"/>
-        </property>
-    </bean>
+    <!--<bean id="KS-CourseOfferingManagement-ToolBar-Draft" parent="KS-CourseOfferingManagement-ToolBar-Button">-->
+        <!--<property name="actionLabel" value="Set as Draft"/>-->
+        <!--<property name="actionImage">-->
+            <!--<bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/draft_disabled.png"/>-->
+        <!--</property>-->
+    <!--</bean>-->
 
-    <bean id="KS-CourseOfferingManagement-ToolBar-Copy" parent="KS-CourseOfferingManagement-ToolBar-Button">
-        <property name="actionLabel" value="Copy"/>
-        <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/copy_disabled.png"/>
-        </property>
-    </bean>
+    <!--<bean id="KS-CourseOfferingManagement-ToolBar-Copy" parent="KS-CourseOfferingManagement-ToolBar-Button">-->
+        <!--<property name="actionLabel" value="Copy"/>-->
+        <!--<property name="actionImage">-->
+            <!--<bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/copy_disabled.png"/>-->
+        <!--</property>-->
+    <!--</bean>-->
 
-    <bean id="KS-CourseOfferingManagement-ToolBar-Button" parent="Uif-SecondaryActionButton" p:disabled="true" abstract="true" p:style="font-size: 11px">
-        <property name="actionImagePlacement" value="TOP"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-toolbar-button</value>
-                <!-- This class is from krms.css and probably needs to be re-thought. -->
-                <value>tree-bar-button</value>
-            </list>
-        </property>
-    </bean>
+    <!--<bean id="KS-CourseOfferingManagement-ToolBar-Button" parent="Uif-SecondaryActionButton" p:disabled="true" abstract="true" p:style="font-size: 11px">-->
+        <!--<property name="actionImagePlacement" value="TOP"/>-->
+        <!--<property name="cssClasses">-->
+            <!--<list merge="true">-->
+                <!--<value>ks-toolbar-button</value>-->
+                <!--&lt;!&ndash; This class is from krms.css and probably needs to be re-thought. &ndash;&gt;-->
+                <!--<value>tree-bar-button</value>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
 
-    <bean id="KS-HorizontalBoxGroup-WithRPadding" parent="Uif-HorizontalBoxGroup" p:style="padding-right: 20px" />
+    <!--<bean id="KS-HorizontalBoxGroup-WithRPadding" parent="Uif-HorizontalBoxGroup" p:style="padding-right: 20px" />-->
 </beans>

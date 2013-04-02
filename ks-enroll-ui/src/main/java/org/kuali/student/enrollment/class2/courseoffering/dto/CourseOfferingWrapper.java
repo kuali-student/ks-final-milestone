@@ -264,12 +264,15 @@ public class CourseOfferingWrapper implements Serializable{
     }
 
     public String getOwnerAliasesUIList(){
-         StringBuffer buffer = new StringBuffer();
-         for (String code : ownerAliases){
-             buffer.append(code + ", ");
-         }
+        StringBuffer buffer = new StringBuffer();
 
-         return StringUtils.removeEnd(buffer.toString(), ", ");
+        if(ownerAliases!=null){
+            for (String code : ownerAliases){
+                buffer.append(code + ", ");
+            }
+        }
+
+        return StringUtils.removeEnd(buffer.toString(), ", ");
      }
 
     /**

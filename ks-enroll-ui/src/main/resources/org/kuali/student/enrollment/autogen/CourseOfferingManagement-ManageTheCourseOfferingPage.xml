@@ -24,17 +24,38 @@
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-CriteriaSection"/>
+                <ref bean="KS-CourseOfferingManagement-AliasMessageSection" />
                 <ref bean="KS-CourseOfferingManagement-ManageTheCourseOfferingSection"/>
-                <ref bean="KS-CourseOfferingManagement-AddActivityOfferingPopupForm-AutoGen"/>
+                <ref bean="KS-CourseOfferingManagement-AddActivityOfferingPopupForm"/>
                 <ref bean="KS-CourseOfferingManagement-AddAOCPopupForm"/>
                 <ref bean="KS-CourseOfferingManagement-MoveAOCPopupForm"/>
             </list>
         </property>
     </bean>
 
+    <bean id="KS-CourseOfferingManagement-AliasMessageSection" parent="Uif-HorizontalBoxSection">
+        <property name="render" value="@{currentCourseOfferingWrapper.crossListed}"/>
+        <property name="style" value="background-color:#DDECFF;padding-top: 5px; border: 1px solid #9CC4F9;"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="items" >
+            <list>
+                <bean parent="Uif-ImageField" p:image.altText="information"
+                      p:source="@{#ConfigProperties['ks.externalizable.images.url']}/information.png">
+                    <property name="style" value="padding-right:10px;padding-left:10px"/>
+                </bean>
+                <bean id="KS-CourseOfferingManagement-AliasMessage" parent="Uif-MessageField"
+                      p:messageText="@{currentCourseOfferingWrapper.courseOfferingCode} is a crosslisted alias
+                                            for: @{currentCourseOfferingWrapper.alternateCOCodesUIList}. Changes made on
+                                            this page to @{currentCourseOfferingWrapper.alternateCOCodesUIList} will be applied to all
+                                            aliases, including @{currentCourseOfferingWrapper.courseOfferingCode}." />
+            </list>
+        </property>
+    </bean>
+
     <bean id="KS-CourseOfferingManagement-ManageTheCourseOfferingSection" p:id="manageTheCourseOfferingSection" parent="Uif-VerticalBoxSection">
+        <!-- TODO Put this back in !!!!!!!!!!!!!! -->
         <!--<property name="componentSecurity.viewAuthz" value="true"/>-->
-        <property name="headerText" value="@{currentCourseOfferingWrapper.courseOfferingCode} - @{currentCourseOfferingWrapper.courseOfferingDesc} (@{currentCourseOfferingWrapper.creditCnt} Credits, SOC State: @{socState})" />
+        <property name="headerText" value="@{currentCourseOfferingWrapper.ownerCode} - @{currentCourseOfferingWrapper.courseOfferingDesc} (@{currentCourseOfferingWrapper.creditCnt} Credits, SOC State: @{socState})" />
         <property name="disclosure.render" value="false"/>
         <property name="header.cssClasses">
             <list merge="true">
@@ -43,6 +64,7 @@
         </property>
         <property name="items">
             <list>
+                <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{currentCourseOfferingWrapper.ownerAliasesUIList}" p:render="@{currentCourseOfferingWrapper.ownerAliasesUIList != ''}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
                 <ref bean="KS-CourseOfferingManagement-TheCourseOfferingLinks"/>
                 <!--<ref bean="KS-CourseOfferingManagement-TheCourseOfferingTabs"/>-->
                 <bean id="KS-Tab-Hidden-Input" parent="Uif-InputField" p:defaultValue="0" p:showLabel="false" p:propertyName="selectedTabId">

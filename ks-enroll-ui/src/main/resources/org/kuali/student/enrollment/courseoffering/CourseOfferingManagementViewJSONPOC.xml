@@ -50,7 +50,7 @@
                 <ref bean="KS-CourseOfferingManagement-SearchInputPage-JSONPOC"/>
                 <ref bean="KS-CourseOfferingManagement-ManageCourseOfferingsPage-JSONPOC"/>
                 <ref bean="KS-CourseOfferingManagement-CopyCourseOfferingPage"/>
-                <ref bean="KS-CourseOfferingManagement-ManageActivityOfferingsPage"/>
+                <ref bean="KS-CourseOfferingManagement-ManageTheCourseOfferingPage"/>
                 <ref bean="KS-CourseOfferingManagement-CoDeleteConfirmationPage"/>
                 <ref bean="KS-CourseOfferingManagement-SelectedAoDeleteConfirmationPage"/>
             </list>
