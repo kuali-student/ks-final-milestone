@@ -1,17 +1,17 @@
 /**
  * Copyright 2005-2012 The Kuali Foundation
  *
- * Licensed under the Educational Community License, Version 2.0 (the
- * "License"); you may not use this file except in compliance with the License.
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  * http://www.opensource.org/licenses/ecl2.php
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.rice.krms.impl.repository;
 
@@ -43,8 +43,8 @@ import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplaterContr
 import org.kuali.rice.krms.impl.repository.language.SimpleNaturalLanguageTemplater;
 
 /**
- * The implementation of {@link RuleManagementService} operations facilitate
- * management of rules and associated information.
+ * The implementation of {@link RuleManagementService} operations facilitate management of rules and
+ * associated information.
  *
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
@@ -59,6 +59,7 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
     private NaturalLanguageTemplateBoService naturalLanguageTemplateBoService = new NaturalLanguageTemplateBoServiceImpl();
     private ContextBoService contextBoService = new ContextBoServiceImpl();
     private NaturalLanguageTemplaterContract templater = new SimpleNaturalLanguageTemplater ();
+
     
     public ReferenceObjectBindingBoService getReferenceObjectBindingBoService() {
         return referenceObjectBindingBoService;
@@ -176,6 +177,25 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         return Collections.unmodifiableList(bindings);
     }
 
+    @Override
+    public List<ReferenceObjectBinding> findReferenceObjectBindingsByReferenceObject(String referenceObjectReferenceDiscriminatorType,
+            String referenceObjectId)
+            throws RiceIllegalArgumentException {
+        if (referenceObjectReferenceDiscriminatorType == null) {
+            throw new RiceIllegalArgumentException("reference binding object discriminator type must not be null");
+        }
+        if (referenceObjectId == null) {
+            throw new RiceIllegalArgumentException("reference object id must not be null");
+        }
+        List<ReferenceObjectBinding> list = new ArrayList<ReferenceObjectBinding>();
+        for (ReferenceObjectBinding binding : this.referenceObjectBindingBoService.findReferenceObjectBindingsByReferenceObject(referenceObjectId)) {
+            if (binding.getReferenceDiscriminatorType().equals(referenceObjectReferenceDiscriminatorType)) {
+                list.add(binding);
+            }
+        }
+        return list;
+    }
+    
     @Override
     public List<ReferenceObjectBinding> findReferenceObjectBindingsByReferenceDiscriminatorType(String referenceObjectReferenceDiscriminatorType) throws RiceIllegalArgumentException {
         return referenceObjectBindingBoService.findReferenceObjectBindingsByReferenceDiscriminatorType(referenceObjectReferenceDiscriminatorType);

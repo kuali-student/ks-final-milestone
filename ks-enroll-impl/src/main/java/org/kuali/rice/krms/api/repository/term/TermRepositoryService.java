@@ -1,17 +1,17 @@
 /**
  * Copyright 2005-2012 The Kuali Foundation
  *
- * Licensed under the Educational Community License, Version 2.0 (the
- * "License"); you may not use this file except in compliance with the License.
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  * http://www.opensource.org/licenses/ecl2.php
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.rice.krms.api.repository.term;
 
@@ -30,8 +30,8 @@ import java.util.List;
 import org.springframework.cache.annotation.CacheEvict;
 
 /**
- * The TermRepositoryService provides the basic access to terms and term
- * resolvers in the repository needed for executing rules.
+ * The TermRepositoryService provides the basic access to terms and term resolvers in the repository needed
+ * for executing rules.
  *
  * @author Kuali Rice Team (rice.collab@kuali.org)
  *
@@ -45,11 +45,9 @@ public interface TermRepositoryService {
      *
      * @since 2.1.1
      * @param namespace the namespace for which to get all term resolvers.
-     * @return the List of {@link TermResolverDefinition}s for the given
-     * namespace. May be empty, but never null.
+     * @return the List of {@link TermResolverDefinition}s for the given namespace. May be empty, but never null.
      *
-     * @throws org.kuali.rice.core.api.exception.RiceIllegalArgumentException if
-     * the namespace is null or blank.
+     * @throws org.kuali.rice.core.api.exception.RiceIllegalArgumentException if the namespace is null or blank.
      */
     @WebMethod(operationName = "findTermResolversByNamespace")
     @XmlElementWrapper(name = "termResolvers", required = true)
@@ -58,9 +56,7 @@ public interface TermRepositoryService {
     @Cacheable(value = TermResolverDefinition.Cache.NAME, key = "'namespace=' + #p0")
     List<TermResolverDefinition> findTermResolversByNamespace(@WebParam(name = "namespace") String namespace) throws RiceIllegalArgumentException;
 
-    ;
-
-    /**
+     /**
      * Retrieves the {@link TermDefinition} with the given termId.
      *
      * @since 2.1.1
@@ -75,9 +71,7 @@ public interface TermRepositoryService {
     @Cacheable(value = TermDefinition.Cache.NAME, key = "'id=' + #p0")
     TermDefinition getTerm(@WebParam(name = "termId") String termId) throws RiceIllegalArgumentException;
 
-    ;
-
-     /**
+    /**
      * Retrieves the {@link TermSpecificationDefinition} with the given TermSpecificationId.
      *
      * @since 2.2.1
@@ -110,6 +104,35 @@ public interface TermRepositoryService {
     TermSpecificationDefinition createTermSpecification(@WebParam(name = "termSpec") TermSpecificationDefinition termSpec)
             throws RiceIllegalArgumentException;
 
+     /**
+     * Updates a {@link TermSpecificationDefinition}
+     *
+     * @since 2.2.1
+     * @param termSpec the term specification to be updated
+     *
+     * @throws org.kuali.rice.core.api.exception.RiceIllegalArgumentException
+     * termSpec is null or invalid
+     */
+    @WebMethod(operationName = "updateTermSpecification")
+    @CacheEvict(value = {TermSpecificationDefinition.Cache.NAME, TermDefinition.Cache.NAME}, allEntries = true)
+    void updateTermSpecification(@WebParam(name = "termSpec") TermSpecificationDefinition termSpec)
+            throws RiceIllegalArgumentException;
+
+     /**
+     * Deletes a {@link TermSpecificationDefinition}
+     *
+     * @since 2.2.1
+     * @param id the id of the term specification to be deleted
+     *
+     * @throws org.kuali.rice.core.api.exception.RiceIllegalArgumentException
+     * id is null or invalid
+     */
+    @WebMethod(operationName = "deleteTermSpecification")
+    @CacheEvict(value = {TermSpecificationDefinition.Cache.NAME, TermDefinition.Cache.NAME}, allEntries = true)
+    void deleteTermSpecification(@WebParam(name = "id") String id)
+            throws RiceIllegalArgumentException;  
+    
+    
     /**
      * Create a {@link TermDefinition}
      *
@@ -126,6 +149,38 @@ public interface TermRepositoryService {
     @CacheEvict(value = {TermDefinition.Cache.NAME}, allEntries = true)
     TermDefinition createTerm(@WebParam(name = "termDef") TermDefinition termDef)
             throws RiceIllegalArgumentException;
+
+    /**
+     * Update a {@link TermDefinition}
+     *
+     * @since 2.2.1
+     * @param termDef to be updated
+     *
+     * @throws org.kuali.rice.core.api.exception.RiceIllegalArgumentException if
+     * the termDef is null or blank.
+     */
+    @WebMethod(operationName = "updateTerm")
+    @WebResult(name = "term")
+    @CacheEvict(value = {TermDefinition.Cache.NAME}, allEntries = true)
+    void updateTerm(@WebParam(name = "termDef") TermDefinition termDef)
+            throws RiceIllegalArgumentException;
+
+
+    /**
+     * Delete a {@link TermDefinition}
+     *
+     * @since 2.2.1
+     * @param id of the termDefinition to be deleted
+     *
+     * @throws org.kuali.rice.core.api.exception.RiceIllegalArgumentException if
+     * the id is null or blank.
+     */
+    @WebMethod(operationName = "deleteTerm")
+    @WebResult(name = "term")
+    @CacheEvict(value = {TermDefinition.Cache.NAME}, allEntries = true)
+    void deleteTerm(@WebParam(name = "id") String id)
+            throws RiceIllegalArgumentException;
+
 
     /**
      * Retrieves the {@link TermResolverDefinition} with the given id.
@@ -164,11 +219,11 @@ public interface TermRepositoryService {
             throws RiceIllegalArgumentException;
 
     /**
-     * Retrieves the {@link createTermResolver} with the given termId.
+     * Creates the {@link TermResolverDefinition}.
      *
      * @since 2.1.1
      * @param termResolver to be created
-     * @return the {@link createTermResolver} after it has been created in the
+     * @return the {@link TermResolver} after it has been created in the
      * repository.
      *
      * @throws org.kuali.rice.core.api.exception.RiceIllegalArgumentException if
@@ -178,5 +233,37 @@ public interface TermRepositoryService {
     @WebResult(name = "termResolver")
     @CacheEvict(value = {TermResolverDefinition.Cache.NAME, TermDefinition.Cache.NAME}, allEntries = true)
     TermResolverDefinition createTermResolver(@WebParam(name = "termResolver") TermResolverDefinition termResolver)
+            throws RiceIllegalArgumentException;
+    
+    
+    /**
+     * Updates the {@link TermResolverDefinition}.
+     *
+     * @since 2.1.1
+     * @param termResolver to be created
+     * @return the {@link TermResolverDefinition} after it has been created in the
+     * repository.
+     *
+     * @throws org.kuali.rice.core.api.exception.RiceIllegalArgumentException if
+     * the termResolver is null or blank.
+     */
+    @WebMethod(operationName = "updateTermResolver")
+    @CacheEvict(value = {TermResolverDefinition.Cache.NAME, TermDefinition.Cache.NAME}, allEntries = true)
+    void updateTermResolver(@WebParam(name = "termResolver") TermResolverDefinition termResolver)
+            throws RiceIllegalArgumentException;
+    
+    
+    /**
+     * deletes the {@link TermResolverDefinition} with the given id
+     *
+     * @since 2.1.1
+     * @param id of the term resolver to be deleted
+     *
+     * @throws org.kuali.rice.core.api.exception.RiceIllegalArgumentException if
+     * the termResolver is null or blank.
+     */
+    @WebMethod(operationName = "deleteTermResolver")
+    @CacheEvict(value = {TermResolverDefinition.Cache.NAME, TermDefinition.Cache.NAME}, allEntries = true)
+    void deleteTermResolver(@WebParam(name = "id") String id)
             throws RiceIllegalArgumentException;
 }

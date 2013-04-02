@@ -129,6 +129,20 @@ public class RuleManagementServiceMockImpl implements RuleManagementService {
     }
 
     @Override
+    public List<ReferenceObjectBinding> findReferenceObjectBindingsByReferenceObject(String referenceObjectReferenceDiscriminatorType, String referenceObjectId) throws RiceIllegalArgumentException {
+        
+        List<ReferenceObjectBinding> list = new ArrayList<ReferenceObjectBinding>();
+        for (ReferenceObjectBinding info : this.referenceObjectBindingMap.values()) {
+            if (info.getReferenceDiscriminatorType().equals(referenceObjectReferenceDiscriminatorType)) {
+                list.add(info);
+            }
+        }
+        return list;
+    }
+    
+    
+
+    @Override
     public List<ReferenceObjectBinding> findReferenceObjectBindingsByKrmsDiscriminatorType(String referenceObjectKrmsDiscriminatorType)
             throws RiceIllegalArgumentException {
         List<ReferenceObjectBinding> list = new ArrayList<ReferenceObjectBinding>();

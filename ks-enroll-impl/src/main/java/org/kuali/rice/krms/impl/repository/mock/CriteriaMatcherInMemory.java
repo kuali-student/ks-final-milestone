@@ -16,14 +16,21 @@
 package org.kuali.rice.krms.impl.repository.mock;
 
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Pattern;
 import org.apache.commons.beanutils.NestedNullException;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.joda.time.DateTime;
 import org.kuali.rice.core.api.criteria.AndPredicate;
 import org.kuali.rice.core.api.criteria.EqualPredicate;
 import org.kuali.rice.core.api.criteria.GreaterThanOrEqualPredicate;
@@ -198,9 +205,41 @@ public class CriteriaMatcherInMemory<T> {
                 return null;
             }
             Object value = PropertyUtils.getNestedProperty(infoObject, fieldPath);
-            // translate boolean to string
+            // translate boolean to string so we can compare
+            // Have to do this because RICE's predicate does not support boolean 
+            // because it is database oriented and most DB do not support booleans natively.
             if (value instanceof Boolean) {
                 return value.toString();
+            }
+            // See Rice's CriteriaSupportUtils.determineCriteriaValue where data normalized 
+            // translate date to joda DateTime because that is what RICE PredicateFactory does 
+            // similar to rest of the types 
+            if (value instanceof Date) {
+                return new DateTime ((Date) value);
+            }
+            if (value instanceof Calendar) {
+                return new DateTime ((Calendar) value);
+            }
+            if (value instanceof Short) {
+                return BigInteger.valueOf(((Short) value).longValue());
+            }
+            if (value instanceof AtomicLong) {
+                return BigInteger.valueOf(((AtomicLong) value).longValue());
+            }
+            if (value instanceof AtomicInteger) {
+                return BigInteger.valueOf(((AtomicInteger) value).longValue());
+            }
+            if (value instanceof Integer) {
+                return BigInteger.valueOf(((Integer)value).longValue());
+            }
+            if (value instanceof Long) {
+                return BigInteger.valueOf(((Long)value).longValue());
+            }
+            if (value instanceof Float) {
+                return BigDecimal.valueOf(((Float)value).doubleValue());
+            }
+            if (value instanceof Double) {
+                return BigDecimal.valueOf(((Double)value).doubleValue());
             }
             return value;
         } catch (NestedNullException ex) {

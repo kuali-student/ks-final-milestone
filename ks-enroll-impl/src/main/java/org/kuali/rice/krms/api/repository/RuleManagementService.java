@@ -1,17 +1,17 @@
 /**
  * Copyright 2005-2012 The Kuali Foundation
  *
- * Licensed under the Educational Community License, Version 2.0 (the
- * "License"); you may not use this file except in compliance with the License.
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  * http://www.opensource.org/licenses/ecl2.php
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.rice.krms.api.repository;
 
@@ -53,11 +53,10 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
     /**
      * Create RefObject-KRMS object binding
      *
-     * @param referenceObjectDefinition data for the new ReferenceObjectBinding
-     * to be created
+     * @param referenceObjectDefinition  data for the new ReferenceObjectBinding to be created
      * @return newly created ReferenceObjectBinding
-     * @throws RiceIllegalArgumentException if the given
-     * referenceObjectDefinition is null or invalid
+     * @throws RiceIllegalArgumentException if the given referenceObjectDefinition
+     *                                      is null or invalid
      */
     @WebMethod(operationName = "createReferenceObjectBinding")
     @WebResult(name = "referenceObjectBinding")
@@ -65,11 +64,12 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
             name = "referenceObjectDefinition") ReferenceObjectBinding referenceObjectDefinition) throws RiceIllegalArgumentException;
 
     /**
-     * Retrieve referenceObjectBinding given a specific id
+     * Retrieve referenceObjectBinding  given a specific id
      *
      * @param id identifier of the ReferenceObjectBinding to be retrieved
      * @return a ReferenceObjectBinding with the given id value
-     * @throws RiceIllegalArgumentException if the given id is blank or invalid
+     * @throws RiceIllegalArgumentException if the given  id is blank or
+     *                                      invalid
      */
     @WebMethod(operationName = "getReferenceObjectBinding")
     @WebResult(name = "referenceObjectBinding")
@@ -82,7 +82,7 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
      * @param ids identifiers of the ReferenceObjectBinding to be retrieved
      * @return list of ReferenceObjectBinding objects for the given ids
      * @throws RiceIllegalArgumentException if one or more ids in the give list
-     * is blank or invalid
+     *                                      is blank or invalid
      */
     @WebMethod(operationName = "getReferenceObjectBindings")
     @XmlElementWrapper(name = "referenceObjectBindings", required = true)
@@ -95,11 +95,11 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
      * Retrieves list of ReferenceObjectBinding objects for the given ref obj
      * discriminator type
      *
-     * @param referenceObjectReferenceDiscriminatorType reference object type
-     * @return list of ReferenceObjectBinding objects for the given
-     * discriminator type
-     * @throws RiceIllegalArgumentException if the given
-     * referenceObjectReferenceDiscriminatorType is blank or invalid
+     * @param referenceObjectReferenceDiscriminatorType  reference object type
+     * @return list of ReferenceObjectBinding objects for the given discriminator
+     *         type
+     * @throws RiceIllegalArgumentException if the given  referenceObjectReferenceDiscriminatorType is
+     *                                      blank or invalid
      */
     @WebMethod(operationName = "findReferenceObjectBindingsByReferenceDiscriminatorType")
     @XmlElementWrapper(name = "referenceObjectBindings", required = true)
@@ -112,11 +112,11 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
      * Retrieves list of ReferenceObjectBinding objects for the given krms obj
      * discriminator type
      *
-     * @param referenceObjectKrmsDiscriminatorType reference object type
-     * @return list of ReferenceObjectBinding objects for the given
-     * discriminator type
-     * @throws RiceIllegalArgumentException if the given
-     * referenceObjectKrmsDiscriminatorType is blank or invalid
+     * @param referenceObjectKrmsDiscriminatorType  reference object type
+     * @return list of ReferenceObjectBinding objects for the given discriminator
+     *         type
+     * @throws RiceIllegalArgumentException if the given  referenceObjectKrmsDiscriminatorType is
+     *                                      blank or invalid
      */
     @WebMethod(operationName = "findReferenceObjectBindingsByKrmsDiscriminatorType")
     @XmlElementWrapper(name = "referenceObjectBindings", required = true)
@@ -125,14 +125,35 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
     public List<ReferenceObjectBinding> findReferenceObjectBindingsByKrmsDiscriminatorType(
             @WebParam(name = "referenceObjectKrmsDiscriminatorType") String referenceObjectKrmsDiscriminatorType) throws RiceIllegalArgumentException;
 
+    
+    /**
+     * Retrieves list of ReferenceObjectBinding objects for the given obj
+     * discriminator type and reference object id
+     *
+     * @param referenceObjectReferenceDiscriminatorType  reference object type
+     * @param referenceObjectId reference object id
+     * @return list of ReferenceObjectBinding objects for the given discriminator
+     *         type
+     * @throws RiceIllegalArgumentException if the given  referenceObjectKrmsDiscriminatorType or id is
+     *                                      blank or invalid
+     */
+    @WebMethod(operationName = "findReferenceObjectBindingsByReferenceObject ")
+    @XmlElementWrapper(name = "referenceObjectBindings", required = true)
+    @XmlElement(name = "referenceObjectBinding", required = false)
+    @WebResult(name = "referenceObjectBindings")
+    public List<ReferenceObjectBinding> findReferenceObjectBindingsByReferenceObject (
+            @WebParam(name = "referenceObjectReferenceDiscriminatorType") String referenceObjectReferenceDiscriminatorType, 
+            @WebParam(name = "referenceObjectId") String referenceObjectId) 
+            throws RiceIllegalArgumentException;
+    
     /**
      * Retrieves list of ReferenceObjectBinding objects for the given KRMS obj
      * id.
      *
      * @param krmsObjectId identifier of the KRMS obj
      * @return list of ReferenceObjectBinding objects for the given KRMS obj
-     * @throws RiceIllegalArgumentException if the given krmsObjectId is blank
-     * or invalid
+     * @throws RiceIllegalArgumentException if the given krmsObjectId is blank or
+     *                                      invalid
      */
     @WebMethod(operationName = "findReferenceObjectBindingsByKrmsObjectId")
     @XmlElementWrapper(name = "referenceObjectBindings", required = true)
@@ -142,13 +163,12 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
             @WebParam(name = "krmsObjectId") String krmsObjectId) throws RiceIllegalArgumentException;
 
     /**
-     * Update the ReferenceObjectBinding object specified by the identifier in
-     * the given DTO
+     * Update the ReferenceObjectBinding object specified by the identifier in the
+     * given DTO
      *
-     * @param referenceObjectBindingDefinition DTO with updated info and id of
-     * the object to be updated
-     * @throws RiceIllegalArgumentException if the given
-     * referenceObjectBindingDefinition is null or invalid
+     * @param referenceObjectBindingDefinition DTO with updated info and id of the object to be updated
+     * @throws RiceIllegalArgumentException if the given  referenceObjectBindingDefinition
+     *                                      is null or invalid
      */
     @WebMethod(operationName = "updateReferenceObjectBinding")
     public void updateReferenceObjectBinding(ReferenceObjectBinding referenceObjectBindingDefinition) throws RiceIllegalArgumentException;
@@ -157,21 +177,21 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
      * Delete the specified ReferenceObjectBinding object
      *
      * @param id identifier of the object to be deleted
-     * @throws RiceIllegalArgumentException if the given id is null or invalid
+     * @throws RiceIllegalArgumentException if the given  id is null or invalid
      */
     @WebMethod(operationName = "deleteReferenceObjectBinding")
     public void deleteReferenceObjectBinding(@WebParam(name = "id") String id) throws RiceIllegalArgumentException;
 
     /**
      * Query for ReferenceObjectBinding ids based on the given search criteria
-     * which is a Map of ReferenceObjectBinding field names to values.
-     * <p/>
-     * <p> This method returns it's results as a List of ReferenceObjectBinding
-     * ids that match the given search criteria. </p>
+     * which is a Map of ReferenceObjectBinding field names to values. <p/> <p>
+     * This method returns it's results as a List of ReferenceObjectBinding ids
+     * that match the given search criteria. </p>
      *
-     * @param queryByCriteria the criteria. Cannot be null.
-     * @return a list of ids matching the given criteria properties. An empty
-     * list is returned if an invalid or non-existent criteria is supplied.
+     * @param queryByCriteria the criteria.  Cannot be null.
+     * @return a list of ids matching the given criteria properties.  An empty
+     *         list is returned if an invalid or non-existent criteria is
+     *         supplied.
      * @throws RiceIllegalArgumentException if the queryByCriteria is null
      */
     @WebMethod(operationName = "findReferenceObjectBindingIds")
@@ -189,7 +209,7 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
      * @param agendaDefinition data for the new Agenda to be created
      * @return newly created Agenda
      * @throws RiceIllegalArgumentException if the given agendaDefinition is
-     * null or invalid
+     *                                      null or invalid
      */
     @WebMethod(operationName = "createAgenda")
     @WebResult(name = "agenda")
@@ -212,7 +232,7 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
      * @param typeId type of the Agenda
      * @return list of Agendas of the specified type
      * @throws RiceIllegalArgumentException if the given typeId is null or
-     * invalid
+     *                                      invalid
      */
     @WebMethod(operationName = "getAgendasByType")
     @XmlElementWrapper(name = "agendas", required = true)
@@ -223,10 +243,10 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
     /**
      * Retrieve Agendas associated with the specified context
      *
-     * @param contextId context of interest
+     * @param contextId  context of interest
      * @return list of Agendas associated with the context
      * @throws RiceIllegalArgumentException if the given contextId is null or
-     * invalid
+     *                                      invalid
      */
     @WebMethod(operationName = "getAgendasByContext")
     @XmlElementWrapper(name = "agendas", required = true)
@@ -237,11 +257,11 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
     /**
      * Retrieve Agendas of the specified type and context
      *
-     * @param typeId type of the Agenda
-     * @param contextId context of interest
+     * @param typeId  type of the Agenda
+     * @param contextId  context of interest
      * @return list of Agendas associated with the specified type and context
      * @throws RiceIllegalArgumentException if the given typeId or contextId
-     * null or invalid
+     *                                      null or invalid
      */
     @WebMethod(operationName = "getAgendasByTypeAndContext")
     @XmlElementWrapper(name = "agendas", required = true)
@@ -253,10 +273,9 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
     /**
      * Update the Agenda specified by the identifier in the input DTO
      *
-     * @param agendaDefinition DTO with updated info and identifier of the
-     * object to be updated
+     * @param agendaDefinition DTO with updated info and identifier of the object to be updated
      * @throws RiceIllegalArgumentException if the given agendaDefinition is
-     * null or invalid
+     *                                      null or invalid
      */
     @WebMethod(operationName = "updateAgenda")
     public void updateAgenda(@WebParam(name = "agendaDefinition") AgendaDefinition agendaDefinition) throws RiceIllegalArgumentException;
@@ -276,10 +295,10 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
     /**
      * Create AgendaItem
      *
-     * @param agendaItemDefinition data for the new AgendaItem to be created
+     * @param agendaItemDefinition  data for the new AgendaItem to be created
      * @return newly created AgendaItem
      * @throws RiceIllegalArgumentException if the given agendaItemDefinition is
-     * null or invalid
+     *                                      null or invalid
      */
     @WebMethod(operationName = "createAgendaItem")
     @WebResult(name = "agendaItem")
@@ -302,7 +321,7 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
      * @param typeId type of the AgendaItems
      * @return list of AgendaItems of the specified type
      * @throws RiceIllegalArgumentException if the given typeId is null or
-     * invalid
+     *                                      invalid
      */
     @WebMethod(operationName = "getAgendaItemsByType")
     @XmlElementWrapper(name = "agendaItems", required = true)
@@ -315,8 +334,8 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
      *
      * @param contextId context identifier
      * @return list of AgendaItems associated with a context
-     * @throws RiceIllegalArgumentException if the given contextId is null or
-     * invalid
+     * @throws RiceIllegalArgumentException if the given  contextId is null or
+     *                                      invalid
      */
     @WebMethod(operationName = "getAgendaItemsByContext")
     @XmlElementWrapper(name = "agendaItems", required = true)
@@ -330,8 +349,8 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
      * @param typeId type of the Agendas
      * @param contextId context with which the Agendas are associated
      * @return list of AgendaItems of the specified type and context
-     * @throws RiceIllegalArgumentException if the given typeId or contextId
-     * null or invalid
+     * @throws RiceIllegalArgumentException if the given  typeId or contextId
+     *                                      null or invalid
      */
     @WebMethod(operationName = "getAgendaItemsByTypeAndContext")
     @XmlElementWrapper(name = "agendaItems", required = true)
@@ -343,10 +362,9 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
     /**
      * Update an AgendaItem
      *
-     * @param agendaItemDefinition updated data for the AgendaItem, with id of
-     * the object to be updated
-     * @throws RiceIllegalArgumentException if the given agendaItemDefinition is
-     * null or invalid
+     * @param agendaItemDefinition  updated data for the AgendaItem, with id of the object to be updated
+     * @throws RiceIllegalArgumentException if the given  agendaItemDefinition
+     *                                      is null or invalid
      */
     @WebMethod(operationName = "updateAgendaItem")
     public void updateAgendaItem(@WebParam(name = "agendaItemDefinition") AgendaItemDefinition agendaItemDefinition) throws RiceIllegalArgumentException;
@@ -369,21 +387,21 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
      * @param ruleDefinition data for the new Rule to be created
      * @return newly created Rule
      * @throws RiceIllegalArgumentException if the given ruleDefinition is null
-     * or invalid
+     *                                      or invalid
      */
     @WebMethod(operationName = "createRule")
     @WebResult(name = "rule")
     public RuleDefinition createRule(@WebParam(name = "ruleDefinition") RuleDefinition ruleDefinition) throws RiceIllegalArgumentException;
 
     /**
-     * Retrieves the rule for the given ruleId. The rule includes the
+     * Retrieves the rule for the given ruleId.  The rule includes the
      * propositions which define the condition that is to be evaluated on the
-     * rule. It also defines a collection of actions which will be invoked if
+     * rule.  It also defines a collection of actions which will be invoked if
      * the rule succeeds.
      *
      * @param ruleId the id of the rule to retrieve
      * @return the rule definition, or null if no rule could be located for the
-     * given ruleId
+     *         given ruleId
      * @throws IllegalArgumentException if the given ruleId is null
      */
     @WebMethod(operationName = "getRule")
@@ -392,22 +410,22 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
     public RuleDefinition getRule(@WebParam(name = "ruleId") String ruleId);
 
     /**
-     * Retrieves all of the rules for the given list of ruleIds. The rule
+     * Retrieves all of the rules for the given list of ruleIds.  The rule
      * includes the propositions which define the condition that is to be
-     * evaluated on the rule. It also defines a collection of actions which will
-     * be invoked if the rule succeeds.
+     * evaluated on the rule.  It also defines a collection of actions which
+     * will be invoked if the rule succeeds.
      * <p/>
      * <p>The list which is returned from this operation may not be the same
-     * size as the list which is passed to this method. If a rule doesn't exist
+     * size as the list which is passed to this method.  If a rule doesn't exist
      * for a given rule id then no result for that id will be returned in the
-     * list. As a result of this, the returned list can be empty, but it will
+     * list.  As a result of this, the returned list can be empty, but it will
      * never be null.
      *
      * @param ruleIds the list of rule ids for which to retrieve the rules
      * @return the list of rules for the given ids, this list will only contain
-     * rules for the ids that were resolved successfully, it will never return
-     * null but could return an empty list if no rules could be loaded for the
-     * given set of ids
+     *         rules for the ids that were resolved successfully, it will never
+     *         return null but could return an empty list if no rules could be
+     *         loaded for the given set of ids
      * @throws IllegalArgumentException if the given list of ruleIds is null
      */
     @WebMethod(operationName = "getRules")
@@ -419,10 +437,9 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
     /**
      * Update the Rule specified by the identifier in the DTO
      *
-     * @param ruleDefinition updated Rule information, object specified by the
-     * id
+     * @param ruleDefinition updated Rule information, object specified by the id
      * @throws RiceIllegalArgumentException if the given ruleDefinition is null
-     * or invalid
+     *                                      or invalid
      */
     @WebMethod(operationName = "updateRule")
     public void updateRule(@WebParam(name = "ruleDefinition") RuleDefinition ruleDefinition) throws RiceIllegalArgumentException;
@@ -465,13 +482,10 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
     @WebMethod(operationName = "getAction")
     @WebResult(name = "action")
     @Cacheable(value = ActionDefinition.Cache.NAME, key = "'actionId=' + #p0")
-    public ActionDefinition getAction(@WebParam(name = "actionId") String actionId);
+    public ActionDefinition getAction(@WebParam(name = "actionId") String actionId) throws RiceIllegalArgumentException;
 
     /**
-     * Retrieves all of the actions for the given list of actionIds. The action
-     * includes the propositions which define the condition that is to be
-     * evaluated on the action. It also defines a collection of actions which will
-     * be invoked if the action succeeds.
+     * Retrieves all of the actions for the given list of actionIds.
      * <p/>
      * <p>The list which is returned from this operation may not be the same
      * size as the list which is passed to this method. If a action doesn't exist
@@ -490,7 +504,7 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
     @XmlElementWrapper(name = "actions", required = true)
     @XmlElement(name = "action", required = false)
     @WebResult(name = "actions")
-    public List<ActionDefinition> getActions(@WebParam(name = "actionIds") List<String> actionIds);
+    public List<ActionDefinition> getActions(@WebParam(name = "actionIds") List<String> actionIds)  throws RiceIllegalArgumentException;
 
     /**
      * Update the Action specified by the identifier in the DTO
@@ -522,7 +536,7 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
      * @param propositionDefinition data for the new Proposition to be created
      * @return newly created Proposition
      * @throws RiceIllegalArgumentException if the given propositionDefinition
-     * is null or invalid
+     *                                      is null or invalid
      */
     @WebMethod(operationName = "createProposition")
     @WebResult(name = "proposition")
@@ -545,7 +559,7 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
      * @param typeId type of the Propositions to be retrieved
      * @return list of Propositions of the specified type
      * @throws RiceIllegalArgumentException if the given typeId is null or
-     * invalid
+     *                                      invalid
      */
     @WebMethod(operationName = "getPropositionsByType")
     @XmlElementWrapper(name = "propositions", required = true)
@@ -556,11 +570,10 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
     /**
      * Retrieve Propositions associated with the specified Rule
      *
-     * @param ruleId identifier of the Rule to which the Propositions are
-     * associated with
+     * @param ruleId identifier of the Rule to which the Propositions are associated with
      * @return list of Propositions associated with the Rule
      * @throws RiceIllegalArgumentException if the given ruleId is null or
-     * invalid
+     *                                      invalid
      */
     @WebMethod(operationName = "getPropositionsByRule")
     @XmlElementWrapper(name = "propositions", required = true)
@@ -571,10 +584,9 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
     /**
      * Update the Proposition
      *
-     * @param propositionDefinition updated data for the Proposition, id
-     * specifies the object to be updated
+     * @param propositionDefinition updated data for the Proposition, id specifies the object to be updated
      * @throws RiceIllegalArgumentException if the given propositionDefinition
-     * is null or invalid
+     *                                      is null or invalid
      */
     @WebMethod(operationName = "updateProposition")
     public void updateProposition(
@@ -595,11 +607,10 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
     /**
      * Create NaturalLanguageUsage
      *
-     * @param naturalLanguageUsage data for the new NaturalLanguageUsage to be
-     * created
+     * @param naturalLanguageUsage data for the new NaturalLanguageUsage to be created
      * @return newly created NaturalLanguageUsage
      * @throws RiceIllegalArgumentException if the given naturalLanguageUsage is
-     * null or invalid
+     *                                      null or invalid
      */
     @WebMethod(operationName = "createNaturalLanguageUsage")
     @WebResult(name = "naturalLanguageUsage")
@@ -636,28 +647,26 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
     /**
      * Update NaturalLanguageUsage
      *
-     * @param naturalLanguageUsage updated data for the NaturalLanguageUsage
-     * object specified by the id
+     * @param naturalLanguageUsage updated data for the NaturalLanguageUsage object specified by the id
      * @throws RiceIllegalArgumentException if the given naturalLanguageUsage is
-     * null or invalid
+     *                                      null or invalid
      */
     @WebMethod(operationName = "updateNaturalLanguageUsage")
-    public void updateNaturalLanguageUsage(@WebParam(name = "naturalLanguageUsage") NaturalLanguageUsage naturalLanguageUsage)
-            throws RiceIllegalArgumentException;
+    public void updateNaturalLanguageUsage(@WebParam(name = "naturalLanguageUsage") NaturalLanguageUsage naturalLanguageUsage) throws RiceIllegalArgumentException;
 
     /**
      * Delete NaturalLanguageUsage
      *
-     * @param naturalLanguageUsageId identifier of the NaturalLanguageUsage to
-     * be deleted
-     * @throws RiceIllegalArgumentException if the given naturalLanguageUsageId
-     * is null or invalid
+     * @param naturalLanguageUsageId  identifier of the NaturalLanguageUsage to be deleted
+     * @throws RiceIllegalArgumentException  if the given naturalLanguageUsageId is null or invalid
      */
     @WebMethod(operationName = "deleteNaturalLanguageUsage")
     public void deleteNaturalLanguageUsage(@WebParam(name = "naturalLanguageUsageId") String naturalLanguageUsageId) throws RiceIllegalArgumentException;
 
     /**
-     * Retrieve all the NaturalLanguageUsages in a particular namespace
+     * Translates and retrieves a NaturalLanguage for a given KRMS object (e.g, proposition
+     * or agenda), NaturalLanguage usage type (context) and language into natural language
+     * TODO: Add appropriate caching annotation
      *
      * @param namespace namespace to search on.
      * @return list of NaturalLanguageUsages in a particular namespace
@@ -682,7 +691,7 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
      */
     @WebMethod(operationName = "createContext")
     @WebResult(name = "context")
-    public ContextDefinition createContext(@WebParam(name = "ContextDefinition") ContextDefinition contextDefinition) throws RiceIllegalArgumentException;
+    public ContextDefinition createContext(@WebParam(name = "contextDefinition") ContextDefinition contextDefinition) throws RiceIllegalArgumentException;
 
     /**
      * Update the Context specified by the identifier in the input DTO
@@ -736,10 +745,11 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
     //// natural languatge template methods
     /**
      * This will create a {@link NaturalLanguageTemplate} exactly like the
-     * parameter passed in.
+     * parameter passed in except the id will be assigned and create date/user 
+     * will be set.
      *
      * @param naturalLanguageTemplate The NaturalLanguageTemplate to create.
-     * @throws IllegalArgumentException if the NaturalLanguageTemplate is null.
+     * @throws RiceIllegalArgumentException if the NaturalLanguageTemplate is null.
      * @throws IllegalStateException if the NaturalLanguageTemplate already
      * exists in the system.
      * @return a {@link NaturalLanguageTemplate} exactly like the parameter
@@ -747,6 +757,7 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
      *
      */
     @WebMethod(operationName = "createNaturalLanguageTemplate")
+    @WebResult(name = "naturalLanguageTemplate")
     public NaturalLanguageTemplate createNaturalLanguageTemplate(@WebParam(name = "naturalLanguageTemplate") NaturalLanguageTemplate naturalLanguageTemplate)
             throws RiceIllegalArgumentException;
 
@@ -755,10 +766,11 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
      * given id.
      *
      * @param naturalLanguageTemplateId to retrieve.
-     * @return a {@link NaturalLanguageTemplate} identified by the given id. A
-     * null reference is returned if an invalid or non-existent id is supplied.
-     *
+     * @return a {@link NaturalLanguageTemplate} identified by the given id. 
+     * @throws IllegalArgumentException if the given actionId is null     *
      */
+    @WebMethod(operationName = "getNaturalLanguageTemplate")
+    @WebResult(name = "naturalLanguageTemplate")
     public NaturalLanguageTemplate getNaturalLanguageTemplate(@WebParam(name = "naturalLanguageTemplateId") String naturalLanguageTemplateId)
             throws RiceIllegalArgumentException;
 
@@ -766,11 +778,11 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
      * This will update an existing {@link NaturalLanguageTemplate}.
      *
      * @param naturalLanguageTemplate The NaturalLanguageTemplate to update.
-     * @throws IllegalArgumentException if the NaturalLanguageTemplate is null.
-     * @throws IllegalStateException if the NaturalLanguageTemplate does not
+     * @throws RiceIllegalArgumentException if the NaturalLanguageTemplate is null.
      * exists in the system.
      *
      */
+    @WebMethod(operationName = "updateNaturalLanguageTemplate")
     public void updateNaturalLanguageTemplate(@WebParam(name = "naturalLanguageTemplate") NaturalLanguageTemplate naturalLanguageTemplate)
             throws RiceIllegalArgumentException;
 
@@ -778,11 +790,10 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
      * Delete the {@link NaturalLanguageTemplate} with the given id.
      *
      * @param naturalLanguageTemplateId to delete.
-     * @throws IllegalArgumentException if the NaturalLanguageTemplate is null.
-     * @throws IllegalStateException if the NaturalLanguageTemplate does not
-     * exists in the system
+     * @throws RiceIllegalArgumentException if the NaturalLanguageTemplate is null.
      *
      */
+    @WebMethod(operationName = "deleteNaturalLanguageTemplate")
     public void deleteNaturalLanguageTemplate(@WebParam(name = "naturalLanguageTemplateId") String naturalLanguageTemplateId)
             throws RiceIllegalArgumentException;
 
@@ -800,6 +811,7 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
             throws RiceIllegalArgumentException;
 
     @WebMethod(operationName = "findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId")
+    @WebResult(name = "naturalLangaugeTemplate")
     public NaturalLanguageTemplate findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(@WebParam(name = "languageCode") String languageCode,
             @WebParam(name = "typeId") String typeId,
             @WebParam(name = "naturalLanguageUsageId") String naturalLanguageUsageId)
@@ -856,14 +868,14 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
      * into natural language TODO: Add appropriate caching annotation
      *
      * @param naturalLanguageUsageId Natural language usage information
-     * @param typeId KRMS object type id (for example, could refer to "agenda"
-     * or "proposition")
+     * @param typeId    KRMS object type id (for example, could refer to agenda
+     *                  or proposition)
      * @param krmsObjectId KRMS object identifier
-     * @param languageCode desired
-     * @return natural language corresponding to the NaturalLanguage usage, KRMS
-     * object id, KRMS object type and desired language
-     * @throws RiceIllegalArgumentException if the given naturalLanguageUsageId,
-     * typeId, krmsObjectId or language is null or invalid
+     * @param languageCode  desired
+     * @return natural language corresponding to the NaturalLanguage usage, KRMS object id, KRMS object type and desired language
+     * @throws RiceIllegalArgumentException if the given naturalLanguageUsageId, typeId,
+     *                                      krmsObjectId or language is null or
+     *                                      invalid
      */
     @WebMethod(operationName = "translateNaturalLanguageForObject")
     @WebResult(name = "naturalLanguage")
@@ -873,18 +885,9 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
             @WebParam(name = "languageCode") String languageCode) throws RiceIllegalArgumentException;
 
     /**
-     * Translates NaturalLanguage for a given proposition, NaturalLanguage usage
-     * type (context) and language into natural language.
+     * Retrieve all the NaturalLanguageUsages
      *
-     * This method is used to "preview" the proposition before saving.
-     *
-     * @param naturalLanguageUsageId Natural language usage information
-     * @param propositionDefinintion proposition to be translated
-     * @param languageCode desired
-     * @return natural language corresponding to the NaturalLanguage usage,
-     * proposition and desired language
-     * @throws RiceIllegalArgumentException if the given naturalLanguageUsageId,
-     * proposition, or language is null or invalid
+     * @return list of NaturalLanguageUsages
      */
     @WebMethod(operationName = "translateNaturalLanguageForProposition")
     @WebResult(name = "naturalLanguage")
@@ -917,6 +920,7 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
             @WebParam(name = "languageCode") String languageCode)
             throws RiceIllegalArgumentException;
 
+  
     /**
      * Query for Context ids based on the given search criteria which is a Map
      * of Context field names to values.

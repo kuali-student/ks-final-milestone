@@ -29,6 +29,7 @@ import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 
 /**
  * This class is a Mock implementation of the TermBoService
@@ -96,4 +97,36 @@ public class TermBoMockService implements TermBoService {
     public TermResolverDefinition createTermResolver(TermResolverDefinition termResolver) {
         return null;  //TODO implement auto generated
     }
+
+    @Override
+    public void updateTermSpecification(TermSpecificationDefinition termSpec) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteTermSpecification(String id) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateTerm(TermDefinition termDef) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteTerm(String id) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateTermResolver(TermResolverDefinition termResolver) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteTermResolver(String id) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }

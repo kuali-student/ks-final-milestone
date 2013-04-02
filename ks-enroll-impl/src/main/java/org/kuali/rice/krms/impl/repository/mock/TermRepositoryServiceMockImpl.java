@@ -139,4 +139,55 @@ public class TermRepositoryServiceMockImpl implements TermRepositoryService {
         termResolverMap.put(termResolverDefinition.getId(), termResolverDefinition);
         return termResolverDefinition;
     }
+
+    @Override
+    public void updateTermSpecification(TermSpecificationDefinition termSpec) throws RiceIllegalArgumentException {
+      TermSpecificationDefinition existing = this.getTermSpecificationById(termSpec.getId());
+      if (existing == null) {
+            throw new RiceIllegalArgumentException (termSpec.getId() + " does not exist");
+      }
+      this.termSpecificationMap.put(termSpec.getId(), termSpec);
+        
+    }
+
+    @Override
+    public void deleteTermSpecification(String id) throws RiceIllegalArgumentException {
+        if (this.termSpecificationMap.remove(id) == null) {
+            throw new RiceIllegalArgumentException (id + " does not exist");
+        }
+    }
+
+    @Override
+    public void updateTerm(TermDefinition termDef) throws RiceIllegalArgumentException {
+      TermDefinition existing = this.getTerm(termDef.getId());
+      if (existing == null) {
+            throw new RiceIllegalArgumentException (termDef.getId() + " does not exist");
+      }
+      this.termMap.put(termDef.getId(), termDef);
+    }
+
+    @Override
+    public void deleteTerm(String id) throws RiceIllegalArgumentException {
+        if (this.termMap.remove(id) == null) {
+            throw new RiceIllegalArgumentException (id + " does not exist");
+        }
+    }
+
+    @Override
+    public void updateTermResolver(TermResolverDefinition termResolver) throws RiceIllegalArgumentException {
+      TermResolverDefinition existing = this.getTermResolverById(termResolver.getId());
+      if (existing == null) {
+            throw new RiceIllegalArgumentException (termResolver.getId() + " does not exist");
+      }
+      this.termResolverMap.put(termResolver.getId(), termResolver);
+    }
+
+    @Override
+    public void deleteTermResolver(String id) throws RiceIllegalArgumentException {
+        if (this.termResolverMap.remove(id) == null) {
+            throw new RiceIllegalArgumentException (id + " does not exist");
+        }
+    }
+    
+    
 }

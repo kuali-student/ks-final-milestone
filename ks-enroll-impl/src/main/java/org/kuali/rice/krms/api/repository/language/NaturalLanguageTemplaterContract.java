@@ -15,8 +15,6 @@
  */
 package org.kuali.rice.krms.api.repository.language;
 
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 import java.util.Map;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;

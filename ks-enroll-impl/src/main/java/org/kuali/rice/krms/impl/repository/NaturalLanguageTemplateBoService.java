@@ -29,7 +29,9 @@ public interface NaturalLanguageTemplateBoService {
 
 
     /**
-     * This will create a {@link NaturalLanguageTemplate} exactly like the parameter passed in.
+     * This will create a {@link NaturalLanguageTemplate} exactly like the
+     * parameter passed in except the id will be assigned and create date/user 
+     * will be set.
      * 
      * @param naturalLanguageTemplate  The NaturalLanguageTemplate to create.
      * @throws IllegalArgumentException if the NaturalLanguageTemplate is null.
