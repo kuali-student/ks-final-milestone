@@ -636,17 +636,19 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         List<BulkStatusInfo> rgChanges = new ArrayList<BulkStatusInfo>();
         // Initializes coService
         _initServices();
+        ActivityOfferingClusterInfo cluster = coService.getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
 
-        // TODO: this should be moved to the validation decorator in the verify method
-        // Run a basic validation to see if each AOset is non-empty.  If there is an empty set, throw exception.
-        _gRGFC_basicValidate(activityOfferingClusterId, contextInfo);
+        // If any of the AO sets is empty, we'll bail out and not generate.  This is more the expected behavior.
+        if (_hasEmptyAoSets(cluster)) {
+            return new ArrayList<BulkStatusInfo>(); // KSENROLL-6193
+        }
 
         List<RegistrationGroupInfo> existingRegistrationGroups =
                 coService.getRegistrationGroupsByActivityOfferingCluster(activityOfferingClusterId, contextInfo);
         Integer firstRegGroupCode = _gRGFC_computeFirstRegGroupCode(existingRegistrationGroups);
 
         // Calculate the set of "set of AO IDs" from which to generate reg groups.
-        ActivityOfferingClusterInfo cluster = coService.getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+
         Set<List<String>> regGroupAoIds =
                 PermutationCounter.computeMissingRegGroupAoIdsInCluster(cluster, existingRegistrationGroups);
 
@@ -673,15 +675,10 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
             try {
                 RegistrationGroupInfo rgInfo = coService.createRegistrationGroup(cluster.getFormatOfferingId(), cluster.getId(), LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg, contextInfo);
-                
                 BulkStatusInfo status  = new BulkStatusInfo();
-                
                 status.setId(rgInfo.getId());
-                
                 status.setSuccess(Boolean.TRUE);
-                
                 status.setMessage("Created Registration Group");
-                
                 rgChanges.add(status);
                 
                 // Now determine if this registration group is in a valid state
@@ -706,6 +703,16 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         }
 
         return rgChanges;
+    }
+
+    // Returns true if a cluster has one (or more) AO sets that is empty.
+    private boolean _hasEmptyAoSets(ActivityOfferingClusterInfo cluster) {
+        for (ActivityOfferingSetInfo set: cluster.getActivityOfferingSets()) {
+            if (set.getActivityOfferingIds().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private Map<String, List<String>> _extractActivityOfferingMap(List<ActivityOfferingSetInfo> activityOfferingSets) {
