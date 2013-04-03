@@ -52,11 +52,6 @@
         <property name="quickfinder">
             <bean parent="KRMS-Course-QuickFinder"/>
         </property>
-        <property name="quickfinder.fieldConversions">
-            <map>
-                <entry key="code" value="proposition.courseInfo.code"/>
-            </map>
-        </property>
     </bean>
     <bean id="KRMS-SingleCourse-SuggestField" parent="KRMS-SingleCourse-SuggestField-Parent" />
 
@@ -117,6 +112,22 @@
     <bean id="KRMS-Course-QuickFinder" parent="KRMS-QuickFinder">
         <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
         <property name="viewName" value="krmsCoursesOnlyLookup"/>
+        <property name="fieldConversions">
+            <map>
+                <entry key="code" value="proposition.courseInfo.code"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KRMS-ApprovedCourses-QuickFinder" parent="KRMS-QuickFinder">
+        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+        <property name="viewName" value="krmsCoursesOnlyLookup"/>
+        <property name="fieldConversions">
+            <map>
+                <entry key="code" value="code"/>
+                <entry key="id" value="id"/>
+            </map>
+        </property>
     </bean>
 
     <bean id="KRMS-CourseSet-QuickFinder" parent="KRMS-QuickFinder">
@@ -255,7 +266,7 @@
                         <bean parent="KRMS-Course-SuggestControl"/>
                     </property-->
                     <property name="quickfinder">
-                        <bean parent="KRMS-Course-QuickFinder"/>
+                        <bean parent="KRMS-ApprovedCourses-QuickFinder"/>
                     </property>
 
                 </bean>
