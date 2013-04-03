@@ -47,7 +47,7 @@
     <bean id="KS-CourseOfferingManagement-ClusterAOHeaderText" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
         <property name="items">
             <list>
-                <bean parent="Uif-Label" p:labelText="Activites (@{#line.aoWrapperList.size()})" p:renderColon="false" />
+                <bean parent="Uif-Label" p:labelText="Activities (@{#line.aoWrapperList.size()})" p:renderColon="false" />
             </list>
         </property>
     </bean>
