@@ -19,6 +19,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
@@ -126,7 +127,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
              * just accepts the ao id as param and fetches the DTO from the DB.)
              */
             try {
-                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), contextInfo);
+                ActivityOfferingInfo activityOfferingInfo = ARGUtil.getArgServiceAdapter().updateActivityOffering(activityOfferingWrapper.getAoInfo(), contextInfo).getCreatedActivityOffering();
                 activityOfferingWrapper.setAoInfo(activityOfferingInfo);
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
@@ -156,7 +157,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                         activity.getActivityOfferingInfo().setMaximumEnrollment(activityOfferingWrapper.getSharedMaxEnrollment());
                     }
 
-                    ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(activity.getAoId(),activity.getActivityOfferingInfo(),createContextInfo());
+                    ActivityOfferingInfo updatedAO = ARGUtil.getArgServiceAdapter().updateActivityOffering(activity.getActivityOfferingInfo(),createContextInfo()).getCreatedActivityOffering();
                     activity.setActivityOfferingInfo(updatedAO);
 
                     if (activityOfferingWrapper.isColocatedAO() && !activity.isAlreadyPersisted()){
