@@ -108,10 +108,12 @@ function addColocatedAO(component){
 
 
 function checkAOEditWIP(){
-    var label = jQuery("#add_rdl_button").text().trim();
-    if (label === 'Update') {
-        showClientSideErrorNotification('Editing RDL in progress. Please update that first.');
-        return false;
+    if (jQuery("#add_rdl_button").length > 0){
+        var label = jQuery("#add_rdl_button").text().trim();
+        if (label === 'Update') {
+            showClientSideErrorNotification('Editing RDL in progress. Please update that first.');
+            return false;
+        }
     }
     return true;
 }
