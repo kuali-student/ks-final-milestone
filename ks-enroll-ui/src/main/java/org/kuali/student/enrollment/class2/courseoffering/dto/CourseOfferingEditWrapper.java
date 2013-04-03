@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -278,6 +279,30 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
     @SuppressWarnings("unused")
     public void setAlternateCourseCodesSuffixStripped(List<String> alternateCourseCodesSuffixStripped) {
         this.alternateCourseCodesSuffixStripped = alternateCourseCodesSuffixStripped;
+    }
+
+    /**
+     * This method returns a list of crosslisted course codes for a course as comma seperated
+     * string -- intended as a UI-helper method particularly since after CO-edit the save operation is
+     * currently asynchronous so the UI doesn't see the updated data at any of the other CO-layers; since
+     * the edits are happening directly in this object then the UI code will see the change and be able to
+     * display appropriately; the drawback is that it's false since if persistence fails down below this
+     * data will still appear as if everything was updated correctly.
+     *
+     * Essentially, this is a patch for KSENROLL-5398 until KSENROLL-5346 is completed to make the edit
+     * synchronous.
+     *
+     * @see # getAlternateCOCodesUITooltip()
+     * @return
+     */
+    @SuppressWarnings("unused")
+    public String getAlternateCOCodesUIList(){
+        StringBuffer buffer = new StringBuffer();
+        for (String crosslistingCode : alternateCourseCodesSuffixStripped){
+            buffer.append(crosslistingCode + ", ");
+        }
+
+        return StringUtils.removeEnd(buffer.toString(), ", ");
     }
 
 }

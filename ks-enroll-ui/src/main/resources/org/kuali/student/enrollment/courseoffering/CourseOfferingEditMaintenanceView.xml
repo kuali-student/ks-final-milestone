@@ -190,7 +190,7 @@
             <property name="style" value="margin-bottom:px;"/>
             <property name="items">
               <list>
-                  <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{#dp.alternateCOCodesUIList}" p:render="@{!#dp.alternateCOCodes.isEmpty()}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
+                  <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{#dp.alternateCOCodesUIList}" p:render="@{!#dp.alternateCourseCodesSuffixStripped.isEmpty()}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
               </list>
             </property>
           </bean>
