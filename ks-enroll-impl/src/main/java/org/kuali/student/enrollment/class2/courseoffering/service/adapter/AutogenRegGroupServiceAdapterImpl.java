@@ -26,6 +26,7 @@ import java.util.Set;
 import javax.annotation.Resource;
 import javax.xml.namespace.QName;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.ActivityOfferingNotInAocSubissue;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.CourseOfferingAutogenIssue;
@@ -61,11 +62,19 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 /**
  * Implementation of the Application Service Layer to provide the functionally specified functionality
@@ -75,12 +84,17 @@ import org.kuali.student.r2.core.search.service.SearchService;
  * @author Kuali Student Team
  */
 public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupServiceAdapter {
+    private static final Logger LOGGER = Logger.getLogger(AutogenRegGroupServiceAdapterImpl.class);
 
     @Resource (name="CourseOfferingService")
     private CourseOfferingService coService;
     
     @Resource (name="SearchService")
     private SearchService searchService;
+
+    private TypeService typeService;
+
+    private CourseService courseService;
     
     /* (non-Javadoc)
      * @see org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter#getDefaultClusterName(int)
@@ -112,11 +126,21 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         if (clusters != null && !clusters.isEmpty()) {
             throw new OperationFailedException("Cluster already exists");
         }
+        FormatOfferingInfo fo = coService.getFormatOffering(foId, context);
+        String coId = fo.getCourseOfferingId();
+        CourseOfferingInfo co = coService.getCourseOffering(coId, context);
+        CourseInfo course = getCourseService().getCourse(co.getCourseId(), context);
+        try {
+            _addActivityOfferingTypesToFormatOffering(fo, course, context);
+        } catch (VersionMismatchException e) {
+            LOGGER.warn("VersionMismatchException thrown in createDefaultCluster, part 1");
+            throw new OperationFailedException(e.getMessage());
+        }
         // TODO: Would prefer a count method here
         List<ActivityOfferingInfo> aoInfos =
                 coService.getActivityOfferingsByFormatOffering(foId, context);
         if (aoInfos != null && !aoInfos.isEmpty()) {
-            throw new OperationFailedException("Activity offerings already exists");
+            LOGGER.warn("There are AOs without an AOC for this format (" + foId + ").  Indicates bad ref data.");
         }
         // Now we're good...create the AOC
         ActivityOfferingClusterInfo clusterInfo = new ActivityOfferingClusterInfo();
@@ -130,7 +154,81 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         clusterInfo.setTypeKey(CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY);
         ActivityOfferingClusterInfo aoc =
                 coService.createActivityOfferingCluster(foId, CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY, clusterInfo, context);
+        if (aoInfos != null && !aoInfos.isEmpty()) {
+            List<ActivityOfferingSetInfo> sets = aoc.getActivityOfferingSets();
+            // Put stray AOs into this cluster (considered a problem)
+            LOGGER.warn("Adding stray AOs to this cluster--shouldn't happen");
+            for (ActivityOfferingInfo aoInfo: aoInfos) {
+                boolean added = false;
+                // Iterate over each set to find a matching AO set to put the stray AOs into
+                for (ActivityOfferingSetInfo set: sets) {
+                    if (set.getActivityOfferingType().equals(aoInfo.getTypeKey())) {
+                        // Add AO ID to correct AO set
+                        set.getActivityOfferingIds().add(aoInfo.getId());
+                        added = true;
+                        break;
+                    }
+                }
+                if (!added) {
+                    throw new OperationFailedException("Unable to find correct AO set for AO ID (" + aoInfo.getId() + ").  Bad data");
+                }
+            }
+            try {
+                coService.updateActivityOfferingCluster(foId, aoc.getId(), aoc, context);
+            } catch (VersionMismatchException e) {
+                LOGGER.warn("VersionMismatchException thrown in createDefaultCluster");
+                throw new OperationFailedException(e.getMessage());
+            }
+        }
         return aoc;
+    }
+
+    private void _addActivityOfferingTypesToFormatOffering(FormatOfferingInfo fo, CourseInfo course, ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException,
+            DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
+        if (fo.getActivityOfferingTypeKeys() != null && !fo.getActivityOfferingTypeKeys().isEmpty()) {
+            // Only bother with this if there are no AO type keys
+            return;
+        }
+        List<FormatInfo> formats = course.getFormats();
+        FormatInfo format = null;
+        for (FormatInfo f: formats) {
+            if (f.getId().equals(fo.getFormatId())) {
+                // Find correct format
+                format = f;
+                break;
+            }
+        }
+        // Get the activity types
+        List<String> activityTypes = new ArrayList<String>();
+        if (format.getActivities() == null || format.getActivities().isEmpty()) {
+            throw new OperationFailedException("Formats must contain non-empty activities.  Error!");
+        }
+        for (ActivityInfo activityInfo: format.getActivities()) {
+            activityTypes.add(activityInfo.getTypeKey());
+        }
+        // Use type service to find corresponding AO types--assumes 1-1 mapping of Activity types to AO types
+        TypeService typeService = getTypeService();
+        List<String> aoTypeKeys = new ArrayList<String>();
+        for (String activityType: activityTypes) {
+            List<TypeTypeRelationInfo> typeTypeRels =
+                    typeService.getTypeTypeRelationsByOwnerAndType(activityType,
+                            TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY,
+                            context);
+            if (typeTypeRels.size() != 1) {
+                // Ref data currently only has a 1-1 mapping between Activity types (CLU) and AO types (LUI)
+                // The UI screens only support this.  Should there be a many-to-1 relation between AO types and Activity
+                // types (as they were originally envisioned), then this exception will be thrown.
+                throw new UnsupportedOperationException("Can't handle Activity Type -> AO Type that isn't 1-1.  Search for this message in Java code");
+            } else {
+                String aoType = typeTypeRels.get(0).getRelatedTypeKey();
+                aoTypeKeys.add(aoType);
+            }
+        }
+        // Finally, set the ao types for this fo
+        fo.setActivityOfferingTypeKeys(aoTypeKeys);
+
+        getCoService().updateFormatOffering(fo.getId(), fo, context);
     }
 
     /**
@@ -809,5 +907,23 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
 
     public void setCoService(CourseOfferingService coService) {
         this.coService = coService;
+    }
+
+    public TypeService getTypeService() {
+        if (typeService == null) {
+            QName qname = new QName(TypeServiceConstants.NAMESPACE,
+                                    TypeServiceConstants.SERVICE_NAME_LOCAL_PART);
+            typeService = (TypeService) GlobalResourceLoader.getService(qname);
+        }
+        return typeService;
+    }
+
+    public CourseService getCourseService() {
+        if (courseService == null) {
+            QName qname = new QName(CourseServiceConstants.NAMESPACE,
+                    CourseServiceConstants.SERVICE_NAME_LOCAL_PART);
+            courseService = (CourseService) GlobalResourceLoader.getService(qname);
+        }
+        return courseService;
     }
 }
