@@ -52,13 +52,56 @@ function ksAddRowSelectionCheckbox(readOnly, collectionId, callClickEvents, onCl
 
     var clickName;
     collectionCheckboxes.each(function(ndx,ctl) {
-            clickName = "click." + collectionId + "_row_" + ndx;
-            jQuery(this).on(clickName, function(){
-                _ksControlCheckboxStatus(collectionId,this);
-            });
+        clickName = "click." + collectionId + "_row_" + ndx;
+        jQuery(this).on(clickName, function(){
+            _ksControlCheckboxStatus(collectionId,this);
         });
+    });
 }
 
+function ksAddRowSelectionCheckboxSubCollections(readOnly, subCollectionIdPrefix, callClickEvents, onClickFunction) {
+    if (readOnly === true) {
+        return;
+    }
+    var collectionDivs = jQuery("div[id^=" +subCollectionIdPrefix + "]");
+
+    collectionDivs.each(function(callClickEvents, onClickFunction) {
+        var subCollectionId = jQuery(this).attr('id');
+
+        var collectionCheckboxes = jQuery('div#'+subCollectionId+' tbody > tr').find('td:first input[type="checkbox"]');
+        var newCheckbox = jQuery("<input type='checkbox' id='"+subCollectionId+"_toggle_control_checkbox'/>");
+        newCheckbox.click(function(){
+            var checkbox = jQuery(this);
+            var isChecked = checkbox.prop('checked');
+            checkbox.closest('table').find('tbody > tr')
+                .find('td:first input[type="checkbox"]').each(function(){
+                    var cb = jQuery(this);
+                    if (isChecked != cb.prop('checked')) {
+                        if (callClickEvents === true) {
+                            g_IsTriggeredByControlCheckbox = true;
+                            cb.click();
+                            g_IsTriggeredByControlCheckbox = false;
+                        } else {
+                            cb.prop('checked',isChecked);
+                        }
+                    }
+                });
+
+            if (typeof onClickFunction === "function") {
+                onClickFunction();
+            }
+        });
+        jQuery('div#'+ subCollectionId +' table > thead > tr > th:first').prepend(newCheckbox);
+
+        var clickName;
+        collectionCheckboxes.each(function(ndx,ctl) {
+            clickName = "click." + subCollectionId + "_row_" + ndx;
+            jQuery(this).on(clickName, function(){
+                _ksControlCheckboxStatus(subCollectionId,this);
+            });
+        });
+    });
+}
 
 /*
  *  Collection row checkboxes in the first cell will cause the control checkbox

@@ -18,7 +18,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-AOClustersCollection" parent="KS-HorizontalCollectionSection"
-          p:renderAddLine="false"  p:renderLineActions="false" p:onDocumentReadyScript="ksAddRowSelectionCheckbox(false, 'KS-CourseOfferingManagement-AOClustersCollection',false,'');" >
+          p:renderAddLine="false"  p:renderLineActions="false" p:onDocumentReadyScript="ksAddRowSelectionCheckboxSubCollections(false, 'activityOfferingsPerCluster',false,'');" >
         <!-- p:onDocumentReadyScript="removeSelfFromDropdowns('KS-ManageRegistrationGroups-ClusterHeaderText');" -->
         <property name="disclosure.render" value="false"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper" />
