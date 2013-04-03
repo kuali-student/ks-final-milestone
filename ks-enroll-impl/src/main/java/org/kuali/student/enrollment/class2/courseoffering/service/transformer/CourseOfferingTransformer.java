@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
@@ -492,7 +493,8 @@ public class CourseOfferingTransformer {
 
         for( CourseOfferingCrossListingInfo cross : co.getCrossListings() ) {
             cross.setCourseNumberSuffix( co.getCourseNumberSuffix() );
-            cross.setCode( cross.getCode() + cross.getCourseNumberSuffix() );
+            if(!StringUtils.isEmpty(cross.getCourseNumberSuffix()))
+                cross.setCode( cross.getCode() + cross.getCourseNumberSuffix() );
         }
     }
 

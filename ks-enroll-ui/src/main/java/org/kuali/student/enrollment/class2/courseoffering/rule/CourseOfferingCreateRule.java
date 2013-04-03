@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.rule;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
@@ -11,8 +13,14 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingCon
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CourseOfferingCreateRule extends MaintenanceDocumentRuleBase {
@@ -47,10 +55,9 @@ public class CourseOfferingCreateRule extends MaintenanceDocumentRuleBase {
     }
 
     protected boolean validateDuplicateSuffix(CourseOfferingCreateWrapper coWrapper){
-        // Catalog course code is case INSENSITIVE, but the suffix is case SENSITIVE
-        String newCoCode = (coWrapper.getCatalogCourseCode().toUpperCase()) + coWrapper.getCourseOfferingSuffix();
+        String newCoCode = (coWrapper.getCatalogCourseCode().toUpperCase()) + coWrapper.getCourseOfferingSuffix().toUpperCase();
         try {
-            List<CourseOfferingInfo> wrapperList = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(coWrapper.getCourse().getId(), coWrapper.getTerm().getId(), ContextUtils.createDefaultContextInfo());
+            List<CourseOfferingInfo> wrapperList = _findCourseOfferingsByTermAndCourseCode(coWrapper.getTerm().getId(), newCoCode);
             for (CourseOfferingInfo courseOfferingInfo : wrapperList) {
 
                 if (StringUtils.equals(newCoCode, courseOfferingInfo.getCourseOfferingCode())) {
@@ -72,5 +79,20 @@ public class CourseOfferingCreateRule extends MaintenanceDocumentRuleBase {
             courseOfferingService = CourseOfferingResourceLoader.loadCourseOfferingService();
         }
         return courseOfferingService;
+    }
+
+    private List<CourseOfferingInfo> _findCourseOfferingsByTermAndCourseCode(String termId, String courseCode)
+            throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>();
+        if (StringUtils.isNotBlank(courseCode) && StringUtils.isNotBlank(termId)) {
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.and(
+                    PredicateFactory.equal("courseOfferingCode", courseCode),
+                    PredicateFactory.equalIgnoreCase("atpId", termId)));
+            QueryByCriteria criteria = qbcBuilder.build();
+
+            courseOfferings = getCourseOfferingService().searchForCourseOfferings(criteria, ContextUtils.createDefaultContextInfo());
+        }
+        return courseOfferings;
     }
 }
