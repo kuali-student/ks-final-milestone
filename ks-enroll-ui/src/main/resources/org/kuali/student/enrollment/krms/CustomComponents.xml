@@ -106,7 +106,7 @@
             <bean parent="Uif-ActionLink">
                 <property name="methodToCall" value="performLookup"/>
                 <property name="actionLabel" value="Advanced Search"/>
-                <property name="style" value="display:block"/>
+                <property name="style" value="display:block;color: #3F7826;"/>
             </bean>
         </property>
         <property name="lightBoxLookup">
