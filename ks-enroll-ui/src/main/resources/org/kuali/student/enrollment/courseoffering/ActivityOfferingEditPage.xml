@@ -20,6 +20,18 @@
      limitations under the License.
     -->
 
+    <bean id="ActivityOfferingEdit_SubmitCancel" parent="ActivityOfferingEdit_SubmitCancel-parent"/>
+    <bean id="ActivityOfferingEdit_SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:preSubmitCall="return checkAOEditWIP();"/>
+                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="ActivityOfferingEditPage" parent="Uif-Page" p:onDocumentReadyScript="replaceBreadCrumbs('@{breadCrumbJSON}');">
         <property name="items">
             <list>
@@ -47,12 +59,7 @@
           <bean parent="Uif-FooterBase"/>
         </property>
         <property name="footer.items">
-            <list>
-                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:preSubmitCall="return checkAOEditWIP();"/>
-                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="cancel"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
-            </list>
+            <ref bean="ActivityOfferingEdit_SubmitCancel"/>
         </property>
     </bean>
 
@@ -73,7 +80,7 @@
                     </property>
                 </bean>
 
-                <ref bean="KSDocumentPageFooter_SubmitCancel"/>
+                <ref bean="ActivityOfferingEdit_SubmitCancel"/>
 
             </list>
         </property>
