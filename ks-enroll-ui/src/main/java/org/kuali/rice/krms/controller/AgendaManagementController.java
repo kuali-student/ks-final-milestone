@@ -1,17 +1,14 @@
-package org.kuali.student.enrollment.class1.krms.controller;
+package org.kuali.rice.krms.controller;
 
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.controller.UifControllerBase;
+import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.util.AgendaBuilder;
-import org.kuali.student.enrollment.class1.krms.form.AgendaManagementForm;
 import org.kuali.rice.krms.service.AgendaManagementViewHelperService;
-import org.kuali.student.r2.core.class1.state.service.StateService;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.springframework.stereotype.Controller;
+import org.kuali.rice.krms.util.AgendaBuilder;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolAgendaEditor;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,35 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Properties;
 
-@Controller
-@RequestMapping(value = "/agendaManagement")
-public class AgendaManagementController extends UifControllerBase  {
+public class AgendaManagementController extends MaintenanceDocumentController {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AgendaManagementController.class);
 
-    private TypeService typeService;
-    private StateService stateService;
     private AgendaManagementViewHelperService viewHelperService;
-
-    @Override
-    protected UifFormBase createInitialForm(HttpServletRequest request) {
-        return new AgendaManagementForm();
-    }
-
-    @Override
-    @RequestMapping(params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
-            @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
-
-        if (!(form instanceof AgendaManagementForm)){
-            throw new RuntimeException("Form object passed into start method was not of expected type AgendaManagementForm. Got "+form.getClass().getSimpleName());
-        }
-
-        AgendaManagementForm theForm = (AgendaManagementForm) form;
-        theForm.setAgendas(this.getViewHelperService(theForm).getAgendaEditors());
-
-        return getUIFModelAndView(theForm);
-    }
 
     /*
      * Method used to invoke the CO inquiry view from Manage Course Offering screen while search input is Course Offering
@@ -59,10 +32,11 @@ public class AgendaManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=goToRuleView")
     public ModelAndView goToRuleView(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        AgendaManagementForm agendaManagementForm =  (AgendaManagementForm) form;
-        String ruleId = agendaManagementForm.getActionParamaterValue("ruleId");
-        RuleEditor ruleEditor = getRuleEditor(agendaManagementForm.getAgendas(), ruleId);
-        AgendaBuilder agendaBuilder = new AgendaBuilder(agendaManagementForm.getView());
+        MaintenanceDocumentForm document =  (MaintenanceDocumentForm) form;
+        EnrolAgendaEditor enrolAgendaEditor = (EnrolAgendaEditor) document.getDocument().getNewMaintainableObject().getDataObject();
+        String ruleId = document.getActionParamaterValue("ruleId");
+        RuleEditor ruleEditor = getRuleEditor(enrolAgendaEditor.getAgendas(), ruleId);
+        AgendaBuilder agendaBuilder = new AgendaBuilder(enrolAgendaEditor.getView());
 
         Properties urlParameters = agendaBuilder.buildAgendaURLParameters(ruleEditor, "maintenanceEdit");
         String controllerPath = "krmsRuleStudentEditor";
@@ -83,12 +57,13 @@ public class AgendaManagementController extends UifControllerBase  {
     public ModelAndView compareRules(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        AgendaManagementForm agendaManagementForm =  (AgendaManagementForm) form;
-        String ruleId = agendaManagementForm.getActionParamaterValue("ruleId");
-        RuleEditor ruleEditor = getRuleEditor(agendaManagementForm.getAgendas(), ruleId);
+        MaintenanceDocumentForm document =  (MaintenanceDocumentForm) form;
+        EnrolAgendaEditor enrolAgendaEditor = (EnrolAgendaEditor) document.getDocument().getNewMaintainableObject().getDataObject();
+        String ruleId = enrolAgendaEditor.getActionParamaterValue("ruleId");
+        RuleEditor ruleEditor = getRuleEditor(enrolAgendaEditor.getAgendas(), ruleId);
 
         //Build the compare rule tree
-        agendaManagementForm.setCompareTree(this.getViewHelperService(agendaManagementForm).buildCompareTree((RuleDefinitionContract) ruleEditor));
+        enrolAgendaEditor.setCompareTree(this.getViewHelperService(document).buildCompareTree((RuleDefinitionContract) ruleEditor));
 
         // redirect back to client to display lightbox
         return showDialog("compareRuleLightBox", form, request, response);
@@ -109,7 +84,7 @@ public class AgendaManagementController extends UifControllerBase  {
         return rule;
     }
 
-    public AgendaManagementViewHelperService getViewHelperService(AgendaManagementForm theForm){
+    public AgendaManagementViewHelperService getViewHelperService(MaintenanceDocumentForm theForm){
 
         if (viewHelperService == null) {
             if (theForm.getView().getViewHelperServiceClass() != null){

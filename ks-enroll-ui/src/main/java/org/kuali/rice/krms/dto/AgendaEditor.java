@@ -1,8 +1,10 @@
 package org.kuali.rice.krms.dto;
 
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinitionContract;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +15,7 @@ import java.util.Map;
  * Time: 4:27 PM
  * To change this template use File | Settings | File Templates.
  */
-public class AgendaEditor implements AgendaDefinitionContract {
+public class AgendaEditor extends UifFormBase implements AgendaDefinitionContract, Serializable {
 
     private String id;
     private String name;
@@ -23,6 +25,7 @@ public class AgendaEditor implements AgendaDefinitionContract {
     private String firstItemId;
     private Map<String, String> attributes;
     private Long versionNumber;
+    private String courseName;
 
     private List<RuleEditor> ruleEditors;
 
@@ -111,5 +114,13 @@ public class AgendaEditor implements AgendaDefinitionContract {
 
     public void setRuleEditors(List<RuleEditor> ruleEditors) {
         this.ruleEditors = ruleEditors;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 }

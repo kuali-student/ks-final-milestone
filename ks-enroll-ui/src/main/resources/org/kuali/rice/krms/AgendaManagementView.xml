@@ -19,11 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="KS-AgendaManagement-View" parent="KSFormView"
-          p:id="agendaManagementView"
-          p:viewHelperServiceClass="org.kuali.rice.krms.service.impl.AgendaManagementViewHelperServiceImpl"
-          p:formClass="org.kuali.student.enrollment.class1.krms.form.AgendaManagementForm"
-            p:singlePageView="true">
+    <bean id="KS-AgendaManagement-View" parent="KSMaintenanceView">
         <property name="headerText" value="Manage Requisites"/>
         <property name="cssClasses">
             <list merge="true">
@@ -42,17 +38,20 @@
                 <value>ks-enroll/css/krms.css</value>
             </list>
         </property>
-        <property name="page">
-            <ref bean="KRMS-AgendaManageRequisites-Page"/>
+        <property name="page.items">
+            <ref bean="KRMS-AgendaManageRequisites-Section"/>
         </property>
         <property name="dialogs">
             <list>
                 <bean id="compareRuleLightBox" parent="KRMS-CompareRule"/>
             </list>
         </property>
+        <property name="page.footer.items">
+            <ref bean="KSDocumentPageFooter_SubmitCancel"/>
+        </property>
     </bean>
 
-    <bean name="KRMS-AgendaManageRequisites-Page" parent="Uif-Page"/>
+    <bean name="KRMS-AgendaManageRequisites-Section" parent="Uif-VerticalBoxSection"/>
 
     <bean id="KRMS-AgendaSection-Template" parent="Uif-VerticalBoxSection">
         <property name="header">

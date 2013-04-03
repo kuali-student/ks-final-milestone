@@ -7,6 +7,7 @@ import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
@@ -15,12 +16,10 @@ import org.kuali.rice.krms.api.repository.agenda.AgendaTreeDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContract;
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
-import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermParameterDefinition;
-import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
@@ -30,7 +29,6 @@ import org.kuali.rice.krms.dto.AgendaTypeInfo;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleTypeInfo;
-import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.service.AgendaManagementViewHelperService;
 import org.kuali.rice.krms.service.TemplateRegistry;
@@ -38,7 +36,7 @@ import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.AgendaBuilder;
-import org.kuali.student.enrollment.class1.krms.form.AgendaManagementForm;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolAgendaEditor;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
@@ -62,7 +60,7 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
 
     @Override
     protected void addCustomContainerComponents(View view, Object model, Container container) {
-        if ("KRMS-AgendaManageRequisites-Page".equals(container.getId())) {
+        if ("KRMS-AgendaManageRequisites-Section".equals(container.getId())) {
 
             AgendaBuilder builder = new AgendaBuilder(view);
             builder.setTypeRelationsMap(this.getTypeRelationsMap());
@@ -71,7 +69,13 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
             List<AgendaTypeInfo> agendaTypeInfos = new ArrayList<AgendaTypeInfo>(typeRelationsMap.values());
 
             //Retrieve the current editing proposition if exists.
-            List<AgendaEditor> agendas = ((AgendaManagementForm) model).getAgendas();
+            MaintenanceDocumentForm document = (MaintenanceDocumentForm) model;
+            EnrolAgendaEditor form = (EnrolAgendaEditor) document.getDocument().getOldMaintainableObject().getDataObject();
+
+            //Copy over missing previewTree
+            document.getDocument().getNewMaintainableObject().setDataObject(form);
+
+            List<AgendaEditor> agendas = form.getAgendas();
             for (AgendaTypeInfo agendaTypeInfo : agendaTypeInfos) {
                 boolean exist = false;
                 for(AgendaEditor agenda : agendas) {
@@ -88,7 +92,7 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
             }
             container.setItems(components);
             //Initialize the compare tree
-            ((AgendaManagementForm) model).setCompareTree(this.buildCompareTree(null));
+            ((EnrolAgendaEditor)((MaintenanceDocumentForm) model).getDocument().getNewMaintainableObject().getDataObject()).setCompareTree(this.buildCompareTree(null));
         }
     }
 
