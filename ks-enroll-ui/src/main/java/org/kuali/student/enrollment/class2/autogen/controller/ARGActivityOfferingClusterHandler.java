@@ -270,7 +270,12 @@ public class ARGActivityOfferingClusterHandler {
 
     public static ARGCourseOfferingManagementForm createNewCluster(ARGCourseOfferingManagementForm theForm) throws Exception {
 
-       String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
+        if (theForm.getPrivateClusterNamePopover().isEmpty()) {
+            GlobalVariables.getMessageMap().putError("privateClusterName", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
+            return theForm;
+        }
+
+        String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
         if (ARGUtil._isClusterUnique(formatOfferingId, theForm.getPrivateClusterNamePopover())){
             //build a new empty cluster
             ActivityOfferingClusterInfo emptyCluster = ARGUtil._buildEmptyAOCluster(formatOfferingId,
