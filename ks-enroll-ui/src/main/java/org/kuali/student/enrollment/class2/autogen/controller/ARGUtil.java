@@ -189,13 +189,16 @@ public class ARGUtil {
     public static void prepareManageAOsModelAndView(ARGCourseOfferingManagementForm form, CourseOfferingListSectionWrapper selectedCO) throws Exception {
 
         CourseOfferingWrapper currentCOWrapper = new CourseOfferingWrapper(selectedCO.isCrossListed(),selectedCO.getCourseOfferingCode(),selectedCO.getCourseOfferingDesc(),selectedCO.getAlternateCOCodes(),selectedCO.getCourseOfferingId());
+        form.setSubjectCode(selectedCO.getSubjectArea());
+        prepare_AOs_RGs_AOCs_Lists(form, currentCOWrapper);
+    }
+
+    public static void prepare_AOs_RGs_AOCs_Lists (ARGCourseOfferingManagementForm form, CourseOfferingWrapper currentCOWrapper) throws Exception {
         currentCOWrapper.setTerm( form.getTermInfo() );
         
         CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(currentCOWrapper.getCourseOfferingId(),ContextUtils.createDefaultContextInfo());
         currentCOWrapper.setCourseOfferingInfo(coInfo);
 
-
-        //Pull out the org ids and pass in the first one as the adminOrg
         ContextInfo contextInfo =  ContextUtils.createDefaultContextInfo();
         List<String> orgIds = coInfo.getUnitsDeploymentOrgIds();
         if(orgIds !=null && !orgIds.isEmpty()){
@@ -213,7 +216,6 @@ public class ARGUtil {
 
         form.setCurrentCourseOfferingWrapper(currentCOWrapper);
         form.setInputCode(currentCOWrapper.getCourseOfferingCode());
-        form.setSubjectCode(selectedCO.getSubjectArea());
 
         form.setFormatIdForNewAO(null);
         form.setActivityIdForNewAO(null);

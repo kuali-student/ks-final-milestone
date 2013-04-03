@@ -26,6 +26,7 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.autogen.util.ARGToolbarUtil;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
@@ -221,7 +222,10 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=loadPreviousCO")
     public ModelAndView loadPreviousCO(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm form) throws Exception {
-        ARGCourseOfferingHandler.loadPreviousCO(form);
+        CourseOfferingWrapper previousCOWrapper = form.getPreviousCourseOfferingWrapper();
+        //TODO: From Bonnie: why do we need to clear COResultList here
+        form.getCourseOfferingResultList().clear();
+        ARGUtil.prepare_AOs_RGs_AOCs_Lists(form, previousCOWrapper);
         return getUIFModelAndView(form);
     }
 
@@ -234,7 +238,9 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=loadNextCO")
     public ModelAndView loadNextCO(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm form) throws Exception {
-        ARGCourseOfferingHandler.loadNextCO(form);
+        CourseOfferingWrapper coWrapper = form.getNextCourseOfferingWrapper();
+        form.getCourseOfferingResultList().clear();
+        ARGUtil.prepare_AOs_RGs_AOCs_Lists(form, coWrapper);
         return getUIFModelAndView(form);
     }
 

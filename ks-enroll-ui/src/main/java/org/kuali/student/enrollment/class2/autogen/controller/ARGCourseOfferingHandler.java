@@ -52,38 +52,6 @@ public class ARGCourseOfferingHandler {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ARGCourseOfferingHandler.class);
 
-    public static void loadPreviousCO(ARGCourseOfferingManagementForm form) throws Exception {
-
-        CourseOfferingWrapper wrapper = form.getPreviousCourseOfferingWrapper();
-
-        CourseOfferingInfo info = ARGUtil.getCourseOfferingService().getCourseOffering(wrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
-        wrapper.setCourseOfferingInfo(info);
-
-        form.getCourseOfferingResultList().clear();
-        form.setCurrentCourseOfferingWrapper(wrapper);
-
-        form.setInputCode(info.getCourseOfferingCode());
-
-        ARGUtil.getViewHelperService(form).loadActivityOfferingsByCourseOffering(info, form);
-        ARGUtil.getViewHelperService(form).loadPreviousAndNextCourseOffering(form);
-    }
-
-    public static void loadNextCO(ARGCourseOfferingManagementForm form) throws Exception {
-
-        CourseOfferingWrapper wrapper = form.getNextCourseOfferingWrapper();
-
-        CourseOfferingInfo info = ARGUtil.getCourseOfferingService().getCourseOffering(wrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
-        wrapper.setCourseOfferingInfo(info);
-
-        form.getCourseOfferingResultList().clear();
-        form.setCurrentCourseOfferingWrapper(wrapper);
-
-        form.setInputCode(info.getCourseOfferingCode());
-
-        ARGUtil.getViewHelperService(form).loadActivityOfferingsByCourseOffering(info, form);
-        ARGUtil.getViewHelperService(form).loadPreviousAndNextCourseOffering(form);
-    }
-
     public static void copyCourseOfferingCreateCopy(ARGCourseOfferingManagementForm theForm) throws Exception {
 
         CourseOfferingCopyWrapper copyWrapper = theForm.getCourseOfferingCopyWrapper();
