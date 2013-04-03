@@ -59,7 +59,7 @@ public class AgendaManagementController extends MaintenanceDocumentController {
 
         MaintenanceDocumentForm document =  (MaintenanceDocumentForm) form;
         EnrolAgendaEditor enrolAgendaEditor = (EnrolAgendaEditor) document.getDocument().getNewMaintainableObject().getDataObject();
-        String ruleId = enrolAgendaEditor.getActionParamaterValue("ruleId");
+        String ruleId = document.getActionParamaterValue("ruleId");
         RuleEditor ruleEditor = getRuleEditor(enrolAgendaEditor.getAgendas(), ruleId);
 
         //Build the compare rule tree
