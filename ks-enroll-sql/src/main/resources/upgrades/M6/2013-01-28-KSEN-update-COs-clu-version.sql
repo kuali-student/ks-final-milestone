@@ -1,3 +1,36 @@
+CREATE TABLE co_to_new_clu
+(
+  CO_ID VARCHAR2(255),
+  NEWCLU_ID VARCHAR2(255)
+)
+/
+
+INSERT INTO co_to_new_clu (CO_ID, NEWCLU_ID)
+          SELECT
+                  co.ID CO_ID,
+                  newC.id newClu_ID
+  FROM
+          KSLU_CLU oldC,
+                  KSLU_CLU newC,
+                  KSEN_LUI co,
+                  KSEN_ATP coAtp,
+                  KSEN_ATP newCStartTerm,
+                  KSEN_ATP newCEndTerm
+  WHERE
+          co.CLU_ID = oldC.ID
+                  AND co.ATP_ID = coAtp.ID
+                  AND oldC.VER_IND_ID = newC.VER_IND_ID
+                  AND newC.EXP_FIRST_ATP = newCStartTerm.ID
+                  AND newC.LAST_ATP = newCEndTerm.ID(+)
+                  AND coAtp.START_DT >= newCStartTerm.START_DT
+                  AND
+                  (
+                          newCEndTerm.END_DT IS NULL
+                                  OR newCEndTerm.END_DT>coAtp.START_DT
+                          )
+                  AND oldC.ID!=newC.ID
+/
+
 --Fix formats to point to correct version
 UPDATE KSEN_LUI updatef SET CLU_ID=
 (SELECT
@@ -21,32 +54,7 @@ FROM
                     KSLU_CLU a,
                     KSLU_CLUCLU_RELTN cfr,
                     KSLU_CLUCLU_RELTN far,
-                    (
-                        SELECT
-                            co.ID CO_ID,
-                            newC.id newClu_ID
-                        FROM
-                            KSLU_CLU oldC,
-                            KSLU_CLU newC,
-                            KSEN_LUI co,
-                            KSEN_ATP coAtp,
-                            KSEN_ATP newCStartTerm,
-                            KSEN_ATP newCEndTerm
-                        WHERE
-                            co.CLU_ID = oldC.ID
-                        AND co.ATP_ID = coAtp.ID
-                        AND oldC.VER_IND_ID = newC.VER_IND_ID
-                        AND newC.EXP_FIRST_ATP = newCStartTerm.ID
-                        AND newC.LAST_ATP = newCEndTerm.ID(+)
-                        AND coAtp.START_DT >= newCStartTerm.START_DT
-                        AND
-                            (
-                                newCEndTerm.END_DT IS NULL
-                             OR newCEndTerm.END_DT>coAtp.START_DT
-                            )
-                        AND oldC.ID!=newC.ID
-                    )
-                    newmap
+                    co_to_new_clu newmap
                 WHERE
                     newCLU_ID = cfr.CLU_ID
                 AND F.ID = cfr.RELATED_CLU_ID
@@ -83,31 +91,7 @@ FROM
                     KSLU_CLU f,
                     KSLU_CLU a,
                     KSLU_CLUCLU_RELTN far,
-                    (
-                        SELECT
-                            co.ID CO_ID
-                        FROM
-                            KSLU_CLU oldC,
-                            KSLU_CLU newC,
-                            KSEN_LUI co,
-                            KSEN_ATP coAtp,
-                            KSEN_ATP newCStartTerm,
-                            KSEN_ATP newCEndTerm
-                        WHERE
-                            co.CLU_ID = oldC.ID
-                        AND co.ATP_ID = coAtp.ID
-                        AND oldC.VER_IND_ID = newC.VER_IND_ID
-                        AND newC.EXP_FIRST_ATP = newCStartTerm.ID
-                        AND newC.LAST_ATP = newCEndTerm.ID(+)
-                        AND coAtp.START_DT >= newCStartTerm.START_DT
-                        AND
-                            (
-                                newCEndTerm.END_DT IS NULL
-                             OR newCEndTerm.END_DT>coAtp.START_DT
-                            )
-                        AND oldC.ID!=newC.ID
-                    )
-                    newmap
+                    co_to_new_clu newmap
                 WHERE
                     newmap.CO_ID = cofor.LUI_ID
                 AND fo.ID = cofor.RELATED_LUI_ID
@@ -153,32 +137,7 @@ FROM
                     KSLU_CLU a,
                     KSLU_CLUCLU_RELTN cfr,
                     KSLU_CLUCLU_RELTN far,
-                    (
-                        SELECT
-                            co.ID CO_ID,
-                            newC.id newClu_ID
-                        FROM
-                            KSLU_CLU oldC,
-                            KSLU_CLU newC,
-                            KSEN_LUI co,
-                            KSEN_ATP coAtp,
-                            KSEN_ATP newCStartTerm,
-                            KSEN_ATP newCEndTerm
-                        WHERE
-                            co.CLU_ID = oldC.ID
-                        AND co.ATP_ID = coAtp.ID
-                        AND oldC.VER_IND_ID = newC.VER_IND_ID
-                        AND newC.EXP_FIRST_ATP = newCStartTerm.ID
-                        AND newC.LAST_ATP = newCEndTerm.ID(+)
-                        AND coAtp.START_DT >= newCStartTerm.START_DT
-                        AND
-                            (
-                                newCEndTerm.END_DT IS NULL
-                             OR newCEndTerm.END_DT>coAtp.START_DT
-                            )
-                        AND oldC.ID!=newC.ID
-                    )
-                    newmap
+                    co_to_new_clu newmap
                 WHERE
                     newCLU_ID = cfr.CLU_ID
                 AND F.ID = cfr.RELATED_CLU_ID
@@ -215,31 +174,7 @@ FROM
                     KSLU_CLU f,
                     KSLU_CLU a,
                     KSLU_CLUCLU_RELTN far,
-                    (
-                        SELECT
-                            co.ID CO_ID
-                        FROM
-                            KSLU_CLU oldC,
-                            KSLU_CLU newC,
-                            KSEN_LUI co,
-                            KSEN_ATP coAtp,
-                            KSEN_ATP newCStartTerm,
-                            KSEN_ATP newCEndTerm
-                        WHERE
-                            co.CLU_ID = oldC.ID
-                        AND co.ATP_ID = coAtp.ID
-                        AND oldC.VER_IND_ID = newC.VER_IND_ID
-                        AND newC.EXP_FIRST_ATP = newCStartTerm.ID
-                        AND newC.LAST_ATP = newCEndTerm.ID(+)
-                        AND coAtp.START_DT >= newCStartTerm.START_DT
-                        AND
-                            (
-                                newCEndTerm.END_DT IS NULL
-                             OR newCEndTerm.END_DT>coAtp.START_DT
-                            )
-                        AND oldC.ID!=newC.ID
-                    )
-                    newmap
+                    co_to_new_clu newmap
                 WHERE
                     newmap.CO_ID = cofor.LUI_ID
                 AND fo.ID = cofor.RELATED_LUI_ID
@@ -314,4 +249,7 @@ AND
      OR newCEndTerm.END_DT>coAtp.START_DT
     )
 and oldC.ID!=newC.ID)
+/
+
+drop table co_to_new_clu
 /
