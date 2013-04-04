@@ -253,7 +253,7 @@
                         <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGFormatsForCreateRGKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField"  p:id="privateClusterNameForLightBox" p:propertyName="privateClusterNamePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true">
+                <bean parent="Uif-InputField"  p:id="privateClusterNameForLightBox" p:propertyName="privateClusterNamePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
                     </property>
