@@ -8,4 +8,17 @@
   <artifactId>ks-deployment-resources</artifactId>
   <name>KS Deployment Resources</name>
   <description>Kuali Student Deployment Resources</description>
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>3.1.0.RELEASE</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
 </project>
