@@ -82,7 +82,7 @@
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField"  p:id="privateClusterNameForRename"  p:label="Private Name" p:propertyName="privateClusterNameForRenamePopover" p:labelPlacement="TOP" p:render="true" p:required="true">
+                <bean parent="Uif-InputField"  p:id="privateClusterNameForRename"  p:label="Private Name" p:propertyName="privateClusterNameForRenamePopover" p:labelPlacement="TOP" p:render="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
                     </property>
