@@ -1163,14 +1163,15 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 //    }
 
     /**
-     *  Same as markCourseOfferingsForScheduling() but defaults isChecked() == true.
-     *  @param coWrappers The list of CourseOffering wrappers.
-     */
-    public void  markCourseOfferingsForScheduling(List<CourseOfferingListSectionWrapper> coWrappers, String viewId, String socStateKey) throws Exception {
-        markCourseOfferingsForScheduling(coWrappers, viewId, socStateKey,true);
-    }
-
-    /**
+     *  Notes by Bonnie: The following implementation tries to support "Approve for Scheduling" in two cases historically:
+     *  1)when some COs are checked and approve for scheduling link or button is clicked
+     *  vs.
+     *  2)when a user simply click "Approve Subject Code for Scheduling" link with/without selecting any CO
+     *  case 1) has been implemented by  approveCourseOfferings method -- invoked by Approve button in toolbar
+     *  case 2) is the only use case when markCourseOfferingsForScheduling is invoked. Therefore the parameter
+     *  checkedOnly and related checking for each CO seem not needed anymore...
+     *  TODO: code cleanup??
+     *
      *  Examines a List of CourseOffering wrappers and changes the state of each "checked" AO (meaning the
      *  CO was selected on the UI) from "Draft" to "Approved". If the AO has a state other than "Draft" the AO is ignored.
      *  Also, changes the state of the CourseOffering if appropriate.
