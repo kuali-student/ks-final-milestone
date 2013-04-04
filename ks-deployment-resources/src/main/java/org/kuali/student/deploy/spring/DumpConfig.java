@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.common.impex.ImpexContextCloningFactoryBean;
+import org.kuali.common.impex.SyncFilesExecutable;
 import org.kuali.common.impex.service.ImpexContext;
 import org.kuali.common.util.service.ScmService;
 import org.kuali.common.util.spring.ScmServiceFactoryBean;
@@ -67,6 +68,15 @@ public class DumpConfig {
 		contexts.add(appDumpContext());
 		contexts.add(bundledDumpContext());
 		return contexts;
+	}
+
+	@Bean(initMethod = "execute")
+	public SyncFilesExecutable syncExecutable() {
+		SyncFilesExecutable sfe = new SyncFilesExecutable();
+		sfe.setService(scmService());
+		sfe.setContexts(dumpContexts());
+		sfe.setSkip(SpringUtils.getBoolean(env, "impex.sync.skip", false));
+		return sfe;
 	}
 
 	protected ImpexContext getBaseContext(Environment env, String artifactId, String include) {
