@@ -144,10 +144,10 @@
             <artifactId>spring-maven-plugin</artifactId>
             <executions>
               <execution>
-                <id>load</id>
+                <id>loadxml</id>
                 <phase>generate-resources</phase>
                 <goals>
-                  <goal>load</goal>
+                  <goal>loadxml</goal>
                 </goals>
                 <configuration>
                   <forceMojoExecution>true</forceMojoExecution>
