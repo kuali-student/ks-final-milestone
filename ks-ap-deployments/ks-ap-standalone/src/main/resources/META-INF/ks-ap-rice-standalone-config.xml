@@ -73,7 +73,7 @@
     <param name="ksap.mode">LOCAL</param>
 
     <!-- The Version of the MyPlan -->
-    <param name="myplan.version">0.2.1-KSAP-SNAPSHOT</param>
+    <param name="myplan.version">0.4.5-KSAP-SNAPSHOT</param>
 
     <!-- Application Code -->
     <param name="app.code">ks-ap-rice-standalone</param>

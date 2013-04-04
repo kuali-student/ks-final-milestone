@@ -2340,7 +2340,7 @@ label.scheduled {
     padding: 5px 0 0 10px;
     text-align: left;
     display: block;
-    width: 44px;
+    width: 64px;
     font-weight: bold;
     line-height: 1.25em;
 }
@@ -2363,7 +2363,7 @@ label.scheduled {
 
 .myplan-full-plan-detail .myplan-term {
     border-left: solid 1px #a9a9a9;
-    width: 140px;
+    width: 135px;
 }
 
 .myplan-full-plan-detail .myplan-term > .uif-boxLayout {

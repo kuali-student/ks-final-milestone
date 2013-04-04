@@ -122,7 +122,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message"
-                                  p:messageText="This is an advising tool used to plan degree progress. This is not a UW transcript and does not reflect credit earned, transfer work, or AP/IB/CBE credit.">
+                                  p:messageText="This is an advising tool used to plan degree progress. This is not a transcript and does not reflect credit earned, transfer work, or AP/IB/CBE credit.">
                                 <property name="style" value="margin:0;"/>
                             </bean>
                             <bean parent="Uif-Message"
@@ -176,19 +176,19 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-HeaderThree" p:headerText="Year" p:cssClasses=""
-                                  p:style="display:block; width:54px; visibility:hidden; margin:0; padding:5px 0;"/>
+                                  p:style="display:block; width:74px; visibility:hidden; margin:0; padding:5px 0;"/>
                             <bean parent="Uif-HeaderThree" p:headerText="Autumn"
                                   p:cssClasses="fl-text-align-center fl-text-bold"
-                                  p:style="width:140px; display:block; border-left:solid 1px #a9a9a9; margin:0; padding:5px 0;"/>
+                                  p:style="width:135px; display:block; border-left:solid 1px #a9a9a9; margin:0; padding:5px 0;"/>
                             <bean parent="Uif-HeaderThree" p:headerText="Winter"
                                   p:cssClasses="fl-text-align-center fl-text-bold"
-                                  p:style="width:140px; display:block; border-left:solid 1px #a9a9a9; margin:0; padding:5px 0;"/>
+                                  p:style="width:135px; display:block; border-left:solid 1px #a9a9a9; margin:0; padding:5px 0;"/>
                             <bean parent="Uif-HeaderThree" p:headerText="Spring"
                                   p:cssClasses="fl-text-align-center fl-text-bold"
-                                  p:style="width:140px; display:block; border-left:solid 1px #a9a9a9; margin:0; padding:5px 0;"/>
+                                  p:style="width:135px; display:block; border-left:solid 1px #a9a9a9; margin:0; padding:5px 0;"/>
                             <bean parent="Uif-HeaderThree" p:headerText="Summer"
                                   p:cssClasses="fl-text-align-center fl-text-bold"
-                                  p:style="width:140px; display:block; border-left:solid 1px #a9a9a9; margin:0; padding:5px 0;"/>
+                                  p:style="width:135px; display:block; border-left:solid 1px #a9a9a9; margin:0; padding:5px 0;"/>
                         </list>
                     </property>
                 </bean>
@@ -213,6 +213,10 @@
                         <property name="footer.render" value="false"/>
                         <property name="validationMessages.render" value="false"/>
                     </bean>
+                </property>
+                <property name="subCollectionFieldGroupPrototype">
+                    <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false"
+                          p:cssClasses="uif-subCollection"/>
                 </property>
             </bean>
         </property>
