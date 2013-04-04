@@ -636,6 +636,15 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=renameAClusterThroughDialog")
     public ModelAndView renameAClusterThroughDialog(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+        //Test for required entry
+        if (theForm.getPrivateClusterNameForRenamePopover() == null || theForm.getPrivateClusterNameForRenamePopover().isEmpty()) {
+            GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
+            //GlobalVariables.getMessageMap().putErrorForSectionId("activityOfferingsPerCluster_line"+theForm.getSelectedClusterIndex(),
+                   // RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
+            //theForm.getDialogManager().removeDialog("KS-CourseOfferingManagement-RenameAOCPopupForm");
+            return getUIFModelAndView(theForm);
+        }
+
         ARGActivityOfferingClusterHandler.renameAClusterThroughDialog(theForm);
         ActivityOfferingClusterWrapper selectedClusterWrapper;
         //if (!hasDialogBeenDisplayed("KS-CourseOfferingManagement-RenameAOCPopupForm", theForm)){
@@ -654,13 +663,6 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
             //boolean wantToRename = getBooleanDialogResponse("KS-CourseOfferingManagement-RenameAOCPopupForm", theForm, request, response);
             //if(wantToRename){
                 selectedClusterWrapper = theForm.getSelectedCluster();
-                if (theForm.getPrivateClusterNameForRenamePopover() == null || theForm.getPrivateClusterNameForRenamePopover().isEmpty()) {
-                    GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
-                    //GlobalVariables.getMessageMap().putErrorForSectionId("activityOfferingsPerCluster_line"+theForm.getSelectedClusterIndex(),
-                           // RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
-                    //theForm.getDialogManager().removeDialog("KS-CourseOfferingManagement-RenameAOCPopupForm");
-                    return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
-                }
                 if (theForm.getSelectedCluster().getAoCluster().getPrivateName().equalsIgnoreCase(theForm.getPrivateClusterNameForRenamePopover()) || ARGUtil._isClusterUnique(theForm.getFormatOfferingIdForViewRG(), theForm.getPrivateClusterNameForRenamePopover())){
                     ActivityOfferingClusterInfo aoCluster = selectedClusterWrapper.getAoCluster();
 
@@ -690,7 +692,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
         theForm.setPublishedClusterNameForRenamePopover("");
         // clear dialog history so they can press the button again
        // theForm.getDialogManager().resetDialogStatus("KS-CourseOfferingManagement-RenameAOCPopupForm");
-        return getUIFModelAndView(theForm);
+        return show(theForm);
     }
 
 }

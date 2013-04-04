@@ -294,7 +294,14 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             //set AOC related info in an AOWrapper
             aoWrapper.setAoCluster(aoCluster);
             aoWrapper.setAoClusterID(aoCluster.getId());
-            aoWrapper.setAoClusterName(aoCluster.getName());
+
+            String pubName=aoCluster.getName();
+            if (pubName != null && !pubName.isEmpty()) {
+                aoWrapper.setAoClusterName(aoCluster.getPrivateName()+" ("+pubName+")");
+            }
+            else{
+                aoWrapper.setAoClusterName(aoCluster.getPrivateName());
+            }
 
             //set FO related info in an AOWrapper
             aoWrapper.setFormatOffering(foInfo);
