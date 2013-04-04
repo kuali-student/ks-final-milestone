@@ -45,7 +45,9 @@ public class DumpConfig {
 		String artifactId = KS_IMPEX_BUNDLED_ARTIFACT_ID;
 		String include = SpringUtils.getProperty(env, "impex.rice.include") + "," + SpringUtils.getProperty(env, "impex.ks.include");
 		ImpexContext context = getBaseContext(env, artifactId, include);
-		// Bundled is the combination of Rice + App, so we don't need to physically copy the data files
+		// Bundled is the combination of Rice + App
+		// No data files are physically checked into SCM for bundled
+		// It just references the data files from Rice + App
 		context.setCopyDataFiles(false);
 		return context;
 	}
