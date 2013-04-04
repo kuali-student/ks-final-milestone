@@ -155,11 +155,18 @@ public class TranslationUtility implements TranslateBusinessMethods {
 
     protected Map<String, Object> buildSimplePropositionContextMap(PropositionDefinition proposition) {
         if (!proposition.getPropositionTypeCode().equals(PropositionType.SIMPLE.getCode())) {
-            throw new RiceIllegalArgumentException("proposition us not simple " + proposition.getPropositionTypeCode() + " " + proposition.getId() + proposition.getDescription());
+            throw new RiceIllegalArgumentException("proposition is not simple " + proposition.getPropositionTypeCode() + " " + proposition.getId() + proposition.getDescription());
         }
         Map<String, Object> contextMap = new LinkedHashMap<String, Object>();
         for (PropositionParameter param : proposition.getParameters()) {
-            contextMap.put(param.getParameterType(), param.getValue());
+//            TODO: translate the term first then insert that into the overall proposition
+//            work with Christoff to do this logic correctly.
+            if (param.getTermValue() != null) {
+//                translateTerm
+            }
+            else {
+              contextMap.put(param.getParameterType(), param.getValue());
+            }
         }
         return contextMap;
     }
