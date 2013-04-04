@@ -152,8 +152,6 @@
                 <configuration>
                   <forceMojoExecution>true</forceMojoExecution>
                   <location>classpath:org/kuali/student/impex/ks-dump-context.xml</location>
-                  <mavenPropertiesBeanName>dumpProperties</mavenPropertiesBeanName>
-                  <injectMavenProject>true</injectMavenProject>
                 </configuration>
               </execution>
             </executions>
