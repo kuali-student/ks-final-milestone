@@ -269,7 +269,7 @@ public class ARGActivityOfferingClusterHandler {
     }
 
     public static ARGCourseOfferingManagementForm createNewCluster(ARGCourseOfferingManagementForm theForm) throws Exception {
-
+        //TODO: Add front end validation
         if (theForm.getPrivateClusterNamePopover().isEmpty()) {
             GlobalVariables.getMessageMap().putError("privateClusterName", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
             return theForm;
