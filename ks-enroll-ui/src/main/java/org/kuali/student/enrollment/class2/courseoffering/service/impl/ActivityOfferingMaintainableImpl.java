@@ -160,9 +160,9 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     ActivityOfferingInfo updatedAO = ARGUtil.getArgServiceAdapter().updateActivityOffering(activity.getActivityOfferingInfo(),createContextInfo()).getCreatedActivityOffering();
                     activity.setActivityOfferingInfo(updatedAO);
 
-                    if (activityOfferingWrapper.isColocatedAO() && !activity.isAlreadyPersisted()){
+                    /*if (activityOfferingWrapper.isColocatedAO() && !activity.isAlreadyPersisted()){
                         getScheduleHelper().deleteRequestedAndActualSchedules(activity.getActivityOfferingInfo());
-                    }
+                    }*/
                 }
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);

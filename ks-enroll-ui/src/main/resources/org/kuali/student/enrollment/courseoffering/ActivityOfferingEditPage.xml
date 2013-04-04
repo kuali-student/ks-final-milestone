@@ -19,13 +19,28 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
+    <bean id="ActivityOfferingEdit-submitSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <!--<bean parent="Uif-Message" p:hidden="true" p:cssClasses="unprocessed_changes_message"
+                      p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;]  There are unprocessed changes with the requested delivery logistics for this activity."
+                      p:style="background-color:#C8E4F7; padding-top:4px; padding-bottom:4px;font-size: 110%;border: 1px solid rgb(9, 172, 248);" p:colSpan="2"/>-->
+                <bean parent="Uif-InputField" p:cssClasses="unprocessed_changes_checkbox" p:render="@{#dp.schedulingCompleted}" p:label="Send revised delivery logistics to the scheduler for processing upon save." p:propertyName="sendRDLsToSchedulerAfterMSE">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <ref bean="ActivityOfferingEdit_SubmitCancel"/>
+            </list>
+        </property>
+    </bean>
 
     <bean id="ActivityOfferingEdit_SubmitCancel" parent="ActivityOfferingEdit_SubmitCancel-parent"/>
     <bean id="ActivityOfferingEdit_SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
         <property name="items">
             <list>
-                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:preSubmitCall="return checkAOEditWIP();"/>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="submit"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:preSubmitCall="return preSubmitCheck();"/>
                 <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="cancel"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
             </list>
@@ -53,13 +68,16 @@
 
                 <!-- This is needed for autosuggest-->
                 <bean parent="Uif-InputField" p:propertyName="termId" p:hidden="true"/>
+                <!--<bean id="scheduling_completed" parent="Uif-DataField" p:propertyName="schedulingCompleted" p:hidden="true"/>
+                <bean id="is_rdls_changed" parent="Uif-DataField" p:propertyName="editRenderHelper.rDLsChanged" p:hidden="true"/>
+                <bean id="show_" parent="Uif-DataField" p:propertyName="editRenderHelper.rDLsChanged" p:hidden="true"/>-->
             </list>
         </property>
         <property name="footer">
           <bean parent="Uif-FooterBase"/>
         </property>
         <property name="footer.items">
-            <ref bean="ActivityOfferingEdit_SubmitCancel"/>
+            <ref bean="ActivityOfferingEdit-submitSection"/>
         </property>
     </bean>
 
@@ -80,7 +98,7 @@
                     </property>
                 </bean>
 
-                <ref bean="ActivityOfferingEdit_SubmitCancel"/>
+                <ref bean="ActivityOfferingEdit-submitSection"/>
 
             </list>
         </property>
@@ -146,7 +164,8 @@
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="addLineActions">
             <list>
-                <bean parent="Uif-AddLineAction" p:successCallback="addColocatedAOSuccessCallBack();" p:actionScript="addColocatedAO(this);"/>
+                <!--<bean parent="Uif-AddLineAction" p:successCallback="addColocatedAOSuccessCallBack();" p:actionScript="addColocatedAO(this);"/>-->
+                <bean parent="Uif-AddLineAction" p:successCallback="addColocatedAOSuccessCallBack();"/>
             </list>
         </property>
         <property name="lineActions">
@@ -240,7 +259,7 @@
                     </property>
                     <property name="renderLineActions" value="false"/>
                     <property name="layoutManager.renderSequenceField" value="false"/>
-                    <!--<property name="layoutManager.richTable.render" value="false" />-->
+                    <property name="layoutManager.richTable.render" value="false" />
                     <!--<property name="layoutManager.columnCalculations">
                           <list>
                             <bean parent="Uif-ColumnCalculationInfo-Sum" p:showGroupTotal="false" p:propertyName="maxEnrollmentCount" p:calculateOnKeyUp="true"/>

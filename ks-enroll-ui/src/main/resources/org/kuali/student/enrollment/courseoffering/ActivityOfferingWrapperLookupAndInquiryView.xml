@@ -6,7 +6,7 @@
 
     <!-- LookupView -->
    <bean id="KS-ActivityOfferingWrapper-LookupView" parent="KSLookupView">
-        <property name="headerText" value="ActivityOffering Lookup " />
+        <property name="headerText" value="Activity Offering Lookup " />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingWrapperLookupableImpl" />
 
@@ -35,6 +35,13 @@
                 <bean parent="KS-Schedule-DisplayField" p:label="ROOM" p:messageText="@{#line.roomName}"/>
                 <bean parent="Uif-DataField" p:label="INSTRUCTOR" p:propertyName="firstInstructorDisplayName"/>
                 <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoInfo.maximumEnrollment"/>
+            </list>
+        </property>
+        <property name="criteriaGroup.footer.render" value="false"/>
+        <property name="footer.items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Close" p:render="@{#form.renderedInLightBox}"
+                              p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
             </list>
         </property>
     </bean>

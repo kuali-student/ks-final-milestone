@@ -91,7 +91,7 @@
         <property name="dialogs">
           <list>
             <!--<ref bean="deleteScheduleConfirmDialog"/>-->
-              <bean id="colocateDialog" parent="Colocate-DialogGroup"/>
+              <!--<bean id="colocateDialog" parent="Colocate-DialogGroup"/>-->
           </list>
         </property>
         <property name="viewHelperService.helperClasses">
@@ -118,7 +118,7 @@
         </property>
     </bean>
 
-    <bean id="Colocate-DialogGroup" parent="Uif-DialogGroup">
+    <!--<bean id="Colocate-DialogGroup" parent="Uif-DialogGroup">
         <property name="headerText" value="Partial Colocation Not Supported"/>
         <property name="promptText" value="Enrollment does not currently support partial colocation. In order to make modifications colocated activities or delivery logistics, you must ensure all delivery logistics are fully colocated."/>
         <property name="availableResponses">
@@ -134,7 +134,7 @@
         <property name="explanation">
           <bean parent="Uif-MainteanceDialogExplanation"/>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="ActivityOfferingMaintenanceDocument" parent="ActivityOfferingMaintenanceDocument-parentBean"/>
 

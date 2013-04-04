@@ -89,6 +89,9 @@ function activityEditDocumentOnLoad(){
 
 }
 
+/**
+ * This method refreshes all the related components when the user adds/deletes an AO from the colocated set.
+ */
 function addColocatedAOSuccessCallBack(){
     retrieveComponent('enr_shared_table',undefined, function () {
         retrieveComponent('ActivityOffering-CoLocated-checkbox', undefined, function () {
@@ -98,6 +101,10 @@ function addColocatedAOSuccessCallBack(){
     });
 }
 
+/**
+ * This method shows a dialog box to user before adding activity to the Colo set.
+ * @param component
+ */
 function addColocatedAO(component){
     var overrideOptions = { afterClose:function () {
         actionInvokeHandler(component);
@@ -106,7 +113,27 @@ function addColocatedAO(component){
     showLightboxComponent('colocateDialog',overrideOptions);
 }
 
+/**
+ * This is needed for partial colo in future milestones
+ * @return {boolean}
+ */
+/*function addRDLCallBack(){
+    retrieveComponent('ActivityOffering-DeliveryLogistic-Requested');
+    var scheduling_completed = jQuery('#scheduling_completed_control');
+    if (scheduling_completed.length > 0){
+        if (scheduling_completed.text().trim() === 'true'){
+            jQuery('.unprocessed_changes_message').show();
+            jQuery('.unprocessed_changes_checkbox').show();
+        }
+    }
+}*/
 
+
+/**
+ * On document submit or editing another RDL, make sure there is no activity is edit in progress
+ *
+ * @return {boolean}
+ */
 function checkAOEditWIP(){
     if (jQuery("#add_rdl_button").length > 0){
         var label = jQuery("#add_rdl_button").text().trim();
@@ -115,6 +142,27 @@ function checkAOEditWIP(){
             return false;
         }
     }
+    return true;
+}
+
+function preSubmitCheck(){
+    var result = checkAOEditWIP();
+    if (result){
+        jQuery('.new_rdl_components').addClass("ignoreValid");
+        result = validateForm();
+    }
+    return result;
+}
+
+function preSubmitNewRDL(){
+    var components = jQuery('.new_rdl_components');
+    var valid = validateLineFields(components);
+    if (!valid) {
+        showClientSideErrorNotification();
+
+        return false;
+    }
+
     return true;
 }
 
@@ -128,6 +176,10 @@ function checkAOEditWIP(){
     }
 }*/
 
+/**
+ *
+ * @param checked
+ */
 function onColoCheckBoxChange(checked){
     if (checked){
         if(jQuery("#is_co_located_control").is(":checked")) {
@@ -151,18 +203,6 @@ function onColoCheckBoxChange(checked){
     }
 }
 
-function addScheduleCallBack(){
-    if(jQuery("#is_co_located_control").length != 0) {
-        setupColoCheckBoxChange(jQuery("#is_co_located_control"));
-    }
-}
-
-function clearRoomResourcesSelections(sourceLink) {
-    var divInputField = sourceLink.siblings('div.uif-inputField');
-    divInputField.find('option').each(function() {
-            jq(this).removeAttr('selected');
-        });
-}
 
 function clearFeaturesSelected(){
     jQuery('#featuresList_control option').attr('selected', false);

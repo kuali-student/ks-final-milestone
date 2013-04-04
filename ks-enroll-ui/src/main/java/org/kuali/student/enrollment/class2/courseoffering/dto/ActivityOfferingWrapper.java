@@ -107,6 +107,7 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private EditRenderHelper editRenderHelper;
     private boolean isPartOfColoSetOnLoadAlready;
+    private boolean isSendRDLsToSchedulerAfterMSE;
 
     //This is needed to display the cross listed courses
     private CourseInfo course;
@@ -709,16 +710,13 @@ public class ActivityOfferingWrapper implements Serializable{
         this.typeKey = typeKey;
     }
 
-    /*public List<ScheduleWrapper> getRevisedScheduleRequestComponents() {
-        if (revisedScheduleRequestComponents == null){
-            revisedScheduleRequestComponents = new ArrayList<ScheduleWrapper>();
-        }
-        return revisedScheduleRequestComponents;
+    public boolean isSendRDLsToSchedulerAfterMSE() {
+        return isSendRDLsToSchedulerAfterMSE;
     }
 
-    public void setRevisedScheduleRequestComponents(List<ScheduleWrapper> revisedScheduleRequestComponents) {
-        this.revisedScheduleRequestComponents = revisedScheduleRequestComponents;
-    }*/
+    public void setSendRDLsToSchedulerAfterMSE(boolean sendRDLsToSchedulerAfterMSE) {
+        isSendRDLsToSchedulerAfterMSE = sendRDLsToSchedulerAfterMSE;
+    }
 
     public boolean isSchedulesModified() {
        return schedulesModified;

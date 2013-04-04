@@ -84,20 +84,11 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
     protected static final String TIME_FORMAT_STRING = "hh:mm a";
 
     public void saveSchedules(ActivityOfferingWrapper wrapper){
-        /*if (wrapper.isSchedulesModified()){
-            processRevisedSchedules(wrapper);
-        } else {
-            //If Schedule Actuals available but not revised, skip processing schedule request
-            if (StringUtils.isBlank(wrapper.getAoInfo().getScheduleId())){
-                createOrUpdateScheduleRequests(wrapper);
-            }
-        }*/
         if (wrapper.isSchedulingCompleted()){
             processRevisedSchedules(wrapper);
         } else {
             createOrUpdateScheduleRequests(wrapper);
         }
-
     }
 
     public void loadSchedules(ActivityOfferingWrapper wrapper){
@@ -120,17 +111,16 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
         loadScheduleRequests(wrapper);
         loadScheduleActuals(wrapper);
+
     }
 
     public void processRevisedSchedules(ActivityOfferingWrapper activityOfferingWrapper){
 
-//        if (activityOfferingWrapper.getRequestedScheduleComponents().isEmpty()){
-//            //If there are no schedule components, it's not needed to have the request
-//            deleteScheduleRequest(activityOfferingWrapper);
-//        } else {
-            //Create/update schedule requests
-            createOrUpdateScheduleRequests(activityOfferingWrapper);
-//        }
+        createOrUpdateScheduleRequests(activityOfferingWrapper);
+
+        if (activityOfferingWrapper.isSchedulingCompleted() && !activityOfferingWrapper.isSendRDLsToSchedulerAfterMSE()){
+            return;
+        }
 
         try {
 
@@ -333,14 +323,6 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         GlobalVariables.getMessageMap().putError(input.getBeanId(), RiceKeyConstants.ERROR_CUSTOM, message);
     }
 
-    /*public void prepareForScheduleRevise(ActivityOfferingWrapper wrapper){
-         wrapper.getRevisedScheduleRequestComponents().clear();
-        for (ScheduleWrapper scheduleWrapper : wrapper.getRequestedScheduleComponents()) {
-            ScheduleWrapper forRevise = new ScheduleWrapper(scheduleWrapper);
-            wrapper.getRevisedScheduleRequestComponents().add(forRevise);
-        }
-    }*/
-
     protected boolean deleteScheduleRequest(ActivityOfferingWrapper wrapper){
         StatusInfo statusInfo;
         try{
@@ -425,6 +407,35 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         }
 
         buildScheduleRequestInfo(wrapper);
+
+        /**
+         * After MSE, user can add RDLs but not needed to convert those RLDs to ADLs immediately.
+         * We have a check box at the ui. If user selects that, we can convert to ADL.
+         * Otherwise, we should just store the RDL and dont send it to scheduler.
+         *
+         * NOT FOR M6. NEEDED WHEN WORKING ON PARTIAL COLO
+         */
+        /*if (wrapper.isSchedulingCompleted()){
+            if (wrapper.getEditRenderHelper().isRDLsChanged()){
+                AttributeInfo scheduleAttr = null;
+                for (AttributeInfo attr : wrapper.getScheduleRequestInfo().getAttributes()){
+                    if (StringUtils.equals(attr.getKey(),"is.send.rdls.to.scheduler")){
+                        scheduleAttr = attr;
+                        break;
+                    }
+                }
+                if (scheduleAttr == null){
+                    scheduleAttr = new AttributeInfo();
+                    scheduleAttr.setKey("is.send.rdls.to.scheduler");
+                    wrapper.getScheduleRequestInfo().getAttributes().add(scheduleAttr);
+                }
+                if (wrapper.getEditRenderHelper().isPersistRDLInPublishedSOC()){
+                    scheduleAttr.setValue(Boolean.FALSE.toString());
+                } else {
+                    scheduleAttr.setValue(Boolean.TRUE.toString());
+                }
+            }
+        }*/
 
         wrapper.getScheduleRequestInfo().getScheduleRequestComponents().clear();
 
