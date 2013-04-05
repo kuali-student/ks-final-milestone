@@ -246,6 +246,7 @@
             divStyle:{},
             tableStyle:{},
             innerHtml:null,
+            innerHtmlId:null,//KF 3-20-13
             innerHtmlStyle:{},
             tail:{
                 align:"center",
@@ -317,6 +318,7 @@
                 mouseOut:r.mouseOut,
                 tail:r.tail,
                 innerHtml:r.innerHtml,
+                innerHtmlId:r.innerHtmlId,//KF 3-20-13
                 innerHtmlStyle:r.innerHtmlStyle,
                 baseClass:r.baseClass,
                 themeName:r.themeName,
@@ -358,7 +360,10 @@
             t.tail = t.tail != null && typeof t.tail == "object" && !a.isArray(t.tail) && !a.isEmptyObject(t.tail) ? t.tail : r.tail;
             t.tail.align = typeof t.tail.align != "undefined" ? t.tail.align : r.tail.align;
             t.tail.hidden = typeof t.tail.hidden != "undefined" ? t.tail.hidden : r.tail.hidden;
-            t.innerHtml = typeof t.innerHtml == "string" && t.innerHtml.length > 0 ? t.innerHtml : r.innerHtml;
+            //KF 3-20-13 - added innerHtmlId code
+            t.innerHtmlId = typeof t.innerHtmlId == "string" && t.innerHtmlId.length > 0 ? t.innerHtmlId : r.innerHtmlId;
+            //t.innerHtml = typeof t.innerHtml == "string" && t.innerHtml.length > 0 ? t.innerHtml : r.innerHtml;
+            t.innerHtml = t.innerHtmlId == null && typeof t.innerHtml == "string" && t.innerHtml.length > 0 ? t.innerHtml : r.innerHtml;
             t.innerHtmlStyle = t.innerHtmlStyle != null && typeof t.innerHtmlStyle == "object" && !a.isArray(t.innerHtmlStyle) && !a.isEmptyObject(t.innerHtmlStyle) ? t.innerHtmlStyle : r.innerHtmlStyle;
             t.baseClass = j(typeof t.baseClass == "string" && t.baseClass.length > 0 ? t.baseClass : r.baseClass);
             t.themeName = typeof t.themeName == "string" && t.themeName.length > 0 ? a.trim(t.themeName) : r.themeName;
@@ -993,12 +998,23 @@
                     y.appendTo("body");
                     y = a("#" + H.privateVars.id);
                     */
-                    //KF- new code begins
+                    //KF- new code begins  (3-20-13 change)
                     var y = a("#" + H.privateVars.id);
                     if (y.length == 0) {
                         var B = p(H);
                         y = a(B);
-                        y.appendTo( (a('form').length > 0) ? "form" : "body" );
+                        //KF 3-20-13: added if{}else{ [existing code ] }
+                        if (H.innerHtmlId == null) {
+                            y.appendTo( (a('form').length > 0) ? "form" : "body" );
+                        }
+                    }
+                    if (H.innerHtmlId != null) {
+                        // code must execute every time in case multiple popups use the same content;
+                        // otherwise popup #1 would lose its content when popup #2 was displayed.
+                        var popupContent = jQuery("#" + H.innerHtmlId);
+                        popupContent.detach().show();
+                        jQuery("td.jquerybubblepopup-innerHtml",y).append(popupContent);
+                        y.insertAfter(this);
                     }
                     //KF- new code ends
                     y.attr("data-for", w.id);

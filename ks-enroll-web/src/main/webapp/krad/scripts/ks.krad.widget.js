@@ -4,7 +4,8 @@ var BUBBLEPOPUP_DEFAULT_OPTIONS = {
     tail: { align:'left', hidden:false },
     manageMouseEvents: false,
     themePath: '../krad/plugins/tooltip/jquerybubblepopup-theme/',
-    themeName: 'ks-form'
+    themeName: 'ks-form',
+    closingSpeed: 125
 };
 
 
@@ -22,25 +23,28 @@ function openPopupContent(e, contentId, popupOptions, closeButton) {
     stopEvent(e);
 
     var popupTarget = jQuery((e.currentTarget) ? e.currentTarget : e.srcElement);
-    if (popupTarget.IsBubblePopupOpen()) {
-        return;
-    }
+    var isPopupOpen = popupTarget.IsBubblePopupOpen();
 
-    // in case a prior popup is still open
+    // close the current popup
     if (gCurrentBubblePopupId) {
         _hideBubblePopup(jQuery("#"+gCurrentBubblePopupId));
     }
-    jQuery(".uif-tooltip").HideAllBubblePopups(); // just in case, case
+    //jQuery(".uif-tooltip").HideAllBubblePopups(); // probably not needed
+
+    if (isPopupOpen) {  // action toggles popup on/off
+        return;
+    }
 
     gCurrentBubblePopupId = popupTarget.attr('id');
     var clickName = "click." + gCurrentBubblePopupId;
-    var popupContent = jQuery("#" + contentId).detach().show();
 
     // add required class uif-tooltip to action and create popup
     if (!popupTarget.HasBubblePopup()) {
         popupTarget.addClass("uif-tooltip");
         //initBubblePopups();  // shotgun approach to CreateBubblePopup, versus...
         popupTarget.CreateBubblePopup(".uif-tooltip");
+
+        var popupContent = jQuery("#" + contentId);
 
         if (closeButton) {
             var closeButton = jQuery('<div class="uif-popup-closebutton"/>');
@@ -59,12 +63,9 @@ function openPopupContent(e, contentId, popupOptions, closeButton) {
     }
 
     var clonedDefaultOptions = jQuery.extend({}, BUBBLEPOPUP_DEFAULT_OPTIONS);
-    jQuery.extend(clonedDefaultOptions, popupOptions);
+    jQuery.extend(clonedDefaultOptions, popupOptions, {innerHtmlId:contentId});
     popupTarget.ShowBubblePopup(clonedDefaultOptions,true);
     popupTarget.FreezeBubblePopup();
-
-    var popupId = popupTarget.GetBubblePopupID();
-    jQuery("div#" + popupId + " td.jquerybubblepopup-innerHtml").append(popupContent);
 
     // close popup on any click outside current popup
     jQuery(document).on(clickName, function(e) {

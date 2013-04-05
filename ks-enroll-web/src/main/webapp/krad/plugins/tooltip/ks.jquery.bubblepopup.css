@@ -9,3 +9,7 @@ div.uif-popup-closebutton {
     right: 9px;
     cursor: pointer;
 }
+
+td.jquerybubblepopup-innerHtml > .uif-bubblepopup-content {
+    margin: 10px;
+}
