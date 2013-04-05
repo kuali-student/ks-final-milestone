@@ -35,12 +35,14 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleRequestInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
-        "refObjectId", "refObjectTypeKey", "scheduleRequestComponents",
+        "refObjectId", "scheduleRequestSetId", "scheduleId", "refObjectTypeKey", "scheduleRequestComponents",
         "meta", "attributes", "_futureElements" }) 
 public class ScheduleRequestInfo extends IdEntityInfo implements ScheduleRequest, Serializable {
 
     @XmlElement
-    private String refObjectId;
+    private String scheduleRequestSetId;
+    @XmlElement
+    private String scheduleId;
     @XmlElement
     private String refObjectTypeKey;
     @XmlElement
@@ -55,8 +57,8 @@ public class ScheduleRequestInfo extends IdEntityInfo implements ScheduleRequest
     public ScheduleRequestInfo(ScheduleRequest scheduleRequest) {
         super (scheduleRequest);
         if (null != scheduleRequest) {
-            this.refObjectId = scheduleRequest.getRefObjectId();
-            this.refObjectTypeKey = scheduleRequest.getRefObjectTypeKey();
+            this.scheduleRequestSetId = scheduleRequest.getScheduleRequestSetId();
+            this.scheduleId = scheduleRequest.getScheduleId();
             this.scheduleRequestComponents = new ArrayList<ScheduleRequestComponentInfo>();
             for(ScheduleRequestComponent component : scheduleRequest.getScheduleRequestComponents()) {
                 this.scheduleRequestComponents.add(new ScheduleRequestComponentInfo(component));
@@ -65,21 +67,13 @@ public class ScheduleRequestInfo extends IdEntityInfo implements ScheduleRequest
     }
 
     @Override
-    public String getRefObjectTypeKey() {
-        return this.refObjectTypeKey;
-    }
-
-    public void setRefObjectTypeKey(String refObjectTypeKey) {
-        this.refObjectTypeKey = refObjectTypeKey;
+    public String getScheduleRequestSetId() {
+        return this.scheduleRequestSetId;
     }
 
     @Override
-    public String getRefObjectId() {
-        return this.refObjectId;
-    }
-
-    public void setRefObjectId(String refObjectId) {
-        this.refObjectId = refObjectId;
+    public String getScheduleId() {
+        return this.scheduleId;
     }
 
     @Override

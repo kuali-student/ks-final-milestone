@@ -26,10 +26,19 @@ import java.util.List;
  * Information about a Schedule.
  *
  * @author tom
- * @since Thu Nov 3 14:22:34 EDT 2011
+ * @author Sri komandur@uw.edu
  */ 
 
 public interface Schedule extends IdEntity {
+
+
+    /**
+     * ScheduleTransaction Identifier that created this Schedule
+     * @name Schedule Transaction id
+     * @required
+     * @readOnly
+     */
+    public String getScheduleTransactionId();
 
     /**
      * The ATP Id. Schedule Components are applied to this ATP.

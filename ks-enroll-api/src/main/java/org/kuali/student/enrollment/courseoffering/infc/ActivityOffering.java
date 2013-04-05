@@ -89,13 +89,13 @@ public interface ActivityOffering extends IdEntity {
     public String getActivityCode();
 
     /**
-     * Gets the schedule Id for this activity offering.
+     * Gets the schedule Ids for this activity offering.
      * 
      * No value will exist until the scheduling process has been completed for this activity offering.
      *
-     * @name Schedule Id
+     * @name Schedule Ids
      */
-    public String getScheduleId();
+    public List<String> getScheduleIds();
 
     /**
      * Indicates where this activity offering is in the scheduling process.
