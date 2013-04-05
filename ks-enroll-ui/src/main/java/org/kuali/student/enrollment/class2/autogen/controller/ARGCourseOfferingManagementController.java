@@ -646,29 +646,29 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
         //Test for required entry
         if (theForm.getPrivateClusterNameForRenamePopover() == null || theForm.getPrivateClusterNameForRenamePopover().isEmpty()) {
             GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
-            //GlobalVariables.getMessageMap().putErrorForSectionId("activityOfferingsPerCluster_line"+theForm.getSelectedClusterIndex(),
-                   // RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
-            //theForm.getDialogManager().removeDialog("KS-CourseOfferingManagement-RenameAOCPopupForm");
+
+            return getUIFModelAndView(theForm);
+        }
+        if (theForm.getPublishedClusterNameForRenamePopover() == null || theForm.getPublishedClusterNameForRenamePopover().isEmpty()) {
+            GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PUBLISHED_NAME_IS_NULL);
+
+            return getUIFModelAndView(theForm);
+        }
+        if(theForm.getPrivateClusterNameForRenamePopover().length() < 5){
+            GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_TOO_SHORT);
+
+            return getUIFModelAndView(theForm);
+        }
+        if(theForm.getPublishedClusterNameForRenamePopover().length() < 5){
+            GlobalVariables.getMessageMap().putError("publishedClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PUBLISHED_NAME_IS_TOO_SHORT);
+
             return getUIFModelAndView(theForm);
         }
 
         ARGActivityOfferingClusterHandler.renameAClusterThroughDialog(theForm);
         ActivityOfferingClusterWrapper selectedClusterWrapper;
-        //if (!hasDialogBeenDisplayed("KS-CourseOfferingManagement-RenameAOCPopupForm", theForm)){
             selectedClusterWrapper = (ActivityOfferingClusterWrapper)ARGUtil.getSelectedObject(theForm, "Rename Cluster");
             theForm.setSelectedCluster(selectedClusterWrapper);
-            //theForm.setPrivateClusterNamePopover(selectedClusterWrapper.getAoCluster().getPrivateName());
-            //theForm.setPublishedClusterNamePopover(selectedClusterWrapper.getAoCluster().getName());
-
-            //set clusterIndex for selected/from cluster
-           // String selectedClusterIndex = theForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-            //theForm.setSelectedClusterIndex(Integer.parseInt(selectedClusterIndex));
-            // redirect back to client to display lightbox
-            //return showDialog("KS-CourseOfferingManagement-RenameAOCPopupForm", theForm, request, response);
-        //}
-        //if (hasDialogBeenAnswered("KS-CourseOfferingManagement-RenameAOCPopupForm", theForm)) {
-            //boolean wantToRename = getBooleanDialogResponse("KS-CourseOfferingManagement-RenameAOCPopupForm", theForm, request, response);
-            //if(wantToRename){
                 selectedClusterWrapper = theForm.getSelectedCluster();
                 if (theForm.getSelectedCluster().getAoCluster().getPrivateName().equalsIgnoreCase(theForm.getPrivateClusterNameForRenamePopover()) || ARGUtil._isClusterUnique(theForm.getFormatOfferingIdForViewRG(), theForm.getPrivateClusterNameForRenamePopover())){
                     ActivityOfferingClusterInfo aoCluster = selectedClusterWrapper.getAoCluster();
@@ -679,26 +679,12 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
                             aoCluster.getId(), aoCluster, ContextUtils.createDefaultContextInfo());
                     selectedClusterWrapper.setAoCluster(aoCluster);
                     selectedClusterWrapper.setClusterNameForDisplay("Forget to set cluster?");
-
-                    //After rename an AOC, reload the main RG screen to correctly display the warning messages
-                    /*Properties urlParameters = new Properties();
-                    urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
-                    urlParameters.put("coInfo.id", theForm.getCurrentCourseOfferingWrapper().getCourseOfferingId());
-                    urlParameters.put(UifParameters.VIEW_ID, RegistrationGroupConstants.RG_VIEW);
-                    urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
-                    urlParameters.put("withinPortal", BooleanUtils.toStringTrueFalse(theForm.isWithinPortal()));
-                    String controllerPath = RegistrationGroupConstants.RG_CONTROLLER_PATH;
-                    return super.performRedirect(theForm,controllerPath, urlParameters);*/
-                //} else {
-                //    GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME);
-                //}
             }
             theForm.setSelectedCluster(null);
         //}
         theForm.setPrivateClusterNameForRenamePopover("");
         theForm.setPublishedClusterNameForRenamePopover("");
-        // clear dialog history so they can press the button again
-       // theForm.getDialogManager().resetDialogStatus("KS-CourseOfferingManagement-RenameAOCPopupForm");
+
         return show(theForm);
     }
 

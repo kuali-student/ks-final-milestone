@@ -275,6 +275,26 @@ public class ARGActivityOfferingClusterHandler {
             return theForm;
         }
 
+        if (theForm.getPublishedClusterNameForRenamePopover() == null || theForm.getPublishedClusterNameForRenamePopover().isEmpty()) {
+            GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PUBLISHED_NAME_IS_NULL);
+
+            return theForm;
+        }
+
+
+        if(theForm.getPrivateClusterNamePopover().length() < 5){
+            GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_TOO_SHORT);
+
+            return theForm;
+        }
+        if(theForm.getPublishedClusterNamePopover().length() < 5){
+            GlobalVariables.getMessageMap().putError("publishedClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PUBLISHED_NAME_IS_TOO_SHORT);
+
+            return theForm;
+        }
+
+
+
         String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
         if (ARGUtil._isClusterUnique(formatOfferingId, theForm.getPrivateClusterNamePopover())){
             //build a new empty cluster
