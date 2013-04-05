@@ -27,3 +27,9 @@ INSERT INTO KSEN_STATE_CHG_CNSTRNT (STATE_CHG_ID,STATE_CNSTRNT_ID)
 INSERT INTO KSEN_STATE_CHG_CNSTRNT (STATE_CHG_ID,STATE_CNSTRNT_ID)
   VALUES ('kuali.statechange.registrationgroup.offered.pending','kuali.stateconstraint.registrationgroup.offered.pending')
 /
+INSERT INTO KSEN_STATE_CHG_CNSTRNT (STATE_CHG_ID,STATE_CNSTRNT_ID)
+  VALUES ('kuali.statechange.registrationgroup.invalid.pending','kuali.stateconstraint.registrationgroup.invalid.pending')
+/
+INSERT INTO KSEN_STATE_CHG_CNSTRNT (STATE_CHG_ID,STATE_CNSTRNT_ID)
+  VALUES ('kuali.statechange.registrationgroup.invalid.offered','kuali.stateconstraint.registrationgroup.invalid.offered')
+/
