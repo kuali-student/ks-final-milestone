@@ -52,9 +52,13 @@ public class ARGActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase im
     public List<KeyValue> getKeyValues(ViewModel model) {
         ARGCourseOfferingManagementForm coForm = (ARGCourseOfferingManagementForm) model;
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "Select Activity Type"));
+//        keyValues.add(new ConcreteKeyValue("", "Select Activity Type"));
 
         String formatOfferingId = coForm.getFormatOfferingIdForNewAO();
+        if (formatOfferingId==null || formatOfferingId.equals("")) {
+            formatOfferingId = coForm.getFormatOfferingIds().get(0);
+        }
+
         String courseId = coForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo().getCourseId();
 
         if(!StringUtils.isEmpty(formatOfferingId)) {

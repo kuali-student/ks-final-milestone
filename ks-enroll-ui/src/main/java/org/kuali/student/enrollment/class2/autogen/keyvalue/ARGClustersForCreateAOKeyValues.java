@@ -50,9 +50,11 @@ public class ARGClustersForCreateAOKeyValues extends UifKeyValuesFinderBase impl
     public List<KeyValue> getKeyValues(ViewModel model) {
         ARGCourseOfferingManagementForm coForm = (ARGCourseOfferingManagementForm) model;
         String formatOfferingId = coForm.getFormatOfferingIdForNewAO();
-
+        if (formatOfferingId==null || formatOfferingId.equals("")) {
+            formatOfferingId = coForm.getFormatOfferingIds().get(0);
+        }
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "Select Cluster"));
+//        keyValues.add(new ConcreteKeyValue("", "Select Cluster"));
 
         if(!StringUtils.isEmpty(formatOfferingId)) {
             try {

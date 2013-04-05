@@ -46,7 +46,7 @@ public class ARGFormatsForCreateAOKeyValues extends UifKeyValuesFinderBase imple
         ARGCourseOfferingManagementViewHelperServiceImpl helperService = ((ARGCourseOfferingManagementViewHelperServiceImpl)coForm.getView().getViewHelperService());
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "Select Format Type"));
+//        keyValues.add(new ConcreteKeyValue("", "Select Format Type"));
         CourseOfferingInfo selectedCourseOffering = coForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
 
         try {

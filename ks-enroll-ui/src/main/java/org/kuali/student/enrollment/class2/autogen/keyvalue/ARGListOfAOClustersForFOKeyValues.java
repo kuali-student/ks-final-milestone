@@ -123,7 +123,7 @@ public class ARGListOfAOClustersForFOKeyValues extends UifKeyValuesFinderBase im
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         List<ActivityOfferingClusterInfo> clusterInfos = getCourseOfferingService().getActivityOfferingClustersByFormatOffering(foId, contextInfo);
-        keyValues.add(new ConcreteKeyValue("", "Select activity offering cluster..."));
+//        keyValues.add(new ConcreteKeyValue("", "Select activity offering cluster..."));
         for (ActivityOfferingClusterInfo clusterInfo : clusterInfos) {
             keyValues.add(new ConcreteKeyValue(clusterInfo.getId(), clusterInfo.getPrivateName()));
         }
