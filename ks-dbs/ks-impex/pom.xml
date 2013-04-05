@@ -144,14 +144,14 @@
             <artifactId>spring-maven-plugin</artifactId>
             <executions>
               <execution>
-                <id>loadxml</id>
+                <id>load</id>
                 <phase>generate-resources</phase>
                 <goals>
-                  <goal>loadxml</goal>
+                  <goal>load</goal>
                 </goals>
                 <configuration>
                   <forceMojoExecution>true</forceMojoExecution>
-                  <location>classpath:org/kuali/student/impex/ks-dump-context.xml</location>
+                  <annotatedClass>org.kuali.student.deploy.spring.DumpConfig</annotatedClass>
                 </configuration>
               </execution>
             </executions>
