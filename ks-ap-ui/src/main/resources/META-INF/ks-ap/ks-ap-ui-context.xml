@@ -46,17 +46,22 @@
 				<value>classpath:ks-AuditReportInfo-dictionary.xml</value>
 
 				<value>classpath:UifMyPlanDefinitions.xml</value>
-				<value>classpath:UifExtensionDefinitions.xml</value>
-				<value>classpath:HelpDefinitions.xml</value>
-				<value>classpath:MyPlanDataObjects.xml</value>
-				<value>classpath:HelpDefinitions.xml</value>
-				<value>classpath:CourseSearchUI.xml</value>
-				<value>classpath:CourseDetailsUI.xml</value>
-				<value>classpath:PlanItemsUI.xml</value>
-				<value>classpath:DegreeAuditUI.xml</value>
-				<value>classpath:DegreeAuditDetailsUI.xml</value>
-				<value>classpath:CommentUI.xml</value>
-				<value>classpath:QuickAddUI.xml</value>
+                <value>classpath:UifExtensionDefinitions.xml</value>
+                <value>classpath:HelpDefinitions.xml</value>
+                <value>classpath:MyPlanDataObjects.xml</value>
+                <value>classpath:HelpDefinitions.xml</value>
+                <value>classpath:CourseSearchUI.xml</value>
+                <value>classpath:CourseDetailsUI.xml</value>
+                <value>classpath:PlanItemsUI.xml</value>
+                <value>classpath:DegreeAuditUI.xml</value>
+                <value>classpath:DegreeAuditDetailsUI.xml</value>
+                <value>classpath:CommentUI.xml</value>
+                <value>classpath:QuickAddUI.xml</value>
+                <value>classpath:CourseSectionsUI.xml</value>
+                <value>classpath:DialogDefinitions.xml</value>
+                <value>classpath:FullPlanCoursesUI.xml</value>
+                <value>classpath:SavedCoursesUI.xml</value>
+                <value>classpath:SingleQuarterUI.xml</value>
 			</list>
 		</property>
 		<property name="packagePrefixes">
