@@ -43,6 +43,7 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -389,15 +390,18 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
                     rgStatusInfo.setId(rgInfo.getId());
                     rgStatusInfo.setSuccess(true);
 
-                    List<ValidationResultInfo> validations = coService.verifyRegistrationGroup(rgInfo.getId(), context);
-                    for (ValidationResultInfo validation : validations) {
-                        if (validation.isWarn()) {
-                            // If any validation is an error, then make this invalid
-                            coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, context);
-                            rgStatusInfo.setSuccess(false);
-                            break;
+                    StatusInfo statusInfo;
+                    if (_isRegistrationGroupValid (rgInfo.getId(), context)) {
+                        if (!coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY, context).getIsSuccess()) {
+                        } else if (!coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY, context).getIsSuccess()) {
+                        } else {
+                            throw new RuntimeException("State change failed for RG: " + rgInfo.getId());
                         }
+                    } else {
+                        coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, context);
+                        rgStatusInfo.setSuccess(false);
                     }
+
                     rgStatusInfos.add(rgStatusInfo);
                 }
                 aoResult.setGeneratedRegistrationGroups(rgStatusInfos);
@@ -409,6 +413,22 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
             throw new RuntimeException(e);
         }
 
+
+    }
+
+    private boolean _isRegistrationGroupValid (String rgId, ContextInfo context) {
+        try {
+            List<ValidationResultInfo> validations = coService.verifyRegistrationGroup(rgId, context);
+            for (ValidationResultInfo validation : validations) {
+                if (!validation.isOk()) {
+                    // If any validation is an error, then make this invalid
+                    return false;
+                }
+            }
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
     }
 

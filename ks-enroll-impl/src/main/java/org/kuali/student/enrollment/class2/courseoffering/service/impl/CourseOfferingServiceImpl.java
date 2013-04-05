@@ -1068,7 +1068,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     public List<ActivityOfferingInfo> getActivityOfferingsForSeatPoolDefinition(
             String seatPoolDefinitionId,
-             ContextInfo context)
+            ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -1897,7 +1897,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             aoInfo.setScheduleId(newScheduleId);
 
             try {
-            updateActivityOffering(aoInfo.getId(), aoInfo, contextInfo);
+                updateActivityOffering(aoInfo.getId(), aoInfo, contextInfo);
             }catch (Exception e) {
                 throw new OperationFailedException("createSchedule failed due to the following uncaught exception: " + e.getClass().getSimpleName() + " " + e.getMessage(), e);
             }
@@ -2018,7 +2018,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public List<RegistrationGroupInfo> getRegistrationGroupsWithActivityOfferings(List<String> activityOfferingIds,
                                                                                   ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-                   OperationFailedException, PermissionDeniedException {
+            OperationFailedException, PermissionDeniedException {
         List<RegistrationGroupInfo> regGroupList = new ArrayList<RegistrationGroupInfo>();
         Set aoIdSet = new HashSet(activityOfferingIds);
         if (activityOfferingIds != null && !activityOfferingIds.isEmpty()) {
@@ -2213,31 +2213,31 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // Quick verification
         List<BulkStatusInfo> rgChanges = new ArrayList<BulkStatusInfo>();
-        
+
         try {
             List<RegistrationGroupInfo> regGroups = getRegistrationGroupsByFormatOffering(formatOfferingId, context);
             for (RegistrationGroupInfo regGroup : regGroups) {
-               
+
                 BulkStatusInfo bulkStatus = bulkDeleteRegistrationGroup(regGroup, context);
-             
+
                 rgChanges.add(bulkStatus);
             }
         } catch (DoesNotExistException e) {
-           throw new OperationFailedException("", e);
+            throw new OperationFailedException("", e);
         }
         return rgChanges;
     }
 
     private BulkStatusInfo bulkDeleteRegistrationGroup(RegistrationGroupInfo regGroup, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+
         StatusInfo status = deleteRegistrationGroup(regGroup.getId(), context);
 
         BulkStatusInfo bulkStatus = new BulkStatusInfo();
-        
+
         bulkStatus.setId(regGroup.getId());
         bulkStatus.setSuccess(status.getIsSuccess());
         bulkStatus.setMessage("Registration Group Deleted");
-        
+
         return bulkStatus;
     }
 
@@ -2254,7 +2254,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 if (regGroup.getIsGenerated()) {
                     // Only delete reg groups that are generated
                     BulkStatusInfo bulkStatus = bulkDeleteRegistrationGroup(regGroup, context);
-                    
+
                     rgChanges.add(bulkStatus);
                 }
             }
@@ -2269,17 +2269,17 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<BulkStatusInfo> rgChanges = new ArrayList<BulkStatusInfo>();
         try {
             ActivityOfferingClusterInfo aocInfo = getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
-                List<RegistrationGroupInfo> regGroups = getRegistrationGroupsByActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+            List<RegistrationGroupInfo> regGroups = getRegistrationGroupsByActivityOfferingCluster(activityOfferingClusterId, contextInfo);
             for (RegistrationGroupInfo rgInfo : regGroups){
-                    
-                    BulkStatusInfo bulkStatus = bulkDeleteRegistrationGroup(rgInfo, contextInfo);
-                        
-                    rgChanges.add(bulkStatus);
-                }
-            } catch (DoesNotExistException e) {
-                throw new OperationFailedException("deleteRegistrationGroupsForCluster(AOCId="+activityOfferingClusterId+") failed: ", e);
+
+                BulkStatusInfo bulkStatus = bulkDeleteRegistrationGroup(rgInfo, contextInfo);
+
+                rgChanges.add(bulkStatus);
             }
-            
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException("deleteRegistrationGroupsForCluster(AOCId="+activityOfferingClusterId+") failed: ", e);
+        }
+
         return rgChanges;
     }
 
@@ -2846,11 +2846,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 activityOfferingClusterDao.getEm().remove(orphan);
             }
             activityOfferingClusterEntity.setEntityUpdated(contextInfo);
-            
+
             ActivityOfferingClusterEntity mergedEntity = activityOfferingClusterDao.merge(activityOfferingClusterEntity);
-            
+
             activityOfferingClusterDao.getEm().flush();
-            
+
             ActivityOfferingClusterInfo merged = mergedEntity.toDto();
             // Delete reg groups with AOs no longer in AO cluster (put here, in case merge fails--then, this code won't
             // run.
@@ -2971,13 +2971,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         if (null != seatPoolDefinitionEntity) {
             seatPoolDefinitionEntity.fromDto(seatPoolDefinitionInfo);
             seatPoolDefinitionEntity.setEntityUpdated(context);
-            
+
             SeatPoolDefinitionEntity mergedEntity = seatPoolDefinitionDao.merge(seatPoolDefinitionEntity);
-            
+
             seatPoolDefinitionDao.getEm().flush();
-            
+
             return mergedEntity.toDto();
-            
+
         } else {
             throw new DoesNotExistException("No SeatPool found for seatPoolDefinitionId=" + seatPoolDefinitionId);
         }
@@ -3516,7 +3516,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public StatusInfo changeFormatOfferingState(
             String formatOfferingId,
             String nextStateKey,
-             ContextInfo contextInfo)
+            ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
@@ -3668,7 +3668,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public StatusInfo changeSeatPoolDefinitionState(
             String seatPoolDefinitionId,
             String nextStateKey,
-             ContextInfo contextInfo)
+            ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("To be Implemented in M5");
@@ -3770,7 +3770,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public List<String> getActivityOfferingClustersIdsByFormatOffering(
             String formatOfferingId,
-             ContextInfo contextInfo)
+            ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
