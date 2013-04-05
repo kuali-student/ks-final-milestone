@@ -18,8 +18,9 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <bean id="KS-AgendaManagement-View" parent="KSMaintenanceView">
+    <bean id="KRMS-AgendaManagement-View" parent="KSMaintenanceView">
         <property name="headerText" value="Manage Requisites"/>
+        <property name="dataObjectClassName" value="org.kuali.rice.krms.dto.RuleManagementWrapper"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-enrollment-home</value>
@@ -29,6 +30,9 @@
             <list>
                 <value>krms/scripts/agendaTree.js</value>
                 <value>ks-enroll/scripts/ruleStudentTree.js</value>
+                <value>krms/scripts/requiredAlerts.js</value>
+                <value>ks-enroll/scripts/disableStudentButtons.js</value>
+                <value>krms/scripts/countdownInputs.js</value>
             </list>
         </property>
         <property name="additionalCssFiles">
@@ -37,20 +41,51 @@
                 <value>ks-enroll/css/krms.css</value>
             </list>
         </property>
-        <property name="page.items">
-            <ref bean="KRMS-AgendaManageRequisites-Section"/>
-        </property>
         <property name="dialogs">
             <list>
                 <bean id="compareRuleLightBox" parent="KRMS-CompareRule"/>
             </list>
         </property>
-        <property name="page.footer.items">
-            <ref bean="KSDocumentPageFooter_SubmitCancel"/>
+        <property name="items">
+            <list>
+                <bean id="KRMS-AgendaMaintenance-Page" parent="KRMS-AgendaMaintenance-Page-Parent"/>
+                <bean id="KRMS-RuleMaintenance-Page" parent="KRMS-RuleMaintenance-Page-Parent"/>
+            </list>
         </property>
+        <property name="singlePageView" value="false"/>
+        <property name="entryPageId" value="KRMS-AgendaMaintenance-Page"/>
     </bean>
 
-    <bean name="KRMS-AgendaManageRequisites-Section" parent="Uif-VerticalBoxSection"/>
+    <bean name="KRMS-AgendaMaintenance-Page-Parent" parent="Uif-Page">
+        <property name="footer">
+            <bean parent="KSDocumentPageFooter_SubmitCancel"/>
+        </property>
+    </bean>
+    <bean name="KRMS-RuleMaintenance-Page-Parent" parent="Uif-Page">
+        <property name="items">
+            <list>
+                <ref bean="KS-Rules-ManageSection"/>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean id="update-button" parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true">
+                            <property name="actionLabel" value="Update Rule"/>
+                            <property name="methodToCall"
+                                      value="updateRule"/>
+                        </bean>
+                        <bean id="cancel-button" parent="Uif-ActionLink" p:style="margin-left: 0.5em;margin-top: 0.3em;">
+                            <property name="actionLabel" value="Cancel"/>
+                            <property name="methodToCall"
+                                      value="cancelEditRule"/>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
 
     <bean id="KRMS-AgendaSection-Template" parent="Uif-VerticalBoxSection">
         <property name="header">
@@ -70,7 +105,8 @@
                 </bean>
                 <bean parent="Uif-ActionLink" p:actionLabel="Compare" p:methodToCall="compareRules">
                     <property name="toolTip">
-                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Compares CLU and CO Rules"/>
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
+                              p:tooltipContent="Compares CLU and CO Rules"/>
                     </property>
                 </bean>
                 <bean parent="Uif-ActionLink" p:actionLabel="Edit" p:methodToCall="goToRuleView">
@@ -109,12 +145,14 @@
         </property>
         <property name="items">
             <list>
-                <bean id="KRMS-RuleEdit-Section" parent="Uif-VerticalBoxSection" p:width="500px" p:style="margin-left:1em">
+                <bean id="KRMS-RuleEdit-Section" parent="Uif-VerticalBoxSection" p:width="500px"
+                      p:style="margin-left:1em">
                     <property name="items">
                         <list>
                             <bean parent="KRMS-RuleEdit-Links" p:id="KRSM-RuleEdit-ActionLinks" p:align="right"/>
                             <bean id="KRMS-Instruction-EditMessage" parent="Uif-MessageField"/>
-                            <bean id="KRMS-PreviewTree-Group" parent="Uif-VerticalBoxGroup" p:cssClasses="viewModeNode" p:style="border: 1px solid #999999">
+                            <bean id="KRMS-PreviewTree-Group" parent="Uif-VerticalBoxGroup" p:cssClasses="viewModeNode"
+                                  p:style="border: 1px solid #999999">
                                 <property name="items">
                                     <list>
                                         <bean parent="KS-ViewTree-Section"/>
@@ -135,7 +173,8 @@
         </property>
         <property name="items">
             <list>
-                <bean id="KRMS-RuleAdd-Section" parent="Uif-VerticalBoxSection" p:width="500px" p:style="margin-left:1em">
+                <bean id="KRMS-RuleAdd-Section" parent="Uif-VerticalBoxSection" p:width="500px"
+                      p:style="margin-left:1em">
                     <property name="items">
                         <list>
                             <bean parent="KRMS-RuleAdd-Links" p:id="KRMS-RuleAdd-ActionLink" p:align="right"/>

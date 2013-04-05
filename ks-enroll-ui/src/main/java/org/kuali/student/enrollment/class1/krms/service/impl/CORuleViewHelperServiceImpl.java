@@ -14,13 +14,23 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
+import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
+import org.kuali.rice.krms.api.repository.agenda.AgendaTreeDefinition;
+import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContract;
+import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameter;
+import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
+import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
+import org.kuali.rice.krms.api.repository.term.TermParameterDefinition;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
+import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
+import org.kuali.rice.krms.builder.ComponentBuilder;
+import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.TemplateInfo;
@@ -38,6 +48,7 @@ import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
+import org.kuali.student.enrollment.class1.krms.tree.CORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.CORulePreviewTreeBuilder;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -64,6 +75,7 @@ import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -298,32 +310,60 @@ public class CORuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     }
 
     @Override
-    public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original) throws Exception {
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original, String compareToRefObjectId) throws Exception {
 
         //Get the CLU Tree.
-        CourseOfferingInfo courseOffering = this.getCourseOfferingService().getCourseOffering("0f074dc5-91ec-4a9d-9f27-decbdbb79e8e", ContextUtils.createDefaultContextInfo());
-        ReferenceObjectBinding referenceObject = this.getRuleManagementService().getReferenceObjectBinding(courseOffering.getCourseId());
-        AgendaDefinition agenda = this.getRuleManagementService().getAgenda(referenceObject.getKrmsObjectId());
-        RuleDefinitionContract compare = this.getRuleManagementService().getRule("10063");
+        CourseOfferingInfo courseOffering = this.getCourseOfferingService().getCourseOffering(compareToRefObjectId, ContextUtils.createDefaultContextInfo());
+        CORuleCompareTreeBuilder treeBuilder = new CORuleCompareTreeBuilder();
+        treeBuilder.setRuleManagementService(this.getRuleManagementService());
+        RuleDefinitionContract compare = treeBuilder.getCompareRule(courseOffering.getCourseId(), original.getTypeId());
 
         //Build the Tree
-        Tree<CompareTreeNode, String> compareTree = this.getCompareTreeBuilder().buildTree(original, compare);
+        RuleEditor compareEditor = new EnrolRuleEditor(compare);
+        //this.initPropositionEditor((PropositionEditor) compareEditor.getProposition());
+        Tree<CompareTreeNode, String> compareTree = treeBuilder.buildTree(original, compareEditor);
 
-        //Set data headers on root node.
-        Node<CompareTreeNode, String> node = compareTree.getRootElement();
-        if ((node.getChildren() != null) && (node.getChildren().size() > 0)) {
-            Node<CompareTreeNode, String> childNode = node.getChildren().get(0);
+        return compareTree;
+    }
 
-            // Set the headers on the first root child
-            if (childNode.getData() != null) {
-                CompareTreeNode compareTreeNode = childNode.getData();
-                compareTreeNode.setOriginal("CO Rules");
-                compareTreeNode.setCompared("CLU Rules");
+    protected void initPropositionEditor(PropositionEditor propositionEditor) {
+        if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(propositionEditor.getPropositionTypeCode())) {
+
+            if (propositionEditor.getType() == null) {
+                KrmsTypeDefinition type = this.getKrmsTypeRepositoryService().getTypeById(propositionEditor.getTypeId());
+                propositionEditor.setType(type.getName());
+            }
+
+            ComponentBuilder builder = this.getTemplateRegistry().getComponentBuilderForType(propositionEditor.getType());
+            if (builder != null) {
+                Map<String, String> termParameters = this.getTermParameters(propositionEditor);
+                builder.resolveTermParameters(propositionEditor, termParameters);
+            }
+        } else {
+            for (PropositionEditor child : propositionEditor.getCompoundEditors()) {
+                initPropositionEditor(child);
             }
 
         }
+    }
 
-        return compareTree;
+    protected Map<String, String> getTermParameters(PropositionEditor proposition) {
+
+        Map<String, String> termParameters = new HashMap<String, String>();
+        if (proposition.getTerm() == null) {
+            if (proposition.getParameters().get(0) != null) {
+                String termId = proposition.getParameters().get(0).getValue();
+                proposition.setTerm(this.getTermRepositoryService().getTerm(termId));
+            } else {
+                return termParameters;
+            }
+        }
+
+        for (TermParameterDefinition parameter : proposition.getTerm().getParameters()) {
+            termParameters.put(parameter.getName(), parameter.getValue());
+        }
+
+        return termParameters;
     }
 
     @Override

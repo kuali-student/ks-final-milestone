@@ -18,9 +18,6 @@ public class EnrolRuleEditor extends RuleEditor {
 
     private static final long serialVersionUID = 1L;
 
-    private String cluId;
-    private String courseName;
-
     //Course Range Dialog.
     private String searchByCourseRange;
     private String subjectCode;
@@ -35,22 +32,6 @@ public class EnrolRuleEditor extends RuleEditor {
 
     public EnrolRuleEditor(RuleDefinitionContract definition){
         super(definition);
-    }
-
-    public String getCluId() {
-        return cluId;
-    }
-
-    public void setCluId(String cluId) {
-        this.cluId = cluId;
-    }
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
     }
 
     public String getSearchByCourseRange() {

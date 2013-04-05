@@ -27,6 +27,11 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
+import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
+import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
+import org.kuali.rice.krms.api.repository.agenda.AgendaTreeDefinition;
+import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContract;
+import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
@@ -36,21 +41,28 @@ import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
+import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.dto.TermEditor;
 import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.service.TemplateRegistry;
+import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
+import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.service.RuleEditorMaintainable;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -98,41 +110,54 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
-        Object dataObject = null;
+        EnrolRuleManagementWrapper dataObject = new EnrolRuleManagementWrapper();
 
-        String ruleId = dataObjectKeys.get("id");
-        RuleDefinition rule = this.getRuleManagementService().getRule(ruleId);
+        List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
+        dataObject.setAgendas(agendas);
 
-        // Since the dataObject is a wrapper class we need to build it and populate with the agenda bo.
-        RuleEditor ruleEditor = new RuleEditor(rule);
+        String coId = dataObjectKeys.get("refObjectId");
+        dataObject.setRefObjectId(coId);
 
-        //Initialize the PropositionEditors
-        if ((ruleEditor != null) && (ruleEditor.getProposition() != null)) {
-            this.initPropositionEditor((PropositionEditor) ruleEditor.getProposition());
-        }
-
-        //Initialize the compare tree
-        ruleEditor.setCompareTree(this.initCompareTree());
-
-        dataObject = ruleEditor;
+        dataObject.setCompareTree(RuleCompareTreeBuilder.initCompareTree());
 
         return dataObject;
     }
 
-    public Tree<CompareTreeNode, String> initCompareTree() {
-        Tree<CompareTreeNode, String> myTree = new Tree<CompareTreeNode, String>();
+    protected AgendaEditor getAgendaEditor(String agendaId) {
+        AgendaDefinition agenda = this.getRuleManagementService().getAgenda(agendaId);
+        AgendaEditor agendaEditor = new AgendaEditor(agenda);
 
-        Node<CompareTreeNode, String> rootNode = new Node<CompareTreeNode, String>();
-        rootNode.setNodeType("subruleElement");
-        rootNode.setData(new CompareTreeNode());
-        myTree.setRootElement(rootNode);
+        AgendaTreeDefinition agendaTree = this.getRuleManagementService().getAgendaTree(agendaId);
+        agendaEditor.setRuleEditors(getRuleEditorsFromTree(agendaTree.getEntries()));
 
-        Node<CompareTreeNode, String> firstNode = new Node<CompareTreeNode, String>();
-        firstNode.setNodeType("subruleElement");
-        firstNode.setData(new CompareTreeNode());
-        rootNode.getChildren().add(firstNode);
+        return agendaEditor;
+    }
 
-        return myTree;
+    protected List<RuleEditor> getRuleEditorsFromTree(List<AgendaTreeEntryDefinitionContract> agendaTreeEntries) {
+
+        RuleViewTreeBuilder viewTreeBuilder = new RuleViewTreeBuilder();
+        viewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+        List<RuleEditor> rules = new ArrayList<RuleEditor>();
+        for (AgendaTreeEntryDefinitionContract treeEntry : agendaTreeEntries) {
+            if (treeEntry instanceof AgendaTreeRuleEntry) {
+                AgendaTreeRuleEntry treeRuleEntry = (AgendaTreeRuleEntry) treeEntry;
+                AgendaItemDefinition agendaItem = this.getRuleManagementService().getAgendaItem(treeEntry.getAgendaItemId());
+
+                if (agendaItem.getRuleId() != null) {
+                    RuleDefinition rule = this.getRuleManagementService().getRule(treeRuleEntry.getRuleId());
+                    RuleEditor ruleEditor = new RuleEditor(rule);
+                    ruleEditor.setPreviewTree(viewTreeBuilder.buildTree(ruleEditor, true));
+                    rules.add(ruleEditor);
+                }
+
+                if (treeRuleEntry.getIfTrue() != null) {
+                    rules.addAll(getRuleEditorsFromTree(treeRuleEntry.getIfTrue().getEntries()));
+                }
+            }
+
+        }
+
+        return rules;
     }
 
     /**

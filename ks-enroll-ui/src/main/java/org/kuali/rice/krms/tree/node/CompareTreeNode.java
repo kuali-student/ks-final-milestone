@@ -1,6 +1,7 @@
 package org.kuali.rice.krms.tree.node;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,7 +13,9 @@ import java.io.Serializable;
 public class CompareTreeNode implements Serializable {
 
     private String original;
+    private List<String> originalItems;
     private String compared;
+    private List<String> comparedItems;
 
     public CompareTreeNode(){
     }
@@ -30,11 +33,27 @@ public class CompareTreeNode implements Serializable {
         this.original = original;
     }
 
+    public List<String> getOriginalItems() {
+        return originalItems;
+    }
+
+    public void setOriginalItems(List<String> originalItems) {
+        this.originalItems = originalItems;
+    }
+
     public String getCompared() {
         return compared;
     }
 
     public void setCompared(String compared) {
         this.compared = compared;
+    }
+
+    public List<String> getComparedItems() {
+        return comparedItems;
+    }
+
+    public void setComparedItems(List<String> comparedItems) {
+        this.comparedItems = comparedItems;
     }
 }

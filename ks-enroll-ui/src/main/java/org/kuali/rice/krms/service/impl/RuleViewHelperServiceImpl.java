@@ -12,15 +12,27 @@ import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
+import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameter;
+import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
+import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
+import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
+import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
+import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
+import org.kuali.rice.krms.builder.ComponentBuilder;
+import org.kuali.rice.krms.dto.AgendaEditor;
+import org.kuali.rice.krms.dto.AgendaTypeInfo;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.rice.krms.impl.util.KrmsImplConstants;
@@ -29,6 +41,7 @@ import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RuleEditTreeBuilder;
 import org.kuali.rice.krms.tree.RulePreviewTreeBuilder;
+import org.kuali.rice.krms.util.AgendaBuilder;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.service.RuleViewHelperService;
@@ -39,6 +52,7 @@ import org.kuali.student.enrollment.uif.service.impl.KSViewHelperServiceImpl;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,28 +65,35 @@ import java.util.Map;
  */
 public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implements RuleViewHelperService {
 
-    private RuleManagementService ruleManagementService;
+    private transient RuleManagementService ruleManagementService;
+    private transient KrmsTypeRepositoryService krmsTypeRepositoryService;
+    private transient TermRepositoryService termRepositoryService;
 
     private RuleCompareTreeBuilder compareTreeBuilder;
     private RuleEditTreeBuilder editTreeBuilder;
     private RulePreviewTreeBuilder previewTreeBuilder;
 
     private static TemplateRegistry templateRegistry;
+    private Map<String, AgendaTypeInfo> typeRelationsMap;
 
-    @Override
-    public void performInitialization(View view, Object model) {
-
+    protected RuleEditor getRuleEditor(Object model){
         if (model instanceof MaintenanceDocumentForm) {
             MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
-            RuleEditor ruleEditor = (RuleEditor) maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
+            Object dataObject = maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
 
-            //Set the editTree and preview tree on the ruleeditor wrapper
-            this.refreshInitTrees(ruleEditor, true);
-            this.setLogicSection(ruleEditor);
-
+            if (dataObject instanceof RuleEditor){
+                return (RuleEditor) dataObject;
+            } else if (dataObject instanceof RuleManagementWrapper){
+                RuleManagementWrapper wrapper = (RuleManagementWrapper) dataObject;
+                return wrapper.getRuleEditor();
+            }
         }
-        super.performInitialization(view, model);
+        return null;
+    }
 
+    @Override
+    public String getViewTypeName() {
+        return "kuali.krms.agenda.type.course";
     }
 
     @Override
@@ -85,8 +106,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         if ("KS-PropositionEdit-DetailSection".equals(container.getId())) {
 
             //Retrieve the current editing proposition if exists.
-            MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
-            RuleEditor ruleEditor = (RuleEditor) maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
+            RuleEditor ruleEditor = this.getRuleEditor(model);
             PropositionEditor propEditor = PropositionTreeUtil.getProposition(ruleEditor);
 
             List<Component> components = new ArrayList<Component>();
@@ -114,8 +134,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             container.setItems(components);
         } else if ("KS-RuleEdit-TabSection".equals(container.getId())) {
             if (container instanceof TabGroup) {
-                MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
-                RuleEditor ruleEditor = (RuleEditor) maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
+                RuleEditor ruleEditor = this.getRuleEditor(model);
                 TabGroup tabGroup = (TabGroup) container;
                 Map<String, String> options = tabGroup.getTabsWidget().getTemplateOptions();
                 if (ruleEditor.getSelectedTab() == null) {
@@ -124,6 +143,95 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
                 options.put("selected", ruleEditor.getSelectedTab());
                 ruleEditor.setSelectedTab("0");
             }
+        } else if ("KRMS-AgendaMaintenance-Page".equals(container.getId())) {
+
+            AgendaBuilder builder = new AgendaBuilder(view);
+            builder.setTypeRelationsMap(this.getTypeRelationsMap());
+            List<Component> components = new ArrayList<Component>();
+
+            List<AgendaTypeInfo> agendaTypeInfos = new ArrayList<AgendaTypeInfo>(typeRelationsMap.values());
+
+            //Retrieve the current editing proposition if exists.
+            MaintenanceDocumentForm document = (MaintenanceDocumentForm) model;
+            RuleManagementWrapper form = (RuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
+
+            List<AgendaEditor> agendas = form.getAgendas();
+            for (AgendaTypeInfo agendaTypeInfo : agendaTypeInfos) {
+                boolean exist = false;
+                for(AgendaEditor agenda : agendas) {
+                    if(agenda.getTypeId().equals(agendaTypeInfo.getId())) {
+                        components.add(builder.buildAgenda(agenda));
+                        exist = true;
+                    }
+                }
+                if(!exist) {
+                    AgendaEditor emptyAgenda = new AgendaEditor();
+                    emptyAgenda.setTypeId(agendaTypeInfo.getId());
+                    components.add(builder.buildAgenda(emptyAgenda));
+                }
+            }
+            container.setItems(components);
+
+        }
+    }
+
+    /**
+     * Setup a map with all the type information required to build an agenda management page.
+     * @return
+     */
+    private Map<String, AgendaTypeInfo> getTypeRelationsMap(){
+        if (typeRelationsMap == null){
+            typeRelationsMap = new HashMap<String, AgendaTypeInfo>();
+
+            // Get Instruction Usage Id
+            String instructionUsageId = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_TYPE_INSTRUCTION,
+                    PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
+
+            // Get Description Usage Id
+            String descriptionUsageId = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION,
+                    PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
+
+            // Get the super type.
+            KrmsTypeDefinition requisitesType = this.getKrmsTypeRepositoryService().getTypeByName(PermissionServiceConstants.KS_SYS_NAMESPACE, "kuali.krms.agenda.type.course");
+
+            // Get all agenda types linked to super type.
+            List<TypeTypeRelation> agendaRelationships = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(requisitesType.getId());
+            for (TypeTypeRelation agendaRelationship : agendaRelationships){
+                AgendaTypeInfo agendaTypeInfo = new AgendaTypeInfo();
+                agendaTypeInfo.setId(agendaRelationship.getToTypeId());
+                agendaTypeInfo.setDescription(this.getDescriptionForTypeAndUsage(agendaRelationship.getToTypeId(), descriptionUsageId));
+
+                // Get all rule types for each agenda type
+                List<TypeTypeRelation> ruleRelationships = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(agendaRelationship.getToTypeId());
+                List<RuleTypeInfo> ruleTypes = new ArrayList<RuleTypeInfo>();
+                for (TypeTypeRelation ruleRelationship : ruleRelationships){
+                    RuleTypeInfo ruleTypeInfo = new RuleTypeInfo();
+                    ruleTypeInfo.setId(ruleRelationship.getToTypeId());
+                    ruleTypeInfo.setDescription(this.getDescriptionForTypeAndUsage(ruleRelationship.getToTypeId(), descriptionUsageId));
+                    if(ruleTypeInfo.getDescription().isEmpty()) {
+                        ruleTypeInfo.setDescription("Description is unset rule type");
+                    }
+                    ruleTypeInfo.setInstruction(this.getDescriptionForTypeAndUsage(ruleRelationship.getToTypeId(), instructionUsageId));
+                    if(ruleTypeInfo.getInstruction().isEmpty()) {
+                        ruleTypeInfo.setInstruction("Instruction is unset for rule type");
+                    }
+                    // Add rule types to list.
+                    ruleTypes.add(ruleTypeInfo);
+                }
+                agendaTypeInfo.setRuleTypes(ruleTypes);
+                typeRelationsMap.put(agendaRelationship.getToTypeId(), agendaTypeInfo);
+            }
+        }
+        return typeRelationsMap;
+    }
+
+    private String getDescriptionForTypeAndUsage(String typeId, String usageId){
+        NaturalLanguageTemplate template = null;
+        try{
+            template = getRuleManagementService().findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId("en", typeId, usageId);
+            return template.getTemplate();
+        }catch (Exception e){
+            return StringUtils.EMPTY;
         }
     }
 
@@ -334,29 +442,14 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     @Override
-    public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original) throws Exception {
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original, String compareToRefObjectId) throws Exception {
 
         //Get the CLU Tree.
         RuleDefinitionContract compare = this.getRuleManagementService().getRule("10063");
 
         //Build the Tree
-        Tree<CompareTreeNode, String> compareTree = this.getCompareTreeBuilder().buildTree(original, compare);
+        return this.getCompareTreeBuilder().buildTree(original, compare);
 
-        //Set data headers on root node.
-        Node<CompareTreeNode, String> node = compareTree.getRootElement();
-        if ((node.getChildren() != null) && (node.getChildren().size() > 0)) {
-            Node<CompareTreeNode, String> childNode = node.getChildren().get(0);
-
-            // Set the headers on the first root child
-            if (childNode.getData() != null) {
-                CompareTreeNode compareTreeNode = childNode.getData();
-                compareTreeNode.setOriginal("CO Rules");
-                compareTreeNode.setCompared("CLU Rules");
-            }
-
-        }
-
-        return compareTree;
     }
 
     @Override
@@ -397,14 +490,14 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         return PropositionEditor.class;
     }
 
-    public RuleManagementService getRuleManagementService() {
+    protected RuleManagementService getRuleManagementService() {
         if (ruleManagementService == null) {
             ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(QName.valueOf("ruleManagementService"));
         }
         return ruleManagementService;
     }
 
-    public RuleCompareTreeBuilder getCompareTreeBuilder() {
+    protected RuleCompareTreeBuilder getCompareTreeBuilder() {
         if (compareTreeBuilder == null) {
             compareTreeBuilder = new RuleCompareTreeBuilder();
             compareTreeBuilder.setRuleManagementService(this.getRuleManagementService());
@@ -412,7 +505,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         return compareTreeBuilder;
     }
 
-    public RuleEditTreeBuilder getEditTreeBuilder() {
+    protected RuleEditTreeBuilder getEditTreeBuilder() {
         if (editTreeBuilder == null) {
             editTreeBuilder = new RuleEditTreeBuilder();
             editTreeBuilder.setRuleManagementService(this.getRuleManagementService());
@@ -420,7 +513,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         return editTreeBuilder;
     }
 
-    public RulePreviewTreeBuilder getPreviewTreeBuilder() {
+    protected RulePreviewTreeBuilder getPreviewTreeBuilder() {
         if (previewTreeBuilder == null) {
             previewTreeBuilder = new RulePreviewTreeBuilder();
             previewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
@@ -428,11 +521,25 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         return previewTreeBuilder;
     }
 
-    private TemplateRegistry getTemplateRegistry() {
+    protected TemplateRegistry getTemplateRegistry() {
         if (templateRegistry == null) {
             templateRegistry = (TemplateRegistry) GlobalResourceLoader.getService(QName.valueOf("templateResolverMockService"));
         }
         return templateRegistry;
+    }
+
+    protected KrmsTypeRepositoryService getKrmsTypeRepositoryService() {
+        if (krmsTypeRepositoryService == null) {
+            krmsTypeRepositoryService = (KrmsTypeRepositoryService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "krmsTypeRepositoryService"));
+        }
+        return krmsTypeRepositoryService;
+    }
+
+    public TermRepositoryService getTermRepositoryService() {
+        if (termRepositoryService == null) {
+            termRepositoryService = (TermRepositoryService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "termRepositoryService"));
+        }
+        return termRepositoryService;
     }
 
 }

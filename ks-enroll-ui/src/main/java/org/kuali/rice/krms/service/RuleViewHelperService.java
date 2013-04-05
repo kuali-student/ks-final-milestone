@@ -22,11 +22,13 @@ public interface RuleViewHelperService {
 
     public TemplateInfo getTemplateForType(String type);
 
+    public String getViewTypeName();
+
     public boolean validateProposition(PropositionEditor proposition, String namespace);
 
     public void refreshInitTrees(RuleEditor rule, boolean refreshNl);
 
-    public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original) throws Exception;
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original, String compareToRefObjectId) throws Exception;
 
     public void setLogicSection(RuleEditor ruleEditor);
 

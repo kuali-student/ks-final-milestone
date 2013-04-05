@@ -27,7 +27,7 @@
       <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
       <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
       <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
-      <docHandler>${application.url}/krmsAgendaStudentEditor?methodToCall=docHandler</docHandler>
+      <docHandler>${application.url}/krmsRuleStudentEditor?methodToCall=docHandler</docHandler>
       <active>true</active>
       <routingVersion>2</routingVersion>
     </documentType>

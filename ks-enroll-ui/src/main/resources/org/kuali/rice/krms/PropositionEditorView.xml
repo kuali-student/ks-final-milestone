@@ -79,6 +79,25 @@
                 
             </list>
         </property>
+        <property name="footer">
+            <!--Add button to update the preview-->
+            <bean id="PropEditButtonPanel" parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean id="update-button" parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true">
+                            <property name="actionLabel" value="Update"/>
+                            <property name="methodToCall"
+                                      value="updateProposition"/>
+                        </bean>
+                        <bean id="cancel-button" parent="Uif-ActionLink" p:style="margin-left: 0.5em;margin-top: 0.3em;">
+                            <property name="actionLabel" value="Cancel"/>
+                            <property name="methodToCall"
+                                      value="cancelEditProposition"/>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
     </bean>
 
     <bean id="KS-PropositionEdit-DefineSection" parent="KS-PropositionEdit-DefineSection-parentBean"/>
@@ -97,7 +116,7 @@
                               value="Use the list below to select the type or rule you would like to add to this requirement."/>
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"
-                              p:onChangeScript="ajaxSubmitForm('updateProposition', null, jQuery(this).data('submitdata'), null, null, null);"/>
+                              p:onChangeScript="ajaxSubmitForm('updatePropositionType', null, jQuery(this).data('submitdata'), null, null, null);"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.rice.krms.keyvalues.PropositionTypeValuesFinder"/>

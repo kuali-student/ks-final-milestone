@@ -49,7 +49,7 @@
         <property name="items">
             <list>
 
-                <bean parent="Uif-PageHeader" p:headerText="@{#dp.courseName}"/>
+                <bean parent="Uif-PageHeader" p:headerText="@{#dp.cluDescription}"/>
 
                 <bean id="KS-RuleView-Section" parent="KS-VerticalBoxSection" p:style="max-width: 54em;">
                     <property name="headerText" value="Prerequisite Rule"/>

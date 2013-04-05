@@ -49,10 +49,10 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
     private String selectedTab;
 
     // for Rule editor display
-    private transient Tree<RuleEditorTreeNode, String> editTree;
+    private Tree<RuleEditorTreeNode, String> editTree;
 
     // for Rule Preview display
-    private transient Tree<TreeNode, String> previewTree;
+    private Tree<TreeNode, String> previewTree;
     private transient AlphaIterator alpha;
 
     // for Compare

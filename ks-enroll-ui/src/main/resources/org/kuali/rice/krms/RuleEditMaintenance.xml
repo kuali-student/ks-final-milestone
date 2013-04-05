@@ -23,8 +23,8 @@
                       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
     <bean id="RuleMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
-        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor"/>
-        <property name="maintainableClass" value="org.kuali.student.enrollment.class1.krms.service.impl.CORuleEditorMaintainableImpl"/>
+        <property name="dataObjectClass" value="org.kuali.rice.krms.dto.RuleEditor"/>
+        <property name="maintainableClass" value="org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl"/>
         <property name="documentTypeName" value="RuleMaintenanceDocument"/>
         <property name="businessRulesClass" value="org.kuali.rice.krms.util.RuleEditorBusRule" />
         <property name="lockingKeys">
@@ -111,23 +111,6 @@
                             <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
                             <bean id="RuleStudentEditorView-Tree" parent="KS-RulerEditor-TreeSection-parent"
                                   p:forceSessionPersistence="true"/>
-                            <!--Add button to update the preview-->
-                            <bean id="PropEditButtonPanel" parent="Uif-HorizontalBoxGroup">
-                                <property name="items">
-                                    <list>
-                                        <bean id="update-button" parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true">
-                                            <property name="actionLabel" value="Update"/>
-                                            <property name="methodToCall"
-                                                      value="updateChanges"/>
-                                        </bean>
-                                        <bean id="cancel-button" parent="Uif-ActionLink" p:style="margin-left: 0.5em;margin-top: 0.3em;">
-                                            <property name="actionLabel" value="Cancel"/>
-                                            <property name="methodToCall"
-                                                      value="cancelEdit"/>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
                         </list>
                     </property>
                 </bean>

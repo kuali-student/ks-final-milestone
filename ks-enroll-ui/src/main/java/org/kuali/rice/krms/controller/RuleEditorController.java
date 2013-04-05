@@ -17,21 +17,19 @@ package org.kuali.rice.krms.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.tree.Node;
-import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.rice.krms.api.repository.LogicalOperator;
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
+import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
-import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
+import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.rule.AgendaEditorBusRule;
@@ -41,7 +39,6 @@ import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionNod
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.util.RuleLogicExpressionParser;
-import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.uif.util.KSControllerHelper;
 import org.kuali.student.krms.KRMSConstants;
 import org.springframework.validation.BindingResult;
@@ -61,30 +58,67 @@ import java.util.List;
  */
 public class RuleEditorController extends MaintenanceDocumentController {
 
-    /**
-     * This method updates the existing rule in the agenda.
-     */
-    @RequestMapping(params = "methodToCall=editRule")
-    public ModelAndView editRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
-        RuleEditor ruleEditor = getRuleEditor(form);
+    /*
+    * Method used to invoke the CO inquiry view from Manage Course Offering screen while search input is Course Offering
+    * Code (04a screen)
+    */
+    @RequestMapping(params = "methodToCall=goToRuleView")
+    public ModelAndView goToRuleView(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
+        ruleWrapper.setSelectedRuleId(document.getActionParamaterValue("ruleId"));
+        RuleEditor ruleEditor = getRuleEditor(ruleWrapper.getAgendas(), ruleWrapper.getSelectedRuleId());
 
-        RuleViewHelperService viewHelper = (RuleViewHelperService) KSControllerHelper.getViewHelperService(form);
-        if (!viewHelper.validateProposition((PropositionEditor) ruleEditor.getProposition(), ruleEditor.getNamespace())) {
-            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "AgendaStudentEditorView-EditRule-Page");
-            // NOTICE short circuit method on invalid proposition
-            return super.navigate(form, result, request, response);
-        }
+        this.getViewHelper(form).refreshInitTrees(ruleEditor, true);
+        this.getViewHelper(form).setLogicSection(ruleEditor);
 
-        AgendaEditorBusRule rule = new AgendaEditorBusRule();
-        MaintenanceDocumentForm MaintenanceDocumentForm = (MaintenanceDocumentForm) form;
-        MaintenanceDocument document = MaintenanceDocumentForm.getDocument();
-        if (rule.processAgendaItemBusinessRules(document)) {
-            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "AgendaStudentEditorView-Agenda-Page");
-        } else {
-            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "AgendaStudentEditorView-EditRule-Page");
-        }
+        ruleWrapper.setRuleEditor(ruleEditor);
+
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-RuleMaintenance-Page");
         return super.navigate(form, result, request, response);
+    }
+
+    private RuleEditor getRuleEditor(List<AgendaEditor> agendaEditors, String ruleId) {
+        RuleEditor rule = null;
+        for (AgendaEditor agendaEditor : agendaEditors) {
+            List<RuleEditor> ruleEditors = agendaEditor.getRuleEditors();
+            for (RuleEditor ruleEditor : ruleEditors) {
+                if (ruleEditor.getId() != null) {
+                    if (ruleEditor.getId().equals(ruleId)) {
+                        rule = ruleEditor;
+                    }
+                }
+            }
+        }
+        return rule;
+    }
+
+    @RequestMapping(params = "methodToCall=deleteRule")
+    public ModelAndView deleteRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+        MaintenanceDocumentForm document =  (MaintenanceDocumentForm) form;
+        RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
+        String ruleId = document.getActionParamaterValue("ruleId");
+
+        if(ruleWrapper.getDeletedRuleIds() == null) {
+            List<String> ruleIds = new ArrayList<String>();
+            ruleIds.add(ruleId);
+            ruleWrapper.setDeletedRuleIds(ruleIds);
+        } else {
+            ruleWrapper.getDeletedRuleIds().add(ruleId);
+        }
+
+        RuleEditor ruleEditor = getRuleEditor(ruleWrapper.getAgendas(), ruleId);
+
+        List<AgendaEditor> agendas = ruleWrapper.getAgendas();
+        for(AgendaEditor agenda : agendas) {
+            if(agenda.getRuleEditors().contains(ruleEditor)) {
+                agenda.getRuleEditors().remove(ruleEditor);
+            }
+        }
+
+        return getUIFModelAndView(document);
     }
 
     @RequestMapping(params = "methodToCall=ajaxRefresh")
@@ -100,8 +134,19 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @return the {@link org.kuali.rice.krms.impl.ui.AgendaEditor} from the form
      */
     private RuleEditor getRuleEditor(UifFormBase form) {
-        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
-        return ((RuleEditor) maintenanceForm.getDocument().getDocumentDataObject());
+        if (form instanceof MaintenanceDocumentForm) {
+            MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) form;
+            Object dataObject = maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
+
+            if (dataObject instanceof RuleEditor){
+                return (RuleEditor) dataObject;
+            } else if (dataObject instanceof RuleManagementWrapper){
+                RuleManagementWrapper wrapper = (RuleManagementWrapper) dataObject;
+                return wrapper.getRuleEditor();
+            }
+        }
+
+        return null;
     }
 
     //
@@ -613,8 +658,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=updateChanges")
-    public ModelAndView updateChanges(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+    @RequestMapping(params = "methodToCall=updateProposition")
+    public ModelAndView updateProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         RuleEditor ruleEditor = getRuleEditor(form);
@@ -622,12 +667,25 @@ public class RuleEditorController extends MaintenanceDocumentController {
         PropositionTreeUtil.resetNewProp(proposition);
 
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
-        this.getViewHelper(form).setLogicSection(ruleEditor);
 
         return getUIFModelAndView(form);
     }
 
+    @RequestMapping(params = "methodToCall=updateRule")
+    public ModelAndView updateRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        RuleEditor ruleEditor = getRuleEditor(form);
+        PropositionEditor proposition = (PropositionEditor) ruleEditor.getProposition();
+        PropositionTreeUtil.resetNewProp(proposition);
 
+        PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
+        this.getViewHelper(form).setLogicSection(ruleEditor);
+        this.getViewHelper(form).refreshInitTrees(ruleEditor, true);
+
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-AgendaMaintenance-Page");
+        return super.navigate(form, result, request, response);
+    }
 
     @RequestMapping(params = "methodToCall=updatePreview")
     public ModelAndView updatePreview(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
@@ -671,13 +729,13 @@ public class RuleEditorController extends MaintenanceDocumentController {
         return propositionKeys;
     }
 
-    @RequestMapping(params = "methodToCall=cancelEdit")
-    public ModelAndView cancelEdit(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+    @RequestMapping(params = "methodToCall=cancelEditProposition")
+    public ModelAndView cancelEditProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
         RuleEditor ruleEditor = getRuleEditor(form);
-        PropositionEditor  proposition = (PropositionEditor) ruleEditor.getProposition();
+        PropositionEditor proposition = (PropositionEditor) ruleEditor.getProposition();
 
         //Reset the editing tree.
         PropositionTreeUtil.cancelNewProp(proposition);
@@ -687,8 +745,24 @@ public class RuleEditorController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=updateProposition")
-    public ModelAndView updateProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+    @RequestMapping(params = "methodToCall=cancelEditRule")
+    public ModelAndView cancelEditRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                   HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
+        RuleEditor ruleEditor = getRuleEditor(form);
+        PropositionEditor proposition = (PropositionEditor) ruleEditor.getProposition();
+
+        //Reset the editing tree.
+        PropositionTreeUtil.cancelNewProp(proposition);
+        PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
+
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-AgendaMaintenance-Page");
+        return super.navigate(form, result, request, response);
+    }
+
+    @RequestMapping(params = "methodToCall=updatePropositionType")
+    public ModelAndView updatePropositionType(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
@@ -746,10 +820,24 @@ public class RuleEditorController extends MaintenanceDocumentController {
     public ModelAndView compareRules(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        RuleEditor ruleEditor = getRuleEditor(form);
+        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        Object dataObject = document.getDocument().getNewMaintainableObject().getDataObject();
+        if (dataObject instanceof RuleManagementWrapper) {
+            RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) dataObject;
+            String ruleId = document.getActionParamaterValue("ruleId");
+            RuleEditor ruleEditor = null;
+            if ((ruleId != null) && (StringUtils.isNotBlank(ruleId))){
+                //Get a specific ruleEditor based on the ruleId.
+                ruleEditor = getRuleEditor(ruleWrapper.getAgendas(), ruleId);
+            } else {
+                //Get the current editing ruleEditor.
+                ruleEditor = ruleWrapper.getRuleEditor();
+            }
 
-        //Build the compare rule tree
-        ruleEditor.setCompareTree(this.getViewHelper(form).buildCompareTree(ruleEditor));
+            //Build the compare rule tree
+            ruleWrapper.setCompareTree(this.getViewHelper(form).buildCompareTree(ruleEditor, ruleWrapper.getRefObjectId()));
+
+        }
 
         // redirect back to client to display lightbox
         return showDialog("compareRuleLightBox", form, request, response);

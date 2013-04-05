@@ -54,8 +54,6 @@ public final class KRMSConstants {
     public static final String PROP_COMP_DEFAULT_DESCR = "Must meet all of the following";
 
     public final static class WebPaths {
-        public static final String AGENDA_STUDENT_INQUIRY_PATH = "krmsAgendaStudentInquiry";
-        public static final String AGENDA_STUDENT_EDITOR_PATH = "krmsAgendaStudentEditor";
         public static final String RULE_STUDENT_INQUIRY_PATH = "krmsRuleStudentInquiry";
         public static final String RULE_STUDENT_EDITOR_PATH = "krmsRuleStudentEditor";
     }

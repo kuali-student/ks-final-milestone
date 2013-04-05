@@ -65,6 +65,22 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         return myTree;
     }
 
+    public static Tree<CompareTreeNode, String> initCompareTree() {
+        Tree<CompareTreeNode, String> myTree = new Tree<CompareTreeNode, String>();
+
+        Node<CompareTreeNode, String> rootNode = new Node<CompareTreeNode, String>();
+        rootNode.setNodeType("subruleElement");
+        rootNode.setData(new CompareTreeNode());
+        myTree.setRootElement(rootNode);
+
+        Node<CompareTreeNode, String> firstNode = new Node<CompareTreeNode, String>();
+        firstNode.setNodeType("subruleElement");
+        firstNode.setData(new CompareTreeNode());
+        rootNode.getChildren().add(firstNode);
+
+        return myTree;
+    }
+
     private void addTreeNode(Node<CompareTreeNode, String> currentNode, PropositionDefinitionContract originial, PropositionDefinitionContract compared) {
         if ((originial == null) && (compared == null)) {
             return;
@@ -72,6 +88,8 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
 
         Node<CompareTreeNode, String> newNode = new Node<CompareTreeNode, String>();
         CompareTreeNode tNode = new CompareTreeNode(originalNlTree.next(), compareNlTree.next());
+        tNode.setOriginalItems(this.getListItems(originial));
+        tNode.setComparedItems(this.getListItems(compared));
         if (tNode.getOriginal().equals(tNode.getCompared())){
             newNode.setNodeType("subruleElement");
         } else {
@@ -149,6 +167,10 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         }
         opNode.setData(new CompareTreeNode(originial, compared));
         newNode.getChildren().add(opNode);
+    }
+
+    public List<String> getListItems(PropositionDefinitionContract propositionEditor) {
+        return null;
     }
 
 }
