@@ -274,7 +274,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-MoveAOCPopupForm" parent="Uif-HorizontalBoxSection" p:forceSessionPersistence="true">
+    <bean id="KS-CourseOfferingManagement-MoveAOCPopupForm" parent="Uif-HorizontalBoxSection" >
         <!--<property name="render" value="@{enableAddButton and !currentCourseOfferingWrapper.crossListed}"/>-->
         <property name="hidden" value="true"/>
         <property name="cssClasses">
@@ -293,7 +293,7 @@
                         <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGListOfAOClustersForFOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean parent="Uif-SecondaryActionButton-Small" p:disabled="@{disableMoveButtonForMoveAOCPopOver}">
+                <bean parent="Uif-SecondaryActionButton-Small" >
                     <property name="style" value="margin-top:1.5em;"/>
                     <property name="actionLabel" value="Move"/>
                     <property name="successCallback" value="jQuery('div[id=KS-CourseOfferingManagement-MoveAOCPopupForm]:gt(0)').detach();"/>
