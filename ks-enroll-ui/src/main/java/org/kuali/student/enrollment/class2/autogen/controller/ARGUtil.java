@@ -199,6 +199,11 @@ public class ARGUtil {
         CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(currentCOWrapper.getCourseOfferingId(),ContextUtils.createDefaultContextInfo());
         currentCOWrapper.setCourseOfferingInfo(coInfo);
 
+        //set the ownerCode if searching streight for a specific CO
+        if (form.getCourseOfferingResultList().size() == 1) {
+            currentCOWrapper.setOwnerCode(form.getCourseOfferingResultList().get(0).getOwnerCode());
+        }
+
         ContextInfo contextInfo =  ContextUtils.createDefaultContextInfo();
         List<String> orgIds = coInfo.getUnitsDeploymentOrgIds();
         if(orgIds !=null && !orgIds.isEmpty()){
