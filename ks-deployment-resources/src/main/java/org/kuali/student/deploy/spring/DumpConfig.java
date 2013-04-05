@@ -19,7 +19,7 @@ import org.springframework.core.env.Environment;
 
 @Configuration
 @Import({ ImpexDumpConfig.class })
-public class StudentDumpConfig {
+public class DumpConfig {
 
 	private static final String FS = File.separator;
 
