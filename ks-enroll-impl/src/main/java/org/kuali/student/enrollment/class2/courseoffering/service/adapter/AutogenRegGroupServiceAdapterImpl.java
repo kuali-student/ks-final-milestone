@@ -392,8 +392,8 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
 
                     StatusInfo statusInfo;
                     if (_isRegistrationGroupValid (rgInfo.getId(), context)) {
-                        if (!coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY, context).getIsSuccess()) {
-                        } else if (!coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY, context).getIsSuccess()) {
+                        if (coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY, context).getIsSuccess()) {
+                        } else if (coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY, context).getIsSuccess()) {
                         } else {
                             throw new RuntimeException("State change failed for RG: " + rgInfo.getId());
                         }
