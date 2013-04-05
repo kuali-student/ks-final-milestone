@@ -1189,14 +1189,10 @@ public class CourseSearchController extends UifControllerBase {
 				ei.next();
 				ei.remove();
 			}
-			try {
-				results.put(
-						k, // The back-end search happens here --------V
-						(table = results.remove(k)) == null ? table = new SessionSearchInfo(
-								request, searcher, k, form, user) : table);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			results.put(
+					k, // The back-end search happens here --------V
+					(table = results.remove(k)) == null ? table = new SessionSearchInfo(
+							request, searcher, k, form, user) : table);
 		}
 		return table;
 	}
@@ -1363,10 +1359,12 @@ public class CourseSearchController extends UifControllerBase {
 		ArrayNode aaData = mapper.createArrayNode();
 		for (int i = 0; i < Math.min(filteredResults.size(),
 				dataTablesInputs.iDisplayLength); i++) {
-            int resultsIndex = dataTablesInputs.iDisplayStart + i;
-            if(resultsIndex >=filteredResults.size())break;
+			int resultsIndex = dataTablesInputs.iDisplayStart + i;
+			if (resultsIndex >= filteredResults.size())
+				break;
 			ArrayNode cs = mapper.createArrayNode();
-			String[] scol = filteredResults.get(resultsIndex).item.getSearchColumns();
+			String[] scol = filteredResults.get(resultsIndex).item
+					.getSearchColumns();
 			for (String col : scol)
 				cs.add(col);
 			for (int j = scol.length; j < dataTablesInputs.iColumns; j++)

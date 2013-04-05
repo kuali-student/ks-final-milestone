@@ -140,21 +140,12 @@ public final class KsapFrameworkServiceLocator {
 	}
 
 	/**
-	 * Get the program service.
+	 * Get the ks-lum remote program service.
 	 * 
-	 * @return The program service.
+	 * @return The ks-lum remote program service.
 	 */
 	public static ProgramService getProgramService() {
 		return getInstance().ksLumProgramService;
-	}
-
-	/**
-	 * Get the LRC service.
-	 * 
-	 * @return The LRC service.
-	 */
-	public static LRCService getLRCService() {
-		return getInstance().ksLumLrcService;
 	}
 
 	/**

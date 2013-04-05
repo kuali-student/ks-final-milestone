@@ -210,11 +210,18 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
 			try {
 				resultValuesGroupInfos = KsapFrameworkServiceLocator
-						.getLRCService().getResultValuesGroupsByResultScale(
+						.getLrcService().getResultValuesGroupsByResultScale(
 								resultScaleKey, contextInfo);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
+			} catch (DoesNotExistException e) {
+				throw new IllegalArgumentException("LRC lookup error", e);
+			} catch (InvalidParameterException e) {
+				throw new IllegalArgumentException("LRC lookup error", e);
+			} catch (MissingParameterException e) {
+				throw new IllegalArgumentException("LRC lookup error", e);
+			} catch (OperationFailedException e) {
+				throw new IllegalStateException("LRC lookup error", e);
+			} catch (PermissionDeniedException e) {
+				throw new IllegalStateException("LRC lookup error", e);
 			}
 
 			if ((resultValuesGroupInfos != null)

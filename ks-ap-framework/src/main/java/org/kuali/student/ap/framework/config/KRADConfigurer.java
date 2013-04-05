@@ -24,6 +24,8 @@ import org.springframework.context.event.SmartApplicationListener;
 public class KRADConfigurer extends AbstractKsapModuleConfigurer implements
 		SmartApplicationListener {
 
+	private static KRADConfigurer instance;
+
 	private DataSource applicationDataSource;
 
 	private boolean includeKnsSpringBeans;
@@ -31,6 +33,12 @@ public class KRADConfigurer extends AbstractKsapModuleConfigurer implements
 	private static final String KRAD_BOOTSTRAP_SPRING = "classpath:META-INF/ks-ap/krad-bootstrap.xml";
 	private static final String KRAD_SPRING_BEANS_PATH = "classpath:org/kuali/rice/krad/config/KRADSpringBeans.xml";
 	private static final String KNS_SPRING_BEANS_PATH = "classpath:org/kuali/rice/kns/config/KNSSpringBeans.xml";
+	private static final String KRAD_OVERRIDE_SPRING = "classpath:META-INF/ks-ap/krad-override.xml";
+
+	static KRADConfigurer getActiveInstance() {
+		assert instance != null;
+		return instance;
+	}
 
 	/**
 	 * The application may specify additional UI components for the KRAD module
@@ -44,6 +52,8 @@ public class KRADConfigurer extends AbstractKsapModuleConfigurer implements
 		// to do in order to make
 		// that really work, see KULRICE-6532
 		super(KRADConstants.KR_MODULE_NAME);
+		assert instance == null : "Already created " + instance;
+		instance = this;
 		setValidRunModes(Arrays.asList(RunMode.LOCAL));
 		setIncludeKnsSpringBeans(true);
 	}
@@ -64,7 +74,7 @@ public class KRADConfigurer extends AbstractKsapModuleConfigurer implements
 		if (isIncludeKnsSpringBeans()) {
 			springFileLocations.add(KNS_SPRING_BEANS_PATH);
 		}
-
+		springFileLocations.add(KRAD_OVERRIDE_SPRING);
 		return springFileLocations;
 	}
 
@@ -78,7 +88,7 @@ public class KRADConfigurer extends AbstractKsapModuleConfigurer implements
 				additionalComponents.start();
 			} catch (Exception e) {
 				throw new IllegalStateException("Error " + (re ? "re" : "")
-						+ "starting additional components");
+						+ "starting additional components", e);
 			}
 			loadDataDictionary();
 			publishDataDictionaryComponents();
@@ -121,16 +131,6 @@ public class KRADConfigurer extends AbstractKsapModuleConfigurer implements
 			}
 			dds.getDataDictionary()
 					.parseDataDictionaryConfigurationFiles(false);
-
-			if (isValidateDataDictionary()) {
-				LOG.info("KRAD Configurer - Validating DD");
-				dds.getDataDictionary().validateDD(
-						isValidateDataDictionaryEboReferences());
-			}
-
-			// KULRICE-4513 After the Data Dictionary is loaded and validated,
-			// perform Data Dictionary bean overrides.
-			dds.getDataDictionary().performBeanOverrides();
 		}
 	}
 

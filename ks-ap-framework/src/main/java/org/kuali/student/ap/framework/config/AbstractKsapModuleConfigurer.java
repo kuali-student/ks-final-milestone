@@ -75,7 +75,7 @@ public abstract class AbstractKsapModuleConfigurer extends
 
 	/**
 	 * Extension point allowing the auto-wiring mechanism on the container
-	 * controlling this module to inject a cadidate resolve for auto-wiring the
+	 * controlling this module to inject a candidate resolve for auto-wiring the
 	 * module's context.
 	 * 
 	 * @see BaseAutowireCandidateResolver
@@ -104,6 +104,18 @@ public abstract class AbstractKsapModuleConfigurer extends
 	 */
 	@EJB(beanName = "delegatedBeanFactory")
 	private transient BeanFactory delegatedBeanFactory;
+
+	/**
+	 * Create a new bean factory for ad-hoc use with internal components, such
+	 * as for driving the KRAD data dictionary.
+	 * 
+	 * @return A new bean factory for ad-hoc use with internal components.
+	 */
+	@SuppressWarnings("deprecation")
+	RiceBeanFactory createPrivateBeanFactory() {
+		return new RiceBeanFactory(autowireCandidateResolver,
+				delegatedBeanFactory);
+	}
 
 	/**
 	 * The application may specify additional services for the module to expose
