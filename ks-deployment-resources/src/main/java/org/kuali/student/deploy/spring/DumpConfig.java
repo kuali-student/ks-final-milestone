@@ -29,23 +29,22 @@ public class DumpConfig {
 
 	@Bean
 	public ImpexContext riceDumpContext() {
-		String artifactId = KS_IMPEX_RICE_ARTIFACT_ID;
 		String include = SpringUtils.getProperty(env, "impex.rice.include");
-		return getBaseContext(env, artifactId, include);
+		return getBaseContext(env, KS_IMPEX_RICE_ARTIFACT_ID, include);
 	}
 
 	@Bean
 	public ImpexContext appDumpContext() {
-		String artifactId = KS_IMPEX_APP_ARTIFACT_ID;
 		String include = SpringUtils.getProperty(env, "impex.ks.include");
-		return getBaseContext(env, artifactId, include);
+		return getBaseContext(env, KS_IMPEX_APP_ARTIFACT_ID, include);
 	}
 
 	@Bean
 	public ImpexContext bundledDumpContext() {
-		String artifactId = KS_IMPEX_BUNDLED_ARTIFACT_ID;
-		String include = SpringUtils.getProperty(env, "impex.rice.include") + "," + SpringUtils.getProperty(env, "impex.ks.include");
-		ImpexContext context = getBaseContext(env, artifactId, include);
+		String riceInclude = SpringUtils.getProperty(env, "impex.rice.include");
+		String ksInclude = SpringUtils.getProperty(env, "impex.ks.include");
+		String include = riceInclude + "," + ksInclude;
+		ImpexContext context = getBaseContext(env, KS_IMPEX_BUNDLED_ARTIFACT_ID, include);
 		// Bundled is the combination of Rice + App
 		// No data files are physically checked into SCM for bundled
 		// It just references the data files from Rice + App
