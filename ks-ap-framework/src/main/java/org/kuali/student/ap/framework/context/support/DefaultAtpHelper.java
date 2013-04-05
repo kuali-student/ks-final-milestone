@@ -12,7 +12,9 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
@@ -32,6 +34,11 @@ public class DefaultAtpHelper implements AtpHelper {
     private static String term2 = "spring";
     private static String term3 = "summer";
     private static String term4 = "autumn";
+
+    private Map<String,Integer> termMap;
+    private Map<Integer,String> atpTypeMap;
+    private Map<Integer,String> typeMonthDayMap;
+
 
     private static final Logger LOG = Logger.getLogger(DefaultAtpHelper.class);
 
@@ -265,6 +272,36 @@ public class DefaultAtpHelper implements AtpHelper {
         String[] params = {};
         GlobalVariables.getMessageMap().putWarning(propertyName,
                 PlanConstants.ERROR_TECHNICAL_PROBLEMS, params);
+    }
+
+    @Override
+    public void setTermMap(Map<String,Integer> termMap){
+        this.termMap=termMap;
+    }
+
+    @Override
+    public Map<String,Integer> getTermMap(){
+        return termMap;
+    }
+
+    @Override
+    public void setAtpTypeMap(Map<Integer,String> atpTypeMap){
+        this.atpTypeMap=atpTypeMap;
+    }
+
+    @Override
+    public Map<Integer,String> getAtpTypeMap(){
+        return atpTypeMap;
+    }
+
+    @Override
+    public void setTypeMonthDayMap(Map<Integer,String> typeMonthDayMap){
+        this.typeMonthDayMap= typeMonthDayMap;
+    }
+
+    @Override
+    public Map<Integer,String> getTypeMonthDayMap(){
+        return typeMonthDayMap;
     }
 
 }

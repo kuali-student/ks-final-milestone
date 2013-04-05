@@ -28,7 +28,38 @@
 		class="org.kuali.student.ap.framework.context.support.DefaultKsapContext" />
 
 	<bean id="ksapAtpHelper"
-		class="org.kuali.student.ap.framework.context.support.DefaultAtpHelper" />
+		class="org.kuali.student.ap.framework.context.support.DefaultAtpHelper" >
+        <property name="termMap">
+            <map>
+                <entry key="winter" value="1"/>
+                <entry key="spring" value="2"/>
+                <entry key="summer1" value="3"/>
+                <entry key="summer2" value="4"/>
+                <entry key="fall" value="5"/>
+                <entry key="summer i" value="3"/>
+                <entry key="summer ii" value="4"/>
+                <entry key="summer" value="3"/>
+            </map>
+        </property>
+        <property name="atpTypeMap">
+            <map>
+                <entry key="1" value="kuali.atp.type.Winter"/>
+                <entry key="2" value="kuali.atp.type.Spring"/>
+                <entry key="3" value="kuali.atp.type.Summer1"/>
+                <entry key="4" value="kuali.atp.type.Summer2"/>
+                <entry key="5" value="kuali.atp.type.Fall"/>
+            </map>
+        </property>
+        <property name="typeMonthDayMap">
+            <map>
+                <entry key="1" value="01-15"/>
+                <entry key="2" value="03-01"/>
+                <entry key="3" value="06-15"/>
+                <entry key="4" value="08-01"/>
+                <entry key="5" value="10-01"/>
+            </map>
+        </property>
+		</bean>
 
 	<bean id="ksapUserSessionHelper"
 		class="org.kuali.student.ap.framework.context.support.DefaultUserSessionHelper" />

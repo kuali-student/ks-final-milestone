@@ -3,6 +3,7 @@ package org.kuali.student.ap.framework.context;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides access to common ATP functionality.
@@ -130,4 +131,18 @@ public interface AtpHelper {
      * @return YearTerm holding information for the term
      */
     YearTerm getYearTerm(String atpId);
+
+    public void setTermMap(Map<String,Integer> termMap);
+
+    public Map<String,Integer> getTermMap();
+
+    public void setAtpTypeMap(Map<Integer,String> termMap);
+
+    public Map<Integer,String> getAtpTypeMap();
+
+    public void setTypeMonthDayMap(Map<Integer,String> termMap);
+
+    public Map<Integer,String> getTypeMonthDayMap();
+
+
 }
