@@ -274,7 +274,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-MoveAOCPopupForm" parent="Uif-HorizontalBoxSection">
+    <bean id="KS-CourseOfferingManagement-MoveAOCPopupForm" parent="Uif-HorizontalBoxSection" p:forceSessionPersistence="true">
         <!--<property name="render" value="@{enableAddButton and !currentCourseOfferingWrapper.crossListed}"/>-->
         <property name="hidden" value="true"/>
         <property name="cssClasses">
