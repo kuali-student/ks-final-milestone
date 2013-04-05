@@ -186,12 +186,11 @@
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
        <!-- <property name="render" value="@{#hasPermDtls('KS-ENR','Open Views for KS-CourseOfferingEditWrapper-EditMaintenanceView',null,document.oldMaintainableObject.dataObject.adminOrg)}" /> -->
         <property name="header.lowerGroup">
-          <bean parent="Uif-VerticalBoxSection">
+          <bean parent="Uif-HeaderLowerGroup">
             <property name="style" value="margin-bottom:px;"/>
             <property name="items">
               <list>
                   <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{#dp.alternateCOCodesUIList}" p:render="@{!#dp.alternateCourseCodesSuffixStripped.isEmpty()}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
-                  <ref bean="KS-EditCourseOffering-AliasMessageSection" />
               </list>
             </property>
           </bean>
@@ -199,6 +198,7 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />
         <property name="page.items">
             <list>
+                <ref bean="KS-EditCourseOffering-AliasMessageSection" />
                 <ref bean="KS-CourseOfferingEdit-Term"/>
                 <ref bean="KSDocumentPageFooter_SubmitCancel"/>
                 <ref bean="KS-CourseOfferingEdit-CourseOfferingInformation"/>
