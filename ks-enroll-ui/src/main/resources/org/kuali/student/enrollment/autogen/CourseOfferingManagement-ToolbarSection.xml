@@ -83,8 +83,8 @@
                         <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster" parent="KS-CourseOfferingManagement-ToolBar-AddCluster" p:methodToCall="addCluster" p:render="@{hasAO}" p:disabled="false"
                               p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddAOCPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddAOCPopupForm').find('input[type=text],select').val('');}});"/>
                               -->
-                        <bean id="KS-CourseOfferingManagement-ToolBar-MoveTo" parent="KS-CourseOfferingManagement-ToolBar-MoveTo-parent" p:methodToCall="moveToCluster" p:render="true" p:disabled="false"
-                              p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-MoveAOCPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-MoveAOCPopupForm').find('input[type=text],select').val('');}});"/>
+                        <bean id="KS-CourseOfferingManagement-ToolBar-MoveTo" parent="KS-CourseOfferingManagement-ToolBar-MoveTo-parent" p:render="true" p:disabled="false" p:methodToCall="dummyReload"
+                              p:successCallback="openPopupContent(e,'KS-CourseOfferingManagement-MoveAOCPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-MoveAOCPopupForm').find('input[type=text],select').val('');}});"/>
                     </list>
                 </property>
             </bean>
@@ -285,7 +285,7 @@
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="clusterIdForAOMove"  p:label="Move selected offerings to" p:labelPlacement="TOP" >
+                <bean parent="Uif-InputField" p:propertyName="clusterIdForAOMove"  p:label="Move selected offerings to" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -293,7 +293,7 @@
                         <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGListOfAOClustersForFOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean parent="Uif-SecondaryActionButton-Small">
+                <bean parent="Uif-SecondaryActionButton-Small" p:disabled="@{disableMoveButtonForMoveAOCPopOver}">
                     <property name="style" value="margin-top:1.5em;"/>
                     <property name="actionLabel" value="Move"/>
                     <property name="successCallback" value="jQuery('div[id=KS-CourseOfferingManagement-MoveAOCPopupForm]:gt(0)').detach();"/>

@@ -633,6 +633,12 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
     }
 
+    @RequestMapping(params = "methodToCall=dummyReload")
+    public ModelAndView dummyReload (@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
+    }
+
     @RequestMapping(params = "methodToCall=renameAClusterThroughDialog")
     public ModelAndView renameAClusterThroughDialog(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
