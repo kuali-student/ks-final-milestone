@@ -186,11 +186,12 @@
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
        <!-- <property name="render" value="@{#hasPermDtls('KS-ENR','Open Views for KS-CourseOfferingEditWrapper-EditMaintenanceView',null,document.oldMaintainableObject.dataObject.adminOrg)}" /> -->
         <property name="header.lowerGroup">
-          <bean parent="Uif-HeaderLowerGroup">
+          <bean parent="Uif-VerticalBoxSection">
             <property name="style" value="margin-bottom:px;"/>
             <property name="items">
               <list>
                   <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{#dp.alternateCOCodesUIList}" p:render="@{!#dp.alternateCourseCodesSuffixStripped.isEmpty()}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
+                  <ref bean="KS-EditCourseOffering-AliasMessageSection" />
               </list>
             </property>
           </bean>
@@ -210,6 +211,25 @@
         </property>
         <property name="page.footer.items">
             <ref bean="KSDocumentPageFooter_SubmitCancel" />
+        </property>
+    </bean>
+
+    <bean id="KS-EditCourseOffering-AliasMessageSection" parent="Uif-HorizontalBoxSection">
+        <property name="render" value="@{!document.oldMaintainableObject.dataObject.alternateCOCodesUIList.isEmpty()}"/>
+        <property name="style" value="background-color:#DDECFF;padding-top: 5px; border: 1px solid #9CC4F9;"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="items" >
+            <list>
+                <bean parent="Uif-ImageField" p:image.altText="information"
+                      p:source="@{#ConfigProperties['ks.externalizable.images.url']}/information.png">
+                    <property name="style" value="padding-right:10px;padding-left:10px"/>
+                </bean>
+                <bean id="KS-CourseOfferingManagement-AliasMessage" parent="Uif-MessageField"
+                      p:messageText="@{document.oldMaintainableObject.dataObject.alternateCOCodesUIList} is a crosslisted alias
+                                            for: @{document.oldMaintainableObject.dataObject.courseOfferingCode}(Owner). Changes made on
+                                            this page to @{document.oldMaintainableObject.dataObject.courseOfferingCode}(Owner) will be applied to all
+                                            aliases, including @{document.oldMaintainableObject.dataObject.alternateCOCodesUIList}." />
+            </list>
         </property>
     </bean>
 
