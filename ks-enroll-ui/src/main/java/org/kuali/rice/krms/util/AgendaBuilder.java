@@ -67,7 +67,7 @@ public class AgendaBuilder {
             boolean exist = false;
             if(agenda.getRuleEditors() != null) {
                 for (RuleEditor rule : agenda.getRuleEditors()) {
-                    if (rule.getTypeId().equals(ruleType.getId())) {
+                    if (rule.getTypeId().equals(ruleType.getId()) && rule.getId() != null) {
                         components.add(buildEditRule(rule, ruleType));
                         exist = true;
 

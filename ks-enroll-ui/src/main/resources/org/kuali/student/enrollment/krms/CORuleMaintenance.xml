@@ -58,14 +58,14 @@
     </bean>
 
     <bean id="COAgenda-Student-MaintenanceView" parent="KS-AgendaManagement-View">
-        <property name="viewName" value="AgendaEditorView"/>
-        <property name="dataObjectClassName" value="org.kuali.rice.krms.dto.AgendaEditor"/>
+        <property name="viewName" value="EnrolAgendaEditView"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.EnrolAgendaEditor"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.rice.krms.service.impl.AgendaManagementViewHelperServiceImpl"/>
     </bean>
 
     <bean id="AgendaEditorMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
-        <property name="dataObjectClass" value="org.kuali.rice.krms.dto.AgendaEditor"/>
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.EnrolAgendaEditor"/>
         <property name="maintainableClass" value="org.kuali.rice.krms.service.impl.AgendaEditorMaintainableImpl"/>
         <property name="documentTypeName" value="AgendaEditorMaintenanceDocument"/>
         <property name="businessRulesClass" value="org.kuali.rice.krms.util.AgendaEditorBusRule" />
@@ -76,9 +76,9 @@
         </property>
     </bean>
 
-    <bean id="AgendaEditor" parent="AgendaEditor-parentBean"/>
-    <bean id="AgendaEditor-parentBean" abstract="true" parent="DataObjectEntry">
-        <property name="dataObjectClass" value="org.kuali.rice.krms.dto.AgendaEditor"/>
+    <bean id="EnrolAgendaEditor" parent="EnrolAgendaEditor-parentBean"/>
+    <bean id="EnrolAgendaEditor-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.EnrolAgendaEditor"/>
         <property name="titleAttribute" value="id"/>
         <property name="attributes">
             <list>

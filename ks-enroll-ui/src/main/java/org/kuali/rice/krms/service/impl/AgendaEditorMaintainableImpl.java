@@ -22,6 +22,8 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
+import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
+import org.kuali.rice.krms.api.repository.agenda.AgendaDefinitionContract;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
@@ -68,9 +70,9 @@ public class AgendaEditorMaintainableImpl extends KSMaintainableImpl implements 
      * @param model the MaintenanceDocumentForm
      * @return the AgendaEditor
      */
-    private RuleEditor getRuleEditor(Object model) {
+    private AgendaEditor getAgendaEditor(Object model) {
         MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
-        return (RuleEditor) maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
+        return (AgendaEditor) maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
     }
 
     @Override
@@ -79,6 +81,7 @@ public class AgendaEditorMaintainableImpl extends KSMaintainableImpl implements 
 
         String agendaId = dataObjectKeys.get("id");
         EnrolAgendaEditor form = new EnrolAgendaEditor();
+        form.setId(agendaId);
         List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
 
         AgendaManagementViewHelperServiceImpl viewHelperService = new AgendaManagementViewHelperServiceImpl();
@@ -118,7 +121,38 @@ public class AgendaEditorMaintainableImpl extends KSMaintainableImpl implements 
 
     @Override
     public void saveDataObject() {
+        EnrolAgendaEditor enrolAgendaEditor = (EnrolAgendaEditor) getDataObject();
 
+        if (!enrolAgendaEditor.getDeletedRuleIds().isEmpty()) {
+            for(String ruleId : enrolAgendaEditor.getDeletedRuleIds()) {
+                AgendaDefinition agendaDefinition = getAgenda(enrolAgendaEditor, ruleId);
+                this.getRuleManagementService().deleteAgendaItem(ruleId);
+                this.getRuleManagementService().deleteRule(ruleId);
+                this.getRuleManagementService().updateAgenda(agendaDefinition);
+            }
+        }
+    }
+
+    private AgendaDefinition getAgenda(EnrolAgendaEditor enrolAgendaEditor, String ruleId) {
+        AgendaDefinition.Builder agendaBuilder = null;
+        AgendaDefinition agendaDefinition = null;
+        List<AgendaEditor> agendas = enrolAgendaEditor.getAgendas();
+        for(AgendaEditor agenda : agendas) {
+            if(agenda.getFirstItemId().equals(ruleId)) {
+                List<RuleEditor> rules = agenda.getRuleEditors();
+                for(RuleEditor rule : rules) {
+                    if(rule.getId() != null) {
+                        agenda.setFirstItemId(rule.getId());
+                        agendaBuilder = AgendaDefinition.Builder.create((AgendaDefinitionContract) agenda);
+                    } else {
+                        agenda.setFirstItemId(null);
+                        agendaBuilder = AgendaDefinition.Builder.create((AgendaDefinitionContract) agenda);
+                    }
+                }
+            }
+        }
+        agendaDefinition = agendaBuilder.build();
+        return agendaDefinition;
     }
 
     /**

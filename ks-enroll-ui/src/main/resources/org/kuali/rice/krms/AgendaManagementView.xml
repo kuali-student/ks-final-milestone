@@ -18,7 +18,6 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-
     <bean id="KS-AgendaManagement-View" parent="KSMaintenanceView">
         <property name="headerText" value="Manage Requisites"/>
         <property name="cssClasses">
@@ -80,7 +79,7 @@
                               p:tooltipContent="Edit Rule"/>
                     </property>
                 </bean>
-                <bean parent="Uif-ActionLink" p:actionLabel="Delete">
+                <bean parent="Uif-ActionLink" p:actionLabel="Delete" p:methodToCall="deleteRule">
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
                               p:tooltipContent="Delete Rule"/>

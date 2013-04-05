@@ -26,6 +26,7 @@ import org.kuali.rice.krms.framework.type.ActionTypeService;
 import org.kuali.rice.krms.impl.authorization.AgendaAuthorizationService;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 
 /**
@@ -40,8 +41,8 @@ public class AgendaEditorBusRule extends MaintenanceDocumentRuleBase {
         Class<?> dataObjectClass = document.getNewMaintainableObject().getDataObjectClass();
 
         // Since the dataObject is a wrapper class we need to return the agendaBo instead.
-        Object oldBo = ((EnrolRuleEditor) document.getOldMaintainableObject().getDataObject());
-        Object newDataObject = ((EnrolRuleEditor) document.getNewMaintainableObject().getDataObject());
+        Object oldBo = ((EnrolAgendaEditor) document.getOldMaintainableObject().getDataObject());
+        Object newDataObject = ((EnrolAgendaEditor) document.getNewMaintainableObject().getDataObject());
 
         // We dont do primaryKeyChecks on Global Business Object maintenance documents. This is
         // because it doesnt really make any sense to do so, given the behavior of Globals. When a

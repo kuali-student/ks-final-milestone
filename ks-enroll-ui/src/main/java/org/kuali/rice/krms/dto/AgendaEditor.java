@@ -26,6 +26,7 @@ public class AgendaEditor extends UifFormBase implements AgendaDefinitionContrac
     private Map<String, String> attributes;
     private Long versionNumber;
     private String courseName;
+    private List<String> deletedRuleIds;
 
     private List<RuleEditor> ruleEditors;
 
@@ -122,5 +123,13 @@ public class AgendaEditor extends UifFormBase implements AgendaDefinitionContrac
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    public List<String> getDeletedRuleIds() {
+        return deletedRuleIds;
+    }
+
+    public void setDeletedRuleIds(List<String> deletedRuleIds) {
+        this.deletedRuleIds = deletedRuleIds;
     }
 }

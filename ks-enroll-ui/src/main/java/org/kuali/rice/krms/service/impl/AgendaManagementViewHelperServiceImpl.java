@@ -8,6 +8,7 @@ import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
@@ -61,16 +62,27 @@ public class AgendaManagementViewHelperServiceImpl extends KSViewHelperServiceIm
     @Override
     protected void addCustomContainerComponents(View view, Object model, Container container) {
         if ("KRMS-AgendaManageRequisites-Section".equals(container.getId())) {
+            MaintenanceDocumentForm document = (MaintenanceDocumentForm) model;
+            EnrolAgendaEditor form = (EnrolAgendaEditor) document.getDocument().getOldMaintainableObject().getDataObject();
+
+            //Set RuleEditors previewTree for Maintenance Document Actions
+            if(document.getMethodToCall() != "maintenanceEdit") {
+                List<AgendaEditor> agendaEditors = form.getAgendas();
+                for(AgendaEditor agendaEditor : agendaEditors) {
+                    List<RuleEditor> ruleEditors = agendaEditor.getRuleEditors();
+                    for(RuleEditor ruleEditor : ruleEditors) {
+                        if(ruleEditor.getId() != null) {
+                            ruleEditor.setPreviewTree(this.getViewTreeBuilder().buildTree(ruleEditor, true));
+                        }
+                    }
+                }
+            }
 
             AgendaBuilder builder = new AgendaBuilder(view);
             builder.setTypeRelationsMap(this.getTypeRelationsMap());
             List<Component> components = new ArrayList<Component>();
 
             List<AgendaTypeInfo> agendaTypeInfos = new ArrayList<AgendaTypeInfo>(typeRelationsMap.values());
-
-            //Retrieve the current editing proposition if exists.
-            MaintenanceDocumentForm document = (MaintenanceDocumentForm) model;
-            EnrolAgendaEditor form = (EnrolAgendaEditor) document.getDocument().getOldMaintainableObject().getDataObject();
 
             //Copy over missing previewTree
             document.getDocument().getNewMaintainableObject().setDataObject(form);

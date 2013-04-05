@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -41,6 +42,33 @@ public class AgendaManagementController extends MaintenanceDocumentController {
         Properties urlParameters = agendaBuilder.buildAgendaURLParameters(ruleEditor, "maintenanceEdit");
         String controllerPath = "krmsRuleStudentEditor";
         return super.performRedirect(form, controllerPath, urlParameters);
+    }
+
+    @RequestMapping(params = "methodToCall=deleteRule")
+    public ModelAndView deleteRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+        MaintenanceDocumentForm document =  (MaintenanceDocumentForm) form;
+        EnrolAgendaEditor enrolAgendaEditor = (EnrolAgendaEditor) document.getDocument().getNewMaintainableObject().getDataObject();
+        String ruleId = document.getActionParamaterValue("ruleId");
+
+        if(enrolAgendaEditor.getDeletedRuleIds() == null) {
+            List<String> ruleIds = new ArrayList<String>();
+            ruleIds.add(ruleId);
+            enrolAgendaEditor.setDeletedRuleIds(ruleIds);
+        } else {
+            enrolAgendaEditor.getDeletedRuleIds().add(ruleId);
+        }
+
+        RuleEditor ruleEditor = getRuleEditor(enrolAgendaEditor.getAgendas(), ruleId);
+
+        List<AgendaEditor> agendas = enrolAgendaEditor.getAgendas();
+        for(AgendaEditor agenda : agendas) {
+            if(agenda.getRuleEditors().contains(ruleEditor)) {
+                agenda.getRuleEditors().remove(ruleEditor);
+            }
+        }
+
+        return getUIFModelAndView(document);
     }
 
     /**
