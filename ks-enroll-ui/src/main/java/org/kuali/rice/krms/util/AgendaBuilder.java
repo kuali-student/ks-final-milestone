@@ -48,6 +48,7 @@ public class AgendaBuilder {
 
     /**
      * This method dynamically build the components on the screen to render an angenda.
+     *
      * @param agenda
      * @return
      */
@@ -65,29 +66,26 @@ public class AgendaBuilder {
 
             // Add all existing rules of this type.
             boolean exist = false;
-            if(agenda.getRuleEditors() != null) {
+            if (agenda.getRuleEditors() != null) {
                 for (RuleEditor rule : agenda.getRuleEditors()) {
-                    if (rule.getTypeId().equals(ruleType.getId()) && rule.getId() != null) {
+                    if (rule.getTypeId().equals(ruleType.getId()) && (!rule.isDummy())) {
                         components.add(buildEditRule(rule, ruleType));
                         exist = true;
 
                         ruleEditors.add(rule);
                     }
                 }
+            }
 
-                // If the ruletype does not exist, add an empty rule section
-                if (!exist) {
-                    components.add(buildAddRule(ruleType));
-                    RuleEditor ruleEditor = new RuleEditor();
-                    ruleEditor.setTypeId(ruleType.getId());
-                    ruleEditors.add(ruleEditor);
-                }
-            } else {
+            // If the ruletype does not exist, add an empty rule section
+            if (!exist) {
                 components.add(buildAddRule(ruleType));
                 RuleEditor ruleEditor = new RuleEditor();
+                ruleEditor.setDummy(true);
                 ruleEditor.setTypeId(ruleType.getId());
                 ruleEditors.add(ruleEditor);
             }
+
         }
 
         group.setItems(components);
@@ -100,6 +98,7 @@ public class AgendaBuilder {
 
     /**
      * This method dynamically builds a disclosure section for each rule that already exists.
+     *
      * @param rule
      * @return
      */
@@ -110,7 +109,7 @@ public class AgendaBuilder {
         Group editSection = (Group) ComponentUtils.findComponentInList((List<Component>) group.getItems(), "KRMS-RuleEdit-Section");
         LinkGroup links = (LinkGroup) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRSM-RuleEdit-ActionLinks");
         List<Action> actionLinks = (List<Action>) links.getItems();
-        for(Action actionLink : actionLinks) {
+        for (Action actionLink : actionLinks) {
             actionLink.getActionParameters().put("ruleId", rule.getId());
         }
         MessageField messageField = (MessageField) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-Instruction-EditMessage");
@@ -118,7 +117,7 @@ public class AgendaBuilder {
 
         Group sectionGroup = (Group) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-PreviewTree-Group");
         List<TreeGroup> treeGroups = ComponentUtils.getComponentsOfType((List<Component>) sectionGroup.getItems(), TreeGroup.class);
-        if ((treeGroups != null) && (treeGroups.size() > 0)){
+        if ((treeGroups != null) && (treeGroups.size() > 0)) {
             treeGroups.get(0).setPropertyName("agendas[" + agendaCounter + "].ruleEditors[" + ruleCounter + "].previewTree");
         }
 
@@ -128,6 +127,7 @@ public class AgendaBuilder {
 
     /**
      * This method dynamically builds a disclosure section to allow the user to add a new rule for this rule type.
+     *
      * @param ruleTypeInfo
      * @return
      */
@@ -138,7 +138,7 @@ public class AgendaBuilder {
         Group editSection = (Group) ComponentUtils.findComponentInList((List<Component>) group.getItems(), "KRMS-RuleAdd-Section");
         LinkGroup links = (LinkGroup) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-RuleAdd-ActionLink");
         List<Action> actionLinks = (List<Action>) links.getItems();
-        for(Action actionLink : actionLinks) {
+        for (Action actionLink : actionLinks) {
             actionLink.getActionParameters().put("ruleType", ruleTypeInfo.getId());
         }
         MessageField messageField = (MessageField) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRMS-Instruction-AddMessage");
@@ -148,11 +148,11 @@ public class AgendaBuilder {
         return group;
     }
 
-    public Properties buildAgendaURLParameters(RuleEditor ruleEditor, String methodToCall){
+    public Properties buildAgendaURLParameters(RuleEditor ruleEditor, String methodToCall) {
         Properties props = new Properties();
         props.put("viewTypeName", "MAINTENANCE");
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-        props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE,"org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor");
+        props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, "org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor");
         props.put("viewName", "EnrolRuleEditView");
         props.put("id", ruleEditor.getId());
         props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));

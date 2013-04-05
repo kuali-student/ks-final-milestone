@@ -36,7 +36,7 @@
 
     <bean id="RuleEditor" parent="RuleEditor-parentBean"/>
     <bean id="RuleEditor-parentBean" abstract="true" parent="DataObjectEntry">
-        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor"/>
+        <property name="dataObjectClass" value="org.kuali.rice.krms.dto.RuleEditor"/>
         <property name="titleAttribute" value="id"/>
         <property name="attributes">
             <list>

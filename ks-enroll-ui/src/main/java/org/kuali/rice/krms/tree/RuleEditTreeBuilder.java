@@ -38,10 +38,15 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
         myTree.setRootElement(rootNode);
 
         PropositionEditor prop = (PropositionEditor) rule.getProposition();
-        if (refreshNl) {
-            this.setNaturalLanguageTree(prop);
+
+        if (prop != null){
+
+            if (refreshNl) {
+                this.setNaturalLanguageTree(prop);
+            }
+
+            addChildNode(rule, rootNode, prop, refreshNl);
         }
-        addChildNode(rule, rootNode, prop, refreshNl);
 
         return myTree;
     }

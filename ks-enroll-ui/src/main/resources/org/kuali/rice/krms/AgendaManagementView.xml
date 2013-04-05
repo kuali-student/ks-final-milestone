@@ -56,6 +56,22 @@
         <property name="entryPageId" value="KRMS-AgendaMaintenance-Page"/>
     </bean>
 
+    <bean id="RuleManagementWrapper" parent="RuleManagementWrapper-parentBean"/>
+    <bean id="RuleManagementWrapper-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.rice.krms.dto.RuleManagementWrapper"/>
+        <property name="titleAttribute" value="id"/>
+        <property name="attributes">
+            <list>
+            </list>
+        </property>
+        <property name="objectLabel" value="Rule"/>
+        <property name="primaryKeys">
+            <list>
+                <value>refObjectId</value>
+            </list>
+        </property>
+    </bean>
+
     <bean name="KRMS-AgendaMaintenance-Page-Parent" parent="Uif-Page">
         <property name="footer">
             <bean parent="KSDocumentPageFooter_SubmitCancel"/>
@@ -128,7 +144,7 @@
     <bean id="KRMS-RuleAdd-Links" parent="Uif-LinkGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Add Requisite">
+                <bean parent="Uif-ActionLink" p:actionLabel="Add Requisite" p:methodToCall="addRule">
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
                               p:tooltipContent="Add Requisite to Rule"/>

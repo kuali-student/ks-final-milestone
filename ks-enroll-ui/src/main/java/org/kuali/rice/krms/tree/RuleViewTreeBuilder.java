@@ -3,16 +3,11 @@ package org.kuali.rice.krms.tree;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
-import org.kuali.rice.krms.api.repository.NaturalLanguageTree;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
-import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
-import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.rice.krms.tree.node.TreeNode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,18 +36,21 @@ public class RuleViewTreeBuilder extends AbstractTreeBuilder {
         }
 
         PropositionEditor prop = (PropositionEditor) rule.getProposition();
-        if (refreshNl) {
-            this.setNaturalLanguageTree(prop);
-        }
-        buildPreviewTree(rule, rootNode, prop, refreshNl);
 
+        if (prop != null) {
 
-        //Underline the first node in the preview.
-        if ((rootNode.getChildren() != null) && (rootNode.getChildren().size() > 0)) {
-            Node<TreeNode, String> firstNode = rootNode.getChildren().get(0);
-            if ((firstNode.getChildren() != null) && (firstNode.getChildren().size() > 0)) {
-                firstNode.setNodeType("subruleHeader subruleElement");
-                firstNode.setNodeLabel("<u>" + firstNode.getNodeLabel() + ":</u>");
+            if (refreshNl) {
+                this.setNaturalLanguageTree(prop);
+            }
+            buildPreviewTree(rule, rootNode, prop, refreshNl);
+
+            //Underline the first node in the preview.
+            if ((rootNode.getChildren() != null) && (rootNode.getChildren().size() > 0)) {
+                Node<TreeNode, String> firstNode = rootNode.getChildren().get(0);
+                if ((firstNode.getChildren() != null) && (firstNode.getChildren().size() > 0)) {
+                    firstNode.setNodeType("subruleHeader subruleElement");
+                    firstNode.setNodeLabel("<u>" + firstNode.getNodeLabel() + ":</u>");
+                }
             }
         }
 

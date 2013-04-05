@@ -42,6 +42,7 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
     private String copyKey;
     private String selectedKey;
     private String cutKey;
+    private boolean dummy;
     private List<String> activeSelections;
 
     //Edit with Logic
@@ -169,6 +170,14 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     public void setCutKey(String cutKey) {
         this.cutKey = cutKey;
+    }
+
+    public boolean isDummy() {
+        return dummy;
+    }
+
+    public void setDummy(boolean dummy) {
+        this.dummy = dummy;
     }
 
     /**

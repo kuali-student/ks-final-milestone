@@ -89,14 +89,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
     public static final String NEW_AGENDA_EDITOR_DOCUMENT_TEXT = "New Agenda Editor Document";
 
-    protected ContextInfo getContextInfo() {
-        if (null == contextInfo) {
-            //TODO - get real ContextInfo
-            contextInfo = TestHelper.getContext1();
-        }
-        return contextInfo;
-    }
-
     /**
      * Get the AgendaEditor out of the MaintenanceDocumentForm's newMaintainableObject
      *
@@ -176,16 +168,23 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     }
 
     @Override
-    public void prepareForSave() {
-        // set agenda attributes
-        //EnrolRuleEditor ruleEditor = (EnrolRuleEditor) getDataObject();
-        //ruleEditor.initPreviewTree();
+    public void saveDataObject() {
+        RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) getDataObject();
+
+        for (AgendaEditor agenda : ruleWrapper.getAgendas()){
+
+            // TODO: Save changes to the agenda.
+
+            for (RuleEditor rule : agenda.getRuleEditors()){
+                if(!rule.isDummy()){
+                    this.saveRule(rule);
+                }
+            }
+        }
+
     }
 
-    @Override
-    public void saveDataObject() {
-        RuleEditor rule = (RuleEditor) getDataObject();
-
+    protected void saveRule(RuleEditor rule) {
         // handle saving new parameterized terms
         PropositionEditor proposition = (PropositionEditor) rule.getProposition();
         if (proposition != null) {
@@ -199,7 +198,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         } else {
             this.getRuleManagementService().updateRule(ruleDefinition);
         }
-
     }
 
     protected void finPropositionEditor(PropositionEditor propositionEditor) {

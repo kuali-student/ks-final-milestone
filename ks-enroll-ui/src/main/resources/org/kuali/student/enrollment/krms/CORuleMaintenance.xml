@@ -48,32 +48,12 @@
                   value="org.kuali.student.enrollment.class1.krms.service.impl.CORuleViewHelperServiceImpl"/>
     </bean>
 
-    <!--bean id="RuleMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
-        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor"/>
-        <property name="maintainableClass" value="org.kuali.student.enrollment.class1.krms.service.impl.CORuleEditorMaintainableImpl"/>
-        <property name="documentTypeName" value="RuleMaintenanceDocument"/>
-        <property name="businessRulesClass" value="org.kuali.rice.krms.util.RuleEditorBusRule" />
-        <property name="lockingKeys">
-            <list>
-                <value>id</value>
-            </list>
-        </property> 
-    </bean-->
+    <bean id="EnrolRuleManagementWrapper" parent="RuleManagementWrapper-parentBean">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper"/>
+    </bean>
 
-    <bean id="EnrolRuleEditor" parent="EnrolRuleEditor-parentBean"/>
-    <bean id="EnrolRuleEditor-parentBean" abstract="true" parent="DataObjectEntry">
+    <bean id="EnrolRuleEditor" parent="RuleEditor-parentBean">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor"/>
-        <property name="titleAttribute" value="id"/>
-        <property name="attributes">
-            <list>
-            </list>
-        </property>
-        <property name="objectLabel" value="Rule"/>
-        <property name="primaryKeys">
-            <list>
-                <value>id</value>
-            </list>
-        </property>
     </bean>
 
     <bean id="AgendaEditor" parent="AgendaEditor-parentBean"/>
