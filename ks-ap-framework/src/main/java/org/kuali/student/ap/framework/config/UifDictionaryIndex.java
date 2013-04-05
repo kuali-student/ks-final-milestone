@@ -106,7 +106,6 @@ public class UifDictionaryIndex implements Runnable {
 			poolok = false;
 		}
 		if (poolok && viewPools.containsKey(viewId)) {
-
 			final UifViewPool viewPool = viewPools.get(viewId);
 			synchronized (viewPool) {
 				if (!viewPool.isEmpty()) {
@@ -420,7 +419,7 @@ public class UifDictionaryIndex implements Runnable {
 		for (int i = activeWorkerCount; i < threads; i++) {
 			ViewBuildWorker worker = new ViewBuildWorker();
 			try {
-				executor.execute(new ViewBuildWorker());
+				executor.execute(worker);
 			} catch (Throwable t) {
 				worker.discard();
 				if (t instanceof RuntimeException)
@@ -440,6 +439,10 @@ public class UifDictionaryIndex implements Runnable {
 		long now = System.currentTimeMillis();
 		if (activeWorkerCount < 1 && !buildQueue.isEmpty())
 			spawnViewBuildWorkers();
+		if (!buildQueue.isEmpty())
+			LOG.info("View builders are active, pausing for completion "
+					+ buildQueue.size() + " queued, " + activeWorkerCount
+					+ " working");
 		while (!buildQueue.isEmpty()) {
 			if (System.currentTimeMillis() - now > 5000L)
 				throw new IllegalStateException(
