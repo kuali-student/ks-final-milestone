@@ -275,7 +275,7 @@ public class ARGActivityOfferingClusterHandler {
             return theForm;
         }
 
-        if (theForm.getPublishedClusterNameForRenamePopover() == null || theForm.getPublishedClusterNameForRenamePopover().isEmpty()) {
+        if (theForm.getPublishedClusterNamePopover() == null || theForm.getPublishedClusterNamePopover().isEmpty()) {
             GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PUBLISHED_NAME_IS_NULL);
 
             return theForm;
