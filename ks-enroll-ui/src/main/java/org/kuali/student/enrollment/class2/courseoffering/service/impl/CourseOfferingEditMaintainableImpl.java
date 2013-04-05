@@ -52,6 +52,7 @@ import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
@@ -207,8 +208,10 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 }
                 else{
                     //create a new FO
-                    formatOfferingInfo.setStateKey(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY);
+                    formatOfferingInfo.setStateKey(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY);
                     formatOfferingInfo.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
+                    formatOfferingInfo.setName(null);//Clear these out so they are generated nicely
+                    formatOfferingInfo.setDescr(null);
                     formatOfferingInfo.setTermId(coInfo.getTermId());
                     formatOfferingInfo.setCourseOfferingId(coInfo.getId());
                     if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
@@ -281,10 +284,16 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             String formatId = newLine.getFormatId();
             MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
             CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-            getFormatInfo(coEditWrapper, formatId);
+            FormatInfo formatInfo = getFormatInfo(coEditWrapper, formatId);
             // TODO: fix R2 Format to include name and short name
-            newLine.setName("FIX ME!");
-            newLine.setShortName("FIX ME!");
+            StringBuilder sb = new StringBuilder();
+            for(ActivityInfo activityInfo:formatInfo.getActivities()){
+                sb.append(activityInfo.getTypeKey());
+                sb.append("/");
+            }
+            String tempName = sb.toString().substring(0,sb.toString().length()-1);
+            newLine.setName(tempName);
+            newLine.setShortName(tempName);
         }
     }
 
