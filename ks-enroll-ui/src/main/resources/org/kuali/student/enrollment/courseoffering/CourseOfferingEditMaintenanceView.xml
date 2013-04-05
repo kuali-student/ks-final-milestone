@@ -224,7 +224,7 @@
                       p:source="@{#ConfigProperties['ks.externalizable.images.url']}/information.png">
                     <property name="style" value="padding-right:10px;padding-left:10px"/>
                 </bean>
-                <bean id="KS-CourseOfferingManagement-AliasMessage" parent="Uif-MessageField"
+                <bean id="KS-EditCourseOffering-AliasMessage" parent="Uif-MessageField"
                       p:messageText="@{document.oldMaintainableObject.dataObject.alternateCOCodesUIList} is a crosslisted alias
                                             for: @{document.oldMaintainableObject.dataObject.courseOfferingCode}(Owner). Changes made on
                                             this page to @{document.oldMaintainableObject.dataObject.courseOfferingCode}(Owner) will be applied to all
