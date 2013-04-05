@@ -33,3 +33,6 @@ INSERT INTO KSEN_STATE_CNSTRNT_ROS (REL_OBJ_STATE_ID,STATE_CNSTRNT_ID)
 INSERT INTO KSEN_STATE_CNSTRNT_ROS (REL_OBJ_STATE_ID,STATE_CNSTRNT_ID)
   VALUES ('kuali.lui.activity.offering.state.offered','kuali.stateconstraint.registrationgroup.invalid.pending')
 /
+INSERT INTO KSEN_STATE_CNSTRNT_ROS (REL_OBJ_STATE_ID,STATE_CNSTRNT_ID)
+  VALUES ('kuali.lui.activity.offering.state.offered','kuali.stateconstraint.registrationgroup.offered.pending')
+/
