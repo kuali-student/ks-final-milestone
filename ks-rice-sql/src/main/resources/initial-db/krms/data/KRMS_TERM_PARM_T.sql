@@ -31,10 +31,10 @@ INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.clu.id','10006','10009','485712a2-5559-44d5-9c5d-5c765910d5c0',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10007','10010','65',1)
+  VALUES ('kuali.term.parameter.type.org.id','10007','10010','3220936919',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10008','10011','65',1)
+  VALUES ('kuali.term.parameter.type.org.id','10008','10011','3220936919',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.clu.id','10009','10012','28d48337-de87-498c-b417-866486e82eab',1)
@@ -64,16 +64,16 @@ INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.cluSet.id','10017','10020','fb5f3371-7c42-4087-a96e-bb9d6d7e7136',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10018','10021','65',1)
+  VALUES ('kuali.term.parameter.type.org.id','10018','10021','3220936919',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.clu.id','10019','10022','485712a2-5559-44d5-9c5d-5c765910d5c0',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10020','10023','65',1)
+  VALUES ('kuali.term.parameter.type.org.id','10020','10023','3220936919',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10021','10024','65',1)
+  VALUES ('kuali.term.parameter.type.org.id','10021','10024','3220936919',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.cluSet.id','10022','10025','375ab6aa-b37e-4cb4-928f-b2ae928f3335',1)
@@ -97,7 +97,7 @@ INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.clu.id','10025','10031','c4c52302-e533-4cb1-9cbd-1cd8bea58cf0',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10026','10032','65',1)
+  VALUES ('kuali.term.parameter.type.org.id','10026','10032','3220936919',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.clu.id','10027','10033','485712a2-5559-44d5-9c5d-5c765910d5c0',1)
@@ -109,10 +109,10 @@ INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.cluSet.id','10029','10035','f69f7104-aa38-4613-9d4a-6cfa661f8c5f',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10030','10036','65',1)
+  VALUES ('kuali.term.parameter.type.org.id','10030','10036','3220936919',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10031','10037','65',1)
+  VALUES ('kuali.term.parameter.type.org.id','10031','10037','3220936919',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.cluSet.id','10032','10038','674ea61d-154a-4535-90db-dbca3392d023',1)
@@ -169,22 +169,22 @@ INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.cluSet.id','10048','10055','75fe6c37-54ff-4a11-9816-89c0b84d913d',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10049','10056','65',1)
+  VALUES ('kuali.term.parameter.type.org.id','10049','10056','3220936919',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10050','10057','65',1)
+  VALUES ('kuali.term.parameter.type.org.id','10050','10057','3220936919',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.cluSet.id','10051','10058','90362179-9736-40f8-85da-9f6928c880f5',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10052','10059','65',1)
+  VALUES ('kuali.term.parameter.type.org.id','10052','10059','3220936919',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.clu.id','10053','10060','f7000cfc-3bf3-4fc8-9363-be39978b3758',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10054','10061','65',1)
+  VALUES ('kuali.term.parameter.type.org.id','10054','10061','3220936919',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.clu.id','10055','10062','1b262ae8-9d1f-4758-a943-db4f89b66587',1)
@@ -262,13 +262,13 @@ INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.clu.id','10074','10086','485712a2-5559-44d5-9c5d-5c765910d5c0',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10075','10087','65',1)
+  VALUES ('kuali.term.parameter.type.org.id','10075','10087','3220936919',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.clu.id','10076','10088','f7000cfc-3bf3-4fc8-9363-be39978b3758',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10077','10089','65',1)
+  VALUES ('kuali.term.parameter.type.org.id','10077','10089','3220936919',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.clu.id','10078','10090','eb456fea-2e62-4abe-8cb9-7a5c8be321b7',1)
@@ -277,7 +277,7 @@ INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.cluSet.id','10079','10091','5b46b07d-fb95-491c-aafa-f1de6d49bdf8',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10080','10092','65',1)
+  VALUES ('kuali.term.parameter.type.org.id','10080','10092','3220936919',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.cluSet.id','10081','10093','905d2ce9-e5be-41d1-962e-1ceb58aed08b',1)
@@ -295,7 +295,7 @@ INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.cluSet.id','10085','10097','67dcad60-bb8a-42b0-9ad6-e2dbb48b8981',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10086','10098','65',1)
+  VALUES ('kuali.term.parameter.type.org.id','10086','10098','3220936919',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.cluSet.id','10087','10099','6c03e5ed-0e16-4694-be6e-784b184627b4',1)
@@ -439,7 +439,7 @@ INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.clu.id','10132','10145','ae05f250-25a1-4d01-ab1d-82a6d69c73d7',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10133','10146','53',1)
+  VALUES ('kuali.term.parameter.type.org.id','10133','10146','4269648307',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.clu.id','10134','10147','cfff5b07-4dd4-4ad8-8295-1bed0bd6648e',1)
@@ -448,7 +448,7 @@ INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.cluSet.id','10135','10148','bd2745e8-12ec-48a0-b701-d9696e6c406e',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10136','10149','53',1)
+  VALUES ('kuali.term.parameter.type.org.id','10136','10149','4269648307',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.clu.id','10137','10150','REFERENCECOURSEGEOG100',1)
@@ -463,13 +463,13 @@ INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.clu.id','10140','10153','47221f9f-0d26-4423-992b-91e7139d522b',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10141','10154','53',1)
+  VALUES ('kuali.term.parameter.type.org.id','10141','10154','4269648307',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.cluSet.id','10142','10155','32406782-4950-4005-959b-709fdeab44a0',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10143','10156','53',1)
+  VALUES ('kuali.term.parameter.type.org.id','10143','10156','4269648307',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.cluSet.id','10144','10157','221f04d1-1807-4bf4-a006-bbac909c5695',1)
@@ -499,31 +499,31 @@ INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.cluSet.id','10152','10165','a0b65f11-8816-4d13-a8c1-13029bd54ec4',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10153','10166','53',1)
+  VALUES ('kuali.term.parameter.type.org.id','10153','10166','4269648307',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.clu.id','10154','10167','779dfa99-bf93-4fd4-9900-5b523252f4cf',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10155','10168','53',1)
+  VALUES ('kuali.term.parameter.type.org.id','10155','10168','4269648307',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.cluSet.id','10156','10169','af0070a0-0a1d-45f6-9853-d9eaeae7a020',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10157','10170','53',1)
+  VALUES ('kuali.term.parameter.type.org.id','10157','10170','4269648307',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10158','10171','53',1)
+  VALUES ('kuali.term.parameter.type.org.id','10158','10171','4269648307',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10159','10172','53',1)
+  VALUES ('kuali.term.parameter.type.org.id','10159','10172','4269648307',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.cluSet.id','10160','10173','1ada78f2-e91c-4c74-9314-bf9fa3e16148',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10161','10174','53',1)
+  VALUES ('kuali.term.parameter.type.org.id','10161','10174','4269648307',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.clu.id','10162','10175','f1e5da96-6694-497c-acb5-ac7e94dded39',1)
@@ -532,7 +532,7 @@ INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.clu.id','10163','10176','8df91968-9e50-4790-859c-996827130c8c',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10164','10177','53',1)
+  VALUES ('kuali.term.parameter.type.org.id','10164','10177','4269648307',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.cluSet.id','10165','10178','33830275-3bfd-43e9-a5f6-4cc198edb4d6',1)
@@ -553,16 +553,16 @@ INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.cluSet.id','10170','10183','356b8c34-771f-4000-98b6-1a579775074d',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10171','10184','29',1)
+  VALUES ('kuali.term.parameter.type.org.id','10171','10184','3213375036',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10172','10185','53',1)
+  VALUES ('kuali.term.parameter.type.org.id','10172','10185','4269648307',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.clu.id','10173','10186','13789ff2-119b-413a-9647-0b07c5781a89',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10174','10187','53',1)
+  VALUES ('kuali.term.parameter.type.org.id','10174','10187','4269648307',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.clu.id','10175','10188','13789ff2-119b-413a-9647-0b07c5781a89',1)
@@ -571,13 +571,13 @@ INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.cluSet.id','10176','10189','2afeee88-a6ad-4518-ba69-cd9c797c7639',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10177','10190','53',1)
+  VALUES ('kuali.term.parameter.type.org.id','10177','10190','4269648307',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.clu.id','10178','10191','d3b84c5d-0867-45d2-81f8-9d664b5d46f1',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10179','10192','53',1)
+  VALUES ('kuali.term.parameter.type.org.id','10179','10192','4269648307',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.course.cluSet.id','10180','10193','750ae9d6-f65a-4af1-b101-a79f81338c45',1)
@@ -628,7 +628,7 @@ INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.grade.id','10195','10208','kuali.result.value.grade.letter.b',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
-  VALUES ('kuali.term.parameter.type.org.id','10196','10209','55',1)
+  VALUES ('kuali.term.parameter.type.org.id','10196','10209','3184931244',1)
 /
 INSERT INTO KRMS_TERM_PARM_T (NM,TERM_ID,TERM_PARM_ID,VAL,VER_NBR)
   VALUES ('kuali.term.parameter.type.program.cluSet.id','10197','10210','7a7ae03e-9b11-4a77-af94-bb3744e11294',1)

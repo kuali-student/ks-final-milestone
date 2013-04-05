@@ -87,3 +87,9 @@ INSERT INTO KSEN_STATE_CHG (CREATEID,CREATETIME,FROM_STATE_ID,ID,STATE_CHG_STATE
 INSERT INTO KSEN_STATE_CHG (CREATEID,CREATETIME,FROM_STATE_ID,ID,STATE_CHG_STATE,STATE_CHG_TYPE,TO_STATE_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('SYSTEMLOADER',TO_DATE( '19700101000000', 'YYYYMMDDHH24MISS' ),'kuali.soc.scheduling.state.notstarted','kuali.statechange.soc.scheduling.notstarted.inprogress','kuali.state.change.state.active','kuali.state.change.type','kuali.soc.scheduling.state.inprogress','SYSTEMLOADER',TO_DATE( '19700101000000', 'YYYYMMDDHH24MISS' ),1)
 /
+insert into KSEN_STATE_CHG (ID, STATE_CHG_TYPE, STATE_CHG_STATE, OBJ_ID, FROM_STATE_ID, TO_STATE_ID, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID)
+  values ('kuali.statechange.registrationgroup.invalid.pending', 'kuali.state.change.type', 'kuali.state.change.state.active', null, 'kuali.lui.registration.group.state.invalid', 'kuali.lui.registration.group.state.pending', null, null, 1, TIMESTAMP '1970-01-01 00:00:00', 'SYSTEMLOADER', TIMESTAMP '1970-01-01 00:00:00', 'SYSTEMLOADER')
+/
+insert into KSEN_STATE_CHG (ID, STATE_CHG_TYPE, STATE_CHG_STATE, OBJ_ID, FROM_STATE_ID, TO_STATE_ID, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID)
+  values ('kuali.statechange.registrationgroup.invalid.offered', 'kuali.state.change.type', 'kuali.state.change.state.active', null, 'kuali.lui.registration.group.state.invalid', 'kuali.lui.registration.group.state.offered', null, null, 1, TIMESTAMP '1970-01-01 00:00:00', 'SYSTEMLOADER', TIMESTAMP '1970-01-01 00:00:00', 'SYSTEMLOADER')
+/

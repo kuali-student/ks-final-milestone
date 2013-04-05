@@ -27,3 +27,6 @@ INSERT INTO KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID,STATE_PROPAGT_ID)
 INSERT INTO KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID,STATE_PROPAGT_ID)
   VALUES ('kuali.statechange.soc.publishing.published','kuali.statepropagation.soctoao.published.offered')
 /
+INSERT INTO KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID,STATE_PROPAGT_ID)
+  VALUES ('kuali.statechange.activityoffering.draft.offered','kuali.statepropagation.aotorg.approved.offered')
+/
