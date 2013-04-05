@@ -7,15 +7,18 @@ import java.util.List;
 import org.kuali.common.impex.ImpexContextCloningFactoryBean;
 import org.kuali.common.impex.SyncFilesExecutable;
 import org.kuali.common.impex.service.ImpexContext;
+import org.kuali.common.impex.spring.ImpexDumpConfig;
 import org.kuali.common.util.service.ScmService;
 import org.kuali.common.util.spring.ScmServiceFactoryBean;
 import org.kuali.common.util.spring.SpringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
 @Configuration
+@Import({ ImpexDumpConfig.class })
 public class StudentDumpConfig {
 
 	private static final String FS = File.separator;
@@ -26,6 +29,9 @@ public class StudentDumpConfig {
 
 	@Autowired
 	Environment env;
+
+	@Autowired
+	ImpexDumpConfig impexDumpConfig;
 
 	@Bean
 	public ImpexContext riceDumpContext() {
@@ -60,7 +66,7 @@ public class StudentDumpConfig {
 		return ssfb.getObject();
 	}
 
-	@Bean
+	@Bean(name = ImpexDumpConfig.DUMP_CONTEXTS_QUALIFIER)
 	public List<ImpexContext> dumpContexts() {
 		List<ImpexContext> contexts = new ArrayList<ImpexContext>();
 		contexts.add(riceDumpContext());
@@ -89,8 +95,7 @@ public class StudentDumpConfig {
 		bean.setInclude(include);
 		bean.setCopyDataFiles(true);
 		bean.setSchemaFileInclude(schemaFileInclude);
-		// TODO Set this appropriately
-		bean.setSourceContext(null);
+		bean.setSourceContext(impexDumpConfig.impexSourceContext());
 		return bean.getObject();
 	}
 
