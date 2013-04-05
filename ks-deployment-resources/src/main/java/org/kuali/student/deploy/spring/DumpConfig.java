@@ -29,13 +29,13 @@ public class DumpConfig {
 
 	@Bean
 	public ImpexContext riceDumpContext() {
-		String include = SpringUtils.getProperty(env, "impex.rice.include");
+		String include = SpringUtils.getProperty(env, "impex.rice.includes");
 		return getBaseContext(env, KS_IMPEX_RICE_ARTIFACT_ID, include);
 	}
 
 	@Bean
 	public ImpexContext appDumpContext() {
-		String include = SpringUtils.getProperty(env, "impex.ks.include");
+		String include = SpringUtils.getProperty(env, "impex.ks.includes");
 		return getBaseContext(env, KS_IMPEX_APP_ARTIFACT_ID, include);
 	}
 
