@@ -84,7 +84,7 @@ public class DumpConfig {
 		String schemaFileInclude = "**/" + artifactId + "*";
 
 		ImpexContextCloningFactoryBean bean = new ImpexContextCloningFactoryBean();
-		bean.setArtifactId(KS_IMPEX_RICE_ARTIFACT_ID);
+		bean.setArtifactId(artifactId);
 		bean.setFinalDirectory(finalDirectory);
 		bean.setInclude(include);
 		bean.setCopyDataFiles(true);
