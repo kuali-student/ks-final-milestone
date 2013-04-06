@@ -89,14 +89,14 @@ public class DumpConfig {
 		File finalDirectory = new File(finalDirName);
 		String schemaFileInclude = "**/" + artifactId + "*";
 
-		ImpexContextCloningFactoryBean bean = new ImpexContextCloningFactoryBean();
-		bean.setArtifactId(artifactId);
-		bean.setFinalDirectory(finalDirectory);
-		bean.setInclude(include);
-		bean.setCopyDataFiles(true);
-		bean.setSchemaFileInclude(schemaFileInclude);
-		bean.setSourceContext(impexDumpConfig.impexSourceContext());
-		return bean.getObject();
+		ImpexContextCloningFactoryBean factory = new ImpexContextCloningFactoryBean();
+		factory.setArtifactId(artifactId);
+		factory.setFinalDirectory(finalDirectory);
+		factory.setInclude(include);
+		factory.setCopyDataFiles(true);
+		factory.setSchemaFileInclude(schemaFileInclude);
+		factory.setSourceContext(impexDumpConfig.impexSourceContext());
+		return factory.getObject();
 	}
 
 	protected String getFinalDirName(Environment env, String artifactId) {
