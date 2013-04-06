@@ -47,8 +47,8 @@ public class DumpConfig {
 
 	@Bean
 	public ImpexContext bundledDumpContext() {
-		String riceInclude = SpringUtils.getProperty(env, "impex.rice.include");
-		String ksInclude = SpringUtils.getProperty(env, "impex.ks.include");
+		String riceInclude = SpringUtils.getProperty(env, "impex.rice.includes");
+		String ksInclude = SpringUtils.getProperty(env, "impex.ks.includes");
 		String include = riceInclude + "," + ksInclude;
 		ImpexContext context = getBaseContext(env, KS_IMPEX_BUNDLED_ARTIFACT_ID, include);
 		// Bundled is the combination of Rice + App
