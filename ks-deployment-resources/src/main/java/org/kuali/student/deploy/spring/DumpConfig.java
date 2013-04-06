@@ -106,6 +106,8 @@ public class DumpConfig implements ImpexContextDumpConfig {
 		StringBuilder sb = new StringBuilder();
 		sb.append(SpringUtils.getProperty(env, "project.basedir"));
 		sb.append(FS);
+		sb.append(artifactId);
+		sb.append(FS);
 		sb.append("src");
 		sb.append(FS);
 		sb.append("main");
