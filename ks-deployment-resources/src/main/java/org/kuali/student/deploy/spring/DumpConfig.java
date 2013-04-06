@@ -81,6 +81,7 @@ public class DumpConfig {
 		sfe.setService(scmService());
 		sfe.setContexts(dumpContexts());
 		sfe.setSkip(SpringUtils.getBoolean(env, "impex.sync.skip", false));
+		sfe.setSkipScm(SpringUtils.getBoolean(env, "impex.scm.skip", true));
 		return sfe;
 	}
 
