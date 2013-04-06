@@ -7,6 +7,7 @@ import java.util.List;
 import org.kuali.common.impex.ImpexContextCloningFactoryBean;
 import org.kuali.common.impex.SyncFilesExecutable;
 import org.kuali.common.impex.service.ImpexContext;
+import org.kuali.common.impex.spring.ImpexContextDumpConfig;
 import org.kuali.common.impex.spring.ImpexDumpConfig;
 import org.kuali.common.util.service.ScmService;
 import org.kuali.common.util.spring.ScmServiceFactoryBean;
@@ -19,7 +20,7 @@ import org.springframework.core.env.Environment;
 
 @Configuration
 @Import({ ImpexDumpConfig.class })
-public class DumpConfig {
+public class DumpConfig implements ImpexContextDumpConfig {
 
 	private static final String FS = File.separator;
 
@@ -66,7 +67,8 @@ public class DumpConfig {
 		return ssfb.getObject();
 	}
 
-	@Bean(name = ImpexDumpConfig.DUMP_CONTEXTS_QUALIFIER)
+	@Override
+	@Bean
 	public List<ImpexContext> dumpContexts() {
 		List<ImpexContext> contexts = new ArrayList<ImpexContext>();
 		contexts.add(riceDumpContext());
