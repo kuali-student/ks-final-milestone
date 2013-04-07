@@ -161,8 +161,12 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     private String formatOfferingIdForViewRG;
     private String formatOfferingName;
     private List<String> formatOfferingIds;
+    
     private boolean disableMoveButtonForMoveAOCPopOver;
     private String clusterIdForAOMove;
+    private String selectedFOIDForAOMove;
+    private String selectedFONameForAOMove;
+            
     private ActivityOfferingClusterWrapper selectedCluster;
     private int aoCount=0;
 
@@ -561,6 +565,22 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
 
     public void setClusterIdForAOMove(String clusterIdForAOMove) {
         this.clusterIdForAOMove = clusterIdForAOMove;
+    }
+
+    public String getSelectedFOIDForAOMove() {
+        return selectedFOIDForAOMove;
+    }
+
+    public void setSelectedFOIDForAOMove(String selectedFOIDForAOMove) {
+        this.selectedFOIDForAOMove = selectedFOIDForAOMove;
+    }
+
+    public String getSelectedFONameForAOMove() {
+        return selectedFONameForAOMove;
+    }
+
+    public void setSelectedFONameForAOMove(String selectedFONameForAOMove) {
+        this.selectedFONameForAOMove = selectedFONameForAOMove;
     }
 
     public boolean isHasMoreThanOneFormat() {
