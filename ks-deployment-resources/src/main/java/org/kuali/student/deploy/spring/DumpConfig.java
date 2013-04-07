@@ -55,6 +55,7 @@ public class DumpConfig implements ImpexContextDumpConfig {
 		// Bundled is the combination of Rice + App
 		// No data files are physically checked into SCM for bundled
 		// It just references the data files from Rice + App
+		// Thus, there are no data files to copy for bundled
 		context.setCopyDataFiles(false);
 		return context;
 	}
@@ -62,9 +63,9 @@ public class DumpConfig implements ImpexContextDumpConfig {
 	@Bean
 	public ScmService scmService() {
 		String url = SpringUtils.getProperty(env, "project.scm.developerConnection");
-		ScmServiceFactoryBean ssfb = new ScmServiceFactoryBean();
-		ssfb.setUrl(url);
-		return ssfb.getObject();
+		ScmServiceFactoryBean factory = new ScmServiceFactoryBean();
+		factory.setUrl(url);
+		return factory.getObject();
 	}
 
 	@Override
@@ -83,7 +84,7 @@ public class DumpConfig implements ImpexContextDumpConfig {
 		sfe.setService(scmService());
 		sfe.setContexts(dumpContexts());
 		sfe.setSkip(SpringUtils.getBoolean(env, "impex.sync.skip", false));
-		sfe.setSkipScm(SpringUtils.getBoolean(env, "impex.scm.skip", true));
+		sfe.setCommitChanges(SpringUtils.getBoolean(env, "impex.scm.skip", true));
 		return sfe;
 	}
 
