@@ -83,8 +83,10 @@ public class DumpConfig implements ImpexContextDumpConfig {
 		SyncFilesExecutable sfe = new SyncFilesExecutable();
 		sfe.setService(scmService());
 		sfe.setContexts(dumpContexts());
+		// Skip everything related to sync'ing files
 		sfe.setSkip(SpringUtils.getBoolean(env, "impex.sync.skip", false));
-		sfe.setCommitChanges(SpringUtils.getBoolean(env, "impex.scm.skip", true));
+		// Skip just the portion that commits changed files to the SCM system
+		sfe.setCommitChanges(SpringUtils.getBoolean(env, "impex.scm.commit", false));
 		return sfe;
 	}
 
