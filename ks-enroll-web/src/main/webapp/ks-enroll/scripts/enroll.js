@@ -793,3 +793,32 @@ function addTabs(aoTabName , regTabName, aoDivIdPrefix, regDivIdPrefix){
 
     });
 }
+
+function addNewClusterOptionSuccessCallBack(){
+    retrieveComponent('clusterIDListForAOMove',undefined, addNewClusterOption, undefined);
+}
+
+function addNewClusterOption(responseContents){
+//    jQuery('#formatForMoveId').hide();
+    jQuery('#foNameForAOMoveId').hide();
+    jQuery('#privateNameForMoveId').hide();
+    jQuery('#publishedNameForMoveId').hide();
+
+    var dropDown = jQuery('#clusterIDListForAOMove_control' );
+    if(jQuery(dropDown).find('option[value=createNewCluster]').length == 0){
+        var createNewClusterOption = new Option("Create new Cluster...", "createNewCluster");
+        jQuery(dropDown).append(createNewClusterOption).change(function(){
+            if(jQuery(dropDown).val() == "createNewCluster"){
+                //jQuery('#formatForMoveId').show();
+                jQuery('#foNameForAOMoveId').show();
+                jQuery('#privateNameForMoveId').show();
+                jQuery('#publishedNameForMoveId').show();
+            }else{
+//                jQuery('#formatForMoveId').hide();
+                jQuery('#foNameForAOMoveId').hide();
+                jQuery('#privateNameForMoveId').hide();
+                jQuery('#publishedNameForMoveId').hide();
+            }
+        });
+    }
+}

@@ -346,6 +346,20 @@ public class ARGActivityOfferingClusterHandler {
         for (ActivityOfferingWrapper aoWrapper : theForm.getActivityWrapperList()) {
             if ((!"0".equals(theForm.getSelectedTabId())&& aoWrapper.getIsChecked())||
                 ( "0".equals(theForm.getSelectedTabId())&& aoWrapper.getIsCheckedByCluster())) {
+                if("createNewCluster".equals(aocId)){
+                    // create cluster and set aocId to the id of the cluster
+                    theForm.setPublishedClusterNameForRenamePopover(theForm.getPublishedClusterNamePopover());
+                    if(!StringUtils.isEmpty(theForm.getFormatOfferingIdForViewRG())) {
+                        theForm.setFormatOfferingIdForViewRG(theForm.getSelectedFOIDForAOMove());
+                    }
+                    theForm = createNewCluster(theForm);
+                    if(GlobalVariables.getMessageMap().hasErrors()){
+                        return theForm;
+                    }
+
+                    aocId = theForm.getClusterResultList().get(theForm.getClusterResultList().size() - 1).getActivityOfferingClusterId();
+
+                }
                 ARGUtil.getArgServiceAdapter().moveActivityOffering(aoWrapper.getAoInfo().getId(), aoWrapper.getAoClusterID(), aocId, context);
                 aoChecked = true;
             }
