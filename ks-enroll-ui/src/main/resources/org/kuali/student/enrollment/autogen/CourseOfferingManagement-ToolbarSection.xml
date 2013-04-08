@@ -17,9 +17,7 @@
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <!-- Note: temporarily take out p:disabled="@{!enableAddButton}" for Add Course button since authz is not applied to ARG yet. -->
-                            <!-- TODO: Need to put it back with the proper authz logic -->
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Add-CO" parent="KS-CourseOfferingManagement-ToolBar-Add-parent" p:methodToCall="createCourseOffering" p:disabled="false"/>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Add-CO" parent="KS-CourseOfferingManagement-ToolBar-Add-parent" p:methodToCall="createCourseOffering" p:disabled="@{!enableAddButton}"/>
                         </list>
                     </property>
                 </bean>

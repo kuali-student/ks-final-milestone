@@ -196,10 +196,11 @@
 
         <property name="lineActions">
             <list>
-                <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="moveAActivityOffering" p:actionLabel="Move"/>-->
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy" />
-
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="&#160;&#160;|&#160;&#160;Edit" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy&#160;&#160;|&#160;&#160;"
+                      p:render="@{#line.isEnableCopyAOActionLink()}" p:actionEvent="copyAOonManageAOsPage"
+                      p:style="padding-right:3px;"  />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit"
+                      p:render="@{#line.isEnableEditAOActionLink()}" p:actionEvent="editAOonManageAOsPage"/>
             </list>
         </property>
     </bean>
