@@ -167,6 +167,7 @@
         <impex.import.schema>classpath:${db.vendor}/${project.artifactId}.sql</impex.import.schema>
         <impex.import.constraints>classpath:${db.vendor}/${project.artifactId}-constraints.sql</impex.import.constraints>
         <impex.import.data.list>${impex.data.resources}</impex.import.data.list>
+        <impex.schema.location>classpath:${project.artifactId}.xml</impex.schema.location>
         <sql.schema.concurrent>impex.import.schema</sql.schema.concurrent>
         <sql.constraints.concurrent>impex.import.constraints</sql.constraints.concurrent>
         <sql.data.concurrent>impex.import.data.list</sql.data.concurrent>
