@@ -185,7 +185,7 @@
                 </goals>
                 <configuration>
                   <forceMojoExecution>true</forceMojoExecution>
-                  <annotatedClass>org.kuali.common.jdbc.spring.MavenResetConfig</annotatedClass>
+                  <annotatedClass>org.kuali.common.impex.spring.MavenResetConfig</annotatedClass>
                 </configuration>
               </execution>
             </executions>
