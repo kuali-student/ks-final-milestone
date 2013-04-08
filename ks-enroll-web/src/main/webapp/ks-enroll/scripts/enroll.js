@@ -822,3 +822,16 @@ function addNewClusterOption(responseContents){
         });
     }
 }
+
+function removeZebraColoring(id){
+    var aoDivs = jQuery('div[id^="' + id + '"]');
+
+    jQuery.each(aoDivs, function(index){
+        var rows = jQuery(this).find('table tbody tr');
+        jQuery.each(rows, function(index){
+            jQuery(this).removeClass('odd');
+            jQuery(this).removeClass('even');
+        });
+    });
+
+}
