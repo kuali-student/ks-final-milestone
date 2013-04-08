@@ -15278,7 +15278,7 @@ CREATE TABLE KREW_DOC_HDR_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE KREW_DOC_HDR_S auto_increment = 3015
+ALTER TABLE KREW_DOC_HDR_S auto_increment = 77302
 /
 
 # -----------------------------------------------------------------------
@@ -15460,7 +15460,7 @@ CREATE TABLE KREW_RTE_NODE_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE KREW_RTE_NODE_S auto_increment = 3017
+ALTER TABLE KREW_RTE_NODE_S auto_increment = 3032
 /
 
 # -----------------------------------------------------------------------
