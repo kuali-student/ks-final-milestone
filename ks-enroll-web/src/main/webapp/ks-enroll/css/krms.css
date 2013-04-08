@@ -137,3 +137,6 @@
 .ruleCopySelected {
     background-color:#F4E271 !important; border: 1px dashed goldenrod;
 }
+.ks-edit-link {
+    color:#00aa00 !important;
+}
