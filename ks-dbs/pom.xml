@@ -97,21 +97,6 @@
               <artifactId>torque-executor</artifactId>
               <version>${impex.version}</version>
             </dependency>
-            <dependency>
-              <groupId>org.kuali.student.db</groupId>
-              <artifactId>ks-impex-rice-db</artifactId>
-              <version>${ks.deployments.version}</version>
-            </dependency>
-            <dependency>
-              <groupId>org.kuali.student.db</groupId>
-              <artifactId>ks-impex-app-db</artifactId>
-              <version>${ks.deployments.version}</version>
-            </dependency>
-            <dependency>
-              <groupId>org.kuali.student.db</groupId>
-              <artifactId>ks-impex-bundled-db</artifactId>
-              <version>${ks.deployments.version}</version>
-            </dependency>
           </dependencies>
         </plugin>
       </plugins>
