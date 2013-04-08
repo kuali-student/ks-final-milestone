@@ -1,12 +1,14 @@
 package org.kuali.student.r2.core.scheduling.infc;
 
+import org.kuali.student.r2.common.infc.IdEntity;
+
 import java.util.List;
 
 /**
  * @Author Kuali Student ks.collab@kuali.org
  * This set captures the 'grouping of clients around shared resources'
  */
-public interface ScheduleRequestSet {
+public interface ScheduleRequestSet extends IdEntity {
     /**
      *  Reference object identifiers for entities that have a shared interest in
      *  the associated Schedule Request components
@@ -20,7 +22,7 @@ public interface ScheduleRequestSet {
      *
      * @name Ref Object Type Key
      * @required
-     * @readonly
+     * @readOnly
      */
     public String getRefObjectTypeKey();
 

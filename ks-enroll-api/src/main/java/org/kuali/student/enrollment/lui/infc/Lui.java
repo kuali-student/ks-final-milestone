@@ -16,15 +16,11 @@
 
 package org.kuali.student.enrollment.lui.infc;
 
-import java.util.List;
-
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.common.infc.MeetingSchedule;
-import org.kuali.student.r2.lum.clu.infc.Expenditure;
-import org.kuali.student.r2.lum.clu.infc.Fee;
 import org.kuali.student.r2.lum.clu.infc.LuCode;
-import org.kuali.student.r2.lum.clu.infc.Revenue;
+
+import java.util.List;
 
 /**
  * Detailed information about a single LUI.
@@ -86,11 +82,11 @@ public interface Lui
     public List<String> getCampusLocations();
 
     /**
-     * The Schedule Id.
+     * The Schedule Ids
      *
-     * @name Schedule Id
+     * @name Schedule Ids
      */
-    public String getScheduleId();
+    public List<String> getScheduleIds();
 
     /**
      * List of LU code info structures. These are structures so that

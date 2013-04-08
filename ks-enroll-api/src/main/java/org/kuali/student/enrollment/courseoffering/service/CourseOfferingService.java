@@ -16,18 +16,11 @@
 
 package org.kuali.student.enrollment.courseoffering.service;
 
-import java.util.List;
-
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.courseoffering.dto.AOClusterVerifyResultsInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -50,6 +43,11 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import java.util.List;
 
 /**
  * Course Offering is a class II service supporting the process of offering

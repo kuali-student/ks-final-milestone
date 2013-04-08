@@ -1,15 +1,26 @@
 package org.kuali.student.r2.core.scheduling.dto;
 
+import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestSet;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @Author Sri komandur@uw.edu
  */
-public class ScheduleRequestSetInfo implements ScheduleRequestSet {
+
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "ScheduleRequestSetInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
+        "refObjectIds", "refObjectTypeKey", "isMaxEnrollmentShared", "maximumEnrollment",
+        "meta", "attributes", "_futureElements" })
+public class ScheduleRequestSetInfo extends IdEntityInfo implements ScheduleRequestSet, Serializable {
 
     @XmlElement
     private List<String> refObjectIds;
@@ -19,13 +30,29 @@ public class ScheduleRequestSetInfo implements ScheduleRequestSet {
     private Boolean isMaxEnrollmentShared;
     @XmlElement
     private Integer maximumEnrollment;
+    @XmlAnyElement
+    private List<Object> _futureElements;
 
+    public ScheduleRequestSetInfo() {
+    }
+
+    public ScheduleRequestSetInfo(ScheduleRequestSet scheduleRequestSet) {
+        super (scheduleRequestSet);
+        if (null != scheduleRequestSet) {
+            if (scheduleRequestSet.getRefObjectIds() != null) {
+                this.refObjectIds = new ArrayList<String>(scheduleRequestSet.getRefObjectIds());
+            }
+            this.refObjectTypeKey = scheduleRequestSet.getRefObjectTypeKey();
+            this.isMaxEnrollmentShared = scheduleRequestSet.getIsMaxEnrollmentShared();
+            this.maximumEnrollment = scheduleRequestSet.getMaximumEnrollment();
+        }
+    }
 
     @Override
     public List<String> getRefObjectIds() {
 
         if(refObjectIds == null) {
-            return new ArrayList<String>();
+            this.refObjectIds = new ArrayList<String>();
         }
         return this.refObjectIds;
     }

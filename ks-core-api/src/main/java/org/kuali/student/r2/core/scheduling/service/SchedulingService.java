@@ -1794,7 +1794,7 @@ public interface SchedulingService {
             OperationFailedException,
             PermissionDeniedException;
     /**
-     * Retrieves a list of ScheduleRequestSet Ids by ScheduleRequestSet Type.
+     * Retrieves a list of ScheduleRequestSet Ids by RefObj Type.
      *
      * @param refObjectTypeKey an identifier for a refObject Type
      * @param contextInfo     Context information containing the principalId and
@@ -1989,7 +1989,8 @@ public interface SchedulingService {
      * Retrieves a list of ScheduleRequestSets
      * that a refObject with given id is part of.
      *
-     * @param refObjectId    the identifier for the refObject
+     * @param refObjectType         the identifier for the ref object Type
+     * @param refObjectId           the identifier for the refObject
      * @param contextInfo           information containing the principalId and
      *                              locale information about the caller of
      *                              service operation
@@ -2001,8 +2002,9 @@ public interface SchedulingService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ScheduleRequestSetInfo> getScheduleRequestSetsByRefObject(@WebParam(name = "refObjectId") String refObjectId,
-                                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<ScheduleRequestSetInfo> getScheduleRequestSetsByRefObject(@WebParam(name = "refObjectType") String refObjectType,
+                                                                          @WebParam(name = "refObjectId") String refObjectId,
+                                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,

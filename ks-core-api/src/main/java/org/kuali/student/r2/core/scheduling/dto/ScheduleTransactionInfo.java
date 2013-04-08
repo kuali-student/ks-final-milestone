@@ -40,8 +40,8 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleTransactionInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
-        "scheduleRequestId", "existingScheduleId", "scheduleBatchId", "scheduleRequestComponents",
-        "scheduleId", "statusMessage",
+        "scheduleRequestId", "existingScheduleId", "scheduleBatchId",
+        "scheduleId", "statusMessage", "scheduleRequestComponents",
         "meta", "attributes", "_futureElements" }) 
 public class ScheduleTransactionInfo extends IdEntityInfo implements ScheduleTransaction, Serializable {
 
