@@ -644,7 +644,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         }
 
         List<RegistrationGroupInfo> existingRegistrationGroups =
-                coService.getRegistrationGroupsByActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+                coService.getRegistrationGroupsByFormatOffering(cluster.getFormatOfferingId(), contextInfo);
         Integer firstRegGroupCode = _gRGFC_computeFirstRegGroupCode(existingRegistrationGroups);
 
         // Calculate the set of "set of AO IDs" from which to generate reg groups.
