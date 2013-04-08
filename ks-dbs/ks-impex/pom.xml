@@ -22,6 +22,7 @@
     <impex.metainf.context>org.kuali.common.impex.spring.MetaInfMpxConfig</impex.metainf.context>
     <impex.data.resources>META-INF/${project.artifactId}-data.resources</impex.data.resources>
     <impex.metainf.outputFile>${project.build.outputDirectory}/${impex.data.resources}</impex.metainf.outputFile>
+    <properties.maven.exclude>kuali.scm.url</properties.maven.exclude>
   </properties>
   <profiles>
     <profile>
@@ -30,7 +31,6 @@
       <properties>
         <properties.decrypt>true</properties.decrypt>
         <properties.enc.password>${kuali.enc.password}</properties.enc.password>
-        <properties.maven.exclude>kuali.scm.url</properties.maven.exclude>
         <db.populate.phase>initialize</db.populate.phase>
         <spring.forceMojoExecution>true</spring.forceMojoExecution>
         <db.vendor>oracle</db.vendor>
@@ -164,9 +164,11 @@
       <id>db</id>
       <properties>
         <impex.import.artifactId>${project.artifactId}</impex.import.artifactId>
-        <impex.import.schemasql>classpath:${db.vendor}/${project.artifactId}.sql</impex.import.schemasql>
-        <impex.import.constraintsql>classpath:${db.vendor}/${project.artifactId}-constraints.sql</impex.import.constraintsql>
-        <impex.import.dataLocations>${impex.data.resources}</impex.import.dataLocations>
+        <impex.import.schema>classpath:${db.vendor}/${project.artifactId}.sql</impex.import.schema>
+        <impex.import.constraintss>classpath:${db.vendor}/${project.artifactId}-constraints.sql</impex.import.constraintss>
+        <impex.import.data.list>${impex.data.resources}</impex.import.data.list>
+        <sql.schema.concurrent>impex.import.schema</sql.schema.concurrent>
+        <sql.constraints.concurrent>impex.import.constraintss</sql.constraints.concurrent>
       </properties>
       <build>
         <plugins>
@@ -178,11 +180,11 @@
                 <id>load</id>
                 <phase>initialize</phase>
                 <goals>
-                  <goal>loadxml</goal>
+                  <goal>load</goal>
                 </goals>
                 <configuration>
                   <forceMojoExecution>true</forceMojoExecution>
-                  <location>classpath:org/kuali/common/impex/impex-import-context.xml</location>
+                  <annotatedClass>org.kuali.common.jdbc.spring.MavenResetConfig</annotatedClass>
                 </configuration>
               </execution>
             </executions>
