@@ -144,5 +144,9 @@ public interface AtpHelper {
 
     public Map<Integer,String> getTypeMonthDayMap();
 
+    public String getDefaultAtp();
+
+    public void setDefaultAtp(String atpId);
+
 
 }

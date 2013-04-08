@@ -18,57 +18,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-<!--
 
-    <bean id="Test-FormView" parent="Uif-FormView">
-        <property name="id" value="Test-FormView"/>
-        <property name="formClass" value="org.kuali.student.myplan.comment.form.CommentForm"/>
-
-         <property name="header">
-            <bean id="test_header" parent="Uif-ViewHeader" p:style="padding:0;">
-                <property name="items">
-                    <bean parent="Uif-VerticalBoxSubSection" p:headerText="MESSAGES" p:style="float:none;">
-                        <property name="header">
-                            <bean parent="Uif-HeaderFive" p:style="background: #ccc;"/>
-                        </property>
-                        <property name="items">
-                            <list>
-                                <bean parent="Uif-Message" p:messageText="Test header"/>
-                            </list>
-                        </property>
-                        <property name="propertyReplacers">
-                            <list>
-                                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                                      p:condition="@{#{ T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isAdviser() }}">
-                                    <property name="replacement">
-                                        <list>
-                                            <bean parent="Uif-Message" p:style="margin:0; display:none;" p:messageText="Testing" > </bean>
-                                        </list>
-                                    </property>
-                                </bean>
-                            </list>
-                        </property>
-                    </bean>
-                </property>
-            </bean>
-        </property>
-
-        <property name="items">
-            <list>
-                <bean parent="Uif-Message" p:style="margin:0; display:none;" p:messageText="Testing" > </bean>
-            </list>
-        </property>
-
-       <property name="propertyReplacers">
-              <list>
-                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="header"
-                      p:condition="#view.id eq 'someId'" p:replacement="Subs Test Group"/>
-              </list>
-            </property>
-
-
-    </bean>
--->
 
     <bean id="Message-FormView" parent="MyPlanBaseFormView">
         <property name="id" value="Message-FormView"/>

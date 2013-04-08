@@ -1,5 +1,6 @@
 package org.kuali.student.ap.framework.context.support;
 
+import org.apache.cxf.common.util.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -9,9 +10,12 @@ import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,19 +29,12 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.notEqualIgnoreCa
  */
 public class DefaultAtpHelper implements AtpHelper {
 
-
-    public final Pattern TERM_REGEX = Pattern.compile("(winter|spring|summer i|summer ii|autumn|fall)\\s+([0-9]{4})");
-    public final Pattern TERM_REGEX_2 = Pattern.compile("(winter|spring|summer i|summer ii|autumn|fall) ([0-9]{4})");
     public static final String LAST_DROP_DAY = "last_drop_day";
-
-    private static String term1 = "winter";
-    private static String term2 = "spring";
-    private static String term3 = "summer";
-    private static String term4 = "autumn";
 
     private Map<String,Integer> termMap;
     private Map<Integer,String> atpTypeMap;
     private Map<Integer,String> typeMonthDayMap;
+    private String defaultAtp;
 
 
     private static final Logger LOG = Logger.getLogger(DefaultAtpHelper.class);
@@ -53,20 +50,28 @@ public class DefaultAtpHelper implements AtpHelper {
      */
     @Override
     public String getCurrentAtpId() {
-        String termKey = "kuali.atp.";
         Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
 
-        termKey = termKey + year;
+        List<AtpInfo> atpInfos = null;
 
-        if (month < 1) termKey = termKey + "Winter";
-        else if (month < 5) termKey = termKey + "Spring";
-        else if (month < 7) termKey = termKey + "Summer1";
-        else if (month < 9) termKey = termKey + "Summer2";
-        else if (month < 12) termKey = termKey + "Fall";
-
-        return termKey;
+        try {
+            atpInfos = KsapFrameworkServiceLocator.getAtpService().getAtpsByDate(c.getTime(),KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (Throwable t) {
+            if (t instanceof RuntimeException)
+                throw (RuntimeException) t;
+            if (t instanceof Error)
+                throw (Error) t;
+            throw new IllegalStateException(
+                    "Unexpected error in ATP lookup", t);
+        }
+        if(atpInfos!=null && atpInfos.size()>0){
+            for(int i=0;i<atpInfos.size();i++){
+                if(!StringUtils.isEmpty(atpInfos.get(i).getCode())){
+                    return atpInfos.get(i).getId();
+                }
+            }
+        }
+        return getDefaultAtp();
     }
 
     /**
@@ -100,8 +105,7 @@ public class DefaultAtpHelper implements AtpHelper {
         if (scheduledTerms != null && scheduledTerms.size() > 1) {
             return scheduledTerms.get(scheduledTerms.size() - 1).getId();
         }
-        // Need to handle not finding scheduled terms
-        return "";
+        return getDefaultAtp();
     }
 
     @Override
@@ -126,7 +130,7 @@ public class DefaultAtpHelper implements AtpHelper {
 
     @Override
     public String getAtpId(int year, String term) {
-        return "kuali.atp." + year + term;
+        return (new DefaultYearTerm(year,term)).toATP();
     }
 
     @Override
@@ -302,6 +306,19 @@ public class DefaultAtpHelper implements AtpHelper {
     @Override
     public Map<Integer,String> getTypeMonthDayMap(){
         return typeMonthDayMap;
+    }
+
+    @Override
+    public void setDefaultAtp(String atpId){
+        this.defaultAtp=atpId;
+    }
+
+    @Override
+    public String getDefaultAtp(){
+        if(defaultAtp==null){
+            defaultAtp="kuali.atp.2000Fall";
+        }
+        return defaultAtp;
     }
 
 }

@@ -116,7 +116,7 @@ public class DefaultYearTerm implements YearTerm,Comparable<YearTerm> {
         if(atpInfos!=null && atpInfos.size()>0){
             return atpInfos.get(0).getId();
         }
-        return "";
+        return KsapFrameworkServiceLocator.getAtpHelper().getDefaultAtp();
     }
 
     @Override
@@ -133,7 +133,6 @@ public class DefaultYearTerm implements YearTerm,Comparable<YearTerm> {
             termNames[i]=iter.next().getKey();
         }
 
-        //String[] termNames = {"Winter","Spring","Summer1", "Summer2", "Fall","Summer I", "Summer II"};
         return termNames;
     }
 
