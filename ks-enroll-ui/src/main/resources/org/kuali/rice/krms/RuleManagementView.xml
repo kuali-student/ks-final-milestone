@@ -210,39 +210,66 @@
                     <bean parent="Uif-Message"/>
                 </property>
                 <property name="dataGroupPrototype">
-                    <bean parent="Uif-StackedCollectionGroup" p:style="width: 400px; padding: 0;">
-                        <property name="layoutManager">
-                            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
-                                <property name="lineGroupPrototype">
-                                    <bean parent="Uif-CollectionHorizontalBoxItem">
-                                        <property name="cssClasses">
-                                            <list merge="true">
-                                                <value>ks-stackedPreviewItem</value>
-                                            </list>
-                                        </property>
-                                        <property name="renderFooter" value="false"/>
-                                    </bean>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ks-stackedCollectionLayout</value>
-                                    </list>
-                                </property>
-                            </bean>
-                        </property>
-                        <property name="lineActions">
-                            <list></list>
-                        </property>
-                        <property name="renderAddLine" value="false"/>
-                        <property name="propertyName" value="listItems" />
-                        <property name="collectionObjectClass" value="java.lang.String"/>
+
+                    <bean id="KRMS-Edit-Section-Parent" parent="Uif-VerticalBoxGroup">
                         <property name="items">
                             <list>
-                                <bean parent="Uif-MessageField" p:messageText="@{#line}" p:style="width: 290px; margin: 0px;"/>
+                                <bean parent="Uif-HorizontalBoxGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="Uif-MessageField" p:messageText="@{#np.data}"
+                                                  p:style="width: 290px; margin: 0px;"/>
+                                            <bean parent="Uif-ActionLink" p:actionLabel="Edit" p:methodToCall="getSelectedKey">
+                                                <!--<property name="additionalSubmitData" value = "selectedKey:@{#np.key}"></property>-->
+                                                <property name="toolTip">
+                                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
+                                                          p:tooltipContent="Edit Prerequisite Rule"/>
+                                                </property>
+                                                <property name="cssClasses">
+                                                    <list merge="true">
+                                                        <value>ks-edit-link</value>
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                        </list>
+                                    </property>
+                                </bean>
+                                <bean parent="Uif-StackedCollectionGroup" p:style="width: 400px; padding: 0;">
+                                    <property name="layoutManager">
+                                        <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                                            <property name="lineGroupPrototype">
+                                                <bean parent="Uif-CollectionHorizontalBoxItem">
+                                                    <property name="cssClasses">
+                                                        <list merge="true">
+                                                            <value>ks-stackedPreviewItem</value>
+                                                        </list>
+                                                    </property>
+                                                    <property name="renderFooter" value="false"/>
+                                                </bean>
+                                            </property>
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ks-stackedCollectionLayout</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </property>
+                                    <property name="lineActions">
+                                        <list>
+                                        </list>
+                                    </property>
+                                    <property name="renderAddLine" value="false"/>
+                                    <property name="propertyName" value="listItems" />
+                                    <property name="collectionObjectClass" value="java.lang.String"/>
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="Uif-MessageField" p:messageText="@{#line}" p:style="width: 290px; margin: 0px;"/>
+                                        </list>
+                                    </property>
+                                </bean>
                             </list>
                         </property>
                     </bean>
-
                 </property>
             </bean>
         </property>

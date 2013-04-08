@@ -18,6 +18,13 @@ package org.kuali.rice.krms.controller;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.container.Group;
+import org.kuali.rice.krad.uif.container.LinkGroup;
+import org.kuali.rice.krad.uif.element.Action;
+import org.kuali.rice.krad.uif.field.MessageField;
+import org.kuali.rice.krad.uif.util.ComponentFactory;
+import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -28,6 +35,7 @@ import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.service.RuleViewHelperService;
@@ -860,6 +868,20 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
     protected RuleViewHelperService getViewHelper(UifFormBase form) {
         return (RuleViewHelperService) KSControllerHelper.getViewHelperService(form);
+    }
+//
+    @RequestMapping(params = "methodToCall=getSelectedKey")
+    public ModelAndView getSelectedKey(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        RuleViewHelperService viewHelper = this.getViewHelper(form);
+        String selectedKey = request.getParameter("selectedKey");
+
+        RuleEditor ruleEditor = getRuleEditor(form);
+        String selectedpropKey = selectedKey;
+        ruleEditor.setSelectedKey(selectedpropKey);
+        //this.goToEditProposition()
+        return this.goToEditProposition(form,result, request, response);
     }
 
 }

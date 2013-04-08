@@ -1,7 +1,9 @@
 package org.kuali.rice.krms.tree.node;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,10 +14,20 @@ import java.util.List;
  */
 public class TreeNode implements Serializable {
 
+    private String key;
     private String data;
     private List<String> listItems;
 
+
     public TreeNode(){
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public List<String> getListItems() {
@@ -37,4 +49,5 @@ public class TreeNode implements Serializable {
     public void setData(String data) {
         this.data = data;
     }
+
 }
