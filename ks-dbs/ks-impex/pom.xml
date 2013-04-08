@@ -165,10 +165,10 @@
       <properties>
         <impex.import.artifactId>${project.artifactId}</impex.import.artifactId>
         <impex.import.schema>classpath:${db.vendor}/${project.artifactId}.sql</impex.import.schema>
-        <impex.import.constraintss>classpath:${db.vendor}/${project.artifactId}-constraints.sql</impex.import.constraintss>
+        <impex.import.constraints>classpath:${db.vendor}/${project.artifactId}-constraints.sql</impex.import.constraints>
         <impex.import.data.list>${impex.data.resources}</impex.import.data.list>
         <sql.schema.concurrent>impex.import.schema</sql.schema.concurrent>
-        <sql.constraints.concurrent>impex.import.constraintss</sql.constraints.concurrent>
+        <sql.constraints.concurrent>impex.import.constraints</sql.constraints.concurrent>
       </properties>
       <build>
         <plugins>
