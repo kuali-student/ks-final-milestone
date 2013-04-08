@@ -99,6 +99,16 @@ public interface AutogenRegGroupServiceAdapter {
             OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException;
 
     /**
+     * We need an explicit call to update the registration groups.
+     * @param aoInfo AO used and later part of the returned object. This is a pass by reference object so be careful.
+     * @param context contextInfo
+     * @return AOResult of RGs modified?
+     */
+    ActivityOfferingResult updateRegistrationGroups(ActivityOfferingInfo aoInfo, ContextInfo context)
+            throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException,
+            OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException;
+
+    /**
      * User Story 5: I need the system to automatically delete all associated registration groups when I delete
      *               an AO from an AOC
      * A pass-through to the deleteActivityOfferingCascaded.

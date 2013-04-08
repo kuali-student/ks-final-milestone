@@ -122,12 +122,14 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 activityOfferingWrapper.getAoInfo().setScheduleId(null);
             }
 
+            ActivityOfferingInfo activityOfferingInfo = null;
+
             /**
              * Save the AO first before processing schedule. (It's important to save first as scheduleAcivityOffering() service method
              * just accepts the ao id as param and fetches the DTO from the DB.)
              */
             try {
-                ActivityOfferingInfo activityOfferingInfo = ARGUtil.getArgServiceAdapter().updateActivityOffering(activityOfferingWrapper.getAoInfo(), contextInfo).getCreatedActivityOffering();
+                activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), contextInfo);
                 activityOfferingWrapper.setAoInfo(activityOfferingInfo);
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
@@ -146,6 +148,15 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 getScheduleHelper().saveSchedules(activityOfferingWrapper);
             }
 
+            /**
+             * Now that the Ao & the schedule has been updated, we need to update the registration groups
+             */
+            try {
+            ARGUtil.getArgServiceAdapter().updateRegistrationGroups(activityOfferingInfo, contextInfo);
+            } catch (Exception e) {
+                throw convertServiceExceptionsToUI(e);
+            }
+
 
             //All the details on the current AO saved successfully.. Now, update the max enrollment on other AOs in the coloset
             try {
@@ -157,7 +168,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                         activity.getActivityOfferingInfo().setMaximumEnrollment(activityOfferingWrapper.getSharedMaxEnrollment());
                     }
 
-                    ActivityOfferingInfo updatedAO = ARGUtil.getArgServiceAdapter().updateActivityOffering(activity.getActivityOfferingInfo(),createContextInfo()).getCreatedActivityOffering();
+                    ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(activity.getAoId(), activity.getActivityOfferingInfo(), createContextInfo());
                     activity.setActivityOfferingInfo(updatedAO);
 
                     /*if (activityOfferingWrapper.isColocatedAO() && !activity.isAlreadyPersisted()){

@@ -16,16 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.adapter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Resource;
-import javax.xml.namespace.QName;
-
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.ActivityOfferingNotInAocSubissue;
@@ -43,7 +33,6 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
-import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -59,7 +48,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.permutation.PermutationCounter;
-import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -76,6 +64,15 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+
+import javax.annotation.Resource;
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Implementation of the Application Service Layer to provide the functionally specified functionality
@@ -341,11 +338,8 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         return _addActivityOfferingToClusterCommon(copyAoInfo, cluster, context);
     }
 
-    @Override
-    public ActivityOfferingResult updateActivityOffering(ActivityOfferingInfo aoInfo, ContextInfo context) throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException, OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException {
-        try {
-            //update AO
-            ActivityOfferingInfo activityOfferingInfo = coService.updateActivityOffering(aoInfo.getId(), aoInfo, context);
+    public  ActivityOfferingResult updateRegistrationGroups(ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException, OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException {
+        try{
             ActivityOfferingResult aoResult = new ActivityOfferingResult();
             aoResult.setCreatedActivityOffering(activityOfferingInfo);
 
@@ -410,10 +404,20 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
             return aoResult;
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+        throw new RuntimeException(e);
         }
 
+    }
 
+    @Override
+    public ActivityOfferingResult updateActivityOffering(ActivityOfferingInfo aoInfo, ContextInfo context) throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException, OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException {
+        try {
+            //update AO
+            ActivityOfferingInfo activityOfferingInfo = coService.updateActivityOffering(aoInfo.getId(), aoInfo, context);
+            return this.updateRegistrationGroups(activityOfferingInfo,context);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private boolean _isRegistrationGroupValid (String rgId, ContextInfo context) {
