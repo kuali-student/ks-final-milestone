@@ -36,14 +36,14 @@ public class DumpConfig implements ImpexContextDumpConfig {
 
 	@Bean
 	public ImpexContext riceDumpContext() {
-		String include = SpringUtils.getProperty(env, "impex.rice.includes");
-		return getBaseContext(env, KS_IMPEX_RICE_ARTIFACT_ID, include);
+		String includes = SpringUtils.getProperty(env, "impex.rice.includes");
+		return getBaseContext(env, KS_IMPEX_RICE_ARTIFACT_ID, includes);
 	}
 
 	@Bean
 	public ImpexContext appDumpContext() {
-		String include = SpringUtils.getProperty(env, "impex.ks.includes");
-		return getBaseContext(env, KS_IMPEX_APP_ARTIFACT_ID, include);
+		String includes = SpringUtils.getProperty(env, "impex.ks.includes");
+		return getBaseContext(env, KS_IMPEX_APP_ARTIFACT_ID, includes);
 	}
 
 	@Bean
