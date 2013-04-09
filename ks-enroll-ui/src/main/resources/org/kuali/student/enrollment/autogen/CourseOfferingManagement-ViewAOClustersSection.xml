@@ -59,7 +59,7 @@
                 <bean parent="Uif-Label" p:labelText="@{#line.clusterNameForDisplay}" p:renderColon="false" />
                 <bean parent="Uif-Label" p:labelText="&#160;&#160;|&#160;&#160;" p:renderColon="false" />
                 <bean parent="Uif-Label" p:labelText="@{#line.formatNameForDisplay}"  p:renderColon="false" />
-                <bean parent="Uif-NavigationActionLink"  p:actionLabel="Rename&#160;&#160;|&#160;&#160;"
+                <bean parent="Uif-NavigationActionLink"  p:actionLabel="Rename"
                       p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;); writeHiddenToForm(&quot;actionParameters[selectedCollectionPath]&quot;, &quot;clusterResultList&quot;);"
                       p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-RenameAOCPopupForm',{align:'right',tail:{align:'right'}});" p:style="float:right"
                 p:successCallback="jQuery('div[id=KS-CourseOfferingManagement-RenameAOCPopupForm]:gt(0)').detach();"
@@ -68,7 +68,7 @@
                 <!--<bean parent="Uif-Label" p:labelText="&#160;&#160;|&#160;&#160;" p:renderColon="false" p:style="float:right"/>-->
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="showDeleteClusterConfirmPage"
                       p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
-                      p:actionLabel="Delete" p:style="float:right"
+                      p:actionLabel="Delete&#160;&#160;|&#160;&#160;"  p:style="float:right"
                       p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCluster"/>
 
             </list>
