@@ -68,8 +68,8 @@ public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<
     public ScheduleRequestEntity(ScheduleRequest scheduleRequest) {
         super(scheduleRequest);
         this.setId(scheduleRequest.getId());
-        this.setRefObjectId(scheduleRequest.getRefObjectId());
-        this.setRefObjectTypeKey(scheduleRequest.getRefObjectTypeKey());
+// TODOSSR       this.setRefObjectId(scheduleRequest.getRefObjectId());
+//        this.setRefObjectTypeKey(scheduleRequest.getRefObjectTypeKey());
         this.setSchedReqType(scheduleRequest.getTypeKey());
 
         this.fromDto(scheduleRequest);
@@ -78,8 +78,8 @@ public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<
     public void fromDto(ScheduleRequest scheduleRequest) {
         this.setSchedReqState(scheduleRequest.getStateKey());
         this.setName(scheduleRequest.getName());
-        this.setRefObjectId(scheduleRequest.getRefObjectId());
-        this.setRefObjectTypeKey(scheduleRequest.getRefObjectTypeKey());
+// TODOSSR       this.setRefObjectId(scheduleRequest.getRefObjectId());
+//        this.setRefObjectTypeKey(scheduleRequest.getRefObjectTypeKey());
         if (scheduleRequest.getDescr() != null) {
             this.setFormatted(scheduleRequest.getDescr().getFormatted());
             this.setPlain(scheduleRequest.getDescr().getPlain());
@@ -119,8 +119,8 @@ public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<
 
     public ScheduleRequestInfo toDto() {
         ScheduleRequestInfo scheduleRequestInfo = new ScheduleRequestInfo();
-        scheduleRequestInfo.setRefObjectId(this.getRefObjectId());
-        scheduleRequestInfo.setRefObjectTypeKey(this.getRefObjectTypeKey());
+// TODOSSR       scheduleRequestInfo.setRefObjectId(this.getRefObjectId());
+//        scheduleRequestInfo.setRefObjectTypeKey(this.getRefObjectTypeKey());
         scheduleRequestInfo.setDescr(new RichTextHelper().toRichTextInfo(this.getPlain(), this.getFormatted()));
         scheduleRequestInfo.setName(this.getName());
         scheduleRequestInfo.setId(this.getId()); // id is assumed not null
