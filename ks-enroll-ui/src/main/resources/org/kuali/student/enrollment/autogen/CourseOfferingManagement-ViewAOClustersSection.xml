@@ -6,9 +6,10 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="KS-CourseOfferingManagement-ViewAOClustersSection" parent="Uif-VerticalBoxSection" >
-        <property name="headerText" value="Clusters (@{clusterResultList.size()})"/>
+        <!--<property name="headerText" value="Clusters (@{clusterResultList.size()})"/>-->
         <property name="items">
             <list>
+                <bean parent="Uif-Label" p:labelText="Clusters (@{clusterResultList.size()})" p:renderColon="false" />
                 <ref bean="KS-CourseOfferingManagement-AO-ToolBarSection-ClusterTab"/>
 
                 <ref bean="KS-CourseOfferingManagement-AOClustersCollection"/>
