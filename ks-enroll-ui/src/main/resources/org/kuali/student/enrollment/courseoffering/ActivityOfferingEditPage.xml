@@ -175,7 +175,16 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="courseOfferingCode" p:fieldLabel.render="false" p:uppercaseValue="true" p:required="true" p:readOnly="@{!#isAddLine}">
+
+                <!-- CO Input Field -->
+                <bean parent="Uif-InputField"
+                      p:id="ActivityOfferingEdit-CoLocatedActivities-CoInputField"
+                      p:propertyName="courseOfferingCode"
+                      p:fieldLabel.render="false"
+                      p:uppercaseValue="true"
+                      p:required="true"
+                      p:readOnly="@{!#isAddLine}">
+
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" p:watermarkText="ENGL101"/>
                     </property>
@@ -192,7 +201,16 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="activityOfferingCode" p:fieldLabel.render="false" p:uppercaseValue="true" p:required="true" p:readOnly="@{!#isAddLine}">
+
+                <!-- AO Input Field -->
+                <bean parent="Uif-InputField"
+                      p:id="ActivityOfferingEdit-CoLocatedActivities-AoInputField"
+                      p:propertyName="activityOfferingCode"
+                      p:fieldLabel.render="false"
+                      p:uppercaseValue="true"
+                      p:required="true"
+                      p:readOnly="@{!#isAddLine}">
+
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="4" p:watermarkText="A"/>
                     </property>
@@ -227,6 +245,7 @@
                         </map>
                     </property>
                 </bean>
+
             </list>
         </property>
     </bean>
