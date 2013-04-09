@@ -607,29 +607,21 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 }
                 else if(CourseOfferingManagementSearchImpl.SearchResultColumns.CREDIT_OPTION.equals(cellInfo.getKey())){
                     coListWrapper.setCourseOfferingCreditOptionKey(value);
-                    CourseOfferingTransformer courseOfferingTransformer = new CourseOfferingTransformer();
-                    coListWrapper.setCourseOfferingCreditOptionDisplay(courseOfferingTransformer.getCreditCount(value, "", null, null, contextInfo));
                 }
                 else if(CourseOfferingManagementSearchImpl.SearchResultColumns.GRADING_OPTION.equals(cellInfo.getKey())){
                     coListWrapper.setCourseOfferingGradingOptionKey(value);
-                    ResultValuesGroupInfo rvgInfo = getLrcService().getResultValuesGroup(value, contextInfo);
-                    coListWrapper.setCourseOfferingGradingOptionDisplay(rvgInfo.getName());
+                }
+                else if(CourseOfferingManagementSearchImpl.SearchResultColumns.GRADING_OPTION_NAME.equals(cellInfo.getKey())){
+                    coListWrapper.setCourseOfferingGradingOptionDisplay(cellInfo.getValue());
+                }
+                else if(CourseOfferingManagementSearchImpl.SearchResultColumns.CREDIT_OPTION_NAME.equals(cellInfo.getKey())){
+                    coListWrapper.setCourseOfferingCreditOptionDisplay(cellInfo.getValue());
+                }
+                else if(CourseOfferingManagementSearchImpl.SearchResultColumns.DEPLOYMENT_ORG_ID.equals(cellInfo.getKey())){
+                    coListWrapper.setAdminOrg(cellInfo.getValue());
                 }
                 else if(CourseOfferingManagementSearchImpl.SearchResultColumns.CO_ID.equals(cellInfo.getKey())){
                     coListWrapper.setCourseOfferingId(value);
-
-                    // set multiple orgs
-                    CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(value, contextInfo);
-                    List<String> orgIds = coInfo.getUnitsDeploymentOrgIds();
-                    if(orgIds != null && !orgIds.isEmpty()){
-                        String orgIDs = "";
-                        for (String orgId : orgIds) {
-                            orgIDs = orgIDs + orgId + ",";
-                        }
-                        if (orgIDs.length() > 0) {
-                            coListWrapper.setAdminOrg(orgIDs.substring(0, orgIDs.length()-1));
-                        }
-                    }
                 }
                 else if(CourseOfferingManagementSearchImpl.SearchResultColumns.SUBJECT_AREA.equals(cellInfo.getKey())){
                     coListWrapper.setSubjectArea(value);

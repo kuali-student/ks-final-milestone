@@ -107,20 +107,21 @@ public class ToolbarUtil {
                         }
                     }
 
-                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "reinstateCO");
-                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                        coListWrapper.setEnableReinstateButton(true);
-                    }
-
-                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "suspendCO");
-                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                        coListWrapper.setEnableSuspendButton(true);
-                    }
-
-                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "cancelCO");
-                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-                        coListWrapper.setEnableCancelButton(true);
-                    }
+                    //These checks are OOS for now, but we might want to check them again later
+//                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "reinstateCO");
+//                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+//                        coListWrapper.setEnableReinstateButton(true);
+//                    }
+//
+//                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "suspendCO");
+//                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+//                        coListWrapper.setEnableSuspendButton(true);
+//                    }
+//
+//                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "cancelCO");
+//                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+//                        coListWrapper.setEnableCancelButton(true);
+//                    }
 
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "deleteCO");
                     if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){

@@ -77,7 +77,7 @@ import java.util.Set;
 /**
  * Implementation of the Application Service Layer to provide the functionally specified functionality
  * using several service calls.
- * 
+ *
  *
  * @author Kuali Student Team
  */
@@ -389,7 +389,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
                         if (coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY, context).getIsSuccess()) {
                         } else if (coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY, context).getIsSuccess()) {
                         } else {
-                            throw new RuntimeException("State change failed for RG: " + rgInfo.getId());
+                            throw new RuntimeException("State change failed for RG: " + rgInfo.getId() + "From state:" + rgInfo.getStateKey());
                         }
                     } else {
                         coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, context);

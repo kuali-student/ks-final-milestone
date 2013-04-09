@@ -151,23 +151,6 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
                 String longNameDescr = ARGUtil.getOrgNameDescription(form.getSubjectCode());
                 form.setSubjectCodeDescription(longNameDescr);
 
-                // Pull out the org ids from COs and pass in as the adminOrg
-                String orgIDs = "";
-                for (CourseOfferingListSectionWrapper coWrapper : form.getCourseOfferingResultList()) {
-                    CourseOfferingInfo coInfo = ARGUtil.getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
-                    List<String> orgIds = coInfo.getUnitsDeploymentOrgIds();
-                    if(orgIds != null && !orgIds.isEmpty()){
-                        for (String orgId : orgIds) {
-                            if (orgIDs.indexOf(orgId + ",") == -1) {
-                                orgIDs = orgIDs + orgId + ",";
-                            }
-                        }
-                    }
-                }
-                if (orgIDs.length() > 0) {
-                    form.setAdminOrg(orgIDs.substring(0, orgIDs.length()-1));
-                }
-
                 ARGToolbarUtil.processCoToolbarForUser(form.getCourseOfferingResultList(), form);
                 //ToolbarUtil.processCoToolbarForCentralAdmin(form.getCourseOfferingResultList(), form);
             } else { // just one course offering is returned
