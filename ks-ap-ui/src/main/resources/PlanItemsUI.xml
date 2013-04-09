@@ -531,7 +531,7 @@
                 <bean id="atp_start_index" parent="Uif-DataField" p:propertyName="index"
                       p:render="@{#line.index ge 0}" p:style="display:none;"/>
 
-                <bean id="plan_base_atpId" parent="Uif-DataField" p:propertyName="atpId" p:style="display: none;">
+                <bean id="plan_base_atpId" parent="Uif-DataField" p:propertyName="atpIdYear" p:style="display: none;">
                     <property name="fieldLabel.render" value="false"/>
                 </bean>
 

@@ -927,9 +927,9 @@ function fnCloseAllPopups() {
  */
 function fnBuildTitle(aView) {
     var sText = 'Academic Year';
-    var aFirst = jQuery.trim(jQuery(aView[0]).find("div:hidden[id^='plan_base_atpId']").text()).split(".");
-    var aLast = jQuery.trim(jQuery(aView[aView.length - 1]).find("div:hidden[id^='plan_base_atpId']").text()).split(".");
-    jQuery("#planned_courses_detail .myplan-plan-header").html(sText + ' ' + aFirst[2].substring(0,4) + '-' + aLast[2].substring(0,4));
+    var aFirst = jQuery.trim(jQuery(aView[0]).find("div:hidden[id^='plan_base_atpId']").text());
+    var aLast = jQuery.trim(jQuery(aView[aView.length - 1]).find("div:hidden[id^='plan_base_atpId']").text());
+    jQuery("#planned_courses_detail .myplan-plan-header").html(sText + ' ' + aFirst+ ' - ' + aLast);
 }
 /*
  ######################################################################################

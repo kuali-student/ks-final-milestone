@@ -36,6 +36,8 @@ public class DefaultAtpHelper implements AtpHelper {
     private Map<Integer,String> typeMonthDayMap;
     private String defaultAtp;
 
+    private String currentAtpId;
+
 
     private static final Logger LOG = Logger.getLogger(DefaultAtpHelper.class);
 
@@ -50,28 +52,32 @@ public class DefaultAtpHelper implements AtpHelper {
      */
     @Override
     public String getCurrentAtpId() {
-        Calendar c = Calendar.getInstance();
+        if(currentAtpId==null){
+            Calendar c = Calendar.getInstance();
 
-        List<AtpInfo> atpInfos = null;
+            List<AtpInfo> atpInfos = null;
 
-        try {
-            atpInfos = KsapFrameworkServiceLocator.getAtpService().getAtpsByDate(c.getTime(),KsapFrameworkServiceLocator.getContext().getContextInfo());
-        } catch (Throwable t) {
-            if (t instanceof RuntimeException)
-                throw (RuntimeException) t;
-            if (t instanceof Error)
-                throw (Error) t;
-            throw new IllegalStateException(
-                    "Unexpected error in ATP lookup", t);
-        }
-        if(atpInfos!=null && atpInfos.size()>0){
-            for(int i=0;i<atpInfos.size();i++){
-                if(!StringUtils.isEmpty(atpInfos.get(i).getCode())){
-                    return atpInfos.get(i).getId();
+            try {
+                atpInfos = KsapFrameworkServiceLocator.getAtpService().getAtpsByDate(c.getTime(),KsapFrameworkServiceLocator.getContext().getContextInfo());
+            } catch (Throwable t) {
+                if (t instanceof RuntimeException)
+                    throw (RuntimeException) t;
+                if (t instanceof Error)
+                    throw (Error) t;
+                throw new IllegalStateException(
+                        "Unexpected error in ATP lookup", t);
+            }
+            if(atpInfos!=null && atpInfos.size()>0){
+                for(int i=0;i<atpInfos.size();i++){
+                    if(!StringUtils.isEmpty(atpInfos.get(i).getCode())){
+                        currentAtpId = atpInfos.get(i).getId();
+                    }
                 }
+            }else{
+                currentAtpId = getDefaultAtp();
             }
         }
-        return getDefaultAtp();
+        return currentAtpId;
     }
 
     /**

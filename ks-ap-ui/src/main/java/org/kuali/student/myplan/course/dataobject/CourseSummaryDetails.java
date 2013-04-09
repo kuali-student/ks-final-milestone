@@ -186,6 +186,6 @@ public class CourseSummaryDetails {
         this.scheduledTerms = scheduledTerms;
     }
     public String getCourseIdXmlSafe(){
-        return this.courseId.replace(".","-");
+        return this.courseId.replace(".","_");
     }
 }
