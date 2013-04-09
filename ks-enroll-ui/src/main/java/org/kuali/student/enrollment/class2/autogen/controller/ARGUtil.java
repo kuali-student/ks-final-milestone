@@ -317,6 +317,7 @@ public class ARGUtil {
                 for (String aoID : rgInfo.getActivityOfferingIds()) {
                     ActivityOfferingWrapper aoWrapper = filteredAOsHM.get(aoID);
 
+                    /* TODOSSR
                     String cssClass = (aoWrapper.getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
                     if (aoWrapper.getAoInfo().getActivityCode() != null && !aoWrapper.getAoInfo().getActivityCode().equalsIgnoreCase("")) {
                         aoActivityCodeText = aoActivityCodeText + aoWrapper.getAoInfo().getActivityCode() + "<br/>";
@@ -357,7 +358,7 @@ public class ARGUtil {
 
                     if(aoWrapper.getDaysDisplayName() != null){
                         rgWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), true, cssClass);
-                    }
+                    }*/
 
                     //Manually add links that mirror the functionality of KRAD action links. Pass in the aoID as an action param for the controller to use
                     aoEditLinkText += "<a onclick=\"actionInvokeHandler(this);\" class=\"uif-action uif-actionLink uif-navigationActionLink uif-boxLayoutVerticalItem\"" +

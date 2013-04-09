@@ -20,7 +20,6 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
-import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.lui.dto.LuiSetInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -46,7 +45,7 @@ public class ColocatedOfferingSetTransformer {
      * @param colocatedOfferingSetInfo class2 dto
      * @throws InvalidParameterException if either luiSetInfo or colocatedOfferingSetInfo parameter is null.
      */
-    public void luiSet2ColocatedOfferingSet(LuiSetInfo luiSetInfo,ColocatedOfferingSetInfo colocatedOfferingSetInfo)
+    /* TODOSSR     public void luiSet2ColocatedOfferingSet(LuiSetInfo luiSetInfo,ColocatedOfferingSetInfo colocatedOfferingSetInfo)
     throws InvalidParameterException {
 
         if (luiSetInfo == null || colocatedOfferingSetInfo == null){
@@ -82,13 +81,13 @@ public class ColocatedOfferingSetTransformer {
         colocatedOfferingSetInfo.setAttributes(attributes);
     }
 
-    /**
+    *//**
      * This method converts <code>LuiSetInfo</code> class1 DTO to <code>ColocatedOfferingSetInfo</code> class2 DTO.
      *
      * @param colocatedOfferingSetInfo class2 DTO to be transformed
      * @param luiSetInfo class1 DTO
      * @throws InvalidParameterException if either luiSetInfo or colocatedOfferingSetInfo parameter is null.
-     */
+     *//*
     public void colocatedOfferingSet2LuiSet(ColocatedOfferingSetInfo colocatedOfferingSetInfo,LuiSetInfo luiSetInfo)
     throws InvalidParameterException {
 
@@ -128,5 +127,5 @@ public class ColocatedOfferingSetTransformer {
         attributes.add(maxEnrollmentAttr);
 
         luiSetInfo.setAttributes(attributes);
-    }
+    }*/
 }

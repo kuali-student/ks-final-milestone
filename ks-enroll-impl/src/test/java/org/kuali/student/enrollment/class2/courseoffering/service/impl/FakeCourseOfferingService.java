@@ -584,6 +584,7 @@ class FakeCourseOfferingService implements CourseOfferingService {
         throw new RuntimeException("Not implemented");
     }
 
+    /*  TODOSSR
     @Override
     public ColocatedOfferingSetInfo getColocatedOfferingSet(String colocatedOfferingSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new RuntimeException("Not implemented");
@@ -637,7 +638,7 @@ class FakeCourseOfferingService implements CourseOfferingService {
     @Override
     public List<ColocatedOfferingSetInfo> getColocatedOfferingSetsByActivityOffering(String activityOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new RuntimeException("Not implemented");
-    }
+    }*/
 
     @Override
     public List<CourseOfferingInfo> searchForCourseOfferings(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

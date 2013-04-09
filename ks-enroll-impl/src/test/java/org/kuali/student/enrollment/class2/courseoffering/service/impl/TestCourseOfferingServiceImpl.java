@@ -11,7 +11,6 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -635,6 +634,7 @@ public class TestCourseOfferingServiceImpl {
         }
     }
 
+    /* TODOSSR
     private ColocatedOfferingSetInfo createColocatedOfferingSet() throws Exception {
 
         CourseOfferingInfo courseOffering = createCourseOffering();
@@ -740,7 +740,7 @@ public class TestCourseOfferingServiceImpl {
         List<ColocatedOfferingSetInfo> coloInfos = coService.getColocatedOfferingSetsByIds(coloIds,callContext);
         assertNotNull(coloInfos);
         assertEquals(1,coloInfos.size());
-    }
+    }*/
     
    
 }

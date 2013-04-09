@@ -172,7 +172,7 @@ public final class CourseOfferingServiceTestDataUtils {
 
         orig.setActivityCode(activityCode);
 
-        orig.setScheduleId(scheduleId);
+//TODOSSR        orig.setScheduleId(scheduleId);
         orig.setActivityOfferingURL("http://activity.com");
 
         orig.setDescr(new RichTextInfo(activityName, "<b>" + activityName

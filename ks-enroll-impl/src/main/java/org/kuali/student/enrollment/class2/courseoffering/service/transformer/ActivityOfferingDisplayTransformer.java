@@ -106,10 +106,10 @@ public class ActivityOfferingDisplayTransformer {
         displayInfo.setIsHonorsOffering(aoInfo.getIsHonorsOffering());
         displayInfo.setMaximumEnrollment(aoInfo.getMaximumEnrollment());
 
-        // scheduleDisplay
-        if(aoInfo.getScheduleId()!=null){
+        // TODOSSR scheduleDisplay
+        /*if(aoInfo.getScheduleId()!=null){
             displayInfo.setScheduleDisplay(schedulingService.getScheduleDisplay(aoInfo.getScheduleId(), contextInfo));
-        }
+        }*/
 
         return displayInfo;
     }
@@ -159,10 +159,10 @@ public class ActivityOfferingDisplayTransformer {
         displayInfo.setIsHonorsOffering(aoInfo.getIsHonorsOffering());
         displayInfo.setMaximumEnrollment(aoInfo.getMaximumEnrollment());
 
-        // scheduleDisplay
-        if(aoInfo.getScheduleId()!=null){
+        //TODOSSR scheduleDisplay
+        /*if(aoInfo.getScheduleId()!=null){
             displayInfo.setScheduleDisplay(scheduleIdToScheduleDisplayInfoMap.get(aoInfo.getScheduleId()));
-        }
+        }*/
 
         return displayInfo;
     }
@@ -206,11 +206,11 @@ public class ActivityOfferingDisplayTransformer {
             for (ActivityOfferingInfo aoInfo : aoInfos) {
                 aoTypeKeys.add(aoInfo.getTypeKey());
                 aoStateKeys.add(aoInfo.getStateKey());
-                if(aoInfo.getScheduleId() != null)     {
+//  TODOSSR              if(aoInfo.getScheduleId() != null)     {
                     // we can't have any nulls passed into the dao search or it will break.
                     // are the schedule Ids required?
-                    aoScheduleIds.add(aoInfo.getScheduleId());
-                }
+// TODOSSR                   aoScheduleIds.add(aoInfo.getScheduleId());
+// TODOSSR                }
             }
 
             List<TypeInfo> typeInfos = typeService.getTypesByKeys(aoTypeKeys, contextInfo);

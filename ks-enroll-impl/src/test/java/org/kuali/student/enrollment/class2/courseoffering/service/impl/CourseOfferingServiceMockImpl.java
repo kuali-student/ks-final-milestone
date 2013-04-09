@@ -41,7 +41,6 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterIn
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -1673,9 +1672,9 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
         info.setIsHonorsOffering(ao.getIsHonorsOffering());
         info.setMaximumEnrollment(ao.getMaximumEnrollment());
-        if (ao.getScheduleId() != null) {
-            info.setScheduleDisplay(schedulingService.getScheduleDisplay(ao.getScheduleId(), contextInfo));
-        }
+// TODOSSR       if (ao.getScheduleId() != null) {
+//            info.setScheduleDisplay(schedulingService.getScheduleDisplay(ao.getScheduleId(), contextInfo));
+//        }
         info.setMeta(ao.getMeta());
         info.setAttributes(ao.getAttributes());
         return info;
@@ -1830,6 +1829,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     }
 
+    /*  TODOSSR
     private Map<String, ColocatedOfferingSetInfo> colocatedOfferingSetMap = new LinkedHashMap<String, ColocatedOfferingSetInfo>();
 
     @Override
@@ -1944,7 +1944,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         }
 
         return list;
-    }
+    }*/
 
     @Override
     public List<BulkStatusInfo> generateRegistrationGroupsForFormatOffering(

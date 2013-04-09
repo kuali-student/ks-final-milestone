@@ -109,7 +109,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         this.setLuiType(lui.getTypeKey());
         this.setAtpId(lui.getAtpId());
         this.setCluId(lui.getCluId());
-        this.setScheduleId(lui.getScheduleId());
+// TODOSSR       this.setScheduleId(lui.getScheduleId());
         fromDto(lui);
     }
 
@@ -124,7 +124,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         this.setLuiState(lui.getStateKey());
         this.setEffectiveDate(lui.getEffectiveDate());
         this.setExpirationDate(lui.getExpirationDate());
-        this.setScheduleId(lui.getScheduleId());
+// TODOSSR       this.setScheduleId(lui.getScheduleId());
         if (lui.getDescr() == null) {
             this.setDescrFormatted(null);
             this.setDescrPlain(null);
@@ -278,7 +278,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         info.setReferenceURL(referenceURL);
         info.setTypeKey(luiType);
         info.setStateKey(luiState);
-        info.setScheduleId(scheduleId);
+//  TODOSSR      info.setScheduleId(scheduleId);
         info.setMeta(super.toDTO());
         info.setDescr(new RichTextHelper().toRichTextInfo(plain, formatted));
 

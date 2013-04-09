@@ -284,12 +284,13 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         for(ActivityOfferingInfo aoInfo: aoInfoList){
             ActivityOfferingWrapper aoWrapper = convertAOInfoToWrapper(aoInfo);
 
+            /* TODOSSR
             String cssClass = (aoInfo.getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
             aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
             aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
             aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
             aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
-            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
+            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);*/
 
             //set AOC related info in an AOWrapper
             aoWrapper.setAoCluster(aoCluster);
@@ -487,6 +488,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             rgWrapper.setRgInfo(rgInfo);
             String aoActivityCodeText = "", aoStateNameText = "", aoTypeNameText = "", aoInstructorText = "", aoMaxEnrText = "";
             for (String aoID : rgInfo.getActivityOfferingIds()) {
+                /*  TODOSSR
                 String cssClass = (filteredAOsHM.get(aoID).getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
                 if (filteredAOsHM.get(aoID).getAoInfo().getActivityCode() != null && !filteredAOsHM.get(aoID).getAoInfo().getActivityCode().equalsIgnoreCase("")) {
                     aoActivityCodeText = aoActivityCodeText + filteredAOsHM.get(aoID).getAoInfo().getActivityCode() + "<br/>";
@@ -522,7 +524,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
                 if(filteredAOsHM.get(aoID).getDaysDisplayName() != null){
                     rgWrapper.setDaysDisplayName(filteredAOsHM.get(aoID).getDaysDisplayName(), true, cssClass);
-                }
+                }*/
             }
             if (aoActivityCodeText.length() > 0) {
                 aoActivityCodeText = aoActivityCodeText.substring(0, aoActivityCodeText.lastIndexOf("<br/>"));

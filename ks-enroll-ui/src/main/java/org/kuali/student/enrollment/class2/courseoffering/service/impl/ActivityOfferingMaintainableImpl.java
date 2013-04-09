@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -33,7 +32,6 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingC
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
@@ -47,7 +45,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -113,13 +110,13 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
             seatPoolUtilityService.updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), contextInfo);
 
-            saveColocatedAOs(activityOfferingWrapper);
+//       TODOSSR     saveColocatedAOs(activityOfferingWrapper);
 
             /**
              * Detach the AO from colo schedule if it's not a part of colo anymore
              */
             if (activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()){
-                activityOfferingWrapper.getAoInfo().setScheduleId(null);
+//   TODOSSR             activityOfferingWrapper.getAoInfo().setScheduleId(null);
             }
 
             /**
@@ -186,12 +183,13 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
      *
      * @param wrapper
      */
-    protected void saveColocatedAOs(ActivityOfferingWrapper wrapper){
+    //TODOSSR
+    /*protected void saveColocatedAOs(ActivityOfferingWrapper wrapper){
 
         ColocatedOfferingSetInfo coloSet = wrapper.getColocatedOfferingSetInfo();
-        /**
+        *//**
          * Set the effective date and expiration date if it's not already there
-         */
+         *//*
         if (coloSet.getEffectiveDate() == null){
             coloSet.setEffectiveDate(new Date());
             coloSet.setExpirationDate(DateUtils.addYears(new Date(),1));
@@ -246,7 +244,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 //TODO: If there are no activities in the coloset, then delete the coloset
             }
         }
-    }
+    }*/
 
     @Override
     public boolean addScheduleRequestComponent(ActivityOfferingWrapper activityOfferingWrapper) {
@@ -418,6 +416,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
     protected void loadColocatedAOs(ActivityOfferingWrapper wrapper) throws Exception {
 
+        /* TODOSSR
         ActivityOfferingInfo info = wrapper.getAoInfo();
         wrapper.setPartOfColoSetOnLoadAlready(info.getIsPartOfColocatedOfferingSet());
 
@@ -470,7 +469,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         }
         a.getEditRenderHelper().setAllowEnrollmentEdit(true);
 
-        wrapper.getEditRenderHelper().getManageSeperateEnrollmentList().add(a);
+        wrapper.getEditRenderHelper().getManageSeperateEnrollmentList().add(a);*/
 
     }
 

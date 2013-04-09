@@ -73,9 +73,10 @@ public class ActivityOfferingTransformer {
         List<String> scheduleIds = new ArrayList<String>();
         for (LuiInfo luiInfo : luiInfos) {
             luiIds.add(luiInfo.getId());
+            /* TODOSSR
             if (luiInfo.getScheduleId() != null) {
                 scheduleIds.add(luiInfo.getScheduleId());
-            }
+            }*/
         }
 
         //Bulk load a list a lprs by a list of lui ids. Cache the results set in a map.
@@ -108,12 +109,14 @@ public class ActivityOfferingTransformer {
         List<ScheduleRequestInfo> scheduleRequestInfos = schedulingService.getScheduleRequestsByRefObjects(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY, luiIds, context);
         if (scheduleRequestInfos != null && !scheduleRequestInfos.isEmpty()) {
             for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
+                /*
+                TODOSSR
                 List<ScheduleRequestInfo> scheduleRequestInfoList = luiToScheduleRequestsMap.get(scheduleRequestInfo.getRefObjectId());
                 if (scheduleRequestInfoList == null) {
                     scheduleRequestInfoList = new ArrayList<ScheduleRequestInfo>();
                     luiToScheduleRequestsMap.put(scheduleRequestInfo.getRefObjectId(), scheduleRequestInfoList);
                 }
-                scheduleRequestInfoList.add(scheduleRequestInfo);
+                scheduleRequestInfoList.add(scheduleRequestInfo);*/
             }
         }
 
@@ -153,7 +156,7 @@ public class ActivityOfferingTransformer {
         ao.setTermId(lui.getAtpId());
         ao.setMinimumEnrollment(lui.getMinimumEnrollment());
         ao.setMaximumEnrollment(lui.getMaximumEnrollment());
-        ao.setScheduleId(lui.getScheduleId());
+// TODOSSR       ao.setScheduleId(lui.getScheduleId());
         ao.setActivityOfferingURL(lui.getReferenceURL());
         ao.setIsPartOfColocatedOfferingSet( isPartOfColocatedOfferingSet( lui, luiService, contextInfo ) );
 
@@ -190,6 +193,7 @@ public class ActivityOfferingTransformer {
         // derive the scheduling state
 
         // if there is an actual schedule tied to the AO, and at least one of the components is not marked TBA, then the AO scheduling state is Scheduled
+        /*  TODOSSR
         if(ao.getScheduleId() != null) {
 
             ScheduleInfo schedule = scheduleIdToScheduleMap.get(ao.getScheduleId());
@@ -239,7 +243,7 @@ public class ActivityOfferingTransformer {
                     ao.setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_EXEMPT_KEY);
                 }
             }
-        }
+        }*/
 
         return ao;
     }
@@ -255,7 +259,7 @@ public class ActivityOfferingTransformer {
         ao.setTermId(lui.getAtpId());
         ao.setMinimumEnrollment(lui.getMinimumEnrollment());
         ao.setMaximumEnrollment(lui.getMaximumEnrollment());
-        ao.setScheduleId(lui.getScheduleId());
+//TODOSSR        ao.setScheduleId(lui.getScheduleId());
         ao.setActivityOfferingURL(lui.getReferenceURL());
         ao.setIsPartOfColocatedOfferingSet( isPartOfColocatedOfferingSet( lui, luiService, context ) );
 
@@ -292,6 +296,7 @@ public class ActivityOfferingTransformer {
         // derive the scheduling state
 
         // if there is an actual schedule tied to the AO, and at least one of the components is not marked TBA, then the AO scheduling state is Scheduled
+        /*  TODOSSR
         if(StringUtils.isNotBlank(ao.getScheduleId())) {
 
             ScheduleInfo schedule = schedulingService.getSchedule(ao.getScheduleId(), context);
@@ -341,7 +346,7 @@ public class ActivityOfferingTransformer {
                     ao.setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_EXEMPT_KEY);
                 }
             }
-        }
+        }*/
     }
 
     public static void activity2Lui (ActivityOfferingInfo ao, LuiInfo lui) {
@@ -363,7 +368,7 @@ public class ActivityOfferingTransformer {
         lui.setAtpId(ao.getTermId());
         lui.setMinimumEnrollment(ao.getMinimumEnrollment());
         lui.setMaximumEnrollment(ao.getMaximumEnrollment());
-        lui.setScheduleId(ao.getScheduleId());
+// TODOSSR       lui.setScheduleId(ao.getScheduleId());
         lui.setReferenceURL(ao.getActivityOfferingURL());
 
         //Lui Official Identifier
