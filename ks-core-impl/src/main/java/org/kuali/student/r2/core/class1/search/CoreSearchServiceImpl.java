@@ -78,7 +78,7 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
 
         // As this class expands, you can add multiple searches. Ie. right now there is only one search (so only one search key).
         if (StringUtils.equals(searchRequestInfo.getSearchKey(), SCH_AND_ROOM_SEARH_BY_ID_SEARCH_TYPE.getKey())) {
-            return searchForScheduleAndRoomById(searchRequestInfo,contextInfo);
+            return searchForScheduleAndRoomById(searchRequestInfo, contextInfo);
         } else{
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
@@ -121,11 +121,11 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
                         "    RoomBuildingEntity bldg  " +
                 " WHERE " +
                 "    sch.id in ("+ scheduleIds +") " +
-                        " AND cmp_tmslot.SCHED_CMP_ID = cmp.ID " +
-                        " AND cmp_tmslot.TM_SLOT_ID = tmslot.ID " +
-                        " AND tmslot.TM_SLOT_STATE = 'kuali.scheduling.timeslot.state.active' " +
-                        " AND cmp.ROOM_ID = room.id " +
-                        " AND room.BUILDING_ID = bldg.id  ";
+                      //  " AND cmp_tmslot.SCHED_CMP_ID = cmp. " +
+                        " AND tmslot.id = cmp_tmslot " +
+                        " AND tmslot.timeSlotState = 'kuali.scheduling.timeslot.state.active' " +
+                        " AND cmp.roomId = room.id " +
+                        " AND room.buildingId = bldg.id  ";
 
 
         List<Object[]> results = getEntityManager().createQuery(query).getResultList();
