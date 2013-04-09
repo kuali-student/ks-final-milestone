@@ -39,6 +39,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.transformer.Co
 import org.kuali.student.enrollment.class2.courseoffering.service.util.RegistrationGroupUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
@@ -151,16 +152,30 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         } else {
             form.setTermInfo(terms.get(0));
 
-            // setting term first day of classes
-            List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(form.getTermInfo().getId(), createContextInfo());
-            Date termClassStartDate = null;
-            for (KeyDateInfo keyDateInfo : keyDateInfoList) {
-                if (keyDateInfo.getTypeKey().equalsIgnoreCase(AtpServiceConstants.MILESTONE_SEATPOOL_FIRST_DAY_OF_CLASSES_TYPE_KEY) && keyDateInfo.getStartDate() != null) {
-                    termClassStartDate = keyDateInfo.getStartDate();
-                    break;
-                }
+            //Checking soc
+            List<String> socIds;
+            try {
+                socIds = getSocService().getSocIdsByTerm(form.getTermInfo().getId(), createContextInfo());
+            } catch (Exception e){
+                throw convertServiceExceptionsToUI(e);
             }
-            form.setTermClassStartDate(termClassStartDate);
+
+            if (socIds.isEmpty()){
+             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_SOC_NOT_EXISTS);
+            } else {
+                setSocStateKeys(form, socIds);
+
+                // setting term first day of classes
+                List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(form.getTermInfo().getId(), createContextInfo());
+                Date termClassStartDate = null;
+                for (KeyDateInfo keyDateInfo : keyDateInfoList) {
+                    if (keyDateInfo.getTypeKey().equalsIgnoreCase(AtpServiceConstants.MILESTONE_SEATPOOL_FIRST_DAY_OF_CLASSES_TYPE_KEY) && keyDateInfo.getStartDate() != null) {
+                        termClassStartDate = keyDateInfo.getStartDate();
+                        break;
+                    }
+                }
+                form.setTermClassStartDate(termClassStartDate);
+                }
         }
 
     }
@@ -642,8 +657,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             }
             form.getCourseOfferingResultList().add(coListWrapper);
         }
-
-        setSocStateKeys(form);
     }
 
 
@@ -1267,9 +1280,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
     }
 
-    public void setSocStateKeys (ARGCourseOfferingManagementForm      form) throws Exception{
-        String termCode = form.getTermInfo().getId();
-        List<String> socIds = getSocService().getSocIdsByTerm(termCode, createContextInfo());
+    private void setSocStateKeys (ARGCourseOfferingManagementForm form, List<String> socIds) throws Exception{
         if (socIds != null && !socIds.isEmpty()) {
             List<SocInfo> targetSocs = this.getSocService().getSocsByIds(socIds, createContextInfo());
             for (SocInfo soc: targetSocs) {

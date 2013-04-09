@@ -31,6 +31,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -155,7 +156,6 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                 if (socIds != null && !socIds.isEmpty()){
                     SocInfo soc = getCourseOfferingSetService().getSoc(socIds.get(0), contextInfo);
                     coWrapper.setSocInfo(soc);
-                }
 
                 //Get all the course offerings in a term
                 List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(), term.getId(), contextInfo);
@@ -209,6 +209,9 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                 maintainable.loadCourseJointInfos(coWrapper);
                 //Enable the create button
                 coWrapper.setEnableCreateButton(true);
+            } else {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_SOC_NOT_EXISTS);
+                }
             }
         } else {
 
