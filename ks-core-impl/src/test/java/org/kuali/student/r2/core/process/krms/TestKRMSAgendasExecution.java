@@ -48,7 +48,7 @@ import static junit.framework.Assert.assertNotNull;
  *
  * @Author: SW Genis
  */
-
+@Ignore
 public class TestKRMSAgendasExecution extends KSKRMSTestCase {
 
     private KRMSEvaluator evaluator;
