@@ -171,6 +171,7 @@
         <sql.schema.concurrent>impex.import.schema</sql.schema.concurrent>
         <sql.constraints.concurrent>impex.import.constraints</sql.constraints.concurrent>
         <sql.data.concurrent>impex.import.data.list</sql.data.concurrent>
+        <sql.data.concurrent.trackProgressByUpdateCount>true</sql.data.concurrent.trackProgressByUpdateCount>
       </properties>
       <build>
         <plugins>
