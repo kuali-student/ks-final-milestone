@@ -51,8 +51,12 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
         List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
         //TODO: get all agendas linked to a course offering
-        agendas.add(this.getAgendaEditor("10063"));
-        agendas.add(this.getAgendaEditor("10002"));
+        if(this.getRuleManagementService().getAgenda("10063") != null) {
+            agendas.add(this.getAgendaEditor("10063"));
+        } else if(this.getRuleManagementService().getAgenda("10002") != null) {
+            agendas.add(this.getAgendaEditor("10002"));
+        }
+
         dataObject.setAgendas(agendas);
 
         String coId = dataObjectKeys.get("refObjectId");

@@ -170,15 +170,38 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     @Override
     public void saveDataObject() {
         RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) getDataObject();
+        String temp = null;
 
         for (AgendaEditor agenda : ruleWrapper.getAgendas()){
 
             // TODO: Save changes to the agenda.
 
-            for (RuleEditor rule : agenda.getRuleEditors()){
-                if(!rule.isDummy()){
-                    this.saveRule(rule);
+            if(ruleWrapper.getDeletedRuleIds().isEmpty()) {
+                for (RuleEditor rule : agenda.getRuleEditors()){
+                    if(!rule.isDummy()){
+                        this.saveRule(rule);
+                    }
                 }
+            } else if(ruleWrapper.getDeletedRuleIds().size() > 0) {
+                for(String deleteRuleId : ruleWrapper.getDeletedRuleIds()) {
+                    if(agenda.getFirstItemId().equals(deleteRuleId)) {
+                        for(RuleEditor rule : agenda.getRuleEditors()) {
+                            if(!rule.isDummy()) {
+                                agenda.setFirstItemId(rule.getId());
+                            }
+                        }
+                        if(agenda.getFirstItemId().equals(deleteRuleId)) {
+                            agenda.setFirstItemId(null);
+                        }
+                    }
+                    this.getRuleManagementService().deleteAgendaItem(deleteRuleId);
+                    this.getRuleManagementService().deleteRule(deleteRuleId);
+                    temp = deleteRuleId;
+                }
+            }
+            if(agenda.getFirstItemId() == null) {
+                ruleWrapper.getDeletedRuleIds().remove(temp);
+                this.getRuleManagementService().deleteAgenda(agenda.getId());
             }
         }
 
