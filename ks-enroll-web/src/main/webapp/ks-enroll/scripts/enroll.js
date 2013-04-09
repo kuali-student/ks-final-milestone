@@ -795,7 +795,7 @@ function addTabs(aoTabName , regTabName, aoDivIdPrefix, regDivIdPrefix){
 }
 
 function addNewClusterOptionSuccessCallBack(){
-    retrieveComponent('clusterIDListForAOMove',undefined, addNewClusterOption, undefined);
+    retrieveComponent('KS-CourseOfferingManagement-MoveAOCPopupForm',undefined, addNewClusterOption, undefined);
 }
 
 function addNewClusterOption(responseContents){

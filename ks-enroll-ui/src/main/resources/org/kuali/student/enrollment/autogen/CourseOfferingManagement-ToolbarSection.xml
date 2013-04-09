@@ -272,9 +272,19 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-MoveAOCPopupForm" parent="Uif-HorizontalBoxSection" >
+    <!--Notes by Bonnie, hidden container is necessary here since we want to update the form   -->
+    <!--including the content of the cluster list as well as enable/disable "Move" button based on certain conditions  -->
+    <bean id="KS-CourseOfferingManagement-MoveAOCPopupContainer" parent="Uif-HorizontalBoxSection" p:hidden="true">
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseOfferingManagement-MoveAOCPopupForm"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-MoveAOCPopupForm" parent="Uif-HorizontalBoxSection" p:forceSessionPersistence="true">
         <!--<property name="render" value="@{enableAddButton and !currentCourseOfferingWrapper.crossListed}"/>-->
-        <property name="hidden" value="true"/>
+        <!--<property name="hidden" value="true"/>-->
         <property name="cssClasses">
             <list>
                 <value>uif-bubblepopup-content</value>
@@ -283,7 +293,7 @@
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>
-                <bean id="clusterIDListForAOMove" parent="Uif-InputField" p:propertyName="clusterIdForAOMove"  p:label="Move selected offerings to" p:labelPlacement="TOP" p:forceSessionPersistence="true" >
+                <bean id="clusterIDListForAOMove" parent="Uif-InputField" p:propertyName="clusterIdForAOMove"  p:label="Move selected offerings to" p:labelPlacement="TOP" >
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -315,7 +325,7 @@
                     </property>
                 </bean>
                 <!--these fields above are used for creating a cluster and moving AOs-->
-                <bean parent="Uif-SecondaryActionButton-Small" >
+                <bean parent="Uif-SecondaryActionButton-Small" p:disabled="@{disableMoveButtonForMoveAOCPopOver}">
                     <property name="style" value="margin-top:1.5em;"/>
                     <property name="actionLabel" value="Move"/>
                     <property name="successCallback" value="jQuery('div[id=KS-CourseOfferingManagement-MoveAOCPopupForm]:gt(0)').detach();"/>

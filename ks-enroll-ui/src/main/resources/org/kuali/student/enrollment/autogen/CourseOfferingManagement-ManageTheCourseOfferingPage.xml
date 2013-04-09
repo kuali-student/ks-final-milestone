@@ -28,7 +28,7 @@
                 <ref bean="KS-CourseOfferingManagement-ManageTheCourseOfferingSection"/>
                 <ref bean="KS-CourseOfferingManagement-AddActivityOfferingPopupForm"/>
                 <ref bean="KS-CourseOfferingManagement-AddAOCPopupForm"/>
-                <ref bean="KS-CourseOfferingManagement-MoveAOCPopupForm"/>
+                <ref bean="KS-CourseOfferingManagement-MoveAOCPopupContainer"/>
             </list>
         </property>
     </bean>
