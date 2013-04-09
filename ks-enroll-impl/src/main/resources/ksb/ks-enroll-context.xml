@@ -905,6 +905,7 @@
                  <ref bean="CourseOfferingManagementSearchImpl"/>
                  <ref bean="AutogenCountSearchServiceImpl"/>
                  <ref bean="ActivityOfferingSearchServiceImpl"/>
+                 <ref bean="CoreSearchServiceImpl"/> <!-- This bean lives in ks-core-no-tx-context.xml  -->
             </list>
         </property>                
     </bean>
