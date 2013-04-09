@@ -15572,7 +15572,7 @@ CREATE TABLE KRIM_ATTR_DATA_ID_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE KRIM_ATTR_DATA_ID_S auto_increment = 10262
+ALTER TABLE KRIM_ATTR_DATA_ID_S auto_increment = 10272
 /
 
 # -----------------------------------------------------------------------
@@ -15838,7 +15838,7 @@ CREATE TABLE KRIM_PERM_ID_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE KRIM_PERM_ID_S auto_increment = 10143
+ALTER TABLE KRIM_PERM_ID_S auto_increment = 10147
 /
 
 # -----------------------------------------------------------------------
@@ -15922,7 +15922,7 @@ CREATE TABLE KRIM_ROLE_PERM_ID_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE KRIM_ROLE_PERM_ID_S auto_increment = 1255
+ALTER TABLE KRIM_ROLE_PERM_ID_S auto_increment = 1261
 /
 
 # -----------------------------------------------------------------------
