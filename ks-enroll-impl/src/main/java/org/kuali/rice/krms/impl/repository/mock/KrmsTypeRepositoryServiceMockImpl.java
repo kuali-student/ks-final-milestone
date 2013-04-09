@@ -16,6 +16,9 @@
 package org.kuali.rice.krms.impl.repository.mock;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +28,8 @@ import org.kuali.rice.core.api.exception.RiceIllegalStateException;
 import org.kuali.rice.krms.api.repository.type.KrmsAttributeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
+import static org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService.PROPOSITION_PARAMETER_SERVICE_NAMES;
+import static org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService.PROPOSITION_SERVICE_NAMES;
 import org.kuali.rice.krms.api.repository.typerelation.RelationshipType;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 
@@ -183,9 +188,13 @@ public class KrmsTypeRepositoryServiceMockImpl implements KrmsTypeRepositoryServ
     public TypeTypeRelation createTypeTypeRelation(TypeTypeRelation typeTypeRelation)
             throws RiceIllegalArgumentException {
         // CREATE
-        TypeTypeRelation orig = this.getTypeTypeRelation(typeTypeRelation.getId());
-        if (orig != null) {
-            throw new RiceIllegalArgumentException(typeTypeRelation.getId() + " already exists");
+        try {
+            TypeTypeRelation orig = this.getTypeTypeRelation(typeTypeRelation.getId());
+            if (orig != null) {
+                throw new RiceIllegalArgumentException(typeTypeRelation.getId() + " already exists");
+            }
+        } catch (RiceIllegalArgumentException ex) {
+            // throws exception if not found so same as returning null
         }
         TypeTypeRelation.Builder copy = TypeTypeRelation.Builder.create(typeTypeRelation);
         if (copy.getId() == null) {
@@ -270,15 +279,22 @@ public class KrmsTypeRepositoryServiceMockImpl implements KrmsTypeRepositoryServ
     @Override
     public List<KrmsTypeDefinition> findAllTypesByServiceName(String serviceName)
             throws RiceIllegalArgumentException {
+        return _findAllTypesByServiceNames (Arrays.asList(serviceName));
+    }
+
+
+    private List<KrmsTypeDefinition> _findAllTypesByServiceNames(List<String> serviceNames)
+            throws RiceIllegalArgumentException {
         List<KrmsTypeDefinition> list = new ArrayList<KrmsTypeDefinition>();
         for (KrmsTypeDefinition info : this.krmsTypeMap.values()) {
-            if (info.getServiceName().equals(serviceName)) {
+            if (serviceNames.contains(info.getServiceName())) {
                 list.add(info);
             }
         }
         return list;
     }
-
+    
+    
     @Override
     public List<KrmsTypeDefinition> findAllContextTypes() throws RiceIllegalArgumentException {
         return this.findAllTypesByServiceName(CONTEXT_SERVICE_NAME);
@@ -296,57 +312,81 @@ public class KrmsTypeRepositoryServiceMockImpl implements KrmsTypeRepositoryServ
 
     @Override
     public List<KrmsTypeDefinition> findAllPropositionTypes() throws RiceIllegalArgumentException {
-        return this.findAllTypesByServiceName(PROPOSITION_SERVICE_NAME);
+        return this._findAllTypesByServiceNames(Arrays.asList(PROPOSITION_SERVICE_NAMES));
     }
 
     @Override
     public List<KrmsTypeDefinition> findAllPropositionParameterTypes() throws RiceIllegalArgumentException {
-        return this.findAllTypesByServiceName(PROPOSITION_PARAMETER_SERVICE_NAME);
+        return this._findAllTypesByServiceNames(Arrays.asList(PROPOSITION_PARAMETER_SERVICE_NAMES));
     }
 
     @Override
     public List<KrmsTypeDefinition> findAgendaTypesForContextType(String contextTypeId) throws RiceIllegalArgumentException {
-        return this._findTypesForType(contextTypeId, CONTEXT_SERVICE_NAME, AGENDA_SERVICE_NAME);
+        return this._findTypesForType(contextTypeId, Arrays.asList(CONTEXT_SERVICE_NAME), Arrays.asList(AGENDA_SERVICE_NAME));
     }
 
-    private List<KrmsTypeDefinition> _findTypesForType(String typeId, String fromServiceName, String toServiceName)
+    private List<KrmsTypeDefinition> _findTypesForType(String typeId, List<String> fromServiceNames, List<String> toServiceNames)
             throws RiceIllegalArgumentException {
         KrmsTypeDefinition fromType = this.getTypeById(typeId);
         if (fromType == null) {
             throw new RiceIllegalArgumentException(typeId + " does not exist");
         }
-        if (!fromType.getServiceName().equals(fromServiceName)) {
-            throw new RiceIllegalArgumentException(typeId + " is not a " + fromServiceName);
+        if (!fromServiceNames.contains(fromType.getServiceName())) {
+            throw new RiceIllegalArgumentException(typeId + "'s serviceTypeName is " + fromType.getServiceName() + " expected " + fromServiceNames);
         }
         List<TypeTypeRelation> rels = this.findTypeTypeRelationsByFromType(typeId);
+        Collections.sort(rels, new SequenceComparator ());
         List<KrmsTypeDefinition> list = new ArrayList<KrmsTypeDefinition>(rels.size());
         for (TypeTypeRelation rel : rels) {
             KrmsTypeDefinition info = this.getTypeById(rel.getToTypeId());
-            if (info.getServiceName().equals(toServiceName)) {
+            if (toServiceNames.contains(info.getServiceName())) {
                 list.add(info);
             }
         }
         return list;
     }
+    
+    private class SequenceComparator implements Comparator<TypeTypeRelation>  {
+
+        @Override
+        public int compare(TypeTypeRelation o1, TypeTypeRelation o2) {
+            Integer seq1 = o1.getSequenceNumber();
+            if (seq1 == null) {
+                seq1 = 0;
+            }
+            Integer seq2 = o2.getSequenceNumber();
+            if (seq2 == null) {
+                seq2 = 0;
+            }
+            return seq1.compareTo(seq2);            
+        }
+        
+    }
 
     @Override
     public List<KrmsTypeDefinition> findAgendaTypesForAgendaType(String agendaTypeId) throws RiceIllegalArgumentException {
-        return this._findTypesForType(agendaTypeId, AGENDA_SERVICE_NAME, AGENDA_SERVICE_NAME);
+        return this._findTypesForType(agendaTypeId, Arrays.asList(AGENDA_SERVICE_NAME), Arrays.asList(AGENDA_SERVICE_NAME));
     }
 
     @Override
     public List<KrmsTypeDefinition> findRuleTypesForAgendaType(String agendaTypeId) throws RiceIllegalArgumentException {
-        return this._findTypesForType(agendaTypeId, AGENDA_SERVICE_NAME, RULE_SERVICE_NAME);
+        return this._findTypesForType(agendaTypeId, Arrays.asList(AGENDA_SERVICE_NAME), Arrays.asList(RULE_SERVICE_NAME));
     }
 
     @Override
     public List<KrmsTypeDefinition> findPropositionTypesForRuleType(String ruleTypeId) throws RiceIllegalArgumentException {
-        return this._findTypesForType(ruleTypeId, RULE_SERVICE_NAME, PROPOSITION_SERVICE_NAME);
+        return this._findTypesForType(ruleTypeId, Arrays.asList(RULE_SERVICE_NAME), Arrays.asList(PROPOSITION_SERVICE_NAMES));
     }
 
     @Override
     public List<KrmsTypeDefinition> findPropositionParameterTypesForPropositionType(String propositionTypeId)
             throws RiceIllegalArgumentException {
-        return this._findTypesForType(propositionTypeId, PROPOSITION_SERVICE_NAME, PROPOSITION_PARAMETER_SERVICE_NAME);
+        return this._findTypesForType(propositionTypeId, Arrays.asList (PROPOSITION_SERVICE_NAMES), Arrays.asList(PROPOSITION_PARAMETER_SERVICE_NAMES));
+    }
+    
+    @Override
+    public List<KrmsTypeDefinition> findTermParameterTypesForTermPropositionParameterType(String termPropositionParameterTypeId)
+            throws RiceIllegalArgumentException {
+        return this._findTypesForType(termPropositionParameterTypeId, Arrays.asList (TERM_PROPOSITION_PARAMETER_SERVICE_NAME), Arrays.asList(TERM_PARAMETER_SERVICE_NAME));
     }
 }

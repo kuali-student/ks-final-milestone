@@ -469,6 +469,16 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
     public ContextDefinition createContext(ContextDefinition contextDefinition) throws RiceIllegalArgumentException {
         return this.contextBoService.createContext(contextDefinition);
     }
+    
+    
+    @Override
+    public ContextDefinition findCreateContext(ContextDefinition contextDefinition) throws RiceIllegalArgumentException {         
+        ContextDefinition orig = this.contextBoService.getContextByNameAndNamespace(contextDefinition.getName(), contextDefinition.getNamespace());
+        if (orig != null) {
+            return orig;
+        }
+        return this.contextBoService.createContext(contextDefinition);
+    }
 
     @Override
     public void updateContext(ContextDefinition contextDefinition) throws RiceIllegalArgumentException {
