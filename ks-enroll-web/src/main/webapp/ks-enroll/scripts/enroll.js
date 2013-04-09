@@ -798,28 +798,27 @@ function addNewClusterOptionSuccessCallBack(){
     retrieveComponent('KS-CourseOfferingManagement-MoveAOCPopupForm',undefined, addNewClusterOption, undefined);
 }
 
-function addNewClusterOption(responseContents){
-//    jQuery('#formatForMoveId').hide();
+function addNewClusterOption(responseContents) {
     jQuery('#foNameForAOMoveId').hide();
     jQuery('#privateNameForMoveId').hide();
     jQuery('#publishedNameForMoveId').hide();
 
-    var dropDown = jQuery('#clusterIDListForAOMove_control' );
-    if(jQuery(dropDown).find('option[value=createNewCluster]').length == 0){
-        var createNewClusterOption = new Option("Create new Cluster...", "createNewCluster");
-        jQuery(dropDown).append(createNewClusterOption).change(function(){
-            if(jQuery(dropDown).val() == "createNewCluster"){
-                //jQuery('#formatForMoveId').show();
-                jQuery('#foNameForAOMoveId').show();
-                jQuery('#privateNameForMoveId').show();
-                jQuery('#publishedNameForMoveId').show();
-            }else{
-//                jQuery('#formatForMoveId').hide();
-                jQuery('#foNameForAOMoveId').hide();
-                jQuery('#privateNameForMoveId').hide();
-                jQuery('#publishedNameForMoveId').hide();
-            }
-        });
+    var dropDown = jQuery('#clusterIDListForAOMove_control');
+    if (jQuery(dropDown).find('option[value=""]').length == 0) {
+        if (jQuery(dropDown).find('option[value=createNewCluster]').length == 0) {
+            var createNewClusterOption = new Option("Create new Cluster...", "createNewCluster");
+            jQuery(dropDown).append(createNewClusterOption).change(function () {
+                if (jQuery(dropDown).val() == "createNewCluster") {
+                    jQuery('#foNameForAOMoveId').show();
+                    jQuery('#privateNameForMoveId').show();
+                    jQuery('#publishedNameForMoveId').show();
+                } else {
+                    jQuery('#foNameForAOMoveId').hide();
+                    jQuery('#privateNameForMoveId').hide();
+                    jQuery('#publishedNameForMoveId').hide();
+                }
+            });
+        }
     }
 }
 
