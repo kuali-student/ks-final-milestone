@@ -22,6 +22,7 @@
 
     <param name="config.location">classpath:META-INF/ks-core-config.xml</param>
     <param name="config.location">classpath:META-INF/ks-lum-config.xml</param>
+    <param name="config.location">classpath:META-INF/ks-enroll-config.xml</param>
     <param name="config.location">classpath:ks-security-config.xml</param>
     
     <param name="module.name">ks-with-rice-embedded</param>
@@ -99,6 +100,9 @@
     <param name="datasource.pool.maxSize">10</param>
     <param name="datasource.pool.minSize">10</param> 
 
+    <param name="ks.enroll.datasource.url">${ks.core.datasource.url}</param>
+    <param name="ks.enroll.datasource.username">${ks.core.datasource.username}</param>
+    <param name="ks.enroll.datasource.password">${ks.core.datasource.password}</param>
 
     <!-- Keystore Configuration -->
     <param name="keystore.file">${user.home}/rice.keystore</param>

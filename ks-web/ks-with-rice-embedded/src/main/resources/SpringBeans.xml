@@ -55,7 +55,7 @@
     <import resource="classpath:ks-transaction-context.xml"/>
    	<import resource="classpath:ksb/ks-core-no-tx-context.xml"/>
     <import resource="classpath:ksb/ks-lu-no-tx-context.xml"/>
-    <import resource="classpath:ksb/ks-enroll-with-rice-embedded-context.xml"/>
+    <import resource="classpath:ksb/ks-enroll-context.xml"/>
 
     <bean id="kualiModuleService" class="org.kuali.rice.krad.service.impl.KualiModuleServiceImpl" />
 
