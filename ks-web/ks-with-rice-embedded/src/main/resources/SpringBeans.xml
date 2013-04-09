@@ -230,6 +230,7 @@
                 <value>classpath:org/kuali/student/enrollment/krms/TestSetLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/KRMSCourseLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/CourseSetsLookupView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/KRMSProgramLookupView.xml</value>
 
                 <!-- Type -->
                 <value>classpath:org/kuali/student/enrollment/type/TypeVerificationView.xml</value>
