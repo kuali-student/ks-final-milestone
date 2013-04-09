@@ -107,6 +107,7 @@
 
     <!-- run modes -->
     <param name="ksb.mode">THIN</param>
+    <param name="krms.mode">LOCAL</param>
 
     <!-- additional config files -->
     <!--

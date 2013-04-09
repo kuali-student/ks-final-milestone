@@ -218,6 +218,19 @@
                 <value>classpath:org/kuali/student/enrollment/check/CheckInfoSearchView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/check/CheckInfoView.xml</value>
 
+                <!-- Krms -->
+                <value>classpath:org/kuali/rice/krms/PropositionEditorView.xml</value>
+                <value>classpath:org/kuali/rice/krms/RuleEditMaintenance.xml</value>
+                <value>classpath:org/kuali/rice/krms/RuleManagementView.xml</value>
+                <value>classpath:org/kuali/rice/krms/AgendaManagementView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/KrmsComponentsView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/CORuleMaintenance.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/CustomComponents.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/DepartmentLookupView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/TestSetLookupView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/KRMSCourseLookupView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/CourseSetsLookupView.xml</value>
+
                 <!-- Type -->
                 <value>classpath:org/kuali/student/enrollment/type/TypeVerificationView.xml</value>
                 <value>classpath:org/kuali/student/ui/admin/type/TypeInfoAdminLookupView.xml</value>
