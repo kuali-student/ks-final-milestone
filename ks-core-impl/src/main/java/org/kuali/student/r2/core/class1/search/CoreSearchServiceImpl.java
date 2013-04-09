@@ -37,13 +37,17 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
     public static final String SCH_AND_ROOM_SEARH_BY_ID_SEARCH_KEY = "kuali.search.type.core.searchForScheduleAndRoomById";
 
     public static final class SearchParameters {
-        public static final String AO_ID = "id";
+        public static final String SCHEDULE_IDS = "scheduleIds";
     }
 
     public static final class SearchResultColumns {
-        public static final String SCHEDULE_ID = "scheduleId";
+        public static final String WEEKDAYS = "weekdays";
+        public static final String START_TIME = "startTimeMillis";
+        public static final String END_TIME = "endTimeMillis";
+        public static final String TIME_SLOT_STATE = "timeSlotState";
+        public static final String ROOM_CODE = "roomCode";
+        public static final String BLDG_NAME = "name";
     }
-
 
     static {
         TypeInfo info = new TypeInfo();
@@ -92,26 +96,55 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
     protected SearchResultInfo searchForScheduleAndRoomById(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
 
-        String aoId = requestHelper.getParamAsString(SearchParameters.AO_ID);
+        List<String> schIds = requestHelper.getParamAsList(SearchParameters.SCHEDULE_IDS);
 
-        if (aoId == null || aoId.isEmpty()){
-            throw new RuntimeException("Activity Offering id is required");
+        if (schIds == null || schIds.isEmpty()){
+            throw new RuntimeException("Schedule Ids are required");
         }
 
-        List<String> results = entityManager.createNamedQuery("Lui.getScheduleIdByLuiId").setParameter("aoId", aoId).getResultList();
+        String scheduleIds = commaString(schIds);
+
+        String query =
+                " Select "   +
+                "  tmslot.weekdays, " +
+                "  tmslot.startTimeMillis, " +
+                "  tmslot.endTimeMillis, " +
+                "  tmslot.timeSlotState, " +
+                "  room.roomCode, " +
+                "  bldg.name " +
+                " FROM " +
+                        "    ScheduleEntity sch, " +
+                        "    TimeSlotEntity tmslot, " +
+                        "    ScheduleComponentEntity cmp, " +
+                        "    IN ( cmp.timeSlotIds ) cmp_tmslot, " +
+                        "    RoomEntity room, " +
+                        "    RoomBuildingEntity bldg  " +
+                " WHERE " +
+                "    sch.id in ("+ scheduleIds +") " +
+                        " AND cmp_tmslot.SCHED_CMP_ID = cmp.ID " +
+                        " AND cmp_tmslot.TM_SLOT_ID = tmslot.ID " +
+                        " AND tmslot.TM_SLOT_STATE = 'kuali.scheduling.timeslot.state.active' " +
+                        " AND cmp.ROOM_ID = room.id " +
+                        " AND room.BUILDING_ID = bldg.id  ";
 
 
-         //= getEntityManager().createQuery(query).getResultList();
+        List<Object[]> results = getEntityManager().createQuery(query).getResultList();
 
         SearchResultInfo resultInfo = new SearchResultInfo();
         resultInfo.setTotalResults(results.size());
         resultInfo.setStartAt(0);
 
-        for (String result : results) {
+        for (Object[] result : results) {
             SearchResultRowInfo row = new SearchResultRowInfo();
-            resultInfo.getRows().add(row);
+
             int i=0;
-            row.addCell("scheduleId",(String)result);
+
+            row.addCell(SearchResultColumns.WEEKDAYS,(String)result[i++]);
+            row.addCell(SearchResultColumns.START_TIME,(String)result[i++]);
+            row.addCell(SearchResultColumns.END_TIME,(String)result[i++]);
+            row.addCell(SearchResultColumns.TIME_SLOT_STATE,(String)result[i++]);
+            row.addCell(SearchResultColumns.ROOM_CODE,(String)result[i++]);
+            row.addCell(SearchResultColumns.BLDG_NAME,(String)result[i++]);
         }
 
         return resultInfo;
