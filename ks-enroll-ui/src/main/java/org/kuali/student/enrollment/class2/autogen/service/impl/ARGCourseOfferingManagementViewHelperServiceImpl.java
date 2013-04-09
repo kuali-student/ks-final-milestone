@@ -737,12 +737,26 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         TypeInfo activityOfferingType = null;
         CourseInfo course;
         String clusterId = form.getClusterIdForNewAO();
+        ContextInfo contextInfo = createContextInfo();
+        List<ActivityOfferingClusterInfo> clusters = null;
+        ActivityOfferingClusterInfo defaultCluster = null;
+
+        //create default cluster if there is no cluster for the FO yet
+        try {
+            clusters = getCourseOfferingService().getActivityOfferingClustersByFormatOffering(formatOfferingId, contextInfo);
+            if (clusters == null || clusters.size()<=0) {
+                defaultCluster = ARGUtil.getArgServiceAdapter().createDefaultCluster(formatOfferingId, contextInfo);
+                if (defaultCluster != null) {
+                    clusterId = defaultCluster.getId();
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         //the AO clusters associated with the given FO
-        List<ActivityOfferingClusterInfo> clusters = null;
         CourseOfferingInfo courseOffering = form.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
 
-        ContextInfo contextInfo = createContextInfo();
 
         // Get the format object for the id selected
         try {

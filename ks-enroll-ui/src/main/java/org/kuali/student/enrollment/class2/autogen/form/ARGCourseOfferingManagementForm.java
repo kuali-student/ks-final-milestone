@@ -192,6 +192,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
         rgResultList = new ArrayList<RegistrationGroupWrapper>();
 
         setCourseOfferingCopyWrapper(null);
+        setFormatOfferingIdForNewAO(null);
     }
 
     public boolean isHasAO() {
