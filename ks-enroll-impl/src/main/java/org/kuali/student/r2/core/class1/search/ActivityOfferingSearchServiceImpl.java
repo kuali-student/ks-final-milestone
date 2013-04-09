@@ -37,10 +37,11 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
     public static final TypeInfo SCH_ID_BY_AO_SEARCH_TYPE;
     public static final TypeInfo AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE;
+    public static final TypeInfo REG_GROUPS_BY_CO_ID_SEARCH_TYPE;
 
     public static final String SCH_ID_BY_AO_SEARCH_KEY = "kuali.search.type.lui.searchForScheduleIdByAoId";
     public static final String AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAOsAndClustersByCoId";
-
+    public static final String REG_GROUPS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForRegGroupsByCoId";
 
 
     public static final class SearchParameters {
@@ -57,6 +58,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         public static final String AO_STATE = "aoState";
         public static final String AO_MAX_SEATS = "aoMaxSeats";
         public static final String AO_CODE = "aoCode";
+        public static final String RG_NAME = "rgId";
+        public static final String RG_ID = "rgName";
     }
 
 
@@ -85,6 +88,19 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             throw new RuntimeException("bad code");
         }
         AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE = info;
+
+
+        info = new TypeInfo();
+        info.setKey(REG_GROUPS_BY_CO_ID_SEARCH_KEY);
+        info.setName("Reg Groups for CO Search");
+        info.setDescr(new RichTextHelper().fromPlain("Return search results for Reg Groups by CO ID"));
+
+        try {
+            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
+        } catch ( IllegalArgumentException ex) {
+            throw new RuntimeException("bad code");
+        }
+        REG_GROUPS_BY_CO_ID_SEARCH_TYPE = info;
     }
 
 
@@ -105,6 +121,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         if (AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
             return SCH_ID_BY_AO_SEARCH_TYPE;
         }
+        if (REG_GROUPS_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
+            return REG_GROUPS_BY_CO_ID_SEARCH_TYPE;
+        }
         throw new DoesNotExistException("No Search Type Found for key:"+searchTypeKey);
     }
 
@@ -113,7 +132,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException {
-        return Arrays.asList(SCH_ID_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE);
+        return Arrays.asList(SCH_ID_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE, REG_GROUPS_BY_CO_ID_SEARCH_TYPE);
     }
 
 
@@ -127,9 +146,49 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         else if (AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForAOsAndClustersByCoId(searchRequestInfo);
         }
+        else if (REG_GROUPS_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
+            return searchForRegGroupsByCoId(searchRequestInfo);
+        }
         else{
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
+    }
+
+    private SearchResultInfo searchForRegGroupsByCoId(SearchRequestInfo searchRequestInfo) {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
+
+        String queryStr =
+                "SELECT rg2ao.relatedLui.id," +
+                "       rg2ao.lui.id," +
+                "       rg2ao.lui.name " +
+                "FROM LuiLuiRelationEntity co2fo," +
+                "     LuiLuiRelationEntity fo2ao," +
+                "     LuiLuiRelationEntity rg2ao " +
+                "WHERE co2fo.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo'' " +
+                "  AND fo2ao.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.fo2ao' " +
+                "  AND rg2ao.luiLuiRelationType = 'kuali.lui.lui.relation.type.registeredforvia.rg2ao' " +
+                "  AND co2fo.lui.id = :coId " +
+                "  AND co2fo.relatedLui.id = fo2ao.lui.id " +
+                "  AND rg2ao.relatedLui.id = fo2ao.relatedLui.id ";
+
+        Query query = entityManager.createQuery(queryStr);
+        query.setParameter(SearchParameters.CO_ID, coId);
+        List<Object[]> results = query.getResultList();
+
+        for(Object[] resultRow : results){
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.RG_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.RG_NAME, (String)resultRow[i++]);
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+
     }
 
     /**
