@@ -215,7 +215,7 @@
     </bean>
 
     <bean id="KS-EditCourseOffering-AliasMessageSection" parent="Uif-HorizontalBoxSection">
-        <property name="render" value="@{!document.oldMaintainableObject.dataObject.alternateCOCodesUIList.isEmpty()}"/>
+        <property name="render" value="@{document.newMaintainableObject.dataObject.editCrossListedCoAlias}"/>
         <property name="style" value="background-color:#DDECFF;padding-top: 5px; border: 1px solid #9CC4F9;"/>
         <property name="disclosure.render" value="false"/>
         <property name="items" >
@@ -225,10 +225,10 @@
                     <property name="style" value="padding-right:10px;padding-left:10px"/>
                 </bean>
                 <bean id="KS-EditCourseOffering-AliasMessage" parent="Uif-MessageField"
-                      p:messageText="@{document.oldMaintainableObject.dataObject.alternateCOCodesUIList} is a crosslisted alias
-                                            for: @{document.oldMaintainableObject.dataObject.courseOfferingCode}(Owner). Changes made on
-                                            this page to @{document.oldMaintainableObject.dataObject.courseOfferingCode}(Owner) will be applied to all
-                                            aliases, including @{document.oldMaintainableObject.dataObject.alternateCOCodesUIList}." />
+                      p:messageText="@{document.newMaintainableObject.dataObject.alternateCOCodesUIList} is a crosslisted alias
+                                            for: @{document.newMaintainableObject.dataObject.courseOfferingCode}(Owner). Changes made on
+                                            this page to @{document.newMaintainableObject.dataObject.courseOfferingCode}(Owner) will be applied to all
+                                            aliases, including @{document.newMaintainableObject.dataObject.alternateCOCodesUIList}." />
             </list>
         </property>
     </bean>

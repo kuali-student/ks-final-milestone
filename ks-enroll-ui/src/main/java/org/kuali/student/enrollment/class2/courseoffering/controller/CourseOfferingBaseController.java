@@ -1,11 +1,11 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.uif.form.KSUifMaintenanceDocumentForm;
-import org.kuali.student.enrollment.uif.util.KSUifUtils;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -46,6 +46,13 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
         if (form.getView() != null) {
             String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
             checkViewAuthorization(form, methodToCall);
+            String crossListedAlias = request.getParameter("editCrossListedCoAlias");
+            if(StringUtils.equals(crossListedAlias, "true")) {
+                Object selectedObject =  form.getDocument().getNewMaintainableObject().getDataObject();
+                if(selectedObject instanceof CourseOfferingEditWrapper) {
+                    ((CourseOfferingEditWrapper) selectedObject).setEditCrossListedCoAlias(true);
+                }
+            }
 //            form.setEditAuthz(checkEditViewAuthz(form));
         }
 

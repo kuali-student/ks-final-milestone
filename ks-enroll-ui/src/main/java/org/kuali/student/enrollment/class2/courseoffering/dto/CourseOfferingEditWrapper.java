@@ -17,7 +17,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -56,6 +55,7 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
     private CreditOptionInfo creditOption;
     private boolean creditOptionFixed;
     private boolean isChecked;
+    private boolean editCrossListedCoAlias;
 
     private String gradingOption;
 
@@ -172,6 +172,14 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     public void setIsChecked(boolean checked) {
         this.isChecked = checked;
+    }
+
+    public boolean isEditCrossListedCoAlias() {
+        return editCrossListedCoAlias;
+    }
+
+    public void setEditCrossListedCoAlias(boolean editCrossListedCoAlias) {
+        this.editCrossListedCoAlias = editCrossListedCoAlias;
     }
 
     public String getGradingOption() {
