@@ -228,6 +228,7 @@ public class ARGUtil {
         form.setInputCode(currentCOWrapper.getCourseOfferingCode());
 
         form.setFormatIdForNewAO(null);
+        form.setFormatOfferingIdForNewAO(null);
         form.setActivityIdForNewAO(null);
         form.setNoOfActivityOfferings(null);
         form.setPrivateClusterNamePopover("");
