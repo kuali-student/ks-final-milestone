@@ -637,11 +637,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
 
             return getUIFModelAndView(theForm);
         }
-        if (theForm.getPublishedClusterNameForRenamePopover() == null || theForm.getPublishedClusterNameForRenamePopover().isEmpty()) {
-            GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PUBLISHED_NAME_IS_NULL);
 
-            return getUIFModelAndView(theForm);
-        }
         if(theForm.getPrivateClusterNameForRenamePopover().length() < 5){
             GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_TOO_SHORT);
 
@@ -653,6 +649,8 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
             return getUIFModelAndView(theForm);
         }
 
+
+        if(ARGUtil._isClusterUnique(theForm.getFormatOfferingIdForViewRG(), theForm.getPrivateClusterNameForRenamePopover())){
         ARGActivityOfferingClusterHandler.renameAClusterThroughDialog(theForm);
         ActivityOfferingClusterWrapper selectedClusterWrapper;
             selectedClusterWrapper = (ActivityOfferingClusterWrapper)ARGUtil.getSelectedObject(theForm, "Rename Cluster");
@@ -673,6 +671,10 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
         theForm.setPrivateClusterNameForRenamePopover("");
         theForm.setPublishedClusterNameForRenamePopover("");
 
+
+    }  else {
+            GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME);
+        }
         return show(theForm);
     }
 

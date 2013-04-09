@@ -84,7 +84,7 @@
                         <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:id="publishedClusterNameForRename"  p:propertyName="publishedClusterNameForRenamePopover" p:label="Published Name" p:required="true">
+                <bean parent="Uif-InputField-LabelTop" p:id="publishedClusterNameForRename"  p:propertyName="publishedClusterNameForRenamePopover" p:label="Published Name" >
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
                     </property>

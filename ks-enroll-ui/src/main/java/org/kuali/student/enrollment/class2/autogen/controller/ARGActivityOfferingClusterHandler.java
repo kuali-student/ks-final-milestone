@@ -271,24 +271,17 @@ public class ARGActivityOfferingClusterHandler {
     public static ARGCourseOfferingManagementForm createNewCluster(ARGCourseOfferingManagementForm theForm) throws Exception {
         //TODO: Add front end validation
         if (theForm.getPrivateClusterNamePopover().isEmpty()) {
-            GlobalVariables.getMessageMap().putError("privateClusterName", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
+            GlobalVariables.getMessageMap().putError("privateClusterNamePopover", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
             return theForm;
         }
-
-        if (theForm.getPublishedClusterNamePopover() == null || theForm.getPublishedClusterNamePopover().isEmpty()) {
-            GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PUBLISHED_NAME_IS_NULL);
-
-            return theForm;
-        }
-
 
         if(theForm.getPrivateClusterNamePopover().length() < 5){
-            GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_TOO_SHORT);
+            GlobalVariables.getMessageMap().putError("privateClusterNamePopover", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_TOO_SHORT);
 
             return theForm;
         }
-        if(theForm.getPublishedClusterNamePopover().length() < 5){
-            GlobalVariables.getMessageMap().putError("publishedClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PUBLISHED_NAME_IS_TOO_SHORT);
+        if(theForm.getPublishedClusterNamePopover().length() < 5 && theForm.getPublishedClusterNamePopover().length()!=0){
+            GlobalVariables.getMessageMap().putError("publishedClusterNamePopover", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PUBLISHED_NAME_IS_TOO_SHORT);
 
             return theForm;
         }
