@@ -8,7 +8,9 @@ import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.tree.node.TreeNode;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -58,10 +60,10 @@ public class RuleViewTreeBuilder extends AbstractTreeBuilder {
         if (prop != null) {
 
             Node<TreeNode, String> newNode = new Node<TreeNode, String>();
-            newNode.setNodeLabel(null);
+            newNode.setNodeLabel(this.buildNodeLabel(rule, prop));
             newNode.setNodeType("subruleElement");
 
-            TreeNode tNode = new TreeNode(this.buildNodeLabel(rule, prop));
+            TreeNode tNode = new TreeNode(newNode.getNodeLabel());
             tNode.setListItems(this.getListItems(prop));
             tNode.setKey(prop.getKey());
             newNode.setData(tNode);

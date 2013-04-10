@@ -87,7 +87,7 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
                             opNode.setNodeLabel("OR");
                         }
 
-                        opNode.setData(new TreeNode(prop.getCompoundOpCode()));
+                        opNode.setData(new TreeNode(null));
                         newNode.getChildren().add(opNode);
                     }
                     first = false;
