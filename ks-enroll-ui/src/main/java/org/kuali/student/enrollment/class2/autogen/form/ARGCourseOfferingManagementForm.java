@@ -150,6 +150,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     private boolean editAuthz;
 
     private boolean enableAddButton = false;
+    private boolean enableMoveAOButton = false;
 
     private Date termClassStartDate;
 
@@ -421,6 +422,14 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
 
     public void setEnableAddButton(boolean enableAddButton) {
         this.enableAddButton = enableAddButton;
+    }
+
+    public boolean isEnableMoveAOButton() {
+        return enableMoveAOButton;
+    }
+
+    public void setEnableMoveAOButton(boolean enableMoveAOButton) {
+        this.enableMoveAOButton = enableMoveAOButton;
     }
 
     public String getSocStateKey() {
