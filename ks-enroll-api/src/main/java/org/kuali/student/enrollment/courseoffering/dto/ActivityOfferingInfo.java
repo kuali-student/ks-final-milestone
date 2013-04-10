@@ -50,7 +50,7 @@ import java.io.Serializable;
                 "courseOfferingCode", "hasWaitlist", "waitlistTypeKey",
                 "waitlistMaximum", "isWaitlistCheckinRequired", 
                 "waitlistCheckinFrequency",
-                "isPartOfColocatedOfferingSet",
+                "isColocated",
                 "meta", "attributes", "_futureElements"})
 
 public class ActivityOfferingInfo
@@ -153,7 +153,7 @@ public class ActivityOfferingInfo
     private List<Element> _futureElements;
 
     @XmlElement
-    private Boolean isPartOfColocatedOfferingSet;
+    private Boolean isColocated;
 
     /**
      * Constructs a new ActivityOfferingInfo.
@@ -516,12 +516,12 @@ public class ActivityOfferingInfo
 	}
 
     @Override
-    public Boolean getIsPartOfColocatedOfferingSet() {
-        return isPartOfColocatedOfferingSet;
+    public Boolean getIsColocated() {
+        return isColocated;
     }
 
-    public void setIsPartOfColocatedOfferingSet(Boolean partOfColocatedOfferingSet) {
-        isPartOfColocatedOfferingSet = partOfColocatedOfferingSet;
+    public void setIsColocated(Boolean isColocated) {
+        this.isColocated = isColocated;
     }
 
     @Override

@@ -265,7 +265,7 @@ public class LuiInfo
         return this.scheduleIds;
     }
 
-    public void setScheduleId(List<String> scheduleIds) {
+    public void setScheduleIds(List<String> scheduleIds) {
         this.scheduleIds = scheduleIds;
     }
 
