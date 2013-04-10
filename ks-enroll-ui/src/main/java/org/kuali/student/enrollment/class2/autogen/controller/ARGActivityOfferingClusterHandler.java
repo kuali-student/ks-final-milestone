@@ -293,6 +293,8 @@ public class ARGActivityOfferingClusterHandler {
         if(theForm.getPublishedClusterNamePopover().contains(",") ) {
             theForm.setPublishedClusterNamePopover(theForm.getPublishedClusterNamePopover().replace(",",""));
         }
+        String growlPrivateName = theForm.getPrivateClusterNamePopover();
+        String growlPublicName = theForm.getPublishedClusterNamePopover();
 
         String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
         if (ARGUtil._isClusterUnique(formatOfferingId, theForm.getPrivateClusterNamePopover())){
@@ -303,6 +305,8 @@ public class ARGActivityOfferingClusterHandler {
             //persist it in DB , comment out for now since it does not work for now
             emptyCluster = ARGUtil.getCourseOfferingService().createActivityOfferingCluster(formatOfferingId,
                     emptyCluster.getTypeKey(), emptyCluster, ContextUtils.createDefaultContextInfo());
+
+
 
             List<ActivityOfferingClusterWrapper> aoClusterWrapperList = theForm.getClusterResultList();
             ActivityOfferingClusterWrapper aoClusterWrapper = new ActivityOfferingClusterWrapper();
@@ -317,6 +321,8 @@ public class ARGActivityOfferingClusterHandler {
         }else{
             GlobalVariables.getMessageMap().putError("privateClusterName", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME);
         }
+
+        GlobalVariables.getMessageMap().addGrowlMessage("", "cluster.created", growlPrivateName, growlPublicName );
 
         return theForm;
     }
@@ -369,6 +375,8 @@ public class ARGActivityOfferingClusterHandler {
             GlobalVariables.getMessageMap().putError("AOCselectionError", RegistrationGroupConstants.MSG_ERROR_INVALID_AO_SELECTION);
             return theForm;
         }
+
+        GlobalVariables.getMessageMap().addGrowlMessage("", "activityOffering.moved" );
 
         return theForm;
 
