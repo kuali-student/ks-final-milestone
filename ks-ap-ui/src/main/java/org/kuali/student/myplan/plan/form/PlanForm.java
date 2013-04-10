@@ -399,4 +399,12 @@ public class PlanForm extends UifFormBase {
         courseDetails.setPlannedCourseSummary(this.getPlannedCourseSummary());
         return courseDetails;
     }
+
+    public String getPlanItemIdXmlSafe(){
+        return planItemId.replace(".","_");
+    }
+
+    public String getCourseIdXmlSafe(){
+        return courseId.replace(".","_");
+    }
 }

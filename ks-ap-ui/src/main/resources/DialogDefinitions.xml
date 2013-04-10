@@ -469,7 +469,7 @@
                             <bean p:id="deletePlannedCourse" parent="Uif-PrimaryActionButton-Small"
                                   p:actionLabel="Delete">
                                 <property name="actionScript"
-                                          value="myplanAjaxSubmitPlanItem('@{planItemId}', '@{planItemId}', 'planItemId', 'removeItem', e);"/>
+                                          value="myplanAjaxSubmitPlanItem('@{planItemId}', '@{planItemIdXmlSafe}', 'planItemId', 'removeItem', e);"/>
                                 <property name="onDocumentReadyScript" value="
                                     jQuery('#deletePlannedCourse').subscribe('PLAN_ITEM_DELETED', function(data){
                                         fnDisplayMessage(data.message, data.cssClass, 'deletePlannedCourse', true, true);
@@ -696,7 +696,7 @@
                                         <bean p:id="movePlannedCourse" parent="Uif-PrimaryActionButton-Small"
                                               p:actionLabel="Move" p:render="@{moveCourse}">
                                             <property name="actionScript"
-                                                      value="myplanAjaxSubmitPlanItem('@{planItemId}', '@{planItemId}', 'planItemId', 'movePlanCourse', e, true);"/>
+                                                      value="myplanAjaxSubmitPlanItem('@{planItemId}', '@{planItemIdXmlSafe}', 'planItemId', 'movePlanCourse', e, true);"/>
                                             <property name="onDocumentReadyScript" value="
                                            jQuery('#movePlannedCourse')
                                                .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -990,7 +990,7 @@
                                                           parent="Uif-PrimaryActionButton-Small"
                                                           p:actionLabel="Move">
                                                         <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}', '@{planItemId}', 'planItemId', 'movePlanCourse', e,true);"/>
+                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}', '@{planItemIdXmlSafe}', 'planItemId', 'movePlanCourse', e,true);"/>
                                                         <property name="onDocumentReadyScript" value="
                                                        jQuery('#movePlannedCourse')
                                                            .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -1087,7 +1087,7 @@
                                                           p:render="@{setToPlanning}"
                                                           p:actionLabel="Copy">
                                                         <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}', '@{planItemId}', 'planItemId', 'copyPlanCourse', e,true);"/>
+                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}', '@{planItemIdXmlSafe}', 'planItemId', 'copyPlanCourse', e,true);"/>
                                                         <property name="onDocumentReadyScript" value="
                                                        jQuery('#copyPlannedCourse')
                                                            .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -1103,7 +1103,7 @@
                                                           p:render="@{setToPlanning eq false and planItemId ne null}"
                                                           p:actionLabel="Copy">
                                                         <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}', '@{planItemId}', 'planItemId', 'copyPlanCourse', e,true);"/>
+                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}', '@{planItemIdXmlSafe}', 'planItemId', 'copyPlanCourse', e,true);"/>
                                                         <property name="onDocumentReadyScript" value="
                                                        jQuery('#copyPastPlannedCourse')
                                                            .subscribe('PLAN_ITEM_ADDED', function(data){
@@ -1119,7 +1119,7 @@
                                                           p:render="@{setToPlanning eq false and planItemId eq null}"
                                                           p:actionLabel="Copy">
                                                         <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{courseId}', '@{courseId}', 'courseId', 'addPlanCourse', e,true);"/>
+                                                                  value="myplanAjaxSubmitPlanItem('@{courseId}', '@{courseIdXmlSafe}', 'courseId', 'addPlanCourse', e,true);"/>
                                                         <property name="onDocumentReadyScript" value="
                                                        jQuery('#copyAcademicCourse')
                                                            .subscribe('PLAN_ITEM_ADDED', function(data){

@@ -432,6 +432,7 @@
                         myplanRetrieveComponent('saved_courses_summary','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'});
                         jQuery('div.jquerybubblepopup.jquerybubblepopup-myplan .jquerybubblepopup-tail').fadeOut(250, function() {
                             jQuery(this).remove();
+                            fnCloseAllPopups();
                         });
                     }
                 })

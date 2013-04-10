@@ -12,41 +12,16 @@ import java.util.regex.Pattern;
  */
 public class CourseSearchConstants {
 
-    public static final String COURSE_SEARCH_PAGE = "course_search";
 
     public static final String COURSE_SEARCH_RESULT_PAGE = "course_search_result";
 
-    //public static final String COURSE_SEARCH_EMPTY_RESULT_PAGE = "course_search_no_results";
-
     public static final String GEN_EDU_REQUIREMENTS_PREFIX = "course.genEdRequirement.";
 
-
-    // Service Constants
-    public static final String STATEMENT_SERVICE_NAMESPACE = "http://student.kuali.org/wsdl/statement";
-    public static final String ENUM_SERVICE_NAMESPACE = "http://student.kuali.org/wsdl/enumerationmanagement";
-    public static final String ORG_SERVICE_NAMESPACE = "http://student.kuali.org/wsdl/organization";
-
-    //  Process key for use in service methods which need caching, but don't use the process key argument.
-    public static final String PROCESS_KEY = "Null";
-
     public static final Pattern TERM_PATTERN = Pattern.compile("([a-zA-Z]+)[\\s]+[0-9][0-9]([0-9][0-9])");
-
-    public static final Pattern ATP_REGEX = Pattern.compile("([0-9]{4})([1-4])");
-    public static final String ATP_FORMAT = "%d%d";
-
-    public static List<String> TERM_ID_LIST = Arrays.asList("winter", "spring", "summer i", "summer ii", "autumn");
-    public static List<String> TERM_LABELS_LIST = Arrays.asList("Winter", "Spring", "Summer1", "Summer2", "Fall");
 
     public static final String SUBJECT_AREA = "kuali.lu.subjectArea";
 
     public static final String CAMPUS_LOCATION = "kuali.org.College";
-    public static final String CAMPUS_LOCATION_ORG_TYPE = "kuali.org.type.campus";
-
-    public static final String SUBJECT_CODE = "kuali.org.SubjectCode";
-
-    public static final String TIME_SCHEDULE_KEY = "TimeScheduleLinkAbbreviation";
-
-    public static final String COURSE_OFFERING_INSTITUTE = "kuali.course.offering.institute";
 
     public static final String DEGREE_CREDIT_ID_SUFFIX = "kuali.creditType.credit.degree.";
 
@@ -61,10 +36,6 @@ public class CourseSearchConstants {
     public static final String IS_COURSE_OFFERING_SERVICE_UP = "isCourseOfferingServiceRunning";
 
     public static final String IS_ACADEMIC_RECORD_SERVICE_UP = "isAcademicRecordServiceRunning";
-
-    public static final String LINK = "<a href=\"%s/student/myplan/inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId=%s#%s_tab-%s\">%s</a>";
-
-    public static final String APP_URL = "appserver.url";
 
     public static final String COURSE_SEARCH_FOR_COURSE_ID = "myplan.course.getcluid";
 
@@ -84,4 +55,36 @@ public class CourseSearchConstants {
     public static final String UNFORMATTED_COURSE_CODE_REGEX = "^[a-zA-Z]{1}[a-zA-Z &]{2,7}[0-9]{3}$";
 
     public static final String COURSE_CODE_WITH_SECTION_REGEX = "^[A-Z]{1}[A-Z &]{2,6}\\s[0-9]{3}\\s[A-Z]{1}[A-Z0-9]{0,1}$";
+
+    //Unused
+
+    public static final String LINK = "<a href=\"%s/student/myplan/inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId=%s#%s_tab-%s\">%s</a>";
+
+    public static final String APP_URL = "appserver.url";
+
+    public static final String SUBJECT_CODE = "kuali.org.SubjectCode";
+
+    public static final String TIME_SCHEDULE_KEY = "TimeScheduleLinkAbbreviation";
+
+    public static final String COURSE_OFFERING_INSTITUTE = "kuali.course.offering.institute";
+
+    public static final String CAMPUS_LOCATION_ORG_TYPE = "kuali.org.type.campus";
+
+    // Service Constants
+    public static final String STATEMENT_SERVICE_NAMESPACE = "http://student.kuali.org/wsdl/statement";
+    public static final String ENUM_SERVICE_NAMESPACE = "http://student.kuali.org/wsdl/enumerationmanagement";
+    public static final String ORG_SERVICE_NAMESPACE = "http://student.kuali.org/wsdl/organization";
+
+    //  Process key for use in service methods which need caching, but don't use the process key argument.
+    public static final String PROCESS_KEY = "Null";
+
+    public static final Pattern ATP_REGEX = Pattern.compile("([0-9]{4})([1-4])");
+    public static final String ATP_FORMAT = "%d%d";
+
+    public static List<String> TERM_ID_LIST = Arrays.asList("winter", "spring", "summer i", "summer ii", "autumn");
+    public static List<String> TERM_LABELS_LIST = Arrays.asList("Winter", "Spring", "Summer1", "Summer2", "Fall");
+
+    public static final String COURSE_SEARCH_PAGE = "course_search";
+
+    //public static final String COURSE_SEARCH_EMPTY_RESULT_PAGE = "course_search_no_results";
 }
