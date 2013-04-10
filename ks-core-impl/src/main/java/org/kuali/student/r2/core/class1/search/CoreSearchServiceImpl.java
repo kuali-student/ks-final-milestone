@@ -41,6 +41,7 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
     }
 
     public static final class SearchResultColumns {
+        public static final String SCH_ID = "id";
         public static final String WEEKDAYS = "weekdays";
         public static final String START_TIME = "startTimeMillis";
         public static final String END_TIME = "endTimeMillis";
@@ -106,6 +107,7 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
 
         String query =
                 " Select "   +
+                "  sch.id, " +
                 "  tmslot.weekdays, " +
                 "  tmslot.startTimeMillis, " +
                 "  tmslot.endTimeMillis, " +
@@ -121,7 +123,7 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
                         "    RoomBuildingEntity bldg  " +
                 " WHERE " +
                 "    sch.id in ("+ scheduleIds +") " +
-                      //  " AND cmp_tmslot.SCHED_CMP_ID = cmp. " +
+                        " AND cmp.schedule.id = sch.id "    +
                         " AND tmslot.id = cmp_tmslot " +
                         " AND tmslot.timeSlotState = 'kuali.scheduling.timeslot.state.active' " +
                         " AND cmp.roomId = room.id " +
@@ -139,9 +141,10 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
 
             int i=0;
 
+            row.addCell(SearchResultColumns.SCH_ID,(String)result[i++]);
             row.addCell(SearchResultColumns.WEEKDAYS,(String)result[i++]);
-            row.addCell(SearchResultColumns.START_TIME,(String)result[i++]);
-            row.addCell(SearchResultColumns.END_TIME,(String)result[i++]);
+            row.addCell(SearchResultColumns.START_TIME,result[i++].toString());
+            row.addCell(SearchResultColumns.END_TIME,result[i++].toString());
             row.addCell(SearchResultColumns.TIME_SLOT_STATE,(String)result[i++]);
             row.addCell(SearchResultColumns.ROOM_CODE,(String)result[i++]);
             row.addCell(SearchResultColumns.BLDG_NAME,(String)result[i++]);
