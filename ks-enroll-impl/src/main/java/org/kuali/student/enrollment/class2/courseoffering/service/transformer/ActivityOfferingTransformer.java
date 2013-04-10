@@ -158,7 +158,7 @@ public class ActivityOfferingTransformer {
         ao.setMaximumEnrollment(lui.getMaximumEnrollment());
 // TODOSSR       ao.setScheduleId(lui.getScheduleId());
         ao.setActivityOfferingURL(lui.getReferenceURL());
-        ao.setIsPartOfColocatedOfferingSet( isPartOfColocatedOfferingSet( lui, luiService, contextInfo ) );
+        ao.setIsColocated(isColocated(lui, luiService, contextInfo));
 
         if (lui.getOfficialIdentifier() != null){
             ao.setActivityCode(lui.getOfficialIdentifier().getCode());
@@ -261,7 +261,7 @@ public class ActivityOfferingTransformer {
         ao.setMaximumEnrollment(lui.getMaximumEnrollment());
 //TODOSSR        ao.setScheduleId(lui.getScheduleId());
         ao.setActivityOfferingURL(lui.getReferenceURL());
-        ao.setIsPartOfColocatedOfferingSet( isPartOfColocatedOfferingSet( lui, luiService, context ) );
+        ao.setIsColocated(isColocated(lui, luiService, context));
 
         if (lui.getOfficialIdentifier() != null){
             ao.setActivityCode(lui.getOfficialIdentifier().getCode());
@@ -433,7 +433,7 @@ public class ActivityOfferingTransformer {
         return info;
     }
 
-    private static boolean isPartOfColocatedOfferingSet( LuiInfo lui, LuiService luiService, ContextInfo context )
+    private static boolean isColocated(LuiInfo lui, LuiService luiService, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
     {
         if( lui == null ) {
