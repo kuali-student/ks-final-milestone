@@ -153,6 +153,7 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
             row.addCell(SearchResultColumns.TIME_SLOT_STATE,(String)result[i++]);
             row.addCell(SearchResultColumns.ROOM_CODE,(String)result[i++]);
             row.addCell(SearchResultColumns.BLDG_NAME,(String)result[i++]);
+            resultInfo.getRows().add(row);
         }
 
         return resultInfo;
