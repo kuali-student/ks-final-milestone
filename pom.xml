@@ -6,11 +6,12 @@
         <artifactId>student</artifactId>
         <version>2.0.0-SNAPSHOT</version>
     </parent>
-    <groupId>org.kuali.student.api</groupId>
-    <artifactId>ks-api</artifactId>
-    <version>2.0.0-M6-SNAPSHOT</version>
+    <groupId>org.kuali.student.enroll</groupId>
+    <artifactId>ks-enroll</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>KS API</name>
+    <name>KS Enroll</name>
+    <description>KS Enrollment</description>
     <profiles>
         <profile>
             <id>default</id>
@@ -18,11 +19,27 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>ks-common-ws</module>
-                <module>ks-common-api</module>
-                <module>ks-core-api</module>
-                <module>ks-lum-api</module>
-                <module>ks-enroll-api</module>
+                <module>ks-enroll-sql</module>
+                <module>ks-enroll-impl</module>
+                <module>ks-enroll-ui</module>
+                <module>ks-enroll-ksink</module>
+                <module>ks-enroll-web</module>
+                <module>ks-enroll-rice</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>sql-only</id>
+            <modules>
+                <module>ks-enroll-sql</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>skip-all-wars</id>
+            <modules>
+                <module>ks-enroll-impl</module>
+                <module>ks-enroll-ui</module>
+                <module>ks-enroll-ksink</module>
+                <module>ks-enroll-rice</module>
             </modules>
         </profile>
     </profiles>

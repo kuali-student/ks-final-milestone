@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+  <import resource="classpath:co-test-with-class2-mock-context.xml" />
+  
+  <alias name="coService" alias="CourseOfferingService"/> 
+  
+   <bean id="SearchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
+        <property name="searchServices">
+            <list>
+            	<!--  intentionally empty: search doesn't work in the mock context but we do need to have the bean defined. -->
+            </list>
+        </property>                
+    </bean>
+  
+    <bean id="autogenRegistrationGroupAppLayer" class=" org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapterImpl" autowire="byName" />
+    
+    
+
+</beans>
+
