@@ -136,7 +136,7 @@
                                   p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]  Warning"
                                   p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2" p:render="@{!crossListedCO and !colocatedCO and !jointDefinedCo}"/>
                             <bean parent="Uif-Message"
-                                  p:messageText="You are about to permanently delete the following activity offering(s) from the course offering(s)."
+                                  p:messageText="You are about to permanently delete the following course offering(s) and activity offering(s)."
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{!crossListedCO and !colocatedCO and !jointDefinedCo}"/>
 
                             <bean parent="Uif-Message"
