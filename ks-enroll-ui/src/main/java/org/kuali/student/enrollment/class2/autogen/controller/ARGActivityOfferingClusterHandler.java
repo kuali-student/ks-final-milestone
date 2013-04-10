@@ -286,13 +286,14 @@ public class ARGActivityOfferingClusterHandler {
             return theForm;
         }
 
-/*        if(theForm.getPrivateClusterNamePopover().indexOf(",") > 0 ) {
-            theForm.setPrivateClusterNamePopover(theForm.getPrivateClusterNamePopover().substring(0, theForm.getPrivateClusterNamePopover().indexOf(',')));
+        //fix names
+        if(theForm.getPrivateClusterNamePopover().contains(",") ) {
+            theForm.setPrivateClusterNamePopover(theForm.getPrivateClusterNamePopover().replace(",",""));
         }
-        if(theForm.getPublishedClusterNamePopover().indexOf(",") > 0 ) {
-            theForm.setPublishedClusterNamePopover(theForm.getPublishedClusterNamePopover().substring(0, theForm.getPublishedClusterNamePopover().indexOf(',')));
+        if(theForm.getPublishedClusterNamePopover().contains(",") ) {
+            theForm.setPublishedClusterNamePopover(theForm.getPublishedClusterNamePopover().replace(",",""));
         }
-*/
+
         String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
         if (ARGUtil._isClusterUnique(formatOfferingId, theForm.getPrivateClusterNamePopover())){
             //build a new empty cluster
