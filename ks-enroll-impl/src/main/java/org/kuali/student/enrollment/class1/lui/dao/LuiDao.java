@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class1.lui.dao;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.r2.common.dao.GenericEntityDao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LuiDao extends GenericEntityDao<LuiEntity> {
@@ -29,8 +30,14 @@ public class LuiDao extends GenericEntityDao<LuiEntity> {
         return  (List<String>) em.createNamedQuery("Lui.getLuiIdsByAtpAndType").setParameter("typeKey", typeKey).setParameter("atpId", atpId).getResultList();
     }
 
-    public  List<String> getScheduleIdByLuiId(String aoId)   {
-        return  (List<String>) em.createNamedQuery("Lui.getScheduleIdByLuiId").setParameter("aoId", aoId).getResultList();
+    public  List<String> getScheduleIdsByLuiId(String aoId)   {
+        List<LuiEntity> luis =  (List<LuiEntity>) em.createNamedQuery("Lui.getLuisByLuiId").setParameter("aoId", aoId).getResultList();
+        List<String> scheduleIds = new ArrayList<String>();
+        if(luis != null && !luis.isEmpty()) {
+            LuiEntity lui = luis.get(0);
+            scheduleIds.addAll(lui.getScheduleIds());
+        }
+        return scheduleIds;
     }
 
 }

@@ -149,7 +149,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 for(ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()){
                     //If an activity is newly added in this session for colo, delete it's RDLs and ADLs if exists
 
-                    activity.getActivityOfferingInfo().setIsPartOfColocatedOfferingSet(activityOfferingWrapper.isColocatedAO());
+                    activity.getActivityOfferingInfo().setIsColocated(activityOfferingWrapper.isColocatedAO());
                     if (activityOfferingWrapper.isColocatedAO() && activityOfferingWrapper.isMaxEnrollmentShared()){
                         activity.getActivityOfferingInfo().setMaximumEnrollment(activityOfferingWrapper.getSharedMaxEnrollment());
                     }
@@ -759,7 +759,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     }
                     colo.setActivityOfferingInfo(ao);
 
-                    if (ao.getIsPartOfColocatedOfferingSet()){
+                    if (ao.getIsColocated()){
                         GlobalVariables.getMessageMap().putError(groupId, RiceKeyConstants.ERROR_CUSTOM, "This Activity is already part of another colocate set");
                         return false;
                     } else if (StringUtils.equals(ao.getId(),activityOfferingWrapper.getAoInfo().getId())){

@@ -40,7 +40,7 @@ import java.util.Set;
     @NamedQuery(name="Lui.getLuisByAtpAndType", query="Select lui from LuiEntity lui where lui.atpId=:atpId and lui.luiType = :typeKey"),
     @NamedQuery(name="Lui.getLuiIdsByAtpAndType", query="Select id from LuiEntity lui where lui.atpId=:atpId and lui.luiType = :typeKey"),
     @NamedQuery(name="Lui.getLuisByAtpAndClu", query="Select lui from LuiEntity lui where lui.atpId=:atpId and lui.cluId = :cluId"),
-    @NamedQuery(name="Lui.getScheduleIdByLuiId", query="SELECT lui.scheduleId FROM LuiEntity lui WHERE  lui.id =:aoId")
+    @NamedQuery(name="Lui.getLuisByLuiId", query="SELECT lui FROM LuiEntity lui WHERE lui.id = :aoId")
 })
 public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttributeEntity> {
 
@@ -64,14 +64,18 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     private Integer maxSeats;
     @Column(name = "MIN_SEATS")
     private Integer minSeats;
-    @Column(name = "SCHEDULE_ID")
-    private String scheduleId;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
     private Date effectiveDate;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
+
+
+    @ElementCollection
+    @CollectionTable(name ="KSEN_LUI_SCHEDULE",joinColumns = @JoinColumn(name = "LUI_ID"))
+    @Column(name="SCHED_ID")
+    private List<String> scheduleIds;
 
     @ElementCollection
     @CollectionTable(name ="KSEN_LUI_RESULT_VAL_GRP",joinColumns = @JoinColumn(name = "LUI_ID"))
@@ -109,7 +113,6 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         this.setLuiType(lui.getTypeKey());
         this.setAtpId(lui.getAtpId());
         this.setCluId(lui.getCluId());
-// TODOSSR       this.setScheduleId(lui.getScheduleId());
         fromDto(lui);
     }
 
@@ -124,7 +127,8 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         this.setLuiState(lui.getStateKey());
         this.setEffectiveDate(lui.getEffectiveDate());
         this.setExpirationDate(lui.getExpirationDate());
-// TODOSSR       this.setScheduleId(lui.getScheduleId());
+        this.scheduleIds = new ArrayList<String>(lui.getScheduleIds());
+
         if (lui.getDescr() == null) {
             this.setDescrFormatted(null);
             this.setDescrPlain(null);
@@ -278,7 +282,10 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         info.setReferenceURL(referenceURL);
         info.setTypeKey(luiType);
         info.setStateKey(luiState);
-//  TODOSSR      info.setScheduleId(scheduleId);
+        if(scheduleIds != null) {
+            info.getScheduleIds().addAll(scheduleIds);
+        }
+
         info.setMeta(super.toDTO());
         info.setDescr(new RichTextHelper().toRichTextInfo(plain, formatted));
 
@@ -498,11 +505,11 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         this.resultValuesGroupKeys = resultValuesGroupKeys;
     }
 
-    public String getScheduleId() {
-        return scheduleId;
+    public List<String> getScheduleIds() {
+        return scheduleIds;
     }
 
-    public void setScheduleId(String scheduleId) {
-        this.scheduleId = scheduleId;
+    public void setScheduleIds(List<String> scheduleIds) {
+        this.scheduleIds = scheduleIds;
     }
 }

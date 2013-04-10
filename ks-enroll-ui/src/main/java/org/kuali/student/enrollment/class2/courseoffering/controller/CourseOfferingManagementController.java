@@ -1354,7 +1354,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 totalAosToDelete++;
                 ao.setActivityCode(ao.getAoInfo().getActivityCode());
                 selectedIndexList.add(ao);
-                if(ao.getAoInfo().getIsPartOfColocatedOfferingSet())  {
+                if(ao.getAoInfo().getIsColocated())  {
                     currentCoWrapper.setColocatedAoToDelete(true);
                     String colocateInfo = ViewHelperUtil.createColocatedDisplayData(ao.getAoInfo(), context);
                     ao.setColocatedAoInfo(colocateInfo);

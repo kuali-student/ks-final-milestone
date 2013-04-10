@@ -48,6 +48,7 @@ import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -404,6 +405,9 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
         orig.setIsEvaluated(true);
         orig.setIsMaxEnrollmentEstimate(false);
         orig.setIsHonorsOffering(true);
+        orig.setScheduleIds(generateScheduleIdList("testScheduleId1", "testScheduleId2", "testScheduleId3"));
+
+
         ActivityOfferingInfo info = courseOfferingService.createActivityOffering(orig.getFormatOfferingId(), orig.getActivityId(), orig.getTypeKey(), orig, callContext);
         assertNotNull(info);
         assertNotNull(info.getId());
@@ -416,6 +420,7 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
         assertEquals(orig.getIsEvaluated(), info.getIsEvaluated());
         assertEquals(orig.getIsMaxEnrollmentEstimate(), info.getIsMaxEnrollmentEstimate());
         assertEquals(orig.getIsHonorsOffering(), info.getIsHonorsOffering());
+        compareList(orig.getScheduleIds(), 3, info.getScheduleIds());
 
         orig = info;
         info = courseOfferingService.getActivityOffering(orig.getId(), callContext);
@@ -427,18 +432,37 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
         assertEquals(orig.getActivityId(), info.getActivityId());
         assertEquals(orig.getMinimumEnrollment(), info.getMinimumEnrollment());
         assertEquals(orig.getMaximumEnrollment(), info.getMaximumEnrollment());
+        compareList(orig.getScheduleIds(), 3, info.getScheduleIds());
 
         orig = info;
         orig.setMinimumEnrollment(100);
+        orig.getScheduleIds().add("testScheduleId4");
+
         info = courseOfferingService.updateActivityOffering(orig.getId(), orig, callContext);
         assertNotNull(info);
         assertEquals(orig.getId(), info.getId());
         assertEquals(orig.getStateKey(), info.getStateKey());
-        assertEquals(orig.getTypeKey(), info.getTypeKey());;
+        assertEquals(orig.getTypeKey(), info.getTypeKey());
         assertEquals(orig.getFormatOfferingId(), info.getFormatOfferingId());
         assertEquals(orig.getActivityId(), info.getActivityId());
         assertEquals(orig.getMinimumEnrollment(), info.getMinimumEnrollment());
         assertEquals(orig.getMaximumEnrollment(), info.getMaximumEnrollment());
+        compareList(orig.getScheduleIds(), 4, info.getScheduleIds());
         return info;
+    }
+
+    private void compareList(List<String> expectedList, int expectedSize, List<String> actualList) {
+        assertEquals(expectedSize, actualList.size());
+        for(String expected : expectedList) {
+            assertTrue(actualList.contains(expected));
+        }
+    }
+
+    private List<String> generateScheduleIdList(String... ids) {
+        List<String> scheduleIds = new ArrayList<String>();
+        for(String id : ids) {
+            scheduleIds.add(id);
+        }
+        return scheduleIds;
     }
 }

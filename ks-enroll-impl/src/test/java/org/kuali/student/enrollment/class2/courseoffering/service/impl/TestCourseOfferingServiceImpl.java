@@ -598,7 +598,7 @@ public class TestCourseOfferingServiceImpl {
             assertTrue(foundActivityId);
 
             ActivityOffering createdAo = coService.getActivityOffering(retrieved.getId(), callContext);
-            assertFalse(createdAo.getIsPartOfColocatedOfferingSet());
+            assertFalse(createdAo.getIsColocated());
 
         } catch (Exception ex) {
             log.fatal("Exception from serviceCall", ex);

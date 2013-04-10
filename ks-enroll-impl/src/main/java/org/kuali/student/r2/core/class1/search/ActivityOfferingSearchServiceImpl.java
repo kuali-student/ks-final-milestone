@@ -2,8 +2,6 @@ package org.kuali.student.r2.core.class1.search;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
-import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity;
-import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImpl;
 import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImplBase;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -19,8 +17,8 @@ import org.kuali.student.r2.core.search.util.SearchRequestHelper;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -37,9 +35,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     @Resource
     private EntityManager entityManager;
 
-    public static final TypeInfo SCH_ID_BY_AO_SEARCH_TYPE;
+    public static final TypeInfo SCH_IDS_BY_AO_SEARCH_TYPE;
 
-    public static final String SCH_ID_BY_AO_SEARCH_KEY = "kuali.search.type.lui.searchForScheduleIdByAoId";
+    public static final String SCH_IDS_BY_AO_SEARCH_KEY = "kuali.search.type.lui.searchForScheduleIdsByAoId";
 
     public static final class SearchParameters {
         public static final String AO_ID = "id";
@@ -52,7 +50,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
     static {
         TypeInfo info = new TypeInfo();
-        info.setKey(SCH_ID_BY_AO_SEARCH_KEY);
+        info.setKey(SCH_IDS_BY_AO_SEARCH_KEY);
         info.setName("Activity Offering Search");
         info.setDescr(new RichTextHelper().fromPlain("Return search results for Activity Offerings"));
 
@@ -61,7 +59,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         } catch ( IllegalArgumentException ex) {
             throw new RuntimeException("bad code");
         }
-        SCH_ID_BY_AO_SEARCH_TYPE = info;
+        SCH_IDS_BY_AO_SEARCH_TYPE = info;
     }
 
 
@@ -70,7 +68,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
      */
     @Override
     public TypeInfo getSearchType() {
-        return SCH_ID_BY_AO_SEARCH_TYPE;
+        return SCH_IDS_BY_AO_SEARCH_TYPE;
     }
 
 
@@ -78,8 +76,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         // As this class expands, you can add multiple searches. Ie. right now there is only one search (so only one search key).
-        if (StringUtils.equals(searchRequestInfo.getSearchKey(), SCH_ID_BY_AO_SEARCH_TYPE.getKey())) {
-            return searchForScheduleIdByAoId(searchRequestInfo,contextInfo);
+        if (StringUtils.equals(searchRequestInfo.getSearchKey(), SCH_IDS_BY_AO_SEARCH_TYPE.getKey())) {
+            return searchForScheduleIdsByAoId(searchRequestInfo,contextInfo);
         } else{
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
@@ -87,14 +85,14 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
     /**
      *
-     * @param searchRequestInfo   Contains an Activity Offering ID that we will use to find the scheduleId
+     * @param searchRequestInfo   Contains an Activity Offering ID that we will use to find the scheduleIds
      * @param contextInfo
      * @return
      * @throws MissingParameterException
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    protected SearchResultInfo searchForScheduleIdByAoId(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+    protected SearchResultInfo searchForScheduleIdsByAoId(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
 
         String aoId = requestHelper.getParamAsString(SearchParameters.AO_ID);
@@ -103,7 +101,13 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             throw new RuntimeException("Activity Offering id is required");
         }
 
-        List<String> results = entityManager.createNamedQuery("Lui.getScheduleIdByLuiId").setParameter("aoId", aoId).getResultList();
+        List<String> results = Collections.EMPTY_LIST;
+        List<LuiEntity> luis = entityManager.createNamedQuery("Lui.getLuisByLuiId").setParameter("aoId", aoId).getResultList();
+        if(luis != null && !luis.isEmpty()) {
+            LuiEntity lui = luis.get(0);
+            results = new ArrayList<String>();
+            results.addAll(lui.getScheduleIds());
+        }
 
 
          //= getEntityManager().createQuery(query).getResultList();

@@ -1123,7 +1123,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         String sRet = null;
 
-        SearchRequestInfo searchRequest = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.SCH_ID_BY_AO_SEARCH_TYPE.getKey());
+        SearchRequestInfo searchRequest = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.SCH_IDS_BY_AO_SEARCH_TYPE.getKey());
         searchRequest.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_ID, activityOfferingId);
 
         SearchResultInfo searchResult = null;

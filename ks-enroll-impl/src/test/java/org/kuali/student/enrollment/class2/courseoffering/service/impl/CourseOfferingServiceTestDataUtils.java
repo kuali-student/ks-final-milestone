@@ -192,7 +192,7 @@ public final class CourseOfferingServiceTestDataUtils {
 
         orig.setCourseOfferingCode(courseOffering.getCourseOfferingCode());
         orig.setCourseOfferingTitle(courseOffering.getCourseOfferingTitle());
-        orig.setIsPartOfColocatedOfferingSet(false);
+        orig.setIsColocated(false);
 
         return orig;
     }

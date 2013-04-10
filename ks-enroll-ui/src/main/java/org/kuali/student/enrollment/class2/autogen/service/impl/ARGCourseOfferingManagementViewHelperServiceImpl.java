@@ -1289,7 +1289,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     private boolean isColocatedAo(String aoCode, List<ActivityOfferingInfo> aoList) {
         for(ActivityOfferingInfo ao : aoList) {
             if(StringUtils.equals(aoCode, ao.getActivityCode())) {
-                if(ao.getIsPartOfColocatedOfferingSet()) {
+                if(ao.getIsColocated()) {
                     return true;
                 }
             }
@@ -1300,7 +1300,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     private ActivityOfferingInfo getAoInfo(String aoCode, List<ActivityOfferingInfo> aoList) {
         for(ActivityOfferingInfo ao : aoList) {
             if(StringUtils.equals(aoCode, ao.getActivityCode())) {
-                if(ao.getIsPartOfColocatedOfferingSet()) {
+                if(ao.getIsColocated()) {
                     return ao;
                 }
             }
