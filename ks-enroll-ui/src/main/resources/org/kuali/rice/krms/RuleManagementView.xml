@@ -53,26 +53,6 @@
 
                 <bean id="KS-RuleView-Section" parent="KS-VerticalBoxSection" p:style="max-width: 54em;">
                     <property name="headerText" value="Prerequisite Rule"/>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-InputField-LabelTop">
-                                <property name="propertyName" value="activeSelections"/>
-                                <property name="label" value="Activate / Deactivate Rule"/>
-                                <property name="control">
-                                    <bean parent="Uif-VerticalCheckboxesControl">
-                                        <property name="options">
-                                            <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Canonical Rule"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="2"
-                                                      p:value="Course Offering Rule"/>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </property>
-                            </bean>
-
-                        </list>
-                    </property>
                     <property name="header.rightGroup">
                         <bean parent="Uif-HeaderRightGroup">
                             <property name="items">
@@ -108,7 +88,7 @@
     </bean>
 
     <bean id="KS-EditWithObject-EditSection" parent="Uif-VerticalBoxSection"
-          p:headerText="Edit with Object" p:header.render="false">
+          p:headerText="Edit Rule" p:header.render="false">
         <property name="items">
             <list>
                 <bean parent="KS-EditWithObject-EditGroup"/>
@@ -117,7 +97,7 @@
     </bean>
 
     <bean id="KS-EditWithLogic-EditSection" parent="Uif-VerticalBoxSection"
-          p:headerText="Edit with Logic" p:header.render="false">
+          p:headerText="Edit Rule Logic" p:header.render="false">
         <property name="validationMessages.displayMessages" value="true"/>
         <property name="items">
             <list>
@@ -130,18 +110,7 @@
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
-                <bean parent="Uif-Link" p:linkText="Edit">
-                    <property name="toolTip">
-                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
-                              p:tooltipContent="Edit Prerequisite Rule"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-Link" p:linkText="Copy">
-                    <property name="toolTip">
-                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Copy to other CO"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-ActionLink" p:actionLabel="Compare" p:methodToCall="compareRules">
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Original" p:methodToCall="compareRules">
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
                               p:tooltipContent="Compares CLU and CO Rules"/>

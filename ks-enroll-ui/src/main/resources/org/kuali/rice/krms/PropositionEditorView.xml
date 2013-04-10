@@ -85,14 +85,13 @@
                 <property name="items">
                     <list>
                         <bean id="update-button" parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true">
-                            <property name="actionLabel" value="Update"/>
-                            <property name="methodToCall"
-                                      value="updateProposition"/>
+                            <property name="actionLabel" value="Preview Change"/>
+                            <property name="methodToCall" value="updateProposition"/>
                         </bean>
-                        <bean id="cancel-button" parent="Uif-ActionLink" p:style="margin-left: 0.5em;margin-top: 0.3em;">
+                        <bean id="cancel-button" parent="Uif-ActionLink"
+                              p:style="margin-left: 0.5em;margin-top: 0.3em;color: #3F7826;">
                             <property name="actionLabel" value="Cancel"/>
-                            <property name="methodToCall"
-                                      value="cancelEditProposition"/>
+                            <property name="methodToCall" value="cancelEditProposition"/>
                         </bean>
                     </list>
                 </property>
