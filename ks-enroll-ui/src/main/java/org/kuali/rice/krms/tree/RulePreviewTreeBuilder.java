@@ -25,13 +25,13 @@ import java.util.List;
 public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
 
     @Override
-    protected String buildNodeLabel(RuleDefinitionContract rule, PropositionDefinitionContract prop, boolean refreshNl){
+    protected String buildNodeLabel(RuleDefinitionContract rule, PropositionDefinitionContract prop){
         //Build the node label.
         String prefix = this.getPropositionPrefix((RuleEditor)rule, (PropositionEditor)prop);
-        return prefix + StringEscapeUtils.escapeHtml(this.getDescription(prop, refreshNl));
+        return prefix + StringEscapeUtils.escapeHtml(this.getDescription(prop));
     }
 
-    public Tree<TreeNode, String> buildTree(RuleEditor rule, boolean refreshNl) {
+    public Tree<TreeNode, String> buildTree(RuleEditor rule) {
 
         Tree myTree = new Tree<TreeNode, String>();
 
@@ -46,11 +46,7 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
         }
 
         PropositionEditor prop = (PropositionEditor) rule.getProposition();
-        if (refreshNl) {
-            this.setNaturalLanguageTree(prop);
-        }
-        buildPreviewTree(rule, rootNode, prop, refreshNl);
-
+        buildPreviewTree(rule, rootNode, prop);
 
         //Underline the first node in the preview.
         if ((rootNode.getChildren() != null) && (rootNode.getChildren().size() > 0)) {
@@ -64,14 +60,14 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
         return myTree;
     }
 
-    private void buildPreviewTree(RuleEditor rule, Node<TreeNode, String> currentNode, PropositionEditor prop, boolean refreshNl) {
+    private void buildPreviewTree(RuleEditor rule, Node<TreeNode, String> currentNode, PropositionEditor prop) {
         if (prop != null) {
 
             Node<TreeNode, String> newNode = new Node<TreeNode, String>();
             newNode.setNodeLabel(null);
             newNode.setNodeType("subruleElement");
 
-            TreeNode tNode = new TreeNode(this.buildNodeLabel(rule, prop, refreshNl));
+            TreeNode tNode = new TreeNode(this.buildNodeLabel(rule, prop));
             tNode.setListItems(this.getListItems(prop));
             newNode.setData(tNode);
             tNode.setKey(prop.getKey());
@@ -96,7 +92,7 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
                     }
                     first = false;
                     // call to build the childs node
-                    buildPreviewTree(rule, newNode, child, refreshNl);
+                    buildPreviewTree(rule, newNode, child);
                 }
             }
 

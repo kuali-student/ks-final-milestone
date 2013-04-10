@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -34,6 +35,7 @@ public class EnrolPropositionEditor extends PropositionEditor {
     private String gradeScale;
     private OrgInfo orgInfo;
 
+    private static final String CLULIST_KEY = "kuali.term.parameter.type.course.nl.clu.list";
 
     public EnrolPropositionEditor(){
         super();
@@ -113,4 +115,12 @@ public class EnrolPropositionEditor extends PropositionEditor {
         return new EnrolPropositionEditor(definition);
     }
 
+    @Override
+    public Map<String, String> getNlParameters() {
+        Map<String, String> nlParameters = super.getNlParameters();
+        if (this.getCluSet() != null){
+            nlParameters.put(CLULIST_KEY, this.getCluSet().getDelimitedString());
+        }
+        return nlParameters;
+    }
 }

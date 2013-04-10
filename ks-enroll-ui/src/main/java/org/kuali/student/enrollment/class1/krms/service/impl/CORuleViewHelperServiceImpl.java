@@ -34,6 +34,8 @@ import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.TemplateInfo;
+import org.kuali.rice.krms.dto.TermEditor;
+import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.rice.krms.impl.util.KrmsImplConstants;
@@ -317,6 +319,7 @@ public class CORuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
         CORuleCompareTreeBuilder treeBuilder = new CORuleCompareTreeBuilder();
         treeBuilder.setRuleManagementService(this.getRuleManagementService());
         RuleDefinitionContract compare = treeBuilder.getCompareRule(courseOffering.getCourseId(), original.getTypeId());
+        this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage((PropositionEditor) compare.getProposition(), this.getPreviewTreeBuilder().getNaturalLanguageUsageKey());
 
         //Build the Tree
         RuleEditor compareEditor = new EnrolRuleEditor(compare);
@@ -352,14 +355,17 @@ public class CORuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
         Map<String, String> termParameters = new HashMap<String, String>();
         if (proposition.getTerm() == null) {
             if (proposition.getParameters().get(0) != null) {
+
+                //TODO: this should already be on the proposition.
                 String termId = proposition.getParameters().get(0).getValue();
-                proposition.setTerm(this.getTermRepositoryService().getTerm(termId));
+                TermDefinition termDefinition = this.getTermRepositoryService().getTerm(termId);
+                proposition.setTerm(new TermEditor(termDefinition));
             } else {
                 return termParameters;
             }
         }
 
-        for (TermParameterDefinition parameter : proposition.getTerm().getParameters()) {
+        for (TermParameterEditor parameter : proposition.getTerm().getEditorParameters()) {
             termParameters.put(parameter.getName(), parameter.getValue());
         }
 

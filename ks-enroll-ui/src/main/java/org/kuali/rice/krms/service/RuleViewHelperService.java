@@ -18,7 +18,7 @@ import org.kuali.rice.krms.tree.node.CompareTreeNode;
  */
 public interface RuleViewHelperService {
 
-    public String getNaturalLanguageDescription(PropositionEditor prop);
+    public String resetDescription(PropositionEditor prop);
 
     public TemplateInfo getTemplateForType(String type);
 
@@ -26,11 +26,9 @@ public interface RuleViewHelperService {
 
     public boolean validateProposition(PropositionEditor proposition, String namespace);
 
-    public void refreshInitTrees(RuleEditor rule, boolean refreshNl);
+    public void refreshInitTrees(RuleEditor rule);
 
     public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original, String compareToRefObjectId) throws Exception;
-
-    public void setLogicSection(RuleEditor ruleEditor);
 
     public PropositionEditor copyProposition(PropositionEditor proposition);
 

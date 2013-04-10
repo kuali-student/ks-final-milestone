@@ -75,7 +75,7 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
     public CluSetInformation getCluSetInformation(String cluSetId) {
         CluSetInformation result = new CluSetInformation();
         CluSetInfo cluSetInfo = getCluSetInfo(cluSetId, ContextUtils.getContextInfo());
-        result.setId(cluSetId);
+        result.setCluSetInfo(cluSetInfo);
 
         //Set the Clu Informations
         List<CluInformation> clus = getCluInformations(cluSetInfo.getCluIds(), ContextUtils.getContextInfo());

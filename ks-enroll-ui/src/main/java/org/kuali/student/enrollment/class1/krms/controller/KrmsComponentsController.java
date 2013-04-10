@@ -74,7 +74,7 @@ public class KrmsComponentsController extends UifControllerBase {
             return showDialog(dialog1, form, request, response);
         }
 
-        krmsComponentsForm.getProposition().getTermParameterList().add(termParameter);
+        //krmsComponentsForm.getProposition().getTermParameterList().add(termParameter);
         form.getDialogManager().addDialog(dialog1,"start" );
         // clear dialog history so they can press the button again
         form.getDialogManager().removeDialog(dialog1);

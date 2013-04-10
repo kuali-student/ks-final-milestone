@@ -12,6 +12,7 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
+import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 
 import java.util.List;
 
@@ -25,9 +26,6 @@ import java.util.List;
 public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
 
     private static final long serialVersionUID = 1L;
-
-    private TreeIterator originalNlTree;
-    private TreeIterator compareNlTree;
 
     public Tree<CompareTreeNode, String> buildTree(RuleDefinitionContract original, RuleDefinitionContract compare) {
         Tree<CompareTreeNode, String> myTree = new Tree<CompareTreeNode, String>();
@@ -43,12 +41,6 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         rootNode.getChildren().add(firstNode);
 
         if (original != null) {
-            PropositionDefinition.Builder originalBuilder = PropositionDefinition.Builder.create(original.getProposition());
-            originalNlTree = new TreeIterator(this.getRuleManagementService().translateNaturalLanguageTreeForProposition(this.getNaturalLanguageUsageId(), originalBuilder.build(), "en"));
-
-            PropositionDefinition.Builder compareBuilder = PropositionDefinition.Builder.create(compare.getProposition());
-            compareNlTree = new TreeIterator(this.getRuleManagementService().translateNaturalLanguageTreeForProposition(this.getNaturalLanguageUsageId(), compareBuilder.build(), "en"));
-
             addTreeNode(firstNode, original.getProposition(), compare.getProposition());
         }
 
@@ -81,14 +73,14 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         return myTree;
     }
 
-    private void addTreeNode(Node<CompareTreeNode, String> currentNode, PropositionDefinitionContract originial, PropositionDefinitionContract compared) {
-        if ((originial == null) && (compared == null)) {
+    private void addTreeNode(Node<CompareTreeNode, String> currentNode, PropositionDefinitionContract original, PropositionDefinitionContract compared) {
+        if ((original == null) && (compared == null)) {
             return;
         }
 
         Node<CompareTreeNode, String> newNode = new Node<CompareTreeNode, String>();
-        CompareTreeNode tNode = new CompareTreeNode(originalNlTree.next(), compareNlTree.next());
-        tNode.setOriginalItems(this.getListItems(originial));
+        CompareTreeNode tNode = new CompareTreeNode(this.getDescription(original), this.getDescription(compared));
+        tNode.setOriginalItems(this.getListItems(original));
         tNode.setComparedItems(this.getListItems(compared));
         if (tNode.getOriginal().equals(tNode.getCompared())){
             newNode.setNodeType("subruleElement");
@@ -99,8 +91,8 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         newNode.setData(tNode);
         currentNode.getChildren().add(newNode);
 
-        if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(originial.getPropositionTypeCode())) {
-            this.addCompoundTreeNode(newNode, originial, compared);
+        if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(original.getPropositionTypeCode())) {
+            this.addCompoundTreeNode(newNode, original, compared);
         }
     }
 
@@ -171,6 +163,10 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
 
     public List<String> getListItems(PropositionDefinitionContract propositionEditor) {
         return null;
+    }
+
+    public String getNaturalLanguageUsageKey(){
+        return  KsKrmsConstants.KRMS_NL_RULE_EDIT;
     }
 
 }

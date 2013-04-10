@@ -31,10 +31,6 @@ public abstract class AbstractTreeBuilder implements TreeBuilder {
 
     private RuleManagementService ruleManagementService;
 
-    protected String usageId;
-
-    private TreeIterator nlDescriptions;
-
     public RuleManagementService getRuleManagementService() {
         return ruleManagementService;
     }
@@ -43,24 +39,19 @@ public abstract class AbstractTreeBuilder implements TreeBuilder {
         this.ruleManagementService = ruleManagementService;
     }
 
-    protected void setNaturalLanguageTree(PropositionEditor root){
-        PropositionDefinition.Builder propBuilder = PropositionDefinition.Builder.create(root);
-        NaturalLanguageTree nlTree = this.getRuleManagementService().translateNaturalLanguageTreeForProposition(this.getNaturalLanguageUsageId(), propBuilder.build(), "en");
-        nlDescriptions = new TreeIterator(nlTree);
+    protected String buildNodeLabel(RuleDefinitionContract rule, PropositionDefinitionContract prop){
+        return StringEscapeUtils.escapeHtml(this.getDescription(prop));
     }
 
-    protected String buildNodeLabel(RuleDefinitionContract rule, PropositionDefinitionContract prop, boolean refreshNl){
-        return StringEscapeUtils.escapeHtml(this.getDescription(prop, refreshNl));
-    }
-
-    protected String getDescription(PropositionDefinitionContract proposition, boolean refreshNl) {
+    protected String getDescription(PropositionDefinitionContract proposition) {
         if (proposition == null) {
             return StringUtils.EMPTY;
         }
 
-        // Update description from natural language
-        if (refreshNl){
-            return nlDescriptions.next();
+        //Return translated nl if exist.
+        if (proposition instanceof PropositionEditor){
+            PropositionEditor editor = (PropositionEditor) proposition;
+            return editor.getNaturalLanguageForUsage(this.getNaturalLanguageUsageKey());
         }
 
         //Return the description
@@ -85,56 +76,8 @@ public abstract class AbstractTreeBuilder implements TreeBuilder {
         return "<b>" + prop.getKey() + ".</b> ";
     }
 
-    protected String getNaturalLanguageUsageId(){
-        if (usageId == null){
-            NaturalLanguageUsage usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_PREVIEW,
-                    PermissionServiceConstants.KS_SYS_NAMESPACE);
-            if (usage != null){
-                usageId = usage.getId();
-            }
-        }
-        return usageId;
+    public String getNaturalLanguageUsageKey(){
+        return  KsKrmsConstants.KRMS_NL_PREVIEW;
     }
 
-    /**
-     * Put the natural language descriptions in a queue and retrieve them in
-     * the same order as the propostion tree.
-     */
-    protected class TreeIterator implements Serializable, Iterator<String> {
-
-        private Queue<String> nl;
-
-        public TreeIterator(NaturalLanguageTree tree){
-            nl = new LinkedList<String>();
-            this.addToStack(tree);
-        }
-
-        private void addToStack(NaturalLanguageTree tree){
-            if (tree == null){
-                return;
-            }
-
-            nl.offer(tree.getNaturalLanguage());
-            if (tree.getChildren() != null){
-                for (NaturalLanguageTree child : tree.getChildren()){
-                    addToStack(child);
-                }
-            }
-        }
-
-        @Override
-        public boolean hasNext() {
-            return !nl.isEmpty();
-        }
-
-        @Override
-        public String next() {
-            return nl.poll();
-        }
-
-        @Override
-        public void remove() {
-            //To change body of implemented methods use File | Settings | File Templates.
-        }
-    }
 }

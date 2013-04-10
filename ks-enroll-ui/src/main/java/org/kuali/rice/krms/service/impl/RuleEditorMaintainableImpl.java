@@ -138,7 +138,8 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                 if (agendaItem.getRuleId() != null) {
                     RuleDefinition rule = this.getRuleManagementService().getRule(treeRuleEntry.getRuleId());
                     RuleEditor ruleEditor = new RuleEditor(rule);
-                    ruleEditor.setPreviewTree(viewTreeBuilder.buildTree(ruleEditor, true));
+                    this.initPropositionEditor((PropositionEditor) ruleEditor.getProposition());
+                    ruleEditor.setPreviewTree(viewTreeBuilder.buildTree(ruleEditor));
                     rules.add(ruleEditor);
                 }
 
@@ -226,15 +227,8 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     protected void finPropositionEditor(PropositionEditor propositionEditor) {
         if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(propositionEditor.getPropositionTypeCode())) {
 
-            //Build the new termParamters with the matching component builder.
-            Map<String, String> termParameters = null;
-            ComponentBuilder builder = this.getTemplateRegistry().getComponentBuilderForType(propositionEditor.getType());
-            if (builder != null) {
-                termParameters = builder.buildTermParameters(propositionEditor);
-            }
-
             //Save term and set termid.
-            String termId = this.saveTerm(propositionEditor, termParameters);
+            String termId = this.saveTerm(propositionEditor);
             if (propositionEditor.getParameters().get(0) != null) {
                 propositionEditor.getParameters().get(0).setValue(termId);
             }
@@ -249,42 +243,11 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         }
     }
 
-    protected String saveTerm(PropositionEditor propositionEditor, Map<String, String> termParameters) {
-        TermEditor term;
-        if (propositionEditor.getTerm() != null) {
-            term = new TermEditor(propositionEditor.getTerm());
-        } else {
-            term = new TermEditor();
-        }
+    protected String saveTerm(PropositionEditor propositionEditor) {
 
         //Set the termSpecification based on current type.
+        TermEditor term = propositionEditor.getTerm();
         term.setSpecification(this.getTermSpecForType(propositionEditor.getType()));
-
-        List<TermParameterEditor> parameters = new ArrayList<TermParameterEditor>();
-        if (termParameters != null) {
-            for (Map.Entry<String, String> entry : termParameters.entrySet()) {
-
-                TermParameterEditor parameterEditor = null;
-                if (term.getParameters() != null) {
-                    for (TermParameterEditor parameter : term.getEditorParameters()) {
-                        if (entry.getKey().equals(parameter.getName())) {
-                            parameterEditor = parameter;
-                            parameterEditor.setValue(entry.getValue());
-                            break;
-                        }
-                    }
-                }
-
-                //Create a new parameter if not exist.
-                if (parameterEditor == null) {
-                    parameterEditor = new TermParameterEditor();
-                    parameterEditor.setName(entry.getKey());
-                    parameterEditor.setValue(entry.getValue());
-                }
-                parameters.add(parameterEditor);
-            }
-        }
-        term.setParameters(parameters);
 
         TermDefinition.Builder termBuilder = TermDefinition.Builder.create(term);
         TermDefinition termDefinition = termBuilder.build();
@@ -294,7 +257,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         } else {
             this.getTermRepositoryService().updateTerm(termDefinition);
         }
-        propositionEditor.setTerm(termDefinition);
 
         return termDefinition.getId();
     }
@@ -341,14 +303,17 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         Map<String, String> termParameters = new HashMap<String, String>();
         if (proposition.getTerm() == null) {
             if (proposition.getParameters().get(0) != null) {
+
+                //TODO: this should already be on the proposition.
                 String termId = proposition.getParameters().get(0).getValue();
-                proposition.setTerm(this.getTermRepositoryService().getTerm(termId));
+                TermDefinition termDefinition = this.getTermRepositoryService().getTerm(termId);
+                proposition.setTerm(new TermEditor(termDefinition));
             } else {
                 return termParameters;
             }
         }
 
-        for (TermParameterDefinition parameter : proposition.getTerm().getParameters()) {
+        for (TermParameterEditor parameter : proposition.getTerm().getEditorParameters()) {
             termParameters.put(parameter.getName(), parameter.getValue());
         }
 

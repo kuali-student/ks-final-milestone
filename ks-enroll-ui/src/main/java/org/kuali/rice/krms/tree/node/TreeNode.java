@@ -18,7 +18,6 @@ public class TreeNode implements Serializable {
     private String data;
     private List<String> listItems;
 
-
     public TreeNode(){
     }
 

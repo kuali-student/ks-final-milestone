@@ -2,6 +2,8 @@ package org.kuali.rice.krms.dto;
 
 import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
 
+import java.io.Serializable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: SW
@@ -9,7 +11,7 @@ import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
  * Time: 5:18 PM
  * To change this template use File | Settings | File Templates.
  */
-public class TermParameterEditor implements TermParameterDefinitionContract {
+public class TermParameterEditor implements TermParameterDefinitionContract, Serializable {
 
     private String id;
     private String termId;
@@ -73,4 +75,5 @@ public class TermParameterEditor implements TermParameterDefinitionContract {
     public Long getVersionNumber() {
         return this.versionNumber;
     }
+
 }

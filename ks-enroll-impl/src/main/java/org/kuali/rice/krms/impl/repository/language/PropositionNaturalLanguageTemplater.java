@@ -138,9 +138,14 @@ public class PropositionNaturalLanguageTemplater implements NaturalLanguageTempl
         }
         //Retrieve term id from proposition parameters and load.
         if (parametersMap.containsKey(PropositionParameterType.TERM.getCode())) {
-            String termId = (String) parametersMap.get(PropositionParameterType.TERM.getCode());
-            if (termId != null){
-                TermDefinitionContract term = getTermBoService().getTerm(termId);
+            Object termObject = parametersMap.get(PropositionParameterType.TERM.getCode());
+            if (termObject != null) {
+                TermDefinitionContract term = null;
+                if (termObject instanceof TermDefinitionContract){
+                    term = (TermDefinitionContract) termObject;
+                } else {
+                    term = getTermBoService().getTerm((String)termObject);
+                }
                 for (Context<TermDefinitionContract> context : contextList) {
                     Map<String, Object> cm = context.createContextMap(term, new org.kuali.student.r2.common.dto.ContextInfo());  // KS contextInfo is not passed through here
                     contextMap.putAll(cm);
