@@ -139,7 +139,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                     RuleDefinition rule = this.getRuleManagementService().getRule(treeRuleEntry.getRuleId());
                     RuleEditor ruleEditor = new RuleEditor(rule);
                     this.initPropositionEditor((PropositionEditor) ruleEditor.getProposition());
-                    ruleEditor.setPreviewTree(viewTreeBuilder.buildTree(ruleEditor));
+                    ruleEditor.setViewTree(viewTreeBuilder.buildTree(ruleEditor));
                     rules.add(ruleEditor);
                 }
 

@@ -127,7 +127,7 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                     PropositionEditor rootProposition = (PropositionEditor) ruleEditor.getProposition();
                     this.initPropositionEditor((PropositionEditor) ruleEditor.getProposition());
                     nlHelper.setNaturalLanguageTreeForUsage(rootProposition, viewTreeBuilder.getNaturalLanguageUsageKey());
-                    ruleEditor.setPreviewTree(viewTreeBuilder.buildTree(ruleEditor));
+                    ruleEditor.setViewTree(viewTreeBuilder.buildTree(ruleEditor));
 
                     //Add rule to list on agenda
                     rules.add(ruleEditor);

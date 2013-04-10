@@ -82,6 +82,10 @@ public class RuleManagementWrapper extends UifFormBase {
         return this.getRuleEditor().getPreviewTree();
     }
 
+    public Tree<TreeNode, String> getViewTree() {
+       return this.getRuleEditor().getViewTree();
+    }
+
     public void setActiveSelections(List<String> activeSelections) {
         this.getRuleEditor().setActiveSelections(activeSelections);
     }
