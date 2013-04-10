@@ -17,6 +17,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.adapter;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.ActivityOfferingNotInAocSubissue;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.CourseOfferingAutogenIssue;
@@ -48,6 +50,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.permutation.PermutationCounter;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -99,10 +102,49 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
      */
     @Override
     public String getDefaultClusterName(int numberOfExistingClusters) {
-        
+
         String clusterName = String.format("CL %d", (numberOfExistingClusters + 1));
-        
+
         return clusterName;
+    }
+
+    @Override
+    public String getDefaultClusterNamePerCO(String courseOfferingId, ContextInfo context) {
+        List<String> foIds = new ArrayList<String>();
+        int prefixNum = 1;
+        String defaultClusterNameToCreate = String.format("CL %d", prefixNum);
+        Set<String> clusterNames = new HashSet<String>();
+
+        try {
+            //retrieve all the FOs associated with the given CO
+            List<FormatOfferingInfo> formatOfferingList = coService.getFormatOfferingsByCourseOffering(courseOfferingId, context);
+            for(FormatOfferingInfo foInfo:formatOfferingList){
+                foIds.add(foInfo.getId());
+            }
+
+            if (foIds!=null && !foIds.isEmpty()) {
+                QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+                qbcBuilder.setPredicates(PredicateFactory.in("formatOfferingId", foIds.toArray()));
+                QueryByCriteria criteria = qbcBuilder.build();
+
+                //retrieve all the clusters associated with the given CO (by fetching clusters for all the FOs in the given CO)
+                List<ActivityOfferingClusterInfo> aoClusterList = coService.searchForActivityOfferingClusters(criteria, context);
+
+                for (ActivityOfferingClusterInfo aoCluster : aoClusterList) {
+                    clusterNames.add(aoCluster.getPrivateName());
+                }
+
+                //assign the default cluster a name that hasn't been used within the given CO
+                while (clusterNames.contains(defaultClusterNameToCreate)) {
+                    prefixNum++;
+                    defaultClusterNameToCreate = String.format("CL %d", prefixNum);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return defaultClusterNameToCreate;
     }
 
     public void setCourseOfferingService(CourseOfferingService coService) {
@@ -144,7 +186,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         ActivityOfferingClusterInfo clusterInfo = new ActivityOfferingClusterInfo();
         clusterInfo.setFormatOfferingId(foId);
         
-        String defaultClusterName = getDefaultClusterName(0);
+        String defaultClusterName = getDefaultClusterNamePerCO(coId, context);
         
         clusterInfo.setPrivateName(defaultClusterName);
         clusterInfo.setName(defaultClusterName);

@@ -650,13 +650,13 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
         }
 
 
-        if(ARGUtil._isClusterUnique(theForm.getFormatOfferingIdForViewRG(), theForm.getPrivateClusterNameForRenamePopover())){
+        if(ARGUtil._isClusterUniqueWithinCO(theForm, theForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(), theForm.getPrivateClusterNameForRenamePopover())){
         ARGActivityOfferingClusterHandler.renameAClusterThroughDialog(theForm);
         ActivityOfferingClusterWrapper selectedClusterWrapper;
             selectedClusterWrapper = (ActivityOfferingClusterWrapper)ARGUtil.getSelectedObject(theForm, "Rename Cluster");
             theForm.setSelectedCluster(selectedClusterWrapper);
                 selectedClusterWrapper = theForm.getSelectedCluster();
-                if (theForm.getSelectedCluster().getAoCluster().getPrivateName().equalsIgnoreCase(theForm.getPrivateClusterNameForRenamePopover()) || ARGUtil._isClusterUnique(theForm.getFormatOfferingIdForViewRG(), theForm.getPrivateClusterNameForRenamePopover())){
+                if (theForm.getSelectedCluster().getAoCluster().getPrivateName().equalsIgnoreCase(theForm.getPrivateClusterNameForRenamePopover()) || ARGUtil._isClusterUniqueWithinCO(theForm, theForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(), theForm.getPrivateClusterNameForRenamePopover())){
                     ActivityOfferingClusterInfo aoCluster = selectedClusterWrapper.getAoCluster();
 
                     aoCluster.setPrivateName(theForm.getPrivateClusterNameForRenamePopover());

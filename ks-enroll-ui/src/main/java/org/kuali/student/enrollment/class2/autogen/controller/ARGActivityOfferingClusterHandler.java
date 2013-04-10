@@ -297,7 +297,7 @@ public class ARGActivityOfferingClusterHandler {
         String growlPublicName = theForm.getPublishedClusterNamePopover();
 
         String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
-        if (ARGUtil._isClusterUnique(formatOfferingId, theForm.getPrivateClusterNamePopover())){
+        if (ARGUtil._isClusterUniqueWithinCO(theForm, theForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(), theForm.getPrivateClusterNamePopover())){
             //build a new empty cluster
             ActivityOfferingClusterInfo emptyCluster = ARGUtil._buildEmptyAOCluster(formatOfferingId,
                     theForm.getPrivateClusterNamePopover(), theForm.getPublishedClusterNamePopover());
