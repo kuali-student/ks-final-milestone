@@ -401,10 +401,14 @@ public class PlanForm extends UifFormBase {
     }
 
     public String getPlanItemIdXmlSafe(){
-        return planItemId.replace(".","_");
+        if(planItemId!=null)
+            return planItemId.replace(".","_");
+        return "";
     }
 
     public String getCourseIdXmlSafe(){
-        return courseId.replace(".","_");
+        if(courseId!=null)
+            return courseId.replace(".","_");
+        return "";
     }
 }
