@@ -32,7 +32,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWr
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
@@ -167,7 +167,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, contextInfo);
 
             // check for changes to states in CO and related FOs (may happen in the case of deleted FOs)
-//            ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(coInfo, contextInfo);
+//            CourseOfferingViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(coInfo, contextInfo);
 
         }   catch (Exception ex){
             throw new RuntimeException(ex);
@@ -201,6 +201,9 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                     if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
                         formatOfferingInfo.setFinalExamLevelTypeKey(null);
                     }
+                    // Populate AO types (all FOs should "require" this (less important here since it should
+                    // already exist)
+                    CourseOfferingViewHelperUtil.addActivityOfferingTypesToFormatOffering(formatOfferingInfo, coEditWrapper.getCourse(), getTypeService(), contextInfo);
                     FormatOfferingInfo updatedFormatOffering = getCourseOfferingService().
                             updateFormatOffering(formatOfferingInfo.getId(),formatOfferingInfo, contextInfo);
                     updatedFormatOfferingList.add(updatedFormatOffering);
@@ -217,6 +220,8 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                     if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
                         formatOfferingInfo.setFinalExamLevelTypeKey(null);
                     }
+                    // Populate AO types (all FOs should "require" this
+                    CourseOfferingViewHelperUtil.addActivityOfferingTypesToFormatOffering(formatOfferingInfo, coEditWrapper.getCourse(), getTypeService(), contextInfo);
                     FormatOfferingInfo createdFormatOffering = getCourseOfferingService().
                             createFormatOffering(coInfo.getId(), formatOfferingInfo.getFormatId(), formatOfferingInfo.getTypeKey(), formatOfferingInfo, contextInfo);
                     updatedFormatOfferingList.add(createdFormatOffering);
@@ -267,7 +272,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             }
 
             //validate ID
-            List<Person> lstPerson = ViewHelperUtil.getInstructorByPersonId(instructorInfo.getPersonId());
+            List<Person> lstPerson = CourseOfferingViewHelperUtil.getInstructorByPersonId(instructorInfo.getPersonId());
             if(lstPerson == null || lstPerson.isEmpty()){
                 GlobalVariables.getMessageMap().putErrorForSectionId("KS-CourseOfferingEdit-PersonnelSection", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_NOTFOUND, instructorInfo.getPersonId());
                 return false;
@@ -303,7 +308,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             // set the person name if it's null, in the case of user-input personell id
             OfferingInstructorInfo instructorInfo = (OfferingInstructorInfo)addLine;
             if(instructorInfo.getPersonName() == null && instructorInfo.getPersonId() != null) {
-                List<Person> personList = ViewHelperUtil.getInstructorByPersonId(instructorInfo.getPersonId());
+                List<Person> personList = CourseOfferingViewHelperUtil.getInstructorByPersonId(instructorInfo.getPersonId());
                 if(personList.size() == 1) {
                     instructorInfo.setPersonName(personList.get(0).getName());
                 }

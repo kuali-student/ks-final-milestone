@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CO_AO_RG_ViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -83,7 +83,7 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         FormatOfferingInfo fo = getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
         aoWrapper.setFormatOffering(fo);
 
-        OfferingInstructorInfo displayInstructor = ViewHelperUtil.findDisplayInstructor(aoInfo.getInstructors());
+        OfferingInstructorInfo displayInstructor = CourseOfferingViewHelperUtil.findDisplayInstructor(aoInfo.getInstructors());
 
         if(displayInstructor != null) {
             aoWrapper.setFirstInstructorDisplayName(displayInstructor.getPersonName());

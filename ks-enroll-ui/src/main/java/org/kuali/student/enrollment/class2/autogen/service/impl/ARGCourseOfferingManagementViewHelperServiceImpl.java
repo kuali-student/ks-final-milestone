@@ -40,9 +40,9 @@ import org.kuali.student.enrollment.class2.courseoffering.service.impl.CO_AO_RG_
 import org.kuali.student.enrollment.class2.courseoffering.service.util.RegistrationGroupUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
@@ -1036,7 +1036,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                         }
                         // if ao is colocated AO add colocated info
                         if(isColocatedAo(aoDisplayInfo.getActivityOfferingCode(), aoInfoList))  {
-                            String colocateInfo = ViewHelperUtil.createColocatedDisplayData(getAoInfo(aoDisplayInfo.getActivityOfferingCode(), aoInfoList), contextInfo);
+                            String colocateInfo = CourseOfferingViewHelperUtil.createColocatedDisplayData(getAoInfo(aoDisplayInfo.getActivityOfferingCode(), aoInfoList), contextInfo);
                             aoDisplayWrapper.setColocatedAoInfo(colocateInfo);
                             co.setColocated(true);
                             co.setColocatedCoCode(colocateInfo);
@@ -1343,7 +1343,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     private String getJointDefinedInfo(CourseOfferingListSectionWrapper co) {
         if(co == null) return null;
 
-        List<CourseInfo> coInfoList = ViewHelperUtil.getMatchingCoursesFromClu( co.getCourseOfferingCode());
+        List<CourseInfo> coInfoList = CourseOfferingViewHelperUtil.getMatchingCoursesFromClu(co.getCourseOfferingCode());
         StringBuffer jointDefinedCodes  = new StringBuffer();
 
         for(CourseInfo coInfo : coInfoList) {

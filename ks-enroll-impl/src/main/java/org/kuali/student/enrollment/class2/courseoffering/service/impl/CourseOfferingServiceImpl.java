@@ -911,7 +911,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throw new InvalidParameterException(formatOfferingType + " does not match the corresponding value in the object " + foInfo.getTypeKey());
         }
 
-        validateLuiIsInValidInitialState( foInfo, LuiServiceConstants.FORMAT_OFFERING_LIFECYCLE_KEY, context );
+        validateLuiIsInValidInitialState(foInfo, LuiServiceConstants.FORMAT_OFFERING_LIFECYCLE_KEY, context);
 
         // get the course offering
         CourseOfferingInfo co = this.getCourseOffering(courseOfferingId, context);
@@ -921,6 +921,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             }
         }
         foInfo.setTermId(co.getTermId());
+
+        // Get existing format offerings (for use in prefix generation)
+        List<FormatOfferingInfo> existingFos = getFormatOfferingsByCourseOffering(co.getId(), context);
 
         // get formatId out of the course
         CourseInfo course = this._getCourse(co.getCourseId()); // make sure it exists
@@ -934,11 +937,21 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         if (format == null) {
             throw new OperationFailedException("Error creating format offering. Format does not exist with id " + formatId);
         }
+        // Use dynamic attributes to set a prefix for the reg code generation (KSENROLL-6222)
+        int prefix = 1;
+        try {
+            prefix = RegistrationGroupCodeUtil.computeRegCodePrefixForFo(existingFos, this, context);
+        } catch (VersionMismatchException e) {
+            throw new OperationFailedException("ERROR: assigning prefix for FO");
+        }
+        // Set a prefix for this newly created FO
+        RegistrationGroupCodeUtil.addRegCodePrefixAttributeToFo(prefix + "", foInfo);
+
         // copy to lui
         LuiInfo lui = new LuiInfo();
 
-        //Make the name of the FO correct
-        generateLuiNameAndDescr(foInfo,course,context);
+        // Make the name of the FO correct
+        generateLuiNameAndDescr(foInfo, course, context);
 
         new FormatOfferingTransformer().format2Lui(foInfo, lui);
 
@@ -968,10 +981,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         } catch (Exception aee) {
             throw new OperationFailedException("Unexpected", aee);
         }
+
         // rebuild to return it
         FormatOfferingInfo formatOffering = new FormatOfferingInfo();
         new FormatOfferingTransformer().lui2Format(lui, formatOffering);
         formatOffering.setCourseOfferingId(luiRel.getLuiId());
+
         return formatOffering;
     }
 

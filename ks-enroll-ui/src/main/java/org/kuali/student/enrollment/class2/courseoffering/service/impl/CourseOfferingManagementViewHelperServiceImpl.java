@@ -30,11 +30,10 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingList
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
-import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.ToolbarUtil;
-import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
@@ -77,7 +76,6 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
@@ -605,7 +603,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                         }
                         // if ao is colocated AO add colocated info
                         if(isColocatedAo(aoDisplayInfo.getActivityOfferingCode(), aoInfoList))  {
-                            String colocateInfo = ViewHelperUtil.createColocatedDisplayData(getAoInfo(aoDisplayInfo.getActivityOfferingCode(), aoInfoList), contextInfo);
+                            String colocateInfo = CourseOfferingViewHelperUtil.createColocatedDisplayData(getAoInfo(aoDisplayInfo.getActivityOfferingCode(), aoInfoList), contextInfo);
                             aoDisplayWrapper.setColocatedAoInfo(colocateInfo);
                             co.setColocated(true);
                             co.setColocatedCoCode(colocateInfo);
@@ -906,7 +904,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     private String getJointDefinedInfo(CourseOfferingListSectionWrapper co) {
         if(co == null) return null;
 
-        List<CourseInfo> coInfoList = ViewHelperUtil.getMatchingCoursesFromClu( co.getCourseOfferingCode());
+        List<CourseInfo> coInfoList = CourseOfferingViewHelperUtil.getMatchingCoursesFromClu(co.getCourseOfferingCode());
         StringBuffer jointDefinedCodes  = new StringBuffer();
 
         for(CourseInfo coInfo : coInfoList) {
