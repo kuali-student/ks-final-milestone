@@ -67,7 +67,6 @@ public class SchedulingServiceDataLoader {
     public final static String ROOM_ID = "Room1";
 
     private ContextInfo contextInfo;
-    public static final String REF_OBJECT_TYPE_KEY_ACTIVITY_OFFERING = "kuali.type.refobject.activity.offering";
 
     private AtpService atpService;
     private RoomService roomService;
@@ -170,12 +169,16 @@ public class SchedulingServiceDataLoader {
         schedulingService.createTimeSlot(typeKey, ts, contextInfo);
     }
 
-    public static ScheduleRequestInfo setupScheduleRequestInfo(String scheduleRequestInfoId, String scheduleRequestInfoRefObjectId,
+    public static ScheduleRequestInfo setupScheduleRequestInfo(String scheduleRequestInfoId,
                                                                String ScheduleRequestComponentInfoId, String scheduleRequestInfoName) {
         ScheduleRequestInfo scheduleRequestInfo = new ScheduleRequestInfo();
         scheduleRequestInfo.setId(scheduleRequestInfoId);
-        scheduleRequestInfo.setRefObjectId(scheduleRequestInfoRefObjectId);
-        scheduleRequestInfo.setRefObjectTypeKey(REF_OBJECT_TYPE_KEY_ACTIVITY_OFFERING);
+
+        // SSRTODO: Add real data here
+        scheduleRequestInfo.setScheduleId("schedule id");
+        scheduleRequestInfo.setScheduleRequestSetId("schedule request set id");
+
+
         scheduleRequestInfo.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
         scheduleRequestInfo.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
         scheduleRequestInfo.setName(scheduleRequestInfoName);
