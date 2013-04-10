@@ -40,13 +40,18 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
@@ -63,9 +68,9 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class ViewHelperUtil {
+public class CourseOfferingViewHelperUtil {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ViewHelperUtil.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingViewHelperUtil.class);
 
     public static List<Person> getInstructorByPersonId(String personId){
         Map<String, String> searchCriteria = new HashMap<String, String>();
@@ -356,5 +361,60 @@ public class ViewHelperUtil {
         }
 
         return courseInfoList;
+    }
+
+    /**
+     * Adds correct AO types to the format offering
+     * (Code fix for KSENROLL-6071, KSNEROLL-6074)
+     * @param fo The FO to fix up
+     * @param course Which course this is pertinent to
+     * @param context
+     * @throws PermissionDeniedException
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
+     */
+    public static void addActivityOfferingTypesToFormatOffering(FormatOfferingInfo fo, CourseInfo course,
+                                                           TypeService typeService, ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException,
+            DoesNotExistException {
+        if (fo.getActivityOfferingTypeKeys() != null && !fo.getActivityOfferingTypeKeys().isEmpty()) {
+            // Only bother with this if there are no AO type keys
+            return;
+        }
+        List<FormatInfo> formats = course.getFormats();
+        FormatInfo format = null;
+        for (FormatInfo f: formats) {
+            if (f.getId().equals(fo.getFormatId())) {
+                // Find correct format
+                format = f;
+                break;
+            }
+        }
+        // Get the activity types
+        List<String> activityTypes = new ArrayList<String>();
+        for (ActivityInfo activityInfo: format.getActivities()) {
+            activityTypes.add(activityInfo.getTypeKey());
+        }
+        // Use type service to find corresponding AO types--assumes 1-1 mapping of Activity types to AO types
+        List<String> aoTypeKeys = new ArrayList<String>();
+        for (String activityType: activityTypes) {
+            List<TypeTypeRelationInfo> typeTypeRels =
+                    typeService.getTypeTypeRelationsByOwnerAndType(activityType,
+                            TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY,
+                            context);
+            if (typeTypeRels.size() != 1) {
+                // Ref data currently only has a 1-1 mapping between Activity types (CLU) and AO types (LUI)
+                // The UI screens only support this.  Should there be a many-to-1 relation between AO types and Activity
+                // types (as they were originally envisioned), then this exception will be thrown.
+                throw new UnsupportedOperationException("Can't handle Activity Type -> AO Type that isn't 1-1.  Search for this message in Java code");
+            } else {
+                String aoType = typeTypeRels.get(0).getRelatedTypeKey();
+                aoTypeKeys.add(aoType);
+            }
+        }
+        // Finally, set the ao types for this fo
+        fo.setActivityOfferingTypeKeys(aoTypeKeys);
     }
 }
