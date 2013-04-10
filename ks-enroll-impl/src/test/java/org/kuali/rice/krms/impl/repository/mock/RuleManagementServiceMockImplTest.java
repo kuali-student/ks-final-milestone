@@ -27,7 +27,10 @@ import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseServiceR1MockImpl;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseTestDataLoader;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
+import org.kuali.student.r2.lum.course.service.CourseService;
 
 /**
  *
@@ -40,39 +43,8 @@ public class RuleManagementServiceMockImplTest {
     private KrmsTypeRepositoryService krmsTypeRepositoryService = null;
     private RuleManagementService ruleManagementService = null;
     private TermRepositoryService termRepositoryService = null;
+    private CourseService courseService = null;
 
-    public KrmsTypeRepositoryService getKrmsTypeRepositoryService() {
-        if (this.krmsTypeRepositoryService == null) {
-            this.krmsTypeRepositoryService = new KrmsTypeRepositoryServiceMockImpl();
-        }
-        return krmsTypeRepositoryService;
-    }
-
-    public void setKrmsTypeRepositoryService(KrmsTypeRepositoryService krmsTypeRepositoryService) {
-        this.krmsTypeRepositoryService = krmsTypeRepositoryService;
-    }
-
-    public RuleManagementService getRuleManagementService() {
-        if (this.ruleManagementService == null) {
-            this.ruleManagementService = new RuleManagementServiceMockImpl();
-        }
-        return ruleManagementService;
-    }
-
-    public void setRuleManagementService(RuleManagementService ruleManagementService) {
-        this.ruleManagementService = ruleManagementService;
-    }
-
-    public TermRepositoryService getTermRepositoryService() {
-        if (this.termRepositoryService == null) {
-            this.termRepositoryService = new TermRepositoryServiceMockImpl();
-        }
-        return termRepositoryService;
-    }
-
-    public void setTermRepositoryService(TermRepositoryService termRepositoryService) {
-        this.termRepositoryService = termRepositoryService;
-    }
 
     @BeforeClass
     public static void setUpClass() {
@@ -84,11 +56,21 @@ public class RuleManagementServiceMockImplTest {
 
     @Before
     public void setUp() {
+        this.krmsTypeRepositoryService = new KrmsTypeRepositoryServiceMockImpl ();
+        this.ruleManagementService = new RuleManagementServiceMockImpl ();
+        this.termRepositoryService = new TermRepositoryServiceMockImpl ();
         KrmsConfigurationLoader loader = new KrmsConfigurationLoader();
-        loader.setKrmsTypeRepositoryService(this.getKrmsTypeRepositoryService());
-        loader.setRuleManagementService(this.getRuleManagementService());
-        loader.setTermRepositoryService(this.getTermRepositoryService());
+        loader.setKrmsTypeRepositoryService(this.krmsTypeRepositoryService);
+        loader.setRuleManagementService(this.ruleManagementService);
+        loader.setTermRepositoryService(this.termRepositoryService);
         loader.loadConfiguration();
+        
+        this.courseService = new CourseServiceR1MockImpl ();
+        CourseTestDataLoader courseTestDataLoader = new CourseTestDataLoader ();
+        courseTestDataLoader.setCourseService(courseService);
+        courseTestDataLoader.loadData();
+        
+        
     }
 
     @After
@@ -104,7 +86,7 @@ public class RuleManagementServiceMockImplTest {
         String languageCode = KsKrmsConstants.LANGUAGE_CODE_ENGLISH;
 
         // check that we can get all the different context types
-        types = this.getKrmsTypeRepositoryService().findAllContextTypes();
+        types = this.krmsTypeRepositoryService.findAllContextTypes();
         expected = new LinkedHashSet<String>();
         expected.add(KsKrmsConstants.CONTEXT_TYPE_COURSE);
         expected.add(KsKrmsConstants.CONTEXT_TYPE_PROGRAM);
@@ -121,7 +103,7 @@ public class RuleManagementServiceMockImplTest {
         System.out.print("==> Choose: ");
         String selectedId = this.simulateUserChoosingContextTypeId();
         System.out.println(selectedId);
-        KrmsTypeDefinition selectedContextType = this.getKrmsTypeRepositoryService().getTypeById(selectedId);
+        KrmsTypeDefinition selectedContextType = this.krmsTypeRepositoryService.getTypeById(selectedId);
         String description = this.getScreenDescription(selectedContextType.getId(), languageCode);
         System.out.println("Editing Rules for Context: " + description);
 
@@ -132,7 +114,7 @@ public class RuleManagementServiceMockImplTest {
         // I thought it would be the selected context type but in the existing configured data it has a value T1004?!? 
         bldr.setTypeId(selectedContextType.getId());
         bldr.setDescription(description); // set the description to be the template description of the type
-        ContextDefinition context = this.getRuleManagementService().findCreateContext(bldr.build());
+        ContextDefinition context = this.ruleManagementService.findCreateContext(bldr.build());
         assertNotNull(context);
         assertEquals(context.getName(), selectedContextType.getName());
         assertEquals(context.getNamespace(), selectedContextType.getNamespace());
@@ -141,7 +123,7 @@ public class RuleManagementServiceMockImplTest {
         assertEquals(context.getDescription(), description);
 
         // Get all the agenda types for this course context type
-        types = this.getKrmsTypeRepositoryService().findAgendaTypesForContextType(selectedContextType.getId());
+        types = this.krmsTypeRepositoryService.findAgendaTypesForContextType(selectedContextType.getId());
         expected = new LinkedHashSet<String>();
         expected.add(KsKrmsConstants.AGENDA_TYPE_COURSE_ENROLLMENTELIGIBILITY);
         expected.add(KsKrmsConstants.AGENDA_TYPE_COURSE_CREDITCONSTRAINTS);
@@ -153,12 +135,12 @@ public class RuleManagementServiceMockImplTest {
 
         // Get all the agenda types for the main agenda type
         // Right now we don't do this we just have rule types so this should return an empty list
-        types = this.getKrmsTypeRepositoryService().findAgendaTypesForAgendaType(courseEligAgendaType.getId());
+        types = this.krmsTypeRepositoryService.findAgendaTypesForAgendaType(courseEligAgendaType.getId());
         expected = new LinkedHashSet<String>();
         this.checkTypeNamesOrdered(expected, types);
 
         // Get all the RULE types for the main agenda type
-        types = this.getKrmsTypeRepositoryService().findRuleTypesForAgendaType(courseEligAgendaType.getId());
+        types = this.krmsTypeRepositoryService.findRuleTypesForAgendaType(courseEligAgendaType.getId());
         expected = new LinkedHashSet<String>();
         expected.add(KsKrmsConstants.RULE_TYPE_COURSE_ACADEMICREADINESS_STUDENTELIGIBILITYPREREQ);
         expected.add(KsKrmsConstants.RULE_TYPE_COURSE_ACADEMICREADINESS_COREQ);
@@ -171,7 +153,7 @@ public class RuleManagementServiceMockImplTest {
         KrmsTypeDefinition eligPrereqRuleType = this.simulateUserChoosingType(title, types, languageCode, defaultIndex);
 
         // Get all the Proposition types for the rule type
-        types = this.getKrmsTypeRepositoryService().findPropositionTypesForRuleType(eligPrereqRuleType.getId());
+        types = this.krmsTypeRepositoryService.findPropositionTypesForRuleType(eligPrereqRuleType.getId());
         expected = new LinkedHashSet<String>();
         expected.add(KsKrmsConstants.PROPOSITION_TYPE_FREEFORM_TEXT);
         expected.add(KsKrmsConstants.PROPOSITION_TYPE_SUCCESS_COMPL_COURSE);
@@ -212,7 +194,7 @@ public class RuleManagementServiceMockImplTest {
 
 
         // Get all the parameter types for the proposition type
-        types = this.getKrmsTypeRepositoryService().findPropositionParameterTypesForPropositionType(nOfCoursesPropositionType.getId());
+        types = this.krmsTypeRepositoryService.findPropositionParameterTypesForPropositionType(nOfCoursesPropositionType.getId());
         expected = new LinkedHashSet<String>();
         expected.add(KsKrmsConstants.PROPOSITION_PARAMETER_TYPE_TERM_NUMBER_OF_COMPLETED_COURSES);
         expected.add(KsKrmsConstants.PROPOSITION_PARAMETER_TYPE_OPERATOR_LESS_THAN_OR_EQUAL_TO);
@@ -249,7 +231,7 @@ public class RuleManagementServiceMockImplTest {
         
         
         // Get all the term parameter types for the TERM proposition parameter type
-        types = this.getKrmsTypeRepositoryService().findTermParameterTypesForTermPropositionParameterType(nOfCoursesTermType.getId());
+        types = this.krmsTypeRepositoryService.findTermParameterTypesForTermPropositionParameterType(nOfCoursesTermType.getId());
         expected = new LinkedHashSet<String>();
         expected.add(KsKrmsConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_ID);
         this.checkTypeNamesOrdered(expected, types);
@@ -264,12 +246,12 @@ public class RuleManagementServiceMockImplTest {
 
 //      TermSpec 
         TermSpecificationDefinition termSpec =
-                this.getTermRepositoryService().getTermSpecificationByNameAndNamespace(termName,
+                this.termRepositoryService.getTermSpecificationByNameAndNamespace(termName,
                 KsKrmsConstants.NAMESPACE_CODE);
         assertNotNull (termSpec);
         
         TermResolverDefinition termResolver =
-                this.getTermRepositoryService().getTermResolverByNameAndNamespace(termName,
+                this.termRepositoryService.getTermResolverByNameAndNamespace(termName,
                 KsKrmsConstants.NAMESPACE_CODE);
         assertNotNull (termResolver);
         
@@ -291,7 +273,7 @@ public class RuleManagementServiceMockImplTest {
             return usage;
         }
         // get the usage
-        usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(name, namespace);
+        usage = this.ruleManagementService.getNaturalLanguageUsageByNameAndNamespace(name, namespace);
         assertNotNull(usage);
         assertEquals(name, usage.getName());
         assertEquals(namespace, usage.getNamespace());
@@ -308,7 +290,7 @@ public class RuleManagementServiceMockImplTest {
     }
 
     private String simulateUserChoosingContextTypeId() {
-        KrmsTypeDefinition type = this.getKrmsTypeRepositoryService().getTypeByName(KsKrmsConstants.NAMESPACE_CODE, KsKrmsConstants.CONTEXT_TYPE_COURSE);
+        KrmsTypeDefinition type = this.krmsTypeRepositoryService.getTypeByName(KsKrmsConstants.NAMESPACE_CODE, KsKrmsConstants.CONTEXT_TYPE_COURSE);
         assertNotNull(type);
         assertEquals(KsKrmsConstants.CONTEXT_TYPE_COURSE, type.getName());
         assertEquals(KsKrmsConstants.NAMESPACE_CODE, type.getNamespace());
@@ -333,7 +315,7 @@ public class RuleManagementServiceMockImplTest {
     private String getScreenDescription(String typeId, String languageCode) {
         // check there is a corresponding template so we can display on the screen what kind of rule this is
         NaturalLanguageTemplate template =
-                this.getRuleManagementService().findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(languageCode,
+                this.ruleManagementService.findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(languageCode,
                 typeId,
                 this.getTypeDescriptionUsage().getId());
         if (template == null) {
@@ -356,7 +338,7 @@ public class RuleManagementServiceMockImplTest {
     private NaturalLanguageTemplate getRuleEditUsageNaturalLanguageTemplate(String typeId, String languageCode) {
         // check there is a corresponding template so we can display on the screen what kind of rule this is
         NaturalLanguageTemplate template =
-                this.getRuleManagementService().findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(languageCode,
+                this.ruleManagementService.findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(languageCode,
                 typeId,
                 this.getRuleEditUsage().getId());
         if (template == null) {

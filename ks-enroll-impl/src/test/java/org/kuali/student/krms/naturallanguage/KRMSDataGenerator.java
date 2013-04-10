@@ -15,6 +15,7 @@ import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinitionContract;
 
 import java.util.List;
 import java.util.Map;
+import org.kuali.rice.krms.api.repository.term.TermDefinition;
 
 /**
  * Created with IntelliJ IDEA.
@@ -258,6 +259,13 @@ public class KRMSDataGenerator {
             public Long getVersionNumber() {
                 return versionNumber;
             }
+
+            @Override
+            public TermDefinition getTermValue() {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+            
+            
         };
     }
 
