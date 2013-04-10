@@ -85,6 +85,7 @@ public class RegistrationGroupCodeUtil {
                     addRegCodePrefixAttributeToFo("" + i, unassigned);
                     coService.updateFormatOffering(unassigned.getId(), unassigned, context);
                     usedPrefixes.add(i); // Now i is "used"
+                    break;
                 }
             }
         }
