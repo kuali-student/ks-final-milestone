@@ -113,4 +113,8 @@ public class AcademicRecordDataObject {
     public void setActivityCode(String activityCode) {
         this.activityCode = activityCode;
     }
+
+    public String getUuidXmlSafe(){
+        return this.uuid.replace(".","_");
+    }
 }

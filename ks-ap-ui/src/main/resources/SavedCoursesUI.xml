@@ -467,7 +467,7 @@
                                     </list>
                                 </property>
                                 <property name="actionScript"
-                                          value="openPlanItemPopUp('@{#line.planItemDataObject.id}','plan_item_delete_page',{planItemId:'@{#line.planItemDataObject.id}',pageId:'plan_item_delete_page'},e,null,{tail:{hidden:true},align:'bottom',position:'right'});"/>
+                                          value="openPlanItemPopUp('@{#line.planItemDataObject.idXmlSafe}','plan_item_delete_page',{planItemId:'@{#line.planItemDataObject.id}',pageId:'plan_item_delete_page'},e,null,{tail:{hidden:true},align:'bottom',position:'right'});"/>
                             </bean>
                         </list>
                     </property>

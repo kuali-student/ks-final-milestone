@@ -308,7 +308,7 @@
 
                             <bean parent="Uif-ActionLink" p:actionLabel="Delete" p:style="float:right;">
                                 <property name="actionScript"
-                                          value="openPlanItemPopUp('@{#line.planItemDataObject.id}','plan_item_delete_page',{planItemId:'@{#line.planItemDataObject.id}',atpId:'@{#line.planItemDataObject.atp}',pageId:'plan_item_delete_page'},e,null,{tail:{hidden:true},align:'bottom',position:'right'});"/>
+                                          value="openPlanItemPopUp('@{#line.planItemDataObject.idXmlSafe}','plan_item_delete_page',{planItemId:'@{#line.planItemDataObject.id}',atpId:'@{#line.planItemDataObject.atp}',pageId:'plan_item_delete_page'},e,null,{tail:{hidden:true},align:'bottom',position:'right'});"/>
                                 <property name="render" value="@{!#line.showAlert}"/>
                             </bean>
 
@@ -333,7 +333,7 @@
                                         <bean parent="Uif-ActionLink" p:actionLabel="Delete"
                                               p:style="display:inline-block;">
                                             <property name="actionScript"
-                                                      value="openPlanItemPopUp('@{#line.planItemDataObject.id}','plan_item_delete_page',{planItemId:'@{#line.planItemDataObject.id}',atpId:'@{#line.planItemDataObject.atp}',pageId:'plan_item_delete_page'},e,null,{tail:{hidden:true},align:'bottom',position:'right'});"/>
+                                                      value="openPlanItemPopUp('@{#line.planItemDataObject.idxmlSafe}','plan_item_delete_page',{planItemId:'@{#line.planItemDataObject.id}',atpId:'@{#line.planItemDataObject.atp}',pageId:'plan_item_delete_page'},e,null,{tail:{hidden:true},align:'bottom',position:'right'});"/>
                                         </bean>
                                     </list>
                                 </property>

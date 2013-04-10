@@ -376,7 +376,8 @@
                         </list>
                     </property>
 					<property name="onClickScript"
-						value="openPlanItemPopUp(jQuery(this).data('courseid'),'add_dialog_page',{courseId:jQuery(this).data('courseid'),pageId:'add_dialog_page', moveCourse:'false'},e,null,{tail:{hidden:true},align:'top'});" />
+						value="var temp = jQuery(this).data('courseid').replace(/\./g,'_');
+						openPlanItemPopUp(temp,'add_dialog_page',{courseId:jQuery(this).data('courseid'),pageId:'add_dialog_page', moveCourse:'false'},e,null,{tail:{hidden:true},align:'top'});" />
 				</bean>
 
 				<bean parent="Uif-Link" p:target="" p:href="#" p:linkText="Bookmark"
