@@ -258,7 +258,7 @@
                 </bean>
                 <bean parent="Uif-InputField"  p:propertyName="publishedClusterNamePopover" p:label="Published Name" p:labelPlacement="TOP"  p:render="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
+                        <bean parent="Uif-TextControl" p:size="30"  p:maxLength="20"/>
                     </property>
                 </bean>
                 <bean parent="Uif-SecondaryActionButton-Small">

@@ -280,11 +280,6 @@ public class ARGActivityOfferingClusterHandler {
 
             return theForm;
         }
-        if(theForm.getPublishedClusterNamePopover().length() < 5 && theForm.getPublishedClusterNamePopover().length()!=0){
-            GlobalVariables.getMessageMap().putError("publishedClusterNamePopover", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PUBLISHED_NAME_IS_TOO_SHORT);
-
-            return theForm;
-        }
 
         //fix names
         if(theForm.getPrivateClusterNamePopover().contains(",") ) {
