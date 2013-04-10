@@ -151,6 +151,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
 
     private boolean enableAddButton = false;
     private boolean enableMoveAOButton = false;
+    private boolean enableAddClusterButton = false;
 
     private Date termClassStartDate;
 
@@ -430,6 +431,14 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
 
     public void setEnableMoveAOButton(boolean enableMoveAOButton) {
         this.enableMoveAOButton = enableMoveAOButton;
+    }
+
+    public boolean isEnableAddClusterButton() {
+        return enableAddClusterButton;
+    }
+
+    public void setEnableAddClusterButton(boolean enableAddClusterButton) {
+        this.enableAddClusterButton = enableAddClusterButton;
     }
 
     public String getSocStateKey() {

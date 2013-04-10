@@ -135,6 +135,7 @@ public class ARGToolbarUtil {
     public static void processAoToolbarForUser(List<ActivityOfferingWrapper> activityWrapperList, ARGCourseOfferingManagementForm form){
         form.setEnableAddButton(false);
         form.setEnableMoveAOButton(false);
+        form.setEnableAddClusterButton(false);
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
         String socStateKey = form.getSocStateKey();
@@ -169,6 +170,11 @@ public class ARGToolbarUtil {
             permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT,"moveAO");
             if(permissionService.isAuthorizedByTemplate(principalId,"KS-ENR",KimConstants.PermissionTemplateNames.PERFORM_ACTION,permissionDetails,roleQualifications)){
                 form.setEnableMoveAOButton(true);
+            }
+
+            permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT,"addCluster");
+            if(permissionService.isAuthorizedByTemplate(principalId,"KS-ENR",KimConstants.PermissionTemplateNames.PERFORM_ACTION,permissionDetails,roleQualifications)){
+                form.setEnableAddClusterButton(true);
             }
 
             if(activityWrapperList != null && !activityWrapperList.isEmpty()){
