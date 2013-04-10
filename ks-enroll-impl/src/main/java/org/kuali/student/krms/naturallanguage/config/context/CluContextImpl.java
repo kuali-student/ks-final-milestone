@@ -176,11 +176,15 @@ public class CluContextImpl extends BasicContextImpl {
                     }
                 }
             } else {
-                try {
-                    CluSetTreeViewInfo tree = cluService.getCluSetTreeView(cluSetId, contextInfo);
-                    findClusInCluSet(tree, list);
-                } catch (Exception e) {
-                    throw new OperationFailedException(e.getMessage(), e);
+                if (cluSetId != null) {
+                    try {
+                        CluSetTreeViewInfo tree = cluService.getCluSetTreeView(cluSetId, contextInfo);
+                        findClusInCluSet(tree, list);
+                    } catch (Exception e) {
+                        throw new OperationFailedException(e.getMessage(), e);
+                    }
+                }else {
+                    return null;
                 }
             }
 
