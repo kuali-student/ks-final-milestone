@@ -143,8 +143,13 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
 
             row.addCell(SearchResultColumns.SCH_ID,(String)result[i++]);
             row.addCell(SearchResultColumns.WEEKDAYS,(String)result[i++]);
-            row.addCell(SearchResultColumns.START_TIME,result[i++].toString());
-            row.addCell(SearchResultColumns.END_TIME,result[i++].toString());
+
+            Long startTime = (Long)result[i++];  // So, the underlying value is a long. we need to convert that to a string w/o NPE
+            row.addCell(SearchResultColumns.START_TIME,(startTime != null ? startTime.toString(): ""));
+
+            Long endTime = (Long)result[i++];
+            row.addCell(SearchResultColumns.END_TIME,(endTime != null ? endTime.toString(): ""));
+
             row.addCell(SearchResultColumns.TIME_SLOT_STATE,(String)result[i++]);
             row.addCell(SearchResultColumns.ROOM_CODE,(String)result[i++]);
             row.addCell(SearchResultColumns.BLDG_NAME,(String)result[i++]);
