@@ -896,6 +896,9 @@
     <bean id="ActivityOfferingSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl">
         <property name="entityManager" ref="enrollEntityManager"/>
     </bean>
+    <bean id="InstructorSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.InstructorSearchServiceImpl">
+        <property name="entityManager" ref="enrollEntityManager"/>
+    </bean>
 
     <bean id="searchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
         <property name="searchServices">
@@ -906,6 +909,7 @@
                  <ref bean="AutogenCountSearchServiceImpl"/>
                  <ref bean="ActivityOfferingSearchServiceImpl"/>
                  <ref bean="CoreSearchServiceImpl"/> <!-- This bean lives in ks-core-no-tx-context.xml  -->
+                 <ref bean="InstructorSearchServiceImpl"/>
             </list>
         </property>                
     </bean>
