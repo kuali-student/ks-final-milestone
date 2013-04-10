@@ -21,6 +21,8 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -35,7 +37,6 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingList
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CO_AO_RG_ViewHelperServiceImpl;
-import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.util.RegistrationGroupUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -96,7 +97,6 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
@@ -125,6 +125,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     private AtpService atpService;
     private CourseOfferingSetService socService;
     private static PermissionService permissionService;
+    private static IdentityService identityService;
 
     /**
      * This method fetches the <code>TermInfo</code> and validate for exact match
@@ -279,9 +280,25 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
         //unnecessary
 //        form.setClusterResultList(clusterResultList);
-            
 
     }
+
+    protected EntityDefaultQueryResults getInstructorsInfoFromKim(List<String> principalIds, ContextInfo contextInfo){
+        String sRet = "";
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(
+                PredicateFactory.in("principals.principalId", principalIds.toArray())
+        );
+
+        QueryByCriteria criteria = qbcBuilder.build();
+
+
+        EntityDefaultQueryResults entityResults = getIdentityService().findEntityDefaults(criteria);
+
+        return entityResults;
+
+    }
+
     
     private  ActivityOfferingClusterWrapper _buildAOClusterWrapper (FormatOfferingInfo foInfo,
                             ActivityOfferingClusterInfo aoCluster, ARGCourseOfferingManagementForm theForm,
@@ -1463,5 +1480,14 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         return permissionService;
     }
 
+    public static IdentityService getIdentityService() {
+        if(identityService == null){
+            identityService = KimApiServiceLocator.getIdentityService();
+        }
+        return identityService;
+    }
 
+    public static void setIdentityService(IdentityService identityService) {
+        ARGCourseOfferingManagementViewHelperServiceImpl.identityService = identityService;
+    }
 }
