@@ -314,12 +314,12 @@
                 </bean>
                 <bean p:id="foNameForAOMoveId" parent="Uif-DataField" p:propertyName="selectedFONameForAOMove" p:label="Format Offering" p:labelPlacement="TOP" p:style="display:none">
                 </bean>
-                <bean p:id="privateNameForMoveId" parent="Uif-InputField" p:propertyName="privateClusterNamePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true" p:style="display:none">
+                <bean p:id="privateNameForMoveId" parent="Uif-InputField" p:propertyName="privateClusterNameForMovePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true" p:style="display:none">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
                     </property>
                 </bean>
-                <bean p:id="publishedNameForMoveId" parent="Uif-InputField"  p:propertyName="publishedClusterNamePopover" p:label="Published Name" p:labelPlacement="TOP"  p:render="true" p:style="display:none">
+                <bean p:id="publishedNameForMoveId" parent="Uif-InputField"  p:propertyName="publishedClusterNameForMovePopover" p:label="Published Name" p:labelPlacement="TOP"  p:render="true" p:style="display:none">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
                     </property>

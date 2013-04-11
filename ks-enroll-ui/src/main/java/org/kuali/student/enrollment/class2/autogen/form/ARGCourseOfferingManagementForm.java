@@ -160,6 +160,8 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     private String publishedClusterNamePopover;
     private String privateClusterNameForRenamePopover;
     private String publishedClusterNameForRenamePopover;
+    private String privateClusterNameForMovePopover;
+    private String publishedClusterNameForMovePopover;
     private String formatOfferingIdForViewRG;
     private String formatOfferingName;
     private List<String> formatOfferingIds;
@@ -544,6 +546,22 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
 
     public void setPublishedClusterNameForRenamePopover(String publishedClusterNameForRenamePopover) {
         this.publishedClusterNameForRenamePopover = publishedClusterNameForRenamePopover;
+    }
+
+    public String getPrivateClusterNameForMovePopover() {
+        return privateClusterNameForMovePopover;
+    }
+
+    public void setPrivateClusterNameForMovePopover(String privateClusterNameForMovePopover) {
+        this.privateClusterNameForMovePopover = privateClusterNameForMovePopover;
+    }
+
+    public String getPublishedClusterNameForMovePopover() {
+        return publishedClusterNameForMovePopover;
+    }
+
+    public void setPublishedClusterNameForMovePopover(String publishedClusterNameForMovePopover) {
+        this.publishedClusterNameForMovePopover = publishedClusterNameForMovePopover;
     }
 
     public String getFormatOfferingIdForViewRG() {

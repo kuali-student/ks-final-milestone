@@ -56,6 +56,7 @@ import java.util.Properties;
 public class ARGActivityOfferingClusterHandler {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ARGActivityOfferingClusterHandler.class);
+    private static boolean createAOCFromMove = false;
 
     public static boolean loadAOs_RGs_AOCs(ARGCourseOfferingManagementForm form) throws Exception {
 
@@ -270,32 +271,51 @@ public class ARGActivityOfferingClusterHandler {
 
     public static ARGCourseOfferingManagementForm createNewCluster(ARGCourseOfferingManagementForm theForm) throws Exception {
         //TODO: Add front end validation
-        if (theForm.getPrivateClusterNamePopover().isEmpty()) {
-            GlobalVariables.getMessageMap().putError("privateClusterNamePopover", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
-            return theForm;
-        }
+        String growlPrivateName="";
+        String growlPublicName="";
 
-        if(theForm.getPrivateClusterNamePopover().length() < 5){
-            GlobalVariables.getMessageMap().putError("privateClusterNamePopover", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_TOO_SHORT);
-
-            return theForm;
+        if (createAOCFromMove) {  //where is the call coming from
+            if (theForm.getPrivateClusterNameForMovePopover().isEmpty()) {
+                GlobalVariables.getMessageMap().putError("privateClusterNameForMovePopover", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
+                createAOCFromMove = false;
+                return theForm;
+            }
+            if(theForm.getPrivateClusterNameForMovePopover().length() <= 5){
+                GlobalVariables.getMessageMap().putError("privateClusterNameForMovePopover", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_TOO_SHORT);
+                createAOCFromMove = false;
+                return theForm;
+            }
+            growlPrivateName = theForm.getPrivateClusterNameForMovePopover();
+            growlPublicName = theForm.getPublishedClusterNameForMovePopover();
+        } else {
+            if (theForm.getPrivateClusterNamePopover().isEmpty()) {
+                GlobalVariables.getMessageMap().putError("privateClusterNamePopover", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
+                return theForm;
+            }
+            if(theForm.getPrivateClusterNamePopover().length() <= 5){
+                GlobalVariables.getMessageMap().putError("privateClusterNamePopover", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_TOO_SHORT);
+                return theForm;
+            }
+            growlPrivateName = theForm.getPrivateClusterNamePopover();
+            growlPublicName = theForm.getPublishedClusterNamePopover();
         }
 
         //fix names
-        if(theForm.getPrivateClusterNamePopover().contains(",") ) {
+        /*if(theForm.getPrivateClusterNamePopover().contains(",") ) {
             theForm.setPrivateClusterNamePopover(theForm.getPrivateClusterNamePopover().replace(",",""));
         }
         if(theForm.getPublishedClusterNamePopover().contains(",") ) {
             theForm.setPublishedClusterNamePopover(theForm.getPublishedClusterNamePopover().replace(",",""));
-        }
-        String growlPrivateName = theForm.getPrivateClusterNamePopover();
-        String growlPublicName = theForm.getPublishedClusterNamePopover();
+        }*/
+
 
         String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
-        if (ARGUtil._isClusterUniqueWithinCO(theForm, theForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(), theForm.getPrivateClusterNamePopover())){
+
+        if (ARGUtil._isClusterUniqueWithinCO(theForm, theForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(), growlPrivateName)){
+
             //build a new empty cluster
             ActivityOfferingClusterInfo emptyCluster = ARGUtil._buildEmptyAOCluster(formatOfferingId,
-                    theForm.getPrivateClusterNamePopover(), theForm.getPublishedClusterNamePopover());
+                    growlPrivateName, growlPublicName);
 
             //persist it in DB , comment out for now since it does not work for now
             emptyCluster = ARGUtil.getCourseOfferingService().createActivityOfferingCluster(formatOfferingId,
@@ -313,6 +333,9 @@ public class ARGActivityOfferingClusterHandler {
             theForm.setClusterResultList(aoClusterWrapperList);
             theForm.setPrivateClusterNamePopover("");
             theForm.setPublishedClusterNamePopover("");
+            theForm.setPrivateClusterNameForMovePopover("");
+            theForm.setPublishedClusterNameForMovePopover("");
+            createAOCFromMove = false;
         }else{
             GlobalVariables.getMessageMap().putError("privateClusterName", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME);
         }
@@ -334,13 +357,7 @@ public class ARGActivityOfferingClusterHandler {
             return theForm;
         }
 
-        //fix id in stored list
-        if (theForm.getClusterIdForAOMove().contains(",") ) {
-            //strip off "," - not sure why commas are between IDs in the keyValue finder in the footer?
-            aocId = theForm.getClusterIdForAOMove().replace(",", "");
-        } else {
-            aocId = theForm.getClusterIdForAOMove();
-        }
+        aocId = theForm.getClusterIdForAOMove();
 
         //move AO
         for (ActivityOfferingWrapper aoWrapper : theForm.getActivityWrapperList()) {
@@ -352,6 +369,7 @@ public class ARGActivityOfferingClusterHandler {
                     if(!StringUtils.isEmpty(theForm.getFormatOfferingIdForViewRG())) {
                         theForm.setFormatOfferingIdForViewRG(theForm.getSelectedFOIDForAOMove());
                     }
+                    createAOCFromMove = true;
                     theForm = createNewCluster(theForm);
                     if(GlobalVariables.getMessageMap().hasErrors()){
                         return theForm;
