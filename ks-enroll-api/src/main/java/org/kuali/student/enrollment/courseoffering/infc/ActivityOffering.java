@@ -288,7 +288,7 @@ public interface ActivityOffering extends IdEntity {
     public TimeAmount getWaitlistCheckinFrequency();
 
     /**
-     * Indicates that the activity offering is part of a ColocatedOfferingSet.
+     * Indicates that the activity offering has one or more shared delivery logistics.
      * This is a derived flag, managed without persistence
      *
      * @name Is Colocated
