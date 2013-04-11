@@ -318,6 +318,12 @@
                                             </bean>
                                         </list>
                                     </property>
+                                    <property name="cssClasses">
+                                        <list merge="true">
+                                            <value>ks-editVerticalBox</value>
+                                        </list>
+                                    </property>
+
                                 </bean>
                                 <bean parent="Uif-StackedCollectionGroup" p:style="width: 400px; padding: 0;">
                                     <property name="layoutManager">

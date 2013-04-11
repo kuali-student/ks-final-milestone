@@ -71,6 +71,7 @@
 
 .jstree li {
     margin-top 3pt;
+    /*line-height:18px;*/
 }
 
 .subruleHeader {
@@ -139,4 +140,10 @@
 }
 .ks-edit-link {
     color:#00aa00 !important;
+}
+
+.ks-editVerticalBox {
+    padding: 0px !important;
+    line-height:16px !important;
+    margin-bottom: 0px!important;
 }
