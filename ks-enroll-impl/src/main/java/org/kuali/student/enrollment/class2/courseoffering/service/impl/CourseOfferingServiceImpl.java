@@ -1795,13 +1795,25 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws MissingParameterException, InvalidParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException, ReadOnlyException, DataValidationErrorException,
             DoesNotExistException {
+
         List<ColocatedOfferingSetInfo> coloSets = getColocatedOfferingSetsByActivityOffering(activityOfferingId, context);
+
         for (ColocatedOfferingSetInfo colo: coloSets) {
             colo.getActivityOfferingIds().remove(activityOfferingId);
-            ColocatedOfferingSetInfo saved = updateColocatedOfferingSet(colo.getId(), colo, context);
-            if (saved.getActivityOfferingIds().isEmpty()) {
-                // Delete COLO set if there are no more AO IDs in it.
-                deleteColocatedOfferingSet(saved.getId(), context);
+            //If there is only one AO in the colo set, delete the Coloset and point the colo RLDs to the last AO.
+            if (colo.getActivityOfferingIds().size() == 1){
+                //For performance reasons, just get the lui instead of AO.
+                LuiInfo luiInfo = getLuiService().getLui(colo.getActivityOfferingIds().get(0), context);
+                List<ScheduleRequestInfo> scheduleRequestInfos = getSchedulingService().getScheduleRequestsByRefObject(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,colo.getId(),context);
+                for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
+                    scheduleRequestInfo.setRefObjectId(luiInfo.getId());
+                    scheduleRequestInfo.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+                    scheduleRequestInfo.setName("Schedule request for activity offering");
+                    getSchedulingService().updateScheduleRequest(scheduleRequestInfo.getId(),scheduleRequestInfo,context);
+                }
+                deleteColocatedOfferingSet(colo.getId(), context);
+            } else {
+                updateColocatedOfferingSet(colo.getId(),colo,context);
             }
         }
     }
@@ -3040,7 +3052,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     /**
      * This method allows you to search for Course Offering Ids by Criteria. In order to make this search more usable it has been backed
-     * by the "CriteriaLookupService". This service allows us to join accross entities. For example, you are able to pass in
+     * by the "CriteriaLookupService". This service allows us to join across entities. For example, you are able to pass in
      * "courseOfferingCode" with a value of "CHEM199" even though the code does no live on the LuiEntity (which backs Course Offerings).
      *
      * The CourseOfferingCriteriaTransformer is coded to wire in the additional database joins needed to complete the search.
