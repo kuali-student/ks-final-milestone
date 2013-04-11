@@ -304,7 +304,7 @@
                                         <list>
                                             <bean parent="Uif-MessageField" p:messageText="@{#np.data}"
                                                   p:style="width: 290px; margin: 0px;" p:progressiveRender="#np.data != null"/>
-                                            <bean parent="Uif-ActionLink" p:actionLabel="Edit" p:align="right" p:methodToCall="getSelectedKey" p:progressiveRender="#np.data != null" >
+                                            <bean parent="Uif-ActionLink" p:actionLabel="edit" p:align="right" p:methodToCall="getSelectedKey" p:progressiveRender="#np.data != null" >
                                                 <property name="additionalSubmitData" value = "selectedKey:@{#np.key != null ? #np.key : -1}"/>
                                                 <property name="toolTip">
                                                     <bean parent="Uif-TooltipFocus" p:onMouseHover="true"

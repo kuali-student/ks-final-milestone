@@ -83,11 +83,13 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
                         //addOpCodeNode(newNode, propositionEditor);
                         Node<TreeNode, String> opNode = new Node<TreeNode, String>();
                         if (LogicalOperator.AND.getCode().equalsIgnoreCase(prop.getCompoundOpCode())) {
-                            opNode.setData(new TreeNode("AND"));
+                            opNode.setNodeLabel("AND");
                         } else if (LogicalOperator.OR.getCode().equalsIgnoreCase(prop.getCompoundOpCode())) {
-                            opNode.setData(new TreeNode("OR"));
+                            opNode.setNodeLabel("OR");
                         }
+                        opNode.setData(new TreeNode(null));
                         newNode.getChildren().add(opNode);
+
                     }
                     first = false;
                     // call to build the childs node
