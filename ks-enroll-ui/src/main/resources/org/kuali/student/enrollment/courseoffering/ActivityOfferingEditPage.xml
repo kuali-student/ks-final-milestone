@@ -368,7 +368,6 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-SeatPool" parent="Uif-VerticalBoxSection">
-        <property name="componentSecurity.viewAuthz" value="true"/>
         <property name="componentSecurity.editAuthz" value="true"/>
         <property name="items">
             <list>
