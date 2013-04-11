@@ -53,7 +53,8 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
             Node<TreeNode, String> firstNode = rootNode.getChildren().get(0);
             if ((firstNode.getChildren() != null) && (firstNode.getChildren().size() > 0)) {
                 firstNode.setNodeType("subruleHeader subruleElement");
-                firstNode.setNodeLabel("<u>" + firstNode.getNodeLabel() + ":</u>");
+                TreeNode treeNode = firstNode.getData();
+                treeNode.setData("<u>" + treeNode.getData() + ":</u>");
             }
         }
 
@@ -82,12 +83,10 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
                         //addOpCodeNode(newNode, propositionEditor);
                         Node<TreeNode, String> opNode = new Node<TreeNode, String>();
                         if (LogicalOperator.AND.getCode().equalsIgnoreCase(prop.getCompoundOpCode())) {
-                            opNode.setNodeLabel("AND");
+                            opNode.setData(new TreeNode("AND"));
                         } else if (LogicalOperator.OR.getCode().equalsIgnoreCase(prop.getCompoundOpCode())) {
-                            opNode.setNodeLabel("OR");
+                            opNode.setData(new TreeNode("OR"));
                         }
-
-                        opNode.setData(new TreeNode(null));
                         newNode.getChildren().add(opNode);
                     }
                     first = false;

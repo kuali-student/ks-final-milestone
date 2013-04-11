@@ -114,7 +114,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
         return proposition.getDescription();
     }
 
-    private String buildNodeLabel(RuleEditor rule, PropositionEditor prop, boolean refreshNl) {
+    private String buildNodeLabel(RuleEditor rule, PropositionEditor prop) {
         //Build the node label.
         String prefix = this.getPropositionPrefix(rule, prop);
         return prefix + StringEscapeUtils.escapeHtml(this.getDescription(prop));

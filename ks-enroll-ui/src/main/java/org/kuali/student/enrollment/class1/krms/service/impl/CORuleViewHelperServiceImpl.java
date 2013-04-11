@@ -314,16 +314,22 @@ public class CORuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     @Override
     public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original, String compareToRefObjectId) throws Exception {
 
+        //Set the original nl if not already exists.
+        PropositionEditor originalRoot = (PropositionEditor) original.getProposition();
+        if (!originalRoot.getNaturalLanguage().containsKey(this.getEditTreeBuilder().getNaturalLanguageUsageKey())) {
+            this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(originalRoot, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
+        }
+
         //Get the CLU Tree.
         CourseOfferingInfo courseOffering = this.getCourseOfferingService().getCourseOffering(compareToRefObjectId, ContextUtils.createDefaultContextInfo());
         CORuleCompareTreeBuilder treeBuilder = new CORuleCompareTreeBuilder();
         treeBuilder.setRuleManagementService(this.getRuleManagementService());
         RuleDefinitionContract compare = treeBuilder.getCompareRule(courseOffering.getCourseId(), original.getTypeId());
-        this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage((PropositionEditor) compare.getProposition(), this.getPreviewTreeBuilder().getNaturalLanguageUsageKey());
 
         //Build the Tree
         RuleEditor compareEditor = new EnrolRuleEditor(compare);
-        //this.initPropositionEditor((PropositionEditor) compareEditor.getProposition());
+        PropositionEditor root = (PropositionEditor) compareEditor.getProposition();
+        this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(root, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
         Tree<CompareTreeNode, String> compareTree = treeBuilder.buildTree(original, compareEditor);
 
         return compareTree;

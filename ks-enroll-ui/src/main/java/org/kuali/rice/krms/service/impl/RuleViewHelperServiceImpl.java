@@ -476,14 +476,16 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             if (!root.getNaturalLanguage().containsKey(this.getPreviewTreeBuilder().getNaturalLanguageUsageKey())) {
                 this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(root, this.getPreviewTreeBuilder().getNaturalLanguageUsageKey());
             }
-
-            //Also reset the logic expression
-            rule.setLogicArea(PropositionTreeUtil.configureLogicExpression(root));
         }
 
         //Rebuild the trees
         rule.setEditTree(this.getEditTreeBuilder().buildTree(rule));
         rule.setPreviewTree(this.getPreviewTreeBuilder().buildTree(rule));
+
+        //Also reset the logic expression. Should only be done after editTree is already built.
+        if (rule.getProposition() != null) {
+            rule.setLogicArea(PropositionTreeUtil.configureLogicExpression((PropositionEditor) rule.getProposition()));
+        }
 
     }
 
