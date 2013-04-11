@@ -638,14 +638,6 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
             return getUIFModelAndView(theForm);
         }
 
-        if(theForm.getPrivateClusterNameForRenamePopover().length() < 5){
-            GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_TOO_SHORT);
-
-            return getUIFModelAndView(theForm);
-        }
-
-
-
         if(ARGUtil._isClusterUniqueWithinCO(theForm, theForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(), theForm.getPrivateClusterNameForRenamePopover())){
         ARGActivityOfferingClusterHandler.renameAClusterThroughDialog(theForm);
         ActivityOfferingClusterWrapper selectedClusterWrapper;

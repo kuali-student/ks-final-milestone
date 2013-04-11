@@ -280,11 +280,7 @@ public class ARGActivityOfferingClusterHandler {
                 createAOCFromMove = false;
                 return theForm;
             }
-            if(theForm.getPrivateClusterNameForMovePopover().length() <= 5){
-                GlobalVariables.getMessageMap().putError("privateClusterNameForMovePopover", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_TOO_SHORT);
-                createAOCFromMove = false;
-                return theForm;
-            }
+
             growlPrivateName = theForm.getPrivateClusterNameForMovePopover();
             growlPublicName = theForm.getPublishedClusterNameForMovePopover();
         } else {
@@ -292,10 +288,7 @@ public class ARGActivityOfferingClusterHandler {
                 GlobalVariables.getMessageMap().putError("privateClusterNamePopover", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
                 return theForm;
             }
-            if(theForm.getPrivateClusterNamePopover().length() <= 5){
-                GlobalVariables.getMessageMap().putError("privateClusterNamePopover", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_TOO_SHORT);
-                return theForm;
-            }
+
             growlPrivateName = theForm.getPrivateClusterNamePopover();
             growlPublicName = theForm.getPublishedClusterNamePopover();
         }
