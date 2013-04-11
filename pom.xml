@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.pom</groupId>
         <artifactId>kuali-common</artifactId>
-        <version>2.1.63</version>
+        <version>2.3.13</version>
     </parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
@@ -184,11 +184,8 @@
         <!-- should align to the same or earlier phase than the contract doc or dictionary doc phase -->
         <ks.prepare-contract-dependencies.phase>site</ks.prepare-contract-dependencies.phase>
         <ks.vdecorator.phase>none</ks.vdecorator.phase>
-        <!-- default Spring context for db tasks -->
-        <plugin.spring.context.db>classpath:org/kuali/common/deploy/spring/db-developer-context.xml</plugin.spring.context.db>
-        <!-- Spring context that creates META-INF files describing SQL resources -->
-        <metainf.sql.context>classpath:org/kuali/common/util/metainf-sql-context.xml</metainf.sql.context>
-        <metainf.resource.prefix>classpath:</metainf.resource.prefix>
+        <!-- Spring config that creates META-INF files describing SQL resources -->
+        <metainf.sql.context>org.kuali.common.util.spring.MetaInfSqlConfig</metainf.sql.context>
         <!-- SQL resource locations -->
         <metainf.resource.base>META-INF/sql/${db.vendor}/${project.artifactId}</metainf.resource.base>
         <metainf.resource.schema>${metainf.resource.base}-schema.resources</metainf.resource.schema>
@@ -212,6 +209,27 @@
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.kuali.maven.plugins</groupId>
+                    <artifactId>spring-maven-plugin</artifactId>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.kuali.common</groupId>
+                            <artifactId>kuali-deploy</artifactId>
+                            <version>${kuali-deploy.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.kuali.common</groupId>
+                            <artifactId>kuali-jdbc</artifactId>
+                            <version>${kuali-jdbc.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.kuali.common</groupId>
+                            <artifactId>kuali-util</artifactId>
+                            <version>${kuali-util.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
                 <plugin>
                     <groupId>org.kuali.maven.plugins</groupId>
                     <artifactId>externals-maven-plugin</artifactId>
@@ -259,8 +277,7 @@
                     <version>${gwt.codehaus.plugin.version}</version>
                     <configuration>
                         <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
-                        <buildOutputDirectory>${project.build.directory}/${project.artifactId}-webapp/WEB-INF/classes
-                        </buildOutputDirectory>
+                        <buildOutputDirectory>${project.build.directory}/${project.artifactId}-webapp/WEB-INF/classes</buildOutputDirectory>
                         <hostedWebapp>${project.build.directory}/${project.artifactId}-webapp</hostedWebapp>
                         <extraJvmArgs>-Xss32m -Xmx1g</extraJvmArgs>
                         <style>${ks.gwt.compile.style}</style>
@@ -367,7 +384,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <executions>
                     <execution>
@@ -470,7 +486,7 @@
                 <version>${spring.security.version}</version>
             </dependency>
             <!-- This jar is only needed if you are using CAS with Spring Security
-            -->
+      -->
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-cas</artifactId>
@@ -596,9 +612,9 @@
                         <artifactId>jsp-api</artifactId>
                     </exclusion>
                     <!--
-                      These dependencies conflict with gwt-dev for running hosted mode via eclipse
-                      launch file.
-                    -->
+            These dependencies conflict with gwt-dev for running hosted mode via eclipse
+            launch file.
+          -->
                     <exclusion>
                         <groupId>tomcat</groupId>
                         <artifactId>jasper-compiler-jdt</artifactId>
@@ -977,11 +993,11 @@
                     </exclusion>
                     <!-- GWT hosted not working if this is excluded -->
                     <!--
-                      <exclusion>
-                      <groupId>org.codehaus.woodstox</groupId>
-                      <artifactId>wstx-asl</artifactId>
-                      </exclusion>
-                    -->
+            <exclusion>
+            <groupId>org.codehaus.woodstox</groupId>
+            <artifactId>wstx-asl</artifactId>
+            </exclusion>
+          -->
                 </exclusions>
             </dependency>
             <dependency>
@@ -1101,8 +1117,8 @@
                 </exclusions>
             </dependency>
             <!-- stax-ex 1.0 POM is a v3 POM with no version inside it so
-                 it is causing maven-site-plugin failures, therefore we are
-                 trying with a higher version here -->
+        it is causing maven-site-plugin failures, therefore we are
+        trying with a higher version here -->
             <dependency>
                 <groupId>org.jvnet.staxex</groupId>
                 <artifactId>stax-ex</artifactId>
@@ -1271,8 +1287,8 @@
                 <scope>test</scope>
             </dependency>
             <!-- This httpclient dependency works with the Selenium tests, but must
-                    have compile scope. Please see ks-common/ks-common-ui/pom.xml and ks-lum/ks-lum-ui/pom.xml
-                    for more info. -->
+        have compile scope. Please see ks-common/ks-common-ui/pom.xml and ks-lum/ks-lum-ui/pom.xml
+        for more info. -->
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
