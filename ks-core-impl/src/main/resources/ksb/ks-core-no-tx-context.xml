@@ -994,4 +994,8 @@
 
     <bean id="acalEventAssembler" class="org.kuali.student.r2.core.acal.service.assembler.AcalEventAssembler"/>
 
+    <bean id="CoreSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.CoreSearchServiceImpl">
+        <property name="entityManager" ref="coreEntityManager"/>
+    </bean>
+
 </beans>
