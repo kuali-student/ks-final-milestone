@@ -17,6 +17,13 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
+	<bean id="ksEnrollLuiService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface"
+			value="org.kuali.student.enrollment.lui.service.LuiService" />
+		<property name="serviceQName"
+			value="{http://student.kuali.org/wsdl/lui}LuiService" />
+	</bean>
+
 	<bean id="ksEnrollCourseOfferingService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface"
 			value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService" />

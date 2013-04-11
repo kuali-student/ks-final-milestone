@@ -1,18 +1,14 @@
 package org.kuali.student.myplan.utils;
 
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.context.PlanConstants;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.infc.Term;
 
 /**
  * Assembles a list of published terms.
@@ -44,23 +40,7 @@ public class PublishedTermsListBuilder extends KeyValuesBase {
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
 		// Fetch the available terms from the Academic Calendar Service.
-		List<TermInfo> termInfos = null;
-		try {
-			termInfos = KsapFrameworkServiceLocator
-					.getAcademicCalendarService()
-					.searchForTerms(
-							QueryByCriteria.Builder.fromPredicates(equalIgnoreCase(
-									"atpState", PlanConstants.PUBLISHED)),
-							KsapFrameworkServiceLocator.getContext()
-									.getContextInfo());
-		} catch (Throwable t) {
-			if (t instanceof RuntimeException)
-				throw (RuntimeException) t;
-			if (t instanceof Error)
-				throw (Error) t;
-			throw new IllegalStateException(
-					"Unexpected error in current ATP ID lookup", t);
-		}
+		List<Term> terms = KsapFrameworkServiceLocator.getTermHelper().getPublishedTerms();
 
 		// Prepend and additional items to the list.
 		if (additionalListItemsTop != null && additionalListItemsTop.size() > 0) {
@@ -72,18 +52,11 @@ public class PublishedTermsListBuilder extends KeyValuesBase {
 		}
 
 		// Add term info to the list if the above service call was successful.
-		if (termInfos != null) {
+		if (terms != null) {
 			// Add the individual term items.
-			for (TermInfo ti : termInfos) {
-                boolean include = true;
-                for(String excludeType : PlanConstants.EXCLUDE_CALENDAR_TYPES){
-                    if(ti.getTypeKey().equalsIgnoreCase(excludeType)){
-                        include=false;
-                        break;
-                    }
-                }
-                if(include) keyValues.add(new ConcreteKeyValue(ti.getId(), ti.getName() + suffix));
-			}
+			for (Term ti : terms)
+				keyValues.add(new ConcreteKeyValue(ti.getId(), ti.getName()
+						+ suffix));
 		}
 
 		// Append and additional items to the list.

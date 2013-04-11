@@ -26,8 +26,10 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.EnrollmentStatusHelper;
 import org.kuali.student.ap.framework.context.PlanConstants;
+import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.acal.infc.Term;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
@@ -84,15 +86,14 @@ public class QuickAddController extends UifControllerBase {
 		return new QuickAddForm();
 	}
 
-
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView get(@ModelAttribute("KualiForm") UifFormBase form,
 			BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
 		super.start(form, result, request, response);
-        QuickAddForm searchForm = (QuickAddForm) form;
+		QuickAddForm searchForm = (QuickAddForm) form;
 		form.setViewId("QuickAdd-FormView");
-        form.setView(super.getViewService().getViewById("QuickAdd-FormView"));
+		form.setView(super.getViewService().getViewById("QuickAdd-FormView"));
 		return getUIFModelAndView(form);
 	}
 
@@ -104,7 +105,8 @@ public class QuickAddController extends UifControllerBase {
 		QuickAddForm searchForm = (QuickAddForm) form;
 		if (StringUtils.hasText(searchForm.getAtpId())
 				&& StringUtils.hasText(searchForm.getPlanType())) {
-			String termYear = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(searchForm.getAtpId()).toTermName();
+			String termYear = KsapFrameworkServiceLocator.getTermHelper()
+					.getYearTerm(searchForm.getAtpId()).getTermName();
 			if (searchForm.getPlanType().equalsIgnoreCase(
 					QuickAddConstants.PLANNED_TYPE)) {
 				termYear = termYear + QuickAddConstants.PLAN;
@@ -218,10 +220,12 @@ public class QuickAddController extends UifControllerBase {
 
 		String courseId = null;
 		Map<String, String> divisionMap = strategy.fetchCourseDivisions();
-        EnrollmentStatusHelper.CourseCode courseCode = KsapFrameworkServiceLocator.getEnrollmentStatusHelper().getCourseDivisionAndNumber(form.getCourseCd());
-        if (courseCode.getSubject() != null && courseCode.getNumber() != null) {
-            String subject = courseCode.getSubject();
-            String number = courseCode.getNumber();
+		EnrollmentStatusHelper.CourseCode courseCode = KsapFrameworkServiceLocator
+				.getEnrollmentStatusHelper().getCourseDivisionAndNumber(
+						form.getCourseCd());
+		if (courseCode.getSubject() != null && courseCode.getNumber() != null) {
+			String subject = courseCode.getSubject();
+			String number = courseCode.getNumber();
 			if (number.length() != 3) {
 				return doOperationFailedError(form, "Course number is wrong",
 						QuickAddConstants.COURSE_NOT_FOUND, null,
@@ -231,8 +235,10 @@ public class QuickAddController extends UifControllerBase {
 			strategy.extractDivisions(divisionMap, subject, divisions, false);
 			if (divisions.size() > 0) {
 				subject = divisions.get(0);
-                form.setCourseId(KsapFrameworkServiceLocator.getEnrollmentStatusHelper().getCourseId(subject, number));
-			    courseId = form.getCourseId();
+				form.setCourseId(KsapFrameworkServiceLocator
+						.getEnrollmentStatusHelper().getCourseId(subject,
+								number));
+				courseId = form.getCourseId();
 			} else {
 				return doOperationFailedError(form, "Could not find course",
 						QuickAddConstants.COURSE_NOT_FOUND, null,
@@ -287,15 +293,19 @@ public class QuickAddController extends UifControllerBase {
 					PlanConstants.ERROR_KEY_OPERATION_FAILED, e,
 					new String[] {});
 		}
-		if (!KsapFrameworkServiceLocator.getAtpHelper().validateAtpId(newAtpIds.get(0))) {
-			return doOperationFailedError(form,
-					String.format("ATP ID [%s] was not formatted properly.",
-							newAtpIds.get(0)),
-					PlanConstants.ERROR_KEY_OPERATION_FAILED, null,
+
+		try {
+			KsapFrameworkServiceLocator.getTermHelper().getTerm(
+					newAtpIds.get(0));
+		} catch (IllegalArgumentException e) {
+			return doOperationFailedError(form, String.format(
+					"ATP ID [%s] is not valid.", newAtpIds.get(0)),
+					PlanConstants.ERROR_KEY_OPERATION_FAILED, e,
 					new String[] {});
 		}
 
-		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
+		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper()
+				.getStudentId();
 
 		LearningPlan plan = null;
 		try {
@@ -332,9 +342,10 @@ public class QuickAddController extends UifControllerBase {
 		}
 		// Lookup course details as well need them in case there is an error
 		// below.
-        CourseSummaryDetails courseDetails = null;
+		CourseSummaryDetails courseDetails = null;
 		try {
-			courseDetails = courseDetailsInquiryService.retrieveCourseSummaryById(courseId);
+			courseDetails = courseDetailsInquiryService
+					.retrieveCourseSummaryById(courseId);
 		} catch (Exception e) {
 			return doOperationFailedError(form,
 					"Unable to retrieve Course Details.",
@@ -359,7 +370,8 @@ public class QuickAddController extends UifControllerBase {
 		}
 
 		// Validate: Adding to historical term.
-		if (!KsapFrameworkServiceLocator.getAtpHelper().isAtpSetToPlanning(newAtpIds.get(0))) {
+		if (!KsapFrameworkServiceLocator.getTermHelper().isPlanning(
+				newAtpIds.get(0))) {
 			return doCannotChangeHistoryError(form);
 		}
 
@@ -374,7 +386,8 @@ public class QuickAddController extends UifControllerBase {
 			try {
 				planItem = addPlanItem(plan, courseId, newAtpIds, newType);
 			} catch (DuplicateEntryException e) {
-				return doDuplicatePlanItem(form, newAtpIds.get(0), courseDetails);
+				return doDuplicatePlanItem(form, newAtpIds.get(0),
+						courseDetails);
 			} catch (Exception e) {
 				return doOperationFailedError(form, "Unable to add plan item.",
 						PlanConstants.ERROR_KEY_OPERATION_FAILED, e,
@@ -383,7 +396,8 @@ public class QuickAddController extends UifControllerBase {
 		} else {
 			// Check for duplicates since addPlanItem isn't being called.
 			if (isDuplicate(plan, newAtpIds.get(0), courseId, newType)) {
-				return doDuplicatePlanItem(form, newAtpIds.get(0), courseDetails);
+				return doDuplicatePlanItem(form, newAtpIds.get(0),
+						courseDetails);
 			}
 			// Create wishlist events before updating the plan item.
 			wishlistEvents = makeRemoveEvent(planItem, courseDetails);
@@ -392,8 +406,11 @@ public class QuickAddController extends UifControllerBase {
 
 			try {
 				planItem = KsapFrameworkServiceLocator.getAcademicPlanService()
-						.updatePlanItem(planItem.getId(), planItem,
-								KsapFrameworkServiceLocator.getContext().getContextInfo());
+						.updatePlanItem(
+								planItem.getId(),
+								planItem,
+								KsapFrameworkServiceLocator.getContext()
+										.getContextInfo());
 			} catch (Exception e) {
 				return doOperationFailedError(form,
 						"Unable MetaENtito update wishlist plan item.",
@@ -425,8 +442,8 @@ public class QuickAddController extends UifControllerBase {
 
 		// Populate the form.
 		form.setJavascriptEvents(events);
-		String[] params = { KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(planItem.getPlanPeriods()
-				.get(0)).toTermName() };
+		String[] params = { KsapFrameworkServiceLocator.getTermHelper()
+				.getYearTerm(planItem.getPlanPeriods().get(0)).getTermName() };
 		return doPlanActionSuccess(form,
 				PlanConstants.SUCCESS_KEY_PLANNED_ITEM_ADDED, params);
 
@@ -457,7 +474,8 @@ public class QuickAddController extends UifControllerBase {
 		String courseDetailsAsJson;
 		try {
 			if (courseDetails == null) {
-                courseDetails = courseDetailsInquiryService.retrieveCourseSummaryById(planItem.getRefObjectId());
+				courseDetails = courseDetailsInquiryService
+						.retrieveCourseSummaryById(planItem.getRefObjectId());
 			}
 			// Serialize course details into a string of JSON.
 			courseDetailsAsJson = mapper.writeValueAsString(courseDetails);
@@ -485,7 +503,8 @@ public class QuickAddController extends UifControllerBase {
 
 	protected PlanItemInfo getPlannedOrBackupPlanItem(String courseId,
 			String atpId) {
-		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
+		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper()
+				.getStudentId();
 		LearningPlan learningPlan = getLearningPlan(studentId);
 		if (learningPlan == null) {
 			throw new RuntimeException(String.format(
@@ -552,8 +571,12 @@ public class QuickAddController extends UifControllerBase {
 
 		try {
 			planItems = KsapFrameworkServiceLocator.getAcademicPlanService()
-					.getPlanItemsInPlanByAtp(planId, atpId, planItemType,
-                            KsapFrameworkServiceLocator.getContext().getContextInfo());
+					.getPlanItemsInPlanByAtp(
+							planId,
+							atpId,
+							planItemType,
+							KsapFrameworkServiceLocator.getContext()
+									.getContextInfo());
 		} catch (Exception e) {
 			throw new RuntimeException("Could not retrieve plan items.", e);
 		}
@@ -651,8 +674,10 @@ public class QuickAddController extends UifControllerBase {
 
 		try {
 			newPlanItem = KsapFrameworkServiceLocator.getAcademicPlanService()
-					.createPlanItem(pii,
-							KsapFrameworkServiceLocator.getContext().getContextInfo());
+					.createPlanItem(
+							pii,
+							KsapFrameworkServiceLocator.getContext()
+									.getContextInfo());
 		} catch (Exception e) {
 			LOG.error("Could not create plan item.", e);
 			throw new RuntimeException("Could not create plan item.", e);
@@ -666,7 +691,9 @@ public class QuickAddController extends UifControllerBase {
 		try {
 			studentCourseRecordInfos = KsapFrameworkServiceLocator
 					.getAcademicRecordService().getCompletedCourseRecords(
-							studentID, KsapFrameworkServiceLocator.getContext().getContextInfo());
+							studentID,
+							KsapFrameworkServiceLocator.getContext()
+									.getContextInfo());
 
 		} catch (Exception e) {
 			LOG.error("Query to fetch Academic records failed with SWS");
@@ -701,13 +728,16 @@ public class QuickAddController extends UifControllerBase {
 						.getAcademicPlanService().getPlanItemsInPlanByType(
 								learningPlanID,
 								PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED,
-                                KsapFrameworkServiceLocator.getContext().getContextInfo());
+								KsapFrameworkServiceLocator.getContext()
+										.getContextInfo());
 
 				for (PlanItemInfo planItem : planItemList) {
 					String courseID = planItem.getRefObjectId();
 					for (String atp : planItem.getPlanPeriods()) {
 						if (atp.equalsIgnoreCase(termId)) {
-                            CourseSummaryDetails courseDetails = courseDetailsInquiryService.retrieveCourseSummaryById(courseID);							if (courseDetails != null
+							CourseSummaryDetails courseDetails = courseDetailsInquiryService
+									.retrieveCourseSummaryById(courseID);
+							if (courseDetails != null
 									&& !courseDetails.getCredit().contains(".")) {
 								String[] str = courseDetails.getCredit().split(
 										"\\D");
@@ -849,20 +879,49 @@ public class QuickAddController extends UifControllerBase {
 	 * @throws RuntimeException
 	 *             if anything goes wrong.
 	 */
-    private Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> makeAddEvent(PlanItemInfo planItem, CourseSummaryDetails courseDetails) {
+	private Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> makeAddEvent(
+			PlanItemInfo planItem, CourseSummaryDetails courseDetails) {
 		Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new LinkedHashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("planItemId", planItem.getId());
 		params.put("planItemType", formatTypeKey(planItem.getTypeKey()));
 		// Only planned or backup items get an atpId attribute.
-        if (planItem.getTypeKey().equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED) ||
-                planItem.getTypeKey().equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)) {
-            params.put("atpId", formatAtpIdForUI(planItem.getPlanPeriods().get(0)));
-            // event for aler Icon
-            List<String> publishedTerms = KsapFrameworkServiceLocator.getAtpHelper().getPublishedTerms();
-            params.put("showAlert", String.valueOf(!KsapFrameworkServiceLocator.getAtpHelper().isCourseOfferedInTerm(planItem.getPlanPeriods().get(0), courseDetails.getCode())));
-            params.put("termName", KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(planItem.getPlanPeriods().get(0)).toTermName());
-            params.put("timeScheduleOpen", String.valueOf(publishedTerms.contains(planItem.getPlanPeriods().get(0))));
+		if (planItem.getTypeKey().equals(
+				PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)
+				|| planItem.getTypeKey().equals(
+						PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)) {
+			params.put("atpId",
+					formatAtpIdForUI(planItem.getPlanPeriods().get(0)));
+			// event for aler Icon
+			TermHelper th = KsapFrameworkServiceLocator.getTermHelper();
+			Term pt = th.getTerm(planItem.getPlanPeriods().get(0));
+			List<Term> publishedTerms = th.getPublishedTerms();
+			try {
+				params.put("showAlert",
+						String.valueOf(!th.isCourseOffered(
+								th.getTerm(planItem.getPlanPeriods().get(0)),
+								KsapFrameworkServiceLocator.getCourseService()
+										.getCourse(
+												courseDetails.getCourseId(),
+												KsapFrameworkServiceLocator
+														.getContext()
+														.getContextInfo()))));
+			} catch (DoesNotExistException e) {
+				throw new IllegalArgumentException("Course lookup failure", e);
+			} catch (InvalidParameterException e) {
+				throw new IllegalArgumentException("Course lookup failure", e);
+			} catch (MissingParameterException e) {
+				throw new IllegalArgumentException("Course lookup failure", e);
+			} catch (OperationFailedException e) {
+				throw new IllegalStateException("Course lookup failure", e);
+			} catch (PermissionDeniedException e) {
+				throw new IllegalStateException("Course lookup failure", e);
+			}
+			params.put("termName", pt.getName());
+			boolean open = false;
+			for (Term t : publishedTerms)
+				open = open && t.getId().equals(pt.getId());
+			params.put("timeScheduleOpen", String.valueOf(open));
 		}
 
 		// Create Javascript events.
@@ -895,7 +954,8 @@ public class QuickAddController extends UifControllerBase {
 			throw new RuntimeException("Course Id was empty.");
 		}
 
-		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
+		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper()
+				.getStudentId();
 		LearningPlan learningPlan = getLearningPlan(studentId);
 		if (learningPlan == null) {
 			throw new RuntimeException(String.format(
@@ -907,9 +967,11 @@ public class QuickAddController extends UifControllerBase {
 
 		try {
 			planItems = KsapFrameworkServiceLocator.getAcademicPlanService()
-					.getPlanItemsInPlanByType(learningPlan.getId(),
+					.getPlanItemsInPlanByType(
+							learningPlan.getId(),
 							PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST,
-                            KsapFrameworkServiceLocator.getContext().getContextInfo());
+							KsapFrameworkServiceLocator.getContext()
+									.getContextInfo());
 		} catch (Exception e) {
 			throw new RuntimeException("Could not retrieve plan items.", e);
 		}
@@ -949,8 +1011,11 @@ public class QuickAddController extends UifControllerBase {
 		List<PlanItemInfo> planItems = null;
 		try {
 			planItems = KsapFrameworkServiceLocator.getAcademicPlanService()
-					.getPlanItemsInPlanByType(plan.getId(), typeKey,
-                            KsapFrameworkServiceLocator.getContext().getContextInfo());
+					.getPlanItemsInPlanByType(
+							plan.getId(),
+							typeKey,
+							KsapFrameworkServiceLocator.getContext()
+									.getContextInfo());
 		} catch (Exception e) {
 			throw new RuntimeException("Could not retrieve plan items.", e);
 		}
@@ -1023,8 +1088,10 @@ public class QuickAddController extends UifControllerBase {
 		try {
 			learningPlans = KsapFrameworkServiceLocator
 					.getAcademicPlanService().getLearningPlansForStudentByType(
-							studentId, PlanConstants.LEARNING_PLAN_TYPE_PLAN,
-                            KsapFrameworkServiceLocator.getContext().getContextInfo());
+							studentId,
+							PlanConstants.LEARNING_PLAN_TYPE_PLAN,
+							KsapFrameworkServiceLocator.getContext()
+									.getContextInfo());
 		} catch (Exception e) {
 			throw new RuntimeException(String.format(
 					"Could not fetch plan for user [%s].", studentId), e);
@@ -1090,27 +1157,32 @@ public class QuickAddController extends UifControllerBase {
 	/**
 	 * Blow-up response for all plan item actions.
 	 */
-    private ModelAndView doPageRefreshError(QuickAddForm form, String errorMessage, Exception e) {
-        // <a href="/student/myplan/plan?methodToCall=start&viewId=PlannedCourses-FormView">Reset your academic plan</a>
-        // Removed link because html string is being encoded in the view
-        String[] params = {};
+	private ModelAndView doPageRefreshError(QuickAddForm form,
+			String errorMessage, Exception e) {
+		// <a
+		// href="/student/myplan/plan?methodToCall=start&viewId=PlannedCourses-FormView">Reset
+		// your academic plan</a>
+		// Removed link because html string is being encoded in the view
+		String[] params = {};
 		if (e != null) {
 			LOG.error(errorMessage, e);
 		} else {
 			LOG.error(errorMessage);
 		}
-        return doErrorPage(form, errorMessage, PlanConstants.ERROR_KEY_PAGE_RESET_REQUIRED, params, e);
-    }
+		return doErrorPage(form, errorMessage,
+				PlanConstants.ERROR_KEY_PAGE_RESET_REQUIRED, params, e);
+	}
 
-    /**
-     * Blow-up response for all plan item actions.
-     */
-    private ModelAndView doOperationFailedError(QuickAddForm form, String errorMessage, String errorKey, Exception e, String[] params) {
-        if (e != null) {
-            LOG.error(errorMessage, e);
-        } else {
-            LOG.error(errorMessage);
-        }
+	/**
+	 * Blow-up response for all plan item actions.
+	 */
+	private ModelAndView doOperationFailedError(QuickAddForm form,
+			String errorMessage, String errorKey, Exception e, String[] params) {
+		if (e != null) {
+			LOG.error(errorMessage, e);
+		} else {
+			LOG.error(errorMessage);
+		}
 		return doErrorPage(form, errorMessage, errorKey, params, e);
 	}
 
@@ -1147,12 +1219,15 @@ public class QuickAddController extends UifControllerBase {
 			CourseSummaryDetails courseDetails) {
 		/*
 		 * String[] t = {"?", "?"}; try { t =
-		 * KsapFrameworkServiceLocator.getAtpHelper().atpIdToTermNameAndYear(atpId); } catch (RuntimeException e)
-		 * { logger.error("Could not convert ATP ID to a term and year.", e); }
+		 * KsapFrameworkServiceLocator.getAtpHelper
+		 * ().atpIdToTermNameAndYear(atpId); } catch (RuntimeException e) {
+		 * logger.error("Could not convert ATP ID to a term and year.", e); }
 		 * String term = t[0] + " " + t[1];
 		 */
-		String[] params = { courseDetails.getCode(),
-				KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(atpId).toTermName() };
+		String[] params = {
+				courseDetails.getCode(),
+				KsapFrameworkServiceLocator.getTermHelper().getYearTerm(atpId)
+						.getTermName() };
 		return doErrorPage(form,
 				PlanConstants.ERROR_KEY_PLANNED_ITEM_ALREADY_EXISTS, params);
 	}

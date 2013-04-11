@@ -1,6 +1,8 @@
 package org.kuali.student.myplan.plan.service;
 
-import org.apache.log4j.Logger;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.myplan.course.dataobject.ActivityOfferingItem;
@@ -9,130 +11,145 @@ import org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedTerm;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Created by IntelliJ IDEA.
- * User: hemanthg
- * Date: 5/16/12
- * Time: 3:49 PM
- * To change this template use File | Settings | File Templates.
- *
+ * Created by IntelliJ IDEA. User: hemanthg Date: 5/16/12 Time: 3:49 PM To
+ * change this template use File | Settings | File Templates.
+ * 
  * Planner information for the calendar.
  */
 public class SingleQuarterHelperBase {
-    /*Count of no of future years to be shown the quarter view */
-    private static int futureTermsCount = 6;
 
-    private static final Logger logger = Logger.getLogger(SingleQuarterHelperBase.class);
+	public static PlannedTerm populatePlannedTerms(
+			List<PlannedCourseDataObject> plannedCoursesList,
+			List<PlannedCourseDataObject> backupCoursesList,
+			List<StudentCourseRecordInfo> studentCourseRecordInfos,
+			String termAtp, boolean isServiceUp) {
+		String globalCurrentAtpId = null;
+		globalCurrentAtpId = KsapFrameworkServiceLocator.getTermHelper()
+				.getCurrentTerms().get(0).getId();
 
-    private static String atpTerm1 = "1";
-    private static String atpTerm2 = "2";
-    private static String atpTerm3 = "3";
-    private static String atpTerm4 = "4";
+		/*
+		 * Populating the PlannedTerm List.
+		 */
+		PlannedTerm plannedTerm = new PlannedTerm();
+		plannedTerm.setAtpId(termAtp);
+		plannedTerm.setQtrYear(KsapFrameworkServiceLocator.getTermHelper()
+				.getYearTerm(termAtp).getTermName());
+		for (PlannedCourseDataObject plan : plannedCoursesList) {
+			String atp = plan.getPlanItemDataObject().getAtp();
+			if (termAtp.equalsIgnoreCase(atp)) {
+				plannedTerm.getPlannedList().add(plan);
+			}
+		}
 
+		/*
+		 * Populating the backup list for the Plans
+		 */
 
-    public static PlannedTerm populatePlannedTerms(List<PlannedCourseDataObject> plannedCoursesList, List<PlannedCourseDataObject> backupCoursesList, List<StudentCourseRecordInfo> studentCourseRecordInfos, String termAtp, boolean isServiceUp) {
+		if (backupCoursesList != null) {
 
+			for (PlannedCourseDataObject backup : backupCoursesList) {
+				String atp = backup.getPlanItemDataObject().getAtp();
+				if (termAtp.equalsIgnoreCase(atp)) {
+					plannedTerm.getBackupList().add(backup);
+				}
+			}
 
-        String globalCurrentAtpId = null;
-        globalCurrentAtpId = KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId();
+		}
 
-        /*
-        *  Populating the PlannedTerm List.
-        */
-        PlannedTerm plannedTerm = new PlannedTerm();
-        plannedTerm.setAtpId(termAtp);
-        plannedTerm.setQtrYear(KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(termAtp).toTermName());
-        for (PlannedCourseDataObject plan : plannedCoursesList) {
-            String atp = plan.getPlanItemDataObject().getAtp();
-            if (termAtp.equalsIgnoreCase(atp)) {
-                plannedTerm.getPlannedList().add(plan);
-            }
-        }
+		List<AcademicRecordDataObject> academicRecordDataObjectList = new ArrayList<AcademicRecordDataObject>();
 
-        /*
-         * Populating the backup list for the Plans
-        */
+		/***********
+		 * Implementation to populate the plannedTerm list with academic record
+		 * and planned terms
+		 ******************/
+		if (studentCourseRecordInfos.size() > 0) {
+			for (StudentCourseRecordInfo studentInfo : studentCourseRecordInfos) {
+				if (termAtp.equalsIgnoreCase(studentInfo.getTermName())) {
+					CourseDetailsInquiryHelperImpl courseDetailsService = new CourseDetailsInquiryHelperImpl();
+					AcademicRecordDataObject academicRecordDataObject = new AcademicRecordDataObject();
+					academicRecordDataObject
+							.setAtpId(studentInfo.getTermName());
+					academicRecordDataObject.setPersonId(studentInfo
+							.getPersonId());
+					academicRecordDataObject.setCourseCode(studentInfo
+							.getCourseCode());
 
-        if (backupCoursesList != null) {
+					/*
+					 * TODO: StudentCourseRecordInfo does not have a courseId
+					 * property so using Id to set the course Id
+					 */
+					academicRecordDataObject.setCourseId(studentInfo.getId());
+					academicRecordDataObject.setCourseTitle(studentInfo
+							.getCourseTitle());
+					academicRecordDataObject.setCredit(studentInfo
+							.getCreditsEarned());
+					if (!"X".equalsIgnoreCase(studentInfo
+							.getCalculatedGradeValue())) {
+						academicRecordDataObject.setGrade(studentInfo
+								.getCalculatedGradeValue());
+					} else if ("X".equalsIgnoreCase(studentInfo
+							.getCalculatedGradeValue())
+							&& KsapFrameworkServiceLocator.getTermHelper()
+									.isCompleted(studentInfo.getTermName())) {
+						academicRecordDataObject.setGrade(studentInfo
+								.getCalculatedGradeValue());
+					}
+					if (!KsapFrameworkServiceLocator.getTermHelper()
+							.isCompleted(studentInfo.getTermName())) {
+						academicRecordDataObject.setActivityCode(studentInfo
+								.getActivityCode());
+					}
+					academicRecordDataObject.setRepeated(studentInfo
+							.getIsRepeated());
 
-            for (PlannedCourseDataObject backup : backupCoursesList) {
-                String atp = backup.getPlanItemDataObject().getAtp();
-                if (termAtp.equalsIgnoreCase(atp)) {
-                    plannedTerm.getBackupList().add(backup);
-                }
-            }
+					if (academicRecordDataObject.getCourseId() != null) {
+						List<ActivityOfferingItem> activityOfferingItemList = courseDetailsService
+								.getActivityOfferingItemsById(
+										academicRecordDataObject.getCourseId(),
+										academicRecordDataObject.getAtpId());
+						for (ActivityOfferingItem activityOfferingItem : activityOfferingItemList) {
+							if (activityOfferingItem.getCode()
+									.equalsIgnoreCase(
+											academicRecordDataObject
+													.getActivityCode())) {
+								academicRecordDataObject
+										.setActivityOfferingItem(activityOfferingItem);
+								break;
+							}
 
+						}
+					}
 
-        }
+					academicRecordDataObjectList.add(academicRecordDataObject);
+				}
+			}
+		}
 
-        List<AcademicRecordDataObject> academicRecordDataObjectList = new ArrayList<AcademicRecordDataObject>();
+		plannedTerm.setAcademicRecord(academicRecordDataObjectList);
 
-        /*********** Implementation to populate the plannedTerm list with academic record and planned terms ******************/
-        if (studentCourseRecordInfos.size() > 0) {
-            for (StudentCourseRecordInfo studentInfo : studentCourseRecordInfos) {
-                if (termAtp.equalsIgnoreCase(studentInfo.getTermName())) {
-                    CourseDetailsInquiryHelperImpl courseDetailsService = new CourseDetailsInquiryHelperImpl();
-                    AcademicRecordDataObject academicRecordDataObject = new AcademicRecordDataObject();
-                    academicRecordDataObject.setAtpId(studentInfo.getTermName());
-                    academicRecordDataObject.setPersonId(studentInfo.getPersonId());
-                    academicRecordDataObject.setCourseCode(studentInfo.getCourseCode());
+		/*
+		 * Implementation to set the conditional flags based on each plannedTerm
+		 * atpId
+		 */
 
-                    /*TODO: StudentCourseRecordInfo does not have a courseId property so using Id to set the course Id*/
-                    academicRecordDataObject.setCourseId(studentInfo.getId());
-                    academicRecordDataObject.setCourseTitle(studentInfo.getCourseTitle());
-                    academicRecordDataObject.setCredit(studentInfo.getCreditsEarned());
-                    if (!"X".equalsIgnoreCase(studentInfo.getCalculatedGradeValue())) {
-                        academicRecordDataObject.setGrade(studentInfo.getCalculatedGradeValue());
-                    } else if ("X".equalsIgnoreCase(studentInfo.getCalculatedGradeValue()) && KsapFrameworkServiceLocator.getAtpHelper().isAtpCompletedTerm(studentInfo.getTermName())) {
-                        academicRecordDataObject.setGrade(studentInfo.getCalculatedGradeValue());
-                    }
-                    if (!KsapFrameworkServiceLocator.getAtpHelper().isAtpCompletedTerm(studentInfo.getTermName())) {
-                        academicRecordDataObject.setActivityCode(studentInfo.getActivityCode());
-                    }
-                    academicRecordDataObject.setRepeated(studentInfo.getIsRepeated());
+		if (KsapFrameworkServiceLocator.getTermHelper().isPlanning(
+				plannedTerm.getAtpId())) {
+			plannedTerm.setOpenForPlanning(true);
+		}
+		if (KsapFrameworkServiceLocator.getTermHelper().isCompleted(
+				plannedTerm.getAtpId())) {
+			plannedTerm.setCompletedTerm(true);
+		}
+		if (globalCurrentAtpId.equalsIgnoreCase(plannedTerm.getAtpId())) {
+			plannedTerm.setCurrentTermForView(true);
+		}
 
-                    if (academicRecordDataObject.getCourseId() != null) {
-                        List<ActivityOfferingItem> activityOfferingItemList = courseDetailsService.getActivityOfferingItemsById(academicRecordDataObject.getCourseId(), academicRecordDataObject.getAtpId());
-                        for (ActivityOfferingItem activityOfferingItem : activityOfferingItemList) {
-                            if (activityOfferingItem.getCode().equalsIgnoreCase(academicRecordDataObject.getActivityCode())) {
-                                academicRecordDataObject.setActivityOfferingItem(activityOfferingItem);
-                                break;
-                            }
+		/*
+		 * populateHelpIconFlags(perfectPlannedTerms);
+		 */
+		return plannedTerm;
 
-                        }
-                    }
-
-
-                    academicRecordDataObjectList.add(academicRecordDataObject);
-                }
-            }
-        }
-
-        plannedTerm.setAcademicRecord(academicRecordDataObjectList);
-
-
-        /*Implementation to set the conditional flags based on each plannedTerm atpId*/
-
-
-        if (KsapFrameworkServiceLocator.getAtpHelper().isAtpSetToPlanning(plannedTerm.getAtpId())) {
-            plannedTerm.setOpenForPlanning(true);
-        }
-        if (KsapFrameworkServiceLocator.getAtpHelper().isAtpCompletedTerm(plannedTerm.getAtpId())) {
-            plannedTerm.setCompletedTerm(true);
-        }
-        if (globalCurrentAtpId.equalsIgnoreCase(plannedTerm.getAtpId())) {
-            plannedTerm.setCurrentTermForView(true);
-        }
-
-/*
-        populateHelpIconFlags(perfectPlannedTerms);
-*/
-        return plannedTerm;
-
-    }
-
+	}
 
 }

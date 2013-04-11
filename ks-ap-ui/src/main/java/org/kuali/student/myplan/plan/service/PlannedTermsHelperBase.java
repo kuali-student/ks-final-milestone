@@ -1,57 +1,44 @@
 package org.kuali.student.myplan.plan.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.context.PlanConstants;
+import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.acal.infc.Term;
 import org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedTerm;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
 /**
  * Created by IntelliJ IDEA. User: hemanthg Date: 5/16/12 Time: 3:49 PM To
  * change this template use File | Settings | File Templates.
  */
 public class PlannedTermsHelperBase {
-	/* Count of no of future years to be shown the quarter view */
-	private static int futureTermsCount = 6;
-
-	private static final Logger logger = Logger
-			.getLogger(PlannedTermsHelperBase.class);
-
-	private static String atpTerm1 = "1";
-	private static String atpTerm2 = "2";
-	private static String atpTerm3 = "3";
-	private static String atpTerm4 = "4";
 
 	public static List<PlannedTerm> populatePlannedTerms(
 			List<PlannedCourseDataObject> plannedCoursesList,
 			List<PlannedCourseDataObject> backupCoursesList,
 			List<StudentCourseRecordInfo> studentCourseRecordInfos,
-			String focusAtpId, boolean isServiceUp,
-            int futureTerms, boolean fullPlanView) {
-        futureTermsCount = futureTerms;
-		YearTerm focusQuarterYear;
-		String globalCurrentAtpId = null;
-		if (isServiceUp)
-			globalCurrentAtpId = KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId();
-		else
-			throw new IllegalStateException("Service is not up");
-		if (StringUtils.isEmpty(focusAtpId))
-			focusQuarterYear = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(KsapFrameworkServiceLocator.getAtpHelper()
-					.getFirstAtpIdOfAcademicYear(globalCurrentAtpId));
-		else
-			focusQuarterYear = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(KsapFrameworkServiceLocator.getAtpHelper()
-					.getFirstAtpIdOfAcademicYear(focusAtpId));
+			String focusAtpId, int futureTerms, boolean fullPlanView) {
+		TermHelper th = KsapFrameworkServiceLocator.getTermHelper();
+		YearTerm focusQuarterYear = th.getYearTerm(th
+				.getFirstTermOfAcademicYear(th.getYearTerm(focusAtpId)));
 
 		List<PlannedTerm> plannedTerms = new ArrayList<PlannedTerm>();
 		for (PlannedCourseDataObject plan : plannedCoursesList) {
@@ -66,9 +53,10 @@ public class PlannedTermsHelperBase {
 			if (!exists) {
 				PlannedTerm term = new PlannedTerm();
 				term.setAtpId(atp);
-				YearTerm yearTerm = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(atp);
+				YearTerm yearTerm = KsapFrameworkServiceLocator.getTermHelper()
+						.getYearTerm(atp);
 				StringBuilder sb = new StringBuilder();
-				sb.append(yearTerm.toTermName());
+				sb.append(yearTerm.getTermName());
 				String QtrYear = sb.substring(0, 1).toUpperCase()
 						.concat(sb.substring(1));
 				term.setQtrYear(QtrYear);
@@ -96,8 +84,9 @@ public class PlannedTermsHelperBase {
 					PlannedTerm plannedTerm = new PlannedTerm();
 					plannedTerm.setAtpId(atp);
 					StringBuffer str = new StringBuffer();
-					YearTerm yearTerm = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(atp);
-					str = str.append(yearTerm.toTermName());
+					YearTerm yearTerm = KsapFrameworkServiceLocator
+							.getTermHelper().getYearTerm(atp);
+					str = str.append(yearTerm.getTermName());
 					String QtrYear = str.substring(0, 1).toUpperCase()
 							.concat(str.substring(1, str.length()));
 					plannedTerm.setQtrYear(QtrYear);
@@ -126,279 +115,163 @@ public class PlannedTermsHelperBase {
 		 * Implementation to populate the plannedTerm list with academic record
 		 * and planned terms
 		 ******************/
-		if (studentCourseRecordInfos.size() > 0 || plannedTerms.size() > 0) {
-			Map<String, PlannedTerm> termsList = new HashMap<String, PlannedTerm>();
-			String minTerm = null;
-			if (studentCourseRecordInfos.size() > 0) {
-				minTerm = studentCourseRecordInfos.get(0).getTermName();
-			} else {
-				minTerm = globalCurrentAtpId;
-			}
-            String maxTerm = null;
-            if (plannedTerms.size() > 0 && fullPlanView) {
-                maxTerm = plannedTerms.get(plannedTerms.size() - 1).getAtpId();
-            } else {
-                maxTerm = globalCurrentAtpId;
-            }
-			populateMockList(minTerm, maxTerm, termsList);
-			if (plannedTerms.size() > 0) {
-				for (PlannedTerm plannedTerm : plannedTerms) {
-					if (termsList.containsKey(plannedTerm.getAtpId())) {
-						if (plannedTerm.getPlannedList().size() > 0
-								|| plannedTerm.getBackupList().size() > 0) {
-							plannedTerm.setQtrYear(termsList.get(plannedTerm.getAtpId()).getQtrYear());
+		Map<String, PlannedTerm> termsList = new LinkedHashMap<String, PlannedTerm>();
+		String minTerm = null;
+		if (plannedTerms.size() > 0 && fullPlanView)
+			minTerm = plannedTerms.get(plannedTerms.size() - 1).getAtpId();
+		else if (studentCourseRecordInfos.size() > 0)
+			minTerm = studentCourseRecordInfos.get(0).getTermName();
+		else
+			minTerm = th.getCurrentTerms().get(0).getId();
+		populateFutureData(minTerm, futureTerms, termsList);
 
-							termsList.put(plannedTerm.getAtpId(), plannedTerm);
-						}
+		if (plannedTerms.size() > 0)
+			for (PlannedTerm plannedTerm : plannedTerms)
+				if (termsList.containsKey(plannedTerm.getAtpId()))
+					if (plannedTerm.getPlannedList().size() > 0
+							|| plannedTerm.getBackupList().size() > 0) {
+						plannedTerm.setQtrYear(termsList.get(
+								plannedTerm.getAtpId()).getQtrYear());
+
+						termsList.put(plannedTerm.getAtpId(), plannedTerm);
 					}
-				}
-			}
-			if (studentCourseRecordInfos.size() > 0) {
-				for (StudentCourseRecordInfo studentInfo : studentCourseRecordInfos) {
-					if (termsList.containsKey(studentInfo.getTermName())) {
-						AcademicRecordDataObject academicRecordDataObject = new AcademicRecordDataObject();
-						academicRecordDataObject.setAtpId(studentInfo.getTermName());
-						academicRecordDataObject.setPersonId(studentInfo.getPersonId());
-						academicRecordDataObject.setCourseCode(studentInfo.getCourseCode());
-						/*
-						 * TODO: StudentCourseRecordInfo does not have a
-						 * courseId property so using Id to set the course Id
-						 */
-						academicRecordDataObject.setCourseId(studentInfo.getId());
-						academicRecordDataObject.setCourseTitle(studentInfo.getCourseTitle());
-						academicRecordDataObject.setCredit(studentInfo.getCreditsEarned());
-						if (!"X".equalsIgnoreCase(studentInfo.getCalculatedGradeValue())) {
-							academicRecordDataObject.setGrade(studentInfo
-									.getCalculatedGradeValue());
-						} else if ("X".equalsIgnoreCase(studentInfo
-								.getCalculatedGradeValue())
-								&& KsapFrameworkServiceLocator.getAtpHelper().isAtpCompletedTerm(studentInfo
-										.getTermName())) {
-							academicRecordDataObject.setGrade(studentInfo
-									.getCalculatedGradeValue());
-						}
-						academicRecordDataObject.setRepeated(studentInfo
-								.getIsRepeated());
-						academicRecordDataObjectList
-								.add(academicRecordDataObject);
-						termsList.get(studentInfo.getTermName())
-								.getAcademicRecord()
-								.add(academicRecordDataObject);
+		if (studentCourseRecordInfos.size() > 0) {
+			for (StudentCourseRecordInfo studentInfo : studentCourseRecordInfos) {
+				if (termsList.containsKey(studentInfo.getTermName())) {
+					AcademicRecordDataObject academicRecordDataObject = new AcademicRecordDataObject();
+					academicRecordDataObject
+							.setAtpId(studentInfo.getTermName());
+					academicRecordDataObject.setPersonId(studentInfo
+							.getPersonId());
+					academicRecordDataObject.setCourseCode(studentInfo
+							.getCourseCode());
+					/*
+					 * TODO: StudentCourseRecordInfo does not have a courseId
+					 * property so using Id to set the course Id
+					 */
+					academicRecordDataObject.setCourseId(studentInfo.getId());
+					academicRecordDataObject.setCourseTitle(studentInfo
+							.getCourseTitle());
+					academicRecordDataObject.setCredit(studentInfo
+							.getCreditsEarned());
+					if (!"X".equalsIgnoreCase(studentInfo
+							.getCalculatedGradeValue())) {
+						academicRecordDataObject.setGrade(studentInfo
+								.getCalculatedGradeValue());
+					} else if ("X".equalsIgnoreCase(studentInfo
+							.getCalculatedGradeValue())
+							&& KsapFrameworkServiceLocator.getTermHelper()
+									.isCompleted(studentInfo.getTermName())) {
+						academicRecordDataObject.setGrade(studentInfo
+								.getCalculatedGradeValue());
 					}
+					academicRecordDataObject.setRepeated(studentInfo
+							.getIsRepeated());
+					academicRecordDataObjectList.add(academicRecordDataObject);
+					termsList.get(studentInfo.getTermName())
+							.getAcademicRecord().add(academicRecordDataObject);
 				}
 			}
-			List<PlannedTerm> perfectPlannedTerms = new ArrayList<PlannedTerm>();
-			for (String key : termsList.keySet()) {
-				perfectPlannedTerms.add(termsList.get(key));
+		}
+		List<PlannedTerm> perfectPlannedTerms = new ArrayList<PlannedTerm>(
+				termsList.values());
+
+		/*
+		 * Sort terms in order
+		 */
+		Collections.sort(perfectPlannedTerms, new Comparator<PlannedTerm>() {
+			@Override
+			public int compare(PlannedTerm plannedTerm1,
+					PlannedTerm plannedTerm2) {
+				return KsapFrameworkServiceLocator
+						.getTermHelper()
+						.getYearTerm(plannedTerm2.getAtpId())
+						.compareTo(
+								KsapFrameworkServiceLocator.getTermHelper()
+										.getYearTerm(plannedTerm1.getAtpId()));
+				// return
+				// plannedTerm1.getAtpId().compareTo(plannedTerm2.getAtpId());
 			}
-
-            /*
-            Sort terms in order
-             */
-			Collections.sort(perfectPlannedTerms,
-					new Comparator<PlannedTerm>() {
-						@Override
-						public int compare(PlannedTerm plannedTerm1,
-								PlannedTerm plannedTerm2) {
-							return KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(plannedTerm2.getAtpId()).compareTo(KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(plannedTerm1.getAtpId()));
-                            //return plannedTerm1.getAtpId().compareTo(plannedTerm2.getAtpId());
-						}
-					});
-			// Can't do this step until the sort has been done else the index
-			// won't be correct.
-			int i = 0;
-			for (PlannedTerm pt : perfectPlannedTerms) {
-                if(pt.getAtpId().isEmpty()) continue;
-				YearTerm qy = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(pt.getAtpId());
-				if (qy.compareTo(focusQuarterYear)==0) {
-					pt.setIndex(i);
-					break;
-				}
-				i++;
+		});
+		// Can't do this step until the sort has been done else the index
+		// won't be correct.
+		for (int i = 0; i < perfectPlannedTerms.size(); i++) {
+			PlannedTerm pt = perfectPlannedTerms.get(0);
+			if (pt.getAtpId().isEmpty())
+				continue;
+			YearTerm qy = th.getYearTerm(pt.getAtpId());
+			if (qy.equals(focusQuarterYear)) {
+				pt.setIndex(i);
+				break;
 			}
-
-			/*
-			 * Implementation to set the conditional flags based on each
-			 * plannedTerm atpId
-			 */
-			for (PlannedTerm pl : perfectPlannedTerms) {
-
-				if (KsapFrameworkServiceLocator.getAtpHelper().isAtpSetToPlanning(pl.getAtpId())) {
-					pl.setOpenForPlanning(true);
-				}
-				if (KsapFrameworkServiceLocator.getAtpHelper().isAtpCompletedTerm(pl.getAtpId())) {
-					pl.setCompletedTerm(true);
-				}
-				if (globalCurrentAtpId.equalsIgnoreCase(pl.getAtpId())) {
-					pl.setCurrentTermForView(true);
-				}
-
-			}
-
-			populateHelpIconFlags(perfectPlannedTerms);
-			return perfectPlannedTerms;
 		}
 
 		/*
-		 * Implementation to populate the future terms till 6 years from current
-		 * term if academic record data and planned term data are NOT present
+		 * Implementation to set the conditional flags based on each plannedTerm
+		 * atpId
 		 */
-		else {
-			List<PlannedTerm> plannedTermList = new ArrayList<PlannedTerm>();
-			populateFutureData(globalCurrentAtpId, plannedTermList);
-			/*
-			 * Implementation to set the conditional flags based on each
-			 * plannedTerm atpId
-			 */
-			if (isServiceUp) {
-				for (PlannedTerm pl : plannedTermList) {
+		for (PlannedTerm pl : perfectPlannedTerms) {
+			if (th.isPlanning(pl.getAtpId()))
+				pl.setOpenForPlanning(true);
+			if (th.isCompleted(pl.getAtpId()))
+				pl.setCompletedTerm(true);
+			for (Term t : th.getCurrentTerms())
+				if (t.getId().equals(pl.getAtpId()))
+					pl.setCurrentTermForView(true);
+		}
 
-					if (KsapFrameworkServiceLocator.getAtpHelper().isAtpSetToPlanning(pl.getAtpId())) {
-						pl.setOpenForPlanning(true);
-					}
-					if (KsapFrameworkServiceLocator.getAtpHelper().isAtpCompletedTerm(pl.getAtpId())) {
-						pl.setCompletedTerm(true);
-					}
-					if (globalCurrentAtpId.equalsIgnoreCase(pl.getAtpId())) {
-						pl.setCurrentTermForView(true);
-					}
+		populateHelpIconFlags(perfectPlannedTerms);
+		return perfectPlannedTerms;
+	}
 
-				}
+	/**
+	 * Populates a list of terms starting from the year containing a specified
+	 * term id.
+	 * 
+	 * @param termId
+	 * @param termsList
+	 */
+	private static void populateFutureData(String termId, int futureTermsCount,
+			Map<String, PlannedTerm> termsList) {
+		TermHelper th = KsapFrameworkServiceLocator.getTermHelper();
+		Term term = th.getTerm(termId);
+		Date startDate = term.getStartDate();
+		Calendar c = Calendar.getInstance();
+		c.setTime(startDate);
+		c.add(Calendar.YEAR, futureTermsCount);
+		Date endDate = c.getTime();
+		try {
+			for (Term t : KsapFrameworkServiceLocator
+					.getAcademicCalendarService().searchForTerms(
+							QueryByCriteria.Builder.fromPredicates(
+									PredicateFactory.greaterThanOrEqual(
+											"startDate", startDate),
+									PredicateFactory.lessThan("endDate",
+											endDate)),
+							KsapFrameworkServiceLocator.getContext()
+									.getContextInfo())) {
+				PlannedTerm plannedTerm = new PlannedTerm();
+				plannedTerm.setAtpId(t.getId());
+				plannedTerm.setQtrYear(t.getName());
+				termsList.put(t.getId(), plannedTerm);
 			}
-			populateHelpIconFlags(plannedTermList);
-			return plannedTermList;
-
+		} catch (InvalidParameterException e) {
+			throw new IllegalArgumentException("Acal lookup failure", e);
+		} catch (MissingParameterException e) {
+			throw new IllegalArgumentException("Acal lookup failure", e);
+		} catch (OperationFailedException e) {
+			throw new IllegalStateException("Acal lookup failure", e);
+		} catch (PermissionDeniedException e) {
+			throw new IllegalStateException("Acal lookup failure", e);
 		}
 	}
 
-    // Needs to be rewrote to handle the data (Term names, how terms are mapped to the ui, etc)
-
-    /**
-     * Populates  a list of terms sequencial between two atp terms.
-     * The terms are empty
-     * @param minTerm
-     * @param maxTerm
-     * @param map - Map of Terms filled.
-     */
-	private static void populateMockList(String minTerm, String maxTerm,
-			Map<String, PlannedTerm> map) {
-        YearTerm tempMinTerms = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(minTerm);
-        YearTerm tempMaxTerms = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(maxTerm);
-		String[] minTerms = {tempMinTerms.getTermAsString(),tempMinTerms.getYearAsString()};
-		String[] maxTerms = {tempMaxTerms.getTermAsString(),tempMaxTerms.getYearAsString()};
-		int minYear = 0;
-		int maxYear = 0;
-
-		if (!minTerms[0].equalsIgnoreCase(atpTerm4)) {
-			minTerm = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
-					String.valueOf(Integer.parseInt(minTerms[1]) - 1),atpTerm4);
-			minYear = Integer.parseInt(minTerms[1]) - 1;
-		} else {
-			minYear = Integer.parseInt(minTerms[1]);
-		}
-		if (!maxTerms[0].equalsIgnoreCase(atpTerm3)) {
-			if (maxTerms[0].equalsIgnoreCase(atpTerm4)) {
-				maxTerm = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
-						String.valueOf(Integer.parseInt(maxTerms[1])
-								+ futureTermsCount),atpTerm3);
-				maxYear = Integer.parseInt(maxTerms[1]) + futureTermsCount;
-
-			} else {
-				maxTerm = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
-						String.valueOf(Integer.parseInt(maxTerms[1])
-								+ futureTermsCount),atpTerm3);
-				maxYear = Integer.parseInt(maxTerms[1]) + futureTermsCount;
-			}
-		} else {
-			maxTerm = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
-					String.valueOf(Integer.parseInt(maxTerms[1])
-							+ futureTermsCount),atpTerm3);
-			maxYear = Integer.parseInt(maxTerms[1]) + futureTermsCount;
-		}
-		String term1 = "";
-		String term2 = "";
-		String term3 = "";
-		String term4 = "";
-		for (int i = 0; !term4.equalsIgnoreCase(maxTerm); i++) {
-			PlannedTerm plannedTerm1 = new PlannedTerm();
-			term1 = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
-					String.valueOf(minYear),atpTerm4);
-			plannedTerm1.setAtpId(term1);
-			plannedTerm1.setQtrYear(PlanConstants.TERM_4 + " " + minYear);
-			map.put(term1, plannedTerm1);
-			minYear++;
-			PlannedTerm plannedTerm2 = new PlannedTerm();
-			term2 = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
-					String.valueOf(minYear),atpTerm1);
-			plannedTerm2.setAtpId(term2);
-			plannedTerm2.setQtrYear(PlanConstants.TERM_1 + " " + minYear);
-			map.put(term2, plannedTerm2);
-			PlannedTerm plannedTerm3 = new PlannedTerm();
-			term3 = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
-					String.valueOf(minYear),atpTerm2);
-			plannedTerm3.setAtpId(term3);
-			plannedTerm3.setQtrYear(PlanConstants.TERM_2 + " " + minYear);
-			map.put(term3, plannedTerm3);
-			PlannedTerm plannedTerm4 = new PlannedTerm();
-			term4 = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
-					String.valueOf(minYear),atpTerm3);
-			plannedTerm4.setAtpId(term4);
-			plannedTerm4.setQtrYear(PlanConstants.TERM_3 + " " + minYear);
-			map.put(term4, plannedTerm4);
-		}
-	}
-
-    /**
-     * Populates a list of terms starting from the year containing a specified term id.
-     * @param termId
-     * @param plannedTermList
-     */
-	private static void populateFutureData(String termId,
-			List<PlannedTerm> plannedTermList) {
-		YearTerm yearTerm = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(termId);
-		int minYear =yearTerm.getYear();
-		//if (!strings[0].equalsIgnoreCase(atpTerm4)) {
-        if (!(yearTerm.getTerm()==yearTerm.getMAX_TERM_INDEX())) {
-			minYear = minYear - 1;
-		}
-		String term1 = "";
-		String term2 = "";
-		String term3 = "";
-		String term4 = "";
-		for (int i = 0; i <= 5; i++) {
-			PlannedTerm plannedTerm1 = new PlannedTerm();
-			term1 = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
-					String.valueOf(minYear),atpTerm4);
-			plannedTerm1.setAtpId(term1);
-			plannedTerm1.setQtrYear(PlanConstants.TERM_4 + " " + minYear);
-			plannedTermList.add(plannedTerm1);
-			minYear++;
-			PlannedTerm plannedTerm2 = new PlannedTerm();
-			term2 = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
-					String.valueOf(minYear),atpTerm1);
-			plannedTerm2.setAtpId(term2);
-			plannedTerm2.setQtrYear(PlanConstants.TERM_1 + " " + minYear);
-			plannedTermList.add(plannedTerm2);
-			PlannedTerm plannedTerm3 = new PlannedTerm();
-			term3 = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
-					String.valueOf(minYear),atpTerm2);
-			plannedTerm3.setAtpId(term3);
-			plannedTerm3.setQtrYear(PlanConstants.TERM_2 + " " + minYear);
-			plannedTermList.add(plannedTerm3);
-			PlannedTerm plannedTerm4 = new PlannedTerm();
-			term4 = KsapFrameworkServiceLocator.getAtpHelper().getAtpId(
-					String.valueOf(minYear),atpTerm3);
-			plannedTerm4.setAtpId(term4);
-			plannedTerm4.setQtrYear(PlanConstants.TERM_3 + " " + minYear);
-			plannedTermList.add(plannedTerm4);
-		}
-	}
-
-    /**
-     * Sets display statuses used to by the ui for the help icons.
-     * Sets statuses for all entries in a list of terms.
-     * @param plannedTerms
-     */
+	/**
+	 * Sets display statuses used to by the ui for the help icons. Sets statuses
+	 * for all entries in a list of terms.
+	 * 
+	 * @param plannedTerms
+	 */
 	private static void populateHelpIconFlags(List<PlannedTerm> plannedTerms) {
 
 		int index = plannedTerms.size() - 1;
@@ -411,7 +284,8 @@ public class PlannedTermsHelperBase {
 					break;
 				}
 				index--;
-                if(index<0) break;
+				if (index < 0)
+					break;
 			}
 		}
 		index = 0;

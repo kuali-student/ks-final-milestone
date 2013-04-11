@@ -1,5 +1,18 @@
 package org.kuali.student.myplan.course.controller;
 
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -42,19 +55,6 @@ import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
 
 public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
@@ -1375,8 +1375,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	private void addVersionDateParam(List<SearchRequestInfo> searchRequests) {
 		// String currentTerm =
 		// KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId();
-		String lastScheduledTerm = KsapFrameworkServiceLocator.getAtpHelper()
-				.getLastScheduledAtpId();
+		String lastScheduledTerm = KsapFrameworkServiceLocator.getTermHelper()
+				.getLastScheduledTerm().getId();
 		for (SearchRequestInfo searchRequest : searchRequests) {
 			// searchRequest.addParam("currentTerm", currentTerm);
 			searchRequest.addParam("lastScheduledTerm", lastScheduledTerm);

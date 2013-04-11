@@ -1249,10 +1249,10 @@ public class CourseSearchController extends UifControllerBase {
 			searchRequest.addParam("number", number);
 			searchRequest.addParam("subject", subject.trim());
 			searchRequest.addParam("currentTerm", KsapFrameworkServiceLocator
-					.getAtpHelper().getCurrentAtpId());
+					.getTermHelper().getCurrentTerms().get(0).getId());
 			searchRequest.addParam("lastScheduledTerm",
-					KsapFrameworkServiceLocator.getAtpHelper()
-							.getLastScheduledAtpId());
+					KsapFrameworkServiceLocator.getTermHelper()
+							.getLastScheduledTerm().getId());
 			searchResult = KsapFrameworkServiceLocator.getCluService().search(
 					searchRequest,
 					KsapFrameworkServiceLocator.getContext().getContextInfo());
@@ -1295,12 +1295,6 @@ public class CourseSearchController extends UifControllerBase {
 	public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
 			BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
-		if (!Boolean.valueOf(request.getAttribute(
-				CourseSearchConstants.IS_ACADEMIC_CALENDER_SERVICE_UP)
-				.toString())) {
-			KsapFrameworkServiceLocator.getAtpHelper().addServiceError(
-					"searchTerm");
-		}
 		super.start(form, result, request, response);
 		return getUIFModelAndView(form);
 	}
@@ -1453,9 +1447,9 @@ public class CourseSearchController extends UifControllerBase {
 			return Collections.emptyList();
 
 		request.addParam("lastScheduledTerm", KsapFrameworkServiceLocator
-				.getAtpHelper().getLastScheduledAtpId());
+				.getTermHelper().getLastScheduledTerm().getId());
 		request.addParam("currentTerm", KsapFrameworkServiceLocator
-				.getAtpHelper().getCurrentAtpId());
+				.getTermHelper().getCurrentTerms().get(0).getId());
 		SearchResult searchResult;
 		try {
 			if ((searchResult = KsapFrameworkServiceLocator.getCluService()

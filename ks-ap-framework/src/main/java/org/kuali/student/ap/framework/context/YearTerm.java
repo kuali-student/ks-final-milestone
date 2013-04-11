@@ -1,70 +1,45 @@
 package org.kuali.student.ap.framework.context;
 
-public interface YearTerm {
+public interface YearTerm extends Comparable<YearTerm> {
 
-    /**
-     *
-     * @return the stored year in int format
-     */
-    public int getYear();
+	/**
+	 * Get the term, as an ATP type.
+	 * 
+	 * @return The the term, as an ATP type.
+	 */
+	String getTermType();
 
-    /**
-     *
-     * @return the stored year in string format
-     */
-    public String getYearAsString();
+	/**
+	 * Get the year.
+	 * 
+	 * @return The year.
+	 */
+	int getYear();
 
-    /**
-     *
-     * @return the stored term index in int format
-     */
-    public int getTerm();
+	/**
+	 * Get the term name for display (i.e. &quot;Spring&quot; for Spring 2013).
+	 * 
+	 * @return The term name for display (i.e. &quot;Spring&quot; for Spring
+	 *         2013).
+	 */
+	String getTermName();
 
-    /**
-     *
-     * @return the stored term index in string format
-     */
-    public String getTermAsString();
+	/**
+	 * Get the short term name for display (i.e. &quot;SP 2013&quot; for Spring
+	 * 2013).
+	 * 
+	 * @return The short term name for display (i.e. &quot;SP 2013&quot; for
+	 *         Spring 2013).
+	 */
+	String getShortName();
 
-    /**
-     * Converts the stored year and term index to the corresponding atp id
-     *
-     * @return the atp id created from the year and term index
-     */
-    public String toATP();
+	/**
+	 * Get the long term name for display (i.e. &quot;SP 2013&quot; for Spring
+	 * 2013).
+	 * 
+	 * @return The long term name for display (i.e. &quot;Spring 2013&quot; for
+	 *         Spring 2013).
+	 */
+	String getLongName();
 
-    /**
-     * Creates the name of the term using stored the term index and year
-     *
-     * @return the name created from the year and term index
-     */
-    public String toTermName();
-
-    /**
-     *
-     * @return the stored list of possible term names
-     */
-    public String[] getTermNameList();
-
-
-    /**
-     * Creates an abbrivated name from the stored term index and year
-     *
-     * @return the abbr. name created from the stored term index and year
-     */
-    public String toQTRYRParam() ;
-
-    /**
-     * Compares this yearterm with another
-     *
-     * @param that - YearTerm to compare against
-     * @return an integer repersentation of less than, greater than and equal to
-     */
-    public int compareTo(YearTerm that);
-
-    /**
-     *
-     * @return the highest term index repersentation
-     */
-    public int getMAX_TERM_INDEX();
 }

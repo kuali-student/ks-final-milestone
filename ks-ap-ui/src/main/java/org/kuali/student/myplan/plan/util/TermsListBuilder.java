@@ -9,7 +9,6 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -37,21 +36,7 @@ public class TermsListBuilder extends KeyValuesBase {
 				.getContextInfo();
 		AtpService atpService = KsapFrameworkServiceLocator.getAtpService();
 		Calendar c = Calendar.getInstance();
-		try {
-			c.setTime(atpService.getAtp(
-					KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId(), context)
-					.getStartDate());
-		} catch (DoesNotExistException e) {
-			throw new IllegalArgumentException("ATP lookup failure", e);
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("ATP lookup failure", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("ATP lookup failure", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("ATP lookup failure", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("ATP lookup failure", e);
-		}
+		c.setTime(KsapFrameworkServiceLocator.getTermHelper().getCurrentTerms().get(0).getStartDate());
 		c.add(Calendar.DATE, -1);
 		Date startDate = c.getTime();
 		c.setTime(new Date());

@@ -2,16 +2,17 @@ package org.kuali.student.ap.framework.config;
 
 import javax.ejb.EJB;
 
-import org.kuali.student.ap.framework.context.AtpHelper;
 import org.kuali.student.ap.framework.context.EnrollmentStatusHelper;
 import org.kuali.student.ap.framework.context.EnumerationHelper;
 import org.kuali.student.ap.framework.context.KsapContext;
 import org.kuali.student.ap.framework.context.OrgHelper;
+import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.UserSessionHelper;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.myplan.academicplan.service.AcademicPlanService;
 import org.kuali.student.r2.common.messages.service.MessageService;
 import org.kuali.student.r2.core.atp.service.AtpService;
@@ -104,6 +105,15 @@ public final class KsapFrameworkServiceLocator {
 	}
 
 	/**
+	 * Get the ks-enroll remote LUI service.
+	 * 
+	 * @return The ks-enroll remote LUI service.
+	 */
+	public static LuiService getLuiService() {
+		return getInstance().ksEnrollLuiService;
+	}
+
+	/**
 	 * Get the ks-enroll remote course offering service.
 	 * 
 	 * @return The ks-enroll remote course offering service.
@@ -189,8 +199,8 @@ public final class KsapFrameworkServiceLocator {
 	 * 
 	 * @return The ATP help.
 	 */
-	public static AtpHelper getAtpHelper() {
-		return getInstance().ksapAtpHelper;
+	public static TermHelper getTermHelper() {
+		return getInstance().ksapTermHelper;
 	}
 
 	/**
@@ -249,6 +259,8 @@ public final class KsapFrameworkServiceLocator {
 	@EJB
 	private transient EnumerationManagementService ksCoreEnumerationManagementService;
 	@EJB
+	private transient LuiService ksEnrollLuiService;
+	@EJB
 	private transient CourseOfferingService ksEnrollCourseOfferingService;
 	@EJB
 	private transient AcademicCalendarService ksEnrollAcalService;
@@ -267,7 +279,7 @@ public final class KsapFrameworkServiceLocator {
 	@EJB
 	private transient UserSessionHelper ksapUserSessionHelper;
 	@EJB
-	private transient AtpHelper ksapAtpHelper;
+	private transient TermHelper ksapTermHelper;
 	@EJB
 	private transient EnumerationHelper ksapEnumerationHelper;
 	@EJB

@@ -378,7 +378,7 @@ public class CourseLinkBuilder {
 		// searchRequest.addParam("currentTerm",
 		// DegreeAuditAtpHelper.getCurrentAtpId());
 		searchRequest.addParam("lastScheduledTerm", KsapFrameworkServiceLocator
-				.getAtpHelper().getLastScheduledAtpId());
+				.getTermHelper().getLastScheduledTerm().getId());
 
 		SearchResult searchResult = null;
 		try {

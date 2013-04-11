@@ -1,223 +1,168 @@
 package org.kuali.student.ap.framework.context.support;
 
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.YearTerm;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
 /**
- * Data Storage for the Term and Year of a single atp.
- * Formats different output forms of the data
+ * Data Storage for the Term and Year of a single atp. Formats different output
+ * forms of the data
  */
-public class DefaultYearTerm implements YearTerm,Comparable<YearTerm> {
-    private int year;
-    private int term;
+public class DefaultYearTerm implements YearTerm, Comparable<YearTerm> {
 
-    public DefaultYearTerm(int year, int term) {
-        this.year = year;
-        this.term = term;
-    }
+	private static final Logger LOG = Logger.getLogger(DefaultYearTerm.class);
 
-    public DefaultYearTerm(String year, String term) {
-        this.year = Integer.parseInt(year);
-        try{
-            this.term = Integer.parseInt(term);
-        }catch(NumberFormatException e){
-            this.term= getTermMap().get(term.toLowerCase());
-            return;
-        }
+	private static String[] termTypeOrder;
 
-    }
+	private static String[] getTermTypeOrder() {
+		if (termTypeOrder == null) {
+			try {
+				List<TypeTypeRelationInfo> relations = KsapFrameworkServiceLocator
+						.getTypeService()
+						.getTypeTypeRelationsByOwnerAndType(
+								AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY,
+								TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY,
+								KsapFrameworkServiceLocator.getContext()
+										.getContextInfo());
+				if (relations == null || relations.isEmpty())
+					throw new IllegalStateException(
+							"No term types available using TypeService.getTypeTypeRelationsByOwnerAndType()");
+				Collections.sort(relations,
+						new Comparator<TypeTypeRelationInfo>() {
+							@Override
+							public int compare(TypeTypeRelationInfo o1,
+									TypeTypeRelationInfo o2) {
+								Integer r1 = o1.getRank() == null ? 0 : o1
+										.getRank();
+								Integer r2 = o2.getRank() == null ? 0 : o2
+										.getRank();
+								return r1.compareTo(r2);
+							}
+						});
+				String[] tto = new String[relations.size()];
+				for (int i = 0; i < tto.length; i++)
+					tto[i] = relations.get(i).getRelatedTypeKey();
+				termTypeOrder = tto;
+			} catch (DoesNotExistException e) {
+				throw new IllegalArgumentException("Type lookup error", e);
+			} catch (InvalidParameterException e) {
+				throw new IllegalArgumentException("Type lookup error", e);
+			} catch (MissingParameterException e) {
+				throw new IllegalArgumentException("Type lookup error", e);
+			} catch (OperationFailedException e) {
+				throw new IllegalStateException("Type lookup error", e);
+			} catch (PermissionDeniedException e) {
+				throw new IllegalStateException("Type lookup error", e);
+			}
+		}
+		return termTypeOrder;
+	}
 
-    public DefaultYearTerm(String atpId) {
+	private final String termType;
+	private final int year;
 
-        TermInfo term;
-        String termName;
-        try {
-            term = KsapFrameworkServiceLocator
-                    .getAcademicCalendarService().getTerm(atpId, KsapFrameworkServiceLocator.getContext().getContextInfo());
-            assert term != null : "No term from acal service";
-            if (term != null) {
-                termName=term.getName();
-            }else{
-                termName=atpId;
-            }
-        } catch (Throwable t) {
-           termName=atpId;
-        }
-        String newTerm = termName.substring(0,termName.lastIndexOf(" "));
-        String newYear = termName.substring(termName.lastIndexOf(" "));
-        this.year=Integer.parseInt(newYear.trim());
-        try{
-            this.term = Integer.parseInt(newTerm);
-        }catch(NumberFormatException e){
-            this.term=getTermMap().get(newTerm.toLowerCase());
-            return;
-        }
-    }
-    public DefaultYearTerm(int year, String term){
-        this.year=year;
+	public DefaultYearTerm(String termType, int year) {
+		if (!Arrays.asList(getTermTypeOrder()).contains(termType))
+			throw new IllegalArgumentException("Term type " + termType
+					+ " not supported");
+		this.termType = termType;
+		this.year = year;
+	}
 
-        this.term=getTermMap().get(term.toLowerCase());
-    }
+	public String getTermType() {
+		return termType;
+	}
 
-    @Override
-    public int getYear() {
-        return year;
-    }
+	public int getYear() {
+		return year;
+	}
 
-    @Override
-    public String getYearAsString() {
-        return Integer.toString(getYear());
-    }
+	@Override
+	public int compareTo(YearTerm o) {
+		int rv = new Integer(year).compareTo(o.getYear());
+		if (rv != 0)
+			return rv;
+		int t1 = 0, t2 = 0;
+		for (int i = 0; i < termTypeOrder.length; i++) {
+			if (getTermTypeOrder()[i].equals(termType))
+				t1 = i;
+			if (getTermTypeOrder()[i].equals(o.getTermType()))
+				t2 = i;
+		}
+		return new Integer(t1).compareTo(t2);
+	}
 
-    @Override
-    public int getTerm() {
-        return term;
-    }
+	@Override
+	public String getTermName() {
+		String rv = (rv = getLongName()) == null ? null : rv.trim();
+		if (rv != null && rv.length() > 7
+				&& rv.endsWith(" " + Integer.toString(year)))
+			return rv.substring(0, rv.length() - 5);
+		LOG.warn("Not sure how to extract term name " + rv);
+		return rv;
+	}
 
-    @Override
-    public String getTermAsString(){
-        return Integer.toString(getTerm());
-    }
-    /**
-     * Converts year and term to the ATP idea using the string pattern defined in ATP_Format
-     * @return "20131"
-     */
-    //will need to handle the having types summer1, summer2 and summer
-    //Look at adding a map for this.
-    @Override
-    public String toATP() {
-        List<AtpInfo> atpInfos = null;
-        String type = getAtpTypeMap().get(term);
+	@Override
+	public String getShortName() {
+		String rv = (rv = getLongName()) == null ? null : rv.trim();
+		if (rv != null && rv.length() > 7
+				&& rv.endsWith(" " + Integer.toString(year)))
+			return rv.substring(0, 2).toUpperCase() + " " + year;
+		LOG.warn("Not sure how to shorten term name " + rv);
+		return rv;
+	}
 
-        Date date =  DateFormatters.DEFAULT_DATE_FORMATTER.parse(year+"-"+getTypeMonthDayMap().get(term));
+	@Override
+	public String getLongName() {
+		return KsapFrameworkServiceLocator.getTermHelper().getTerm(this)
+				.getName();
+	}
 
-        try {
-            atpInfos = KsapFrameworkServiceLocator.getAtpService().getAtpsByDateAndType
-                    (date,type,KsapFrameworkServiceLocator.getContext().getContextInfo());
-        } catch (Throwable t) {
-            if (t instanceof RuntimeException)
-                throw (RuntimeException) t;
-            if (t instanceof Error)
-                throw (Error) t;
-            throw new IllegalStateException(
-                    "Unexpected error in ATP lookup", t);
-        }
-        if(atpInfos!=null && atpInfos.size()>0){
-            return atpInfos.get(0).getId();
-        }
-        return KsapFrameworkServiceLocator.getAtpHelper().getDefaultAtp();
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((termType == null) ? 0 : termType.hashCode());
+		result = prime * result + year;
+		return result;
+	}
 
-    @Override
-    public String toTermName() {
-        return getTermNameList()[(getTerm() - 1)] + " " + getYearAsString();
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DefaultYearTerm other = (DefaultYearTerm) obj;
+		if (termType == null) {
+			if (other.termType != null)
+				return false;
+		} else if (!termType.equals(other.termType))
+			return false;
+		if (year != other.year)
+			return false;
+		return true;
+	}
 
-    @Override
-    public String[] getTermNameList() {
-        Map<String,Integer> termMap = getTermMap();
-        String termNames[] = new String[termMap.size()];
-        Iterator<Map.Entry<String,Integer>> iter = termMap.entrySet().iterator();
-        for(int i=0;i<termMap.size();i++){
-            termNames[i]=iter.next().getKey();
-        }
-
-        return termNames;
-    }
-
-    // "WIN+1999"
-    @Override
-    public String toQTRYRParam() {
-        return this.getTermNameList()[getTerm() - 1].substring(0, 3).toUpperCase() + "+" + getYearAsString();
-    }
-
-    @Override
-    public int compareTo( YearTerm that ) {
-        final int BEFORE = -1;
-        final int EQUAL = 0;
-        final int AFTER = 1;
-        if( this == that ) return EQUAL;
-        int a = this.year * 10 + this.term;
-        int b = that.getYear() * 10 + that.getTerm();
-        if( a > b ) return BEFORE;
-        if( a < b ) return AFTER;
-        return EQUAL;
-    }
-
-    @Override
-    public boolean equals( Object obj ) {
-        if( this == obj ) return true;
-        if( obj instanceof YearTerm ) {
-            YearTerm that = (YearTerm) obj;
-            return this.year == that.getYear() && this.term == that.getTerm();
-        }
-        return false;
-    }
-    public String toString() {
-
-        return "year: " + year + " term: " + term + " (" + getTermNameList()[term-1] +")";
-    }
-
-    @Override
-    public int getMAX_TERM_INDEX(){
-        return getAtpTypeMap().size();
-    }
-
-    public Map<String,Integer> getTermMap(){
-        Map termMap = KsapFrameworkServiceLocator.getAtpHelper().getTermMap();
-        if(termMap==null){
-            termMap = new HashMap<String,Integer>();
-            termMap.put("winter",1);
-            termMap.put("spring",2);
-            termMap.put("summer1",3);
-            termMap.put("summer2",4);
-            termMap.put("fall",5);
-            termMap.put("summer i",3);
-            termMap.put("summer ii",4);
-            termMap.put("summer",3);
-        }
-
-        return termMap;
-    }
-
-    public Map<Integer,String> getAtpTypeMap(){
-        Map<Integer,String> types = KsapFrameworkServiceLocator.getAtpHelper().getAtpTypeMap();
-        if(types == null){
-            types = new HashMap<Integer,String>();
-            String typeBase = "kuali.atp.type.";
-            types.put(1,typeBase+"Winter");
-            types.put(2,typeBase+"Spring");
-            types.put(3,typeBase+"Summer1");
-            types.put(4,typeBase+"Summer2");
-            types.put(5,typeBase+"Fall");
-        }
-        return types;
-    }
-
-    public Map<Integer,String> getTypeMonthDayMap(){
-        Map<Integer,String> types= KsapFrameworkServiceLocator.getAtpHelper().getTypeMonthDayMap();
-        if(types == null){
-            types = new HashMap<Integer,String>();
-            types.put(1,"01-15");
-            types.put(2,"03-01");
-            types.put(3,"06-15");
-            types.put(4,"08-01");
-            types.put(5,"10-01");
-        }
-        return types;
-    }
-
-
+	@Override
+	public String toString() {
+		return "DefaultYearTerm [termType=" + termType + ", year=" + year + "]";
+	}
 
 }

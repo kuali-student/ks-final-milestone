@@ -14,9 +14,11 @@
  */
 package org.kuali.student.myplan.plan.form;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -25,9 +27,6 @@ import org.kuali.student.myplan.course.dataobject.ActivityOfferingItem;
 import org.kuali.student.myplan.course.dataobject.CourseDetails;
 import org.kuali.student.myplan.course.dataobject.CourseSummaryDetails;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseSummary;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Form for all plan item actions.
@@ -365,7 +364,7 @@ public class PlanForm extends UifFormBase {
     public String getShortTerm() {
         String shortTermName = "";
         if (getAtpId() != null) {
-            shortTermName = KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(getAtpId()).toTermName();
+            shortTermName = KsapFrameworkServiceLocator.getTermHelper().getYearTerm(getAtpId()).getShortName();
         }
         return shortTermName;
     }

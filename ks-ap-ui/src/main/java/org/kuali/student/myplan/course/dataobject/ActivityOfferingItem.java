@@ -1,9 +1,9 @@
 package org.kuali.student.myplan.course.dataobject;
 
-import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 
 /**
  * Created with IntelliJ IDEA.
@@ -404,12 +404,12 @@ public class ActivityOfferingItem {
 
     /*Used to get the Short term name for atp (WI 13 for kuali.uw.atp.2013.1)*/
     public String getShortTermName() {
-        return KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(this.getAtpId()).toTermName();
+        return KsapFrameworkServiceLocator.getTermHelper().getYearTerm(this.getAtpId()).getShortName();
     }
 
     /*Used to get the Short term name for atp (Winter 13 for kuali.uw.atp.2013.1)*/
     public String getLongTermName() {
-        return KsapFrameworkServiceLocator.getAtpHelper().getYearTerm(this.getAtpId()).toTermName();
+        return KsapFrameworkServiceLocator.getTermHelper().getYearTerm(this.getAtpId()).getShortName();
     }
     public String getActivityIdentifier(){
         String id = this.code+"-"+this.getShortTermName().replace(" ","")+"-"+this.getRegistrationCode()+"sln";

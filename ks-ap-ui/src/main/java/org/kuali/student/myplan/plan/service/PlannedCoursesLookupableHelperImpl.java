@@ -13,7 +13,6 @@ import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
-import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedTerm;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -22,72 +21,95 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 /**
  * Produce a list of planned course items.
  */
-public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelperBase {
+public class PlannedCoursesLookupableHelperImpl extends
+		PlanItemLookupableHelperBase {
 
-    private final Logger logger = Logger.getLogger(PlannedCoursesLookupableHelperImpl.class);
+	private static final long serialVersionUID = 1502719861875054079L;
 
-    private transient AcademicRecordService academicRecordService;
+	private final Logger logger = Logger
+			.getLogger(PlannedCoursesLookupableHelperImpl.class);
 
-    public AcademicRecordService getAcademicRecordService() {
-        if (this.academicRecordService == null) {
-            this.academicRecordService = KsapFrameworkServiceLocator.getAcademicRecordService();
-        }
+	private transient AcademicRecordService academicRecordService;
 
-        return this.academicRecordService;
-    }
+	public AcademicRecordService getAcademicRecordService() {
+		if (this.academicRecordService == null) {
+			this.academicRecordService = KsapFrameworkServiceLocator
+					.getAcademicRecordService();
+		}
 
-    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
-        this.academicRecordService = academicRecordService;
-    }
+		return this.academicRecordService;
+	}
 
-    /**
-     * Skip the validation so that we use the criteriaFields param to pass in args to the getSearchResults method.
-     *
-     * @param form
-     * @param searchCriteria
-     * @return
-     */
-    @Override
-    public boolean validateSearchParameters(LookupForm form, Map<String, String> searchCriteria) {
-        return true;
-    }
+	public void setAcademicRecordService(
+			AcademicRecordService academicRecordService) {
+		this.academicRecordService = academicRecordService;
+	}
 
-    @Override
-    protected List<PlannedTerm> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String focusAtpId =request.getParameter(PlanConstants.FOCUS_ATP_ID_KEY);
-        String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
-        boolean isServiceStatusOK=true;
-        String[] params = {};
+	/**
+	 * Skip the validation so that we use the criteriaFields param to pass in
+	 * args to the getSearchResults method.
+	 * 
+	 * @param form
+	 * @param searchCriteria
+	 * @return
+	 */
+	@Override
+	public boolean validateSearchParameters(LookupForm form,
+			Map<String, String> searchCriteria) {
+		return true;
+	}
 
-        /*************PlannedCourseList**************/
-        List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();
-        try {
-            plannedCoursesList = getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED, studentId);
-        } catch (Exception e) {
-            logger.error("Could not load plannedCourseslist", e);
+	@Override
+	protected List<PlannedTerm> getSearchResults(LookupForm lookupForm,
+			Map<String, String> fieldValues, boolean unbounded) {
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+				.getRequestAttributes()).getRequest();
+		String focusAtpId = request
+				.getParameter(PlanConstants.FOCUS_ATP_ID_KEY);
+		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper()
+				.getStudentId();
+		String[] params = {};
 
-        }
+		/************* PlannedCourseList **************/
+		List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();
+		try {
+			plannedCoursesList = getPlanItems(
+					PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED, studentId);
+		} catch (Exception e) {
+			logger.error("Could not load plannedCourseslist", e);
 
-        /****academic record SWS call to get the studentCourseRecordInfo list *****/
-        List<StudentCourseRecordInfo> studentCourseRecordInfos = new ArrayList<StudentCourseRecordInfo>();
-        try {
-            studentCourseRecordInfos = getAcademicRecordService().getCompletedCourseRecords(studentId,KsapFrameworkServiceLocator.getContext().getContextInfo());
-        } catch (Exception e) {
-            GlobalVariables.getMessageMap().putWarningForSectionId(PlanConstants.PLAN_ITEM_RESPONSE_PAGE_ID, PlanConstants.ERROR_TECHNICAL_PROBLEMS, params);
-            logger.error("Could not retrieve StudentCourseRecordInfo from the SWS.", e);
-        }
+		}
 
-        /*************BackupCourseList**************/
-        List<PlannedCourseDataObject> backupCoursesList = new ArrayList<PlannedCourseDataObject>();
-        try {
-            backupCoursesList=getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP, studentId);
-        } catch (Exception e) {
-            logger.error("Could not load backupCourseList", e);
+		/**** academic record SWS call to get the studentCourseRecordInfo list *****/
+		List<StudentCourseRecordInfo> studentCourseRecordInfos = new ArrayList<StudentCourseRecordInfo>();
+		try {
+			studentCourseRecordInfos = getAcademicRecordService()
+					.getCompletedCourseRecords(
+							studentId,
+							KsapFrameworkServiceLocator.getContext()
+									.getContextInfo());
+		} catch (Exception e) {
+			GlobalVariables.getMessageMap().putWarningForSectionId(
+					PlanConstants.PLAN_ITEM_RESPONSE_PAGE_ID,
+					PlanConstants.ERROR_TECHNICAL_PROBLEMS, params);
+			logger.error(
+					"Could not retrieve StudentCourseRecordInfo from the SWS.",
+					e);
+		}
 
-        }
+		/************* BackupCourseList **************/
+		List<PlannedCourseDataObject> backupCoursesList = new ArrayList<PlannedCourseDataObject>();
+		try {
+			backupCoursesList = getPlanItems(
+					PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP, studentId);
+		} catch (Exception e) {
+			logger.error("Could not load backupCourseList", e);
 
-        List<PlannedTerm> perfectPlannedTerms = PlannedTermsHelperBase.populatePlannedTerms(plannedCoursesList, backupCoursesList, studentCourseRecordInfos, focusAtpId,isServiceStatusOK, 6, false);
-        return perfectPlannedTerms;
-    }
+		}
+
+		List<PlannedTerm> perfectPlannedTerms = PlannedTermsHelperBase
+				.populatePlannedTerms(plannedCoursesList, backupCoursesList,
+						studentCourseRecordInfos, focusAtpId, 6, false);
+		return perfectPlannedTerms;
+	}
 }

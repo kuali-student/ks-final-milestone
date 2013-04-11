@@ -151,77 +151,72 @@ public class DegreeAuditController extends UifControllerBase {
 				// (AdviserID or StudentID).
 				// form.setCampusParam(campusMap.get("0"));
 				logger.info("audit systemkey " + systemKey);
-				if (!isAuditServiceUp) {
-					KsapFrameworkServiceLocator.getAtpHelper().addServiceError(
-							"programParam");
-				} else {
-					List<AuditReportInfo> auditReportInfoList = degreeAuditService
-							.getAuditsForStudentInDateRange(systemKey,
-									startDate, endDate, contextInfo);
-					if (auditId == null && auditReportInfoList.size() > 0) {
-						auditId = auditReportInfoList.get(0).getAuditId();
-						programParam = auditReportInfoList.get(0)
-								.getProgramId();
+				List<AuditReportInfo> auditReportInfoList = degreeAuditService
+						.getAuditsForStudentInDateRange(systemKey, startDate,
+								endDate, contextInfo);
+				if (auditId == null && auditReportInfoList.size() > 0) {
+					auditId = auditReportInfoList.get(0).getAuditId();
+					programParam = auditReportInfoList.get(0).getProgramId();
+				}
+
+				// TODO: For now we are getting the auditType from the end
+				// user. This needs to be removed before going live and hard
+				// coded to audit type key html
+				if (auditId != null) {
+					AuditReportInfo auditReportInfo = degreeAuditService
+							.getAuditReport(auditId, form.getAuditType(),
+									contextInfo);
+					if (auditReportInfoList != null
+							&& auditReportInfoList.size() > 0) {
+						for (AuditReportInfo report : auditReportInfoList) {
+							if (report.getAuditId().equalsIgnoreCase(
+									auditReportInfo.getAuditId())) {
+								programParam = report.getProgramId();
+							}
+						}
+					}
+					InputStream in = auditReportInfo.getReport()
+							.getDataSource().getInputStream();
+					StringWriter sw = new StringWriter();
+
+					int c = 0;
+					while ((c = in.read()) != -1) {
+						sw.append((char) c);
 					}
 
-					// TODO: For now we are getting the auditType from the end
-					// user. This needs to be removed before going live and hard
-					// coded to audit type key html
-					if (auditId != null) {
-						AuditReportInfo auditReportInfo = degreeAuditService
-								.getAuditReport(auditId, form.getAuditType(),
-										contextInfo);
-						if (auditReportInfoList != null
-								&& auditReportInfoList.size() > 0) {
-							for (AuditReportInfo report : auditReportInfoList) {
-								if (report.getAuditId().equalsIgnoreCase(
-										auditReportInfo.getAuditId())) {
-									programParam = report.getProgramId();
-								}
-							}
+					String html = sw.toString();
+
+					String preparedFor = user.getLastName() + ", "
+							+ user.getFirstName();
+					html = html.replace("$$PreparedFor$$", preparedFor);
+					// form.setAuditHtml(html);
+
+					/*
+					 * Impl to set the default values for campusParam and
+					 * programParam properties
+					 */
+					List<AuditProgramInfo> auditProgramInfoList = new ArrayList<AuditProgramInfo>();
+					try {
+						auditProgramInfoList = getDegreeAuditService()
+								.getAuditPrograms(
+										KsapFrameworkServiceLocator
+												.getContext().getContextInfo());
+					} catch (Exception e) {
+						logger.error("could not retrieve AuditPrograms", e);
+					}
+					for (AuditProgramInfo auditProgramInfo : auditProgramInfoList) {
+						if (auditProgramInfo.getProgramTitle()
+								.equalsIgnoreCase(programParam)) {
+							int campusPrefix = Integer
+									.parseInt(auditProgramInfo.getProgramId()
+											.substring(0, 1));
+							form.setCampusParam(campusMap.get(String
+									.valueOf(campusPrefix)));
+							form.setProgramParam(auditProgramInfo
+									.getProgramId());
+							break;
 						}
-						InputStream in = auditReportInfo.getReport()
-								.getDataSource().getInputStream();
-						StringWriter sw = new StringWriter();
 
-						int c = 0;
-						while ((c = in.read()) != -1) {
-							sw.append((char) c);
-						}
-
-						String html = sw.toString();
-
-						String preparedFor = user.getLastName() + ", "
-								+ user.getFirstName();
-						html = html.replace("$$PreparedFor$$", preparedFor);
-						// form.setAuditHtml(html);
-
-						/*
-						 * Impl to set the default values for campusParam and
-						 * programParam properties
-						 */
-						List<AuditProgramInfo> auditProgramInfoList = new ArrayList<AuditProgramInfo>();
-						try {
-							auditProgramInfoList = getDegreeAuditService()
-									.getAuditPrograms(
-                                            KsapFrameworkServiceLocator.getContext().getContextInfo());
-						} catch (Exception e) {
-							logger.error("could not retrieve AuditPrograms", e);
-						}
-						for (AuditProgramInfo auditProgramInfo : auditProgramInfoList) {
-							if (auditProgramInfo.getProgramTitle()
-									.equalsIgnoreCase(programParam)) {
-								int campusPrefix = Integer
-										.parseInt(auditProgramInfo
-												.getProgramId().substring(0, 1));
-								form.setCampusParam(campusMap.get(String
-										.valueOf(campusPrefix)));
-								form.setProgramParam(auditProgramInfo
-										.getProgramId());
-								break;
-							}
-
-						}
 					}
 				}
 			}
