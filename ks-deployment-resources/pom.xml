@@ -9,4 +9,44 @@
     <artifactId>ks-deployment-resources</artifactId>
     <name>KS Deployment Resources</name>
     <description>Kuali Student Deployment Resources</description>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>3.1.0.RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.common</groupId>
+            <artifactId>torque-executor</artifactId>
+            <version>${impex.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-beanutils</groupId>
+                    <artifactId>commons-beanutils</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.common</groupId>
+            <artifactId>torque-generator</artifactId>
+            <version>${impex.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-beanutils</groupId>
+                    <artifactId>commons-beanutils</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.commons</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.8.3-kuali-4</version>
+        </dependency>
+    </dependencies>
 </project>
