@@ -22,7 +22,6 @@
     <oracle.dba.url>jdbc:oracle:thin:@localhost:1521:XE</oracle.dba.url>
     <mysql.dba.username>root</mysql.dba.username>
     <mysql.dba.url>jdbc:mysql://localhost</mysql.dba.url>
-    <db.populate.phase>none</db.populate.phase>
   </properties>
   <build>
     <pluginManagement>
