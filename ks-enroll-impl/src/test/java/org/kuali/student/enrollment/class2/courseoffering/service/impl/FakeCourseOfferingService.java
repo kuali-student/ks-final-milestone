@@ -584,62 +584,6 @@ class FakeCourseOfferingService implements CourseOfferingService {
         throw new RuntimeException("Not implemented");
     }
 
-    /*  TODOSSR
-    @Override
-    public ColocatedOfferingSetInfo getColocatedOfferingSet(String colocatedOfferingSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public List<ColocatedOfferingSetInfo> getColocatedOfferingSetsByIds(List<String> colocatedOfferingSetIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public List<String> getColocatedOfferingSetIdsByType(String colocatedOfferingSetTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public List<String> searchForColocatedOfferingSetIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public List<ColocatedOfferingSetInfo> searchForColocatedOfferingSets(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateColocatedOfferingSet(String validationTypeKey, String colocatedOfferingSetTypeKey, ColocatedOfferingSetInfo colocatedOfferingSetInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public ColocatedOfferingSetInfo createColocatedOfferingSet(String colocatedOfferingSetTypeKey, ColocatedOfferingSetInfo colocatedOfferingSetInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public ColocatedOfferingSetInfo updateColocatedOfferingSet(String colocatedOfferingSetId, ColocatedOfferingSetInfo colocatedOfferingSetInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public StatusInfo changeColocatedOfferingSetState(String colocatedOfferingSetId, String nextStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public StatusInfo deleteColocatedOfferingSet(String colocatedOfferingSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public List<ColocatedOfferingSetInfo> getColocatedOfferingSetsByActivityOffering(String activityOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
-    }*/
-
     @Override
     public List<CourseOfferingInfo> searchForCourseOfferings(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new RuntimeException("Not implemented");

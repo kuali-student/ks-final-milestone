@@ -34,7 +34,6 @@ public class ColocatedActivity implements Serializable {
     private String aoId;
     private int maxEnrollmentCount;
 
-//  TODOSSR  private ColocatedOfferingSetInfo coloSetInfo;
     private ActivityOfferingInfo activityOfferingInfo;
 
     private EditRenderHelper editRenderHelper;
@@ -102,14 +101,6 @@ public class ColocatedActivity implements Serializable {
     public EditRenderHelper getEditRenderHelper() {
         return editRenderHelper;
     }
-
-    /*TODOSSR public ColocatedOfferingSetInfo getColoSetInfo() {
-        return coloSetInfo;
-    }
-
-    public void setColoSetInfo(ColocatedOfferingSetInfo coloSetInfo) {
-        this.coloSetInfo = coloSetInfo;
-    }*/
 
     public ActivityOfferingInfo getActivityOfferingInfo() {
         return activityOfferingInfo;

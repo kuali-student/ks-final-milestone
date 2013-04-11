@@ -102,8 +102,6 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean maxEnrollmentShared;
     private int sharedMaxEnrollment;
 
-//TODOSSR    private ColocatedOfferingSetInfo colocatedOfferingSetInfo;
-
     private EditRenderHelper editRenderHelper;
     private boolean isPartOfColoSetOnLoadAlready;
     private boolean isSendRDLsToSchedulerAfterMSE;
@@ -835,14 +833,6 @@ public class ActivityOfferingWrapper implements Serializable{
 
         return StringUtils.removeEnd(buffer.toString(),"<br>");
     }
-
-   /* TODOSSR public ColocatedOfferingSetInfo getColocatedOfferingSetInfo() {
-        return colocatedOfferingSetInfo;
-    }
-
-    public void setColocatedOfferingSetInfo(ColocatedOfferingSetInfo colocatedOfferingSetInfo) {
-        this.colocatedOfferingSetInfo = colocatedOfferingSetInfo;
-    }*/
 
     public boolean isPartOfColoSetOnLoadAlready() {
         return isPartOfColoSetOnLoadAlready;
