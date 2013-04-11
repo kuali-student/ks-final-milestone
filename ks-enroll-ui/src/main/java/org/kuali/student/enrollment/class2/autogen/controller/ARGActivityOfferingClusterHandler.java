@@ -331,6 +331,7 @@ public class ARGActivityOfferingClusterHandler {
             createAOCFromMove = false;
         }else{
             GlobalVariables.getMessageMap().putError("privateClusterName", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME);
+            return theForm;
         }
 
         GlobalVariables.getMessageMap().addGrowlMessage("", "cluster.created", growlPrivateName, growlPublicName );
