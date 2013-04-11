@@ -18,23 +18,28 @@
     <properties>
         <jdbc.source.db.username>KS_SOURCE_DB${db.branch.qualifier}</jdbc.source.db.username>
         <jdbc.password>${jdbc.username}</jdbc.password>
-        <impex.metainf.context>classpath:org/kuali/common/impex/metainf-mpx-context.xml</impex.metainf.context>
+        <impex.metainf.context>org.kuali.common.impex.spring.MetaInfMpxConfig</impex.metainf.context>
         <impex.data.resources>META-INF/${project.artifactId}-data.resources</impex.data.resources>
         <impex.metainf.outputFile>${project.build.outputDirectory}/${impex.data.resources}</impex.metainf.outputFile>
-        <oracle.ci.dba.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</oracle.ci.dba.url>
+        <properties.maven.exclude>kuali.scm.url</properties.maven.exclude>
     </properties>
     <profiles>
         <profile>
             <!-- This profile builds the full KS database from the "system of record" set of Oracle sql files checked into SCM -->
             <id>source-db</id>
             <properties>
-                <db.populate.phase>initialize</db.populate.phase>
+                <properties.decrypt>true</properties.decrypt>
+                <properties.enc.password>${kuali.enc.password}</properties.enc.password>
                 <spring.forceMojoExecution>true</spring.forceMojoExecution>
                 <db.vendor>oracle</db.vendor>
                 <jdbc.username>${jdbc.source.db.username}</jdbc.username>
                 <oracle.dba.username>master</oracle.dba.username>
-                <oracle.dba.password.encrypted>eEFVZmL4+y/5KlzDMCt6dGlBKQzXevFp</oracle.dba.password.encrypted>
-                <oracle.dba.url>${oracle.ci.dba.url}</oracle.dba.url>
+                <oracle.dba.password>ENC(eEFVZmL4+y/5KlzDMCt6dGlBKQzXevFp)</oracle.dba.password>
+                <oracle.dba.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</oracle.dba.url>
+                <!-- KS Source db is pure SQL not .mpx -->
+                <sql.data.concurrent.progress.label>SQL Count</sql.data.concurrent.progress.label>
+                <sql.data.concurrent.progress.label.throughput>SQL/s</sql.data.concurrent.progress.label.throughput>
+                <sql.data.concurrent.trackProgressByUpdateCount>false</sql.data.concurrent.trackProgressByUpdateCount>
                 <!-- Schemas -->
                 <db.rice.baseline.schema>rice-impex-server-bootstrap</db.rice.baseline.schema>
                 <db.ks.core.schema>ks-core-sql</db.ks.core.schema>
@@ -55,7 +60,7 @@
                 <sql.schema.5.list>${sql.meta.base}/${db.ks.rice.schema}-${sql.suffix.schema}</sql.schema.5.list>
                 <!-- The "ks-" prefix here should get removed after the next Rice upgrade since the Rice jar will contain the -data.resources file natively -->
                 <!-- The dependency of the spring-maven-plugin to ks-deployment-resources should also then get removed -->
-                <sql.data.1.list>classpath:sql/${db.vendor}/ks-${db.rice.baseline.schema}-${sql.suffix.data}</sql.data.1.list>
+                <sql.data.1.list>${sql.meta.base}/ks-${db.rice.baseline.schema}-${sql.suffix.data}</sql.data.1.list>
                 <sql.data.2.list>${sql.meta.base}/${db.ks.core.schema}-${sql.suffix.data}</sql.data.2.list>
                 <sql.data.3.list>${sql.meta.base}/${db.ks.lum.schema}-${sql.suffix.data}</sql.data.3.list>
                 <sql.data.4.list>${sql.meta.base}/${db.ks.enroll.schema}-${sql.suffix.data}</sql.data.4.list>
@@ -84,34 +89,18 @@
                     <plugin>
                         <groupId>org.kuali.maven.plugins</groupId>
                         <artifactId>spring-maven-plugin</artifactId>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.kuali.student.core</groupId>
-                                <artifactId>ks-core-sql</artifactId>
-                                <version>${ks.core.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.kuali.student.core</groupId>
-                                <artifactId>ks-rice-sql</artifactId>
-                                <version>${ks.core.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.kuali.student.lum</groupId>
-                                <artifactId>ks-lum-sql</artifactId>
-                                <version>${ks.lum.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.kuali.student.enroll</groupId>
-                                <artifactId>ks-enroll-sql</artifactId>
-                                <version>${ks.enroll.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.kuali.rice</groupId>
-                                <artifactId>rice-impex-server-bootstrap</artifactId>
-                                <version>${kuali.rice.version}</version>
-                                <classifier>sql</classifier>
-                            </dependency>
-                        </dependencies>
+                        <executions>
+                            <execution>
+                                <id>source-db</id>
+                                <goals>
+                                    <goal>load</goal>
+                                </goals>
+                                <phase>initialize</phase>
+                                <configuration>
+                                    <annotatedClass>org.kuali.common.jdbc.spring.MavenResetConfig</annotatedClass>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
@@ -124,11 +113,11 @@
                 <impex.ks.includes>KS.*</impex.ks.includes>
                 <impex.includes>${impex.rice.includes},${impex.ks.includes}</impex.includes>
                 <impex.source.artifactId>ks-source-db</impex.source.artifactId>
-                <impex.url>${oracle.ci.dba.url}</impex.url>
+                <impex.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</impex.url>
                 <impex.driver>oracle.jdbc.driver.OracleDriver</impex.driver>
-                <impex.username>${jdbc.source.db.username}</impex.username>
-                <impex.password>${jdbc.source.db.username}</impex.password>
-                <impex.schema>${jdbc.source.db.username}</impex.schema>
+                <impex.username>KS_SOURCE_DB_SPRING</impex.username>
+                <impex.password>KS_SOURCE_DB_SPRING</impex.password>
+                <impex.schema>KS_SOURCE_DB_SPRING</impex.schema>
                 <impex.databaseVendor>oracle</impex.databaseVendor>
                 <impex.databaseTablePropertiesFile>${project.basedir}/../../ks-deployment-resources/src/main/resources/org/kuali/student/impex/ks-source-db.properties</impex.databaseTablePropertiesFile>
                 <impex.table.includes>${impex.includes}</impex.table.includes>
@@ -153,9 +142,7 @@
                                 </goals>
                                 <configuration>
                                     <forceMojoExecution>true</forceMojoExecution>
-                                    <location>classpath:org/kuali/student/impex/ks-dump-context.xml</location>
-                                    <propertiesBeanName>dumpProperties</propertiesBeanName>
-                                    <injectProject>true</injectProject>
+                                    <annotatedClass>org.kuali.student.deploy.spring.DumpConfig</annotatedClass>
                                 </configuration>
                             </execution>
                         </executions>
@@ -167,14 +154,15 @@
             <!-- Load a db from the schema SQL + mpx files generated by Impex -->
             <id>db</id>
             <properties>
-                <impex.databaseVendor>${db.vendor}</impex.databaseVendor>
-                <impex.table.includes>${impex.includes}</impex.table.includes>
-                <impex.view.includes>${impex.includes}</impex.view.includes>
-                <impex.sequence.includes>${impex.includes}</impex.sequence.includes>
-                <impex.import.schemasql>classpath:${db.vendor}/${project.artifactId}.sql</impex.import.schemasql>
-                <impex.import.constraintsql>classpath:${db.vendor}/${project.artifactId}-constraints.sql</impex.import.constraintsql>
-                <impex.import.dataLocations>${impex.data.resources}</impex.import.dataLocations>
                 <impex.import.artifactId>${project.artifactId}</impex.import.artifactId>
+                <impex.import.schema>classpath:${db.vendor}/${project.artifactId}.sql</impex.import.schema>
+                <impex.import.constraints>classpath:${db.vendor}/${project.artifactId}-constraints.sql</impex.import.constraints>
+                <impex.import.data.list>${impex.data.resources}</impex.import.data.list>
+                <impex.schema.location>classpath:${project.artifactId}.xml</impex.schema.location>
+                <sql.schema.concurrent>impex.import.schema</sql.schema.concurrent>
+                <sql.constraints.concurrent>impex.import.constraints</sql.constraints.concurrent>
+                <sql.data.concurrent>impex.import.data.list</sql.data.concurrent>
+                <sql.data.concurrent.trackProgressByUpdateCount>true</sql.data.concurrent.trackProgressByUpdateCount>
             </properties>
             <build>
                 <plugins>
@@ -190,8 +178,7 @@
                                 </goals>
                                 <configuration>
                                     <forceMojoExecution>true</forceMojoExecution>
-                                    <location>classpath:org/kuali/common/impex/impex-import-context.xml</location>
-                                    <propertiesBeanName>importProperties</propertiesBeanName>
+                                    <annotatedClass>org.kuali.common.impex.spring.MavenResetConfig</annotatedClass>
                                 </configuration>
                             </execution>
                         </executions>
@@ -210,6 +197,21 @@
                                 <groupId>org.kuali.student.db</groupId>
                                 <artifactId>ks-impex-bundled-db</artifactId>
                                 <version>${project.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.kuali.common</groupId>
+                                <artifactId>kuali-deploy</artifactId>
+                                <version>${kuali-deploy.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.kuali.common</groupId>
+                                <artifactId>kuali-jdbc</artifactId>
+                                <version>${kuali-jdbc.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.kuali.common</groupId>
+                                <artifactId>kuali-util</artifactId>
+                                <version>${kuali-util.version}</version>
                             </dependency>
                         </dependencies>
                     </plugin>

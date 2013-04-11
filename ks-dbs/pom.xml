@@ -17,28 +17,49 @@
     <properties>
         <!-- Set this to something that is unique per KS branch -->
         <db.branch.qualifier/>
-        <db.populate.phase>none</db.populate.phase>
+        <oracle.dba.username>SYS AS SYSDBA</oracle.dba.username>
+        <oracle.dba.password>change_on_install</oracle.dba.password>
+        <oracle.dba.url>jdbc:oracle:thin:@localhost:1521:XE</oracle.dba.url>
+        <mysql.dba.username>root</mysql.dba.username>
+        <mysql.dba.url>jdbc:mysql://localhost</mysql.dba.url>
     </properties>
     <build>
         <pluginManagement>
             <plugins>
+                <!-- Turn off bundling of the -sources jar for db stuff -->
+                <plugin>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>sources</id>
+                            <phase>none</phase>
+                        </execution>
+                    </executions>
+                </plugin>
                 <plugin>
                     <groupId>org.kuali.maven.plugins</groupId>
                     <artifactId>spring-maven-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>load</id>
-                            <phase>${db.populate.phase}</phase>
-                            <goals>
-                                <goal>load</goal>
-                            </goals>
-                            <configuration>
-                                <location>${plugin.spring.context.db}</location>
-                                <propertiesBeanName>deploy.mavenProperties</propertiesBeanName>
-                            </configuration>
-                        </execution>
-                    </executions>
                     <dependencies>
+                        <dependency>
+                            <groupId>org.kuali.student.core</groupId>
+                            <artifactId>ks-core-sql</artifactId>
+                            <version>${ks.core.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.kuali.student.core</groupId>
+                            <artifactId>ks-rice-sql</artifactId>
+                            <version>${ks.core.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.kuali.student.lum</groupId>
+                            <artifactId>ks-lum-sql</artifactId>
+                            <version>${ks.lum.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.kuali.student.enroll</groupId>
+                            <artifactId>ks-enroll-sql</artifactId>
+                            <version>${ks.enroll.version}</version>
+                        </dependency>
                         <dependency>
                             <groupId>org.kuali.common</groupId>
                             <artifactId>kuali-deploy</artifactId>
@@ -55,6 +76,22 @@
                             <version>${kuali-util.version}</version>
                         </dependency>
                         <dependency>
+                            <groupId>org.kuali.rice</groupId>
+                            <artifactId>rice-impex-server-bootstrap</artifactId>
+                            <version>${kuali.rice.version}</version>
+                            <classifier>sql</classifier>
+                        </dependency>
+                        <dependency>
+                            <groupId>mysql</groupId>
+                            <artifactId>mysql-connector-java</artifactId>
+                            <version>${mysql.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.oracle</groupId>
+                            <artifactId>${oracle.artifactId}</artifactId>
+                            <version>${oracle.version}</version>
+                        </dependency>
+                        <dependency>
                             <groupId>org.kuali.student.deployments</groupId>
                             <artifactId>ks-deployment-resources</artifactId>
                             <version>${ks.deployments.version}</version>
@@ -69,38 +106,9 @@
                             <artifactId>torque-executor</artifactId>
                             <version>${impex.version}</version>
                         </dependency>
-                        <dependency>
-                            <groupId>mysql</groupId>
-                            <artifactId>mysql-connector-java</artifactId>
-                            <version>${mysql.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>com.oracle</groupId>
-                            <artifactId>${oracle.artifactId}</artifactId>
-                            <version>${oracle.version}</version>
-                        </dependency>
                     </dependencies>
                 </plugin>
             </plugins>
         </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>sources</id>
-                        <phase>none</phase>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
     </build>
-    <dependencies>
-        <dependency>
-            <groupId>org.kuali.student.deployments</groupId>
-            <artifactId>ks-deployment-resources</artifactId>
-            <version>${ks.deployments.version}</version>
-        </dependency>
-    </dependencies>
 </project>
