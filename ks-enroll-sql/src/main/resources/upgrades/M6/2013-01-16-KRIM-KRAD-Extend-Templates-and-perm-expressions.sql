@@ -154,12 +154,12 @@ insert into KRIM_TYP_T (KIM_TYP_ID, OBJ_ID, VER_NBR, NM, SRVC_NM, ACTV_IND, NMSP
 insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM)
   values ('KS-KRIM-ATTR-DEFN-1000', SYS_GUID(), 1, 'permissionExpression', 'Permission Expression', 'Y', 'KS-ENR', 'org.kuali.rice.student.bo.KualiStudentKimAttributes')
 /
---Join attribute to type
+-- Join attribute to type
 insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID, OBJ_ID, VER_NBR, SORT_CD, KIM_TYP_ID, KIM_ATTR_DEFN_ID,ACTV_IND)
   values ('KS-KRIM-TYP-ATTR-1024', SYS_GUID(), 1, 'a', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM='KS ENR Permission Expression'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM='permissionExpression' and NMSPC_CD='KS-ENR'), 'Y')
 /
 
---update existing KRAD permissions to use new templates
+-- update existing KRAD permissions to use new templates
 UPDATE
     KRIM_PERM_T up
 SET
