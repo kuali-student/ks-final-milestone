@@ -1296,26 +1296,28 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                                                                                          ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO: A naive implementation first so we can get some work done now.
-        List<ActivityOfferingClusterInfo> clusters =
-                getActivityOfferingClustersByFormatOffering(formatOfferingId, contextInfo);
-        Set<String> aoIdsInClusters = new HashSet<String>();
-        // For each cluster, find all AOs associated with it
-        for (ActivityOfferingClusterInfo clusterInfo: clusters) {
-            List<ActivityOfferingSetInfo> aoSets = clusterInfo.getActivityOfferingSets();
-            for (ActivityOfferingSetInfo set : aoSets) {
-                // Add the ids to a set
-                aoIdsInClusters.addAll(set.getActivityOfferingIds());
+
+        List<String> aoIds = new ArrayList<String>();
+
+        SearchRequestInfo searchRequest = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE.getKey());
+        searchRequest.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.FO_ID, formatOfferingId);
+
+        SearchResultInfo searchResult = null;
+        try {
+            searchResult = getSearchService().search(searchRequest, contextInfo);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        for (SearchResultRowInfo row : searchResult.getRows()) {
+            for(SearchResultCellInfo cellInfo : row.getCells()){
+                if(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID.equals(cellInfo.getKey())){
+                    aoIds.add(cellInfo.getValue());
+                }
+
             }
         }
-        List<ActivityOfferingInfo> aosNotInCluster = new ArrayList<ActivityOfferingInfo>();
-        List<ActivityOfferingInfo> allAOs = getActivityOfferingsByFormatOffering(formatOfferingId, contextInfo);
-        for (ActivityOfferingInfo aoInfo: allAOs) {
-            if (!aoIdsInClusters.contains(aoInfo.getId())) { // if ID not in set, add the AO
-                aosNotInCluster.add(aoInfo);
-            }
-        }
-        return aosNotInCluster;
+        return this.getActivityOfferingsByIds(aoIds,contextInfo);
     }
 
     @Override

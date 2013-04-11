@@ -38,15 +38,18 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final TypeInfo SCH_ID_BY_AO_SEARCH_TYPE;
     public static final TypeInfo AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo REG_GROUPS_BY_CO_ID_SEARCH_TYPE;
+    public static final TypeInfo AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE;
 
     public static final String SCH_ID_BY_AO_SEARCH_KEY = "kuali.search.type.lui.searchForScheduleIdByAoId";
     public static final String AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAOsAndClustersByCoId";
     public static final String REG_GROUPS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForRegGroupsByCoId";
+    public static final String AOS_WO_CLUSTER_BY_FO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAOsWithoutClusterByFormatId";
 
 
     public static final class SearchParameters {
         public static final String AO_ID = "id";
         public static final String CO_ID = "coId";
+        public static final String FO_ID = "foId";
     }
 
     public static final class SearchResultColumns {
@@ -101,6 +104,18 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             throw new RuntimeException("bad code");
         }
         REG_GROUPS_BY_CO_ID_SEARCH_TYPE = info;
+
+        info = new TypeInfo();
+        info.setKey(AOS_WO_CLUSTER_BY_FO_ID_SEARCH_KEY);
+        info.setName("AOs without cluster by format offering search");
+        info.setDescr(new RichTextHelper().fromPlain("Returns a list of AO Ids that are not assigned to a cluster"));
+
+        try {
+            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
+        } catch ( IllegalArgumentException ex) {
+            throw new RuntimeException("bad code");
+        }
+        AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE = info;
     }
 
 
@@ -124,6 +139,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         if (REG_GROUPS_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
             return REG_GROUPS_BY_CO_ID_SEARCH_TYPE;
         }
+        if (AOS_WO_CLUSTER_BY_FO_ID_SEARCH_KEY.equals(searchTypeKey)) {
+            return AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE;
+        }
         throw new DoesNotExistException("No Search Type Found for key:"+searchTypeKey);
     }
 
@@ -132,7 +150,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException {
-        return Arrays.asList(SCH_ID_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE, REG_GROUPS_BY_CO_ID_SEARCH_TYPE);
+        return Arrays.asList(SCH_ID_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE, REG_GROUPS_BY_CO_ID_SEARCH_TYPE, AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE);
     }
 
 
@@ -148,6 +166,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         }
         else if (REG_GROUPS_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForRegGroupsByCoId(searchRequestInfo);
+        }
+        else if (AOS_WO_CLUSTER_BY_FO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
+            return searchForAOsWithoutClusterByFormatOffering(searchRequestInfo);
         }
         else{
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
@@ -266,6 +287,39 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             row.addCell(SearchResultColumns.SCHEDULE_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AO_MAX_SEATS, resultRow[i]==null?null:resultRow[i++].toString());
             row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i++]);
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+    }
+
+    protected SearchResultInfo searchForAOsWithoutClusterByFormatOffering(SearchRequestInfo searchRequestInfo){
+        SearchResultInfo resultInfo = new SearchResultInfo();
+
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        String foId = requestHelper.getParamAsString(SearchParameters.FO_ID);
+
+        String queryStr =
+                "SELECT rel.relatedLui.id aoId " +
+                        "FROM LuiLuiRelationEntity rel " +
+                        "WHERE rel.lui.id = :foId " +
+                        "  AND rel.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.fo2ao' " +
+                        "  AND rel.relatedLui.id not in ( " +
+                        "SELECT aocSetAoIds " +
+                        "FROM ActivityOfferingClusterEntity aoc " +
+                        "     IN(aoc.aoSets) aocSets, " +
+                        "     IN(aocSets.aoIds) aocSetAoIds " +
+                        "WHERE " +
+                        "  aoc.formatOfferingId = :foId ) ";
+
+        Query query = entityManager.createQuery(queryStr);
+        query.setParameter(SearchParameters.FO_ID, foId);
+        List<Object[]> results = query.getResultList();
+
+        for(Object[] resultRow : results){
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
             resultInfo.getRows().add(row);
         }
 
