@@ -657,7 +657,7 @@
         OBJ_ID="5e6c839c-8cc1-4e72-b08f-ddf5f4c6bd8f"
         START_DT="20080826000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="197305" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="197305" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 1973 term"
         DESCR_PLAIN="Summer I 1973 term" END_DT="19730712000000"
@@ -665,7 +665,7 @@
         OBJ_ID="9a9553ae-2fee-49cf-927b-8d878945398d"
         START_DT="19730529000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198008" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198008" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 1980 term"
         DESCR_PLAIN="Fall 1980 term" END_DT="19801213000000"
@@ -673,7 +673,7 @@
         OBJ_ID="784d593a-b805-4331-82c6-88970796d626"
         START_DT="19800903000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198001" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198001" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 1980 term"
         DESCR_PLAIN="Spring 1980 term" END_DT="19800520000000"
@@ -681,7 +681,7 @@
         OBJ_ID="826e0486-86ef-4979-8bc1-a501a3d05fb3"
         START_DT="19800110000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198108" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198108" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 1981 term"
         DESCR_PLAIN="Fall 1981 term" END_DT="19811213000000"
@@ -689,7 +689,7 @@
         OBJ_ID="4f97e1f1-f1d6-4ee8-b9a8-095d95dfef8d"
         START_DT="19810903000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198101" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198101" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 1981 term"
         DESCR_PLAIN="Spring 1981 term" END_DT="19810520000000"
@@ -697,7 +697,7 @@
         OBJ_ID="604ded5c-f366-454d-a0b2-3d6e282c74a7"
         START_DT="19810110000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198208" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198208" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 1982 term"
         DESCR_PLAIN="Fall 1982 term" END_DT="19821213000000"
@@ -705,7 +705,7 @@
         OBJ_ID="46492489-1145-487f-9d39-5f6b3de09ef6"
         START_DT="19820903000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198201" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198201" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 1982 term"
         DESCR_PLAIN="Spring 1982 term" END_DT="19820520000000"
@@ -713,7 +713,7 @@
         OBJ_ID="feb2b12a-f5ba-4184-964a-984b0098a5f4"
         START_DT="19820110000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198205" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198205" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 1982 term"
         DESCR_PLAIN="Summer I 1982 term" END_DT="19820712000000"
@@ -721,7 +721,7 @@
         OBJ_ID="ff7a82d5-a04a-4f3e-99d3-720f721dbaf7"
         START_DT="19820529000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198308" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198308" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 1983 term"
         DESCR_PLAIN="Fall 1983 term" END_DT="19831213000000"
@@ -729,7 +729,7 @@
         OBJ_ID="a9d72ad1-a5ac-4e11-a84d-45e68531f058"
         START_DT="19830903000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198301" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198301" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 1983 term"
         DESCR_PLAIN="Spring 1983 term" END_DT="19830520000000"
@@ -737,7 +737,7 @@
         OBJ_ID="fe0ef348-cc60-45e1-91b9-0c9b2d0bd025"
         START_DT="19830110000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198305" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198305" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 1983 term"
         DESCR_PLAIN="Summer I 1983 term" END_DT="19830712000000"
@@ -745,7 +745,7 @@
         OBJ_ID="1ae8149e-f0d5-48b8-9d7d-2e8340c92454"
         START_DT="19830529000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198307" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198307" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 1983 term"
@@ -754,7 +754,7 @@
         OBJ_ID="1d9a8fff-fe31-48e3-8e30-c188e5dac64e"
         START_DT="19830715000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198408" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198408" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 1984 term"
         DESCR_PLAIN="Fall 1984 term" END_DT="19841214000000"
@@ -762,7 +762,7 @@
         OBJ_ID="ab1e02b7-00a1-49ca-bea0-13315d64c357"
         START_DT="19840904000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198401" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198401" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 1984 term"
         DESCR_PLAIN="Spring 1984 term" END_DT="19840520000000"
@@ -770,7 +770,7 @@
         OBJ_ID="2ac96039-c1da-40d4-ad89-92138594bf92"
         START_DT="19840110000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198405" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198405" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 1984 term"
         DESCR_PLAIN="Summer I 1984 term" END_DT="19840706000000"
@@ -778,7 +778,7 @@
         OBJ_ID="c1c9eb7f-3cd3-4f32-90d3-1ffe13708cec"
         START_DT="19840529000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198407" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198407" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 1984 term"
@@ -787,7 +787,7 @@
         OBJ_ID="7278b995-71be-45e9-adfb-c0a717a135aa"
         START_DT="19840710000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198508" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198508" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 1985 term"
         DESCR_PLAIN="Fall 1985 term" END_DT="19851213000000"
@@ -795,7 +795,7 @@
         OBJ_ID="82bf8439-d5a5-4855-879a-2034a8982337"
         START_DT="19850903000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198501" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198501" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 1985 term"
         DESCR_PLAIN="Spring 1985 term" END_DT="19850514000000"
@@ -803,7 +803,7 @@
         OBJ_ID="d29ebeaf-5d1e-46b5-ba9d-7439c7a86091"
         START_DT="19850123000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198505" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198505" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 1985 term"
         DESCR_PLAIN="Summer I 1985 term" END_DT="19850712000000"
@@ -811,7 +811,7 @@
         OBJ_ID="ed7cecf1-7b4d-4418-b694-6c8ff4421bc1"
         START_DT="19850603000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198507" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198507" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 1985 term"
@@ -820,7 +820,7 @@
         OBJ_ID="36d893c9-a9fe-4378-9072-b5e6baec16c7"
         START_DT="19850715000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198608" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198608" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 1986 term"
         DESCR_PLAIN="Fall 1986 term" END_DT="19861213000000"
@@ -828,7 +828,7 @@
         OBJ_ID="73a1a80d-c2dd-4f57-b7cd-0ee9ed951cf8"
         START_DT="19860902000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198601" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198601" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 1986 term"
         DESCR_PLAIN="Spring 1986 term" END_DT="19860516000000"
@@ -836,7 +836,7 @@
         OBJ_ID="bab12a31-48d4-47df-bfde-d1bb53f68763"
         START_DT="19860127000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198605" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198605" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 1986 term"
         DESCR_PLAIN="Summer I 1986 term" END_DT="19860713000000"
@@ -844,7 +844,7 @@
         OBJ_ID="e7f81bd4-1690-489e-b5f1-8cbd78e5316e"
         START_DT="19860602000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198607" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198607" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 1986 term"
@@ -853,7 +853,7 @@
         OBJ_ID="b084596f-4523-4414-b656-ac2f253e68ce"
         START_DT="19860714000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198708" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198708" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 1987 term"
         DESCR_PLAIN="Fall 1987 term" END_DT="19871211000000"
@@ -861,7 +861,7 @@
         OBJ_ID="411bdd62-929d-48a6-bc20-bc2cb5d75ae7"
         START_DT="19870902000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198701" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198701" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 1987 term"
         DESCR_PLAIN="Spring 1987 term" END_DT="19870514000000"
@@ -869,7 +869,7 @@
         OBJ_ID="bac2e5f9-48c7-49c1-aee0-7d57c18697fb"
         START_DT="19870126000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198705" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198705" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 1987 term"
         DESCR_PLAIN="Summer I 1987 term" END_DT="19870712000000"
@@ -877,7 +877,7 @@
         OBJ_ID="b96815f2-f409-49e7-9221-386fb79339c2"
         START_DT="19870601000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198707" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198707" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 1987 term"
@@ -886,7 +886,7 @@
         OBJ_ID="0b12de0f-2774-459e-80aa-f32348031194"
         START_DT="19870713000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198808" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198808" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 1988 term"
         DESCR_PLAIN="Fall 1988 term" END_DT="19881213000000"
@@ -894,7 +894,7 @@
         OBJ_ID="b67a556b-718b-4218-87df-3ed0db71752a"
         START_DT="19880906000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198801" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198801" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 1988 term"
         DESCR_PLAIN="Spring 1988 term" END_DT="19880512000000"
@@ -902,7 +902,7 @@
         OBJ_ID="40dd90b1-f94e-4491-a072-929b0a6fe8b7"
         START_DT="19880125000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198805" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198805" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 1988 term"
         DESCR_PLAIN="Summer I 1988 term" END_DT="19880708000000"
@@ -910,7 +910,7 @@
         OBJ_ID="e0c9c926-0f62-4db3-82fd-538375baba41"
         START_DT="19880531000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198807" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198807" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 1988 term"
@@ -919,7 +919,7 @@
         OBJ_ID="8922cf23-318a-4659-ab49-e2d8ef1f4ec8"
         START_DT="19880711000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198908" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198908" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 1989 term"
         DESCR_PLAIN="Fall 1989 term" END_DT="19891212000000"
@@ -927,7 +927,7 @@
         OBJ_ID="c36ed062-8092-47ef-ab1d-a84c69caa8a6"
         START_DT="19890905000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198901" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198901" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 1989 term"
         DESCR_PLAIN="Spring 1989 term" END_DT="19890515000000"
@@ -935,7 +935,7 @@
         OBJ_ID="f25b9472-0327-49ad-b823-701118b06f04"
         START_DT="19890123000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198905" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198905" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 1989 term"
         DESCR_PLAIN="Summer I 1989 term" END_DT="19890714000000"
@@ -943,7 +943,7 @@
         OBJ_ID="b0338c02-e219-4cda-a7d4-92a7e7d16973"
         START_DT="19890605000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="198907" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="198907" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 1989 term"
@@ -952,7 +952,7 @@
         OBJ_ID="4b45ac3e-fdfb-40f2-874d-001bdc656f38"
         START_DT="19890717000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199008" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199008" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 1990 term"
         DESCR_PLAIN="Fall 1990 term" END_DT="19901211000000"
@@ -960,7 +960,7 @@
         OBJ_ID="3bd80784-3459-4d01-8e05-c415d5f6d12c"
         START_DT="19900904000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199001" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199001" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 1990 term"
         DESCR_PLAIN="Spring 1990 term" END_DT="19900514000000"
@@ -968,7 +968,7 @@
         OBJ_ID="bb47310d-1e9d-42f6-8622-16deaf799aea"
         START_DT="19900122000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199005" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199005" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 1990 term"
         DESCR_PLAIN="Summer I 1990 term" END_DT="19900714000000"
@@ -976,7 +976,7 @@
         OBJ_ID="22094057-a555-4430-9cf6-9b049f71727b"
         START_DT="19900604000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199007" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199007" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 1990 term"
@@ -985,7 +985,7 @@
         OBJ_ID="2ea51dee-af52-4996-a73c-e5b7e32ad284"
         START_DT="19900715000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199108" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199108" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 1991 term"
         DESCR_PLAIN="Fall 1991 term" END_DT="19911210000000"
@@ -993,7 +993,7 @@
         OBJ_ID="f2d0528d-704b-476f-905b-2e97bfd63be0"
         START_DT="19910903000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199101" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199101" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 1991 term"
         DESCR_PLAIN="Spring 1991 term" END_DT="19910513000000"
@@ -1001,7 +1001,7 @@
         OBJ_ID="6ef2dbc8-6ec8-4b66-80c1-4e14973f6f03"
         START_DT="19910122000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199105" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199105" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 1991 term"
         DESCR_PLAIN="Summer I 1991 term" END_DT="19910713000000"
@@ -1009,7 +1009,7 @@
         OBJ_ID="08be5116-6c10-4253-a3d2-4a7ac10c0d8e"
         START_DT="19910603000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199107" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199107" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 1991 term"
@@ -1018,7 +1018,7 @@
         OBJ_ID="07dd8022-1654-4d2a-9123-829c846b8abe"
         START_DT="19910714000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199208" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199208" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 1992 term"
         DESCR_PLAIN="Fall 1992 term" END_DT="19921213000000"
@@ -1026,7 +1026,7 @@
         OBJ_ID="3916d648-047b-4d9b-9c7f-a6eacef35052"
         START_DT="19920908000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199201" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199201" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 1992 term"
         DESCR_PLAIN="Spring 1992 term" END_DT="19920510000000"
@@ -1034,7 +1034,7 @@
         OBJ_ID="d7233ac4-7599-4741-87b3-529bb2f6514e"
         START_DT="19920121000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199205" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199205" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 1992 term"
         DESCR_PLAIN="Summer I 1992 term" END_DT="19920711000000"
@@ -1042,7 +1042,7 @@
         OBJ_ID="09404507-b985-4dbe-a2ad-4e082f327c44"
         START_DT="19920601000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199207" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199207" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 1992 term"
@@ -1051,7 +1051,7 @@
         OBJ_ID="8e72d222-58eb-423c-874e-e29843e00fbb"
         START_DT="19920712000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199308" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199308" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 1993 term"
         DESCR_PLAIN="Fall 1993 term" END_DT="19931213000000"
@@ -1059,7 +1059,7 @@
         OBJ_ID="e76a40bb-cbbd-47cc-842c-6a369dee28ce"
         START_DT="19930907000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199301" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199301" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 1993 term"
         DESCR_PLAIN="Spring 1993 term" END_DT="19930510000000"
@@ -1067,7 +1067,7 @@
         OBJ_ID="4bba85c1-0403-42f9-9241-a9b687b789d2"
         START_DT="19930119000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199305" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199305" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 1993 term"
         DESCR_PLAIN="Summer I 1993 term" END_DT="19930718000000"
@@ -1075,7 +1075,7 @@
         OBJ_ID="8de55d6e-c406-453a-91b1-003d782dc263"
         START_DT="19930607000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199307" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199307" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 1993 term"
@@ -1084,7 +1084,7 @@
         OBJ_ID="9eb5cea9-c7e6-457d-93e7-8b3f422ccfea"
         START_DT="19930719000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199312" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199312" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 1994 term"
         DESCR_PLAIN="Winter 1994 term" END_DT="19940116000000"
@@ -1092,7 +1092,7 @@
         OBJ_ID="6ce455a0-a7c7-47a5-95ac-a774fd77ac7a"
         START_DT="19940115000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199408" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199408" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 1994 term"
         DESCR_PLAIN="Fall 1994 term" END_DT="19941212000000"
@@ -1100,7 +1100,7 @@
         OBJ_ID="2d36224b-0d69-4515-96bf-64199679044d"
         START_DT="19940831000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199401" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199401" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 1994 term"
         DESCR_PLAIN="Spring 1994 term" END_DT="19940509000000"
@@ -1108,7 +1108,7 @@
         OBJ_ID="7189b240-5434-4dfb-a4ff-cecf5bf2ec2a"
         START_DT="19940124000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199405" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199405" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 1994 term"
         DESCR_PLAIN="Summer I 1994 term" END_DT="19940717000000"
@@ -1116,7 +1116,7 @@
         OBJ_ID="a8c0a8e7-49c0-4473-beb2-bb508a792945"
         START_DT="19940606000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199407" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199407" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 1994 term"
@@ -1125,7 +1125,7 @@
         OBJ_ID="b4a02b49-614f-48b6-bae3-9005addc65f8"
         START_DT="19940718000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199412" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199412" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 1995 term"
         DESCR_PLAIN="Winter 1995 term" END_DT="19950116000000"
@@ -1133,7 +1133,7 @@
         OBJ_ID="956b09d7-92bd-43db-8d68-431f4ad6de9a"
         START_DT="19950115000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199508" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199508" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 1995 term"
         DESCR_PLAIN="Fall 1995 term" END_DT="19951212000000"
@@ -1141,7 +1141,7 @@
         OBJ_ID="102565e3-e1fd-4463-979f-5cfe9f6a233c"
         START_DT="19950905000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199501" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199501" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 1995 term"
         DESCR_PLAIN="Spring 1995 term" END_DT="19950509000000"
@@ -1149,7 +1149,7 @@
         OBJ_ID="2f259258-c2ff-42b5-8141-06a55131b998"
         START_DT="19950118000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199505" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199505" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 1995 term"
         DESCR_PLAIN="Summer I 1995 term" END_DT="19950716000000"
@@ -1157,7 +1157,7 @@
         OBJ_ID="77c694d7-7f33-46ee-8cdd-568295d569a9"
         START_DT="19950605000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199507" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199507" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 1995 term"
@@ -1166,7 +1166,7 @@
         OBJ_ID="31a630c5-03f7-4fa5-917c-18b8d2881eed"
         START_DT="19950717000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199512" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199512" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 1996 term"
         DESCR_PLAIN="Winter 1996 term" END_DT="19960126000000"
@@ -1174,7 +1174,7 @@
         OBJ_ID="ee952faf-3826-4c4c-b917-0744bff38bd5"
         START_DT="19951226000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199608" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199608" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 1996 term"
         DESCR_PLAIN="Fall 1996 term" END_DT="19961211000000"
@@ -1182,7 +1182,7 @@
         OBJ_ID="30389af8-164c-45d3-90c6-c985888c428a"
         START_DT="19960903000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199601" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199601" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 1996 term"
         DESCR_PLAIN="Spring 1996 term" END_DT="19960513000000"
@@ -1190,7 +1190,7 @@
         OBJ_ID="b5e51b8a-a049-408a-b286-2056bdaf25c4"
         START_DT="19960129000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199605" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199605" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 1996 term"
         DESCR_PLAIN="Summer I 1996 term" END_DT="19960714000000"
@@ -1198,7 +1198,7 @@
         OBJ_ID="908e8d59-13d4-4d17-8614-49c8ddad1201"
         START_DT="19960603000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199607" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199607" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 1996 term"
@@ -1207,7 +1207,7 @@
         OBJ_ID="b8308abb-d24b-4193-8af0-6a4c18fe2e22"
         START_DT="19960715000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199612" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199612" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 1997 term"
         DESCR_PLAIN="Winter 1997 term" END_DT="19970124000000"
@@ -1215,7 +1215,7 @@
         OBJ_ID="82c3882f-e62d-4a92-95a6-72d09d16bb7a"
         START_DT="19970106000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199708" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199708" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 1997 term"
         DESCR_PLAIN="Fall 1997 term" END_DT="19971214000000"
@@ -1223,7 +1223,7 @@
         OBJ_ID="c3fce446-83c7-401e-a822-f0e181e8778a"
         START_DT="19970902000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199701" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199701" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 1997 term"
         DESCR_PLAIN="Spring 1997 term" END_DT="19970513000000"
@@ -1231,7 +1231,7 @@
         OBJ_ID="479ac567-f557-4775-b5ef-43a33b3ab6ab"
         START_DT="19970130000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199705" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199705" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 1997 term"
         DESCR_PLAIN="Summer I 1997 term" END_DT="19970713000000"
@@ -1239,7 +1239,7 @@
         OBJ_ID="099b1266-afd9-4608-b81b-91cb9cd996c3"
         START_DT="19970602000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199707" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199707" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 1997 term"
@@ -1248,7 +1248,7 @@
         OBJ_ID="5c5e501c-af7e-44c9-bea6-6dd91fffa495"
         START_DT="19970714000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199712" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199712" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 1998 term"
         DESCR_PLAIN="Winter 1998 term" END_DT="19980123000000"
@@ -1256,7 +1256,7 @@
         OBJ_ID="fc0598fc-7300-4fec-9494-e6b80a29e74c"
         START_DT="19980105000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199808" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199808" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 1998 term"
         DESCR_PLAIN="Fall 1998 term" END_DT="19981211000000"
@@ -1264,7 +1264,7 @@
         OBJ_ID="dd62f71b-e45a-4fcc-8d71-e5d56fab4fad"
         START_DT="19980831000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199801" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199801" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 1998 term"
         DESCR_PLAIN="Spring 1998 term" END_DT="19980513000000"
@@ -1272,7 +1272,7 @@
         OBJ_ID="e0b25af2-f2d1-4e20-853c-02ffbbcb84b0"
         START_DT="19980127000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199805" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199805" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 1998 term"
         DESCR_PLAIN="Summer I 1998 term" END_DT="19980712000000"
@@ -1280,7 +1280,7 @@
         OBJ_ID="556c4e0c-d07b-4495-8efe-06d3da4897db"
         START_DT="19980601000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199807" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199807" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 1998 term"
@@ -1289,7 +1289,7 @@
         OBJ_ID="e9acb884-93b9-4bf7-8cb6-0d95e9d27f14"
         START_DT="19980713000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199812" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199812" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 1999 term"
         DESCR_PLAIN="Winter 1999 term" END_DT="19990122000000"
@@ -1297,7 +1297,7 @@
         OBJ_ID="98c5401c-f714-4169-af73-72c17f717c5e"
         START_DT="19990104000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199908" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199908" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 1999 term"
         DESCR_PLAIN="Fall 1999 term" END_DT="19991214000000"
@@ -1305,7 +1305,7 @@
         OBJ_ID="5dd7768d-8dde-4b48-a918-7a6bfbb8daff"
         START_DT="19990901000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199901" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199901" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 1999 term"
         DESCR_PLAIN="Spring 1999 term" END_DT="19990514000000"
@@ -1313,7 +1313,7 @@
         OBJ_ID="dab840f6-7c14-4234-8bd9-bb08dc3f6b3b"
         START_DT="19990128000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199905" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199905" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 1999 term"
         DESCR_PLAIN="Summer I 1999 term" END_DT="19990711000000"
@@ -1321,7 +1321,7 @@
         OBJ_ID="359985f0-dcfd-468f-a40d-43556a23fb48"
         START_DT="19990601000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199907" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199907" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 1999 term"
@@ -1330,7 +1330,7 @@
         OBJ_ID="5f451a1c-714e-45fe-81bb-d9a120fadc5d"
         START_DT="19990712000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="199912" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="199912" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2000 term"
         DESCR_PLAIN="Winter 2000 term" END_DT="20000125000000"
@@ -1338,7 +1338,7 @@
         OBJ_ID="44a50d65-874b-4766-85e3-fef3457b7589"
         START_DT="20000105000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200008" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200008" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2000 term"
         DESCR_PLAIN="Fall 2000 term" END_DT="20001212000000"
@@ -1346,7 +1346,7 @@
         OBJ_ID="31e748b9-ab84-467a-bea0-ff28fd654595"
         START_DT="20000830000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200001" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200001" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2000 term"
         DESCR_PLAIN="Spring 2000 term" END_DT="20000516000000"
@@ -1354,7 +1354,7 @@
         OBJ_ID="4105998c-2ff9-43d6-ab05-20ce08d87fc4"
         START_DT="20000201000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200005" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200005" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2000 term"
         DESCR_PLAIN="Summer I 2000 term" END_DT="20000716000000"
@@ -1362,7 +1362,7 @@
         OBJ_ID="6d86004f-b573-4a13-8a91-f62f8ef785ff"
         START_DT="20000605000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200007" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200007" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2000 term"
@@ -1371,7 +1371,7 @@
         OBJ_ID="71b18013-5d32-4afe-baf7-fdac722cc250"
         START_DT="20000717000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200012" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200012" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2001 term"
         DESCR_PLAIN="Winter 2001 term" END_DT="20010123000000"
@@ -1379,7 +1379,7 @@
         OBJ_ID="1604ede5-fa69-4f7a-bab0-351a9f9d9510"
         START_DT="20010103000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200108" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200108" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2001 term"
         DESCR_PLAIN="Fall 2001 term" END_DT="20011211000000"
@@ -1387,7 +1387,7 @@
         OBJ_ID="b402931b-1faa-4893-b0ad-4b2656d92fcc"
         START_DT="20010829000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200101" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200101" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2001 term"
         DESCR_PLAIN="Spring 2001 term" END_DT="20010515000000"
@@ -1395,7 +1395,7 @@
         OBJ_ID="69a5faec-1154-4e1a-a05a-d34904e45cf5"
         START_DT="20010129000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200105" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200105" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2001 term"
         DESCR_PLAIN="Summer I 2001 term" END_DT="20010715000000"
@@ -1403,7 +1403,7 @@
         OBJ_ID="f8e15007-b7dc-4853-8af8-c77447821084"
         START_DT="20010604000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200107" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200107" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2001 term"
@@ -1412,7 +1412,7 @@
         OBJ_ID="f9fd9cc5-1f1d-4ceb-9766-3ef82628875c"
         START_DT="20010716000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200112" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200112" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2002 term"
         DESCR_PLAIN="Winter 2002 term" END_DT="20020123000000"
@@ -1420,7 +1420,7 @@
         OBJ_ID="ed3d9fbe-05c7-46cd-b829-fe7931a65cfe"
         START_DT="20020103000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200208" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200208" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2002 term"
         DESCR_PLAIN="Fall 2002 term" END_DT="20021213000000"
@@ -1428,7 +1428,7 @@
         OBJ_ID="7d7f3121-cd3a-4b20-b950-8193698259bb"
         START_DT="20020903000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200201" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200201" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2002 term"
         DESCR_PLAIN="Spring 2002 term" END_DT="20020514000000"
@@ -1436,7 +1436,7 @@
         OBJ_ID="11000d3f-85c9-4f04-b1c7-703c0ca2e87c"
         START_DT="20020128000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200205" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200205" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2002 term"
         DESCR_PLAIN="Summer I 2002 term" END_DT="20020714000000"
@@ -1444,7 +1444,7 @@
         OBJ_ID="1af38abf-44b2-4c41-a5fc-9326510d2640"
         START_DT="20020603000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200207" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200207" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2002 term"
@@ -1453,7 +1453,7 @@
         OBJ_ID="9961ffb3-fb8a-4cb3-8a06-096b3317401a"
         START_DT="20020715000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200212" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200212" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2003 term"
         DESCR_PLAIN="Winter 2003 term" END_DT="20030124000000"
@@ -1461,7 +1461,7 @@
         OBJ_ID="d8c4e85e-2759-437c-9df7-8f4632216fb5"
         START_DT="20030106000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200308" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200308" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2003 term"
         DESCR_PLAIN="Fall 2003 term" END_DT="20031212000000"
@@ -1469,7 +1469,7 @@
         OBJ_ID="b22c2f85-468a-4db2-8b3a-63f5b40a0ca5"
         START_DT="20030902000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200301" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200301" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2003 term"
         DESCR_PLAIN="Spring 2003 term" END_DT="20030514000000"
@@ -1477,7 +1477,7 @@
         OBJ_ID="d2f5340c-de61-46de-b94e-334fc892618c"
         START_DT="20030128000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200305" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200305" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2003 term"
         DESCR_PLAIN="Summer I 2003 term" END_DT="20030713000000"
@@ -1485,7 +1485,7 @@
         OBJ_ID="954174f2-c20b-4728-8893-66efc6e5211a"
         START_DT="20030602000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200307" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200307" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2003 term"
@@ -1494,7 +1494,7 @@
         OBJ_ID="5a0e3b37-2c02-4218-bc18-c8a3536fc188"
         START_DT="20030714000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200312" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200312" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2004 term"
         DESCR_PLAIN="Winter 2004 term" END_DT="20040123000000"
@@ -1502,7 +1502,7 @@
         OBJ_ID="01597109-3306-4a5c-a417-5bf1fe829115"
         START_DT="20040105000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200408" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200408" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2004 term"
         DESCR_PLAIN="Fall 2004 term" END_DT="20041210000000"
@@ -1510,7 +1510,7 @@
         OBJ_ID="e8cb502a-95ea-4dea-93f0-ab396156c73f"
         START_DT="20040830000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200401" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200401" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2004 term"
         DESCR_PLAIN="Spring 2004 term" END_DT="20040511000000"
@@ -1518,7 +1518,7 @@
         OBJ_ID="ed0176a0-459b-4231-9466-d0acaa0f7503"
         START_DT="20040126000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200405" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200405" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2004 term"
         DESCR_PLAIN="Summer I 2004 term" END_DT="20040711000000"
@@ -1526,7 +1526,7 @@
         OBJ_ID="a63a6c8c-770a-4277-ac00-29e6d1a105eb"
         START_DT="20040601000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200407" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200407" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2004 term"
@@ -1535,7 +1535,7 @@
         OBJ_ID="dfff6743-b0bc-45c3-8841-fc11df2b81df"
         START_DT="20040712000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200412" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200412" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2005 term"
         DESCR_PLAIN="Winter 2005 term" END_DT="20050124000000"
@@ -1543,7 +1543,7 @@
         OBJ_ID="716bfb09-4d6d-4ba2-91c2-74fb82ccc3b9"
         START_DT="20050104000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200508" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200508" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2005 term"
         DESCR_PLAIN="Fall 2005 term" END_DT="20051213000000"
@@ -1551,7 +1551,7 @@
         OBJ_ID="19c5b547-5332-4375-8f7a-a0678da7ec8f"
         START_DT="20050831000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200501" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200501" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2005 term"
         DESCR_PLAIN="Spring 2005 term" END_DT="20050512000000"
@@ -1559,7 +1559,7 @@
         OBJ_ID="fb149f90-14e3-4ab6-84a1-69d2f6802e5c"
         START_DT="20050126000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200505" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200505" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2005 term"
         DESCR_PLAIN="Summer I 2005 term" END_DT="20050710000000"
@@ -1567,7 +1567,7 @@
         OBJ_ID="d7ca77f0-ee81-4e3e-9cc5-d5587e38c52f"
         START_DT="20050531000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200507" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200507" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2005 term"
@@ -1576,7 +1576,7 @@
         OBJ_ID="1b3d9b34-2f4f-4597-822e-1ec1e2eee144"
         START_DT="20050711000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200512" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200512" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2006 term"
         DESCR_PLAIN="Winter 2006 term" END_DT="20060123000000"
@@ -1584,7 +1584,7 @@
         OBJ_ID="790d88e7-c1e0-4ada-92aa-26987c85b41c"
         START_DT="20060103000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200608" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200608" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2006 term"
         DESCR_PLAIN="Fall 2006 term" END_DT="20061212000000"
@@ -1592,7 +1592,7 @@
         OBJ_ID="ea48863b-8ab6-4ed3-895e-06d1f050fdba"
         START_DT="20060830000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200601" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200601" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2006 term"
         DESCR_PLAIN="Spring 2006 term" END_DT="20060511000000"
@@ -1600,7 +1600,7 @@
         OBJ_ID="0ef69cad-2243-4b9d-a939-fe4bbf8c1cf8"
         START_DT="20060125000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200605" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200605" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2006 term"
         DESCR_PLAIN="Summer I 2006 term" END_DT="20060716000000"
@@ -1608,7 +1608,7 @@
         OBJ_ID="f8bcfa8a-835b-4646-ad9e-2ff3614f9258"
         START_DT="20060605000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200607" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200607" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2006 term"
@@ -1617,7 +1617,7 @@
         OBJ_ID="d2babb32-13d1-4bd9-8516-add043c96c9e"
         START_DT="20060717000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200612" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200612" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2007 term"
         DESCR_PLAIN="Winter 2007 term" END_DT="20070122000000"
@@ -1625,7 +1625,7 @@
         OBJ_ID="380782ac-40b7-4f7c-8128-9abba1a25913"
         START_DT="20070102000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200708" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200708" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2007 term"
         DESCR_PLAIN="Fall 2007 term" END_DT="20071211000000"
@@ -1633,7 +1633,7 @@
         OBJ_ID="7c6cdbad-0fcf-4220-9103-31e649d3258e"
         START_DT="20070829000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200701" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200701" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2007 term"
         DESCR_PLAIN="Spring 2007 term" END_DT="20070510000000"
@@ -1641,7 +1641,7 @@
         OBJ_ID="11ca50d4-0d63-4099-ba0c-c20fff293630"
         START_DT="20070124000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200705" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200705" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2007 term"
         DESCR_PLAIN="Summer I 2007 term" END_DT="20070715000000"
@@ -1649,7 +1649,7 @@
         OBJ_ID="98ea3b82-9a0d-4876-862d-bd1e7cd74f6e"
         START_DT="20070604000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200707" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200707" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2007 term"
@@ -1658,7 +1658,7 @@
         OBJ_ID="444737c8-a254-458d-bb4c-4cb82dca6bde"
         START_DT="20070716000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200712" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200712" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2008 term"
         DESCR_PLAIN="Winter 2008 term" END_DT="20080122000000"
@@ -1666,7 +1666,7 @@
         OBJ_ID="51807cea-80f2-49a1-8b34-03d70eb8bc2c"
         START_DT="20080102000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200808" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200808" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2008 term"
         DESCR_PLAIN="Fall 2008 term" END_DT="20081212000000"
@@ -1674,7 +1674,7 @@
         OBJ_ID="61ff4fe8-ac96-4064-9088-7f1e88b8f782"
         START_DT="20080902000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200801" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200801" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2008 term"
         DESCR_PLAIN="Spring 2008 term" END_DT="20080513000000"
@@ -1682,7 +1682,7 @@
         OBJ_ID="9656721b-8314-4b6a-9b1c-43a1f1068cc2"
         START_DT="20080128000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200805" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200805" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2008 term"
         DESCR_PLAIN="Summer I 2008 term" END_DT="20080713000000"
@@ -1690,7 +1690,7 @@
         OBJ_ID="798eea07-d0d9-4493-9954-9bcc627e92f8"
         START_DT="20080602000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200807" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200807" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2008 term"
@@ -1699,7 +1699,7 @@
         OBJ_ID="a96a6f82-cbc2-489b-ade1-3c8b80ed5076"
         START_DT="20080714000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200812" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200812" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2009 term"
         DESCR_PLAIN="Winter 2009 term" END_DT="20090123000000"
@@ -1707,7 +1707,7 @@
         OBJ_ID="98920012-5bd7-4a3c-b704-0b41d1cb4ef2"
         START_DT="20090105000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200908" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200908" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2009 term"
         DESCR_PLAIN="Fall 2009 term" END_DT="20091211000000"
@@ -1715,7 +1715,7 @@
         OBJ_ID="18924022-05dd-4e71-9cc6-be08e0ad5da7"
         START_DT="20090831000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200901" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200901" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2009 term"
         DESCR_PLAIN="Spring 2009 term" END_DT="20090512000000"
@@ -1723,7 +1723,7 @@
         OBJ_ID="a0bac9bc-6c69-48fb-b419-f9ea787be63d"
         START_DT="20090126000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200905" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200905" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2009 term"
         DESCR_PLAIN="Summer I 2009 term" END_DT="20090712000000"
@@ -1731,7 +1731,7 @@
         OBJ_ID="9c1f6cf6-c067-4c2b-826f-ca072bd3b82d"
         START_DT="20090601000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200907" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200907" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2009 term"
@@ -1740,7 +1740,7 @@
         OBJ_ID="7c2c6a52-1ef6-4707-a968-65b7148315a6"
         START_DT="20090713000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="200912" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="200912" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2010 term"
         DESCR_PLAIN="Winter 2010 term" END_DT="20100124000000"
@@ -1748,7 +1748,7 @@
         OBJ_ID="e2b4f167-04d3-4938-b4e8-a61a898194a5"
         START_DT="20100104000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201008" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201008" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2010 term"
         DESCR_PLAIN="Fall 2010 term" END_DT="20101212000000"
@@ -1756,7 +1756,7 @@
         OBJ_ID="9b80bca1-c192-47db-9ff2-d660430e33c3"
         START_DT="20100830000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201001" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201001" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2010 term"
         DESCR_PLAIN="Spring 2010 term" END_DT="20100511000000"
@@ -1764,7 +1764,7 @@
         OBJ_ID="1bc07f1e-6bd2-499f-94e0-d52483cf8630"
         START_DT="20100125000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201005" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201005" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2010 term"
         DESCR_PLAIN="Summer I 2010 term" END_DT="20100711000000"
@@ -1772,7 +1772,7 @@
         OBJ_ID="1475fde1-bdeb-46d1-b1a9-62a901c9be6e"
         START_DT="20100601000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201007" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201007" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2010 term"
@@ -1781,7 +1781,7 @@
         OBJ_ID="3a17abb7-95f0-47d9-8d13-84bfae126e6a"
         START_DT="20100712000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201012" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201012" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2011 term"
         DESCR_PLAIN="Winter 2011 term" END_DT="20110123000000"
@@ -1789,7 +1789,7 @@
         OBJ_ID="50c9e17b-8089-49fc-8c7a-bd672fc4c721"
         START_DT="20110103000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201108" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201108" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2011 term"
         DESCR_PLAIN="Fall 2011 term" END_DT="20111213000000"
@@ -1797,7 +1797,7 @@
         OBJ_ID="ca62213e-e526-4f14-96fc-cc7e645b364b"
         START_DT="20110831000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201101" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201101" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2011 term"
         DESCR_PLAIN="Spring 2011 term" END_DT="20110510000000"
@@ -1805,7 +1805,7 @@
         OBJ_ID="a3793a03-af14-4ddf-a533-3a514b65be22"
         START_DT="20110124000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201105" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201105" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2011 term"
         DESCR_PLAIN="Summer I 2011 term" END_DT="20110710000000"
@@ -1813,7 +1813,7 @@
         OBJ_ID="b5ff2df4-8277-437c-b132-927e1db5ace3"
         START_DT="20110531000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201107" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201107" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2011 term"
@@ -1822,7 +1822,7 @@
         OBJ_ID="49dbda93-d15d-4c15-b53c-aad3f23f0e66"
         START_DT="20110711000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201112" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201112" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2012 term"
         DESCR_PLAIN="Winter 2012 term" END_DT="20120123000000"
@@ -1830,7 +1830,7 @@
         OBJ_ID="a19eb59d-b26a-46ac-83fc-d820b23faac6"
         START_DT="20120103000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201208" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201208" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2012 term"
         DESCR_PLAIN="Fall 2012 term" END_DT="20121211000000"
@@ -1838,7 +1838,7 @@
         OBJ_ID="b698c3fd-48df-4975-9788-d2ebc8cfbd7e"
         START_DT="20120829000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201201" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201201" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2012 term"
         DESCR_PLAIN="Spring 2012 term" END_DT="20120510000000"
@@ -1846,7 +1846,7 @@
         OBJ_ID="99090318-35bb-45b7-86ac-722d488a1edd"
         START_DT="20120125000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201205" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201205" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2012 term"
         DESCR_PLAIN="Summer I 2012 term" END_DT="20120708000000"
@@ -1854,7 +1854,7 @@
         OBJ_ID="7e2eb8d3-cfb4-46ea-9dbe-cf6f5aca3032"
         START_DT="20120529000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201207" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201207" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2012 term"
@@ -1863,7 +1863,7 @@
         OBJ_ID="9cedd3e0-f0d3-44b1-b5fb-d6211a304192"
         START_DT="20120709000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201212" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201212" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2013 term"
         DESCR_PLAIN="Winter 2013 term" END_DT="20130122000000"
@@ -1871,7 +1871,7 @@
         OBJ_ID="e13d596b-1cde-4c77-92ea-965b5041934b"
         START_DT="20130102000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201308" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201308" ATP_STATE="kuali.atp.state.Published"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2013 term"
         DESCR_PLAIN="Fall 2013 term" END_DT="20131213000000"
@@ -1879,7 +1879,7 @@
         OBJ_ID="8a756b58-7bc5-4873-bf7b-48bf71102b9d"
         START_DT="20130903000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201301" ATP_STATE="INPROGRESS"
+    <KSEN_ATP ATP_CD="201301" ATP_STATE="kuali.atp.state.Inprogress kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2013 term"
         DESCR_PLAIN="Spring 2013 term" END_DT="20130509000000"
@@ -1887,7 +1887,7 @@
         OBJ_ID="0c2e6f9c-4662-4a13-bdd9-e5ff021c8e05"
         START_DT="20130123000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201305" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201305" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2013 term"
         DESCR_PLAIN="Summer I 2013 term" END_DT="20130707000000"
@@ -1895,7 +1895,7 @@
         OBJ_ID="7c894ab3-d7db-4b8b-90e7-700893016221"
         START_DT="20130528000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201307" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201307" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2013 term"
@@ -1904,7 +1904,7 @@
         OBJ_ID="aabba384-8cce-41a6-8196-79cfb315fc80"
         START_DT="20130708000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201312" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201312" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2014 term"
         DESCR_PLAIN="Winter 2014 term" END_DT="20140122000000"
@@ -1912,7 +1912,7 @@
         OBJ_ID="f821fb67-0279-4550-bca1-ba6b192932b3"
         START_DT="20140102000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201408" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201408" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2014 term"
         DESCR_PLAIN="Fall 2014 term" END_DT="20141212000000"
@@ -1920,7 +1920,7 @@
         OBJ_ID="9e894842-b60f-46ab-ab04-2cf655f7a2a1"
         START_DT="20140902000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201401" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201401" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2014 term"
         DESCR_PLAIN="Spring 2014 term" END_DT="20140513000000"
@@ -1928,7 +1928,7 @@
         OBJ_ID="fc93f0f0-7ede-4d77-8ad5-d8f1efa21151"
         START_DT="20140127000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201405" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201405" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2014 term"
         DESCR_PLAIN="Summer I 2014 term" END_DT="20140711000000"
@@ -1936,7 +1936,7 @@
         OBJ_ID="593f93d8-2232-471b-8f61-df16275b94fe"
         START_DT="20140602000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201407" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201407" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2014 term"
@@ -1945,7 +1945,7 @@
         OBJ_ID="23ba4243-85da-4b7a-a2c8-30ff90f01cfb"
         START_DT="20140714000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201412" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201412" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2015 term"
         DESCR_PLAIN="Winter 2015 term" END_DT="20150123000000"
@@ -1953,7 +1953,7 @@
         OBJ_ID="83eb46f5-9238-41d7-b1a9-e39f5f4bce1b"
         START_DT="20150105000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201508" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201508" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2015 term"
         DESCR_PLAIN="Fall 2015 term" END_DT="20151211000000"
@@ -1961,7 +1961,7 @@
         OBJ_ID="32fc0448-3289-43f4-9e72-bef07e2f5284"
         START_DT="20150831000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201501" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201501" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2015 term"
         DESCR_PLAIN="Spring 2015 term" END_DT="20150512000000"
@@ -1969,7 +1969,7 @@
         OBJ_ID="09e83017-7885-4b3a-8b39-9b1a58f4b6b3"
         START_DT="20150126000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201505" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201505" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2015 term"
         DESCR_PLAIN="Summer I 2015 term" END_DT="20150710000000"
@@ -1977,7 +1977,7 @@
         OBJ_ID="f8d3e0f0-ad83-4f6a-adfb-751fd3e7b2e2"
         START_DT="20150601000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201507" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201507" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2015 term"
@@ -1986,7 +1986,7 @@
         OBJ_ID="c30834c5-181c-471e-bde1-90e2f0b33cdf"
         START_DT="20150713000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201512" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201512" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2016 term"
         DESCR_PLAIN="Winter 2016 term" END_DT="20160122000000"
@@ -1994,7 +1994,7 @@
         OBJ_ID="72898c9a-d76e-4ea1-908e-d4832e25608b"
         START_DT="20160104000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201608" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201608" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2016 term"
         DESCR_PLAIN="Fall 2016 term" END_DT="20161211000000"
@@ -2002,7 +2002,7 @@
         OBJ_ID="08cdcd43-fa30-4811-ba6c-41b796960e26"
         START_DT="20160831000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201601" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201601" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2016 term"
         DESCR_PLAIN="Spring 2016 term" END_DT="20160510000000"
@@ -2010,7 +2010,7 @@
         OBJ_ID="5351b7c3-c985-481f-8621-d0caa4fedec6"
         START_DT="20160125000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201605" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201605" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2016 term"
         DESCR_PLAIN="Summer I 2016 term" END_DT="20160708000000"
@@ -2018,7 +2018,7 @@
         OBJ_ID="e7ea1ddf-ffbc-4e5d-95f6-5bf48c11d6ec"
         START_DT="20160531000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201607" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201607" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2016 term"
@@ -2027,7 +2027,7 @@
         OBJ_ID="33768b4d-525f-4f36-8a73-2a5e1687b931"
         START_DT="20160711000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201612" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201612" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2017 term"
         DESCR_PLAIN="Winter 2017 term" END_DT="20170122000000"
@@ -2035,7 +2035,7 @@
         OBJ_ID="8f52c3e3-9323-4a75-a139-f634063422df"
         START_DT="20170104000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201708" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201708" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2017 term"
         DESCR_PLAIN="Fall 2017 term" END_DT="20171211000000"
@@ -2043,7 +2043,7 @@
         OBJ_ID="798b7136-ac0d-48f2-b13d-74ffda81c6b0"
         START_DT="20170831000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201701" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201701" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2017 term"
         DESCR_PLAIN="Spring 2017 term" END_DT="20170510000000"
@@ -2051,7 +2051,7 @@
         OBJ_ID="093d1acd-59b0-4b24-8fb6-f153c3797c74"
         START_DT="20170125000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201705" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201705" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2017 term"
         DESCR_PLAIN="Summer I 2017 term" END_DT="20170708000000"
@@ -2059,7 +2059,7 @@
         OBJ_ID="ef5d06d3-8253-4e6a-8b79-92a35c966216"
         START_DT="20170531000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201707" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201707" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2017 term"
@@ -2068,7 +2068,7 @@
         OBJ_ID="0590365c-1c86-4cbd-94aa-5519f3509cfd"
         START_DT="20170711000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201712" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201712" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2018 term"
         DESCR_PLAIN="Winter 2018 term" END_DT="20180122000000"
@@ -2076,7 +2076,7 @@
         OBJ_ID="eb8a72d6-6c89-4bf4-a55f-6891debe8f62"
         START_DT="20180104000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201808" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201808" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2018 term"
         DESCR_PLAIN="Fall 2018 term" END_DT="20181211000000"
@@ -2084,7 +2084,7 @@
         OBJ_ID="46a63da5-6542-4044-ad7d-307bb58955d4"
         START_DT="20180831000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201801" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201801" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2018 term"
         DESCR_PLAIN="Spring 2018 term" END_DT="20180510000000"
@@ -2092,7 +2092,7 @@
         OBJ_ID="fc61922f-4589-47d9-a6d2-4d30b03711e4"
         START_DT="20180125000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201805" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201805" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2018 term"
         DESCR_PLAIN="Summer I 2018 term" END_DT="20180708000000"
@@ -2100,7 +2100,7 @@
         OBJ_ID="db513f2c-ac7a-419d-b0b0-c5b814a8a6de"
         START_DT="20180531000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201807" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201807" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2018 term"
@@ -2109,7 +2109,7 @@
         OBJ_ID="a69c794b-1420-402f-b5b9-c8c231e2dc0e"
         START_DT="20180711000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201812" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201812" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2019 term"
         DESCR_PLAIN="Winter 2019 term" END_DT="20190122000000"
@@ -2117,7 +2117,7 @@
         OBJ_ID="6d3ecb78-dcd8-4e3a-b432-158cc3baf87c"
         START_DT="20190104000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201908" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201908" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2019 term"
         DESCR_PLAIN="Fall 2019 term" END_DT="20191211000000"
@@ -2125,7 +2125,7 @@
         OBJ_ID="15d09c9c-8a0d-4eac-985e-95c80b342968"
         START_DT="20190831000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201901" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201901" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2019 term"
         DESCR_PLAIN="Spring 2019 term" END_DT="20190510000000"
@@ -2133,7 +2133,7 @@
         OBJ_ID="ee6024eb-6479-45c0-8ca5-de173021cfaf"
         START_DT="20190125000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201905" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201905" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2019 term"
         DESCR_PLAIN="Summer I 2019 term" END_DT="20190708000000"
@@ -2141,7 +2141,7 @@
         OBJ_ID="451ed9e2-d58b-438b-b918-a97c224d99dc"
         START_DT="20190531000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201907" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201907" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2019 term"
@@ -2150,7 +2150,7 @@
         OBJ_ID="12809044-d3f8-43c0-80c6-102993a132e5"
         START_DT="20190711000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="201912" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="201912" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2020 term"
         DESCR_PLAIN="Winter 2020 term" END_DT="20200122000000"
@@ -2158,7 +2158,7 @@
         OBJ_ID="4869c140-de02-462f-9cda-7489ab2d708a"
         START_DT="20200104000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="202008" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="202008" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2020 term"
         DESCR_PLAIN="Fall 2020 term" END_DT="20201211000000"
@@ -2166,7 +2166,7 @@
         OBJ_ID="bfe4d655-f5e6-4564-85e0-1fbfca0e1dc8"
         START_DT="20200831000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="202001" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="202001" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2020 term"
         DESCR_PLAIN="Spring 2020 term" END_DT="20200510000000"
@@ -2174,7 +2174,7 @@
         OBJ_ID="2b10e582-bec9-4f28-aa91-91092fbbb067"
         START_DT="20200125000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="202005" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="202005" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2020 term"
         DESCR_PLAIN="Summer I 2020 term" END_DT="20200708000000"
@@ -2182,7 +2182,7 @@
         OBJ_ID="f900b8bd-8dcd-4faa-b8ce-5a6a84563380"
         START_DT="20200531000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="202007" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="202007" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2020 term"
@@ -2191,7 +2191,7 @@
         OBJ_ID="5eceb0bd-d62a-44ee-928d-fa692e539dac"
         START_DT="20200711000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="202012" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="202012" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2021 term"
         DESCR_PLAIN="Winter 2021 term" END_DT="20210122000000"
@@ -2199,7 +2199,7 @@
         OBJ_ID="26da6570-32cc-4a9e-9da7-fc6ec25b174e"
         START_DT="20210104000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="202108" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="202108" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2021 term"
         DESCR_PLAIN="Fall 2021 term" END_DT="20211211000000"
@@ -2207,7 +2207,7 @@
         OBJ_ID="652f74b2-ec78-4205-89e6-26c6e989f45f"
         START_DT="20210831000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="202101" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="202101" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2021 term"
         DESCR_PLAIN="Spring 2021 term" END_DT="20210510000000"
@@ -2215,7 +2215,7 @@
         OBJ_ID="3539b6fe-b42f-4cc1-986e-16f9dce1c682"
         START_DT="20210125000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="202105" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="202105" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2021 term"
         DESCR_PLAIN="Summer I 2021 term" END_DT="20210708000000"
@@ -2223,7 +2223,7 @@
         OBJ_ID="7ca70f4a-6a90-4726-9cc4-b4ea34946b57"
         START_DT="20210531000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="202107" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="202107" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2021 term"
@@ -2232,7 +2232,7 @@
         OBJ_ID="de9c905b-313a-4db8-b2d2-4d996035e384"
         START_DT="20210711000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="202112" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="202112" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2022 term"
         DESCR_PLAIN="Winter 2022 term" END_DT="20220122000000"
@@ -2240,7 +2240,7 @@
         OBJ_ID="21ad231b-8aa1-4b30-a80e-171a1dc67f66"
         START_DT="20220104000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="202208" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="202208" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Fall" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Fall 2022 term"
         DESCR_PLAIN="Fall 2022 term" END_DT="20221211000000"
@@ -2248,7 +2248,7 @@
         OBJ_ID="8518d7a2-b5e4-49a7-bc9b-5b0e11287f44"
         START_DT="20220831000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="202201" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="202201" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2022 term"
         DESCR_PLAIN="Spring 2022 term" END_DT="20220510000000"
@@ -2256,7 +2256,7 @@
         OBJ_ID="fe868b0c-2013-44c2-94d1-dc16a7f9351d"
         START_DT="20220125000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="202205" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="202205" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2022 term"
         DESCR_PLAIN="Summer I 2022 term" END_DT="20220708000000"
@@ -2264,7 +2264,7 @@
         OBJ_ID="25d1fb02-cb3f-4fa4-a26f-e968a685fff6"
         START_DT="20220531000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="202207" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="202207" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2022 term"
@@ -2273,7 +2273,7 @@
         OBJ_ID="3269d190-abe7-4738-b9e5-efc5876cab61"
         START_DT="20220711000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="202212" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="202212" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Winter" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Winter 2023 term"
         DESCR_PLAIN="Winter 2023 term" END_DT="20230122000000"
@@ -2281,7 +2281,7 @@
         OBJ_ID="6b30510c-b719-46a9-8d15-0057cf565d8b"
         START_DT="20230104000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="202301" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="202301" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Spring" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Spring 2023 term"
         DESCR_PLAIN="Spring 2023 term" END_DT="20230510000000"
@@ -2289,7 +2289,7 @@
         OBJ_ID="af9f95f3-2a8f-4212-aa41-b220ecd64c2b"
         START_DT="20230125000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="202305" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="202305" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer1" CREATEID="batchjob"
         CREATETIME="20130102101250" DESCR_FORMATTED="Summer I 2023 term"
         DESCR_PLAIN="Summer I 2023 term" END_DT="20230708000000"
@@ -2297,7 +2297,7 @@
         OBJ_ID="d61c4b05-5f40-46b1-bea1-990fd9852994"
         START_DT="20230531000000" UPDATEID="batchjob"
         UPDATETIME="20130102101250" VER_NBR="0"/>
-    <KSEN_ATP ATP_CD="202307" ATP_STATE="kuali.atp.state.Official"
+    <KSEN_ATP ATP_CD="202307" ATP_STATE="kuali.atp.state.Published kuali.atp.state.Planning"
         ATP_TYPE="kuali.atp.type.Summer2" CREATEID="batchjob"
         CREATETIME="20130102101250"
         DESCR_FORMATTED="Summer II 2023 term"
