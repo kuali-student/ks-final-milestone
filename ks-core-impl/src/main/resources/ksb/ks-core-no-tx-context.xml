@@ -186,6 +186,7 @@
                                     <entry key="code" value="atpCode"/>
                                     <entry key="typeKey" value="atpType"/>
                                     <entry key="stateKey" value="atpState"/>
+                                    <entry key="atpStatus" value="atpState"/>
                                 </map>
                             </property>
                         </bean>
