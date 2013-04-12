@@ -67,10 +67,7 @@ public class ARGClustersForCreateAOKeyValues extends UifKeyValuesFinderBase impl
                         coForm.setHasAOCluster(true);
                     }
                 } else {
-                    ActivityOfferingClusterInfo defaultCluster = ARGUtil.getArgServiceAdapter().createDefaultCluster(formatOfferingId, ContextUtils.getContextInfo());
-                    if (defaultCluster != null) {
-                        keyValues.add(new ConcreteKeyValue(defaultCluster.getId(), defaultCluster.getName()));
-                    }
+                    keyValues.add(new ConcreteKeyValue("", ARGUtil.getArgServiceAdapter().getDefaultClusterNamePerCO(coForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(),ContextUtils.getContextInfo())));
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);

@@ -56,6 +56,7 @@ public interface TermRepositoryService {
     @Cacheable(value = TermResolverDefinition.Cache.NAME, key = "'namespace=' + #p0")
     List<TermResolverDefinition> findTermResolversByNamespace(@WebParam(name = "namespace") String namespace) throws RiceIllegalArgumentException;
 
+    
      /**
      * Retrieves the {@link TermDefinition} with the given termId.
      *
@@ -266,4 +267,40 @@ public interface TermRepositoryService {
     @CacheEvict(value = {TermResolverDefinition.Cache.NAME, TermDefinition.Cache.NAME}, allEntries = true)
     void deleteTermResolver(@WebParam(name = "id") String id)
             throws RiceIllegalArgumentException;
+    
+    
+    /**
+     * Retrieves the {@link TermResolverDefinition} for the given name and namespace
+     *
+     * @param name the name for which to get term resolver
+     * @param namespace the namespace for which to get term resolver
+     * @return the {@link TermResolverDefinition} for the given name and namespace, null if none exist.
+     *
+     * @throws org.kuali.rice.core.api.exception.RiceIllegalArgumentException if the name or namespace is null or blank.
+     */
+    @WebMethod(operationName = "getTermResolverByNameAndNamespace")
+    @WebResult(name = "termResolver")
+            // TODO: set the cache right
+//    @Cacheable(value = TermResolverDefinition.Cache.NAME, key = "'namespace=' + #p0")
+    TermResolverDefinition getTermResolverByNameAndNamespace(@WebParam(name = "name") String name, 
+            @WebParam(name = "namespace") String namespace) throws RiceIllegalArgumentException;
+
+ 
+    /**
+     * Retrieves the {@link TermSpecificationDefinition} for the given name and namespace
+     *
+     * @param name the name for which to get term specification
+     * @param namespace the namespace for which to get term resolver
+     * @return the {@link TermSpecificationDefinition} for the given name and namespace, null if none exist.
+     *
+     * @throws org.kuali.rice.core.api.exception.RiceIllegalArgumentException if the name or namespace is null or blank.
+     */
+    @WebMethod(operationName = "getTermSpecificationByNameAndNamespace")
+    @WebResult(name = "termSpecification")
+            // TODO: set the cache right
+//    @Cacheable(value = TermSpecificationDefinition.Cache.NAME, key = "'namespace=' + #p0")
+    TermSpecificationDefinition getTermSpecificationByNameAndNamespace(@WebParam(name = "name") String name, 
+            @WebParam(name = "namespace") String namespace) throws RiceIllegalArgumentException;
+
+    
 }

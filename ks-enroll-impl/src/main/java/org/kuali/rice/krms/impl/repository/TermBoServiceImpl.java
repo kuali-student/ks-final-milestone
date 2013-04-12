@@ -353,4 +353,39 @@ public class TermBoServiceImpl implements TermBoService {
 
         return results;
     }
+
+    @Override
+    public TermResolverDefinition getTermResolverByNameAndNamespace(String name, String namespace)
+            throws RiceIllegalArgumentException {
+        if (StringUtils.isBlank(name)) {
+            throw new IllegalArgumentException("name is null or blank");
+        }
+        if (StringUtils.isBlank(namespace)) {
+            throw new IllegalArgumentException("namespace is null or blank");
+        }
+        final Map<String, Object> map = new HashMap<String, Object>();
+        map.put("name", name);
+        map.put("namespace", namespace);
+        TermResolverBo bo = businessObjectService.findByPrimaryKey(TermResolverBo.class, map);
+        return TermResolverBo.to(bo);
+    }
+
+    @Override
+    public TermSpecificationDefinition getTermSpecificationByNameAndNamespace(String name, String namespace) 
+            throws RiceIllegalArgumentException {
+        if (StringUtils.isBlank(name)) {
+            throw new IllegalArgumentException("name is null or blank");
+        }
+        if (StringUtils.isBlank(namespace)) {
+            throw new IllegalArgumentException("namespace is null or blank");
+        }
+        final Map<String, Object> map = new HashMap<String, Object>();
+        map.put("name", name);
+        map.put("namespace", namespace);
+        TermSpecificationBo bo = businessObjectService.findByPrimaryKey(TermSpecificationBo.class, map);
+        return TermSpecificationBo.to(bo);
+    }
+    
+    
+    
 }

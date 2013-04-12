@@ -1,19 +1,16 @@
 package org.kuali.rice.krms.dto;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
-import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.impl.ui.TermParameter;
-import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -37,10 +34,12 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
     private String propositionTypeCode;
     private Long versionNumber;
 
+    private Map<String, String> naturalLanguage = new HashMap<String, String>();
+
     private List<PropositionParameterEditor> parameters;
     private List<PropositionEditor> compoundEditors;
 
-    private TermDefinition term;
+    private TermEditor term;
     private String termParameter;
     private List<TermParameter> termParameterList = new ArrayList<TermParameter>();
     private String type;
@@ -171,11 +170,11 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
         return editMode;
     }
 
-    public TermDefinition getTerm() {
+    public TermEditor getTerm() {
         return term;
     }
 
-    public void setTerm(TermDefinition term) {
+    public void setTerm(TermEditor term) {
         this.term = term;
     }
 
@@ -219,4 +218,28 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
     public void setNewProp(boolean newProp) {
         this.newProp = newProp;
     }
+
+    public Map<String, String> getNaturalLanguage() {
+        return naturalLanguage;
+    }
+
+    public void setNaturalLanguage(Map<String, String> naturalLanguage) {
+        this.naturalLanguage = naturalLanguage;
+    }
+
+    public Map<String, String> getNlParameters() {
+        return new HashMap<String, String>();
+    }
+
+    public String getNaturalLanguageForUsage(String usage){
+        String description = this.getNaturalLanguage().get(usage);
+
+        if (description == null){
+            return StringUtils.EMPTY;
+        }
+
+        return description;
+    }
 }
+
+

@@ -42,6 +42,7 @@ import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.impl.repository.TranslationUtility;
 import org.kuali.rice.krms.impl.repository.language.SimpleNaturalLanguageTemplater;
+import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 
 public class RuleManagementServiceMockImpl implements RuleManagementService {
     // cache variable 
@@ -130,7 +131,7 @@ public class RuleManagementServiceMockImpl implements RuleManagementService {
 
     @Override
     public List<ReferenceObjectBinding> findReferenceObjectBindingsByReferenceObject(String referenceObjectReferenceDiscriminatorType, String referenceObjectId) throws RiceIllegalArgumentException {
-        
+
         List<ReferenceObjectBinding> list = new ArrayList<ReferenceObjectBinding>();
         for (ReferenceObjectBinding info : this.referenceObjectBindingMap.values()) {
             if (info.getReferenceDiscriminatorType().equals(referenceObjectReferenceDiscriminatorType)) {
@@ -139,8 +140,6 @@ public class RuleManagementServiceMockImpl implements RuleManagementService {
         }
         return list;
     }
-    
-    
 
     @Override
     public List<ReferenceObjectBinding> findReferenceObjectBindingsByKrmsDiscriminatorType(String referenceObjectKrmsDiscriminatorType)
@@ -594,9 +593,13 @@ public class RuleManagementServiceMockImpl implements RuleManagementService {
     public NaturalLanguageUsage createNaturalLanguageUsage(NaturalLanguageUsage naturalLanguageUsage)
             throws RiceIllegalArgumentException {
         // CREATE
-        NaturalLanguageUsage orig = this.getNaturalLanguageUsage(naturalLanguageUsage.getId());
-        if (orig != null) {
-            throw new RiceIllegalArgumentException(naturalLanguageUsage.getId());
+        try {
+            NaturalLanguageUsage orig = this.getNaturalLanguageUsage(naturalLanguageUsage.getId());
+            if (orig != null) {
+                throw new RiceIllegalArgumentException(naturalLanguageUsage.getId());
+            }
+        } catch (RiceIllegalArgumentException ex) {
+//            same as returning null
         }
         NaturalLanguageUsage.Builder copy = NaturalLanguageUsage.Builder.create(naturalLanguageUsage);
         if (copy.getId() == null) {
@@ -727,6 +730,17 @@ public class RuleManagementServiceMockImpl implements RuleManagementService {
     }
 
     @Override
+    public ContextDefinition findCreateContext(ContextDefinition contextDefinition) throws RiceIllegalArgumentException {         
+        ContextDefinition orig = this.getContextByNameAndNamespace(contextDefinition.getName(), contextDefinition.getNamespace());
+        if (orig != null) {
+            return orig;
+        }
+        return this.createContext(contextDefinition);
+    }
+    
+    
+
+    @Override
     public void updateContext(ContextDefinition contextDefinition)
             throws RiceIllegalArgumentException {
         // UPDATE
@@ -764,6 +778,12 @@ public class RuleManagementServiceMockImpl implements RuleManagementService {
     @Override
     public ContextDefinition getContextByNameAndNamespace(String name, String namespace)
             throws RiceIllegalArgumentException {
+        if (name == null || name.trim().isEmpty()) {
+            throw new RiceIllegalArgumentException("name is null or empty");
+        }
+        if (namespace == null || namespace.trim().isEmpty()) {
+            throw new RiceIllegalArgumentException("name is null or empty");
+        }
         // RICE_GET_BY_NAMESPACE_AND_NAME
         for (ContextDefinition info : contextMap.values()) {
             if (name.equals(info.getName())) {
@@ -772,16 +792,20 @@ public class RuleManagementServiceMockImpl implements RuleManagementService {
                 }
             }
         }
-        throw new RiceIllegalArgumentException();
+        return null;
     }
 
     @Override
     public NaturalLanguageTemplate createNaturalLanguageTemplate(NaturalLanguageTemplate naturalLanguageTemplate)
             throws RiceIllegalArgumentException {
         // CREATE
-        NaturalLanguageTemplate orig = this.getNaturalLanguageTemplate(naturalLanguageTemplate.getId());
-        if (orig != null) {
-            throw new RiceIllegalArgumentException(naturalLanguageTemplate.getId());
+        try {
+            NaturalLanguageTemplate orig = this.getNaturalLanguageTemplate(naturalLanguageTemplate.getId());
+            if (orig != null) {
+                throw new RiceIllegalArgumentException(naturalLanguageTemplate.getId());
+            }
+        } catch (RiceIllegalArgumentException ex) {
+            // same as getting a null
         }
         NaturalLanguageTemplate.Builder copy = NaturalLanguageTemplate.Builder.create(naturalLanguageTemplate);
         if (copy.getId() == null) {

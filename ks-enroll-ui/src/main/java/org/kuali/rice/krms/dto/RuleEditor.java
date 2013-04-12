@@ -54,6 +54,7 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     // for Rule Preview display
     private Tree<TreeNode, String> previewTree;
+    private Tree<TreeNode, String> viewTree;
     private transient AlphaIterator alpha;
 
     // for Compare
@@ -267,6 +268,16 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
     public void setPreviewTree(Tree<TreeNode, String> previewTree) {
         this.previewTree = previewTree;
     }
+
+
+    public Tree<TreeNode, String> getViewTree() {
+        return viewTree;
+    }
+
+    public void setViewTree(Tree<TreeNode, String> viewTree) {
+        this.viewTree = viewTree;
+    }
+
 
     public Tree<CompareTreeNode, String> getCompareTree() {
         return compareTree;

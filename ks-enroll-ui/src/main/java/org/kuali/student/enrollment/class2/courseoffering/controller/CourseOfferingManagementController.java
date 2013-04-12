@@ -25,9 +25,9 @@ import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOff
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.ToolbarUtil;
-import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -51,7 +51,6 @@ import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -771,7 +770,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
 
             // check for changes to states in CO and related FOs
-            ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo(), ContextBuilder.loadContextInfo());
+            CourseOfferingViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo(), ContextBuilder.loadContextInfo());
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -1129,7 +1128,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         form.setCrossListedCO(false);
 
 
-        String crossListedCodes = ViewHelperUtil.createTheCrossListedCos(coToShow);
+        String crossListedCodes = CourseOfferingViewHelperUtil.createTheCrossListedCos(coToShow);
         if(crossListedCodes != null && crossListedCodes.length() > 1) {
             form.setAlternateCourseOfferingCodesUI(crossListedCodes.toString());
             form.setCrossListedCO(true);
@@ -1356,7 +1355,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 selectedIndexList.add(ao);
                 if(ao.getAoInfo().getIsColocated())  {
                     currentCoWrapper.setColocatedAoToDelete(true);
-                    String colocateInfo = ViewHelperUtil.createColocatedDisplayData(ao.getAoInfo(), context);
+                    String colocateInfo = CourseOfferingViewHelperUtil.createColocatedDisplayData(ao.getAoInfo(), context);
                     ao.setColocatedAoInfo(colocateInfo);
                     numColocatedAosToDelete++;
                 }

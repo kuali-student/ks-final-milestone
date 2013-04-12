@@ -34,6 +34,8 @@ import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.TemplateInfo;
+import org.kuali.rice.krms.dto.TermEditor;
+import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.rice.krms.impl.util.KrmsImplConstants;
@@ -312,6 +314,12 @@ public class CORuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     @Override
     public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original, String compareToRefObjectId) throws Exception {
 
+        //Set the original nl if not already exists.
+        PropositionEditor originalRoot = (PropositionEditor) original.getProposition();
+        if (!originalRoot.getNaturalLanguage().containsKey(this.getEditTreeBuilder().getNaturalLanguageUsageKey())) {
+            this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(originalRoot, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
+        }
+
         //Get the CLU Tree.
         CourseOfferingInfo courseOffering = this.getCourseOfferingService().getCourseOffering(compareToRefObjectId, ContextUtils.createDefaultContextInfo());
         CORuleCompareTreeBuilder treeBuilder = new CORuleCompareTreeBuilder();
@@ -320,7 +328,8 @@ public class CORuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
 
         //Build the Tree
         RuleEditor compareEditor = new EnrolRuleEditor(compare);
-        //this.initPropositionEditor((PropositionEditor) compareEditor.getProposition());
+        PropositionEditor root = (PropositionEditor) compareEditor.getProposition();
+        this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(root, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
         Tree<CompareTreeNode, String> compareTree = treeBuilder.buildTree(original, compareEditor);
 
         return compareTree;
@@ -352,14 +361,17 @@ public class CORuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
         Map<String, String> termParameters = new HashMap<String, String>();
         if (proposition.getTerm() == null) {
             if (proposition.getParameters().get(0) != null) {
+
+                //TODO: this should already be on the proposition.
                 String termId = proposition.getParameters().get(0).getValue();
-                proposition.setTerm(this.getTermRepositoryService().getTerm(termId));
+                TermDefinition termDefinition = this.getTermRepositoryService().getTerm(termId);
+                proposition.setTerm(new TermEditor(termDefinition));
             } else {
                 return termParameters;
             }
         }
 
-        for (TermParameterDefinition parameter : proposition.getTerm().getParameters()) {
+        for (TermParameterEditor parameter : proposition.getTerm().getEditorParameters()) {
             termParameters.put(parameter.getName(), parameter.getValue());
         }
 

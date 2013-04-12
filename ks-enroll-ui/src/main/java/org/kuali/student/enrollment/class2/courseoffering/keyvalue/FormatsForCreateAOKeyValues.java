@@ -38,6 +38,11 @@ import java.util.List;
  * @author andrewlubbers
  *
  */
+@Deprecated
+/**
+ * @deprecated
+ * @see org.kuali.student.enrollment.class2.autogen.keyvalue.ARGFormatsForCreateAOKeyValues
+ */
 public class FormatsForCreateAOKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
     @Override

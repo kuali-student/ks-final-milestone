@@ -31,7 +31,8 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
@@ -58,7 +59,6 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
@@ -155,13 +155,12 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                 if (socIds != null && !socIds.isEmpty()){
                     SocInfo soc = getCourseOfferingSetService().getSoc(socIds.get(0), contextInfo);
                     coWrapper.setSocInfo(soc);
-                }
 
                 //Get all the course offerings in a term
                 List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(), term.getId(), contextInfo);
 
                 coWrapper.setCourse(course);
-                coWrapper.setCreditCount(ViewHelperUtil.trimTrailing0(getLrcService().getResultValue(course.getCreditOptions().get(0).getResultValueKeys().get(0), contextInfo).getValue()));
+                coWrapper.setCreditCount(CourseOfferingViewHelperUtil.trimTrailing0(getLrcService().getResultValue(course.getCreditOptions().get(0).getResultValueKeys().get(0), contextInfo).getValue()));
                 coWrapper.setShowAllSections(true);
                 coWrapper.setShowCatalogLink(false);
                 coWrapper.setShowTermOfferingLink(true);
@@ -209,6 +208,9 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                 maintainable.loadCourseJointInfos(coWrapper);
                 //Enable the create button
                 coWrapper.setEnableCreateButton(true);
+            } else {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_SOC_NOT_EXISTS);
+                }
             }
         } else {
 

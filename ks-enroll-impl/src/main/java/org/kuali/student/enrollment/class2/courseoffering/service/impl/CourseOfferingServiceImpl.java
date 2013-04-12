@@ -903,7 +903,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throw new InvalidParameterException(formatOfferingType + " does not match the corresponding value in the object " + foInfo.getTypeKey());
         }
 
-        validateLuiIsInValidInitialState( foInfo, LuiServiceConstants.FORMAT_OFFERING_LIFECYCLE_KEY, context );
+        validateLuiIsInValidInitialState(foInfo, LuiServiceConstants.FORMAT_OFFERING_LIFECYCLE_KEY, context);
 
         // get the course offering
         CourseOfferingInfo co = this.getCourseOffering(courseOfferingId, context);
@@ -913,6 +913,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             }
         }
         foInfo.setTermId(co.getTermId());
+
+        // Get existing format offerings (for use in prefix generation)
+        List<FormatOfferingInfo> existingFos = getFormatOfferingsByCourseOffering(co.getId(), context);
 
         // get formatId out of the course
         CourseInfo course = this._getCourse(co.getCourseId()); // make sure it exists
@@ -926,11 +929,21 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         if (format == null) {
             throw new OperationFailedException("Error creating format offering. Format does not exist with id " + formatId);
         }
+        // Use dynamic attributes to set a prefix for the reg code generation (KSENROLL-6222)
+        int prefix = 1;
+        try {
+            prefix = RegistrationGroupCodeUtil.computeRegCodePrefixForFo(existingFos, this, context);
+        } catch (VersionMismatchException e) {
+            throw new OperationFailedException("ERROR: assigning prefix for FO");
+        }
+        // Set a prefix for this newly created FO
+        RegistrationGroupCodeUtil.addRegCodePrefixAttributeToFo(prefix + "", foInfo);
+
         // copy to lui
         LuiInfo lui = new LuiInfo();
 
-        //Make the name of the FO correct
-        generateLuiNameAndDescr(foInfo,course,context);
+        // Make the name of the FO correct
+        generateLuiNameAndDescr(foInfo, course, context);
 
         new FormatOfferingTransformer().format2Lui(foInfo, lui);
 
@@ -960,10 +973,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         } catch (Exception aee) {
             throw new OperationFailedException("Unexpected", aee);
         }
+
         // rebuild to return it
         FormatOfferingInfo formatOffering = new FormatOfferingInfo();
         new FormatOfferingTransformer().lui2Format(lui, formatOffering);
         formatOffering.setCourseOfferingId(luiRel.getLuiId());
+
         return formatOffering;
     }
 
@@ -1273,26 +1288,28 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                                                                                          ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO: A naive implementation first so we can get some work done now.
-        List<ActivityOfferingClusterInfo> clusters =
-                getActivityOfferingClustersByFormatOffering(formatOfferingId, contextInfo);
-        Set<String> aoIdsInClusters = new HashSet<String>();
-        // For each cluster, find all AOs associated with it
-        for (ActivityOfferingClusterInfo clusterInfo: clusters) {
-            List<ActivityOfferingSetInfo> aoSets = clusterInfo.getActivityOfferingSets();
-            for (ActivityOfferingSetInfo set : aoSets) {
-                // Add the ids to a set
-                aoIdsInClusters.addAll(set.getActivityOfferingIds());
+
+        List<String> aoIds = new ArrayList<String>();
+
+        SearchRequestInfo searchRequest = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE.getKey());
+        searchRequest.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.FO_ID, formatOfferingId);
+
+        SearchResultInfo searchResult = null;
+        try {
+            searchResult = getSearchService().search(searchRequest, contextInfo);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        for (SearchResultRowInfo row : searchResult.getRows()) {
+            for(SearchResultCellInfo cellInfo : row.getCells()){
+                if(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID.equals(cellInfo.getKey())){
+                    aoIds.add(cellInfo.getValue());
+                }
+
             }
         }
-        List<ActivityOfferingInfo> aosNotInCluster = new ArrayList<ActivityOfferingInfo>();
-        List<ActivityOfferingInfo> allAOs = getActivityOfferingsByFormatOffering(formatOfferingId, contextInfo);
-        for (ActivityOfferingInfo aoInfo: allAOs) {
-            if (!aoIdsInClusters.contains(aoInfo.getId())) { // if ID not in set, add the AO
-                aosNotInCluster.add(aoInfo);
-            }
-        }
-        return aosNotInCluster;
+        return this.getActivityOfferingsByIds(aoIds,contextInfo);
     }
 
     @Override
@@ -1773,12 +1790,23 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             DoesNotExistException {
         /* TODOSSR
         List<ColocatedOfferingSetInfo> coloSets = getColocatedOfferingSetsByActivityOffering(activityOfferingId, context);
+
         for (ColocatedOfferingSetInfo colo: coloSets) {
             colo.getActivityOfferingIds().remove(activityOfferingId);
-            ColocatedOfferingSetInfo saved = updateColocatedOfferingSet(colo.getId(), colo, context);
-            if (saved.getActivityOfferingIds().isEmpty()) {
-                // Delete COLO set if there are no more AO IDs in it.
-                deleteColocatedOfferingSet(saved.getId(), context);
+            //If there is only one AO in the colo set, delete the Coloset and point the colo RLDs to the last AO.
+            if (colo.getActivityOfferingIds().size() == 1){
+                //For performance reasons, just get the lui instead of AO.
+                LuiInfo luiInfo = getLuiService().getLui(colo.getActivityOfferingIds().get(0), context);
+                List<ScheduleRequestInfo> scheduleRequestInfos = getSchedulingService().getScheduleRequestsByRefObject(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,colo.getId(),context);
+                for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
+                    scheduleRequestInfo.setRefObjectId(luiInfo.getId());
+                    scheduleRequestInfo.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+                    scheduleRequestInfo.setName("Schedule request for activity offering");
+                    getSchedulingService().updateScheduleRequest(scheduleRequestInfo.getId(),scheduleRequestInfo,context);
+                }
+                deleteColocatedOfferingSet(colo.getId(), context);
+            } else {
+                updateColocatedOfferingSet(colo.getId(),colo,context);
             }
         }*/
     }
@@ -3020,7 +3048,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     /**
      * This method allows you to search for Course Offering Ids by Criteria. In order to make this search more usable it has been backed
-     * by the "CriteriaLookupService". This service allows us to join accross entities. For example, you are able to pass in
+     * by the "CriteriaLookupService". This service allows us to join across entities. For example, you are able to pass in
      * "courseOfferingCode" with a value of "CHEM199" even though the code does no live on the LuiEntity (which backs Course Offerings).
      *
      * The CourseOfferingCriteriaTransformer is coded to wire in the additional database joins needed to complete the search.

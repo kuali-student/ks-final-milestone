@@ -3,7 +3,6 @@ package org.kuali.rice.krms.service.impl;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Container;
@@ -17,8 +16,8 @@ import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
+import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameter;
-import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
@@ -33,6 +32,7 @@ import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.dto.RuleTypeInfo;
+import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.rice.krms.impl.util.KrmsImplConstants;
@@ -42,6 +42,7 @@ import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RuleEditTreeBuilder;
 import org.kuali.rice.krms.tree.RulePreviewTreeBuilder;
 import org.kuali.rice.krms.util.AgendaBuilder;
+import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.service.RuleViewHelperService;
@@ -72,18 +73,19 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     private RuleCompareTreeBuilder compareTreeBuilder;
     private RuleEditTreeBuilder editTreeBuilder;
     private RulePreviewTreeBuilder previewTreeBuilder;
+    private NaturalLanguageHelper naturalLanguageHelper;
 
     private static TemplateRegistry templateRegistry;
     private Map<String, AgendaTypeInfo> typeRelationsMap;
 
-    protected RuleEditor getRuleEditor(Object model){
+    protected RuleEditor getRuleEditor(Object model) {
         if (model instanceof MaintenanceDocumentForm) {
             MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
             Object dataObject = maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
 
-            if (dataObject instanceof RuleEditor){
+            if (dataObject instanceof RuleEditor) {
                 return (RuleEditor) dataObject;
-            } else if (dataObject instanceof RuleManagementWrapper){
+            } else if (dataObject instanceof RuleManagementWrapper) {
                 RuleManagementWrapper wrapper = (RuleManagementWrapper) dataObject;
                 return wrapper.getRuleEditor();
             }
@@ -158,13 +160,13 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             List<AgendaEditor> agendas = form.getAgendas();
             for (AgendaTypeInfo agendaTypeInfo : agendaTypeInfos) {
                 boolean exist = false;
-                for(AgendaEditor agenda : agendas) {
-                    if(agenda.getTypeId().equals(agendaTypeInfo.getId())) {
+                for (AgendaEditor agenda : agendas) {
+                    if (agenda.getTypeId().equals(agendaTypeInfo.getId())) {
                         components.add(builder.buildAgenda(agenda));
                         exist = true;
                     }
                 }
-                if(!exist) {
+                if (!exist) {
                     AgendaEditor emptyAgenda = new AgendaEditor();
                     emptyAgenda.setTypeId(agendaTypeInfo.getId());
                     components.add(builder.buildAgenda(emptyAgenda));
@@ -177,10 +179,11 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
     /**
      * Setup a map with all the type information required to build an agenda management page.
+     *
      * @return
      */
-    private Map<String, AgendaTypeInfo> getTypeRelationsMap(){
-        if (typeRelationsMap == null){
+    private Map<String, AgendaTypeInfo> getTypeRelationsMap() {
+        if (typeRelationsMap == null) {
             typeRelationsMap = new HashMap<String, AgendaTypeInfo>();
 
             // Get Instruction Usage Id
@@ -196,7 +199,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
             // Get all agenda types linked to super type.
             List<TypeTypeRelation> agendaRelationships = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(requisitesType.getId());
-            for (TypeTypeRelation agendaRelationship : agendaRelationships){
+            for (TypeTypeRelation agendaRelationship : agendaRelationships) {
                 AgendaTypeInfo agendaTypeInfo = new AgendaTypeInfo();
                 agendaTypeInfo.setId(agendaRelationship.getToTypeId());
                 agendaTypeInfo.setDescription(this.getDescriptionForTypeAndUsage(agendaRelationship.getToTypeId(), descriptionUsageId));
@@ -204,15 +207,15 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
                 // Get all rule types for each agenda type
                 List<TypeTypeRelation> ruleRelationships = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(agendaRelationship.getToTypeId());
                 List<RuleTypeInfo> ruleTypes = new ArrayList<RuleTypeInfo>();
-                for (TypeTypeRelation ruleRelationship : ruleRelationships){
+                for (TypeTypeRelation ruleRelationship : ruleRelationships) {
                     RuleTypeInfo ruleTypeInfo = new RuleTypeInfo();
                     ruleTypeInfo.setId(ruleRelationship.getToTypeId());
                     ruleTypeInfo.setDescription(this.getDescriptionForTypeAndUsage(ruleRelationship.getToTypeId(), descriptionUsageId));
-                    if(ruleTypeInfo.getDescription().isEmpty()) {
+                    if (ruleTypeInfo.getDescription().isEmpty()) {
                         ruleTypeInfo.setDescription("Description is unset rule type");
                     }
                     ruleTypeInfo.setInstruction(this.getDescriptionForTypeAndUsage(ruleRelationship.getToTypeId(), instructionUsageId));
-                    if(ruleTypeInfo.getInstruction().isEmpty()) {
+                    if (ruleTypeInfo.getInstruction().isEmpty()) {
                         ruleTypeInfo.setInstruction("Instruction is unset for rule type");
                     }
                     // Add rule types to list.
@@ -225,12 +228,12 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         return typeRelationsMap;
     }
 
-    private String getDescriptionForTypeAndUsage(String typeId, String usageId){
+    private String getDescriptionForTypeAndUsage(String typeId, String usageId) {
         NaturalLanguageTemplate template = null;
-        try{
+        try {
             template = getRuleManagementService().findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId("en", typeId, usageId);
             return template.getTemplate();
-        }catch (Exception e){
+        } catch (Exception e) {
             return StringUtils.EMPTY;
         }
     }
@@ -261,21 +264,46 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         return simplestResolver;
     }
 
-    public String getNaturalLanguageDescription(PropositionEditor prop) {
+    public String resetDescription(PropositionEditor prop) {
 
-        NaturalLanguageUsage usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_RULE_EDIT, PermissionServiceConstants.KS_SYS_NAMESPACE);
-
-        String description = null;
-        try {
-            List<PropositionParameter.Builder> parameters = new ArrayList<PropositionParameter.Builder>();
-            PropositionDefinition.Builder propBuilder = PropositionDefinition.Builder.create(prop.getId(),
-                    prop.getPropositionTypeCode(), prop.getRuleId(), prop.getTypeId(), parameters);
-            description = this.getRuleManagementService().translateNaturalLanguageForProposition(usage.getId(), propBuilder.build(), "en");
-        } catch (IndexOutOfBoundsException e) {
-            //Ignore, rice error in NaturalLanguageTemplateBoServiceImpl line l
+        //Build the new termParamters with the matching component builder.
+        Map<String, String> termParameters = null;
+        ComponentBuilder builder = this.getTemplateRegistry().getComponentBuilderForType(prop.getType());
+        if (builder != null) {
+            termParameters = builder.buildTermParameters(prop);
         }
 
-        return description;
+        List<TermParameterEditor> parameters = new ArrayList<TermParameterEditor>();
+        if (termParameters != null) {
+            for (Map.Entry<String, String> entry : termParameters.entrySet()) {
+
+                TermParameterEditor parameterEditor = null;
+                if (prop.getTerm().getParameters() != null) {
+                    for (TermParameterEditor parameter : prop.getTerm().getEditorParameters()) {
+
+                        if (entry.getKey().equals(parameter.getName())) {
+                            parameterEditor = parameter;
+                            parameterEditor.setValue(entry.getValue());
+                            break;
+                        }
+                    }
+                }
+
+                //Create a new parameter if not exist.
+                if (parameterEditor == null) {
+                    parameterEditor = new TermParameterEditor();
+                    parameterEditor.setName(entry.getKey());
+                    parameterEditor.setValue(entry.getValue());
+                }
+                parameters.add(parameterEditor);
+            }
+        }
+        prop.getTerm().setParameters(parameters);
+
+        this.getNaturalLanguageHelper().setNaturalLanguageForUsage(prop, KsKrmsConstants.KRMS_NL_RULE_EDIT);
+        this.getNaturalLanguageHelper().setNaturalLanguageForUsage(prop, KsKrmsConstants.KRMS_NL_PREVIEW);
+        prop.setDescription(prop.getNaturalLanguageForUsage(KsKrmsConstants.KRMS_NL_RULE_EDIT));
+        return prop.getDescription();
     }
 
     /**
@@ -433,12 +461,32 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     @Override
-    public void refreshInitTrees(RuleEditor rule, boolean refreshNl) {
-        // Refresh the editing tree
-        rule.setEditTree(this.getEditTreeBuilder().buildTree(rule, refreshNl));
+    public void refreshInitTrees(RuleEditor rule) {
 
-        // Refresh the preview tree
-        rule.setPreviewTree(this.getPreviewTreeBuilder().buildTree(rule, true));
+        if (rule == null) {
+            return;
+        }
+
+        // Refresh the natural language if required.
+        if (rule.getProposition() != null) {
+            PropositionEditor root = (PropositionEditor) rule.getProposition();
+            if (!root.getNaturalLanguage().containsKey(this.getEditTreeBuilder().getNaturalLanguageUsageKey())) {
+                this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(root, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
+            }
+            if (!root.getNaturalLanguage().containsKey(this.getPreviewTreeBuilder().getNaturalLanguageUsageKey())) {
+                this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(root, this.getPreviewTreeBuilder().getNaturalLanguageUsageKey());
+            }
+        }
+
+        //Rebuild the trees
+        rule.setEditTree(this.getEditTreeBuilder().buildTree(rule));
+        rule.setPreviewTree(this.getPreviewTreeBuilder().buildTree(rule));
+
+        //Also reset the logic expression. Should only be done after editTree is already built.
+        if (rule.getProposition() != null) {
+            rule.setLogicArea(PropositionTreeUtil.configureLogicExpression((PropositionEditor) rule.getProposition()));
+        }
+
     }
 
     @Override
@@ -446,6 +494,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
         //Get the CLU Tree.
         RuleDefinitionContract compare = this.getRuleManagementService().getRule("10063");
+        this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage((PropositionEditor) compare, this.getPreviewTreeBuilder().getNaturalLanguageUsageKey());
 
         //Build the Tree
         return this.getCompareTreeBuilder().buildTree(original, compare);
@@ -453,14 +502,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     @Override
-    public void setLogicSection(RuleEditor ruleEditor) {
-        if (ruleEditor.getProposition() != null) {
-            ruleEditor.setLogicArea(PropositionTreeUtil.configureLogicExpression((PropositionEditor) ruleEditor.getProposition()));
-        }
-    }
-
-    @Override
-     public PropositionEditor copyProposition(PropositionEditor proposition) {
+    public PropositionEditor copyProposition(PropositionEditor proposition) {
         try {
             return PropositionTreeUtil.copyProposition(proposition, this.getPropositionEditorClass());
         } catch (Exception e) {
@@ -519,6 +561,14 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             previewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
         }
         return previewTreeBuilder;
+    }
+
+    protected NaturalLanguageHelper getNaturalLanguageHelper() {
+        if (naturalLanguageHelper == null) {
+            naturalLanguageHelper = new NaturalLanguageHelper();
+            naturalLanguageHelper.setRuleManagementService(this.getRuleManagementService());
+        }
+        return naturalLanguageHelper;
     }
 
     protected TemplateRegistry getTemplateRegistry() {

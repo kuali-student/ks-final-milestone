@@ -22,6 +22,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.adapter.Autoge
 import org.kuali.student.enrollment.class2.courseoffering.service.util.RegistrationGroupUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.FormatOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.autogen.service.ARGCourseOfferingManagementViewHelperService;
@@ -195,13 +196,18 @@ public class ARGUtil {
 
     public static void prepare_AOs_RGs_AOCs_Lists (ARGCourseOfferingManagementForm form, CourseOfferingWrapper currentCOWrapper) throws Exception {
         currentCOWrapper.setTerm( form.getTermInfo() );
-        
+
         CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(currentCOWrapper.getCourseOfferingId(),ContextUtils.createDefaultContextInfo());
         currentCOWrapper.setCourseOfferingInfo(coInfo);
 
-        //set the ownerCode if searching streight for a specific CO
-        if (form.getCourseOfferingResultList().size() == 1) {
-            currentCOWrapper.setOwnerCode(form.getCourseOfferingResultList().get(0).getOwnerCode());
+        //set the ownerCode if not set
+        if (currentCOWrapper.getOwnerCode()==null ||currentCOWrapper.getOwnerCode().equals("") ) {
+            for (CourseOfferingListSectionWrapper courseOfferingListSectionWrapper : form.getCourseOfferingResultList()) {
+               if (courseOfferingListSectionWrapper.getCourseOfferingCode().equals(form.getInputCode())) {
+                   currentCOWrapper.setOwnerCode(courseOfferingListSectionWrapper.getOwnerCode());
+                   break;
+               }
+            }
         }
 
         ContextInfo contextInfo =  ContextUtils.createDefaultContextInfo();
@@ -223,6 +229,7 @@ public class ARGUtil {
         form.setInputCode(currentCOWrapper.getCourseOfferingCode());
 
         form.setFormatIdForNewAO(null);
+        form.setFormatOfferingIdForNewAO(null);
         form.setActivityIdForNewAO(null);
         form.setNoOfActivityOfferings(null);
         form.setPrivateClusterNamePopover("");
@@ -542,6 +549,35 @@ public class ARGUtil {
         List<ActivityOfferingClusterInfo> aoClusterList = getCourseOfferingService().searchForActivityOfferingClusters(criteria, ContextUtils.createDefaultContextInfo());
         return aoClusterList.size() <= 0;
     }
+
+    public static boolean _isClusterUniqueWithinCO(ARGCourseOfferingManagementForm form, String courseOfferingId, String privateName) throws Exception{
+        List<String> foIds = new ArrayList<String>();
+        //fetch all the formatOfferingIds associated with the given courseOfferingId
+        //For performance, if FOIds are already in the form, use it (most likely it is). Otherwise, fetch FOs by COId
+        if (form.getFormatOfferingIds()==null || form.getFormatOfferingIds().isEmpty()) {
+            List<FormatOfferingInfo> formatOfferingList = getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId,ContextUtils.createDefaultContextInfo());
+            for(FormatOfferingInfo foInfo:formatOfferingList){
+                foIds.add(foInfo.getId());
+            }
+        } else {
+            foIds = form.getFormatOfferingIds();
+        }
+
+        //Build up a term search criteria
+        if (foIds!=null && !foIds.isEmpty()) {
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.and(
+                    PredicateFactory.in("formatOfferingId", foIds.toArray()),
+                    PredicateFactory.equalIgnoreCase("privateName", privateName)));
+            QueryByCriteria criteria = qbcBuilder.build();
+
+            List<ActivityOfferingClusterInfo> aoClusterList = getCourseOfferingService().searchForActivityOfferingClusters(criteria, ContextUtils.createDefaultContextInfo());
+            return aoClusterList.size() <= 0;
+        }
+
+        return true;
+    }
+
 
     public static ActivityOfferingClusterInfo _buildEmptyAOCluster (String formatOfferingId, String privateName, String publishedName){
         ActivityOfferingClusterInfo emptyCluster = new ActivityOfferingClusterInfo();

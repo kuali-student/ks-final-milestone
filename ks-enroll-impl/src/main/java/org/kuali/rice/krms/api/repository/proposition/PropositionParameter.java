@@ -343,6 +343,7 @@ public final class PropositionParameter extends AbstractDataTransferObject imple
 			return value;
 		}
 
+                @Override
 		public TermDefinition getTermValue() {
 			return termValue;
 		}

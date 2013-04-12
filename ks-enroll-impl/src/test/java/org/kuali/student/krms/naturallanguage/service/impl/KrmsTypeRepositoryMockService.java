@@ -213,5 +213,10 @@ public class KrmsTypeRepositoryMockService implements KrmsTypeRepositoryService 
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public List<KrmsTypeDefinition> findTermParameterTypesForTermPropositionParameterType(String termPropositionParameterTypeId) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     
 }

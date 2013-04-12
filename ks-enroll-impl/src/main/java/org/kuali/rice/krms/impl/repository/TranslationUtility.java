@@ -159,13 +159,15 @@ public class TranslationUtility implements TranslateBusinessMethods {
         }
         Map<String, Object> contextMap = new LinkedHashMap<String, Object>();
         for (PropositionParameter param : proposition.getParameters()) {
-//            TODO: translate the term first then insert that into the overall proposition
-//            work with Christoff to do this logic correctly.
-            if (param.getTermValue() != null) {
-//                translateTerm
+            if (param.getParameterType().equals(PropositionParameterType.TERM.getCode())){
+                if (param.getTermValue() != null){
+                    contextMap.put(param.getParameterType(), param.getTermValue());
+                } else {
+                    contextMap.put(param.getParameterType(), param.getValue());
+                }
             }
             else {
-              contextMap.put(param.getParameterType(), param.getValue());
+                contextMap.put(param.getParameterType(), param.getValue());
             }
         }
         return contextMap;

@@ -71,6 +71,7 @@
 
 .jstree li {
     margin-top 3pt;
+    /*line-height:18px;*/
 }
 
 .subruleHeader {
@@ -136,4 +137,13 @@
 
 .ruleCopySelected {
     background-color:#F4E271 !important; border: 1px dashed goldenrod;
+}
+.ks-edit-link {
+    color:#00aa00 !important;
+}
+
+.ks-editVerticalBox {
+    padding: 0px !important;
+    line-height:16px !important;
+    margin-bottom: 0px!important;
 }

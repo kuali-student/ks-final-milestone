@@ -19,7 +19,7 @@
      limitations under the License.
     -->
     <bean id="KRMS-AgendaManagement-View" parent="KSMaintenanceView">
-        <property name="headerText" value="Manage Requisites"/>
+        <property name="headerText" value="Course Rules"/>
         <property name="dataObjectClassName" value="org.kuali.rice.krms.dto.RuleManagementWrapper"/>
         <property name="cssClasses">
             <list merge="true">
@@ -74,9 +74,22 @@
 
     <bean name="KRMS-AgendaMaintenance-Page-Parent" parent="Uif-Page">
         <property name="footer">
-            <bean parent="KSDocumentPageFooter_SubmitCancel"/>
+            <bean id="KRMS-Footer-SubmitCancel" parent="KRMS-Footer-SubmitCancel-parent" />
         </property>
     </bean>
+
+    <bean id="KRMS-Footer-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Save"
+                      p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
+    </bean>
+
     <bean name="KRMS-RuleMaintenance-Page-Parent" parent="Uif-Page">
         <property name="items">
             <list>
@@ -89,13 +102,11 @@
                     <list>
                         <bean id="update-button" parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true">
                             <property name="actionLabel" value="Update Rule"/>
-                            <property name="methodToCall"
-                                      value="updateRule"/>
+                            <property name="methodToCall" value="updateRule"/>
                         </bean>
                         <bean id="cancel-button" parent="Uif-ActionLink" p:style="margin-left: 0.5em;margin-top: 0.3em;">
                             <property name="actionLabel" value="Cancel"/>
-                            <property name="methodToCall"
-                                      value="cancelEditRule"/>
+                            <property name="methodToCall" value="cancelEditRule"/>
                         </bean>
                     </list>
                 </property>
@@ -113,25 +124,19 @@
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Copy">
-                    <property name="toolTip">
-                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
-                              p:tooltipContent="Copy Rule to other CO"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-ActionLink" p:actionLabel="Compare" p:methodToCall="compareRules">
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Original" p:methodToCall="compareRules">
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
                               p:tooltipContent="Compares CLU and CO Rules"/>
                     </property>
                 </bean>
-                <bean parent="Uif-ActionLink" p:actionLabel="Edit" p:methodToCall="goToRuleView">
+                <bean parent="Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView">
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
                               p:tooltipContent="Edit Rule"/>
                     </property>
                 </bean>
-                <bean parent="Uif-ActionLink" p:actionLabel="Delete" p:methodToCall="deleteRule">
+                <bean parent="Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule">
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
                               p:tooltipContent="Delete Rule"/>
@@ -144,7 +149,7 @@
     <bean id="KRMS-RuleAdd-Links" parent="Uif-LinkGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Add Requisite" p:methodToCall="addRule">
+                <bean parent="Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule">
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
                               p:tooltipContent="Add Requisite to Rule"/>

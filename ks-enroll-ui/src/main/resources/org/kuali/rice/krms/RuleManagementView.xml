@@ -53,26 +53,6 @@
 
                 <bean id="KS-RuleView-Section" parent="KS-VerticalBoxSection" p:style="max-width: 54em;">
                     <property name="headerText" value="Prerequisite Rule"/>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-InputField-LabelTop">
-                                <property name="propertyName" value="activeSelections"/>
-                                <property name="label" value="Activate / Deactivate Rule"/>
-                                <property name="control">
-                                    <bean parent="Uif-VerticalCheckboxesControl">
-                                        <property name="options">
-                                            <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Canonical Rule"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="2"
-                                                      p:value="Course Offering Rule"/>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </property>
-                            </bean>
-
-                        </list>
-                    </property>
                     <property name="header.rightGroup">
                         <bean parent="Uif-HeaderRightGroup">
                             <property name="items">
@@ -108,7 +88,7 @@
     </bean>
 
     <bean id="KS-EditWithObject-EditSection" parent="Uif-VerticalBoxSection"
-          p:headerText="Edit with Object" p:header.render="false">
+          p:headerText="Edit Rule" p:header.render="false">
         <property name="items">
             <list>
                 <bean parent="KS-EditWithObject-EditGroup"/>
@@ -117,7 +97,7 @@
     </bean>
 
     <bean id="KS-EditWithLogic-EditSection" parent="Uif-VerticalBoxSection"
-          p:headerText="Edit with Logic" p:header.render="false">
+          p:headerText="Edit Rule Logic" p:header.render="false">
         <property name="validationMessages.displayMessages" value="true"/>
         <property name="items">
             <list>
@@ -130,18 +110,7 @@
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
-                <bean parent="Uif-Link" p:linkText="Edit">
-                    <property name="toolTip">
-                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
-                              p:tooltipContent="Edit Prerequisite Rule"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-Link" p:linkText="Copy">
-                    <property name="toolTip">
-                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Copy to other CO"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-ActionLink" p:actionLabel="Compare" p:methodToCall="compareRules">
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Original" p:methodToCall="compareRules">
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
                               p:tooltipContent="Compares CLU and CO Rules"/>
@@ -210,6 +179,7 @@
                     <bean parent="Uif-Message"/>
                 </property>
                 <property name="dataGroupPrototype">
+
                     <bean parent="Uif-StackedCollectionGroup" p:style="width: 400px; padding: 0;">
                         <property name="layoutManager">
                             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
@@ -231,18 +201,19 @@
                             </bean>
                         </property>
                         <property name="lineActions">
-                            <list></list>
+                            <list>
+                            </list>
                         </property>
                         <property name="renderAddLine" value="false"/>
-                        <property name="propertyName" value="listItems" />
+                        <property name="propertyName" value="listItems"/>
                         <property name="collectionObjectClass" value="java.lang.String"/>
                         <property name="items">
                             <list>
-                                <bean parent="Uif-MessageField" p:messageText="@{#line}" p:style="width: 290px; margin: 0px;"/>
+                                <bean parent="Uif-MessageField" p:messageText="@{#line}"
+                                      p:style="width: 290px; margin: 0px;"/>
                             </list>
                         </property>
                     </bean>
-
                 </property>
             </bean>
         </property>
@@ -254,10 +225,10 @@
     </bean>
     <bean id="KS-ViewTree-Section" parent="KS-ViewTree-Section-parent"/>
 
-    <bean id="KS-PreviewTree-Section-parent" parent="KS-ViewTree-Section">
-        <property name="propertyName" value="previewTree"/>
+    <bean id="KS-View-Section-parent" parent="KS-ViewTree-Section">
+        <property name="propertyName" value="viewTree"/>
     </bean>
-    <bean id="KS-PreviewTree-Section" parent="KS-PreviewTree-Section-parent"/>
+    <bean id="KS-View-Section" parent="KS-View-Section-parent"/>
 
     <bean id="KS-CompareTree-Section-parent" parent="KS-Tree-Section" p:style="width: 800px;">
         <property name="propertyName" value="compareTree"/>
@@ -318,4 +289,91 @@
     </bean>
     <bean id="KS-CompareRule" parent="KS-CompareRule-parent"/>
 
+    <bean id="KS-Preview-Section-parent" parent="KS-Tree-Section">
+        <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <bean id="KRMS-Edit-Section-Parent" parent="Uif-VerticalBoxGroup">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-HorizontalBoxGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="Uif-MessageField" p:messageText="@{#np.data}"
+                                                  p:style="width: 290px; margin: 0px;" p:progressiveRender="#np.data != null"/>
+                                            <bean parent="Uif-ActionLink" p:actionLabel="edit" p:align="right" p:methodToCall="getSelectedKey" p:progressiveRender="#np.data != null" >
+                                                <property name="additionalSubmitData" value = "selectedKey:@{#np.key != null ? #np.key : -1}"/>
+                                                <property name="toolTip">
+                                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
+                                                          p:tooltipContent="Edit Prerequisite Rule"/>
+                                                </property>
+                                                <property name="cssClasses">
+                                                    <list merge="true">
+                                                        <value>ks-edit-link</value>
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                        </list>
+                                    </property>
+                                    <property name="cssClasses">
+                                        <list merge="true">
+                                            <value>ks-editVerticalBox</value>
+                                        </list>
+                                    </property>
+
+                                </bean>
+                                <bean parent="Uif-StackedCollectionGroup" p:style="width: 400px; padding: 0;">
+                                    <property name="layoutManager">
+                                        <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                                            <property name="lineGroupPrototype">
+                                                <bean parent="Uif-CollectionHorizontalBoxItem">
+                                                    <property name="cssClasses">
+                                                        <list merge="true">
+                                                            <value>ks-stackedPreviewItem</value>
+                                                        </list>
+                                                    </property>
+                                                    <property name="renderFooter" value="false"/>
+                                                </bean>
+                                            </property>
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ks-stackedCollectionLayout</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </property>
+                                    <property name="lineActions">
+                                        <list>
+                                        </list>
+                                    </property>
+                                    <property name="renderAddLine" value="false"/>
+                                    <property name="propertyName" value="listItems" />
+                                    <property name="collectionObjectClass" value="java.lang.String"/>
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="Uif-MessageField" p:messageText="@{#line}" p:style="width: 290px; margin: 0px;"/>
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-ruleViewSection</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-Preview-Section" parent="KS-Preview-Section-parent"/>
+
+    <bean id="KS-PreviewTree-Section-parent" parent="KS-Preview-Section">
+        <property name="propertyName" value="previewTree"/>
+    </bean>
+    <bean id="KS-PreviewTree-Section" parent="KS-PreviewTree-Section-parent"/>
 </beans>

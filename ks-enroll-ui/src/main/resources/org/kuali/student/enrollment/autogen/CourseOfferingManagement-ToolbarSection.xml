@@ -17,9 +17,7 @@
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <!-- Note: temporarily take out p:disabled="@{!enableAddButton}" for Add Course button since authz is not applied to ARG yet. -->
-                            <!-- TODO: Need to put it back with the proper authz logic -->
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Add-CO" parent="KS-CourseOfferingManagement-ToolBar-Add-parent" p:methodToCall="createCourseOffering" p:disabled="false"/>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Add-CO" parent="KS-CourseOfferingManagement-ToolBar-Add-parent" p:methodToCall="createCourseOffering" p:disabled="@{!enableAddButton}"/>
                         </list>
                     </property>
                 </bean>
@@ -45,50 +43,50 @@
     </bean>
 
 
-     <bean id="KSCourseOfferingManagement-AO-ToolBarSection" parent="Uif-HorizontalBoxSection" p:render="@{!currentCourseOfferingWrapper.crossListed}">
+    <bean id="KSCourseOfferingManagement-AO-ToolBarSection" parent="Uif-HorizontalBoxSection" p:render="@{!currentCourseOfferingWrapper.crossListed}">
         <property name="items">
-          <list>
-            <bean parent="KS-HorizontalBoxGroup-WithRPadding">
-                <property name="items">
-                    <list>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Add-AO" parent="KS-CourseOfferingManagement-ToolBar-Add-parent" p:actionLabel="Add Activity"  p:disabled="false"
-                            p:performClientSideValidation="true" p:methodToCall="addActivityOfferings"
-                            p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddActivityOfferingPopupForm').find('input[type=text],select').val('');}});"/>
-                    </list>
-                </property>
-            </bean>
-            <bean parent="KS-HorizontalBoxGroup-WithRPadding">
-                <property name="items">
-                    <list>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Approve-AO" parent="KS-CourseOfferingManagement-ToolBar-Approve-parent" p:methodToCall="approveAOs" p:render="true"/>
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Draft-AO" parent="KS-CourseOfferingManagement-ToolBar-Draft-parent" p:methodToCall="draftAOs" p:render="true"/>
-                    </list>
-                </property>
-            </bean>
-            <bean parent="KS-HorizontalBoxGroup-WithRPadding">
-                <property name="items">
-                    <list>
-                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Copy-AO" parent="KS-CourseOfferingManagement-ToolBar-Copy" p:methodToCall="copyAOs" p:render="@{hasAO}"/>-->
-                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Suspend-AO" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendAOs" p:render="@{hasAO}"/>-->
-                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Cancel-AO" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelAOs" p:render="@{hasAO}"/>-->
-                        <!--<bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-AO" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateAOs" p:render="@{hasAO}"/>-->
-                        <bean id="KS-CourseOfferingManagement-ToolBar-Delete-AO" parent="KS-CourseOfferingManagement-ToolBar-Delete-parent" p:methodToCall="deleteAOs" p:render="true"/>
-                    </list>
-                </property>
-            </bean>
-            <bean parent="KS-HorizontalBoxGroup-WithRPadding">
-                <property name="items">
-                    <list>
-                        <!--
-                        <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster" parent="KS-CourseOfferingManagement-ToolBar-AddCluster" p:methodToCall="addCluster" p:render="@{hasAO}" p:disabled="false"
-                              p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddAOCPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddAOCPopupForm').find('input[type=text],select').val('');}});"/>
-                              -->
-                        <bean id="KS-CourseOfferingManagement-ToolBar-MoveTo" parent="KS-CourseOfferingManagement-ToolBar-MoveTo-parent" p:render="true" p:disabled="false" p:methodToCall="dummyReload"
-                              p:successCallback="openPopupContent(e,'KS-CourseOfferingManagement-MoveAOCPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-MoveAOCPopupForm').find('input[type=text],select').val('');}});"/>
-                    </list>
-                </property>
-            </bean>
-          </list>
+            <list>
+                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                    <property name="items">
+                        <list>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Add-AO" parent="KS-CourseOfferingManagement-ToolBar-Add-parent" p:actionLabel="Add Activity"  p:disabled="false"
+                                  p:performClientSideValidation="true" p:methodToCall="addActivityOfferings"
+                                  p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddActivityOfferingPopupForm').find('input[type=text],select').val('');}});"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                    <property name="items">
+                        <list>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Approve-AO" parent="KS-CourseOfferingManagement-ToolBar-Approve-parent" p:methodToCall="approveAOs" p:render="true"/>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Draft-AO" parent="KS-CourseOfferingManagement-ToolBar-Draft-parent" p:methodToCall="draftAOs" p:render="true"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                    <property name="items">
+                        <list>
+                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-Copy-AO" parent="KS-CourseOfferingManagement-ToolBar-Copy" p:methodToCall="copyAOs" p:render="@{hasAO}"/>-->
+                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-Suspend-AO" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendAOs" p:render="@{hasAO}"/>-->
+                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-Cancel-AO" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelAOs" p:render="@{hasAO}"/>-->
+                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-AO" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateAOs" p:render="@{hasAO}"/>-->
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Delete-AO" parent="KS-CourseOfferingManagement-ToolBar-Delete-parent" p:methodToCall="deleteAOs" p:render="true"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                    <property name="items">
+                        <list>
+                            <!--
+                      <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster" parent="KS-CourseOfferingManagement-ToolBar-AddCluster" p:methodToCall="addCluster" p:render="@{hasAO}" p:disabled="false"
+                            p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddAOCPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddAOCPopupForm').find('input[type=text],select').val('');}});"/>
+                            -->
+                            <bean id="KS-CourseOfferingManagement-ToolBar-MoveTo" parent="KS-CourseOfferingManagement-ToolBar-MoveTo-parent" p:render="true" p:disabled="false" p:methodToCall="dummyReload"
+                                  p:successCallback="openPopupContent(e,'KS-CourseOfferingManagement-MoveAOCPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-MoveAOCPopupForm').find('input[type=text],select').val('');}});"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
         </property>
     </bean>
 
@@ -107,18 +105,18 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Add-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
-         <property name="actionLabel" value="Add Course"/>
-         <property name="actionImage">
-             <bean parent="Uif-Image" p:source="@{enableAddButton ? #ConfigProperties['ks.externalizable.images.url']+'/add_enabled.png' : #ConfigProperties['ks.externalizable.images.url']+'/add_disabled.png'}"/>
-         </property>
-     </bean>
+        <property name="actionLabel" value="Add Course"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{enableAddButton ? #ConfigProperties['ks.externalizable.images.url']+'/add_enabled.png' : #ConfigProperties['ks.externalizable.images.url']+'/add_disabled.png'}"/>
+        </property>
+    </bean>
 
-     <bean id="KS-CourseOfferingManagement-ToolBar-Approve-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
-         <property name="actionLabel" value="Approve"/>
-         <property name="actionImage">
-             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/approve_disabled.png"/>
-         </property>
-     </bean>
+    <bean id="KS-CourseOfferingManagement-ToolBar-Approve-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
+        <property name="actionLabel" value="Approve"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/approve_disabled.png"/>
+        </property>
+    </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
         <property name="actionLabel" value="Suspend"/>
@@ -128,25 +126,25 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
-         <property name="actionLabel" value="Cancel"/>
-         <property name="actionImage">
-             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cancel_disabled.png"/>
-         </property>
-     </bean>
+        <property name="actionLabel" value="Cancel"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cancel_disabled.png"/>
+        </property>
+    </bean>
 
-     <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
-         <property name="actionLabel" value="Reinstate"/>
-         <property name="actionImage">
-             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/reinstate_disabled.png"/>
-         </property>
-     </bean>
+    <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
+        <property name="actionLabel" value="Reinstate"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/reinstate_disabled.png"/>
+        </property>
+    </bean>
 
-     <bean id="KS-CourseOfferingManagement-ToolBar-Delete-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
-         <property name="actionLabel" value="Delete"/>
-         <property name="actionImage">
-             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/delete_disabled.png"/>
-         </property>
-     </bean>
+    <bean id="KS-CourseOfferingManagement-ToolBar-Delete-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
+        <property name="actionLabel" value="Delete"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/delete_disabled.png"/>
+        </property>
+    </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Draft-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
         <property name="actionLabel" value="Set as Draft"/>
@@ -182,7 +180,7 @@
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="formatOfferingIdForNewAO" p:label="Format Offering" p:labelPlacement="TOP" p:required="true">
+                <bean parent="Uif-InputField" p:propertyName="formatOfferingIdForNewAO" p:label="Format Offering" p:labelPlacement="TOP" p:required="true" p:onChangeScript="refreshAddAODropdowns();">
                     <property name="readOnly" value="false"/>
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
@@ -191,7 +189,7 @@
                         <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGFormatsForCreateAOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="activityIdForNewAO" p:label="Activity Type" p:labelPlacement="TOP" p:required="true" p:refreshWhenChangedPropertyNames="formatOfferingIdForNewAO">
+                <bean parent="Uif-InputField" p:id="activityOfferingTypeDropDown" p:propertyName="activityIdForNewAO" p:label="Activity Type" p:labelPlacement="TOP" p:required="true" p:forceSessionPersistence="true">
                     <!-- KRAD 2.2.0 Bug: class uif-boxLayoutHorizontalItem is removed on refresh: -->
                     <property name="cssClasses">
                         <list merge="true">
@@ -207,7 +205,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:propertyName="clusterIdForNewAO" p:label="Cluster" p:labelPlacement="TOP" p:required="true" p:refreshWhenChangedPropertyNames="formatOfferingIdForNewAO">
+                <bean parent="Uif-InputField" p:id="clusterDropDown" p:propertyName="clusterIdForNewAO" p:label="Cluster" p:labelPlacement="TOP" p:required="true" p:forceSessionPersistence="true">
                     <property name="readOnly" value="false"/>
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
@@ -253,14 +251,14 @@
                         <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGFormatsForCreateRGKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField"  p:id="privateClusterNameForLightBox" p:propertyName="privateClusterNamePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true">
+                <bean parent="Uif-InputField"  p:id="privateClusterNameForLightBox" p:propertyName="privateClusterNamePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
+                        <bean parent="Uif-TextControl" p:size="30"  p:maxLength="20"/>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField"  p:propertyName="publishedClusterNamePopover" p:label="Published Name" p:labelPlacement="TOP"  p:render="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
+                        <bean parent="Uif-TextControl" p:size="30"  p:maxLength="20"/>
                     </property>
                 </bean>
                 <bean parent="Uif-SecondaryActionButton-Small">
@@ -274,9 +272,19 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-MoveAOCPopupForm" parent="Uif-HorizontalBoxSection">
+    <!--Notes by Bonnie, hidden container is necessary here since we want to update the form   -->
+    <!--including the content of the cluster list as well as enable/disable "Move" button based on certain conditions  -->
+    <bean id="KS-CourseOfferingManagement-MoveAOCPopupContainer" parent="Uif-HorizontalBoxSection" p:hidden="true">
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseOfferingManagement-MoveAOCPopupForm"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-MoveAOCPopupForm" parent="Uif-HorizontalBoxSection" p:forceSessionPersistence="true">
         <!--<property name="render" value="@{enableAddButton and !currentCourseOfferingWrapper.crossListed}"/>-->
-        <property name="hidden" value="true"/>
+        <!--<property name="hidden" value="true"/>-->
         <property name="cssClasses">
             <list>
                 <value>uif-bubblepopup-content</value>
@@ -285,7 +293,7 @@
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="clusterIdForAOMove"  p:label="Move selected offerings to" p:labelPlacement="TOP">
+                <bean id="clusterIDListForAOMove" parent="Uif-InputField" p:propertyName="clusterIdForAOMove"  p:label="Move selected offerings to" p:labelPlacement="TOP" >
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -293,6 +301,30 @@
                         <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGListOfAOClustersForFOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
+                <!--these fields below are used for creating a cluster and moving AOs-->
+                <!--<bean p:id="formatForMoveId" parent="Uif-InputField" p:propertyName="formatOfferingIdForViewRG" p:label="Select Format" p:labelPlacement="TOP" p:required="true" p:style="display:none" >-->
+                <!--<property name="control">-->
+                <!--<bean parent="Uif-DropdownControl"/>-->
+                <!--</property>-->
+                <!--<property name="optionsFinder">-->
+                <!--<bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGFormatsForCreateRGKeyValues" p:addBlankOption="false" />-->
+                <!--</property>-->
+                <!--</bean>-->
+                <bean p:id="foIdForAOMoveId" parent="Uif-DataField" p:propertyName="selectedFOIDForAOMove" p:label="Format Offering Id" p:labelPlacement="TOP" p:style="display:none">
+                </bean>
+                <bean p:id="foNameForAOMoveId" parent="Uif-DataField" p:propertyName="selectedFONameForAOMove" p:label="Format Offering" p:labelPlacement="TOP" p:style="display:none">
+                </bean>
+                <bean p:id="privateNameForMoveId" parent="Uif-InputField" p:propertyName="privateClusterNameForMovePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true" p:style="display:none">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
+                    </property>
+                </bean>
+                <bean p:id="publishedNameForMoveId" parent="Uif-InputField"  p:propertyName="publishedClusterNameForMovePopover" p:label="Published Name" p:labelPlacement="TOP"  p:render="true" p:style="display:none">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
+                    </property>
+                </bean>
+                <!--these fields above are used for creating a cluster and moving AOs-->
                 <bean parent="Uif-SecondaryActionButton-Small" p:disabled="@{disableMoveButtonForMoveAOCPopOver}">
                     <property name="style" value="margin-top:1.5em;"/>
                     <property name="actionLabel" value="Move"/>

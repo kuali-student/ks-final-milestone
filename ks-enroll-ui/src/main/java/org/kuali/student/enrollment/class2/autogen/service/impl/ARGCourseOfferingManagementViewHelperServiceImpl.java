@@ -21,6 +21,8 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -35,12 +37,12 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingList
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CO_AO_RG_ViewHelperServiceImpl;
-import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.util.RegistrationGroupUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
@@ -95,7 +97,6 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
@@ -124,6 +125,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     private AtpService atpService;
     private CourseOfferingSetService socService;
     private static PermissionService permissionService;
+    private static IdentityService identityService;
 
     /**
      * This method fetches the <code>TermInfo</code> and validate for exact match
@@ -151,16 +153,30 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         } else {
             form.setTermInfo(terms.get(0));
 
-            // setting term first day of classes
-            List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(form.getTermInfo().getId(), createContextInfo());
-            Date termClassStartDate = null;
-            for (KeyDateInfo keyDateInfo : keyDateInfoList) {
-                if (keyDateInfo.getTypeKey().equalsIgnoreCase(AtpServiceConstants.MILESTONE_SEATPOOL_FIRST_DAY_OF_CLASSES_TYPE_KEY) && keyDateInfo.getStartDate() != null) {
-                    termClassStartDate = keyDateInfo.getStartDate();
-                    break;
-                }
+            //Checking soc
+            List<String> socIds;
+            try {
+                socIds = getSocService().getSocIdsByTerm(form.getTermInfo().getId(), createContextInfo());
+            } catch (Exception e){
+                throw convertServiceExceptionsToUI(e);
             }
-            form.setTermClassStartDate(termClassStartDate);
+
+            if (socIds.isEmpty()){
+             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_SOC_NOT_EXISTS);
+            } else {
+                setSocStateKeys(form, socIds);
+
+                // setting term first day of classes
+                List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(form.getTermInfo().getId(), createContextInfo());
+                Date termClassStartDate = null;
+                for (KeyDateInfo keyDateInfo : keyDateInfoList) {
+                    if (keyDateInfo.getTypeKey().equalsIgnoreCase(AtpServiceConstants.MILESTONE_SEATPOOL_FIRST_DAY_OF_CLASSES_TYPE_KEY) && keyDateInfo.getStartDate() != null) {
+                        termClassStartDate = keyDateInfo.getStartDate();
+                        break;
+                    }
+                }
+                form.setTermClassStartDate(termClassStartDate);
+                }
         }
 
     }
@@ -264,9 +280,25 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
         //unnecessary
 //        form.setClusterResultList(clusterResultList);
-            
 
     }
+
+    protected EntityDefaultQueryResults getInstructorsInfoFromKim(List<String> principalIds, ContextInfo contextInfo){
+        String sRet = "";
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(
+                PredicateFactory.in("principals.principalId", principalIds.toArray())
+        );
+
+        QueryByCriteria criteria = qbcBuilder.build();
+
+
+        EntityDefaultQueryResults entityResults = getIdentityService().findEntityDefaults(criteria);
+
+        return entityResults;
+
+    }
+
     
     private  ActivityOfferingClusterWrapper _buildAOClusterWrapper (FormatOfferingInfo foInfo,
                             ActivityOfferingClusterInfo aoCluster, ARGCourseOfferingManagementForm theForm,
@@ -609,29 +641,21 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 }
                 else if(CourseOfferingManagementSearchImpl.SearchResultColumns.CREDIT_OPTION.equals(cellInfo.getKey())){
                     coListWrapper.setCourseOfferingCreditOptionKey(value);
-                    CourseOfferingTransformer courseOfferingTransformer = new CourseOfferingTransformer();
-                    coListWrapper.setCourseOfferingCreditOptionDisplay(courseOfferingTransformer.getCreditCount(value, "", null, null, contextInfo));
                 }
                 else if(CourseOfferingManagementSearchImpl.SearchResultColumns.GRADING_OPTION.equals(cellInfo.getKey())){
                     coListWrapper.setCourseOfferingGradingOptionKey(value);
-                    ResultValuesGroupInfo rvgInfo = getLrcService().getResultValuesGroup(value, contextInfo);
-                    coListWrapper.setCourseOfferingGradingOptionDisplay(rvgInfo.getName());
+                }
+                else if(CourseOfferingManagementSearchImpl.SearchResultColumns.GRADING_OPTION_NAME.equals(cellInfo.getKey())){
+                    coListWrapper.setCourseOfferingGradingOptionDisplay(cellInfo.getValue());
+                }
+                else if(CourseOfferingManagementSearchImpl.SearchResultColumns.CREDIT_OPTION_NAME.equals(cellInfo.getKey())){
+                    coListWrapper.setCourseOfferingCreditOptionDisplay(cellInfo.getValue());
+                }
+                else if(CourseOfferingManagementSearchImpl.SearchResultColumns.DEPLOYMENT_ORG_ID.equals(cellInfo.getKey())){
+                    coListWrapper.setAdminOrg(cellInfo.getValue());
                 }
                 else if(CourseOfferingManagementSearchImpl.SearchResultColumns.CO_ID.equals(cellInfo.getKey())){
                     coListWrapper.setCourseOfferingId(value);
-
-                    // set multiple orgs
-                    CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(value, contextInfo);
-                    List<String> orgIds = coInfo.getUnitsDeploymentOrgIds();
-                    if(orgIds != null && !orgIds.isEmpty()){
-                        String orgIDs = "";
-                        for (String orgId : orgIds) {
-                            orgIDs = orgIDs + orgId + ",";
-                        }
-                        if (orgIDs.length() > 0) {
-                            coListWrapper.setAdminOrg(orgIDs.substring(0, orgIDs.length()-1));
-                        }
-                    }
                 }
                 else if(CourseOfferingManagementSearchImpl.SearchResultColumns.SUBJECT_AREA.equals(cellInfo.getKey())){
                     coListWrapper.setSubjectArea(value);
@@ -652,8 +676,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             }
             form.getCourseOfferingResultList().add(coListWrapper);
         }
-
-        setSocStateKeys(form);
     }
 
 
@@ -747,12 +769,26 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         TypeInfo activityOfferingType = null;
         CourseInfo course;
         String clusterId = form.getClusterIdForNewAO();
+        ContextInfo contextInfo = createContextInfo();
+        List<ActivityOfferingClusterInfo> clusters = null;
+        ActivityOfferingClusterInfo defaultCluster = null;
+
+        //create default cluster if there is no cluster for the FO yet
+        try {
+            clusters = getCourseOfferingService().getActivityOfferingClustersByFormatOffering(formatOfferingId, contextInfo);
+            if (clusters == null || clusters.size()<=0) {
+                defaultCluster = ARGUtil.getArgServiceAdapter().createDefaultCluster(formatOfferingId, contextInfo);
+                if (defaultCluster != null) {
+                    clusterId = defaultCluster.getId();
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         //the AO clusters associated with the given FO
-        List<ActivityOfferingClusterInfo> clusters = null;
         CourseOfferingInfo courseOffering = form.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
 
-        ContextInfo contextInfo = createContextInfo();
 
         // Get the format object for the id selected
         try {
@@ -1002,7 +1038,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                         }
                         // if ao is colocated AO add colocated info
                         if(isColocatedAo(aoDisplayInfo.getActivityOfferingCode(), aoInfoList))  {
-                            String colocateInfo = ViewHelperUtil.createColocatedDisplayData(getAoInfo(aoDisplayInfo.getActivityOfferingCode(), aoInfoList), contextInfo);
+                            String colocateInfo = CourseOfferingViewHelperUtil.createColocatedDisplayData(getAoInfo(aoDisplayInfo.getActivityOfferingCode(), aoInfoList), contextInfo);
                             aoDisplayWrapper.setColocatedAoInfo(colocateInfo);
                             co.setColocated(true);
                             co.setColocatedCoCode(colocateInfo);
@@ -1263,9 +1299,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
     }
 
-    public void setSocStateKeys (ARGCourseOfferingManagementForm      form) throws Exception{
-        String termCode = form.getTermInfo().getId();
-        List<String> socIds = getSocService().getSocIdsByTerm(termCode, createContextInfo());
+    private void setSocStateKeys (ARGCourseOfferingManagementForm form, List<String> socIds) throws Exception{
         if (socIds != null && !socIds.isEmpty()) {
             List<SocInfo> targetSocs = this.getSocService().getSocsByIds(socIds, createContextInfo());
             for (SocInfo soc: targetSocs) {
@@ -1311,7 +1345,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     private String getJointDefinedInfo(CourseOfferingListSectionWrapper co) {
         if(co == null) return null;
 
-        List<CourseInfo> coInfoList = ViewHelperUtil.getMatchingCoursesFromClu( co.getCourseOfferingCode());
+        List<CourseInfo> coInfoList = CourseOfferingViewHelperUtil.getMatchingCoursesFromClu(co.getCourseOfferingCode());
         StringBuffer jointDefinedCodes  = new StringBuffer();
 
         for(CourseInfo coInfo : coInfoList) {
@@ -1448,5 +1482,14 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         return permissionService;
     }
 
+    public static IdentityService getIdentityService() {
+        if(identityService == null){
+            identityService = KimApiServiceLocator.getIdentityService();
+        }
+        return identityService;
+    }
 
+    public static void setIdentityService(IdentityService identityService) {
+        ARGCourseOfferingManagementViewHelperServiceImpl.identityService = identityService;
+    }
 }

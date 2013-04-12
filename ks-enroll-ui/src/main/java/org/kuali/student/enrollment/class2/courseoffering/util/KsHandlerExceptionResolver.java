@@ -33,6 +33,7 @@ public class KsHandlerExceptionResolver extends UifHandlerExceptionResolver {
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         if(ex instanceof AuthorizationException) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return new ModelAndView("/ks-enroll/ftl/permissiondenied");
         }
         return super.resolveException(request, response, handler, ex);

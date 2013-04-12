@@ -14,12 +14,14 @@ import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
 import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
+import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.tree.CORuleViewTreeBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.krms.util.KSKRMSConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
@@ -51,8 +53,12 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
         List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
         //TODO: get all agendas linked to a course offering
-        agendas.add(this.getAgendaEditor("10063"));
-        agendas.add(this.getAgendaEditor("10002"));
+        if(this.getRuleManagementService().getAgenda("10063") != null) {
+            agendas.add(this.getAgendaEditor("10063"));
+        } else if(this.getRuleManagementService().getAgenda("10002") != null) {
+            agendas.add(this.getAgendaEditor("10002"));
+        }
+
         dataObject.setAgendas(agendas);
 
         String coId = dataObjectKeys.get("refObjectId");
@@ -97,8 +103,14 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
     protected List<RuleEditor> getRuleEditorsFromTree(List<AgendaTreeEntryDefinitionContract> agendaTreeEntries) {
 
+        //Create NLHelper to populate Natural language on propositions.
+        NaturalLanguageHelper nlHelper = new NaturalLanguageHelper();
+        nlHelper.setRuleManagementService(this.getRuleManagementService());
+
+        //Create a ViewTreeBuilder to build the previews.
         RuleViewTreeBuilder viewTreeBuilder = new CORuleViewTreeBuilder();
         viewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+
         List<RuleEditor> rules = new ArrayList<RuleEditor>();
         for (AgendaTreeEntryDefinitionContract treeEntry : agendaTreeEntries) {
             if (treeEntry instanceof AgendaTreeRuleEntry) {
@@ -106,10 +118,18 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                 AgendaItemDefinition agendaItem = this.getRuleManagementService().getAgendaItem(treeEntry.getAgendaItemId());
 
                 if (agendaItem.getRuleId() != null) {
+
+                    //Retrieve the rule
                     RuleDefinition rule = this.getRuleManagementService().getRule(treeRuleEntry.getRuleId());
                     RuleEditor ruleEditor = new EnrolRuleEditor(rule);
+
+                    //Initialize the Proposition tree
+                    PropositionEditor rootProposition = (PropositionEditor) ruleEditor.getProposition();
                     this.initPropositionEditor((PropositionEditor) ruleEditor.getProposition());
-                    ruleEditor.setPreviewTree(viewTreeBuilder.buildTree(ruleEditor, true));
+                    nlHelper.setNaturalLanguageTreeForUsage(rootProposition, viewTreeBuilder.getNaturalLanguageUsageKey());
+                    ruleEditor.setViewTree(viewTreeBuilder.buildTree(ruleEditor));
+
+                    //Add rule to list on agenda
                     rules.add(ruleEditor);
                 }
 

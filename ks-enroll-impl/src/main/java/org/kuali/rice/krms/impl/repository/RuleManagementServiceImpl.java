@@ -30,6 +30,7 @@ import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -40,6 +41,11 @@ import org.kuali.rice.krms.api.repository.NaturalLanguageTree;
 import org.kuali.rice.krms.api.repository.action.ActionDefinition;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplaterContract;
+import org.kuali.rice.krms.api.repository.proposition.PropositionParameter;
+import org.kuali.rice.krms.api.repository.proposition.PropositionParameterType;
+import org.kuali.rice.krms.api.repository.proposition.PropositionType;
+import org.kuali.rice.krms.api.repository.term.TermDefinition;
+import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
 import org.kuali.rice.krms.impl.repository.language.SimpleNaturalLanguageTemplater;
 
 /**
@@ -59,6 +65,7 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
     private NaturalLanguageTemplateBoService naturalLanguageTemplateBoService = new NaturalLanguageTemplateBoServiceImpl();
     private ContextBoService contextBoService = new ContextBoServiceImpl();
     private NaturalLanguageTemplaterContract templater = new SimpleNaturalLanguageTemplater ();
+    private TermRepositoryService termRepositoryService = new TermBoServiceImpl ();
 
     
     public ReferenceObjectBindingBoService getReferenceObjectBindingBoService() {
@@ -372,17 +379,72 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
 
     @Override
     public PropositionDefinition getProposition(String id) throws RiceIllegalArgumentException {
-        return propositionBoService.getPropositionById(id);
+        PropositionDefinition proposition = propositionBoService.getPropositionById(id);
+        if (proposition == null) {
+            throw new RiceIllegalArgumentException (id);
+        }
+        proposition = this.replaceTermValues (proposition);
+        return proposition;
+    }
+    
+    private PropositionDefinition replaceTermValues(PropositionDefinition proposition) {
+        // only do this for simple props
+        if (!PropositionType.SIMPLE.getCode ().equalsIgnoreCase (proposition.getPropositionTypeCode())) {
+            return proposition;
+        }
+        // that have parameters
+        if (proposition.getParameters() == null) {
+            return proposition;
+        }
+        if (proposition.getParameters().isEmpty()) {
+            return proposition;
+        }
+        boolean found = false;
+        List<PropositionParameter.Builder> params = new ArrayList<PropositionParameter.Builder> (proposition.getParameters().size());
+        for (PropositionParameter param : proposition.getParameters()) {
+            if (!PropositionParameterType.TERM.getCode().equalsIgnoreCase (param.getParameterType())) {
+                params.add(PropositionParameter.Builder.create(param));
+                continue;
+            }
+            // inflate the termValue
+            found = true;
+            TermDefinition termValue = this.termRepositoryService.getTerm(param.getValue());
+            PropositionParameter.Builder bldr = PropositionParameter.Builder.create(param);
+            bldr.setTermValue(termValue);
+            params.add(bldr);
+        }
+        if (!found) {
+            return proposition;
+        }
+        PropositionDefinition.Builder bldr = PropositionDefinition.Builder.create(proposition);
+        bldr.setParameters(params);
+        return bldr.build();
     }
 
+    
+    private Set<PropositionDefinition> replaceTermValuesInSet(Set<PropositionDefinition> propositions) {
+        if (propositions == null) {
+            return null;
+        }
+        if (propositions.isEmpty()) {
+            return propositions;
+        }
+        Set<PropositionDefinition> set = new LinkedHashSet<PropositionDefinition>(propositions.size());
+        for (PropositionDefinition proposition : propositions) {
+            proposition = this.replaceTermValues(proposition);
+            set.add(proposition);
+        }
+        return set;
+    }
+    
     @Override
     public Set<PropositionDefinition> getPropositionsByType(String typeId) throws RiceIllegalArgumentException {
-        return propositionBoService.getPropositionsByType(typeId);
+        return replaceTermValuesInSet (propositionBoService.getPropositionsByType(typeId));
     }
 
     @Override
     public Set<PropositionDefinition> getPropositionsByRule(String ruleId) throws RiceIllegalArgumentException {
-        return propositionBoService.getPropositionsByRule(ruleId);
+        return replaceTermValuesInSet (propositionBoService.getPropositionsByRule(ruleId));
     }
 
     @Override
@@ -467,6 +529,16 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
     ////
     @Override
     public ContextDefinition createContext(ContextDefinition contextDefinition) throws RiceIllegalArgumentException {
+        return this.contextBoService.createContext(contextDefinition);
+    }
+    
+    
+    @Override
+    public ContextDefinition findCreateContext(ContextDefinition contextDefinition) throws RiceIllegalArgumentException {         
+        ContextDefinition orig = this.contextBoService.getContextByNameAndNamespace(contextDefinition.getName(), contextDefinition.getNamespace());
+        if (orig != null) {
+            return orig;
+        }
         return this.contextBoService.createContext(contextDefinition);
     }
 
@@ -620,6 +692,9 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         }
         if (contextBoService instanceof ContextBoServiceImpl) {
             ((ContextBoServiceImpl) contextBoService).setBusinessObjectService(businessObjectService);
+        }
+        if (termRepositoryService instanceof TermBoServiceImpl) {
+            ((TermBoServiceImpl) termRepositoryService).setBusinessObjectService(businessObjectService);
         }
     }    
 }

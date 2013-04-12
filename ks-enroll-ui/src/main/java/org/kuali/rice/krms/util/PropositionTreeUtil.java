@@ -33,10 +33,10 @@ public class PropositionTreeUtil {
         } else if (LogicalOperator.OR.getCode().equalsIgnoreCase(compoundOpCode)) {
             proposition.setType("kuali.krms.proposition.type.compound.or");
         }
-        try{
+        try {
             KrmsTypeDefinition type = KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService().getTypeByName(PermissionServiceConstants.KS_SYS_NAMESPACE, proposition.getType());
             proposition.setTypeId(type.getId());
-        } catch (Exception e){
+        } catch (Exception e) {
             //ignore if service not available.
         }
 
@@ -280,29 +280,29 @@ public class PropositionTreeUtil {
         prop.setCompoundEditors(components);
         return prop;
     }
+
     public static void cancelNewProp(PropositionEditor proposition) {
         int i = 0;
         if (proposition.getCompoundEditors() != null) {
-        while (i < proposition.getCompoundEditors().size()) {
-            PropositionEditor child = proposition.getCompoundEditors().get(i);
-            if (child.isNewProp()){
-                proposition.getCompoundEditors().remove(child);
-                continue;
+            while (i < proposition.getCompoundEditors().size()) {
+                PropositionEditor child = proposition.getCompoundEditors().get(i);
+                if (child.isNewProp()) {
+                    proposition.getCompoundEditors().remove(child);
+                    continue;
+                } else {
+                    cancelNewProp(child);
+                }
+                i++;
             }
-            else{
-                cancelNewProp(child);
-            }
-            i++;
-        }
         }
     }
 
-    public static void resetNewProp(PropositionEditor proposition){
+    public static void resetNewProp(PropositionEditor proposition) {
         if (proposition.getCompoundEditors() != null) {
-        for (PropositionEditor child : proposition.getCompoundEditors()){
-            child.setNewProp(false);
-            resetNewProp(child);
-        }
+            for (PropositionEditor child : proposition.getCompoundEditors()) {
+                child.setNewProp(false);
+                resetNewProp(child);
+            }
         }
     }
 }

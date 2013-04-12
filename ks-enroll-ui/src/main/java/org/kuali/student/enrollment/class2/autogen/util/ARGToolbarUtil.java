@@ -101,13 +101,12 @@ public class ARGToolbarUtil {
                         coListWrapper.setEnableEditCOActionLink(true);
                     }
 
-                    //TODO: will have to put the permission checking back when we apply AZ to ARG
-//                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "approveCO");
-//                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-//                        if(checkBzLogicForApproveCO(socStateKey, socSchedulingState, coStateKey)){
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "approveCO");
+                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                        if(checkBzLogicForApproveCO(socStateKey, socSchedulingState, coStateKey)){
                             coListWrapper.setEnableApproveButton(true);
-//                        }
-//                    }
+                        }
+                    }
 
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "reinstateCO");
                     if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
@@ -124,11 +123,10 @@ public class ARGToolbarUtil {
                         coListWrapper.setEnableCancelButton(true);
                     }
 
-                    //TODO: will have to put the permission checking back when we apply AZ to ARG
-//                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "deleteCO");
-//                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "deleteCO");
+                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
                         coListWrapper.setEnableDeleteButton(true);
-//                    }
+                    }
                 }
             }
         }
@@ -136,6 +134,8 @@ public class ARGToolbarUtil {
 
     public static void processAoToolbarForUser(List<ActivityOfferingWrapper> activityWrapperList, ARGCourseOfferingManagementForm form){
         form.setEnableAddButton(false);
+        form.setEnableMoveAOButton(false);
+        form.setEnableAddClusterButton(false);
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
         String socStateKey = form.getSocStateKey();
@@ -165,6 +165,16 @@ public class ARGToolbarUtil {
             permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT,"addAO");
             if(permissionService.isAuthorizedByTemplate(principalId,"KS-ENR",KimConstants.PermissionTemplateNames.PERFORM_ACTION,permissionDetails,roleQualifications)){
                 form.setEnableAddButton(true);
+            }
+
+            permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT,"moveAO");
+            if(permissionService.isAuthorizedByTemplate(principalId,"KS-ENR",KimConstants.PermissionTemplateNames.PERFORM_ACTION,permissionDetails,roleQualifications)){
+                form.setEnableMoveAOButton(true);
+            }
+
+            permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT,"addCluster");
+            if(permissionService.isAuthorizedByTemplate(principalId,"KS-ENR",KimConstants.PermissionTemplateNames.PERFORM_ACTION,permissionDetails,roleQualifications)){
+                form.setEnableAddClusterButton(true);
             }
 
             if(activityWrapperList != null && !activityWrapperList.isEmpty()){
@@ -202,36 +212,33 @@ public class ARGToolbarUtil {
                         activityWrapper.setEnableCancelButton(true);
                     }
 
-                    //TODO: will have to put the permission checking back when we apply AZ to ARG
-//                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "approveAO");
-//                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-//                        if(checkBzLogicForApproveAO(socStateKey, socSchedulingState, aoStateKey)){
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "approveAO");
+                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                        if(checkBzLogicForApproveAO(socStateKey, socSchedulingState, aoStateKey)){
                             activityWrapper.setEnableApproveButton(true);
-//                        }
-//                    }
+                        }
+                    }
 
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "reinstateAO");
                     if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
                         activityWrapper.setEnableReinstateButton(true);
                     }
 
-                    //TODO: will have to put the permission checking back when we apply AZ to ARG
-//                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "deleteAO");
-//                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "deleteAO");
+                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
                         activityWrapper.setEnableDeleteButton(true);
-//                    }
+                    }
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "suspendAO");
                     if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
                         activityWrapper.setEnableSuspendButton(true);
                     }
 
-                    //TODO: will have to put the permission checking back when we apply AZ to ARG
-//                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "setDraftAO");
-//                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
-//                        if(checkBzLogicForDraftAO(aoStateKey)){
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "setDraftAO");
+                    if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                        if(checkBzLogicForDraftAO(aoStateKey)){
                             activityWrapper.setEnableDraftButton(true);
-//                        }
-//                    }
+                        }
+                    }
                 }
             }
         }

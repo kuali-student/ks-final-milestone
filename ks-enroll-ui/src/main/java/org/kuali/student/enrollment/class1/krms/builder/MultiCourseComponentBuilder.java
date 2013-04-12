@@ -1,7 +1,11 @@
 package org.kuali.student.enrollment.class1.krms.builder;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krms.api.repository.term.TermDefinition;
+import org.kuali.rice.krms.api.repository.term.TermParameterDefinition;
 import org.kuali.rice.krms.builder.ComponentBuilder;
+import org.kuali.rice.krms.dto.TermEditor;
+import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
@@ -22,10 +26,12 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.springframework.util.ObjectUtils;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +60,9 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
         String cluSetId = termParameters.get(CLUSET_KEY);
         if (cluSetId != null) {
             try {
-                propositionEditor.setCluSet(this.getCluSetInformation(cluSetId));
+                CluSetInformation cluSetInfo = this.getCluSetInformation(cluSetId);
+                propositionEditor.setCluSet(cluSetInfo);
+
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -64,20 +72,24 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
 
     @Override
     public Map<String, String> buildTermParameters(EnrolPropositionEditor propositionEditor) {
-        return null;
+        Map<String, String> termParameters = new HashMap<String, String>();
+        if (propositionEditor.getCluSet() != null) {
+            termParameters.put(CLUSET_KEY, propositionEditor.getCluSet().getCluSetInfo().getId());
+        }
+        return termParameters;
     }
 
     public CluSetInformation getCluSetInformation(String cluSetId) {
         CluSetInformation result = new CluSetInformation();
-        CluSetInfo cluSetInfo = getCluSetInfo(cluSetId, ContextUtils.getContextInfo());
-        result.setId(cluSetId);
+        CluSetInfo cluSetInfo = getCluSetInfo(cluSetId);
+        result.setCluSetInfo(cluSetInfo);
 
         //Set the Clu Informations
-        List<CluInformation> clus = getCluInformations(cluSetInfo.getCluIds(), ContextUtils.getContextInfo());
+        List<CluInformation> clus = getCluInformations(cluSetInfo.getCluIds());
         result.setClus(clus);
 
         //Set the Clu set infos
-        List<CluSetInfo> cluSetInfos = getCluSetInfos(cluSetInfo.getCluSetIds(), ContextUtils.getContextInfo());
+        List<CluSetInfo> cluSetInfos = getCluSetInfos(cluSetInfo.getCluSetIds());
         result.setCluSets(cluSetInfos);
 
         //Query info.
@@ -118,28 +130,28 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
         return result;
     }
 
-    private List<CluSetInfo> getCluSetInfos(List<String> cluSetIds, ContextInfo contextInfo) {
+    private List<CluSetInfo> getCluSetInfos(List<String> cluSetIds) {
         List<CluSetInfo> clusetInfos = new ArrayList<CluSetInfo>();
         if (cluSetIds != null) {
             for (String cluSetId : cluSetIds) {
-                clusetInfos.add(getCluSetInfo(cluSetId, contextInfo));
+                clusetInfos.add(getCluSetInfo(cluSetId));
             }
         }
         return clusetInfos;
     }
 
-    private List<CluInformation> getCluInformations(List<String> cluIds, ContextInfo contextInfo) {
+    private List<CluInformation> getCluInformations(List<String> cluIds) {
         List<CluInformation> result = new ArrayList<CluInformation>();
         if (cluIds != null) {
             for (String cluId : cluIds) {
                 try {
-                    VersionDisplayInfo versionInfo = this.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, cluId, contextInfo);
-                    CluInfo cluInfo = this.getCluService().getClu(versionInfo.getId(), contextInfo);
+                    VersionDisplayInfo versionInfo = this.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, cluId, ContextUtils.getContextInfo());
+                    CluInfo cluInfo = this.getCluService().getClu(versionInfo.getId(), ContextUtils.getContextInfo());
                     if (cluInfo != null) {
 
                         //retrieve credits
                         String credits = "";
-                        List<CluResultInfo> cluResultInfos = this.getCluService().getCluResultByClu(versionInfo.getId(), contextInfo);
+                        List<CluResultInfo> cluResultInfos = this.getCluService().getCluResultByClu(versionInfo.getId(), ContextUtils.getContextInfo());
                         if (cluResultInfos != null) {
                             for (CluResultInfo cluResultInfo : cluResultInfos) {
                                 String cluType = cluResultInfo.getTypeKey();
@@ -156,7 +168,7 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
                                 if (cluResultInfo.getResultOptions() != null) {
                                     for (ResultOptionInfo resultOption : cluResultInfo.getResultOptions()) {
                                         if (resultOption.getResultComponentId() != null) {
-                                            resultComponentInfo = this.getLrcService().getResultValuesGroup(resultOption.getResultComponentId(), contextInfo);
+                                            resultComponentInfo = this.getLrcService().getResultValuesGroup(resultOption.getResultComponentId(), ContextUtils.getContextInfo());
                                             resultValues = resultComponentInfo.getResultValueKeys();
                                             creditType = resultComponentInfo.getTypeKey();
                                             break;
@@ -197,7 +209,7 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
                         cluInformation.setType(cluInfo.getTypeKey());
                         //If the clu type is variation, get the parent clu id.
                         if ("kuali.lu.type.Variation".equals(cluInfo.getTypeKey())) {
-                            List<String> clus = this.getCluService().getCluIdsByRelatedCluAndRelationType(cluInfo.getId(), "kuali.lu.lu.relation.type.hasVariationProgram", contextInfo);
+                            List<String> clus = this.getCluService().getCluIdsByRelatedCluAndRelationType(cluInfo.getId(), "kuali.lu.lu.relation.type.hasVariationProgram", ContextUtils.getContextInfo());
                             if (clus == null || clus.size() == 0) {
                                 throw new RuntimeException("Statement Dependency clu found, but no parent Program exists");
                             } else if (clus.size() > 1) {
@@ -206,7 +218,8 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
                             cluInformation.setParentCluId(clus.get(0));
                         }
 
-                        cluInformation.setVerIndependentId(cluInfo.getId());
+                        cluInformation.setCluId(cluInfo.getId());
+                        cluInformation.setVerIndependentId(cluInfo.getVersion().getVersionIndId());
                         result.add(cluInformation);
                     }
                 } catch (Exception e) {
@@ -258,18 +271,18 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
         }
     }
 
-    private CluSetInfo getCluSetInfo(String cluSetId, ContextInfo contextInfo) {
+    private CluSetInfo getCluSetInfo(String cluSetId) {
         List<String> cluIds = null;
         CluSetInfo cluSetInfo = null;
         try {
             // note: the cluIds returned by cluService.getCluSetInfo also contains the clus
             //       that are the result of query parameter search.  Set to null here and
             //       retrieve the clus that are direct members.
-            cluSetInfo = this.getCluService().getCluSet(cluSetId, contextInfo);
+            cluSetInfo = this.getCluService().getCluSet(cluSetId, ContextUtils.getContextInfo());
             cluSetInfo.setCluIds(null);
-            cluIds = this.getCluService().getCluIdsFromCluSet(cluSetId, contextInfo);
+            cluIds = this.getCluService().getCluIdsFromCluSet(cluSetId, ContextUtils.getContextInfo());
             cluSetInfo.setCluIds(cluIds);
-            upWrap(cluSetInfo, contextInfo);
+            upWrap(cluSetInfo, ContextUtils.getContextInfo());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

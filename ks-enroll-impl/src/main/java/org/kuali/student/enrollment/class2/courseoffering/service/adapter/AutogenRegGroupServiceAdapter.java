@@ -39,6 +39,16 @@ public interface AutogenRegGroupServiceAdapter {
      * @return the default cluster name for the next cluster.
      */
     public String getDefaultClusterName (int numberOfExistingClusters);
+
+    /**
+     * Useful for when a cluster is created to create the naming.
+     *
+     * e.g. CL 1, CL 2, CL 3, ...
+     *
+     * @param courseOfferingId: determines the CourseOffering that a default cluster will be created within
+     * @return the default cluster name for the next cluster.
+     */
+    public String getDefaultClusterNamePerCO (String courseOfferingId, ContextInfo context);
     
     /**
      * If a Course Offering is brand-new with no AOs, then call this method to create the first default
@@ -95,6 +105,16 @@ public interface AutogenRegGroupServiceAdapter {
      * @return AOResult of RGs modified?
      */
     ActivityOfferingResult updateActivityOffering(ActivityOfferingInfo aoInfo, ContextInfo context)
+            throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException,
+            OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException;
+
+    /**
+     * We need an explicit call to update the registration groups.
+     * @param aoInfo AO used and later part of the returned object. This is a pass by reference object so be careful.
+     * @param context contextInfo
+     * @return AOResult of RGs modified?
+     */
+    ActivityOfferingResult updateRegistrationGroups(ActivityOfferingInfo aoInfo, ContextInfo context)
             throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException,
             OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException;
 

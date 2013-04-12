@@ -54,8 +54,7 @@ public class RuleStudentEditorController extends RuleEditorController {
         ruleEditor.setTypeId(typeId);
         ruleWrapper.setRuleEditor(ruleEditor);
 
-        this.getViewHelper(form).refreshInitTrees(ruleEditor, true);
-        this.getViewHelper(form).setLogicSection(ruleEditor);
+        this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-RuleMaintenance-Page");
         return super.navigate(form, result, request, response);

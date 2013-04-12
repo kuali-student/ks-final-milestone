@@ -30,7 +30,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
 
     private static final long serialVersionUID = 1L;
 
-    public Tree buildTree(RuleEditor rule, boolean refreshNl) {
+    public Tree buildTree(RuleEditor rule) {
 
         Tree myTree = new Tree<RuleEditorTreeNode, String>();
 
@@ -41,11 +41,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
 
         if (prop != null){
 
-            if (refreshNl) {
-                this.setNaturalLanguageTree(prop);
-            }
-
-            addChildNode(rule, rootNode, prop, refreshNl);
+            addChildNode(rule, rootNode, prop);
         }
 
         return myTree;
@@ -57,7 +53,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
      * @param sprout - parent tree node
      * @param prop   - PropositionBo for which to make the tree node
      */
-    private void addChildNode(RuleEditor rule, Node sprout, PropositionEditor prop, boolean refreshNl) {
+    private void addChildNode(RuleEditor rule, Node sprout, PropositionEditor prop) {
         // Depending on the type of proposition (simple/compound), and the editMode,
         // Create a treeNode of the appropriate type for the node and attach it to the
         // sprout parameter passed in.
@@ -74,7 +70,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
                     KSSimplePropositionEditNode pNode = new KSSimplePropositionEditNode(prop);
                     child.setData(pNode);
                 } else {
-                    child.setNodeLabel(this.buildNodeLabel(rule, prop, refreshNl));
+                    child.setNodeLabel(this.buildNodeLabel(rule, prop));
                     child.setNodeType(KSSimplePropositionNode.NODE_TYPE);
                     KSSimplePropositionNode pNode = new KSSimplePropositionNode(prop);
                     child.setData(pNode);
@@ -91,7 +87,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
                     KSCompoundPropositionEditNode pNode = new KSCompoundPropositionEditNode(prop);
                     aNode.setData(pNode);
                 } else {
-                    aNode.setNodeLabel(this.buildNodeLabel(rule, prop, refreshNl));
+                    aNode.setNodeLabel(this.buildNodeLabel(rule, prop));
                     aNode.setNodeType(RuleEditorTreeNode.COMPOUND_NODE_TYPE);
                     RuleEditorTreeNode pNode = new RuleEditorTreeNode(prop);
                     aNode.setData(pNode);
@@ -106,22 +102,22 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
                     }
                     counter++;
                     // call to build the childs node
-                    addChildNode(rule, aNode, child, refreshNl);
+                    addChildNode(rule, aNode, child);
                 }
             }
         }
     }
 
-    protected String getDescription(PropositionEditor proposition, boolean refreshNl) {
+    protected String getDescription(PropositionEditor proposition) {
 
-        proposition.setDescription(super.getDescription(proposition, refreshNl));
+        proposition.setDescription(super.getDescription(proposition));
         return proposition.getDescription();
     }
 
-    private String buildNodeLabel(RuleEditor rule, PropositionEditor prop, boolean refreshNl) {
+    private String buildNodeLabel(RuleEditor rule, PropositionEditor prop) {
         //Build the node label.
         String prefix = this.getPropositionPrefix(rule, prop);
-        return prefix + StringEscapeUtils.escapeHtml(this.getDescription(prop, refreshNl));
+        return prefix + StringEscapeUtils.escapeHtml(this.getDescription(prop));
     }
 
     /**
@@ -146,14 +142,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
         currentNode.getChildren().add(aNode);
     }
 
-    protected String getNaturalLanguageUsageId(){
-        if (usageId == null){
-            NaturalLanguageUsage usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_RULE_EDIT,
-                    PermissionServiceConstants.KS_SYS_NAMESPACE);
-            if (usage != null){
-                usageId = usage.getId();
-            }
-        }
-        return usageId;
+    public String getNaturalLanguageUsageKey(){
+        return  KsKrmsConstants.KRMS_NL_RULE_EDIT;
     }
 }

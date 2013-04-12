@@ -12,9 +12,8 @@
 
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
     <import resource="classpath:ks-test-system-property-configurer.xml" />
-    <!--<import resource="classpath:ks-enroll-test-data-dictionary-validator-configuration.xml"/>-->
-    <import resource="classpath:ks-enroll-api-test-data-dictionary-services-configuration.xml"/>
-	<import resource="classpath:ks-enroll-api-test-data-dictionary-validator-configuration.xml"/>
+    <import resource="classpath:ks-enroll-impl-test-data-dictionary-services-configuration.xml"/>
+	<import resource="classpath:ks-enroll-impl-test-data-dictionary-validator-configuration.xml"/>
 
 	    <!--  Preloaded data -->
     <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">

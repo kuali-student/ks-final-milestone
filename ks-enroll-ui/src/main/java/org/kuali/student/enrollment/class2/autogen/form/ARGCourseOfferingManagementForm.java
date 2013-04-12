@@ -150,6 +150,8 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     private boolean editAuthz;
 
     private boolean enableAddButton = false;
+    private boolean enableMoveAOButton = false;
+    private boolean enableAddClusterButton = false;
 
     private Date termClassStartDate;
 
@@ -158,11 +160,17 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     private String publishedClusterNamePopover;
     private String privateClusterNameForRenamePopover;
     private String publishedClusterNameForRenamePopover;
+    private String privateClusterNameForMovePopover;
+    private String publishedClusterNameForMovePopover;
     private String formatOfferingIdForViewRG;
     private String formatOfferingName;
     private List<String> formatOfferingIds;
+    
     private boolean disableMoveButtonForMoveAOCPopOver;
     private String clusterIdForAOMove;
+    private String selectedFOIDForAOMove;
+    private String selectedFONameForAOMove;
+            
     private ActivityOfferingClusterWrapper selectedCluster;
     private int aoCount=0;
 
@@ -188,6 +196,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
         rgResultList = new ArrayList<RegistrationGroupWrapper>();
 
         setCourseOfferingCopyWrapper(null);
+        setFormatOfferingIdForNewAO(null);
     }
 
     public boolean isHasAO() {
@@ -418,6 +427,22 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
         this.enableAddButton = enableAddButton;
     }
 
+    public boolean isEnableMoveAOButton() {
+        return enableMoveAOButton;
+    }
+
+    public void setEnableMoveAOButton(boolean enableMoveAOButton) {
+        this.enableMoveAOButton = enableMoveAOButton;
+    }
+
+    public boolean isEnableAddClusterButton() {
+        return enableAddClusterButton;
+    }
+
+    public void setEnableAddClusterButton(boolean enableAddClusterButton) {
+        this.enableAddClusterButton = enableAddClusterButton;
+    }
+
     public String getSocStateKey() {
         return socStateKey;
     }
@@ -523,6 +548,22 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
         this.publishedClusterNameForRenamePopover = publishedClusterNameForRenamePopover;
     }
 
+    public String getPrivateClusterNameForMovePopover() {
+        return privateClusterNameForMovePopover;
+    }
+
+    public void setPrivateClusterNameForMovePopover(String privateClusterNameForMovePopover) {
+        this.privateClusterNameForMovePopover = privateClusterNameForMovePopover;
+    }
+
+    public String getPublishedClusterNameForMovePopover() {
+        return publishedClusterNameForMovePopover;
+    }
+
+    public void setPublishedClusterNameForMovePopover(String publishedClusterNameForMovePopover) {
+        this.publishedClusterNameForMovePopover = publishedClusterNameForMovePopover;
+    }
+
     public String getFormatOfferingIdForViewRG() {
         return formatOfferingIdForViewRG;
     }
@@ -561,6 +602,22 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
 
     public void setClusterIdForAOMove(String clusterIdForAOMove) {
         this.clusterIdForAOMove = clusterIdForAOMove;
+    }
+
+    public String getSelectedFOIDForAOMove() {
+        return selectedFOIDForAOMove;
+    }
+
+    public void setSelectedFOIDForAOMove(String selectedFOIDForAOMove) {
+        this.selectedFOIDForAOMove = selectedFOIDForAOMove;
+    }
+
+    public String getSelectedFONameForAOMove() {
+        return selectedFONameForAOMove;
+    }
+
+    public void setSelectedFONameForAOMove(String selectedFONameForAOMove) {
+        this.selectedFONameForAOMove = selectedFONameForAOMove;
     }
 
     public boolean isHasMoreThanOneFormat() {

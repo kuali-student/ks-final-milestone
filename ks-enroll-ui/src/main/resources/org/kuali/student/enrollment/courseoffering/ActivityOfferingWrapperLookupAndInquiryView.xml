@@ -79,6 +79,7 @@
             </list>
         </property>
     </bean>
+
     <bean id="ActivityOffering-Inquiry-DeliveryLogistic-Actuals" parent="Uif-TableCollectionSection"
           p:headerText="Actual Delivery Logistics"
           p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper"

@@ -34,7 +34,7 @@ public class AgendaUtilities {
         }
         ruleWrapper.setSelectedRuleId(ruleWrapper.getRuleEditor().getId());
 
-        return ruleEditor;
+        return ruleWrapper.getRuleEditor();
     }
 
     public static RuleEditor getSelectedRuleEditor(RuleManagementWrapper wrapper, String ruleId) {

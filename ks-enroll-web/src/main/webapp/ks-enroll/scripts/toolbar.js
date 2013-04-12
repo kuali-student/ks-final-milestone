@@ -125,3 +125,9 @@ function disableButton(id){
         img.attr('src', src.replace(enable, '_disabled.png'));
     }
 }
+
+function refreshAddAODropdowns(){
+    retrieveComponent('activityOfferingTypeDropDown',undefined, function () {
+        retrieveComponent('clusterDropDown');
+    });
+}

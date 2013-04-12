@@ -1,10 +1,9 @@
 package org.kuali.rice.krms.dto;
 
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
-import org.kuali.rice.krms.api.repository.proposition.PropositionParameter;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
 
 import java.io.Serializable;
+import org.kuali.rice.krms.api.repository.term.TermDefinition;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,6 +17,7 @@ public class PropositionParameterEditor implements PropositionParameterContract,
     private String id;
     private String propId;
     private String value;
+    private TermDefinition termValue;
     private String parameterType;
     private Integer sequenceNumber;
     private Long versionNumber;
@@ -32,6 +32,7 @@ public class PropositionParameterEditor implements PropositionParameterContract,
         this.setSequenceNumber(sequenceNumber);
         this.setVersionNumber(new Long(1));
         this.setValue(null);
+        this.setTermValue(null);
     }
 
     /**
@@ -43,6 +44,7 @@ public class PropositionParameterEditor implements PropositionParameterContract,
         this.id = definition.getId();
         this.propId = definition.getPropId();
         this.value = definition.getValue();
+        this.termValue = definition.getTermValue();
         this.parameterType = definition.getParameterType();
         this.sequenceNumber = definition.getSequenceNumber();
         this.versionNumber = definition.getVersionNumber();
@@ -75,6 +77,17 @@ public class PropositionParameterEditor implements PropositionParameterContract,
         return value;
     }
 
+    public void setTermValue(TermDefinition termValue) {
+        this.termValue = termValue;
+    }
+
+    @Override
+    public TermDefinition getTermValue() {
+        return termValue;
+    }
+
+    
+    
     public void setParameterType(String parameterType) {
         this.parameterType = parameterType;
     }

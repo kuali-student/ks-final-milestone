@@ -30,11 +30,10 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingList
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
-import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.ToolbarUtil;
-import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
@@ -77,7 +76,6 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
@@ -88,7 +86,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Deprecated
+/**
+ * @deprecated
+ * @see org.kuali.student.enrollment.class2.autogen.service.impl.ARGCourseOfferingManagementViewHelperServiceImpl
+ */
 public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_ViewHelperServiceImpl implements CourseOfferingManagementViewHelperService{
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingManagementViewHelperServiceImpl.class);
 
@@ -228,29 +230,21 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 }
                 else if(CourseOfferingManagementSearchImpl.SearchResultColumns.CREDIT_OPTION.equals(cellInfo.getKey())){
                     coListWrapper.setCourseOfferingCreditOptionKey(value);
-                    CourseOfferingTransformer courseOfferingTransformer = new CourseOfferingTransformer();
-                    coListWrapper.setCourseOfferingCreditOptionDisplay(courseOfferingTransformer.getCreditCount(value, "", null, null, contextInfo));
                 }
                 else if(CourseOfferingManagementSearchImpl.SearchResultColumns.GRADING_OPTION.equals(cellInfo.getKey())){
                     coListWrapper.setCourseOfferingGradingOptionKey(value);
-                    ResultValuesGroupInfo rvgInfo = getLrcService().getResultValuesGroup(value, contextInfo);
-                    coListWrapper.setCourseOfferingGradingOptionDisplay(rvgInfo.getName());
+                }
+                else if(CourseOfferingManagementSearchImpl.SearchResultColumns.GRADING_OPTION_NAME.equals(cellInfo.getKey())){
+                    coListWrapper.setCourseOfferingGradingOptionDisplay(cellInfo.getValue());
+                }
+                else if(CourseOfferingManagementSearchImpl.SearchResultColumns.CREDIT_OPTION_NAME.equals(cellInfo.getKey())){
+                    coListWrapper.setCourseOfferingCreditOptionDisplay(cellInfo.getValue());
+                }
+                else if(CourseOfferingManagementSearchImpl.SearchResultColumns.DEPLOYMENT_ORG_ID.equals(cellInfo.getKey())){
+                    coListWrapper.setAdminOrg(cellInfo.getValue());
                 }
                 else if(CourseOfferingManagementSearchImpl.SearchResultColumns.CO_ID.equals(cellInfo.getKey())){
                     coListWrapper.setCourseOfferingId(value);
-
-                    // set multiple orgs
-                    CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(value, contextInfo);
-                    List<String> orgIds = coInfo.getUnitsDeploymentOrgIds();
-                    if(orgIds != null && !orgIds.isEmpty()){
-                        String orgIDs = "";
-                        for (String orgId : orgIds) {
-                            orgIDs = orgIDs + orgId + ",";
-                        }
-                        if (orgIDs.length() > 0) {
-                            coListWrapper.setAdminOrg(orgIDs.substring(0, orgIDs.length()-1));
-                        }
-                    }
                 }
                 else if(CourseOfferingManagementSearchImpl.SearchResultColumns.SUBJECT_AREA.equals(cellInfo.getKey())){
                     coListWrapper.setSubjectArea(value);
@@ -609,7 +603,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                         }
                         // if ao is colocated AO add colocated info
                         if(isColocatedAo(aoDisplayInfo.getActivityOfferingCode(), aoInfoList))  {
-                            String colocateInfo = ViewHelperUtil.createColocatedDisplayData(getAoInfo(aoDisplayInfo.getActivityOfferingCode(), aoInfoList), contextInfo);
+                            String colocateInfo = CourseOfferingViewHelperUtil.createColocatedDisplayData(getAoInfo(aoDisplayInfo.getActivityOfferingCode(), aoInfoList), contextInfo);
                             aoDisplayWrapper.setColocatedAoInfo(colocateInfo);
                             co.setColocated(true);
                             co.setColocatedCoCode(colocateInfo);
@@ -910,7 +904,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     private String getJointDefinedInfo(CourseOfferingListSectionWrapper co) {
         if(co == null) return null;
 
-        List<CourseInfo> coInfoList = ViewHelperUtil.getMatchingCoursesFromClu( co.getCourseOfferingCode());
+        List<CourseInfo> coInfoList = CourseOfferingViewHelperUtil.getMatchingCoursesFromClu(co.getCourseOfferingCode());
         StringBuffer jointDefinedCodes  = new StringBuffer();
 
         for(CourseInfo coInfo : coInfoList) {

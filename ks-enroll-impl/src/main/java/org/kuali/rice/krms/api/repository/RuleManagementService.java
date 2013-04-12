@@ -687,12 +687,29 @@ public interface RuleManagementService extends RuleRepositoryService, TranslateB
      * @param contextDefinition data for the new Context to be created
      * @return newly created Context
      * @throws RiceIllegalArgumentException if the given contextDefinition is
-     * null or invalid
+     * null or invalid or already in use.
      */
     @WebMethod(operationName = "createContext")
     @WebResult(name = "context")
     public ContextDefinition createContext(@WebParam(name = "contextDefinition") ContextDefinition contextDefinition) throws RiceIllegalArgumentException;
 
+    
+    /**
+     * find Create Context
+     * 
+     * Searches for an existing context with the same name and namespace and returns it
+     * otherwise it creates the context.
+     *
+     * @param contextDefinition data for the new Context to be created
+     * @return newly created Context
+     * @throws RiceIllegalArgumentException if the given contextDefinition is
+     * null or invalid
+     */
+    @WebMethod(operationName = "findCreateContext")
+    @WebResult(name = "context")
+    public ContextDefinition findCreateContext(@WebParam(name = "contextDefinition") ContextDefinition contextDefinition) throws RiceIllegalArgumentException;
+
+    
     /**
      * Update the Context specified by the identifier in the input DTO
      *

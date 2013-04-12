@@ -43,9 +43,8 @@
 
                 <bean id="KS-CourseOfferingManagement-ApproveSubj" parent="Uif-ActionLink" p:preSubmitCall="return confirm('This will mark all Activity Offerings in this Subject Code as: Ready for Scheduling')"
                       p:methodToCall="markSubjectCodeReadyForScheduling"
-                      p:actionLabel="Approve Subject Code for Scheduling" p:disabled="@{#parent.readOnly}"/>
-                <!-- turn off the component leve authz since it does not setup properly and the link by default does not render  -->
-                <!--p:componentSecurity.performActionAuthz="true" p:actionEvent="approveSubj" -->
+                      p:actionLabel="Approve Subject Code for Scheduling" p:disabled="@{#parent.readOnly}"
+                      p:componentSecurity.performActionAuthz="true" p:actionEvent="approveSubj"  />
                 <ref bean="KS-CourseOfferingManagement-CO-ToolBarSection"/>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingListSection"/>
             </list>
@@ -132,11 +131,11 @@
         </property>
         <property name="lineActions">
             <list>
-                <!-- Note by Bonnie: turn off authz on copy and edit link for now -->
-                <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" p:render="@{#line.isEnableCopyCOActionLink()}" p:actionEvent="copyCOonManageCOsPage"/>-->
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" />
-                <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" p:render="@{#line.isEnableEditCOActionLink()}" p:actionEvent="editCOonManageCOsPage"/>-->
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                <!-- Note by Bonnie: turn on authz on copy and edit links now -->
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" p:render="@{#line.isEnableCopyCOActionLink()}" p:actionEvent="copyCOonManageCOsPage"/>
+                <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" />-->
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" p:render="@{#line.isEnableEditCOActionLink()}" p:actionEvent="editCOonManageCOsPage"/>
+                <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />-->
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="loadAOs_RGs_AOCs" p:actionLabel="Manage"/>
             </list>
         </property>

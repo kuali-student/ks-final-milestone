@@ -13,6 +13,7 @@ import org.kuali.rice.krms.api.repository.type.KrmsAttributeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeBoService;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
+import static org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService.PROPOSITION_PARAMETER_SERVICE_NAMES;
 import org.kuali.rice.krms.api.repository.typerelation.RelationshipType;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 
@@ -169,12 +170,20 @@ public class KrmsTypeRepositoryServiceImpl implements KrmsTypeRepositoryService 
 
     @Override
     public List<KrmsTypeDefinition> findAllPropositionTypes() throws RiceIllegalArgumentException {
-        return this.findAllTypesByServiceName(PROPOSITION_SERVICE_NAME);
+        List<KrmsTypeDefinition> list = new ArrayList<KrmsTypeDefinition> ();
+        for (String typeServiceName : PROPOSITION_SERVICE_NAMES) {
+            list.addAll (this.findAllTypesByServiceName(typeServiceName));
+        }
+        return list;
     }
 
     @Override
     public List<KrmsTypeDefinition> findAllPropositionParameterTypes() throws RiceIllegalArgumentException {
-        return this.findAllTypesByServiceName(PROPOSITION_PARAMETER_SERVICE_NAME);
+        List<KrmsTypeDefinition> list = new ArrayList<KrmsTypeDefinition> ();
+        for (String typeServiceName : PROPOSITION_PARAMETER_SERVICE_NAMES) {
+            list.addAll (this.findAllTypesByServiceName(typeServiceName));
+        }
+        return list;
     }
 
     @Override
@@ -221,6 +230,17 @@ public class KrmsTypeRepositoryServiceImpl implements KrmsTypeRepositoryService 
     public List<KrmsTypeDefinition> findPropositionParameterTypesForPropositionType(String propositionTypeId)
             throws RiceIllegalArgumentException {
         List<TypeTypeRelation> rels = this.findTypeTypeRelationsByFromType(propositionTypeId);
+        List<KrmsTypeDefinition> list = new ArrayList<KrmsTypeDefinition>(rels.size());
+        for (TypeTypeRelation rel : rels) {
+            list.add(this.getTypeById(rel.getToTypeId()));
+        }
+        return list;
+    }
+
+    @Override
+    public List<KrmsTypeDefinition> findTermParameterTypesForTermPropositionParameterType(String termPropositionParameterTypeId) 
+            throws RiceIllegalArgumentException {
+        List<TypeTypeRelation> rels = this.findTypeTypeRelationsByFromType(termPropositionParameterTypeId);
         List<KrmsTypeDefinition> list = new ArrayList<KrmsTypeDefinition>(rels.size());
         for (TypeTypeRelation rel : rels) {
             list.add(this.getTypeById(rel.getToTypeId()));

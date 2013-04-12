@@ -5,6 +5,7 @@ import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinitionContract;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +16,10 @@ import java.util.List;
  * Time: 5:16 PM
  * To change this template use File | Settings | File Templates.
  */
-public class TermEditor implements TermDefinitionContract {
+public class TermEditor implements TermDefinitionContract, Serializable {
 
     private String id;
-    private TermSpecificationDefinition specification;
+    private TermSpecificationDefinitionContract specification;
     private String description;
     private List<TermParameterEditor> parameters;
     private Long versionNumber;
@@ -37,6 +38,7 @@ public class TermEditor implements TermDefinitionContract {
                 parameters.add(new TermParameterEditor(parameter));
             }
         }
+        this.setSpecification(contract.getSpecification());
         this.versionNumber = contract.getVersionNumber();
     }
 
@@ -44,7 +46,7 @@ public class TermEditor implements TermDefinitionContract {
         this.id = id;
     }
 
-    public void setSpecification(TermSpecificationDefinition specification) {
+    public void setSpecification(TermSpecificationDefinitionContract specification) {
         this.specification = specification;
     }
 

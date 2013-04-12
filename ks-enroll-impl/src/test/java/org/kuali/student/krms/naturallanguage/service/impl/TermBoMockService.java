@@ -127,6 +127,16 @@ public class TermBoMockService implements TermBoService {
     public void deleteTermResolver(String id) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public TermResolverDefinition getTermResolverByNameAndNamespace(String name, String namespace) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TermSpecificationDefinition getTermSpecificationByNameAndNamespace(String name, String namespace) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
 }

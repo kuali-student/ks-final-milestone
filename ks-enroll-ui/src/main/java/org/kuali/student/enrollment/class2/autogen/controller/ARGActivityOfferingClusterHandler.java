@@ -32,8 +32,8 @@ import org.kuali.student.enrollment.class2.courseoffering.service.adapter.Activi
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -56,6 +56,7 @@ import java.util.Properties;
 public class ARGActivityOfferingClusterHandler {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ARGActivityOfferingClusterHandler.class);
+    private static boolean createAOCFromMove = false;
 
     public static boolean loadAOs_RGs_AOCs(ARGCourseOfferingManagementForm form) throws Exception {
 
@@ -108,7 +109,7 @@ public class ARGActivityOfferingClusterHandler {
             }
 
             // check for changes to states in CO and related FOs
-            ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo(), ContextBuilder.loadContextInfo());
+            CourseOfferingViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo(), ContextBuilder.loadContextInfo());
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -270,40 +271,50 @@ public class ARGActivityOfferingClusterHandler {
 
     public static ARGCourseOfferingManagementForm createNewCluster(ARGCourseOfferingManagementForm theForm) throws Exception {
         //TODO: Add front end validation
-        if (theForm.getPrivateClusterNamePopover().isEmpty()) {
-            GlobalVariables.getMessageMap().putError("privateClusterName", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
-            return theForm;
+        String growlPrivateName="";
+        String growlPublicName="";
+
+        if (createAOCFromMove) {  //where is the call coming from
+            if (theForm.getPrivateClusterNameForMovePopover().isEmpty()) {
+                GlobalVariables.getMessageMap().putError("privateClusterNameForMovePopover", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
+                createAOCFromMove = false;
+                return theForm;
+            }
+
+            growlPrivateName = theForm.getPrivateClusterNameForMovePopover();
+            growlPublicName = theForm.getPublishedClusterNameForMovePopover();
+        } else {
+            if (theForm.getPrivateClusterNamePopover().isEmpty()) {
+                GlobalVariables.getMessageMap().putError("privateClusterNamePopover", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
+                return theForm;
+            }
+
+            growlPrivateName = theForm.getPrivateClusterNamePopover();
+            growlPublicName = theForm.getPublishedClusterNamePopover();
         }
 
-        if (theForm.getPublishedClusterNameForRenamePopover() == null || theForm.getPublishedClusterNameForRenamePopover().isEmpty()) {
-            GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PUBLISHED_NAME_IS_NULL);
-
-            return theForm;
+        //fix names
+        /*if(theForm.getPrivateClusterNamePopover().contains(",") ) {
+            theForm.setPrivateClusterNamePopover(theForm.getPrivateClusterNamePopover().replace(",",""));
         }
-
-
-        if(theForm.getPrivateClusterNamePopover().length() < 5){
-            GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_TOO_SHORT);
-
-            return theForm;
-        }
-        if(theForm.getPublishedClusterNamePopover().length() < 5){
-            GlobalVariables.getMessageMap().putError("publishedClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PUBLISHED_NAME_IS_TOO_SHORT);
-
-            return theForm;
-        }
-
+        if(theForm.getPublishedClusterNamePopover().contains(",") ) {
+            theForm.setPublishedClusterNamePopover(theForm.getPublishedClusterNamePopover().replace(",",""));
+        }*/
 
 
         String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
-        if (ARGUtil._isClusterUnique(formatOfferingId, theForm.getPrivateClusterNamePopover())){
+
+        if (ARGUtil._isClusterUniqueWithinCO(theForm, theForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(), growlPrivateName)){
+
             //build a new empty cluster
             ActivityOfferingClusterInfo emptyCluster = ARGUtil._buildEmptyAOCluster(formatOfferingId,
-                    theForm.getPrivateClusterNamePopover(), theForm.getPublishedClusterNamePopover());
+                    growlPrivateName, growlPublicName);
 
             //persist it in DB , comment out for now since it does not work for now
             emptyCluster = ARGUtil.getCourseOfferingService().createActivityOfferingCluster(formatOfferingId,
                     emptyCluster.getTypeKey(), emptyCluster, ContextUtils.createDefaultContextInfo());
+
+
 
             List<ActivityOfferingClusterWrapper> aoClusterWrapperList = theForm.getClusterResultList();
             ActivityOfferingClusterWrapper aoClusterWrapper = new ActivityOfferingClusterWrapper();
@@ -315,9 +326,15 @@ public class ARGActivityOfferingClusterHandler {
             theForm.setClusterResultList(aoClusterWrapperList);
             theForm.setPrivateClusterNamePopover("");
             theForm.setPublishedClusterNamePopover("");
+            theForm.setPrivateClusterNameForMovePopover("");
+            theForm.setPublishedClusterNameForMovePopover("");
+            createAOCFromMove = false;
         }else{
             GlobalVariables.getMessageMap().putError("privateClusterName", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME);
+            return theForm;
         }
+
+        GlobalVariables.getMessageMap().addGrowlMessage("", "cluster.created", growlPrivateName, growlPublicName );
 
         return theForm;
     }
@@ -334,18 +351,27 @@ public class ARGActivityOfferingClusterHandler {
             return theForm;
         }
 
-        //fix id in stored list
-        if (theForm.getClusterIdForAOMove().contains(",") ) {
-            //strip off "," - not sure why commas are between IDs in the keyValue finder in the footer?
-            aocId = theForm.getClusterIdForAOMove().replace(",", "");
-        } else {
-            aocId = theForm.getClusterIdForAOMove();
-        }
+        aocId = theForm.getClusterIdForAOMove();
 
         //move AO
         for (ActivityOfferingWrapper aoWrapper : theForm.getActivityWrapperList()) {
             if ((!"0".equals(theForm.getSelectedTabId())&& aoWrapper.getIsChecked())||
                 ( "0".equals(theForm.getSelectedTabId())&& aoWrapper.getIsCheckedByCluster())) {
+                if("createNewCluster".equals(aocId)){
+                    // create cluster and set aocId to the id of the cluster
+                    theForm.setPublishedClusterNameForRenamePopover(theForm.getPublishedClusterNamePopover());
+                    if(!StringUtils.isEmpty(theForm.getFormatOfferingIdForViewRG())) {
+                        theForm.setFormatOfferingIdForViewRG(theForm.getSelectedFOIDForAOMove());
+                    }
+                    createAOCFromMove = true;
+                    theForm = createNewCluster(theForm);
+                    if(GlobalVariables.getMessageMap().hasErrors()){
+                        return theForm;
+                    }
+
+                    aocId = theForm.getClusterResultList().get(theForm.getClusterResultList().size() - 1).getActivityOfferingClusterId();
+
+                }
                 ARGUtil.getArgServiceAdapter().moveActivityOffering(aoWrapper.getAoInfo().getId(), aoWrapper.getAoClusterID(), aocId, context);
                 aoChecked = true;
             }
@@ -356,6 +382,8 @@ public class ARGActivityOfferingClusterHandler {
             GlobalVariables.getMessageMap().putError("AOCselectionError", RegistrationGroupConstants.MSG_ERROR_INVALID_AO_SELECTION);
             return theForm;
         }
+
+        GlobalVariables.getMessageMap().addGrowlMessage("", "activityOffering.moved" );
 
         return theForm;
 

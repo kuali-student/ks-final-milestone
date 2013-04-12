@@ -26,10 +26,10 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.autogen.util.ARGToolbarUtil;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
@@ -44,7 +44,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.Properties;
 
 /**
@@ -151,23 +150,6 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
                 String longNameDescr = ARGUtil.getOrgNameDescription(form.getSubjectCode());
                 form.setSubjectCodeDescription(longNameDescr);
 
-                // Pull out the org ids from COs and pass in as the adminOrg
-                String orgIDs = "";
-                for (CourseOfferingListSectionWrapper coWrapper : form.getCourseOfferingResultList()) {
-                    CourseOfferingInfo coInfo = ARGUtil.getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
-                    List<String> orgIds = coInfo.getUnitsDeploymentOrgIds();
-                    if(orgIds != null && !orgIds.isEmpty()){
-                        for (String orgId : orgIds) {
-                            if (orgIDs.indexOf(orgId + ",") == -1) {
-                                orgIDs = orgIDs + orgId + ",";
-                            }
-                        }
-                    }
-                }
-                if (orgIDs.length() > 0) {
-                    form.setAdminOrg(orgIDs.substring(0, orgIDs.length()-1));
-                }
-
                 ARGToolbarUtil.processCoToolbarForUser(form.getCourseOfferingResultList(), form);
                 //ToolbarUtil.processCoToolbarForCentralAdmin(form.getCourseOfferingResultList(), form);
             } else { // just one course offering is returned
@@ -176,8 +158,9 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
                 return getUIFModelAndView(form, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
             }
         }
-        //turn off authz for now
-//        form.setEditAuthz(ARGUtil.checkEditViewAuthz(form));
+
+        //turn on authz
+        form.setEditAuthz(ARGUtil.checkEditViewAuthz(form));
 
         if (GlobalVariables.getMessageMap().getErrorMessages().isEmpty()) {
             return getUIFModelAndView(form, CourseOfferingConstants.MANAGE_ARG_CO_PAGE);
@@ -376,6 +359,11 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
 
         if (selectedObject instanceof CourseOfferingListSectionWrapper) {
             Properties urlParameters = ARGCourseOfferingHandler.edit(theForm, (CourseOfferingListSectionWrapper) selectedObject);
+            if (((CourseOfferingListSectionWrapper) selectedObject).isCrossListed()){
+                urlParameters.put("editCrossListedCoAlias", BooleanUtils.toStringTrueFalse(true));
+             } else {
+                urlParameters.put("editCrossListedCoAlias", BooleanUtils.toStringTrueFalse(false));
+             }
             return super.performRedirect(theForm, CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE, urlParameters);
         } else if (selectedObject instanceof ActivityOfferingWrapper) {
             Properties urlParameters = ARGActivityOfferingClusterHandler.editAO(theForm, ((ActivityOfferingWrapper) selectedObject).getAoInfo().getId());
@@ -649,28 +637,14 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
 
             return getUIFModelAndView(theForm);
         }
-        if (theForm.getPublishedClusterNameForRenamePopover() == null || theForm.getPublishedClusterNameForRenamePopover().isEmpty()) {
-            GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PUBLISHED_NAME_IS_NULL);
 
-            return getUIFModelAndView(theForm);
-        }
-        if(theForm.getPrivateClusterNameForRenamePopover().length() < 5){
-            GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_TOO_SHORT);
-
-            return getUIFModelAndView(theForm);
-        }
-        if(theForm.getPublishedClusterNameForRenamePopover().length() < 5){
-            GlobalVariables.getMessageMap().putError("publishedClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PUBLISHED_NAME_IS_TOO_SHORT);
-
-            return getUIFModelAndView(theForm);
-        }
-
+        if(ARGUtil._isClusterUniqueWithinCO(theForm, theForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(), theForm.getPrivateClusterNameForRenamePopover())){
         ARGActivityOfferingClusterHandler.renameAClusterThroughDialog(theForm);
         ActivityOfferingClusterWrapper selectedClusterWrapper;
             selectedClusterWrapper = (ActivityOfferingClusterWrapper)ARGUtil.getSelectedObject(theForm, "Rename Cluster");
             theForm.setSelectedCluster(selectedClusterWrapper);
                 selectedClusterWrapper = theForm.getSelectedCluster();
-                if (theForm.getSelectedCluster().getAoCluster().getPrivateName().equalsIgnoreCase(theForm.getPrivateClusterNameForRenamePopover()) || ARGUtil._isClusterUnique(theForm.getFormatOfferingIdForViewRG(), theForm.getPrivateClusterNameForRenamePopover())){
+                if (theForm.getSelectedCluster().getAoCluster().getPrivateName().equalsIgnoreCase(theForm.getPrivateClusterNameForRenamePopover()) || ARGUtil._isClusterUniqueWithinCO(theForm, theForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(), theForm.getPrivateClusterNameForRenamePopover())){
                     ActivityOfferingClusterInfo aoCluster = selectedClusterWrapper.getAoCluster();
 
                     aoCluster.setPrivateName(theForm.getPrivateClusterNameForRenamePopover());
@@ -685,6 +659,10 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
         theForm.setPrivateClusterNameForRenamePopover("");
         theForm.setPublishedClusterNameForRenamePopover("");
 
+
+    }  else {
+            GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME);
+        }
         return show(theForm);
     }
 

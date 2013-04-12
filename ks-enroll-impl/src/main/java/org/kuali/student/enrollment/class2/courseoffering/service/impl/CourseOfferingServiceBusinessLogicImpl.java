@@ -608,10 +608,12 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return rg;
     }
 
-    private Integer _gRGFC_computeFirstRegGroupCode(List<RegistrationGroupInfo> regGroups) {
+    private Integer _gRGFC_computeFirstRegGroupCode(List<RegistrationGroupInfo> regGroups, int prefix) {
         List<Integer> rgCodesUsed = new ArrayList<Integer>();
         if (regGroups.isEmpty()) {
-            return null; // Use the default
+            // If no RGs then multiply prefix by 1000 and add 1.  This creates codes like 1001, 2001, 3001, etc.
+            // The prefix identifies the reg group
+            return prefix * 1000 + 1;
         }
         for (RegistrationGroupInfo rg: regGroups) {
             String regGroupCode = rg.getName(); // The name field stores
@@ -645,8 +647,27 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         }
 
         List<RegistrationGroupInfo> existingRegistrationGroups =
-                coService.getRegistrationGroupsByActivityOfferingCluster(activityOfferingClusterId, contextInfo);
-        Integer firstRegGroupCode = _gRGFC_computeFirstRegGroupCode(existingRegistrationGroups);
+                coService.getRegistrationGroupsByFormatOffering(cluster.getFormatOfferingId(), contextInfo);
+        int prefix = 1;
+        if (existingRegistrationGroups.isEmpty()) {
+            // A bit tedious to fetch all the FOs
+            String foId = cluster.getFormatOfferingId();
+            FormatOfferingInfo clusterFo = getCoService().getFormatOffering(foId, contextInfo);
+            CourseOfferingInfo co = getCoService().getCourseOffering(clusterFo.getCourseOfferingId(), contextInfo);
+            List<FormatOfferingInfo> foInfos = getCoService().getFormatOfferingsByCourseOffering(co.getId(), contextInfo);
+
+            try {
+                RegistrationGroupCodeUtil.computeRegCodePrefixForFo(foInfos, getCoService(), contextInfo);
+                // Refetch the FO
+                FormatOfferingInfo fetched = getCoService().getFormatOffering(foId, contextInfo);
+                prefix = RegistrationGroupCodeUtil.getRegCodePrefixFromFo(fetched);
+            } catch (ReadOnlyException e) {
+                throw new OperationFailedException("ERROR in generating reg groups (ReadOnlyException) " + e.getMessage());
+            } catch (VersionMismatchException e) {
+                throw new OperationFailedException("ERROR in generating reg groups (VersionMismatchException) " + e.getMessage());
+            }
+        }
+        Integer firstRegGroupCode = _gRGFC_computeFirstRegGroupCode(existingRegistrationGroups, prefix);
 
         // Calculate the set of "set of AO IDs" from which to generate reg groups.
 

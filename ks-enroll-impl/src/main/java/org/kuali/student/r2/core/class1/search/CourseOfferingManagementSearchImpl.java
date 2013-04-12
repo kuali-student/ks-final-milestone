@@ -28,6 +28,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.util.SearchRequestHelper;
@@ -71,7 +72,9 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         public static final String CROSS_LISTED_COURSES = "crossListedCodes";
         public static final String OWNER_CODE = "ownerCode";
         public static final String OWNER_ALIASES = "ownerAliases";
-
+        public static final String DEPLOYMENT_ORG_ID = "deploymentOrgId";
+        public static final String CREDIT_OPTION_NAME = "creditOptionName";
+        public static final String GRADING_OPTION_NAME = "gradingOptionName";
     }
     public static final TypeInfo CO_MANAGEMENT_SEARCH;
 
@@ -144,25 +147,29 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                 "    ident.code," +
                 "    ident.longName," +
                 "    lui.luiState," +
-                "    lui_rvg1," +
-                "    lui_rvg2,        " +
-                "    lui.id,        " +
-                "    ident.division,        " +
-                "    ident.type  " +
+                "    lrc_rvg1.id," +
+                "    lrc_rvg2.id," +
+                "    lui.id," +
+                "    ident.division," +
+                "    ident.type," +
+                "    unitsDeployment.orgId," +
+                "    lrc_rvg1.name," +
+                "    lrc_rvg2.name " +
                 "FROM" +
                 "    LuiIdentifierEntity ident," +
-                "    LuiEntity lui," +
+                "    LuiEntity lui " +
+                "    LEFT JOIN lui.luiUnitsDeployment unitsDeployment, " +
                 "    IN(lui.resultValuesGroupKeys) lui_rvg1," +
-                "    ResultValuesGroupEntity lrc_rvg1,    " +
+                "    ResultValuesGroupEntity lrc_rvg1, " +
                 "    IN(lui.resultValuesGroupKeys) lui_rvg2," +
-                "    ResultValuesGroupEntity lrc_rvg2  " +
+                "    ResultValuesGroupEntity lrc_rvg2 " +
                 "WHERE" +
                 "    lui.id = ident.lui.id" +
                 "    AND lui.atpId = '" + searchAtpId + "' " +
                 "    AND lrc_rvg1.id = lui_rvg1" +
-                "    AND lrc_rvg1.resultScaleId LIKE 'kuali.result.scale.credit.%'    " +
+                "    AND lrc_rvg1.resultScaleId LIKE 'kuali.result.scale.credit.%' " +
                 "    AND lrc_rvg2.id = lui_rvg2" +
-                "    AND lrc_rvg2.resultScaleId LIKE 'kuali.result.scale.grade.%'" +
+                "    AND lrc_rvg2.resultScaleId LIKE 'kuali.result.scale.grade.%' " +
                 //Exclude these two types that can cause duplicates.
                 // audit and passfail are moved into different fields, after that there can be only one grading option
                 // of Satisfactory, Letter, or Percentage
@@ -202,6 +209,8 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
 
         Map<String,String> luiIds2ResultRow = new HashMap<String, String>();
 
+        Map<String, SearchResultCellInfo> luiIds2OrgCells = new HashMap<String, SearchResultCellInfo>();
+
         for (Object[] result : results) {
             SearchResultRowInfo row = new SearchResultRowInfo();
 
@@ -224,6 +233,26 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                 isCrossListed = true;
             }
             row.addCell(SearchResultColumns.IS_CROSS_LISTED,"" + isCrossListed);
+
+            //Roll up the org ids (if the org cell exists already then
+            String deploymentOrg = (String)result[i++];
+
+            row.addCell(SearchResultColumns.CREDIT_OPTION_NAME,(String)result[i++]);
+            row.addCell(SearchResultColumns.GRADING_OPTION_NAME,(String)result[i++]);
+
+            //Rollup all the units deployment as a comma separated string.
+            if(luiIds2OrgCells.containsKey(courseOfferingId)){
+                if(!isCrossListed){
+                    //Only do this for the root lui to avoid duplication
+                    SearchResultCellInfo orgCell = luiIds2OrgCells.get(courseOfferingId);
+                    orgCell.setValue(orgCell.getValue()+","+deploymentOrg);
+                    //Skip processing the rest of this record because multiple orgIDs are rolled up in the query
+                    continue;
+                }
+            }
+
+            //Put the value into the search result row, and save it in the mapping
+            luiIds2OrgCells.put(courseOfferingId, row.addCell(SearchResultColumns.DEPLOYMENT_ORG_ID, deploymentOrg));
 
             /**
              * If the row matches with the user entered subject area/course course, add it to the result

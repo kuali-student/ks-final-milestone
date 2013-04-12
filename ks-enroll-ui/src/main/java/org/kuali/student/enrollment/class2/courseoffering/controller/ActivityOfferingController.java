@@ -184,6 +184,8 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
                               HttpServletRequest request, HttpServletResponse response) {
         ModelAndView modelAndView = super.route(form, result, request, response);
 
+        GlobalVariables.getMessageMap().addGrowlMessage("", "activityOffering.modified" );
+
         if( form.getFormHistory().getHistoryEntries().isEmpty()){
             return modelAndView;
         }

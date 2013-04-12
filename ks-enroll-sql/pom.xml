@@ -20,14 +20,24 @@
                 <artifactId>spring-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>metainf</id>
+                        <id>sql-metainf</id>
                         <goals>
                             <goal>load</goal>
                         </goals>
                         <phase>prepare-package</phase>
                         <configuration>
-                            <location>${metainf.sql.context}</location>
+                            <annotatedClass>${metainf.sql.context}</annotatedClass>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sources</id>
+                        <phase>none</phase>
                     </execution>
                 </executions>
             </plugin>

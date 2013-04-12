@@ -16,17 +16,9 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.adapter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Resource;
-import javax.xml.namespace.QName;
-
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.ActivityOfferingNotInAocSubissue;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.CourseOfferingAutogenIssue;
@@ -43,7 +35,6 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
-import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -77,10 +68,19 @@ import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
+import javax.annotation.Resource;
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Implementation of the Application Service Layer to provide the functionally specified functionality
  * using several service calls.
- * 
+ *
  *
  * @author Kuali Student Team
  */
@@ -102,10 +102,49 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
      */
     @Override
     public String getDefaultClusterName(int numberOfExistingClusters) {
-        
+
         String clusterName = String.format("CL %d", (numberOfExistingClusters + 1));
-        
+
         return clusterName;
+    }
+
+    @Override
+    public String getDefaultClusterNamePerCO(String courseOfferingId, ContextInfo context) {
+        List<String> foIds = new ArrayList<String>();
+        int prefixNum = 1;
+        String defaultClusterNameToCreate = String.format("CL %d", prefixNum);
+        Set<String> clusterNames = new HashSet<String>();
+
+        try {
+            //retrieve all the FOs associated with the given CO
+            List<FormatOfferingInfo> formatOfferingList = coService.getFormatOfferingsByCourseOffering(courseOfferingId, context);
+            for(FormatOfferingInfo foInfo:formatOfferingList){
+                foIds.add(foInfo.getId());
+            }
+
+            if (foIds!=null && !foIds.isEmpty()) {
+                QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+                qbcBuilder.setPredicates(PredicateFactory.in("formatOfferingId", foIds.toArray()));
+                QueryByCriteria criteria = qbcBuilder.build();
+
+                //retrieve all the clusters associated with the given CO (by fetching clusters for all the FOs in the given CO)
+                List<ActivityOfferingClusterInfo> aoClusterList = coService.searchForActivityOfferingClusters(criteria, context);
+
+                for (ActivityOfferingClusterInfo aoCluster : aoClusterList) {
+                    clusterNames.add(aoCluster.getPrivateName());
+                }
+
+                //assign the default cluster a name that hasn't been used within the given CO
+                while (clusterNames.contains(defaultClusterNameToCreate)) {
+                    prefixNum++;
+                    defaultClusterNameToCreate = String.format("CL %d", prefixNum);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return defaultClusterNameToCreate;
     }
 
     public void setCourseOfferingService(CourseOfferingService coService) {
@@ -147,7 +186,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         ActivityOfferingClusterInfo clusterInfo = new ActivityOfferingClusterInfo();
         clusterInfo.setFormatOfferingId(foId);
         
-        String defaultClusterName = getDefaultClusterName(0);
+        String defaultClusterName = getDefaultClusterNamePerCO(coId, context);
         
         clusterInfo.setPrivateName(defaultClusterName);
         clusterInfo.setName(defaultClusterName);
@@ -341,11 +380,8 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         return _addActivityOfferingToClusterCommon(copyAoInfo, cluster, context);
     }
 
-    @Override
-    public ActivityOfferingResult updateActivityOffering(ActivityOfferingInfo aoInfo, ContextInfo context) throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException, OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException {
-        try {
-            //update AO
-            ActivityOfferingInfo activityOfferingInfo = coService.updateActivityOffering(aoInfo.getId(), aoInfo, context);
+    public  ActivityOfferingResult updateRegistrationGroups(ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException, OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException {
+        try{
             ActivityOfferingResult aoResult = new ActivityOfferingResult();
             aoResult.setCreatedActivityOffering(activityOfferingInfo);
 
@@ -395,7 +431,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
                         if (coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY, context).getIsSuccess()) {
                         } else if (coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY, context).getIsSuccess()) {
                         } else {
-                            throw new RuntimeException("State change failed for RG: " + rgInfo.getId());
+                            throw new RuntimeException("State change failed for RG: " + rgInfo.getId() + "From state:" + rgInfo.getStateKey());
                         }
                     } else {
                         coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, context);
@@ -410,10 +446,20 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
             return aoResult;
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+        throw new RuntimeException(e);
         }
 
+    }
 
+    @Override
+    public ActivityOfferingResult updateActivityOffering(ActivityOfferingInfo aoInfo, ContextInfo context) throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException, OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException {
+        try {
+            //update AO
+            ActivityOfferingInfo activityOfferingInfo = coService.updateActivityOffering(aoInfo.getId(), aoInfo, context);
+            return this.updateRegistrationGroups(activityOfferingInfo,context);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private boolean _isRegistrationGroupValid (String rgId, ContextInfo context) {

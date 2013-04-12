@@ -40,8 +40,19 @@ public interface KrmsTypeRepositoryService {
     public static final String CONTEXT_SERVICE_NAME = "contextTypeService";
     public static final String AGENDA_SERVICE_NAME = "agendaTypeService";
     public static final String RULE_SERVICE_NAME = "ruleTypeService";
-    public static final String PROPOSITION_SERVICE_NAME = "propositionTypeService";
-    public static final String PROPOSITION_PARAMETER_SERVICE_NAME = "propositionParameterTypeService";
+    public static final String SIMPLE_PROPOSITION_SERVICE_NAME = "simplePropositionTypeService";
+    public static final String COMPOUND_PROPOSITION_SERVICE_NAME = "compoundPropositionTypeService";
+    public static final String TERM_PROPOSITION_PARAMETER_SERVICE_NAME = "termPropositionParameterTypeService";
+    public static final String OPERATOR_PROPOSITION_PARAMETER_SERVICE_NAME = "operatorPropositionParameterTypeService";
+    public static final String CONSTANT_VALUE_PROPOSITION_PARAMETER_SERVICE_NAME = "constantPropositionParameterTypeService";
+    public static final String FUNCTION_PROPOSITION_PARAMETER_SERVICE_NAME = "functionPropositionParameterTypeService";
+    public static final String[] PROPOSITION_SERVICE_NAMES = {SIMPLE_PROPOSITION_SERVICE_NAME,
+        COMPOUND_PROPOSITION_SERVICE_NAME};
+    public static final String[] PROPOSITION_PARAMETER_SERVICE_NAMES = {TERM_PROPOSITION_PARAMETER_SERVICE_NAME,
+        OPERATOR_PROPOSITION_PARAMETER_SERVICE_NAME,
+        CONSTANT_VALUE_PROPOSITION_PARAMETER_SERVICE_NAME,
+        FUNCTION_PROPOSITION_PARAMETER_SERVICE_NAME};
+    public static final String TERM_PARAMETER_SERVICE_NAME = "termParameterTypeService";
     
     ////
     //// type methods
@@ -95,8 +106,8 @@ public interface KrmsTypeRepositoryService {
      * @return A krms type object with the given namespace and name if one with that name and namespace
      *         exists.  Otherwise, null is returned.
      *
-     * @throws IllegalArgumentException if the given namespaceCode or name is a null or blank value
-     * @throws IllegalStateException if multiple krms types exist with the same name and namespace
+     * @throws RiceIllegalArgumentException if the given namespaceCode or name is a null or blank value
+     * @throws RiceIllegalStateException if multiple krms types exist with the same name and namespace
      */
     @WebMethod(operationName = "getTypeByName")
     @WebResult(name = "type")
@@ -500,4 +511,19 @@ public interface KrmsTypeRepositoryService {
     @WebResult(name = "propositionParameterTypes")
     List<KrmsTypeDefinition> findPropositionParameterTypesForPropositionType(@WebParam(name = "propositionTypeId") String propositionTypeId)
             throws RiceIllegalArgumentException;
+    
+
+    /**
+     * find term parameter types for the given Term based Proposition Parameter type
+     *
+     * @param termPropositionParameterTypeId to search on
+     * @return types that are valid as term parameters
+     */
+    @WebMethod(operationName = "findTermParameterTypesForTermPropositionParameterType")
+    @XmlElementWrapper(name = "termParameterTypes", required = true)
+    @XmlElement(name = "termParameterType", required = false)
+    @WebResult(name = "termParameterTypes")
+    List<KrmsTypeDefinition> findTermParameterTypesForTermPropositionParameterType(@WebParam(name = "termPropositionParameterTypeId") String termPropositionParameterTypeId)
+            throws RiceIllegalArgumentException;
+
 }

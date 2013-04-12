@@ -198,6 +198,7 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />
         <property name="page.items">
             <list>
+                <ref bean="KS-EditCourseOffering-AliasMessageSection" />
                 <ref bean="KS-CourseOfferingEdit-Term"/>
                 <ref bean="KSDocumentPageFooter_SubmitCancel"/>
                 <ref bean="KS-CourseOfferingEdit-CourseOfferingInformation"/>
@@ -210,6 +211,25 @@
         </property>
         <property name="page.footer.items">
             <ref bean="KSDocumentPageFooter_SubmitCancel" />
+        </property>
+    </bean>
+
+    <bean id="KS-EditCourseOffering-AliasMessageSection" parent="Uif-HorizontalBoxSection">
+        <property name="render" value="@{document.newMaintainableObject.dataObject.editCrossListedCoAlias}"/>
+        <property name="style" value="background-color:#DDECFF;padding-top: 5px; border: 1px solid #9CC4F9;"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="items" >
+            <list>
+                <bean parent="Uif-ImageField" p:image.altText="information"
+                      p:source="@{#ConfigProperties['ks.externalizable.images.url']}/information.png">
+                    <property name="style" value="padding-right:10px;padding-left:10px"/>
+                </bean>
+                <bean id="KS-EditCourseOffering-AliasMessage" parent="Uif-MessageField"
+                      p:messageText="@{document.newMaintainableObject.dataObject.alternateCOCodesUIList} is a crosslisted alias
+                                            for: @{document.newMaintainableObject.dataObject.courseOfferingCode}(Owner). Changes made on
+                                            this page to @{document.newMaintainableObject.dataObject.courseOfferingCode}(Owner) will be applied to all
+                                            aliases, including @{document.newMaintainableObject.dataObject.alternateCOCodesUIList}." />
+            </list>
         </property>
     </bean>
 

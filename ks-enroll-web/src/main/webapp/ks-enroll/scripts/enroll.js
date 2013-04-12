@@ -793,3 +793,54 @@ function addTabs(aoTabName , regTabName, aoDivIdPrefix, regDivIdPrefix){
 
     });
 }
+
+function addNewClusterOptionSuccessCallBack(){
+    retrieveComponent('KS-CourseOfferingManagement-MoveAOCPopupForm',undefined, addNewClusterOption, undefined);
+}
+
+/* This function contains some temporary fixes for jira 6319 */
+function addNewClusterOption(responseContents) {
+    jQuery('#foNameForAOMoveId').hide();
+    jQuery('#privateNameForMoveId').hide();
+    jQuery('#publishedNameForMoveId').hide();
+
+    var dropDown = jQuery('#clusterIDListForAOMove_control');
+    var container = jQuery('#KS-CourseOfferingManagement-AOClustersCollection');
+    var checkedCBs = jQuery(container).find(":checkbox:checked[name$=isCheckedByCluster]");
+    if (checkedCBs.length == 0) {
+        var createNewClusterOption = new Option("No Activity has been selected", "");
+        jQuery('#clusterIDListForAOMove_control option').remove();
+        jQuery(dropDown).append(createNewClusterOption);
+        jQuery('#KS-CourseOfferingManagement-MoveAOCPopupForm').find(':contains("Move")').closest('button').attr("disabled", "disabled");
+    } else {
+        if (jQuery(dropDown).find('option[value=""]').length == 0) {
+            if (jQuery(dropDown).find('option[value=createNewCluster]').length == 0) {
+                var createNewClusterOption = new Option("Create new Cluster...", "createNewCluster");
+                jQuery(dropDown).append(createNewClusterOption).change(function () {
+                    if (jQuery(dropDown).val() == "createNewCluster") {
+                        jQuery('#foNameForAOMoveId').show();
+                        jQuery('#privateNameForMoveId').show();
+                        jQuery('#publishedNameForMoveId').show();
+                    } else {
+                        jQuery('#foNameForAOMoveId').hide();
+                        jQuery('#privateNameForMoveId').hide();
+                        jQuery('#publishedNameForMoveId').hide();
+                    }
+                });
+            }
+        }
+    }
+}
+
+function removeZebraColoring(id){
+    var aoDivs = jQuery('div[id^="' + id + '"]');
+
+    jQuery.each(aoDivs, function(index){
+        var rows = jQuery(this).find('table tbody tr');
+        jQuery.each(rows, function(index){
+            jQuery(this).removeClass('odd');
+            jQuery(this).removeClass('even');
+        });
+    });
+
+}

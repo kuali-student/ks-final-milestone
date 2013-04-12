@@ -59,6 +59,22 @@ function ksAddRowSelectionCheckbox(readOnly, collectionId, callClickEvents, onCl
     });
 }
 
+/*
+ *  Add "control" checkboxes to the first cell of the header row of all the collections.  This checkbox
+ *  will toggle all checkboxes in the first cell of the collection.  In addition,
+ *  the control checkbox will be unchecked whenever one or more of the collection
+ *  checkboxes is unchecked; it will only be checked if all checkboxes are checked.
+ *  Parameters:
+ *      readOnly        : If true, the control checkbox will not be added
+ *      subCollectionIdPrefix    : ID prefix of subcollections to receive selection control checkbox
+ *      callClickEvents : Determines whether the individual row selection checkboxes
+ *                        will have their click event triggered, or just have the
+ *                        "checked" property set to true.  Optional, default is false.
+ *      onClickFunction : Optional function name that, if passed in, will be called
+ *                        whenever the control checkbox is clicked.  If parameters
+ *                        need to be passed in also, wrap the function in an anonymous
+ *                        function, like so: function(){sampleFunction("arg1")}
+ */
 function ksAddRowSelectionCheckboxSubCollections(readOnly, subCollectionIdPrefix, callClickEvents, onClickFunction) {
     if (readOnly === true) {
         return;
