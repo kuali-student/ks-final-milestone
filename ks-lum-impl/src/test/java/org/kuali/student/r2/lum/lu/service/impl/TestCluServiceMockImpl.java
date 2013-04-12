@@ -90,7 +90,7 @@ public class TestCluServiceMockImpl {
         assertEquals(orig.getStateKey(), info.getStateKey());
     }
 
-    private CluInfo getCluInfoByVersionIndId(String id, ContextInfo contextInfo) {
+    private CluInfo getCurrentCluInfoByVersionIndId(String id, ContextInfo contextInfo) {
         VersionDisplayInfo versionDisplayInfo = null;
         try {
             versionDisplayInfo = this.cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, id, contextInfo);
