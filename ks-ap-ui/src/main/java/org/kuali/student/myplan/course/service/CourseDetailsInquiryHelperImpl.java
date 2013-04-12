@@ -1,6 +1,7 @@
 package org.kuali.student.myplan.course.service;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -342,11 +343,11 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 			List<String> scheduledTerms = new java.util.LinkedList<String>();
 			for (TermInfo ti : getAcademicCalendarService().searchForTerms(
-					QueryByCriteria.Builder.fromPredicates(equalIgnoreCase(
-							"atpState", PlanConstants.PUBLISHED)),
+					QueryByCriteria.Builder.fromPredicates(like(
+                            "atpStatus", PlanConstants.PUBLISHED)),
 					KsapFrameworkServiceLocator.getContext().getContextInfo()))
 				if (scheduledTermIds.contains(ti.getId()))
-					scheduledTerms.add(ti.getName());
+					scheduledTerms.add(ti.getId());
 			courseDetails.setScheduledTerms(scheduledTerms);
 		} catch (Exception e) {
 			LOG.error("Error Retrieving ScheduleTerms", e);
@@ -742,7 +743,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				if (courseOfferingTerm == null) {
 					courseOfferingTerm = new CourseOfferingTerm();
 					courseOfferingTerm.setYearTerm(yt);
-					courseOfferingTerm.setTerm(yt.getTermName());
+					courseOfferingTerm.setTerm(yt.getLongName());
 					courseOfferingTerm.setCourseComments(courseComments);
 					courseOfferingTerm
 							.setInstituteCode(courseOfferingInstitution

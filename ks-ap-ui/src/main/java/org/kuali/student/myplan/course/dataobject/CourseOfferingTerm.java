@@ -66,4 +66,12 @@ public class CourseOfferingTerm {
     public void setInstituteCode(String instituteCode) {
         this.instituteCode = instituteCode;
     }
+
+    public String getComponentId(){
+        String componentId=instituteCode;
+        componentId=componentId+"_"+yearTerm.getYear();
+        componentId=componentId+"_"+yearTerm.getTermName().replace(" ","");
+
+        return componentId;
+    }
 }

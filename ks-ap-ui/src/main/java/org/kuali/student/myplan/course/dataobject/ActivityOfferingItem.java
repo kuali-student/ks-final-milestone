@@ -409,7 +409,7 @@ public class ActivityOfferingItem {
 
     /*Used to get the Short term name for atp (Winter 13 for kuali.uw.atp.2013.1)*/
     public String getLongTermName() {
-        return KsapFrameworkServiceLocator.getTermHelper().getYearTerm(this.getAtpId()).getShortName();
+        return KsapFrameworkServiceLocator.getTermHelper().getYearTerm(this.getAtpId()).getLongName();
     }
     public String getActivityIdentifier(){
         String id = this.code+"-"+this.getShortTermName().replace(" ","")+"-"+this.getRegistrationCode()+"sln";

@@ -185,10 +185,8 @@
             <list>
                 <!-- Scheduled Terms -->
                 <bean parent="Uif-DataField" p:label="Scheduled for"
-                      p:propertyName="courseSummaryDetails.scheduledTerms"
-                      p:fieldLabel.cssClasses="fl-text-gray myplan-text-normal" p:labelPlacement="LEFT"
-                      p:escapeHtmlInPropertyValue="false">
-                    <property name="propertyEditor" ref="scheduled_terms_list_formatter"/>
+                      p:propertyName="courseSummaryDetails.scheduledTermsNames"
+                      p:fieldLabel.cssClasses="fl-text-gray myplan-text-normal" p:labelPlacement="LEFT">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-data-list</value>
@@ -242,18 +240,6 @@
                     <property name="href"
                               value="inquiry?methodToCall=start&amp;viewId=CourseDetails-InquiryView&amp;courseId=@{courseSummaryDetails.courseId}"/>
                 </bean>
-                <!--<bean parent="Uif-DataField" p:label="" p:propertyName="courseDetails.institutionsList"
-                      p:fieldLabel.cssClasses="fl-text-gray myplan-text-normal" p:labelPlacement="LEFT"
-                      p:escapeHtmlInPropertyValue="false">
-                    <property name="propertyEditor" ref="section_scheduled_terms_list_formatter"/>
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>myplan-data-list</value>
-                        </list>
-                    </property>
-                    <property name="render"
-                              value="@{courseDetails.courseOfferingInstitutionList.size() gt 0}"/>
-                </bean>-->
             </list>
         </property>
     </bean>
@@ -650,11 +636,9 @@
                 <bean parent="Uif-Message"
                       p:messageText="Which quarter would you like to @{moveCourse eq false ? 'add' : 'move'} &lt;strong&gt;@{courseSummaryDetails.code}&lt;/strong&gt; to?"/>
 
-                <bean parent="Uif-DataField" p:propertyName="courseSummaryDetails.scheduledTerms"
+                <bean parent="Uif-DataField" p:propertyName="courseSummaryDetails.scheduledTermsNames"
                       p:label="Scheduled For"
-                      p:fieldLabel.cssClasses="fl-text-gray fl-font-size-90 myplan-text-normal" p:labelPlacement="LEFT"
-                      p:escapeHtmlInPropertyValue="false">
-                    <property name="propertyEditor" ref="scheduled_terms_list_formatter"/>
+                      p:fieldLabel.cssClasses="fl-text-gray fl-font-size-90 myplan-text-normal" p:labelPlacement="LEFT">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-data-list</value>
@@ -864,11 +848,10 @@
                             <bean parent="Uif-Message"
                                   p:messageText="Which quarter would you like to add &lt;strong&gt;@{courseSummaryDetails.code}&lt;/strong&gt; to?"/>
 
-                            <bean parent="Uif-DataField" p:propertyName="courseSummaryDetails.scheduledTerms"
+                            <bean parent="Uif-DataField" p:propertyName="courseSummaryDetails.scheduledTermsNames"
                                   p:label="Scheduled For"
                                   p:fieldLabel.cssClasses="fl-text-gray fl-font-size-90 myplan-text-normal"
-                                  p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
-                                <property name="propertyEditor" ref="scheduled_terms_list_formatter"/>
+                                  p:labelPlacement="LEFT">
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>myplan-data-list</value>
@@ -960,11 +943,10 @@
                             <bean parent="Uif-Message"
                                   p:messageText="Which quarter would you like to move &lt;strong&gt;@{courseSummaryDetails.code}&lt;/strong&gt; to?"/>
 
-                            <bean parent="Uif-DataField" p:propertyName="courseSummaryDetails.scheduledTerms"
+                            <bean parent="Uif-DataField" p:propertyName="courseSummaryDetails.scheduledTermsNames"
                                   p:label="Scheduled For"
                                   p:fieldLabel.cssClasses="fl-text-gray fl-font-size-90 myplan-text-normal"
-                                  p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
-                                <property name="propertyEditor" ref="scheduled_terms_list_formatter"/>
+                                  p:labelPlacement="LEFT">
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>myplan-data-list</value>
@@ -1056,11 +1038,10 @@
                             <bean parent="Uif-Message"
                                   p:messageText="Which quarter would you like to copy &lt;strong&gt;@{courseSummaryDetails.code}&lt;/strong&gt; to?"/>
 
-                            <bean parent="Uif-DataField" p:propertyName="courseSummaryDetails.scheduledTerms"
+                            <bean parent="Uif-DataField" p:propertyName="courseSummaryDetails.scheduledTermsNames"
                                   p:label="Scheduled For"
                                   p:fieldLabel.cssClasses="fl-text-gray fl-font-size-90 myplan-text-normal"
-                                  p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
-                                <property name="propertyEditor" ref="scheduled_terms_list_formatter"/>
+                                  p:labelPlacement="LEFT">
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>myplan-data-list</value>

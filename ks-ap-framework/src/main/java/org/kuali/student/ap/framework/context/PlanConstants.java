@@ -59,16 +59,15 @@ public class PlanConstants extends AcademicPlanServiceConstants {
 	public static final String SESSION_KEY_STUDENT_ID = "kuali.ap.authn.studentId";
 	public static final String SESSION_KEY_STUDENT_NAME = "kuali.ap.authn.studentName";
 
-	public static final String TERM_ID_PREFIX = "kuali.atp.";
 	public static final String FOCUS_ATP_ID_KEY = "focusAtpId";
 
 	public static final String PLANNED_TYPE = "planned";
 	public static final String BACKUP_TYPE = "backup";
 
 	/* Query keys for getting the termInfos from the academic calender */
-	public static final String PLANNING = "PLANNING";
-	public static final String INPROGRESS = "INPROGRESS";
-	public static final String PUBLISHED = "PUBLISHED";
+	public static final String PLANNING = "%kuali.atp.state.Planning%";
+	public static final String INPROGRESS = "%kuali.atp.state.Inprogress%";
+	public static final String PUBLISHED = "%kuali.atp.state.Published%";
 
 	public static final String WITHDRAWN_GRADE = "W";
 

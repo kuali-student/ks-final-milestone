@@ -16,6 +16,7 @@ package org.kuali.student.myplan.course.util;
  */
 
 import org.apache.log4j.Logger;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 
 import java.util.Collection;
@@ -32,10 +33,13 @@ public class ScheduledTermsPropertyEditor extends CollectionListPropertyEditor {
         Iterator<Object> i = c.iterator();
         while (i.hasNext()) {
             String term = (String) i.next();
-            String elemTxt = term;
+            String elemTxt = KsapFrameworkServiceLocator.getTermHelper()
+                    .getTerm(term).getName();
 
             // Convert Winter 2012 to WI 12
-            Matcher m = CourseSearchConstants.TERM_PATTERN.matcher(term);
+
+            Matcher m = CourseSearchConstants.TERM_PATTERN.matcher(KsapFrameworkServiceLocator.getTermHelper()
+                    .getTerm(term).getName());
             if(m.matches()) {
                 elemTxt = m.group(1).substring(0,2).toUpperCase() + " " + m.group(2);
             }

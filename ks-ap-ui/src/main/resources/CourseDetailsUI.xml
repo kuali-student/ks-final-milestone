@@ -443,13 +443,10 @@
                                                         <property name="items">
                                                             <list>
                                                                 <bean parent="Uif-DataField" p:label="Scheduled For"
-                                                                      p:propertyName="courseSummaryDetails.scheduledTerms"
-                                                                      p:escapeHtmlInPropertyValue="false"
+                                                                      p:propertyName="courseSummaryDetails.scheduledTermsNames"
                                                                       p:render="@{dataObject.courseSummaryDetails.scheduledTerms.size() gt 0}">
                                                                     <property name="fieldLabel.cssClasses"
                                                                               value="fl-text-gray myplan-text-normal"/>
-                                                                    <property name="propertyEditor"
-                                                                              ref="scheduled_terms_list_formatter"/>
                                                                     <property name="cssClasses">
                                                                         <list merge="true">
                                                                             <value>myplan-data-list</value>
@@ -892,7 +889,7 @@
                 </property>
                 <property name="lineGroupPrototype">
                     <!-- TODO: parentLine expression not available within the lineGroupPrototype, KRAD bug https://jira.kuali.org/browse/KULRICE-9003 -->
-                    <bean p:id="@{#line.instituteCode}_tab-@{#line.yearTerm.toATP().replace('.','-')}"
+                    <bean p:id="@{#line.componentId}_tab"
                           parent="Uif-CollectionVerticalBoxItem">
                         <property name="footer.render" value="false"/>
                         <property name="validationMessages.render" value="false"/>

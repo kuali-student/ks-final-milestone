@@ -1,6 +1,8 @@
 package org.kuali.student.ap.framework.context.support;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.in;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -86,8 +88,8 @@ public class DefaultTermHelper implements TermHelper {
 	public List<Term> getCurrentTerms() {
 		try {
 			QueryByCriteria query = QueryByCriteria.Builder
-					.fromPredicates(equalIgnoreCase("query",
-							PlanConstants.INPROGRESS));
+					.fromPredicates(like("atpStatus",
+                            PlanConstants.INPROGRESS));
 			List<TermInfo> rv = KsapFrameworkServiceLocator
 					.getAcademicCalendarService().searchForTerms(
 							query,
@@ -95,7 +97,7 @@ public class DefaultTermHelper implements TermHelper {
 									.getContextInfo());
 			if (rv == null || rv.isEmpty())
 				throw new IllegalStateException(
-						"AcademicCalendarService did not return any in-progress terms");
+						"AcademicCalendarService did not return any current terms");
 			return new java.util.ArrayList<Term>(rv);
 		} catch (InvalidParameterException e) {
 			throw new IllegalArgumentException("Acal lookup failure", e);
@@ -170,8 +172,8 @@ public class DefaultTermHelper implements TermHelper {
 	public boolean isPlanning(String atpId) {
 		try {
 			QueryByCriteria query = QueryByCriteria.Builder
-					.fromPredicates(equalIgnoreCase("query",
-							PlanConstants.PLANNING));
+					.fromPredicates(like("atpStatus",
+                            PlanConstants.PLANNING));
 			List<TermInfo> rl = KsapFrameworkServiceLocator
 					.getAcademicCalendarService().searchForTerms(
 							query,
@@ -228,8 +230,8 @@ public class DefaultTermHelper implements TermHelper {
 	public List<Term> getPublishedTerms() {
 		try {
 			QueryByCriteria query = QueryByCriteria.Builder
-					.fromPredicates(equalIgnoreCase("query",
-							PlanConstants.PUBLISHED));
+					.fromPredicates(like("atpStatus",
+                            PlanConstants.PUBLISHED));
 			List<TermInfo> rl = KsapFrameworkServiceLocator
 					.getAcademicCalendarService().searchForTerms(
 							query,

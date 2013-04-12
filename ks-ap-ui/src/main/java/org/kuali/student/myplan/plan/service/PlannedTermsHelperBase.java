@@ -9,10 +9,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
@@ -24,6 +26,8 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+
+import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
 
 /**
  * Created by IntelliJ IDEA. User: hemanthg Date: 5/16/12 Time: 3:49 PM To
@@ -37,7 +41,9 @@ public class PlannedTermsHelperBase {
 			List<StudentCourseRecordInfo> studentCourseRecordInfos,
 			String focusAtpId, int futureTerms, boolean fullPlanView) {
 		TermHelper th = KsapFrameworkServiceLocator.getTermHelper();
-		YearTerm focusQuarterYear = th.getYearTerm(th
+        YearTerm focusQuarterYear;
+		if(StringUtils.isEmpty(focusAtpId)) focusQuarterYear = th.getYearTerm(th.getCurrentTerms().get(0));
+        else focusQuarterYear = th.getYearTerm(th
 				.getFirstTermOfAcademicYear(th.getYearTerm(focusAtpId)));
 
 		List<PlannedTerm> plannedTerms = new ArrayList<PlannedTerm>();
@@ -123,7 +129,7 @@ public class PlannedTermsHelperBase {
 			minTerm = studentCourseRecordInfos.get(0).getTermName();
 		else
 			minTerm = th.getCurrentTerms().get(0).getId();
-		populateFutureData(minTerm, futureTerms, termsList);
+        populateTermData(minTerm, futureTerms, termsList);
 
 		if (plannedTerms.size() > 0)
 			for (PlannedTerm plannedTerm : plannedTerms)
@@ -185,10 +191,10 @@ public class PlannedTermsHelperBase {
 					PlannedTerm plannedTerm2) {
 				return KsapFrameworkServiceLocator
 						.getTermHelper()
-						.getYearTerm(plannedTerm2.getAtpId())
+						.getYearTerm(plannedTerm1.getAtpId())
 						.compareTo(
 								KsapFrameworkServiceLocator.getTermHelper()
-										.getYearTerm(plannedTerm1.getAtpId()));
+										.getYearTerm(plannedTerm2.getAtpId()));
 				// return
 				// plannedTerm1.getAtpId().compareTo(plannedTerm2.getAtpId());
 			}
@@ -231,10 +237,10 @@ public class PlannedTermsHelperBase {
 	 * @param termId
 	 * @param termsList
 	 */
-	private static void populateFutureData(String termId, int futureTermsCount,
+	private static void populateTermData(String termId, int futureTermsCount,
 			Map<String, PlannedTerm> termsList) {
 		TermHelper th = KsapFrameworkServiceLocator.getTermHelper();
-		Term term = th.getTerm(termId);
+		Term term = th.getFirstTermOfAcademicYear(th.getYearTerm(termId));
 		Date startDate = term.getStartDate();
 		Calendar c = Calendar.getInstance();
 		c.setTime(startDate);
@@ -247,7 +253,8 @@ public class PlannedTermsHelperBase {
 									PredicateFactory.greaterThanOrEqual(
 											"startDate", startDate),
 									PredicateFactory.lessThan("endDate",
-											endDate)),
+											endDate),like("atpStatus",
+                                    PlanConstants.PUBLISHED)),
 							KsapFrameworkServiceLocator.getContext()
 									.getContextInfo())) {
 				PlannedTerm plannedTerm = new PlannedTerm();
@@ -304,6 +311,7 @@ public class PlannedTermsHelperBase {
 		index = plannedTerms.size() - 1;
 		while (index >= 0) {
 			for (int i = 4; i > 0; i--) {
+                if(index<0) break;
 				if (plannedTerms.get(index).isCurrentTermForView()
 						|| !plannedTerms.get(index).isCompletedTerm()
 						&& (plannedTerms.get(index).getAcademicRecord().size() > 0 || !plannedTerms

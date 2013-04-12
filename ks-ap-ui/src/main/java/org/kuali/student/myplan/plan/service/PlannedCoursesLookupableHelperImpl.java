@@ -109,7 +109,7 @@ public class PlannedCoursesLookupableHelperImpl extends
 
 		List<PlannedTerm> perfectPlannedTerms = PlannedTermsHelperBase
 				.populatePlannedTerms(plannedCoursesList, backupCoursesList,
-						studentCourseRecordInfos, focusAtpId, 6, false);
+						studentCourseRecordInfos, focusAtpId, PlanConstants.MAX_FUTURE_YEARS, false);
 		return perfectPlannedTerms;
 	}
 }

@@ -232,10 +232,10 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 					if (planItemsMap.containsKey(date)) {
 						StringBuffer sbuf = new StringBuffer();
 						sbuf = sbuf.append(planItemsMap.get(date)).append(",")
-								.append(yearTerm.getLongName());
+								.append(KsapFrameworkServiceLocator.getTermHelper().getTerm(yearTerm).getId());
 						planItemsMap.put(date, sbuf.toString());
 					} else {
-						planItemsMap.put(date, yearTerm.getLongName());
+						planItemsMap.put(date, KsapFrameworkServiceLocator.getTermHelper().getTerm(yearTerm).getId());
 					}
 				}
 

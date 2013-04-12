@@ -663,8 +663,10 @@ public class PlanController extends UifControllerBase {
 		form.setJavascriptEvents(events);
 
 		String atpId = planItem.getPlanPeriods().get(0);
-		String link = makeLinkToAtp(atpId, KsapFrameworkServiceLocator
-				.getTermHelper().getYearTerm(atpId).getTermName());
+
+        //Not used or implemented
+		/*String link = makeLinkToAtp(atpId, KsapFrameworkServiceLocator
+				.getTermHelper().getYearTerm(atpId).getTermName());*/
 		String[] params = { KsapFrameworkServiceLocator.getTermHelper()
 				.getYearTerm(planItem.getPlanPeriods().get(0)).getTermName() };
 		return doPlanActionSuccess(form,
@@ -840,8 +842,9 @@ public class PlanController extends UifControllerBase {
 		form.setJavascriptEvents(events);
 
 		String atpId = planItem.getPlanPeriods().get(0);
-		String link = makeLinkToAtp(atpId, KsapFrameworkServiceLocator
-				.getTermHelper().getYearTerm(atpId).getTermName());
+        //Not used or implemented
+		/*String link = makeLinkToAtp(atpId, KsapFrameworkServiceLocator
+				.getTermHelper().getYearTerm(atpId).getTermName());*/
 		String[] params = { KsapFrameworkServiceLocator.getTermHelper()
 				.getYearTerm(atpId).getTermName() };
 		return doPlanActionSuccess(form,
@@ -1457,11 +1460,10 @@ public class PlanController extends UifControllerBase {
 			return doOperationFailedError(form, "Query for plan item failed.",
 					e);
 		}
-		List<String> terms = new ArrayList();
+		/*List<String> terms = new ArrayList();
 		for (String term : planItem.getPlanPeriods()) {
-			terms.add(KsapFrameworkServiceLocator.getTermHelper()
-					.getYearTerm(term).getTermName());
-		}
+			terms.add(term);
+		}*/
 		CourseSummaryDetails courseDetail = null;
 		List<CourseOfferingInstitution> courseOfferingInstitutions = new ArrayList<CourseOfferingInstitution>();
 		if (planItem.getRefObjectType().equalsIgnoreCase(
@@ -1482,7 +1484,7 @@ public class PlanController extends UifControllerBase {
 			sectionCode = courseCodeAndSection.getSection();
 		}
 		courseOfferingInstitutions = getCourseDetailsInquiryService()
-				.getCourseOfferingInstitutionsById(courseId, terms);
+				.getCourseOfferingInstitutionsById(courseId, planItem.getPlanPeriods());
 		Map<String, String> planItemsToRemove = new HashMap<String, String>();
 		if (!AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST
 				.equals(planItem.getTypeKey())) {
