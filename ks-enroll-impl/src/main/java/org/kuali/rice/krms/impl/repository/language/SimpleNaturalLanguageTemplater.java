@@ -30,7 +30,7 @@ public class SimpleNaturalLanguageTemplater implements NaturalLanguageTemplaterC
         StringBuilder sb = new StringBuilder (naturalLanguageTemplate.getTemplate());
         sb.append(" applied with the following ");
         sb.append (contextMap.size());        
-        sb.append("variables: ");
+        sb.append(" variables: ");
         String comma = "";
         for (String key : contextMap.keySet()) {
             sb.append (comma);

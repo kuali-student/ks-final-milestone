@@ -140,8 +140,8 @@ public class KrmsTypeRelationLoader {
         loadTypeRelation("10106", "10016", "10072", "A", 2);
 // parameters for propositions
         loadTypeRelation("10019-A-10100", "10019", "10100", "A", 1);
-        loadTypeRelation("10019-A-10101", "10019", "10101", "A", 2);
-        loadTypeRelation("10019-A-10102", "10019", "10102", "A", 3);
+        loadTypeRelation("10019-A-10102", "10019", "10102", "A", 2);
+        loadTypeRelation("10019-A-10101", "10019", "10101", "A", 3);
         // TERM PARAMETER
         loadTypeRelation("10100-A-10104", "10100", "10104", "A", 1);
     }

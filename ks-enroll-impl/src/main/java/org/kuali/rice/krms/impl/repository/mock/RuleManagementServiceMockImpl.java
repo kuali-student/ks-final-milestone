@@ -38,13 +38,17 @@ import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplaterContract;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
+import org.kuali.rice.krms.api.repository.proposition.PropositionParameter;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
+import org.kuali.rice.krms.api.repository.term.TermDefinition;
+import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
 import org.kuali.rice.krms.impl.repository.TranslationUtility;
 import org.kuali.rice.krms.impl.repository.language.SimpleNaturalLanguageTemplater;
-import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 
 public class RuleManagementServiceMockImpl implements RuleManagementService {
+    
+    
     // cache variable 
     // The LinkedHashMap is just so the values come back in a predictable order
 
@@ -57,8 +61,11 @@ public class RuleManagementServiceMockImpl implements RuleManagementService {
     private Map<String, PropositionDefinition> propositionMap = new LinkedHashMap<String, PropositionDefinition>();
     private Map<String, NaturalLanguageUsage> naturalLanguageUsageMap = new LinkedHashMap<String, NaturalLanguageUsage>();
     private Map<String, NaturalLanguageTemplate> naturalLanguageTemplateMap = new LinkedHashMap<String, NaturalLanguageTemplate>();
+    
+    // supporting services used in this service impl
     private NaturalLanguageTemplaterContract templater = new SimpleNaturalLanguageTemplater();
-
+    private TermRepositoryService termRepositoryService;
+    
     public NaturalLanguageTemplaterContract getTemplater() {
         return templater;
     }
@@ -67,6 +74,16 @@ public class RuleManagementServiceMockImpl implements RuleManagementService {
         this.templater = templater;
     }
 
+    public TermRepositoryService getTermRepositoryService() {
+        return termRepositoryService;
+    }
+
+    public void setTermRepositoryService(TermRepositoryService termRepositoryService) {
+        this.termRepositoryService = termRepositoryService;
+    }
+
+    
+    
     public void clear() {
         this.referenceObjectBindingMap.clear();
         this.contextMap.clear();
@@ -207,14 +224,17 @@ public class RuleManagementServiceMockImpl implements RuleManagementService {
     public AgendaDefinition createAgenda(AgendaDefinition agendaDefinition)
             throws RiceIllegalArgumentException {
         // CREATE
-        AgendaDefinition orig = this.getAgenda(agendaDefinition.getId());
-        if (orig != null) {
-            throw new RiceIllegalArgumentException(agendaDefinition.getId() + "." + agendaDefinition.getName());
+        if (agendaDefinition.getId() != null) {
+            AgendaDefinition orig = this.getAgenda(agendaDefinition.getId());
+            if (orig != null) {
+                throw new RiceIllegalArgumentException(agendaDefinition.getId() + "." + agendaDefinition.getName());
+            }
         }
         AgendaDefinition.Builder copy = AgendaDefinition.Builder.create(agendaDefinition);
         if (copy.getId() == null) {
             copy.setId(UUID.randomUUID().toString());
         }
+        copy.setVersionNumber(0l);
         agendaDefinition = copy.build();
         agendaMap.put(agendaDefinition.getId(), agendaDefinition);
         return agendaDefinition;
@@ -394,9 +414,11 @@ public class RuleManagementServiceMockImpl implements RuleManagementService {
     public RuleDefinition createRule(RuleDefinition ruleDefinition)
             throws RiceIllegalArgumentException {
         // CREATE
-        RuleDefinition orig = this.getRule(ruleDefinition.getId());
-        if (orig != null) {
-            throw new RiceIllegalArgumentException(ruleDefinition.getId());
+        if (ruleDefinition.getId() != null) {
+            RuleDefinition orig = this.getRule(ruleDefinition.getId());
+            if (orig != null) {
+                throw new RiceIllegalArgumentException(ruleDefinition.getId());
+            }
         }
         RuleDefinition.Builder copy = RuleDefinition.Builder.create(ruleDefinition);
         if (copy.getId() == null) {
@@ -524,6 +546,25 @@ public class RuleManagementServiceMockImpl implements RuleManagementService {
         if (copy.getId() == null) {
             copy.setId(UUID.randomUUID().toString());
         }
+        for (PropositionParameter.Builder paramBldr : copy.getParameters()) {
+            if (paramBldr.getId() == null) {
+                paramBldr.setId(UUID.randomUUID().toString());
+            }
+            if (paramBldr.getPropId() == null) {
+                paramBldr.setPropId(copy.getId());
+            }
+            if (paramBldr.getTermValue() != null) {
+                TermDefinition termValue = paramBldr.getTermValue();
+                // no id means it does not exist yet
+                if (termValue.getId() == null) {
+                    termValue = this.termRepositoryService.createTerm(termValue);
+                    paramBldr.setTermValue(termValue);
+                }
+                if (paramBldr.getValue() == null) {
+                    paramBldr.setValue(termValue.getId());
+                }
+            }
+        }
         propositionDefinition = copy.build();
         propositionMap.put(propositionDefinition.getId(), propositionDefinition);
         return propositionDefinition;
@@ -567,6 +608,9 @@ public class RuleManagementServiceMockImpl implements RuleManagementService {
     @Override
     public void updateProposition(PropositionDefinition propositionDefinition)
             throws RiceIllegalArgumentException {
+        if (this.propositionMap.containsKey(propositionDefinition.getId())) {
+            throw new RiceIllegalArgumentException (propositionDefinition.getId() + "not found");
+        }
         // UPDATE
         PropositionDefinition.Builder copy = PropositionDefinition.Builder.create(propositionDefinition);
         PropositionDefinition old = this.getProposition(propositionDefinition.getId());
@@ -574,6 +618,25 @@ public class RuleManagementServiceMockImpl implements RuleManagementService {
             throw new RiceIllegalStateException("" + old.getVersionNumber());
         }
         copy.setVersionNumber(copy.getVersionNumber() + 1);
+        for (PropositionParameter.Builder paramBldr : copy.getParameters()) {
+            if (paramBldr.getId() == null) {
+                paramBldr.setId(UUID.randomUUID().toString());
+            }
+            if (paramBldr.getPropId() == null) {
+                paramBldr.setPropId(copy.getId());
+            }
+            if (paramBldr.getTermValue() != null) {
+                TermDefinition termValue = paramBldr.getTermValue();
+                // no id means it does not exist yet
+                if (termValue.getId() == null) {
+                    termValue = this.termRepositoryService.createTerm(termValue);
+                    paramBldr.setTermValue(termValue);
+                }
+                if (paramBldr.getValue() == null) {
+                    paramBldr.setValue(termValue.getId());
+                }
+            }
+        }
         propositionDefinition = copy.build();
         this.propositionMap.put(propositionDefinition.getId(), propositionDefinition);
         return;
@@ -730,15 +793,13 @@ public class RuleManagementServiceMockImpl implements RuleManagementService {
     }
 
     @Override
-    public ContextDefinition findCreateContext(ContextDefinition contextDefinition) throws RiceIllegalArgumentException {         
+    public ContextDefinition findCreateContext(ContextDefinition contextDefinition) throws RiceIllegalArgumentException {
         ContextDefinition orig = this.getContextByNameAndNamespace(contextDefinition.getName(), contextDefinition.getNamespace());
         if (orig != null) {
             return orig;
         }
         return this.createContext(contextDefinition);
     }
-    
-    
 
     @Override
     public void updateContext(ContextDefinition contextDefinition)

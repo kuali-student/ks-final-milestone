@@ -87,8 +87,7 @@ public class KrmsNaturalLanguageTemplateLoader {
         loadNaturalLanguageTemplate("10100-10000-en", "en", "10000", "10100", "NumberOfCompletedCourses", "", "");
         loadNaturalLanguageTemplate("10101-10000-en", "en", "10000", "10101", "<=", "", "");
         loadNaturalLanguageTemplate("10102-10000-en", "en", "10000", "10102", "1", "KRMS-NumberOfCourses-ConstantValue", "");
-        loadNaturalLanguageTemplate("10104-10000-en", "en", "10000", "10104", "IGNORE THIS", "KRMS-MultiCourse-Section", "org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder");
-
+        loadNaturalLanguageTemplate ("10104-10000-en", "en", "10000", "10104", "CourseSetId", "KRMS-MultiCourse-Section", "org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder");
         loadNaturalLanguageTemplate("10336", "en", "10003", "10019", "#if($intValue == 1 && $courseCluSet.getCluList().size() == 1)Must have successfully completed#{else}Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, \"course\") from#end", "", "");
 
 
