@@ -39,30 +39,39 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final TypeInfo AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo REG_GROUPS_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE;
-
+    public static final TypeInfo COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE;
+    
     public static final String SCH_ID_BY_AO_SEARCH_KEY = "kuali.search.type.lui.searchForScheduleIdByAoId";
     public static final String AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAOsAndClustersByCoId";
     public static final String REG_GROUPS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForRegGroupsByCoId";
     public static final String AOS_WO_CLUSTER_BY_FO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAOsWithoutClusterByFormatId";
+    public static final String COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY = "kuali.search.type.lui.searchForAosByAoIds";
 
 
     public static final class SearchParameters {
         public static final String AO_ID = "id";
         public static final String CO_ID = "coId";
         public static final String FO_ID = "foId";
+        public static final String AO_IDS = "aoIds";
     }
 
     public static final class SearchResultColumns {
         public static final String SCHEDULE_ID = "scheduleId";
         public static final String FO_ID = "foId";
+        public static final String FO_NAME = "foName";
         public static final String AOC_ID = "aocId";
+        public static final String AOC_NAME = "aocName";
+        public static final String AOC_PRIVATE_NAME = "aocPrivateName";
         public static final String AO_ID = "aoId";
         public static final String AO_TYPE = "aoType";
         public static final String AO_STATE = "aoState";
         public static final String AO_MAX_SEATS = "aoMaxSeats";
         public static final String AO_CODE = "aoCode";
+        public static final String CO_CODE = "coCode";
+        public static final String LUI_SET_ID = "luiSetId";
         public static final String RG_NAME = "rgId";
         public static final String RG_ID = "rgName";
+        public static final String RG_STATE = "rgState";
     }
 
 
@@ -79,7 +88,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         }
         SCH_ID_BY_AO_SEARCH_TYPE = info;
 
-
         info = new TypeInfo();
         info.setKey(AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY);
         info.setName("Activity Offerings for CO Search");
@@ -92,7 +100,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         }
         AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE = info;
 
-
         info = new TypeInfo();
         info.setKey(REG_GROUPS_BY_CO_ID_SEARCH_KEY);
         info.setName("Reg Groups for CO Search");
@@ -104,6 +111,19 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             throw new RuntimeException("bad code");
         }
         REG_GROUPS_BY_CO_ID_SEARCH_TYPE = info;
+
+
+        info = new TypeInfo();
+        info.setKey(COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY);
+        info.setName("Colocated AOs Search");
+        info.setDescr(new RichTextHelper().fromPlain("Return search results for Colocated AOs"));
+
+        try {
+            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
+        } catch ( IllegalArgumentException ex) {
+            throw new RuntimeException("bad code");
+        }
+        COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE = info;
 
         info = new TypeInfo();
         info.setKey(AOS_WO_CLUSTER_BY_FO_ID_SEARCH_KEY);
@@ -139,6 +159,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         if (REG_GROUPS_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
             return REG_GROUPS_BY_CO_ID_SEARCH_TYPE;
         }
+        if (COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY.equals(searchTypeKey)) {
+            return COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE;
+        }
         if (AOS_WO_CLUSTER_BY_FO_ID_SEARCH_KEY.equals(searchTypeKey)) {
             return AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE;
         }
@@ -150,7 +173,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException {
-        return Arrays.asList(SCH_ID_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE, REG_GROUPS_BY_CO_ID_SEARCH_TYPE, AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE);
+        return Arrays.asList(SCH_ID_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE,
+                REG_GROUPS_BY_CO_ID_SEARCH_TYPE, AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE, COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE);
     }
 
 
@@ -167,12 +191,60 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         else if (REG_GROUPS_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForRegGroupsByCoId(searchRequestInfo);
         }
+        else if (COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
+            return searchForAosByAoIds(searchRequestInfo);
+        }
         else if (AOS_WO_CLUSTER_BY_FO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForAOsWithoutClusterByFormatOffering(searchRequestInfo);
         }
         else{
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
+    }
+
+    private SearchResultInfo searchForAosByAoIds(SearchRequestInfo searchRequestInfo) {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        List<String> aoIds = requestHelper.getParamAsList(SearchParameters.AO_IDS);
+
+        String queryStr =
+                "SELECT aoMatchIds," +
+                "       co_ident.code," +
+                "       ao_ident.code " +
+                "FROM LuiSetEntity lset," +
+                "     IN(lset.luiIds) aoMatchIds," +
+                "     IN(lset.luiIds) aoIds," +
+                "     LuiIdentifierEntity co_ident," +
+                "     LuiIdentifierEntity ao_ident," +
+                "     LuiLuiRelationEntity co2fo," +
+                "     LuiLuiRelationEntity fo2ao " +
+                "WHERE lset.luiSetType = 'kuali.luiset.type.colocated.offering.set' " +
+                "  AND aoMatchIds IN(:aoIds) " +
+                "  AND co2fo.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
+                "  AND fo2ao.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.fo2ao' " +
+                "  AND co2fo.relatedLui.id = fo2ao.lui.id " +
+                "  AND fo2ao.relatedLui.id = aoIds " +
+                "  AND co2fo.lui.id = co_ident.lui.id " +
+                "  AND aoIds = ao_ident.lui.id " +
+                "  AND co_ident.type = 'kuali.lui.identifier.type.official' " +
+                "  AND ao_ident.type = 'kuali.lui.identifier.type.official' " +
+                "  AND aoMatchIds != aoIds";
+
+        Query query = entityManager.createQuery(queryStr);
+        query.setParameter(SearchParameters.AO_IDS, aoIds);
+        List<Object[]> results = query.getResultList();
+
+        for(Object[] resultRow : results){
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_CODE, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i++]);
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
     }
 
     private SearchResultInfo searchForRegGroupsByCoId(SearchRequestInfo searchRequestInfo) {
@@ -184,11 +256,12 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         String queryStr =
                 "SELECT rg2ao.relatedLui.id," +
                 "       rg2ao.lui.id," +
-                "       rg2ao.lui.name " +
+                "       rg2ao.lui.name," +
+                "       rg2ao.lui.luiState " +
                 "FROM LuiLuiRelationEntity co2fo," +
                 "     LuiLuiRelationEntity fo2ao," +
                 "     LuiLuiRelationEntity rg2ao " +
-                "WHERE co2fo.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo'' " +
+                "WHERE co2fo.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
                 "  AND fo2ao.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.fo2ao' " +
                 "  AND rg2ao.luiLuiRelationType = 'kuali.lui.lui.relation.type.registeredforvia.rg2ao' " +
                 "  AND co2fo.lui.id = :coId " +
@@ -205,6 +278,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.RG_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.RG_NAME, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.RG_STATE, (String)resultRow[i++]);
             resultInfo.getRows().add(row);
         }
 
@@ -253,9 +327,12 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
         String queryStr =
                 "SELECT rel.relatedLui.id," +
+                "       rel.relatedLui.name," +
                 "       aoc.id," +
+                "       aoc.name," +
+                "       aoc.privateName," +
                 "       ao_lui.id," +
-                "       ao_lui.luiType, " +
+                "       ao_lui.luiType," +
                 "       ao_lui.luiState," +
                 "       ao_lui.scheduleId," +
                 "       ao_lui.maxSeats," +
@@ -263,7 +340,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "FROM LuiLuiRelationEntity rel," +
                 "     ActivityOfferingClusterEntity aoc," +
                 "     IN(aoc.aoSets) aocSets," +
-                "     IN(aocSets.aoIds) aocSetAoIds, " +
+                "     IN(aocSets.aoIds) aocSetAoIds," +
                 "     LuiEntity ao_lui," +
                 "     IN(ao_lui.identifiers) ao_lui_ident " +
                 "WHERE rel.lui.id = :coId " +
@@ -280,12 +357,16 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(SearchResultColumns.FO_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.FO_NAME, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AOC_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.AOC_NAME, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.AOC_PRIVATE_NAME, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AO_TYPE, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AO_STATE, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.SCHEDULE_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.AO_MAX_SEATS, resultRow[i]==null?null:resultRow[i++].toString());
+            row.addCell(SearchResultColumns.AO_MAX_SEATS, resultRow[i]==null?null:resultRow[i].toString());
+            i++;
             row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i++]);
             resultInfo.getRows().add(row);
         }

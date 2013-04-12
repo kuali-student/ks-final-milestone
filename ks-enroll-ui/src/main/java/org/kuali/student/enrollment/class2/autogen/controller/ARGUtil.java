@@ -267,14 +267,16 @@ public class ARGUtil {
 
         getViewHelperService(form).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(form, currentCOWrapper);
 
-        List<FormatOfferingInfo> formatOfferingList = getCourseOfferingService().getFormatOfferingsByCourseOffering(coInfo.getId(),ContextUtils.createDefaultContextInfo());
-        List<String> foIds = new ArrayList<String>();
-        for(FormatOfferingInfo foInfo:formatOfferingList){
-            foIds.add(foInfo.getId());
-        }
-        form.setFormatOfferingIds(foIds); 
-        form.setAoCount(form.getActivityWrapperList().size());
-        ARGUtil.loadRegistrationGroupsByCourseOffering(foIds, form);
+        //Performance fix KSENROLL-6102 the foids are now loaded in ARGCourseOfferingManagementViewHelperServiceImpl.build_AOs_RGs_AOCs_Lists_For_TheCourseOffering
+        //delete this code when performance work is complete
+//        List<FormatOfferingInfo> formatOfferingList = getCourseOfferingService().getFormatOfferingsByCourseOffering(coInfo.getId(),ContextUtils.createDefaultContextInfo());
+//        List<String> foIds = new ArrayList<String>();
+//        for(FormatOfferingInfo foInfo:formatOfferingList){
+//            foIds.add(foInfo.getId());
+//        }
+//        form.setFormatOfferingIds(foIds);
+//        form.setAoCount(form.getActivityWrapperList().size());
+//        ARGUtil.loadRegistrationGroupsByCourseOffering(foIds, form);
         
 
         //turn off authz for now
@@ -460,12 +462,12 @@ public class ARGUtil {
         CourseOfferingWrapper coWrapper = new CourseOfferingWrapper(theCourseOffering);
         getViewHelperService(theForm).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(theForm, coWrapper);
 
-        List<FormatOfferingInfo> foList = getCourseOfferingService().getFormatOfferingsByCourseOffering(theCourseOffering.getId(), ContextUtils.createDefaultContextInfo());
-        List<String> foIDs = new ArrayList<String>();
-        for (FormatOfferingInfo fo : foList) {
-            foIDs.add(fo.getId());
-        }
-        loadRegistrationGroupsByCourseOffering(foIDs, theForm);
+//        List<FormatOfferingInfo> foList = getCourseOfferingService().getFormatOfferingsByCourseOffering(theCourseOffering.getId(), ContextUtils.createDefaultContextInfo());
+//        List<String> foIDs = new ArrayList<String>();
+//        for (FormatOfferingInfo fo : foList) {
+//            foIDs.add(fo.getId());
+//        }
+//        loadRegistrationGroupsByCourseOffering(foIDs, theForm);
 
         getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm);
 
