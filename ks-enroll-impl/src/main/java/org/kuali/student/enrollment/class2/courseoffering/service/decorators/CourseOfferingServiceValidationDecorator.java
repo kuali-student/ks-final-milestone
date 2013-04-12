@@ -24,13 +24,27 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.core.class1.type.infc.TypeTypeRelation;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.dto.SortDirection;
+import org.kuali.student.r2.core.search.infc.SearchParam;
+import org.kuali.student.r2.core.search.infc.SearchRequest;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import javax.jws.WebParam;
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CourseOfferingServiceValidationDecorator
         extends CourseOfferingServiceDecorator
@@ -38,6 +52,7 @@ public class CourseOfferingServiceValidationDecorator
     // validator property w/getter & setter
     private DataDictionaryValidator validator;
     private TypeService typeService;
+    private CluService cluService;
 
     @Override
     public DataDictionaryValidator getValidator() {
@@ -127,7 +142,8 @@ public class CourseOfferingServiceValidationDecorator
     public FormatOfferingInfo createFormatOffering(String courseOfferingId, String formatId, String formatOfferingType, FormatOfferingInfo formatOfferingInfo, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        // create 
+        _initServices();
+        // create
         try {
             List<ValidationResultInfo> errors =
                     this.validateFormatOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
@@ -135,10 +151,67 @@ public class CourseOfferingServiceValidationDecorator
             if (checkForErrors(errors)) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
+            _checkFormatOfferingForValidAOTypes(formatOfferingInfo, context);
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("Error validating", ex);
         }
         return getNextDecorator().createFormatOffering(courseOfferingId, formatId, formatOfferingType, formatOfferingInfo, context);
+    }
+
+    private void _checkFormatOfferingForValidAOTypes(FormatOfferingInfo fo, ContextInfo context)
+            throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException {
+        SearchRequestInfo request = new SearchRequestInfo("lu.search.relatedTypes");
+        request.addParam("lu.queryParam.cluId", fo.getFormatId());
+        request.addParam("lu.queryParam.luOptionalRelationType", "luLuRelationType.contains");
+        SearchResultInfo result = cluService.search(request, context);
+        List<SearchResultRowInfo> rows = result.getRows();
+        List<String> activityKeys = new ArrayList<String>();
+        for (SearchResultRowInfo row: rows) {
+            List<SearchResultCellInfo> cells = row.getCells();
+            for (SearchResultCellInfo cell: cells) {
+                if (cell.getKey().equals("lu.resultColumn.cluType")) {
+                    activityKeys.add(cell.getValue());
+                    break; // Found the key, so break
+                }
+            }
+        }
+        if (activityKeys.isEmpty()) {
+            // Must have some activity keys
+            throw new DataValidationErrorException("Missing Activity keys for FO(" + fo.getId() + ")");
+        }
+        List<String> aoTypes = fo.getActivityOfferingTypeKeys();
+        if (aoTypes.isEmpty()) {
+            throw new DataValidationErrorException("Missing Activity Offering type keys for FO(" + fo.getId() + ")");
+        }
+        if (aoTypes.size() != activityKeys.size()) {
+            throw new DataValidationErrorException("Number of type keys do not match: Activity types (" + activityKeys.size() +
+                                ") vs AO types (" + aoTypes.size() + ")");
+        }
+        Set<String> usedActivtyTypeKeys = new HashSet<String>(); // To avoid duplication of Activity keys
+        for (String aoTypeKey: aoTypes) {
+            List<TypeTypeRelationInfo> typeTypeRelationInfos =
+                typeService.getTypeTypeRelationsByRelatedTypeAndType(aoTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, context);
+            if (typeTypeRelationInfos == null || typeTypeRelationInfos.size() != 1) {
+                int size = 0;
+                if (typeTypeRelationInfos != null) {
+                    size = typeTypeRelationInfos.size();
+                }
+                throw new DataValidationErrorException("There should be exactly one Activity type for AO type (" + aoTypeKey
+                                    + ").  There are " + size + " Activity types instead");
+            }
+            String foundActivityType = typeTypeRelationInfos.get(0).getOwnerTypeKey();
+            if (usedActivtyTypeKeys.contains(foundActivityType)) {
+                throw new DataValidationErrorException("There should be 1-1 relation between Activity types and AO types. " +
+                        "The activity type, " + foundActivityType + " has been seen before.");
+            }
+
+            if (!activityKeys.contains(foundActivityType)) {
+                throw new DataValidationErrorException("The activity type found (" + foundActivityType + ") for AO type (" +
+                        aoTypeKey + ") is not found in the CLU activity types");
+            }
+            usedActivtyTypeKeys.add(foundActivityType);
+        }
+        // If it gets to this point, then the types should match
     }
 
     @Override
@@ -561,7 +634,7 @@ public class CourseOfferingServiceValidationDecorator
         if (errorCheck) {
             throw new DataValidationErrorException("Error(s) occurred validating", errors);
         }
-        return getNextDecorator().createColocatedOfferingSet(colocatedOfferingSetTypeKey,colocatedOfferingSetInfo,contextInfo);
+        return getNextDecorator().createColocatedOfferingSet(colocatedOfferingSetTypeKey, colocatedOfferingSetInfo, contextInfo);
     }
 
     @Override
@@ -587,6 +660,21 @@ public class CourseOfferingServiceValidationDecorator
         return false;
     }
 
+    public void _initServices() {
+        getCluService();
+        getTypeService();
+    }
+
+    public CluService getCluService() {
+        if (cluService == null){
+            cluService = (CluService) GlobalResourceLoader.getService(new QName(CluServiceConstants.NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return cluService;
+    }
+
+    public void setCluService(CluService cluService) {
+        this.cluService = cluService;
+    }
 
     public TypeService getTypeService() {
         if(typeService == null){
