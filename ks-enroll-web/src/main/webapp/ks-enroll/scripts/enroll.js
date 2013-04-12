@@ -30,19 +30,19 @@ function replaceBreadCrumbs(bc) {
     }
 }
 
-writeMessagesForPage = function () {
-    var page = jQuery("[data-type='Page']");
-    var pageId = page.attr("id");
-    var data = page.data(kradVariables.VALIDATION_MESSAGES);
-    var messageMap = data.messageMap;
-    if (!messageMap) {
-        messageMap = {};
-        data.messageMap = messageMap;
-    }
-    writeMessagesForGroup(pageId, data);
-    writeMessagesForChildGroups(pageId);
-    jQuery(".uif-errorMessageItem > div").show();
-}
+//writeMessagesForPage = function () {
+//    var page = jQuery("[data-type='Page']");
+//    var pageId = page.attr("id");
+//    var data = page.data(kradVariables.VALIDATION_MESSAGES);
+//    var messageMap = data.messageMap;
+//    if (!messageMap) {
+//        messageMap = {};
+//        data.messageMap = messageMap;
+//    }
+//    writeMessagesForGroup(pageId, data);
+//    writeMessagesForChildGroups(pageId);
+//    jQuery(".uif-errorMessageItem > div").show();
+//}
 
 function removeSelfFromDropdowns(headerTextNameContainerId) {
     jQuery('select[name=clusterIdForAOMove]').each(function () {
