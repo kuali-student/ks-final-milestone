@@ -35,7 +35,7 @@ public class TranslationUtility implements TranslateBusinessMethods {
     private NaturalLanguageTemplaterContract templater;
 
     public TranslationUtility(RuleManagementService ruleManagementService,
-                              NaturalLanguageTemplaterContract templater) {
+            NaturalLanguageTemplaterContract templater) {
         this.ruleManagementService = ruleManagementService;
         this.templater = templater;
     }
@@ -88,8 +88,8 @@ public class TranslationUtility implements TranslateBusinessMethods {
         String propositionTypeId = proposition.getTypeId();
         NaturalLanguageTemplate naturalLanguageTemplate =
                 this.ruleManagementService.findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(languageCode,
-                        propositionTypeId,
-                        naturalLanguageUsageId);
+                propositionTypeId,
+                naturalLanguageUsageId);
         if (naturalLanguageTemplate == null) {
             throw new RiceIllegalArgumentException("no template found for " + languageCode
                     + " " + typeId
@@ -100,11 +100,11 @@ public class TranslationUtility implements TranslateBusinessMethods {
 
     @Override
     public String translateNaturalLanguageForProposition(String naturalLanguageUsageId,
-                                                         PropositionDefinition proposition, String languageCode)
+            PropositionDefinition proposition, String languageCode)
             throws RiceIllegalArgumentException {
         NaturalLanguageTemplate naturalLanguageTemplate =
                 this.ruleManagementService.findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(languageCode,
-                        proposition.getTypeId(), naturalLanguageUsageId);
+                proposition.getTypeId(), naturalLanguageUsageId);
         if (naturalLanguageTemplate == null) {
             throw new RiceIllegalArgumentException(languageCode + "." + proposition.getTypeId() + "." + naturalLanguageUsageId);
         }
@@ -119,8 +119,8 @@ public class TranslationUtility implements TranslateBusinessMethods {
 
     @Override
     public NaturalLanguageTree translateNaturalLanguageTreeForProposition(String naturalLanguageUsageId,
-                                                                          PropositionDefinition proposition,
-                                                                          String languageCode) throws RiceIllegalArgumentException {
+            PropositionDefinition proposition,
+            String languageCode) throws RiceIllegalArgumentException {
         NaturalLanguageTemplate naturalLanguageTemplate = null;
         //Continue if typeid is null, some children may not be initialized yet.
         if (proposition.getTypeId() != null) {
@@ -159,20 +159,20 @@ public class TranslationUtility implements TranslateBusinessMethods {
         }
         Map<String, Object> contextMap = new LinkedHashMap<String, Object>();
         for (PropositionParameter param : proposition.getParameters()) {
-            if (param.getParameterType().equals(PropositionParameterType.TERM.getCode())){
-                if (param.getTermValue() != null){
-                    contextMap.put(param.getParameterType(), param.getTermValue());
+            if (param.getParameterType().equals(PropositionParameterType.TERM.getCode())) {
+                if (param.getTermValue() != null) {
+                    for (TermParameterDefinition termParam : param.getTermValue().getParameters()) {
+                        contextMap.put(termParam.getName(), termParam.getValue());
+                    }
                 } else {
                     contextMap.put(param.getParameterType(), param.getValue());
                 }
-            }
-            else {
+            } else {
                 contextMap.put(param.getParameterType(), param.getValue());
             }
         }
         return contextMap;
     }
-
     public static final String COMPOUND_COMPONENTS = "compoundComponent";
 
     protected Map<String, Object> buildCompoundPropositionContextMap(String naturalLanguageUsageId, PropositionDefinition proposition, String languageCode) {
@@ -181,10 +181,10 @@ public class TranslationUtility implements TranslateBusinessMethods {
         }
         Map<String, Object> contextMap = new LinkedHashMap<String, Object>();
         /*List<String> children = new ArrayList<String>();
-        for (PropositionDefinition param : proposition.getCompoundComponents()) {
-            children.add(this.translateNaturalLanguageForProposition(naturalLanguageUsageId, proposition, languageCode));
-        }
-        contextMap.put(COMPOUND_COMPONENTS, children);*/
+         for (PropositionDefinition param : proposition.getCompoundComponents()) {
+         children.add(this.translateNaturalLanguageForProposition(naturalLanguageUsageId, proposition, languageCode));
+         }
+         contextMap.put(COMPOUND_COMPONENTS, children);*/
         return contextMap;
     }
 
@@ -213,7 +213,7 @@ public class TranslationUtility implements TranslateBusinessMethods {
     }
 
     protected String translateSimpleProposition(NaturalLanguageTemplate naturalLanguageTemplate,
-                                                PropositionDefinition proposition)
+            PropositionDefinition proposition)
             throws RiceIllegalArgumentException {
         if (!proposition.getPropositionTypeCode().equals(PropositionType.SIMPLE.getCode())) {
             throw new RiceIllegalArgumentException("proposition not simple " + proposition.getPropositionTypeCode() + " " + proposition.getId() + proposition.getDescription());
