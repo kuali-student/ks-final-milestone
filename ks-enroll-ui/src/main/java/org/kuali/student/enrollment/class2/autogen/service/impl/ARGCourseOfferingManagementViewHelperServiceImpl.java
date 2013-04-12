@@ -711,7 +711,9 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         aoClusterWrapper.setFormatOfferingId(foInfo.getId());
         aoClusterWrapper.setFormatNameForDisplay("Forget to set format name?");
 
-        List<ActivityOfferingInfo> aoInfoList = getCourseOfferingService().getActivityOfferingsByCluster(aoCluster.getId(), ContextUtils.createDefaultContextInfo());
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+        List<ActivityOfferingInfo> aoInfoList = getCourseOfferingService().getActivityOfferingsByCluster(aoCluster.getId(),contextInfo );
         List<ActivityOfferingWrapper> aoWrapperListPerCluster = new ArrayList<ActivityOfferingWrapper>();
         for(ActivityOfferingInfo aoInfo: aoInfoList){
             ActivityOfferingWrapper aoWrapper = convertAOInfoToWrapper(aoInfo);
@@ -747,11 +749,14 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         aoClusterWrapper.setAoWrapperList(aoWrapperListPerCluster);
 
         List<RegistrationGroupWrapper> rgListPerCluster = new ArrayList<RegistrationGroupWrapper>();
-        List<RegistrationGroupInfo> rgInfos =getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(aoCluster.getId(), ContextUtils.createDefaultContextInfo());
+        List<RegistrationGroupInfo> rgInfos =getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(aoCluster.getId(), contextInfo);
         if (rgInfos.size() > 0 ){
             _validateRegistrationGroupsPerCluster(rgInfos, aoInfoList, aoClusterWrapper, theForm, clusterIndex);
             rgListPerCluster= _getRGsForSelectedFO(rgInfos, aoWrapperListPerCluster);
+        }else{
+            _performAOCompletePerClusterValidation(foInfo, aoInfoList, aoClusterWrapper, clusterIndex, contextInfo);
         }
+
         //TODO: seem we don't need to keep track the following info any more!
 //        else {
 //            aoClusterWrapper.setHasAllRegGroups(false);
@@ -760,6 +765,48 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 //        }
         aoClusterWrapper.setRgWrapperList(rgListPerCluster);
         return aoClusterWrapper;
+    }
+
+    /**
+     * This method will indicate to the user if the cluster canot be generated because the AO Set does not contain
+     * enough activities that meet the requirements of the FormatOffering
+     *
+     * @param foInfo
+     * @param aoList
+     * @param aoClusterWrapper
+     * @param clusterIndex  Used to tack the warning message onto a particular part of the screen
+     * @param contextInfo
+     * @throws Exception
+     */
+    protected void _performAOCompletePerClusterValidation(FormatOfferingInfo foInfo, List<ActivityOfferingInfo> aoList,
+                                                          ActivityOfferingClusterWrapper aoClusterWrapper, int clusterIndex, ContextInfo contextInfo) throws Exception{
+        List<String> aoTypeKeys = foInfo.getActivityOfferingTypeKeys();
+        Map<String, Boolean> completeAoSet = new HashMap<String, Boolean>(); // using a map to store what's required
+
+        for(String aoType :aoTypeKeys){
+            completeAoSet.put(aoType, false);
+        }
+
+        for(ActivityOfferingInfo aoInfo : aoList){
+            completeAoSet.put(aoInfo.getTypeKey(), true); // This is used to determine if the AO Set has all FO types
+        }
+
+        String aoCompleteWarningMessage = "";
+        String delim = "";
+        for(String aoTypeKey : completeAoSet.keySet()){
+            if(!completeAoSet.get(aoTypeKey)){
+                // type service should be cached so this shouldn't be slow
+                aoCompleteWarningMessage += delim + getTypeService().getType(aoTypeKey, contextInfo).getName();
+                delim = ", ";
+            }
+        }
+        if(!aoCompleteWarningMessage.isEmpty()){
+            aoClusterWrapper.setRgStatus(RegistrationGroupConstants.RGSTATUS_NO_RG_GENERATED);
+            aoClusterWrapper.setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_ALL);
+            aoClusterWrapper.setHasAllRegGroups(true);
+            GlobalVariables.getMessageMap().putWarningForSectionId("activityOfferingsPerCluster_line"+clusterIndex, CourseOfferingConstants.REGISTRATIONGROUP_INCOMPLETE_AOSET, aoCompleteWarningMessage);
+        }
+
     }
 
     /*
