@@ -1,4 +1,4 @@
-// CREATING CHEM277 201212 from CHEM211 201201
+-- CREATING CHEM277 201212 from CHEM211 201201 --
 insert into KSEN_LUI (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, CLU_ID, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_STATE, LUI_TYPE, MAX_SEATS, MIN_SEATS, NAME, DESCR_PLAIN, REF_URL, SCHEDULE_ID, ID) values ('f4ccd150-30d5-4639-85ad-a49b73b22769', 0, 'admin', TIMESTAMP '2013-04-11 09:21:58.974', 'admin', TIMESTAMP '2013-04-11 09:21:58.974', 'kuali.atp.2012Winter', 'CLUID-CHEM277-200608000000', TIMESTAMP '2013-01-01 19:00:00.0', '', 'Quantitative analysis, inorganic analytical chemistry, and an introduction to bio-analytical instrumentation and techniques.', 'kuali.lui.course.offering.state.draft', 'kuali.lui.type.course.offering', '', '', 'CHEM277 CO', 'Quantitative analysis, inorganic analytical chemistry, and an introduction to bio-analytical instrumentation and techniques.', 'null', '', '08345864-2994-4101-aedd-a1ead352f249')
 /
 insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('a496817a-45a2-48ce-8b0c-cfb35e27957a', 'kuali.attribute.final.exam.indicator', '08345864-2994-4101-aedd-a1ead352f249', 'STANDARD', '3f565325-8610-4d84-a0c9-3afa8fcf9ab5')
@@ -170,7 +170,7 @@ insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, 
 insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, NAME, DESCR_PLAIN, RELATED_LUI_ID, ID) values ('7f6cb8ca-8c7e-4ca2-9bfa-c9295e2ec24b', 0, 'admin', TIMESTAMP '2013-04-11 09:21:58.974', 'admin', TIMESTAMP '2013-04-11 09:21:58.974', TIMESTAMP '2013-04-11 09:22:03.047', '', 'CHEM277-RG-AO', '724a1c90-7153-4693-b9b7-2d673561e35b', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia.rg2ao', 'rg-ao-relation', 'CHEM277-RG-AO', 'd43ba532-5f70-4b3a-8bad-70a392cea869', '322953da-763d-49fe-8272-d258f4dd89d6')
 /
 
-// In CHEM277 201212 copy LECTURE
+-- In CHEM277 201212 copy LECTURE --
 insert into KSEN_LUI (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, CLU_ID, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_STATE, LUI_TYPE, MAX_SEATS, MIN_SEATS, NAME, DESCR_PLAIN, REF_URL, SCHEDULE_ID, ID) values ('858f0e4d-a84c-4698-b8d0-e9d7146b221f', 0, 'admin', TIMESTAMP '2013-04-11 10:46:25.427', 'admin', TIMESTAMP '2013-04-11 10:46:25.427', 'kuali.atp.2012Winter', 'ef2963d7-9647-4ce7-ac63-9523204dd654', '', '', 'Courses with lecture', 'kuali.lui.activity.offering.state.draft', 'kuali.lui.type.activity.offering.lecture', 48, 48, 'Lecture', 'Courses with lecture', 'null', '', '79434b13-3b8f-49a3-9801-ded4abb7f4ec')
 /
 insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('81733d36-95c8-44e1-8635-1ea83cca29d6', 'kuali.attribute.course.evaluation.indicator', '79434b13-3b8f-49a3-9801-ded4abb7f4ec', '0', '7f5e712b-7c5d-4346-ad40-6b7d97890157')
@@ -232,7 +232,7 @@ insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, 
 insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, NAME, DESCR_PLAIN, RELATED_LUI_ID, ID) values ('af89c38f-90d1-473b-aa9c-6a897573e635', 0, 'admin', TIMESTAMP '2013-04-11 10:46:25.427', 'admin', TIMESTAMP '2013-04-11 10:46:25.427', TIMESTAMP '2013-04-11 10:46:28.172', '', 'CHEM277-RG-AO', '7f90c140-0512-4a5d-b67f-dce91b176ba0', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia.rg2ao', 'rg-ao-relation', 'CHEM277-RG-AO', '79434b13-3b8f-49a3-9801-ded4abb7f4ec', '6de7f1dc-4077-4240-9681-a2177ad73564')
 /
 
-// In CHEM277 201212 copy 1st LAB
+-- In CHEM277 201212 copy 1st LAB --
 insert into KSEN_LUI (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, CLU_ID, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_STATE, LUI_TYPE, MAX_SEATS, MIN_SEATS, NAME, DESCR_PLAIN, REF_URL, SCHEDULE_ID, ID) values ('51221f63-c3c0-462e-b1d6-ae5239c532ac', 0, 'admin', TIMESTAMP '2013-04-11 10:56:16.661', 'admin', TIMESTAMP '2013-04-11 10:56:16.661', 'kuali.atp.2012Winter', '9b0d7d87-31ec-498b-bfe4-31a4f1e92021', '', '', 'Courses with lab', 'kuali.lui.activity.offering.state.draft', 'kuali.lui.type.activity.offering.lab', 24, 24, 'Lab', 'Courses with lab', 'null', '', '848df80a-a5d1-4df6-bd5a-f1e8a8317023')
 /
 insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('ab9f9148-205b-4b24-9090-f220c31cba24', 'isWaitlistCheckinRequired', '848df80a-a5d1-4df6-bd5a-f1e8a8317023', '0', '7422ca5c-3952-4ba7-b288-64dac0bf6106')
@@ -294,7 +294,7 @@ insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, 
 insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, NAME, DESCR_PLAIN, RELATED_LUI_ID, ID) values ('64adf395-60d1-444f-bde3-e3d347ef370a', 0, 'admin', TIMESTAMP '2013-04-11 10:56:16.661', 'admin', TIMESTAMP '2013-04-11 10:56:16.661', TIMESTAMP '2013-04-11 10:56:20.575', '', 'CHEM277-RG-AO', '835e0e07-c7bf-4be4-92da-58c1644bc128', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia.rg2ao', 'rg-ao-relation', 'CHEM277-RG-AO', '848df80a-a5d1-4df6-bd5a-f1e8a8317023', '453a803e-e2de-447a-83cc-e626b3078f34')
 /
 
-// In CHEM277 201212 copy 2nd LAB
+-- In CHEM277 201212 copy 2nd LAB --
 insert into KSEN_LUI (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, CLU_ID, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_STATE, LUI_TYPE, MAX_SEATS, MIN_SEATS, NAME, DESCR_PLAIN, REF_URL, SCHEDULE_ID, ID) values ('792b4aa8-0dbc-4511-9bd3-e36670260c2a', 0, 'admin', TIMESTAMP '2013-04-11 11:25:42.39', 'admin', TIMESTAMP '2013-04-11 11:25:42.39', 'kuali.atp.2012Winter', '6138a014-70d6-4716-a817-d096d4c79371', '', '', 'Courses with lab', 'kuali.lui.activity.offering.state.draft', 'kuali.lui.type.activity.offering.lab', 24, 24, 'Lab', 'Courses with lab', 'null', '', 'fbdc0d98-09df-4c7d-a7b3-b0ea4370532b')
 /
 insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('d54a07cb-4ee4-4572-b6c8-ee4e9eaed098', 'kuali.attribute.course.evaluation.indicator', 'fbdc0d98-09df-4c7d-a7b3-b0ea4370532b', '0', 'd3060a71-54bd-417b-b85a-177c0d0bd82b')
@@ -356,7 +356,7 @@ insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, 
 insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, NAME, DESCR_PLAIN, RELATED_LUI_ID, ID) values ('1c091912-8d1c-4982-bca1-d14760c1bc85', 0, 'admin', TIMESTAMP '2013-04-11 11:25:42.39', 'admin', TIMESTAMP '2013-04-11 11:25:42.39', TIMESTAMP '2013-04-11 11:25:47.661', '', 'CHEM277-RG-AO', 'cba624b2-bc71-49af-87ae-9edfab43340c', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia.rg2ao', 'rg-ao-relation', 'CHEM277-RG-AO', '79434b13-3b8f-49a3-9801-ded4abb7f4ec', '6045d37f-6d9f-40be-9422-d6f060864fd1')
 /
 
-// EDIT new LECTURE 
+-- EDIT new LECTURE --
 insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, LUI_CD, DIVISION, IDENT_LEVEL, LNG_NAME, LUI_ID, ORGID, SHRT_NAME, LUI_ID_STATE, SUFX_CD, LUI_ID_TYPE, VARTN, ID) values ('63727bc0-aac0-41df-9440-d713d2b363da', 0, 'admin', TIMESTAMP '2013-04-11 11:46:03.879', 'admin', TIMESTAMP '2013-04-11 11:46:03.879', 'D', '', '', '', '79434b13-3b8f-49a3-9801-ded4abb7f4ec', '', '', 'kuali.lui.identifier.state.active', '', 'kuali.lui.identifier.type.official', '', 'a478166a-1f99-4ffd-8a60-8247604784cc')
 /
 update KSEN_LUI set OBJ_ID='858f0e4d-a84c-4698-b8d0-e9d7146b221f', VER_NBR=1, UPDATEID='admin', UPDATETIME=TIMESTAMP '2013-04-11 11:46:03.879', ATP_ID='kuali.atp.2012Winter', CLU_ID='ef2963d7-9647-4ce7-ac63-9523204dd654', EFF_DT='', EXPIR_DT='', DESCR_FORMATTED='Courses with lecture', LUI_STATE='kuali.lui.activity.offering.state.draft', LUI_TYPE='kuali.lui.type.activity.offering.lecture', MAX_SEATS=48, MIN_SEATS=48, NAME='Lecture', DESCR_PLAIN='Courses with lecture', REF_URL='null', SCHEDULE_ID='' where ID='79434b13-3b8f-49a3-9801-ded4abb7f4ec' and VER_NBR=0
@@ -410,7 +410,7 @@ update KSEN_LUI set OBJ_ID='87a2d5c8-293b-43b8-bec1-3ebde2d38d39', VER_NBR=1, UP
 update KSEN_LUI_IDENT set OBJ_ID='f814ae27-69cb-4313-a3ed-4bf2b5c0e007', VER_NBR=1, UPDATEID='admin', UPDATETIME=TIMESTAMP '2013-04-11 11:46:03.879', LUI_CD='', DIVISION='', IDENT_LEVEL='', LNG_NAME='', LUI_ID='cba624b2-bc71-49af-87ae-9edfab43340c', ORGID='', SHRT_NAME='', LUI_ID_STATE='kuali.lui.identifier.state.active', SUFX_CD='', LUI_ID_TYPE='kuali.lui.identifier.type.official', VARTN='' where ID='72c29ddf-fe20-462b-ae7a-89054cdcb324' and VER_NBR=0
 /
 
-// EDIT 1st LAB
+-- EDIT 1st LAB --
 insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, LUI_CD, DIVISION, IDENT_LEVEL, LNG_NAME, LUI_ID, ORGID, SHRT_NAME, LUI_ID_STATE, SUFX_CD, LUI_ID_TYPE, VARTN, ID) values ('54ea8907-4376-4dc1-b17a-c75062dcd0d0', 0, 'admin', TIMESTAMP '2013-04-11 12:12:04.332', 'admin', TIMESTAMP '2013-04-11 12:12:04.332', 'B', '', '', '', '8ce5704d-fc51-4452-8caf-5e33332bb910', '', '', 'kuali.lui.identifier.state.active', '', 'kuali.lui.identifier.type.official', '', 'f2a4658d-ed78-4d4a-b9f6-765c003d4a25')
 /
 update KSEN_LUI set OBJ_ID='5a9da596-5a61-4a69-9c15-a2b6cdc0963b', VER_NBR=1, UPDATEID='admin', UPDATETIME=TIMESTAMP '2013-04-11 12:12:04.332', ATP_ID='kuali.atp.2012Winter', CLU_ID='9b0d7d87-31ec-498b-bfe4-31a4f1e92021', EFF_DT='', EXPIR_DT='', DESCR_FORMATTED='Courses with lab', LUI_STATE='kuali.lui.activity.offering.state.draft', LUI_TYPE='kuali.lui.type.activity.offering.lab', MAX_SEATS=20, MIN_SEATS=24, NAME='Lab', DESCR_PLAIN='Courses with lab', REF_URL='null', SCHEDULE_ID='' where ID='8ce5704d-fc51-4452-8caf-5e33332bb910' and VER_NBR=0
@@ -452,7 +452,7 @@ update KSEN_LUI set OBJ_ID='7225eca2-9ea7-4de7-b33a-bef14c404525', VER_NBR=2, UP
 update KSEN_LUI_IDENT set OBJ_ID='c5841b18-2adb-436f-9f85-b43aed781b71', VER_NBR=2, UPDATEID='admin', UPDATETIME=TIMESTAMP '2013-04-11 12:12:04.332', LUI_CD='', DIVISION='', IDENT_LEVEL='', LNG_NAME='', LUI_ID='7f90c140-0512-4a5d-b67f-dce91b176ba0', ORGID='', SHRT_NAME='', LUI_ID_STATE='kuali.lui.identifier.state.active', SUFX_CD='', LUI_ID_TYPE='kuali.lui.identifier.type.official', VARTN='' where ID='7d90e84f-d558-43e7-96b8-8b42f20387dc' and VER_NBR=1
 /
 
-// EDIT 2nd LAB
+-- EDIT 2nd LAB  --
 insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, LUI_CD, DIVISION, IDENT_LEVEL, LNG_NAME, LUI_ID, ORGID, SHRT_NAME, LUI_ID_STATE, SUFX_CD, LUI_ID_TYPE, VARTN, ID) values ('b93cc283-cd13-49f3-84e0-7f68a7333987', 0, 'admin', TIMESTAMP '2013-04-11 12:31:21.251', 'admin', TIMESTAMP '2013-04-11 12:31:21.251', 'F', '', '', '', 'fbdc0d98-09df-4c7d-a7b3-b0ea4370532b', '', '', 'kuali.lui.identifier.state.active', '', 'kuali.lui.identifier.type.official', '', 'c703a160-b2fa-4192-8914-43687b1fcc5d')
 /
 insert into KSEN_LPR (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, COMMIT_PERCT, EFF_DT, EXPIR_DT, LUI_ID, PERS_ID, LPR_STATE, LPR_TYPE, ID) values ('9e2cc85e-a8b2-41d9-9c2c-d78b29014fed', 0, 'admin', TIMESTAMP '2013-04-11 12:31:21.251', 'admin', TIMESTAMP '2013-04-11 12:31:21.251', '100.0', TIMESTAMP '2013-04-11 12:31:21.512', '', 'fbdc0d98-09df-4c7d-a7b3-b0ea4370532b', 'J.JRH', 'kuali.lpr.state.tentative', 'kuali.lpr.type.instructor.main', '12b4e4ad-98b9-400c-bf89-6775ae2cf686')
@@ -500,7 +500,7 @@ update KSEN_LUI set OBJ_ID='87a2d5c8-293b-43b8-bec1-3ebde2d38d39', VER_NBR=2, UP
 update KSEN_LUI_IDENT set OBJ_ID='f814ae27-69cb-4313-a3ed-4bf2b5c0e007', VER_NBR=2, UPDATEID='admin', UPDATETIME=TIMESTAMP '2013-04-11 12:31:21.251', LUI_CD='', DIVISION='', IDENT_LEVEL='', LNG_NAME='', LUI_ID='cba624b2-bc71-49af-87ae-9edfab43340c', ORGID='', SHRT_NAME='', LUI_ID_STATE='kuali.lui.identifier.state.active', SUFX_CD='', LUI_ID_TYPE='kuali.lui.identifier.type.official', VARTN='' where ID='72c29ddf-fe20-462b-ae7a-89054cdcb324' and VER_NBR=1
 /
 
-// Creating new cluster
+-- Creating new cluster --
 insert into KSEN_CO_AO_CLUSTER (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, AO_CLUSTER_STATE, AO_CLUSTER_TYPE, DESCR_FORMATTED, DESCR_PLAIN, FORMAT_OFFERING_ID, NAME, PRIVATE_NAME, ID) values ('a516e309-fb4b-4a50-85e9-3f14b75bd911', 0, 'admin', TIMESTAMP '2013-04-11 12:51:29.086', 'admin', TIMESTAMP '2013-04-11 12:51:29.086', 'kuali.activity.offering.cluster.state.active', 'kuali.activity.offering.cluster.type.activity.offering.cluster', '', '', 'ea393e8f-5319-43a5-9478-7461251686aa', 'CL 1 Conflict', 'CL 1 Conflict', 'e70550b9-1e23-4dd3-956d-3055509530d2')
 /
 insert into KSEN_CO_AO_CLUSTER_SET (OBJ_ID, ACTIVITY_OFFERING_TYPE, AO_CLUSTER_ID, ID) values ('8cbdafee-999e-4645-844a-2db588e61d5b', 'kuali.lui.type.activity.offering.lab', 'e70550b9-1e23-4dd3-956d-3055509530d2', 'e912e3a5-105a-404d-b6bb-e7256996204c')
