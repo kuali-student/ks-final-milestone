@@ -19,8 +19,11 @@ import org.kuali.student.r2.core.search.util.SearchRequestHelper;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -131,11 +134,11 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException {
-        if (SCH_ID_BY_AO_SEARCH_KEY.equals(searchTypeKey)) {
+        if (SCH_IDS_BY_AO_SEARCH_KEY.equals(searchTypeKey)) {
             return AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE;
         }
         if (AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
-            return SCH_ID_BY_AO_SEARCH_TYPE;
+            return SCH_IDS_BY_AO_SEARCH_TYPE;
         }
         if (REG_GROUPS_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
             return REG_GROUPS_BY_CO_ID_SEARCH_TYPE;
@@ -151,7 +154,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException {
-        return Arrays.asList(SCH_ID_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE, REG_GROUPS_BY_CO_ID_SEARCH_TYPE, AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE);
+        return Arrays.asList(SCH_IDS_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE, REG_GROUPS_BY_CO_ID_SEARCH_TYPE, AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE);
     }
 
 
@@ -221,11 +224,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-<<<<<<< .working
     protected SearchResultInfo searchForScheduleIdsByAoId(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
-=======
-    protected SearchResultInfo searchForScheduleIdByAoId(SearchRequestInfo searchRequestInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
->>>>>>> .merge-right.r46340
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
 
         String aoId = requestHelper.getParamAsString(SearchParameters.AO_ID);
