@@ -93,7 +93,7 @@ public class ARGListOfAOClustersForFOKeyValues extends UifKeyValuesFinderBase im
                     for(ActivityOfferingWrapper aoWrapper: aoWrapperList){
                         if (aoWrapper.getIsCheckedByCluster()){
                             aoChecked = true;
-                            String slectedFoID = clusterWrapper.getFormatOffering().getId();
+                            String slectedFoID = clusterWrapper.getFormatOfferingId();
                             if(foSet.isEmpty() || !foSet.contains(slectedFoID)) {
                                 foSet.add(slectedFoID);
                             }

@@ -32,6 +32,7 @@ import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.dto.RuleTypeInfo;
+import org.kuali.rice.krms.dto.TermEditor;
 import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
@@ -272,7 +273,12 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         if (builder != null) {
             termParameters = builder.buildTermParameters(prop);
         }
-
+        if (prop.getTerm() == null){
+            TermEditor term = new TermEditor();
+            String termSpecName = this.getTemplateRegistry().getTermSpecNameForType(prop.getType());
+            term.setSpecification(getTermRepositoryService().getTermSpecificationByNameAndNamespace(termSpecName,KsKrmsConstants.NAMESPACE_CODE));
+            prop.setTerm(term);
+        }
         List<TermParameterEditor> parameters = new ArrayList<TermParameterEditor>();
         if (termParameters != null) {
             for (Map.Entry<String, String> entry : termParameters.entrySet()) {

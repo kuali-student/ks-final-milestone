@@ -22,7 +22,7 @@ public class ActivityOfferingClusterWrapper implements Serializable {
     private String clusterNameForDisplay = "";
     private String formatNameForDisplay ="";
 
-    private FormatOfferingInfo formatOffering;
+    private String formatOfferingId;
 
     // notes by Bonnie
     // TODO: the following boolean should be removed after migrate to ARG
@@ -142,19 +142,14 @@ public class ActivityOfferingClusterWrapper implements Serializable {
     }
 
     public void setFormatNameForDisplay(String formatNameForDisplay) {
-        if(formatOffering == null){
-            this.formatNameForDisplay += formatNameForDisplay;
-        }
-        else {
-            this.formatNameForDisplay += "Format: "+formatOffering.getName();
-        }
+        this.formatNameForDisplay = formatNameForDisplay;
     }
 
-    public FormatOfferingInfo getFormatOffering() {
-        return formatOffering;
+    public String getFormatOfferingId() {
+        return formatOfferingId;
     }
 
-    public void setFormatOffering(FormatOfferingInfo formatOffering) {
-        this.formatOffering = formatOffering;
+    public void setFormatOfferingId(String formatOfferingId) {
+        this.formatOfferingId = formatOfferingId;
     }
 }

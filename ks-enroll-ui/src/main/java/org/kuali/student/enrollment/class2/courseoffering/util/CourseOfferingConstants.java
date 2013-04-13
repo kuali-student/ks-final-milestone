@@ -54,6 +54,7 @@ public class CourseOfferingConstants {
 
     public static final String REGISTRATIONGROUP_MISSING_REGGROUPS = "error.enroll.registrationgroup.missingreggroups";
     public static final String REGISTRATIONGROUP_INVALID_REGGROUPS = "error.enroll.registrationgroup.invalidreggroups";
+    public static final String REGISTRATIONGROUP_INCOMPLETE_AOSET = "error.enroll.registrationgroup.aosetnotcomplete";
 
     public static final String ACTIVITY_OFFERING_SCHEDULING_ACTION = "Scheduling";
     public static final String ACTIVITY_OFFERING_DRAFT_ACTION = "Draft";
