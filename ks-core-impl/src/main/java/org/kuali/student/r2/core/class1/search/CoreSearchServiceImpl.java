@@ -38,16 +38,20 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
 
     public static final class SearchParameters {
         public static final String SCHEDULE_IDS = "scheduleIds";
+        public static final String REF_IDS = "refIds";
+        public static final String REF_TYPE = "refType";
     }
 
     public static final class SearchResultColumns {
         public static final String SCH_ID = "id";
+        public static final String CMP_ID = "cmpId";
         public static final String WEEKDAYS = "weekdays";
         public static final String START_TIME = "startTimeMillis";
         public static final String END_TIME = "endTimeMillis";
         public static final String TIME_SLOT_STATE = "timeSlotState";
         public static final String ROOM_CODE = "roomCode";
         public static final String BLDG_NAME = "name";
+        public static final String TBA_IND = "tbaInd";
     }
 
     static {
@@ -113,21 +117,22 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
                 "  tmslot.endTimeMillis, " +
                 "  tmslot.timeSlotState, " +
                 "  room.roomCode, " +
-                "  bldg.name " +
+                "  bldg.name, " +
+                "  cmp.isTBA " +
                 " FROM " +
-                        "    ScheduleEntity sch, " +
-                        "    TimeSlotEntity tmslot, " +
-                        "    ScheduleComponentEntity cmp, " +
-                        "    IN ( cmp.timeSlotIds ) cmp_tmslot, " +
-                        "    RoomEntity room, " +
-                        "    RoomBuildingEntity bldg  " +
+                "    ScheduleEntity sch, " +
+                "    TimeSlotEntity tmslot, " +
+                "    ScheduleComponentEntity cmp, " +
+                "    IN ( cmp.timeSlotIds ) cmp_tmslot, " +
+                "    RoomEntity room, " +
+                "    RoomBuildingEntity bldg  " +
                 " WHERE " +
                 "    sch.id in ("+ scheduleIds +") " +
-                        " AND cmp.schedule.id = sch.id "    +
-                        " AND tmslot.id = cmp_tmslot " +
-                        " AND tmslot.timeSlotState = 'kuali.scheduling.timeslot.state.active' " +
-                        " AND cmp.roomId = room.id " +
-                        " AND room.buildingId = bldg.id  ";
+                " AND cmp.schedule.id = sch.id "    +
+                " AND tmslot.id = cmp_tmslot " +
+                " AND tmslot.timeSlotState = 'kuali.scheduling.timeslot.state.active' " +
+                " AND cmp.roomId = room.id " +
+                " AND room.buildingId = bldg.id  ";
 
 
         List<Object[]> results = getEntityManager().createQuery(query).getResultList();
@@ -153,6 +158,7 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
             row.addCell(SearchResultColumns.TIME_SLOT_STATE,(String)result[i++]);
             row.addCell(SearchResultColumns.ROOM_CODE,(String)result[i++]);
             row.addCell(SearchResultColumns.BLDG_NAME,(String)result[i++]);
+            row.addCell(SearchResultColumns.TBA_IND,result[i++].toString());
             resultInfo.getRows().add(row);
         }
 
@@ -160,6 +166,79 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
 
     }
 
+    /**
+     *
+     * @param searchRequestInfo   Contains an Activity Offering ID that we will use to find the scheduleId
+     * @param contextInfo
+     * @return
+     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
+     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
+     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
+     */
+    protected SearchResultInfo searchForScheduleRequestsByRefIdAndType(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+
+        List<String> refIds = requestHelper.getParamAsList(SearchParameters.REF_IDS);
+        String refType = requestHelper.getParamAsString(SearchParameters.REF_TYPE);
+
+        if (refIds == null || refIds.isEmpty()){
+            throw new RuntimeException("Reference Ids are required");
+        }
+        if (refType == null || refType.isEmpty()){
+            throw new RuntimeException("Reference Type is required");
+        }
+
+        String refIdsStr = commaString(refIds);
+
+        String query =
+                " Select "   +
+                        "  sch.id, " +
+                        "  cmp.id, " +
+                        "  tmslot.weekdays, " +
+                        "  tmslot.startTimeMillis, " +
+                        "  tmslot.endTimeMillis, " +
+                        "  tmslot.timeSlotState " +
+                        " FROM " +
+                        "    ScheduleRequestEntity schReq, " +
+                        "    IN(schReq.scheduleRequestComponents) cmp, " +
+                        "    IN ( cmp.timeSlotIds ) cmp_tmslot, " +
+                        "    TimeSlotEntity tmslot " +
+                        " WHERE " +
+                        "     schReq.refObjectTypeKey = :refType " +
+                        " AND schReq.refObjectId in ("+ refIdsStr +") " +
+                        " AND tmslot.id = cmp_tmslot";
+
+
+        List<Object[]> results = getEntityManager().createQuery(query).getResultList();
+
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        resultInfo.setTotalResults(results.size());
+        resultInfo.setStartAt(0);
+
+        for (Object[] result : results) {
+            SearchResultRowInfo row = new SearchResultRowInfo();
+
+            int i=0;
+
+            row.addCell(SearchResultColumns.SCH_ID,(String)result[i++]);
+            row.addCell(SearchResultColumns.WEEKDAYS,(String)result[i++]);
+
+            Long startTime = (Long)result[i++];  // So, the underlying value is a long. we need to convert that to a string w/o NPE
+            row.addCell(SearchResultColumns.START_TIME,(startTime != null ? startTime.toString(): ""));
+
+            Long endTime = (Long)result[i++];
+            row.addCell(SearchResultColumns.END_TIME,(endTime != null ? endTime.toString(): ""));
+
+            row.addCell(SearchResultColumns.TIME_SLOT_STATE,(String)result[i++]);
+            row.addCell(SearchResultColumns.ROOM_CODE,(String)result[i++]);
+            row.addCell(SearchResultColumns.BLDG_NAME,(String)result[i++]);
+            row.addCell(SearchResultColumns.TBA_IND,result[i++].toString());
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+
+    }
 
     private static String commaString(List<String> items){
         StringBuilder sb = new StringBuilder();
