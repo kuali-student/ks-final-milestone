@@ -218,7 +218,6 @@
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper" />
         <property name="propertyName" value="rgWrapperList" />
         <property name="headerText" value="View Registration Groups (@{#line.rgWrapperList.size()})"/>
-        <property name="instructionalText" value="@{#line.clusterNameForDisplay}" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />

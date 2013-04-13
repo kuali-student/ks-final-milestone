@@ -358,7 +358,6 @@
         <property name="schedulingService" ref="schedulingServiceImpl"/>
         <property name="lrcService" ref="lrcServiceCache"/>
         <property name="stateTransitionsHelper" ref="stateTransitionsHelper"/>
-        <property name="colocatedOfferingSetTransformer" ref="colocatedOfferingSetTransformer"/>
         <property name="searchService" ref="searchService" />
   </bean>
 
@@ -441,15 +440,12 @@
        <property name="luiService" ref="LuiService" />
    </bean>
 
-   <bean id="colocatedOfferingSetTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ColocatedOfferingSetTransformer"/>
-
   <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
 
   <bean id="coMockService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
     <property name="courseService" ref="courseServiceImpl" />
     <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
     <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
-    <property name="colocatedOfferingSetTransformer" ref="colocatedOfferingSetTransformer"/>
   </bean>
 
   <!--<bean id="ks.exp.courseOfferingMockService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">-->

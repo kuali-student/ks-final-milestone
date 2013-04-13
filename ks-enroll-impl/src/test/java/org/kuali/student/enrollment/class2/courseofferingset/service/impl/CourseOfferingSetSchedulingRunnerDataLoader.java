@@ -318,8 +318,8 @@ public class CourseOfferingSetSchedulingRunnerDataLoader extends CourseOfferingS
                                                                String ScheduleRequestComponentInfoId, String scheduleRequestInfoName, String timeSlotId) {
         ScheduleRequestInfo scheduleRequestInfo = new ScheduleRequestInfo();
         scheduleRequestInfo.setId(scheduleRequestInfoId);
-        scheduleRequestInfo.setRefObjectId(scheduleRequestInfoRefObjectId);
-        scheduleRequestInfo.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+// TODOSSR       scheduleRequestInfo.setRefObjectId(scheduleRequestInfoRefObjectId);
+// TODOSSR       scheduleRequestInfo.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
         scheduleRequestInfo.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
         scheduleRequestInfo.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
         scheduleRequestInfo.setName(scheduleRequestInfoName);

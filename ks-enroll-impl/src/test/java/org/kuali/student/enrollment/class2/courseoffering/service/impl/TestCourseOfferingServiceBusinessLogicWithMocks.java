@@ -153,7 +153,7 @@ public class TestCourseOfferingServiceBusinessLogicWithMocks {
         scheduleInfo.setTypeKey(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE);
         scheduleInfo.setAtpId(sourceCo.getTermId());
         scheduleInfo=schedulingService.createSchedule(scheduleInfo.getTypeKey(), scheduleInfo, callContext);
-        sourceAo.setScheduleId(scheduleInfo.getId());
+// TODOSSR       sourceAo.setScheduleId(scheduleInfo.getId());
         sourceAo = coService.createActivityOffering(sourceAo.getFormatOfferingId(), sourceAo.getActivityId(),
                 sourceAo.getTypeKey(), sourceAo, callContext);
 

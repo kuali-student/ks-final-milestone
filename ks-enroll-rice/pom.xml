@@ -4,7 +4,7 @@
     <parent>
         <artifactId>ks-enroll</artifactId>
         <groupId>org.kuali.student.enroll</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0-SSR1-SNAPSHOT</version>
     </parent>
     <artifactId>ks-enroll-rice</artifactId>
     <name>KS Enroll Rice</name>

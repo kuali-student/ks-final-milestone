@@ -4,7 +4,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
@@ -612,6 +611,7 @@ public class CourseOfferingServiceValidationDecorator
         return getNextDecorator().deleteActivityOfferingCluster(activityOfferingClusterId, context);
     }
 
+    /* TODOSSR
     @Override
     public List<ValidationResultInfo> validateColocatedOfferingSet(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "colocatedOfferingSetTypeKey") String colocatedOfferingSetTypeKey, @WebParam(name = "colocatedOfferingSetInfo") ColocatedOfferingSetInfo colocatedOfferingSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // validate
@@ -645,7 +645,7 @@ public class CourseOfferingServiceValidationDecorator
             throw new DataValidationErrorException("Error(s) occurred validating", errors);
         }
         return getNextDecorator().updateColocatedOfferingSet(colocatedOfferingSetId,colocatedOfferingSetInfo,contextInfo);
-    }
+    }*/
 
     private static boolean checkForErrors(List<ValidationResultInfo> errors) {
 
