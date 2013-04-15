@@ -28,27 +28,21 @@ import java.util.Map;
 /**
  * This class creates the template context for grade condition type.
  */
-public class CreditContextImpl extends AbstractLuContext<TermDefinitionContract> {
+public class CreditContextImpl extends AbstractLuContext {
 	/** Total credits template token */ 
 	private final static String TOTAL_CREDITS_TOKEN = "totalCredits";
 
     /**
      * Creates the context map (template data) for the requirement component.
-     * 
      *
-     *
-     *
-     *
-     *
-     *
-     * @param term Requirement component
+     * @param parameters
      * @param contextInfo
      * @throws OperationFailedException
      */
     @Override
-    public Map<String, Object> createContextMap(TermDefinitionContract term, ContextInfo contextInfo) throws OperationFailedException {
+    public Map<String, Object> createContextMap(Map<String, Object> parameters, ContextInfo contextInfo) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
-        contextMap.put(TOTAL_CREDITS_TOKEN, getTermParameterValue(term, TermParameterTypes.TOTAL_CREDIT_KEY.getId()));
+        contextMap.put(TOTAL_CREDITS_TOKEN, parameters.get(TermParameterTypes.TOTAL_CREDIT_KEY.getId()));
         return contextMap;
     }
 }

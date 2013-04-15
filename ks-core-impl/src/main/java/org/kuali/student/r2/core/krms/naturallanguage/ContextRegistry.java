@@ -25,7 +25,7 @@ import java.util.Map;
  * This class is a registry of template contexts which the requirement 
  * component translator uses to generate natural language.
  */
-public class ContextRegistry<T extends Context<?>>  {
+public class ContextRegistry<T extends Context>  {
 
 	/** Registry context map */
 	private Map<String, List<T>> registry = new HashMap<String, List<T>>();
@@ -46,8 +46,7 @@ public class ContextRegistry<T extends Context<?>>  {
 	}
 
 	/**
-	 * Adds a context to the registry. Key is usually a 
-	 * <@link {@link ReqComponentType} key.
+	 * Adds a context to the registry. Key is usually a TermParameterType key.
 	 * 
 	 * @param key Context key
 	 * @param context Context
@@ -63,8 +62,7 @@ public class ContextRegistry<T extends Context<?>>  {
 	}
 
 	/**
-	 * Gets a context from the registry. Key is usually a 
-	 * <@link {@link ReqComponentType} key.
+	 * Gets a context from the registry. Key is usually a TermParameterType key.
 	 * 
 	 * @param key Context key
 	 * @return A context

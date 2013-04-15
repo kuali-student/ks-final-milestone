@@ -28,25 +28,20 @@ import java.util.Map;
 /**
  * This class creates the template context for grade check type.
  */
-public class GradeCheckContextImpl extends AbstractLuContext<TermDefinitionContract> {
+public class GradeCheckContextImpl extends AbstractLuContext {
 	/** GPA template token */ 
 	private final static String GPA_TOKEN = "gpa";
 	
     /**
      * Creates the context map (template data) for the requirement component.
-     * 
      *
-     *
-     *
-     *
-     *
-     * @param reqComponent Requirement component
+     * @param parameters
      * @param contextInfo
-     * @throws DoesNotExistException If CLU, CluSet or relation does not exist
+     * @throws OperationFailedException If CLU, CluSet or relation does not exist
      */
-    public Map<String, Object> createContextMap(TermDefinitionContract term, ContextInfo contextInfo) throws OperationFailedException {
+    public Map<String, Object> createContextMap(Map<String, Object> parameters, ContextInfo contextInfo) throws OperationFailedException {
     	Map<String, Object> contextMap = new HashMap<String, Object>();
-    	contextMap.put(GPA_TOKEN, getTermParameterValue(term, TermParameterTypes.GPA_KEY.getId()));
+    	contextMap.put(GPA_TOKEN, parameters.get(TermParameterTypes.GPA_KEY.getId()));
 
         return contextMap;
     }

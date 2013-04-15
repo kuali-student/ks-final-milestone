@@ -20,15 +20,15 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 import java.util.Map;
 
-public interface Context<T> {
+public interface Context {
     /**
      * Creates the template context map (template token and data) for 
      * a specific context.
      * 
      *
-     * @param context Context to create the map from
+     * @param parameters Context to create the map from
      * @param contextInfo
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException If creating context data map fails
      */
-	public Map<String, Object> createContextMap(T context, ContextInfo contextInfo) throws OperationFailedException;
+	public Map<String, Object> createContextMap(Map<String, Object> parameters, ContextInfo contextInfo) throws OperationFailedException;
 }
