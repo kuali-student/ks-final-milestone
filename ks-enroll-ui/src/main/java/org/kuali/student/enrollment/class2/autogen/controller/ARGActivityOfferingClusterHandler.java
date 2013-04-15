@@ -33,11 +33,13 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingC
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.FormatOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.uif.util.GrowlIcon;
 import org.kuali.student.enrollment.uif.util.KSUifUtils;
@@ -303,6 +305,16 @@ public class ARGActivityOfferingClusterHandler {
 
 
         String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
+        ContextInfo context = ContextUtils.createDefaultContextInfo();
+        FormatOfferingInfo formatOfferingInfo = getCourseOfferingService().getFormatOffering(formatOfferingId, context);
+
+        //validate if the given FO is allowed to create multiple clusters
+        //FO has multiple AO types: it can have multiple clusters
+        //FO has single AO type: it can only have one cluster
+        if (!ARGUtil._clusterForFormatOfferingValidation(formatOfferingInfo, context)) {
+            GlobalVariables.getMessageMap().putError("privateClusterName", FormatOfferingConstants.MSG_ERROR_FORMAT_OFFERING_CLUSTER_OVERLIMIT, formatOfferingInfo.getName());
+            return theForm;
+        }
 
         if (ARGUtil._isClusterUniqueWithinCO(theForm, theForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(), growlPrivateName)){
 
@@ -312,7 +324,7 @@ public class ARGActivityOfferingClusterHandler {
 
             //persist it in DB , comment out for now since it does not work for now
             emptyCluster = ARGUtil.getCourseOfferingService().createActivityOfferingCluster(formatOfferingId,
-                    emptyCluster.getTypeKey(), emptyCluster, ContextUtils.createDefaultContextInfo());
+                    emptyCluster.getTypeKey(), emptyCluster, context);
 
 
 

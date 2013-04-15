@@ -630,4 +630,26 @@ public class ARGUtil {
                 clusterInfo.getId(), clusterInfo, ContextUtils.createDefaultContextInfo());
         return clusterInfo;
     }
+
+    public static boolean _clusterForFormatOfferingValidation (FormatOfferingInfo formatOfferingInfo, ContextInfo context) {
+        try {
+            if (formatOfferingInfo.getActivityOfferingTypeKeys()!=null && formatOfferingInfo.getActivityOfferingTypeKeys().size()>1) {
+                return true;
+            } else if (formatOfferingInfo.getActivityOfferingTypeKeys()!=null && formatOfferingInfo.getActivityOfferingTypeKeys().size()==1) {
+                List<ActivityOfferingClusterInfo> clusters =
+                        getCourseOfferingService().getActivityOfferingClustersByFormatOffering(formatOfferingInfo.getId(), context);
+                if (clusters!=null && clusters.size()>=1) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 }

@@ -682,7 +682,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         
     }
 
-    
+
     private Integer _computeMaxEnrollment(List<String> aoIds, Map<String, ActivityOfferingInfo> aoMap) {
         
         List<ActivityOfferingInfo>aoList = new ArrayList<ActivityOfferingInfo>();
@@ -960,7 +960,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         return runAutogenCountSearch (request, context); 
         
     }
-    
+
     public CourseOfferingService getCoService() {
         if(coService == null) {
 //            coService = (CourseOfferingService) GlobalResourceLoader.getService("CourseOfferingService");
