@@ -18,7 +18,8 @@ package org.kuali.student.enrollment.kitchensink;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.krad.uif.view.ViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,16 +29,23 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class KitchenSinkMockDwarfKeyValues extends KeyValuesBase {
+public class KitchenSinkMockDwarfKeyValues extends UifKeyValuesFinderBase {
 
+    public KitchenSinkMockDwarfKeyValues() {
+        // prevent addBlankOption from ever being set to true:
+        this.setAddBlankOption(false);
+    }
     /**
      * This is a fake implementation of a key value finder, normally this would make a request to
      * a database to obtain the necessary values.  Used only for testing.
      *
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase
      */
     @Override
-    public List<KeyValue> getKeyValues() {
+    public List<KeyValue> getKeyValues(ViewModel model) {
+        // NOTE: if the model isn't needed, the class can just extend KeyValuesBase
+        KitchenSinkForm form = (KitchenSinkForm)model;
+
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("1", "A dwarf named Bashful"));
         keyValues.add(new ConcreteKeyValue("2", "A dwarf named Doc"));

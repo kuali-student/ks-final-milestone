@@ -41,6 +41,7 @@
                             </bean>
                             <!-- Popup content that button #1 displays: -->
                             <ref bean="KS-KitchenSink-Popovers-PopoverContent-1"/>
+
                             <!-- Button #2 -->
                             <bean parent="Uif-SecondaryActionButton-Small">
                                 <property name="actionLabel" value="Popover Image"/>
@@ -49,18 +50,68 @@
                             </bean>
                             <!-- Popup content that button #2 displays: -->
                             <ref bean="KS-KitchenSink-Popovers-PopoverContent-2"/>
+
                             <!-- Button #3 -->
                             <bean parent="Uif-SecondaryActionButton-Small" id="submitButton2">
-                                <property name="actionLabel" value="Popover Form 2"/>
-                                <property name="actionScript"
-                                          value="openPopupContent(e,'KS-KitchenSink-Popovers-PopoverContent-3',{align:'right',tail:{align:'right'}});"/>
+                                <property name="actionLabel" value="Ajax Popover"/>
+                                <!-- popoverMethodToCall defined in KitchenSinkController.java: -->
+                                <property name="methodToCall" value="popoverMethodToCall"/>
+                                <property name="successCallback"
+                                          value="openPopupContentViaAjax('submitButton2','KS-KitchenSink-Popovers-PopoverContent-3',{align:'right',tail:{align:'right'}});"/>
                             </bean>
                             <!-- Popup content that button #3 displays: -->
                             <ref bean="KS-KitchenSink-Popovers-PopoverContent-3"/>
                         </list>
                     </property>
                 </bean>
+
                 <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="Refresh popover content before display:"/>
+                            </bean>
+                            <!-- Action Link #1 -->
+                            <bean parent="Uif-ActionLink" id="actionLink1">
+                                <property name="actionLabel" value="Example #1"/>
+                                <!-- popoverRefreshBeforeDisplay() defined in KitchenSinkController.java: -->
+                                <property name="methodToCall" value="popoverRefreshBeforeDisplay"/>
+                                <property name="refreshId" value="KS-KitchenSink-Popovers-PopoverContent-4"/>
+                                <!-- use successCallback, because methodToCall & actionScript cannot be used together -->
+                                <property name="successCallback"
+                                          value="openPopupContentViaAjax('actionLink1','KS-KitchenSink-Popovers-PopoverContent-4',{align:'middle',tail:{align:'middle'}});"/>
+                            </bean>
+                            <!-- Popup content that action link #1 displays: -->
+                            <bean parent="Uif-VerticalBoxSection">
+                                <property name="hidden" value="true"/>
+                                <property name="items">
+                                    <list>
+                                        <ref bean="KS-KitchenSink-Popovers-PopoverContent-4"/>
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <!-- Action Link #2 -->
+                            <bean parent="Uif-ActionLink" id="actionLink2">
+                                <property name="actionLabel" value="Example #2"/>
+                                <property name="actionScript"
+                                          value="retrieveComponent('KS-KitchenSink-Popovers-PopoverContent-5');openPopupContent(e,'KS-KitchenSink-Popovers-PopoverContent-5',{align:'middle',tail:{align:'middle'}});"/>
+                            </bean>
+                            <!-- Popup content that action link #2 displays: -->
+                            <bean parent="Uif-VerticalBoxSection">
+                                <property name="hidden" value="true"/>
+                                <property name="items">
+                                    <list>
+                                        <ref bean="KS-KitchenSink-Popovers-PopoverContent-5"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="style" value="margin-top:15px;"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message">
@@ -76,14 +127,14 @@
                                         <property name="tooltipContent" value="REQUIRED_BUT_IGNORED"/>
                                         <property name="templateOptions">
                                             <map merge = "true">
-                                                <entry key="innerHtmlId" value="KS-KitchenSink-Popovers-PopoverContent-4"/>
+                                                <entry key="innerHtmlId" value="KS-KitchenSink-Popovers-PopoverContent-6"/>
                                                 <entry key="position" value="right"/>
                                             </map>
                                         </property>
                                     </bean>
                                 </property>
                             </bean>
-                            <ref bean="KS-KitchenSink-Popovers-PopoverContent-4"/>
+                            <ref bean="KS-KitchenSink-Popovers-PopoverContent-6"/>
                         </list>
                     </property>
                 </bean>
@@ -181,7 +232,7 @@
             <list>
                 <bean parent="Uif-InputField-LabelTop">
                     <property name="propertyName" value="stringField2"/>
-                    <property name="label" value="Field #2"/>
+                    <property name="label" value="Preset Text"/>
                     <property name="control">
                         <bean parent="Uif-TextAreaControl">
                             <property name="rows" value="5"/>
@@ -198,8 +249,86 @@
         </property>
     </bean>
 
+    <!-- Content attached to action link #1 -->
+    <bean id="KS-KitchenSink-Popovers-PopoverContent-4" parent="Uif-VerticalBoxSection">
+        <!-- The content is hidden by its container, otherwise the "Loading..." blocker
+             is sometimes briefly visible before the popover appears.
+        <property name="hidden" value="true"/>
+        -->
+        <property name="cssClasses">
+            <list>
+                <value>uif-bubblepopup-content</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField">
+                    <property name="propertyName" value="stringField3"/>
+                    <property name="label" value="Popover display count"/>
+                </bean>
+                <bean parent="Uif-MessageField">
+                    <property name="messageText">
+                        <value>
+                            Put a breakpoint in KitchenSinkController.popoverRefreshBeforeDisplay()&lt;br/&gt;
+                            to see that it is called each time before the popover is displayed.
+                        </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Content attached to action link #2 -->
+    <bean id="KS-KitchenSink-Popovers-PopoverContent-5" parent="Uif-VerticalBoxSection">
+        <!-- The content is hidden by its container, because when this content is
+             refreshed by js function retrieveComponent(), the "hidden" property
+             is reset to its initial value.
+        <property name="hidden" value="true"/>
+        -->
+        <!-- forceSessionPersistence is required by js function retrieveComponent(): -->
+        <property name="forceSessionPersistence" value="true"/>
+        <!-- width may be needed if "align" option is not the default value "left": -->
+        <property name="width" value="425px"/>
+        <property name="cssClasses">
+            <list>
+                <value>uif-bubblepopup-content</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField">
+                    <property name="propertyName" value="dropdownSelection"/>
+                    <property name="label" value="Selection"/>
+                    <property name="width" value="auto"/>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.kitchensink.KitchenSinkMockDwarfKeyValues">
+                            <property name="addBlankOption" value="false"/>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-SecondaryActionButton-Small">
+                    <property name="actionLabel" value="Submit"/>
+                    <property name="methodToCall" value="processPopoverForm"/>
+                </bean>
+                <bean parent="Uif-MessageField">
+                    <property name="messageText">
+                        <value>
+                            Put a breakpoint in KitchenSinkMockDwarfKeyValues.getKeyValues()
+                            to see that it is called each time before the popover is displayed.
+                            Note in this example the popover form must be in a hidden container,
+                            and not hidden itself.
+                        </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
     <!-- Content for "CONTENT ON HOVER" text -->
-    <bean id="KS-KitchenSink-Popovers-PopoverContent-4" parent="Uif-Image">
+    <bean id="KS-KitchenSink-Popovers-PopoverContent-6" parent="Uif-Image">
         <property name="hidden" value="true"/>
         <property name="cssClasses">
             <list>
@@ -261,6 +390,15 @@
                 <bean parent="Uif-MessageField"
                       p:messageText="Click on the buttons to see popup content."/>
                 <ref bean="KS-KitchenSink-Popovers-Section"/>
+                <bean parent="Uif-MessageField">
+                    <property name="messageText">
+                        <value>
+                            &lt;b&gt;NOTE:&lt;/b&gt; Be aware that if the popup is ignoring the position/align
+                            options, it's probably because the jquery-bubblepopup plugin does not think there
+                            is enough room for the popup in that position.
+                        </value>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
