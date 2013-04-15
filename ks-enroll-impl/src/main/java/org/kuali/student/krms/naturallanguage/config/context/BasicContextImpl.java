@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 import java.util.Map;
 
-public class BasicContextImpl extends AbstractContext<TermDefinitionContract> {
+public class BasicContextImpl extends AbstractContext {
 	/**
 	 * <code>NLHelper</code> token (key) references a static natural language
 	 * helper class for use in templates.
@@ -44,19 +44,17 @@ public class BasicContextImpl extends AbstractContext<TermDefinitionContract> {
      * Creates the context map (template data) for the requirement component.
      * Also, adds the field token map to the context map.
      *
-     * @param term Requirement component
+     * @param parameters
      * @param contextInfo
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(TermDefinitionContract term, ContextInfo contextInfo) throws OperationFailedException {
-    	Map<String, Object> contextMap = super.createContextMap(term, contextInfo);
+    public Map<String, Object> createContextMap(Map<String, Object> parameters, ContextInfo contextInfo) throws OperationFailedException {
+    	Map<String, Object> contextMap = super.createContextMap(parameters, contextInfo);
         contextMap.put(NL_HELPER_TOKEN, NLHelper.class);
 
-        Map<String, String> map = getTermParameterMap(term);
-
         String key = "kuali.term.parameter.type.free.text";
-        if(map.containsKey(key)) {
-            contextMap.put(FREE_TEXT_TOKEN, map.get(key));
+        if(parameters.containsKey(key)) {
+            contextMap.put(FREE_TEXT_TOKEN, parameters.get(key));
         }
 
         return contextMap;

@@ -49,10 +49,9 @@ public class PropositionNaturalLanguageTemplater implements NaturalLanguageTempl
      */
     private final static Logger logger = LoggerFactory.getLogger(PropositionNaturalLanguageTemplater.class);
 
-    private ContextRegistry<Context<TermDefinitionContract>> contextRegistry;
+    private ContextRegistry<Context> contextRegistry;
 
     private KrmsTypeRepositoryService krmsTypeRepositoryService = new KrmsTypeRepositoryServiceImpl();
-    private TermBoService termBoService = new TermBoServiceImpl();
 
     /**
      * Relational operator token.
@@ -81,7 +80,7 @@ public class PropositionNaturalLanguageTemplater implements NaturalLanguageTempl
      *
      * @param contextRegistry Template context registry
      */
-    public void setContextRegistry(final ContextRegistry<Context<TermDefinitionContract>> contextRegistry) {
+    public void setContextRegistry(final ContextRegistry<Context> contextRegistry) {
         this.contextRegistry = contextRegistry;
     }
 
@@ -132,26 +131,16 @@ public class PropositionNaturalLanguageTemplater implements NaturalLanguageTempl
         }
         //Access type service to retrieve type name.
         KrmsTypeDefinitionContract type = getKrmsTypeRepositoryService().getTypeById(typeId);
-        List<Context<TermDefinitionContract>> contextList = this.contextRegistry.get(type.getName());
+        List<Context> contextList = this.contextRegistry.get(type.getName());
         if (contextList == null || contextList.isEmpty()) {
             return contextMap;
         }
-        //Retrieve term id from proposition parameters and load.
-        if (parametersMap.containsKey(PropositionParameterType.TERM.getCode())) {
-            Object termObject = parametersMap.get(PropositionParameterType.TERM.getCode());
-            if (termObject != null) {
-                TermDefinitionContract term = null;
-                if (termObject instanceof TermDefinitionContract){
-                    term = (TermDefinitionContract) termObject;
-                } else {
-                    term = getTermBoService().getTerm((String)termObject);
-                }
-                for (Context<TermDefinitionContract> context : contextList) {
-                    Map<String, Object> cm = context.createContextMap(term, new org.kuali.student.r2.common.dto.ContextInfo());  // KS contextInfo is not passed through here
-                    contextMap.putAll(cm);
-                }
-            }
+
+        for (Context context : contextList) {
+            Map<String, Object> cm = context.createContextMap(parametersMap, new org.kuali.student.r2.common.dto.ContextInfo());  // KS contextInfo is not passed through here
+            contextMap.putAll(cm);
         }
+
         if (logger.isInfoEnabled()) {
             logger.info("contextMap=" + contextMap);
         }
@@ -163,15 +152,8 @@ public class PropositionNaturalLanguageTemplater implements NaturalLanguageTempl
         return krmsTypeRepositoryService;
     }
 
-    private TermBoService getTermBoService() {
-        return termBoService;
-    }
-
     public void setKrmsTypeRepositoryService(KrmsTypeRepositoryService krmsTypeRepositoryService) {
         this.krmsTypeRepositoryService = krmsTypeRepositoryService;
     }
 
-    public void setTermBoService(TermBoService termBoService) {
-        this.termBoService = termBoService;
-    }
 }

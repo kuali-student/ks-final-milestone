@@ -16,6 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,20 +26,19 @@ public class GPAContextImplTest extends AbstractServiceTest {
 
     private GpaContextImpl gpaContext = new GpaContextImpl();
 
-	private TermDefinitionContract term;
-	private TermDefinitionContract term2;
-	
+	private Map<String, Object> term;
+	private Map<String, Object> term2;
 	
 	private void setupTerm1() {
-        List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null, TermParameterTypes.GPA_KEY.getId(),"2",null,0L));
-        term = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put(TermParameterTypes.GPA_KEY.getId(),"2");
+        term = parameters;
 	}
 
 	private void setupTerm2() {
-        List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.GPA_KEY.getId(),null,null,0L));
-		term2 = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put(TermParameterTypes.GPA_KEY.getId(),null);
+		term2 = parameters;
 	}
 
 	@Before

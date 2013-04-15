@@ -30,7 +30,6 @@
     </bean>
 
     <bean id="propositionTemplater" class="org.kuali.rice.krms.impl.repository.language.PropositionNaturalLanguageTemplater">
-        <property name="termBoService" ref="termBoMockService"/>
         <property name="krmsTypeRepositoryService" ref="krmsTypeRepositoryMockService"/>
         <property name="contextRegistry" ref="contextRegistry" />
     </bean>

@@ -41,14 +41,9 @@ import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
-import org.kuali.rice.krms.dto.AgendaEditor;
-import org.kuali.rice.krms.dto.PropositionEditor;
-import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.dto.*;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.builder.ComponentBuilder;
-import org.kuali.rice.krms.dto.TermEditor;
-import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.service.TemplateRegistry;
 import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
@@ -304,10 +299,12 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         if (proposition.getTerm() == null) {
             if (proposition.getParameters().get(0) != null) {
 
-                //TODO: this should already be on the proposition.
-                String termId = proposition.getParameters().get(0).getValue();
-                TermDefinition termDefinition = this.getTermRepositoryService().getTerm(termId);
-                proposition.setTerm(new TermEditor(termDefinition));
+                PropositionParameterEditor termParameter = proposition.getParameters().get(0);
+                if (termParameter.getTermValue() == null){
+                    String termId = proposition.getParameters().get(0).getValue();
+                    termParameter.setTermValue(this.getTermRepositoryService().getTerm(termId));
+                }
+                proposition.setTerm(new TermEditor(termParameter.getTermValue()));
             } else {
                 return termParameters;
             }

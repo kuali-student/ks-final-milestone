@@ -262,8 +262,8 @@ public class NaturalLanguageUtil {
 ////		return headerList;
 ////	}
     
-    public static ContextRegistry<Context<TermDefinitionContract>> getPropositionContextRegistry() {
-    	ContextRegistry<Context<TermDefinitionContract>> contextRegistry = new ContextRegistry<Context<TermDefinitionContract>>();
+    public static ContextRegistry<Context> getPropositionContextRegistry() {
+    	ContextRegistry<Context> contextRegistry = new ContextRegistry<Context>();
 
     	createData();
     	//CourseListContextImpl.setCluInfo(cluList);

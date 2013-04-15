@@ -91,9 +91,9 @@ public class CluContextImpl extends BasicContextImpl {
         }
     }
 
-    private CluInfo getClu(Map<String, String> map, String key, ContextInfo contextInfo) throws OperationFailedException {
+    private CluInfo getClu(Map<String, Object> map, String key, ContextInfo contextInfo) throws OperationFailedException {
         if (map.containsKey(key)) {
-            String cluId = map.get(key);
+            String cluId = (String) map.get(key);
             return getCluInfo(cluId, contextInfo);
         }
         return null;
@@ -154,10 +154,10 @@ public class CluContextImpl extends BasicContextImpl {
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
      *          If building a custom CLU set fails
      */
-    public NLCluSet getCluSet(Map<String, String> map, String key, ContextInfo contextInfo) throws OperationFailedException {
+    public NLCluSet getCluSet(Map<String, Object> map, String key, ContextInfo contextInfo) throws OperationFailedException {
         NLCluSet cluSet = null;
         if (map.containsKey(key)) {
-            String cluSetId = map.get(key);
+            String cluSetId = (String) map.get(key);
 
             CluSetInfo cluSetInfo = null;
             if (cluSetId != null) {
@@ -168,7 +168,7 @@ public class CluContextImpl extends BasicContextImpl {
 
             List<CluInfo> list = new ArrayList<CluInfo>();
             if (map.containsKey("kuali.term.parameter.type.course.nl.clu.list")) {
-                String idList = map.get("kuali.term.parameter.type.course.nl.clu.list");
+                String idList = (String) map.get("kuali.term.parameter.type.course.nl.clu.list");
                 String [] ids = idList.split(",");
                 for (String id : ids) {
                     if (!containsClu(list, id)) {
@@ -202,41 +202,39 @@ public class CluContextImpl extends BasicContextImpl {
      *          Creating context map fails
      */
     @Override
-    public Map<String, Object> createContextMap(TermDefinitionContract term, ContextInfo contextInfo) throws OperationFailedException {
-        Map<String, Object> contextMap = super.createContextMap(term, contextInfo);
+    public Map<String, Object> createContextMap(Map<String, Object> parameters, ContextInfo contextInfo) throws OperationFailedException {
+        Map<String, Object> contextMap = super.createContextMap(parameters, contextInfo);
 
-        Map<String, String> parmMap = getTermParameterMap(term);
-
-        CluInfo clu = getClu(parmMap, TermParameterTypes.CLU_KEY.getId(), contextInfo);
+        CluInfo clu = getClu(parameters, TermParameterTypes.CLU_KEY.getId(), contextInfo);
         if (clu != null) {
             contextMap.put(CLU_TOKEN, clu);
         }
-        CluInfo courseClu = getClu(parmMap, TermParameterTypes.COURSE_CLU_KEY.getId(), contextInfo);
+        CluInfo courseClu = getClu(parameters, TermParameterTypes.COURSE_CLU_KEY.getId(), contextInfo);
         if (courseClu != null) {
             contextMap.put(COURSE_CLU_TOKEN, courseClu);
         }
-        CluInfo programClu = getClu(parmMap, TermParameterTypes.PROGRAM_CLU_KEY.getId(), contextInfo);
+        CluInfo programClu = getClu(parameters, TermParameterTypes.PROGRAM_CLU_KEY.getId(), contextInfo);
         if (programClu != null) {
             contextMap.put(PROGRAM_CLU_TOKEN, programClu);
         }
-        CluInfo testClu = getClu(parmMap, TermParameterTypes.TEST_CLU_KEY.getId(), contextInfo);
+        CluInfo testClu = getClu(parameters, TermParameterTypes.TEST_CLU_KEY.getId(), contextInfo);
         if (testClu != null) {
             contextMap.put(TEST_CLU_TOKEN, testClu);
         }
 
-        NLCluSet cluSet = getCluSet(parmMap, TermParameterTypes.CLUSET_KEY.getId(), contextInfo);
+        NLCluSet cluSet = getCluSet(parameters, TermParameterTypes.CLUSET_KEY.getId(), contextInfo);
         if (cluSet != null) {
             contextMap.put(CLU_SET_TOKEN, cluSet);
         }
-        NLCluSet courseCluSet = getCluSet(parmMap, TermParameterTypes.COURSE_CLUSET_KEY.getId(), contextInfo);
+        NLCluSet courseCluSet = getCluSet(parameters, TermParameterTypes.COURSE_CLUSET_KEY.getId(), contextInfo);
         if (courseCluSet != null) {
             contextMap.put(COURSE_CLU_SET_TOKEN, courseCluSet);
         }
-        NLCluSet programCluSet = getCluSet(parmMap, TermParameterTypes.PROGRAM_CLUSET_KEY.getId(), contextInfo);
+        NLCluSet programCluSet = getCluSet(parameters, TermParameterTypes.PROGRAM_CLUSET_KEY.getId(), contextInfo);
         if (programCluSet != null) {
             contextMap.put(PROGRAM_CLU_SET_TOKEN, programCluSet);
         }
-        NLCluSet testCluSet = getCluSet(parmMap, TermParameterTypes.TEST_CLUSET_KEY.getId(), contextInfo);
+        NLCluSet testCluSet = getCluSet(parameters, TermParameterTypes.TEST_CLUSET_KEY.getId(), contextInfo);
         if (testCluSet != null) {
             contextMap.put(TEST_CLU_SET_TOKEN, testCluSet);
         }

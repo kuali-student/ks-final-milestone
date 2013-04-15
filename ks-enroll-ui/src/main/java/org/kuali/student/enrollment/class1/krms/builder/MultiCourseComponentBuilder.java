@@ -111,7 +111,7 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
                 CluInformation cluInformation = new CluInformation();
                 for (SearchResultCellInfo cell : cells) {
                     if (cell.getKey().equals("lu.resultColumn.cluId")) {
-                        cluInformation.setVerIndependentId(cell.getValue());
+                        cluInformation.setCluId(cell.getValue());
                     }
                     if (cell.getKey().equals("lu.resultColumn.luOptionalCode")) {
                         cluInformation.setCode(cell.getValue());

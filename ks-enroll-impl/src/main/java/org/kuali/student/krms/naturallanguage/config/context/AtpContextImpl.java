@@ -15,12 +15,8 @@
 
 package org.kuali.student.krms.naturallanguage.config.context;
 
-import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
-import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
-import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -70,22 +66,20 @@ public class AtpContextImpl extends BasicContextImpl {
 	
     /**
      * Creates the context map (template data) for the requirement component.
-     * 
      *
-     *
-     * @param term Requirement component
+     * @param parameters
      * @param contextInfo
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(TermDefinitionContract term, ContextInfo contextInfo) throws OperationFailedException {
-        Map<String, Object> contextMap = super.createContextMap(term, contextInfo);
+    public Map<String, Object> createContextMap(Map<String, Object> parameters, ContextInfo contextInfo) throws OperationFailedException {
+        Map<String, Object> contextMap = super.createContextMap(parameters, contextInfo);
 
-        String durationTypeKey = getTermParameterValue(term, TermParameterTypes.DURATION_TYPE_KEY.getId());
+        String durationTypeKey = (String) parameters.get(TermParameterTypes.DURATION_TYPE_KEY.getId());
         TypeInfo atpDurationType = getAtpDurationType(durationTypeKey);
         if( atpDurationType != null){
             contextMap.put(DURATION_TYPE_TOKEN, atpDurationType);
         }
-        String duration = getTermParameterValue(term, TermParameterTypes.DURATION_KEY.getId());
+        String duration = (String) parameters.get(TermParameterTypes.DURATION_KEY.getId());
         if( duration != null){
             contextMap.put(DURATION_TOKEN, duration);
         }

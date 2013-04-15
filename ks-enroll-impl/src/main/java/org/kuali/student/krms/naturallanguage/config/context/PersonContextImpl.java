@@ -32,17 +32,15 @@ public class PersonContextImpl extends BasicContextImpl {
 
     /**
      * Creates the context map (template data) for the requirement component.
-     * 
      *
-     *
-     * @param term Requirement component
+     * @param parameters
      * @param contextInfo
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(TermDefinitionContract term, ContextInfo contextInfo) throws OperationFailedException {
-        Map<String, Object> contextMap = super.createContextMap(term, contextInfo);
+    public Map<String, Object> createContextMap(Map<String, Object> parameters, ContextInfo contextInfo) throws OperationFailedException {
+        Map<String, Object> contextMap = super.createContextMap(parameters, contextInfo);
 
-        String person = getTermParameterValue(term, TermParameterTypes.PERSON_KEY.getId());
+        String person = (String) parameters.get(TermParameterTypes.PERSON_KEY.getId());
         if( person != null){
             contextMap.put(PERSON_TOKEN, person);
         }

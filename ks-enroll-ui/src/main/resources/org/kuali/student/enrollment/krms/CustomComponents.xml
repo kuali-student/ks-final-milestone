@@ -115,6 +115,8 @@
         <property name="fieldConversions">
             <map>
                 <entry key="code" value="proposition.courseInfo.code"/>
+                <entry key="id" value="proposition.courseInfo.id"/>
+                <!--entry key="version" value="proposition.courseInfo.version"/-->
             </map>
         </property>
     </bean>
@@ -125,7 +127,8 @@
         <property name="fieldConversions">
             <map>
                 <entry key="code" value="code"/>
-                <entry key="id" value="id"/>
+                <entry key="id" value="cluId"/>
+                <!--entry key="version" value="version"/-->
             </map>
         </property>
     </bean>

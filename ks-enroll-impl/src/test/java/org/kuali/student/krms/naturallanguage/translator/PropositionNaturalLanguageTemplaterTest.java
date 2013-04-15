@@ -55,7 +55,7 @@ public class PropositionNaturalLanguageTemplaterTest{
     private NaturalLanguageTemplateBoMockService naturalLanguageTemplateBoService = new NaturalLanguageTemplateBoMockService();
 
     private void createTranslator() {
-        ContextRegistry<Context<TermDefinitionContract>> contextRegistry = NaturalLanguageUtil.getPropositionContextRegistry();
+        ContextRegistry<Context> contextRegistry = NaturalLanguageUtil.getPropositionContextRegistry();
 
         propositionTemplater.setContextRegistry(contextRegistry);
     }

@@ -2,13 +2,9 @@ package org.kuali.student.krms.naturallanguage.config.context;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
-import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
-import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -23,10 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:type-test-context.xml"})
@@ -37,22 +30,22 @@ public class AtpContextImplTest extends AbstractServiceTest {
     private TypeService typeService;
     private AtpContextImpl atpContext = new AtpContextImpl();
 
-    private TermDefinitionContract term;
-    private TermDefinitionContract term2;
+    private Map<String, Object> term;
+    private Map<String, Object> term2;
     private TypeInfo type1;
 
     private void setupTerm1() {
-        List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null, TermParameterTypes.DURATION_TYPE_KEY.getId(), "kuali.atp.type.TestAtp1", null, 0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.DURATION_KEY.getId(),"ATP-1",null,0L));
-        term = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put(TermParameterTypes.DURATION_TYPE_KEY.getId(), "kuali.atp.type.TestAtp1");
+        parameters.put(TermParameterTypes.DURATION_KEY.getId(),"ATP-1");
+        term = parameters;
 	}
 
 	private void setupTerm2() {
-        List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.DURATION_TYPE_KEY.getId(),null,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.DURATION_KEY.getId(),null,null,0L));
-		term2 = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put(TermParameterTypes.DURATION_TYPE_KEY.getId(),null);
+        parameters.put(TermParameterTypes.DURATION_KEY.getId(),null);
+		term2 = parameters;
 	}
 
 	@Before

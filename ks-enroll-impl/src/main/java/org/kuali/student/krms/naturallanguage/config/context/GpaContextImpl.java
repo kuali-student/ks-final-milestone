@@ -38,17 +38,15 @@ public class GpaContextImpl extends BasicContextImpl {
 	
     /**
      * Creates the context map (template data) for the requirement component.
-     * 
      *
-     *
-     * @param reqComponent Requirement component
+     * @param parameters
      * @param contextInfo
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(TermDefinitionContract term, ContextInfo contextInfo) throws OperationFailedException {
-    	Map<String, Object> contextMap = super.createContextMap(term, contextInfo);
+    public Map<String, Object> createContextMap(Map<String, Object> parameters, ContextInfo contextInfo) throws OperationFailedException {
+    	Map<String, Object> contextMap = super.createContextMap(parameters, contextInfo);
 
-    	String gpa = getTermParameterValue(term, TermParameterTypes.GPA_KEY.getId());
+    	String gpa = (String) parameters.get(TermParameterTypes.GPA_KEY.getId());
     	if(gpa != null) {
     		contextMap.put(GPA_TOKEN, gpa);
     	}

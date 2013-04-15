@@ -30,6 +30,7 @@ import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
+import org.kuali.rice.krms.impl.repository.PropositionParameterBo;
 
 /**
  * Concrete model object implementation of KRMS Proposition Parameter 
@@ -193,6 +194,11 @@ public final class PropositionParameter extends AbstractDataTransferObject imple
             }
             PropositionParameter.Builder builder =  new PropositionParameter.Builder(contract.getId(), contract.getPropId(), contract.getValue(), contract.getParameterType(), contract.getSequenceNumber());
             builder.setVersionNumber(contract.getVersionNumber());
+
+            //TODO: this if statement should be removed once propositionparameterbo also implements the new interface.
+            if (!(contract instanceof PropositionParameterBo)){
+                builder.setTermValue(contract.getTermValue());
+            }
             return builder;
         }
 
