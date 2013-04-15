@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2006-2011 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- The Interesting Bits -->
+
+    <bean id="KS-KitchenSink-CollectionHorizontal" parent="KS-HorizontalCollectionSection">
+        <!-- KS-HorizontalCollectionSection is in UifKSDefinitions.xml; parent="Uif-StackedCollectionSection" -->
+        <property name="propertyName" value="collection"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.enrollment.kitchensink.KitchenSinkFormCollection1"/>
+        <!--
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        -->
+        <property name="header">
+            <bean parent="Uif-HeaderThree"/>
+        </property>
+        <property name="header.render" value="false" />
+        <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
+        <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{(#index + 1)}. @{#line.name}"/>
+        <property name="layoutManager.addLineGroup.header.render" value="false"/>
+        <property name="items">
+            <list>
+                <!-- NOTE: HorizontalFieldGroup is needed until jiras KULRICE-8098 and 8099 are resolved -->
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
+                    <property name="items">
+                        <list>
+                <!-- end of bug work-arounds -->
+                            <bean parent="Uif-InputField-LabelTop">
+                                <property name="render" value="@{!#isAddLine}"/>
+                                <property name="propertyName" value="id"/>
+                                <property name="label" value="ID"/>
+                                <property name="control">
+                                    <bean parent="Uif-TextControl">
+                                        <property name="size" value="3"/>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField-LabelTop">
+                                <property name="propertyName" value="name"/>
+                                <property name="label" value="Name"/>
+                            </bean>
+                            <bean parent="Uif-InputField-LabelTop">
+                                <property name="propertyName" value="description"/>
+                                <property name="label" value="Description"/>
+                            </bean>
+                            <bean parent="Uif-InputField-LabelTop">
+                                <property name="propertyName" value="date"/>
+                                <property name="label" value="Date"/>
+                            </bean>
+                <!-- needed due to KRAD bugs -->
+                        </list>
+                    </property>
+                </bean>
+                <!-- end of bug work-arounds -->
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- just the various containers for the interesting bits -->
+
+    <bean id="KS-KitchenSink-CollectionHorizontal-View" parent="KS-KitchenSink-FormView">
+        <property name="headerText" value="Collections"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-CollectionHorizontal-Page">
+                    <property name="headerText" value="Collection with Horizontal Stacked Layout"/>
+                    <property name="footer">
+                        <bean parent="Uif-VerticalBoxSection">
+                            <property name="header.render" value="false"/>
+                            <property name="style" value="margin-top:10px"/>
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-Message">
+                                        <property name="style" value="margin-bottom:15px;font-size:125%"/>
+                                        <property name="messageText">
+                                            <value>
+                                                This example shows how to have a collection with a horizontal stacked
+                                                layout (for both the add line and existing lines).  Horizontally-stacked
+                                                subcollections are also possible.  The collection bean name is
+                                                KS-[Disclosure-]HorizontalCollection[Sub]Section.
+                                            </value>
+                                        </property>
+                                    </bean>
+                                    <!--
+                                        HorizontalFieldGroup sometimes throws this exception on localhost:
+                                        org.kuali.rice.krad.web.bind.UifHandlerExceptionResolver - Object for which
+                                        expression is configured on is null or does not implement Configurable:
+                                        'header.lowerGroup'
+                                    -->
+                                    <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
+                                        <property name="items">
+                                            <list>
+                                                <bean parent="Uif-LinkField"
+                                                      p:label="Related KRAD Jiras" p:fieldLabel.style="color:red;"
+                                                      p:target="_blank" p:linkText="KULRICE-8098"
+                                                      p:href="https://jira.kuali.org/browse/KULRICE-8098"/>
+                                                <bean parent="Uif-LinkField"
+                                                      p:fieldLabel.render="false"
+                                                      p:target="_blank" p:linkText="KULRICE-8099"
+                                                      p:href="https://jira.kuali.org/browse/KULRICE-8099"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                    <bean parent="KS-KitchenSink-Link-To-Source"
+                                          p:href="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionHorizontal.xml"/>
+                                    <bean parent="KS-KitchenSink-LinkField-Base"
+                                          p:label="KS XML Configuration"
+                                          p:href="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ui/src/main/resources/UifKSDefinitions.xml"/>
+                                    <bean parent="KS-KitchenSink-Link-To-KRAD-XML-Source"
+                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M4/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
+                                    <bean parent="KS-KitchenSink-Link-To-KRAD-Java-Source"
+                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M4/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/CollectionGroup.java"/>
+                                    <bean parent="KS-KitchenSink-Link-To-KRAD-API"
+                                          p:href="http://site.origin.kuali.org/rice/2.2.0-M4/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
+                                    <bean parent="KS-KitchenSink-Link-To-Guide"
+                                          p:href="http://site.kuali.org/rice/2.2.0-M4/reference/html/KRAD_Guide.html"/>
+                                    <bean parent="KS-KitchenSink-Link-To-Bare">
+                                        <property name="finalizeMethodAdditionalArguments">
+                                            <list>
+                                                <value>collection</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-CollectionHorizontal-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-CollectionHorizontal-Page">
+                    <property name="header.render" value="false"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-CollectionHorizontal-Page" parent="KS-KitchenSink-Page">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-CollectionHorizontal"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

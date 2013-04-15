@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+    <bean id="KS-CalendarSearch-View" parent="KSFormView">
+        <property name="id" value="calendarSearchView"/>
+        <property name="headerText" value="Calendar Search"/>
+        <property name="singlePageView" value="true"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.CalendarSearchViewHelperServiceImpl"/>
+        <property name="page">
+            <bean parent="Uif-Page"/>
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderTwo" />
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase"/>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="KS-CalendarSearch-CriteriaSection"/>
+                <ref bean="KS-CalendarSearch-ResultSection"/>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm"/>
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <value>ks-enroll/css/calendar.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-enroll/scripts/common.js</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CalendarSearch-CriteriaSection" parent="Uif-HorizontalBoxSection">
+        <property name="disclosure.render" value="false"/>
+        <property name="style" value="margin-bottom:0;"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridSubSection">
+                    <property name="headerText" value="Search for Calendar or Term"/>
+                    <property name="layoutManager.numberOfColumns" value="2"/>
+                    <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                    <property name="style" value="margin-bottom:0;"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-HorizontalFieldGroup">
+                                <property name="items">
+                                    <list>
+                                    <bean parent="Uif-InputField-LabelTop" p:propertyName="calendarType" p:label="Search For">
+                                        <property name="control">
+                                            <bean parent="Uif-DropdownControl" p:options-ref="search-options"/>
+                                        </property>
+                                    </bean>
+                                    <bean parent="Uif-InputField-LabelTop" p:label="Name" p:fieldLabel.renderColon="false"
+                                        p:propertyName="name">
+                                        <property name="control">
+                                            <bean parent="Uif-TextControl" p:watermarkText="Name" p:size="30"/>
+                                        </property>
+                                    </bean>
+                                    <bean parent="Uif-InputField-LabelTop" p:label="Year" p:fieldLabel.renderColon="false"
+                                        p:propertyName="year" >
+                                        <property name="control">
+                                            <bean parent="Uif-TextControl" p:watermarkText="Year" p:size="4"/>
+                                        </property>
+                                    </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-HorizontalFieldGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Search" p:methodToCall="search"/>
+                                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CalendarSearch-ResultSection" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="Search Results" />
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <ref bean="KS-CalendarSearch-AcalResultSection"/>
+                <ref bean="KS-CalendarSearch-HcResultSection"/>
+                <ref bean="KS-CalendarSearch-TermResultSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CalendarSearch-HcResultSection" parent="Uif-TableCollectionSection"
+		p:layoutManager.numberOfColumns="4" p:progressiveRender="calendarType eq 'HolidayCalendar'" p:renderAddLine="false">
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo" />
+		<property name="propertyName" value="holidayCalendars" />
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+		<property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="true" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
+            </map>
+        </property>
+		<property name="items">
+			<list>
+                <bean parent="Uif-DataField"
+                  p:label="Name"
+                  p:propertyName="name" />
+                <bean parent="Uif-DataField"
+                  p:label="Start Date"
+                  p:propertyName="startDate"/>
+                <bean parent="Uif-DataField"
+                  p:label="End Date"
+                  p:propertyName="endDate"/>
+                <bean parent="Uif-InputField" p:label="Status" p:propertyName="stateKey"  p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <ref bean="AtpStates" />
+                    </property>
+                </bean>
+            </list>
+		</property>
+        <property name="layoutManager.actionFieldPrototype">
+            <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:required="false" p:label="Actions" p:style="display:inline;"/>
+        </property>
+        <property name="lineActions">
+              <list>
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
+                  <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the holiday calendar?')" p:methodToCall="delete" p:actionLabel="Delete" />
+              </list>
+        </property>
+	</bean>
+
+    <bean id="KS-CalendarSearch-AcalResultSection" parent="Uif-TableCollectionSection"
+		p:layoutManager.numberOfColumns="4" p:progressiveRender="calendarType eq 'AcademicCalendar'" p:renderAddLine="false">
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo" />
+		<property name="propertyName" value="academicCalendars" />
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+		<property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="true" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
+            </map>
+        </property>
+		<property name="items">
+			<list>
+                <bean parent="Uif-DataField"
+                  p:label="Name"
+                  p:propertyName="name" />
+                <bean parent="Uif-DataField"
+                  p:label="Start Date"
+                  p:propertyName="startDate"/>
+                <bean parent="Uif-DataField"
+                  p:label="End Date"
+                  p:propertyName="endDate"/>
+                <bean parent="Uif-InputField" p:label="Status" p:propertyName="stateKey"  p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <ref bean="AtpStates" />
+                    </property>
+                </bean>
+            </list>
+		</property>
+        <property name="layoutManager.actionFieldPrototype">
+            <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:required="false" p:label="Actions" p:style="display:inline;"/>
+        </property>
+        <property name="lineActions">
+              <list>
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
+                  <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the academic calendar?')" p:methodToCall="delete" p:actionLabel="Delete" />
+              </list>
+        </property>
+	</bean>
+
+    <bean id="KS-CalendarSearch-TermResultSection" parent="Uif-TableCollectionSection"
+		p:layoutManager.numberOfColumns="4" p:progressiveRender="calendarType eq 'AcademicTerm'" p:renderAddLine="false">
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
+		<property name="propertyName" value="terms" />
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+		<property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="true" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
+            </map>
+        </property>
+		<property name="items">
+			<list>
+                <bean parent="Uif-DataField"
+                  p:label="Name"
+                  p:propertyName="name" />
+                <bean parent="Uif-DataField"
+                  p:label="Start Date"
+                  p:propertyName="startDate"/>
+                <bean parent="Uif-DataField"
+                  p:label="End Date"
+                  p:propertyName="endDate"/>
+                <bean parent="Uif-InputField" p:label="Status" p:propertyName="stateKey"  p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <ref bean="AtpStates" />
+                    </property>
+                </bean>
+            </list>
+		</property>
+        <property name="layoutManager.actionFieldPrototype">
+            <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:required="false" p:label="Actions" p:style="display:inline;"/>
+        </property>
+        <property name="lineActions">
+              <list>
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                  <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the term?')" p:methodToCall="delete" p:actionLabel="Delete" />
+              </list>
+        </property>
+	</bean>
+
+    <!-- TODO: DropdownControl readonly not working here, but work in the collection. figure out the reason and use this one instead of repeating html -->
+    <util:list id="ResultFields">
+        <bean parent="Uif-DataField"
+          p:label="Name"
+          p:propertyName="name" />
+        <bean parent="Uif-DataField"
+          p:label="Start Date"
+          p:propertyName="startDate"/>
+        <bean parent="Uif-DataField"
+          p:label="End Date"
+          p:propertyName="endDate"/>
+        <bean parent="Uif-InputField" p:label="Status" p:propertyName="stateKey"  p:readOnly="true">
+            <property name="control">
+                <bean parent="Uif-DropdownControl" />
+            </property>
+            <property name="optionsFinder">
+                <ref bean="AtpStates" />
+            </property>
+        </bean>
+    </util:list>
+
+    <bean id="AtpStates" class="org.kuali.student.enrollment.class2.acal.keyvalue.AtpStateKeyValues" />
+
+    <util:list id="search-options">
+       <bean parent="Uif-KeyLabelPair" p:key="AcademicCalendar" p:value="Academic Calendar"/>
+       <bean parent="Uif-KeyLabelPair" p:key="HolidayCalendar" p:value="Holiday Calendar"/>
+       <bean parent="Uif-KeyLabelPair" p:key="AcademicTerm" p:value="Academic Term"/>
+    </util:list>
+</beans>

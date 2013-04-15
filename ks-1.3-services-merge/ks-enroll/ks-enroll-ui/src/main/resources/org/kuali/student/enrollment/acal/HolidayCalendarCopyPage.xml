@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+    <bean id="KS-HolidayCalendar-CopyPage" parent="Uif-Page"
+          p:id="holidayCalendarCopyPage"
+          p:headerText="Create New Holiday Calendar"
+          p:disclosure.render="false">
+        <property name="header">
+            <bean parent="Uif-HeaderTwo">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-header</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="header.items">
+            <list>
+                <bean parent="Uif-VerticalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message"
+                                  p:messageText="When copying a Holiday Calendar, all holiday names as well as dates and times from the source calendar are copied."
+                                  p:style="margin-bottom:0;"/>
+                            <bean parent="Uif-ActionLink"
+                                  p:methodToCall="toCreate"
+                                  p:actionLabel="Start a blank calendar instead?"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection"
+                      p:style="margin-bottom:0; padding-bottom:0;">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-HolidayCalendar-CopyPage-From"/>
+                            <ref bean="KS-HolidayCalendar-CopyPage-To"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton"
+                              p:methodToCall="copy"
+                              p:actionLabel="Copy Holiday Calendar"
+                              p:render="@{holidayCalendarInfo != null}"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:clientSideJs="stepBrowserBack()"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-HolidayCalendar-CopyPage-From" parent="Uif-VerticalBoxSubSection"
+          p:headerText="Copy From:">
+        <property name="header">
+            <bean parent="Uif-HeaderThree"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxGroup"
+                      p:render="@{holidayCalendarInfo != null}">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField"
+                                  p:propertyName="holidayCalendarInfo.name"
+                                  p:showLabel="false"
+                                  p:style="font-size:125%;"/>
+                            <bean parent="Uif-DataField"
+                                  p:propertyName="holidayCalendarInfo.startDate"
+                                  p:label="Start Date"
+                                  p:required="false"/>
+                            <bean parent="Uif-DataField"
+                                  p:propertyName="holidayCalendarInfo.endDate"
+                                  p:label="End Date"
+                                  p:required="false"/>
+                        </list>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-calendar-copy-from</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-Message"
+                      p:messageText="A recent holiday calendar could not be found."
+                      p:render="@{holidayCalendarInfo == null}"
+                      p:style="font-size:125%;"/>
+                <bean parent="Uif-ActionLink"
+                      p:actionLabel="@{holidayCalendarInfo != null ? 'Choose a Different Calendar' : 'Choose a Calendar'}"
+                      p:methodToCall="search"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-HolidayCalendar-CopyPage-To" parent="Uif-VerticalBoxSubSection"
+          p:headerText="Copy To:"
+          p:render="@{holidayCalendarInfo != null}"
+          p:style="margin-bottom:0;">
+        <property name="header">
+            <bean parent="Uif-HeaderThree"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup"
+                      p:layoutManager.numberOfColumns="2"
+                      p:layoutManager.applyDefaultCellWidths="false">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField"
+                                  p:propertyName="newCalendarName" p:id="newCalendarName"
+                                  p:label="Name" p:fieldLabel.width="15%"
+                                  p:required="true">
+                                <!--
+                                <property name="validCharactersConstraint">
+                                    <bean parent="AlphaNumericPatternConstraint"
+                                          p:allowWhitespace="true" />
+                                </property>
+                                -->
+                                <property name="control">
+                                    <bean parent="Uif-TextControl"
+                                          p:size="40"
+                                          p:watermarkText="New calendar name"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField"
+                                  p:propertyName="newCalendarStartDate" p:id="newCalendarStartDate"
+                                  p:label="Start Date"
+                                  p:required="true">
+                                <property name="validCharactersConstraint">
+                                    <bean parent="BasicDatePatternConstraint" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DateControl"
+                                          p:watermarkText="mm/dd/yyyy"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField"
+                                  p:propertyName="newCalendarEndDate" p:id="newCalendarEndDate"
+                                  p:label="End Date"
+                                  p:required="true">
+                                <property name="validCharactersConstraint">
+                                    <bean parent="BasicDatePatternConstraint" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DateControl"
+                                          p:watermarkText="mm/dd/yyyy"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-calendar-copy-to</value>
+                        </list>
+                    </property>
+                    <property name="layoutManager.cssClasses">
+                        <list merge="true">
+                            <value>ks-calendar-copy-to-table</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

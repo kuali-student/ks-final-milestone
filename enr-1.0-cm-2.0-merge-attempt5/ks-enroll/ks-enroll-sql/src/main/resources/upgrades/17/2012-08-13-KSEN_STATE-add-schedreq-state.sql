@@ -1,0 +1,4 @@
+insert into KSEN_STATE_LIFECYCLE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, REF_OBJECT_URI, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.scheduling.schedule.request.lifecycle', null, 'kuali.scheduling.schedule.request.lifecycle', 'kuali.scheduling.schedule.request.lifecycle state lifecycle', 'kuali.scheduling.schedule.request.lifecycle state lifecycle', null, 1, to_date('2012-08-13', 'YYYY-MM-DD'), 'SYSTEMLOADER', to_date('2012-08-13', 'YYYY-MM-DD'), 'SYSTEMLOADER')
+/
+insert into KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.scheduling.schedule.request.state.created', null, 'Created', 'The request has been created', 'The request has been created', 'kuali.scheduling.schedule.request.lifecycle', null, null, 1, to_date('2012-08-13', 'YYYY-MM-DD'), 'SYSTEMLOADER', to_date('2012-08-13', 'YYYY-MM-DD'), 'SYSTEMLOADER')
+/

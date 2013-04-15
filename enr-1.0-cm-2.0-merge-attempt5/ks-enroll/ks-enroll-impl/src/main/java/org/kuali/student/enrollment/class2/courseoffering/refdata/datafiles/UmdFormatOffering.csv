@@ -1,0 +1,474 @@
+CM Course,Type Key,State Key,Name,Descr,formatID,shortName
+BSCI105,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+BSCI105,,,Lecture Only,Courses with Lecture only,,LEC
+BSCI106,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+BSCI106,,,Lecture Only,Courses with Lecture only,,LEC
+BSCI120,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+BSCI121,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI126,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+BSCI135,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+BSCI189,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+BSCI201,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+BSCI202,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+BSCI207,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI215,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI222,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+BSCI223,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+BSCI258,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI279,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI279,,,Lab Only,Courses with Lab only,,LAB
+BSCI283,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+BSCI288,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI289,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI329,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI330,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+BSCI338,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI348,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI348,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+BSCI353,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI360,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+BSCI361,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+BSCI363,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI370,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI373,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI379,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI389,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI392,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI393,,,Lab Only,Courses with Lab only,,LAB
+BSCI398,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI399,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI410,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI411,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+BSCI414,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+BSCI415,,,Lab Only,Courses with Lab only,,LAB
+BSCI420,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI421,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+BSCI422,,,Lecture Only,Courses with Lecture only,,LEC
+BSCI424,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+BSCI425,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+BSCI427,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI437,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI440,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+BSCI441,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+BSCI442,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+BSCI443,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI446,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI447,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI453,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI454,,,Lab Only,Courses with Lab only,,LAB
+BSCI465,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI467,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI467,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+BSCI471,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI473,,,Lecture Only,Courses with Lecture only,,LEC 
+BSCI481,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+CHEM131,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+CHEM132,,,Lab Only,Courses with Lab only,,LAB
+CHEM135,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+CHEM136,,,Lab Only,Courses with Lab only,,LAB
+CHEM146,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+CHEM147,,,Lab Only,Courses with Lab only,,LAB
+CHEM231,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+CHEM232,,,Lab Only,Courses with Lab only,,LAB
+CHEM241,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+CHEM242,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+CHEM247,,,Lecture/Lab/Discussion,Courses with Lecure/Lab/Discussion,,LEC/LAB/DIS
+CHEM271,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+CHEM272,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+CHEM277,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+CHEM398,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM399,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM403,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM425,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+CHEM441,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM460,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM474,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM481,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM482,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM483,,,Dis Only,Courses with Discussion only,,DIS
+CHEM483,,,Lab Only,Courses with Lab only,,LAB
+CHEM484,,,Discussion/Lab,Courses with Discussion/Lab,,DIS/LAB
+CHEM601,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM608,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM611,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM626,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM640,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM641,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM684,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM689,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM690,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM699,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM799,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM889,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM898,,,Lecture Only,Courses with Lecture only,,LEC 
+CHEM899,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL101,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL201,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL201,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL202,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL202,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL206,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL206,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL211,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL211,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL212,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL212,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL221,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL221,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL222,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL222,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL233,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL233,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL234,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL234,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL241,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL241,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL243,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL243,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL244,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL244,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL245,,,Lecture/Lab/Discussion,Courses with Lecure/Lab/Discussion,,LEC/LAB/DIS
+ENGL250,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL250,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL262,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL262,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL265,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL265,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL271,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL271,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL272,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL272,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL273,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL273,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL278,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL278,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL280,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL280,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL281,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL281,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL282,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL282,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL289,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL289,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL291,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL291,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL293,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL293,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL295,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL295,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL301,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL301,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL304,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL304,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL305,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL305,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL310,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL310,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL311,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL311,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL313,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL313,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL317,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL317,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+ENGL329,,,Lecture/Lab,Courses with Lecture/Lab,,LEC/LAB
+ENGL346,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL348,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL352,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL353,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL362,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL368,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL373,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL379,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL381,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL383,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL384,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL388,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL390,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL391,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL392,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL393,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL394,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL395,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL402,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL403,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL404,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL408,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL416,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL420,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL429,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL433,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL440,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL444,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL454,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL455,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL457,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL465,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL466,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL467,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL468,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL470,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL472,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL475,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL478,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL479,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL487,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL488,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL489,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL494,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL495,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL498,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL499,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL601,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL602,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL607,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL611,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL621,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL625,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL631,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL688,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL689,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL699,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL702,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL749,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL758,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL798,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL799,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL878,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL879,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL888,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL898,,,Lecture Only,Courses with Lecture only,,LEC 
+ENGL899,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST110,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST110,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST113,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST113,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST120,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST120,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST122,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST122,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST130,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST130,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST133,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST133,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST136,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST136,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST137,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST137,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST140,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST140,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST200,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST200,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST201,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST201,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST204,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST204,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST206,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST206,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST208,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST208,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST212,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST212,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST213,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST213,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST219,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST219,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST220,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST220,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST221,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST221,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST224,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST224,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST232,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST232,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST233,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST233,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST250,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST250,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST255,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST255,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST266,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST266,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST269,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST269,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST282,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST282,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST284,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST284,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST289,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST289,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST299,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST299,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST310,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST319,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST326,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST329,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST330,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST332,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST352,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST353,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST354,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST355,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST356,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST357,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST369,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST375,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST376,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST386,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST395,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST398,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST404,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST405,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST408,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST419,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST428,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST429,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST429,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST430,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST436,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST447,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST454,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST462,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST463,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST467,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST469,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST476,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST481,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST482,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST491,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST492,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+HIST493,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST499,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST601,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST607,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST608,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST619,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST639,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST708,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST709,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST799,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST810,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST811,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST819,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST898,,,Lecture Only,Courses with Lecture only,,LEC 
+HIST899,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS102,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS103,,,Lab Only,Courses with Lab only,,LAB
+PHYS105,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+PHYS111,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS115,,,Lab Only,Courses with Lab only,,LAB
+PHYS121,,,Lecture/Lab/Discussion,Courses with Lecure/Lab/Discussion,,LEC/LAB/DIS
+PHYS122,,,Lecture/Lab/Discussion,Courses with Lecure/Lab/Discussion,,LEC/LAB/DIS
+PHYS131,,,Lecture/Lab/Discussion,Courses with Lecure/Lab/Discussion,,LEC/LAB/DIS
+PHYS141,,,Lecture/Lab/Discussion,Courses with Lecure/Lab/Discussion,,LEC/LAB/DIS
+PHYS161,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+PHYS170,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS171,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS174,,,Lab Only,Courses with Lab only,,LAB
+PHYS199,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+PHYS260,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+PHYS261,,,Lab Only,Courses with Lab only,,LAB
+PHYS270,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+PHYS271,,,Lab Only,Courses with Lab only,,LAB
+PHYS272,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS273,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS275,,,Lab Only,Courses with Lab only,,LAB
+PHYS276,,,Lab Only,Courses with Lab only,,LAB
+PHYS299,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS374,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS375,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS386,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS389,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS398,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS399,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS401,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS402,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS404,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS405,,,Lab Only,Courses with Lab only,,LAB
+PHYS407,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS410,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS411,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+PHYS420,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS431,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS499,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS601,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS604,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS622,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS624,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS675,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS715,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS721,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS728,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS731,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS738,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS739,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS748,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS749,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS751,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS758,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS759,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS761,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS769,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS778,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS779,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS798,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS799,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS838,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS898,,,Lecture Only,Courses with Lecture only,,LEC 
+PHYS899,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST200,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST200,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST212,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST212,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST250,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST250,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST255,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST255,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST263,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST263,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST269,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST269,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST275,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST275,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST298,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST298,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST300,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST300,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST314,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST314,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST325,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST325,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST336,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST336,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST348,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST348,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST369,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST369,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST386,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST386,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST400,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST400,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST408,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST408,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST444,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST444,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST452,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST452,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST453,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST453,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST456,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST456,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST471,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST471,,,Lecture/Discussion,Courses with Lecture/Discussion,,LEC/DIS
+WMST488,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST498,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST499,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST601,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST618,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST619,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST628,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST698,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST699,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST709,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST799,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST898,,,Lecture Only,Courses with Lecture only,,LEC 
+WMST899,,,Lecture Only,Courses with Lecture only,,LEC 

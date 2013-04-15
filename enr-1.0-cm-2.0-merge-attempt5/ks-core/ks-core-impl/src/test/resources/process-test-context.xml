@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+
+
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <context:annotation-config/>
+
+    <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
+    <import resource="classpath:ks-enroll-api-data-dictionary-services-configuration.xml"/>
+	<import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml"/>
+	    <!--  Preloaded data -->
+    <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
+        <property name="jtaTxManager" ref="JtaTxManager"/>
+        <property name="shouldLoadData" value="false"/>
+        <property name="preloadMap">
+            <map>
+                <entry key="persistentUnit">
+                    <value>classpath:ks-process.sql</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="systemPropertyConfigurer"
+        class="org.kuali.student.common.util.SystemPropertyConfigurer">
+        <property name="properties" value="${propertiesPrefix.systemProperties}"/>
+    </bean>
+        
+    <bean id="AtomikosTxMgr"
+        class="com.atomikos.icatch.jta.UserTransactionManager"
+        init-method="init" destroy-method="close" depends-on="systemPropertyConfigurer" autowire-candidate="false" autowire="no">
+        <property name="forceShutdown" value="true" />
+        <property name="startupTransactionService" value="true" />
+        <property name="transactionTimeout" value="60" />
+    </bean>
+
+    <bean id="AtomikosUsrTx"
+        class="com.atomikos.icatch.jta.UserTransactionImp" depends-on="systemPropertyConfigurer"></bean>
+
+    <bean id="JtaTxManager"
+        class="org.springframework.transaction.jta.JtaTransactionManager" depends-on="systemPropertyConfigurer" autowire-candidate="false" autowire="no">
+        <property name="transactionManager" ref="AtomikosTxMgr" />
+        <property name="userTransaction" ref="AtomikosUsrTx" />
+        <property name="transactionSynchronizationName"
+            value="SYNCHRONIZATION_ON_ACTUAL_TRANSACTION" />
+    </bean>
+    
+    <bean id="dataSource"
+        class="org.kuali.student.common.test.spring.UniqueResourceAtomikosDataSourceBean" init-method="init"
+        destroy-method="close" depends-on="systemPropertyConfigurer">
+        <property name="uniqueResourceName" value="dataSource" />
+        <property name="xaDataSourceClassName"
+            value="${jdbc.xaDataSourceClassName}" />
+        <property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}"/>
+        <property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+    </bean>
+
+    <bean id="vendorAdapter" class="${jpa.vendorAdapter}" depends-on="propertyConfigurer">
+        <property name="databasePlatform"
+            value="${jpa.databasePlatform}" />
+        <property name="showSql" value="${jpa.showSql}" />
+        <property name="generateDdl" value="${jpa.generateDdl}" />
+    </bean>
+
+    <bean id="debugMode" class="java.lang.Boolean">
+        <constructor-arg value="true" />
+    </bean>
+
+    <!-- Default JPA EntityManagerFactory -->
+    <bean id="defaultEntityManagerFactory" abstract="true"
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" autowire-candidate="false" autowire="byType">
+        <property name="jpaVendorAdapter" ref="vendorAdapter" />
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
+            <!--<property name="persistenceUnitPostProcessors" ref="postProcessorList" />-->
+    </bean>
+    
+   <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
+        <property name="persistenceUnitName" value="persistentUnit"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/process-persistence.xml" />
+        <property name="dataSource" ref="dataSource" />
+   </bean>
+    
+    <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean" autowire-candidate="false" autowire="no">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <bean id="checkDao" class="org.kuali.student.r2.core.process.dao.CheckDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+    <bean id="processServiceImpl" class="org.kuali.student.r2.core.process.impl.ProcessServiceImpl">
+        <property name="checkDao" ref="checkDao"/>
+        <property name="instructionDao" ref="instructionDao"/>
+        <property name="processDao" ref="processDao"/>
+        <property name="stateService" ref="stateService"/>
+        <property name="criteriaLookupService" ref="processCriteriaLookupService"/>
+    </bean>
+
+    <bean id="processServiceMockImpl" class="org.kuali.student.r2.core.process.impl.ProcessServiceMockImpl">
+    </bean>
+
+    <bean id="processServiceValidationDecorator"
+    class="org.kuali.student.r2.core.process.service.decorators.ProcessServiceValidationDecorator">
+        <property name="nextDecorator" ref="processServiceImpl"/>
+        <property name="validator" ref="validator"/>
+    </bean>
+
+    <bean id="processServiceAuthDecorator" class="org.kuali.student.r2.core.process.service.decorators.ProcessServiceAuthorizationDecorator">
+        <property name="nextDecorator" ref="processServiceValidationDecorator"/>
+        <property name="permissionService" ref="permissionService"/>
+    </bean>
+    <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
+
+    <bean id="instructionDao" class="org.kuali.student.r2.core.process.dao.InstructionDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    <bean id="processDao" class="org.kuali.student.r2.core.process.dao.ProcessDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    <bean id="stateService" class=" org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
+        <property name="stateDao" ref="stateDao"/>
+        <property name="lifecycleDao" ref="lifecycleDao"/>
+    </bean>
+    <bean id="stateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    <bean id="lifecycleDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    <!--<bean id="holdService" class="org.kuali.student.r2.core.process.ProcessPocHoldServiceDecorator">
+        <constructor-arg ref="holdServiceMock"/>
+    </bean>
+
+    <bean id="holdServiceMock" class="org.kuali.student.r2.core.class1.hold.mock.HoldServiceMockImpl"/>-->
+
+	<tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
+
+    <!--<bean id="courseRegService" class="org.kuali.student.r2.core.process.CourseRegistrationServiceProcessCheckDecorator">
+        <property name="nextDecorator" ref="courseRegServiceMock"/>
+    </bean>-->
+
+    <!-- <bean id="courseRegServiceMock" class="org.kuali.student.enrollment.courseregistration.service.CourseRegistrationServiceMockImpl"/> -->
+
+    <bean id="exemptionService" class="org.kuali.student.r2.core.process.ProcessPocExemptionServiceDecorator">
+        <constructor-arg ref="exemptionServiceMock" />
+    </bean>
+
+    <bean id="exemptionServiceMock" class="org.kuali.student.r2.core.exemption.service.impl.ExemptionServiceMockImpl"/>
+
+    <!--<bean id="krmsProcessEvaluator" class="org.kuali.student.r2.core.process.krms.KRMSProcessEvaluator">
+        <property name="exemptionService" ref="exemptionService"/>
+        <property name="holdService" ref="holdService"/>
+        <property name="populationService" ref="populationService"/>
+        <property name="processService" ref="processServiceValidationDecorator"/>
+        <property name="acalService" ref="acalService"/>
+        <property name="termResolvers">
+            <list>
+                <ref bean="registrationHoldsTermResolver"/>
+                <ref bean="milestoneByTypeResolver"/>
+                <ref bean="studentDeceasedTermResolver"/>
+                <ref bean="summerOnlyStudentTermResolver"/>
+                <ref bean="currentDateResolver"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="populationService" class="org.kuali.student.r2.core.process.ProcessPocPopulationServiceMockImpl"/>
+
+    <bean id="registrationHoldsTermResolver" class="org.kuali.student.r2.core.process.krms.termresolver.RegistrationHoldsTermResolver">
+        <property name="holdService" ref="holdService"/>
+    </bean>
+
+    <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
+        <property name="acalAssembler" ref="acalAssembler"/>
+        <property name="atpService" ref="atpService"/>
+        <property name="termAssembler" ref="termAssembler"/>
+    </bean>-->
+
+    <bean id="atpService" class="org.kuali.student.r2.core.process.ProcessPocAtpServiceDecorator">
+        <constructor-arg ref="atpServiceMock"/>
+    </bean>
+
+    <!--<bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler"/>-->
+
+    <bean id="atpServiceMock" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl"/>
+
+    <!--<bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"/>-->
+
+    <bean id="milestoneByTypeResolver" class="org.kuali.student.r2.core.process.krms.termresolver.MilestoneByTypeResolver">
+        <property name="atpService" ref="atpService"/>
+    </bean>
+
+    <bean id="studentDeceasedTermResolver" class="org.kuali.student.r2.core.process.krms.termresolver.StudentDeceasedTermResolver">
+        <property name="identityService" ref="identityService"/>
+    </bean>
+
+    <bean id="identityService" class="org.kuali.student.r2.core.process.ProcessPocIdentityServiceDecorator">
+        <constructor-arg ref="identityServiceMock"/>
+    </bean>
+
+    <bean id="identityServiceMock" class="org.kuali.student.kim.permission.mock.IdentityServiceMockImpl"/>
+
+    <!--<bean id="summerOnlyStudentTermResolver" class="org.kuali.student.r2.core.process.krms.termresolver.SummerOnlyStudentTermResolver">
+        <constructor-arg value="kuali.population.summer.only.student"/>
+        <property name="populationService" ref="populationService"/>
+    </bean>-->
+
+    <bean id="currentDateResolver" class="org.kuali.student.r2.core.process.krms.termresolver.CurrentDateResolver"/>
+
+    <bean id="attributeTransform" class="org.kuali.student.r2.common.criteria.transform.AttributeTransform"/>
+
+    <bean id="processCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+        <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+        <property name="predicateTransforms">
+            <list>
+                <ref bean="attributeTransform"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="criterialookupDaoJpa" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupDaoJpaImpl">
+        <property name="entityManager" ref="entityManager"/>
+    </bean>
+
+
+</beans>

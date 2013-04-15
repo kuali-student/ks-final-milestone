@@ -1,0 +1,896 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated on Thu Jul 05 08:31:03 EDT 2012
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- CourseOfferingInfo-->
+	<bean id="CourseOfferingInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="courseOfferingInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
+		<property name="objectLabel" value="Course Offering"/>
+		<property name="objectDescription">
+			<value>
+
+			</value>
+		</property>
+		<property name="titleAttribute" value="courseOfferingTitle"/>
+		<property name="primaryKeys">
+			<list>
+				<value>id</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="CourseOfferingInfo.id"/>
+				<ref bean="CourseOfferingInfo.typeKey"/>
+				<ref bean="CourseOfferingInfo.stateKey"/>
+				<ref bean="CourseOfferingInfo.courseId"/>
+				<ref bean="CourseOfferingInfo.termId"/>
+				<ref bean="CourseOfferingInfo.courseCode"/>
+				<ref bean="CourseOfferingInfo.courseOfferingCode"/>
+				<ref bean="CourseOfferingInfo.courseNumberSuffix"/>
+				<ref bean="CourseOfferingInfo.courseOfferingTitle"/>
+				<ref bean="CourseOfferingInfo.isHonorsOffering"/>
+				<ref bean="CourseOfferingInfo.subjectArea"/>
+				<ref bean="CourseOfferingInfo.maximumEnrollment"/>
+				<ref bean="CourseOfferingInfo.minimumEnrollment"/>
+				<ref bean="CourseOfferingInfo.creditOptionId"/>
+				<ref bean="CourseOfferingInfo.creditCnt"/>
+				<ref bean="CourseOfferingInfo.gradingOptionId"/>
+				<ref bean="CourseOfferingInfo.gradingOption"/>
+				<ref bean="CourseOfferingInfo.waitlistLevelTypeKey"/>
+				<ref bean="CourseOfferingInfo.hasWaitlist"/>
+				<ref bean="CourseOfferingInfo.waitlistTypeKey"/>
+				<ref bean="CourseOfferingInfo.finalExamType"/>
+				<ref bean="CourseOfferingInfo.isEvaluated"/>
+				<ref bean="CourseOfferingInfo.fundingSource"/>
+				<ref bean="CourseOfferingInfo.isFeeAtActivityOffering"/>
+				<ref bean="CourseOfferingInfo.isFinancialAidEligible"/>
+				<ref bean="CourseOfferingInfo.courseOfferingURL"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+				<ref bean="CourseOfferingInfo.descr"/>
+				<ref bean="CourseOfferingInfo.meta"/>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+				<ref bean="CourseOfferingInfo.instructors"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="CourseOfferingInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+		<property name="name" value="typeKey"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+		<property name="name" value="stateKey"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="descr"/>
+		<property name="shortLabel" value="Descr"/>
+		<property name="summary">
+			<value>
+Custom Description for the course Offering.
+			</value>
+		</property>
+		<property name="label" value="Course Offering Description"/>
+		<property name="description">
+			<value>
+Custom Description for the course Offering.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="descr"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.RichTextInfo"/>
+				<property name="objectLabel" value="Course Offering Description"/>
+				<property name="objectDescription">
+					<value>
+Custom Description for the course Offering.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="CourseOfferingInfo.descr.plain"/>
+						<ref bean="CourseOfferingInfo.descr.formatted"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="CourseOfferingInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+		<property name="name" value="plain"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+		<property name="name" value="formatted"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.courseId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseId"/>
+		<property name="shortLabel" value="Course Id"/>
+		<property name="summary">
+			<value>
+A unique identifier assigned to all approved courses that exist
+in the catalog This is not updatable once initialized.
+			</value>
+		</property>
+		<property name="label" value="Course Id"/>
+		<property name="description">
+			<value>
+A unique identifier assigned to all approved courses that exist
+in the catalog This is not updatable once initialized.
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.termId-generated" abstract="true" parent="BaseKuali.termId">
+		<property name="name" value="termId"/>
+		<property name="shortLabel" value="Term Id"/>
+		<property name="summary">
+			<value>
+Academic term of course offering
+			</value>
+		</property>
+		<property name="label" value="Term Id"/>
+		<property name="description">
+			<value>
+Academic term of course offering
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.courseCode-generated" abstract="true" parent="BaseKuali.code">
+		<property name="name" value="courseCode"/>
+		<property name="shortLabel" value="Course Code"/>
+		<property name="summary">
+			<value>
+Identifies the number of a course as reflected in the course catalog.
+
+			</value>
+		</property>
+		<property name="label" value="Course Code"/>
+		<property name="description">
+			<value>
+Identifies the number of a course as reflected in the course catalog.
+This typically must be unique across all courses offered during that
+term. If the user wants to create two separate offerings for the same
+course they must modify this code to make it unique. For example: An
+on-line offering of the course might have an &quot;O&quot; appended to it to
+distinguish it from the face to face offering, i.e. ENG101 and ENG101O
+Initially copied from the course catalog but then, depending on the
+configuration it may be updatable. Often this field is configured so that
+it is not not directly updatable but rather is calculated from it's two
+constituent parts, the subject area and the course number suffix. For
+example: Subject Area = &quot;ENG&quot; and Suffix = &quot;101&quot; then code = &quot;ENG101&quot;
+
+This field is differentiated from the Couurse Offering Code in
+that the Course Offering Code can updated while the Course Code
+always indicates the official canonical code.
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.courseOfferingCode-generated" abstract="true" parent="BaseKuali.code">
+		<property name="name" value="courseOfferingCode"/>
+		<property name="shortLabel" value="Course Offering Code"/>
+		<property name="summary">
+			<value>
+Identifies the number of a course as reflected in the course catalog.
+
+			</value>
+		</property>
+		<property name="label" value="Course Offering Code"/>
+		<property name="description">
+			<value>
+Identifies the number of a course as reflected in the course catalog.
+This typically must be unique across all courses offered during that
+term. If the user wants to create two separate offerings for the same
+course they must modify this code to make it unique. For example: An
+on-line offering of the course might have an &quot;O&quot; appended to it to
+distinguish it from the face to face offering, i.e. ENG101 and ENG101O
+Initially copied from the course catalog but then, depending on the
+configuration it may be updatable. Often this field is configured so that
+it is not not directly updatable but rather is calculated from it's two
+constituent parts, the subject area and the course number suffix. For
+example: Subject Area = &quot;ENG&quot; and Suffix = &quot;101&quot; then code = &quot;ENG101&quot;
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.courseNumberSuffix-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseNumberSuffix"/>
+		<property name="shortLabel" value="Course Number Suffix"/>
+		<property name="summary">
+			<value>
+A suffix of the course number as reflected in the college catalog. 
+			</value>
+		</property>
+		<property name="label" value="Course Number Suffix"/>
+		<property name="description">
+			<value>
+A suffix of the course number as reflected in the college catalog. This
+is the &quot;number&quot; portion of the course code. Initially copied from the
+course catalog but then, depending on the configuration it may be
+updatable. This field is often configured to be updatable but the updates
+typically simply append something like an &quot;O&quot; for on-line to it to
+differentiate multiple course offerings for the same course. Often used
+in the calculation of the courseCode.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.courseOfferingTitle-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseOfferingTitle"/>
+		<property name="shortLabel" value="Course Offering Title"/>
+		<property name="summary">
+			<value>
+Name of the course used in the college catalog. 
+			</value>
+		</property>
+		<property name="label" value="Course Title"/>
+		<property name="description">
+			<value>
+Name of the course used in the college catalog. Initially copied from the
+course catalog but then, depending on the configuration it may be
+updatable. For regular courses this is not generally allowed to be
+updated on the offering, but for special topics courses this is often
+overridden to capture the particular topic being taught offered this
+term. Note: the configuration of the validation for titles is typically
+restricted to exclude line breaks. This may have to be loosened as some
+schools may want the particular topic to appear on a 2nd line. For
+example: SPECIAL TOPICS: AN EXPLORATION OF DEEP SPACE ARTIFACTS
+l
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.isHonorsOffering-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isHonorsOffering"/>
+		<property name="shortLabel" value="Is Honors Offering"/>
+		<property name="summary">
+			<value>
+Indicates that the entire course offering is an Honors Course ??? 
+			</value>
+		</property>
+		<property name="label" value="Is Honors Offering"/>
+		<property name="description">
+			<value>
+Indicates that the entire course offering is an Honors Course ??? Is this
+an enrollment restriction rule or a flag or both?
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.instructors-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="instructors"/>
+		<property name="shortLabel" value="Instructors"/>
+		<property name="summary">
+			<value>
+Instructors for this course offering TODO: find out if the canonical
+instructors should be copied down
+			</value>
+		</property>
+		<property name="label" value="Instructors"/>
+		<property name="elementLabel" value="Instructor"/>
+		<property name="description">
+			<value>
+Instructors for this course offering TODO: find out if the canonical
+instructors should be copied down
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.subjectArea-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="subjectArea"/>
+		<property name="shortLabel" value="Subject Area"/>
+		<property name="summary">
+			<value>
+Identifies the department and/subject code of the course as reflected in
+the course catalog. 
+			</value>
+		</property>
+		<property name="label" value="Subject Area"/>
+		<property name="description">
+			<value>
+Identifies the department and/subject code of the course as reflected in
+the course catalog. Initially copied from the course catalog but then,
+depending on the configuration it may be updatable. In most
+configurations this should not be updatable. Often used in the
+calculation of the courseCode
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.unitsDeploymentOrgIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="unitsDeploymentOrgIds"/>
+		<property name="shortLabel" value="Units Deployment Org Ids"/>
+		<property name="summary">
+			<value>
+Organization(s) that is responsible for administering the course delivery
+- and all associated logistics - of the course Initially copied from the
+canonical course then, depending on the configuration, updated This is
+typically an academic department but could be for example the extended
+studies office that is responsible for delivering the course even though
+it's content is managed by an academic department.
+			</value>
+		</property>
+		<property name="label" value="Units Deployment"/>
+		<property name="elementLabel" value="Units Deployment Org Id"/>
+		<property name="description">
+			<value>
+Organization(s) that is responsible for administering the course delivery
+- and all associated logistics - of the course Initially copied from the
+canonical course then, depending on the configuration, updated This is
+typically an academic department but could be for example the extended
+studies office that is responsible for delivering the course even though
+it's content is managed by an academic department.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.unitsContentOwnerOrgIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="unitsContentOwnerOrgIds"/>
+		<property name="shortLabel" value="Units Content Owner Org Ids"/>
+		<property name="summary">
+			<value>
+Organization(s) that is responsible for the academic content of the
+course as approved in its canonical form. 
+			</value>
+		</property>
+		<property name="label" value="Units Content Owner"/>
+		<property name="elementLabel" value="Units Content Owner Org Id"/>
+		<property name="description">
+			<value>
+Organization(s) that is responsible for the academic content of the
+course as approved in its canonical form. This is the organization that
+has oversight of the curriculum. This is typically an academic
+department.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.maximumEnrollment-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="maximumEnrollment"/>
+		<property name="shortLabel" value="Maximum Enrollment"/>
+		<property name="summary">
+			<value>
+Total maximum number of &quot;seats&quot; or enrollment slots that can be filled
+for the offering. 
+			</value>
+		</property>
+		<property name="label" value="Maximum Enrollment"/>
+		<property name="description">
+			<value>
+Total maximum number of &quot;seats&quot; or enrollment slots that can be filled
+for the offering. Calculated based on sum of all the maximum seats of
+primary activity type offerings.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.minimumEnrollment-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="minimumEnrollment"/>
+		<property name="shortLabel" value="Minimum Enrollment"/>
+		<property name="summary">
+			<value>
+Total minimum number of seats that must be filled for the offering not to
+be canceled. 
+			</value>
+		</property>
+		<property name="label" value="Minimum Enrollment"/>
+		<property name="description">
+			<value>
+Total minimum number of seats that must be filled for the offering not to
+be canceled. Calculated based on sum of all the minimum seats of primary
+activity type offerings
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.jointOfferingIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="jointOfferingIds"/>
+		<property name="shortLabel" value="Joint Offering Ids"/>
+		<property name="summary">
+			<value>
+The unique identifier of the other course offerings with which this
+offering is joint-listed
+			</value>
+		</property>
+		<property name="label" value="Joint Offering Ids"/>
+		<property name="elementLabel" value="Joint Offering Id"/>
+		<property name="description">
+			<value>
+The unique identifier of the other course offerings with which this
+offering is joint-listed
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.creditOptionId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="creditOptionId"/>
+		<property name="shortLabel" value="Credit Option Id"/>
+		<property name="summary">
+			<value>
+Type of credit of course offering. 
+			</value>
+		</property>
+		<property name="label" value="Credit Option"/>
+		<property name="description">
+			<value>
+Type of credit of course offering. This field is initially copied and constrained
+from the canonical course but then, depending on configuration, it may be
+updated. Often it is just a fixed single
+value but a ResultValuesGroup could contain a range (with increments) or
+even a discrete list of possible credit values.
+These are the constraint/mapping rules:
+- A fixed option on clu maps to a fixed option on lui.
+- A variable option on clu can map to a fixed, variable or multiple option on lui constrained by the min and max
+- A multiple option on clu can map to a fixed or multiple option on lui constrained by the clu options
+It is possible that the canonical has more than one!
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.creditCnt-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="creditCnt"/>
+		<property name="shortLabel" value="Credit Cnt"/>
+		<property name="summary">
+			<value>
+Gets the Credit Count
+			</value>
+		</property>
+		<property name="label" value="Credit Count"/>
+		<property name="description">
+			<value>
+Gets the Credit Count
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.gradingOptionId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="gradingOptionId"/>
+		<property name="shortLabel" value="Grading Option Id"/>
+		<property name="summary">
+			<value>
+The options/scale that indicates the allowable grades that can be
+awarded. 
+			</value>
+		</property>
+		<property name="label" value="Grading Option Id"/>
+		<property name="description">
+			<value>
+The options/scale that indicates the allowable grades that can be
+awarded. Typically the value here are constrained by the values on the
+canonical course. If the value is set here then the Clu must have a
+grading option set on the canonical activity. For example: an id might
+point to Pass/Fail or Letter Graded option.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.gradingOption-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="gradingOption"/>
+		<property name="shortLabel" value="Grading Option"/>
+		<property name="summary">
+			<value>
+Gets the Grading Name
+			</value>
+		</property>
+		<property name="label" value="Grading"/>
+		<property name="description">
+			<value>
+Gets the Grading Name
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.studentRegistrationOptionIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="studentRegistrationOptionIds"/>
+		<property name="shortLabel" value="Student Registration Option Ids"/>
+		<property name="summary">
+			<value>
+The options/scales that indicate the allowable grades that can be
+awarded. 
+			</value>
+		</property>
+		<property name="label" value="Student Registration Option Ids"/>
+		<property name="elementLabel" value="Student Registration Option Id"/>
+		<property name="description">
+			<value>
+The options/scales that indicate the allowable grades that can be
+awarded. Typically the values here are constrained by the values on the
+canonical course. If the value is set here then the Clu must have a
+grading option set on the canonical activity. For example: an id might
+point to Pass/Fail or Letter Graded option.
+
+This is the same as gradingOptionIds, but the student registration specific
+ids are pulled out and placed in this collection.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.waitlistLevelTypeKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="waitlistLevelTypeKey"/>
+		<property name="shortLabel" value="Waitlist Level Type Key"/>
+		<property name="summary">
+			<value>
+Indicates the waitlist level, i.e., CourseOffering or ActivityOffering.
+ 
+			</value>
+		</property>
+		<property name="label" value="Waitlist Level Type Key"/>
+		<property name="description">
+			<value>
+Indicates the waitlist level, i.e., CourseOffering or ActivityOffering.
+ Values are in WaitListLevel enum.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.hasWaitlist-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="hasWaitlist"/>
+		<property name="shortLabel" value="Has Waitlist"/>
+		<property name="summary">
+			<value>
+Indicates whether a RegistrationGroup has a waitlist TODO: figure out how
+to store this TODO: make sure we are consistent on how we spell Waitlist,
+should be spelled Waitlist, or Wait List or Wait-List (as the
+merriam-webster has it)
+			</value>
+		</property>
+		<property name="label" value="Has Waitlist"/>
+		<property name="description">
+			<value>
+Indicates whether a RegistrationGroup has a waitlist TODO: figure out how
+to store this TODO: make sure we are consistent on how we spell Waitlist,
+should be spelled Waitlist, or Wait List or Wait-List (as the
+merriam-webster has it)
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.waitlistTypeKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="waitlistTypeKey"/>
+		<property name="shortLabel" value="Waitlist Type Key"/>
+		<property name="summary">
+			<value>
+Indicates the type of waitlist as it relates to processing students on
+and off The three types predefined in kuali are Automatic, Semi-Automatic
+and Manual TODO: Right not Waitlist types are not tied to any Waitlist
+object so we need to define an &quot;other key&quot; to get the list of valid
+values from the type service. 
+			</value>
+		</property>
+		<property name="label" value="Waitlist Type Key"/>
+		<property name="description">
+			<value>
+Indicates the type of waitlist as it relates to processing students on
+and off The three types predefined in kuali are Automatic, Semi-Automatic
+and Manual TODO: Right not Waitlist types are not tied to any Waitlist
+object so we need to define an &quot;other key&quot; to get the list of valid
+values from the type service. TODO: Decide if we need a separate
+getHasWaitList, perhaps no value in this field means no waitlist. TODO:
+Cross validate with hasWaitlist
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.campusLocations-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="campusLocations"/>
+		<property name="shortLabel" value="Campus Locations"/>
+		<property name="summary">
+			<value>
+Places where this Course offering is offered.
+			</value>
+		</property>
+		<property name="label" value="Campus Locations"/>
+		<property name="elementLabel" value="Campus Location"/>
+		<property name="description">
+			<value>
+Places where this Course offering is offered.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.finalExamType-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="finalExamType"/>
+		<property name="shortLabel" value="Final Exam Type"/>
+		<property name="summary">
+			<value>
+Indicates the type of final exam ('STANDARD', 'ALTERNATE',
+'NONE') to be given for this format Offering, if any.
+			</value>
+		</property>
+		<property name="label" value="Final Exam Type"/>
+		<property name="description">
+			<value>
+Indicates the type of final exam ('STANDARD', 'ALTERNATE',
+'NONE') to be given for this format Offering, if any.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.isEvaluated-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isEvaluated"/>
+		<property name="shortLabel" value="Is Evaluated"/>
+		<property name="summary">
+			<value>
+Indicates whether the course offering has an evaluation.
+			</value>
+		</property>
+		<property name="label" value="Is Evaluated"/>
+		<property name="description">
+			<value>
+Indicates whether the course offering has an evaluation.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.fundingSource-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="fundingSource"/>
+		<property name="shortLabel" value="Funding Source"/>
+		<property name="summary">
+			<value>
+The primary source of funding for the offering.
+			</value>
+		</property>
+		<property name="label" value="Funding Source"/>
+		<property name="description">
+			<value>
+The primary source of funding for the offering.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.isFeeAtActivityOffering-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isFeeAtActivityOffering"/>
+		<property name="shortLabel" value="Is Fee At Activity Offering"/>
+		<property name="summary">
+			<value>
+Indicates whether the fee is at activity offering level or
+course offering level. 
+			</value>
+		</property>
+		<property name="label" value="Is Fee at Activity Offering"/>
+		<property name="description">
+			<value>
+Indicates whether the fee is at activity offering level or
+course offering level. If true its at Activity Offering level,
+if false its at CourseOffering level.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.isFinancialAidEligible-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isFinancialAidEligible"/>
+		<property name="shortLabel" value="Is Financial Aid Eligible"/>
+		<property name="summary">
+			<value>
+Flag indicating whether a course is eligible for Financial Aid. 
+			</value>
+		</property>
+		<property name="label" value="Is Financial Aid Eligible"/>
+		<property name="description">
+			<value>
+Flag indicating whether a course is eligible for Financial Aid. Derived
+from course catalog (canonical) TODO: find a place to store this on the
+canonical course because it does not currently exist there TODO: Decide
+if this is really a rule or a CluSet or what?
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.courseOfferingURL-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseOfferingURL"/>
+		<property name="shortLabel" value="Course Offering URL"/>
+		<property name="summary">
+			<value>
+Gets the Course Offering URL.
+			</value>
+		</property>
+		<property name="label" value="Course Offering URL"/>
+		<property name="description">
+			<value>
+Gets the Course Offering URL.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="meta"/>
+		<property name="shortLabel" value="Meta"/>
+		<property name="summary">
+			<value>
+Create and last update info for the structure. 
+			</value>
+		</property>
+		<property name="label" value="Meta"/>
+		<property name="description">
+			<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="meta"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
+				<property name="objectLabel" value="Meta"/>
+				<property name="objectDescription">
+					<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="CourseOfferingInfo.meta.versionInd"/>
+						<ref bean="CourseOfferingInfo.meta.createTime"/>
+						<ref bean="CourseOfferingInfo.meta.createId"/>
+						<ref bean="CourseOfferingInfo.meta.updateTime"/>
+						<ref bean="CourseOfferingInfo.meta.updateId"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="CourseOfferingInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+		<property name="name" value="versionInd"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+		<property name="name" value="createTime"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+		<property name="name" value="createId"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+		<property name="name" value="updateTime"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+		<property name="name" value="updateId"/>
+	</bean>
+</beans>

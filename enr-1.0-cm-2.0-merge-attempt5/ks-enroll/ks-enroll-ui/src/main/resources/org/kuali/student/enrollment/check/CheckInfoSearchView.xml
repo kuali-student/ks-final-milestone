@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <!--
+     Copyright 2007-2012 The Kuali Foundation
+
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.opensource.org/licenses/ecl2.php
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
+
+    <bean id="KS-CheckInfo-Search" parent="KSFormView"
+          p:id="checkInfoSearchView" p:headerText="Manage Checks" p:renderHeader="false">
+        <property name="entryPageId" value="checkInfoSearch-SearchPage" />
+        <property name="formClass" value="org.kuali.student.enrollment.class1.check.form.CheckInfoForm" />
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-enrollment-home</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="KS-CheckInfoSearch-SearchPage" />
+                <ref bean="KS-CheckInfoSearch-EditPage"/>
+            </list>
+        </property>
+        <property name="dialogs">
+            <list>
+                <bean id="deleteConfirmationDialog" parent="KS-CheckInfoSearch-DeleteDialog"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CheckInfoSearch-SearchPage" parent="Uif-Page">
+        <property name="id" value="checkInfoSearch-SearchPage"/>
+        <property name="headerText" value="Advanced Search: Check" />
+        <property name="items">
+            <list>
+               <ref bean="KS-CheckInfoSearch-CriteriaSection"/>
+               <ref bean="KS-CheckInfoSearch-ResultSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CheckInfoSearch-CriteriaSection" parent="Uif-VerticalBoxSection">
+        <property name="disclosure.render" value="false"/>
+        <property name="style" value="margin-bottom:0;"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridSubSection">
+                    <property name="headerText" value="Enter one or more fields"/>
+                    <property name="layoutManager.numberOfColumns" value="2"/>
+                    <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                    <property name="style" value="margin-bottom:0;"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalFieldGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField-LabelTop" p:label="Check Name" p:propertyName="name" >
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:watermarkText="Enter Check Name" p:size="15"/>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField-LabelTop" p:label="Check Description" p:propertyName="descr" p:instructionalText="Enter a full description of the purpose of the check">
+                                            <property name="control">
+                                                <bean parent="Uif-SmallTextAreaControl"/>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField-LabelTop" p:label="Check Type" p:propertyName="typeKey">
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl" p:required="true"/>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class1.check.keyvalues.CheckInfoTypeKeyValues"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-HorizontalFieldGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Search" p:methodToCall="search"/>
+                                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Clear Values" p:methodToCall="clear"/>
+                                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CheckInfoSearch-ResultSection" parent="Uif-TableCollectionSection"
+          p:layoutManager.numberOfColumns="6" p:renderAddLine="false">
+        <property name="collectionObjectClass" value="org.kuali.student.r2.core.process.dto.CheckInfo" />
+        <property name="propertyName" value="checkInfoList" />
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="true" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map>
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 4, 'asc' ]]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField"
+                      p:label="CHECK NAME"
+                      p:propertyName="name" />
+                <bean parent="Uif-InputField" p:label="CHECK TYPE" p:propertyName="typeKey"  p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean id="HoldIssueTypes" class="org.kuali.student.enrollment.class1.check.keyvalues.CheckInfoTypeKeyValues" />
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField"
+                      p:label="CHECK DESCRIPTION"
+                      p:propertyName="descr.plain"/>
+                <bean parent="Uif-InputField" p:label="STATE" p:propertyName="stateKey"  p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean id="CheckInfoStates" class="org.kuali.student.enrollment.class1.check.keyvalues.CheckInfoStateKeyValues" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype">
+            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="Actions" p:style="display:inline;"/>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CheckInfoSearch-EditPage" parent="Uif-Page">
+        <property name="id" value="checkInfoSearch-EditPage"/>
+        <property name="headerText" value="Edit Check"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField-LabelTop" p:label="Check Name" p:propertyName="name">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20" p:required="true"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField-LabelTop" p:label="Check Description" p:propertyName="descr" >
+                                <property name="control">
+                                    <bean parent="Uif-SmallTextAreaControl" p:required="true"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Update" p:methodToCall="update"/>
+                            <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="back"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CheckInfoSearch-DeleteDialog" parent="Uif-VerticalBoxGroup" p:hidden="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="headerText" value="Set State for Check"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField-LabelTop" p:propertyName="dialogStateKey">
+                                <property name="control">
+                                    <bean parent="Uif-HorizontalRadioControl" p:disabled="@{isInstructionActive}">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="kuali.process.process.state.disabled" p:value="Disabled"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="kuali.process.process.state.inactive" p:value="Inactive"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-HorizontalFieldGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="delete" p:actionLabel="Update"/>
+                                        <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="delete" p:actionLabel="Cancel" p:actionParameters="resetDialog:true"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>
