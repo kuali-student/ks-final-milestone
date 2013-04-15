@@ -45,6 +45,7 @@ import org.kuali.rice.krms.service.impl.RuleViewHelperServiceImpl;
 import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RuleEditTreeBuilder;
 import org.kuali.rice.krms.tree.RulePreviewTreeBuilder;
+import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
@@ -96,6 +97,7 @@ public class CORuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     private OrganizationService organizationService;
 
     private RulePreviewTreeBuilder previewTreeBuilder;
+    private RuleViewTreeBuilder viewTreeBuilder;
 
     @Override
     public Class<? extends PropositionEditor> getPropositionEditorClass() {
@@ -385,6 +387,14 @@ public class CORuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             previewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
         }
         return previewTreeBuilder;
+    }
+
+    protected RuleViewTreeBuilder getViewTreeBuilder() {
+        if (viewTreeBuilder == null) {
+            viewTreeBuilder = new RuleViewTreeBuilder();
+            viewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+        }
+        return viewTreeBuilder;
     }
 
     private CluService getCluService() {

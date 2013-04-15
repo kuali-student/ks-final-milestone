@@ -38,6 +38,7 @@ import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.rice.krms.impl.util.KrmsImplConstants;
 import org.kuali.rice.krms.service.TemplateRegistry;
+import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RuleEditTreeBuilder;
@@ -74,6 +75,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     private RuleCompareTreeBuilder compareTreeBuilder;
     private RuleEditTreeBuilder editTreeBuilder;
     private RulePreviewTreeBuilder previewTreeBuilder;
+    private RuleViewTreeBuilder viewTreeBuilder;
     private NaturalLanguageHelper naturalLanguageHelper;
 
     private static TemplateRegistry templateRegistry;
@@ -496,6 +498,18 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     @Override
+    public void refreshViewTree(RuleEditor rule) {
+
+        if (rule == null) {
+            return;
+        }
+
+        //Rebuild the trees
+        rule.setViewTree(this.getViewTreeBuilder().buildTree(rule));
+
+    }
+
+    @Override
     public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original, String compareToRefObjectId) throws Exception {
 
         //Get the CLU Tree.
@@ -567,6 +581,14 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             previewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
         }
         return previewTreeBuilder;
+    }
+
+    protected RuleViewTreeBuilder getViewTreeBuilder() {
+        if (viewTreeBuilder == null) {
+            viewTreeBuilder = new RuleViewTreeBuilder();
+            viewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+        }
+        return viewTreeBuilder;
     }
 
     protected NaturalLanguageHelper getNaturalLanguageHelper() {

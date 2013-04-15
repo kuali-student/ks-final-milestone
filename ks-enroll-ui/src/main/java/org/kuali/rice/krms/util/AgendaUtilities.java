@@ -23,9 +23,9 @@ public class AgendaUtilities {
 
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
         RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
-        String ruleId = document.getActionParamaterValue("ruleId");
+        String ruleKey = document.getActionParamaterValue("ruleKey");
 
-        RuleEditor ruleEditor = getSelectedRuleEditor(ruleWrapper, ruleId);
+        RuleEditor ruleEditor = getSelectedRuleEditor(ruleWrapper, ruleKey);
 
         if(ruleEditor != null){
             ruleWrapper.setRuleEditor((RuleEditor) ObjectUtils.deepCopy(ruleEditor));
@@ -37,11 +37,11 @@ public class AgendaUtilities {
         return ruleWrapper.getRuleEditor();
     }
 
-    public static RuleEditor getSelectedRuleEditor(RuleManagementWrapper wrapper, String ruleId) {
+    public static RuleEditor getSelectedRuleEditor(RuleManagementWrapper wrapper, String ruleKey) {
 
         for (AgendaEditor agendaEditor : wrapper.getAgendas()) {
             for (RuleEditor ruleEditor : agendaEditor.getRuleEditors()) {
-                if ((ruleEditor.getId() != null) && (ruleEditor.getId().equals(ruleId))) {
+                if ((ruleEditor.getSelectedKey() != null) && (ruleEditor.getSelectedKey().equals(ruleKey))) {
                     return ruleEditor;
                 }
             }
