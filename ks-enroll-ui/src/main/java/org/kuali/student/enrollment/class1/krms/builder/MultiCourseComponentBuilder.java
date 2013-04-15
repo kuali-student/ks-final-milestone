@@ -29,11 +29,7 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.springframework.util.ObjectUtils;
 
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -74,6 +70,9 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
     public Map<String, String> buildTermParameters(EnrolPropositionEditor propositionEditor) {
         Map<String, String> termParameters = new HashMap<String, String>();
         if (propositionEditor.getCluSet() != null) {
+            if(propositionEditor.getCluSet().getCluSetInfo() == null){
+                propositionEditor.getCluSet().setCluSetInfo(this.createCourseSet(propositionEditor.getCluSet()));
+            }
             termParameters.put(CLUSET_KEY, propositionEditor.getCluSet().getCluSetInfo().getId());
         }
         return termParameters;
@@ -285,6 +284,38 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
             upWrap(cluSetInfo, ContextUtils.getContextInfo());
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+        return cluSetInfo;
+    }
+
+    public CluSetInfo createCourseSet(CluSetInformation cluSetInformation) {
+        CluSetInfo cluSetInfo = new CluSetInfo();
+        cluSetInfo.setTypeKey(CluServiceConstants.CLUSET_TYPE_CREDIT_COURSE);
+        cluSetInfo.setStateKey("Active");
+        cluSetInfo.setName("adhoc");
+        cluSetInfo.setEffectiveDate(new Date());
+        cluSetInfo.setIsReferenceable(Boolean.TRUE);
+        cluSetInfo.setIsReusable(Boolean.FALSE);
+
+        //Set the clu ids on the cluset
+        if(cluSetInformation.getClus()!=null){
+            for(CluInformation clu : cluSetInformation.getClus()){
+                cluSetInfo.getCluIds().add(clu.getVerIndependentId());
+            }
+        }
+
+        //Set the cluset ids on the cluset
+        if(cluSetInformation.getCluSets()!=null){
+            for(CluSetInfo cluset : cluSetInformation.getCluSets()){
+                cluSetInfo.getCluSetIds().add(cluset.getId());
+            }
+        }
+
+        //Create the courseset
+        try {
+            cluSetInfo = this.cluService.createCluSet(cluSetInfo.getTypeKey(), cluSetInfo, ContextUtils.getContextInfo());
+        } catch (Exception ex) {
+            throw new IllegalArgumentException(ex);
         }
         return cluSetInfo;
     }

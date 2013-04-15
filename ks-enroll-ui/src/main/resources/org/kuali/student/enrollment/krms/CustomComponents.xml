@@ -110,25 +110,23 @@
     </bean>
 
     <bean id="KRMS-Course-QuickFinder" parent="KRMS-QuickFinder">
-        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
-        <property name="viewName" value="krmsCoursesOnlyLookup"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.CluInformation"/>
         <property name="fieldConversions">
             <map>
                 <entry key="code" value="proposition.courseInfo.code"/>
-                <entry key="id" value="proposition.courseInfo.id"/>
-                <!--entry key="version" value="proposition.courseInfo.version"/-->
+                <entry key="cluId" value="proposition.courseInfo.id"/>
+                <entry key="verIndependentId" value="proposition.courseInfo.version"/>
             </map>
         </property>
     </bean>
 
     <bean id="KRMS-ApprovedCourses-QuickFinder" parent="KRMS-QuickFinder">
-        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
-        <property name="viewName" value="krmsCoursesOnlyLookup"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.CluInformation"/>
         <property name="fieldConversions">
             <map>
                 <entry key="code" value="code"/>
-                <entry key="id" value="cluId"/>
-                <!--entry key="version" value="version"/-->
+                <entry key="cluId" value="cluId"/>
+                <entry key="verIndependentId" value="verIndependentId"/>
             </map>
         </property>
     </bean>
