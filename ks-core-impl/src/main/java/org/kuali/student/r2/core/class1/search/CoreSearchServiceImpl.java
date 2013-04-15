@@ -3,6 +3,8 @@ package org.kuali.student.r2.core.class1.search;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImplBase;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
@@ -16,6 +18,8 @@ import org.kuali.student.r2.core.search.util.SearchRequestHelper;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -33,8 +37,10 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
     private EntityManager entityManager;
 
     public static final TypeInfo SCH_AND_ROOM_SEARH_BY_ID_SEARCH_TYPE;
+    public static final TypeInfo SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_TYPE;
 
     public static final String SCH_AND_ROOM_SEARH_BY_ID_SEARCH_KEY = "kuali.search.type.core.searchForScheduleAndRoomById";
+    public static final String SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_KEY = "kuali.search.type.core.searchForScheduleRequestByRefIdAndType";
 
     public static final class SearchParameters {
         public static final String SCHEDULE_IDS = "scheduleIds";
@@ -43,6 +49,7 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
     }
 
     public static final class SearchResultColumns {
+        public static final String AO_ID = "aoId";
         public static final String SCH_ID = "id";
         public static final String CMP_ID = "cmpId";
         public static final String WEEKDAYS = "weekdays";
@@ -66,15 +73,48 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
             throw new RuntimeException("bad code");
         }
         SCH_AND_ROOM_SEARH_BY_ID_SEARCH_TYPE = info;
+
+        info = new TypeInfo();
+        info.setKey(SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_KEY);
+        info.setName("Activity Offerings for CO Search");
+        info.setDescr(new RichTextHelper().fromPlain("Return search results for Activity Offerings by CO ID"));
+
+        try {
+            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
+        } catch ( IllegalArgumentException ex) {
+            throw new RuntimeException("bad code");
+        }
+        SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_TYPE = info;
     }
 
 
-    /**
-     * Get the search type that the sub class implements.
-     */
     @Override
     public TypeInfo getSearchType() {
-        return SCH_AND_ROOM_SEARH_BY_ID_SEARCH_TYPE;
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public TypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException {
+        if (SCH_AND_ROOM_SEARH_BY_ID_SEARCH_TYPE.getKey().equals(searchTypeKey)) {
+            return SCH_AND_ROOM_SEARH_BY_ID_SEARCH_TYPE;
+        }
+        if (SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_TYPE.getKey().equals(searchTypeKey)) {
+            return SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_TYPE;
+        }
+
+        throw new DoesNotExistException("No Search Type Found for key:"+searchTypeKey);
+    }
+
+    @Override
+    public List<TypeInfo> getSearchTypes(ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException {
+        return Arrays.asList(SCH_AND_ROOM_SEARH_BY_ID_SEARCH_TYPE, SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_TYPE);
     }
 
 
@@ -84,6 +124,8 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
         // As this class expands, you can add multiple searches. Ie. right now there is only one search (so only one search key).
         if (StringUtils.equals(searchRequestInfo.getSearchKey(), SCH_AND_ROOM_SEARH_BY_ID_SEARCH_TYPE.getKey())) {
             return searchForScheduleAndRoomById(searchRequestInfo, contextInfo);
+        }else if (StringUtils.equals(searchRequestInfo.getSearchKey(), SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_TYPE.getKey())) {
+            return searchForScheduleRequestsByRefIdAndType(searchRequestInfo, contextInfo);
         } else{
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
@@ -184,32 +226,52 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
         if (refIds == null || refIds.isEmpty()){
             throw new RuntimeException("Reference Ids are required");
         }
+
         if (refType == null || refType.isEmpty()){
             throw new RuntimeException("Reference Type is required");
         }
 
+
         String refIdsStr = commaString(refIds);
 
-        String query =
+        String queryStr =
                 " Select "   +
-                        "  sch.id, " +
-                        "  cmp.id, " +
+                        "  schReq.refObjectId as aoId, " +
+                        "  cmp.id as cmpId, " +
                         "  tmslot.weekdays, " +
                         "  tmslot.startTimeMillis, " +
                         "  tmslot.endTimeMillis, " +
-                        "  tmslot.timeSlotState " +
+                        "  tmslot.timeSlotState, " +
+                        "  room.roomCode, " +
+                        "  bldg.name, " +
+                        "  cmp.isTBA " +
                         " FROM " +
                         "    ScheduleRequestEntity schReq, " +
                         "    IN(schReq.scheduleRequestComponents) cmp, " +
                         "    IN ( cmp.timeSlotIds ) cmp_tmslot, " +
-                        "    TimeSlotEntity tmslot " +
+                        "    IN ( cmp.roomIds ) cmp_room, " +
+                        "    IN ( cmp.buildingIds ) cmp_bldg, " +
+                        "    TimeSlotEntity tmslot, " +
+                        "    RoomEntity room, " +
+                        "    RoomBuildingEntity bldg  " +
                         " WHERE " +
                         "     schReq.refObjectTypeKey = :refType " +
                         " AND schReq.refObjectId in ("+ refIdsStr +") " +
-                        " AND tmslot.id = cmp_tmslot";
+                        " AND (tmslot.id = cmp_tmslot or tmslot.id is NULL) " +
+                        " AND (room.id = cmp_room or room.id is NULL) " +
+                        " AND (bldg.id = cmp_bldg or bldg.id is null) ";
 
 
-        List<Object[]> results = getEntityManager().createQuery(query).getResultList();
+
+        Query query = entityManager.createQuery(queryStr);
+        query.setParameter(SearchParameters.REF_TYPE, refType);
+
+        try{
+            String querySt = query.unwrap(org.hibernate.Query.class).getQueryString();
+            System.out.println(querySt);
+        } catch (Exception ex){}
+
+        List<Object[]> results = query.getResultList();
 
         SearchResultInfo resultInfo = new SearchResultInfo();
         resultInfo.setTotalResults(results.size());
@@ -220,7 +282,8 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
 
             int i=0;
 
-            row.addCell(SearchResultColumns.SCH_ID,(String)result[i++]);
+            row.addCell(SearchResultColumns.AO_ID,(String)result[i++]);
+            row.addCell(SearchResultColumns.CMP_ID,(String)result[i++]);
             row.addCell(SearchResultColumns.WEEKDAYS,(String)result[i++]);
 
             Long startTime = (Long)result[i++];  // So, the underlying value is a long. we need to convert that to a string w/o NPE
