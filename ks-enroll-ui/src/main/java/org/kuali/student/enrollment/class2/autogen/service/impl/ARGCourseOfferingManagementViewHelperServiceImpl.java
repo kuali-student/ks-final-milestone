@@ -30,6 +30,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
+import org.kuali.student.enrollment.class2.autogen.dto.ScheduleCalcContainer;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.autogen.service.ARGCourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.autogen.util.ARGToolbarUtil;
@@ -117,6 +118,7 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -429,6 +431,100 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             }
         }
 
+    }
+
+
+    protected void processScheduleRequestsForAos(Collection<String> aoIds, Map<String, List<ScheduleCalcContainer>> ao2sch, ContextInfo contextInfo) throws Exception {
+        SearchRequestInfo sr = new SearchRequestInfo(CoreSearchServiceImpl.SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_KEY);
+        sr.addParam(CoreSearchServiceImpl.SearchParameters.REF_IDS, new ArrayList<String>(aoIds));
+        sr.addParam(CoreSearchServiceImpl.SearchParameters.REF_TYPE, SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
+        SearchResultInfo results = searchService.search(sr, null);
+
+        for(SearchResultRowInfo row:results.getRows()){
+            String aoId = null;
+            String cmpId = null;
+            String startTime = null;
+            String endTime = null;
+            String weekdays = null;
+            String roomCode = null;
+            String bldgName = null;
+            Boolean tbaInd = null;
+
+            for(SearchResultCellInfo cell:row.getCells()){
+                if(CoreSearchServiceImpl.SearchResultColumns.AO_ID.equals(cell.getKey())){
+                    aoId = cell.getValue();
+                }else if(CoreSearchServiceImpl.SearchResultColumns.CMP_ID.equals(cell.getKey())){
+                    cmpId = cell.getValue();
+                }else if(CoreSearchServiceImpl.SearchResultColumns.START_TIME.equals(cell.getKey())){
+                    startTime = cell.getValue();
+                }else if(CoreSearchServiceImpl.SearchResultColumns.END_TIME.equals(cell.getKey())){
+                    endTime = cell.getValue();
+                }else if(CoreSearchServiceImpl.SearchResultColumns.WEEKDAYS.equals(cell.getKey())){
+                    weekdays = cell.getValue();
+                } else if(CoreSearchServiceImpl.SearchResultColumns.ROOM_CODE.equals(cell.getKey())){
+                    roomCode = cell.getValue();
+                }else if(CoreSearchServiceImpl.SearchResultColumns.BLDG_NAME.equals(cell.getKey())){
+                    bldgName = cell.getValue();
+                } else if(CoreSearchServiceImpl.SearchResultColumns.TBA_IND.equals(cell.getKey())){
+                    tbaInd = Boolean.parseBoolean(cell.getValue());
+                }
+            }
+
+            ScheduleCalcContainer scheduleCalcContainer = new ScheduleCalcContainer(aoId,cmpId,CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, startTime, endTime, weekdays, roomCode, bldgName, tbaInd);
+
+            if(ao2sch.containsKey(aoId)){
+                ao2sch.get(aoId).add(scheduleCalcContainer);
+            }   else {
+                List<ScheduleCalcContainer> schList = new ArrayList<ScheduleCalcContainer>();
+                schList.add(scheduleCalcContainer);
+                ao2sch.put(aoId, schList );
+            }
+
+        }
+
+
+
+    }
+
+    private void processScheduleInfo(SearchResultInfo searchResults, Map<String, ActivityOfferingWrapper> sch2aoMap, Map<String, List<ScheduleCalcContainer>> ao2sch, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
+        //Process the search results
+
+        for(SearchResultRowInfo row:searchResults.getRows()){
+            String schId = null;
+            String startTime = null;
+            String endTime = null;
+            Boolean tbaInd = null;
+            String roomCode = null;
+            String buildingName = null;
+            String weekdays = null;
+            for(SearchResultCellInfo cell:row.getCells()){
+                if(CoreSearchServiceImpl.SearchResultColumns.SCH_ID.equals(cell.getKey())){
+                    schId = cell.getValue();
+                }else if(CoreSearchServiceImpl.SearchResultColumns.START_TIME.equals(cell.getKey())){
+                    startTime = cell.getValue();
+                }else if(CoreSearchServiceImpl.SearchResultColumns.END_TIME.equals(cell.getKey())){
+                    endTime = cell.getValue();
+                }else if(CoreSearchServiceImpl.SearchResultColumns.TBA_IND.equals(cell.getKey())){
+                    tbaInd = Boolean.parseBoolean(cell.getValue());
+                }else if(CoreSearchServiceImpl.SearchResultColumns.ROOM_CODE.equals(cell.getKey())){
+                    roomCode = cell.getValue();
+                }else if(CoreSearchServiceImpl.SearchResultColumns.BLDG_NAME.equals(cell.getKey())){
+                    buildingName = cell.getValue();
+                }else if(CoreSearchServiceImpl.SearchResultColumns.WEEKDAYS.equals(cell.getKey())){
+                    weekdays = cell.getValue();
+                }
+            }
+            ActivityOfferingWrapper aoWrapper = sch2aoMap.get(schId);
+
+            ScheduleCalcContainer scheduleCalcContainer = new ScheduleCalcContainer(aoWrapper.getId(),schId,SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE, startTime, endTime, weekdays, roomCode,buildingName, tbaInd);
+            if(ao2sch.containsKey(aoWrapper.getId())){
+                ao2sch.get(aoWrapper.getId()).add(scheduleCalcContainer);
+            }   else {
+                List<ScheduleCalcContainer> schList = new ArrayList<ScheduleCalcContainer>();
+                schList.add(scheduleCalcContainer);
+                ao2sch.put(aoWrapper.getId(), schList );
+            }
+        }
     }
 
     private void processSchData(SearchResultInfo searchResults, Map<String, ActivityOfferingWrapper> sch2aoMap, List<String> aoIdsWithoutSch, Map<String,ActivityOfferingWrapper> aoMap, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
