@@ -60,9 +60,7 @@ public class RelatedObjectHelperAOtoRGImpl implements RelatedObjectHelper {
 
         List<RegistrationGroupInfo> registrationGroupInfos = null;
 
-        List<String> aoIds = new ArrayList<String>();
-        aoIds.add(activityOfferingId);
-        registrationGroupInfos = getCourseOfferingService().getRegistrationGroupsWithActivityOfferings(aoIds, contextInfo);
+        registrationGroupInfos = getCourseOfferingService().getRegistrationGroupsByActivityOffering(activityOfferingId, contextInfo);
 
         return registrationGroupInfos;
     }
