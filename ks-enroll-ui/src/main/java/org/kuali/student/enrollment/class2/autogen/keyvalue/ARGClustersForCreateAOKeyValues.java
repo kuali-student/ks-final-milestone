@@ -48,12 +48,16 @@ import java.util.List;
 public class ARGClustersForCreateAOKeyValues extends UifKeyValuesFinderBase implements Serializable {
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+
         ARGCourseOfferingManagementForm coForm = (ARGCourseOfferingManagementForm) model;
         String formatOfferingId = coForm.getFormatOfferingIdForNewAO();
         if (formatOfferingId==null || formatOfferingId.equals("")) {
+            if (coForm.getFormatOfferingIds().isEmpty()) {
+                return keyValues;
+            }
             formatOfferingId = coForm.getFormatOfferingIds().get(0);
         }
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
 //        keyValues.add(new ConcreteKeyValue("", "Select Cluster"));
 
         if(!StringUtils.isEmpty(formatOfferingId)) {

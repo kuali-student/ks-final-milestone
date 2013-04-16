@@ -330,13 +330,16 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         form.getClusterResultList().addAll(clusterMap.values());
         form.setFormatOfferingIds(new ArrayList<String>(foIds));
 
+        //  If the CO doesn't have any AOs yet (e.g. it was just created) then no further processing is necessary.
+        if (aoMap.isEmpty()) {
+            return;
+        }
+
         //Process Colocated
         sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY);
         sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_IDS, new ArrayList<String>(aoMap.keySet()));
         results = searchService.search(sr, null);
-
         processColocated(results, aoMap);
-
 
         //Addin LPR data
         processInstructors(aoMap, ContextUtils.createDefaultContextInfo());
@@ -366,8 +369,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
         form.setHasMoreThanOneCluster(clusterMap.size()>1);
 
-
-
         //Validate Reg Groups
         Date startOfValidation = new Date();
         int i = 0;
@@ -385,8 +386,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
         Date endOfValidation = new Date();
         LOG.info("Time of RG Validation:"+(endOfValidation.getTime()-startOfValidation.getTime())+"ms");
-
-
     }
 
     private void processColocated(SearchResultInfo searchResults, Map<String, ActivityOfferingWrapper> aoMap) {

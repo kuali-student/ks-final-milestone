@@ -56,6 +56,10 @@ public class ARGActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase im
 
         String formatOfferingId = coForm.getFormatOfferingIdForNewAO();
         if (formatOfferingId==null || formatOfferingId.equals("")) {
+            //  Just return if the CO has no formats (e.g. it was just created).
+            if (coForm.getFormatOfferingIds().isEmpty()) {
+                return keyValues;
+            }
             formatOfferingId = coForm.getFormatOfferingIds().get(0);
         }
 
