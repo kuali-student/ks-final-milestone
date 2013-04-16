@@ -427,21 +427,21 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 }
                 aoIds.add(lprInfo.getLuiId());
             }
-        }
-        EntityDefaultQueryResults results = getInstructorsInfoFromKim(new ArrayList<String>(principalId2aoIdMap.keySet()), contextInfo);
-
-        for(EntityDefault entity:results.getResults()){
-            for(Principal principal : entity.getPrincipals()){
-                Set<String> aoIds = principalId2aoIdMap.get(principal.getPrincipalId());
-                if(aoIds != null){
-                    for(String aoId:aoIds){
-                        ActivityOfferingWrapper activityOfferingWrapper = aoMap.get(aoId);
-                        activityOfferingWrapper.setInstructorDisplayNames(entity.getName().getCompositeName(), true);
+            if(!principalId2aoIdMap.keySet().isEmpty()){
+                EntityDefaultQueryResults results = getInstructorsInfoFromKim(new ArrayList<String>(principalId2aoIdMap.keySet()), contextInfo);
+                for(EntityDefault entity:results.getResults()){
+                    for(Principal principal : entity.getPrincipals()){
+                        Set<String> aoIds = principalId2aoIdMap.get(principal.getPrincipalId());
+                        if(aoIds != null){
+                            for(String aoId:aoIds){
+                                ActivityOfferingWrapper activityOfferingWrapper = aoMap.get(aoId);
+                                activityOfferingWrapper.setInstructorDisplayNames(entity.getName().getCompositeName(), true);
+                            }
+                        }
                     }
                 }
             }
         }
-
     }
 
 
