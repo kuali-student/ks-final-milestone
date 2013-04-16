@@ -318,7 +318,7 @@ public class CORuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
 
         //Set the original nl if not already exists.
         PropositionEditor originalRoot = (PropositionEditor) original.getProposition();
-        if (!originalRoot.getNaturalLanguage().containsKey(this.getEditTreeBuilder().getNaturalLanguageUsageKey())) {
+        if ((originalRoot!=null) && (!originalRoot.getNaturalLanguage().containsKey(this.getEditTreeBuilder().getNaturalLanguageUsageKey()))) {
             this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(originalRoot, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
         }
 

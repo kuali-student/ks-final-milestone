@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class1.krms.dto;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 
 import java.util.Date;
@@ -28,6 +29,9 @@ public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
     }
 
     public String getSearchByCourseRange() {
+        if (this.getEnrolRuleEditor()==null){
+            return "-1";
+        }
         return this.getEnrolRuleEditor().getSearchByCourseRange();
     }
 
@@ -36,6 +40,9 @@ public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
     }
 
     public String getSubjectCode() {
+        if(this.getEnrolRuleEditor()==null){
+            return StringUtils.EMPTY;
+        }
         return this.getEnrolRuleEditor().getSubjectCode();
     }
 
@@ -44,6 +51,9 @@ public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
     }
 
     public String getCourseNumberRange() {
+        if(this.getEnrolRuleEditor()==null){
+            return StringUtils.EMPTY;
+        }
         return this.getEnrolRuleEditor().getCourseNumberRange();
     }
 
@@ -52,6 +62,9 @@ public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
     }
 
     public String getLearningObjective() {
+        if(this.getEnrolRuleEditor()==null){
+            return StringUtils.EMPTY;
+        }
         return this.getEnrolRuleEditor().getLearningObjective();
     }
 
@@ -60,6 +73,9 @@ public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
     }
 
     public Date getEffectiveFrom() {
+        if(this.getEnrolRuleEditor()==null){
+            return new Date();
+        }
         return this.getEnrolRuleEditor().getEffectiveFrom();
     }
 
@@ -68,6 +84,9 @@ public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
     }
 
     public Date getEffectiveTo() {
+        if(this.getEnrolRuleEditor()==null){
+            return new Date();
+        }
         return this.getEnrolRuleEditor().getEffectiveTo();
     }
 
