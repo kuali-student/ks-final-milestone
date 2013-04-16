@@ -99,7 +99,17 @@
         <property name="items">
             <list>
                 <ref bean="ActivityOffering-DeliveryLogistic-New-Section"/>
-                <bean id="ActivityOffering-CoLocated-checkbox" parent="Uif-InputField" p:propertyName="newScheduleRequest.colocatedAOs" p:forceSessionPersistence="true">
+
+
+                <!-- KSENROLL-6378 mods this code to replace the checkboxes with simple-text since we don't currently support partial-colocation; however, since the goal is to
+                     support partial-colocation in the future, I'm leaving the "real" version of the code laying here and borrowing the same ID to minimize changes to the existing
+                     javascript; thus, don't get confused by the fact that I have named a data-field with an ID of 'checkbox'.
+                     See both activity-offering.js/onColoCheckBoxChange() and ScheduleWrapper.getColocatedAOsAsStringForUi()
+                     ~brandon.gresham -->
+                <bean id="ActivityOffering-CoLocated-checkbox" parent="Uif-DataField" p:propertyName="newScheduleRequest.colocatedAOsAsStringForUi" p:forceSessionPersistence="true">
+                    <property name="label" value="Colocate With"/>
+                </bean>
+                <!--<bean id="ActivityOffering-CoLocated-checkbox" parent="Uif-InputField" p:propertyName="newScheduleRequest.colocatedAOs" p:forceSessionPersistence="true" >
                     <property name="label" value="Colocate With"/>
                     <property name="control">
                         <bean parent="Uif-HorizontalCheckboxesControl">
@@ -109,7 +119,9 @@
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ColocatedAOsKeyValues" p:addBlankOption="false" />
                     </property>
-                </bean>
+                </bean>-->
+
+
                 <!--<ref bean="ActivityOffering-DeliveryLogistic-New-Features-Section"/>-->
                 <bean id="add_rdl_button" parent="Uif-SecondaryActionButton-Small" p:disabled="@{#parent.readOnly}" p:actionLabel="@{!#dp.editRenderHelper.scheduleEditInProgress ? 'Add' : 'Update'}" p:preSubmitCall="return preSubmitNewRDL();" p:methodToCall="addScheduleComponent" p:ajaxReturnType="update-component" p:ajaxSubmit="true" p:refreshId="ActivityOffering-DeliveryLogistic-New" p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-Requested');"/>
             </list>
