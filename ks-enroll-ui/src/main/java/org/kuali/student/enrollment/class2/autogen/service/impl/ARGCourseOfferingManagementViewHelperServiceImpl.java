@@ -51,6 +51,7 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClas
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
@@ -62,7 +63,6 @@ import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.uif.util.GrowlIcon;
 import org.kuali.student.enrollment.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -380,7 +380,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             for(ActivityOfferingWrapper aoWrapper:cluster.getAoWrapperList()){
                 aoInfos.add(aoWrapper.getAoInfo());
             }
-            _validateRegistrationGroupsPerCluster(rgInfos,aoInfos,cluster,form,i, ao2sch);
+            _validateRegistrationGroupsPerCluster(rgInfos,aoInfos,cluster,form,i, ao2sch, aoMap);
             i++;
         }
         Date endOfValidation = new Date();
@@ -429,6 +429,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             }
             if(!principalId2aoIdMap.keySet().isEmpty()){
                 EntityDefaultQueryResults results = getInstructorsInfoFromKim(new ArrayList<String>(principalId2aoIdMap.keySet()), contextInfo);
+
                 for(EntityDefault entity:results.getResults()){
                     for(Principal principal : entity.getPrincipals()){
                         Set<String> aoIds = principalId2aoIdMap.get(principal.getPrincipalId());
@@ -440,6 +441,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                         }
                     }
                 }
+
             }
         }
     }
@@ -852,6 +854,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         return entityResults;
     }
 
+    /*
     private  ActivityOfferingClusterWrapper _buildAOClusterWrapper (FormatOfferingInfo foInfo,
                             ActivityOfferingClusterInfo aoCluster, ARGCourseOfferingManagementForm theForm,
                                                                     int clusterIndex) throws Exception{
@@ -903,7 +906,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         List<RegistrationGroupWrapper> rgListPerCluster = new ArrayList<RegistrationGroupWrapper>();
         List<RegistrationGroupInfo> rgInfos =getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(aoCluster.getId(), contextInfo);
         if (rgInfos.size() > 0 ){
-            _validateRegistrationGroupsPerCluster(rgInfos, aoInfoList, aoClusterWrapper, theForm, clusterIndex,null );   // never called
+            _validateRegistrationGroupsPerCluster(rgInfos, aoInfoList, aoClusterWrapper, theForm, clusterIndex,null, null );   // never called
             rgListPerCluster= _getRGsForSelectedFO(rgInfos, aoWrapperListPerCluster);
         }else{
             _performAOCompletePerClusterValidation(foInfo, aoInfoList, aoClusterWrapper, clusterIndex, contextInfo);
@@ -918,6 +921,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         aoClusterWrapper.setRgWrapperList(rgListPerCluster);
         return aoClusterWrapper;
     }
+    */
 
     /**
      * This method will indicate to the user if the cluster canot be generated because the AO Set does not contain
@@ -974,7 +978,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     */
     private void _validateRegistrationGroupsPerCluster(List<RegistrationGroupInfo> rgInfos, List<ActivityOfferingInfo> aoList,
                                                        ActivityOfferingClusterWrapper aoClusterWrapper,
-                                                       ARGCourseOfferingManagementForm theForm, int clusterIndex, Map<String, List<ScheduleCalcContainer>> ao2sch) throws Exception{
+                                                       ARGCourseOfferingManagementForm theForm, int clusterIndex, Map<String, List<ScheduleCalcContainer>> ao2sch, Map<String, ActivityOfferingWrapper> aoMap) throws Exception{
 
         Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap =
                 _constructActivityOfferingTypeToAvailableActivityOfferingMap(aoList);
@@ -1012,7 +1016,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             aoClusterWrapper.setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_ALL);
             aoClusterWrapper.setHasAllRegGroups(true);
             // perform max enrollment validation
-            _performMaxEnrollmentValidation(theForm.getFormatOfferingIdForViewRG(), aoClusterWrapper.getAoCluster(), clusterIndex);
+            _performMaxEnrollmentValidation(aoMap, aoClusterWrapper.getAoCluster(), clusterIndex);
             //validate AO time conflict in RG
             _performRGTimeConflictValidation(aoClusterWrapper.getAoCluster(), rgInfos, clusterIndex,ao2sch);
 
@@ -1067,11 +1071,42 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
 
 
-    private void _performMaxEnrollmentValidation(String formateOfferingId, ActivityOfferingClusterInfo aoCluster, int clusterIndex) throws Exception{
-        List<ValidationResultInfo> validationResultInfoList = getCourseOfferingService().validateActivityOfferingCluster(
-                DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), formateOfferingId, aoCluster, ContextUtils.createDefaultContextInfo());
+    private void _performMaxEnrollmentValidation(Map<String, ActivityOfferingWrapper> aoMap, ActivityOfferingClusterInfo aoCluster, int clusterIndex) throws Exception{
 
-        if (validationResultInfoList.get(0).isWarn())  {
+        int aoSetMaxEnrollNumber = 0;
+        int currentAoSetMaxEnrollNumber = 0;
+        int listIndex = 0;
+        ValidationResultInfo validationResultInfo = new ValidationResultInfo();
+
+        for(ActivityOfferingSetInfo aos : aoCluster.getActivityOfferingSets()){
+            for(String aoId : aos.getActivityOfferingIds()){
+                ActivityOfferingWrapper aoWrapper = aoMap.get(aoId);
+                ActivityOfferingInfo aoInfo = aoWrapper.getAoInfo();
+                if (aoInfo != null &&  aoInfo.getMaximumEnrollment() != null) {
+                    aoSetMaxEnrollNumber += aoInfo.getMaximumEnrollment();
+                }
+            }
+
+            if (listIndex == 0) {
+                currentAoSetMaxEnrollNumber = aoSetMaxEnrollNumber;
+            } else {
+                if (aoSetMaxEnrollNumber != currentAoSetMaxEnrollNumber) {
+
+                    validationResultInfo.setLevel(ValidationResult.ErrorLevel.WARN);
+                    validationResultInfo.setMessage("Sum of enrollment for each AO type is not equal");
+                    break;
+                }
+            }
+            aoSetMaxEnrollNumber = 0;
+            listIndex++;
+        }
+
+        //The max enrollment numbers of all the aoSets in the given AOC are the same. The validation passes.
+        validationResultInfo.setLevel(ValidationResult.ErrorLevel.OK);
+        validationResultInfo.setMessage("Sum of enrollment for each AO type is equal");
+
+
+        if (validationResultInfo.isWarn())  {
             GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_MAX_ENROLLMENT, aoCluster.getPrivateName());
             GlobalVariables.getMessageMap().putWarningForSectionId("activityOfferingsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_MAX_ENROLLMENT, aoCluster.getPrivateName());
         }
