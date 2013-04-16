@@ -18,8 +18,6 @@ package org.kuali.student.r2.core.room.infc;
 import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
 import org.kuali.student.r2.common.infc.HasId;
 
-import java.util.List;
-
 /**
  * Room Usage information
  *

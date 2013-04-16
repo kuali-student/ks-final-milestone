@@ -17,9 +17,6 @@ package org.kuali.student.common.spring;
 
 import java.io.Serializable;
 import java.util.LinkedList;
-import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
 
 /**
  * @author Kuali Student Team

@@ -27,7 +27,6 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.r2.core.acal.infc.KeyDate;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 
-import org.kuali.student.r2.core.acal.infc.KeyDate;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)

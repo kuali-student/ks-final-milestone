@@ -14,8 +14,6 @@
  */
 package org.kuali.student.r2.lum.program.dto.assembly;
 
-import java.util.List;
-
 /**
  * R1 implementation Compatibility
  * @author nwright

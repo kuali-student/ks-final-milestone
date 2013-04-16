@@ -19,7 +19,6 @@ import javax.xml.bind.annotation.*;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramAtpAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramCodeAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;
-import org.kuali.student.r2.lum.program.dto.assembly.ProgramCredentialAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramFullOrgAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramIdentifierAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramPublicationAssembly;

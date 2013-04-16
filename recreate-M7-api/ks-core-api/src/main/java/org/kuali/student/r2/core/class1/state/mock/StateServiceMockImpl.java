@@ -375,34 +375,6 @@ public class StateServiceMockImpl
     }
 
     @Override
-    public StatusInfo addInitialStateToLifecycle(@WebParam(name = "initialStateKey") String initialStateKey, @WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        StateInfo stateKey = this.stateMap.get(initialStateKey);
-        if (stateKey == null) {
-            throw new DoesNotExistException(initialStateKey + " does not exist");
-        }
-
-        this.initialStatesMap.get(lifecycleKey).add(initialStateKey);
-
-        return new StatusInfo();
-    }
-
-    @Override
-    public StatusInfo removeInitialStateFromLifecycle(@WebParam(name = "initialStateKey") String initialStateKey, @WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        StateInfo stateKey = this.stateMap.get(initialStateKey);
-        if (stateKey == null) {
-            throw new DoesNotExistException(initialStateKey + " does not exist");
-        }
-
-        this.initialStatesMap.remove(lifecycleKey);
-
-        return new StatusInfo();
-    }
-
-    @Override
     public StateChangeInfo getStateChange(String stateChangeId, ContextInfo contextInfo)
             throws DoesNotExistException
             ,InvalidParameterException

@@ -15,7 +15,6 @@
  */
 package org.kuali.student.enrollment.courseofferingset.infc;
 
-import java.util.List;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.RichText;
 

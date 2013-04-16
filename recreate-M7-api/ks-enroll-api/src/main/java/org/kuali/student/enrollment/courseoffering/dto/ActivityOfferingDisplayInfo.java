@@ -19,7 +19,6 @@ package org.kuali.student.enrollment.courseoffering.dto;
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingDisplay;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
-import org.kuali.student.r2.core.scheduling.infc.ScheduleDisplay;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;

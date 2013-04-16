@@ -16,7 +16,6 @@
 package org.kuali.student.r2.core.scheduling.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleBatch;
 //import org.w3c.dom.Element;
 
