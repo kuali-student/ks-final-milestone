@@ -228,6 +228,14 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                 propositionEditor.getParameters().get(0).setValue(termId);
             }
 
+            //Set the default operation and value
+            TemplateInfo template = this.getTemplateRegistry().getTemplateForType(propositionEditor.getType());
+            propositionEditor.getParameters().get(2).setValue(template.getOperator());
+
+            if (!"n".equals(template.getValue())) {
+                propositionEditor.getParameters().get(1).setValue(template.getValue());
+            }
+
         } else {
 
             //If not a simple node, recursively finalize the child proposition editors.

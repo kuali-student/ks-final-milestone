@@ -132,7 +132,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param form
      * @return the {@link org.kuali.rice.krms.impl.ui.AgendaEditor} from the form
      */
-    private RuleEditor getRuleEditor(UifFormBase form) {
+    protected RuleEditor getRuleEditor(UifFormBase form) {
         if (form instanceof MaintenanceDocumentForm) {
             MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) form;
             Object dataObject = maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
@@ -800,22 +800,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 return;
             }
 
-            RuleViewHelperService viewHelper = this.getViewHelper(form);
-
             KrmsTypeDefinition type = KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService().getTypeById(propositionTypeId);
             if (type != null) {
-
                 proposition.setType(type.getName());
-
-                //Set the default operation and value
-                TemplateInfo template = viewHelper.getTemplateForType(type.getName());
-                setOperationForProposition(proposition, template.getOperator());
-
-                if (!"n".equals(template.getValue())) {
-                    setValueForProposition(proposition, template.getValue());
-                } else {
-                    setValueForProposition(proposition, "");
-                }
             }
         }
     }
@@ -855,14 +842,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         // redirect back to client to display lightbox
         return showDialog("compareRuleLightBox", form, request, response);
-    }
-
-    private void setOperationForProposition(PropositionEditor proposition, String operation) {
-        proposition.getParameters().get(2).setValue(operation);
-    }
-
-    private void setValueForProposition(PropositionEditor proposition, String value) {
-        proposition.getParameters().get(1).setValue(value);
     }
 
     protected RuleViewHelperService getViewHelper(UifFormBase form) {
