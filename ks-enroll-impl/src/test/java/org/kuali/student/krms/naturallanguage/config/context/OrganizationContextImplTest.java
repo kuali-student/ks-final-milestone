@@ -20,6 +20,7 @@ import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,20 +32,19 @@ public class OrganizationContextImplTest extends AbstractServiceTest {
     private OrganizationService orgService;
     private OrganizationContextImpl orgContext = new OrganizationContextImpl();
 
-	private TermDefinitionContract term;
-	private TermDefinitionContract term2;
-	
-	
+	private Map<String, Object> term;
+	private Map<String, Object> term2;
+
 	private void setupTerm1() {
-        List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null, TermParameterTypes.ORGANIZATION_KEY.getId(),"1",null,0L));
-        term = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put(TermParameterTypes.ORGANIZATION_KEY.getId(),"1");
+        term = parameters;
 	}
 
 	private void setupTerm2() {
-        List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.ORGANIZATION_KEY.getId(),null,null,0L));
-		term2 = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put(TermParameterTypes.ORGANIZATION_KEY.getId(),null);
+		term2 = parameters;
 	}
 
 	@Before

@@ -386,9 +386,8 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
             aoResult.setCreatedActivityOffering(activityOfferingInfo);
 
             // fetch the associated RGs
-            List<String> aoIds = new ArrayList<String>();
-            aoIds.add(activityOfferingInfo.getId());
-            List<RegistrationGroupInfo> rgs = coService.getRegistrationGroupsWithActivityOfferings(aoIds, context);
+            String aoId = activityOfferingInfo.getId();
+            List<RegistrationGroupInfo> rgs = coService.getRegistrationGroupsByActivityOffering(aoId, context);
 
             if (rgs != null && !rgs.isEmpty()) {
                 //fetch the associated AOC
@@ -682,7 +681,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         
     }
 
-    
+
     private Integer _computeMaxEnrollment(List<String> aoIds, Map<String, ActivityOfferingInfo> aoMap) {
         
         List<ActivityOfferingInfo>aoList = new ArrayList<ActivityOfferingInfo>();
@@ -960,7 +959,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         return runAutogenCountSearch (request, context); 
         
     }
-    
+
     public CourseOfferingService getCoService() {
         if(coService == null) {
 //            coService = (CourseOfferingService) GlobalResourceLoader.getService("CourseOfferingService");

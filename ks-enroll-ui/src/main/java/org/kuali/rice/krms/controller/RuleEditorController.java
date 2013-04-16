@@ -39,6 +39,7 @@ import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.service.RuleViewHelperService;
+import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionEditNode;
 import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionNode;
@@ -85,17 +86,17 @@ public class RuleEditorController extends MaintenanceDocumentController {
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
         RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
-        String ruleId = document.getActionParamaterValue("ruleId");
+        String ruleKey = document.getActionParamaterValue("ruleKey");
 
         if (ruleWrapper.getDeletedRuleIds() == null) {
             List<String> ruleIds = new ArrayList<String>();
-            ruleIds.add(ruleId);
+            ruleIds.add(ruleKey);
             ruleWrapper.setDeletedRuleIds(ruleIds);
         } else {
-            ruleWrapper.getDeletedRuleIds().add(ruleId);
+            ruleWrapper.getDeletedRuleIds().add(ruleKey);
         }
 
-        RuleEditor ruleEditor = AgendaUtilities.getSelectedRuleEditor(ruleWrapper, ruleId);
+        RuleEditor ruleEditor = AgendaUtilities.getSelectedRuleEditor(ruleWrapper, ruleKey);
 
         List<AgendaEditor> agendas = ruleWrapper.getAgendas();
         for (AgendaEditor agenda : agendas) {
@@ -131,7 +132,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param form
      * @return the {@link org.kuali.rice.krms.impl.ui.AgendaEditor} from the form
      */
-    private RuleEditor getRuleEditor(UifFormBase form) {
+    protected RuleEditor getRuleEditor(UifFormBase form) {
         if (form instanceof MaintenanceDocumentForm) {
             MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) form;
             Object dataObject = maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
@@ -265,7 +266,11 @@ public class RuleEditorController extends MaintenanceDocumentController {
                         parentProp.getCompoundEditors().add(((index / 2) + 1), blank);
                     }
                     this.getViewHelper(form).refreshInitTrees(ruleEditor);
-                    ruleEditor.setSelectedKey(blank.getKey());
+                    if(blank!=null){
+                        ruleEditor.setSelectedKey(blank.getKey());
+                    }else{
+                        ruleEditor.setSelectedKey(null);
+                    }
                     break;
                 }
             }
@@ -673,6 +678,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
         RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
 
         RuleEditor ruleEditor = getRuleEditor(form);
+
+        this.getViewHelper(form).refreshViewTree(ruleEditor);
         PropositionTreeUtil.resetNewProp((PropositionEditor) ruleEditor.getProposition());
 
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
@@ -759,7 +766,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
         PropositionEditor proposition = (PropositionEditor) ruleEditor.getProposition();
 
         //Reset the editing tree.
-        PropositionTreeUtil.cancelNewProp(proposition);
+        if(proposition!=null){
+            PropositionTreeUtil.cancelNewProp(proposition);
+        }
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-AgendaMaintenance-Page");
@@ -791,22 +800,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 return;
             }
 
-            RuleViewHelperService viewHelper = this.getViewHelper(form);
-
             KrmsTypeDefinition type = KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService().getTypeById(propositionTypeId);
             if (type != null) {
-
                 proposition.setType(type.getName());
-
-                //Set the default operation and value
-                TemplateInfo template = viewHelper.getTemplateForType(type.getName());
-                setOperationForProposition(proposition, template.getOperator());
-
-                if (!"n".equals(template.getValue())) {
-                    setValueForProposition(proposition, template.getValue());
-                } else {
-                    setValueForProposition(proposition, "");
-                }
             }
         }
     }
@@ -846,14 +842,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         // redirect back to client to display lightbox
         return showDialog("compareRuleLightBox", form, request, response);
-    }
-
-    private void setOperationForProposition(PropositionEditor proposition, String operation) {
-        proposition.getParameters().get(2).setValue(operation);
-    }
-
-    private void setValueForProposition(PropositionEditor proposition, String value) {
-        proposition.getParameters().get(1).setValue(value);
     }
 
     protected RuleViewHelperService getViewHelper(UifFormBase form) {

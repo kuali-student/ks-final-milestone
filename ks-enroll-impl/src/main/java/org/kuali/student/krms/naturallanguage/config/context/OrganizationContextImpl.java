@@ -53,14 +53,13 @@ public class OrganizationContextImpl extends BasicContextImpl {
     /**
      * Creates the context map (template data) for the requirement component.
      *
-     *
-     * @param term Requirement component
+     * @param parameters
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(TermDefinitionContract term, ContextInfo contextInfo) throws OperationFailedException {
-        Map<String, Object> contextMap = super.createContextMap(term, contextInfo);
+    public Map<String, Object> createContextMap(Map<String, Object> parameters, ContextInfo contextInfo) throws OperationFailedException {
+        Map<String, Object> contextMap = super.createContextMap(parameters, contextInfo);
 
-        String orgId = getTermParameterValue(term, TermParameterTypes.ORGANIZATION_KEY.getId());
+        String orgId = (String) parameters.get(TermParameterTypes.ORGANIZATION_KEY.getId());
         OrgInfo org = getOrganization(orgId, contextInfo);
         if( org != null){
             contextMap.put(ORG_TOKEN, org);

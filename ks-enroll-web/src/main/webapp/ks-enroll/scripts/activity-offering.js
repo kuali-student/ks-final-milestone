@@ -93,8 +93,19 @@ function activityEditDocumentOnLoad(){
  * This method refreshes all the related components when the user adds/deletes an AO from the colocated set.
  */
 function addColocatedAOSuccessCallBack(){
+
+    /* KSENROLL-6378 mods the checkbox-component used in this function (ID: ActivityOffering-CoLocated-checkbox) because we are not
+     * yet supporting partial-colocation; therefore, simple text is implemented in lieu of checkboxes, making this code obsolete.
+     * This code is likely to be used in the future once partial-colocation is implemented, so I've left this code laying here
+     * but commented-out.  Of note, I had to comment-out the part that updates just the checkbox-component and instead update it's
+     * parent-container because doing otherwise was generating a stack-trace.
+     *
+     * See ActivityOfferingEdit-ScheduleSection.xml id="ActivityOffering-CoLocated-checkbox"
+     * ~brandon.gresham
+     */
     retrieveComponent('enr_shared_table',undefined, function () {
-        retrieveComponent('ActivityOffering-CoLocated-checkbox', undefined, function () {
+        //retrieveComponent('ActivityOffering-CoLocated-checkbox', undefined, function () {
+        retrieveComponent('ActivityOffering-DeliveryLogistic-New', undefined, function() {
             onColoCheckBoxChange(true);
             retrieveComponent('ActivityOffering-DeliveryLogistic-Requested');
         });
@@ -181,26 +192,34 @@ function preSubmitNewRDL(){
  * @param checked
  */
 function onColoCheckBoxChange(checked){
+
+    /* KSENROLL-6378 mods the checkbox-component used in this function (ID: ActivityOffering-CoLocated-checkbox) because we are not
+     * yet supporting partial-colocation; therefore, simple text is implemented in lieu of checkboxes, making this code obsolete.
+     * This code is likely to be used in the future once partial-colocation is implemented, so I've left this code laying here
+     * but commented-out.  See ActivityOfferingEdit-ScheduleSection.xml id="ActivityOffering-CoLocated-checkbox"
+     * ~brandon.gresham
+     */
     if (checked){
         if(jQuery("#is_co_located_control").is(":checked")) {
             jQuery("#ActivityOffering-CoLocated-checkbox").show();
-            jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').prop('checked', checked);
-            jQuery('label[for^="ActivityOffering-CoLocated-checkbox_control_"]').prop('onclick','');
-            jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').click(function() {
-                jQuery(this).prop('checked', true);
-            });
+            //jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').prop('checked', checked);
+            //jQuery('label[for^="ActivityOffering-CoLocated-checkbox_control_"]').prop('onclick','');
+            //jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').click(function() {
+            //    jQuery(this).prop('checked', true);
+            //});
         } else {
-            jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').unbind("click");
-            jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').prop('checked', checked);
-            jQuery('label[for^="ActivityOffering-CoLocated-checkbox_control_"]').prop('onclick','');
+            //jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').unbind("click");
+            //jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').prop('checked', checked);
+            //jQuery('label[for^="ActivityOffering-CoLocated-checkbox_control_"]').prop('onclick','');
             jQuery("#ActivityOffering-CoLocated-checkbox").hide();
         }
     } else {
-        jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').unbind("click");
-        jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').prop('checked', checked);
-        jQuery('label[for^="ActivityOffering-CoLocated-checkbox_control_"]').prop('onclick','');
+        //jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').unbind("click");
+        //jQuery('input[id^="ActivityOffering-CoLocated-checkbox_control_"]').prop('checked', checked);
+        //jQuery('label[for^="ActivityOffering-CoLocated-checkbox_control_"]').prop('onclick','');
         jQuery("#ActivityOffering-CoLocated-checkbox").hide();
     }
+
 }
 
 

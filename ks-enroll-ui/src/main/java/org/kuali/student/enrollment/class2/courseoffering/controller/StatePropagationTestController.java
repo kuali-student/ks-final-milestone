@@ -336,11 +336,9 @@ public class StatePropagationTestController extends UifControllerBase {
     }
 
     private void loadRegGroup(StringBuilder stringBuilder, String aoId){
-        List<String> activityOfferingIds = new ArrayList<String>();
-        activityOfferingIds.add(aoId);
 
         try {
-            List<RegistrationGroupInfo>  registrationGroupInfos = getCourseOfferingService().getRegistrationGroupsWithActivityOfferings(activityOfferingIds, getContextInfo());
+            List<RegistrationGroupInfo>  registrationGroupInfos = getCourseOfferingService().getRegistrationGroupsByActivityOffering(aoId, getContextInfo());
             if(registrationGroupInfos.size()>0){
                 StringBuilder sb = new StringBuilder();
                 for(RegistrationGroupInfo rg : registrationGroupInfos){
@@ -351,7 +349,7 @@ public class StatePropagationTestController extends UifControllerBase {
                 stringBuilder.append(getHTMLTableCell("No Data"));
             }
         } catch (Exception e) {
-            LOG.error("Error calling getRegistrationGroupsWithActivityOfferings - " + aoId);
+            LOG.error("Error calling getRegistrationGroupsByActivityOffering - " + aoId);
             stringBuilder.append("Error calling SOC: " )
                             .append(e.getMessage())
                             .append("</br>");

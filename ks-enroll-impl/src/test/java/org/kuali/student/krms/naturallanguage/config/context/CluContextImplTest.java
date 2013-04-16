@@ -2,16 +2,12 @@ package org.kuali.student.krms.naturallanguage.config.context;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
-import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.krms.naturallanguage.config.context.util.NLCluSet;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -20,6 +16,7 @@ import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,34 +28,34 @@ public class CluContextImplTest extends AbstractServiceTest {
     private CluService cluService;
 	private CluContextImpl cluContext = new CluContextImpl();
 
-	private TermDefinitionContract term;
-	private TermDefinitionContract term2;
+	private Map<String, Object> term;
+	private Map<String, Object> term2;
 	
 	
 	private void setupTerm1() {
-        List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.CLU_KEY.getId(),"CLU-1",null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.COURSE_CLU_KEY.getId(),"CLU-1",null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.PROGRAM_CLU_KEY.getId(),"CLU-1",null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.TEST_CLU_KEY.getId(),"CLU-1",null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.CLUSET_KEY.getId(),"CLUSET-1",null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.COURSE_CLUSET_KEY.getId(),"CLUSET-1",null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.PROGRAM_CLUSET_KEY.getId(),"CLUSET-1",null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.TEST_CLUSET_KEY.getId(),"CLUSET-1",null,0L));
-        term = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put(TermParameterTypes.CLU_KEY.getId(),"CLU-1");
+        parameters.put(TermParameterTypes.COURSE_CLU_KEY.getId(),"CLU-1");
+        parameters.put(TermParameterTypes.PROGRAM_CLU_KEY.getId(),"CLU-1");
+        parameters.put(TermParameterTypes.TEST_CLU_KEY.getId(),"CLU-1");
+        parameters.put(TermParameterTypes.CLUSET_KEY.getId(),"CLUSET-1");
+        parameters.put(TermParameterTypes.COURSE_CLUSET_KEY.getId(),"CLUSET-1");
+        parameters.put(TermParameterTypes.PROGRAM_CLUSET_KEY.getId(),"CLUSET-1");
+        parameters.put(TermParameterTypes.TEST_CLUSET_KEY.getId(),"CLUSET-1");
+        term = parameters;
 	}
 
 	private void setupTerm2() {
-        List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.CLU_KEY.getId(),null,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.COURSE_CLU_KEY.getId(),null,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.PROGRAM_CLU_KEY.getId(),null,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.TEST_CLU_KEY.getId(),null,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.CLUSET_KEY.getId(),null,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.COURSE_CLUSET_KEY.getId(),null,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.PROGRAM_CLUSET_KEY.getId(),null,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.TEST_CLUSET_KEY.getId(),null,null,0L));
-		term2 = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put(TermParameterTypes.CLU_KEY.getId(),null);
+        parameters.put(TermParameterTypes.COURSE_CLU_KEY.getId(),null);
+        parameters.put(TermParameterTypes.PROGRAM_CLU_KEY.getId(),null);
+        parameters.put(TermParameterTypes.TEST_CLU_KEY.getId(),null);
+        parameters.put(TermParameterTypes.CLUSET_KEY.getId(),null);
+        parameters.put(TermParameterTypes.COURSE_CLUSET_KEY.getId(),null);
+        parameters.put(TermParameterTypes.PROGRAM_CLUSET_KEY.getId(),null);
+        parameters.put(TermParameterTypes.TEST_CLUSET_KEY.getId(),null);
+		term2 = parameters;
 	}
 
 	@Before

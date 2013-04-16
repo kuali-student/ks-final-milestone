@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class1.krms.service.impl;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -30,9 +31,9 @@ public class KRMSCourseInfoLookupableImpl extends LookupableImpl {
 
     public enum QueryParamEnum {
         ID("lu.queryParam.luOptionalId","id"),
-        TITLE("lu.queryParam.luOptionalLongName", "courseTitle"),
+        TITLE("lu.queryParam.luOptionalLongName", "title"),
         CODE("lu.queryParam.luOptionalCode", "code"),
-        DESCRIPTION("lu.queryParam.luOptionalDescr", "descr");
+        DESCRIPTION("lu.queryParam.luOptionalDescr", "description");
 
         private final String fieldValue;
         private final String queryKey;
@@ -53,7 +54,7 @@ public class KRMSCourseInfoLookupableImpl extends LookupableImpl {
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
-        List <CourseInfo> courseInfoList = new ArrayList<CourseInfo>();
+        List <CluInformation> courseInfoList = new ArrayList<CluInformation>();
         String courseId;
         List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
         SearchParamInfo qpv1 = new SearchParamInfo();
@@ -88,13 +89,23 @@ public class KRMSCourseInfoLookupableImpl extends LookupableImpl {
                 for(SearchResultRowInfo srrow : searchResult.getRows()){
                     List<SearchResultCellInfo> srCells = srrow.getCells();
                     if(srCells != null && srCells.size() > 0){
+                        CluInformation clu = new CluInformation();
                         for(SearchResultCellInfo srcell : srCells){
                             if (srcell.getKey().equals("lu.resultColumn.cluId")) {
-                                courseId = srcell.getValue();
-                                CourseInfo course = getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
-                                courseInfoList.add(course);
+                                clu.setCluId(srcell.getValue());
+                            } else if (srcell.getKey().equals("lu.resultColumn.luOptionalCode")){
+                                clu.setCode(srcell.getValue());
+                            } else if (srcell.getKey().equals("lu.resultColumn.luOptionalVersionIndId")){
+                                clu.setVerIndependentId(srcell.getValue());
+                            } else if (srcell.getKey().equals("lu.resultColumn.luOptionalLongName")){
+                                clu.setTitle(srcell.getValue());
+                            } else if (srcell.getKey().equals("lu.resultColumn.luOptionalDescr")){
+                                clu.setDescription(srcell.getValue());
+                            } else if (srcell.getKey().equals("lu.resultColumn.luOptionalState")){
+                                clu.setState(srcell.getValue());
                             }
                         }
+                        courseInfoList.add(clu);
                     }
                 }
             }

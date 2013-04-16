@@ -157,9 +157,7 @@ public class TestAutogenRegGroupServiceAdapterImpl {
         // App layer call
         ActivityOfferingResult aoResult =
                 serviceAdapter.createActivityOffering(aoInfo, aocId, contextInfo);
-        List<String> aoIds = new ArrayList<String>();
-        aoIds.add(aoResult.getCreatedActivityOffering().getId());
-        List<RegistrationGroupInfo> rgInfosByAo = coService.getRegistrationGroupsWithActivityOfferings(aoIds, contextInfo);
+        List<RegistrationGroupInfo> rgInfosByAo = coService.getRegistrationGroupsByActivityOffering(aoResult.getCreatedActivityOffering().getId(), contextInfo);
         assertEquals(1, rgInfosByAo.size());
         rgInfos = coService.getRegistrationGroupsByFormatOffering(foId, contextInfo);
         assertEquals(3, rgInfos.size()); // Now three RGs

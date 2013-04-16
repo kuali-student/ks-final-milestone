@@ -28,6 +28,8 @@ public interface RuleViewHelperService {
 
     public void refreshInitTrees(RuleEditor rule);
 
+    public void refreshViewTree(RuleEditor rule);
+
     public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original, String compareToRefObjectId) throws Exception;
 
     public PropositionEditor copyProposition(PropositionEditor proposition);

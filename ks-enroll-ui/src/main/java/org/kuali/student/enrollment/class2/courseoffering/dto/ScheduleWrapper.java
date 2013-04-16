@@ -287,6 +287,29 @@ public class ScheduleWrapper implements Serializable{
         this.buildingId = buildingId;
     }
 
+    /* KSENROLL-6378 replaces displaying the checkboxes instead as simple-text due to partial-colocation not yet being
+     * implemented; this is a simple UI-helper to build a simple string for that purpose.
+     * See ActivityOfferingEdit-ScheduleSection.xml id="ActivityOffering-CoLocated-checkbox"
+     * ~brandon.gresham
+     */
+    public String getColocatedAOsAsStringForUi() {
+        StringBuilder sb = new StringBuilder();
+
+        if( colocatedAOs != null && !colocatedAOs.isEmpty() ) {
+            for( String s : colocatedAOs ) {
+                sb.append(" " + s).append(",");
+            }
+            sb.setLength(sb.length()-1); // trim trailing comma
+        }
+
+        String result = sb.toString().trim();
+        if( result.isEmpty() ) {
+            result = "(nothing)";
+        }
+
+        return result;
+    }
+
     public List<String> getColocatedAOs() {
         return colocatedAOs;
     }

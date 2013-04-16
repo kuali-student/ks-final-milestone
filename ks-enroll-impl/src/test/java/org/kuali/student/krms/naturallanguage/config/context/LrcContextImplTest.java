@@ -24,10 +24,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:lrc-service-test-context.xml"})
@@ -38,22 +35,22 @@ public class LrcContextImplTest extends AbstractServiceTest {
     private LRCService lrcService;
     private LrcContextImpl lrcContext = new LrcContextImpl();
 
-	private TermDefinitionContract term;
-	private TermDefinitionContract term2;
+	private Map<String, Object> term;
+	private Map<String, Object> term2;
 	
 	
 	private void setupTerm1() {
-        List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.GRADE_KEY.getId(),LrcServiceConstants.RESULT_VALUE_KEY_GRADE_LETTER_A,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.GRADE_TYPE_KEY.getId(),LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER,null,0L));
-        term = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put(TermParameterTypes.GRADE_KEY.getId(),LrcServiceConstants.RESULT_VALUE_KEY_GRADE_LETTER_A);
+        parameters.put(TermParameterTypes.GRADE_TYPE_KEY.getId(),LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER);
+        term = parameters;
 	}
 
 	private void setupTerm2() {
-        List<TermParameterDefinitionContract> parameterList = new ArrayList<TermParameterDefinitionContract>();
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.GRADE_KEY.getId(),null,null,0L));
-        parameterList.add(KRMSDataGenerator.createTermParameterDefinition(null,TermParameterTypes.GRADE_TYPE_KEY.getId(),null,null,0L));
-		term2 = KRMSDataGenerator.createTermDefinition(null,null,parameterList,null,0L);
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put(TermParameterTypes.GRADE_KEY.getId(),null);
+        parameters.put(TermParameterTypes.GRADE_TYPE_KEY.getId(),null);
+		term2 = parameters;
 	}
 
 	@Before

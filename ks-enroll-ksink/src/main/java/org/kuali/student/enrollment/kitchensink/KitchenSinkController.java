@@ -253,6 +253,7 @@ public class KitchenSinkController extends UifControllerBase {
 
         // clear dialog history so user can press the button again
         //form.getDialogManager().resetDialogStatus(dialogId);
+        form.setStringField1("Lightbox Form Saved");
 
         KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, "kitchensink.custom", "Lightbox form saved.");
         //return getUIFModelAndView(form);
@@ -281,12 +282,30 @@ public class KitchenSinkController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=popoverMethodToCall")
+    public ModelAndView popoverMethodToCall(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
+                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
+        form.setStringField2(
+                "Text set in server-side method before the popover is displayed.  "
+            +   form.getStringField2()
+            );
+        return getUIFModelAndView(form);
+    }
+
+    private int popupCount = 0;
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=popoverRefreshBeforeDisplay")
+    public ModelAndView popoverRefreshBeforeDisplay(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
+                                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
+        form.setStringField3(Integer.toString(++popupCount));
+        return getUIFModelAndView(form);
+    }
+
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=processPopoverForm")
     public ModelAndView processPopoverForm(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) {
         GlobalVariables.getMessageMap().addGrowlMessage("NOTE", "kitchensink.custom", "processPopoverForm");
         if ("error".equals(form.getStringField1().toLowerCase())) {
-            GlobalVariables.getMessageMap().putErrorForSectionId("stringField1","kitchensink.custom","Popover form with error is displayed automatically.");
+                GlobalVariables.getMessageMap().putErrorForSectionId("stringField1","kitchensink.custom","Popover form with error is displayed automatically.");
         }
         return getUIFModelAndView(form);
     }

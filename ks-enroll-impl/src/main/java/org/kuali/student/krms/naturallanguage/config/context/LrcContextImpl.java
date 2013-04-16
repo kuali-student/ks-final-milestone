@@ -91,15 +91,15 @@ public class LrcContextImpl extends BasicContextImpl {
     /**
      * Creates the context map (template data) for the requirement component.
      *
-     * @param term Requirement component
+     * @param parameters
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(TermDefinitionContract term, ContextInfo contextInfo) throws OperationFailedException {
-        Map<String, Object> contextMap = super.createContextMap(term, contextInfo);
+    public Map<String, Object> createContextMap(Map<String, Object> parameters, ContextInfo contextInfo) throws OperationFailedException {
+        Map<String, Object> contextMap = super.createContextMap(parameters, contextInfo);
 
-        String gradeId = getTermParameterValue(term, TermParameterTypes.GRADE_KEY.getId());
+        String gradeId = (String) parameters.get(TermParameterTypes.GRADE_KEY.getId());
         if (gradeId == null) {
-            gradeId = getTermParameterValue(term, TermParameterTypes.GRADE_TYPE_KEY.getId());
+            gradeId = (String) parameters.get(TermParameterTypes.GRADE_TYPE_KEY.getId());
         }
         if (gradeId != null){
             ResultValueInfo grade = getResultValue(gradeId, contextInfo);

@@ -11,8 +11,10 @@ public class CluInformation implements Serializable, Comparable<CluInformation> 
     private String verIndependentId;
     private String code;
     private String title;
+    private String description;
     private String credits;
     private String type;
+    private String state;
     private String parentCluId;
 
     public String getCluId() {
@@ -39,6 +41,14 @@ public class CluInformation implements Serializable, Comparable<CluInformation> 
         this.title = title;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getCredits() {
         return credits;
     }
@@ -61,6 +71,14 @@ public class CluInformation implements Serializable, Comparable<CluInformation> 
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getParentCluId() {

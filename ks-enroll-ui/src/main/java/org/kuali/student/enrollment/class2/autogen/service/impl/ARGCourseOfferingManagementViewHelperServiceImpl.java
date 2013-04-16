@@ -30,6 +30,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
+import org.kuali.student.enrollment.class2.autogen.dto.ScheduleCalcContainer;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.autogen.service.ARGCourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.autogen.util.ARGToolbarUtil;
@@ -50,6 +51,7 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClas
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
@@ -61,15 +63,17 @@ import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.uif.util.GrowlIcon;
 import org.kuali.student.enrollment.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.permutation.PermutationUtils;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -117,6 +121,7 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -313,9 +318,11 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         Map<String, ActivityOfferingClusterWrapper> clusterMap = new HashMap<String, ActivityOfferingClusterWrapper>();
         Map<String, ActivityOfferingWrapper> aoMap = new HashMap<String, ActivityOfferingWrapper>();
         Set<String> foIds = new HashSet<String>();
+        Map<String, List<ScheduleCalcContainer>> ao2sch = new HashMap<String, List<ScheduleCalcContainer>>();
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         //Parse the search results
-        List<ActivityOfferingWrapper> wrappers = processAoClusterData(results, form, sch2aoMap, clusterMap, aoMap, foIds, aoIdsWithoutSch, ContextUtils.createDefaultContextInfo());
+        List<ActivityOfferingWrapper> wrappers = processAoClusterData(results, form, sch2aoMap, clusterMap, aoMap, foIds, aoIdsWithoutSch, contextInfo);
 
         //Set the items in the form
         form.setActivityWrapperList(wrappers);
@@ -339,15 +346,21 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         sr.addParam(CoreSearchServiceImpl.SearchParameters.SCHEDULE_IDS, new ArrayList<String>(sch2aoMap.keySet()));
         results = searchService.search(sr, null);
 
-        processSchData(results, sch2aoMap, aoIdsWithoutSch, aoMap, ContextUtils.createDefaultContextInfo());
+        //processSchData(results, sch2aoMap, aoIdsWithoutSch, aoMap, ContextUtils.createDefaultContextInfo());
 
+        // the next two methods pull scheduling data from the DB and put them into the ao2sch map
+        processScheduleInfo(results,sch2aoMap,ao2sch,contextInfo);
+        processScheduleRequestsForAos(aoMap.keySet(),ao2sch,contextInfo);
+
+        // this takes the scheduling data and puts it into the screen form
+        processScheduleData(aoMap,ao2sch,contextInfo);
 
         //Search for registration group information
         sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.REG_GROUPS_BY_CO_ID_SEARCH_KEY);
         sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID,form.getCurrentCourseOfferingWrapper().getCourseOfferingId());
         results = searchService.search(sr, null);
 
-        List<RegistrationGroupWrapper> rgWrappers = processRgData(results, form, sch2aoMap, clusterMap, aoMap, ContextUtils.createDefaultContextInfo());
+        List<RegistrationGroupWrapper> rgWrappers = processRgData(results, form, sch2aoMap, clusterMap, aoMap, contextInfo);
 
         form.setRgResultList(rgWrappers);
 
@@ -367,7 +380,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             for(ActivityOfferingWrapper aoWrapper:cluster.getAoWrapperList()){
                 aoInfos.add(aoWrapper.getAoInfo());
             }
-            _validateRegistrationGroupsPerCluster(rgInfos,aoInfos,cluster,form,i);
+            _validateRegistrationGroupsPerCluster(rgInfos,aoInfos,cluster,form,i, ao2sch, aoMap);
             i++;
         }
         Date endOfValidation = new Date();
@@ -414,21 +427,162 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 }
                 aoIds.add(lprInfo.getLuiId());
             }
-        }
-        EntityDefaultQueryResults results = getInstructorsInfoFromKim(new ArrayList<String>(principalId2aoIdMap.keySet()), contextInfo);
+            if(!principalId2aoIdMap.keySet().isEmpty()){
+                EntityDefaultQueryResults results = getInstructorsInfoFromKim(new ArrayList<String>(principalId2aoIdMap.keySet()), contextInfo);
 
-        for(EntityDefault entity:results.getResults()){
-            for(Principal principal : entity.getPrincipals()){
-                Set<String> aoIds = principalId2aoIdMap.get(principal.getPrincipalId());
-                if(aoIds != null){
-                    for(String aoId:aoIds){
-                        ActivityOfferingWrapper activityOfferingWrapper = aoMap.get(aoId);
-                        activityOfferingWrapper.setInstructorDisplayNames(entity.getName().getCompositeName(), true);
+                for(EntityDefault entity:results.getResults()){
+                    for(Principal principal : entity.getPrincipals()){
+                        Set<String> aoIds = principalId2aoIdMap.get(principal.getPrincipalId());
+                        if(aoIds != null){
+                            for(String aoId:aoIds){
+                                ActivityOfferingWrapper activityOfferingWrapper = aoMap.get(aoId);
+                                activityOfferingWrapper.setInstructorDisplayNames(entity.getName().getCompositeName(), true);
+                            }
+                        }
                     }
                 }
+
             }
         }
+    }
 
+
+    /**
+     * Add scheduling information to the map if there are no "actual" schedules already in place for a particular AO.
+     * @param aoIds
+     * @param ao2sch
+     * @param contextInfo
+     * @throws Exception
+     */
+    protected void processScheduleRequestsForAos(Collection<String> aoIds, Map<String, List<ScheduleCalcContainer>> ao2sch, ContextInfo contextInfo) throws Exception {
+        SearchRequestInfo sr = new SearchRequestInfo(CoreSearchServiceImpl.SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_KEY);
+        sr.addParam(CoreSearchServiceImpl.SearchParameters.REF_IDS, new ArrayList<String>(aoIds));
+        sr.addParam(CoreSearchServiceImpl.SearchParameters.REF_TYPE, SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
+        SearchResultInfo results = searchService.search(sr, null);
+
+        for(SearchResultRowInfo row:results.getRows()){
+            String aoId = null;
+            String cmpId = null;
+            String startTime = null;
+            String endTime = null;
+            String weekdays = null;
+            String roomCode = null;
+            String bldgName = null;
+            Boolean tbaInd = null;
+
+            for(SearchResultCellInfo cell:row.getCells()){
+                if(CoreSearchServiceImpl.SearchResultColumns.AO_ID.equals(cell.getKey())){
+                    aoId = cell.getValue();
+                }else if(CoreSearchServiceImpl.SearchResultColumns.CMP_ID.equals(cell.getKey())){
+                    cmpId = cell.getValue();
+                }else if(CoreSearchServiceImpl.SearchResultColumns.START_TIME.equals(cell.getKey())){
+                    startTime = cell.getValue();
+                }else if(CoreSearchServiceImpl.SearchResultColumns.END_TIME.equals(cell.getKey())){
+                    endTime = cell.getValue();
+                }else if(CoreSearchServiceImpl.SearchResultColumns.WEEKDAYS.equals(cell.getKey())){
+                    weekdays = cell.getValue();
+                } else if(CoreSearchServiceImpl.SearchResultColumns.ROOM_CODE.equals(cell.getKey())){
+                    roomCode = cell.getValue();
+                }else if(CoreSearchServiceImpl.SearchResultColumns.BLDG_NAME.equals(cell.getKey())){
+                    bldgName = cell.getValue();
+                } else if(CoreSearchServiceImpl.SearchResultColumns.TBA_IND.equals(cell.getKey())){
+                    tbaInd = Boolean.parseBoolean(cell.getValue());
+                }
+            }
+
+            ScheduleCalcContainer scheduleCalcContainer = new ScheduleCalcContainer(aoId,cmpId,CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, startTime, endTime, weekdays, roomCode, bldgName, tbaInd);
+
+            if(ao2sch.containsKey(aoId)){
+                boolean hasActual = false;
+                for(ScheduleCalcContainer scc: ao2sch.get(aoId)){
+                     if(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE.equals(scc.getScheduleType())){
+                         hasActual = true;
+                         break;
+                     }
+                }
+                if(!hasActual){
+                    ao2sch.get(aoId).add(scheduleCalcContainer);
+                }
+            }   else {
+                List<ScheduleCalcContainer> schList = new ArrayList<ScheduleCalcContainer>();
+                schList.add(scheduleCalcContainer);
+                ao2sch.put(aoId, schList );
+            }
+
+        }
+
+
+
+    }
+
+    private void processScheduleInfo(SearchResultInfo searchResults, Map<String, ActivityOfferingWrapper> sch2aoMap, Map<String, List<ScheduleCalcContainer>> ao2sch, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
+        //Process the search results
+
+        for(SearchResultRowInfo row:searchResults.getRows()){
+            String schId = null;
+            String startTime = null;
+            String endTime = null;
+            Boolean tbaInd = null;
+            String roomCode = null;
+            String buildingName = null;
+            String weekdays = null;
+            for(SearchResultCellInfo cell:row.getCells()){
+                if(CoreSearchServiceImpl.SearchResultColumns.SCH_ID.equals(cell.getKey())){
+                    schId = cell.getValue();
+                }else if(CoreSearchServiceImpl.SearchResultColumns.START_TIME.equals(cell.getKey())){
+                    startTime = cell.getValue();
+                }else if(CoreSearchServiceImpl.SearchResultColumns.END_TIME.equals(cell.getKey())){
+                    endTime = cell.getValue();
+                }else if(CoreSearchServiceImpl.SearchResultColumns.TBA_IND.equals(cell.getKey())){
+                    tbaInd = Boolean.parseBoolean(cell.getValue());
+                }else if(CoreSearchServiceImpl.SearchResultColumns.ROOM_CODE.equals(cell.getKey())){
+                    roomCode = cell.getValue();
+                }else if(CoreSearchServiceImpl.SearchResultColumns.BLDG_NAME.equals(cell.getKey())){
+                    buildingName = cell.getValue();
+                }else if(CoreSearchServiceImpl.SearchResultColumns.WEEKDAYS.equals(cell.getKey())){
+                    weekdays = cell.getValue();
+                }
+            }
+            ActivityOfferingWrapper aoWrapper = sch2aoMap.get(schId);
+
+            ScheduleCalcContainer scheduleCalcContainer = new ScheduleCalcContainer(aoWrapper.getId(),schId,SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE, startTime, endTime, weekdays, roomCode,buildingName, tbaInd);
+            if(ao2sch.containsKey(aoWrapper.getId())){
+                ao2sch.get(aoWrapper.getId()).add(scheduleCalcContainer);
+            }   else {
+                List<ScheduleCalcContainer> schList = new ArrayList<ScheduleCalcContainer>();
+                schList.add(scheduleCalcContainer);
+                ao2sch.put(aoWrapper.getId(), schList );
+            }
+        }
+    }
+
+    private void processScheduleData(Map<String,ActivityOfferingWrapper> aoMap, Map<String, List<ScheduleCalcContainer>> ao2sch, ContextInfo contextInfo) throws Exception {
+        for(String aoId : ao2sch.keySet()){
+            ActivityOfferingWrapper aoWrapper = aoMap.get(aoId);
+            List<ScheduleCalcContainer> schedList = ao2sch.get(aoId);
+
+
+            boolean newRow = false;
+            for(ScheduleCalcContainer sched : schedList){
+                if(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE.equals(sched.getScheduleType()))    {
+                    aoWrapper.setScheduleInfo(new ScheduleInfo());
+                    aoWrapper.setStartTimeDisplay(sched.getStart().isEmpty()?sched.getStart():DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(sched.getStart()))), newRow);
+                    aoWrapper.setEndTimeDisplay(sched.getEnd().isEmpty()?sched.getEnd():DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(sched.getEnd()))), newRow);
+                    aoWrapper.setBuildingName(sched.getBldgName(), newRow);
+                    aoWrapper.setRoomName(sched.getRoomCode(), newRow);
+                    aoWrapper.setDaysDisplayName(sched.getWeekdays(), newRow);
+                    aoWrapper.setTbaDisplayName(sched.getTbaInd(), newRow);
+                }   else{
+                    aoWrapper.setStartTimeDisplay(sched.getStart().isEmpty()?sched.getStart():DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(sched.getStart()))), newRow, "uif-scheduled-dl");
+                    aoWrapper.setEndTimeDisplay(sched.getEnd().isEmpty()?sched.getEnd():DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(sched.getEnd()))), newRow, "uif-scheduled-dl");
+                    aoWrapper.setBuildingName(sched.getBldgName(), newRow, "uif-scheduled-dl");
+                    aoWrapper.setRoomName(sched.getRoomCode(), newRow, "uif-scheduled-dl");
+                    aoWrapper.setDaysDisplayName(sched.getWeekdays(), newRow, "uif-scheduled-dl");
+                    aoWrapper.setTbaDisplayName(sched.getTbaInd(), newRow);
+                }
+                newRow = true;
+            }
+        }
     }
 
     private void processSchData(SearchResultInfo searchResults, Map<String, ActivityOfferingWrapper> sch2aoMap, List<String> aoIdsWithoutSch, Map<String,ActivityOfferingWrapper> aoMap, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
@@ -700,6 +854,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         return entityResults;
     }
 
+    /*
     private  ActivityOfferingClusterWrapper _buildAOClusterWrapper (FormatOfferingInfo foInfo,
                             ActivityOfferingClusterInfo aoCluster, ARGCourseOfferingManagementForm theForm,
                                                                     int clusterIndex) throws Exception{
@@ -752,7 +907,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         List<RegistrationGroupWrapper> rgListPerCluster = new ArrayList<RegistrationGroupWrapper>();
         List<RegistrationGroupInfo> rgInfos =getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(aoCluster.getId(), contextInfo);
         if (rgInfos.size() > 0 ){
-            _validateRegistrationGroupsPerCluster(rgInfos, aoInfoList, aoClusterWrapper, theForm, clusterIndex);
+            _validateRegistrationGroupsPerCluster(rgInfos, aoInfoList, aoClusterWrapper, theForm, clusterIndex,null, null );   // never called
             rgListPerCluster= _getRGsForSelectedFO(rgInfos, aoWrapperListPerCluster);
         }else{
             _performAOCompletePerClusterValidation(foInfo, aoInfoList, aoClusterWrapper, clusterIndex, contextInfo);
@@ -767,6 +922,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         aoClusterWrapper.setRgWrapperList(rgListPerCluster);
         return aoClusterWrapper;
     }
+    */
 
     /**
      * This method will indicate to the user if the cluster canot be generated because the AO Set does not contain
@@ -823,7 +979,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     */
     private void _validateRegistrationGroupsPerCluster(List<RegistrationGroupInfo> rgInfos, List<ActivityOfferingInfo> aoList,
                                                        ActivityOfferingClusterWrapper aoClusterWrapper,
-                                                       ARGCourseOfferingManagementForm theForm, int clusterIndex) throws Exception{
+                                                       ARGCourseOfferingManagementForm theForm, int clusterIndex, Map<String, List<ScheduleCalcContainer>> ao2sch, Map<String, ActivityOfferingWrapper> aoMap) throws Exception{
 
         Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap =
                 _constructActivityOfferingTypeToAvailableActivityOfferingMap(aoList);
@@ -861,9 +1017,9 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             aoClusterWrapper.setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_ALL);
             aoClusterWrapper.setHasAllRegGroups(true);
             // perform max enrollment validation
-            _performMaxEnrollmentValidation(theForm.getFormatOfferingIdForViewRG(), aoClusterWrapper.getAoCluster(), clusterIndex);
+            _performMaxEnrollmentValidation(aoMap, aoClusterWrapper.getAoCluster(), clusterIndex);
             //validate AO time conflict in RG
-            _performRGTimeConflictValidation(aoClusterWrapper.getAoCluster(), rgInfos, clusterIndex);
+            _performRGTimeConflictValidation(aoClusterWrapper.getAoCluster(), rgInfos, clusterIndex,ao2sch);
 
         }
         if (!rgInfosCopy.isEmpty()){
@@ -916,14 +1072,121 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
 
 
-    private void _performMaxEnrollmentValidation(String formateOfferingId, ActivityOfferingClusterInfo aoCluster, int clusterIndex) throws Exception{
-        List<ValidationResultInfo> validationResultInfoList = getCourseOfferingService().validateActivityOfferingCluster(
-                DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), formateOfferingId, aoCluster, ContextUtils.createDefaultContextInfo());
+    private void _performMaxEnrollmentValidation(Map<String, ActivityOfferingWrapper> aoMap, ActivityOfferingClusterInfo aoCluster, int clusterIndex) throws Exception{
 
-        if (validationResultInfoList.get(0).isWarn())  {
+        int aoSetMaxEnrollNumber = 0;
+        int currentAoSetMaxEnrollNumber = 0;
+        int listIndex = 0;
+        ValidationResultInfo validationResultInfo = new ValidationResultInfo();
+
+        for(ActivityOfferingSetInfo aos : aoCluster.getActivityOfferingSets()){
+            for(String aoId : aos.getActivityOfferingIds()){
+                ActivityOfferingWrapper aoWrapper = aoMap.get(aoId);
+                ActivityOfferingInfo aoInfo = aoWrapper.getAoInfo();
+                if (aoInfo != null &&  aoInfo.getMaximumEnrollment() != null) {
+                    aoSetMaxEnrollNumber += aoInfo.getMaximumEnrollment();
+                }
+            }
+
+            if (listIndex == 0) {
+                currentAoSetMaxEnrollNumber = aoSetMaxEnrollNumber;
+            } else {
+                if (aoSetMaxEnrollNumber != currentAoSetMaxEnrollNumber) {
+
+                    validationResultInfo.setLevel(ValidationResult.ErrorLevel.WARN);
+                    validationResultInfo.setMessage("Sum of enrollment for each AO type is not equal");
+                    break;
+                }
+            }
+            aoSetMaxEnrollNumber = 0;
+            listIndex++;
+        }
+
+        //The max enrollment numbers of all the aoSets in the given AOC are the same. The validation passes.
+        validationResultInfo.setLevel(ValidationResult.ErrorLevel.OK);
+        validationResultInfo.setMessage("Sum of enrollment for each AO type is equal");
+
+
+        if (validationResultInfo.isWarn())  {
             GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_MAX_ENROLLMENT, aoCluster.getPrivateName());
             GlobalVariables.getMessageMap().putWarningForSectionId("activityOfferingsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_MAX_ENROLLMENT, aoCluster.getPrivateName());
         }
+    }
+
+    private List<Integer> _performRGTimeConflictValidation(ActivityOfferingClusterInfo aoCluster, List<RegistrationGroupInfo> registrationGroupInfos, int clusterIndex, Map<String, List<ScheduleCalcContainer>> ao2sch) throws Exception{
+        List<Integer> rgIndexList = new ArrayList<Integer>();
+        rgIndexList.clear();
+
+        if (aoCluster != null && registrationGroupInfos != null && !registrationGroupInfos.isEmpty()) {
+            int rgIndex = 0;
+            for (RegistrationGroupInfo registrationGroupInfo : registrationGroupInfos) {
+
+                List<ValidationResultInfo> validationResultInfoList = new ArrayList<ValidationResultInfo>();
+                // Lets build a list of all schedules that need to be compared for this registration group.
+                List<ScheduleCalcContainer> shed2Check = new ArrayList<ScheduleCalcContainer>();
+                for(String aoId : registrationGroupInfo.getActivityOfferingIds()){
+                    if(ao2sch.get(aoId)!= null){
+                        shed2Check.addAll(ao2sch.get(aoId));
+                    }
+                }
+
+                for(ScheduleCalcContainer outerEntry : shed2Check){
+                    for(ScheduleCalcContainer innerEntry : shed2Check){
+                        if(outerEntry.equals(innerEntry)){
+                            break;
+                        }
+                        if (SchedulingServiceUtil.areTimeSlotsInConflict(toTimeSlotInfo(outerEntry), toTimeSlotInfo(innerEntry))) {
+                            ValidationResultInfo validationResultInfo = new ValidationResultInfo();
+                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.WARN);
+                            validationResultInfo.setMessage("time conflict between AO: " + outerEntry.getAoId() + " and AO: " + innerEntry.getAoId());
+                            validationResultInfoList.add(validationResultInfo);
+
+                        }
+                    }
+                }
+
+                if (!validationResultInfoList.isEmpty() && validationResultInfoList.get(0).isWarn())  {
+                    //Why are we alter the RG state? Commenting out for now.
+                    //getCourseOfferingService().changeRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, ContextUtils.createDefaultContextInfo());
+                    rgIndexList.add(rgIndex);
+                }
+
+                rgIndex++;
+            }
+
+            if (!rgIndexList.isEmpty()) {
+                GlobalVariables.getMessageMap().putWarningForSectionId("activityOfferingsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_AO_TIMECONFLICT, aoCluster.getPrivateName());
+                GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_AO_TIMECONFLICT, aoCluster.getPrivateName());
+            }
+        }
+
+        return rgIndexList;
+    }
+
+    public TimeSlotInfo toTimeSlotInfo(ScheduleCalcContainer sched) {
+        TimeSlotInfo info = new TimeSlotInfo();
+
+
+
+        info.setId(null);
+        info.setTypeKey(null);
+        info.setStateKey(null);
+        info.setName(null);
+        info.setWeekdays(SchedulingServiceUtil.weekdaysString2WeekdaysList(sched.getWeekdays()));
+
+        info.setStartTime(new TimeOfDayInfo());
+        info.getStartTime().setMilliSeconds((sched.getStart() != null ? new Long(sched.getStart()) : null));
+
+        info.setEndTime(new TimeOfDayInfo());
+        info.getEndTime().setMilliSeconds((sched.getEnd() != null ? new Long(sched.getEnd()) : null));
+
+        info.setDescr(new RichTextInfo());
+        info.getDescr().setFormatted(null);
+        info.getDescr().setPlain(null);
+
+        info.setMeta(null);
+
+        return info;
     }
 
     private List<Integer> _performRGTimeConflictValidation(ActivityOfferingClusterInfo aoCluster, List<RegistrationGroupInfo> registrationGroupInfos, int clusterIndex) throws Exception{
