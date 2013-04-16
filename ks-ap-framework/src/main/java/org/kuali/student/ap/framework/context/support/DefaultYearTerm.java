@@ -1,22 +1,17 @@
 package org.kuali.student.ap.framework.context.support;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.enrollment.acal.infc.Term;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 /**
  * Data Storage for the Term and Year of a single atp. Formats different output
@@ -31,36 +26,18 @@ public class DefaultYearTerm implements YearTerm, Comparable<YearTerm> {
 	private static String[] getTermTypes() {
 		if (termTypes == null) {
 			try {
-				List<TypeTypeRelationInfo> relations = KsapFrameworkServiceLocator
-						.getTypeService()
-						.getTypeTypeRelationsByOwnerAndType(
-								AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY,
-								TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY,
+				List<TypeInfo> termTypeInfos = KsapFrameworkServiceLocator
+						.getAcademicCalendarService().getTermTypes(
 								KsapFrameworkServiceLocator.getContext()
 										.getContextInfo());
-				if (relations == null || relations.isEmpty())
+				if (termTypeInfos == null || termTypeInfos.isEmpty())
 					throw new IllegalStateException(
-							"No term types available using TypeService.getTypeTypeRelationsByOwnerAndType()");
-				relations = new java.util.ArrayList<TypeTypeRelationInfo>(
-						relations); // may be unmodifiable
-				Collections.sort(relations,
-						new Comparator<TypeTypeRelationInfo>() {
-							@Override
-							public int compare(TypeTypeRelationInfo o1,
-									TypeTypeRelationInfo o2) {
-								Integer r1 = o1.getRank() == null ? 0 : o1
-										.getRank();
-								Integer r2 = o2.getRank() == null ? 0 : o2
-										.getRank();
-								return r1.compareTo(r2);
-							}
-						});
-				String[] tto = new String[relations.size()];
+							"No term types available using AcademicCalendarService.getTermTypes()");
+				String[] tto = new String[termTypeInfos.size()];
 				for (int i = 0; i < tto.length; i++)
-					tto[i] = relations.get(i).getRelatedTypeKey();
+					tto[i] = termTypeInfos.get(i).getKey();
 				termTypes = tto;
-			} catch (DoesNotExistException e) {
-				throw new IllegalArgumentException("Type lookup error", e);
+				LOG.info("Set term types to " + Arrays.toString(termTypes));
 			} catch (InvalidParameterException e) {
 				throw new IllegalArgumentException("Type lookup error", e);
 			} catch (MissingParameterException e) {
