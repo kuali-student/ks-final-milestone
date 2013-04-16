@@ -1,5 +1,0 @@
-INSERT INTO KSMG_MESSAGE (ID, MSG_ID, LOCALE, GRP_NAME, MSG_VALUE, OBJ_ID, VER_NBR) VALUES ('d15f6ed6-9c78-49ab-a26a-adf8fd30774a', 'cluLOCategoryBrowse', 'en', 'course', 'Browse for categories', '35D03F03-EEFC-B979-A43C-E5A9D80F31CE', 1)
-/
-
-INSERT INTO KSMG_MESSAGE (ID, MSG_ID, LOCALE, GRP_NAME, MSG_VALUE, OBJ_ID, VER_NBR) VALUES ('bcf56fa7-c770-4c8a-a7b7-ee376030e1d3', 'cluLOCategoryBrowsePopup', 'en', 'course', 'Select Categories', '427D3BAF-60D3-FE6F-12C7-BBF77B02AC80', 1)
-/

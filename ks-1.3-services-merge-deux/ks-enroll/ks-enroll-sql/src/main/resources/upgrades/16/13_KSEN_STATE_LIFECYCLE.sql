@@ -1,6 +1,0 @@
-insert into KSEN_STATE_LIFECYCLE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, REF_OBJECT_URI, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.activity.offering.process', null, 'kuali.activity.offering.process', 'kuali.activity.offering.process state lifecycle', 'kuali.activity.offering.process state lifecycle', null, 1, TIMESTAMP '2012-03-01 00:00:00', 'SYSTEMLOADER', null, null)
-/
-insert into KSEN_STATE_LIFECYCLE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, REF_OBJECT_URI, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.format.offering.process', null, 'kuali.format.offering.process', 'kuali.format.offering.process state lifecycle', 'kuali.format.offering.process state lifecycle', null, 1, TIMESTAMP '2012-03-01 00:00:00', 'SYSTEMLOADER', null, null)
-/
-insert into KSEN_STATE_LIFECYCLE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, REF_OBJECT_URI, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.course.offering.process', null, 'kuali.course.offering.process', 'kuali.course.offering.process state lifecycle', 'kuali.course.offering.process state lifecycle', null, 1, TIMESTAMP '2012-03-01 00:00:00', 'SYSTEMLOADER', null, null)
-/

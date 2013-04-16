@@ -1,3 +1,0 @@
-INSERT INTO KSMG_MESSAGE (GRP_NAME,ID,LOCALE,MSG_ID,MSG_VALUE,VER_NBR,OBJ_ID)
-  VALUES ('common','d21d163d-15d3-4214-bb84-5508163e98a8','en','applicationTitleLabel','Kuali Student','1','7dc78b74-0c73-c4c5-0360-4c007690f25d')
-/
