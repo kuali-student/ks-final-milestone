@@ -1649,6 +1649,25 @@ public interface CourseOfferingService
     public List<RegistrationGroupInfo> getRegistrationGroupsWithActivityOfferings(@WebParam(name = "activityOfferingIds") List<String> activityOfferingIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Returns all registration groups that contain activityOfferingId in the list of AOs associated with
+     * the registration group.  A variant of getRegistrationGroupsWithActivityOfferings with only a single
+     * activity offering.
+     * @param activityOfferingId An activity offering id.
+     * @param context            Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return a list of RegistrationGroup records that contain all the
+     *         activity offerings in the input list.
+     * @throws DoesNotExistException     One or more of the activityOfferingIds
+     *                                   doesn't exist
+     * @throws InvalidParameterException One or more invalid activityOfferingIds
+     * @throws MissingParameterException Missing activityOfferingIds
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<RegistrationGroupInfo> getRegistrationGroupsByActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Retrieves a list of RegistrationGroup records that belongs to a
      * CourseOffering for a given canonical format type
      *
