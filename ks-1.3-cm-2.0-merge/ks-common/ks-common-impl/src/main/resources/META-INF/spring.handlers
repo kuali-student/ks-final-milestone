@@ -1,0 +1,2 @@
+http\://student.kuali.org/xsd/search-extension=org.kuali.student.r1.common.search.service.impl.SearchNamespaceHandler
+http\://student.kuali.org/xsd/dictionary-extension=org.kuali.student.r1.common.dictionary.service.impl.old.DictionaryNamespaceHandler

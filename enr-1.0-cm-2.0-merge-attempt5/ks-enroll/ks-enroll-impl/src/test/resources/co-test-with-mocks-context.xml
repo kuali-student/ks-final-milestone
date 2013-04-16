@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+
+
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <context:annotation-config />
+    
+  <import resource="classpath:META-INF/default-property-config-context-test.xml" />
+  <import resource="classpath:ks-test-system-property-configurer.xml" />
+  <import resource="classpath:ks-enroll-api-data-dictionary-services-configuration.xml" />
+  <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml" />
+
+    <bean id="acalService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.AcademicCalendarServiceMockImpl">
+    </bean>
+    <bean id="luiService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.LuiServiceMockImpl">
+    </bean>
+    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceMockImpl">
+    </bean>
+    <bean id="LrcService" class="org.kuali.student.enrollment.class1.lrc.service.impl.LrcServiceMockImpl"/>
+    <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl">
+    </bean>
+    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceMockDataImpl">
+    </bean>
+    <bean id="courseService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseServiceR1MockImpl">
+    </bean>
+
+    <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl">
+    </bean>
+
+    <bean id="activityOfferingClusterDao" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.MockActivityOfferingClusterDao">
+    </bean>
+
+    <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
+        <property name="rgAssembler" ref="rgAssembler" />
+        <property name="luiService" ref="luiService" />
+        <property name="courseService" ref="courseService" />
+        <property name="acalService" ref="acalService" />
+        <property name="stateService" ref="stateService" />
+        <property name="typeService" ref="typeService" />
+        <property name="lprService" ref="lprService" />
+        <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
+        <property name="businessLogic" ref="businessLogic" />
+        <property name="lrcService" ref="LrcService"/>
+        <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
+        <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
+        <property name="schedulingService" ref="schedulingService"/>
+        <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao"/>
+    </bean>
+
+    <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl">
+        <property name="atpService" ref="atpService"/>
+        <property name="typeService" ref="typeService"/>
+        <property name="organizationService" ref="organizationService"/>
+        <property name="roomService" ref="roomService"/>
+    </bean>
+
+    <bean id="roomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplM5">
+    </bean>
+
+    <bean id="organizationService" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceMockImpl">
+    </bean>
+
+    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
+    <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
+        <property name="lprService" ref="lprService" />
+        <property name="personService" ref="personService" />
+    </bean>
+    <bean id="personService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.PersonServiceMockImpl"/>
+
+    <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
+        <property name="courseService" ref="courseService" />
+        <property name="acalService" ref="acalService" />
+        <property name="coService" ref="coService" />
+        <property name="registrationCodeGeneratorFactory" ref="regGroupCodeGeneratorFactory" />
+    </bean>
+    <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
+
+
+    <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
+        <property name="luiService" ref="luiService" />
+        <property name="registrationGroupTransformer" ref="registrationGroupTransformer"/>
+    </bean>
+
+    <bean id="grAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler">
+    </bean>
+
+    <bean id="registrationGroupTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer">
+        <property name="luiService" ref="luiService" />
+    </bean>
+    <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" />
+    
+    <!-- 	 This needs to be replaced with a real impl that follows the prescrivbed pattern -->
+	 <bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.UUIDRegistrationGroupCodeGenerator" />
+
+    <bean id="coCriteriaLookupService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CriteriaLookupServiceMockImpl" />
+
+</beans>
+

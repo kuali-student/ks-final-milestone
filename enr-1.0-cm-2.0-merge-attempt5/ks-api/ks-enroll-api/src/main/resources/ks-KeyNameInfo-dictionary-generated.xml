@@ -1,0 +1,84 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- KeyNameInfo-->
+	<bean id="KeyNameInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="keyNameInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.KeyNameInfo"/>
+		<property name="objectLabel" value="Key Name"/>
+		<property name="objectDescription">
+			<value>
+A generic display object where a binding between the key and value is desired
+(Duplicate keys precludes map usage)
+			</value>
+		</property>
+		<property name="titleAttribute" value="name"/>
+		<property name="primaryKeys">
+			<list>
+				<value>key</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="KeyNameInfo.key"/>
+				<ref bean="KeyNameInfo.name"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="KeyNameInfo.key-generated" abstract="true" parent="BaseKuali.key">
+		<property name="name" value="key"/>
+	</bean>
+
+	<bean id="KeyNameInfo.name-generated" abstract="true" parent="BaseKuali.name">
+		<property name="name" value="name"/>
+	</bean>
+</beans>

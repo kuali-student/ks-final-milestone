@@ -1,0 +1,3330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ProcessService" targetNamespace="http://student.kuali.org/wsdl/process" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/process" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://exceptions.common.r2.student.kuali.org/" xmlns:ns1="http://rice.kuali.org/core/v2_0" xmlns:tns="http://student.kuali.org/wsdl/process" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/process">
+<xs:import namespace="http://rice.kuali.org/core/v2_0"/>
+<xs:element name="addProcessToProcessCategory" type="tns:addProcessToProcessCategory"/>
+<xs:element name="addProcessToProcessCategoryResponse" type="tns:addProcessToProcessCategoryResponse"/>
+<xs:element name="createCheck" type="tns:createCheck"/>
+<xs:element name="createCheckResponse" type="tns:createCheckResponse"/>
+<xs:element name="createInstruction" type="tns:createInstruction"/>
+<xs:element name="createInstructionResponse" type="tns:createInstructionResponse"/>
+<xs:element name="createProcess" type="tns:createProcess"/>
+<xs:element name="createProcessCategory" type="tns:createProcessCategory"/>
+<xs:element name="createProcessCategoryResponse" type="tns:createProcessCategoryResponse"/>
+<xs:element name="createProcessResponse" type="tns:createProcessResponse"/>
+<xs:element name="deleteCheck" type="tns:deleteCheck"/>
+<xs:element name="deleteCheckResponse" type="tns:deleteCheckResponse"/>
+<xs:element name="deleteInstruction" type="tns:deleteInstruction"/>
+<xs:element name="deleteInstructionResponse" type="tns:deleteInstructionResponse"/>
+<xs:element name="deleteProcess" type="tns:deleteProcess"/>
+<xs:element name="deleteProcessCategory" type="tns:deleteProcessCategory"/>
+<xs:element name="deleteProcessCategoryResponse" type="tns:deleteProcessCategoryResponse"/>
+<xs:element name="deleteProcessResponse" type="tns:deleteProcessResponse"/>
+<xs:element name="getCheck" type="tns:getCheck"/>
+<xs:element name="getCheckIdsByType" type="tns:getCheckIdsByType"/>
+<xs:element name="getCheckIdsByTypeResponse" type="tns:getCheckIdsByTypeResponse"/>
+<xs:element name="getCheckResponse" type="tns:getCheckResponse"/>
+<xs:element name="getChecksByIds" type="tns:getChecksByIds"/>
+<xs:element name="getChecksByIdsResponse" type="tns:getChecksByIdsResponse"/>
+<xs:element name="getInstruction" type="tns:getInstruction"/>
+<xs:element name="getInstructionIdsByType" type="tns:getInstructionIdsByType"/>
+<xs:element name="getInstructionIdsByTypeResponse" type="tns:getInstructionIdsByTypeResponse"/>
+<xs:element name="getInstructionResponse" type="tns:getInstructionResponse"/>
+<xs:element name="getInstructionsByCheck" type="tns:getInstructionsByCheck"/>
+<xs:element name="getInstructionsByCheckResponse" type="tns:getInstructionsByCheckResponse"/>
+<xs:element name="getInstructionsByIds" type="tns:getInstructionsByIds"/>
+<xs:element name="getInstructionsByIdsResponse" type="tns:getInstructionsByIdsResponse"/>
+<xs:element name="getInstructionsByProcess" type="tns:getInstructionsByProcess"/>
+<xs:element name="getInstructionsByProcessAndCheck" type="tns:getInstructionsByProcessAndCheck"/>
+<xs:element name="getInstructionsByProcessAndCheckResponse" type="tns:getInstructionsByProcessAndCheckResponse"/>
+<xs:element name="getInstructionsByProcessResponse" type="tns:getInstructionsByProcessResponse"/>
+<xs:element name="getInstructionsForEvaluation" type="tns:getInstructionsForEvaluation"/>
+<xs:element name="getInstructionsForEvaluationResponse" type="tns:getInstructionsForEvaluationResponse"/>
+<xs:element name="getProcess" type="tns:getProcess"/>
+<xs:element name="getProcessCategoriesByIds" type="tns:getProcessCategoriesByIds"/>
+<xs:element name="getProcessCategoriesByIdsResponse" type="tns:getProcessCategoriesByIdsResponse"/>
+<xs:element name="getProcessCategoriesForProcess" type="tns:getProcessCategoriesForProcess"/>
+<xs:element name="getProcessCategoriesForProcessResponse" type="tns:getProcessCategoriesForProcessResponse"/>
+<xs:element name="getProcessCategory" type="tns:getProcessCategory"/>
+<xs:element name="getProcessCategoryIdsByType" type="tns:getProcessCategoryIdsByType"/>
+<xs:element name="getProcessCategoryIdsByTypeResponse" type="tns:getProcessCategoryIdsByTypeResponse"/>
+<xs:element name="getProcessCategoryResponse" type="tns:getProcessCategoryResponse"/>
+<xs:element name="getProcessKeysByType" type="tns:getProcessKeysByType"/>
+<xs:element name="getProcessKeysByTypeResponse" type="tns:getProcessKeysByTypeResponse"/>
+<xs:element name="getProcessResponse" type="tns:getProcessResponse"/>
+<xs:element name="getProcessesByKeys" type="tns:getProcessesByKeys"/>
+<xs:element name="getProcessesByKeysResponse" type="tns:getProcessesByKeysResponse"/>
+<xs:element name="getProcessesForProcessCategory" type="tns:getProcessesForProcessCategory"/>
+<xs:element name="getProcessesForProcessCategoryResponse" type="tns:getProcessesForProcessCategoryResponse"/>
+<xs:element name="removeProcessFromProcessCategory" type="tns:removeProcessFromProcessCategory"/>
+<xs:element name="removeProcessFromProcessCategoryResponse" type="tns:removeProcessFromProcessCategoryResponse"/>
+<xs:element name="reorderInstructions" type="tns:reorderInstructions"/>
+<xs:element name="reorderInstructionsResponse" type="tns:reorderInstructionsResponse"/>
+<xs:element name="searchForCheckIds" type="tns:searchForCheckIds"/>
+<xs:element name="searchForCheckIdsResponse" type="tns:searchForCheckIdsResponse"/>
+<xs:element name="searchForChecks" type="tns:searchForChecks"/>
+<xs:element name="searchForChecksResponse" type="tns:searchForChecksResponse"/>
+<xs:element name="searchForInstructionIds" type="tns:searchForInstructionIds"/>
+<xs:element name="searchForInstructionIdsResponse" type="tns:searchForInstructionIdsResponse"/>
+<xs:element name="searchForInstructions" type="tns:searchForInstructions"/>
+<xs:element name="searchForInstructionsResponse" type="tns:searchForInstructionsResponse"/>
+<xs:element name="searchForProcess" type="tns:searchForProcess"/>
+<xs:element name="searchForProcessCategories" type="tns:searchForProcessCategories"/>
+<xs:element name="searchForProcessCategoriesResponse" type="tns:searchForProcessCategoriesResponse"/>
+<xs:element name="searchForProcessCategoryIds" type="tns:searchForProcessCategoryIds"/>
+<xs:element name="searchForProcessCategoryIdsResponse" type="tns:searchForProcessCategoryIdsResponse"/>
+<xs:element name="searchForProcessKeys" type="tns:searchForProcessKeys"/>
+<xs:element name="searchForProcessKeysResponse" type="tns:searchForProcessKeysResponse"/>
+<xs:element name="searchForProcessResponse" type="tns:searchForProcessResponse"/>
+<xs:element name="updateCheck" type="tns:updateCheck"/>
+<xs:element name="updateCheckResponse" type="tns:updateCheckResponse"/>
+<xs:element name="updateInstruction" type="tns:updateInstruction"/>
+<xs:element name="updateInstructionResponse" type="tns:updateInstructionResponse"/>
+<xs:element name="updateProcess" type="tns:updateProcess"/>
+<xs:element name="updateProcessCategory" type="tns:updateProcessCategory"/>
+<xs:element name="updateProcessCategoryResponse" type="tns:updateProcessCategoryResponse"/>
+<xs:element name="updateProcessResponse" type="tns:updateProcessResponse"/>
+<xs:element name="validateCheck" type="tns:validateCheck"/>
+<xs:element name="validateCheckResponse" type="tns:validateCheckResponse"/>
+<xs:element name="validateInstruction" type="tns:validateInstruction"/>
+<xs:element name="validateInstructionResponse" type="tns:validateInstructionResponse"/>
+<xs:element name="validateProcess" type="tns:validateProcess"/>
+<xs:element name="validateProcessCategory" type="tns:validateProcessCategory"/>
+<xs:element name="validateProcessCategoryResponse" type="tns:validateProcessCategoryResponse"/>
+<xs:element name="validateProcessResponse" type="tns:validateProcessResponse"/>
+<xs:complexType name="validateCheck">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="checkTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="checkInfo" type="tns:CheckInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="CheckInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="holdIssueId" type="xs:string"/>
+<xs:element minOccurs="0" name="milestoneTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="agendaId" type="xs:string"/>
+<xs:element minOccurs="0" name="childProcessKey" type="xs:string"/>
+<xs:element minOccurs="0" name="rightComparisonValue" type="xs:string"/>
+<xs:element minOccurs="0" name="leftComparisonAgendaId" type="xs:string"/>
+<xs:element minOccurs="0" name="rightComparisonAgendaId" type="xs:string"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="RichTextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="plain" type="xs:string"/>
+<xs:element minOccurs="0" name="formatted" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MetaInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="versionInd" type="xs:string"/>
+<xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createId" type="xs:string"/>
+<xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="updateId" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="AttributeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="key" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ContextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="authenticatedPrincipalId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="currentDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="locale" type="tns:LocaleInfo"/>
+<xs:element minOccurs="0" name="timeZone" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LocaleInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="localeLanguage" type="xs:string"/>
+<xs:element minOccurs="0" name="localeVariant" type="xs:string"/>
+<xs:element minOccurs="0" name="localeRegion" type="xs:string"/>
+<xs:element minOccurs="0" name="localeScript" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateCheckResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ValidationResultInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="element" type="xs:string"/>
+<xs:element minOccurs="0" name="level" type="tns:errorLevel"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="reorderInstructions">
+<xs:sequence>
+<xs:element minOccurs="0" name="processKey" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="instructionIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="reorderInstructionsResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="StatusInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="isSuccess" type="xs:boolean"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateInstruction">
+<xs:sequence>
+<xs:element minOccurs="0" name="instructionId" type="xs:string"/>
+<xs:element minOccurs="0" name="instructionInfo" type="tns:InstructionInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="InstructionInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="processKey" type="xs:string"/>
+<xs:element minOccurs="0" name="checkId" type="xs:string"/>
+<xs:element minOccurs="0" name="appliedPopulationId" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="appliedAtpTypeKeys" type="xs:string"/>
+<xs:element minOccurs="0" name="message" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="position" type="xs:int"/>
+<xs:element minOccurs="0" name="isWarning" type="xs:boolean"/>
+<xs:element minOccurs="0" name="continueOnFail" type="xs:boolean"/>
+<xs:element minOccurs="0" name="isExemptible" type="xs:boolean"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="updateInstructionResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:InstructionInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForCheckIds">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForCheckIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addProcessToProcessCategory">
+<xs:sequence>
+<xs:element minOccurs="0" name="processKey" type="xs:string"/>
+<xs:element minOccurs="0" name="processCategoryId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addProcessToProcessCategoryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteProcess">
+<xs:sequence>
+<xs:element minOccurs="0" name="processKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteProcessResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getProcessCategoriesForProcess">
+<xs:sequence>
+<xs:element minOccurs="0" name="processKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getProcessCategoriesForProcessResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ProcessCategoryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ProcessCategoryInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="getCheckIdsByType">
+<xs:sequence>
+<xs:element minOccurs="0" name="checkTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCheckIdsByTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createProcessCategory">
+<xs:sequence>
+<xs:element minOccurs="0" name="processCategoryTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="processCategoryInfo" type="tns:ProcessCategoryInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createProcessCategoryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ProcessCategoryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createProcess">
+<xs:sequence>
+<xs:element minOccurs="0" name="processKey" type="xs:string"/>
+<xs:element minOccurs="0" name="processTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="processInfo" type="tns:ProcessInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ProcessInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="ownerOrgId" type="xs:string"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="createProcessResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ProcessInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateProcess">
+<xs:sequence>
+<xs:element minOccurs="0" name="processKey" type="xs:string"/>
+<xs:element minOccurs="0" name="processInfo" type="tns:ProcessInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateProcessResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ProcessInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getProcessCategory">
+<xs:sequence>
+<xs:element minOccurs="0" name="processCategoryId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getProcessCategoryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ProcessCategoryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForProcessCategoryIds">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForProcessCategoryIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getInstructionsByCheck">
+<xs:sequence>
+<xs:element minOccurs="0" name="checkId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getInstructionsByCheckResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:InstructionInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getInstructionsForEvaluation">
+<xs:sequence>
+<xs:element minOccurs="0" name="processKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getInstructionsForEvaluationResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:InstructionInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateProcessCategory">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="processCategoryTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="processCategoryInfo" type="tns:ProcessCategoryInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateProcessCategoryResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createCheck">
+<xs:sequence>
+<xs:element minOccurs="0" name="checkTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="checkInfo" type="tns:CheckInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createCheckResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:CheckInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateProcess">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="processTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="processInfo" type="tns:ProcessInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateProcessResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForInstructionIds">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForInstructionIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForProcessKeys">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForProcessKeysResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getProcess">
+<xs:sequence>
+<xs:element minOccurs="0" name="processKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getProcessResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ProcessInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getProcessesForProcessCategory">
+<xs:sequence>
+<xs:element minOccurs="0" name="processCategoryId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getProcessesForProcessCategoryResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ProcessInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getInstructionsByProcess">
+<xs:sequence>
+<xs:element minOccurs="0" name="processKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getInstructionsByProcessResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:InstructionInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getInstruction">
+<xs:sequence>
+<xs:element minOccurs="0" name="instructionId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getInstructionResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:InstructionInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="removeProcessFromProcessCategory">
+<xs:sequence>
+<xs:element minOccurs="0" name="processKey" type="xs:string"/>
+<xs:element minOccurs="0" name="processCategoryId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="removeProcessFromProcessCategoryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getProcessKeysByType">
+<xs:sequence>
+<xs:element minOccurs="0" name="processTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getProcessKeysByTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteInstruction">
+<xs:sequence>
+<xs:element minOccurs="0" name="instructionId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteInstructionResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteCheck">
+<xs:sequence>
+<xs:element minOccurs="0" name="checkId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteCheckResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateCheck">
+<xs:sequence>
+<xs:element minOccurs="0" name="checkId" type="xs:string"/>
+<xs:element minOccurs="0" name="checkInfo" type="tns:CheckInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateCheckResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:CheckInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForInstructions">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForInstructionsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:InstructionInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getInstructionIdsByType">
+<xs:sequence>
+<xs:element minOccurs="0" name="instructionTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getInstructionIdsByTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateProcessCategory">
+<xs:sequence>
+<xs:element minOccurs="0" name="processCategoryId" type="xs:string"/>
+<xs:element minOccurs="0" name="processInfo" type="tns:ProcessCategoryInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateProcessCategoryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ProcessCategoryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getProcessCategoryIdsByType">
+<xs:sequence>
+<xs:element minOccurs="0" name="processTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getProcessCategoryIdsByTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForChecks">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForChecksResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:CheckInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForProcess">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForProcessResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ProcessInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getInstructionsByProcessAndCheck">
+<xs:sequence>
+<xs:element minOccurs="0" name="processKey" type="xs:string"/>
+<xs:element minOccurs="0" name="checkId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getInstructionsByProcessAndCheckResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:InstructionInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForProcessCategories">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForProcessCategoriesResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ProcessCategoryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteProcessCategory">
+<xs:sequence>
+<xs:element minOccurs="0" name="processCategoryId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteProcessCategoryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateInstruction">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="processKey" type="xs:string"/>
+<xs:element minOccurs="0" name="checkId" type="xs:string"/>
+<xs:element minOccurs="0" name="instructionTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="instructionInfo" type="tns:InstructionInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateInstructionResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getProcessesByKeys">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="processKeys" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getProcessesByKeysResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ProcessInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getInstructionsByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="instructionIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getInstructionsByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:InstructionInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createInstruction">
+<xs:sequence>
+<xs:element minOccurs="0" name="processKey" type="xs:string"/>
+<xs:element minOccurs="0" name="checkId" type="xs:string"/>
+<xs:element minOccurs="0" name="instructionTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="instructionInfo" type="tns:InstructionInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createInstructionResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:InstructionInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getProcessCategoriesByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="processCategoryIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getProcessCategoriesByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ProcessCategoryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getChecksByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="checkIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getChecksByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:CheckInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCheck">
+<xs:sequence>
+<xs:element minOccurs="0" name="checkId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCheckResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:CheckInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="errorLevel">
+<xs:restriction base="xs:string">
+<xs:enumeration value="OK"/>
+<xs:enumeration value="WARN"/>
+<xs:enumeration value="ERROR"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="MissingParameterException" nillable="true" type="ns0:MissingParameterException"/>
+<xs:element name="PermissionDeniedException" nillable="true" type="ns0:PermissionDeniedException"/>
+<xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
+<xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
+<xs:element name="InvalidParameterException" nillable="true" type="ns0:InvalidParameterException"/>
+<xs:element name="DataValidationErrorException" nillable="true" type="ns0:DataValidationErrorException"/>
+<xs:element name="VersionMismatchException" nillable="true" type="ns0:VersionMismatchException"/>
+<xs:element name="ReadOnlyException" nillable="true" type="ns0:ReadOnlyException"/>
+<xs:element name="AlreadyExistsException" nillable="true" type="ns0:AlreadyExistsException"/>
+<xs:element name="DependentObjectsExistException" nillable="true" type="ns0:DependentObjectsExistException"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://rice.kuali.org/core/v2_0" elementFormDefault="qualified" targetNamespace="http://rice.kuali.org/core/v2_0" version="1.0">
+<xs:element name="and" type="tns:AndType"/>
+<xs:element name="dateTimeValue" type="tns:CriteriaDateTimeValueType"/>
+<xs:element name="decimalValue" type="tns:CriteriaDecimalValueType"/>
+<xs:element name="equal" type="tns:EqualType"/>
+<xs:element name="greaterThan" type="tns:GreaterThanType"/>
+<xs:element name="greaterThanOrEqual" type="tns:GreaterThanOrEqualType"/>
+<xs:element name="in" type="tns:InType"/>
+<xs:element name="integerValue" type="tns:CriteriaIntegerValueType"/>
+<xs:element name="lessThan" type="tns:LessThanType"/>
+<xs:element name="lessThanOrEqual" type="tns:LessThanOrEqualType"/>
+<xs:element name="like" type="tns:LikeType"/>
+<xs:element name="notEqual" type="tns:NotEqualType"/>
+<xs:element name="notIn" type="tns:NotInType"/>
+<xs:element name="notLike" type="tns:NotLikeType"/>
+<xs:element name="notNull" type="tns:NotNullType"/>
+<xs:element name="null" type="tns:NullType"/>
+<xs:element name="or" type="tns:OrType"/>
+<xs:element name="queryByCriteria" type="tns:QueryByCriteriaType"/>
+<xs:element name="stringValue" type="tns:CriteriaStringValueType"/>
+<xs:complexType final="extension restriction" name="QueryByCriteriaType">
+<xs:sequence>
+<xs:choice minOccurs="0">
+<xs:element ref="tns:and"/>
+<xs:element ref="tns:equal"/>
+<xs:element ref="tns:greaterThan"/>
+<xs:element ref="tns:greaterThanOrEqual"/>
+<xs:element ref="tns:in"/>
+<xs:element ref="tns:lessThan"/>
+<xs:element ref="tns:lessThanOrEqual"/>
+<xs:element ref="tns:like"/>
+<xs:element ref="tns:notEqual"/>
+<xs:element ref="tns:notIn"/>
+<xs:element ref="tns:notLike"/>
+<xs:element ref="tns:notNull"/>
+<xs:element ref="tns:null"/>
+<xs:element ref="tns:or"/>
+</xs:choice>
+<xs:element minOccurs="0" name="startAtIndex" type="xs:int"/>
+<xs:element minOccurs="0" name="maxResults" type="xs:int"/>
+<xs:element name="countFlag" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="AndType">
+<xs:complexContent>
+<xs:extension base="tns:CompositePredicateType">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="CompositePredicateType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:and"/>
+<xs:element ref="tns:equal"/>
+<xs:element ref="tns:greaterThan"/>
+<xs:element ref="tns:greaterThanOrEqual"/>
+<xs:element ref="tns:in"/>
+<xs:element ref="tns:lessThan"/>
+<xs:element ref="tns:lessThanOrEqual"/>
+<xs:element ref="tns:like"/>
+<xs:element ref="tns:notEqual"/>
+<xs:element ref="tns:notIn"/>
+<xs:element ref="tns:notLike"/>
+<xs:element ref="tns:notNull"/>
+<xs:element ref="tns:null"/>
+<xs:element ref="tns:or"/>
+</xs:choice>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="abstractPredicate">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="EqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:simpleType name="CriteriaStringValueType">
+<xs:restriction base="xs:string"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaDateTimeValueType">
+<xs:restriction base="xs:dateTime"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaDecimalValueType">
+<xs:restriction base="xs:decimal"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaIntegerValueType">
+<xs:restriction base="xs:integer"/>
+</xs:simpleType>
+<xs:complexType final="extension restriction" name="GreaterThanType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="GreaterThanOrEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="InType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:decimalValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LessThanType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LessThanOrEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LikeType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:element ref="tns:stringValue"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotInType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:decimalValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotLikeType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:element ref="tns:stringValue"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotNullType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NullType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="OrType">
+<xs:complexContent>
+<xs:extension base="tns:CompositePredicateType">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://exceptions.common.r2.student.kuali.org/" targetNamespace="http://exceptions.common.r2.student.kuali.org/" version="1.0">
+<xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+<xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+<xs:element name="DependentObjectsExistException" type="tns:DependentObjectsExistException"/>
+<xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+<xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+<xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+<xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+<xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+<xs:element name="ReadOnlyException" type="tns:ReadOnlyException"/>
+<xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+<xs:complexType name="MissingParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="PermissionDeniedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DoesNotExistException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="OperationFailedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="InvalidParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DataValidationErrorException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" nillable="true" type="xs:anyType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="VersionMismatchException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ReadOnlyException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AlreadyExistsException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DependentObjectsExistException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="deleteCheck">
+    <wsdl:part name="parameters" element="tns:deleteCheck">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProcessCategory">
+    <wsdl:part name="parameters" element="tns:getProcessCategory">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProcessesForProcessCategory">
+    <wsdl:part name="parameters" element="tns:getProcessesForProcessCategory">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForChecks">
+    <wsdl:part name="parameters" element="tns:searchForChecks">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createProcessResponse">
+    <wsdl:part name="parameters" element="tns:createProcessResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateProcessResponse">
+    <wsdl:part name="parameters" element="tns:validateProcessResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateProcess">
+    <wsdl:part name="parameters" element="tns:validateProcess">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateInstruction">
+    <wsdl:part name="parameters" element="tns:updateInstruction">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createCheckResponse">
+    <wsdl:part name="parameters" element="tns:createCheckResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForCheckIdsResponse">
+    <wsdl:part name="parameters" element="tns:searchForCheckIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteProcessCategoryResponse">
+    <wsdl:part name="parameters" element="tns:deleteProcessCategoryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCheckIdsByType">
+    <wsdl:part name="parameters" element="tns:getCheckIdsByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateProcessCategory">
+    <wsdl:part name="parameters" element="tns:updateProcessCategory">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="VersionMismatchException">
+    <wsdl:part name="VersionMismatchException" element="tns:VersionMismatchException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AlreadyExistsException">
+    <wsdl:part name="AlreadyExistsException" element="tns:AlreadyExistsException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createProcess">
+    <wsdl:part name="parameters" element="tns:createProcess">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInstructionsByProcess">
+    <wsdl:part name="parameters" element="tns:getInstructionsByProcess">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteCheckResponse">
+    <wsdl:part name="parameters" element="tns:deleteCheckResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInstructionsByCheckResponse">
+    <wsdl:part name="parameters" element="tns:getInstructionsByCheckResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInstructionsForEvaluationResponse">
+    <wsdl:part name="parameters" element="tns:getInstructionsForEvaluationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInstructionsByProcessResponse">
+    <wsdl:part name="parameters" element="tns:getInstructionsByProcessResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="reorderInstructionsResponse">
+    <wsdl:part name="parameters" element="tns:reorderInstructionsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addProcessToProcessCategory">
+    <wsdl:part name="parameters" element="tns:addProcessToProcessCategory">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProcessCategoriesByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getProcessCategoriesByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProcess">
+    <wsdl:part name="parameters" element="tns:getProcess">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCheckResponse">
+    <wsdl:part name="parameters" element="tns:getCheckResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProcessesByKeys">
+    <wsdl:part name="parameters" element="tns:getProcessesByKeys">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInstructionsByIds">
+    <wsdl:part name="parameters" element="tns:getInstructionsByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForProcessResponse">
+    <wsdl:part name="parameters" element="tns:searchForProcessResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProcessCategoriesForProcessResponse">
+    <wsdl:part name="parameters" element="tns:getProcessCategoriesForProcessResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteInstruction">
+    <wsdl:part name="parameters" element="tns:deleteInstruction">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProcessCategoryIdsByType">
+    <wsdl:part name="parameters" element="tns:getProcessCategoryIdsByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForInstructionsResponse">
+    <wsdl:part name="parameters" element="tns:searchForInstructionsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInstructionIdsByType">
+    <wsdl:part name="parameters" element="tns:getInstructionIdsByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteProcessCategory">
+    <wsdl:part name="parameters" element="tns:deleteProcessCategory">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addProcessToProcessCategoryResponse">
+    <wsdl:part name="parameters" element="tns:addProcessToProcessCategoryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInstruction">
+    <wsdl:part name="parameters" element="tns:getInstruction">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateCheckResponse">
+    <wsdl:part name="parameters" element="tns:validateCheckResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForProcess">
+    <wsdl:part name="parameters" element="tns:searchForProcess">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCheck">
+    <wsdl:part name="parameters" element="tns:getCheck">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForInstructions">
+    <wsdl:part name="parameters" element="tns:searchForInstructions">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createProcessCategoryResponse">
+    <wsdl:part name="parameters" element="tns:createProcessCategoryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInstructionsByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getInstructionsByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateProcessResponse">
+    <wsdl:part name="parameters" element="tns:updateProcessResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInstructionIdsByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getInstructionIdsByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createInstruction">
+    <wsdl:part name="parameters" element="tns:createInstruction">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateProcessCategoryResponse">
+    <wsdl:part name="parameters" element="tns:validateProcessCategoryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="reorderInstructions">
+    <wsdl:part name="parameters" element="tns:reorderInstructions">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateProcessCategoryResponse">
+    <wsdl:part name="parameters" element="tns:updateProcessCategoryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProcessCategoryResponse">
+    <wsdl:part name="parameters" element="tns:getProcessCategoryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteProcess">
+    <wsdl:part name="parameters" element="tns:deleteProcess">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForProcessCategories">
+    <wsdl:part name="parameters" element="tns:searchForProcessCategories">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInstructionsByProcessAndCheckResponse">
+    <wsdl:part name="parameters" element="tns:getInstructionsByProcessAndCheckResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForProcessCategoriesResponse">
+    <wsdl:part name="parameters" element="tns:searchForProcessCategoriesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForInstructionIds">
+    <wsdl:part name="parameters" element="tns:searchForInstructionIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProcessesForProcessCategoryResponse">
+    <wsdl:part name="parameters" element="tns:getProcessesForProcessCategoryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getChecksByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getChecksByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCheckIdsByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getCheckIdsByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForProcessKeys">
+    <wsdl:part name="parameters" element="tns:searchForProcessKeys">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProcessCategoryIdsByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getProcessCategoryIdsByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProcessCategoriesByIds">
+    <wsdl:part name="parameters" element="tns:getProcessCategoriesByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateCheck">
+    <wsdl:part name="parameters" element="tns:validateCheck">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProcessKeysByType">
+    <wsdl:part name="parameters" element="tns:getProcessKeysByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ReadOnlyException">
+    <wsdl:part name="ReadOnlyException" element="tns:ReadOnlyException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProcessKeysByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getProcessKeysByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInstructionsForEvaluation">
+    <wsdl:part name="parameters" element="tns:getInstructionsForEvaluation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateInstructionResponse">
+    <wsdl:part name="parameters" element="tns:updateInstructionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DependentObjectsExistException">
+    <wsdl:part name="DependentObjectsExistException" element="tns:DependentObjectsExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateInstruction">
+    <wsdl:part name="parameters" element="tns:validateInstruction">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PermissionDeniedException">
+    <wsdl:part name="PermissionDeniedException" element="tns:PermissionDeniedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProcessesByKeysResponse">
+    <wsdl:part name="parameters" element="tns:getProcessesByKeysResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createCheck">
+    <wsdl:part name="parameters" element="tns:createCheck">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInstructionsByProcessAndCheck">
+    <wsdl:part name="parameters" element="tns:getInstructionsByProcessAndCheck">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCheckResponse">
+    <wsdl:part name="parameters" element="tns:updateCheckResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCheck">
+    <wsdl:part name="parameters" element="tns:updateCheck">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DataValidationErrorException">
+    <wsdl:part name="DataValidationErrorException" element="tns:DataValidationErrorException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForProcessKeysResponse">
+    <wsdl:part name="parameters" element="tns:searchForProcessKeysResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateProcessCategory">
+    <wsdl:part name="parameters" element="tns:validateProcessCategory">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForCheckIds">
+    <wsdl:part name="parameters" element="tns:searchForCheckIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateInstructionResponse">
+    <wsdl:part name="parameters" element="tns:validateInstructionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInstructionsByCheck">
+    <wsdl:part name="parameters" element="tns:getInstructionsByCheck">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createInstructionResponse">
+    <wsdl:part name="parameters" element="tns:createInstructionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForChecksResponse">
+    <wsdl:part name="parameters" element="tns:searchForChecksResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForInstructionIdsResponse">
+    <wsdl:part name="parameters" element="tns:searchForInstructionIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProcessResponse">
+    <wsdl:part name="parameters" element="tns:getProcessResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteInstructionResponse">
+    <wsdl:part name="parameters" element="tns:deleteInstructionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeProcessFromProcessCategory">
+    <wsdl:part name="parameters" element="tns:removeProcessFromProcessCategory">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createProcessCategory">
+    <wsdl:part name="parameters" element="tns:createProcessCategory">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProcessCategoriesForProcess">
+    <wsdl:part name="parameters" element="tns:getProcessCategoriesForProcess">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInstructionResponse">
+    <wsdl:part name="parameters" element="tns:getInstructionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateProcess">
+    <wsdl:part name="parameters" element="tns:updateProcess">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteProcessResponse">
+    <wsdl:part name="parameters" element="tns:deleteProcessResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getChecksByIds">
+    <wsdl:part name="parameters" element="tns:getChecksByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForProcessCategoryIdsResponse">
+    <wsdl:part name="parameters" element="tns:searchForProcessCategoryIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeProcessFromProcessCategoryResponse">
+    <wsdl:part name="parameters" element="tns:removeProcessFromProcessCategoryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForProcessCategoryIds">
+    <wsdl:part name="parameters" element="tns:searchForProcessCategoryIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ProcessService">
+    <wsdl:operation name="validateCheck">
+      <wsdl:input name="validateCheck" message="tns:validateCheck">
+    </wsdl:input>
+      <wsdl:output name="validateCheckResponse" message="tns:validateCheckResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="reorderInstructions">
+      <wsdl:input name="reorderInstructions" message="tns:reorderInstructions">
+    </wsdl:input>
+      <wsdl:output name="reorderInstructionsResponse" message="tns:reorderInstructionsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateInstruction">
+      <wsdl:input name="updateInstruction" message="tns:updateInstruction">
+    </wsdl:input>
+      <wsdl:output name="updateInstructionResponse" message="tns:updateInstructionResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForCheckIds">
+      <wsdl:input name="searchForCheckIds" message="tns:searchForCheckIds">
+    </wsdl:input>
+      <wsdl:output name="searchForCheckIdsResponse" message="tns:searchForCheckIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addProcessToProcessCategory">
+      <wsdl:input name="addProcessToProcessCategory" message="tns:addProcessToProcessCategory">
+    </wsdl:input>
+      <wsdl:output name="addProcessToProcessCategoryResponse" message="tns:addProcessToProcessCategoryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteProcess">
+      <wsdl:input name="deleteProcess" message="tns:deleteProcess">
+    </wsdl:input>
+      <wsdl:output name="deleteProcessResponse" message="tns:deleteProcessResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DependentObjectsExistException" message="tns:DependentObjectsExistException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProcessCategoriesForProcess">
+      <wsdl:input name="getProcessCategoriesForProcess" message="tns:getProcessCategoriesForProcess">
+    </wsdl:input>
+      <wsdl:output name="getProcessCategoriesForProcessResponse" message="tns:getProcessCategoriesForProcessResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCheckIdsByType">
+      <wsdl:input name="getCheckIdsByType" message="tns:getCheckIdsByType">
+    </wsdl:input>
+      <wsdl:output name="getCheckIdsByTypeResponse" message="tns:getCheckIdsByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createProcessCategory">
+      <wsdl:input name="createProcessCategory" message="tns:createProcessCategory">
+    </wsdl:input>
+      <wsdl:output name="createProcessCategoryResponse" message="tns:createProcessCategoryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createProcess">
+      <wsdl:input name="createProcess" message="tns:createProcess">
+    </wsdl:input>
+      <wsdl:output name="createProcessResponse" message="tns:createProcessResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateProcess">
+      <wsdl:input name="updateProcess" message="tns:updateProcess">
+    </wsdl:input>
+      <wsdl:output name="updateProcessResponse" message="tns:updateProcessResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProcessCategory">
+      <wsdl:input name="getProcessCategory" message="tns:getProcessCategory">
+    </wsdl:input>
+      <wsdl:output name="getProcessCategoryResponse" message="tns:getProcessCategoryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForProcessCategoryIds">
+      <wsdl:input name="searchForProcessCategoryIds" message="tns:searchForProcessCategoryIds">
+    </wsdl:input>
+      <wsdl:output name="searchForProcessCategoryIdsResponse" message="tns:searchForProcessCategoryIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getInstructionsByCheck">
+      <wsdl:input name="getInstructionsByCheck" message="tns:getInstructionsByCheck">
+    </wsdl:input>
+      <wsdl:output name="getInstructionsByCheckResponse" message="tns:getInstructionsByCheckResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getInstructionsForEvaluation">
+      <wsdl:input name="getInstructionsForEvaluation" message="tns:getInstructionsForEvaluation">
+    </wsdl:input>
+      <wsdl:output name="getInstructionsForEvaluationResponse" message="tns:getInstructionsForEvaluationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateProcessCategory">
+      <wsdl:input name="validateProcessCategory" message="tns:validateProcessCategory">
+    </wsdl:input>
+      <wsdl:output name="validateProcessCategoryResponse" message="tns:validateProcessCategoryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createCheck">
+      <wsdl:input name="createCheck" message="tns:createCheck">
+    </wsdl:input>
+      <wsdl:output name="createCheckResponse" message="tns:createCheckResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateProcess">
+      <wsdl:input name="validateProcess" message="tns:validateProcess">
+    </wsdl:input>
+      <wsdl:output name="validateProcessResponse" message="tns:validateProcessResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForInstructionIds">
+      <wsdl:input name="searchForInstructionIds" message="tns:searchForInstructionIds">
+    </wsdl:input>
+      <wsdl:output name="searchForInstructionIdsResponse" message="tns:searchForInstructionIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForProcessKeys">
+      <wsdl:input name="searchForProcessKeys" message="tns:searchForProcessKeys">
+    </wsdl:input>
+      <wsdl:output name="searchForProcessKeysResponse" message="tns:searchForProcessKeysResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProcess">
+      <wsdl:input name="getProcess" message="tns:getProcess">
+    </wsdl:input>
+      <wsdl:output name="getProcessResponse" message="tns:getProcessResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProcessesForProcessCategory">
+      <wsdl:input name="getProcessesForProcessCategory" message="tns:getProcessesForProcessCategory">
+    </wsdl:input>
+      <wsdl:output name="getProcessesForProcessCategoryResponse" message="tns:getProcessesForProcessCategoryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getInstructionsByProcess">
+      <wsdl:input name="getInstructionsByProcess" message="tns:getInstructionsByProcess">
+    </wsdl:input>
+      <wsdl:output name="getInstructionsByProcessResponse" message="tns:getInstructionsByProcessResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getInstruction">
+      <wsdl:input name="getInstruction" message="tns:getInstruction">
+    </wsdl:input>
+      <wsdl:output name="getInstructionResponse" message="tns:getInstructionResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeProcessFromProcessCategory">
+      <wsdl:input name="removeProcessFromProcessCategory" message="tns:removeProcessFromProcessCategory">
+    </wsdl:input>
+      <wsdl:output name="removeProcessFromProcessCategoryResponse" message="tns:removeProcessFromProcessCategoryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProcessKeysByType">
+      <wsdl:input name="getProcessKeysByType" message="tns:getProcessKeysByType">
+    </wsdl:input>
+      <wsdl:output name="getProcessKeysByTypeResponse" message="tns:getProcessKeysByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteInstruction">
+      <wsdl:input name="deleteInstruction" message="tns:deleteInstruction">
+    </wsdl:input>
+      <wsdl:output name="deleteInstructionResponse" message="tns:deleteInstructionResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteCheck">
+      <wsdl:input name="deleteCheck" message="tns:deleteCheck">
+    </wsdl:input>
+      <wsdl:output name="deleteCheckResponse" message="tns:deleteCheckResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DependentObjectsExistException" message="tns:DependentObjectsExistException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateCheck">
+      <wsdl:input name="updateCheck" message="tns:updateCheck">
+    </wsdl:input>
+      <wsdl:output name="updateCheckResponse" message="tns:updateCheckResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForInstructions">
+      <wsdl:input name="searchForInstructions" message="tns:searchForInstructions">
+    </wsdl:input>
+      <wsdl:output name="searchForInstructionsResponse" message="tns:searchForInstructionsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getInstructionIdsByType">
+      <wsdl:input name="getInstructionIdsByType" message="tns:getInstructionIdsByType">
+    </wsdl:input>
+      <wsdl:output name="getInstructionIdsByTypeResponse" message="tns:getInstructionIdsByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateProcessCategory">
+      <wsdl:input name="updateProcessCategory" message="tns:updateProcessCategory">
+    </wsdl:input>
+      <wsdl:output name="updateProcessCategoryResponse" message="tns:updateProcessCategoryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProcessCategoryIdsByType">
+      <wsdl:input name="getProcessCategoryIdsByType" message="tns:getProcessCategoryIdsByType">
+    </wsdl:input>
+      <wsdl:output name="getProcessCategoryIdsByTypeResponse" message="tns:getProcessCategoryIdsByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForChecks">
+      <wsdl:input name="searchForChecks" message="tns:searchForChecks">
+    </wsdl:input>
+      <wsdl:output name="searchForChecksResponse" message="tns:searchForChecksResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForProcess">
+      <wsdl:input name="searchForProcess" message="tns:searchForProcess">
+    </wsdl:input>
+      <wsdl:output name="searchForProcessResponse" message="tns:searchForProcessResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getInstructionsByProcessAndCheck">
+      <wsdl:input name="getInstructionsByProcessAndCheck" message="tns:getInstructionsByProcessAndCheck">
+    </wsdl:input>
+      <wsdl:output name="getInstructionsByProcessAndCheckResponse" message="tns:getInstructionsByProcessAndCheckResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForProcessCategories">
+      <wsdl:input name="searchForProcessCategories" message="tns:searchForProcessCategories">
+    </wsdl:input>
+      <wsdl:output name="searchForProcessCategoriesResponse" message="tns:searchForProcessCategoriesResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteProcessCategory">
+      <wsdl:input name="deleteProcessCategory" message="tns:deleteProcessCategory">
+    </wsdl:input>
+      <wsdl:output name="deleteProcessCategoryResponse" message="tns:deleteProcessCategoryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DependentObjectsExistException" message="tns:DependentObjectsExistException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateInstruction">
+      <wsdl:input name="validateInstruction" message="tns:validateInstruction">
+    </wsdl:input>
+      <wsdl:output name="validateInstructionResponse" message="tns:validateInstructionResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProcessesByKeys">
+      <wsdl:input name="getProcessesByKeys" message="tns:getProcessesByKeys">
+    </wsdl:input>
+      <wsdl:output name="getProcessesByKeysResponse" message="tns:getProcessesByKeysResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getInstructionsByIds">
+      <wsdl:input name="getInstructionsByIds" message="tns:getInstructionsByIds">
+    </wsdl:input>
+      <wsdl:output name="getInstructionsByIdsResponse" message="tns:getInstructionsByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createInstruction">
+      <wsdl:input name="createInstruction" message="tns:createInstruction">
+    </wsdl:input>
+      <wsdl:output name="createInstructionResponse" message="tns:createInstructionResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProcessCategoriesByIds">
+      <wsdl:input name="getProcessCategoriesByIds" message="tns:getProcessCategoriesByIds">
+    </wsdl:input>
+      <wsdl:output name="getProcessCategoriesByIdsResponse" message="tns:getProcessCategoriesByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getChecksByIds">
+      <wsdl:input name="getChecksByIds" message="tns:getChecksByIds">
+    </wsdl:input>
+      <wsdl:output name="getChecksByIdsResponse" message="tns:getChecksByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCheck">
+      <wsdl:input name="getCheck" message="tns:getCheck">
+    </wsdl:input>
+      <wsdl:output name="getCheckResponse" message="tns:getCheckResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ProcessServiceSoapBinding" type="tns:ProcessService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="reorderInstructions">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="reorderInstructions">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="reorderInstructionsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateCheck">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateCheck">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateCheckResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateInstruction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateInstruction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateInstructionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForCheckIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForCheckIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForCheckIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addProcessToProcessCategory">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addProcessToProcessCategory">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addProcessToProcessCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteProcess">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteProcess">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteProcessResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DependentObjectsExistException">
+        <soap:fault name="DependentObjectsExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProcessCategoriesForProcess">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProcessCategoriesForProcess">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProcessCategoriesForProcessResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createProcessCategory">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createProcessCategory">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createProcessCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCheckIdsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCheckIdsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCheckIdsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createProcess">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createProcess">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createProcessResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateProcess">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateProcess">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateProcessResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProcessCategory">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProcessCategory">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProcessCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getInstructionsByCheck">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getInstructionsByCheck">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getInstructionsByCheckResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForProcessCategoryIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForProcessCategoryIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForProcessCategoryIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getInstructionsForEvaluation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getInstructionsForEvaluation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getInstructionsForEvaluationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateProcessCategory">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateProcessCategory">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateProcessCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createCheck">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createCheck">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createCheckResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateProcess">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateProcess">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateProcessResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForInstructionIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForInstructionIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForInstructionIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForProcessKeys">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForProcessKeys">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForProcessKeysResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProcessesForProcessCategory">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProcessesForProcessCategory">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProcessesForProcessCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProcess">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProcess">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProcessResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getInstructionsByProcess">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getInstructionsByProcess">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getInstructionsByProcessResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getInstruction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getInstruction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getInstructionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteInstruction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteInstruction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteInstructionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProcessKeysByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProcessKeysByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProcessKeysByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeProcessFromProcessCategory">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeProcessFromProcessCategory">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeProcessFromProcessCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteCheck">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteCheck">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteCheckResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DependentObjectsExistException">
+        <soap:fault name="DependentObjectsExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForInstructions">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForInstructions">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForInstructionsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateCheck">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateCheck">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateCheckResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getInstructionIdsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getInstructionIdsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getInstructionIdsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProcessCategoryIdsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProcessCategoryIdsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProcessCategoryIdsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateProcessCategory">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateProcessCategory">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateProcessCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForChecks">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForChecks">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForChecksResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForProcess">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForProcess">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForProcessResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getInstructionsByProcessAndCheck">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getInstructionsByProcessAndCheck">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getInstructionsByProcessAndCheckResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteProcessCategory">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteProcessCategory">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteProcessCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DependentObjectsExistException">
+        <soap:fault name="DependentObjectsExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForProcessCategories">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForProcessCategories">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForProcessCategoriesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateInstruction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateInstruction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateInstructionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getInstructionsByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getInstructionsByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getInstructionsByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProcessesByKeys">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProcessesByKeys">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProcessesByKeysResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createInstruction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createInstruction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createInstructionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCheck">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCheck">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCheckResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getChecksByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getChecksByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getChecksByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProcessCategoriesByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProcessCategoriesByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProcessCategoriesByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ProcessService">
+    <wsdl:port name="ProcessService" binding="tns:ProcessServiceSoapBinding">
+      <soap:address location="http://localhost:9090/ProcessService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

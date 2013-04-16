@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="RuleMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.RuleEditor"/>
+        <property name="maintainableClass"
+                  value="org.kuali.student.enrollment.class1.krms.service.impl.RuleEditorMaintainableImpl"/>
+        <property name="documentTypeName" value="RuleMaintenanceDocument"/>
+        <property name="lockingKeys">
+            <list>
+                <value>rule.id</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RuleStudentTreeWidget" parent="Uif-Tree">
+        <property name="template" value="/krad/WEB-INF/ftl/components/widget/ruleTree.ftl"/>
+        <property name="templateName" value="uif_ruleTree"/>
+    </bean>
+
+
+    <bean id="RuleBo-Student-MaintenanceView" parent="Uif-MaintenanceView">
+        <property name="headerText" value="Rule Editor"/>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>krms/scripts/agendaTree.js</value>
+                <value>krms/scripts/ruleStudentTree.js</value>
+                <value>krms/scripts/requiredAlerts.js</value>
+                <value>krms/scripts/disableButtons.js</value>
+                <value>krms/scripts/countdownInputs.js</value>
+            </list>
+        </property>
+        <property name="viewName" value="StudentView"/>
+        <property name="theme">
+            <bean parent="Uif-KradTheme"/>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.RuleEditor"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.enrollment.class1.krms.service.impl.RuleStudentViewHelperServiceImpl"/>
+        <property name="items">
+            <list merge="false">
+                <bean parent="ruleStudentEditorBody"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ruleStudentEditorBody" parent="ruleStudentEditorBody-parent">
+        <property name="componentModifiers">
+            <list>
+            </list>
+        </property>
+        <property name="layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout"/>
+        </property>
+    </bean>
+
+    <bean id="ruleStudentEditorBody-parent" parent="Uif-GridSection" p:renderHeader="false">
+        <property name="headerText" value="Rule Editor"/>
+        <property name="layoutManager">
+            <bean parent="Uif-GridLayoutBase" p:numberOfColumns="3"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="ruleInfoStudentSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ruleInfoStudentSection" parent="ruleInfoStudentSection-parent"/>
+    <bean id="ruleInfoStudentSection-parent" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Rule"/>
+        <property name="renderHeader" value="true"/>
+        <property name="disclosure.render" value="true"/>
+        <property name="disclosure.defaultOpen" value="true"/>
+        <property name="items">
+            <list>
+                <bean id="propositionSection" parent="propositionStudentSection-parent"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="ruleCustomAttributes" parent="Uif-GridSection" p:colSpan="2" p:layoutManager.numberOfColumns="2"
+          p:refreshWhenChangedPropertyNames="document.newMaintainableObject.dataObject.rule.typeId"
+          p:style="padding: 0px; border-style: hidden;">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="rule.typeId" p:label="Type" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.rice.krms.impl.repository.RuleTypeValuesFinder"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-RemotableFieldsPlaceholderConfig" p:propertyName="customRuleAttributesMap"
+                      p:fetchingMethodToCall="retrieveRuleCustomAttributes"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="propositionStudentSection-parent" parent="Uif-VerticalBoxGroup"
+          p:style="border: 1px solid #999999; padding: 5px; margin: 5px; background: white; margin-top:null ">
+        <property name="headerText" value="Proposition Tree"/>
+
+        <property name="items">
+            <list>
+
+                <bean parent="Uif-GridGroup" p:style="margin-bottom: 5pt; margin-top:null 0em;">
+                    <property name="items">
+                        <list>
+                            <bean parent="RuleStudentEditorView-RuleTreeEditControls"/>
+                        </list>
+                    </property>
+                </bean>
+                <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
+                <!-- also, the bogus refreshWhenChanged is important because it puts a RuleEditorView-TreeGroup_refreshWrapper around the group that
+                    is needed for the javascript hack that is refreshing -->
+                <bean id="RuleStudentEditorView-TreeGroup" parent="Uif-VerticalBoxGroup"
+                      p:style="margin-bottom: 5pt; margin-top: 0em;" p:refreshWhenChangedPropertyNames="this.is.a.hack">
+                    <property name="layoutManager.orientation" value="VERTICAL"/>
+                    <property name="items">
+                        <list>
+                            <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
+                            <bean id="RuleStudentEditorView-PropositionSummary"
+                                  parent="RuleStudentEditorView-PropositionSummary-parent"
+                                  p:forceSessionPersistence="true"/>
+                            <bean parent="RuleStudentEditorView-TreeExpandCollapse"/>
+                            <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
+                            <bean id="RuleStudentEditorView-Tree" parent="RuleStudentEditorView-Tree-parent"
+                                  p:forceSessionPersistence="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RuleStudentEditorView-PropositionSummary-parent" parent="Uif-HorizontalBoxGroup" p:renderHeader="false">
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="@{#dp.propositionSummary}"/>
+            </list>
+        </property>
+
+    </bean>
+
+
+    <bean id="RuleStudentEditorView-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup" p:showLabel="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-ActionLink" p:actionScript="jq('.jstree').jstree('open_all');"
+                      p:actionLabel="[+] expand all" p:style="margin-left: 2em;">
+                    <property name="actionImage">
+                        <null/>
+                    </property>
+                </bean>
+                <bean parent="Uif-ActionLink" p:actionScript="jq('.jstree').jstree('close_all');"
+                      p:actionLabel="[-] collapse all" p:style="margin-right: 15pt;">
+                    <property name="actionImage">
+                        <null/>
+                    </property>
+                </bean>
+                <bean id="proposition_selected" parent="Uif-InputField" p:propertyName="selectedPropositionId"
+                      p:showLabel="false">
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl"/>
+                    </property>
+                </bean>
+                <bean id="proposition_cut" parent="Uif-InputField" p:propertyName="cutPropositionId"
+                      p:showLabel="false">
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RuleEditorView-Button" parent="Uif-SecondaryActionButton" p:actionImagePlacement="LEFT"
+          abstract="true" >
+        <property name="cssClasses">
+            <list merge="true">
+                <value>tree-bar-button</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RuleStudentEditorView-RuleTreeEditControls" parent="Uif-VerticalBoxSection"
+          p:cssClasses="krms-rulesButtonBar">
+
+        <property name="renderHeader" value="true"/>
+        <property name="headerText" value="Prerequisite Rule"/>
+        <property name="layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout" p:style="padding: 5px;"/>
+        </property>
+
+        <property name="items">
+            <list>
+                <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('add');
+          if (enabled) {
+              ajaxCallPropositionTree('addProposition', 'RuleStudentEditorView-Tree');
+          }
+          "
+                      p:actionLabel="Add Proposition">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>kr-add-button</value>
+                        </list>
+                    </property>
+                    <property name="actionImage">
+                        <bean parent="Uif-Image"
+                              p:source="@{#ConfigProperties['application.url']}/krms/images/node-insert-next.png"
+                              p:altText="Add Proposition"/>
+                    </property>
+                </bean>
+
+                <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('addparent');
+          if (enabled) {
+              ajaxCallPropositionTree('goToEditProposition', 'RuleStudentEditorView-TreeGroup');
+          }
+          "
+                      p:actionLabel="Add Parent">
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:source="../krms/images/node-parent-and-child.png"
+                              p:altText="Add Parent"/>
+                    </property>
+                </bean>
+
+                <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('edit');
+          if (enabled) {
+              ajaxCallPropositionTree('goToEditProposition', 'RuleStudentEditorView-TreeGroup');
+          }
+          "
+                      p:actionLabel="Edit Proposition">
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/edit.png"
+                              p:altText="Edit Proposition"/>
+                    </property>
+                </bean>
+
+                <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('left');
+          if (enabled) {
+              ajaxCallPropositionTree('movePropositionLeft', 'RuleStudentEditorView-TreeGroup');
+          }
+          "
+                      p:actionLabel="Left">
+                    <property name="actionImage">
+                        <bean parent="Uif-Image"
+                              p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-left.png"
+                              p:altText="Left"/>
+                    </property>
+                </bean>
+                <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('right');
+          if (enabled) {
+              ajaxCallPropositionTree('movePropositionRight', 'RuleStudentEditorView-TreeGroup');
+          }
+          "
+                      p:actionLabel="Right">
+                    <property name="actionImage">
+                        <bean parent="Uif-Image"
+                              p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
+                              p:altText="Right"/>
+                    </property>
+                </bean>
+                <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('up');
+          if (enabled) {
+              ajaxCallPropositionTree('movePropositionUp', 'RuleStudentEditorView-TreeGroup');
+          }
+          "
+                      p:actionLabel="Up">
+                    <property name="actionImage">
+                        <bean parent="Uif-Image"
+                              p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-up.png"
+                              p:altText="Up"/>
+                    </property>
+                </bean>
+                <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('down');
+          if (enabled) {
+              ajaxCallPropositionTree('movePropositionDown', 'RuleStudentEditorView-TreeGroup');
+          }
+          "
+                      p:actionLabel="Down">
+                    <property name="actionImage">
+                        <bean parent="Uif-Image"
+                              p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-down.png"
+                              p:altText="Down"/>
+                    </property>
+                </bean>
+
+                <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('cut');
+          if (enabled) {
+              ajaxCutPropositionTree('cutProposition', 'RuleStudentEditorView-Tree');
+          }
+          "
+                      p:actionLabel="Cut" p:style="margin-left: 15pt;"> <!-- Horiz whitespace -->
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>tree-bar-button</value>
+                            <value>kr-cut-button</value>
+                        </list>
+                    </property>
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/cut.png"
+                              p:altText="Cut"/>
+                    </property>
+                </bean>
+                <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('paste');
+          if (enabled) {
+              ajaxCallPropositionTree('pasteProposition', 'RuleStudentEditorView-TreeGroup');
+          }
+          "
+                      p:actionLabel="Paste">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>tree-bar-button</value>
+                            <value>kr-paste-button</value>
+                        </list>
+                    </property>
+                    <property name="actionImage">
+                        <bean parent="Uif-Image"
+                              p:source="@{#ConfigProperties['application.url']}/krms/images/paste.png"
+                              p:altText="Paste"/>
+                    </property>
+                </bean>
+                <bean parent="RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('delete');
+          if (enabled) {
+              ajaxCallPropositionTree('deleteProposition', 'RuleStudentEditorView-TreeGroup');
+          }
+          "
+                      p:actionLabel="Delete" p:style="margin-right: 15pt;"> <!-- Horiz whitespace -->
+                    <property name="actionImage">
+                        <bean parent="Uif-Image"
+                              p:source="@{#ConfigProperties['application.url']}/krms/images/delete.png"
+                              p:altText="Delete"/>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Uif-Student-TreeSection" parent="Uif-TreeSection-parentBean"
+          class="org.kuali.rice.krad.uif.container.TreeGroup"/>
+    <bean id="RuleStudentEditorView-Tree-parent" parent="Uif-Student-TreeSection" p:disclosure.render="false"
+          p:header.render="false"
+          p:style="float:left; margin-left: 2em;" p:forceSessionPersistence="true">
+        <property name="propertyName" value="propositionTree"/>
+        <property name="validationMessages.displayMessages" value="true"/>
+        <property name="validationMessages.displayFieldLabelWithMessages" value="false"/>
+        <property name="tree">
+            <bean parent="RuleStudentTreeWidget">
+                <property name="templateOptions">
+                    <map>
+                        <entry key="'plugins'"
+                               value="['themes','html_data', 'ui', 'crrm', 'dnd']"/>
+                        <entry key="'themes'"
+                               value="{'theme':'default','dots':'false','icons':'false'}"/>
+                        <entry key="'ui'" value="{ 'select_limit' : 1 }"/>
+                        <entry key="'dnd'" value="{ 'drag_target' : false, 'drop_target' : false }"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+        <property name="nodePrototypeMap">
+            <map key-type="java.lang.Class">
+                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode) }">
+                    <bean parent="StudentRuleTreeNodePrototype"/>
+                </entry>
+                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.SimpleStudentPropositionNode) }">
+                    <bean parent="StudentSimplePropositionNodePrototype"/>
+                </entry>
+                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.SimpleStudentPropositionEditNode) }">
+                    <bean parent="StudentSimplePropositionEditNodePrototype"/>
+                </entry>
+                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.CompoundStudentOpCodeNode) }">
+                    <bean parent="StudentCompoundOpCodeNodePrototype"/>
+                </entry>
+                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.CompoundStudentPropositionEditNode) }">
+                    <bean parent="StudentCompoundPropositionEditNodePrototype"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="StudentRuleTreeNodePrototype" class="org.kuali.rice.krad.uif.container.NodePrototype">
+        <property name="labelPrototype">
+            <bean parent="Uif-Message"/>
+        </property>
+        <property name="dataGroupPrototype">
+            <bean parent="Uif-HorizontalBoxGroup" p:style="float: right;"
+                  p:progressiveRender="@{#form.viewTypeName.toString() == 'MAINTENANCE'}">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-ActionImage"
+                              p:actionScript="ajaxCallPropositionTree('goToEditProposition', 'RuleStudentEditorView-TreeGroup');">
+                            <property name="actionImage">
+                                <bean parent="Uif-Image" p:source="../krms/images/edit.png"
+                                      p:altText="Edit" p:cssClasses="actionReveal"/>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-InputField" p:propertyName="proposition.id"
+                              p:showLabel="false" p:label="id" p:maxLength="255">
+                            <property name="control">
+                                <bean parent="Uif-HiddenControl" p:cssClasses="hiddenId"/>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="StudentSimplePropositionNodePrototype" class="org.kuali.rice.krad.uif.container.NodePrototype">
+        <property name="labelPrototype">
+            <bean parent="Uif-Message"/>
+        </property>
+        <property name="dataGroupPrototype">
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-InputField" p:propertyName="proposition.id"
+                              p:progressiveRender="@{#form.viewTypeName.toString() == 'MAINTENANCE'}"
+                              p:showLabel="false" p:label="id" p:maxLength="255">
+                            <property name="control">
+                                <bean parent="Uif-HiddenControl" p:cssClasses="hiddenId"/>
+                            </property>
+                        </bean>
+
+                        <bean parent="selectedNodeQuickActions"/>
+
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="StudentSimplePropositionEditNodePrototype" class="org.kuali.rice.krad.uif.container.NodePrototype">
+        <property name="labelPrototype">
+            <bean parent="Uif-Message"/>
+        </property>
+        <property name="dataGroupPrototype">
+
+            <bean parent="PropositionBo-MaintenanceView-Custom-parentBean" p:cssClasses="editModeNode">
+                <property name="layoutManager.orientation" value="VERTICAL"/>
+            </bean>
+
+        </property>
+    </bean>
+
+    <bean id="selectedNodeQuickActions" parent="Uif-HorizontalFieldGroup" p:cssClasses="actionReveal"
+          p:progressiveRender="@{#form.viewTypeName.toString() == 'MAINTENANCE'}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-ActionImage"
+                      p:actionScript="ajaxCallPropositionTree('goToEditProposition', 'RuleStudentEditorView-TreeGroup');">
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:source="../krms/images/edit.png"
+                              p:altText="Edit"/>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-ActionImage"
+                      p:actionScript="ajaxCallPropositionTree('togglePropositionSimpleCompound', 'RuleStudentEditorView-TreeGroup');">
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:source="../krms/images/node-parent-and-child.png"
+                              p:altText="Add Parent"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="StudentCompoundOpCodeNodePrototype" class="org.kuali.rice.krad.uif.container.NodePrototype">
+        <property name="labelPrototype">
+            <bean parent="Uif-Message"/>
+        </property>
+        <property name="dataGroupPrototype">
+            <bean parent="Uif-HorizontalBoxGroup" p:style="padding-bottom: 10pt;">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-InputField" p:propertyName="proposition.compoundOpCode"
+                              p:style="margin-left: 12pt;" p:showLabel="false" p:label="operator" p:maxLength="20">
+                            <property name="control">
+                                <bean parent="Uif-DropdownControl"/>
+                            </property>
+                            <property name="optionsFinder">
+                                <bean class="org.kuali.rice.krms.impl.ui.CompoundOpCodeValuesFinder"/>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="StudentCompoundPropositionEditNodePrototype" class="org.kuali.rice.krad.uif.container.NodePrototype">
+        <property name="labelPrototype">
+            <bean parent="Uif-Message"/>
+        </property>
+        <property name="dataGroupPrototype">
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-InputField" p:propertyName="proposition.id"
+                              p:showLabel="false" p:label="id" p:maxLength="255">
+                            <property name="control">
+                                <bean parent="Uif-HiddenControl" p:cssClasses="hiddenId"/>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-InputField" p:propertyName="proposition.description"
+                              p:constraintText="size 100"
+                              p:showLabel="false" p:label="description" p:maxLength="255" p:style="margin-left: 12pt">
+                            <property name="control">
+                                <bean parent="Uif-TextControl" p:size="100" p:maxLength="100"
+                                      p:watermarkText="Enter a Compound Proposition Description"
+                                      p:cssClasses="editDescription"/>
+                            </property>
+                        </bean>
+
+                        <bean parent="Uif-ActionImage"
+                              p:actionScript="ajaxCallPropositionTree('goToEditProposition', 'RuleStudentEditorView-Tree');">
+                            <property name="actionImage">
+                                <bean parent="Uif-Image" p:source="../krms/images/edit.png"
+                                      p:altText="Edit" p:cssClasses="actionReveal"/>
+                            </property>
+                        </bean>
+
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean name="ruleAttributesSection" parent="ruleAttributesSection-parent"/>
+    <bean name="ruleAttributesSection-parent" parent="Uif-VerticalBoxSection">
+
+        <!-- TODO: temporarily disabling attribute group rendering: -->
+        <property name="render">
+            <value>false</value>
+        </property>
+
+        <property name="headerText" value="Rule Attributes"/>
+        <property name="disclosure.render" value="true"/>
+        <property name="disclosure.defaultOpen" value="false"/>
+        <property name="items">
+            <list>
+                <bean name="ruleAttributeTable" parent="Uif-TableCollectionSection"
+                      p:layoutManager.numberOfColumns="2">
+                    <property name="headerText" value="Rule Attributes"/>
+                    <property name="collectionObjectClass"
+                              value="org.kuali.rice.krms.impl.repository.RuleAttributeBo"/>
+                    <property name="propertyName" value="rule.attributeBos"/>
+                    <property name="renderAddLine" value="false"/>
+                    <property name="renderLineActions" value="false"/>
+                    <property name="disclosure.render" value="false"/>
+                    <property name="header.render" value="false"/>
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="layoutManager.useShortLabels" value="true"/>
+                    <property name="layoutManager.repeatHeader" value="false"/>
+                    <property name="layoutManager.applyAlternatingRowStyles" value="true"/>
+                    <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+                    <property name="layoutManager.richTable.disableTableSort" value="true"/>
+                    <property name="layoutManager.richTable">
+                        <ref bean="Uif-ScrollableRichTable"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="rule.attributeDefinition.name"
+                                  p:readOnly="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20" p:readOnly="true" p:style="border: 0"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="rule.value"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

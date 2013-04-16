@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--
+     Copyright 2007-2012 The Kuali Foundation
+
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.opensource.org/licenses/ecl2.php
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
+    <bean id="CourseOfferingDisplayInfo" parent="CourseOfferingDisplayInfo-parent">
+        <property name="titleAttribute" value="id"/>
+    </bean>
+
+    <bean id="KS-ScheduleOfClasses-ResultsSection" parent="Uif-Page" p:disclosure.render="false" p:id="scheduleOfClassesResultsPage">
+        <property name="header">
+            <bean parent="Uif-HeaderThree" p:headerText="Schedule of Classes"/>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="KS-ScheduleOfClasses-CriteriaSection"/>
+                <ref bean="KS-ScheduleOfClasses-ResultSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ScheduleOfClasses-ResultSection" parent="Uif-VerticalBoxSection" p:render="@{!#dp.coDisplayWrapperList.empty}">
+        <property name="headerText" value="@{termName} Schedule of Classes" />
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="@{searchParameter}" p:style="font-size:125%;font-weight:bold;"/>
+                <ref bean="KS-ScheduleOfClasses-CourseOfferingListSection"/>
+                <ref bean="scheduleOfClassesSearchResults"/>
+                <!-- Temporal solution to display 2 AO lists simultaneously. -->
+                <ref bean="scheduleOfClassesSearchResultsAdd"/>
+                <bean parent="Uif-DataField" p:propertyName="displayCoId" p:hidden="true" p:id="displayCoId" />
+                <bean parent="Uif-DataField" p:propertyName="displayCoIdAdd" p:hidden="true" p:id="displayCoIdAdd" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ScheduleOfClasses-CourseOfferingListSection" parent="Uif-TableCollectionSection" p:renderAddLine="false">
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper" />
+        <property name="propertyName" value="coDisplayWrapperList" />
+        <property name="renderLineActions" value="false" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="true" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="bPaginate" value="false"/>
+                <entry key="bFilter" value="false"/>
+                <entry key="aaSorting" value="[[1,'asc']]"/>
+                <entry key="aoColumns"
+                       value="[ {'bSortable':false, 'sWidth':'3%'},
+                                {'bSortable':true, 'sWidth':'10%'},
+                                {'bSortable':false, 'sWidth':'67%'},
+                                {'bSortable':false, 'sWidth':'10%'},
+                                {'bSortable':false, 'sWidth':'10%'}
+                           ]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-ImageField" p:source="../ks-enroll/images/details_open.png">
+                    <property name="onClickScript" value="ajaxCallActivityOfferings('populateAOs', '@{#line.coDisplayInfo.id}', '@{#line.coDisplayInfo.descr != null ? #line.xmlEscapedFormatted : ''}', '@{#ConfigProperties['application.url']}')" />
+                    <property name="id" value="@{#line.coDisplayInfo.id}" />
+                </bean>
+                <bean parent="Uif-DataField" p:label="COURSE" p:propertyName="coDisplayInfo.courseOfferingCode" />
+                <bean parent="Uif-DataField" p:label="TITLE" p:propertyName="coDisplayInfo.courseOfferingTitle"/>
+                <bean parent="Uif-DataField" p:label="CREDITS" p:propertyName="coDisplayInfo.creditOption.name"/>
+                <bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.information}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="scheduleOfClassesSearchResults" parent="Uif-TableSubCollection-WithinSection" p:renderAddLine="false" p:renderLineActions="false" p:render="@{courseOfferingId != ''}" p:style="display: none">
+        <property name="headerText" value="Activities" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper" />
+        <property name="propertyName" value="aoDisplayWrapperList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.richTable.render" value="false" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="CODE" p:propertyName="aoDisplayInfo.activityOfferingCode" />
+                <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="aoDisplayInfo.typeName" />
+                <bean parent="Uif-DataField" p:label="TBA"  p:propertyName="tbaDisplayName" p:render="false" />
+
+                <!--<bean parent="Uif-DataField" p:label="DAYS" p:propertyName="daysDisplayName"/> -->
+                <bean parent="Uif-MessageField"
+                      p:label="DAYS"
+                      p:messageText="@{#line.daysDisplayName}" />
+
+                <!--<bean parent="Uif-DataField" p:label="START TIME" p:propertyName="startTimeDisplay"/> -->
+                <bean parent="Uif-MessageField"
+                      p:label="START TIME"
+                      p:messageText="@{#line.startTimeDisplay}" />
+
+                <!--<bean parent="Uif-DataField" p:label="END TIME" p:propertyName="endTimeDisplay"/> -->
+                <bean parent="Uif-MessageField"
+                      p:label="END TIME"
+                      p:messageText="@{#line.endTimeDisplay}" />
+                <!--<bean parent="Uif-DataField" p:label="BUILDING" p:propertyName="buildingName"/> -->
+                <bean parent="Uif-MessageField"
+                      p:label="BUILDING"
+                      p:messageText="@{#line.buildingName}" />
+                <!--<bean parent="Uif-DataField" p:label="ROOM" p:propertyName="roomName"/> -->
+                <bean parent="Uif-MessageField"
+                      p:label="ROOM"
+                      p:messageText="@{#line.roomName}" />
+                <!--<bean parent="Uif-DataField" p:label="INSTRUCTOR" p:propertyName="aoDisplayInfo.instructorName" /> -->
+                <bean parent="Uif-MessageField"
+                      p:label="INSTRUCTOR"
+                      p:messageText="@{#line.instructorDisplayNames}" />
+
+                <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoDisplayInfo.maximumEnrollment" />
+                <bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.information}"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Temporal solution to display 2 AO lists simultaneously. -->
+    <bean id="scheduleOfClassesSearchResultsAdd" parent="Uif-TableSubCollection-WithinSection" p:renderAddLine="false" p:renderLineActions="false" p:render="@{courseOfferingId != ''}" p:style="display: none">
+        <property name="headerText" value="Activities" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper" />
+        <property name="propertyName" value="aoDisplayWrapperAddList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.richTable.render" value="false" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="CODE" p:propertyName="aoDisplayInfo.activityOfferingCode" />
+                <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="aoDisplayInfo.typeName" />
+                <bean parent="Uif-DataField" p:label="TBA"  p:propertyName="tbaDisplayName" p:render="false" />
+                <!--<bean parent="Uif-DataField" p:label="DAYS" p:propertyName="daysDisplayName"/> -->
+                <bean parent="Uif-MessageField"
+                      p:label="DAYS"
+                      p:messageText="@{#line.daysDisplayName}" />
+
+                <!--<bean parent="Uif-DataField" p:label="START TIME" p:propertyName="startTimeDisplay"/> -->
+                <bean parent="Uif-MessageField"
+                      p:label="START TIME"
+                      p:messageText="@{#line.startTimeDisplay}" />
+
+                <!--<bean parent="Uif-DataField" p:label="END TIME" p:propertyName="endTimeDisplay"/> -->
+                <bean parent="Uif-MessageField"
+                      p:label="END TIME"
+                      p:messageText="@{#line.endTimeDisplay}" />
+                <!--<bean parent="Uif-DataField" p:label="BUILDING" p:propertyName="buildingName"/> -->
+                <bean parent="Uif-MessageField"
+                      p:label="BUILDING"
+                      p:messageText="@{#line.buildingName}" />
+                <!--<bean parent="Uif-DataField" p:label="ROOM" p:propertyName="roomName"/> -->
+                <bean parent="Uif-MessageField"
+                      p:label="ROOM"
+                      p:messageText="@{#line.roomName}" />
+                <!--<bean parent="Uif-DataField" p:label="INSTRUCTOR" p:propertyName="aoDisplayInfo.instructorName" /> -->
+                <bean parent="Uif-MessageField"
+                      p:label="INSTRUCTOR"
+                      p:messageText="@{#line.instructorDisplayNames}" />
+                <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoDisplayInfo.maximumEnrollment" />
+                <bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.information}"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

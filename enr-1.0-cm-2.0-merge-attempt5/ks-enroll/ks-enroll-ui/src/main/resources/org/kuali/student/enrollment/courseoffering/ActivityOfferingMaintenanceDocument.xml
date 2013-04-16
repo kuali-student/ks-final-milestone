@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+    <!--
+     Copyright 2007-2009 The Kuali Foundation
+
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.opensource.org/licenses/ecl2.php
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
+    <bean id="OfferingInstructorWrapper" parent="OfferingInstructorWrapper-parentBean"/>
+
+    <bean id="OfferingInstructorWrapper-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="name" value="offeringInstructorWrapper"/>
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper"/>
+        <property name="objectLabel" value="OfferingInstructor Wrapper"/>
+        <property name="titleAttribute" value="offeringInstructorInfo.personId"/>
+        <property name="primaryKeys">
+            <list>
+                <value>offeringInstructorInfo.personId</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ActivityOfferingWrapper" parent="ActivityOfferingWrapper-parentBean"/>
+
+    <bean id="ActivityOfferingWrapper-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
+        <property name="titleAttribute" value="aoInfo.id"/>
+        <property name="attributes">
+            <list>
+            </list>
+        </property>
+        <property name="objectLabel" value="Activity Offering"/>
+        <property name="primaryKeys">
+            <list>
+                <value>aoInfo.id</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ActivityOffering-MaintenanceView" parent="KSMaintenanceView" p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView}" p:entryPageId="ActivityOfferingEdit-MainPage">
+        <property name="headerText" value="Edit Activity Offering"/>
+        <property name="header.render" value="false"/>
+        <property name="breadcrumbTitlePropertyName" value="aoInfo.activityCode"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />
+        <property name="singlePageView" value="false"/>
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <value>ks-enroll/css/activityOffering.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-enroll/scripts/activity-offering.js</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="ActivityOfferingEdit-MainPage"/>
+                <ref bean="ActivityOfferingEdit-SchedulePage"/>
+            </list>
+        </property>
+        <!--<property name="dialogs">
+          <list>
+            <ref bean="deleteScheduleConfirmDialog"/>
+          </list>
+        </property>-->
+        <property name="viewHelperService.helperClasses">
+              <map>
+                <entry key="scheduleHelper">
+                  <value  type="java.lang.Class">org.kuali.student.enrollment.class2.courseoffering.helper.ActivityOfferingScheduleHelperImpl</value>
+                  </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="deleteScheduleConfirmDialog" parent="Uif-OK-Cancel-DialogGroup"
+          p:promptText="Removing all delivery logistics from this activity offering will cause it to become unscheduled." >
+        <property name="headerText" value="Delete Schedule"/>
+        <property name="availableResponses">
+          <list>
+            <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Ok"/>
+            <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
+          </list>
+        </property>
+    </bean>
+
+    <bean id="ActivityOfferingMaintenanceDocument" parent="ActivityOfferingMaintenanceDocument-parentBean"/>
+
+    <bean id="ActivityOfferingMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
+        <property name="maintainableClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl"/>
+        <property name="businessRulesClass" value="org.kuali.student.enrollment.class2.courseoffering.rule.ActivityOfferingRule" />
+        <property name="documentTypeName" value="ActivityOfferingInfoMaintenanceDocument"/>
+        <property name="documentAuthorizerClass" value="org.kuali.student.enrollment.main.view.KsMaintenanceAuthorizerBase"/>
+        <property name="lockingKeys">
+            <list>
+                <value>aoInfo.id</value>
+            </list>
+        </property>
+    </bean>
+
+    <util:list id="aoInstructors-options">
+        <bean parent="Uif-KeyLabelPair" p:key="" p:value="Select One..."/>
+        <bean parent="Uif-KeyLabelPair" p:key="kuali.lpr.type.instructor.main" p:value="Instructor"/>
+        <bean parent="Uif-KeyLabelPair" p:key="kuali.lpr.type.instructor.assistant" p:value="Teaching Assistant"/>
+    </util:list>
+
+    <util:list id="features-options">
+        <bean parent="Uif-KeyLabelPair" p:value="Computers" p:key="kuali.resource.type.Computers"/>
+        <bean parent="Uif-KeyLabelPair" p:value="  PCs" p:key="kuali.resource.type.PCs"/>
+        <bean parent="Uif-KeyLabelPair" p:value="  Macs" p:key="kuali.resource.type.Macs"/>
+        <bean parent="Uif-KeyLabelPair" p:value="  Ethernet" p:key="kuali.resource.type.Ethernet"/>
+        <bean parent="Uif-KeyLabelPair" p:value="  Wifi" p:key="kuali.resource.type.Wifi"/>
+
+        <bean parent="Uif-KeyLabelPair" p:value="Seating" p:key="kuali.resource.type.Seating"/>
+        <bean parent="Uif-KeyLabelPair" p:value="  Fixed" p:key="kuali.resource.type.Fixed"/>
+        <bean parent="Uif-KeyLabelPair" p:value="  Auditorium" p:key="kuali.resource.type.Auditorium"/>
+        <bean parent="Uif-KeyLabelPair" p:value="  Lab" p:key="kuali.resource.type.Lab"/>
+    </util:list>
+
+</beans>

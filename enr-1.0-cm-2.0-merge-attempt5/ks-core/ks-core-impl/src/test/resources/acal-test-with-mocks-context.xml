@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <context:annotation-config />
+
+    <import resource="classpath:META-INF/default-property-config-context-test.xml" />
+
+    <bean id="systemPropertyConfigurer" class="org.kuali.student.common.util.SystemPropertyConfigurer">
+        <property name="properties" value="${propertiesPrefix.systemProperties}" />
+    </bean>
+    
+    <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl" />
+    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
+    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceMockDataImpl"/>
+    
+    <bean id="acalService" class="org.kuali.student.r2.core.acal.service.impl.AcademicCalendarServiceImpl">
+        <property name="atpService" ref="atpService" />
+        <property name="stateService" ref="stateService" />
+        <property name="typeService" ref="typeService" />
+        <property name="acalAssembler" ref="acalAssembler" />
+        <property name="holidayAssembler" ref="holidayAssembler" />
+        <property name="holidayCalendarAssembler" ref="holidayCalendarAssembler" />
+        <property name="termAssembler" ref="termAssembler" />
+        <property name="keyDateAssembler" ref="keyDateAssembler" />
+        <property name="acalEventAssembler" ref="acalEventAssembler" />
+    </bean>
+
+    <bean id="acalAssembler" class="org.kuali.student.r2.core.acal.service.assembler.AcademicCalendarAssembler">
+        <property name="atpService" ref="atpService" />
+    </bean>
+
+    <bean id="holidayAssembler" class="org.kuali.student.r2.core.acal.service.assembler.HolidayAssembler" />
+    <bean id="holidayCalendarAssembler" class="org.kuali.student.r2.core.acal.service.assembler.HolidayCalendarAssembler" />
+    <bean id="termAssembler" class="org.kuali.student.r2.core.acal.service.assembler.TermAssembler">
+        <property name="termCodeGenerator" ref = "termCodeGenerator" />
+    </bean>
+    <bean id="termCodeGenerator" class="org.kuali.student.r2.core.acal.service.impl.TermCodeGeneratorImpl"/>
+    <bean id="keyDateAssembler" class="org.kuali.student.r2.core.acal.service.assembler.KeyDateAssembler" />
+    <bean id="acalEventAssembler" class="org.kuali.student.r2.core.acal.service.assembler.AcalEventAssembler" />
+
+</beans>
