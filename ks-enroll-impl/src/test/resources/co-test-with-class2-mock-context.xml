@@ -40,11 +40,13 @@
     <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseService" />
         <property name="acalService" ref="acalService" />
-        <property name="coService" ref="coService" />
+        <property name="coService" ref="CourseOfferingService" />
     </bean>
 
-	<alias alias="CourseOfferingService" name="coService" />
-	
+    <!-- KSENROLL-6433.  Originally, name="coService" which connects to a validation decorator-but it breaks due to
+        the validation method for createFormatOffering which requires a CluService that is not mocked out -->
+	<alias alias="CourseOfferingService" name="coServiceImpl" />
+
     <bean id="coService" class=" org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
         <property name="nextDecorator" ref="coServiceImpl"/>
         <property name="typeService" ref="typeService"/>
@@ -60,7 +62,7 @@
         <bean id="roomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplM5"/>
         <bean id="organizationService" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceMockImpl"/>
         <bean id="courseDataLoader" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader" autowire="default">
-            <property name="coService" ref="coService"/>
+            <property name="coService" ref="CourseOfferingService"/>
         </bean>
 
         <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />

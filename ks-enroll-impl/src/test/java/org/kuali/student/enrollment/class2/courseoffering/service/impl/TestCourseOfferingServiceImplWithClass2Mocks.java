@@ -89,7 +89,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
     private static final Logger log = KSLog4JConfigurer
             .getLogger(TestCourseOfferingServiceImplWithClass2Mocks.class);
 
-    @Resource
+    @Resource(name = "CourseOfferingService")
     protected CourseOfferingService coService;
 
     @Resource

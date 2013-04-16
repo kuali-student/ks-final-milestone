@@ -99,6 +99,7 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -1776,7 +1777,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
 
         // Delete RGs attached to this AO
-        List<RegistrationGroupInfo> regGroups = _getRegistrationGroupsByActivityOffering(activityOfferingId, context);
+        List<RegistrationGroupInfo> regGroups = getRegistrationGroupsByActivityOffering(activityOfferingId, context);
         if (regGroups != null && !regGroups.isEmpty()) {
             for (RegistrationGroupInfo regGroup : regGroups) {
                 deleteRegistrationGroup(regGroup.getId(), context);
@@ -2053,7 +2054,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         if (activityOfferingIds != null && !activityOfferingIds.isEmpty()) {
             String firstAoId = activityOfferingIds.get(0);
             // Pick an ID to search RGs by
-            List<RegistrationGroupInfo> regGroups = _getRegistrationGroupsByActivityOffering(firstAoId, context);
+            List<RegistrationGroupInfo> regGroups = getRegistrationGroupsByActivityOffering(firstAoId, context);
             if (regGroups != null) {
                 for (RegistrationGroupInfo rgInfo: regGroups) {
                     // Verify that all the AO ids appear in this rgInfo
@@ -2069,7 +2070,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return regGroupList;
     }
 
-    private List<RegistrationGroupInfo> _getRegistrationGroupsByActivityOffering(String activityOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
+    @Override
+    public List<RegistrationGroupInfo> getRegistrationGroupsByActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
 
         List<String> rgIds = luiService.getLuiIdsByRelatedLuiAndRelationType(activityOfferingId, LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, context);

@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.jws.WebParam;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
@@ -476,6 +477,12 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
 
+        for (FormatOfferingInfo fo: formatOfferingMap.values()) {
+            // See if any format offerings are still connected to COs
+            if (fo.getCourseOfferingId().equals(courseOfferingId)) {
+                throw new DependentObjectsExistException("Format offering still attached to CO (" + courseOfferingId + ")");
+            }
+        }
         if (this.courseOfferingMap.remove(courseOfferingId) == null) {
             throw new DoesNotExistException(courseOfferingId);
         }
@@ -611,6 +618,12 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException,
             DependentObjectsExistException {
+        for (ActivityOfferingInfo aoInfo: activityOfferingMap.values()) {
+            // test if AOs still attached to FO, if so, throw dependent object exists exception
+            if (aoInfo.getFormatOfferingId().equals(formatOfferingId)) {
+                throw new DependentObjectsExistException("Activity offerings still attached to FO (" + formatOfferingId + ")");
+            }
+        }
         if (this.formatOfferingMap.remove(formatOfferingId) == null) {
             throw new DoesNotExistException(formatOfferingId);
         }
@@ -851,6 +864,11 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
                 throw new DependentObjectsExistException("Registration Groups Exist for Activity id = " + activityOfferingId);
         }
 
+        List<String> seatpoolIds =  activityOfferingToSeatPoolMap.get(activityOfferingId);
+        if (seatpoolIds != null && !seatpoolIds.isEmpty()) {
+            throw new DependentObjectsExistException("Seatpools exists for Activity id = " + activityOfferingId);
+        }
+
         if (this.activityOfferingMap.remove(activityOfferingId) == null) {
             throw new DoesNotExistException(activityOfferingId);
         }
@@ -867,6 +885,15 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         // delete seat pool registrations
 
         List<SeatPoolDefinitionInfo> spls = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
+        List<String> seatpoolIds = new ArrayList<String>();
+        for (SeatPoolDefinitionInfo spInfo: spls) {
+            seatpoolIds.add(spInfo.getId());
+        }
+        // Delete the attachments from AOs to seatpools
+        List<String> fetchedIds = activityOfferingToSeatPoolMap.get(activityOfferingId);
+        if (fetchedIds != null) {
+            fetchedIds.removeAll(seatpoolIds); // Get rid of seatpool IDs in this association
+        }
 
         for (SeatPoolDefinitionInfo spl : spls) {
 
@@ -876,6 +903,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
                 throw new OperationFailedException(status.getMessage());
 
         }
+
+
         // delete registration groups
 
         // intentionally separated to avoid a concurrent modification exception on delete.
@@ -991,8 +1020,9 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         List<RegistrationGroupInfo> regGroupList = new ArrayList<RegistrationGroupInfo>();
 
         for (RegistrationGroupInfo rg : this.registrationGroupMap.values()) {
-            if (rg.getCourseOfferingId().equals(courseOfferingId))
+            if (rg.getCourseOfferingId().equals(courseOfferingId)) {
                 regGroupList.add(rg);
+            }
         }
 
         return regGroupList;
@@ -1008,14 +1038,27 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         List<RegistrationGroupInfo> regGroupList = new ArrayList<RegistrationGroupInfo>();
 
         for (RegistrationGroupInfo rg : this.registrationGroupMap.values()) {
-
-            if (CollectionUtils.isEqualCollection(activityOfferingIds,
-                    rg.getActivityOfferingIds()))
+            if (CollectionUtils.isSubCollection(activityOfferingIds,
+                    rg.getActivityOfferingIds())) {
                 regGroupList.add(rg);
+            }
         }
 
         return regGroupList;
 
+    }
+
+    @Override
+    public List<RegistrationGroupInfo> getRegistrationGroupsByActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<RegistrationGroupInfo> regGroupList = new ArrayList<RegistrationGroupInfo>();
+
+        for (RegistrationGroupInfo rg : this.registrationGroupMap.values()) {
+            if (rg.getActivityOfferingIds().contains(activityOfferingId)) {
+                regGroupList.add(rg);
+            }
+        }
+
+        return regGroupList;
     }
 
     @Override

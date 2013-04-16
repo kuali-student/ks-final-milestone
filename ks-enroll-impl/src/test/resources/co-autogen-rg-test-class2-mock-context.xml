@@ -10,8 +10,9 @@
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
   <import resource="classpath:co-test-with-class2-mock-context.xml" />
-  
-  <alias name="coService" alias="CourseOfferingService"/> 
+
+  <!-- This overrides the parent context where CourseOfferingService points to the validation decorator -->
+  <alias name="coServiceImpl" alias="CourseOfferingService"/>
   
    <bean id="SearchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
         <property name="searchServices">
