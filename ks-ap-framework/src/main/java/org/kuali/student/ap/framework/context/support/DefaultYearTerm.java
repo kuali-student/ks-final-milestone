@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.YearTerm;
+import org.kuali.student.enrollment.acal.infc.Term;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -25,10 +26,10 @@ public class DefaultYearTerm implements YearTerm, Comparable<YearTerm> {
 
 	private static final Logger LOG = Logger.getLogger(DefaultYearTerm.class);
 
-	private static String[] termTypeOrder;
+	private static String[] termTypes;
 
-	private static String[] getTermTypeOrder() {
-		if (termTypeOrder == null) {
+	private static String[] getTermTypes() {
+		if (termTypes == null) {
 			try {
 				List<TypeTypeRelationInfo> relations = KsapFrameworkServiceLocator
 						.getTypeService()
@@ -40,6 +41,8 @@ public class DefaultYearTerm implements YearTerm, Comparable<YearTerm> {
 				if (relations == null || relations.isEmpty())
 					throw new IllegalStateException(
 							"No term types available using TypeService.getTypeTypeRelationsByOwnerAndType()");
+				relations = new java.util.ArrayList<TypeTypeRelationInfo>(
+						relations); // may be unmodifiable
 				Collections.sort(relations,
 						new Comparator<TypeTypeRelationInfo>() {
 							@Override
@@ -55,7 +58,7 @@ public class DefaultYearTerm implements YearTerm, Comparable<YearTerm> {
 				String[] tto = new String[relations.size()];
 				for (int i = 0; i < tto.length; i++)
 					tto[i] = relations.get(i).getRelatedTypeKey();
-				termTypeOrder = tto;
+				termTypes = tto;
 			} catch (DoesNotExistException e) {
 				throw new IllegalArgumentException("Type lookup error", e);
 			} catch (InvalidParameterException e) {
@@ -68,14 +71,14 @@ public class DefaultYearTerm implements YearTerm, Comparable<YearTerm> {
 				throw new IllegalStateException("Type lookup error", e);
 			}
 		}
-		return termTypeOrder;
+		return termTypes;
 	}
 
 	private final String termType;
 	private final int year;
 
 	public DefaultYearTerm(String termType, int year) {
-		if (!Arrays.asList(getTermTypeOrder()).contains(termType))
+		if (!Arrays.asList(getTermTypes()).contains(termType))
 			throw new IllegalArgumentException("Term type " + termType
 					+ " not supported");
 		this.termType = termType;
@@ -92,17 +95,9 @@ public class DefaultYearTerm implements YearTerm, Comparable<YearTerm> {
 
 	@Override
 	public int compareTo(YearTerm o) {
-		int rv = new Integer(year).compareTo(o.getYear());
-		if (rv != 0)
-			return rv;
-		int t1 = 0, t2 = 0;
-		for (int i = 0; i < termTypeOrder.length; i++) {
-			if (getTermTypeOrder()[i].equals(termType))
-				t1 = i;
-			if (getTermTypeOrder()[i].equals(o.getTermType()))
-				t2 = i;
-		}
-		return new Integer(t1).compareTo(t2);
+		Term t1 = KsapFrameworkServiceLocator.getTermHelper().getTerm(this);
+		Term t2 = KsapFrameworkServiceLocator.getTermHelper().getTerm(o);
+		return t1.getStartDate().compareTo(t2.getStartDate());
 	}
 
 	@Override
