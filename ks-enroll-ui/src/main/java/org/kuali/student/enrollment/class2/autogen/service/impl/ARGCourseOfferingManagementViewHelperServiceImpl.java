@@ -307,10 +307,11 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
 
         //New Search Stuff!
+        String coId =  form.getCurrentCourseOfferingWrapper().getCourseOfferingId();
 
         //First search for AOs and Cluster information
         SearchRequestInfo sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY);
-        sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID,form.getCurrentCourseOfferingWrapper().getCourseOfferingId());
+        sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID,coId);
         SearchResultInfo results = searchService.search(sr, null);
 
         Map<String, ActivityOfferingWrapper> sch2aoMap = new HashMap<String, ActivityOfferingWrapper>();
@@ -328,64 +329,100 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         form.setActivityWrapperList(wrappers);
         form.getClusterResultList().clear();
         form.getClusterResultList().addAll(clusterMap.values());
-        form.setFormatOfferingIds(new ArrayList<String>(foIds));
 
-        //  If the CO doesn't have any AOs yet (e.g. it was just created) then no further processing is necessary.
-        if (aoMap.isEmpty()) {
-            return;
+        if(foIds == null || foIds.isEmpty()){
+            form.setFormatOfferingIds(_getFoIdsByCoId(coId));
+        } else{
+            form.setFormatOfferingIds(new ArrayList<String>(foIds));
         }
 
-        //Process Colocated
-        sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY);
-        sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_IDS, new ArrayList<String>(aoMap.keySet()));
-        results = searchService.search(sr, null);
-        processColocated(results, aoMap);
+        if(!aoMap.keySet().isEmpty()){
+            //Process Colocated
+            sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY);
+            sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_IDS, new ArrayList<String>(aoMap.keySet()));
+            results = searchService.search(sr, null);
 
-        //Addin LPR data
-        processInstructors(aoMap, ContextUtils.createDefaultContextInfo());
+            processColocated(results, aoMap);
 
-        //Search for schedule information
-        sr = new SearchRequestInfo(CoreSearchServiceImpl.SCH_AND_ROOM_SEARH_BY_ID_SEARCH_KEY);
-        sr.addParam(CoreSearchServiceImpl.SearchParameters.SCHEDULE_IDS, new ArrayList<String>(sch2aoMap.keySet()));
-        results = searchService.search(sr, null);
 
-        //processSchData(results, sch2aoMap, aoIdsWithoutSch, aoMap, ContextUtils.createDefaultContextInfo());
+            //Addin LPR data
+            processInstructors(aoMap, ContextUtils.createDefaultContextInfo());
 
-        // the next two methods pull scheduling data from the DB and put them into the ao2sch map
-        processScheduleInfo(results,sch2aoMap,ao2sch,contextInfo);
-        processScheduleRequestsForAos(aoMap.keySet(),ao2sch,contextInfo);
+            //Search for schedule information
+            sr = new SearchRequestInfo(CoreSearchServiceImpl.SCH_AND_ROOM_SEARH_BY_ID_SEARCH_KEY);
+            sr.addParam(CoreSearchServiceImpl.SearchParameters.SCHEDULE_IDS, new ArrayList<String>(sch2aoMap.keySet()));
+            results = searchService.search(sr, null);
 
-        // this takes the scheduling data and puts it into the screen form
-        processScheduleData(aoMap,ao2sch,contextInfo);
+            //processSchData(results, sch2aoMap, aoIdsWithoutSch, aoMap, ContextUtils.createDefaultContextInfo());
 
-        //Search for registration group information
-        sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.REG_GROUPS_BY_CO_ID_SEARCH_KEY);
-        sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID,form.getCurrentCourseOfferingWrapper().getCourseOfferingId());
-        results = searchService.search(sr, null);
+            // the next two methods pull scheduling data from the DB and put them into the ao2sch map
+            processScheduleInfo(results,sch2aoMap,ao2sch,contextInfo);
+            processScheduleRequestsForAos(aoMap.keySet(),ao2sch,contextInfo);
 
-        List<RegistrationGroupWrapper> rgWrappers = processRgData(results, form, sch2aoMap, clusterMap, aoMap, contextInfo);
+            // this takes the scheduling data and puts it into the screen form
+            processScheduleData(aoMap,ao2sch,contextInfo);
 
-        form.setRgResultList(rgWrappers);
+            //Search for registration group information
+            sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.REG_GROUPS_BY_CO_ID_SEARCH_KEY);
+            sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID,form.getCurrentCourseOfferingWrapper().getCourseOfferingId());
+            results = searchService.search(sr, null);
 
-        form.setHasMoreThanOneCluster(clusterMap.size()>1);
+            List<RegistrationGroupWrapper> rgWrappers = processRgData(results, form, sch2aoMap, clusterMap, aoMap, contextInfo);
 
-        //Validate Reg Groups
-        Date startOfValidation = new Date();
-        int i = 0;
-        for(ActivityOfferingClusterWrapper cluster : clusterMap.values()){
-            List<RegistrationGroupInfo> rgInfos = new ArrayList<RegistrationGroupInfo>();
-            for(RegistrationGroupWrapper rgWrapper:cluster.getRgWrapperList()){
-                rgInfos.add(rgWrapper.getRgInfo());
+            form.setRgResultList(rgWrappers);
+
+            form.setHasMoreThanOneCluster(clusterMap.size()>1);
+
+
+
+            //Validate Reg Groups
+            Date startOfValidation = new Date();
+            int i = 0;
+            for(ActivityOfferingClusterWrapper cluster : clusterMap.values()){
+                List<RegistrationGroupInfo> rgInfos = new ArrayList<RegistrationGroupInfo>();
+                for(RegistrationGroupWrapper rgWrapper:cluster.getRgWrapperList()){
+                    rgInfos.add(rgWrapper.getRgInfo());
+                }
+                List<ActivityOfferingInfo> aoInfos = new ArrayList<ActivityOfferingInfo>();
+                for(ActivityOfferingWrapper aoWrapper:cluster.getAoWrapperList()){
+                    aoInfos.add(aoWrapper.getAoInfo());
+                }
+                _validateRegistrationGroupsPerCluster(rgInfos,aoInfos,cluster,form,i, ao2sch, aoMap);
+                i++;
             }
-            List<ActivityOfferingInfo> aoInfos = new ArrayList<ActivityOfferingInfo>();
-            for(ActivityOfferingWrapper aoWrapper:cluster.getAoWrapperList()){
-                aoInfos.add(aoWrapper.getAoInfo());
-            }
-            _validateRegistrationGroupsPerCluster(rgInfos,aoInfos,cluster,form,i, ao2sch, aoMap);
-            i++;
+            Date endOfValidation = new Date();
+            LOG.info("Time of RG Validation:"+(endOfValidation.getTime()-startOfValidation.getTime())+"ms");
         }
-        Date endOfValidation = new Date();
-        LOG.info("Time of RG Validation:"+(endOfValidation.getTime()-startOfValidation.getTime())+"ms");
+        // Normally we would use the KeyValue finder for this, but since we HAVE all the data, why waste sql calls
+        // replaces : ARGActivitiesForCreateAOKeyValues.java
+        //List<KeyValue>
+
+
+    }
+
+    private List<String> _getFoIdsByCoId(String coId) throws Exception{
+        List<String> lRet = new ArrayList<String>();
+        SearchRequestInfo sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.FO_BY_CO_ID_SEARCH_KEY);
+        sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, coId);
+
+        SearchResultInfo results = getSearchService().search(sr, null);
+
+        for(SearchResultRowInfo row:results.getRows()){
+            String foId = null;
+            String foName = null;
+
+
+            for(SearchResultCellInfo cell:row.getCells()){
+                if(ActivityOfferingSearchServiceImpl.SearchResultColumns.FO_ID.equals(cell.getKey())){
+                    foId = cell.getValue();
+                }else if(ActivityOfferingSearchServiceImpl.SearchResultColumns.FO_NAME.equals(cell.getKey())){
+                    foName = cell.getValue();
+                }
+            }
+            lRet.add(foId);
+
+        }
+        return lRet;
     }
 
     private void processColocated(SearchResultInfo searchResults, Map<String, ActivityOfferingWrapper> aoMap) {
@@ -2160,7 +2197,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         return this.lrcService;
     }
 
-    protected SearchService getSearchService() {
+    public SearchService getSearchService() {
         if(searchService == null) {
             searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "search", SearchService.class.getSimpleName()));
         }
