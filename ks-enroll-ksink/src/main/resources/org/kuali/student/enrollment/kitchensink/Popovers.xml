@@ -318,8 +318,6 @@
                         <value>
                             Put a breakpoint in KitchenSinkMockDwarfKeyValues.getKeyValues()
                             to see that it is called each time before the popover is displayed.
-                            Note in this example the popover form must be in a hidden container,
-                            and not hidden itself.
                         </value>
                     </property>
                 </bean>
@@ -327,7 +325,7 @@
         </property>
     </bean>
 
-    <!-- Content for "CONTENT ON HOVER" text -->
+    <!-- Content for "Hover example" -->
     <bean id="KS-KitchenSink-Popovers-PopoverContent-6" parent="Uif-Image">
         <property name="hidden" value="true"/>
         <property name="cssClasses">
