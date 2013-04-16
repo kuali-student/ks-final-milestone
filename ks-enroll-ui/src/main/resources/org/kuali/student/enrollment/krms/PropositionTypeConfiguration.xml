@@ -16,12 +16,12 @@
     limitations under the License.
 
 -->
+<!--suppress ALL -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
-
 
     <bean id="KRMS-Grade-Tree-Section" parent="KRMS-Grade-Section-Parent">
         <property name="items">
@@ -44,7 +44,7 @@
     </bean>
 
      <!--kuali.krms.proposition.type.cant.add.to.activity.offering.due.to.state-->
-    <bean id="cant.add.to.activity.offering.due.to.state" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.cant.add.to.activity.offering.due.to.state'}">
+    <bean id="cant.add.to.activity.offering.due.to.state" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.cant.add.to.activity.offering.due.to.state'">
         <property name="items">
             <list>
                 <!-- TODO: Activity Offering State component -->
@@ -54,7 +54,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.no.repeat.course-->
-    <bean id="no.repeat.course" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.no.repeat.course'}">
+    <bean id="no.repeat.course" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.no.repeat.course'">
         <property name="items">
             <list>
                 <ref bean="KRMS-SingleCourse-SuggestField" />
@@ -63,7 +63,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.no.repeat.courses-->
-    <bean id="no.repeat.courses" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.no.repeat.courses'}">
+    <bean id="no.repeat.courses" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.no.repeat.courses'">
         <property name="items">
             <list>
                 <ref bean="KRMS-MultiCourse-Tree-Section" />
@@ -72,7 +72,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.permission.instructor.required-->
-    <bean id="permission.instructor.required" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.permission.instructor.required'}">
+    <bean id="permission.instructor.required" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.permission.instructor.required'">
         <property name="items">
             <list>
                 <!-- No input component neeeded here -->
@@ -81,7 +81,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.freeform.text-->
-    <bean id="freeform.text" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.freeform.text'}">
+    <bean id="freeform.text" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.freeform.text'">
         <property name="items">
             <list>
                 <ref bean="KRMS-FreeForm-ConstantValue" />
@@ -90,7 +90,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.course.offering.drop.instructor.permission.required-->
-    <bean id="course.offering.drop.instructor.permission.required" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.offering.drop.instructor.permission.required'}">
+    <bean id="course.offering.drop.instructor.permission.required" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.course.offering.drop.instructor.permission.required'">
         <property name="items">
             <list>
                 <ref bean="KRMS-SingleCourse-SuggestField" />
@@ -99,7 +99,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.course.drop.org.permission.required-->
-    <bean id="course.drop.org.permission.required" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.drop.org.permission.required'}">
+    <bean id="course.drop.org.permission.required" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.course.drop.org.permission.required'">
         <property name="items">
             <list>
                 <ref bean="KRMS-Administering-Org-Field" />
@@ -108,7 +108,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.drop.min.credit.hours.due.to.attribute-->
-    <bean id="drop.min.credit.hours.due.to.attribute" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.drop.min.credit.hours.due.to.attribute'}">
+    <bean id="drop.min.credit.hours.due.to.attribute" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.drop.min.credit.hours.due.to.attribute'">
         <property name="items">
             <list>
                 <!-- TODO: Activity Offering State component -->
@@ -118,7 +118,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.drop.min.credit.hours-->
-    <bean id="drop.min.credit.hours" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.drop.min.credit.hours'}">
+    <bean id="drop.min.credit.hours" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.drop.min.credit.hours'">
         <property name="items">
             <list>
                 <ref bean="KRMS-CreditHours-ConstantValue" />
@@ -127,7 +127,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.exceeds.minutes.overlap.allowed-->
-    <bean id="exceeds.minutes.overlap.allowed" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.exceeds.minutes.overlap.allowed'}">
+    <bean id="exceeds.minutes.overlap.allowed" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.exceeds.minutes.overlap.allowed'">
         <property name="items">
             <list>
                 <ref bean="KRMS-Minutes-ConstantValue" />
@@ -136,7 +136,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.time.conflict.start.end-->
-    <bean id="time.conflict.start.end" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.time.conflict.start.end'}">
+    <bean id="time.conflict.start.end" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.time.conflict.start.end'">
         <property name="items">
             <list>
                 <ref bean="KRMS-Minutes-ConstantValue" />
@@ -145,7 +145,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.max.limit.courses.for.program-->
-    <bean id="max.limit.courses.for.program" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.max.limit.courses.for.program'}">
+    <bean id="max.limit.courses.for.program" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.max.limit.courses.for.program'">
         <property name="items">
             <list>
                 <!-- TODO: Program component -->
@@ -155,7 +155,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.max.limit.credits.for.program-->
-    <bean id="max.limit.credits.for.program" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.max.limit.credits.for.program'}">
+    <bean id="max.limit.credits.for.program" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.max.limit.credits.for.program'">
         <property name="items">
             <list>
                 <!-- TODO: Program component -->
@@ -165,7 +165,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.max.limit.courses.at.org.for.program-->
-    <bean id="max.limit.courses.at.org.for.program" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.max.limit.courses.at.org.for.program'}">
+    <bean id="max.limit.courses.at.org.for.program" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.max.limit.courses.at.org.for.program'">
         <property name="items">
             <list>
                 <!-- TODO: Program component -->
@@ -178,7 +178,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.max.limit.courses.at.org.duration.for.program-->
-    <bean id="max.limit.courses.at.org.duration.for.program" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.max.limit.courses.at.org.duration.for.program'}">
+    <bean id="max.limit.courses.at.org.duration.for.program" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.max.limit.courses.at.org.duration.for.program'">
         <property name="items">
             <list>
                 <!-- TODO: Program component -->
@@ -191,7 +191,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.avail.seat-->
-    <bean id="avail.seat" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.avail.seat'}">
+    <bean id="avail.seat" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.avail.seat'">
         <property name="items">
             <list>
                 <!-- No input component needed -->
@@ -200,7 +200,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.success.compl.course-->
-    <bean id="success.compl.course" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.success.compl.course'}">
+    <bean id="success.compl.course" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.success.compl.course'">
         <property name="items">
             <list>
                 <ref bean="KRMS-SingleCourse-SuggestField" />
@@ -209,7 +209,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.success.compl.course.as.of.term-->
-    <bean id="success.compl.course.as.of.term" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.success.compl.course.as.of.term'}">
+    <bean id="success.compl.course.as.of.term" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.success.compl.course.as.of.term'">
         <property name="items">
             <list>
                 <ref bean="KRMS-SingleCourse-SuggestField" />
@@ -218,7 +218,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.success.compl.prior.to.term-->
-    <bean id="success.compl.prior.to.term" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.success.compl.prior.to.term'}">
+    <bean id="success.compl.prior.to.term" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.success.compl.prior.to.term'">
         <property name="items">
             <list>
                 <ref bean="KRMS-SingleCourse-SuggestField" />
@@ -228,7 +228,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.success.compl.course.between.terms-->
-    <bean id="success.compl.course.between.terms" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.success.compl.course.between.terms'}">
+    <bean id="success.compl.course.between.terms" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.success.compl.course.between.terms'">
         <property name="items">
             <list>
                 <ref bean="KRMS-SingleCourse-SuggestField" />
@@ -237,7 +237,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.success.compl.course.offer-->
-    <bean id="success.compl.course.offer" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.success.compl.course.offer'}">
+    <bean id="success.compl.course.offer" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.success.compl.course.offer'">
         <property name="items">
             <list>
                 <ref bean="KRMS-SingleCourse-SuggestField" />
@@ -246,7 +246,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.success.course.courseset.completed.nof-->
-    <bean id="success.course.courseset.completed.nof" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.success.course.courseset.completed.nof'}">
+    <bean id="success.course.courseset.completed.nof" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.success.course.courseset.completed.nof'">
         <property name="items">
             <list>
                 <ref bean="KRMS-MultiCourse-Tree-Section" />
@@ -256,7 +256,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.success.course.courseset.completed.all-->
-    <bean id="success.course.courseset.completed.all" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.success.course.courseset.completed.all'}">
+    <bean id="success.course.courseset.completed.all" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.success.course.courseset.completed.all'">
         <property name="items">
             <list>
                 <ref bean="KRMS-MultiCourse-Tree-Section" />
@@ -265,7 +265,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.success.credit.courseset.completed.nof-->
-    <bean id="success.credit.courseset.completed.nof" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.success.credit.courseset.completed.nof'}">
+    <bean id="success.credit.courseset.completed.nof" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.success.credit.courseset.completed.nof'">
         <property name="items">
             <list>
                 <ref bean="KRMS-Credits-ConstantValue" />
@@ -275,7 +275,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.success.credit.courseset.completed.nof.org-->
-    <bean id="success.credit.courseset.completed.nof.org" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.success.credit.courseset.completed.nof.org'}">
+    <bean id="success.credit.courseset.completed.nof.org" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.success.credit.courseset.completed.nof.org'">
         <property name="items">
             <list>
                 <ref bean="KRMS-Department-Field" />
@@ -284,7 +284,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.cumulative.gpa.min-->
-    <bean id="cumulative.gpa.min" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.cumulative.gpa.min'}">
+    <bean id="cumulative.gpa.min" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.cumulative.gpa.min'">
         <property name="items">
             <list>
                 <ref bean="KRMS-GPA-Field" />
@@ -293,7 +293,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.duration.cumulative.gpa.min-->
-    <bean id="duration.cumulative.gpa.min" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.duration.cumulative.gpa.min'}">
+    <bean id="duration.cumulative.gpa.min" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.duration.cumulative.gpa.min'">
         <property name="items">
             <list>
                 <ref bean="KRMS-GPA-Field" />
@@ -303,7 +303,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.course.courseset.gpa.min-->
-    <bean id="course.courseset.gpa.min" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.gpa.min'}">
+    <bean id="course.courseset.gpa.min" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.course.courseset.gpa.min'">
         <property name="items">
             <list>
                 <ref bean="KRMS-MultiCourse-Tree-Section" />
@@ -313,7 +313,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.course.courseset.grade.min-->
-    <bean id="course.courseset.grade.min" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.grade.min'}">
+    <bean id="course.courseset.grade.min" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.course.courseset.grade.min'">
         <property name="items">
             <list>
                 <ref bean="KRMS-MultiCourse-Tree-Section" />
@@ -323,7 +323,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.course.courseset.nof.grade.min-->
-    <bean id="course.courseset.nof.grade.min" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.nof.grade.min'}">
+    <bean id="course.courseset.nof.grade.min" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.course.courseset.nof.grade.min'">
         <property name="items">
             <list>
                 <ref bean="KRMS-MultiCourse-Tree-Section" />
@@ -334,7 +334,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.course.courseset.grade.max-->
-    <bean id="course.courseset.grade.max" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.grade.max'}">
+    <bean id="course.courseset.grade.max" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.course.courseset.grade.max'">
         <property name="items">
             <list>
                 <ref bean="KRMS-MultiCourse-Tree-Section" />
@@ -344,7 +344,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.course.test.score.min-->
-    <bean id="course.test.score.min" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.test.score.min'}">
+    <bean id="course.test.score.min" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.course.test.score.min'">
         <property name="items">
             <list>
                 <ref bean="KRMS-TestScore-Field" />
@@ -354,7 +354,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.course.test.score.max-->
-    <bean id="course.test.score.max" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.test.score.max'}">
+    <bean id="course.test.score.max" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.course.test.score.max'">
         <property name="items">
             <list>
                 <ref bean="KRMS-TestScore-Field" />
@@ -365,7 +365,7 @@
 
     <!--kuali.krms.proposition.type.course.notcompleted-->
     <!-- This type has a strike through on the Google Doc -->
-    <!--<bean id="course.notcompleted" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.notcompleted'}">
+    <!--<bean id="course.notcompleted" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.course.notcompleted'">
         <property name="items">
             <list>
             </list>
@@ -373,7 +373,7 @@
     </bean>-->
 
     <!--kuali.krms.proposition.type.course.courseset.completed.none-->
-    <bean id="course.courseset.completed.none" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.completed.none'}">
+    <bean id="course.courseset.completed.none" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.course.courseset.completed.none'">
         <property name="items">
             <list>
                 <ref bean="KRMS-MultiCourse-Tree-Section" />
@@ -382,7 +382,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.course.courseset.credits.completed.none-->
-    <bean id="course.courseset.credits.completed.none" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.credits.completed.none'}">
+    <bean id="course.courseset.credits.completed.none" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.course.courseset.credits.completed.none'">
         <property name="items">
             <list>
                 <ref bean="KRMS-MultiCourse-Tree-Section" />
@@ -391,7 +391,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.course.courseset.credits.completed.nof-->
-    <bean id="course.courseset.credits.completed.nof" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.credits.completed.nof'}">
+    <bean id="course.courseset.credits.completed.nof" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.course.courseset.credits.completed.nof'">
         <property name="items">
             <list>
                 <ref bean="KRMS-MultiCourse-Tree-Section" />
@@ -401,7 +401,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.course.courseset.completed.nof-->
-    <bean id="course.courseset.completed.nof" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.completed.nof'}">
+    <bean id="course.courseset.completed.nof" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.course.courseset.completed.nof'">
         <property name="items">
             <list>
                 <ref bean="KRMS-MultiCourse-Tree-Section" />
@@ -411,7 +411,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.course.enrolled-->
-    <bean id="course.enrolled" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.enrolled'}">
+    <bean id="course.enrolled" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.course.enrolled'">
         <property name="items">
             <list>
                 <ref bean="KRMS-SingleCourse-SuggestField" />
@@ -420,7 +420,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.course.courseset.enrolled.nof-->
-    <bean id="course.courseset.enrolled.nof" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.enrolled.nof'}">
+    <bean id="course.courseset.enrolled.nof" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.course.courseset.enrolled.nof'">
         <property name="items">
             <list>
                 <ref bean="KRMS-MultiCourse-Tree-Section" />
@@ -430,7 +430,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.course.courseset.enrolled.all-->
-    <bean id="course.courseset.enrolled.all" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.enrolled.all'}">
+    <bean id="course.courseset.enrolled.all" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.course.courseset.enrolled.all'">
         <property name="items">
             <list>
                 <ref bean="KRMS-MultiCourse-Tree-Section" />
@@ -439,7 +439,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.credits.earned.min-->
-    <bean id="credits.earned.min" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.credits.earned.min'}">
+    <bean id="credits.earned.min" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.credits.earned.min'">
         <property name="items">
             <list>
                 <ref bean="KRMS-Credits-ConstantValue" />
@@ -448,7 +448,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.course.notccompleted-->
-    <bean id="course.notccompleted" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.notccompleted'}">
+    <bean id="course.notccompleted" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.course.notccompleted'">
         <property name="items">
             <list>
                 <ref bean="KRMS-SingleCourse-SuggestField" />
@@ -457,7 +457,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.course.credits.repeat.max-->
-    <bean id="course.credits.repeat.max" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.credits.repeat.max'}">
+    <bean id="course.credits.repeat.max" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.course.credits.repeat.max'">
         <property name="items">
             <list>
                 <ref bean="KRMS-Credits-ConstantValue" />
@@ -466,7 +466,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.max.limit.courses.for.campus.duration-->
-    <bean id="max.limit.courses.for.campus.duration" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.max.limit.courses.for.campus.duration'}">
+    <bean id="max.limit.courses.for.campus.duration" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.max.limit.courses.for.campus.duration'">
         <property name="items">
             <list>
                 <!-- TODO: Campus component -->
@@ -479,7 +479,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.max.limit.credits.for.campus.duration-->
-    <bean id="max.limit.credits.for.campus.duration" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.max.limit.credits.for.campus.duration'}">
+    <bean id="max.limit.credits.for.campus.duration" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.max.limit.credits.for.campus.duration'">
         <property name="items">
             <list>
                 <!-- TODO: Campus component -->
@@ -492,7 +492,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.admitted.to.program-->
-    <bean id="admitted.to.program" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.admitted.to.program'}">
+    <bean id="admitted.to.program" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.admitted.to.program'">
         <property name="items">
             <list>
             </list>
@@ -500,7 +500,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.admitted.to.program.campus-->
-    <bean id="admitted.to.program.campus" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.admitted.to.program.campus'}">
+    <bean id="admitted.to.program.campus" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.admitted.to.program.campus'">
         <property name="items">
             <list>
                 <!-- No input component needed here -->
@@ -509,7 +509,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.notadmitted.to.program-->
-    <bean id="notadmitted.to.program" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.notadmitted.to.program'}">
+    <bean id="notadmitted.to.program" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.notadmitted.to.program'">
         <property name="items">
             <list>
                 <!-- TODO: Program component -->
@@ -518,7 +518,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.notadmitted.to.program.in.class.standing-->
-    <bean id="notadmitted.to.program.in.class.standing" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.notadmitted.to.program.in.class.standing'}">
+    <bean id="notadmitted.to.program.in.class.standing" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.notadmitted.to.program.in.class.standing'">
         <property name="items">
             <list>
                 <!-- TODO: Program component -->
@@ -528,7 +528,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.admitted.to.program.org-->
-    <bean id="admitted.to.program.org" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.admitted.to.program.org'}">
+    <bean id="admitted.to.program.org" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.admitted.to.program.org'">
         <property name="items">
             <list>
                 <ref bean="KRMS-Department-Field" />
@@ -537,7 +537,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.in.class.standing-->
-    <bean id="in.class.standing" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.in.class.standing'}">
+    <bean id="in.class.standing" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.in.class.standing'">
         <property name="items">
             <list>
                 <!-- TODO: Class Standing component -->
@@ -546,7 +546,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.greater.than.class.standing-->
-    <bean id="greater.than.class.standing" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.greater.than.class.standing'}">
+    <bean id="greater.than.class.standing" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.greater.than.class.standing'">
         <property name="items">
             <list>
                 <!-- TODO: Class Standing component -->
@@ -555,7 +555,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.less.than.class.standing-->
-    <bean id="less.than.class.standing" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.less.than.class.standing'}">
+    <bean id="less.than.class.standing" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.less.than.class.standing'">
         <property name="items">
             <list>
                 <!-- TODO: Class Standing component -->
@@ -564,7 +564,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.notin.class.standing-->
-    <bean id="notin.class.standing" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.notin.class.standing'}">
+    <bean id="notin.class.standing" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.notin.class.standing'">
         <property name="items">
             <list>
                 <!-- TODO: Class Standing component -->
@@ -573,7 +573,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.course.offering.enrolled-->
-    <bean id="course.offering.enrolled" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.offering.enrolled'}">
+    <bean id="course.offering.enrolled" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.course.offering.enrolled'">
         <property name="items">
             <list>
                 <!-- TODO: Course Offering component -->
@@ -582,7 +582,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.course.courseset.enrolled-->
-    <bean id="course.courseset.enrolled" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.courseset.enrolled'}">
+    <bean id="course.courseset.enrolled" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.course.courseset.enrolled'">
         <property name="items">
             <list>
                 <ref bean="KRMS-MultiCourse-Tree-Section" />
@@ -591,7 +591,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.no.repeat.course.nof-->
-    <bean id="no.repeat.course.nof" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.no.repeat.course.nof'}">
+    <bean id="no.repeat.course.nof" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.no.repeat.course.nof'">
         <property name="items">
             <list>
                 <ref bean="KRMS-SingleCourse-SuggestField" />
@@ -601,7 +601,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.test.score.between.values-->
-    <bean id="test.score.between.values" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.test.score.between.values'}">
+    <bean id="test.score.between.values" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.test.score.between.values'">
         <property name="items">
             <list>
                 <ref bean="KRMS-TestScore-Field" />
@@ -612,7 +612,7 @@
     </bean>
 
     <!--kuali.krms.proposition.type.test.score-->
-    <bean id="test.score" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.test.score'}">
+    <bean id="test.score" parent="proposition-group" p:progressiveRender="proposition.typeId eq 'kuali.krms.proposition.type.test.score'">
         <property name="items">
             <list>
                 <ref bean="KRMS-TestScore-Field" />
