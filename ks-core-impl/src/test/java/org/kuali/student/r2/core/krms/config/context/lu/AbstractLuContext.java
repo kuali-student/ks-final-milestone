@@ -18,6 +18,7 @@ package org.kuali.student.r2.core.krms.config.context.lu;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.student.r2.core.krms.naturallanguage.AbstractContext;
+import org.kuali.student.r2.core.krms.naturallanguage.Context;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -27,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractLuContext<T> extends AbstractContext<T> {
+public abstract class AbstractLuContext extends AbstractContext {
 
 	private final static Map<String, MockCluInfo> cluMap = new HashMap<String, MockCluInfo>();
 	private final static Map<String, MockCluSetInfo> cluSetMap = new HashMap<String, MockCluSetInfo>();
@@ -140,19 +141,17 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
     /**
      * Gets a custom CLU set from a proposition.
      *
-     * @param term Term
+     * @param parameters Termparameters
      * @return custom CLU set
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException If building a custom CLU set fails
      */
-    public MockCluSetInfo getCluSet(TermDefinitionContract term) throws OperationFailedException {
-        Map<String, String> map = getTermParameterMap(term);
+    public MockCluSetInfo getCluSet(Map<String, Object> parameters) throws OperationFailedException {
     	MockCluSetInfo cluSet = null;
-    	if(map.containsKey(TermParameterTypes.CLU_KEY.getId())) {
-        	String cluIds = map.get(TermParameterTypes.CLU_KEY.getId());
-//        	cluSet = getClusAsCluSet(cluIds);
+    	if(parameters.containsKey(TermParameterTypes.CLU_KEY.getId())) {
+        	String cluIds = (String) parameters.get(TermParameterTypes.CLU_KEY.getId());
         	cluSet = getCluAsCluSet(cluIds);
-        } else if(map.containsKey(TermParameterTypes.CLUSET_KEY.getId())) {
-        	String cluSetId = map.get(TermParameterTypes.CLUSET_KEY.getId());
+        } else if(parameters.containsKey(TermParameterTypes.CLUSET_KEY.getId())) {
+        	String cluSetId = (String) parameters.get(TermParameterTypes.CLUSET_KEY.getId());
             cluSet = getCluSet(cluSetId);
         }
     	return cluSet;
@@ -162,16 +161,12 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      * Creates the context map (template data) for the proposition.
      * Also, adds the field token map to the context map.
      *
-     *
-     *
-     *
-     *
-     * @param term Term
+     * @param parameters Termparameters
      * @param contextInfo
      * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException If CLU, CluSet or relation does not exist
      */
-    public Map<String, Object> createContextMap(TermDefinitionContract term, ContextInfo contextInfo) throws OperationFailedException {
-        Map<String, Object> contextMap = super.createContextMap(term, contextInfo);
+    public Map<String, Object> createContextMap(Map<String, Object> parameters, ContextInfo contextInfo) throws OperationFailedException {
+        Map<String, Object> contextMap = super.createContextMap(parameters, contextInfo);
 //		contextMap.put(EXPECTED_VALUE_TOKEN, getTermParameterValue(term, TermParameterTypes.INTEGER_VALUE1_KEY.getId()));
 //        contextMap.put(OPERATOR_TOKEN, getTermParameterValue(term, TermParameterTypes.OPERATOR_KEY.getId()));
         return contextMap;
