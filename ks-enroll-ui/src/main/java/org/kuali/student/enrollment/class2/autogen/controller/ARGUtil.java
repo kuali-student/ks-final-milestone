@@ -636,9 +636,12 @@ public class ARGUtil {
             if (formatOfferingInfo.getActivityOfferingTypeKeys()!=null && formatOfferingInfo.getActivityOfferingTypeKeys().size()>1) {
                 return true;
             } else if (formatOfferingInfo.getActivityOfferingTypeKeys()!=null && formatOfferingInfo.getActivityOfferingTypeKeys().size()==1) {
-                List<ActivityOfferingClusterInfo> clusters =
-                        getCourseOfferingService().getActivityOfferingClustersByFormatOffering(formatOfferingInfo.getId(), context);
-                if (clusters!=null && clusters.size()>=1) {
+                QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+                qbcBuilder.setPredicates(PredicateFactory.equal("formatOfferingId", formatOfferingInfo.getId()));
+                QueryByCriteria criteria = qbcBuilder.build();
+
+                List<String> aoClusterIds = getCourseOfferingService().searchForActivityOfferingClusterIds(criteria, context);
+                if (aoClusterIds!=null && aoClusterIds.size()>=1) {
                     return false;
                 } else {
                     return true;
