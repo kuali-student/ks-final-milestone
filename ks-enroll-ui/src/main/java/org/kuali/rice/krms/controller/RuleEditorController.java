@@ -825,7 +825,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         Object dataObject = document.getDocument().getNewMaintainableObject().getDataObject();
         if (dataObject instanceof RuleManagementWrapper) {
             RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) dataObject;
-            String ruleId = document.getActionParamaterValue("ruleId");
+            String ruleId = document.getActionParamaterValue("ruleKey");
             RuleEditor ruleEditor = null;
             if ((ruleId != null) && (StringUtils.isNotBlank(ruleId))) {
                 //Get a specific ruleEditor based on the ruleId.
