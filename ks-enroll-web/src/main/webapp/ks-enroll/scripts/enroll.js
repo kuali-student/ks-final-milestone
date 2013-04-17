@@ -121,6 +121,14 @@ function toggleAssignButton() {
     }
 }
 
+function toggleAddAOCButton(buttonId, controlId) {
+    if (jQuery("#"+controlId).val() != "" ) {
+        jQuery("#"+buttonId).removeAttr("disabled");
+    } else {
+        jQuery("#"+buttonId).attr("disabled", "disabled");
+    }
+}
+
 function renameDialogButtons(labelsToReplace) {
     var checkboxes = jQuery("#kualiLightboxForm :input[name='dialogResponse']");
     jQuery.each(labelsToReplace, function (key, newLabelValue) {
