@@ -389,7 +389,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 for(ActivityOfferingWrapper aoWrapper:cluster.getAoWrapperList()){
                     aoInfos.add(aoWrapper.getAoInfo());
                 }
-                _validateRegistrationGroupsPerCluster(rgInfos,aoInfos,cluster,form,i, ao2sch, aoMap);
+                _validateRegistrationGroupsPerCluster(rgInfos,aoInfos,cluster,form,i, ao2sch, ao2schReq,aoMap);
                 i++;
             }
             Date endOfValidation = new Date();
@@ -1042,7 +1042,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     */
     private void _validateRegistrationGroupsPerCluster(List<RegistrationGroupInfo> rgInfos, List<ActivityOfferingInfo> aoList,
                                                        ActivityOfferingClusterWrapper aoClusterWrapper,
-                                                       ARGCourseOfferingManagementForm theForm, int clusterIndex, Map<String, List<ScheduleCalcContainer>> ao2sch, Map<String, ActivityOfferingWrapper> aoMap) throws Exception{
+                                                       ARGCourseOfferingManagementForm theForm, int clusterIndex, Map<String, List<ScheduleCalcContainer>> ao2sch, Map<String, List<ScheduleRequestCalcContainer>> ao2schReq,Map<String, ActivityOfferingWrapper> aoMap) throws Exception{
 
         Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap =
                 _constructActivityOfferingTypeToAvailableActivityOfferingMap(aoList);
@@ -1082,7 +1082,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             // perform max enrollment validation
             _performMaxEnrollmentValidation(aoMap, aoClusterWrapper.getAoCluster(), clusterIndex);
             //validate AO time conflict in RG
-            _performRGTimeConflictValidation(aoClusterWrapper.getAoCluster(), rgInfos, clusterIndex,ao2sch);
+            _performRGTimeConflictValidation(aoClusterWrapper.getAoCluster(), rgInfos, clusterIndex,ao2sch, ao2schReq);
 
         }
         if (!rgInfosCopy.isEmpty()){
@@ -1176,7 +1176,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
     }
 
-    private List<Integer> _performRGTimeConflictValidation(ActivityOfferingClusterInfo aoCluster, List<RegistrationGroupInfo> registrationGroupInfos, int clusterIndex, Map<String, List<ScheduleCalcContainer>> ao2sch) throws Exception{
+    private List<Integer> _performRGTimeConflictValidation(ActivityOfferingClusterInfo aoCluster, List<RegistrationGroupInfo> registrationGroupInfos, int clusterIndex, Map<String, List<ScheduleCalcContainer>> ao2sch, Map<String, List<ScheduleRequestCalcContainer>> ao2schReq) throws Exception{
         List<Integer> rgIndexList = new ArrayList<Integer>();
         rgIndexList.clear();
 
@@ -1186,24 +1186,30 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
                 List<ValidationResultInfo> validationResultInfoList = new ArrayList<ValidationResultInfo>();
                 // Lets build a list of all schedules that need to be compared for this registration group.
-                List<ScheduleCalcContainer> shed2Check = new ArrayList<ScheduleCalcContainer>();
+                List<TimeSlotInfo> shed2Check = new ArrayList<TimeSlotInfo>();
                 for(String aoId : registrationGroupInfo.getActivityOfferingIds()){
                     if(ao2sch.get(aoId)!= null){
-                        shed2Check.addAll(ao2sch.get(aoId));
+                        for(ScheduleCalcContainer sched : ao2sch.get(aoId)){
+                            shed2Check.add(toTimeSlotInfo(sched));
+                        }
+                    }
+                    if(ao2schReq.get(aoId)!= null){
+                        for(ScheduleRequestCalcContainer sched : ao2schReq.get(aoId)){
+                            shed2Check.addAll(sched.getTimeSlots());
+                        }
                     }
                 }
 
-                for(ScheduleCalcContainer outerEntry : shed2Check){
-                    for(ScheduleCalcContainer innerEntry : shed2Check){
+                for(TimeSlotInfo outerEntry : shed2Check){
+                    for(TimeSlotInfo innerEntry : shed2Check){
                         if(outerEntry.equals(innerEntry)){
                             break;
                         }
-                        if (SchedulingServiceUtil.areTimeSlotsInConflict(toTimeSlotInfo(outerEntry), toTimeSlotInfo(innerEntry))) {
+                        if (SchedulingServiceUtil.areTimeSlotsInConflict(outerEntry, innerEntry)) {
                             ValidationResultInfo validationResultInfo = new ValidationResultInfo();
                             validationResultInfo.setLevel(ValidationResult.ErrorLevel.WARN);
-                            validationResultInfo.setMessage("time conflict between AO: " + outerEntry.getAoId() + " and AO: " + innerEntry.getAoId());
+                            validationResultInfo.setMessage("time conflict between AO: " + outerEntry.getId() + " and AO: " + innerEntry.getId());
                             validationResultInfoList.add(validationResultInfo);
-
                         }
                     }
                 }
