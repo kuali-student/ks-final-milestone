@@ -71,7 +71,7 @@
             <list>
                 <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false"
                       p:onChangeScript="handleToolbar('KS-CourseOfferingManagement-CourseOfferingListSection',['enableApproveButton', 'enableDeleteButton'], ['KS-CourseOfferingManagement-ToolBar-Approve-CO', 'KS-CourseOfferingManagement-ToolBar-Delete-CO'] );"
-                      p:hidden="@{#lp.crossListed}">
+                      p:hidden="@{#lp.crossListed or !#line.isEnableEditCOActionLink()}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
