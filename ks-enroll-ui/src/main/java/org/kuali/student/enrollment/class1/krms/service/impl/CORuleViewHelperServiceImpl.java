@@ -318,9 +318,11 @@ public class CORuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original, String compareToRefObjectId) throws Exception {
 
         //Set the original nl if not already exists.
-        PropositionEditor originalRoot = (PropositionEditor) original.getProposition();
-        if ((originalRoot!=null) && (!originalRoot.getNaturalLanguage().containsKey(this.getEditTreeBuilder().getNaturalLanguageUsageKey()))) {
-            this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(originalRoot, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
+        if (original.getProposition()!=null){
+            PropositionEditor originalRoot = (PropositionEditor) original.getProposition();
+            if (!originalRoot.getNaturalLanguage().containsKey(this.getEditTreeBuilder().getNaturalLanguageUsageKey())) {
+                this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(originalRoot, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
+            }
         }
 
         //Get the CLU Tree.
@@ -330,9 +332,16 @@ public class CORuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
         RuleDefinitionContract compare = treeBuilder.getCompareRule(courseOffering.getCourseId(), original.getTypeId());
 
         //Build the Tree
-        RuleEditor compareEditor = new EnrolRuleEditor(compare);
-        PropositionEditor root = (PropositionEditor) compareEditor.getProposition();
-        this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(root, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
+        RuleEditor compareEditor;
+        if(compare==null){
+            compareEditor = new EnrolRuleEditor();
+        } else {
+            compareEditor = new EnrolRuleEditor(compare);
+        }
+        if(compareEditor.getProposition()!=null){
+            PropositionEditor root = (PropositionEditor) compareEditor.getProposition();
+            this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(root, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
+        }
         Tree<CompareTreeNode, String> compareTree = treeBuilder.buildTree(original, compareEditor);
 
         return compareTree;
