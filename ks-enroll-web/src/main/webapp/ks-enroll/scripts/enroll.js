@@ -122,10 +122,15 @@ function toggleAssignButton() {
 }
 
 function toggleAddAOCButton(buttonId, controlId) {
-    if (jQuery("#"+controlId).val() != "" ) {
-        jQuery("#"+buttonId).removeAttr("disabled");
+    if ((buttonId=="moveAOCButton" && jQuery("#clusterIDListForAOMove_control").val()== "createNewCluster")
+            || buttonId=="addAOCButton") {
+        if (jQuery("#"+controlId).val() == "" ) {
+            jQuery("#"+buttonId).attr("disabled", "disabled");
+        } else {
+            jQuery("#"+buttonId).removeAttr("disabled");
+        }
     } else {
-        jQuery("#"+buttonId).attr("disabled", "disabled");
+        jQuery("#"+buttonId).removeAttr("disabled");
     }
 }
 

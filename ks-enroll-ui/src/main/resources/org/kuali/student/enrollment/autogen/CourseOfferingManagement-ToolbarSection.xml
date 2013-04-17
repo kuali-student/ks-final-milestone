@@ -293,7 +293,8 @@
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>
-                <bean id="clusterIDListForAOMove" parent="Uif-InputField" p:propertyName="clusterIdForAOMove"  p:label="Move selected offerings to" p:labelPlacement="TOP" >
+                <bean id="clusterIDListForAOMove" parent="Uif-InputField" p:propertyName="clusterIdForAOMove"  p:label="Move selected offerings to" p:labelPlacement="TOP"
+                      p:onChangeScript="toggleAddAOCButton('moveAOCButton','privateNameForMoveId_control');">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -314,9 +315,10 @@
                 </bean>
                 <bean p:id="foNameForAOMoveId" parent="Uif-DataField" p:propertyName="selectedFONameForAOMove" p:label="Format Offering" p:labelPlacement="TOP" p:style="display:none">
                 </bean>
-                <bean p:id="privateNameForMoveId" parent="Uif-InputField" p:propertyName="privateClusterNameForMovePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true" p:style="display:none">
+                <bean p:id="privateNameForMoveId" parent="Uif-InputField" p:propertyName="privateClusterNameForMovePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true" p:style="display:none"
+                       >
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20" p:onChangeScript="toggleAddAOCButton('moveAOCButton','privateNameForMoveId_control');"/>
+                        <bean parent="Uif-TextControl" p:size="30" p:maxLength="20" p:onChangeScript="toggleAddAOCButton('moveAOCButton','privateNameForMoveId_control');"/>
                     </property>
                 </bean>
                 <bean p:id="publishedNameForMoveId" parent="Uif-InputField"  p:propertyName="publishedClusterNameForMovePopover" p:label="Published Name" p:labelPlacement="TOP"  p:render="true" p:style="display:none">
