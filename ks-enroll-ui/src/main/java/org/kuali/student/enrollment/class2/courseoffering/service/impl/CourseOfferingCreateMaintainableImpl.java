@@ -233,6 +233,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                       foWrapper.getFormatOfferingInfo().setTermId(wrapper.getCourseOfferingInfo().getTermId());
                       foWrapper.getFormatOfferingInfo().setCourseOfferingId(coInfo.getId());
                       try {
+                          CourseOfferingViewHelperUtil.addActivityOfferingTypesToFormatOffering(foWrapper.getFormatOfferingInfo(), jointWrapper.getCourseInfo(), getTypeService(), contextInfo);
                           FormatOfferingInfo createdFormatOffering = getCourseOfferingService().createFormatOffering(coInfo.getId(), foWrapper.getFormatOfferingInfo().getFormatId(), foWrapper.getFormatOfferingInfo().getTypeKey(), foWrapper.getFormatOfferingInfo(), contextInfo);
                           foWrapper.setFormatOfferingInfo(createdFormatOffering);
                       } catch (Exception e) {
