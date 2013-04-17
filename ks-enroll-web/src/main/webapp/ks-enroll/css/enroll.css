@@ -240,3 +240,10 @@ a
     overflow: auto;
     margin: 0px 10px 20px 0px;
 }
+
+.ks-table-uif-navigationActionLink
+{
+    padding-left: 10px;
+    margin-left: 10px;
+    /*border-left: 1px solid black;*/
+}
