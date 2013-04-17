@@ -12,12 +12,14 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.KrmsConstants;
+import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameter;
+import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
@@ -270,44 +272,49 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     public String resetDescription(PropositionEditor prop) {
 
         //Build the new termParamters with the matching component builder.
-        Map<String, String> termParameters = null;
-        ComponentBuilder builder = this.getTemplateRegistry().getComponentBuilderForType(prop.getType());
-        if (builder != null) {
-            termParameters = builder.buildTermParameters(prop);
-        }
-        if (prop.getTerm() == null){
-            TermEditor term = new TermEditor();
-            String termSpecName = this.getTemplateRegistry().getTermSpecNameForType(prop.getType());
-            term.setSpecification(getTermRepositoryService().getTermSpecificationByNameAndNamespace(termSpecName,KsKrmsConstants.NAMESPACE_CODE));
-            prop.setTerm(term);
-        }
-        List<TermParameterEditor> parameters = new ArrayList<TermParameterEditor>();
-        if (termParameters != null) {
-            for (Map.Entry<String, String> entry : termParameters.entrySet()) {
+        if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
+            Map<String, String> termParameters = null;
+            ComponentBuilder builder = this.getTemplateRegistry().getComponentBuilderForType(prop.getType());
+            if (builder != null) {
+                termParameters = builder.buildTermParameters(prop);
+            }
+            if (prop.getTerm() == null){
+                TermEditor term = new TermEditor();
+                String termSpecName = this.getTemplateRegistry().getTermSpecNameForType(prop.getType());
+                term.setSpecification(getTermRepositoryService().getTermSpecificationByNameAndNamespace(termSpecName,KsKrmsConstants.NAMESPACE_CODE));
+                prop.setTerm(term);
+            }
 
-                TermParameterEditor parameterEditor = null;
-                if (prop.getTerm().getParameters() != null) {
-                    for (TermParameterEditor parameter : prop.getTerm().getEditorParameters()) {
+            List<TermParameterEditor> parameters = new ArrayList<TermParameterEditor>();
+            if (termParameters != null) {
+                for (Map.Entry<String, String> entry : termParameters.entrySet()) {
 
-                        if (entry.getKey().equals(parameter.getName())) {
-                            parameterEditor = parameter;
-                            parameterEditor.setValue(entry.getValue());
-                            break;
+                    TermParameterEditor parameterEditor = null;
+                    if (prop.getTerm().getParameters() != null) {
+                        for (TermParameterEditor parameter : prop.getTerm().getEditorParameters()) {
+
+                            if (entry.getKey().equals(parameter.getName())) {
+                                parameterEditor = parameter;
+                                parameterEditor.setValue(entry.getValue());
+                                break;
+                            }
                         }
                     }
-                }
 
-                //Create a new parameter if not exist.
-                if (parameterEditor == null) {
-                    parameterEditor = new TermParameterEditor();
-                    parameterEditor.setName(entry.getKey());
-                    parameterEditor.setValue(entry.getValue());
+                    //Create a new parameter if not exist.
+                    if (parameterEditor == null) {
+                        parameterEditor = new TermParameterEditor();
+                        parameterEditor.setName(entry.getKey());
+                        parameterEditor.setValue(entry.getValue());
+                    }
+                    parameters.add(parameterEditor);
                 }
-                parameters.add(parameterEditor);
             }
-        }
-        prop.getTerm().setParameters(parameters);
 
+            prop.getTerm().setParameters(parameters);
+        }
+
+        //Refresh the natural language.
         this.getNaturalLanguageHelper().setNaturalLanguageForUsage(prop, KsKrmsConstants.KRMS_NL_RULE_EDIT);
         this.getNaturalLanguageHelper().setNaturalLanguageForUsage(prop, KsKrmsConstants.KRMS_NL_PREVIEW);
         prop.setDescription(prop.getNaturalLanguageForUsage(KsKrmsConstants.KRMS_NL_RULE_EDIT));
@@ -533,7 +540,10 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     @Override
     public PropositionEditor createCompoundPropositionBoStub(PropositionEditor existing, boolean addNewChild) {
         try {
-            return PropositionTreeUtil.createCompoundPropositionBoStub(existing, addNewChild, this.getPropositionEditorClass());
+            PropositionEditor compound = PropositionTreeUtil.createCompoundPropositionBoStub(existing, addNewChild, this.getPropositionEditorClass());
+            PropositionTreeUtil.setTypeForCompoundOpCode(compound, LogicalOperator.AND.getCode());
+            this.resetDescription(compound);
+            return compound;
         } catch (Exception e) {
             return null;
         }

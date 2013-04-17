@@ -38,23 +38,34 @@ public class NaturalLanguageHelper {
 
     private Map<String, String> usageMap = new HashMap<String, String>();
 
+    /**
+     * This method should set the natural language only for the given proposition. It does not
+     * do a recursive call through the tree structure.
+     *
+     * @param proposition
+     * @param usageName
+     */
     public void setNaturalLanguageForUsage(PropositionEditor proposition, String usageName){
 
         //Setup the Proposition
         List<PropositionParameter.Builder> parameters = new ArrayList<PropositionParameter.Builder>();
-        for(PropositionParameterContract parameter : proposition.getParameters()){
-            PropositionParameter.Builder parmBuilder = PropositionParameter.Builder.create(parameter);
+        if(proposition.getParameters()!=null){  //Parameters on Compound Propositions could be null.
+            for(PropositionParameterContract parameter : proposition.getParameters()){
+                PropositionParameter.Builder parmBuilder = PropositionParameter.Builder.create(parameter);
 
-            //Add the edited term.
-            if(parameter.getParameterType().equals(PropositionParameterType.TERM.getCode())){
-                TermDefinition.Builder termBuilder = TermDefinition.Builder.create(proposition.getTerm());
-                for (Map.Entry<String, String> entry : proposition.getNlParameters().entrySet()) {
-                    termBuilder.getParameters().add(TermParameterDefinition.Builder.create(null, null, entry.getKey(), entry.getValue()));
+                //Add the edited term.
+                if(parameter.getParameterType().equals(PropositionParameterType.TERM.getCode())){
+                    TermDefinition.Builder termBuilder = TermDefinition.Builder.create(proposition.getTerm());
+                    for (Map.Entry<String, String> entry : proposition.getNlParameters().entrySet()) {
+                        termBuilder.getParameters().add(TermParameterDefinition.Builder.create(null, null, entry.getKey(), entry.getValue()));
+                    }
+                    parmBuilder.setTermValue(termBuilder.build());
                 }
-                parmBuilder.setTermValue(termBuilder.build());
+                parameters.add(parmBuilder);
             }
-            parameters.add(parmBuilder);
         }
+
+        //Create the propbuilder but don set compound editors here, we only want to get the nl for current proposition
         PropositionDefinition.Builder propBuilder = PropositionDefinition.Builder.create(proposition.getId(),
                 proposition.getPropositionTypeCode(), proposition.getRuleId(), proposition.getTypeId(), parameters);
 
@@ -63,6 +74,13 @@ public class NaturalLanguageHelper {
         this.setTranslatedNaturalLanguage(proposition, usageName, nlTree);
     }
 
+    /**
+     * This method sets the natural language descriptions for the given proposition and all its child propositions as
+     * well.
+     *
+     * @param proposition
+     * @param usageName
+     */
     public void setNaturalLanguageTreeForUsage(PropositionEditor proposition, String usageName){
         PropositionDefinition.Builder propBuilder = PropositionDefinition.Builder.create(proposition);
         TreeIterator nlTree = this.buildNaturalLanguageTree(propBuilder, this.getNaturalLanguageUsageId(usageName));
@@ -75,6 +93,10 @@ public class NaturalLanguageHelper {
     }
 
     private void setTranslatedNaturalLanguage(PropositionEditor proposition, String usageName, TreeIterator nlDescriptions){
+        if(!nlDescriptions.hasNext()){
+            return;
+        }
+
         proposition.getNaturalLanguage().put(usageName, nlDescriptions.next());
 
         if (proposition.getCompoundEditors() != null){

@@ -29,6 +29,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.dto.AgendaEditor;
@@ -496,7 +497,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
                     int propIndex = -1;
                     for (int i = 0; i < siblings.size(); i++) {
-                        if (propBo.getId().equals(siblings.get(i).getId())) {
+                        if (propBo.getKey().equals(siblings.get(i).getKey())) {
                             propIndex = i;
                             break;
                         }
