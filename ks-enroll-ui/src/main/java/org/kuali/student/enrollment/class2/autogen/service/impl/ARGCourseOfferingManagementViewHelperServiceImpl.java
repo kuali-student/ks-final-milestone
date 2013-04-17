@@ -31,6 +31,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
 import org.kuali.student.enrollment.class2.autogen.dto.ScheduleCalcContainer;
+import org.kuali.student.enrollment.class2.autogen.dto.ScheduleRequestCalcContainer;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.autogen.service.ARGCourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.autogen.util.ARGToolbarUtil;
@@ -320,6 +321,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         Map<String, ActivityOfferingWrapper> aoMap = new HashMap<String, ActivityOfferingWrapper>();
         Set<String> foIds = new HashSet<String>();
         Map<String, List<ScheduleCalcContainer>> ao2sch = new HashMap<String, List<ScheduleCalcContainer>>();
+        Map<String, List<ScheduleRequestCalcContainer>> ao2schReq = new HashMap<String, List<ScheduleRequestCalcContainer>>();
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         //Parse the search results
@@ -357,10 +359,10 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
             // the next two methods pull scheduling data from the DB and put them into the ao2sch map
             processScheduleInfo(results,sch2aoMap,ao2sch,contextInfo);
-            processScheduleRequestsForAos(aoMap.keySet(),ao2sch,contextInfo);
+            processScheduleRequestsForAos(aoIdsWithoutSch,ao2schReq,contextInfo);
 
             // this takes the scheduling data and puts it into the screen form
-            processScheduleData(aoMap,ao2sch,contextInfo);
+            processScheduleData(aoMap,ao2sch,ao2schReq, contextInfo);
 
             //Search for registration group information
             sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.REG_GROUPS_BY_CO_ID_SEARCH_KEY);
@@ -485,68 +487,82 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
     /**
      * Add scheduling information to the map if there are no "actual" schedules already in place for a particular AO.
-     * @param aoIds
+     * @param aoIdsWithoutSch
      * @param ao2sch
      * @param contextInfo
      * @throws Exception
      */
-    protected void processScheduleRequestsForAos(Collection<String> aoIds, Map<String, List<ScheduleCalcContainer>> ao2sch, ContextInfo contextInfo) throws Exception {
-        SearchRequestInfo sr = new SearchRequestInfo(CoreSearchServiceImpl.SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_KEY);
-        sr.addParam(CoreSearchServiceImpl.SearchParameters.REF_IDS, new ArrayList<String>(aoIds));
-        sr.addParam(CoreSearchServiceImpl.SearchParameters.REF_TYPE, SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
-        SearchResultInfo results = searchService.search(sr, null);
+    protected void processScheduleRequestsForAos(Collection<String> aoIdsWithoutSch, Map<String, List<ScheduleRequestCalcContainer>> ao2sch, ContextInfo contextInfo) throws Exception {
 
-        for(SearchResultRowInfo row:results.getRows()){
-            String aoId = null;
-            String cmpId = null;
-            String startTime = null;
-            String endTime = null;
-            String weekdays = null;
-            String roomCode = null;
-            String bldgName = null;
-            Boolean tbaInd = null;
+        if(!aoIdsWithoutSch.isEmpty()){
+            Set<String> buildingIds = new HashSet<String>();
+            Set<String> roomIds = new HashSet<String>();
+            Set<String> timeslotIds = new HashSet<String>();
 
-            for(SearchResultCellInfo cell:row.getCells()){
-                if(CoreSearchServiceImpl.SearchResultColumns.AO_ID.equals(cell.getKey())){
-                    aoId = cell.getValue();
-                }else if(CoreSearchServiceImpl.SearchResultColumns.CMP_ID.equals(cell.getKey())){
-                    cmpId = cell.getValue();
-                }else if(CoreSearchServiceImpl.SearchResultColumns.START_TIME.equals(cell.getKey())){
-                    startTime = cell.getValue();
-                }else if(CoreSearchServiceImpl.SearchResultColumns.END_TIME.equals(cell.getKey())){
-                    endTime = cell.getValue();
-                }else if(CoreSearchServiceImpl.SearchResultColumns.WEEKDAYS.equals(cell.getKey())){
-                    weekdays = cell.getValue();
-                } else if(CoreSearchServiceImpl.SearchResultColumns.ROOM_CODE.equals(cell.getKey())){
-                    roomCode = cell.getValue();
-                }else if(CoreSearchServiceImpl.SearchResultColumns.BLDG_NAME.equals(cell.getKey())){
-                    bldgName = cell.getValue();
-                } else if(CoreSearchServiceImpl.SearchResultColumns.TBA_IND.equals(cell.getKey())){
-                    tbaInd = Boolean.parseBoolean(cell.getValue());
+            Map<String,BuildingInfo> buildingIdMap = new HashMap<String,BuildingInfo>();
+            Map<String,RoomInfo> roomIdMap = new HashMap<String,RoomInfo>();
+            Map<String,TimeSlotInfo> timeslotIdMap = new HashMap<String,TimeSlotInfo>();
+
+
+            List<ScheduleRequestInfo> schRequests = getSchedulingService().getScheduleRequestsByRefObjects(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, new ArrayList(aoIdsWithoutSch), contextInfo);
+            for(ScheduleRequestInfo schRequest:schRequests){
+                for(ScheduleRequestComponentInfo schRequestCom:schRequest.getScheduleRequestComponents()){
+                    buildingIds.addAll(schRequestCom.getBuildingIds());
+                    roomIds.addAll(schRequestCom.getRoomIds());
+                    timeslotIds.addAll(schRequestCom.getTimeSlotIds());
                 }
+
             }
 
-            ScheduleCalcContainer scheduleCalcContainer = new ScheduleCalcContainer(aoId,cmpId,CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, startTime, endTime, weekdays, roomCode, bldgName, tbaInd);
-
-            if(ao2sch.containsKey(aoId)){
-                boolean hasActual = false;
-                for(ScheduleCalcContainer scc: ao2sch.get(aoId)){
-                     if(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE.equals(scc.getScheduleType())){
-                         hasActual = true;
-                         break;
-                     }
-                }
-                if(!hasActual){
-                    ao2sch.get(aoId).add(scheduleCalcContainer);
-                }
-            }   else {
-                List<ScheduleCalcContainer> schList = new ArrayList<ScheduleCalcContainer>();
-                schList.add(scheduleCalcContainer);
-                ao2sch.put(aoId, schList );
+            List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByIds(new ArrayList<String>(timeslotIds), contextInfo);
+            for(TimeSlotInfo timeSlotInfo : timeSlotInfos){
+                timeslotIdMap.put(timeSlotInfo.getId(), timeSlotInfo);
+            }
+            List<RoomInfo> roomInfos = getRoomService().getRoomsByIds(new ArrayList<String>(roomIds),contextInfo);
+            for(RoomInfo roomInfo : roomInfos){
+                roomIdMap.put(roomInfo.getId(), roomInfo);
+                buildingIds.add(roomInfo.getBuildingId());
+            }
+            List<BuildingInfo> buildingInfos = getRoomService().getBuildingsByIds(new ArrayList<String>(buildingIds),contextInfo);
+            for(BuildingInfo buildingInfo : buildingInfos){
+                buildingIdMap.put(buildingInfo.getId(), buildingInfo);
             }
 
+            for(ScheduleRequestInfo schRequest:schRequests){
+                String aoId =  schRequest.getRefObjectId();
+
+                for(ScheduleRequestComponentInfo schRequestCom:schRequest.getScheduleRequestComponents()){
+                    List<RoomInfo> rooms = new ArrayList<RoomInfo>();
+                    List<BuildingInfo> bldgs = new ArrayList<BuildingInfo>();
+                    List<TimeSlotInfo> timeSlots = new ArrayList<TimeSlotInfo>();
+                    for(String roomId : schRequestCom.getRoomIds()){
+                        rooms.add(roomIdMap.get(roomId));
+                        bldgs.add(buildingIdMap.get(roomIdMap.get(roomId).getBuildingId()));
+                    }
+                    for(String timeSlotId : schRequestCom.getTimeSlotIds()){
+                        TimeSlotInfo timeSlotInfo = timeslotIdMap.get(timeSlotId);
+                        timeSlots.add(timeSlotInfo);
+
+                    }
+                    ScheduleRequestCalcContainer src = new ScheduleRequestCalcContainer(aoId,schRequest.getId(),CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,timeSlots,rooms,bldgs,schRequestCom.getIsTBA());
+
+
+                    if(ao2sch.containsKey(aoId)){
+
+                            ao2sch.get(aoId).add(src);
+
+                    }   else {
+                        List<ScheduleRequestCalcContainer> schList = new ArrayList<ScheduleRequestCalcContainer>();
+                        schList.add(src);
+                        ao2sch.put(aoId, schList );
+                    }
+                }
+            }
         }
 
+
+
+            //ScheduleCalcContainer scheduleCalcContainer = new ScheduleCalcContainer(aoId,cmpId,CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, startTime, endTime, weekdays, roomCode, bldgName, tbaInd);
 
 
     }
@@ -592,31 +608,43 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
     }
 
-    private void processScheduleData(Map<String,ActivityOfferingWrapper> aoMap, Map<String, List<ScheduleCalcContainer>> ao2sch, ContextInfo contextInfo) throws Exception {
-        for(String aoId : ao2sch.keySet()){
+    private void processScheduleData(Map<String,ActivityOfferingWrapper> aoMap, Map<String, List<ScheduleCalcContainer>> ao2sch, Map<String, List<ScheduleRequestCalcContainer>> ao2schReq, ContextInfo contextInfo) throws Exception {
+        for(String aoId : aoMap.keySet()){
             ActivityOfferingWrapper aoWrapper = aoMap.get(aoId);
-            List<ScheduleCalcContainer> schedList = ao2sch.get(aoId);
 
-
-            boolean newRow = false;
-            for(ScheduleCalcContainer sched : schedList){
-                if(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE.equals(sched.getScheduleType()))    {
-                    aoWrapper.setScheduleInfo(new ScheduleInfo());
-                    aoWrapper.setStartTimeDisplay(sched.getStart().isEmpty()?sched.getStart():DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(sched.getStart()))), newRow);
-                    aoWrapper.setEndTimeDisplay(sched.getEnd().isEmpty()?sched.getEnd():DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(sched.getEnd()))), newRow);
-                    aoWrapper.setBuildingName(sched.getBldgName(), newRow);
-                    aoWrapper.setRoomName(sched.getRoomCode(), newRow);
-                    aoWrapper.setDaysDisplayName(sched.getWeekdays(), newRow);
-                    aoWrapper.setTbaDisplayName(sched.getTbaInd(), newRow);
-                }   else{
-                    aoWrapper.setStartTimeDisplay(sched.getStart().isEmpty()?sched.getStart():DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(sched.getStart()))), newRow, "uif-scheduled-dl");
-                    aoWrapper.setEndTimeDisplay(sched.getEnd().isEmpty()?sched.getEnd():DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(sched.getEnd()))), newRow, "uif-scheduled-dl");
-                    aoWrapper.setBuildingName(sched.getBldgName(), newRow, "uif-scheduled-dl");
-                    aoWrapper.setRoomName(sched.getRoomCode(), newRow, "uif-scheduled-dl");
-                    aoWrapper.setDaysDisplayName(sched.getWeekdays(), newRow, "uif-scheduled-dl");
-                    aoWrapper.setTbaDisplayName(sched.getTbaInd(), newRow);
+            if(ao2sch.containsKey(aoId)){
+                List<ScheduleCalcContainer> schedList = ao2sch.get(aoId);
+                boolean newRow = false;
+                for(ScheduleCalcContainer sched : schedList){
+                        aoWrapper.setScheduleInfo(new ScheduleInfo());
+                        aoWrapper.setStartTimeDisplay(sched.getStart().isEmpty()?sched.getStart():DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(sched.getStart()))), newRow);
+                        aoWrapper.setEndTimeDisplay(sched.getEnd().isEmpty()?sched.getEnd():DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(sched.getEnd()))), newRow);
+                        aoWrapper.setBuildingName(sched.getBldgName(), newRow);
+                        aoWrapper.setRoomName(sched.getRoomCode(), newRow);
+                        aoWrapper.setDaysDisplayName(sched.getWeekdays(), newRow);
+                        aoWrapper.setTbaDisplayName(sched.getTbaInd(), newRow);
+                    newRow = true;
                 }
-                newRow = true;
+
+            }  else if(ao2schReq.containsKey((aoId))){
+                List<ScheduleRequestCalcContainer> schedList = ao2schReq.get(aoId);
+                for(ScheduleRequestCalcContainer sched : schedList){
+                    boolean newLine = aoWrapper.getTbaDisplayName()!=null && !aoWrapper.getTbaDisplayName().isEmpty();
+                    for(RoomInfo room : sched.getRooms()){
+                        aoWrapper.setRoomName(room.getRoomCode(), newLine, "uif-scheduled-dl");
+                    }
+                    for(BuildingInfo bldg : sched.getBldgs()){
+                        aoWrapper.setBuildingName(bldg.getBuildingCode(), newLine, "uif-scheduled-dl");
+                    }
+                    for(TimeSlotInfo timeSlotInfo : sched.getTimeSlots()){
+
+                        aoWrapper.setStartTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(timeSlotInfo.getStartTime().getMilliSeconds())), newLine, "uif-scheduled-dl");
+                        aoWrapper.setEndTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(timeSlotInfo.getEndTime().getMilliSeconds())), newLine, "uif-scheduled-dl");
+                        aoWrapper.setDaysDisplayName(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlotInfo.getWeekdays()), newLine, "uif-scheduled-dl");
+                    }
+                    aoWrapper.setTbaDisplayName(sched.getTbaInd(),true);
+                }
+
             }
         }
     }
