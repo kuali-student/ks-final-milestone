@@ -53,6 +53,7 @@ import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
 import org.kuali.student.enrollment.class1.krms.tree.CORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.CORulePreviewTreeBuilder;
+import org.kuali.student.enrollment.class1.krms.tree.CORuleViewTreeBuilder;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -391,7 +392,7 @@ public class CORuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
 
     protected RuleViewTreeBuilder getViewTreeBuilder() {
         if (viewTreeBuilder == null) {
-            viewTreeBuilder = new RuleViewTreeBuilder();
+            viewTreeBuilder = new CORuleViewTreeBuilder();
             viewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
         }
         return viewTreeBuilder;
