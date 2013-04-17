@@ -132,13 +132,7 @@
             <list>
                 <!-- Note by Bonnie: turn on authz on copy and edit links now -->
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy"
-                      p:render="@{#line.isEnableCopyCOActionLink()}" p:actionEvent="copyCOonManageCOsPage">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ks-table-uif-navigationActionLink</value>
-                        </list>
-                    </property>
-                </bean>
+                      p:render="@{#line.isEnableCopyCOActionLink()}" p:actionEvent="copyCOonManageCOsPage"/>
                 <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" />-->
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit"
                       p:render="@{#line.isEnableEditCOActionLink()}" p:actionEvent="editCOonManageCOsPage">

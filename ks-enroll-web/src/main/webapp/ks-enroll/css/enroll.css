@@ -241,9 +241,8 @@ a
     margin: 0px 10px 20px 0px;
 }
 
-.ks-table-uif-navigationActionLink
-{
-    padding-left: 10px;
-    margin-left: 10px;
-    /*border-left: 1px solid black;*/
+.ks-table-uif-navigationActionLink {
+    padding-left: 8px;
+    margin-left: 8px;
+    border-left: 1px solid #888888;
 }
