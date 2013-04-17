@@ -727,6 +727,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         ruleEditor.setProposition(ruleLogicExpressionParser.parseExpressionIntoRule(ruleEditor));
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
+        this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
         return getUIFModelAndView(form);
     }
