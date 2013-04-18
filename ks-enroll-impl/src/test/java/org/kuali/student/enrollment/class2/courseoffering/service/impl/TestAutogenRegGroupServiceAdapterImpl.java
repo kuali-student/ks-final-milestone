@@ -16,7 +16,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,7 +32,6 @@ import org.kuali.student.common.test.spring.log4j.KSLog4JConfigurer;
 import org.kuali.student.enrollment.class2.acal.util.MockAcalTestDataLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.ActivityOfferingResult;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader.CourseOfferingCreationDetails;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -59,18 +57,15 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.TimeOfDay;
 import org.kuali.student.r2.common.util.TimeOfDayAmPmEnum;
 import org.kuali.student.r2.common.util.TimeOfDayFormattingEnum;
-import org.kuali.student.r2.common.util.TimeOfDayInfoHelper;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.slf4j.Logger;
@@ -479,27 +474,27 @@ AtpInfo atp = atpService.getAtp(CourseOfferingServiceTestDataLoader.FALL_2012_TE
     public void testTimeOfDayInfoHelper() throws InvalidParameterException {
         // Standard time --------------------------------------------------------------
         // Check 8 am
-        TimeOfDay tod = TimeOfDayInfoHelper.createTimeOfDay(8, 0, TimeOfDayAmPmEnum.AM);
-        String todStr = TimeOfDayInfoHelper.formatTimeOfDay(tod);
+        TimeOfDay tod = TimeOfDayHelper.createTimeOfDay(8, 0, TimeOfDayAmPmEnum.AM);
+        String todStr = TimeOfDayHelper.formatTimeOfDay(tod);
         assertEquals("8:00 am", todStr);
         // Check 11:59 PM
-        tod = TimeOfDayInfoHelper.createTimeOfDay(11, 59, TimeOfDayAmPmEnum.PM);
-        todStr = TimeOfDayInfoHelper.formatTimeOfDay(tod);
+        tod = TimeOfDayHelper.createTimeOfDay(11, 59, TimeOfDayAmPmEnum.PM);
+        todStr = TimeOfDayHelper.formatTimeOfDay(tod);
         assertEquals("11:59 pm", todStr);
         // Military time --------------------------------------------------------------
         // Check 8 am
-        tod = TimeOfDayInfoHelper.createTimeOfDayInMilitary(8, 0);
-        todStr = TimeOfDayInfoHelper.formatTimeOfDay(tod);
+        tod = TimeOfDayHelper.createTimeOfDayInMilitary(8, 0);
+        todStr = TimeOfDayHelper.formatTimeOfDay(tod);
         assertEquals("8:00 am", todStr);
         List<TimeOfDayFormattingEnum> options = new ArrayList<TimeOfDayFormattingEnum>();
         options.add(TimeOfDayFormattingEnum.USE_MILITARY_TIME);
-        todStr = TimeOfDayInfoHelper.formatTimeOfDay(tod, options);
+        todStr = TimeOfDayHelper.formatTimeOfDay(tod, options);
         assertEquals("8:00", todStr);
         // Check 11:59 PM
-        tod = TimeOfDayInfoHelper.createTimeOfDayInMilitary(23, 59);
-        todStr = TimeOfDayInfoHelper.formatTimeOfDay(tod);
+        tod = TimeOfDayHelper.createTimeOfDayInMilitary(23, 59);
+        todStr = TimeOfDayHelper.formatTimeOfDay(tod);
         assertEquals("11:59 pm", todStr);
-        todStr = TimeOfDayInfoHelper.formatTimeOfDay(tod, options);
+        todStr = TimeOfDayHelper.formatTimeOfDay(tod, options);
         assertEquals("23:59", todStr);
         // Check for invalid times -----------------------------------------------------
         // 1 millisecond too large
@@ -521,7 +516,7 @@ AtpInfo atp = atpService.getAtp(CourseOfferingServiceTestDataLoader.FALL_2012_TE
         info.setMilliSeconds(-1L);
         boolean exceptionThrown = false;
         try {
-            String todStr = TimeOfDayInfoHelper.formatTimeOfDay(info);
+            String todStr = TimeOfDayHelper.formatTimeOfDay(info);
         } catch (InvalidParameterException e) {
             exceptionThrown = true;
         }
@@ -530,7 +525,7 @@ AtpInfo atp = atpService.getAtp(CourseOfferingServiceTestDataLoader.FALL_2012_TE
     private boolean _testExceptionOnCreateTimeOfDay(int normalHour, int minute, TimeOfDayAmPmEnum amOrPm) {
         boolean exceptionThrown = false;
         try {
-            TimeOfDay tod = TimeOfDayInfoHelper.createTimeOfDay(13, 0, TimeOfDayAmPmEnum.AM);
+            TimeOfDay tod = TimeOfDayHelper.createTimeOfDay(13, 0, TimeOfDayAmPmEnum.AM);
         } catch (InvalidParameterException e) {
             exceptionThrown = true;
         }
