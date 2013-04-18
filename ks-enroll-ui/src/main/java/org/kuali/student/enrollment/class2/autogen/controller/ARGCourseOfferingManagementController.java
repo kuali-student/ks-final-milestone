@@ -127,7 +127,9 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
         form.setInputCode(form.getInputCode().toUpperCase());
         ARGUtil.getViewHelperService(form).populateTerm(form);
 
-        form.setFormatOfferingIdForNewAO(null);//Reset the form - there should be a better place for this
+        //Reset the form - there should be a better place for this
+        form.setFormatOfferingIdForNewAO(null);
+        form.setAdminOrg(null);
 
         if (GlobalVariables.getMessageMap().getErrorCount() > 1) {
             return getUIFModelAndView(form);
