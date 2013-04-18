@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class2.autogen.service.impl;
 
+import org.apache.commons.collections.iterators.EntrySetMapIterator;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
@@ -319,7 +320,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         List<String> aoIdsWithoutSch = new ArrayList<String>();
         Map<String, ActivityOfferingClusterWrapper> clusterMap = new HashMap<String, ActivityOfferingClusterWrapper>();
         Map<String, ActivityOfferingWrapper> aoMap = new HashMap<String, ActivityOfferingWrapper>();
-        Set<String> foIds = new HashSet<String>();
+        Map<String, List<String>> foIds = new HashMap<String,List<String>>();
         Map<String, List<ScheduleCalcContainer>> ao2sch = new HashMap<String, List<ScheduleCalcContainer>>();
         Map<String, List<ScheduleRequestCalcContainer>> ao2schReq = new HashMap<String, List<ScheduleRequestCalcContainer>>();
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
@@ -332,11 +333,10 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         form.getClusterResultList().clear();
         form.getClusterResultList().addAll(clusterMap.values());
 
-        if(foIds == null || foIds.isEmpty()){
-            form.setFormatOfferingIds(_getFoIdsByCoId(coId));
-        } else{
-            form.setFormatOfferingIds(new ArrayList<String>(foIds));
-        }
+        //Get the mapping of formatids to AO types
+        processRelatedTypeKeysForFos(coId, foIds, contextInfo);
+
+        form.setFoId2aoTypeMap(foIds);
 
         if(!aoMap.keySet().isEmpty()){
             //Process Colocated
@@ -400,6 +400,28 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         //List<KeyValue>
 
 
+    }
+
+    private void processRelatedTypeKeysForFos(String coId, Map<String, List<String>> foIds, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        SearchRequestInfo sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY);
+        sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, coId);
+
+        SearchResultInfo results = getSearchService().search(sr, contextInfo);
+
+        for(SearchResultRowInfo row:results.getRows()){
+            String foId = null;
+            String aoType = null;
+
+            for(SearchResultCellInfo cell:row.getCells()){
+                if(ActivityOfferingSearchServiceImpl.SearchResultColumns.FO_ID.equals(cell.getKey())){
+                    foId = cell.getValue();
+                }else if(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_TYPE.equals(cell.getKey())){
+                    aoType = cell.getValue();
+                }
+            }
+            foIds.get(foId).add(aoType);
+
+        }
     }
 
     private List<String> _getFoIdsByCoId(String coId) throws Exception{
@@ -819,7 +841,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                                                                Map<String, ActivityOfferingWrapper> sch2aoMap,
                                                                Map<String, ActivityOfferingClusterWrapper> clusterMap,
                                                                Map<String, ActivityOfferingWrapper> aoMap,
-                                                               Set<String> foIds,
+                                                               Map<String, List<String>> foIds,
                                                                List<String> aoIdsWithoutSch,
                                                                ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
@@ -863,7 +885,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 }
                 else if(ActivityOfferingSearchServiceImpl.SearchResultColumns.FO_ID.equals(cell.getKey())){
                     aoWrapper.getAoInfo().setFormatOfferingId(cell.getValue());
-                    foIds.add(cell.getValue());
+                    foIds.put(cell.getValue(), new ArrayList<String>());
                 }
                 else if(ActivityOfferingSearchServiceImpl.SearchResultColumns.FO_NAME.equals(cell.getKey())){
                     aoWrapper.setFormatOfferingName(cell.getValue());
@@ -885,6 +907,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 aoClusterWrapper.setActivityOfferingClusterId(aoWrapper.getAoClusterID());
                 aoClusterWrapper.setClusterNameForDisplay(aoWrapper.getAoClusterName());
                 aoClusterWrapper.setFormatNameForDisplay(aoWrapper.getAoInfo().getFormatOfferingName());
+                aoClusterWrapper.setFormatOfferingId(aoWrapper.getAoInfo().getFormatOfferingId());
                 ActivityOfferingClusterInfo activityOfferingClusterInfo = new ActivityOfferingClusterInfo();
                 activityOfferingClusterInfo.setFormatOfferingId(aoWrapper.getAoInfo().getFormatOfferingId());
                 activityOfferingClusterInfo.setId(aoWrapper.getAoClusterID());
@@ -999,16 +1022,15 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
      * This method will indicate to the user if the cluster canot be generated because the AO Set does not contain
      * enough activities that meet the requirements of the FormatOffering
      *
-     * @param foInfo
+     * @param aoTypeKeys
      * @param aoList
      * @param aoClusterWrapper
      * @param clusterIndex  Used to tack the warning message onto a particular part of the screen
      * @param contextInfo
      * @throws Exception
      */
-    protected void _performAOCompletePerClusterValidation(FormatOfferingInfo foInfo, List<ActivityOfferingInfo> aoList,
+    protected void _performAOCompletePerClusterValidation(List<String> aoTypeKeys, List<ActivityOfferingInfo> aoList,
                                                           ActivityOfferingClusterWrapper aoClusterWrapper, int clusterIndex, ContextInfo contextInfo) throws Exception{
-        List<String> aoTypeKeys = foInfo.getActivityOfferingTypeKeys();
         Map<String, Boolean> completeAoSet = new HashMap<String, Boolean>(); // using a map to store what's required
 
         for(String aoType :aoTypeKeys){
@@ -1092,10 +1114,8 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             //validate AO time conflict in RG
             _performRGTimeConflictValidation(aoClusterWrapper.getAoCluster(), rgInfos, clusterIndex,ao2sch, ao2schReq);
         }
-        for(String foId : theForm.getFormatOfferingIds()){
-            FormatOfferingInfo foInfo = getCourseOfferingService().getFormatOffering(foId, ContextUtils.createDefaultContextInfo());
-            _performAOCompletePerClusterValidation(foInfo, aoList, aoClusterWrapper, clusterIndex,ContextUtils.createDefaultContextInfo());
-        }
+
+        _performAOCompletePerClusterValidation(theForm.getFoId2aoTypeMap().get(aoClusterWrapper.getFormatOfferingId()), aoList, aoClusterWrapper, clusterIndex,ContextUtils.createDefaultContextInfo());
 
         if (!rgInfosCopy.isEmpty()){
             GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerFormatSection", CourseOfferingConstants.REGISTRATIONGROUP_INVALID_REGGROUPS);

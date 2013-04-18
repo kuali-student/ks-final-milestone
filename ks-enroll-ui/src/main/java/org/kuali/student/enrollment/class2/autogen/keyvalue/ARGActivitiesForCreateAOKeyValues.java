@@ -24,7 +24,6 @@ import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagem
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
@@ -57,10 +56,10 @@ public class ARGActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase im
         String formatOfferingId = coForm.getFormatOfferingIdForNewAO();
         if (formatOfferingId==null || formatOfferingId.equals("")) {
             //  Just return if the CO has no formats (e.g. it was just created).
-            if (coForm.getFormatOfferingIds().isEmpty()) {
+            if (coForm.getFoId2aoTypeMap().isEmpty()) {
                 return keyValues;
             }
-            formatOfferingId = coForm.getFormatOfferingIds().get(0);
+            formatOfferingId = (String)coForm.getFoId2aoTypeMap().keySet().toArray()[0];
         }
 
         String courseId = coForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo().getCourseId();

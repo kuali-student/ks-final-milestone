@@ -28,6 +28,7 @@ import org.kuali.student.r2.core.acal.dto.TermInfo;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class //TODO ...
@@ -164,7 +165,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     private String publishedClusterNameForMovePopover;
     private String formatOfferingIdForViewRG;
     private String formatOfferingName;
-    private List<String> formatOfferingIds;
+    private Map<String,List<String>> foId2aoTypeMap;
     
     private boolean disableMoveButtonForMoveAOCPopOver;
     private String clusterIdForAOMove;
@@ -580,12 +581,12 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
         this.formatOfferingName = formatOfferingName;
     }
 
-    public List<String> getFormatOfferingIds() {
-        return formatOfferingIds;
+    public Map<String,List<String>> getFoId2aoTypeMap() {
+        return foId2aoTypeMap;
     }
 
-    public void setFormatOfferingIds(List<String> formatOfferingIds) {
-        this.formatOfferingIds = formatOfferingIds;
+    public void setFoId2aoTypeMap(Map<String, List<String>> foId2aoTypeMap) {
+        this.foId2aoTypeMap = foId2aoTypeMap;
     }
 
     public boolean isDisableMoveButtonForMoveAOCPopOver() {
