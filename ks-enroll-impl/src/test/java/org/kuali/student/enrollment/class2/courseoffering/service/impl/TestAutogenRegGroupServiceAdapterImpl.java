@@ -43,6 +43,7 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -55,6 +56,10 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.infc.TimeOfDay;
+import org.kuali.student.r2.common.util.TimeOfDayAmPmEnum;
+import org.kuali.student.r2.common.util.TimeOfDayFormattingEnum;
+import org.kuali.student.r2.common.util.TimeOfDayInfoHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
@@ -470,4 +475,65 @@ AtpInfo atp = atpService.getAtp(CourseOfferingServiceTestDataLoader.FALL_2012_TE
         assertEquals(co.getCourseId(), coResult.getCourseId());
     }
 
+    @Test
+    public void testTimeOfDayInfoHelper() throws InvalidParameterException {
+        // Standard time --------------------------------------------------------------
+        // Check 8 am
+        TimeOfDay tod = TimeOfDayInfoHelper.createTimeOfDay(8, 0, TimeOfDayAmPmEnum.AM);
+        String todStr = TimeOfDayInfoHelper.formatTimeOfDay(tod);
+        assertEquals("8:00 am", todStr);
+        // Check 11:59 PM
+        tod = TimeOfDayInfoHelper.createTimeOfDay(11, 59, TimeOfDayAmPmEnum.PM);
+        todStr = TimeOfDayInfoHelper.formatTimeOfDay(tod);
+        assertEquals("11:59 pm", todStr);
+        // Military time --------------------------------------------------------------
+        // Check 8 am
+        tod = TimeOfDayInfoHelper.createTimeOfDayInMilitary(8, 0);
+        todStr = TimeOfDayInfoHelper.formatTimeOfDay(tod);
+        assertEquals("8:00 am", todStr);
+        List<TimeOfDayFormattingEnum> options = new ArrayList<TimeOfDayFormattingEnum>();
+        options.add(TimeOfDayFormattingEnum.USE_MILITARY_TIME);
+        todStr = TimeOfDayInfoHelper.formatTimeOfDay(tod, options);
+        assertEquals("8:00", todStr);
+        // Check 11:59 PM
+        tod = TimeOfDayInfoHelper.createTimeOfDayInMilitary(23, 59);
+        todStr = TimeOfDayInfoHelper.formatTimeOfDay(tod);
+        assertEquals("11:59 pm", todStr);
+        todStr = TimeOfDayInfoHelper.formatTimeOfDay(tod, options);
+        assertEquals("23:59", todStr);
+        // Check for invalid times -----------------------------------------------------
+        // 1 millisecond too large
+        assertTrue(_testExceptionOnCreateTimeOfDay(tod.getMilliSeconds() + 1));
+        // Check 1 millisecond too small
+        assertTrue(_testExceptionOnCreateTimeOfDay(-1L));
+        // Check creating hours too large
+        assertTrue(_testExceptionOnCreateTimeOfDay(13, 0, TimeOfDayAmPmEnum.AM));
+        // Check creating hours too small
+        assertTrue(_testExceptionOnCreateTimeOfDay(0, 0, TimeOfDayAmPmEnum.AM));
+        // Check creating minutes too large
+        assertTrue(_testExceptionOnCreateTimeOfDay(1, 60, TimeOfDayAmPmEnum.AM));
+        // Check creating minutes too small
+        assertTrue(_testExceptionOnCreateTimeOfDay(1, -1, TimeOfDayAmPmEnum.AM));
+    }
+
+    private boolean _testExceptionOnCreateTimeOfDay(long millis) {
+        TimeOfDayInfo info = new TimeOfDayInfo();
+        info.setMilliSeconds(-1L);
+        boolean exceptionThrown = false;
+        try {
+            String todStr = TimeOfDayInfoHelper.formatTimeOfDay(info);
+        } catch (InvalidParameterException e) {
+            exceptionThrown = true;
+        }
+        return exceptionThrown;
+    }
+    private boolean _testExceptionOnCreateTimeOfDay(int normalHour, int minute, TimeOfDayAmPmEnum amOrPm) {
+        boolean exceptionThrown = false;
+        try {
+            TimeOfDay tod = TimeOfDayInfoHelper.createTimeOfDay(13, 0, TimeOfDayAmPmEnum.AM);
+        } catch (InvalidParameterException e) {
+            exceptionThrown = true;
+        }
+        return exceptionThrown;
+    }
 }
