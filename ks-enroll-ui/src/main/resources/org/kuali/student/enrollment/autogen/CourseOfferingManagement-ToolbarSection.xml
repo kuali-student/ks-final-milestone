@@ -303,18 +303,9 @@
                         <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGListOfAOClustersForFOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <!--these fields below are used for creating a cluster and moving AOs-->
-                <!--<bean p:id="formatForMoveId" parent="Uif-InputField" p:propertyName="formatOfferingIdForViewRG" p:label="Select Format" p:labelPlacement="TOP" p:required="true" p:style="display:none" >-->
-                <!--<property name="control">-->
-                <!--<bean parent="Uif-DropdownControl"/>-->
-                <!--</property>-->
-                <!--<property name="optionsFinder">-->
-                <!--<bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGFormatsForCreateRGKeyValues" p:addBlankOption="false" />-->
-                <!--</property>-->
-                <!--</bean>-->
-                <bean p:id="foIdForAOMoveId" parent="Uif-DataField" p:propertyName="selectedFOIDForAOMove" p:label="Format Offering Id" p:labelPlacement="TOP" p:style="display:none">
+                <bean p:id="foIdForAOMoveId" parent="Uif-DataField" p:propertyName="selectedFOIDForAOMove" p:label="Format Offering Id" p:labelPlacement="TOP" p:style="display:none;">
                 </bean>
-                <bean p:id="foNameForAOMoveId" parent="Uif-DataField" p:propertyName="selectedFONameForAOMove" p:label="Format Offering" p:labelPlacement="TOP" p:style="display:none">
+                <bean p:id="foNameForAOMoveId" parent="Uif-DataField" p:propertyName="selectedFONameForAOMove" p:label="Format Offering" p:labelPlacement="TOP" p:style="display:none; margin-right:15px;">
                 </bean>
                 <bean p:id="privateNameForMoveId" parent="Uif-InputField" p:propertyName="privateClusterNameForMovePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true" p:style="display:none"
                        >
