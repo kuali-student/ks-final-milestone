@@ -340,12 +340,22 @@ function showFixedOptions(textBox, url, courseTypeKey) {
     jQuery('#div_fixed_options').show().css('top', jQuery(textBox).offset().top).css('left', jQuery(textBox).offset().left);
 }
 
-function removeColumns(isReadOnly, columns, componentId) {
-    if (isReadOnly) {
-        var div = jQuery('#' + componentId);
-        var table = jQuery(div).find('table');
-        var tableId = jQuery(table).attr('id');
+function removeCheckboxColumns(columns, componentId) {
+    var div = jQuery('#' + componentId);
+    var table = jQuery(div).find('table');
+    var tableId = jQuery(table).attr('id');
 
+    var foundCheckBox = false;
+
+    jQuery(table).find('input:checkbox').each(function(){
+        var div = jQuery(this).parent('div');
+        if(jQuery(div).is(":visible")){
+            foundCheckBox = true;
+            return false;
+        }
+    });
+
+    if (!foundCheckBox) {
         jQuery.each(columns, function (index, column) {
             var columIndex = column - index
             var th = jQuery('#' + tableId + ' thead tr').find('th:nth-child(' + columIndex + ')');
@@ -356,6 +366,8 @@ function removeColumns(isReadOnly, columns, componentId) {
             var tf = jQuery('#' + tableId + ' tfoot tr').find('th:nth-child(' + columIndex + ')');
             jQuery(tf).remove();
         });
+    }else{
+        ksAddRowSelectionCheckbox(false, componentId,false,'');
     }
 }
 
