@@ -128,16 +128,16 @@ public class CourseSearchController extends UifControllerBase {
 
 	/**
 	 * Trending search state controller.
-	 * 
+	 *
 	 * <p>
 	 * This class monitors keywords by relevance score in search results
 	 * continuously as search results report keyword sets.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * TODO: evaluate moving to a public framework class.
 	 * </p>
-	 * 
+	 *
 	 * @see CourseSearchItem#getKeywords()
 	 */
 	private static class TrendingState {
@@ -150,14 +150,14 @@ public class CourseSearchController extends UifControllerBase {
 
 		/**
 		 * Handle to the last reported array of search keywords.
-		 * 
+		 *
 		 * <p>
 		 * This field is populated via the order parameter
 		 * {@link #trend(String[], Map)} when non-null, and may be expected to
 		 * be truncated to a relatively small size (32) prior to being
 		 * populated.
 		 * </p>
-		 * 
+		 *
 		 * @see SessionSearchInfo#SessionSearchInfo(HttpServletRequest,
 		 *      CourseSearchStrategy, FormKey, CourseSearchForm, String)
 		 */
@@ -165,7 +165,7 @@ public class CourseSearchController extends UifControllerBase {
 
 		/**
 		 * Record trending keywords related to an active search.
-		 * 
+		 *
 		 * @param order
 		 *            The keywords to record as trending, in order of relevance
 		 *            to the active search. This parameter should be truncated
@@ -231,7 +231,7 @@ public class CourseSearchController extends UifControllerBase {
 
 		/**
 		 * Retrieve the top n trending search keywords observed at this node.
-		 * 
+		 *
 		 * @param n
 		 *            The number of entries to ensure are in the set on return.
 		 *            There may be fewer entries, but there will not be more
@@ -338,12 +338,12 @@ public class CourseSearchController extends UifControllerBase {
 	 * form used to construct the key are unique.
 	 * </p>
 	 */
-	private static class FormKey {
+	public static class FormKey {
 		private final String searchQuery;
 		private final String searchTerm;
 		private final String[] campusSelect;
 
-		private FormKey(CourseSearchForm f) {
+		public FormKey(CourseSearchForm f) {
 			this.searchQuery = f.getSearchQuery();
 			this.searchTerm = f.getSearchTerm();
 			this.campusSelect = f.getCampusSelect() == null ? null : f
@@ -391,11 +391,11 @@ public class CourseSearchController extends UifControllerBase {
 
 	/**
 	 * Input command processor for supporting DataTables server-side processing.
-	 * 
+	 *
 	 * <p>
 	 * TODO: Evaluate moving to a public class in KRAD.
 	 * </p>
-	 * 
+	 *
 	 * @see <a
 	 *      href="http://datatables.net/usage/server-side">http://datatables.net/usage/server-side</a>
 	 */
@@ -497,10 +497,10 @@ public class CourseSearchController extends UifControllerBase {
 
 	/**
 	 * Simple object for tracking facet click/count state.
-	 * 
+	 *
 	 * @see SessionSearchInfo
 	 */
-	private static class FacetState implements Serializable {
+	public static class FacetState implements Serializable {
 		private static final long serialVersionUID = 1719950239861974273L;
 
 		private FacetState() {
@@ -512,12 +512,12 @@ public class CourseSearchController extends UifControllerBase {
 
 	/**
 	 * Simple object representing pre-processed search data.
-	 * 
+	 *
 	 * @see SessionSearchInfo
 	 * @see CourseSearchItem#getSearchColumns()
 	 * @see CourseSearchItem#getFacetColumns()
 	 */
-	private static class SearchInfo implements Serializable {
+	public static class SearchInfo implements Serializable {
 		private static final long serialVersionUID = 8697147011424347285L;
 
 		private final CourseSearchItem item;
@@ -536,18 +536,22 @@ public class CourseSearchController extends UifControllerBase {
 					+ ", sortColumns=" + Arrays.toString(sortColumns)
 					+ ", facetColumns=" + facetColumns + "]";
 		}
+
+        public CourseSearchItem getItem(){
+            return item;
+        }
 	}
 
 	/**
 	 * Session-bound search results cache. This object backs the facet and data
 	 * table result views on the KSAP course search front-end. Up to three
 	 * searches are stored in the HTTP session via these objects.
-	 * 
+	 *
 	 * <p>
 	 * TODO: Evaluate moving to a generic framework class in KRAD.
 	 * </p>
 	 */
-	private static class SessionSearchInfo {
+	public static class SessionSearchInfo {
 
 		/**
 		 * The search form input data used to key this session info object.
@@ -568,7 +572,7 @@ public class CourseSearchController extends UifControllerBase {
 		 * Pruned facet state - this shared state keeps a count of all facets
 		 * values that were pruned from display due to size limits and relevance
 		 * scoring.
-		 * 
+		 *
 		 * <p>
 		 * Note that pruned is not reliable - it is only a placeholder to
 		 * facilitate the counting algorithm and is used for informational
@@ -582,7 +586,7 @@ public class CourseSearchController extends UifControllerBase {
 		 * The oneClick flag records whether or not any facet state leaf nodes
 		 * have been switched to false. Until oneClick has been set, count
 		 * updates and clickAll requests will be ignored.
-		 * 
+		 *
 		 * @see #facetClick(String, int)
 		 * @see #facetClickAll()
 		 * @see #updateFacetCounts()
@@ -591,13 +595,13 @@ public class CourseSearchController extends UifControllerBase {
 
 		/**
 		 * Compose search information based on materialized inputs.
-		 * 
+		 *
 		 * <p>
 		 * This constructor is potentially expensive - it is where the actual
 		 * search is performed on the back end when pulling data or facet table
 		 * results.
 		 * </p>
-		 * 
+		 *
 		 * @param searcher
 		 *            The controller's strategy instance.
 		 * @param formKey
@@ -612,7 +616,7 @@ public class CourseSearchController extends UifControllerBase {
 		 * @see CourseSearchController#getFacetValues(HttpServletResponse,
 		 *      HttpServletRequest)
 		 */
-		private SessionSearchInfo(HttpServletRequest request,
+		public SessionSearchInfo(HttpServletRequest request,
 				CourseSearchStrategy searcher, FormKey formKey,
 				CourseSearchForm form, String principalName) {
 			// Verify that form key data matches the actual search form
@@ -759,7 +763,7 @@ public class CourseSearchController extends UifControllerBase {
 
 		/**
 		 * Get the facet state associated with a specific facet column value.
-		 * 
+		 *
 		 * @param key
 		 *            The facet column value to use as the facet key.
 		 * @param facetId
@@ -849,7 +853,7 @@ public class CourseSearchController extends UifControllerBase {
 		/**
 		 * Update checked state on all facets following a click event from the
 		 * browser.
-		 * 
+		 *
 		 * @param key
 		 *            The facet key clicked. May be 'All'.
 		 * @param fcol
@@ -1002,7 +1006,7 @@ public class CourseSearchController extends UifControllerBase {
 				/**
 				 * Determine whether or not DataTables defines the current
 				 * column as searchable.
-				 * 
+				 *
 				 * @return True if DataTables defines the current column as
 				 *         searchable.
 				 */
@@ -1013,7 +1017,7 @@ public class CourseSearchController extends UifControllerBase {
 				/**
 				 * Get the column iterator, after resetting to the start of the
 				 * row.
-				 * 
+				 *
 				 * @return The column iterator, reset to the start of the row.
 				 */
 				private Iterable<String[]> facets() {
@@ -1116,6 +1120,10 @@ public class CourseSearchController extends UifControllerBase {
 
 			return filteredResults;
 		}
+
+        public List<SearchInfo> getSearchResults(){
+            return searchResults;
+        }
 	}
 
 	/**
@@ -1142,7 +1150,7 @@ public class CourseSearchController extends UifControllerBase {
 	/**
 	 * Synchronously retrieve session bound search results for an incoming
 	 * request.
-	 * 
+	 *
 	 * <p>
 	 * This method ensures that only one back-end search per HTTP session is
 	 * running at the same time for the same set of criteria. This is important
@@ -1150,7 +1158,7 @@ public class CourseSearchController extends UifControllerBase {
 	 * independently, so this consideration constrains those two requests to
 	 * operating synchronously on the same set of results.
 	 * </p>
-	 * 
+	 *
 	 * @param request
 	 *            The incoming request.
 	 * @return Session-bound search results for the request.

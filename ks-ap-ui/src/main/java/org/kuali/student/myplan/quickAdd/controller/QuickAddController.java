@@ -4,8 +4,11 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,10 +27,13 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.context.EnrollmentStatusHelper;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
+import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
+import org.kuali.student.myplan.course.controller.CourseSearchController.FormKey;
+import org.kuali.student.myplan.course.controller.CourseSearchController.SessionSearchInfo;
+import org.kuali.student.myplan.course.controller.CourseSearchController.SearchInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.acal.infc.Term;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -51,8 +57,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.infc.SearchResult;
-import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -218,44 +222,24 @@ public class QuickAddController extends UifControllerBase {
 					QuickAddConstants.EMPTY_SEARCH, null, parameters);
 		}
 
-		String courseId = null;
-		Map<String, String> divisionMap = strategy.fetchCourseDivisions();
-		EnrollmentStatusHelper.CourseCode courseCode = KsapFrameworkServiceLocator
-				.getEnrollmentStatusHelper().getCourseDivisionAndNumber(
-						form.getCourseCd());
-		if (courseCode.getSubject() != null && courseCode.getNumber() != null) {
-			String subject = courseCode.getSubject();
-			String number = courseCode.getNumber();
-			if (number.length() != 3) {
-				return doOperationFailedError(form, "Course number is wrong",
-						QuickAddConstants.COURSE_NOT_FOUND, null,
-						new String[] { form.getCourseCd() });
-			}
-			List<String> divisions = new java.util.ArrayList<String>();
-			strategy.extractDivisions(divisionMap, subject, divisions, false);
-			if (divisions.size() > 0) {
-				subject = divisions.get(0);
-				form.setCourseId(KsapFrameworkServiceLocator
-						.getEnrollmentStatusHelper().getCourseId(subject,
-								number));
-				courseId = form.getCourseId();
-			} else {
-				return doOperationFailedError(form, "Could not find course",
-						QuickAddConstants.COURSE_NOT_FOUND, null,
-						new String[] { form.getCourseCd() });
-			}
-		} else {
+        SessionSearchInfo searchInfo = getSearchResults(form,request);
+
+
+
+
+		if (searchInfo.getSearchResults().isEmpty()) {
 			return doOperationFailedError(form, "Could not find course",
 					QuickAddConstants.COURSE_NOT_FOUND, null,
 					new String[] { form.getCourseCd() });
 		}
 
-		if (!StringUtils.hasText(courseId)) {
-			return doOperationFailedError(form, "Could not find course",
-					QuickAddConstants.COURSE_NOT_FOUND, null,
-					new String[] { form.getCourseCd() });
-		}
+        if (searchInfo.getSearchResults().size()>1) {
+            return doOperationFailedError(form, "Multiple Courses Found",
+                    QuickAddConstants.COURSE_NOT_FOUND, null,
+                    new String[] { form.getCourseCd() });
+        }
 
+        String courseId = searchInfo.getSearchResults().get(0).getItem().getCourseId();
 		// Further validation of ATP IDs will happen in the service validation
 		// methods.
 		if (org.apache.commons.lang.StringUtils.isEmpty(form.getAtpId())) {
@@ -1322,5 +1306,67 @@ public class QuickAddController extends UifControllerBase {
 		}
 		return results;
 	}
+
+    /**
+     * Synchronously retrieve session bound search results for an incoming
+     * request.
+     *
+     * <p>
+     * This method ensures that only one back-end search per HTTP session is
+     * running at the same time for the same set of criteria. This is important
+     * since the browser fires requests for the facet table and the search table
+     * independently, so this consideration constrains those two requests to
+     * operating synchronously on the same set of results.
+     * </p>
+     *
+     * @param request
+     *            The incoming request.
+     * @return Session-bound search results for the request.
+     */
+    private SessionSearchInfo getSearchResults(QuickAddForm quickAddForm,  HttpServletRequest request) {
+        /**
+         * HTTP session attribute key for holding recent search results.
+         */
+        String RESULTS_ATTR = QuickAddController.class
+                .getName() + ".results";
+
+        String user = KsapFrameworkServiceLocator.getUserSessionHelper()
+                .getStudentId();
+
+        // Populate search form from HTTP request
+        CourseSearchForm form = KsapFrameworkServiceLocator.getCourseSearchStrategy().createSearchForm();
+        form.setSearchQuery(quickAddForm.getCourseCd());
+        form.setSearchTerm("any");
+        if (LOG.isDebugEnabled())
+            LOG.debug("Search form : " + form);
+
+        // Check HTTP session for cached search results
+        FormKey k = new FormKey(form);
+        @SuppressWarnings("unchecked")
+        Map<FormKey, SessionSearchInfo> results = (Map<FormKey, SessionSearchInfo>) request
+                .getSession().getAttribute(RESULTS_ATTR);
+        if (results == null)
+            request.getSession()
+                    .setAttribute(
+                            RESULTS_ATTR,
+                            results = Collections
+                                    .synchronizedMap(new java.util.LinkedHashMap<FormKey, SessionSearchInfo>()));
+        SessionSearchInfo table = null;
+        // Synchronize on the result table to constrain sessions to
+        // one back-end search at a time
+        synchronized (results) {
+            // dump search results in excess of 3
+            while (results.size() > 3) {
+                Iterator<?> ei = results.entrySet().iterator();
+                ei.next();
+                ei.remove();
+            }
+            results.put(
+                    k, // The back-end search happens here --------V
+                    (table = results.remove(k)) == null ? table = new SessionSearchInfo(
+                            request, KsapFrameworkServiceLocator.getCourseSearchStrategy(), k, form, user) : table);
+        }
+        return table;
+    }
 
 }

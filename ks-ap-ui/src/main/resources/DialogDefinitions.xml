@@ -302,7 +302,7 @@
                             </bean>
 
                             <!-- If in plan and in saved courses and not in academic record list -->
-                            <bean parent="Uif-HorizontalFieldGroup"
+                           <!-- <bean parent="Uif-HorizontalFieldGroup"
                                   p:render="@{((plannedCourseSummary.backupList.size() gt 0 or plannedCourseSummary.plannedList.size() gt 0) and plannedCourseSummary.savedItemId ne null and plannedCourseSummary.academicTerms.size() eq 0)}">
                                 <property name="fieldLabel.render" value="false"/>
                                 <property name="group.validationMessages.render" value="false"/>
@@ -324,7 +324,7 @@
                                         </bean>
                                     </list>
                                 </property>
-                            </bean>
+                            </bean>-->
                         </list>
                     </property>
                 </bean>

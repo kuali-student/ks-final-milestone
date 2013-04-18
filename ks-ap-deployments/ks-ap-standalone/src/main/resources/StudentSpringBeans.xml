@@ -238,7 +238,7 @@
     <bean id="enKSWorkflowDocumentService" class="org.kuali.rice.kew.impl.document.WorkflowDocumentServiceImpl" lazy-init="true" />
 
     <!-- Workflow Service Bus -->
-    <bean id="ks.exp.workflowDocumentService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+   <!-- <bean id="ks.exp.workflowDocumentService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="false" />
@@ -250,7 +250,7 @@
             </bean>
         </property>
     </bean>
-
+-->
     <!-- Parent Bean for Kuali Module Services -->
     <bean id="kualiModuleService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kualiModuleService"/>
