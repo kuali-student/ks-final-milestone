@@ -1091,8 +1091,12 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             _performMaxEnrollmentValidation(aoMap, aoClusterWrapper.getAoCluster(), clusterIndex);
             //validate AO time conflict in RG
             _performRGTimeConflictValidation(aoClusterWrapper.getAoCluster(), rgInfos, clusterIndex,ao2sch, ao2schReq);
-
         }
+        for(String foId : theForm.getFormatOfferingIds()){
+            FormatOfferingInfo foInfo = getCourseOfferingService().getFormatOffering(foId, ContextUtils.createDefaultContextInfo());
+            _performAOCompletePerClusterValidation(foInfo, aoList, aoClusterWrapper, clusterIndex,ContextUtils.createDefaultContextInfo());
+        }
+
         if (!rgInfosCopy.isEmpty()){
             GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerFormatSection", CourseOfferingConstants.REGISTRATIONGROUP_INVALID_REGGROUPS);
         }
@@ -1542,6 +1546,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                     break;
                 }
             }
+
 
         } catch(Exception e) {
             throw new RuntimeException(e);
