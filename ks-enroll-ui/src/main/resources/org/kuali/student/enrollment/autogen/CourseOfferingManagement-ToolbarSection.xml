@@ -261,7 +261,7 @@
                         <bean parent="Uif-TextControl" p:size="30"  p:maxLength="20"/>
                     </property>
                 </bean>
-                <bean parent="Uif-SecondaryActionButton-Small" p:id="addAOCButton" p:disabled="@{privateClusterNamePopover.isEmpty()}" >
+                <bean parent="Uif-SecondaryActionButton-Small" p:id="addAOCButton"  >
                     <property name="style" value="margin-top:1.5em;"/>
                     <property name="actionLabel" value="Add"/>
                     <property name="successCallback" value="jQuery('div[id=KS-CourseOfferingManagement-AddAOCPopupForm]:gt(0)').detach();"/>
