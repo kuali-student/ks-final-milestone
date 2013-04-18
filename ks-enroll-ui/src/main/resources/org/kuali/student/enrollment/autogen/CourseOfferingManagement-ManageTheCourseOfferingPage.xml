@@ -97,7 +97,7 @@
                                         <bean id="edit_co" parent="Uif-ActionLink" p:methodToCall="editTheCO" p:actionLabel=" | Edit" p:disabled="@{#parent.readOnly}" p:componentSecurity.performActionAuthz="true" p:actionEvent="editCO"/>
                                         <bean id="delete_co" parent="Uif-ActionLink" p:id="ActivityOfferingResultSection-deleteOneCoWithLink" p:methodToCall="deleteOneCoWithLink" p:actionLabel=" | Delete" p:disabled="@{#parent.readOnly}" p:render = "@{currentCourseOfferingWrapper.stateKey eq 'kuali.lui.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.planned'  or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.activity.offering.state.offered' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.offered'}" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCO" />
                                         <bean parent="Uif-ActionLink" p:actionLabel=" | View All Registration Groups (@{rgResultList.size()})"
-                                              p:actionScript = "showLightbox('KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering', '@{#ConfigProperties['application.url']}');"/>
+                                              p:actionScript = "showLightboxComponent('KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering', '@{#ConfigProperties['application.url']}');"/>
                                     </list>
                                 </property>
                             </bean>
