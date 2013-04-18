@@ -227,6 +227,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         List<String> aoIds = requestHelper.getParamAsList(SearchParameters.AO_IDS);
+        String aoIdStr =   commaString(aoIds);
 
         String queryStr =
                 "SELECT aoMatchIds," +
@@ -240,7 +241,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "     LuiLuiRelationEntity co2fo," +
                 "     LuiLuiRelationEntity fo2ao " +
                 "WHERE lset.luiSetType = 'kuali.luiset.type.colocated.offering.set' " +
-                "  AND aoMatchIds IN(:aoIds) " +
+                "  AND aoMatchIds IN(" + aoIdStr + ") " +
                 "  AND co2fo.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
                 "  AND fo2ao.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.fo2ao' " +
                 "  AND co2fo.relatedLui.id = fo2ao.lui.id " +
@@ -252,7 +253,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "  AND aoMatchIds != aoIds";
 
         Query query = entityManager.createQuery(queryStr);
-        query.setParameter(SearchParameters.AO_IDS, aoIds);
+        //query.setParameter(SearchParameters.AO_IDS, aoIds);       // After updating an oracle driver the List binding is causing massive problems
         List<Object[]> results = query.getResultList();
 
         for(Object[] resultRow : results){
