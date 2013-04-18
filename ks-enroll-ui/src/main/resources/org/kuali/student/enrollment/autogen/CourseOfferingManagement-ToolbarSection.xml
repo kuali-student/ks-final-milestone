@@ -90,7 +90,8 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
+    <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster-parent" parent="KS-CourseOfferingManagement-ToolBar-Button"
+          p:onClickScript="toggleAddAOCButton('addAOCButton','privateClusterNamePopover_control');">
         <property name="actionLabel" value="Add Cluster"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/add_cluster.png"/>
@@ -253,7 +254,7 @@
                 </bean>
                 <bean parent="Uif-InputField"  p:id="privateClusterNamePopover" p:propertyName="privateClusterNamePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30"  p:maxLength="20" p:onChangeScript="toggleAddAOCButton('addAOCButton','privateClusterNamePopover_control');"/>
+                        <bean parent="Uif-TextControl" p:size="30"  p:maxLength="20" p:onKeyUpScript="toggleAddAOCButton('addAOCButton','privateClusterNamePopover_control');"/>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField"  p:propertyName="publishedClusterNamePopover" p:label="Published Name" p:labelPlacement="TOP"  p:render="true">
@@ -261,7 +262,7 @@
                         <bean parent="Uif-TextControl" p:size="30"  p:maxLength="20"/>
                     </property>
                 </bean>
-                <bean parent="Uif-SecondaryActionButton-Small" p:id="addAOCButton"  >
+                <bean parent="Uif-SecondaryActionButton-Small" p:id="addAOCButton" >
                     <property name="style" value="margin-top:1.5em;"/>
                     <property name="actionLabel" value="Add"/>
                     <property name="successCallback" value="jQuery('div[id=KS-CourseOfferingManagement-AddAOCPopupForm]:gt(0)').detach();"/>
@@ -318,7 +319,7 @@
                 <bean p:id="privateNameForMoveId" parent="Uif-InputField" p:propertyName="privateClusterNameForMovePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true" p:style="display:none"
                        >
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" p:maxLength="20" p:onChangeScript="toggleAddAOCButton('moveAOCButton','privateNameForMoveId_control');"/>
+                        <bean parent="Uif-TextControl" p:size="30" p:maxLength="20" p:onKeyUpScript="toggleAddAOCButton('moveAOCButton','privateNameForMoveId_control');"/>
                     </property>
                 </bean>
                 <bean p:id="publishedNameForMoveId" parent="Uif-InputField"  p:propertyName="publishedClusterNameForMovePopover" p:label="Published Name" p:labelPlacement="TOP"  p:render="true" p:style="display:none">
