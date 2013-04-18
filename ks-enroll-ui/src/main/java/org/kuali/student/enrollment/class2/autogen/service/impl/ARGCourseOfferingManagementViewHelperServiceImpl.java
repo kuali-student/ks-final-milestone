@@ -844,14 +844,18 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 }
                 else if(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_STATE.equals(cell.getKey())){
                     aoWrapper.getAoInfo().setStateKey(cell.getValue());
-                    StateInfo stateInfo = getStateService().getState(cell.getValue(), contextInfo);
-                    aoWrapper.setStateName(stateInfo.getName());
+                    if(cell.getValue()!=null){
+                        StateInfo stateInfo = getStateService().getState(cell.getValue(), contextInfo);
+                        aoWrapper.setStateName(stateInfo.getName());
+                    }
                 }
                 else if(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_TYPE.equals(cell.getKey())){
                     aoWrapper.getAoInfo().setTypeKey(cell.getValue());
-                    TypeInfo typeInfo = getTypeService().getType(cell.getValue(), contextInfo);
-                    aoWrapper.setTypeKey(cell.getValue());
-                    aoWrapper.setTypeName(typeInfo.getName());
+                    if(cell.getValue()!=null){
+                        TypeInfo typeInfo = getTypeService().getType(cell.getValue(), contextInfo);
+                        aoWrapper.setTypeKey(cell.getValue());
+                        aoWrapper.setTypeName(typeInfo.getName());
+                    }
                 }
                 else if(ActivityOfferingSearchServiceImpl.SearchResultColumns.SCHEDULE_ID.equals(cell.getKey())){
                     aoWrapper.getAoInfo().setScheduleId(cell.getValue());
@@ -891,16 +895,20 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 aoClusterWrapper.setAoCluster(activityOfferingClusterInfo);
                 clusterMap.put(aoWrapper.getAoClusterID(), aoClusterWrapper);
             }
-            aoClusterWrapper.getAoWrapperList().add(aoWrapper);
+            if(aoWrapper.getId()!=null){
+                aoClusterWrapper.getAoWrapperList().add(aoWrapper);
 
-            aoMap.put(aoWrapper.getAoInfo().getId(),aoWrapper);
+                aoMap.put(aoWrapper.getAoInfo().getId(),aoWrapper);
 
-            //Check if there is a schedule id, if not add it to the list to get RDLs
-            if(aoWrapper.getAoInfo().getScheduleId()==null){
-               aoIdsWithoutSch.add(aoWrapper.getAoInfo().getId());
+                //Check if there is a schedule id, if not add it to the list to get RDLs
+                if(aoWrapper.getAoInfo().getScheduleId()==null){
+                   aoIdsWithoutSch.add(aoWrapper.getAoInfo().getId());
+                }
+
+                activityOfferingWrappers.add(aoWrapper);
+
             }
 
-            activityOfferingWrappers.add(aoWrapper);
         }
         return activityOfferingWrappers;
     }
