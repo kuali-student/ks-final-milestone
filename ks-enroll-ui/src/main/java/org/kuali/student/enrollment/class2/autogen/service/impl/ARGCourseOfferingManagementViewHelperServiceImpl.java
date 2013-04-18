@@ -1244,10 +1244,10 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         info.setWeekdays(SchedulingServiceUtil.weekdaysString2WeekdaysList(sched.getWeekdays()));
 
         info.setStartTime(new TimeOfDayInfo());
-        info.getStartTime().setMilliSeconds((sched.getStart() != null ? new Long(sched.getStart()) : null));
+        info.getStartTime().setMilliSeconds(((sched.getStart() != null && !"".equals(sched.getStart())) ? new Long(sched.getStart()) : null));
 
         info.setEndTime(new TimeOfDayInfo());
-        info.getEndTime().setMilliSeconds((sched.getEnd() != null ? new Long(sched.getEnd()) : null));
+        info.getEndTime().setMilliSeconds(( (sched.getEnd() != null  && !"".equals(sched.getEnd())) ? new Long(sched.getEnd()) : null));
 
         info.setDescr(new RichTextInfo());
         info.getDescr().setFormatted(null);
