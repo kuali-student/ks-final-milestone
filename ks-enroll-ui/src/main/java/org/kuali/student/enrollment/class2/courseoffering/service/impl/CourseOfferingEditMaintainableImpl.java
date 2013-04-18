@@ -148,16 +148,20 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             }
 
             //TODO REMOVE THIS AFTER KRAD CHECKLISTS ARE FIXED for student registration options
+            //determine if audit reg options and pass/fail reg options should be added/removed to/from coInfo
             if(coEditWrapper.getAuditStudentRegOpts() &&
                     !coInfo.getStudentRegistrationGradingOptions().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)){
                 coInfo.getStudentRegistrationGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
-            }else{
+            }else if (!coEditWrapper.getAuditStudentRegOpts() &&
+                    coInfo.getStudentRegistrationGradingOptions().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)){
                 coInfo.getStudentRegistrationGradingOptions().remove(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
             }
+
             if(coEditWrapper.getPassFailStudentRegOpts() &&
                     !coInfo.getStudentRegistrationGradingOptions().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)){
                 coInfo.getStudentRegistrationGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
-            }else{
+            }else if (!coEditWrapper.getPassFailStudentRegOpts() &&
+                    coInfo.getStudentRegistrationGradingOptions().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)){
                 coInfo.getStudentRegistrationGradingOptions().remove(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
             }
 
