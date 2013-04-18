@@ -684,6 +684,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
         PropositionTreeUtil.resetNewProp((PropositionEditor) ruleEditor.getProposition());
 
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
+        PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
+        this.getViewHelper(form).resetDescription(proposition);
+
 
         //Replace edited rule with existing rule.
         for (AgendaEditor agendaEditor : ruleWrapper.getAgendas()) {
