@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class TimeOfDayInfoHelper {
+public class TimeOfDayHelper {
     public static final long MILLIS_PER_MINUTE = 60000L;
     public static final int MINUTES_PER_HOUR = 60;
 
