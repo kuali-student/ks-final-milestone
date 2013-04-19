@@ -123,7 +123,7 @@ function toggleAssignButton() {
 
 function toggleAddAOCButton(buttonId, controlId) {
     if ((buttonId=="moveAOCButton" && jQuery("#clusterIDListForAOMove_control").val()== "createNewCluster")
-            || buttonId=="addAOCButton") {
+            || buttonId=="addAOCButton" || buttonId=="renameAOCButton") {
         if (jQuery("#"+controlId).val() == "" ) {
             jQuery("#"+buttonId).attr("disabled", "disabled");
         } else {

@@ -272,7 +272,7 @@ public class ARGActivityOfferingClusterHandler {
     }
 
     public static ARGCourseOfferingManagementForm createNewCluster(ARGCourseOfferingManagementForm theForm) throws Exception {
-        //TODO: Add front end validation
+
         String growlPrivateName="";
         String growlPublicName="";
 
