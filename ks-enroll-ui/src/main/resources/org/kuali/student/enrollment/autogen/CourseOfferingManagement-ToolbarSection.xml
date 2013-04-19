@@ -315,7 +315,7 @@
                 </bean>
                 <bean p:id="publishedNameForMoveId" parent="Uif-InputField"  p:propertyName="publishedClusterNameForMovePopover" p:label="Published Name" p:labelPlacement="TOP"  p:render="true" p:style="display:none">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
+                        <bean parent="Uif-TextControl" p:size="30" p:maxLength="20"/>
                     </property>
                 </bean>
                 <!--these fields above are used for creating a cluster and moving AOs-->
