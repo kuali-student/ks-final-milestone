@@ -135,8 +135,8 @@ public class ScheduleDisplayTransformer {
         displayInfo.setStateKey(scheduleInfo.getStateKey());
         displayInfo.setTypeKey(scheduleInfo.getTypeKey());
         displayInfo.setMeta(scheduleInfo.getMeta());
-        displayInfo.setRefObjectId(scheduleInfo.getRefObjectId());
-        displayInfo.setRefObjectTypeKey(scheduleInfo.getRefObjectTypeKey());
+// TODOSSR       displayInfo.setRefObjectId(scheduleInfo.getRefObjectId());
+//        displayInfo.setRefObjectTypeKey(scheduleInfo.getRefObjectTypeKey());
 
         return displayInfo;
     }
