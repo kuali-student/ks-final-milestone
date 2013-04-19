@@ -32,7 +32,7 @@ import java.util.List;
  * Time: 12:56 PM
  *
  * This class is to be used to call ActivityOffering specific DB searches.
- *
+ *  TODOSSR: Fix search using join table for schedule Ids
  */
 public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHardwiredImplBase {
 
