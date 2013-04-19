@@ -24,43 +24,36 @@ import java.util.List;
  * Represents information about a ScheduleTransaction.
  *
  * @author Mezba Mahtab
- * @since Thu Aug 6 11:11:11 EDT 2012
+ * @author Sri komandur@uw.edu
  */
 public interface ScheduleTransaction extends IdEntity {
     /**
-     *  Reference object identifier
+     *  Schedule Request identifier
      *
-     * @name Ref Object Id
+     * @name Schedule Request Id
      * @required
-     * @readonly
+     * @readOnly
      */
-    public String getRefObjectId();
+    public String getScheduleRequestId();
 
+    /**
+     * Existing Schedule id
+     * @impl Used for release and swap operation
+     * @name Existing Schedule Id
+     */
+    public String getExistingScheduleId();
 
     /**
      * Schedule Batch identifier
      *
      * @name Schedule Batch id
-     * @required
-     * @readonly
      */
     public String getScheduleBatchId ();
-
-    /**
-     * Referenced object type key
-     *
-     * @name Ref Object Type Key
-     * @required
-     * @readonly
-     */
-    public String getRefObjectTypeKey();
 
     /**
      * The Schedule Request Id.
      *
      * @name Schedule Id
-     * @required
-     * @readonly
      */
     public String getScheduleId();
 

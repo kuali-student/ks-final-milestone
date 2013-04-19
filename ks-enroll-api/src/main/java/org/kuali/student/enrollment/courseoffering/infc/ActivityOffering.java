@@ -89,13 +89,13 @@ public interface ActivityOffering extends IdEntity {
     public String getActivityCode();
 
     /**
-     * Gets the schedule Id for this activity offering.
+     * Gets the schedule Ids for this activity offering.
      * 
      * No value will exist until the scheduling process has been completed for this activity offering.
      *
-     * @name Schedule Id
+     * @name Schedule Ids
      */
-    public String getScheduleId();
+    public List<String> getScheduleIds();
 
     /**
      * Indicates where this activity offering is in the scheduling process.
@@ -288,12 +288,12 @@ public interface ActivityOffering extends IdEntity {
     public TimeAmount getWaitlistCheckinFrequency();
 
     /**
-     * Indicates that the activity offering is part of a ColocatedOfferingSet.
+     * Indicates that the activity offering has one or more shared delivery logistics.
      * This is a derived flag, managed without persistence
      *
-     * @name Is Part Of Colocated Offering Set
+     * @name Is Colocated
      * @readOnly
      */
-    public Boolean getIsPartOfColocatedOfferingSet();
+    public Boolean getIsColocated();
 
 }

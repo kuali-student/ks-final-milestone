@@ -89,7 +89,7 @@ plus any of its dependencies -->
                 <ref bean="ActivityOfferingInfo.waitlistTypeKey"/>
                 <ref bean="ActivityOfferingInfo.waitlistMaximum"/>
                 <ref bean="ActivityOfferingInfo.isWaitlistCheckinRequired"/>
-                <ref bean="ActivityOfferingInfo.isPartOfColocatedOfferingSet"/>
+                <ref bean="ActivityOfferingInfo.isColocated"/>
             </list>
         </property>
 
@@ -788,18 +788,18 @@ plus any of its dependencies -->
         <property name="required" value="false"/>
     </bean>
 
-    <bean id="ActivityOfferingInfo.isPartOfColocatedOfferingSet-generated" abstract="true" parent="BaseKuali.boolean">
-        <property name="name" value="isPartOfColocatedOfferingSet"/>
-        <property name="shortLabel" value="Is Part Of Colocated Offering Set"/>
+    <bean id="ActivityOfferingInfo.isColocated-generated" abstract="true" parent="BaseKuali.boolean">
+        <property name="name" value="isColocated"/>
+        <property name="shortLabel" value="Has colocated delivery logistics"/>
         <property name="summary">
             <value>
-                Indicates that the activity offering is part of a ColocatedOfferingSet.
+                Indicates that the activity offering has one or more components which are shared.
             </value>
         </property>
         <property name="label" value="Is Part Of Colocated Offering Set"/>
         <property name="description">
             <value>
-                Indicates that the activity offering is part of a ColocatedOfferingSet.
+                Indicates that the activity offering has one or more components which are shared.
             </value>
         </property>
         <property name="required" value="false"/>
