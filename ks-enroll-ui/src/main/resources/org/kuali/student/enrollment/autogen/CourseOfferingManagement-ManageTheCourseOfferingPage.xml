@@ -68,7 +68,7 @@
                 <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{currentCourseOfferingWrapper.ownerAliasesUIList}" p:render="@{currentCourseOfferingWrapper.ownerAliasesUIList != ''}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
                 <ref bean="KS-CourseOfferingManagement-TheCourseOfferingLinks"/>
                 <!--<ref bean="KS-CourseOfferingManagement-TheCourseOfferingTabs"/>-->
-                <bean id="KS-Tab-Hidden-Input" parent="Uif-InputField" p:defaultValue="0" p:showLabel="false" p:propertyName="selectedTabId">
+                <bean id="KS-Tab-Hidden-Input" parent="Uif-InputField" p:defaultValue="0" p:showLabel="false" p:propertyName="selectedTabId" p:hidden="true">
                     <property name="control">
                         <bean parent="Uif-HiddenControl"/>
                     </property>
