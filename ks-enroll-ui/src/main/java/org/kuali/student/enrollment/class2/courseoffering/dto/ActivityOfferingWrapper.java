@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -27,8 +26,7 @@ import java.util.List;
  *
  */
 public class ActivityOfferingWrapper implements Serializable{
-    //added for ARG
-    private ActivityOfferingClusterInfo aoCluster;
+
     private String aoClusterName;
     private String aoClusterID;
 
@@ -138,14 +136,6 @@ public class ActivityOfferingWrapper implements Serializable{
         aoInfo = info;
         instructors = new ArrayList<OfferingInstructorWrapper>();
         seatpools = new ArrayList<SeatPoolWrapper>();
-    }
-
-    public ActivityOfferingClusterInfo getAoCluster() {
-        return aoCluster;
-    }
-
-    public void setAoCluster(ActivityOfferingClusterInfo aoCluster) {
-        this.aoCluster = aoCluster;
     }
 
     public String getAoClusterName() {

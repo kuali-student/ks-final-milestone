@@ -89,7 +89,7 @@ public class ARGActivityOfferingClusterHandler {
         ActivityOfferingWrapper selectedAO = (ActivityOfferingWrapper) ARGUtil.getSelectedObject(form, "copy");
         try {
             String aoIdToCopy = selectedAO.getAoInfo().getId(); // Create a copy of this AO
-            String clusterId = selectedAO.getAoCluster().getId(); // Use this AO cluster
+            String clusterId = selectedAO.getAoClusterID();
             ActivityOfferingResult aoResult =
                     ARGUtil.getArgServiceAdapter().copyActivityOfferingToCluster(aoIdToCopy, clusterId, ContextBuilder.loadContextInfo());
 
