@@ -22,7 +22,6 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -300,14 +299,15 @@ public class CourseOfferingViewHelperUtil {
         StringBuffer buffer = new StringBuffer();
         buffer.append(" ");
         CourseOfferingService coService = CourseOfferingResourceLoader.loadCourseOfferingService();
-        List<ColocatedOfferingSetInfo> colos = coService.getColocatedOfferingSetsByActivityOffering(ao.getId(),
-                context);
-        for(ColocatedOfferingSetInfo colo : colos) {
-            List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByIds(colo.getActivityOfferingIds(), context);
-            for(ActivityOfferingInfo aoInfo : aoList) {
-                buffer.append(aoInfo.getCourseOfferingCode() + " " + aoInfo.getActivityCode() + " ");
-            }
-        }
+        // SSRTODO: Fixme
+//        List<ColocatedOfferingSetInfo> colos = coService.getColocatedOfferingSetsByActivityOffering(ao.getId(),
+//                context);
+//        for(ColocatedOfferingSetInfo colo : colos) {
+//            List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByIds(colo.getActivityOfferingIds(), context);
+//            for(ActivityOfferingInfo aoInfo : aoList) {
+//                buffer.append(aoInfo.getCourseOfferingCode() + " " + aoInfo.getActivityCode() + " ");
+//            }
+//        }
 
         return buffer.toString();
     }
