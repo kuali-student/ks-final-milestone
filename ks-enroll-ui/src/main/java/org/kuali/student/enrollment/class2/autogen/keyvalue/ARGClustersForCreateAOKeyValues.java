@@ -25,15 +25,9 @@ import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.lum.course.dto.ActivityInfo;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
 import java.io.Serializable;
@@ -48,12 +42,16 @@ import java.util.List;
 public class ARGClustersForCreateAOKeyValues extends UifKeyValuesFinderBase implements Serializable {
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+
         ARGCourseOfferingManagementForm coForm = (ARGCourseOfferingManagementForm) model;
         String formatOfferingId = coForm.getFormatOfferingIdForNewAO();
         if (formatOfferingId==null || formatOfferingId.equals("")) {
-            formatOfferingId = coForm.getFormatOfferingIds().get(0);
+            if (coForm.getFoId2aoTypeMap().isEmpty()) {
+                return keyValues;
+            }
+            formatOfferingId = (String)coForm.getFoId2aoTypeMap().keySet().toArray()[0];
         }
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
 //        keyValues.add(new ConcreteKeyValue("", "Select Cluster"));
 
         if(!StringUtils.isEmpty(formatOfferingId)) {

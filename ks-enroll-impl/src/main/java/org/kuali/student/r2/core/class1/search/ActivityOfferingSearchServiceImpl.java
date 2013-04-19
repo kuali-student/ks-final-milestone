@@ -46,12 +46,15 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
     public static final String SCH_IDS_BY_AO_SEARCH_KEY = "kuali.search.type.lui.searchForScheduleIdsByAoId";
     public static final TypeInfo COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE;
-    
+    public static final TypeInfo FO_BY_CO_ID_SEARCH_TYPE;
+    public static final TypeInfo RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE;
+
     public static final String AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAOsAndClustersByCoId";
     public static final String REG_GROUPS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForRegGroupsByCoId";
     public static final String AOS_WO_CLUSTER_BY_FO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAOsWithoutClusterByFormatId";
     public static final String COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY = "kuali.search.type.lui.searchForAosByAoIds";
-
+    public static final String FO_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForFOByCoId";
+    public static final String RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForRelatedAoTypesByCoId";
 
     public static final class SearchParameters {
         public static final String AO_ID = "id";
@@ -78,6 +81,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         public static final String RG_ID = "rgName";
         public static final String RG_STATE = "rgState";
     }
+
 
     static {
         TypeInfo info = new TypeInfo();
@@ -140,6 +144,32 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             throw new RuntimeException("bad code");
         }
         AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE = info;
+
+        info = new TypeInfo();
+        info.setKey(FO_BY_CO_ID_SEARCH_KEY);
+        info.setName("AOs without cluster by format offering search");
+        info.setDescr(new RichTextHelper().fromPlain("Returns a list of AO Ids that are not assigned to a cluster"));
+
+        try {
+            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
+        } catch ( IllegalArgumentException ex) {
+            throw new RuntimeException("bad code");
+        }
+        FO_BY_CO_ID_SEARCH_TYPE = info;
+
+
+        info = new TypeInfo();
+        info.setKey(RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY);
+        info.setName("Related AO Types for course offering");
+        info.setDescr(new RichTextHelper().fromPlain("Returns a list of AO Types allowed for the FOs tied "));
+
+        try {
+            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
+        } catch ( IllegalArgumentException ex) {
+            throw new RuntimeException("bad code");
+        }
+        RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE = info;
+
     }
 
 
@@ -169,6 +199,12 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         if (AOS_WO_CLUSTER_BY_FO_ID_SEARCH_KEY.equals(searchTypeKey)) {
             return AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE;
         }
+        if (FO_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
+            return FO_BY_CO_ID_SEARCH_TYPE;
+        }
+        if (RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
+            return RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE;
+        }
         throw new DoesNotExistException("No Search Type Found for key:"+searchTypeKey);
     }
 
@@ -177,7 +213,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException {
-        return Arrays.asList(SCH_IDS_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE, REG_GROUPS_BY_CO_ID_SEARCH_TYPE, AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE, COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE);
+        return Arrays.asList(SCH_IDS_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE,
+                REG_GROUPS_BY_CO_ID_SEARCH_TYPE, AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE, COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE, FO_BY_CO_ID_SEARCH_TYPE,
+                RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE);
     }
 
 
@@ -200,9 +238,44 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         else if (AOS_WO_CLUSTER_BY_FO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForAOsWithoutClusterByFormatOffering(searchRequestInfo);
         }
+        else if (FO_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
+            return searchForFOByCOId(searchRequestInfo);
+        }
+        else if (RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
+            return searchForRelatedAoTypesByCoId(searchRequestInfo);
+        }
         else{
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
+    }
+
+    private SearchResultInfo searchForRelatedAoTypesByCoId(SearchRequestInfo searchRequestInfo) {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
+
+        String queryStr =
+            "SELECT co2fo.relatedLui.id," +
+            "       relatedTypes " +
+            "FROM LuiLuiRelationEntity co2fo," +
+            "     IN(co2Fo.relatedLui.relatedLuiTypes) relatedTypes " +
+            "WHERE co2fo.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
+            "  AND co2fo.lui.id = :coId ";
+
+        Query query = entityManager.createQuery(queryStr);
+        query.setParameter(SearchParameters.CO_ID, coId);       // After updating an oracle driver the List binding is causing massive problems
+        List<Object[]> results = query.getResultList();
+
+        for(Object[] resultRow : results){
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.FO_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_TYPE, (String)resultRow[i++]);
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
     }
 
     private SearchResultInfo searchForAosByAoIds(SearchRequestInfo searchRequestInfo) {
@@ -210,6 +283,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         List<String> aoIds = requestHelper.getParamAsList(SearchParameters.AO_IDS);
+        String aoIdStr =   commaString(aoIds);
 
         String queryStr =
                 "SELECT aoMatchIds," +
@@ -223,7 +297,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "     LuiLuiRelationEntity co2fo," +
                 "     LuiLuiRelationEntity fo2ao " +
                 "WHERE lset.luiSetType = 'kuali.luiset.type.colocated.offering.set' " +
-                "  AND aoMatchIds IN(:aoIds) " +
+                "  AND aoMatchIds IN(" + aoIdStr + ") " +
                 "  AND co2fo.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
                 "  AND fo2ao.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.fo2ao' " +
                 "  AND co2fo.relatedLui.id = fo2ao.lui.id " +
@@ -264,7 +338,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "FROM LuiLuiRelationEntity co2fo," +
                 "     LuiLuiRelationEntity fo2ao," +
                 "     LuiLuiRelationEntity rg2ao " +
-                "WHERE co2fo.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo'' " +
+                "WHERE co2fo.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
                 "  AND fo2ao.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.fo2ao' " +
                 "  AND rg2ao.luiLuiRelationType = 'kuali.lui.lui.relation.type.registeredforvia.rg2ao' " +
                 "  AND co2fo.lui.id = :coId " +
@@ -333,32 +407,75 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
+//TODO JPQL does not support on clauses in outer joins, so to accomplish this, we would need to update the entities
+//        String queryStr =
+//                "SELECT DISTINCT " +
+//                "       fo.id," +
+//                "       fo.name," +
+//                "       clster.id," +
+//                "       clster.name," +
+//                "       clster.privateName," +
+//                "       ao.id," +
+//                "       ao.luiType," +
+//                "       ao.luiState," +
+//                "       ao.scheduleId," +
+//                "       ao.maxSeats," +
+//                "       aoIdent.code " +
+//                "FROM LuiLuiRelationEntity co2fo " +
+//                        "LEFT OUTER JOIN co2fo.relatedLui fo " +
+//                        "LEFT OUTER JOIN ActivityOfferingClusterEntity clster ON (clster.formatOfferingId = fo.id)" +
+//                        "LEFT OUTER JOIN clster.aoSets clsterSet " +
+//                        "LEFT OUTER JOIN clsterSet.aoIds clst2ao " +
+//                        "LEFT OUTER JOIN LuiEntity ao ON (ao.id = aocSetAoIds) " +
+//                        "LEFT OUTER JOIN ao.identifiers aoIdent " +
+//                "WHERE co2fo.lui.id = :coId " +
+//                "  AND co2fo.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
+//                "  AND clster.formatOfferingId = fo.id ";
+////                "  AND aoIdent.type = 'kuali.lui.identifier.type.official'";
 
-        String queryStr =
-                "SELECT rel.relatedLui.id," +
-                "       rel.relatedLui.name," +
-                "       aoc.id," +
-                "       aoc.name," +
-                "       aoc.privateName," +
-                "       ao_lui.id," +
-                "       ao_lui.luiType," +
-                "       ao_lui.luiState," +
-                "       ao_lui.scheduleId," +
-                "       ao_lui.maxSeats," +
-                "       ao_lui_ident.code " +
-                "FROM LuiLuiRelationEntity rel," +
-                "     ActivityOfferingClusterEntity aoc," +
-                "     IN(aoc.aoSets) aocSets," +
-                "     IN(aocSets.aoIds) aocSetAoIds," +
-                "     LuiEntity ao_lui," +
-                "     IN(ao_lui.identifiers) ao_lui_ident " +
-                "WHERE rel.lui.id = :coId " +
-                "  AND rel.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
-                "  AND aoc.formatOfferingId = rel.relatedLui.id " +
-                "  AND ao_lui.id = aocSetAoIds " +
-                "  AND ao_lui_ident.type = 'kuali.lui.identifier.type.official'";
-
-        Query query = entityManager.createQuery(queryStr);
+        String queryStr = "SELECT DISTINCT " +
+                "    co2fo.RELATED_LUI_ID AS col_0_0_, " +
+                "    fo.NAME              AS col_1_0_, " +
+                "    clster.ID            AS col_2_0_, " +
+                "    clster.NAME          AS col_3_0_, " +
+                "    clster.PRIVATE_NAME  AS col_4_0_, " +
+                "    ao.ID                AS col_5_0_, " +
+                "    ao.LUI_TYPE          AS col_6_0_, " +
+                "    ao.LUI_STATE         AS col_7_0_, " +
+                "    ao.SCHEDULE_ID       AS col_8_0_, " +
+                "    ao.MAX_SEATS         AS col_9_0_, " +
+                "    aoIdent.LUI_CD       AS col_10_0_ " +
+                "FROM " +
+                "    KSEN_LUILUI_RELTN co2fo " +
+                "LEFT OUTER JOIN " +
+                "    KSEN_LUI fo " +
+                "ON " +
+                "    co2fo.RELATED_LUI_ID=fo.ID " +
+                "LEFT OUTER JOIN " +
+                "    KSEN_CO_AO_CLUSTER clster " +
+                "ON " +
+                "    co2fo.RELATED_LUI_ID=clster.FORMAT_OFFERING_ID " +
+                "LEFT OUTER JOIN " +
+                "    KSEN_CO_AO_CLUSTER_SET clsterSet " +
+                "ON " +
+                "    clster.ID=clsterSet.AO_CLUSTER_ID " +
+                "LEFT OUTER JOIN " +
+                "    KSEN_CO_AO_CLUSTER_SET_AO clst2ao " +
+                "ON " +
+                "    clsterSet.ID=clst2ao.AOC_SET_ID " +
+                "LEFT OUTER JOIN " +
+                "    KSEN_LUI ao " +
+                "ON " +
+                "    clst2ao.ACTIVITY_OFFERING_ID=ao.ID " +
+                "LEFT OUTER JOIN " +
+                "    KSEN_LUI_IDENT aoIdent " +
+                "ON " +
+                "    ao.ID=aoIdent.LUI_ID " +
+                "AND aoIdent.LUI_ID_TYPE='kuali.lui.identifier.type.official' " +
+                "WHERE " +
+                "    co2fo.LUI_ID= :coId " +
+                "AND co2fo.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.deliveredvia.co2fo'";
+        Query query = entityManager.createNativeQuery(queryStr);
         query.setParameter(SearchParameters.CO_ID, coId);
         List<Object[]> results = query.getResultList();
 
@@ -375,7 +492,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             row.addCell(SearchResultColumns.AO_STATE, (String)resultRow[i++]);
             // SSRTODO: Fix this
             row.addCell(SearchResultColumns.SCHEDULE_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.AO_MAX_SEATS, resultRow[i]==null?null:resultRow[i++].toString());
+            row.addCell(SearchResultColumns.AO_MAX_SEATS, resultRow[i]==null?null:resultRow[i].toString());
+            i++;
             row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i++]);
             resultInfo.getRows().add(row);
         }
@@ -416,6 +534,35 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         return resultInfo;
     }
 
+    protected SearchResultInfo searchForFOByCOId(SearchRequestInfo searchRequestInfo){
+        SearchResultInfo resultInfo = new SearchResultInfo();
+
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
+
+        String queryStr =
+                "SELECT rel.relatedLui.id as foId, " +
+                        "fo_lui.name as foName " +
+                        "FROM LuiLuiRelationEntity rel, " +
+                        "     LuiEntity fo_lui " +
+                        "WHERE rel.lui.id = :coId " +
+                        "  AND rel.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
+                        "  AND rel.relatedLui.id = fo_lui.id";
+
+        Query query = entityManager.createQuery(queryStr);
+        query.setParameter(SearchParameters.CO_ID, coId);
+        List<Object[]> results = query.getResultList();
+
+        for(Object[] resultRow : results){
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.FO_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.FO_NAME, (String)resultRow[i++]);
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+    }
 
     private static String commaString(List<String> items){
         StringBuilder sb = new StringBuilder();

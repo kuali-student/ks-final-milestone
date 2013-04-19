@@ -90,7 +90,8 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
+    <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster-parent" parent="KS-CourseOfferingManagement-ToolBar-Button"
+          p:onClickScript="toggleAddAOCButton('addAOCButton','privateClusterNamePopover_control');">
         <property name="actionLabel" value="Add Cluster"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/add_cluster.png"/>
@@ -251,9 +252,9 @@
                         <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGFormatsForCreateRGKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField"  p:id="privateClusterNameForLightBox" p:propertyName="privateClusterNamePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true">
+                <bean parent="Uif-InputField"  p:id="privateClusterNamePopover" p:propertyName="privateClusterNamePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30"  p:maxLength="20"/>
+                        <bean parent="Uif-TextControl" p:size="30"  p:maxLength="20" p:onKeyUpScript="toggleAddAOCButton('addAOCButton','privateClusterNamePopover_control');"/>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField"  p:propertyName="publishedClusterNamePopover" p:label="Published Name" p:labelPlacement="TOP"  p:render="true">
@@ -261,7 +262,7 @@
                         <bean parent="Uif-TextControl" p:size="30"  p:maxLength="20"/>
                     </property>
                 </bean>
-                <bean parent="Uif-SecondaryActionButton-Small">
+                <bean parent="Uif-SecondaryActionButton-Small" p:id="addAOCButton" >
                     <property name="style" value="margin-top:1.5em;"/>
                     <property name="actionLabel" value="Add"/>
                     <property name="successCallback" value="jQuery('div[id=KS-CourseOfferingManagement-AddAOCPopupForm]:gt(0)').detach();"/>
@@ -293,7 +294,8 @@
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>
-                <bean id="clusterIDListForAOMove" parent="Uif-InputField" p:propertyName="clusterIdForAOMove"  p:label="Move selected offerings to" p:labelPlacement="TOP" >
+                <bean id="clusterIDListForAOMove" parent="Uif-InputField" p:propertyName="clusterIdForAOMove"  p:label="Move selected offerings to" p:labelPlacement="TOP"
+                      p:onChangeScript="toggleAddAOCButton('moveAOCButton','privateNameForMoveId_control');">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -301,31 +303,23 @@
                         <bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGListOfAOClustersForFOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <!--these fields below are used for creating a cluster and moving AOs-->
-                <!--<bean p:id="formatForMoveId" parent="Uif-InputField" p:propertyName="formatOfferingIdForViewRG" p:label="Select Format" p:labelPlacement="TOP" p:required="true" p:style="display:none" >-->
-                <!--<property name="control">-->
-                <!--<bean parent="Uif-DropdownControl"/>-->
-                <!--</property>-->
-                <!--<property name="optionsFinder">-->
-                <!--<bean class="org.kuali.student.enrollment.class2.autogen.keyvalue.ARGFormatsForCreateRGKeyValues" p:addBlankOption="false" />-->
-                <!--</property>-->
-                <!--</bean>-->
-                <bean p:id="foIdForAOMoveId" parent="Uif-DataField" p:propertyName="selectedFOIDForAOMove" p:label="Format Offering Id" p:labelPlacement="TOP" p:style="display:none">
+                <bean p:id="foIdForAOMoveId" parent="Uif-DataField" p:propertyName="selectedFOIDForAOMove" p:label="Format Offering Id" p:labelPlacement="TOP" p:style="display:none;">
                 </bean>
-                <bean p:id="foNameForAOMoveId" parent="Uif-DataField" p:propertyName="selectedFONameForAOMove" p:label="Format Offering" p:labelPlacement="TOP" p:style="display:none">
+                <bean p:id="foNameForAOMoveId" parent="Uif-DataField" p:propertyName="selectedFONameForAOMove" p:label="Format Offering" p:labelPlacement="TOP" p:style="display:none; margin-right:15px;">
                 </bean>
-                <bean p:id="privateNameForMoveId" parent="Uif-InputField" p:propertyName="privateClusterNameForMovePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true" p:style="display:none">
+                <bean p:id="privateNameForMoveId" parent="Uif-InputField" p:propertyName="privateClusterNameForMovePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true" p:style="display:none"
+                       >
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
+                        <bean parent="Uif-TextControl" p:size="30" p:maxLength="20" p:onKeyUpScript="toggleAddAOCButton('moveAOCButton','privateNameForMoveId_control');"/>
                     </property>
                 </bean>
                 <bean p:id="publishedNameForMoveId" parent="Uif-InputField"  p:propertyName="publishedClusterNameForMovePopover" p:label="Published Name" p:labelPlacement="TOP"  p:render="true" p:style="display:none">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
+                        <bean parent="Uif-TextControl" p:size="30" p:maxLength="20"/>
                     </property>
                 </bean>
                 <!--these fields above are used for creating a cluster and moving AOs-->
-                <bean parent="Uif-SecondaryActionButton-Small" p:disabled="@{disableMoveButtonForMoveAOCPopOver}">
+                <bean parent="Uif-SecondaryActionButton-Small" p:disabled="@{disableMoveButtonForMoveAOCPopOver}"  p:id="moveAOCButton">
                     <property name="style" value="margin-top:1.5em;"/>
                     <property name="actionLabel" value="Move"/>
                     <property name="successCallback" value="jQuery('div[id=KS-CourseOfferingManagement-MoveAOCPopupForm]:gt(0)').detach();"/>

@@ -368,6 +368,11 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         int index = wrapper.getSelectedJointCourseIndex();
+        if(form.getActionParameters().size() > 1)   {
+            String lineIndex = form.getActionParameters().get("selectedLineIndex");
+            index = Integer.parseInt(lineIndex);
+            wrapper.setSelectedJointCourseIndex(index);
+        }
         JointCourseWrapper joint = wrapper.getJointCourses().get(index);
 
         if (joint.isSelectedToJointlyOfferred()){

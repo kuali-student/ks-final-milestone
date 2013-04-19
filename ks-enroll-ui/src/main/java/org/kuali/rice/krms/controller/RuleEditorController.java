@@ -29,6 +29,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.dto.AgendaEditor;
@@ -496,7 +497,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
                     int propIndex = -1;
                     for (int i = 0; i < siblings.size(); i++) {
-                        if (propBo.getId().equals(siblings.get(i).getId())) {
+                        if (propBo.getKey().equals(siblings.get(i).getKey())) {
                             propIndex = i;
                             break;
                         }
@@ -683,6 +684,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
         PropositionTreeUtil.resetNewProp((PropositionEditor) ruleEditor.getProposition());
 
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
+        PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
+        this.getViewHelper(form).resetDescription(proposition);
+
 
         //Replace edited rule with existing rule.
         for (AgendaEditor agendaEditor : ruleWrapper.getAgendas()) {
@@ -727,6 +731,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         ruleEditor.setProposition(ruleLogicExpressionParser.parseExpressionIntoRule(ruleEditor));
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
+        this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
         return getUIFModelAndView(form);
     }
@@ -825,7 +830,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         Object dataObject = document.getDocument().getNewMaintainableObject().getDataObject();
         if (dataObject instanceof RuleManagementWrapper) {
             RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) dataObject;
-            String ruleId = document.getActionParamaterValue("ruleId");
+            String ruleId = document.getActionParamaterValue("ruleKey");
             RuleEditor ruleEditor = null;
             if ((ruleId != null) && (StringUtils.isNotBlank(ruleId))) {
                 //Get a specific ruleEditor based on the ruleId.

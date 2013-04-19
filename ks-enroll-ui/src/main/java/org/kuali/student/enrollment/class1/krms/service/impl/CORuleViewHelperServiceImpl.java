@@ -53,6 +53,7 @@ import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
 import org.kuali.student.enrollment.class1.krms.tree.CORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.CORulePreviewTreeBuilder;
+import org.kuali.student.enrollment.class1.krms.tree.CORuleViewTreeBuilder;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -317,9 +318,11 @@ public class CORuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original, String compareToRefObjectId) throws Exception {
 
         //Set the original nl if not already exists.
-        PropositionEditor originalRoot = (PropositionEditor) original.getProposition();
-        if ((originalRoot!=null) && (!originalRoot.getNaturalLanguage().containsKey(this.getEditTreeBuilder().getNaturalLanguageUsageKey()))) {
-            this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(originalRoot, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
+        if (original.getProposition()!=null){
+            PropositionEditor originalRoot = (PropositionEditor) original.getProposition();
+            if (!originalRoot.getNaturalLanguage().containsKey(this.getEditTreeBuilder().getNaturalLanguageUsageKey())) {
+                this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(originalRoot, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
+            }
         }
 
         //Get the CLU Tree.
@@ -329,9 +332,16 @@ public class CORuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
         RuleDefinitionContract compare = treeBuilder.getCompareRule(courseOffering.getCourseId(), original.getTypeId());
 
         //Build the Tree
-        RuleEditor compareEditor = new EnrolRuleEditor(compare);
-        PropositionEditor root = (PropositionEditor) compareEditor.getProposition();
-        this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(root, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
+        RuleEditor compareEditor;
+        if(compare==null){
+            compareEditor = new EnrolRuleEditor();
+        } else {
+            compareEditor = new EnrolRuleEditor(compare);
+        }
+        if(compareEditor.getProposition()!=null){
+            PropositionEditor root = (PropositionEditor) compareEditor.getProposition();
+            this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(root, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
+        }
         Tree<CompareTreeNode, String> compareTree = treeBuilder.buildTree(original, compareEditor);
 
         return compareTree;
@@ -391,7 +401,7 @@ public class CORuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
 
     protected RuleViewTreeBuilder getViewTreeBuilder() {
         if (viewTreeBuilder == null) {
-            viewTreeBuilder = new RuleViewTreeBuilder();
+            viewTreeBuilder = new CORuleViewTreeBuilder();
             viewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
         }
         return viewTreeBuilder;

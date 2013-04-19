@@ -41,7 +41,7 @@ public class AgendaUtilities {
 
         for (AgendaEditor agendaEditor : wrapper.getAgendas()) {
             for (RuleEditor ruleEditor : agendaEditor.getRuleEditors()) {
-                if ((ruleEditor.getSelectedKey() != null) && (ruleEditor.getSelectedKey().equals(ruleKey))) {
+                if ((ruleEditor.getKey() != null) && (ruleEditor.getKey().equals(ruleKey))) {
                     return ruleEditor;
                 }
             }

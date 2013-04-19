@@ -187,6 +187,8 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
                     studentRegOptions.add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
                 }
             }
+            //retrieve StudentRegOptions from coInfo instead of calculating it
+            studentRegOptions = coInfo.getStudentRegistrationGradingOptions();
 
             formObject.setStudentRegOptions(studentRegOptions);
             formObject.setCrsGradingOptions(crsGradingOptions);

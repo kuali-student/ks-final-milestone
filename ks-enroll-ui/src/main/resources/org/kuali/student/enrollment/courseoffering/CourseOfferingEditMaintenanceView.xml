@@ -40,7 +40,7 @@
           p:headerText="Course Offering Inquiry"
           p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditInquirableImpl"
-        >
+            >
 
 
         <property name="page.header">
@@ -184,16 +184,16 @@
         </property>
         <property name="headerText" value="Edit @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode} - @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingTitle} (@{document.oldMaintainableObject.dataObject.courseOfferingInfo.creditCnt} Credits)"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
-       <!-- <property name="render" value="@{#hasPermDtls('KS-ENR','Open Views for KS-CourseOfferingEditWrapper-EditMaintenanceView',null,document.oldMaintainableObject.dataObject.adminOrg)}" /> -->
+        <!-- <property name="render" value="@{#hasPermDtls('KS-ENR','Open Views for KS-CourseOfferingEditWrapper-EditMaintenanceView',null,document.oldMaintainableObject.dataObject.adminOrg)}" /> -->
         <property name="header.lowerGroup">
-          <bean parent="Uif-HeaderLowerGroup">
-            <property name="style" value="margin-bottom:px;"/>
-            <property name="items">
-              <list>
-                  <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{#dp.alternateCOCodesUIList}" p:render="@{!#dp.alternateCourseCodesSuffixStripped.isEmpty()}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
-              </list>
-            </property>
-          </bean>
+            <bean parent="Uif-HeaderLowerGroup">
+                <property name="style" value="margin-bottom:px;"/>
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{#dp.alternateCOCodesUIList}" p:render="@{!#dp.alternateCourseCodesSuffixStripped.isEmpty()}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />
         <property name="page.items">
@@ -322,7 +322,7 @@
                 <!--</bean>-->
                 <bean parent="Uif-MessageField" p:label="Student Registration Options"
                       p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
-                       p:render="true" />
+                      p:render="true" />
                 <!-- List of checkboxes seem to break in KRAD 2.2M3 so had to replace with individual checkboxes -->
                 <bean parent="Uif-CheckboxInputField" p:label="Pass/Fail"
                       p:propertyName="passFailStudentRegOpts"
@@ -359,7 +359,7 @@
                 </bean>
                 <!-- Fixed Type for multiple -->
                 <bean parent="Uif-InputField" p:label="Credits" p:propertyName="creditOption.fixedCredit" p:fieldLabel.renderColon="false"
-                      p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.fixed' and #dp.creditOption.minCredits eq null}"
+                      p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.fixed'}"
                       p:exclusiveMin="@{document.oldMaintainableObject.dataObject.creditOption.courseMinCredits}-0.0001"
                       p:inclusiveMax="@{document.oldMaintainableObject.dataObject.creditOption.courseMaxCredits}"  >
                     <property name="id" value="KS-CourseOfferingEdit-CreditType_OptionTypeFixed" />
@@ -371,7 +371,8 @@
                     </property>
                 </bean>
                 <!-- Fixed Type for variable -->
-                <bean parent="Uif-InputField" p:label="Credits" p:propertyName="creditOption.fixedCredit" p:fieldLabel.renderColon="false"
+                <!-- comment the bean out because if fixed radio button is checked, you can only select credit from the dropdown instead of entering one using input field -->
+                <!--<bean parent="Uif-InputField" p:label="Credits" p:propertyName="creditOption.fixedCredit" p:fieldLabel.renderColon="false"
                       p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.fixed' and #dp.creditOption.minCredits ne null}"
                       p:exclusiveMin="@{document.oldMaintainableObject.dataObject.creditOption.courseMinCredits}-0.0001"
                       p:inclusiveMax="@{document.oldMaintainableObject.dataObject.creditOption.courseMaxCredits}"  >
@@ -380,7 +381,7 @@
                         <bean parent="Uif-TextControl" p:size="3" p:disabled="@{#dp.creditOptionFixed}"
                               p:onDocumentReadyScript="validateCredits(this, '@{#ConfigProperties['application.url']}', @{#dp.course.creditOptions[0].typeKey eq 'kuali.result.values.group.type.multiple'});"/>
                     </property>
-                </bean>
+                </bean>-->
                 <!-- Range -->
                 <bean parent="Uif-HorizontalBoxSection" p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.range'}">
                     <property name="items">
@@ -455,26 +456,26 @@
                     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
                     <property name="layoutManager.applyDefaultCellWidths" value="false" />
                     <property name="layoutManager.addLineGroup">
-                      <bean parent="Uif-CollectionHorizontalBoxItem" p:style="background-color:#f3f3f3; padding-top:10px; padding-left:10px;">
-                          <property name="header">
-                            <bean parent="Uif-HeaderFour"/>
-                          </property>
-                      </bean>
+                        <bean parent="Uif-CollectionHorizontalBoxItem" p:style="background-color:#f3f3f3; padding-top:10px; padding-left:10px;">
+                            <property name="header">
+                                <bean parent="Uif-HeaderFour"/>
+                            </property>
+                        </bean>
                     </property>
                     <property name="addLineLabel.labelText" value=""/>
                     <property name="layoutManager.richTable.render" value="false" />
                     <property name="addLineActions">
-                      <list>
-                        <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"
-                              p:actionEvent="addLine"/>
-                      </list>
+                        <list>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"
+                                  p:actionEvent="addLine"/>
+                        </list>
                     </property>
                     <property name="lineActions">
-                      <list>
-                        <bean parent="Uif-DeleteLineAction">
-                             <property name="render" value="@{#lp.stateKey ne 'kuali.lui.format.offering.state.offered'}"/>
-                        </bean>
-                      </list>
+                        <list>
+                            <bean parent="Uif-DeleteLineAction">
+                                <property name="render" value="@{#lp.stateKey ne 'kuali.lui.format.offering.state.offered'}"/>
+                            </bean>
+                        </list>
                     </property>
                     <property name="items">
                         <list>
@@ -531,7 +532,7 @@
                             <bean parent="Uif-HorizontalBoxSection" p:refreshWhenChangedPropertyNames="#dp.courseOfferingInfo.hasWaitlist">
                                 <property name="items">
                                     <list>
-                                       <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.waitlistLevelTypeKey" p:label="Waitlist Level" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.waitlistLevelTypeKey" p:label="Waitlist Level" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                                             <property name="control">
                                                 <bean parent="Uif-VerticalRadioControl" p:disabled="@{!#dp.courseOfferingInfo.hasWaitlist}"/>
                                             </property>

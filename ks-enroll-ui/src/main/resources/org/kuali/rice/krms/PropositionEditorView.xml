@@ -136,39 +136,6 @@
 
                 <!-- This section is only a place holder, items are added on the viewhelperservice to improve performance.-->
 
-                <!--Add all the available custom components-->
-                <!--ref bean="permission.instructor.required" />
-                <ref bean="course.drop.org.permission.required" />
-                <ref bean="max.limit.courses.at.org.for.program" />
-                <ref bean="max.limit.courses.at.org.duration.for.program" />
-                <ref bean="success.compl.course" />
-                <ref bean="success.course.courseset.completed.nof" />
-                <ref bean="success.course.courseset.completed.all" />
-                <ref bean="success.credit.courseset.completed.nof" />
-                <ref bean="success.credit.courseset.completed.nof.org" />
-                <ref bean="cumulative.gpa.min" />
-                <ref bean="duration.cumulative.gpa.min" />
-                <ref bean="course.courseset.gpa.min" />
-                <ref bean="course.courseset.grade.min" />
-                <ref bean="course.courseset.nof.grade.min" />
-                <ref bean="course.courseset.grade.max" />
-                <ref bean="course.test.score.min" />
-                <ref bean="course.test.score.max" />
-                <ref bean="course.courseset.completed.none" />
-                <ref bean="course.courseset.credits.completed.none" />
-                <ref bean="course.courseset.credits.completed.nof" />
-                <ref bean="course.courseset.completed.nof" />
-                <ref bean="course.enrolled" />
-                <ref bean="course.courseset.enrolled.nof" />
-                <ref bean="course.courseset.enrolled.all" />
-                <ref bean="credits.earned.min" />
-                <ref bean="course.notccompleted" />
-                <ref bean="course.credits.repeat.max" />
-                <ref bean="admitted.to.program" />
-                <ref bean="admitted.to.program.campus" />
-                <ref bean="notadmitted.to.program" />
-                <ref bean="test.score.between.values" />
-                <ref bean="test.score" /-->
             </list>
         </property>
     </bean>
