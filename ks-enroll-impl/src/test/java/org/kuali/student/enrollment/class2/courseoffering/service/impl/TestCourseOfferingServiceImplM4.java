@@ -1,9 +1,29 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import junit.framework.Assert;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.criteria.QueryByCriteria.Builder;
 import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.common.test.util.ListOfStringTester;
 import org.kuali.student.common.test.util.MetaTester;
@@ -13,13 +33,17 @@ import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGr
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
-import org.kuali.student.r2.common.dto.*;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -41,22 +65,12 @@ import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
-import org.kuali.student.r2.core.search.service.SearchService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
-import java.util.*;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 
 /*
@@ -74,6 +88,9 @@ import static org.junit.Assert.fail;
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class TestCourseOfferingServiceImplM4 {
+    
+    private static final Logger log = LoggerFactory.getLogger(TestCourseOfferingServiceImplM4.class);
+    
     @Resource
     protected CourseOfferingService coServiceImpl;
     @Resource
@@ -665,6 +682,69 @@ public class TestCourseOfferingServiceImplM4 {
         // verify count stays the same even after calling the method again.
         rgList = coServiceImpl.getRegistrationGroupsByActivityOfferingCluster(actual.getId(), contextInfo);
         assertEquals(2, rgList.size());
+    }
+    
+    // shows the problems that need to be resolved in https://jira.kuali.org/browse/KSENROLL-6479
+    // once fixed this test should work ok.
+    // the other search for methods should also be exercised but this one shows the two know problem cases right now.
+    @Test
+    @Ignore
+    public void testSearchForMethods () throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        
+        before();
+        
+        Builder builder = QueryByCriteria.Builder.create();
+        
+        // this shows the filtering that is wrong we should just get 2 co's for both but the second one returns all lui.id's
+        
+        // want to set typeKey since that is what is on the dto but need to specify luiType which is the name of the field in the luiEntity
+        builder.setPredicates(PredicateFactory.equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY));
+        
+        List<String> expectedCOIds = coServiceImpl.searchForCourseOfferingIds(builder.build(), callContext);
+        
+        log.info (String.format("%d expected", expectedCOIds.size()));
+        
+        builder = QueryByCriteria.Builder.create();
+        
+        List<String> actualCOIds = coServiceImpl.searchForCourseOfferingIds(builder.build(), callContext);
+        
+        log.info (String.format("%d actual", actualCOIds.size()));
+        
+        assertEquals(expectedCOIds.size(), actualCOIds.size());
+        
+        assertTrue (CollectionUtils.isEqualCollection(expectedCOIds, actualCOIds));
+        
+        // this shows the paging problem
+        // we should get back 2 co's
+        // but only 1 co in the first 2 lui's
+        
+        builder = QueryByCriteria.Builder.create();
+        
+        // this shows the filtering that is wrong we should just get 2 co's for both but the second one returns all lui.id's
+        
+        // want to set typeKey since that is what is on the dto but need to specify luiType which is the name of the field in the luiEntity
+        builder.setPredicates(PredicateFactory.equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY));
+        
+        builder.setMaxResults(2);
+        builder.setStartAtIndex(0);
+        
+        List<CourseOfferingInfo> expectedCOs = coServiceImpl.searchForCourseOfferings(builder.build(), callContext);
+        
+        log.info (String.format("%d expected", expectedCOs.size()));
+        
+        builder = QueryByCriteria.Builder.create();
+        
+        builder.setMaxResults(2);
+        builder.setStartAtIndex(0);
+        
+        List<CourseOfferingInfo> actualCOs = coServiceImpl.searchForCourseOfferings(builder.build(), callContext);
+        
+        log.info (String.format("%d actual", actualCOs.size()));
+        
+        assertEquals(expectedCOs.size(), actualCOs.size());
+        
+        assertTrue (CollectionUtils.isEqualCollection(expectedCOs, actualCOs));
+        
     }
 
 }
