@@ -168,12 +168,14 @@ public class KsapDataDictionary extends DataDictionary implements
 					TL_LOADER.remove();
 				}
 
-				ddBeans = loadingDdBeans;
-				ddIndex = loadingDdIndex;
-				if (uifIndex != null)
-					uifIndex.cancelActiveBuilders();
-				uifIndex = loadingUifIndex;
-				beanValidationFiles = loadingBeanValidationFiles;
+				if (loader == this || ddBeans == null) {
+					ddBeans = loadingDdBeans;
+					ddIndex = loadingDdIndex;
+					if (uifIndex != null)
+						uifIndex.cancelActiveBuilders();
+					uifIndex = loadingUifIndex;
+					beanValidationFiles = loadingBeanValidationFiles;
+				}
 			} catch (Throwable t) {
 				LOG.fatal("Error loading DD from " + moduleLoadOrder + "\n"
 						+ moduleDictionaryFiles, t);

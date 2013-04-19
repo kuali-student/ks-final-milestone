@@ -133,6 +133,12 @@
 	<logger name="edu.iu.es.sis.ks.impl.SisKsapContext">
 		<level value="INFO" />
 	</logger>
+	<logger name="edu.iu.es.sis.kart.impl.KartHttpServletRequest">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.es.sis.kart.impl.KartHttpSession">
+		<level value="INFO" />
+	</logger>
 
 	<!-- External loggers related to SIS Rice 5 / Kuali Rice 2 -->
 	<logger name="net.sf.ehcache">
