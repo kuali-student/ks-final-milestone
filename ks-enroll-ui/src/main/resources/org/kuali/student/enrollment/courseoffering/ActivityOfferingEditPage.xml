@@ -114,11 +114,17 @@
                         <bean parent="Uif-TextControl" p:size="1"/>
                     </property>
                 </bean>
+                <bean parent="Uif-InputField" p:propertyName="colocatedAO" p:id="colocatedAO_value">
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl"/>
+                    </property>
+                </bean>
                 <bean parent="Uif-InputField" p:label="This activity is co-located" p:fieldLabel.renderColon="false" p:propertyName="colocatedAO"
                       p:id="is_co_located">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
                             <property name="onChangeScript" value="setupColoCheckBoxChange(this,true)"/>
+                            <!--<property name="onChangeScript" value="handleColocation();"/>-->
                         </bean>
                     </property>
                 </bean>

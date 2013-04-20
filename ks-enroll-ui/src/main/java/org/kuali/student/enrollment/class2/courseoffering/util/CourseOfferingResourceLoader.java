@@ -17,6 +17,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.util;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
@@ -104,4 +106,8 @@ public class CourseOfferingResourceLoader {
         return atpService;
     }
 
+    public static LuiService loadLuiService() {
+        LuiService luiService = (LuiService)GlobalResourceLoader.getService(new QName(LuiServiceConstants.NAMESPACE, LuiServiceConstants.SERVICE_NAME_LOCAL_PART));
+        return luiService;
+    }
 }

@@ -16,7 +16,10 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.uif.form.KSUifMaintenanceDocumentForm;
+import org.kuali.student.enrollment.uif.util.GrowlIcon;
 import org.kuali.student.enrollment.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
@@ -255,4 +258,25 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             return false;
         }
     }
+
+    @RequestMapping(params = "methodToCall=removeAOFromColocation")
+     public ModelAndView removeAOFromColocation(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                           HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+        if(activityOfferingWrapper.isPartOfColoSetOnLoadAlready()){
+            ColocatedOfferingSetInfo colocatedOfferingSetInfo = activityOfferingWrapper.getColocatedOfferingSetInfo();
+            boolean maxEnrollmentShared = colocatedOfferingSetInfo.getIsMaxEnrollmentShared();
+
+            ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
+            viewHelper.removeAOFromColocation(activityOfferingWrapper);
+
+            if(maxEnrollmentShared){
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COLOCATION_MAX_ENR_SHARED);
+            }else {
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COLOCATION_MAX_ENR_SEPARATED);
+            }
+
+        }
+        return getUIFModelAndView(form);
+      }
 }

@@ -6,6 +6,7 @@ import org.kuali.student.enrollment.uif.service.KSMaintainable;
 public interface ActivityOfferingMaintainable extends KSMaintainable{
 
     public boolean addScheduleRequestComponent(ActivityOfferingWrapper activityOfferingWrapper);
+    public void removeAOFromColocation(ActivityOfferingWrapper activityOfferingWrapper);
 
 //    public void prepareForScheduleRevise(ActivityOfferingWrapper wrapper);
 

@@ -41,10 +41,13 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.enrollment.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -62,6 +65,7 @@ import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -97,6 +101,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     private transient SeatPoolUtilityService seatPoolUtilityService = new SeatPoolUtilityServiceImpl();
     private transient CourseService courseService;
     private transient SearchService searchService;
+    private transient LuiService luiService;
 
     private static final String SCHEDULE_HELPER = "scheduleHelper";
 
@@ -264,6 +269,52 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         return getScheduleHelper().addScheduleRequestComponent(activityOfferingWrapper);
     }
 
+    public void removeAOFromColocation (ActivityOfferingWrapper activityOfferingWrapper){
+        String activityOfferingId = activityOfferingWrapper.getAoInfo().getId();
+
+        try{
+            // remove AO from ColocatedSet
+            removeAOFromColocatedSet(activityOfferingId, activityOfferingWrapper.getColocatedOfferingSetInfo());
+
+            //update the AO
+            ActivityOfferingInfo aoInfo =  activityOfferingWrapper.getAoInfo();
+            aoInfo.setIsPartOfColocatedOfferingSet(false);
+            aoInfo.setScheduleId(null);
+            //getCourseOfferingService().updateActivityOffering(activityOfferingId, aoInfo, createContextInfo());
+        } catch (Exception e) {
+            if(e instanceof AuthorizationException){
+                throw new AuthorizationException(null,null,null,null);
+            }
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void removeAOFromColocatedSet(String activityOfferingId, ColocatedOfferingSetInfo  coloSet){
+        try{
+            coloSet.getActivityOfferingIds().remove(activityOfferingId);
+            //If there is only one AO in the colo set, delete the Coloset and point the colo RLDs to the last AO.
+            if (coloSet.getActivityOfferingIds().size() == 1){
+              //For performance reasons, just get the lui instead of AO.
+              LuiInfo luiInfo = getLuiService().getLui(coloSet.getActivityOfferingIds().get(0), createContextInfo());
+              List<ScheduleRequestInfo> scheduleRequestInfos = getSchedulingService().getScheduleRequestsByRefObject(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,coloSet.getId(),createContextInfo());
+              for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
+                  scheduleRequestInfo.setRefObjectId(luiInfo.getId());
+                  scheduleRequestInfo.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+                  scheduleRequestInfo.setName("Schedule request for activity offering");
+                  //getSchedulingService().updateScheduleRequest(scheduleRequestInfo.getId(),scheduleRequestInfo,createContextInfo());
+              }
+              //getCourseOfferingService().deleteColocatedOfferingSet(coloSet.getId(), createContextInfo());
+            } else {
+              //getCourseOfferingService().updateColocatedOfferingSet(coloSet.getId(),coloSet,createContextInfo());
+            }
+
+        } catch (Exception e) {
+            if(e instanceof AuthorizationException){
+                throw new AuthorizationException(null,null,null,null);
+            }
+            throw new RuntimeException(e);
+        }
+    }
     /*@Override
     public void prepareForScheduleRevise(ActivityOfferingWrapper wrapper) {
         getScheduleHelper().prepareForScheduleRevise(wrapper);
@@ -990,4 +1041,17 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         return searchService;
     }
 
+    protected LuiService getLuiService() {
+        if(luiService == null) {
+            luiService = CourseOfferingResourceLoader.loadLuiService();
+        }
+        return luiService;
+    }
+
+    protected SchedulingService getSchedulingService() {
+        if(schedulingService == null) {
+            schedulingService = CourseOfferingResourceLoader.loadSchedulingService();
+        }
+        return schedulingService;
+    }
 }

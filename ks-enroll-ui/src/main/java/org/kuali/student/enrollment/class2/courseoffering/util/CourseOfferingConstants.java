@@ -134,6 +134,10 @@ public class CourseOfferingConstants {
     public final static String COURSEOFFERING_FINAL_EXAM_TYPE_ALTERNATE = "ALTERNATE";
     public final static String COURSEOFFERING_FINAL_EXAM_TYPE_NONE = "NONE";
 
+    //colocation
+    public static final String COLOCATION_MAX_ENR_SHARED="info.enroll.courseoffering.colocation.enr.shared";
+    public static final String COLOCATION_MAX_ENR_SEPARATED="info.enroll.courseoffering.colocation.enr.separated";
+
     /**
          * These are the confirm dialog bean ids used in Manage CO/AO view.
          */

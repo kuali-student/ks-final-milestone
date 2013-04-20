@@ -1,4 +1,28 @@
 /**
+ * This method handles colocate/unclocate AO.
+ *
+ */
+ function handleColocation(){
+    setupColoCheckBoxChange(jQuery("#is_co_located_control"));
+
+    var colocatedAO = jQuery("#colocatedAO_value_control").val();
+
+    if(jQuery("#is_co_located_control").is(":checked")) {
+        //colo UI changes
+    }else {
+        // handle un-colocation in server side
+        if(colocatedAO=="true") {
+            var retVal =confirm("This AO is about to leave the coloset, are you sure you want to do this?\n\n" +
+                "On confirm, this AO is removed from the coloset and the user needs to \n" +
+                "find its own delivery logistics for the AO.\n");
+            if (retVal==true)
+            {
+                submitForm("removeAOFromColocation");
+            }
+        }
+    }
+}
+/**
  * This method handles the colocated checkbox event.
  * @param control colocated checkbox control
  *
