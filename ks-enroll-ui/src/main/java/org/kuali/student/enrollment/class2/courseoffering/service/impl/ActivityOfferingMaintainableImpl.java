@@ -280,7 +280,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             ActivityOfferingInfo aoInfo =  activityOfferingWrapper.getAoInfo();
             aoInfo.setIsPartOfColocatedOfferingSet(false);
             aoInfo.setScheduleId(null);
-            //getCourseOfferingService().updateActivityOffering(activityOfferingId, aoInfo, createContextInfo());
+            getCourseOfferingService().updateActivityOffering(activityOfferingId, aoInfo, createContextInfo());
         } catch (Exception e) {
             if(e instanceof AuthorizationException){
                 throw new AuthorizationException(null,null,null,null);
@@ -301,11 +301,11 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                   scheduleRequestInfo.setRefObjectId(luiInfo.getId());
                   scheduleRequestInfo.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
                   scheduleRequestInfo.setName("Schedule request for activity offering");
-                  //getSchedulingService().updateScheduleRequest(scheduleRequestInfo.getId(),scheduleRequestInfo,createContextInfo());
+                  getSchedulingService().updateScheduleRequest(scheduleRequestInfo.getId(),scheduleRequestInfo,createContextInfo());
               }
-              //getCourseOfferingService().deleteColocatedOfferingSet(coloSet.getId(), createContextInfo());
+              getCourseOfferingService().deleteColocatedOfferingSet(coloSet.getId(), createContextInfo());
             } else {
-              //getCourseOfferingService().updateColocatedOfferingSet(coloSet.getId(),coloSet,createContextInfo());
+              getCourseOfferingService().updateColocatedOfferingSet(coloSet.getId(),coloSet,createContextInfo());
             }
 
         } catch (Exception e) {
