@@ -5,19 +5,25 @@
  function handleColocation(){
     setupColoCheckBoxChange(jQuery("#is_co_located_control"));
 
-    var colocatedAO = jQuery("#colocatedAO_value_control").val();
-
+    //var colocatedAO = jQuery("#colocatedAO_value_control").val();
+    var sharedMax = jQuery("#maxEnrollmentSharedt_value_control").val();
     if(jQuery("#is_co_located_control").is(":checked")) {
         //colo UI changes
     }else {
         // handle un-colocation in server side
-        if(colocatedAO=="true") {
-            var retVal =confirm("This AO is about to leave the coloset, are you sure you want to do this?\n\n" +
-                "On confirm, this AO is removed from the coloset and the user needs to \n" +
-                "find its own delivery logistics for the AO.\n");
+        if(jQuery("#colocatedAO_value_control").val()=="true") {
+            var str = "This AO is about to leave the coloset, are you sure you want to do this?\n\nDelivery Logistics" +
+                            "\nOn confirm, this AO is removed from the coloset and the user needs to find its own delivery logistics for the AO.\n\n";
+
+            if (jQuery("#maxEnrollmentShared_value_control").val() == "true") {
+                str = str + "Maximum Enrollment\n The maximum enrollment was managed as shared, the entire max enrollment value remains with the coloset.\n"
+                            + "Max enrollment of the AO may need revision.\n";
+            }
+
+            var retVal =confirm(str);
             if (retVal==true)
             {
-                submitForm("removeAOFromColocation");
+                submitForm("detachAOFromColocation");
             }
         }
     }

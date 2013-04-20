@@ -83,6 +83,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Formatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -269,18 +270,23 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         return getScheduleHelper().addScheduleRequestComponent(activityOfferingWrapper);
     }
 
-    public void removeAOFromColocation (ActivityOfferingWrapper activityOfferingWrapper){
+    public void detachAOFromColocation (MaintenanceDocument document, ActivityOfferingWrapper activityOfferingWrapper){
         String activityOfferingId = activityOfferingWrapper.getAoInfo().getId();
 
         try{
             // remove AO from ColocatedSet
-            removeAOFromColocatedSet(activityOfferingId, activityOfferingWrapper.getColocatedOfferingSetInfo());
+            detachAOFromColocatedSet(activityOfferingId, activityOfferingWrapper.getColocatedOfferingSetInfo());
 
             //update the AO
             ActivityOfferingInfo aoInfo =  activityOfferingWrapper.getAoInfo();
             aoInfo.setIsPartOfColocatedOfferingSet(false);
             aoInfo.setScheduleId(null);
             getCourseOfferingService().updateActivityOffering(activityOfferingId, aoInfo, createContextInfo());
+
+            //reload AO
+            Map<String, String> dataObjectKeys = new HashMap<String, String>();
+            dataObjectKeys.put("aoInfo.id",activityOfferingId);
+            retrieveObjectForEditOrCopy(document, dataObjectKeys);
         } catch (Exception e) {
             if(e instanceof AuthorizationException){
                 throw new AuthorizationException(null,null,null,null);
@@ -289,7 +295,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         }
     }
 
-    private void removeAOFromColocatedSet(String activityOfferingId, ColocatedOfferingSetInfo  coloSet){
+    private void detachAOFromColocatedSet(String activityOfferingId, ColocatedOfferingSetInfo  coloSet){
         try{
             coloSet.getActivityOfferingIds().remove(activityOfferingId);
             //If there is only one AO in the colo set, delete the Coloset and point the colo RLDs to the last AO.

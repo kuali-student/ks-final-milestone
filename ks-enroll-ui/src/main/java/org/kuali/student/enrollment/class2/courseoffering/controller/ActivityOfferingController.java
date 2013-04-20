@@ -259,8 +259,8 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         }
     }
 
-    @RequestMapping(params = "methodToCall=removeAOFromColocation")
-     public ModelAndView removeAOFromColocation(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+    @RequestMapping(params = "methodToCall=detachAOFromColocation")
+     public ModelAndView detachAOFromColocation(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
         if(activityOfferingWrapper.isPartOfColoSetOnLoadAlready()){
@@ -268,7 +268,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             boolean maxEnrollmentShared = colocatedOfferingSetInfo.getIsMaxEnrollmentShared();
 
             ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
-            viewHelper.removeAOFromColocation(activityOfferingWrapper);
+            viewHelper.detachAOFromColocation(form.getDocument(), activityOfferingWrapper);
 
             if(maxEnrollmentShared){
                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COLOCATION_MAX_ENR_SHARED);

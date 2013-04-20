@@ -119,6 +119,11 @@
                         <bean parent="Uif-HiddenControl"/>
                     </property>
                 </bean>
+                <bean parent="Uif-InputField" p:propertyName="maxEnrollmentShared" p:id="maxEnrollmentShared_value">
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl"/>
+                    </property>
+                </bean>
                 <bean parent="Uif-InputField" p:label="This activity is co-located" p:fieldLabel.renderColon="false" p:propertyName="colocatedAO"
                       p:id="is_co_located">
                     <property name="control">
