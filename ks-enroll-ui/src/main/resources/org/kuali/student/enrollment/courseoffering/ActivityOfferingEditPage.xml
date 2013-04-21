@@ -114,12 +114,12 @@
                         <bean parent="Uif-TextControl" p:size="1"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="colocatedAO" p:id="colocatedAO_value">
+                <bean parent="Uif-InputField" p:propertyName="partOfColoSetOnLoadAlready" p:id="colocatedAO_value">
                     <property name="control">
                         <bean parent="Uif-HiddenControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="maxEnrollmentShared" p:id="maxEnrollmentShared_value">
+                <bean parent="Uif-InputField" p:propertyName="hiddenMaxEnrollmentShared" p:id="maxEnrollmentShared_value">
                     <property name="control">
                         <bean parent="Uif-HiddenControl"/>
                     </property>

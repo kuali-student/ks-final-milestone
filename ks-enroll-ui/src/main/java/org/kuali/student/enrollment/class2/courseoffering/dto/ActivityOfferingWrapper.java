@@ -99,6 +99,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean colocatedAO;
     private List<ColocatedActivity> colocatedActivities;
     private boolean maxEnrollmentShared;
+    private boolean hiddenMaxEnrollmentShared;
     private int sharedMaxEnrollment;
 
     private ColocatedOfferingSetInfo colocatedOfferingSetInfo;
@@ -802,6 +803,10 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setMaxEnrollmentShared(boolean maxEnrollmentShared) {
         this.maxEnrollmentShared = maxEnrollmentShared;
+    }
+
+    public boolean getHiddenMaxEnrollmentShared(){
+        return maxEnrollmentShared;
     }
 
     public int getSharedMaxEnrollment() {
