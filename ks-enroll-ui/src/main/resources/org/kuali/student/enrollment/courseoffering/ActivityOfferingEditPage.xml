@@ -128,8 +128,8 @@
                       p:id="is_co_located">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
-                            <property name="onChangeScript" value="setupColoCheckBoxChange(this,true)"/>
-                            <!--<property name="onChangeScript" value="handleColocation();"/>-->
+                            <!--<property name="onChangeScript" value="setupColoCheckBoxChange(this,true)"/>-->
+                            <property name="onChangeScript" value="handleColocation();"/>
                         </bean>
                     </property>
                 </bean>
