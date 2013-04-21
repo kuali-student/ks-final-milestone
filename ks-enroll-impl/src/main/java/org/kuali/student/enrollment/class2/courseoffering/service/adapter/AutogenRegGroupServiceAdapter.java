@@ -270,8 +270,14 @@ public interface AutogenRegGroupServiceAdapter {
      */
     public AutogenCount getAutogenCountByActivtyOfferingCluster (String activiyOfferingClusterId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    
-    
+
+    /**
+     * Returns all ActivityOfferingClusterInfos that map back to a single course offering
+     *
+     * @param courseOfferingId
+     * @return
+     */
+    public List<ActivityOfferingClusterInfo> getActivityOfferingClusterByCourseOffering(String courseOfferingId);
     
    
 }

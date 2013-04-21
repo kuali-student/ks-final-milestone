@@ -891,6 +891,7 @@
     </bean>
     <bean id="autogenRegistrationGroupAppLayer" class="org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapterImpl">
         <property name="coService" ref="CourseOfferingService" />
+        <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao" />
     </bean>
 
     <bean id="ActivityOfferingSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl">
@@ -1092,3 +1093,5 @@
         </property>
     </bean>
  </beans>
+
+

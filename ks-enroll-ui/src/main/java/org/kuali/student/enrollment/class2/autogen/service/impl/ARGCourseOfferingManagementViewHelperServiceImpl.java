@@ -40,6 +40,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingSetEntity;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CO_AO_RG_ViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.util.RegistrationGroupUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
@@ -150,6 +151,8 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     private static LprService lprService;
     private static PermissionService permissionService;
     private static IdentityService identityService;
+
+
 
     /**
      * This method fetches the <code>TermInfo</code> and validate for exact match
@@ -326,6 +329,8 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
         //Parse the search results
         List<ActivityOfferingWrapper> wrappers = processAoClusterData(results, form, sch2aoMap, clusterMap, aoMap, foIds, aoIdsWithoutSch, contextInfo);
+
+        processAosData(coId,clusterMap);
 
         //Set the items in the form
         form.setActivityWrapperList(wrappers);
@@ -841,6 +846,37 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         return new ArrayList<RegistrationGroupWrapper>(rgMap.values());
     }
 
+    /**
+     * After the performance improvements, the clusterMap does not contain set information. So, lets add it here.
+     * This method will use the dto to grab a full AOC.
+     * @param coId
+     * @param clusterMap
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws DoesNotExistException
+     * @throws PermissionDeniedException
+     * @throws OperationFailedException
+     */
+    protected void processAosData(String coId, Map<String, ActivityOfferingClusterWrapper> clusterMap)
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+
+        List<ActivityOfferingClusterInfo> aoClusters = ARGUtil.getArgServiceAdapter().getActivityOfferingClusterByCourseOffering(coId);
+
+        for(ActivityOfferingClusterInfo aoc : aoClusters){
+            clusterMap.get(aoc.getId()).setAoCluster(aoc);
+        }
+
+    }
+
+    private static List<ActivityOfferingSetInfo> convertToAOSetInfo(Set<ActivityOfferingSetEntity> aosEntities){
+        List<ActivityOfferingSetInfo> retList = new ArrayList<ActivityOfferingSetInfo>();
+
+        for(ActivityOfferingSetEntity aose : aosEntities){
+            retList.add(aose.toDto());
+        }
+        return retList;
+    }
+
     private List<ActivityOfferingWrapper> processAoClusterData(SearchResultInfo searchResults, ARGCourseOfferingManagementForm form,
                                                                Map<String, ActivityOfferingWrapper> sch2aoMap,
                                                                Map<String, ActivityOfferingClusterWrapper> clusterMap,
@@ -1178,6 +1214,10 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         int listIndex = 0;
         ValidationResultInfo validationResultInfo = new ValidationResultInfo();
 
+        //The max enrollment numbers of all the aoSets in the given AOC are the same. The validation passes.
+        validationResultInfo.setLevel(ValidationResult.ErrorLevel.OK);
+        validationResultInfo.setMessage("Sum of enrollment for each AO type is equal");
+
         for(ActivityOfferingSetInfo aos : aoCluster.getActivityOfferingSets()){
             for(String aoId : aos.getActivityOfferingIds()){
                 ActivityOfferingWrapper aoWrapper = aoMap.get(aoId);
@@ -1200,11 +1240,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             aoSetMaxEnrollNumber = 0;
             listIndex++;
         }
-
-        //The max enrollment numbers of all the aoSets in the given AOC are the same. The validation passes.
-        validationResultInfo.setLevel(ValidationResult.ErrorLevel.OK);
-        validationResultInfo.setMessage("Sum of enrollment for each AO type is equal");
-
 
         if (validationResultInfo.isWarn())  {
             GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_MAX_ENROLLMENT, aoCluster.getPrivateName());
@@ -2314,5 +2349,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
         return lprService;
     }
+
 
 }

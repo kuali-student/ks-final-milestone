@@ -96,4 +96,9 @@ public class MockActivityOfferingClusterDao implements ActivityOfferingClusterDa
     public void setEm(EntityManager em) throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Mocks do not have entity managers");
     }
+
+    @Override
+    public List<ActivityOfferingClusterEntity> getByCourseOffering(String courseOfferingId){
+        return null;
+    }
 }
