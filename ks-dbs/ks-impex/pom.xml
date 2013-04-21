@@ -194,6 +194,7 @@
                             </execution>
                         </executions>
                         <dependencies>
+                            <!-- Add in the module specific dependencies -->
                             <dependency>
                                 <groupId>org.kuali.student.db</groupId>
                                 <artifactId>ks-impex-rice-db</artifactId>
@@ -208,26 +209,6 @@
                                 <groupId>org.kuali.student.db</groupId>
                                 <artifactId>ks-impex-bundled-db</artifactId>
                                 <version>${project.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.kuali.common</groupId>
-                                <artifactId>kuali-deploy</artifactId>
-                                <version>${kuali-deploy.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.kuali.common</groupId>
-                                <artifactId>kuali-jdbc</artifactId>
-                                <version>${kuali-jdbc.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.kuali.common</groupId>
-                                <artifactId>kuali-sql</artifactId>
-                                <version>${kuali-sql.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.kuali.common</groupId>
-                                <artifactId>kuali-util</artifactId>
-                                <version>${kuali-util.version}</version>
                             </dependency>
                         </dependencies>
                     </plugin>

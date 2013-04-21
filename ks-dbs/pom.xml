@@ -41,6 +41,11 @@
                     <artifactId>spring-maven-plugin</artifactId>
                     <dependencies>
                         <dependency>
+                            <groupId>org.kuali.common</groupId>
+                            <artifactId>kuali-sql</artifactId>
+                            <version>${kuali-sql.version}</version>
+                        </dependency>
+                        <dependency>
                             <groupId>org.kuali.student.core</groupId>
                             <artifactId>ks-core-sql</artifactId>
                             <version>${ks.core.version}</version>
