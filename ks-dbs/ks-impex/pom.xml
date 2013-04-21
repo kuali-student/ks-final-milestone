@@ -221,6 +221,11 @@
                             </dependency>
                             <dependency>
                                 <groupId>org.kuali.common</groupId>
+                                <artifactId>kuali-sql</artifactId>
+                                <version>${kuali-sql.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.kuali.common</groupId>
                                 <artifactId>kuali-util</artifactId>
                                 <version>${kuali-util.version}</version>
                             </dependency>
