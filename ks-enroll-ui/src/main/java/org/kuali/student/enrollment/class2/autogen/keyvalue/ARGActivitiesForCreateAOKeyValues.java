@@ -81,12 +81,16 @@ public class ARGActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase im
 
                 List<ActivityInfo> activityInfos = foundFormat.getActivities();
 
+                //map AO types to ActivityInfos based on typeTypeRelation
                 if (foInfo.getActivityOfferingTypeKeys() != null && foInfo.getActivityOfferingTypeKeys().size() > 0) {
                     for (String aoTypeKey : foInfo.getActivityOfferingTypeKeys()) {
                         List<TypeTypeRelationInfo> typeTypeRelationInfos = getTypeService().getTypeTypeRelationsByRelatedTypeAndType(aoTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, ContextUtils.getContextInfo());
 
                         if (typeTypeRelationInfos != null && typeTypeRelationInfos.size() > 0) {
                             for (ActivityInfo activityInfo : activityInfos) {
+                                //Even though the possibility of many-to-many relationship between AO type and Activity type does exist, the relationship,
+                                //most likely, is many-to-one. The following codes map an AO type to an ActivityInfo based on type key and use the mapped
+                                //ActivityInfo to construct the key/value pair
                                 if (activityInfo.getTypeKey().equals(typeTypeRelationInfos.get(0).getOwnerTypeKey())) {
                                     TypeInfo activityType = getTypeService().getType(activityInfo.getTypeKey(), ContextUtils.getContextInfo());
                                     keyValues.add(new ConcreteKeyValue(activityInfo.getId(), activityType.getName()));
