@@ -1,5 +1,6 @@
 package org.kuali.student.myplan.course.dataobject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +16,11 @@ import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
  *
  * https://wiki.cac.washington.edu/display/MyPlan/MyPlan+Course+Section+Details+Data+Needs
  */
-public class ActivityOfferingItem {
+public class ActivityOfferingItem implements Serializable {
 
-    private String code;
+	private static final long serialVersionUID = -5761634338639381397L;
+
+	private String code;
     private String campus;
     private String activityOfferingType;
     private String credits;

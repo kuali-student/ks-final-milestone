@@ -1,5 +1,6 @@
 package org.kuali.student.myplan.plan.dataobject;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -7,9 +8,11 @@ import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.myplan.academicplan.infc.PlanItem;
 
-public class PlanItemDataObject {
+public class PlanItemDataObject implements Serializable {
 
-    //  Common properties.
+	private static final long serialVersionUID = -3416993703358577253L;
+
+	//  Common properties.
     private String id;
 
     private Date dateAdded;

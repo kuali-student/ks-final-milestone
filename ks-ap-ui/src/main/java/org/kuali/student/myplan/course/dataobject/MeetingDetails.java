@@ -1,54 +1,56 @@
 package org.kuali.student.myplan.course.dataobject;
 
+import java.io.Serializable;
 
-public class MeetingDetails {
-	
-	
+public class MeetingDetails implements Serializable {
+
+	private static final long serialVersionUID = -9146325235552625275L;
+
 	// eg MTWThF
 	private String days;
 	// eg 10:30 AM - 11:20 AM
-    private String time;
-    private String building;
-    private String room;
-    private String campus;
-    
-    public String getDays() {
-        return days;
-    }
+	private String time;
+	private String building;
+	private String room;
+	private String campus;
 
-    public void setDays(String days) {
-        this.days = days;
-    }
+	public String getDays() {
+		return days;
+	}
 
-    public String getTime() {
-        return time;
-    }
+	public void setDays(String days) {
+		this.days = days;
+	}
 
-    public void setTime(String time) {
-        this.time = time;
-    }
+	public String getTime() {
+		return time;
+	}
 
-    public String getBuilding() {
-        return building;
-    }
+	public void setTime(String time) {
+		this.time = time;
+	}
 
-    public void setBuilding(String building) {
-        this.building = building;
-    }
+	public String getBuilding() {
+		return building;
+	}
 
-    public String getRoom() {
-        return room;
-    }
+	public void setBuilding(String building) {
+		this.building = building;
+	}
 
-    public void setRoom(String room) {
-        this.room = room;
-    }
+	public String getRoom() {
+		return room;
+	}
 
-    public String getCampus() {
-        return campus;
-    }
+	public void setRoom(String room) {
+		this.room = room;
+	}
 
-    public void setCampus(String campus) {
-        this.campus = campus;
-    }
+	public String getCampus() {
+		return campus;
+	}
+
+	public void setCampus(String campus) {
+		this.campus = campus;
+	}
 }

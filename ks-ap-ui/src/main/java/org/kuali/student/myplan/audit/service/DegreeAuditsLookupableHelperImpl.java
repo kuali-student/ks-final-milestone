@@ -22,7 +22,9 @@ import org.springframework.dao.DataRetrievalFailureException;
 
 public class DegreeAuditsLookupableHelperImpl extends MyPlanLookupableImpl {
 
-    private final Logger logger = Logger.getLogger(CourseDetailsInquiryHelperImpl.class);
+	private static final long serialVersionUID = 5470488652754576047L;
+
+	private final static Logger LOG = Logger.getLogger(CourseDetailsInquiryHelperImpl.class);
 
     private transient DegreeAuditService degreeAuditService;
 

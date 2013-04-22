@@ -1,5 +1,6 @@
 package org.kuali.student.myplan.course.dataobject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -11,7 +12,9 @@ import org.kuali.student.ap.framework.context.CourseSearchConstants;
 /**
  * Course details that comes from course catalog (KS CM)
  */
-public class CourseSummaryDetails {
+public class CourseSummaryDetails implements Serializable {
+
+	private static final long serialVersionUID = 6869257353692530138L;
 
 	private String courseId;
 	private String versionIndependentId;
@@ -186,24 +189,27 @@ public class CourseSummaryDetails {
 	public void setScheduledTerms(List<String> scheduledTerms) {
 		this.scheduledTerms = scheduledTerms;
 	}
-    public String getScheduledTermsNames() {
-        StringBuilder list = new StringBuilder();
 
-        for(int i = 0; i<scheduledTerms.size();i++) {
-            String term = scheduledTerms.get(i);
-            String elemTxt = KsapFrameworkServiceLocator.getTermHelper()
-                    .getTerm(term).getName();
+	public String getScheduledTermsNames() {
+		StringBuilder list = new StringBuilder();
 
-            // Convert Winter 2012 to WI 12
+		for (int i = 0; i < scheduledTerms.size(); i++) {
+			String term = scheduledTerms.get(i);
+			String elemTxt = KsapFrameworkServiceLocator.getTermHelper()
+					.getTerm(term).getName();
 
-            Matcher m = CourseSearchConstants.TERM_PATTERN.matcher(KsapFrameworkServiceLocator.getTermHelper()
-                    .getTerm(term).getName());
-            if(m.matches()) {
-                elemTxt = m.group(1).substring(0,2).toUpperCase() + " " + m.group(2);
-            }
-            list.append(elemTxt+" ");
-        }
-        return list.toString();
-    }
+			// Convert Winter 2012 to WI 12
+
+			Matcher m = CourseSearchConstants.TERM_PATTERN
+					.matcher(KsapFrameworkServiceLocator.getTermHelper()
+							.getTerm(term).getName());
+			if (m.matches()) {
+				elemTxt = m.group(1).substring(0, 2).toUpperCase() + " "
+						+ m.group(2);
+			}
+			list.append(elemTxt + " ");
+		}
+		return list.toString();
+	}
 
 }

@@ -1,76 +1,79 @@
 package org.kuali.student.myplan.plan.dataobject;
 
-import org.kuali.student.myplan.course.dataobject.ActivityOfferingItem;
-import org.kuali.student.myplan.course.dataobject.CourseDetails;
-import org.kuali.student.myplan.course.dataobject.CourseOfferingInstitution;
-import org.kuali.student.myplan.course.dataobject.CourseSummaryDetails;
-
+import java.io.Serializable;
 import java.util.List;
 
+import org.kuali.student.myplan.course.dataobject.ActivityOfferingItem;
+import org.kuali.student.myplan.course.dataobject.CourseSummaryDetails;
+
 /**
- * Captures a course detail object along with a single instance of its planned information.
+ * Captures a course detail object along with a single instance of its planned
+ * information.
  * <p/>
- * Date: 4/26/12
- * Time: 3:40 PM
- * To change this template use File | Settings | File Templates.
+ * Date: 4/26/12 Time: 3:40 PM To change this template use File | Settings |
+ * File Templates.
  */
-public class PlannedCourseDataObject implements Comparable {
+public class PlannedCourseDataObject implements
+		Comparable<PlannedCourseDataObject>, Serializable {
 
-    private transient PlanItemDataObject planItemDataObject;
+	private static final long serialVersionUID = -5983123014220935865L;
 
-    private List<ActivityOfferingItem> planActivities;
+	private PlanItemDataObject planItemDataObject;
 
-    private transient CourseSummaryDetails courseDetails;
+	private List<ActivityOfferingItem> planActivities;
 
-    private transient boolean showAlert;
+	private CourseSummaryDetails courseDetails;
 
-    // TODO: KULRICE-9003. This should be on plannedTerm once the jira is resolved
-    private transient boolean timeScheduleOpen;
+	private boolean showAlert;
 
-    public CourseSummaryDetails getCourseDetails() {
-        return courseDetails;
-    }
+	// TODO: KULRICE-9003. This should be on plannedTerm once the jira is
+	// resolved
+	private boolean timeScheduleOpen;
 
-    public void setCourseDetails(CourseSummaryDetails courseDetails) {
-        this.courseDetails = courseDetails;
-    }
+	public CourseSummaryDetails getCourseDetails() {
+		return courseDetails;
+	}
 
-    public PlanItemDataObject getPlanItemDataObject() {
-        return planItemDataObject;
-    }
+	public void setCourseDetails(CourseSummaryDetails courseDetails) {
+		this.courseDetails = courseDetails;
+	}
 
-    public void setPlanItemDataObject(PlanItemDataObject planItemDataObject) {
-        this.planItemDataObject = planItemDataObject;
-    }
+	public PlanItemDataObject getPlanItemDataObject() {
+		return planItemDataObject;
+	}
 
+	public void setPlanItemDataObject(PlanItemDataObject planItemDataObject) {
+		this.planItemDataObject = planItemDataObject;
+	}
 
-    public boolean isShowAlert() {
-        return showAlert;
-    }
+	public boolean isShowAlert() {
+		return showAlert;
+	}
 
-    public void setShowAlert(boolean showAlert) {
-        this.showAlert = showAlert;
-    }
+	public void setShowAlert(boolean showAlert) {
+		this.showAlert = showAlert;
+	}
 
-    @Override
-    public int compareTo( Object object ) {
-        PlannedCourseDataObject that = (PlannedCourseDataObject) object;
-        return this.getPlanItemDataObject().getDateAdded().compareTo( that.getPlanItemDataObject().getDateAdded() ) * -1;
-    }
+	@Override
+	public int compareTo(PlannedCourseDataObject that) {
+		return this.getPlanItemDataObject().getDateAdded()
+				.compareTo(that.getPlanItemDataObject().getDateAdded())
+				* -1;
+	}
 
-    public boolean isTimeScheduleOpen() {
-        return timeScheduleOpen;
-    }
+	public boolean isTimeScheduleOpen() {
+		return timeScheduleOpen;
+	}
 
-    public void setTimeScheduleOpen(boolean timeScheduleOpen) {
-        this.timeScheduleOpen = timeScheduleOpen;
-    }
+	public void setTimeScheduleOpen(boolean timeScheduleOpen) {
+		this.timeScheduleOpen = timeScheduleOpen;
+	}
 
-    public List<ActivityOfferingItem> getPlanActivities() {
-        return planActivities;
-    }
+	public List<ActivityOfferingItem> getPlanActivities() {
+		return planActivities;
+	}
 
-    public void setPlanActivities(List<ActivityOfferingItem> planActivities) {
-        this.planActivities = planActivities;
-    }
+	public void setPlanActivities(List<ActivityOfferingItem> planActivities) {
+		this.planActivities = planActivities;
+	}
 }

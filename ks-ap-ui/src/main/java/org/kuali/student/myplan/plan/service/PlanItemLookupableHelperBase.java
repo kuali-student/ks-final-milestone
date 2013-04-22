@@ -27,8 +27,12 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
  * Base lookup helper for plan items.
  */
 public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
-	private final Logger logger = Logger
+	
+	private static final long serialVersionUID = -6762982255633597470L;
+
+	private final static Logger LOG = Logger
 			.getLogger(PlanItemLookupableHelperBase.class);
+	
 	private transient AcademicPlanService academicPlanService;
     private transient CourseDetailsInquiryHelperImpl courseDetailsInquiryHelper;
 
@@ -67,7 +71,7 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
                             plannedCourseDO.setCourseDetails(getCourseDetailsInquiryService().retrieveCourseSummaryById(courseID));
 						}
 					} catch (Exception e) {
-						logger.error(
+						LOG.error(
 								String.format(
 										"Unable to retrieve course info for plan item [%s].",
 										planItem.getId()), e);

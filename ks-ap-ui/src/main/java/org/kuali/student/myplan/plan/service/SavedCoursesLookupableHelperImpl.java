@@ -9,17 +9,24 @@ import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
 
-public class SavedCoursesLookupableHelperImpl extends PlanItemLookupableHelperBase {
+public class SavedCoursesLookupableHelperImpl extends
+		PlanItemLookupableHelperBase {
 
-    @Override
-    protected List<PlannedCourseDataObject> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
-        String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
-        try {
-            List<PlannedCourseDataObject> plannedCoursesList = getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST, studentId);
-            Collections.sort(plannedCoursesList);
-            return plannedCoursesList;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+	private static final long serialVersionUID = -8872944782230428633L;
+
+	@Override
+	protected List<PlannedCourseDataObject> getSearchResults(
+			LookupForm lookupForm, Map<String, String> fieldValues,
+			boolean unbounded) {
+		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper()
+				.getStudentId();
+		try {
+			List<PlannedCourseDataObject> plannedCoursesList = getPlanItems(
+					PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST, studentId);
+			Collections.sort(plannedCoursesList);
+			return plannedCoursesList;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

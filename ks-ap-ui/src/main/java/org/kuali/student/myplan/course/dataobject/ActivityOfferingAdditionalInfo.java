@@ -1,7 +1,6 @@
 package org.kuali.student.myplan.course.dataobject;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,9 +9,11 @@ import java.util.List;
  * Time: 3:49 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ActivityOfferingAdditionalInfo {
+public class ActivityOfferingAdditionalInfo implements Serializable {
 
-    private String feeAmount;
+	private static final long serialVersionUID = -8966240639502810074L;
+
+	private String feeAmount;
     private String instructor;
     private String details;
     private boolean distanceLearning;

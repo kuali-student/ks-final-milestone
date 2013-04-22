@@ -26,7 +26,7 @@ public class PlannedCoursesLookupableHelperImpl extends
 
 	private static final long serialVersionUID = 1502719861875054079L;
 
-	private final Logger logger = Logger
+	private static final Logger LOG = Logger
 			.getLogger(PlannedCoursesLookupableHelperImpl.class);
 
 	private transient AcademicRecordService academicRecordService;
@@ -76,7 +76,7 @@ public class PlannedCoursesLookupableHelperImpl extends
 			plannedCoursesList = getPlanItems(
 					PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED, studentId);
 		} catch (Exception e) {
-			logger.error("Could not load plannedCourseslist", e);
+			LOG.error("Could not load plannedCourseslist", e);
 
 		}
 
@@ -92,7 +92,7 @@ public class PlannedCoursesLookupableHelperImpl extends
 			GlobalVariables.getMessageMap().putWarningForSectionId(
 					PlanConstants.PLAN_ITEM_RESPONSE_PAGE_ID,
 					PlanConstants.ERROR_TECHNICAL_PROBLEMS, params);
-			logger.error(
+			LOG.error(
 					"Could not retrieve StudentCourseRecordInfo from the SWS.",
 					e);
 		}
@@ -103,7 +103,7 @@ public class PlannedCoursesLookupableHelperImpl extends
 			backupCoursesList = getPlanItems(
 					PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP, studentId);
 		} catch (Exception e) {
-			logger.error("Could not load backupCourseList", e);
+			LOG.error("Could not load backupCourseList", e);
 
 		}
 

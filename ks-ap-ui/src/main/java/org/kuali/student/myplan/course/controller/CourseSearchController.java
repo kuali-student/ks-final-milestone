@@ -140,7 +140,9 @@ public class CourseSearchController extends UifControllerBase {
 	 *
 	 * @see CourseSearchItem#getKeywords()
 	 */
-	private static class TrendingState {
+	private static class TrendingState implements Serializable {
+
+		private static final long serialVersionUID = -4009692402116702481L;
 
 		/**
 		 * Keyword count tracking map.

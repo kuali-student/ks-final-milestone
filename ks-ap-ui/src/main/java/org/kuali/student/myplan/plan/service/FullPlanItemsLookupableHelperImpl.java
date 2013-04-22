@@ -28,7 +28,7 @@ public class FullPlanItemsLookupableHelperImpl extends
 
 	private static final long serialVersionUID = -2081050491075600747L;
 
-	private final Logger logger = Logger
+	private static final Logger LOG = Logger
 			.getLogger(FullPlanItemsLookupableHelperImpl.class);
 
 	@Override
@@ -43,7 +43,7 @@ public class FullPlanItemsLookupableHelperImpl extends
 			plannedCoursesList = getPlanItems(
 					PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED, studentId);
 		} catch (Exception e) {
-			logger.error("Could not load plannedCourseslist", e);
+			LOG.error("Could not load plannedCourseslist", e);
 
 		}
 		/**** academic record SWS call to get the studentCourseRecordInfo list *****/
