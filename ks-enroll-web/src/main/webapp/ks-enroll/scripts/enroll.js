@@ -340,35 +340,49 @@ function showFixedOptions(textBox, url, courseTypeKey) {
     jQuery('#div_fixed_options').show().css('top', jQuery(textBox).offset().top).css('left', jQuery(textBox).offset().left);
 }
 
-function removeCheckboxColumns(columns, componentId) {
-    var div = jQuery('#' + componentId);
-    var table = jQuery(div).find('table');
-    var tableId = jQuery(table).attr('id');
+function removeCheckboxColumns(column, componentId, functionToCall) {
+    var components = jQuery('div[id^="' + componentId + '"]');
+    jQuery.each(components, function (index) {
+        var subComponentId = jQuery(this).attr('id');
+        var table = jQuery(this).find('table');
+        var tableId = jQuery(table).attr('id');
 
-    var foundCheckBox = false;
+        var foundCheckBox = false;
 
-    jQuery(table).find('input:checkbox').each(function(){
-        var div = jQuery(this).parent('div');
-        if(jQuery(div).is(":visible")){
-            foundCheckBox = true;
-            return false;
-        }
-    });
+        jQuery('#' + tableId + ' tbody > tr > td:nth-child(' + column + ')').find('[type=checkbox]').each(function () {
+            var div = jQuery(this).parent('div');
+            if (jQuery(div).is(":visible")) {
+                foundCheckBox = true;
+                return foundCheckBox;
+            }
+        });
 
-    if (!foundCheckBox) {
-        jQuery.each(columns, function (index, column) {
-            var columIndex = column - index
-            var th = jQuery('#' + tableId + ' thead tr').find('th:nth-child(' + columIndex + ')');
+        if (!foundCheckBox) {
+            var th = jQuery('#' + tableId + ' thead tr').find('th:nth-child(' + column + ')');
             jQuery(th).remove();
-            jQuery('#' + tableId + ' tbody tr').find('td:nth-child(' + columIndex + ')').each(function () {
+            jQuery('#' + tableId + ' tbody tr').find('td:nth-child(' + column + ')').each(function () {
                 jQuery(this).remove();
             });
-            var tf = jQuery('#' + tableId + ' tfoot tr').find('th:nth-child(' + columIndex + ')');
+            var tf = jQuery('#' + tableId + ' tfoot tr').find('th:nth-child(' + column + ')');
             jQuery(tf).remove();
-        });
-    }else{
-        ksAddRowSelectionCheckbox(false, componentId,false,'');
-    }
+        } else {
+            var toggleCheckbox = jQuery("<input type='checkbox' id='" + tableId + "_toggle_control_checkbox'/>");
+            var isChecked = toggleCheckbox.prop('checked');
+            toggleCheckbox.click(function (e) {
+                jQuery('#' + tableId + ' tbody > tr > td:nth-child(' + column + ')').find('[type=checkbox]').each(function () {
+                    jQuery(this).prop('checked', jQuery(toggleCheckbox).prop('checked'));
+                });
+                if (functionToCall) {
+                    var target = jQuery.makeArray(functionToCall);
+                    var clickFn = new Function(functionToCall)
+                    clickFn.call(target);
+                }
+            });
+            var th = jQuery('#' + tableId + ' thead tr').find('th:nth-child(' + column + ')');
+            jQuery(th).append(toggleCheckbox);
+        }
+
+    });
 }
 
 function addActionColumn(isReadOnly, componentId) {
