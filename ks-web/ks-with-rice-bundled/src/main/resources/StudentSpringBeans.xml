@@ -194,6 +194,7 @@
                 <value>classpath:org/kuali/rice/krms/AgendaManagementView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/KrmsComponentsView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/CORuleMaintenance.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/AORuleMaintenance.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/CustomComponents.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/DepartmentLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/TestSetLookupView.xml</value>
