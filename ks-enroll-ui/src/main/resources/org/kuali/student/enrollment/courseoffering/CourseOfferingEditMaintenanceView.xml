@@ -182,7 +182,7 @@
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
-        <property name="headerText" value="Edit @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode} - @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingTitle} (@{document.oldMaintainableObject.dataObject.courseOfferingInfo.creditCnt} Credits)"/>
+        <property name="headerText" value="@{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingTitle} (@{document.oldMaintainableObject.dataObject.courseOfferingInfo.creditCnt} Credits)"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
         <!-- <property name="render" value="@{#hasPermDtls('KS-ENR','Open Views for KS-CourseOfferingEditWrapper-EditMaintenanceView',null,document.oldMaintainableObject.dataObject.adminOrg)}" /> -->
         <property name="header.lowerGroup">
@@ -195,6 +195,7 @@
                 </property>
             </bean>
         </property>
+        <property name="breadcrumbTitlePropertyName" value="courseOfferingInfo.courseOfferingCode"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />
         <property name="page.items">
             <list>
