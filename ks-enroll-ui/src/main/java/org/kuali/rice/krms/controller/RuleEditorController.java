@@ -89,14 +89,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
         RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
         String ruleKey = document.getActionParamaterValue("ruleKey");
 
-        if (ruleWrapper.getDeletedRuleIds() == null) {
-            List<String> ruleIds = new ArrayList<String>();
-            ruleIds.add(ruleKey);
-            ruleWrapper.setDeletedRuleIds(ruleIds);
-        } else {
-            ruleWrapper.getDeletedRuleIds().add(ruleKey);
-        }
-
         RuleEditor ruleEditor = AgendaUtilities.getSelectedRuleEditor(ruleWrapper, ruleKey);
 
         List<AgendaEditor> agendas = ruleWrapper.getAgendas();

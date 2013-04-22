@@ -21,7 +21,9 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.controller.RuleEditorController;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.impl.ui.TermParameter;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
+import org.kuali.student.enrollment.class1.krms.form.KrmsComponentsForm;
 import org.kuali.student.krms.KRMSConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -59,5 +61,4 @@ public class RuleStudentEditorController extends RuleEditorController {
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-RuleMaintenance-Page");
         return super.navigate(form, result, request, response);
     }
-
 }

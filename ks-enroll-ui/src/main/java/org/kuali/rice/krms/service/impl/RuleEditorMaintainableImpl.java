@@ -27,11 +27,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
-import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
-import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
-import org.kuali.rice.krms.api.repository.agenda.AgendaTreeDefinition;
-import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContract;
-import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
+import org.kuali.rice.krms.api.repository.agenda.*;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
@@ -166,44 +162,40 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     @Override
     public void saveDataObject() {
         RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) getDataObject();
-        String temp = null;
 
         for (AgendaEditor agenda : ruleWrapper.getAgendas()){
 
-            // TODO: Save changes to the agenda.
-
-            if(ruleWrapper.getDeletedRuleIds().isEmpty()) {
-                for (RuleEditor rule : agenda.getRuleEditors()){
-                    if(!rule.isDummy()){
-                        this.saveRule(rule);
-                    }
-                }
-            } else if(ruleWrapper.getDeletedRuleIds().size() > 0) {
-                for(String deleteRuleId : ruleWrapper.getDeletedRuleIds()) {
-                    if(agenda.getFirstItemId().equals(deleteRuleId)) {
-                        for(RuleEditor rule : agenda.getRuleEditors()) {
-                            if(!rule.isDummy()) {
-                                agenda.setFirstItemId(rule.getId());
-                            }
-                        }
-                        if(agenda.getFirstItemId().equals(deleteRuleId)) {
-                            agenda.setFirstItemId(null);
-                        }
-                    }
-                    this.getRuleManagementService().deleteAgendaItem(deleteRuleId);
-                    this.getRuleManagementService().deleteRule(deleteRuleId);
-                    temp = deleteRuleId;
+            List<RuleEditor> deleteRuleList = new ArrayList<RuleEditor>();
+            for(RuleEditor rule : agenda.getRuleEditors()) {
+                if(!rule.isDummy()) {
+                    this.finRule(rule);
+                } else {
+                    deleteRuleList.add(rule);
                 }
             }
-            if(agenda.getFirstItemId() == null) {
-                ruleWrapper.getDeletedRuleIds().remove(temp);
+            agenda.getRuleEditors().removeAll(deleteRuleList);
+
+            AgendaDefinition.Builder agendaBuilder = null;
+            AgendaDefinition agendaDefinition = null;
+            if(agenda.getId() == null) {
+                agendaBuilder = AgendaDefinition.Builder.create(agenda);
+                agendaDefinition = agendaBuilder.build();
+            }
+
+            if(agenda.getRuleEditors().isEmpty()) {
                 this.getRuleManagementService().deleteAgenda(agenda.getId());
+            } else {
+                if(agendaDefinition == null) {
+                    agendaBuilder = AgendaDefinition.Builder.create(agenda);
+                    agendaDefinition = agendaBuilder.build();
+                }
+                this.getRuleManagementService().updateAgenda(agendaDefinition);
             }
         }
 
     }
 
-    protected void saveRule(RuleEditor rule) {
+    protected void finRule(RuleEditor rule) {
         // handle saving new parameterized terms
         PropositionEditor proposition = (PropositionEditor) rule.getProposition();
         if (proposition != null) {

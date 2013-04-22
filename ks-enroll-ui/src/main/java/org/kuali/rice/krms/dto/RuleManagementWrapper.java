@@ -19,7 +19,6 @@ public class RuleManagementWrapper extends UifFormBase {
 
     private String refObjectId;
     private String selectedRuleId;
-    private List<String> deletedRuleIds;
 
     private List<AgendaEditor> agendas;
     private RuleEditor ruleEditor;
@@ -40,14 +39,6 @@ public class RuleManagementWrapper extends UifFormBase {
 
     public void setSelectedRuleId(String selectedRuleId) {
         this.selectedRuleId = selectedRuleId;
-    }
-
-    public List<String> getDeletedRuleIds() {
-        return deletedRuleIds;
-    }
-
-    public void setDeletedRuleIds(List<String> deletedRuleIds) {
-        this.deletedRuleIds = deletedRuleIds;
     }
 
     public List<AgendaEditor> getAgendas() {
