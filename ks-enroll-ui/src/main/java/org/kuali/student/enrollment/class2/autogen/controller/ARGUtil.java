@@ -193,7 +193,7 @@ public class ARGUtil {
         //set the ownerCode if not set
         if (currentCOWrapper.getOwnerCode()==null ||currentCOWrapper.getOwnerCode().equals("") ) {
             for (CourseOfferingListSectionWrapper courseOfferingListSectionWrapper : form.getCourseOfferingResultList()) {
-               if (courseOfferingListSectionWrapper.getCourseOfferingCode().equals(form.getInputCode())) {
+               if (courseOfferingListSectionWrapper.getCourseOfferingCode().equals(currentCOWrapper.getCourseOfferingCode())) {
                    currentCOWrapper.setOwnerCode(courseOfferingListSectionWrapper.getOwnerCode());
                    break;
                }
