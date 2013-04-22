@@ -56,14 +56,14 @@ INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, ACTV_IND,OBJ_ID, PERM_ID, ROLE_ID, V
   VALUES ('KS-KRIM-ROLE-PERM-1083','Y',SYS_GUID(),(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Open Views for ActivityOffering-MaintenanceView' AND NMSPC_CD = 'KS-ENR'),(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'KS Department Schedule Coordinator - Subj' AND nmspc_cd = 'KS-ENR'),1)
 /
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
-values ('KS-KRIM-ROLE-PERM-1117', SYS_GUID(), 1, (SELECT ROLE_ID FROM KRIM_ROLE_T where ROLE_NM = 'KS Department Schedule Coordinator - Subj' and nmspc_cd = 'KS-ENR'), (SELECT perm_id from krim_perm_t where nm = 'Conditionally Open View for KS-CourseOfferingEditWrapper-EditMaintenanceView based on SOC State' and nmspc_cd = 'KS-ENR'), 'Y')
+  VALUES ('KS-KRIM-ROLE-PERM-1117', SYS_GUID(), 1, (SELECT ROLE_ID FROM KRIM_ROLE_T where ROLE_NM = 'KS Department Schedule Coordinator - Subj' and nmspc_cd = 'KS-ENR'), (SELECT perm_id from krim_perm_t where nm = 'Conditionally Open View for KS-CourseOfferingEditWrapper-EditMaintenanceView based on SOC State' and nmspc_cd = 'KS-ENR'), 'Y')
 /
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
-values ('KS-KRIM-ROLE-PERM-1118', SYS_GUID(), 1, (SELECT ROLE_ID FROM KRIM_ROLE_T where ROLE_NM = 'KS Department Schedule Coordinator - Subj' and nmspc_cd = 'KS-ENR'), (SELECT perm_id from krim_perm_t where nm = 'Conditionally Edit View for KS-CourseOfferingEditWrapper-EditMaintenanceView based on SOC State' and nmspc_cd = 'KS-ENR'), 'Y')
+  VALUES ('KS-KRIM-ROLE-PERM-1118', SYS_GUID(), 1, (SELECT ROLE_ID FROM KRIM_ROLE_T where ROLE_NM = 'KS Department Schedule Coordinator - Subj' and nmspc_cd = 'KS-ENR'), (SELECT perm_id from krim_perm_t where nm = 'Conditionally Edit View for KS-CourseOfferingEditWrapper-EditMaintenanceView based on SOC State' and nmspc_cd = 'KS-ENR'), 'Y')
 /
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
-values ('KS-KRIM-ROLE-PERM-1119', SYS_GUID(), 1, (SELECT ROLE_ID FROM KRIM_ROLE_T where ROLE_NM = 'KS Department Schedule Coordinator - Subj' and nmspc_cd = 'KS-ENR'), (SELECT perm_id from krim_perm_t where nm = 'Conditionally Open View for ActivityOffering-MaintenanceView based on SOC State' and nmspc_cd = 'KS-ENR'), 'Y')
+  VALUES ('KS-KRIM-ROLE-PERM-1119', SYS_GUID(), 1, (SELECT ROLE_ID FROM KRIM_ROLE_T where ROLE_NM = 'KS Department Schedule Coordinator - Subj' and nmspc_cd = 'KS-ENR'), (SELECT perm_id from krim_perm_t where nm = 'Conditionally Open View for ActivityOffering-MaintenanceView based on SOC State' and nmspc_cd = 'KS-ENR'), 'Y')
 /
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
-values ('KS-KRIM-ROLE-PERM-1120', SYS_GUID(), 1, (SELECT ROLE_ID FROM KRIM_ROLE_T where ROLE_NM = 'KS Department Schedule Coordinator - Subj' and nmspc_cd = 'KS-ENR'), (SELECT perm_id from krim_perm_t where nm = 'Conditionally Edit View for ActivityOffering-MaintenanceView based on SOC State' and nmspc_cd = 'KS-ENR'), 'Y')
+  VALUES ('KS-KRIM-ROLE-PERM-1120', SYS_GUID(), 1, (SELECT ROLE_ID FROM KRIM_ROLE_T where ROLE_NM = 'KS Department Schedule Coordinator - Subj' and nmspc_cd = 'KS-ENR'), (SELECT perm_id from krim_perm_t where nm = 'Conditionally Edit View for ActivityOffering-MaintenanceView based on SOC State' and nmspc_cd = 'KS-ENR'), 'Y')
 /
