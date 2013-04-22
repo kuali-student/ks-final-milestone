@@ -2,11 +2,7 @@ package org.kuali.student.enrollment.class1.krms.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
-import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
-import org.kuali.rice.krms.api.repository.agenda.AgendaTreeDefinition;
-import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContract;
-import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
+import org.kuali.rice.krms.api.repository.agenda.*;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.PropositionEditor;
@@ -19,7 +15,7 @@ import org.kuali.student.enrollment.class1.krms.dto.EnrolAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRuleViewTreeBuilder;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -38,7 +34,7 @@ import java.util.Map;
  * Time: 9:34 AM
  * To change this template use File | Settings | File Templates.
  */
-public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
+public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
     private transient CluService cluService;
     private transient CourseOfferingService courseOfferingService;
@@ -49,7 +45,7 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         EnrolRuleManagementWrapper dataObject = new EnrolRuleManagementWrapper();
 
         List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
-        //TODO: get all agendas linked to a course offering
+        //TODO: get all agendas linked to an activity offering
         if(this.getRuleManagementService().getAgenda("10063") != null) {
             agendas.add(this.getAgendaEditor("10063"));
         } else if(this.getRuleManagementService().getAgenda("10002") != null) {
@@ -58,21 +54,21 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
         dataObject.setAgendas(agendas);
 
-        String coId = dataObjectKeys.get("refObjectId");
-        dataObject.setRefObjectId(coId);
+        String aoId = dataObjectKeys.get("refObjectId");
+        dataObject.setRefObjectId(aoId);
 
-        //Retrieve the Clu information
-        CourseOfferingInfo courseOffering = null;
-        if (coId != null) {
+        //Retrieve the Reg Object information
+        ActivityOfferingInfo activityOffering = null;
+        if (aoId != null) {
             try {
-                courseOffering = this.getCourseOfferingService().getCourseOffering(coId, ContextUtils.createDefaultContextInfo());
+                activityOffering = this.getCourseOfferingService().getActivityOffering(aoId, ContextUtils.createDefaultContextInfo());
             } catch (Exception e) {
                 //TODO: Add Exception handling.
             }
         }
 
         //Populate Clu Identification Information
-        if (courseOffering != null) {
+        if (activityOffering != null) {
             /*CluIdentifierInfo cluIdentInfo = courseOffering.getOfficialIdentifier();
             StringBuilder courseNameBuilder = new StringBuilder();
             courseNameBuilder.append(cluIdentInfo.getDivision());

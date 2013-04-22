@@ -34,6 +34,22 @@
         </property> 
     </bean>
 
+    <bean id="AgendaEditor" parent="AgendaEditor-parentBean"/>
+    <bean id="AgendaEditor-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.rice.krms.dto.AgendaEditor"/>
+        <property name="titleAttribute" value="id"/>
+        <property name="attributes">
+            <list>
+            </list>
+        </property>
+        <property name="objectLabel" value="Agenda"/>
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+    </bean>
+
     <bean id="RuleEditor" parent="RuleEditor-parentBean"/>
     <bean id="RuleEditor-parentBean" abstract="true" parent="DataObjectEntry">
         <property name="dataObjectClass" value="org.kuali.rice.krms.dto.RuleEditor"/>

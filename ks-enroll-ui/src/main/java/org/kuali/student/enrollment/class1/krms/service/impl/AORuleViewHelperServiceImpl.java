@@ -15,6 +15,7 @@ import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
+import org.kuali.student.enrollment.class1.krms.tree.AORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.CORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRulePreviewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRuleViewTreeBuilder;
@@ -31,7 +32,7 @@ import java.util.Map;
  * Time: 11:52 AM
  * To change this template use File | Settings | File Templates.
  */
-public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl {
+public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl {
 
     private RulePreviewTreeBuilder previewTreeBuilder;
     private RuleViewTreeBuilder viewTreeBuilder;
@@ -54,7 +55,7 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
 
         //Get the CLU Tree.
         CourseOfferingInfo courseOffering = this.getCourseOfferingService().getCourseOffering(compareToRefObjectId, ContextUtils.createDefaultContextInfo());
-        CORuleCompareTreeBuilder treeBuilder = new CORuleCompareTreeBuilder();
+        AORuleCompareTreeBuilder treeBuilder = new AORuleCompareTreeBuilder();
         treeBuilder.setRuleManagementService(this.getRuleManagementService());
         RuleDefinitionContract compare = treeBuilder.getCompareRule(courseOffering.getCourseId(), original.getTypeId());
 

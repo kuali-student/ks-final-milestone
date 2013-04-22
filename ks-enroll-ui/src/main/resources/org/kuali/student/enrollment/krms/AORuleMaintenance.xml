@@ -22,11 +22,11 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="KSCO-AgendaManagement-View" parent="KRMS-AgendaManagement-View">
-        <property name="viewName" value="COAgendaManagementView"/>
+    <bean id="KSAO-AgendaManagement-View" parent="KRMS-AgendaManagement-View">
+        <property name="viewName" value="AOAgendaManagementView"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper"/>
         <property name="viewHelperServiceClass"
-                  value="org.kuali.student.enrollment.class1.krms.service.impl.CORuleViewHelperServiceImpl"/>
+                  value="org.kuali.student.enrollment.class1.krms.service.impl.AORuleViewHelperServiceImpl"/>
         <property name="dialogs">
             <list merge="true">
                 <bean id="courseRangeLightBox" parent="KRMS-CourseRangeLightBox"/>
@@ -34,9 +34,9 @@
         </property>
     </bean>
 
-    <bean id="CORuleWrapperMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+    <bean id="AORuleWrapperMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper"/>
-        <property name="maintainableClass" value="org.kuali.student.enrollment.class1.krms.service.impl.CORuleEditorMaintainableImpl"/>
+        <property name="maintainableClass" value="org.kuali.student.enrollment.class1.krms.service.impl.AORuleEditorMaintainableImpl"/>
         <property name="documentTypeName" value="RuleMaintenanceDocument"/>
         <property name="businessRulesClass" value="org.kuali.rice.krms.util.RuleEditorBusRule" />
         <property name="lockingKeys">
@@ -52,6 +52,22 @@
 
     <bean id="EnrolRuleEditor" parent="RuleEditor-parentBean">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor"/>
+    </bean>
+
+    <bean id="AgendaEditor" parent="AgendaEditor-parentBean"/>
+    <bean id="AgendaEditor-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.rice.krms.dto.AgendaEditor"/>
+        <property name="titleAttribute" value="id"/>
+        <property name="attributes">
+            <list>
+            </list>
+        </property>
+        <property name="objectLabel" value="Agenda"/>
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
     </bean>
 
 </beans>

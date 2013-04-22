@@ -111,75 +111,66 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     @Override
     protected void addCustomContainerComponents(View view, Object model, Container container) {
         if ("KS-PropositionEdit-DetailSection".equals(container.getId())) {
+            customizePropositionEditSection(view, model, container);
+        } else if ("KS-RuleEdit-TabSection".equals(container.getId())) {
+            customizeRuleTabSection(view, model, container);
+        } else if ("KRMS-AgendaMaintenance-Page".equals(container.getId())) {
+            customizeAgendaMaintenance(view, model, container);
+        }
+    }
 
-            //Retrieve the current editing proposition if exists.
-            RuleEditor ruleEditor = this.getRuleEditor(model);
-            PropositionEditor propEditor = PropositionTreeUtil.getProposition(ruleEditor);
+    private void customizePropositionEditSection(View view, Object model, Container container) {
+        //Retrieve the current editing proposition if exists.
+        RuleEditor ruleEditor = this.getRuleEditor(model);
+        PropositionEditor propEditor = PropositionTreeUtil.getProposition(ruleEditor);
 
-            List<Component> components = new ArrayList<Component>();
-            if (propEditor != null) {
-                //Retrieve the name of the xml component to display for the proposition type.
-                TemplateInfo template = this.getTemplateForType(propEditor.getType());
+        List<Component> components = new ArrayList<Component>();
+        if (propEditor != null) {
+            //Retrieve the name of the xml component to display for the proposition type.
+            TemplateInfo template = this.getTemplateForType(propEditor.getType());
 
-                if (template != null && template.getComponentId() != null) {
-                    Component component = ComponentFactory.getNewComponentInstance(template.getComponentId());
-                    view.assignComponentIds(component);
+            if (template != null && template.getComponentId() != null) {
+                Component component = ComponentFactory.getNewComponentInstance(template.getComponentId());
+                view.assignComponentIds(component);
 
-                    //Add Proposition Type FieldGroup to Tree Node
-                    components.add(component);
-                }
-
-                if (template != null && template.getConstantComponentId() != null) {
-                    Component component = ComponentFactory.getNewComponentInstance(template.getConstantComponentId());
-                    view.assignComponentIds(component);
-
-                    //Add Proposition Type FieldGroup to Tree Node
-                    components.add(component);
-                }
+                //Add Proposition Type FieldGroup to Tree Node
+                components.add(component);
             }
 
-            container.setItems(components);
-        } else if ("KS-RuleEdit-TabSection".equals(container.getId())) {
-            if (container instanceof TabGroup) {
-                RuleEditor ruleEditor = this.getRuleEditor(model);
-                TabGroup tabGroup = (TabGroup) container;
-                Map<String, String> options = tabGroup.getTabsWidget().getTemplateOptions();
-                if (ruleEditor.getSelectedTab() == null) {
-                    ruleEditor.setSelectedTab("0");
-                }
-                options.put("selected", ruleEditor.getSelectedTab());
+            if (template != null && template.getConstantComponentId() != null) {
+                Component component = ComponentFactory.getNewComponentInstance(template.getConstantComponentId());
+                view.assignComponentIds(component);
+
+                //Add Proposition Type FieldGroup to Tree Node
+                components.add(component);
+            }
+        }
+
+        container.setItems(components);
+    }
+
+    private void customizeRuleTabSection(View view, Object model, Container container) {
+        if (container instanceof TabGroup) {
+            RuleEditor ruleEditor = this.getRuleEditor(model);
+            TabGroup tabGroup = (TabGroup) container;
+            Map<String, String> options = tabGroup.getTabsWidget().getTemplateOptions();
+            if (ruleEditor.getSelectedTab() == null) {
                 ruleEditor.setSelectedTab("0");
             }
-        } else if ("KRMS-AgendaMaintenance-Page".equals(container.getId())) {
-
-            AgendaBuilder builder = new AgendaBuilder(view);
-            builder.setTypeRelationsMap(this.getTypeRelationsMap());
-            List<Component> components = new ArrayList<Component>();
-
-            List<AgendaTypeInfo> agendaTypeInfos = new ArrayList<AgendaTypeInfo>(typeRelationsMap.values());
-
-            //Retrieve the current editing proposition if exists.
-            MaintenanceDocumentForm document = (MaintenanceDocumentForm) model;
-            RuleManagementWrapper form = (RuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
-
-            List<AgendaEditor> agendas = form.getAgendas();
-            for (AgendaTypeInfo agendaTypeInfo : agendaTypeInfos) {
-                boolean exist = false;
-                for (AgendaEditor agenda : agendas) {
-                    if (agenda.getTypeId().equals(agendaTypeInfo.getId())) {
-                        components.add(builder.buildAgenda(agenda));
-                        exist = true;
-                    }
-                }
-                if (!exist) {
-                    AgendaEditor emptyAgenda = new AgendaEditor();
-                    emptyAgenda.setTypeId(agendaTypeInfo.getId());
-                    components.add(builder.buildAgenda(emptyAgenda));
-                }
-            }
-            container.setItems(components);
-
+            options.put("selected", ruleEditor.getSelectedTab());
+            ruleEditor.setSelectedTab("0");
         }
+    }
+
+    private void customizeAgendaMaintenance(View view, Object model, Container container) {
+        AgendaBuilder builder = new AgendaBuilder(view);
+        builder.setTypeRelationsMap(this.getTypeRelationsMap());
+
+        //Retrieve the current editing proposition if exists.
+        MaintenanceDocumentForm document = (MaintenanceDocumentForm) model;
+        RuleManagementWrapper form = (RuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
+
+        container.setItems(builder.build(form.getAgendas()));
     }
 
     /**
