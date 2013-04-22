@@ -5,8 +5,6 @@
  function handleColocation(){
     setupColoCheckBoxChange(jQuery("#is_co_located_control"));
 
-    //var colocatedAO = jQuery("#colocatedAO_value_control").val();
-    //var sharedMax = jQuery("#maxEnrollmentShared_value_control").val();
     if(jQuery("#is_co_located_control").is(":checked")) {
         //colo UI changes
     }else {
@@ -24,6 +22,8 @@
             if (retVal==true)
             {
                 submitForm("detachAOFromColocation");
+            } else {
+                jQuery("#is_co_located_control").attr('checked', 'checked');
             }
         }
     }
