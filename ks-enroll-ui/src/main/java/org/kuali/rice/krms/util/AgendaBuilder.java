@@ -13,8 +13,10 @@ import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.rice.krms.dto.*;
+import org.kuali.rice.krms.dto.AgendaEditor;
+import org.kuali.rice.krms.dto.AgendaTypeInfo;
+import org.kuali.rice.krms.dto.RuleTypeInfo;
+import org.kuali.rice.krms.dto.RuleEditor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +94,8 @@ public class AgendaBuilder {
                 for (RuleEditor rule : agenda.getRuleEditors()) {
                     if (rule.getTypeId().equals(ruleType.getId()) && (!rule.isDummy())) {
                         rule.setKey((String)alphaIterator.next());
+                        rule.setDescription(ruleType.getDescription());
+                        rule.setRuleInstruction(ruleType.getInstruction());
                         components.add(buildRule(rule, ruleType, this.buildEditRuleSection(rule, ruleType)));
                         exist = true;
 
@@ -108,6 +112,8 @@ public class AgendaBuilder {
                 ruleEditor.setKey((String)alphaIterator.next());
                 ruleEditor.setDummy(true);
                 ruleEditor.setTypeId(ruleType.getId());
+                ruleEditor.setDescription(ruleType.getDescription());
+                ruleEditor.setRuleInstruction(ruleType.getInstruction());
                 ruleEditors.add(ruleEditor);
             }
 
