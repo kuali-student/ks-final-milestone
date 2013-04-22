@@ -114,7 +114,7 @@
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
-                <entry key="aaSorting" value="[[ 2, 'asc' ], [0, 'asc']]"/>
+                <entry key="aaSorting" value="[[ 3, 'asc' ], [ 1, 'asc']]"/>
                 <entry key="bPaginate" value="false"/>
                 <entry key="bAutoWidth" value="false"/>
             </map>
