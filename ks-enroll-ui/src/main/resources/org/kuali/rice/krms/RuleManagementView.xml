@@ -52,7 +52,7 @@
                 <bean parent="Uif-PageHeader" p:headerText="@{#dp.cluDescription}"/>
 
                 <bean id="KS-RuleView-Section" parent="KS-VerticalBoxSection" p:style="max-width: 54em;">
-                    <property name="headerText" value="Prerequisite Rule"/>
+                    <property name="headerText" value="@{#dp.ruleEditor.description}"/>
                     <property name="header.rightGroup">
                         <bean parent="Uif-HeaderRightGroup">
                             <property name="items">
@@ -62,6 +62,7 @@
                             </property>
                         </bean>
                     </property>
+                    <property name="instructionalText" value="@{#dp.ruleEditor.ruleInstruction}"/>
                 </bean>
 
                 <bean id="KS-RuleEdit-TabSection" parent="Uif-TabSection">
