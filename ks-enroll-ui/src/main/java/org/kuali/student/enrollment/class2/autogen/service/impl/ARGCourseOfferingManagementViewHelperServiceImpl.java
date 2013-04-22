@@ -944,10 +944,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             ActivityOfferingClusterWrapper aoClusterWrapper = clusterMap.get(aoWrapper.getAoClusterID());
             if(aoClusterWrapper == null){
                 aoClusterWrapper = new ActivityOfferingClusterWrapper();
-                aoClusterWrapper.setActivityOfferingClusterId(aoWrapper.getAoClusterID());
-                aoClusterWrapper.setClusterNameForDisplay(aoWrapper.getAoClusterName());
-                aoClusterWrapper.setFormatNameForDisplay(aoWrapper.getAoInfo().getFormatOfferingName());
-                aoClusterWrapper.setFormatOfferingId(aoWrapper.getAoInfo().getFormatOfferingId());
+
                 ActivityOfferingClusterInfo activityOfferingClusterInfo = new ActivityOfferingClusterInfo();
                 activityOfferingClusterInfo.setFormatOfferingId(aoWrapper.getAoInfo().getFormatOfferingId());
                 activityOfferingClusterInfo.setId(aoWrapper.getAoClusterID());
@@ -956,6 +953,10 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 activityOfferingClusterInfo.setTypeKey(CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY);
                 activityOfferingClusterInfo.setStateKey(CourseOfferingServiceConstants.AOC_ACTIVE_STATE_KEY);
                 aoClusterWrapper.setAoCluster(activityOfferingClusterInfo);
+                aoClusterWrapper.setActivityOfferingClusterId(aoWrapper.getAoClusterID());
+                aoClusterWrapper.setClusterNameForDisplay(aoWrapper.getAoClusterName());
+                aoClusterWrapper.setFormatNameForDisplay(aoWrapper.getAoInfo().getFormatOfferingName());
+                aoClusterWrapper.setFormatOfferingId(aoWrapper.getAoInfo().getFormatOfferingId());
                 clusterMap.put(aoWrapper.getAoClusterID(), aoClusterWrapper);
             }
             if(aoWrapper.getId()!=null){
