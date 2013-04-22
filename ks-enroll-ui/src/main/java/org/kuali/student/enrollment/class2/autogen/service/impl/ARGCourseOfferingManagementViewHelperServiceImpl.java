@@ -663,10 +663,10 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                         aoWrapper.setBuildingName(bldg.getBuildingCode(), newLine, "uif-scheduled-dl");
                     }
                     for(TimeSlotInfo timeSlotInfo : sched.getTimeSlots()){
-                        if(timeSlotInfo.getStartTime() != null){
+                        if(timeSlotInfo.getStartTime() != null && timeSlotInfo.getStartTime().getMilliSeconds() != null){
                             aoWrapper.setStartTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(timeSlotInfo.getStartTime().getMilliSeconds())), newLine, "uif-scheduled-dl");
                         }
-                        if(timeSlotInfo.getEndTime() != null){
+                        if(timeSlotInfo.getEndTime() != null && timeSlotInfo.getEndTime().getMilliSeconds() != null){
                             aoWrapper.setEndTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(timeSlotInfo.getEndTime().getMilliSeconds())), newLine, "uif-scheduled-dl");
                         }
                         if(timeSlotInfo.getWeekdays() != null && !timeSlotInfo.getWeekdays().isEmpty()) {
