@@ -633,9 +633,28 @@
     <bean id="KRMS-CourseOffering-InputField-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termParameter" p:label="Program" p:required="true"/>
     <bean id="KRMS-CourseOffering-InputField" parent="KRMS-CourseOffering-InputField-Parent" />
 
+    <bean id="KRMS-MultiCourseWithNof-Group" parent="Uif-VerticalFieldGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-NumberOfCourses-ConstantValue" />
+                <ref bean="KRMS-MultiCourse-Section" />
+            </list>
+        </property>
+    </bean>
+
     <bean id="KRMS-MultiCourseWithGrade-Group" parent="Uif-VerticalFieldGroup">
         <property name="items">
             <list>
+                <ref bean="KRMS-Grade-Tree-Section" />
+                <ref bean="KRMS-MultiCourse-Section" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-MultiCourseWithGradeNof-Group" parent="Uif-VerticalFieldGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-NumberOfCourses-ConstantValue" />
                 <ref bean="KRMS-MultiCourse-Section" />
                 <ref bean="KRMS-Grade-Tree-Section" />
             </list>
@@ -645,8 +664,8 @@
     <bean id="KRMS-MultiCourseWithGPA-Group" parent="Uif-VerticalFieldGroup">
         <property name="items">
             <list>
-                <ref bean="KRMS-MultiCourse-Section" />
                 <ref bean="KRMS-GPA-Field" />
+                <ref bean="KRMS-MultiCourse-Section" />
             </list>
         </property>
     </bean>
@@ -654,6 +673,16 @@
     <bean id="KRMS-MultiCourseWithCredit-Group" parent="Uif-VerticalFieldGroup">
         <property name="items">
             <list>
+                <ref bean="KRMS-MultiCourse-Section" />
+                <ref bean="KRMS-Credits-ConstantValue" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-MultiCourseWithCreditNof-Group" parent="Uif-VerticalFieldGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-NumberOfCourses-ConstantValue" />
                 <ref bean="KRMS-MultiCourse-Section" />
                 <ref bean="KRMS-Credits-ConstantValue" />
             </list>
