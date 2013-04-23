@@ -68,7 +68,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false"
+                <bean parent="KS-SimpleInputField" p:propertyName="isChecked" p:required="false"
                       p:onChangeScript="handleToolbar('KS-CourseOfferingManagement-CourseOfferingListSection',['enableApproveButton', 'enableDeleteButton'], ['KS-CourseOfferingManagement-ToolBar-Approve-CO', 'KS-CourseOfferingManagement-ToolBar-Delete-CO'] );"
                       p:hidden="@{#lp.crossListed or !#line.isEnableEditCOActionLink()}">
                     <property name="control">
@@ -79,7 +79,7 @@
                     <property name="label" value="Label"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="courseOfferingCode">
+                            <bean parent="KS-SimpleDataField" p:propertyName="courseOfferingCode">
                                 <property name="inquiry">
                                     <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"  p:inquiryParameters="courseOfferingId" />
                                 </property>
@@ -92,25 +92,25 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-SimpleDataField"
                       p:label="STATUS"
                       p:propertyName="courseOfferingStateDisplay"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-SimpleDataField"
                       p:label="TITLE"
                       p:propertyName="courseOfferingDesc"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-SimpleDataField"
                       p:label="CREDITS"
                       p:propertyName="courseOfferingCreditOptionDisplay"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-SimpleDataField"
                       p:label="GRADING"
                       p:propertyName="courseOfferingGradingOptionDisplay"/>
-                <bean name="enableApproveButton" parent="Uif-InputField" p:propertyName="enableApproveButton"/>
-                <bean name="enableSuspendButton" parent="Uif-InputField" p:propertyName="enableSuspendButton"/>
-                <bean name="enableCancelButton" parent="Uif-InputField" p:propertyName="enableCancelButton"/>
-                <bean name="enableReinstateButton" parent="Uif-InputField" p:propertyName="enableReinstateButton" />
-                <bean name="enableDeleteButton" parent="Uif-InputField" p:propertyName="enableDeleteButton" />
-                <bean name="enableCopyCOActionLink" parent="Uif-InputField" p:propertyName="enableCopyCOActionLink" />
-                <bean name="enableEditCOActionLink" parent="Uif-InputField" p:propertyName="enableEditCOActionLink" />
+                <bean name="enableApproveButton" parent="KS-SimpleInputField" p:propertyName="enableApproveButton"/>
+                <bean name="enableSuspendButton" parent="KS-SimpleInputField" p:propertyName="enableSuspendButton"/>
+                <bean name="enableCancelButton" parent="KS-SimpleInputField" p:propertyName="enableCancelButton"/>
+                <bean name="enableReinstateButton" parent="KS-SimpleInputField" p:propertyName="enableReinstateButton" />
+                <bean name="enableDeleteButton" parent="KS-SimpleInputField" p:propertyName="enableDeleteButton" />
+                <bean name="enableCopyCOActionLink" parent="KS-SimpleInputField" p:propertyName="enableCopyCOActionLink" />
+                <bean name="enableEditCOActionLink" parent="KS-SimpleInputField" p:propertyName="enableEditCOActionLink" />
             </list>
         </property>
         <property name="layoutManager.richTable.hiddenColumns">

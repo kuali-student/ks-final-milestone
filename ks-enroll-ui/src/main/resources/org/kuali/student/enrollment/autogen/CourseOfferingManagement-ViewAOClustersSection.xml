@@ -120,7 +120,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isCheckedByCluster" p:required="false" p:readOnlyDisplayReplacement=" "
+                <bean parent="KS-SimpleInputField" p:propertyName="isCheckedByCluster" p:required="false" p:readOnlyDisplayReplacement=" "
                       p:onChangeScript="handleToolbar('KS-CourseOfferingManagement-AOClustersCollection',['enableApproveButton', 'enableDeleteButton', 'enableDraftButton'], ['KS-CourseOfferingManagement-ToolBar-Approve-AO-ClusterTab','KS-CourseOfferingManagement-ToolBar-Delete-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Draft-AO-ClusterTab']);">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
@@ -129,7 +129,7 @@
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false">
+                            <bean parent="KS-SimpleDataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false">
                                 <property name="inquiry">
                                     <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
                                 </property>
@@ -145,34 +145,34 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-SimpleDataField"
                       p:label="STATUS"
                       p:propertyName="stateName" />
-                <bean parent="Uif-DataField"
+                <bean parent="KS-SimpleDataField"
                       p:label="TYPE"
                       p:propertyName="typeName"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-SimpleDataField"
                       p:label="MAX ENR"
                       p:propertyName="aoInfo.maximumEnrollment"/>
-                <bean parent="Uif-MessageField"
+                <bean parent="KS-SimpleDataField"
                       p:label="DAYS"
-                      p:messageText="@{#line.daysDisplayName}" />
-                <bean parent="Uif-MessageField"
+                      p:propertyName="daysDisplayName" />
+                <bean parent="KS-SimpleDataField"
                       p:label="START TIME"
-                      p:messageText="@{#line.startTimeDisplay}" />
-                <bean parent="Uif-MessageField"
+                      p:propertyName="startTimeDisplay" />
+                <bean parent="KS-SimpleDataField"
                       p:label="END TIME"
-                      p:messageText="@{#line.endTimeDisplay}" />
-                <bean parent="Uif-MessageField"
+                      p:propertyName="endTimeDisplay" />
+                <bean parent="KS-SimpleDataField"
                       p:label="BUILDING"
-                      p:messageText="@{#line.buildingName}" />
-                <bean parent="Uif-MessageField"
+                      p:propertyName="buildingName" />
+                <bean parent="KS-SimpleDataField"
                       p:label="ROOM"
-                      p:messageText="@{#line.roomName}" />
+                      p:propertyName="roomName" />
 
-                <bean parent="Uif-MessageField"
+                <bean parent="KS-SimpleDataField"
                       p:label="INSTRUCTOR"
-                      p:messageText="@{#line.instructorDisplayNames}" />
+                      p:propertyName="instructorDisplayNames" />
                 <bean name="enableApproveButton" parent="Uif-InputField" p:propertyName="enableApproveButton"/>
                 <bean name="enableDraftButton" parent="Uif-InputField" p:propertyName="enableDraftButton"/>
                 <bean name="enableSuspendButton" parent="Uif-InputField" p:propertyName="enableSuspendButton"/>

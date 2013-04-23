@@ -247,6 +247,43 @@
         </property>
     </bean>
 
+    <bean id="KS-SimpleDataField" parent="KS-SimpleDataField-parentBean"/>
+    <bean id="KS-SimpleDataField-parentBean" abstract="true" parent="Uif-DataField" scope="prototype">
+        <property name="template" value="/ks-enroll/ftl/ksSimpleDataField.ftl"/>
+        <property name="templateName" value="ks_SimpleDataField"/>
+        <property name="inquiry">
+            <null/>
+        </property>
+        <property name="help">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KS-SimpleInputField" parent="KS-SimpleInputField-parentBean"/>
+    <bean id="KS-SimpleInputField-parentBean" abstract="true" parent="KS-SimpleDataField" scope="prototype" class="org.kuali.rice.krad.uif.field.InputField">
+        <property name="quickfinder">
+            <null/>
+        </property>
+        <property name="validationMessages">
+            <null/>
+        </property>
+        <property name="constraintMessage">
+            <null/>
+        </property>
+        <property name="instructionalMessage">
+            <null/>
+        </property>
+    </bean>
+
+    <!--<bean id="KS-TableCollectionSection" parent="KS-TableCollectionSection-parentBean"/>
+      <bean id="KS-TableCollectionSection-parentBean" parent="Uif-TableCollectionSection" class="org.kuali.student.enrollment.uif.container.KSCollectionGroup">
+          <property name="template" value="/ks-enroll/ftl/ksCollectionGroup.ftl"/>
+          <property name="templateName" value="ks_collectionGroup"/>
+          &lt;!&ndash;<property name="collectionLookup">
+            <null/>
+          </property>&ndash;&gt;
+      </bean>-->
+
     <!-- Added by David Yin -->
     <!-- For breadcrumb customization -->
     <!--<bean id="KS-Uif-Page" parent="KS-Uif-Page-parentBean" abstract="true" />
