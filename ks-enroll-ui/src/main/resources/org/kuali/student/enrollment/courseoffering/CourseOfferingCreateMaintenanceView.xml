@@ -296,8 +296,8 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="markCourseForJointOffering"
-                      p:performClientSideValidation="false" p:actionLabel="@{!#lp.selectedToJointlyOfferred ? 'Create New' : 'Deselect'}" p:onClickScript="writeHiddenToForm(&quot;document.newMaintainableObject.dataObject.selectedIndex&quot;, &quot;@{#index}&quot;);" p:render="@{!#lp.alreadyOffered}"/>
+                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="markCourseForJointOffering" p:actionEvent="createNewCO"
+                      p:performClientSideValidation="false" p:actionLabel="@{!#lp.selectedToJointlyOfferred ? 'Create New' : 'Deselect'}" p:onClickScript="writeHiddenToForm(&quot;document.newMaintainableObject.dataObject.selectedIndex&quot;, &quot;@{#index}&quot;);" p:render="@{!#lp.alreadyOffered and #line.isEnableCreateNewCOActionLink()}"/>
             </list>
         </property>
     </bean>
