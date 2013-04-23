@@ -1729,6 +1729,7 @@
         <search:name>Related Lu Types</search:name>
         <search:desc>List of the types associated with an LU</search:desc>
         <search:resultColumns>
+            <ref bean="lu.resultColumn.cluId" />
             <ref bean="lu.resultColumn.cluType" />
         </search:resultColumns>
     </search:searchResultTypeInfo>
@@ -1747,7 +1748,7 @@
 		<property name="sourceMap">
 			<map>
                 <entry key="lu.search.relatedTypes">
-                    <value>SELECT rel.relatedClu.luType.id FROM CluCluRelation rel WHERE rel.clu.id = :lu_queryParam_cluId</value>
+                    <value>SELECT rel.relatedClu.id, rel.relatedClu.luType.id FROM CluCluRelation rel WHERE rel.clu.id = :lu_queryParam_cluId</value>
                 </entry>
 
 				<entry key="lu.search.clu.versions">
