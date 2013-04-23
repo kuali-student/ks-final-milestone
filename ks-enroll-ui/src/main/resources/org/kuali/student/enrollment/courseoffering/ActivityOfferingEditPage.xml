@@ -25,7 +25,7 @@
                 <!--<bean parent="Uif-Message" p:hidden="true" p:cssClasses="unprocessed_changes_message"
                       p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;]  There are unprocessed changes with the requested delivery logistics for this activity."
                       p:style="background-color:#C8E4F7; padding-top:4px; padding-bottom:4px;font-size: 110%;border: 1px solid rgb(9, 172, 248);" p:colSpan="2"/>-->
-                <bean parent="Uif-InputField" p:cssClasses="unprocessed_changes_checkbox" p:render="@{#dp.schedulingCompleted}" p:label="Send revised delivery logistics to the scheduler for processing upon save." p:propertyName="sendRDLsToSchedulerAfterMSE">
+                <bean parent="Uif-InputField-LabelRight" p:cssClasses="unprocessed_changes_checkbox" p:render="@{#dp.schedulingCompleted}" p:label="Send revised delivery logistics to the scheduler for processing upon save." p:propertyName="sendRDLsToSchedulerAfterMSE">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
@@ -124,7 +124,7 @@
                         <bean parent="Uif-HiddenControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="This activity is co-located" p:fieldLabel.renderColon="false" p:propertyName="colocatedAO"
+                <bean parent="Uif-InputField-LabelRight" p:label="This activity is co-located" p:fieldLabel.renderColon="false" p:propertyName="colocatedAO"
                       p:id="is_co_located">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
