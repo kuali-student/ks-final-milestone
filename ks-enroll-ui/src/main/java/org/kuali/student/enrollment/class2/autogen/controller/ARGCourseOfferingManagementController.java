@@ -35,6 +35,9 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingCon
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.uif.util.GrowlIcon;
+import org.kuali.student.enrollment.uif.util.KSUifUtils;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -44,6 +47,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -549,8 +553,66 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     public ModelAndView deleteAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        ARGActivityOfferingClusterHandler.deleteAOs(theForm);
-        return getUIFModelAndView(theForm, CourseOfferingConstants.AO_DELETE_CONFIRM_PAGE);
+        List<ActivityOfferingWrapper> aoList = theForm.getActivityWrapperList();
+        List<ActivityOfferingWrapper> selectedIndexList = theForm.getSelectedToDeleteList();
+        CourseOfferingWrapper currentCoWrapper = theForm.getCurrentCourseOfferingWrapper();
+        currentCoWrapper.setColocatedAoToDelete(false);
+        ContextInfo context = ContextUtils.createDefaultContextInfo();
+
+        boolean bNoDeletion = false;
+        int checked = 0;
+        int enabled = 0;
+        int totalAosToDelete = 0;
+        int numColocatedAosToDelete = 0;
+
+        selectedIndexList.clear();
+        for(ActivityOfferingWrapper ao : aoList) {
+
+            if(ao.isEnableDeleteButton() && ao.getIsCheckedByCluster()) {
+                totalAosToDelete++;
+                ao.setActivityCode(ao.getAoInfo().getActivityCode());
+                selectedIndexList.add(ao);
+                if(ao.isColocatedAO())  {
+                    currentCoWrapper.setColocatedAoToDelete(true);
+                    numColocatedAosToDelete++;
+                }
+                enabled++;
+            } else if (ao.getIsCheckedByCluster()){
+                checked++;
+                if (!bNoDeletion) {
+                    bNoDeletion = true;
+                }
+            }
+        }
+
+        if (selectedIndexList.isEmpty()) {
+            theForm.setSelectedIllegalAOInDeletion(false);
+            if (bNoDeletion) {
+                theForm.setSelectedIllegalAOInDeletion(true);
+            }
+        }
+
+        if(checked > enabled){
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_DELETE);
+        }
+
+        if(totalAosToDelete == numColocatedAosToDelete) {
+            if(numColocatedAosToDelete > 1) {
+                if (!hasDialogBeenAnswered(CourseOfferingConstants.ConfirmDialogs.DELETE_COLO_AOS, theForm)) {
+                    return showDialog(CourseOfferingConstants.ConfirmDialogs.DELETE_COLO_AOS, theForm, request, response);
+                }
+                theForm.getDialogManager().resetDialogStatus(CourseOfferingConstants.ConfirmDialogs.DELETE_COLO_AOS);
+
+            }  else {
+                if (!hasDialogBeenAnswered(CourseOfferingConstants.ConfirmDialogs.DELETE_ONE_COLO_AO, theForm)) {
+                    return showDialog(CourseOfferingConstants.ConfirmDialogs.DELETE_ONE_COLO_AO, theForm, request, response);
+                }
+                theForm.getDialogManager().resetDialogStatus(CourseOfferingConstants.ConfirmDialogs.DELETE_ONE_COLO_AO);
+            }
+        }  else {
+            return getUIFModelAndView(theForm, CourseOfferingConstants.AO_DELETE_CONFIRM_PAGE);
+        }
+        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
     }
 
     @RequestMapping(params = "methodToCall=draftAOs")

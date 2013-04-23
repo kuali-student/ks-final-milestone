@@ -229,48 +229,6 @@ public class ARGActivityOfferingClusterHandler {
         theForm.setNoOfActivityOfferings(null);
     }
 
-    /**
-     * This method does not delete, just marks which AOs are to be deleted.
-     * @param theForm the form that has a list of activityWrappers that are checked or not
-     * @throws Exception
-     */
-    public static void deleteAOs(ARGCourseOfferingManagementForm theForm) throws Exception {
-
-        List<ActivityOfferingWrapper> aoList = theForm.getActivityWrapperList();
-        List<ActivityOfferingWrapper> selectedIndexList = theForm.getSelectedToDeleteList();
-        boolean bNoDeletion = false;
-        int checked = 0;
-        int enabled = 0;
-
-        selectedIndexList.clear();
-        for (ActivityOfferingWrapper ao : aoList) {
-
-            if (ao.isEnableDeleteButton() && ((!"0".equals(theForm.getSelectedTabId()))&& ao.getIsChecked())||
-                    ( "0".equals(theForm.getSelectedTabId()))&& ao.getIsCheckedByCluster()) {
-                selectedIndexList.add(ao);
-                enabled++;
-            } else if ((!"0".equals(theForm.getSelectedTabId()))&& ao.getIsChecked() ||
-                    ( "0".equals(theForm.getSelectedTabId()))&& ao.getIsCheckedByCluster()) {
-                checked++;
-                if (!bNoDeletion) {
-                    bNoDeletion = true;
-                }
-            }
-        }
-
-        if (selectedIndexList.isEmpty()) {
-            theForm.setSelectedIllegalAOInDeletion(false);
-            if (bNoDeletion) {
-                theForm.setSelectedIllegalAOInDeletion(true);
-            }
-        }
-
-        if (checked > enabled) {
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_DELETE);
-        }
-
-    }
-
     public static ARGCourseOfferingManagementForm createNewCluster(ARGCourseOfferingManagementForm theForm) throws Exception {
 
         String growlPrivateName="";
