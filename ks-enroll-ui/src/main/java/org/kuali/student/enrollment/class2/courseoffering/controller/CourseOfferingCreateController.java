@@ -205,7 +205,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                 }
 
                 CourseOfferingCreateMaintainableImpl maintainable = (CourseOfferingCreateMaintainableImpl)KSControllerHelper.getViewHelperService(form);
-                maintainable.loadCourseJointInfos(coWrapper);
+                maintainable.loadCourseJointInfos(coWrapper, form.getViewId());
                 //Enable the create button
                 coWrapper.setEnableCreateButton(true);
             } else {
