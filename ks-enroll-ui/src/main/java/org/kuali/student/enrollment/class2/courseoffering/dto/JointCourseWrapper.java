@@ -35,6 +35,7 @@ public class JointCourseWrapper {
     private CourseInfo courseInfo;
     private boolean selectedToJointlyOfferred;
     private boolean alreadyOffered;
+    private boolean enableCreateNewCOActionLink = false;
 
     private List<FormatOfferingWrapper> formatOfferingWrappers;
 
@@ -154,6 +155,14 @@ public class JointCourseWrapper {
      */
     public void setFormatOfferingWrappers(List<FormatOfferingWrapper> formatOfferingWrappers) {
         this.formatOfferingWrappers = formatOfferingWrappers;
+    }
+
+    public boolean isEnableCreateNewCOActionLink() {
+        return enableCreateNewCOActionLink;
+    }
+
+    public void setEnableCreateNewCOActionLink(boolean enableCreateNewCOActionLink) {
+        this.enableCreateNewCOActionLink = enableCreateNewCOActionLink;
     }
 
 }
