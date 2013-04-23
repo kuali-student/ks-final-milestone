@@ -23,18 +23,16 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Decision for M6 - Garey wants to have logic on the Move To dropdown such that the user would not be shown a cluster
@@ -70,76 +68,71 @@ public class ARGListOfAOClustersForFOKeyValues extends UifKeyValuesFinderBase im
         //reset values:
         theForm.setSelectedFOIDForAOMove("");
         theForm.setSelectedFONameForAOMove("");
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        String coInfoID = theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo().getId();
-        try {
-            List<FormatOfferingInfo> foInfos = getCourseOfferingService().getFormatOfferingsByCourseOffering(coInfoID, contextInfo);
-            if(foInfos.size() < 1) {
-                keyValues.add(new ConcreteKeyValue("", "No Format Offering and No Clusters"));
-                theForm.setDisableMoveButtonForMoveAOCPopOver(true);
-            }
-            else if(foInfos.size() == 1){
-                keyValues = populateClusterList(foInfos.get(0).getId(), theForm);
-            }
-            else if (foInfos.size() >= 1){
-                boolean aoChecked = false;
-                HashSet foSet = new HashSet(foInfos.size());
-                //check if selected AOs belong to different FOs
-                List<ActivityOfferingClusterWrapper> clusterResultList = theForm.getClusterResultList();
-                for(ActivityOfferingClusterWrapper clusterWrapper: clusterResultList) {
-                    List<ActivityOfferingWrapper> aoWrapperList = clusterWrapper.getAoWrapperList();
-                    for(ActivityOfferingWrapper aoWrapper: aoWrapperList){
-                        if (aoWrapper.getIsCheckedByCluster()){
-                            aoChecked = true;
-                            String slectedFoID = clusterWrapper.getFormatOfferingId();
-                            if(foSet.isEmpty() || !foSet.contains(slectedFoID)) {
-                                foSet.add(slectedFoID);
-                            }
-                            break;
+
+        List<FormatOfferingInfo> foInfos = new ArrayList<FormatOfferingInfo>(theForm.getFoId2aoTypeMap().values());
+        if(foInfos.size() < 1) {
+            keyValues.add(new ConcreteKeyValue("", "No Format Offering and No Clusters"));
+            theForm.setDisableMoveButtonForMoveAOCPopOver(true);
+        }
+        else if(foInfos.size() == 1){
+            keyValues = populateClusterList(foInfos.get(0), theForm);
+        }
+        else if (foInfos.size() >= 1){
+            Set<String> foSet = new HashSet<String>(foInfos.size());
+            //check if selected AOs belong to different FOs
+            List<ActivityOfferingClusterWrapper> clusterResultList = theForm.getClusterResultList();
+            for(ActivityOfferingClusterWrapper clusterWrapper: clusterResultList) {
+                List<ActivityOfferingWrapper> aoWrapperList = clusterWrapper.getAoWrapperList();
+                for(ActivityOfferingWrapper aoWrapper: aoWrapperList){
+                    if (aoWrapper.getIsCheckedByCluster()){
+                        String selectedFoID = clusterWrapper.getFormatOfferingId();
+                        if(foSet.isEmpty() || !foSet.contains(selectedFoID)) {
+                            foSet.add(selectedFoID);
                         }
+                        break;
                     }
                 }
-                if(foSet.isEmpty()){
-                    //no AO has been selected
-                    keyValues.add(new ConcreteKeyValue("", "No Activity has been selected"));
-                    theForm.setDisableMoveButtonForMoveAOCPopOver(true);  
-                }
-                else if(foSet.size()==1){
-                    //all selected AOs belong to one FO
-                    String foId = (String)foSet.iterator().next();
-                    keyValues = populateClusterList(foId, theForm);
-
-                }
-                else if (foSet.size()>1){
-                    //all selected AOs belong to more than one FO
-                    keyValues.add(new ConcreteKeyValue("", "Cannot move between format offerings"));
-                    theForm.setDisableMoveButtonForMoveAOCPopOver(true);
-                }
             }
-        }catch (Exception e) {
-            throw new RuntimeException("Error getting clusters for format offering", e);
+            if(foSet.isEmpty()){
+                //no AO has been selected
+                keyValues.add(new ConcreteKeyValue("", "No Activity has been selected"));
+                theForm.setDisableMoveButtonForMoveAOCPopOver(true);
+            }
+            else if(foSet.size()==1){
+                //all selected AOs belong to one FO
+                keyValues = populateClusterList(theForm.getFoId2aoTypeMap().get(foSet.iterator().next()), theForm);
+
+            }
+            else if (foSet.size()>1){
+                //all selected AOs belong to more than one FO
+                keyValues.add(new ConcreteKeyValue("", "Cannot move between format offerings"));
+                theForm.setDisableMoveButtonForMoveAOCPopOver(true);
+            }
         }
 
         return keyValues;
     }
     
-    private List<KeyValue> populateClusterList(String foId, ARGCourseOfferingManagementForm theForm)throws Exception{
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+    private List<KeyValue> populateClusterList(FormatOfferingInfo fo, ARGCourseOfferingManagementForm theForm) {
         //set values for create New under Move To...
-        theForm.setSelectedFOIDForAOMove(foId);
-        FormatOfferingInfo fo= getCourseOfferingService().getFormatOffering(foId, contextInfo);
+        theForm.setSelectedFOIDForAOMove(fo.getId());
+
         theForm.setSelectedFONameForAOMove(fo.getName());
         theForm.setDisableMoveButtonForMoveAOCPopOver(false);
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        List<ActivityOfferingClusterInfo> clusterInfos = getCourseOfferingService().getActivityOfferingClustersByFormatOffering(foId, contextInfo);
-        for (ActivityOfferingClusterInfo clusterInfo : clusterInfos) {
-            keyValues.add(new ConcreteKeyValue(clusterInfo.getId(), clusterInfo.getPrivateName()));
+
+        for (ActivityOfferingClusterWrapper clusterWrapper : theForm.getClusterResultList()) {
+            if(clusterWrapper.getFormatOfferingId()!=null && clusterWrapper.getFormatOfferingId().equals(fo.getId())){
+                keyValues.add(new ConcreteKeyValue(clusterWrapper.getAoCluster().getId(), clusterWrapper.getAoCluster().getPrivateName()));
+            }
         }
         return keyValues;
     }
+
     protected CourseOfferingService getCourseOfferingService() {
         if (courseOfferingService == null) {
             courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, "CourseOfferingService"));

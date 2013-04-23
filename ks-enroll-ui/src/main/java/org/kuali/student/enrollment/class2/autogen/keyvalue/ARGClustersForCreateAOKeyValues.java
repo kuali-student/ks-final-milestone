@@ -23,8 +23,8 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
@@ -46,26 +46,34 @@ public class ARGClustersForCreateAOKeyValues extends UifKeyValuesFinderBase impl
 
         ARGCourseOfferingManagementForm coForm = (ARGCourseOfferingManagementForm) model;
         String formatOfferingId = coForm.getFormatOfferingIdForNewAO();
-        if (formatOfferingId==null || formatOfferingId.equals("")) {
+        coForm.setHasAOCluster(false);
+        //If there is no selected format and the CO has no formats, return an  empty list
+        if (StringUtils.isEmpty(formatOfferingId)) {
+            //  Just return if the CO has no formats (e.g. it was just created).
             if (coForm.getFoId2aoTypeMap().isEmpty()) {
                 return keyValues;
             }
             formatOfferingId = (String)coForm.getFoId2aoTypeMap().keySet().toArray()[0];
         }
-//        keyValues.add(new ConcreteKeyValue("", "Select Cluster"));
 
-        if(!StringUtils.isEmpty(formatOfferingId)) {
+        if (!StringUtils.isEmpty(formatOfferingId)) {
             try {
-                List<ActivityOfferingClusterInfo> clusters =
-                        getCourseOfferingService().getActivityOfferingClustersByFormatOffering(formatOfferingId, ContextUtils.getContextInfo());
+                //Grab the clusters corresponding to the selected format id (or all if no selection was made)
+                List<ActivityOfferingClusterWrapper> clusters = new ArrayList<ActivityOfferingClusterWrapper>();
+                for (ActivityOfferingClusterWrapper cluster : coForm.getClusterResultList()) {
+                    if (StringUtils.isEmpty(formatOfferingId) || formatOfferingId.equals(cluster.getFormatOfferingId())) {
+                        clusters.add(cluster);
+                    }
+                }
+
                 //if there are clusters for the given FO, display them in the dropdown, otherwise create a default cluster to display
-                if (clusters!=null && clusters.size()>0) {
-                    for (ActivityOfferingClusterInfo cluster : clusters) {
-                        keyValues.add(new ConcreteKeyValue(cluster.getId(), cluster.getPrivateName()));
+                if (!clusters.isEmpty()) {
+                    for (ActivityOfferingClusterWrapper cluster : clusters) {
+                        keyValues.add(new ConcreteKeyValue(cluster.getAoCluster().getId()==null?"":cluster.getAoCluster().getId(), cluster.getAoCluster().getPrivateName()));
                         coForm.setHasAOCluster(true);
                     }
                 } else {
-                    keyValues.add(new ConcreteKeyValue("", ARGUtil.getArgServiceAdapter().getDefaultClusterNamePerCO(coForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(),ContextUtils.getContextInfo())));
+                    keyValues.add(new ConcreteKeyValue("", ARGUtil.getArgServiceAdapter().getDefaultClusterNamePerCO(coForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(), ContextUtils.getContextInfo())));
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -79,11 +87,11 @@ public class ARGClustersForCreateAOKeyValues extends UifKeyValuesFinderBase impl
         return CourseOfferingResourceLoader.loadCourseService();
     }
 
-    protected TypeService getTypeService(){
+    protected TypeService getTypeService() {
         return CourseOfferingResourceLoader.loadTypeService();
     }
 
-    protected CourseOfferingService getCourseOfferingService(){
+    protected CourseOfferingService getCourseOfferingService() {
         return CourseOfferingResourceLoader.loadCourseOfferingService();
     }
 

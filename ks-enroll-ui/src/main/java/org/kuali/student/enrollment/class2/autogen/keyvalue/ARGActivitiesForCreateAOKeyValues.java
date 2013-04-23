@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.class2.autogen.keyvalue;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -29,14 +30,19 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
-import org.kuali.student.r2.lum.course.dto.ActivityInfo;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.dto.FormatInfo;
-import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
+import javax.xml.namespace.QName;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class retrieves Activities based on the selection of a Format, and returns a key-value pair list of
@@ -51,7 +57,6 @@ public class ARGActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase im
     public List<KeyValue> getKeyValues(ViewModel model) {
         ARGCourseOfferingManagementForm coForm = (ARGCourseOfferingManagementForm) model;
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-//        keyValues.add(new ConcreteKeyValue("", "Select Activity Type"));
 
         String formatOfferingId = coForm.getFormatOfferingIdForNewAO();
         if (formatOfferingId==null || formatOfferingId.equals("")) {
@@ -66,34 +71,44 @@ public class ARGActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase im
 
         if(!StringUtils.isEmpty(formatOfferingId)) {
             try {
-                FormatOfferingInfo foInfo = getCourseOfferingService().getFormatOffering(formatOfferingId, ContextUtils.getContextInfo());
-                CourseInfo course = getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
-                FormatInfo foundFormat = null;
-                for (FormatInfo info : course.getFormats()) {
-                    if (info.getId().equals(foInfo.getFormatId())) {
-                        foundFormat = info;
-                        break;
-                    }
-                }
-                if(foundFormat == null) {
+                FormatOfferingInfo foInfo = coForm.getFoId2aoTypeMap().get(formatOfferingId);
+
+                if(foInfo == null) {
                     throw new RuntimeException("No FormatInfo found with id " + foInfo.getFormatId() + " in course " + courseId);
                 }
 
-                List<ActivityInfo> activityInfos = foundFormat.getActivities();
+                SearchRequestInfo request = new SearchRequestInfo("lu.search.relatedTypes");
+                request.addParam("lu.queryParam.cluId", foInfo.getFormatId());
+                request.addParam("lu.queryParam.luOptionalRelationType", "luLuRelationType.contains");
+                SearchResultInfo result = getCluService().search(request, ContextUtils.createDefaultContextInfo());
+                Map<String,String> activityIdToTypeMapKeys = new HashMap<String,String>();
+                for (SearchResultRowInfo row: result.getRows()) {
+                    String activityId = null;
+                    String activityTypeKey = null;
+                    for (SearchResultCellInfo cell: row.getCells()) {
+                        if ("lu.resultColumn.cluId".equals(cell.getKey())) {
+                            activityId = cell.getValue();
+                        }
+                        if ("lu.resultColumn.cluType".equals(cell.getKey())) {
+                            activityTypeKey = cell.getValue();
+                        }
+                    }
+                    activityIdToTypeMapKeys.put(activityId, activityTypeKey);
+                }
 
                 //map AO types to ActivityInfos based on typeTypeRelation
                 if (foInfo.getActivityOfferingTypeKeys() != null && foInfo.getActivityOfferingTypeKeys().size() > 0) {
                     for (String aoTypeKey : foInfo.getActivityOfferingTypeKeys()) {
                         List<TypeTypeRelationInfo> typeTypeRelationInfos = getTypeService().getTypeTypeRelationsByRelatedTypeAndType(aoTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, ContextUtils.getContextInfo());
-
+                        
+                        //Even though the possibility of many-to-many relationship between AO type and Activity type does exist, the relationship,
+                        //most likely, is many-to-one. The following codes map an AO type to an ActivityInfo based on type key and use the mapped
+                        //ActivityInfo to construct the key/value pair
                         if (typeTypeRelationInfos != null && typeTypeRelationInfos.size() > 0) {
-                            for (ActivityInfo activityInfo : activityInfos) {
-                                //Even though the possibility of many-to-many relationship between AO type and Activity type does exist, the relationship,
-                                //most likely, is many-to-one. The following codes map an AO type to an ActivityInfo based on type key and use the mapped
-                                //ActivityInfo to construct the key/value pair
-                                if (activityInfo.getTypeKey().equals(typeTypeRelationInfos.get(0).getOwnerTypeKey())) {
-                                    TypeInfo activityType = getTypeService().getType(activityInfo.getTypeKey(), ContextUtils.getContextInfo());
-                                    keyValues.add(new ConcreteKeyValue(activityInfo.getId(), activityType.getName()));
+                            for (Map.Entry<String, String> entry : activityIdToTypeMapKeys.entrySet()) {
+                                if (entry.getValue().equals(typeTypeRelationInfos.get(0).getOwnerTypeKey())) {
+                                    TypeInfo activityType = getTypeService().getType(entry.getValue(), ContextUtils.getContextInfo());
+                                    keyValues.add(new ConcreteKeyValue(entry.getKey(), activityType.getName()));
                                 }
                             }
                         }
@@ -107,8 +122,8 @@ public class ARGActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase im
         return keyValues;
     }
 
-    protected CourseService getCourseService() {
-        return CourseOfferingResourceLoader.loadCourseService();
+    protected CluService getCluService() {
+        return GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
     }
 
     protected TypeService getTypeService(){

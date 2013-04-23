@@ -62,6 +62,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final class SearchResultColumns {
         public static final String SCHEDULE_ID = "scheduleId";
         public static final String FO_ID = "foId";
+        public static final String FORMAT_ID = "formatId";
         public static final String FO_NAME = "foName";
         public static final String AOC_ID = "aocId";
         public static final String AOC_NAME = "aocName";
@@ -426,15 +427,16 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         String queryStr = "SELECT DISTINCT " +
                 "    co2fo.RELATED_LUI_ID AS col_0_0_, " +
                 "    fo.NAME              AS col_1_0_, " +
-                "    clster.ID            AS col_2_0_, " +
-                "    clster.NAME          AS col_3_0_, " +
-                "    clster.PRIVATE_NAME  AS col_4_0_, " +
-                "    ao.ID                AS col_5_0_, " +
-                "    ao.LUI_TYPE          AS col_6_0_, " +
-                "    ao.LUI_STATE         AS col_7_0_, " +
-                "    ao.SCHEDULE_ID       AS col_8_0_, " +
-                "    ao.MAX_SEATS         AS col_9_0_, " +
-                "    aoIdent.LUI_CD       AS col_10_0_ " +
+                "    fo.CLU_ID            AS col_2_0_, " +
+                "    clster.ID            AS col_3_0_, " +
+                "    clster.NAME          AS col_4_0_, " +
+                "    clster.PRIVATE_NAME  AS col_5_0_, " +
+                "    ao.ID                AS col_6_0_, " +
+                "    ao.LUI_TYPE          AS col_7_0_, " +
+                "    ao.LUI_STATE         AS col_8_0_, " +
+                "    ao.SCHEDULE_ID       AS col_9_0_, " +
+                "    ao.MAX_SEATS         AS col_10_0_, " +
+                "    aoIdent.LUI_CD       AS col_11_0_ " +
                 "FROM " +
                 "    KSEN_LUILUI_RELTN co2fo " +
                 "LEFT OUTER JOIN " +
@@ -474,6 +476,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(SearchResultColumns.FO_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.FO_NAME, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.FORMAT_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AOC_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AOC_NAME, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AOC_PRIVATE_NAME, (String)resultRow[i++]);

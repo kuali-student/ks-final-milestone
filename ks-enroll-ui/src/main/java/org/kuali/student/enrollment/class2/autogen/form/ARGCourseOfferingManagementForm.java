@@ -22,6 +22,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopy
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.uif.form.KSUifForm;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
@@ -165,7 +166,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     private String publishedClusterNameForMovePopover;
     private String formatOfferingIdForViewRG;
     private String formatOfferingName;
-    private Map<String,List<String>> foId2aoTypeMap;
+    private Map<String,FormatOfferingInfo> foId2aoTypeMap;
     
     private boolean disableMoveButtonForMoveAOCPopOver;
     private String clusterIdForAOMove;
@@ -581,11 +582,11 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
         this.formatOfferingName = formatOfferingName;
     }
 
-    public Map<String,List<String>> getFoId2aoTypeMap() {
+    public Map<String,FormatOfferingInfo> getFoId2aoTypeMap() {
         return foId2aoTypeMap;
     }
 
-    public void setFoId2aoTypeMap(Map<String, List<String>> foId2aoTypeMap) {
+    public void setFoId2aoTypeMap(Map<String, FormatOfferingInfo> foId2aoTypeMap) {
         this.foId2aoTypeMap = foId2aoTypeMap;
     }
 
