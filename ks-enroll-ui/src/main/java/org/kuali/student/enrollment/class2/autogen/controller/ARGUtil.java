@@ -272,13 +272,6 @@ public class ARGUtil {
         //turn off authz for now
 //        form.setEditAuthz(checkEditViewAuthz(form));
 
-        //TODO: Set SOC State - temporary display, to be removed after testing is finished
-        String socState = getSocState(form.getTermInfo().getId());
-        if (StringUtils.isNotBlank(socState)) {
-            socState = (socState.substring(0, 1)).toUpperCase() + socState.substring(1, socState.length());
-        }
-        form.setSocState(socState);
-
         ARGToolbarUtil.processAoToolbarForUser(form.getActivityWrapperList(), form);
     }
 

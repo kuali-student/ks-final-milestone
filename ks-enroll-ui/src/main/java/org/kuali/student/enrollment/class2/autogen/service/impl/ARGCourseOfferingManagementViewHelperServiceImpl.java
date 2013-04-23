@@ -1245,7 +1245,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
 
         if (validationResultInfo.isWarn())  {
-            GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_MAX_ENROLLMENT, aoCluster.getPrivateName());
             GlobalVariables.getMessageMap().putWarningForSectionId("activityOfferingsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_MAX_ENROLLMENT, aoCluster.getPrivateName());
         }
     }
@@ -1299,7 +1298,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
             if (!rgIndexList.isEmpty()) {
                 GlobalVariables.getMessageMap().putWarningForSectionId("activityOfferingsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_AO_TIMECONFLICT, aoCluster.getPrivateName());
-                GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_AO_TIMECONFLICT, aoCluster.getPrivateName());
             }
         }
 
@@ -1351,7 +1349,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
             if (!rgIndexList.isEmpty()) {
                 GlobalVariables.getMessageMap().putWarningForSectionId("activityOfferingsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_AO_TIMECONFLICT, aoCluster.getPrivateName());
-                GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_AO_TIMECONFLICT, aoCluster.getPrivateName());
             }
         }
 
@@ -2159,6 +2156,15 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
                     form.setSocStateKey(soc.getStateKey());
                     form.setSocSchedulingStateKey(soc.getSchedulingStateKey());
+
+                    //TODO: Set SOC State - temporary display, to be removed after testing is finished
+
+                    if (StringUtils.isNotBlank(soc.getStateKey())) {
+                        String socState = getStateService().getState(soc.getStateKey(), createContextInfo()).getName();
+                        socState = (socState.substring(0, 1)).toUpperCase() + socState.substring(1, socState.length());
+                        form.setSocState(socState);
+                    }
+
                     return;
                 }
             }
