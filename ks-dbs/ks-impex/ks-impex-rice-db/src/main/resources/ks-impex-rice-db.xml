@@ -3865,7 +3865,7 @@
     <sequence name="KRMS_TERM_RSLVR_INPUT_SPEC_S" nextval="10000"/>
     <sequence name="KRMS_TERM_RSLVR_PARM_SPEC_S" nextval="10000"/>
     <sequence name="KRMS_TERM_RSLVR_S" nextval="10000"/>
-    <sequence name="KRMS_TERM_S" nextval="10000"/>
+    <sequence name="KRMS_TERM_S" nextval="10201"/>
     <sequence name="KRMS_TERM_SPEC_S" nextval="10000"/>
     <sequence name="KRMS_TYP_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_TYP_RELN_S" nextval="10000"/>
