@@ -262,6 +262,16 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
     public String resetDescription(PropositionEditor prop) {
 
+        //If proposition type is null, set description and term null
+        if(prop.getType() == null) {
+            prop.setDescription(StringUtils.EMPTY);
+            prop.setTerm(null);
+            this.getNaturalLanguageHelper().setNaturalLanguageForUsage(prop, KsKrmsConstants.KRMS_NL_RULE_EDIT);
+            this.getNaturalLanguageHelper().setNaturalLanguageForUsage(prop, KsKrmsConstants.KRMS_NL_PREVIEW);
+            prop.setDescription(prop.getNaturalLanguageForUsage(KsKrmsConstants.KRMS_NL_RULE_EDIT));
+            return prop.getDescription();
+        }
+
         //Build the new termParamters with the matching component builder.
         if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
             Map<String, String> termParameters = null;
