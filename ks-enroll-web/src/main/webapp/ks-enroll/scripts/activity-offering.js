@@ -10,20 +10,24 @@
     }else {
         // handle un-colocation in server side
         if(jQuery("#colocatedAO_value_control").val()=="true") {
-            var str = "This AO is about to leave the coloset, are you sure you want to do this?\n\nDelivery Logistics" +
-                            "\nOn confirm, this AO is removed from the coloset and the user needs to find its own delivery logistics for the AO.\n\n";
+            var str = "Break colocation:\n\nSelecting this option will break any colocation relationships associated with this Activity.\n\nDelivery Logistics" +
+                            "\nThe Activity you are editing will forfit any requested and actual delivery logistics as a result of breaking colocation. Delivery logistics will be retained by any remaining Activities.\n\n";
 
             if (jQuery("#maxEnrollmentShared_value_control").val() == "true") {
-                str = str + "Maximum Enrollment\n The maximum enrollment was managed as shared, the entire max enrollment value remains with the coloset.\n"
-                            + "Max enrollment of the AO may need revision.\n";
+                str = str + "Maximum Enrollment\nThe maximum enrollment was shared across collocated activities. Any remaining activities will retain the entire value. The Activity you are editing will require its own maximum enrollment.\n";
+            } else {
+                str = str + "Maximum Enrollment\nThe maximum enrollment was managed individually for all collocated activities. Each Activity, including the one you are editing, will retain its unique maximum enrollment value but may need revision.\n";
             }
+
 
             var retVal =confirm(str);
             if (retVal==true)
             {
-                submitForm("detachAOFromColocation");
+                // detachAOFromColocation when hit submit button
+                //submitForm("detachAOFromColocation");
             } else {
                 jQuery("#is_co_located_control").attr('checked', 'checked');
+                setupColoCheckBoxChange(jQuery("#is_co_located_control"));
             }
         }
     }

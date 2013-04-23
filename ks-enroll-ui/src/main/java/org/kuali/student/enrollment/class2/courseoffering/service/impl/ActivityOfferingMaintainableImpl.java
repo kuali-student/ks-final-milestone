@@ -184,6 +184,11 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
             }
+
+            //detach AO from colocation
+            if(activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()){
+                detachAOFromColocation(null, activityOfferingWrapper);
+            }
         }
     }
 
@@ -283,10 +288,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             aoInfo.setScheduleId(null);
             getCourseOfferingService().updateActivityOffering(activityOfferingId, aoInfo, createContextInfo());
 
-            //reload AO
-            Map<String, String> dataObjectKeys = new HashMap<String, String>();
-            dataObjectKeys.put("aoInfo.id",activityOfferingId);
-            retrieveObjectForEditOrCopy(document, dataObjectKeys);
         } catch (Exception e) {
             if(e instanceof AuthorizationException){
                 throw new AuthorizationException(null,null,null,null);
