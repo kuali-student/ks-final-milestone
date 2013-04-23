@@ -126,6 +126,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
              */
             if (activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()){
                 activityOfferingWrapper.getAoInfo().setScheduleId(null);
+                activityOfferingWrapper.getAoInfo().setIsPartOfColocatedOfferingSet(false);
             }
 
             ActivityOfferingInfo activityOfferingInfo = null;
@@ -141,17 +142,20 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 throw convertServiceExceptionsToUI(e);
             }
 
-            /**
-             * Even if the user doesnt change any RDL data, here are the scenarios whether we need to process schedules
-             * 1. If the user checks/unchecks the colo checkbox even the user has not changed anything in the schedules
-             * 2. If the user opens an activity after scheduling and without changing any schedule details, submits the doc.
-             * Once user submits a doc after scheduling complemented, all the RDLs should be converted to ADLs
-             */
-            if (activityOfferingWrapper.isSchedulesModified() ||
-               (activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()) ||
-               (!activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && activityOfferingWrapper.isColocatedAO()) ||
-               (activityOfferingWrapper.isSchedulingCompleted() && !activityOfferingWrapper.getRequestedScheduleComponents().isEmpty())){
-                getScheduleHelper().saveSchedules(activityOfferingWrapper);
+            if(activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()){
+                //if change co-located to un-coloated, no schedules
+            } else {
+                /**
+                 * Even if the user doesnt change any RDL data, here are the scenarios whether we need to process schedules
+                 * 1. If the user checks/unchecks the colo checkbox even the user has not changed anything in the schedules
+                 * 2. If the user opens an activity after scheduling and without changing any schedule details, submits the doc.
+                 * Once user submits a doc after scheduling complemented, all the RDLs should be converted to ADLs
+                 */
+                if (activityOfferingWrapper.isSchedulesModified() ||
+                   (!activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && activityOfferingWrapper.isColocatedAO()) ||
+                   (activityOfferingWrapper.isSchedulingCompleted() && !activityOfferingWrapper.getRequestedScheduleComponents().isEmpty())){
+                    getScheduleHelper().saveSchedules(activityOfferingWrapper);
+                }
             }
 
             /**
@@ -183,11 +187,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 }
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
-            }
-
-            //detach AO from colocation
-            if(activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()){
-                detachAOFromColocation(null, activityOfferingWrapper);
             }
         }
     }
@@ -257,15 +256,9 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 throw convertServiceExceptionsToUI(e);
             }
         } else {
-            if (coloSet != null && StringUtils.isNotBlank(coloSet.getId())){
-                coloSet.getActivityOfferingIds().remove(wrapper.getAoInfo().getId());
-                try {
-                    ColocatedOfferingSetInfo updatedColoSet = getCourseOfferingService().updateColocatedOfferingSet(coloSet.getId(),coloSet,createContextInfo());
-                    wrapper.setColocatedOfferingSetInfo(updatedColoSet);
-                } catch (Exception e) {
-                    throw convertServiceExceptionsToUI(e);
-                }
-                //TODO: If there are no activities in the coloset, then delete the coloset
+            //detach AO from colocation
+            if(wrapper.isPartOfColoSetOnLoadAlready()){
+                detachAOFromColocatedSet(wrapper.getAoInfo().getId(), wrapper.getColocatedOfferingSetInfo());
             }
         }
     }
