@@ -49,7 +49,7 @@ public class AORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
 
     public RuleDefinition getCompareRule(String refObjectId, String typeId) {
         RuleDefinition compareRule = null;
-        List<ReferenceObjectBinding> referenceObjects = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject("kuali.lu.type.CreditCourse", refObjectId);
+        List<ReferenceObjectBinding> referenceObjects = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject("kuali.lui.type.course.offering", refObjectId);
 
         for (ReferenceObjectBinding referenceObject : referenceObjects) {
             AgendaTreeDefinition agendaTree = this.getRuleManagementService().getAgendaTree(referenceObject.getKrmsObjectId());

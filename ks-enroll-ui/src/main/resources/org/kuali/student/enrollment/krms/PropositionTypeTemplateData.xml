@@ -212,7 +212,7 @@
 
                 <entry key="kuali.krms.proposition.type.permission.instructor.required">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="null"
+                          p:termSpecName="InstructorPermissionRequired"
                           p:value="true">
                     <property name="componentId" value="KRMS-Program-SuggestField"/>
                     </bean>

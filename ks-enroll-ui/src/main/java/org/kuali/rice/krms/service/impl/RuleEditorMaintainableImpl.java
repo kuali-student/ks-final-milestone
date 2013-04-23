@@ -280,9 +280,9 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                 propositionEditor.setType(type.getName());
             }
 
+            Map<String, String> termParameters = this.getTermParameters(propositionEditor);
             ComponentBuilder builder = this.getTemplateRegistry().getComponentBuilderForType(propositionEditor.getType());
             if (builder != null) {
-                Map<String, String> termParameters = this.getTermParameters(propositionEditor);
                 builder.resolveTermParameters(propositionEditor, termParameters);
             }
         } else {

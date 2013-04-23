@@ -1,5 +1,8 @@
 package org.kuali.rice.krms.tree.node;
 
+import groovy.json.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -26,6 +29,9 @@ public class CompareTreeNode implements Serializable {
     }
 
     public String getOriginal() {
+        if((this.original == null) || (this.original.isEmpty())){
+            return org.apache.commons.lang.StringEscapeUtils.escapeHtml(" ");
+        }
         return original;
     }
 
@@ -42,6 +48,9 @@ public class CompareTreeNode implements Serializable {
     }
 
     public String getCompared() {
+        if((this.compared == null) || (this.compared.isEmpty())){
+            return org.apache.commons.lang.StringEscapeUtils.escapeHtml(" ");
+        }
         return compared;
     }
 

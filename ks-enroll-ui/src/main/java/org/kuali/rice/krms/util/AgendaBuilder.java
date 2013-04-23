@@ -13,10 +13,7 @@ import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krms.dto.AgendaEditor;
-import org.kuali.rice.krms.dto.AgendaTypeInfo;
-import org.kuali.rice.krms.dto.RuleTypeInfo;
-import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +45,16 @@ public class AgendaBuilder {
         this.typeRelationsMap = typeRelationsMap;
     }
 
-    public List<Component> build(List<AgendaEditor> agendas){
+    public List<Component> build(RuleManagementWrapper ruleManagementWrapper){
+
+        // Get the list of existing agendas
+        List<AgendaEditor> agendas = ruleManagementWrapper.getAgendas();
+
+        // Initialize new array lists.
+        List<AgendaEditor> sortedAgendas = new ArrayList<AgendaEditor>();
         List<Component> components = new ArrayList<Component>();
 
+        // Lookup existing agenda by type
         List<AgendaTypeInfo> agendaTypeInfos = new ArrayList<AgendaTypeInfo>(typeRelationsMap.values());
         for (AgendaTypeInfo agendaTypeInfo : agendaTypeInfos) {
             boolean exist = false;
@@ -58,14 +62,18 @@ public class AgendaBuilder {
                 if (agenda.getTypeId().equals(agendaTypeInfo.getId())) {
                     components.add(this.buildAgenda(agenda));
                     exist = true;
+                    sortedAgendas.add(agenda);
                 }
             }
             if (!exist) {
                 AgendaEditor emptyAgenda = new AgendaEditor();
                 emptyAgenda.setTypeId(agendaTypeInfo.getId());
                 components.add(this.buildAgenda(emptyAgenda));
+                sortedAgendas.add(emptyAgenda);
             }
         }
+
+        ruleManagementWrapper.setAgendas(sortedAgendas);
 
         return components;
     }

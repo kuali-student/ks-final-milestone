@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class1.krms.service.impl;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krms.api.repository.agenda.*;
+import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.PropositionEditor;
@@ -11,6 +12,7 @@ import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
 import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
+import org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper;
@@ -42,20 +44,18 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
 
-        EnrolRuleManagementWrapper dataObject = new EnrolRuleManagementWrapper();
-
-        List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
-        //TODO: get all agendas linked to an activity offering
-        if(this.getRuleManagementService().getAgenda("10063") != null) {
-            agendas.add(this.getAgendaEditor("10063"));
-        } else if(this.getRuleManagementService().getAgenda("10002") != null) {
-            agendas.add(this.getAgendaEditor("10002"));
-        }
-
-        dataObject.setAgendas(agendas);
+        AORuleManagementWrapper dataObject = new AORuleManagementWrapper();
 
         String aoId = dataObjectKeys.get("refObjectId");
         dataObject.setRefObjectId(aoId);
+
+        List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
+        List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject("kuali.lui.type.activity.offering", aoId);
+        for(ReferenceObjectBinding referenceObjectBinding : refObjectsBindings){
+            agendas.add(this.getAgendaEditor(referenceObjectBinding.getKrmsObjectId()));
+        }
+
+        dataObject.setAgendas(agendas);
 
         //Retrieve the Reg Object information
         ActivityOfferingInfo activityOffering = null;
@@ -69,14 +69,13 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
         //Populate Clu Identification Information
         if (activityOffering != null) {
-            /*CluIdentifierInfo cluIdentInfo = courseOffering.getOfficialIdentifier();
             StringBuilder courseNameBuilder = new StringBuilder();
-            courseNameBuilder.append(cluIdentInfo.getDivision());
-            courseNameBuilder.append(" ");
-            courseNameBuilder.append(cluIdentInfo.getSuffixCode());
+            courseNameBuilder.append(activityOffering.getTermCode());
             courseNameBuilder.append(" - ");
-            courseNameBuilder.append(cluIdentInfo.getLongName());
-            dataObject.setCluDescription(courseNameBuilder.toString());*/
+            courseNameBuilder.append(activityOffering.getCourseOfferingCode()+activityOffering.getActivityCode());
+            courseNameBuilder.append(" - ");
+            courseNameBuilder.append(activityOffering.getCourseOfferingTitle());
+            dataObject.setCluDescription(courseNameBuilder.toString());
         }
 
         dataObject.setCompareTree(RuleCompareTreeBuilder.initCompareTree());

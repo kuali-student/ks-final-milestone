@@ -170,7 +170,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) model;
         RuleManagementWrapper form = (RuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
 
-        container.setItems(builder.build(form.getAgendas()));
+        container.setItems(builder.build(form));
     }
 
     /**

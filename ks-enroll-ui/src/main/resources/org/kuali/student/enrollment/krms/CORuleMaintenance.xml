@@ -24,7 +24,7 @@
 
     <bean id="KSCO-AgendaManagement-View" parent="KRMS-AgendaManagement-View">
         <property name="viewName" value="COAgendaManagementView"/>
-        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.enrollment.class1.krms.service.impl.CORuleViewHelperServiceImpl"/>
         <property name="dialogs">
@@ -35,9 +35,9 @@
     </bean>
 
     <bean id="CORuleWrapperMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
-        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper"/>
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper"/>
         <property name="maintainableClass" value="org.kuali.student.enrollment.class1.krms.service.impl.CORuleEditorMaintainableImpl"/>
-        <property name="documentTypeName" value="RuleMaintenanceDocument"/>
+        <property name="documentTypeName" value="CORuleMaintenanceDocument"/>
         <property name="businessRulesClass" value="org.kuali.rice.krms.util.RuleEditorBusRule" />
         <property name="lockingKeys">
             <list>
@@ -48,6 +48,10 @@
 
     <bean id="EnrolRuleManagementWrapper" parent="RuleManagementWrapper-parentBean">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper"/>
+    </bean>
+
+    <bean id="CORuleManagementWrapper" parent="EnrolRuleManagementWrapper">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper"/>
     </bean>
 
     <bean id="EnrolRuleEditor" parent="RuleEditor-parentBean">

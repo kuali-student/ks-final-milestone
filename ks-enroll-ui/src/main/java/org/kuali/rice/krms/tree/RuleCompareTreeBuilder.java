@@ -1,19 +1,16 @@
 package org.kuali.rice.krms.tree;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
-import org.kuali.rice.krms.api.repository.NaturalLanguageTree;
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
-import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -91,22 +88,31 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         newNode.setData(tNode);
         currentNode.getChildren().add(newNode);
 
-        if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(original.getPropositionTypeCode())) {
-            this.addCompoundTreeNode(newNode, original, compared);
-        }
+        this.addCompoundTreeNode(newNode, original, compared);
     }
 
-    private void addCompoundTreeNode(Node<CompareTreeNode, String> newNode, PropositionDefinitionContract originial, PropositionDefinitionContract compared) {
+    private void addCompoundTreeNode(Node<CompareTreeNode, String> newNode, PropositionDefinitionContract original, PropositionDefinitionContract compared) {
 
         // Retrieve the opreator code of the original proposition
-        String originalOpCode = this.getOpCode(originial);
+        String originalOpCode = this.getOpCode(original);
 
         // Retrieve the opreator code of the compare to proposition
         String compareOpCode = this.getOpCode(compared);
 
         // Get the children form both nodes.
-        List<? extends PropositionDefinitionContract> originalChildren = originial.getCompoundComponents();
-        List<? extends PropositionDefinitionContract> comparedChildren = compared.getCompoundComponents();
+        List<? extends PropositionDefinitionContract> originalChildren;
+        if (original != null) {
+            originalChildren = original.getCompoundComponents();
+        } else {
+            originalChildren = new ArrayList<PropositionDefinitionContract>();
+        }
+
+        List<? extends PropositionDefinitionContract> comparedChildren;
+        if (compared != null) {
+            comparedChildren = compared.getCompoundComponents();
+        } else {
+            comparedChildren = new ArrayList<PropositionDefinitionContract>();
+        }
 
         // Get the size of the biggest children list
         int size = Math.max(originalChildren.size(), comparedChildren.size());
@@ -118,7 +124,7 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
             if (originalChildren.size() > i){
                 originalChild = originalChildren.get(i);
             } else {
-                originalOpCode = "";
+                originalOpCode = " ";
             }
 
             // Get the compare child proposition at current position
@@ -126,7 +132,7 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
             if (comparedChildren.size() > i){
                 compareChild = comparedChildren.get(i);
             } else {
-                compareOpCode = "";
+                compareOpCode = " ";
             }
             // add an opcode node in between each of the children.
             if (i>0) {
@@ -141,7 +147,7 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
 
     private String getOpCode(PropositionDefinitionContract proposition){
 
-        String operatorCode = "";
+        String operatorCode = " ";
         if (proposition != null){
             if (LogicalOperator.AND.getCode().equalsIgnoreCase(proposition.getCompoundOpCode())) {
                 operatorCode = "AND";

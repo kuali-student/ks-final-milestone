@@ -19,6 +19,7 @@ import org.kuali.student.enrollment.class1.krms.tree.AORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.CORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRulePreviewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRuleViewTreeBuilder;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 
@@ -54,10 +55,10 @@ public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
         }
 
         //Get the CLU Tree.
-        CourseOfferingInfo courseOffering = this.getCourseOfferingService().getCourseOffering(compareToRefObjectId, ContextUtils.createDefaultContextInfo());
+        ActivityOfferingInfo activityOffering = this.getCourseOfferingService().getActivityOffering(compareToRefObjectId, ContextUtils.createDefaultContextInfo());
         AORuleCompareTreeBuilder treeBuilder = new AORuleCompareTreeBuilder();
         treeBuilder.setRuleManagementService(this.getRuleManagementService());
-        RuleDefinitionContract compare = treeBuilder.getCompareRule(courseOffering.getCourseId(), original.getTypeId());
+        RuleDefinitionContract compare = treeBuilder.getCompareRule(activityOffering.getCourseOfferingId(), original.getTypeId());
 
         //Build the Tree
         RuleEditor compareEditor;
