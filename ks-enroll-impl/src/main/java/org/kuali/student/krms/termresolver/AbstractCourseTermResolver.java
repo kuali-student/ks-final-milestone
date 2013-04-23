@@ -50,9 +50,10 @@ public abstract class AbstractCourseTermResolver {
 
         if (courseCode != null){
             return courseCode;
-        } else {
-            //TODO: Retrieve course id and resolve.
         }
+//        else {
+//            //TODO: Retrieve course id and resolve.
+//        }
 
         return null;
     }
@@ -64,9 +65,10 @@ public abstract class AbstractCourseTermResolver {
 
         if (courseCodes != null){
             return toCodesArray(courseCodes);
-        } else {
-            //TODO: Retrieve course set id and resolve.
         }
+//        else {
+//            //TODO: Retrieve course set id and resolve.
+//        }
 
         return null;
     }

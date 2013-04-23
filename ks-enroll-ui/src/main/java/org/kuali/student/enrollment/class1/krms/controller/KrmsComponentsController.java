@@ -66,11 +66,13 @@ public class KrmsComponentsController extends UifControllerBase {
         TermParameter termParameter = new TermParameter();
         if (krmsComponentsForm.getSearchByCourseRange().equals("1")) {
             termParameter.setParameter("Subject Code: " + krmsComponentsForm.getSubjectCode() + " Course Number Range: " + krmsComponentsForm.getCourseNumberRange());
-        } else if (krmsComponentsForm.getSearchByCourseRange().equals("2")) {
-//            termParameter.setParameter("SubjectCode: " + krmsComponentsForm.getSubjectCode() + "CourseNumberRange: " + krmsComponentsForm.getCourseNumberRange());
-        } else if (krmsComponentsForm.getSearchByCourseRange().equals("3")) {
-//            termParameter.setParameter("SubjectCode: " + krmsComponentsForm.getSubjectCode() + "CourseNumberRange: " + krmsComponentsForm.getCourseNumberRange());
-        } else {
+        }
+//        else if (krmsComponentsForm.getSearchByCourseRange().equals("2")) {
+////            termParameter.setParameter("SubjectCode: " + krmsComponentsForm.getSubjectCode() + "CourseNumberRange: " + krmsComponentsForm.getCourseNumberRange());
+//        } else if (krmsComponentsForm.getSearchByCourseRange().equals("3")) {
+////            termParameter.setParameter("SubjectCode: " + krmsComponentsForm.getSubjectCode() + "CourseNumberRange: " + krmsComponentsForm.getCourseNumberRange());
+//        }
+        else {
             return showDialog(dialog1, form, request, response);
         }
 
