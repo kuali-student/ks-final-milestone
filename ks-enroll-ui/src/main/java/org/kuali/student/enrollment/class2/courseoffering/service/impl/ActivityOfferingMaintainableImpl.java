@@ -268,27 +268,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         return getScheduleHelper().addScheduleRequestComponent(activityOfferingWrapper);
     }
 
-    public void detachAOFromColocation (MaintenanceDocument document, ActivityOfferingWrapper activityOfferingWrapper){
-        String activityOfferingId = activityOfferingWrapper.getAoInfo().getId();
-
-        try{
-            // remove AO from ColocatedSet
-            detachAOFromColocatedSet(activityOfferingId, activityOfferingWrapper.getColocatedOfferingSetInfo());
-
-            //update the AO
-            ActivityOfferingInfo aoInfo =  activityOfferingWrapper.getAoInfo();
-            aoInfo.setIsPartOfColocatedOfferingSet(false);
-            aoInfo.setScheduleId(null);
-            getCourseOfferingService().updateActivityOffering(activityOfferingId, aoInfo, createContextInfo());
-
-        } catch (Exception e) {
-            if(e instanceof AuthorizationException){
-                throw new AuthorizationException(null,null,null,null);
-            }
-            throw new RuntimeException(e);
-        }
-    }
-
     private void detachAOFromColocatedSet(String activityOfferingId, ColocatedOfferingSetInfo  coloSet){
         try{
             coloSet.getActivityOfferingIds().remove(activityOfferingId);

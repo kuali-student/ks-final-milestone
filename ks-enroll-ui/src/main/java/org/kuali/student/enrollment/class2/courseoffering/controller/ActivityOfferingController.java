@@ -268,7 +268,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             boolean maxEnrollmentShared = colocatedOfferingSetInfo.getIsMaxEnrollmentShared();
 
             ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
-            viewHelper.detachAOFromColocation(form.getDocument(), activityOfferingWrapper);
+            //viewHelper.detachAOFromColocation(form.getDocument(), activityOfferingWrapper);
 
             if(maxEnrollmentShared){
                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COLOCATION_MAX_ENR_SHARED);
