@@ -154,25 +154,25 @@
                 <bean parent="KS-SimpleDataField"
                       p:label="MAX ENR"
                       p:propertyName="aoInfo.maximumEnrollment"/>
-                <bean parent="KS-SimpleDataField"
+                <bean parent="Uif-MessageField"
                       p:label="DAYS"
-                      p:propertyName="daysDisplayName" />
-                <bean parent="KS-SimpleDataField"
+                      p:messageText="@{#line.daysDisplayName}" />
+                <bean parent="Uif-MessageField"
                       p:label="START TIME"
-                      p:propertyName="startTimeDisplay" />
-                <bean parent="KS-SimpleDataField"
+                      p:messageText="@{#line.startTimeDisplay}" />
+                <bean parent="Uif-MessageField"
                       p:label="END TIME"
-                      p:propertyName="endTimeDisplay" />
-                <bean parent="KS-SimpleDataField"
+                      p:messageText="@{#line.endTimeDisplay}" />
+                <bean parent="Uif-MessageField"
                       p:label="BUILDING"
-                      p:propertyName="buildingName" />
-                <bean parent="KS-SimpleDataField"
+                      p:messageText="@{#line.buildingName}" />
+                <bean parent="Uif-MessageField"
                       p:label="ROOM"
-                      p:propertyName="roomName" />
+                      p:messageText="@{#line.roomName}" />
 
-                <bean parent="KS-SimpleDataField"
+                <bean parent="Uif-MessageField"
                       p:label="INSTRUCTOR"
-                      p:propertyName="instructorDisplayNames" />
+                      p:messageText="@{#line.instructorDisplayNames}" />
                 <bean name="enableApproveButton" parent="Uif-InputField" p:propertyName="enableApproveButton"/>
                 <bean name="enableDraftButton" parent="Uif-InputField" p:propertyName="enableDraftButton"/>
                 <bean name="enableSuspendButton" parent="Uif-InputField" p:propertyName="enableSuspendButton"/>
@@ -232,7 +232,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-SimpleDataField"
                       p:label="REG GROUP ID"
                       p:propertyName="rgInfo.name" p:valign="middle">
                 </bean>
