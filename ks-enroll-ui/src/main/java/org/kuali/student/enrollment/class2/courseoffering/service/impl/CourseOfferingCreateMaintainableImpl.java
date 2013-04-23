@@ -18,6 +18,9 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
@@ -27,6 +30,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCrea
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
+import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -54,6 +58,7 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,6 +70,7 @@ import java.util.Map;
 public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintainableImpl implements CourseOfferingMaintainable {
 
     private static final Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingCreateMaintainableImpl.class);
+    private static PermissionService permissionService = getPermissionService();
 
     /**
      * Sets a default maintenace document description and if term code exists in the request parameter, set it to the wrapper.
@@ -251,12 +257,16 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      * @param wrapper CourseOfferingCreateWrapper
      * @throws Exception throws one of the services exceptions
      */
-    public void loadCourseJointInfos(CourseOfferingCreateWrapper wrapper)
+    public void loadCourseJointInfos(CourseOfferingCreateWrapper wrapper, String viewId)
     throws Exception {
 
         List<CourseJointInfo> joints = wrapper.getCourse().getJoints();
         wrapper.setShowJointOption(!joints.isEmpty());
         wrapper.setJointCourseCodes(wrapper.getCourse().getCode());
+
+        Map<String,String> permissionDetails = new HashMap<String,String>();
+        Map<String,String> roleQualifications = new HashMap<String,String>();
+        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
@@ -288,6 +298,26 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                     wrapper.getCopyFromFormats().add(foWrapper);
                 }
             }
+
+            // Check authz
+            List<String> orgIds = jointCourse.getUnitsContentOwner();
+            if(orgIds != null && !orgIds.isEmpty()){
+                String orgIDs = "";
+                for (String orgId : orgIds) {
+                    orgIDs = orgIDs + orgId + ",";
+                }
+                if (orgIDs.length() > 0) {
+                    roleQualifications.put("org", orgIDs.substring(0, orgIDs.length() - 1));
+                }
+            }
+            roleQualifications.put(PermissionServiceConstants.SUBJECT_AREA_ATTR_DEFINITION, jointCourse.getSubjectArea());
+            permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, viewId);
+            permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "createNewCO");
+            jointCourseWrapper.setEnableCreateNewCOActionLink(false);
+            if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)){
+                jointCourseWrapper.setEnableCreateNewCOActionLink(true);
+            }
+
             wrapper.getJointCourses().add(jointCourseWrapper);
         }
 
@@ -515,4 +545,10 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         return true;
     }
 
+    private static PermissionService getPermissionService() {
+        if(permissionService==null){
+            permissionService = KimApiServiceLocator.getPermissionService();
+        }
+        return permissionService;
+    }
 }
