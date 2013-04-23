@@ -65,8 +65,9 @@
                 p:errorCallback="jQuery('div[id=KS-CourseOfferingManagement-RenameAOCPopupForm]:gt(0)').detach();"
                       p:componentSecurity.performActionAuthz="true" p:actionEvent="renameCluster"/>
                 <!--<bean parent="Uif-Label" p:labelText="&#160;&#160;|&#160;&#160;" p:renderColon="false" p:style="float:right"/>-->
+                <!-- jQuery('input.required[value=]').removeClass('required'); work-around added to stop a problem where form validation was preventing delete from working -->
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="showDeleteClusterConfirmPage"
-                      p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
+                      p:onClickScript="jQuery('input.required[value=]').removeClass('required');writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
                       p:actionLabel="Delete&#160;&#160;|&#160;&#160;"  p:style="float:right"
                       p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCluster"/>
 
@@ -120,7 +121,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-SimpleInputField" p:propertyName="isCheckedByCluster" p:required="false" p:readOnlyDisplayReplacement=" "
+                <bean parent="Uif-InputField" p:propertyName="isCheckedByCluster" p:required="false" p:readOnlyDisplayReplacement=" "
                       p:onChangeScript="handleToolbar('KS-CourseOfferingManagement-AOClustersCollection',['enableApproveButton', 'enableDeleteButton', 'enableDraftButton'], ['KS-CourseOfferingManagement-ToolBar-Approve-AO-ClusterTab','KS-CourseOfferingManagement-ToolBar-Delete-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Draft-AO-ClusterTab']);">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
@@ -129,7 +130,7 @@
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
                     <property name="items">
                         <list>
-                            <bean parent="KS-SimpleDataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false">
+                            <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false">
                                 <property name="inquiry">
                                     <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
                                 </property>
@@ -145,13 +146,13 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="KS-SimpleDataField"
+                <bean parent="Uif-DataField"
                       p:label="STATUS"
                       p:propertyName="stateName" />
-                <bean parent="KS-SimpleDataField"
+                <bean parent="Uif-DataField"
                       p:label="TYPE"
                       p:propertyName="typeName"/>
-                <bean parent="KS-SimpleDataField"
+                <bean parent="Uif-DataField"
                       p:label="MAX ENR"
                       p:propertyName="aoInfo.maximumEnrollment"/>
                 <bean parent="Uif-MessageField"
@@ -232,7 +233,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-SimpleDataField"
+                <bean parent="Uif-DataField"
                       p:label="REG GROUP ID"
                       p:propertyName="rgInfo.name" p:valign="middle">
                 </bean>
