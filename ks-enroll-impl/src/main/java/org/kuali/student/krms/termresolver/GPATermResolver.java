@@ -102,7 +102,7 @@ public class GPATermResolver implements TermResolver<Integer> {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         }
 
-        courseCodes.trim();
+        courseCodes = courseCodes.trim();
         String[] courseCode = courseCodes.split(",");
 
         if(courseCodes.contains(",")) {

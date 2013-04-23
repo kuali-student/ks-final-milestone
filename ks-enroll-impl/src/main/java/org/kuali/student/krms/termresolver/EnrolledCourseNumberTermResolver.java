@@ -101,7 +101,7 @@ public class EnrolledCourseNumberTermResolver implements TermResolver<Integer> {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         }
 
-        courseOfferingIds.trim();
+        courseOfferingIds = courseOfferingIds.trim();
         String[] courseOfferingId = courseOfferingIds.split(",");
 
         if(courseOfferingIds.contains(",")) {

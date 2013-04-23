@@ -78,7 +78,7 @@ public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
         String courseOfferingIds = parameters.get(KSKRMSExecutionConstants.COURSE_ID_TERM_PROPERTY);
         Boolean result = false;
 
-        courseOfferingIds.trim();
+        courseOfferingIds = courseOfferingIds.trim();
         String[] courseOfferingId = courseOfferingIds.split(",");
         int testNumber = 0;
 
