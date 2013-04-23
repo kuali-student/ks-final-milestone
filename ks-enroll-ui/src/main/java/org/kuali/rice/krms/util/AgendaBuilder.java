@@ -102,8 +102,7 @@ public class AgendaBuilder {
                 for (RuleEditor rule : agenda.getRuleEditors()) {
                     if (rule.getTypeId().equals(ruleType.getId()) && (!rule.isDummy())) {
                         rule.setKey((String)alphaIterator.next());
-                        rule.setDescription(ruleType.getDescription());
-                        rule.setRuleInstruction(ruleType.getInstruction());
+                        rule.setRuleTypeInfo(ruleType);
                         components.add(buildRule(rule, ruleType, this.buildEditRuleSection(rule, ruleType)));
                         exist = true;
 
@@ -120,8 +119,7 @@ public class AgendaBuilder {
                 ruleEditor.setKey((String)alphaIterator.next());
                 ruleEditor.setDummy(true);
                 ruleEditor.setTypeId(ruleType.getId());
-                ruleEditor.setDescription(ruleType.getDescription());
-                ruleEditor.setRuleInstruction(ruleType.getInstruction());
+                ruleEditor.setRuleTypeInfo(ruleType);
                 ruleEditors.add(ruleEditor);
             }
 

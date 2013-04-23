@@ -19,6 +19,7 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.controller.RuleEditorController;
+import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.impl.ui.TermParameter;
@@ -54,6 +55,13 @@ public class RuleStudentEditorController extends RuleEditorController {
 
         EnrolRuleEditor ruleEditor = new EnrolRuleEditor();
         ruleEditor.setTypeId(typeId);
+        for( AgendaEditor agenda : ruleWrapper.getAgendas()){
+            for( RuleEditor rule : agenda.getRuleEditors()){
+                if( (rule.getTypeId() != null) && (rule.getTypeId().equals(typeId))){
+                    ruleEditor.setRuleTypeInfo(rule.getRuleTypeInfo());
+                }
+            }
+        }
         ruleWrapper.setRuleEditor(ruleEditor);
 
         this.getViewHelper(form).refreshInitTrees(ruleEditor);

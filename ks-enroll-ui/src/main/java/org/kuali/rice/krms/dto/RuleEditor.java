@@ -65,6 +65,8 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
     //Rule Instruction
     private String ruleInstruction;
 
+    private RuleTypeInfo ruleTypeInfo;
+
     public RuleEditor() {
         super();
     }
@@ -324,5 +326,13 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     protected PropositionEditor createPropositionEditor(PropositionDefinitionContract definition){
         return new PropositionEditor(definition);
+    }
+
+    public RuleTypeInfo getRuleTypeInfo() {
+        return ruleTypeInfo;
+    }
+
+    public void setRuleTypeInfo(RuleTypeInfo ruleTypeInfo) {
+        this.ruleTypeInfo = ruleTypeInfo;
     }
 }

@@ -1,5 +1,7 @@
 package org.kuali.rice.krms.dto;
 
+import java.io.Serializable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: danie
@@ -7,7 +9,9 @@ package org.kuali.rice.krms.dto;
  * Time: 10:18 AM
  * To change this template use File | Settings | File Templates.
  */
-public class RuleTypeInfo {
+public class RuleTypeInfo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String id;
     private String description;
