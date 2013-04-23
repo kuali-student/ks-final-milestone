@@ -3837,12 +3837,12 @@
     <sequence name="KRMS_ACTN_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_ACTN_S" nextval="10000"/>
     <sequence name="KRMS_AGENDA_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_AGENDA_ITM_S" nextval="10000"/>
-    <sequence name="KRMS_AGENDA_S" nextval="10000"/>
+    <sequence name="KRMS_AGENDA_ITM_S" nextval="10149"/>
+    <sequence name="KRMS_AGENDA_S" nextval="10143"/>
     <sequence name="KRMS_ATTR_DEFN_S" nextval="10000"/>
-    <sequence name="KRMS_CMPND_PROP_PROPS_S" nextval="10000"/>
+    <sequence name="KRMS_CMPND_PROP_PROPS_S" nextval="10252"/>
     <sequence name="KRMS_CNTXT_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_CNTXT_S" nextval="10000"/>
+    <sequence name="KRMS_CNTXT_S" nextval="10002"/>
     <sequence name="KRMS_CNTXT_VLD_ACTN_TYP_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_VLD_AGENDA_TYP_S" nextval="10004"/>
     <sequence name="KRMS_CNTXT_VLD_FUNC_S" nextval="10000"/>
@@ -3855,21 +3855,21 @@
     <sequence name="KRMS_NL_TMPL_S" nextval="10000"/>
     <sequence name="KRMS_NL_USAGE_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_NL_USAGE_S" nextval="10000"/>
-    <sequence name="KRMS_PROP_PARM_S" nextval="10000"/>
-    <sequence name="KRMS_PROP_S" nextval="10000"/>
-    <sequence name="KRMS_REF_OBJ_KRMS_OBJ_S" nextval="10000"/>
+    <sequence name="KRMS_PROP_PARM_S" nextval="10601"/>
+    <sequence name="KRMS_PROP_S" nextval="10254"/>
+    <sequence name="KRMS_REF_OBJ_KRMS_OBJ_S" nextval="10143"/>
     <sequence name="KRMS_RULE_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_RULE_S" nextval="10000"/>
-    <sequence name="KRMS_TERM_PARM_S" nextval="10000"/>
+    <sequence name="KRMS_RULE_S" nextval="10149"/>
+    <sequence name="KRMS_TERM_PARM_S" nextval="10214"/>
     <sequence name="KRMS_TERM_RSLVR_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_TERM_RSLVR_INPUT_SPEC_S" nextval="10000"/>
     <sequence name="KRMS_TERM_RSLVR_PARM_SPEC_S" nextval="10000"/>
     <sequence name="KRMS_TERM_RSLVR_S" nextval="10000"/>
     <sequence name="KRMS_TERM_S" nextval="10201"/>
-    <sequence name="KRMS_TERM_SPEC_S" nextval="10000"/>
+    <sequence name="KRMS_TERM_SPEC_S" nextval="10015"/>
     <sequence name="KRMS_TYP_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_TYP_RELN_S" nextval="10000"/>
-    <sequence name="KRMS_TYP_S" nextval="10000"/>
+    <sequence name="KRMS_TYP_RELN_S" nextval="10117"/>
+    <sequence name="KRMS_TYP_S" nextval="10077"/>
     <sequence name="KRNS_DOC_TYP_ATTR_S" nextval="1000"/>
     <sequence name="KRNS_LOCK_S" nextval="2000"/>
     <sequence name="KRNS_LOOKUP_RSLT_S" nextval="2000"/>
