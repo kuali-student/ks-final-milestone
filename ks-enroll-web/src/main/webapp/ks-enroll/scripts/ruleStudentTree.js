@@ -40,6 +40,16 @@ function ajaxCallPropositionTree(controllerMethod, collectionGroupId) {
     retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
 }
 
+function ajaxCallFromToolbar(command, controllerMethod, collectionGroupId, secondaryGroupId) {
+    var enabled = enabledCheck(command);
+    if (enabled) {
+        ajaxCallPropositionTree(controllerMethod, collectionGroupId);
+        if (secondaryGroupId) {
+            retrieveComponent(secondaryGroupId);
+        }
+    }
+}
+
 function ajaxAddPropositionTree(controllerMethod, collectionGroupId) {
     var selectedItemInput = getSelectedPropositionInput();
     var selectedItemId = selectedItemInput.val();

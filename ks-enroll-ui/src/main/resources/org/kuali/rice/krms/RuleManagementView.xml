@@ -102,7 +102,7 @@
         <property name="validationMessages.displayMessages" value="true"/>
         <property name="items">
             <list>
-                <bean parent="KS-EditWithLogic-EditGroup"/>
+                <ref bean="KS-EditWithLogic-EditGroup"/>
             </list>
         </property>
     </bean>
@@ -377,4 +377,5 @@
         <property name="propertyName" value="previewTree"/>
     </bean>
     <bean id="KS-PreviewTree-Section" parent="KS-PreviewTree-Section-parent"/>
+
 </beans>
