@@ -428,7 +428,7 @@ function addActionColumn(isReadOnly, componentId) {
             jQuery(this).append(tdBody);
 
             jQuery('#bodyAnchor_line' + index).data('submitData', {
-                "methodToCall":"loadAOs",
+                "methodToCall":"loadAOs_RGs_AOCs",
                 "actionParameters[selectedCollectionPath]":"courseOfferingResultList",
                 "actionParameters[selectedLineIndex]":index,
                 "showHistory":"false",
