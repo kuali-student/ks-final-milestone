@@ -699,9 +699,29 @@ public class RuleEditorController extends MaintenanceDocumentController {
     public ModelAndView updatePreview(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        RuleLogicExpressionParser ruleLogicExpressionParser = new RuleLogicExpressionParser();
+        RuleEditor ruleEditor = getRuleEditor(form);
+        ruleEditor.setSelectedTab("1");
+
+        parseRuleExpression(ruleEditor);
+
+        this.getViewHelper(form).refreshInitTrees(ruleEditor);
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=onTabSelect")
+    public ModelAndView onEditTabSelect(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
 
         RuleEditor ruleEditor = getRuleEditor(form);
+        parseRuleExpression(ruleEditor);
+
+        this.getViewHelper(form).refreshInitTrees(ruleEditor);
+        return getUIFModelAndView(form);
+    }
+
+    private void parseRuleExpression(RuleEditor ruleEditor) {
+        RuleLogicExpressionParser ruleLogicExpressionParser = new RuleLogicExpressionParser();
         ruleLogicExpressionParser.setExpression(ruleEditor.getLogicArea());
         List<String> propsAlpha = this.getPropositionKeys(new ArrayList<String>(), (PropositionEditor) ruleEditor.getProposition());
 
@@ -715,17 +735,10 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.logicArea", errorMessages.get(i));
             }
             // reload page1
-            ruleEditor.setSelectedTab("1");
-            return getUIFModelAndView(form);
+            return;
         }
 
-        ruleEditor.setSelectedTab("1");
-
         ruleEditor.setProposition(ruleLogicExpressionParser.parseExpressionIntoRule(ruleEditor));
-        PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
-        this.getViewHelper(form).refreshInitTrees(ruleEditor);
-
-        return getUIFModelAndView(form);
     }
 
     private List<String> getPropositionKeys(List<String> propositionKeys, PropositionEditor propositionEditor) {

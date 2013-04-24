@@ -50,6 +50,17 @@ function ajaxCallFromToolbar(command, controllerMethod, collectionGroupId, secon
     }
 }
 
+function ajaxCallOnTabSelect(event, ui){
+    if(ui.index==0){
+        ajaxCallPropositionTree('onTabSelect', 'RuleStudentEditorView-TreeGroup');
+        retrieveComponent('KS-EditWithLogic-TreeGroup');
+    }// else {
+    //    ajaxCallPropositionTree('updatePropositionType', 'KS-EditWithLogic-TreeGroup');
+    //    retrieveComponent('RuleStudentEditorView-TreeGroup');
+    //}
+
+}
+
 function ajaxAddPropositionTree(controllerMethod, collectionGroupId) {
     var selectedItemInput = getSelectedPropositionInput();
     var selectedItemId = selectedItemInput.val();
