@@ -72,7 +72,7 @@
                 <entry key="kuali.krms.proposition.type.course.courseset.credits.completed.nof">
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="NumberOfCreditsFromCompletedCourses" p:operator="&lt;=" p:value="n">
-                        <property name="componentId" value="KRMS-MultiCourseWithCreditNof-Group"/>
+                        <property name="componentId" value="KRMS-MultiCourseWithCredit-Group"/>
                         <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
                     </bean>
                 </entry>
@@ -80,7 +80,7 @@
                 <entry key="kuali.krms.proposition.type.success.credit.courseset.completed.nof">
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="NumberOfCreditsFromCompletedCourses" p:operator="&gt;=" p:value="n">
-                        <property name="componentId" value="KRMS-CourseAndCredit-Group"/>
+                        <property name="componentId" value="KRMS-MultiCourseWithCredit-Group"/>
                         <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
                     </bean>
                 </entry>

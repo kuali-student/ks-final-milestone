@@ -673,18 +673,8 @@
     <bean id="KRMS-MultiCourseWithCredit-Group" parent="Uif-VerticalFieldGroup">
         <property name="items">
             <list>
-                <ref bean="KRMS-MultiCourse-Section" />
                 <ref bean="KRMS-Credits-ConstantValue" />
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KRMS-MultiCourseWithCreditNof-Group" parent="Uif-VerticalFieldGroup">
-        <property name="items">
-            <list>
-                <ref bean="KRMS-NumberOfCourses-ConstantValue" />
                 <ref bean="KRMS-MultiCourse-Section" />
-                <ref bean="KRMS-Credits-ConstantValue" />
             </list>
         </property>
     </bean>
