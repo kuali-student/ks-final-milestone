@@ -9,6 +9,8 @@ FROM
             rownum r
         FROM
             KRMS_REF_OBJ_KRMS_OBJ_T a
+        WHERE
+            a.ref_dscr_typ='kuali.lu.type.CreditCourse'
     )
     ros,
     (
@@ -34,53 +36,7 @@ FROM
     courses
 where courses.r=ros.r
 and ros.REF_OBJ_KRMS_OBJ_ID = o.REF_OBJ_KRMS_OBJ_ID)
-/
---update the term params to match existing clus
-UPDATE
-    KRMS_TERM_PARM_T o
-SET
-    o.VAL=
-    (
-        SELECT
-            courses.ID
-        FROM
-            (
-                SELECT
-                    a.TERM_PARM_ID,
-                    rownum r
-                FROM
-                    KRMS_TERM_PARM_T a
-                WHERE
-                    a.NM='kuali.reqComponent.field.type.course.clu.id'
-            )
-            tps,
-            (
-                SELECT
-                    s.*,
-                    rownum r
-                FROM
-                    (
-                        SELECT
-                            ID,
-                            VER_IND_ID
-                        FROM
-                            KSLU_CLU c
-                        WHERE
-                            c.LUTYPE_ID='kuali.lu.type.CreditCourse'
-                        AND c.ST='Active'
-                        AND c.EXPIR_DT IS NULL
-                        ORDER BY
-                            id ASC
-                    )
-                    s
-            )
-            courses
-        WHERE
-            courses.r=tps.r+(SELECT count(*) from KRMS_REF_OBJ_KRMS_OBJ_T)
-        AND tps.TERM_PARM_ID = o.TERM_PARM_ID
-    )
-WHERE
-    NM='kuali.reqComponent.field.type.course.clu.id'
+where o.ref_dscr_typ='kuali.lu.type.CreditCourse'
 /
 --Update Agenda names to match course codes
 UPDATE
@@ -99,4 +55,5 @@ SET
         AND c.OFFIC_CLU_ID=ci.ID
         AND c.ID=ro.REF_OBJ_ID
     )
+WHERE a.agenda_id in (SELECT ref.krms_obj_id FROM KRMS_REF_OBJ_KRMS_OBJ_T ref WHERE ref.ref_dscr_typ='kuali.lu.type.CreditCourse')
 /
