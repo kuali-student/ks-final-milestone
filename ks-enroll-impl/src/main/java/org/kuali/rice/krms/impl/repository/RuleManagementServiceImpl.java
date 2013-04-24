@@ -131,7 +131,7 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
     public void setActionBoService(ActionBoService actionBoService) {
         this.actionBoService = actionBoService;
     }
-    
+      
     public NaturalLanguageTemplaterContract getTemplater() {
         return templater;
     }
@@ -139,9 +139,15 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
     public void setTemplater(NaturalLanguageTemplaterContract templater) {
         this.templater = templater;
     }
-    
-    
 
+    public TermRepositoryService getTermRepositoryService() {
+        return termRepositoryService;
+    }
+
+    public void setTermRepositoryService(TermRepositoryService termRepositoryService) {
+        this.termRepositoryService = termRepositoryService;
+    }
+    
     ////
     //// reference object binding methods
     ////
@@ -313,17 +319,63 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         agendaBoService.updateAgendaItem(agendaItemDefinition);
     }
 
+    private void crossCheckPropId(RuleDefinition ruleDefinition)
+            throws RiceIllegalArgumentException {
+        // if both are set they better match
+        if (ruleDefinition.getPropId() != null && ruleDefinition.getProposition() != null) {
+            if (!ruleDefinition.getPropId().equals(ruleDefinition.getProposition().getId())) {
+                throw new RiceIllegalArgumentException("propId does not proposition.getId" + ruleDefinition.getPropId() + " " + ruleDefinition.getProposition().getId());
+            }
+        }
+    }
+    
+    
     ////
     //// rule methods
     ////
     @Override
     public RuleDefinition createRule(RuleDefinition ruleDefinition) throws RiceIllegalArgumentException {
-        return ruleBoService.createRule(ruleDefinition);
+        // CREATE
+        if (ruleDefinition.getId() != null) {
+            RuleDefinition orig = this.getRule(ruleDefinition.getId());
+            if (orig != null) {
+                throw new RiceIllegalArgumentException(ruleDefinition.getId());
+            }
+        }
+        // if both are set they better match
+        crossCheckPropId (ruleDefinition);
+        RuleDefinition rule = ruleBoService.createRule(ruleDefinition);
+        return this.createPropositionIfNeeded(rule);
     }
 
+    private RuleDefinition createPropositionIfNeeded(RuleDefinition rule) {
+        // no prop to create
+        if (rule.getProposition() == null) {
+            return rule;
+        }
+        // ojb will take care of props that have already been created
+        if (rule.getProposition().getId() != null) {
+            return rule;
+        }
+        // create the proposition
+        RuleDefinition.Builder ruleBldr = RuleDefinition.Builder.create(rule);
+        PropositionDefinition.Builder propBldr = ruleBldr.getProposition();
+        propBldr.setRule(ruleBldr);
+        PropositionDefinition prop = this.createProposition(propBldr.build());
+        // now update the rule so it holds the proposition id
+        propBldr = PropositionDefinition.Builder.create(prop);
+        ruleBldr.setProposition(propBldr);
+        this.ruleBoService.updateRule(ruleBldr.build());
+        return this.getRule(ruleBldr.getId());
+    }
+    
+    
+    
     @Override
     public void updateRule(RuleDefinition ruleDefinition) throws RiceIllegalArgumentException {
+        crossCheckPropId (ruleDefinition);
         ruleBoService.updateRule(ruleDefinition);
+        this.createPropositionIfNeeded(ruleDefinition);
     }
 
     @Override
@@ -366,7 +418,17 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         return list;
     }
     
-    
+    private void crossCheckPropositionParameters (PropositionDefinition propositionDefinition) {        
+        // check that if the value and termValue are both supplied that they match
+        for (PropositionParameter param : propositionDefinition.getParameters()) {
+            if (param.getValue() != null && param.getTermValue() != null) {
+                if (!param.getValue().equals(param.getTermValue().getId())) {
+                    throw new RiceIllegalArgumentException("value does not match termValue.id on param "
+                            + param.getSequenceNumber() + " " + param.getValue() + " " + param.getTermValue().getId());
+                }
+            }
+        }
+    }
 
 
     ////
@@ -374,7 +436,93 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
     ////
     @Override
     public PropositionDefinition createProposition(PropositionDefinition propositionDefinition) throws RiceIllegalArgumentException {
-        return propositionBoService.createProposition(propositionDefinition);
+        // CREATE
+        if (propositionDefinition.getId() != null) {
+            PropositionDefinition orig = this.getProposition(propositionDefinition.getId());
+            if (orig != null) {
+                throw new RiceIllegalArgumentException(propositionDefinition.getId());
+            }
+        }
+        crossCheckPropositionParameters(propositionDefinition);
+        PropositionDefinition prop = propositionBoService.createProposition(propositionDefinition);
+        prop = createTermValuesIfNeeded(prop);
+        prop = createCompoundPropsIfNeeded (prop);
+        return prop;
+    }
+    
+    private PropositionDefinition createTermValuesIfNeeded(PropositionDefinition prop) {
+        if (prop.getParameters() == null) {
+            return prop;
+        }
+        if (prop.getParameters().isEmpty ()) {
+            return prop;
+        }
+        boolean updated = false;
+        PropositionDefinition.Builder propBldr = PropositionDefinition.Builder.create(prop);
+        List<PropositionParameter.Builder> paramBldrs = new ArrayList<PropositionParameter.Builder> ();
+        for (PropositionParameter.Builder paramBldr : propBldr.getParameters()) {
+            paramBldrs.add(paramBldr);
+            // link the param the proposition's id
+            // not sure we need to do this but...
+            if (paramBldr.getPropId() == null) {
+                paramBldr.setPropId(propBldr.getId());
+                updated = true;
+            }
+            // create the termvalue if it was specified
+            if (paramBldr.getTermValue() != null) {
+                TermDefinition termValue = paramBldr.getTermValue();
+                // no id means it does not exist yet
+                if (termValue.getId() == null) {
+                    termValue = this.termRepositoryService.createTerm(termValue);
+                    paramBldr.setTermValue(termValue);
+                    updated = true;
+                } 
+                if (paramBldr.getValue() == null) {
+                    paramBldr.setValue(termValue.getId());
+                    updated = true;
+                }
+                // TODO: do we have to worry about updates to Terms?
+            }
+        }
+        if (!updated) {
+            return prop;
+        }
+        propBldr.setParameters(paramBldrs);
+        this.propositionBoService.updateProposition(propBldr.build());         
+        prop = this.getProposition(propBldr.getId());
+        return prop;
+    }
+        
+    private PropositionDefinition createCompoundPropsIfNeeded(PropositionDefinition prop) {
+        if (prop.getCompoundComponents() == null) {
+            return prop;
+        }
+        if (prop.getCompoundComponents().isEmpty ()) {
+            return prop;
+        }
+        boolean updated = false;
+        PropositionDefinition.Builder propBldr = PropositionDefinition.Builder.create(prop);
+        List<PropositionDefinition.Builder> compPropBldrs = new ArrayList<PropositionDefinition.Builder>();
+        for (PropositionDefinition.Builder compPropBldr : propBldr.getCompoundComponents()) {
+            if (compPropBldr.getId() == null) {
+                PropositionDefinition compProp = this.createProposition(compPropBldr.build());
+                compPropBldrs.add(PropositionDefinition.Builder.create(compProp));
+                updated = true;
+            } else {
+                compPropBldrs.add (compPropBldr);
+            }
+            if (compPropBldr.getRuleId() == null) {
+                compPropBldr.setRuleId(prop.getRuleId());
+                updated = true;
+            }            
+        }
+        if (!updated) {
+            return prop;
+        }
+        propBldr.setCompoundComponents(compPropBldrs);
+        this.propositionBoService.updateProposition(propBldr.build());
+        prop = this.getProposition(propBldr.getId());
+        return prop;
     }
 
     @Override
@@ -449,7 +597,11 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
 
     @Override
     public void updateProposition(PropositionDefinition propositionDefinition) throws RiceIllegalArgumentException {
+        this.crossCheckPropositionParameters(propositionDefinition);
         propositionBoService.updateProposition(propositionDefinition);
+        PropositionDefinition prop = this.getProposition(propositionDefinition.getId());
+        prop = createTermValuesIfNeeded(prop);
+        createCompoundPropsIfNeeded (prop);
     }
 
     @Override
