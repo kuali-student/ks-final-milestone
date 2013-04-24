@@ -352,9 +352,8 @@
                                 </property>
                             </bean>
 
-                            <bean parent="KS-RuleEditorView-Button" p:actionScript="var enabled = enabledCheck('delete');
-                                if (enabled) {
-                                ajaxCallPropositionTree('deleteProposition', 'RuleStudentEditorView-TreeGroup');}"
+                            <bean parent="KS-RuleEditorView-Button"
+                                  p:actionScript="ajaxCallFromToolbar('delete','deleteProposition','RuleStudentEditorView-TreeGroup','KS-EditWithLogic-TreeGroup');"
                                   p:actionLabel="Delete"
                                   p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');"
                                   p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');"> <!-- Horiz whitespace -->
