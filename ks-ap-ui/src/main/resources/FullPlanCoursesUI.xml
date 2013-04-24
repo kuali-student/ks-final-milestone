@@ -177,18 +177,38 @@
                         <list>
                             <bean parent="Uif-HeaderThree" p:headerText="Year" p:cssClasses=""
                                   p:style="display:block; width:74px; visibility:hidden; margin:0; padding:5px 0;"/>
-                            <bean parent="Uif-HeaderThree" p:headerText="Autumn"
+
+
+                            <bean parent="Uif-HeaderThree"
                                   p:cssClasses="fl-text-align-center fl-text-bold"
-                                  p:style="width:135px; display:block; border-left:solid 1px #a9a9a9; margin:0; padding:5px 0;"/>
-                            <bean parent="Uif-HeaderThree" p:headerText="Winter"
+                                  p:style="width:@{535/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px; display:block; border-left:solid 1px #a9a9a9; margin:0; padding:5px 0;">
+                                <property name="headerText" value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getTermNameInAcadmicYear(0)}"/>
+                                <property name="render" value="@{!#empty(T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getTermNameInAcadmicYear(0))}"/>
+                                  </bean>
+                            <bean parent="Uif-HeaderThree"
                                   p:cssClasses="fl-text-align-center fl-text-bold"
-                                  p:style="width:135px; display:block; border-left:solid 1px #a9a9a9; margin:0; padding:5px 0;"/>
-                            <bean parent="Uif-HeaderThree" p:headerText="Spring"
+                                  p:style="width:@{535/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px; display:block; border-left:solid 1px #a9a9a9; margin:0; padding:5px 0;">
+                                <property name="headerText" value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getTermNameInAcadmicYear(1)}"/>
+                                <property name="render" value="@{!#empty(T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getTermNameInAcadmicYear(1))}"/>
+                                  </bean>
+                            <bean parent="Uif-HeaderThree"
                                   p:cssClasses="fl-text-align-center fl-text-bold"
-                                  p:style="width:135px; display:block; border-left:solid 1px #a9a9a9; margin:0; padding:5px 0;"/>
-                            <bean parent="Uif-HeaderThree" p:headerText="Summer"
+                                  p:style="width:@{535/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px; display:block; border-left:solid 1px #a9a9a9; margin:0; padding:5px 0;">
+                                <property name="headerText" value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getTermNameInAcadmicYear(2)}"/>
+                                <property name="render" value="@{!#empty(T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getTermNameInAcadmicYear(2))}"/>
+                                  </bean>
+                            <bean parent="Uif-HeaderThree"
                                   p:cssClasses="fl-text-align-center fl-text-bold"
-                                  p:style="width:135px; display:block; border-left:solid 1px #a9a9a9; margin:0; padding:5px 0;"/>
+                                  p:style="width:@{535/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px; display:block; border-left:solid 1px #a9a9a9; margin:0; padding:5px 0;">
+                                <property name="headerText" value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getTermNameInAcadmicYear(3)}"/>
+                                <property name="render" value="@{!#empty(T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getTermNameInAcadmicYear(3))}"/>
+                                  </bean>
+                            <bean parent="Uif-HeaderThree"
+                                  p:cssClasses="fl-text-align-center fl-text-bold"
+                                  p:style="width:@{535/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px; display:block; border-left:solid 1px #a9a9a9; margin:0; padding:5px 0;">
+                                <property name="headerText" value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getTermNameInAcadmicYear(4)}"/>
+                                <property name="render" value="@{!#empty(T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getTermNameInAcadmicYear(4))}"/>
+                            </bean>
                         </list>
                     </property>
                 </bean>
@@ -261,6 +281,7 @@
                                 <value>@{#line.currentTermForView ? 'myplan-current-term':''}</value>
                             </list>
                         </property>
+                        <property name="style" value="width:@{535/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;"/>
                     </bean>
                 </property>
             </bean>
