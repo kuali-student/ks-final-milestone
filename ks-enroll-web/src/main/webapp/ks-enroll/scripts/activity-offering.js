@@ -21,10 +21,11 @@
 
 
             var retVal =confirm(str);
-            if (retVal==true)
-            {
-                // detachAOFromColocation when hit submit button
-                //submitForm("detachAOFromColocation");
+            if (retVal==true) {
+                // If breaking the current ao from the coloset, set the max enrollment to 0 if it's shared
+                if(jQuery("#share_seats_control_0").length != 0 && jQuery("#share_seats_control_0").is(":checked")) {
+                    jQuery("#maximumEnrollment_control").val('0');
+                }
             } else {
                 jQuery("#is_co_located_control").attr('checked', 'checked');
                 setupColoCheckBoxChange(jQuery("#is_co_located_control"));
