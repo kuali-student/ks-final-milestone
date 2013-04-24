@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,10 +38,13 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
+import org.kuali.student.ap.framework.course.ClassFinderForm;
+import org.kuali.student.ap.framework.course.ClassFinderForm.CourseLevel;
 import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
@@ -50,6 +54,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
@@ -128,16 +133,16 @@ public class CourseSearchController extends UifControllerBase {
 
 	/**
 	 * Trending search state controller.
-	 *
+	 * 
 	 * <p>
 	 * This class monitors keywords by relevance score in search results
 	 * continuously as search results report keyword sets.
 	 * </p>
-	 *
+	 * 
 	 * <p>
 	 * TODO: evaluate moving to a public framework class.
 	 * </p>
-	 *
+	 * 
 	 * @see CourseSearchItem#getKeywords()
 	 */
 	private static class TrendingState implements Serializable {
@@ -152,14 +157,14 @@ public class CourseSearchController extends UifControllerBase {
 
 		/**
 		 * Handle to the last reported array of search keywords.
-		 *
+		 * 
 		 * <p>
 		 * This field is populated via the order parameter
 		 * {@link #trend(String[], Map)} when non-null, and may be expected to
 		 * be truncated to a relatively small size (32) prior to being
 		 * populated.
 		 * </p>
-		 *
+		 * 
 		 * @see SessionSearchInfo#SessionSearchInfo(HttpServletRequest,
 		 *      CourseSearchStrategy, FormKey, CourseSearchForm, String)
 		 */
@@ -167,7 +172,7 @@ public class CourseSearchController extends UifControllerBase {
 
 		/**
 		 * Record trending keywords related to an active search.
-		 *
+		 * 
 		 * @param order
 		 *            The keywords to record as trending, in order of relevance
 		 *            to the active search. This parameter should be truncated
@@ -233,7 +238,7 @@ public class CourseSearchController extends UifControllerBase {
 
 		/**
 		 * Retrieve the top n trending search keywords observed at this node.
-		 *
+		 * 
 		 * @param n
 		 *            The number of entries to ensure are in the set on return.
 		 *            There may be fewer entries, but there will not be more
@@ -341,27 +346,31 @@ public class CourseSearchController extends UifControllerBase {
 	 * </p>
 	 */
 	public static class FormKey {
-		private final String searchQuery;
-		private final String searchTerm;
-		private final String[] campusSelect;
+		private final List<String> criteria;
 
 		public FormKey(CourseSearchForm f) {
-			this.searchQuery = f.getSearchQuery();
-			this.searchTerm = f.getSearchTerm();
-			this.campusSelect = f.getCampusSelect() == null ? null : f
-					.getCampusSelect().toArray(
-							new String[f.getCampusSelect().size()]);
+			List<String> c = new java.util.ArrayList<String>();
+			c.add(f.getSearchQuery());
+			c.add(f.getSearchTerm());
+			c.addAll(f.getCampusSelect());
+			criteria = Collections.unmodifiableList(c);
+		}
+
+		public FormKey(ClassFinderForm f) {
+			List<String> c = new java.util.ArrayList<String>();
+			c.add(f.getQuery());
+			for (String fa : f.getFacet())
+				if (f.isCriterion(fa))
+					c.add(fa);
+			criteria = Collections.unmodifiableList(c);
 		}
 
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + Arrays.hashCode(campusSelect);
 			result = prime * result
-					+ ((searchQuery == null) ? 0 : searchQuery.hashCode());
-			result = prime * result
-					+ ((searchTerm == null) ? 0 : searchTerm.hashCode());
+					+ ((criteria == null) ? 0 : criteria.hashCode());
 			return result;
 		}
 
@@ -374,30 +383,22 @@ public class CourseSearchController extends UifControllerBase {
 			if (getClass() != obj.getClass())
 				return false;
 			FormKey other = (FormKey) obj;
-			if (!Arrays.equals(campusSelect, other.campusSelect))
-				return false;
-			if (searchQuery == null) {
-				if (other.searchQuery != null)
+			if (criteria == null) {
+				if (other.criteria != null)
 					return false;
-			} else if (!searchQuery.equals(other.searchQuery))
-				return false;
-			if (searchTerm == null) {
-				if (other.searchTerm != null)
-					return false;
-			} else if (!searchTerm.equals(other.searchTerm))
+			} else if (!criteria.equals(other.criteria))
 				return false;
 			return true;
 		}
-
 	}
 
 	/**
 	 * Input command processor for supporting DataTables server-side processing.
-	 *
+	 * 
 	 * <p>
 	 * TODO: Evaluate moving to a public class in KRAD.
 	 * </p>
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://datatables.net/usage/server-side">http://datatables.net/usage/server-side</a>
 	 */
@@ -499,22 +500,24 @@ public class CourseSearchController extends UifControllerBase {
 
 	/**
 	 * Simple object for tracking facet click/count state.
-	 *
+	 * 
 	 * @see SessionSearchInfo
 	 */
 	public static class FacetState implements Serializable {
 		private static final long serialVersionUID = 1719950239861974273L;
 
-		private FacetState() {
+		private FacetState(String value) {
+			this.value = value;
 		}
 
+		private final String value;
 		private boolean checked = true;
 		private int count;
 	}
 
 	/**
 	 * Simple object representing pre-processed search data.
-	 *
+	 * 
 	 * @see SessionSearchInfo
 	 * @see CourseSearchItem#getSearchColumns()
 	 * @see CourseSearchItem#getFacetColumns()
@@ -524,12 +527,22 @@ public class CourseSearchController extends UifControllerBase {
 
 		private final CourseSearchItem item;
 		private final String[] sortColumns;
-		private final Map<String, String[]> facetColumns;
+		private final Map<String, List<String>> facetColumns;
 
 		private SearchInfo(CourseSearchItem item) {
 			this.item = item;
 			sortColumns = item.getSortColumns();
-			facetColumns = item.getFacetColumns();
+			facetColumns = new java.util.LinkedHashMap<String, List<String>>();
+			for (Entry<String, Map<String, Map<String, String>>> fe : item
+					.getFacetColumns().entrySet()) {
+				List<String> fl = facetColumns.get(fe.getKey());
+				if (fl == null)
+					facetColumns.put(fe.getKey(),
+							fl = new java.util.ArrayList<String>());
+				for (Map<String, String> fv : fe.getValue().values())
+					fl.addAll(fv.keySet());
+			}
+
 		}
 
 		@Override
@@ -539,26 +552,21 @@ public class CourseSearchController extends UifControllerBase {
 					+ ", facetColumns=" + facetColumns + "]";
 		}
 
-        public CourseSearchItem getItem(){
-            return item;
-        }
+		public CourseSearchItem getItem() {
+			return item;
+		}
 	}
 
 	/**
 	 * Session-bound search results cache. This object backs the facet and data
 	 * table result views on the KSAP course search front-end. Up to three
 	 * searches are stored in the HTTP session via these objects.
-	 *
+	 * 
 	 * <p>
 	 * TODO: Evaluate moving to a generic framework class in KRAD.
 	 * </p>
 	 */
 	public static class SessionSearchInfo {
-
-		/**
-		 * The search form input data used to key this session info object.
-		 */
-		private final FormKey formKey;
 
 		/**
 		 * The search result column data.
@@ -574,7 +582,7 @@ public class CourseSearchController extends UifControllerBase {
 		 * Pruned facet state - this shared state keeps a count of all facets
 		 * values that were pruned from display due to size limits and relevance
 		 * scoring.
-		 *
+		 * 
 		 * <p>
 		 * Note that pruned is not reliable - it is only a placeholder to
 		 * facilitate the counting algorithm and is used for informational
@@ -588,7 +596,7 @@ public class CourseSearchController extends UifControllerBase {
 		 * The oneClick flag records whether or not any facet state leaf nodes
 		 * have been switched to false. Until oneClick has been set, count
 		 * updates and clickAll requests will be ignored.
-		 *
+		 * 
 		 * @see #facetClick(String, int)
 		 * @see #facetClickAll()
 		 * @see #updateFacetCounts()
@@ -597,51 +605,63 @@ public class CourseSearchController extends UifControllerBase {
 
 		/**
 		 * Compose search information based on materialized inputs.
-		 *
+		 * 
 		 * <p>
 		 * This constructor is potentially expensive - it is where the actual
 		 * search is performed on the back end when pulling data or facet table
 		 * results.
 		 * </p>
-		 *
-		 * @param searcher
-		 *            The controller's strategy instance.
-		 * @param formKey
-		 *            The form key that will be used as an attribute handle to
-		 *            the search results in the HTTP session.
+		 * 
+		 * @param request
+		 *            The active HTTP servlet request.
 		 * @param form
 		 *            The search form.
-		 * @param principalName
-		 *            The principal name of the current user.
 		 * @see CourseSearchController#getJsonResponse(HttpServletResponse,
 		 *      HttpServletRequest)
 		 * @see CourseSearchController#getFacetValues(HttpServletResponse,
 		 *      HttpServletRequest)
 		 */
 		public SessionSearchInfo(HttpServletRequest request,
-				CourseSearchStrategy searcher, FormKey formKey,
-				CourseSearchForm form, String principalName) {
-			// Verify that form key data matches the actual search form
-			assert (formKey.searchQuery == null && form.getSearchQuery() == null)
-					|| (formKey.searchQuery != null && (formKey.searchQuery
-							.equals(form.getSearchQuery()))) : formKey.searchQuery
-					+ " " + form.getSearchQuery();
-			assert (formKey.searchTerm == null && form.getSearchTerm() == null)
-					|| (formKey.searchTerm != null && (formKey.searchTerm
-							.equals(form.getSearchTerm()))) : formKey.searchTerm
-					+ " " + form.getSearchTerm();
-			String[] cs = null;
-			assert (formKey.campusSelect == null && form.getCampusSelect() == null)
-					|| (formKey.campusSelect != null && (Arrays.equals(
-							formKey.campusSelect,
-							cs = form.getCampusSelect().toArray(
-									new String[form.getCampusSelect().size()])))) : formKey.campusSelect
-					+ " " + cs;
-			this.formKey = formKey;
+				CourseSearchForm form) {
+			this(request, new FormKey(form), KsapFrameworkServiceLocator
+					.getCourseSearchStrategy().courseSearch(
+							form,
+							KsapFrameworkServiceLocator.getUserSessionHelper()
+									.getStudentId()));
+		}
 
-			// Hit search back end and break down into column values
-			List<CourseSearchItem> courses = searcher.courseSearch(form,
-					principalName);
+		/**
+		 * Compose class finder information based on materialized inputs.
+		 * 
+		 * <p>
+		 * This constructor is potentially expensive - it is where the actual
+		 * search is performed on the back end when pulling data or facet table
+		 * results.
+		 * </p>
+		 * 
+		 * @param request
+		 *            The active HTTP servlet request.
+		 * @param form
+		 *            The search form.
+		 * @see CourseSearchController#getJsonResponse(HttpServletResponse,
+		 *      HttpServletRequest)
+		 * @see CourseSearchController#getFacetValues(HttpServletResponse,
+		 *      HttpServletRequest)
+		 */
+		public SessionSearchInfo(HttpServletRequest request,
+				ClassFinderForm form) {
+			this(request, new FormKey(form),
+					KsapFrameworkServiceLocator.getCourseSearchStrategy()
+							.findClasses(
+									form,
+									GlobalVariables.getUserSession()
+											.getPrincipalName()));
+		}
+
+		private SessionSearchInfo(HttpServletRequest request, FormKey formKey,
+				List<CourseSearchItem> courses) {
+			CourseSearchStrategy searcher = KsapFrameworkServiceLocator
+					.getCourseSearchStrategy();
 			List<SearchInfo> resultList = new java.util.ArrayList<SearchInfo>(
 					courses.size());
 			for (CourseSearchItem course : courses)
@@ -653,9 +673,12 @@ public class CourseSearchController extends UifControllerBase {
 			if (searchResults.isEmpty())
 				facetState = Collections.emptyMap();
 			else {
-				Map<String, String[]> facetColumns = searchResults.get(0).facetColumns;
+				Map<String, List<String>> facetColumns = searchResults.get(0).facetColumns;
 				assert facetColumns.size() == searcher.getFacetSort().size() : facetColumns
-						.size() + " != " + searcher.getFacetSort().size();
+						.size()
+						+ " != "
+						+ searcher.getFacetSort().size()
+						+ " ... " + searchResults.get(0);
 				Map<String, Map<String, FacetState>> facetStateMap = new java.util.HashMap<String, Map<String, FacetState>>(
 						facetColumns.size());
 				for (String fk : facetColumns.keySet())
@@ -675,16 +698,21 @@ public class CourseSearchController extends UifControllerBase {
 					for (Entry<String, Map<String, FacetState>> fce : facetStateMap
 							.entrySet()) {
 						Map<String, FacetState> fm = fce.getValue();
-						for (String key : row.facetColumns.get(fce.getKey())) {
-							assert key.startsWith(";") && key.endsWith(";")
-									&& key.length() >= 3 : key;
-							String facetKey = key
-									.substring(1, key.length() - 1);
-							FacetState fs = fm.get(facetKey);
-							if (fs == null)
-								fm.put(facetKey, fs = new FacetState());
-							fs.count++;
-						}
+						for (Entry<String, Map<String, String>> group : row.item
+								.getFacetColumns().get(fce.getKey()).entrySet())
+							for (Entry<String, String> fe : group.getValue()
+									.entrySet()) {
+								String fv = fe.getValue();
+								assert fv.startsWith(";") && fv.endsWith(";")
+										&& fv.length() >= 3 : fv;
+								String facetKey = fe.getKey();
+								FacetState fs = fm.get(facetKey);
+								if (fs == null)
+									fm.put(facetKey,
+											fs = new FacetState(fv.substring(1,
+													fv.length() - 1)));
+								fs.count++;
+							}
 					}
 					for (String kw : row.item.getKeywords()) {
 						Integer kwi = kwc.get(kw);
@@ -759,13 +787,13 @@ public class CourseSearchController extends UifControllerBase {
 			}
 			// Tread pruned facets as not checked unless all
 			// visible facet values in the same group are checked
-			pruned = new FacetState();
+			pruned = new FacetState("");
 			pruned.checked = false;
 		}
 
 		/**
 		 * Get the facet state associated with a specific facet column value.
-		 *
+		 * 
 		 * @param key
 		 *            The facet column value to use as the facet key.
 		 * @param facetId
@@ -774,10 +802,7 @@ public class CourseSearchController extends UifControllerBase {
 		 */
 		private FacetState getFacetState(String key, String facetId) {
 			Map<String, FacetState> fm = facetState.get(facetId);
-			assert key.startsWith(";") && key.endsWith(";")
-					&& key.length() >= 3 : key;
-			String facetKey = key.substring(1, key.length() - 1);
-			FacetState fs = fm.get(facetKey);
+			FacetState fs = fm.get(key);
 			if (fs == null)
 				return pruned;
 			else
@@ -796,7 +821,7 @@ public class CourseSearchController extends UifControllerBase {
 
 			// Determine the number of facet columns - this should be uniform
 			// across the facet state table and the facet columns in each row
-			Map<String, String[]> facetCols = searchResults.get(0).facetColumns;
+			Map<String, List<String>> facetCols = searchResults.get(0).facetColumns;
 			assert facetState.size() == facetCols.size() : facetState.size()
 					+ " != " + facetCols.size();
 
@@ -822,11 +847,11 @@ public class CourseSearchController extends UifControllerBase {
 
 				// identify filtered rows before counting
 				boolean filtered = false;
-				for (Entry<String, String[]> fce : facetCols.entrySet()) {
+				for (Entry<String, List<String>> fce : facetCols.entrySet()) {
 					if (filtered)
 						continue;
 					String fk = fce.getKey();
-					if (row.facetColumns.get(fk).length == 0) {
+					if (row.facetColumns.get(fk).size() == 0) {
 						// When there are no values on this facet column, filter
 						// unless all is checked on the column
 						filtered = Boolean.FALSE.equals(all.get(fk));
@@ -843,7 +868,7 @@ public class CourseSearchController extends UifControllerBase {
 				}
 				if (!filtered)
 					// count all cells in all non-filtered rows
-					for (Entry<String, String[]> fce : row.facetColumns
+					for (Entry<String, List<String>> fce : row.facetColumns
 							.entrySet())
 						for (String fci : fce.getValue())
 							getFacetState(fci, fce.getKey()).count++;
@@ -855,7 +880,7 @@ public class CourseSearchController extends UifControllerBase {
 		/**
 		 * Update checked state on all facets following a click event from the
 		 * browser.
-		 *
+		 * 
 		 * @param key
 		 *            The facet key clicked. May be 'All'.
 		 * @param fcol
@@ -970,7 +995,7 @@ public class CourseSearchController extends UifControllerBase {
 				/**
 				 * Column iterator.
 				 */
-				Iterator<String[]> fi = new Iterator<String[]>() {
+				Iterator<List<String>> fi = new Iterator<List<String>>() {
 					@Override
 					public boolean hasNext() {
 						// break column loop once row has been removed,
@@ -979,7 +1004,7 @@ public class CourseSearchController extends UifControllerBase {
 					}
 
 					@Override
-					public String[] next() {
+					public List<String> next() {
 						// break column loop once row has been removed
 						if (removed)
 							throw new IllegalStateException(
@@ -993,7 +1018,8 @@ public class CourseSearchController extends UifControllerBase {
 							searchString = dataTablesInputs.sSearch;
 							searchPattern = dataTablesInputs.patSearch;
 						}
-						// Here is where data tables column # is tied to inernal
+						// Here is where data tables column # is tied to
+						// internal
 						// facet column order.
 						return current.facetColumns.get(FACET_COLUMNS_REVERSE
 								.get(j));
@@ -1008,7 +1034,7 @@ public class CourseSearchController extends UifControllerBase {
 				/**
 				 * Determine whether or not DataTables defines the current
 				 * column as searchable.
-				 *
+				 * 
 				 * @return True if DataTables defines the current column as
 				 *         searchable.
 				 */
@@ -1019,13 +1045,13 @@ public class CourseSearchController extends UifControllerBase {
 				/**
 				 * Get the column iterator, after resetting to the start of the
 				 * row.
-				 *
+				 * 
 				 * @return The column iterator, reset to the start of the row.
 				 */
-				private Iterable<String[]> facets() {
-					return new Iterable<String[]>() {
+				private Iterable<List<String>> facets() {
+					return new Iterable<List<String>>() {
 						@Override
-						public Iterator<String[]> iterator() {
+						public Iterator<List<String>> iterator() {
 							j = -1;
 							return fi;
 						}
@@ -1054,12 +1080,11 @@ public class CourseSearchController extends UifControllerBase {
 				@Override
 				public String toString() {
 					return "Iter [current="
-							+ Arrays.toString(current.facetColumns
-									.get(FACET_COLUMNS_REVERSE.get(j)))
-							+ ", removed=" + removed + ", searchString="
-							+ searchString + ", searchPattern=" + searchPattern
-							+ ", j=" + j + " (" + FACET_COLUMNS_REVERSE.get(j)
-							+ ")]";
+							+ current.facetColumns.get(FACET_COLUMNS_REVERSE
+									.get(j)) + ", removed=" + removed
+							+ ", searchString=" + searchString
+							+ ", searchPattern=" + searchPattern + ", j=" + j
+							+ " (" + FACET_COLUMNS_REVERSE.get(j) + ")]";
 				}
 			}
 			Iter li = new Iter();
@@ -1067,12 +1092,12 @@ public class CourseSearchController extends UifControllerBase {
 				SearchInfo ln = li.next();
 				// li maintains its own handle to the row
 				assert ln == li.current; // ln is otherwise unused
-				for (String[] cell : li.facets()) {
+				for (List<String> cell : li.facets()) {
 					if (li.isSearchable()) {
 						if (li.searchString == null
 								|| li.searchString.trim().equals(""))
 							continue;
-						if (cell == null || cell.length == 0)
+						if (cell == null || cell.size() == 0)
 							li.remove();
 						else {
 							boolean match = false;
@@ -1123,9 +1148,38 @@ public class CourseSearchController extends UifControllerBase {
 			return filteredResults;
 		}
 
-        public List<SearchInfo> getSearchResults(){
-            return searchResults;
-        }
+		private List<SearchInfo> getFilteredResults(final ClassFinderForm form) {
+			List<SearchInfo> filteredResults = new java.util.ArrayList<SearchInfo>(
+					searchResults);
+			Iterator<SearchInfo> i = filteredResults.iterator();
+			while (i.hasNext()) { // filter search results
+				SearchInfo ln = i.next();
+				for (Entry<String, Map<String, Map<String, String>>> group : ln.item
+						.getFacetColumns().entrySet())
+					for (Entry<String, Map<String, String>> cell : group
+							.getValue().entrySet()) {
+						boolean match = false;
+						for (String c : cell.getValue().keySet()) {
+							if (match)
+								continue;
+							for (String ff : form.getFacet()) {
+								if (ff.equals(c))
+									match = true;
+							}
+						}
+						if (!match)
+							i.remove();
+					}
+			}
+
+			// TODO: sort not required by current front-end, implement here
+
+			return filteredResults;
+		}
+
+		public List<SearchInfo> getSearchResults() {
+			return searchResults;
+		}
 	}
 
 	/**
@@ -1152,7 +1206,7 @@ public class CourseSearchController extends UifControllerBase {
 	/**
 	 * Synchronously retrieve session bound search results for an incoming
 	 * request.
-	 *
+	 * 
 	 * <p>
 	 * This method ensures that only one back-end search per HTTP session is
 	 * running at the same time for the same set of criteria. This is important
@@ -1160,26 +1214,14 @@ public class CourseSearchController extends UifControllerBase {
 	 * independently, so this consideration constrains those two requests to
 	 * operating synchronously on the same set of results.
 	 * </p>
-	 *
+	 * 
 	 * @param request
 	 *            The incoming request.
 	 * @return Session-bound search results for the request.
 	 */
-	private SessionSearchInfo getSearchResults(HttpServletRequest request) {
-		String user = KsapFrameworkServiceLocator.getUserSessionHelper()
-				.getStudentId();
-
-		// Populate search form from HTTP request
-		CourseSearchForm form = searcher.createSearchForm();
-		form.setSearchQuery(request.getParameter("queryText"));
-		form.setCampusSelect(Arrays.asList(request.getParameter("campusParam")
-				.split("\\s*,\\s*")));
-		form.setSearchTerm(request.getParameter("termParam"));
-		if (LOG.isDebugEnabled())
-			LOG.debug("Search form : " + form);
-
+	private SessionSearchInfo getSearchResults(FormKey k,
+			Callable<SessionSearchInfo> search, HttpServletRequest request) {
 		// Check HTTP session for cached search results
-		FormKey k = new FormKey(form);
 		@SuppressWarnings("unchecked")
 		Map<FormKey, SessionSearchInfo> results = (Map<FormKey, SessionSearchInfo>) request
 				.getSession().getAttribute(RESULTS_ATTR);
@@ -1199,10 +1241,16 @@ public class CourseSearchController extends UifControllerBase {
 				ei.next();
 				ei.remove();
 			}
-			results.put(
-					k, // The back-end search happens here --------V
-					(table = results.remove(k)) == null ? table = new SessionSearchInfo(
-							request, searcher, k, form, user) : table);
+			try {
+				results.put(
+						k, // The back-end search happens here --------V
+						(table = results.remove(k)) == null ? table = search
+								.call() : table);
+			} catch (RuntimeException e) {
+				throw e;
+			} catch (Exception e) {
+				throw new IllegalStateException("search failed", e);
+			}
 		}
 		return table;
 	}
@@ -1311,16 +1359,33 @@ public class CourseSearchController extends UifControllerBase {
 
 	@RequestMapping(value = "/course/search")
 	public void getJsonResponse(HttpServletResponse response,
-			HttpServletRequest request) throws IOException {
+			final HttpServletRequest request) throws IOException {
 
 		// Parse incoming jQuery datatables inputs
 		final DataTablesInputs dataTablesInputs = new DataTablesInputs(request);
 		if (LOG.isDebugEnabled())
 			LOG.debug(dataTablesInputs);
-		SessionSearchInfo table = getSearchResults(request);
+
+		// Populate search form from HTTP request
+		final CourseSearchForm form = searcher.createSearchForm();
+		form.setSearchQuery(request.getParameter("queryText"));
+		form.setCampusSelect(Arrays.asList(request.getParameter("campusParam")
+				.split("\\s*,\\s*")));
+		form.setSearchTerm(request.getParameter("termParam"));
+		if (LOG.isDebugEnabled())
+			LOG.debug("Search form : " + form);
+
+		SessionSearchInfo table = getSearchResults(new FormKey(form),
+				new Callable<SessionSearchInfo>() {
+					@Override
+					public SessionSearchInfo call() throws Exception {
+						return new SessionSearchInfo(request, form);
+					}
+				}, request);
 		if (table == null) {
 			return;
 		}
+
 		if (table.searchResults != null && !table.searchResults.isEmpty()) {
 			SearchInfo firstRow = table.searchResults.iterator().next();
 			// Validate incoming jQuery datatables inputs
@@ -1391,8 +1456,25 @@ public class CourseSearchController extends UifControllerBase {
 
 	@RequestMapping(value = "/course/facetValues")
 	public void getFacetValues(HttpServletResponse response,
-			HttpServletRequest request) throws IOException {
-		SessionSearchInfo table = getSearchResults(request);
+			final HttpServletRequest request) throws IOException {
+
+		// Populate search form from HTTP request
+		final CourseSearchForm form = searcher.createSearchForm();
+		form.setSearchQuery(request.getParameter("queryText"));
+		form.setCampusSelect(Arrays.asList(request.getParameter("campusParam")
+				.split("\\s*,\\s*")));
+		form.setSearchTerm(request.getParameter("termParam"));
+		if (LOG.isDebugEnabled())
+			LOG.debug("Search form : " + form);
+
+		SessionSearchInfo table = getSearchResults(new FormKey(form),
+				new Callable<SessionSearchInfo>() {
+					@Override
+					public SessionSearchInfo call() throws Exception {
+						return new SessionSearchInfo(request, form);
+					}
+				}, request);
+
 		assert table.facetState != null;
 
 		// Update click state based on inputs - see myplan.search.js
@@ -1405,10 +1487,10 @@ public class CourseSearchController extends UifControllerBase {
 
 		// Create the oFacets object used by myplan.search.js
 		ObjectNode oFacets = mapper.createObjectNode();
-		oFacets.put("sQuery", table.formKey.searchQuery);
-		oFacets.put("sTerm", table.formKey.searchTerm);
+		oFacets.put("sQuery", form.getSearchQuery());
+		oFacets.put("sTerm", form.getSearchTerm());
 		ArrayNode aCampus = oFacets.putArray("aCampus");
-		for (String c : table.formKey.campusSelect)
+		for (String c : form.getCampusSelect())
 			aCampus.add(c);
 		ObjectNode oSearchColumn = oFacets.putObject("oSearchColumn");
 		for (Entry<String, Integer> fce : FACET_COLUMNS.entrySet())
@@ -1419,6 +1501,7 @@ public class CourseSearchController extends UifControllerBase {
 			ObjectNode ofm = oFacetState.putObject(row.getKey());
 			for (Entry<String, FacetState> fse : row.getValue().entrySet()) {
 				ObjectNode ofs = ofm.putObject(fse.getKey());
+				ofs.put("value", fse.getValue().value);
 				ofs.put("checked", fse.getValue().checked);
 				ofs.put("count", fse.getValue().count);
 			}
@@ -1481,6 +1564,215 @@ public class CourseSearchController extends UifControllerBase {
 		for (SearchResultRow row : searchResult.getRows())
 			results.add(searcher.getCellValue(row, "courseCode"));
 		return results;
+	}
+
+	@RequestMapping(value = "/course/find/")
+	public ModelAndView startClassFinder(
+			@ModelAttribute("KualiForm") UifFormBase form,
+			BindingResult result, HttpServletRequest request,
+			HttpServletResponse response) {
+		assert form instanceof ClassFinderForm : form;
+		return getUIFModelAndView(form, "ClassFinder-view");
+	}
+
+	@RequestMapping(value = "/course/find/json")
+	public ModelAndView findClasses(
+			@ModelAttribute("KualiForm") final ClassFinderForm form,
+			BindingResult result, final HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+
+		SessionSearchInfo table = form.getQuery() == null ? null
+				: getSearchResults(new FormKey(form),
+						new Callable<SessionSearchInfo>() {
+							@Override
+							public SessionSearchInfo call() throws Exception {
+								return new SessionSearchInfo(request, form);
+							}
+						}, request);
+
+		ObjectNode json = mapper.createObjectNode();
+
+		// criteria (see facets/radio in email, use "alerts" with "type"
+		// instead of "error")
+		// filters (see facets/radio in email)
+		// count
+		// results - actual data
+		json.put("query", form.getQuery());
+
+		// TODO: Model class finder response as a data object, and convert below
+		// to a builder
+		// TODO: pull placeholder and examples from MessageService
+		json.put("placeholder",
+				"title, keyword, department, subject, or number");
+		ArrayNode exa = json.putArray("examples");
+
+		ObjectNode ex = exa.addObject();
+		ex.put("label", "Find english courses");
+		ArrayNode exex = ex.putArray("examples");
+		exex.add("english");
+		exex.add("ENG");
+		exex.add("ENG-W");
+
+		ex = exa.addObject();
+		ex.put("label", "Find a specific english course");
+		exex = ex.putArray("examples");
+		exex.add("ENG-W 131");
+
+		ex = exa.addObject();
+		ex.put("label", "Find 200 level english courses");
+		exex = ex.putArray("examples");
+		exex.add("ENG 2*");
+
+		if (table == null) {
+			ArrayNode ofas = json.putArray("facets");
+			ObjectNode campusFacetGroup = ofas.addObject();
+			campusFacetGroup.put("label", "Campus");
+			campusFacetGroup.put("select", 0);
+			ArrayNode ocfas = campusFacetGroup.putArray("facets");
+			ObjectNode oCampusFacets = ocfas.addObject();
+			oCampusFacets.put("label", "Campuses");
+			ArrayNode campusFacetState = oCampusFacets.putArray("facets");
+			List<EnumeratedValueInfo> enumeratedValueInfoList = KsapFrameworkServiceLocator
+					.getEnumerationHelper().getEnumerationValueInfoList(
+							"kuali.lu.campusLocation");
+			for (EnumeratedValueInfo ev : enumeratedValueInfoList) {
+				ObjectNode campusFacet = campusFacetState.addObject();
+				campusFacet.put("id", ev.getCode());
+				campusFacet.put("label", ev.getValue());
+				campusFacet
+						.put("value", form.getFacet().contains(ev.getCode()));
+			}
+
+			// TODO - Online class search may be IU specific,
+			// move to strategy override
+			ObjectNode onlineFacets = ocfas.addObject();
+			onlineFacets.put("label", "");
+			ArrayNode onlineFacetState = onlineFacets.putArray("facets");
+			ObjectNode onlineFacet = onlineFacetState.addObject();
+			onlineFacet.put("id", "ONLINE");
+			onlineFacet.put("label", "Online");
+			onlineFacet.put("value", false);
+
+			ObjectNode levelFacets = ocfas.addObject();
+			levelFacets.put("label", "");
+			ArrayNode levelFacetState = levelFacets.putArray("facets");
+			StringBuilder clCondition = new StringBuilder("!(");
+			boolean first = true;
+			for (CourseLevel cl : CourseLevel.class.getEnumConstants()) {
+				if (first)
+					first = false;
+				else
+					clCondition.append("||");
+				clCondition.append(cl.name());
+				ObjectNode levelFacet = levelFacetState.addObject();
+				levelFacet.put("id", cl.name());
+				levelFacet.put("label", cl.toString());
+				levelFacet.put("value", form.getFacet().contains(cl.name()));
+			}
+			clCondition.append(")");
+
+			// try {
+			// Enum.valueOf(CourseLevel.class, facet);
+			// return true;
+			// } catch (IllegalArgumentException e) {
+			// }
+			// List<EnumeratedValueInfo> enumeratedValueInfoList =
+			// KsapFrameworkServiceLocator
+			// .getEnumerationHelper().getEnumerationValueInfoList(
+			// "kuali.lu.campusLocation");
+			// for (EnumeratedValueInfo ev : enumeratedValueInfoList)
+			// if (ev.getCode().equals(facet))
+			// return true;
+			// TermHelper th = KsapFrameworkServiceLocator.getTermHelper();
+			// for (Term t : th.getCurrentTerms())
+			// if (t.getId().equals(facet))
+			// return true;
+			// AcademicCalendarService acal = KsapFrameworkServiceLocator
+			// .getAcademicCalendarService();
+			// try {
+			// for (TypeInfo t : acal.getTermTypes(KsapFrameworkServiceLocator
+			// .getContext().getContextInfo()))
+			// if (t.getKey().equals(facet))
+			// return true;
+			// } catch (InvalidParameterException e) {
+			// throw new IllegalStateException("Acal lookup failure", e);
+			// } catch (MissingParameterException e) {
+			// throw new IllegalStateException("Acal lookup failure", e);
+			// } catch (OperationFailedException e) {
+			// throw new IllegalStateException("Acal lookup failure", e);
+			// } catch (PermissionDeniedException e) {
+			// throw new IllegalStateException("Acal lookup failure", e);
+			// }
+
+			// SisCourseSearchForm rv = new SisCourseSearchForm();
+			// List<SisCareer> cs = careerService.search(((SisUser)
+			// sisSessionManager
+			// .getActiveSession().getUser()).getEmplId());
+			// List<String> insts = new java.util.LinkedList<>();
+			// List<String> facets = new java.util.LinkedList<>();
+			// if (!cs.isEmpty()) {
+			// for (SisCareer c : cs) {
+			// String oi = SisEnumerationManagementService.CAMPUS_PREFIX
+			// + c.getInst();
+			// if (!insts.contains(oi))
+			// insts.add(oi);
+			// CourseLevel level;
+			// if (c.getName().equals("UGRD"))
+			// level = CourseLevel.UNDERGRADUATE;
+			// else if (c.getName().equals("GRAD")
+			// || c.getName().equals("GRD1"))
+			// level = CourseLevel.GRADUATE;
+			// else
+			// level = CourseLevel.PROFESSIONAL;
+			// if (!facets.contains(level.name()))
+			// facets.add(level.name());
+			// }
+			// } else {
+			// CourseSearchForm drv = delegate.createSearchForm();
+			// insts.addAll(drv.getCampusSelect());
+			// for (CourseLevel cl : CourseLevel.values())
+			// facets.add(cl.name());
+			// }
+			// rv.setCampusSelect(insts);
+			// facets.addAll(insts);
+			// rv.setFacet(facets);
+			// return rv;
+
+		} else {
+			List<SearchInfo> filteredResults = table.getFilteredResults(form);
+			throw new UnsupportedOperationException("TODO: search JSON "
+					+ filteredResults.size());
+			// json.put("sEcho", Integer.toString(dataTablesInputs.sEcho));
+			// ArrayNode aaData = mapper.createArrayNode();
+			// for (int i = 0; i < Math.min(filteredResults.size(),
+			// dataTablesInputs.iDisplayLength); i++) {
+			// int resultsIndex = dataTablesInputs.iDisplayStart + i;
+			// if (resultsIndex >= filteredResults.size())
+			// break;
+			// ArrayNode cs = mapper.createArrayNode();
+			// String[] scol = filteredResults.get(resultsIndex).item
+			// .getSearchColumns();
+			// for (String col : scol)
+			// cs.add(col);
+			// for (int j = scol.length; j < dataTablesInputs.iColumns; j++)
+			// cs.add((String) null);
+			// aaData.add(cs);
+			// }
+			// json.put("aaData", aaData);
+		}
+
+		String jsonString = mapper.writeValueAsString(json);
+		if (LOG.isDebugEnabled())
+			LOG.debug("JSON output : "
+					+ (jsonString.length() < 8192 ? jsonString : jsonString
+							.substring(0, 8192)));
+
+		response.setContentType("application/json");
+		response.setHeader("Cache-Control", "No-cache");
+		response.setHeader("Cache-Control", "No-store");
+		response.setHeader("Cache-Control", "max-age=0");
+		response.getWriter().println(jsonString);
+		return null;
 	}
 
 }

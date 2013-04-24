@@ -74,7 +74,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	/**
 	 * Lazy initialized column data for supporting server side result caching.
 	 */
-	private transient Map<String, String[]> facetColumns;
+	private transient Map<String, Map<String, Map<String, String>>> facetColumns;
 
 	public String getCourseId() {
 		return courseId;
@@ -504,8 +504,14 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	 *            The facet keys related to this item.
 	 * @return A string for passing as a column in the results.
 	 */
-	protected String[] facetString(Collection<String> facetKeys) {
-		return facetKeys.toArray(new String[facetKeys.size()]);
+	protected Map<String, Map<String, String>> facetString(
+			Collection<String> facetKeys) {
+		Map<String, Map<String, String>> rv = new java.util.LinkedHashMap<String, Map<String, String>>();
+		Map<String, String> ug = new java.util.LinkedHashMap<String, String>();
+		for (String fk : facetKeys)
+			ug.put(fk, fk);
+		rv.put("", Collections.synchronizedMap(Collections.unmodifiableMap(ug)));
+		return Collections.synchronizedMap(Collections.unmodifiableMap(rv));
 	}
 
 	@Override
@@ -523,9 +529,9 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	}
 
 	@Override
-	public Map<String, String[]> getFacetColumns() {
+	public Map<String, Map<String, Map<String, String>>> getFacetColumns() {
 		if (facetColumns == null) {
-			Map<String, String[]> m = new java.util.LinkedHashMap<String, String[]>(
+			Map<String, Map<String, Map<String, String>>> m = new java.util.LinkedHashMap<String, Map<String, Map<String, String>>>(
 					6);
 			m.put("facet_quarter", facetString(getTermsFacetKeys()));
 			m.put("facet_genedureq", facetString(getGenEduReqFacetKeys()));

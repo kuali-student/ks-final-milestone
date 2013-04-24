@@ -41,6 +41,8 @@ public class KsapDataDictionary extends DataDictionary implements
 
 	private static final Logger LOG = Logger
 			.getLogger(KsapDataDictionary.class);
+	
+	static final Object DD_MUTEX = new Object();
 
 	private ConfigurableListableBeanFactory ddBeans;
 	private DataDictionaryIndex ddIndex;

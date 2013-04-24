@@ -244,7 +244,7 @@ function fnClickFacet(sFilter, fcol, e) {
 				for ( var key in oData)
 					if (oData.hasOwnProperty(key)
 							&& oData[key].checked === true)
-						aSelections.push(";" + key + ";");
+						aSelections.push(key);
 				oTable.fnFilter(aSelections.join('|'), i, true, false);
 			}
 		},
@@ -300,7 +300,7 @@ function fnGenerateFacetGroup(obj) {
 	for (key in oData) {
 		var jItem = jQuery('<li />').data("facetkey", key)
 				.data("facetid", fcol).html(
-						'<a href="#">' + key + '</a><span>(' + oData[key].count
+						'<a href="#">' + oData[key].value + '</a><span>(' + oData[key].count
 								+ ')</span>').click(function(e) {
 					var t = jQuery(this);
 					fnClickFacet(t.data("facetkey"), t.data("facetid"), e);

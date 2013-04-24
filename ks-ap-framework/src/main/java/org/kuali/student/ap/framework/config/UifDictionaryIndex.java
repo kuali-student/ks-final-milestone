@@ -75,7 +75,9 @@ public class UifDictionaryIndex implements Runnable {
 		} catch (NumberFormatException nfe) {
 			// ignore this, instead the pool will be set to DEFAULT_SIZE
 		}
-		buildViewIndicies();
+		synchronized (KsapDataDictionary.DD_MUTEX) {
+			buildViewIndicies();
+		}
 		LOG.info("View Index Build Processing Started");
 	}
 
@@ -140,8 +142,9 @@ public class UifDictionaryIndex implements Runnable {
 			throw new DataDictionaryException("Unable to find View with id: "
 					+ viewId);
 		}
-
-		return ddBeans.getBean(beanName, View.class);
+		synchronized (ddBeans) {
+			return ddBeans.getBean(beanName, View.class);
+		}
 	}
 
 	/**
@@ -278,8 +281,11 @@ public class UifDictionaryIndex implements Runnable {
 					.get(viewTypeName.name());
 			for (Entry<String, String> typeEntry : typeIndex.getViewIndex()
 					.entrySet()) {
-				View typeView = ddBeans.getBean(typeEntry.getValue(),
-						View.class);
+				View typeView;
+				synchronized (KsapDataDictionary.DD_MUTEX) {
+					typeView = ddBeans
+							.getBean(typeEntry.getValue(), View.class);
+				}
 				typeViews.add(typeView);
 			}
 		} else {
@@ -301,7 +307,10 @@ public class UifDictionaryIndex implements Runnable {
 
 		@Override
 		public void run() {
-			View view = (View) ddBeans.getBean(beanName);
+			View view;
+			synchronized (KsapDataDictionary.DD_MUTEX) {
+				view = (View) ddBeans.getBean(beanName);
+			}
 			viewPool.addViewInstance(view);
 		}
 
@@ -367,7 +376,7 @@ public class UifDictionaryIndex implements Runnable {
 	 * beans in the factory that implement {@code View}, adding them to the
 	 * index
 	 */
-	protected void buildViewIndicies() {
+	private void buildViewIndicies() {
 		viewBeanEntriesById = new HashMap<String, String>();
 		viewEntriesByType = new HashMap<String, ViewTypeDictionaryIndex>();
 		viewPools = new HashMap<String, UifViewPool>();

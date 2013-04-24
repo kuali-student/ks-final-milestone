@@ -145,7 +145,7 @@ public interface CourseSearchItem {
 	 * @see CourseSearchUI.xml
 	 * @see myplan.search.js
 	 */
-	Map<String, String[]> getFacetColumns();
+	Map<String, Map<String, Map<String, String>>> getFacetColumns();
 
 	/**
 	 * Get the list of term ATP type IDs for which this course is projected.

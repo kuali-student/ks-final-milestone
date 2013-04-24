@@ -14,28 +14,38 @@
  */
 package org.kuali.student.myplan.course.form;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.TermHelper;
+import org.kuali.student.ap.framework.course.ClassFinderForm;
 import org.kuali.student.ap.framework.course.CourseSearchForm;
+import org.kuali.student.enrollment.acal.infc.Term;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 
 public class CourseSearchFormImpl extends UifFormBase implements
-		CourseSearchForm {
+		CourseSearchForm, ClassFinderForm {
 
 	private static final long serialVersionUID = 4898118410378641665L;
 
+	// original course search properties
 	private String searchQuery;
 	private String searchTerm = SEARCH_TERM_ANY_ITEM;
 	private List<String> campusSelect;
 
-	@Override
-	public List<String> getCampusSelect() {
-		return campusSelect;
-	}
+	// class finder properties
+	private List<String> facet;
+	private int start;
+	private int length;
+	private String sort;
+	private boolean reverse;
 
 	public void setCampusSelect(List<String> campusSelect) {
 		this.campusSelect = campusSelect;
@@ -60,10 +70,93 @@ public class CourseSearchFormImpl extends UifFormBase implements
 	}
 
 	@Override
-	public String toString() {
-		return "CourseSearchFormImpl [searchQuery=" + searchQuery
-				+ ", searchTerm=" + searchTerm + ", campusSelect="
-				+ campusSelect + "]";
+	public String getQuery() {
+		return searchQuery;
+	}
+
+	@Override
+	public void setQuery(String query) {
+		this.searchQuery = query;
+	}
+
+	@Override
+	public boolean isCriterion(String facet) {
+		try {
+			Enum.valueOf(CourseLevel.class, facet);
+			return true;
+		} catch (IllegalArgumentException e) {
+		}
+		List<EnumeratedValueInfo> enumeratedValueInfoList = KsapFrameworkServiceLocator
+				.getEnumerationHelper().getEnumerationValueInfoList(
+						"kuali.lu.campusLocation");
+		for (EnumeratedValueInfo ev : enumeratedValueInfoList)
+			if (ev.getCode().equals(facet))
+				return true;
+		TermHelper th = KsapFrameworkServiceLocator.getTermHelper();
+		for (Term t : th.getCurrentTerms())
+			if (t.getId().equals(facet))
+				return true;
+		AcademicCalendarService acal = KsapFrameworkServiceLocator
+				.getAcademicCalendarService();
+		try {
+			for (TypeInfo t : acal.getTermTypes(KsapFrameworkServiceLocator
+					.getContext().getContextInfo()))
+				if (t.getKey().equals(facet))
+					return true;
+		} catch (InvalidParameterException e) {
+			throw new IllegalStateException("Acal lookup failure", e);
+		} catch (MissingParameterException e) {
+			throw new IllegalStateException("Acal lookup failure", e);
+		} catch (OperationFailedException e) {
+			throw new IllegalStateException("Acal lookup failure", e);
+		} catch (PermissionDeniedException e) {
+			throw new IllegalStateException("Acal lookup failure", e);
+		}
+		return false;
+	}
+
+	public List<String> getFacet() {
+		return facet;
+	}
+
+	public void setFacet(List<String> facet) {
+		this.facet = facet;
+	}
+
+	public int getStart() {
+		return start;
+	}
+
+	public void setStart(int start) {
+		this.start = start;
+	}
+
+	public int getLength() {
+		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
+
+	public String getSort() {
+		return sort;
+	}
+
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
+
+	public boolean isReverse() {
+		return reverse;
+	}
+
+	public void setReverse(boolean reverse) {
+		this.reverse = reverse;
+	}
+
+	public List<String> getCampusSelect() {
+		return campusSelect;
 	}
 
 	@Override
@@ -72,10 +165,15 @@ public class CourseSearchFormImpl extends UifFormBase implements
 		int result = 1;
 		result = prime * result
 				+ ((campusSelect == null) ? 0 : campusSelect.hashCode());
+		result = prime * result + ((facet == null) ? 0 : facet.hashCode());
+		result = prime * result + length;
+		result = prime * result + (reverse ? 1231 : 1237);
 		result = prime * result
 				+ ((searchQuery == null) ? 0 : searchQuery.hashCode());
 		result = prime * result
 				+ ((searchTerm == null) ? 0 : searchTerm.hashCode());
+		result = prime * result + ((sort == null) ? 0 : sort.hashCode());
+		result = prime * result + start;
 		return result;
 	}
 
@@ -93,6 +191,15 @@ public class CourseSearchFormImpl extends UifFormBase implements
 				return false;
 		} else if (!campusSelect.equals(other.campusSelect))
 			return false;
+		if (facet == null) {
+			if (other.facet != null)
+				return false;
+		} else if (!facet.equals(other.facet))
+			return false;
+		if (length != other.length)
+			return false;
+		if (reverse != other.reverse)
+			return false;
 		if (searchQuery == null) {
 			if (other.searchQuery != null)
 				return false;
@@ -103,7 +210,23 @@ public class CourseSearchFormImpl extends UifFormBase implements
 				return false;
 		} else if (!searchTerm.equals(other.searchTerm))
 			return false;
+		if (sort == null) {
+			if (other.sort != null)
+				return false;
+		} else if (!sort.equals(other.sort))
+			return false;
+		if (start != other.start)
+			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "CourseSearchFormImpl [searchQuery=" + searchQuery
+				+ ", searchTerm=" + searchTerm + ", campusSelect="
+				+ campusSelect + ", facet=" + facet + ", start=" + start
+				+ ", length=" + length + ", sort=" + sort + ", reverse="
+				+ reverse + "]";
 	}
 
 }

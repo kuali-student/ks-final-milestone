@@ -4,7 +4,6 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,9 +30,6 @@ import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
-import org.kuali.student.myplan.course.controller.CourseSearchController.FormKey;
-import org.kuali.student.myplan.course.controller.CourseSearchController.SessionSearchInfo;
-import org.kuali.student.myplan.course.controller.CourseSearchController.SearchInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.acal.infc.Term;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -42,7 +38,8 @@ import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
 import org.kuali.student.myplan.academicplan.infc.LearningPlan;
 import org.kuali.student.myplan.academicplan.infc.PlanItem;
 import org.kuali.student.myplan.course.controller.CourseSearchController;
-import org.kuali.student.myplan.course.dataobject.CourseDetails;
+import org.kuali.student.myplan.course.controller.CourseSearchController.FormKey;
+import org.kuali.student.myplan.course.controller.CourseSearchController.SessionSearchInfo;
 import org.kuali.student.myplan.course.dataobject.CourseSummaryDetails;
 import org.kuali.student.myplan.course.service.CourseDetailsInquiryHelperImpl;
 import org.kuali.student.myplan.quickAdd.QuickAddConstants;
@@ -1330,9 +1327,6 @@ public class QuickAddController extends UifControllerBase {
         String RESULTS_ATTR = QuickAddController.class
                 .getName() + ".results";
 
-        String user = KsapFrameworkServiceLocator.getUserSessionHelper()
-                .getStudentId();
-
         // Populate search form from HTTP request
         CourseSearchForm form = KsapFrameworkServiceLocator.getCourseSearchStrategy().createSearchForm();
         form.setSearchQuery(quickAddForm.getCourseCd());
@@ -1364,7 +1358,7 @@ public class QuickAddController extends UifControllerBase {
             results.put(
                     k, // The back-end search happens here --------V
                     (table = results.remove(k)) == null ? table = new SessionSearchInfo(
-                            request, KsapFrameworkServiceLocator.getCourseSearchStrategy(), k, form, user) : table);
+                            request, form) : table);
         }
         return table;
     }

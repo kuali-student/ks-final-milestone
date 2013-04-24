@@ -192,4 +192,7 @@ public interface CourseSearchStrategy {
 
 	Map<String, Comparator<String>> getFacetSort();
 
+	List<CourseSearchItem> findClasses(ClassFinderForm form,
+			String principalName);
+
 }
