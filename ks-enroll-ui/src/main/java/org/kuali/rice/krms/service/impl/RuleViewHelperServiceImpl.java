@@ -266,9 +266,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         if(prop.getType() == null) {
             prop.setDescription(StringUtils.EMPTY);
             prop.setTerm(null);
-            this.getNaturalLanguageHelper().setNaturalLanguageForUsage(prop, KsKrmsConstants.KRMS_NL_RULE_EDIT);
-            this.getNaturalLanguageHelper().setNaturalLanguageForUsage(prop, KsKrmsConstants.KRMS_NL_PREVIEW);
-            prop.setDescription(prop.getNaturalLanguageForUsage(KsKrmsConstants.KRMS_NL_RULE_EDIT));
+            prop.getNaturalLanguage().clear();
             return prop.getDescription();
         }
 
