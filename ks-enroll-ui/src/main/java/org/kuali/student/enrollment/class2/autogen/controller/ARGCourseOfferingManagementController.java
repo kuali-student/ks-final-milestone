@@ -596,23 +596,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_DELETE);
         }
 
-        if(totalAosToDelete == numColocatedAosToDelete) {
-            if(numColocatedAosToDelete > 1) {
-                if (!hasDialogBeenAnswered(CourseOfferingConstants.ConfirmDialogs.DELETE_COLO_AOS, theForm)) {
-                    return showDialog(CourseOfferingConstants.ConfirmDialogs.DELETE_COLO_AOS, theForm, request, response);
-                }
-                theForm.getDialogManager().resetDialogStatus(CourseOfferingConstants.ConfirmDialogs.DELETE_COLO_AOS);
-
-            }  else {
-                if (!hasDialogBeenAnswered(CourseOfferingConstants.ConfirmDialogs.DELETE_ONE_COLO_AO, theForm)) {
-                    return showDialog(CourseOfferingConstants.ConfirmDialogs.DELETE_ONE_COLO_AO, theForm, request, response);
-                }
-                theForm.getDialogManager().resetDialogStatus(CourseOfferingConstants.ConfirmDialogs.DELETE_ONE_COLO_AO);
-            }
-        }  else {
-            return getUIFModelAndView(theForm, CourseOfferingConstants.AO_DELETE_CONFIRM_PAGE);
-        }
-        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
+        return getUIFModelAndView(theForm, CourseOfferingConstants.AO_DELETE_CONFIRM_PAGE);
     }
 
     @RequestMapping(params = "methodToCall=draftAOs")
