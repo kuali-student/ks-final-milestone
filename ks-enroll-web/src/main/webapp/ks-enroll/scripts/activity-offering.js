@@ -139,6 +139,10 @@ function addColocatedAOSuccessCallBack(){
      * ~brandon.gresham
      */
     retrieveComponent('enr_shared_table',undefined, function () {
+        //If 'Manage Enrollments separately' is not checked, add ignore class.
+        if (!jQuery('#share_seats_control_1').is(":checked")){
+            jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
+        }
         //retrieveComponent('ActivityOffering-CoLocated-checkbox', undefined, function () {
         retrieveComponent('ActivityOffering-DeliveryLogistic-New', undefined, function() {
             onColoCheckBoxChange(true);
