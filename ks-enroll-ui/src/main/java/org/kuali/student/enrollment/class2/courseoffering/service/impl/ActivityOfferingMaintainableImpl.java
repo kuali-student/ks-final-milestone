@@ -83,7 +83,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Formatter;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -178,12 +177,12 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                         activity.getActivityOfferingInfo().setMaximumEnrollment(activityOfferingWrapper.getSharedMaxEnrollment());
                     }
 
+                    if (activityOfferingWrapper.isColocatedAO() && !activity.isAlreadyPersisted()){
+                        getScheduleHelper().deleteRequestedAndActualSchedules(activity.getActivityOfferingInfo());
+                    }
+
                     ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(activity.getAoId(), activity.getActivityOfferingInfo(), createContextInfo());
                     activity.setActivityOfferingInfo(updatedAO);
-
-                    /*if (activityOfferingWrapper.isColocatedAO() && !activity.isAlreadyPersisted()){
-                        getScheduleHelper().deleteRequestedAndActualSchedules(activity.getActivityOfferingInfo());
-                    }*/
                 }
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
