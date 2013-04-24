@@ -177,12 +177,17 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                         activity.getActivityOfferingInfo().setMaximumEnrollment(activityOfferingWrapper.getSharedMaxEnrollment());
                     }
 
+                    boolean deleteSchedule = false;
                     if (activityOfferingWrapper.isColocatedAO() && !activity.isAlreadyPersisted()){
-                        getScheduleHelper().deleteRequestedAndActualSchedules(activity.getActivityOfferingInfo());
+                        activity.getActivityOfferingInfo().setScheduleId("");
                     }
 
                     ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(activity.getAoId(), activity.getActivityOfferingInfo(), createContextInfo());
                     activity.setActivityOfferingInfo(updatedAO);
+
+                    if (deleteSchedule){
+                        getScheduleHelper().deleteRequestedAndActualSchedules(activity.getActivityOfferingInfo());
+                    }
                 }
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
