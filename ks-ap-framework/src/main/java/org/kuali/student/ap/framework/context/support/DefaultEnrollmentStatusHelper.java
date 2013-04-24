@@ -17,7 +17,7 @@ import org.kuali.student.r2.core.search.infc.SearchResult;
 public class DefaultEnrollmentStatusHelper implements EnrollmentStatusHelper {
 
 	/**
-	 * 
+	 *
 	 * @param year
 	 * @param quarter
 	 * @param curric
@@ -34,6 +34,25 @@ public class DefaultEnrollmentStatusHelper implements EnrollmentStatusHelper {
 
 		return fields;
 	}
+
+    @Override
+    public String populateMaxEnrollmentField(String year, String quarter,
+                                             String curric, String num, String sectionID) throws Exception {
+        return "100";
+    }
+
+    @Override
+    public String populateCurrentEnrollmentField(String year, String quarter,
+                                             String curric, String num, String sectionID) throws Exception {
+        return "000";
+    }
+
+    @Override
+    public String populateEstimatedEnrollmentField(String year, String quarter,
+                                             String curric, String num, String sectionID) throws Exception {
+        return "000";
+    }
+
 
 	/**
 	 * Used to Split the course code into division and Code. eg: "COM 243" is

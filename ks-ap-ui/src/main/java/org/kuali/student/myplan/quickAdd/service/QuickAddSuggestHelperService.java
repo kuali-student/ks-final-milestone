@@ -38,6 +38,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.springframework.util.StringUtils;
 
+//unused
 public class QuickAddSuggestHelperService {
 
 	public static final Logger logger = Logger
@@ -45,6 +46,7 @@ public class QuickAddSuggestHelperService {
 
 	public static CourseSearchController searchController = new CourseSearchController();
 
+    //unused
 	public static List<String> getSuggestions(String courseCd,
 			ContextInfo context) {
 		CourseSearchStrategy strategy = KsapFrameworkServiceLocator
@@ -113,6 +115,7 @@ public class QuickAddSuggestHelperService {
 		return results;
 	}
 
+    //unused
 	public static List<String> additionalFiltering(List<String> results,
 			String atpId) {
 		int year = Calendar.getInstance().get(Calendar.YEAR) - 10;

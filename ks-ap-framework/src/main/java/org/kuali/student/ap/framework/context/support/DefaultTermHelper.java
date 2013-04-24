@@ -2,7 +2,10 @@ package org.kuali.student.ap.framework.context.support;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -56,6 +59,12 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 public class DefaultTermHelper implements TermHelper {
 
 	private static final Logger LOG = Logger.getLogger(DefaultTermHelper.class);
+
+
+    private int numberOfTermInAcademicYear = -1;
+
+    private List<Term> termsInAcademicYear = null;
+
 
 	@Override
 	public Term getTerm(String atpId) {
@@ -165,6 +174,146 @@ public class DefaultTermHelper implements TermHelper {
 			throw new IllegalStateException("Acal lookup failure", e);
 		}
 	}
+
+    @Override
+    public int getNumberOfTermsInAcademicYear(YearTerm yearTerm) {
+        try {
+            List<AcademicCalendarInfo> acl = KsapFrameworkServiceLocator
+                    .getAcademicCalendarService().getAcademicCalendarsForTerm(
+                            getTerm(yearTerm).getId(),
+                            KsapFrameworkServiceLocator.getContext()
+                                    .getContextInfo());
+            if (acl == null || acl.isEmpty())
+                throw new IllegalStateException(
+                        "AcademicCalendarService did not return an academic calendar for year/term "
+                                + yearTerm);
+            AcademicCalendarInfo ac = acl.get(0);
+            List<TermInfo> rl;
+            try {
+                rl = KsapFrameworkServiceLocator.getAcademicCalendarService()
+                        .getTermsForAcademicCalendar(
+                                ac.getId(),
+                                KsapFrameworkServiceLocator.getContext()
+                                        .getContextInfo());
+            } catch (DoesNotExistException e) {
+                throw new IllegalStateException(
+                        "AcademicCalendarService did not return any terms for academic calendar "
+                                + ac.getId(), e);
+            }
+            if (rl == null || rl.isEmpty())
+                throw new IllegalStateException(
+                        "AcademicCalendarService did not return any terms for academic calendar "
+                                + ac.getId());
+            return rl.size();
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("Acal lookup failure", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("Acal lookup failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("Acal lookup failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("Acal lookup failure", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("Acal lookup failure", e);
+        }
+    }
+
+    @Override
+    public List<Term> getTermsInAcademicYear(YearTerm yearTerm) {
+        try {
+            List<AcademicCalendarInfo> acl = KsapFrameworkServiceLocator
+                    .getAcademicCalendarService().getAcademicCalendarsForTerm(
+                            getTerm(yearTerm).getId(),
+                            KsapFrameworkServiceLocator.getContext()
+                                    .getContextInfo());
+            if (acl == null || acl.isEmpty())
+                throw new IllegalStateException(
+                        "AcademicCalendarService did not return an academic calendar for year/term "
+                                + yearTerm);
+            AcademicCalendarInfo ac = acl.get(0);
+            List<TermInfo> rl;
+            try {
+                rl = KsapFrameworkServiceLocator.getAcademicCalendarService()
+                        .getTermsForAcademicCalendar(
+                                ac.getId(),
+                                KsapFrameworkServiceLocator.getContext()
+                                        .getContextInfo());
+            } catch (DoesNotExistException e) {
+                throw new IllegalStateException(
+                        "AcademicCalendarService did not return any terms for academic calendar "
+                                + ac.getId(), e);
+            }
+            if (rl == null || rl.isEmpty())
+                throw new IllegalStateException(
+                        "AcademicCalendarService did not return any terms for academic calendar "
+                                + ac.getId());
+            List<Term> rv = new ArrayList<Term>();
+            for (TermInfo t : rl)
+                    rv.add(t);
+
+            Collections.sort(rv, new Comparator<Term>() {
+                @Override
+                public int compare(Term term1,
+                                   Term term2) {
+                    return KsapFrameworkServiceLocator
+                            .getTermHelper()
+                            .getYearTerm(term1)
+                            .compareTo(
+                                    KsapFrameworkServiceLocator.getTermHelper()
+                                            .getYearTerm(term2));
+                    // return
+                    // plannedTerm1.getAtpId().compareTo(plannedTerm2.getAtpId());
+                }
+            });
+
+            return rv;
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("Acal lookup failure", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("Acal lookup failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("Acal lookup failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("Acal lookup failure", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("Acal lookup failure", e);
+        }
+    }
+
+    @Override
+    public int getNumberOfTermsInAcademicYear() {
+        if(this.numberOfTermInAcademicYear==-1){
+            List<Term> currentTerms = this.getCurrentTerms();
+            if(!currentTerms.isEmpty()){
+                numberOfTermInAcademicYear = this.getNumberOfTermsInAcademicYear(this.getYearTerm(currentTerms.get(0)));
+            }else{
+                numberOfTermInAcademicYear = 4;
+            }
+        }
+        return  numberOfTermInAcademicYear;
+    }
+
+    @Override
+    public List<Term> getTermsInAcademicYear() {
+       if(true){//termsInAcademicYear==null){
+           List<Term> currentTerms = this.getCurrentTerms();
+           if(!currentTerms.isEmpty()){
+               termsInAcademicYear = this.getTermsInAcademicYear(this.getYearTerm(currentTerms.get(0)));
+           }else{
+               termsInAcademicYear = new ArrayList<Term>();
+           }
+
+       }
+        return termsInAcademicYear;
+    }
+
+    @Override
+    public String getTermNameInAcadmicYear(int index){
+        if(index>=getNumberOfTermsInAcademicYear())return "";
+        Term temp = getTermsInAcademicYear().get(index);
+        YearTerm yearTerm = getYearTerm(temp);
+        return yearTerm.getTermName();
+    }
 
 	@Override
 	public boolean isPlanning(String atpId) {

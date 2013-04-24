@@ -47,6 +47,10 @@ public class PlannedTerm {
     */
     private int index = -1;
 
+    public PlannedTerm(){
+
+    }
+
     public int getIndex() {
         return index;
     }

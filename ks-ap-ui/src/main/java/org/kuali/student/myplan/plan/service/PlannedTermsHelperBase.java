@@ -108,14 +108,18 @@ public class PlannedTermsHelperBase {
 		 */
 		List<AcademicRecordDataObject> academicRecordDataObjectList = new ArrayList<AcademicRecordDataObject>();
 
-		Collections.sort(plannedTerms, new Comparator<PlannedTerm>() {
-			@Override
-			public int compare(PlannedTerm plannedTerm1,
-					PlannedTerm plannedTerm2) {
-				return plannedTerm1.getAtpId().compareTo(
-						plannedTerm2.getAtpId());
-			}
-		});
+        Collections.sort(plannedTerms, new Comparator<PlannedTerm>() {
+            @Override
+            public int compare(PlannedTerm plannedTerm1,
+                               PlannedTerm plannedTerm2) {
+                return KsapFrameworkServiceLocator
+                        .getTermHelper()
+                        .getYearTerm(plannedTerm1.getAtpId())
+                        .compareTo(
+                                KsapFrameworkServiceLocator.getTermHelper()
+                                        .getYearTerm(plannedTerm2.getAtpId()));
+            }
+        });
 
 		/***********
 		 * Implementation to populate the plannedTerm list with academic record
@@ -123,10 +127,17 @@ public class PlannedTermsHelperBase {
 		 ******************/
 		Map<String, PlannedTerm> termsList = new LinkedHashMap<String, PlannedTerm>();
 		String minTerm = null;
-		if (plannedTerms.size() > 0 && fullPlanView)
-			minTerm = plannedTerms.get(plannedTerms.size() - 1).getAtpId();
-		else if (studentCourseRecordInfos.size() > 0)
+		if (plannedTerms.size() > 0 && fullPlanView){
+            int yearStart = KsapFrameworkServiceLocator.getTermHelper().getYearTerm(plannedTerms.get(0).getAtpId()).getYear();
+            int yearEnd = KsapFrameworkServiceLocator.getTermHelper().getYearTerm(plannedTerms.get(plannedTerms.size() - 1).getAtpId()).getYear();
+            int years = (yearEnd - yearStart)+1;
+            if(years>0) futureTerms=years;
+            else futureTerms=1;
+        }
+		if (studentCourseRecordInfos.size() > 0)
 			minTerm = studentCourseRecordInfos.get(0).getTermName();
+        else if (plannedTerms.size() > 0)
+            minTerm = plannedTerms.get(0).getAtpId();
 		else
 			minTerm = th.getCurrentTerms().get(0).getId();
         populateTermData(minTerm, futureTerms, termsList);
@@ -247,6 +258,10 @@ public class PlannedTermsHelperBase {
 		c.add(Calendar.YEAR, futureTermsCount);
 		Date endDate = c.getTime();
 		try {
+
+            // need to re-examine this functionality
+            // ie would a term that starts before end date but ends after end date be considered in that period.
+            // ie- off by one errors.
 			for (Term t : KsapFrameworkServiceLocator
 					.getAcademicCalendarService().searchForTerms(
 							QueryByCriteria.Builder.fromPredicates(

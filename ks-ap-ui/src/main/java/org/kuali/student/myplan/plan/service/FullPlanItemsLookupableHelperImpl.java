@@ -1,15 +1,19 @@
 package org.kuali.student.myplan.plan.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.ibm.icu.util.Calendar;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.acal.infc.Term;
 import org.kuali.student.myplan.plan.dataobject.FullPlanItemsDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedTerm;
@@ -67,25 +71,39 @@ public class FullPlanItemsLookupableHelperImpl extends
 			throw new IllegalStateException("AR lookup error", e);
 		}
 
+        // Dont think the Fullplanitem boolean is needed anymore with changes.
 		List<PlannedTerm> perfectPlannedTerms = PlannedTermsHelperBase
 				.populatePlannedTerms(plannedCoursesList, null,
 						studentCourseRecordInfos, null, 1, true);
+        int numberOfTerms =KsapFrameworkServiceLocator.getTermHelper().getNumberOfTermsInAcademicYear();
+
 
 		List<FullPlanItemsDataObject> fullPlanItemsDataObjectList = new ArrayList<FullPlanItemsDataObject>();
 		while (!perfectPlannedTerms.isEmpty()) {
 			FullPlanItemsDataObject fullPlanItemsDataObject = new FullPlanItemsDataObject();
 			List<PlannedTerm> plannedTermList = new ArrayList<PlannedTerm>();
 
+
+
 			// TODO: configure number of terms to display at a time
-			for (int j = 0; j < 4; j++)
-				plannedTermList.add(perfectPlannedTerms.remove(0));
+			for (int j = 0; j < numberOfTerms; j++){
+                if(perfectPlannedTerms.size()>0){
+                    plannedTermList.add(perfectPlannedTerms.remove(0));
+                }else{
+                    plannedTermList.add(new PlannedTerm());
+                }
+            }
 
 			YearTerm minYear = KsapFrameworkServiceLocator.getTermHelper()
 					.getYearTerm(plannedTermList.get(0).getAtpId());
-			YearTerm maxYear = KsapFrameworkServiceLocator.getTermHelper()
+            YearTerm maxYear = minYear;
+            if(!StringUtils.isEmpty(plannedTermList.get(plannedTermList.size() - 1)
+                    .getAtpId())){
+			    maxYear = KsapFrameworkServiceLocator.getTermHelper()
 					.getYearTerm(
 							plannedTermList.get(plannedTermList.size() - 1)
 									.getAtpId());
+            }
 			StringBuilder yearRange = new StringBuilder();
 			yearRange = yearRange.append(minYear.getYear()).append("-")
 					.append(maxYear.getYear());

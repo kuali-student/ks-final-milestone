@@ -1472,6 +1472,9 @@ public class PlanController extends UifControllerBase {
 					.retrieveCourseSummaryById(planItem.getRefObjectId());
 			courseId = courseDetail.getCourseId();
 		} else {
+            /*Needs to be changed to use service calls to get the course information instead of
+            string manipulations*/
+
 			EnrollmentStatusHelper enrollmentStatusHelper = KsapFrameworkServiceLocator
 					.getEnrollmentStatusHelper();
 			CourseCode courseCodeAndSection = enrollmentStatusHelper

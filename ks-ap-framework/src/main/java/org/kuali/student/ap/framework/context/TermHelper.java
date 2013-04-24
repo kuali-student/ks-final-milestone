@@ -52,6 +52,45 @@ public interface TermHelper {
 	 */
 	Term getFirstTermOfAcademicYear(YearTerm yearTerm);
 
+    /**
+     * Gets the number of terms in a academic year.
+     *
+     * @param yearTerm
+     * @return
+     */
+    public int getNumberOfTermsInAcademicYear(YearTerm yearTerm);
+
+    /**
+     * Gets a list of Terms in the academic year.
+     *
+     * @param yearTerm
+     * @return
+     */
+    public List<Term> getTermsInAcademicYear(YearTerm yearTerm);
+
+    /**
+     * Gets the number of terms in a academic year.
+     *
+     * @return
+     */
+    public int getNumberOfTermsInAcademicYear();
+
+    /**
+     * Gets a list of Terms in the academic year.
+     *
+     * @return
+     */
+    public List<Term> getTermsInAcademicYear();
+
+    /**
+     * Gets the term name of a term in the academic year.
+     * @param index
+     * @return
+     */
+    public String getTermNameInAcadmicYear(int index);
+
+
+
 	/**
 	 * Returns true if an ATP is considered present or greater in the context of
 	 * WHAT? Otherwise, false.
