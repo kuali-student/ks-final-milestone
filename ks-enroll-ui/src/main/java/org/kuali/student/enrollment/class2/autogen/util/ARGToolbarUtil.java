@@ -292,7 +292,7 @@ public class ARGToolbarUtil {
             if((StringUtils.equals(coStateKey, LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY) || StringUtils.equals(coStateKey, LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)) &&
                     (StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
                             StringUtils.equals(socState, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
-                            !isSOCLockedAndMSEInProgress(socState, socSchedulingState))){
+                            isSOCLockedAndMSEInProgress(socState, socSchedulingState))){
                 bzEnableButton = true;
             }
         } else if (StringUtils.equals(actionEvent, "addCO")) {
@@ -310,7 +310,7 @@ public class ARGToolbarUtil {
             if(StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY) &&
                     (StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
                             StringUtils.equals(socState, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
-                            !isSOCLockedAndMSEInProgress(socState, socSchedulingState))){
+                            isSOCLockedAndMSEInProgress(socState, socSchedulingState))){
                 bzEnableButton = true;
             }
         } else if (StringUtils.equals(actionEvent, "addAO")) {
@@ -342,12 +342,12 @@ public class ARGToolbarUtil {
     }
 
     private static boolean isSOCLockedAndMSEInProgress(String socState, String socSchedulingState){
-        boolean inProgress = false;
+        boolean socLockedAndMSEInProgress = false;
         if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
-                StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS)){
-            inProgress = true;
+                !StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS)){
+            socLockedAndMSEInProgress = true;
         }
-        return inProgress;
+        return socLockedAndMSEInProgress;
     }
 
     private static PermissionService getPermissionService() {
