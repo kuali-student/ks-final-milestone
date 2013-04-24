@@ -110,17 +110,8 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/RolloverResultsPageView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/FormatOfferingInfoMaintenanceView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ManageRegistrationGroupsView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagementViewPOC.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagementViewJSONPOC.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagementViewDataTablePOC.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagementView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-SearchInputPagePOC.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-SearchInputPageJSONPOC.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-SearchInputPageDataTablePOC.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-SearchInputPage.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageCourseOfferingsPagePOC.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageCourseOfferingsPageJSONPOC.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageCourseOfferingsPageDataTablePOC.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageCourseOfferingsPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-CopyCourseOfferingPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageActivityOfferingsPage.xml</value>
