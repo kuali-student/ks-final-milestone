@@ -52,10 +52,8 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-ManageTheCourseOfferingSection" p:id="manageTheCourseOfferingSection" parent="Uif-VerticalBoxSection">
-        <!-- TODO Put this back in !!!!!!!!!!!!!! Do we still need it? -->
-        <!-- in old implementation id="KS-CourseOfferingManagement-ActivityOfferingResultSection" p:id="ActivityOfferingResultSection" -->
-        <!--<property name="componentSecurity.viewAuthz" value="true"/>-->
+    <bean id="KS-CourseOfferingManagement-ManageTheCourseOfferingSection" p:id="ActivityOfferingResultSection" parent="Uif-VerticalBoxSection">
+        <property name="componentSecurity.viewAuthz" value="true"/>
         <property name="headerText" value="@{currentCourseOfferingWrapper.ownerCode} - @{currentCourseOfferingWrapper.courseOfferingDesc} (@{currentCourseOfferingWrapper.creditCnt} Credits, SOC State: @{socState})" />
         <property name="disclosure.render" value="false"/>
         <property name="header.cssClasses">
