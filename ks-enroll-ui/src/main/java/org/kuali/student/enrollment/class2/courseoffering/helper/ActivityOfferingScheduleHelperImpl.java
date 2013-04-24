@@ -488,7 +488,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
         TimeSlotInfo timeSlot = new TimeSlotInfo();
         timeSlot.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING);
-        timeSlot.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        timeSlot.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_ACTIVE);
         List<Integer> days = buildDaysForDTO(scheduleWrapper.getDays());
         timeSlot.setWeekdays(days);
 
