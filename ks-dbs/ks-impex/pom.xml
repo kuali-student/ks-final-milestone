@@ -79,10 +79,11 @@
                 <sql.schema.concurrent>sql.schema.1,sql.schema.2.list,sql.schema.3.list,sql.schema.4.list,sql.schema.5.list</sql.schema.concurrent>
                 <sql.data.concurrent>sql.data.2.list,sql.data.3.list,sql.data.4.list</sql.data.concurrent>
                 <sql.data.sequential>sql.data.1.list,sql.data.5.list</sql.data.sequential>
-                <sql.constraints.order>concurrent,sequential</sql.constraints.order>
                 <sql.constraints.concurrent>sql.constraints.2.list,sql.constraints.3.list,sql.constraints.4.list</sql.constraints.concurrent>
                 <sql.constraints.sequential>sql.constraints.1,sql.constraints.5.list</sql.constraints.sequential>
                 <sql.other.sequential>sql.other.1.list,sql.other.2.list,sql.other.3.list,sql.other.4.list</sql.other.sequential>
+                <!-- Define execution order -->
+                <sql.execution.order>schema.concurrent,data.concurrent,data.sequential,constraints.concurrent,constraints.sequential,other.sequential</sql.execution.order>
             </properties>
             <build>
                 <plugins>
@@ -100,8 +101,7 @@
                                     <propertySourcesConfig>org.kuali.common.jdbc.spring.JdbcMavenPropertySourceConfig</propertySourcesConfig>
                                     <removeExistingPropertySources>true</removeExistingPropertySources>
                                     <annotatedClasses>
-                                    <annotatedClass>org.kuali.common.jdbc.spring.ResetConfig</annotatedClass>
-                                    <annotatedClass>org.kuali.common.jdbc.spring.ResetController</annotatedClass>
+                                    <annotatedClass>org.kuali.common.jdbc.spring.SqlControllerConfig</annotatedClass>
                                     </annotatedClasses>
                                 </configuration>
                             </execution>
@@ -168,6 +168,7 @@
                 <sql.constraints.concurrent>impex.import.constraints</sql.constraints.concurrent>
                 <sql.data.concurrent>impex.import.data.list</sql.data.concurrent>
                 <sql.data.concurrent.trackProgressByUpdateCount>true</sql.data.concurrent.trackProgressByUpdateCount>
+                <sql.execution.order>schema.concurrent,data.concurrent,constraints.concurrent</sql.execution.order>
             </properties>
             <build>
                 <plugins>
@@ -187,8 +188,7 @@
                                     <removeExistingPropertySources>true</removeExistingPropertySources>
                                     <annotatedClasses>
                                     <annotatedClass>org.kuali.common.impex.spring.MpxSupplierConfig</annotatedClass>
-                                    <annotatedClass>org.kuali.common.jdbc.spring.ResetConfig</annotatedClass>
-                                    <annotatedClass>org.kuali.common.jdbc.spring.ResetController</annotatedClass>
+                                    <annotatedClass>org.kuali.common.jdbc.spring.SqlControllerConfig</annotatedClass>
                                     </annotatedClasses>
                                 </configuration>
                             </execution>
