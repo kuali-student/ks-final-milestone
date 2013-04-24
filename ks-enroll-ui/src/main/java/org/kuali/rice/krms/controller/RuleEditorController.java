@@ -39,6 +39,7 @@ import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
+import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.rice.krms.service.RuleViewHelperService;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.util.AgendaUtilities;
@@ -250,13 +251,15 @@ public class RuleEditorController extends MaintenanceDocumentController {
                         ruleEditor.setProposition(blank);
                     }
                     // handle regular case of adding a simple prop to an existing compound prop
-                    else if (isSimpleNode(child.getNodeType())) {
+                    else if (!parent.equals(root)){
 
                         // build new Blank Proposition
                         blank = viewHelper.createSimplePropositionBoStub(child.getData().getProposition());
                         //add it to the parent
                         PropositionEditor parentProp = parent.getData().getProposition();
                         parentProp.getCompoundEditors().add(((index / 2) + 1), blank);
+                    } else {
+                        return getUIFModelAndView(form);
                     }
                     this.getViewHelper(form).refreshInitTrees(ruleEditor);
                     if(blank!=null){
