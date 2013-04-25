@@ -43,6 +43,7 @@ import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.rice.krms.service.RuleViewHelperService;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.util.AgendaUtilities;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionEditNode;
 import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
@@ -95,6 +96,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         List<AgendaEditor> agendas = ruleWrapper.getAgendas();
         for (AgendaEditor agenda : agendas) {
             if (agenda.getRuleEditors().contains(ruleEditor)) {
+                ruleWrapper.getDeletedRuleIds().add(ruleEditor.getId());
                 agenda.getRuleEditors().remove(ruleEditor);
             }
         }
@@ -654,8 +656,10 @@ public class RuleEditorController extends MaintenanceDocumentController {
         RuleEditor ruleEditor = getRuleEditor(form);
         PropositionTreeUtil.resetNewProp((PropositionEditor) ruleEditor.getProposition());
 
+        EnrolPropositionEditor proposition = (EnrolPropositionEditor) PropositionTreeUtil.getProposition(ruleEditor);
+
+        //Resolve term if single course
         //Reset the description
-        PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
         this.getViewHelper(form).resetDescription(proposition);
 
         //Remove the edit mode

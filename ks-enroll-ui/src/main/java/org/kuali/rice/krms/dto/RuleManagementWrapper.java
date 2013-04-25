@@ -6,6 +6,7 @@ import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.tree.node.TreeNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +23,8 @@ public class RuleManagementWrapper extends UifFormBase {
 
     private List<AgendaEditor> agendas;
     private RuleEditor ruleEditor;
+
+    private List<String> deletedRuleIds;
 
     private Tree<CompareTreeNode, String> compareTree;
 
@@ -123,5 +126,16 @@ public class RuleManagementWrapper extends UifFormBase {
 
     public void setSelectedTab(String selectedTab) {
         this.getRuleEditor().setSelectedTab(selectedTab);
+    }
+
+    public List<String> getDeletedRuleIds() {
+        if(this.deletedRuleIds == null) {
+            return deletedRuleIds = new ArrayList<String>();
+        }
+        return deletedRuleIds;
+    }
+
+    public void setDeletedRuleIds(List<String> deletedRuleIds) {
+        this.deletedRuleIds = deletedRuleIds;
     }
 }
