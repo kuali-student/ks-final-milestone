@@ -32,11 +32,9 @@ import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContract;
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
-import org.kuali.rice.krms.api.repository.term.TermParameterDefinition;
 import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
@@ -50,31 +48,17 @@ import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.dto.TermEditor;
 import org.kuali.rice.krms.dto.TermParameterEditor;
-import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.service.TemplateRegistry;
 import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
-import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.service.RuleEditorMaintainable;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.uif.service.impl.KSMaintainableImpl;
-import org.kuali.student.krms.KRMSConstants;
-import org.kuali.student.krms.util.KSKRMSConstants;
-import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -95,7 +79,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     private transient RuleManagementService ruleManagementService;
     private transient KrmsTypeRepositoryService krmsTypeRepositoryService;
     private transient TermRepositoryService termRepositoryService;
-    private transient CourseOfferingService courseOfferingService;
 
     private transient ContextInfo contextInfo;
     private transient TemplateRegistry templateRegistry;
@@ -240,25 +223,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         } else {
             this.getRuleManagementService().updateRule(ruleDefinition);
         }
-    }
-
-    protected String getCourseOfferingCode(String refObjectId) {
-        CourseOfferingInfo courseOffering = null;
-        try {
-            courseOffering = this.getCourseOfferingService().getCourseOffering(refObjectId, ContextUtils.createDefaultContextInfo());
-        } catch (PermissionDeniedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (MissingParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (InvalidParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (OperationFailedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (DoesNotExistException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        };
-
-        return courseOffering.getCourseOfferingCode();
     }
 
     protected void finPropositionEditor(PropositionEditor propositionEditor) {
@@ -435,13 +399,5 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             templateRegistry = (TemplateRegistry) GlobalResourceLoader.getService(QName.valueOf("templateResolverMockService"));
         }
         return templateRegistry;
-    }
-
-    private CourseOfferingService getCourseOfferingService() {
-        if (courseOfferingService == null) {
-            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
-                    CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return courseOfferingService;
     }
 }
