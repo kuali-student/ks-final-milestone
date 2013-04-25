@@ -2,8 +2,6 @@ package org.kuali.rice.krms.util;
 
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
-import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.dto.PropositionEditor;
@@ -189,30 +187,6 @@ public class PropositionTreeUtil {
             logicExpression += ")";
         }
         return logicExpression;
-    }
-
-    public static PropositionEditor copyProposition(PropositionDefinitionContract existing, Class<? extends PropositionEditor> propClass) throws IllegalAccessException, InstantiationException {
-        // Note: RuleId is not set
-        PropositionEditor newProp = propClass.newInstance();
-        newProp.setDescription(existing.getDescription());
-        newProp.setPropositionTypeCode(existing.getPropositionTypeCode());
-        newProp.setTypeId(existing.getTypeId());
-        newProp.setCompoundOpCode(existing.getCompoundOpCode());
-        // parameters
-        List<PropositionParameterEditor> newParms = new ArrayList<PropositionParameterEditor>();
-        for (PropositionParameterContract parm : existing.getParameters()) {
-            PropositionParameterEditor p = new PropositionParameterEditor(parm.getParameterType(), parm.getSequenceNumber());
-            p.setValue(parm.getValue());
-            newParms.add(p);
-        }
-        newProp.setParameters(newParms);
-        // compoundComponents
-        List<PropositionEditor> newCompoundComponents = new ArrayList<PropositionEditor>();
-        for (PropositionDefinitionContract component : existing.getCompoundComponents()) {
-            newCompoundComponents.add(copyProposition(component, propClass));
-        }
-        newProp.setCompoundEditors(newCompoundComponents);
-        return newProp;
     }
 
     /**

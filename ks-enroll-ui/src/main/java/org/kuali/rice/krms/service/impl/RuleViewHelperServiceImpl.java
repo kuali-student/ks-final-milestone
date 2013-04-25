@@ -10,6 +10,7 @@ import org.kuali.rice.krad.uif.container.TabGroup;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
@@ -19,6 +20,7 @@ import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameter;
+import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
@@ -31,6 +33,7 @@ import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.AgendaTypeInfo;
 import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.PropositionParameterEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.dto.RuleTypeInfo;
@@ -528,9 +531,13 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     @Override
-    public PropositionEditor copyProposition(PropositionEditor proposition) {
+    public PropositionEditor copyProposition(PropositionEditor oldProposition) {
         try {
-            return PropositionTreeUtil.copyProposition(proposition, this.getPropositionEditorClass());
+            PropositionEditor newProposition = (PropositionEditor) ObjectUtils.deepCopy(oldProposition);
+            newProposition.setId(null);
+            newProposition.setKey(null);
+
+            return newProposition;
         } catch (Exception e) {
             return null;
         }
