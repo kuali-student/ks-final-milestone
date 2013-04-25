@@ -20,7 +20,7 @@ public class RuleManagementWrapper extends UifFormBase {
 
     private String refObjectId;
     private String selectedRuleId;
-    private String rulePrefix;
+    private String namePrefix;
     private String namespace;
 
     private List<AgendaEditor> agendas;
@@ -141,12 +141,12 @@ public class RuleManagementWrapper extends UifFormBase {
         this.deletedRuleIds = deletedRuleIds;
     }
 
-    public String getRulePrefix() {
-        return rulePrefix;
+    public String getNamePrefix() {
+        return namePrefix;
     }
 
-    public void setRulePrefix(String rulePrefix) {
-        this.rulePrefix = rulePrefix;
+    public void setRulePrefix(String namePrefix) {
+        this.namePrefix = namePrefix;
     }
 
     public String getNamespace() {

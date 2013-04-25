@@ -188,7 +188,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             List<RuleEditor> deleteRuleList = new ArrayList<RuleEditor>();
             for(RuleEditor rule : agenda.getRuleEditors()) {
                 if(!rule.isDummy()) {
-                    this.finRule(rule, ruleWrapper.getRulePrefix(), ruleWrapper.getNamespace());
+                    this.finRule(rule, ruleWrapper.getNamePrefix(), ruleWrapper.getNamespace());
                 } else {
                     deleteRuleList.add(rule);
                 }
