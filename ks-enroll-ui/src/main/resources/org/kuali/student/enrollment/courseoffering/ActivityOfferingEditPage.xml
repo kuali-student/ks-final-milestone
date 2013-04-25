@@ -125,7 +125,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField-LabelRight" p:label="This activity is co-located" p:fieldLabel.renderColon="false" p:propertyName="colocatedAO"
-                      p:id="is_co_located">
+                      p:id="is_co_located" p:componentSecurity.viewAuthz="true">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
                             <!--<property name="onChangeScript" value="setupColoCheckBoxChange(this,true)"/>-->
@@ -143,7 +143,8 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-CoLocation" parent="Uif-VerticalBoxSection" p:style="width:600px;border: 1px solid black;" p:layoutManager.style="margin-left:10px;margin-right:10px;">
+    <bean id="ActivityOfferingEdit-CoLocation" parent="Uif-VerticalBoxSection"  p:componentSecurity.viewAuthz="true"
+          p:style="width:600px;border: 1px solid black;" p:layoutManager.style="margin-left:10px;margin-right:10px;">
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="Select Activities for Colocation" p:style="font-size:15px;"/>
