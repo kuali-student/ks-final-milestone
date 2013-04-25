@@ -193,3 +193,22 @@ insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_T
 /
 insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) values ('KS-KRIM-ROLE-PERM-1068', SYS_GUID(), 1, (SELECT ROLE_ID FROM KRIM_ROLE_T where ROLE_NM = 'KS Schedule Coordinator' and nmspc_cd = 'KS-ENR'), (SELECT perm_id from krim_perm_t where nm = 'View Group for Activity Offering Result Section for Admin' and nmspc_cd = 'KS-ENR'), 'Y')
 /
+
+-- KSENROLL-6406
+--Permissions to checkbox 'Co-located' field for 'KS Schedule Coordinator' for AO
+insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND) values ('KS-KRIM-PERM-1082', SYS_GUID(), 1, (SELECT perm_tmpl_id FROM krim_perm_tmpl_t where nm = 'View Field' and nmspc_cd = 'KS-ENR'), 'KS-ENR', 'View Field for Co-located for Activity Offering for Admin', 'Allows the Admin to Edit Field for Co-located for Activity Offering', 'Y')
+/
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) values ('KS-KRIM-PERM-ATTR-DATA-1188', SYS_GUID(), 1, (SELECT perm_id from krim_perm_t where nm = 'View Field for Co-located for Activity Offering for Admin' and nmspc_cd = 'KS-ENR'), (SELECT kim_typ_id from krim_typ_t where nm = 'Default' and nmspc_cd = 'KUALI'), (SELECT kim_attr_defn_id from krim_attr_defn_t where nm = 'viewId' and nmspc_cd = 'KR-KRAD'), 'ActivityOffering-MaintenanceView')
+/
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) values ('KS-KRIM-PERM-ATTR-DATA-1189', SYS_GUID(), 1, (SELECT perm_id from krim_perm_t where nm = 'View Field for Co-located for Activity Offering for Admin' and nmspc_cd = 'KS-ENR'), (SELECT kim_typ_id from krim_typ_t where nm = 'Default' and nmspc_cd = 'KUALI'), (SELECT kim_attr_defn_id from krim_attr_defn_t where nm = 'fieldId' and nmspc_cd = 'KR-KRAD'), 'is_co_located')
+/
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) values ('KS-KRIM-ROLE-PERM-1124', SYS_GUID(), 1, (SELECT ROLE_ID FROM KRIM_ROLE_T where ROLE_NM = 'KS Schedule Coordinator' and nmspc_cd = 'KS-ENR'), (SELECT perm_id from krim_perm_t where nm = 'View Field for Co-located for Activity Offering for Admin' and nmspc_cd = 'KS-ENR'), 'Y')
+/
+insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND) values ('KS-KRIM-PERM-1084', SYS_GUID(), 1, (SELECT perm_tmpl_id FROM krim_perm_tmpl_t where nm = 'View Group' and nmspc_cd = 'KS-ENR'), 'KS-ENR', 'View Group for Edit Colocation for Activity Offering for Admin', 'Allows the Admin to Edit Group for Edit Colocation for Activity Offering', 'Y')
+/
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) values ('KS-KRIM-PERM-ATTR-DATA-1193', SYS_GUID(), 1, (SELECT perm_id from krim_perm_t where nm = 'View Group for Edit Colocation for Activity Offering for Admin' and nmspc_cd = 'KS-ENR'), (SELECT kim_typ_id from krim_typ_t where nm = 'Default' and nmspc_cd = 'KUALI'), (SELECT kim_attr_defn_id from krim_attr_defn_t where nm = 'viewId' and nmspc_cd = 'KR-KRAD'), 'ActivityOffering-MaintenanceView')
+/
+insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) values ('KS-KRIM-PERM-ATTR-DATA-1194', SYS_GUID(), 1, (SELECT perm_id from krim_perm_t where nm = 'View Group for Edit Colocation for Activity Offering for Admin' and nmspc_cd = 'KS-ENR'), (SELECT kim_typ_id from krim_typ_t where nm = 'Default' and nmspc_cd = 'KUALI'), (SELECT kim_attr_defn_id from krim_attr_defn_t where nm = 'groupId' and nmspc_cd = 'KR-KRAD'), 'ActivityOfferingEdit-CoLocation')
+/
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) values ('KS-KRIM-ROLE-PERM-1127', SYS_GUID(), 1, (SELECT ROLE_ID FROM KRIM_ROLE_T where ROLE_NM = 'KS Schedule Coordinator' and nmspc_cd = 'KS-ENR'), (SELECT perm_id from krim_perm_t where nm = 'View Group for Edit Colocation for Activity Offering for Admin' and nmspc_cd = 'KS-ENR'), 'Y')
+/
