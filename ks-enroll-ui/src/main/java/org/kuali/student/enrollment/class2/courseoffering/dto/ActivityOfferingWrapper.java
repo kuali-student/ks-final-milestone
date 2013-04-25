@@ -92,6 +92,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean enableSuspendButton = false;
     private boolean enableCancelButton = false;
     private boolean enableReinstateButton = false;
+    private boolean enableMoveToButton = false;
     private boolean enableDeleteButton = false;
     private boolean enableCopyAOActionLink = false;
     private boolean enableEditAOActionLink = false;
@@ -185,6 +186,14 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setEnableCancelButton(boolean enableCancelButton) {
         this.enableCancelButton = enableCancelButton;
+    }
+
+    public boolean isEnableMoveToButton() {
+        return enableMoveToButton;
+    }
+
+    public void setEnableMoveToButton(boolean enableMoveToButton) {
+        this.enableMoveToButton = enableMoveToButton;
     }
 
     public boolean isEnableReinstateButton() {

@@ -186,14 +186,6 @@ public class ARGToolbarUtil {
 
         }
 
-        //for move to button
-        if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", "moveAO")) {
-            //check role permission
-            permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "moveAO");
-            if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                form.setEnableMoveAOButton(true);
-            }
-        }
 
         //for add cluster button
         if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", "addCluster")) {
@@ -218,6 +210,7 @@ public class ARGToolbarUtil {
                 activityWrapper.setEnableCopyAOActionLink(false);
                 activityWrapper.setEnableEditAOActionLink(false);
                 activityWrapper.setEnableCancelButton(false);
+                activityWrapper.setEnableMoveToButton(false);
                 activityWrapper.setEnableApproveButton(false);
                 activityWrapper.setEnableReinstateButton(false);
                 activityWrapper.setEnableDeleteButton(false);
@@ -251,6 +244,14 @@ public class ARGToolbarUtil {
                     }
                 }
 
+                //for move to button
+                if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", "moveAO")) {
+                    //check role permission
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "moveAO");
+                    if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+                        activityWrapper.setEnableMoveToButton(true);
+                    }
+                }
 
                 //for copy and edit action links on each CO row.
                 permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "copyAOonManageAOsPage");
