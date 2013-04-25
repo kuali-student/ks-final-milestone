@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class2.autogen.service.impl;
 
+import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
@@ -317,13 +318,14 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, coId);
         SearchResultInfo results = searchService.search(sr, null);
 
-        Map<String, ActivityOfferingWrapper> sch2aoMap = new HashMap<String, ActivityOfferingWrapper>();
+        Map<String, List<ActivityOfferingWrapper>> sch2aoMap = new HashMap<String, List<ActivityOfferingWrapper>>();
         List<String> aoIdsWithoutSch = new ArrayList<String>();
         Map<String, ActivityOfferingClusterWrapper> clusterMap = new HashMap<String, ActivityOfferingClusterWrapper>();
         Map<String, ActivityOfferingWrapper> aoMap = new HashMap<String, ActivityOfferingWrapper>();
         Map<String, FormatOfferingInfo> foIds = new HashMap<String, FormatOfferingInfo>();
         Map<String, List<ScheduleCalcContainer>> ao2sch = new HashMap<String, List<ScheduleCalcContainer>>();
         Map<String, List<ScheduleRequestCalcContainer>> ao2schReq = new HashMap<String, List<ScheduleRequestCalcContainer>>();
+        Map<String, String> ao2ColocatedSet = new HashMap<String, String>();
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         //Parse the search results
@@ -347,7 +349,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_IDS, new ArrayList<String>(aoMap.keySet()));
             results = searchService.search(sr, null);
 
-            processColocated(results, aoMap);
+            processColocated(results, aoMap, ao2ColocatedSet);
 
 
             //Addin LPR data
@@ -362,7 +364,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
             // the next two methods pull scheduling data from the DB and put them into the ao2sch map
             processScheduleInfo(results, sch2aoMap, ao2sch, contextInfo);
-            processScheduleRequestsForAos(aoIdsWithoutSch, ao2schReq, contextInfo);
+            processScheduleRequestsForAos(aoIdsWithoutSch, ao2schReq, ao2ColocatedSet, contextInfo);
 
             // this takes the scheduling data and puts it into the screen form
             processScheduleData(aoMap, ao2sch, ao2schReq, contextInfo);
@@ -451,12 +453,13 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         return lRet;
     }
 
-    private void processColocated(SearchResultInfo searchResults, Map<String, ActivityOfferingWrapper> aoMap) {
+    private void processColocated(SearchResultInfo searchResults, Map<String, ActivityOfferingWrapper> aoMap, Map<String, String> ao2ColocatedSet) {
 
         for (SearchResultRowInfo row : searchResults.getRows()) {
             String aoId = null;
             String aoCode = null;
             String coCode = null;
+            String luiSetId = null;
             for (SearchResultCellInfo cell : row.getCells()) {
                 if (ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID.equals(cell.getKey())) {
                     aoId = cell.getValue();
@@ -464,6 +467,8 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                     aoCode = cell.getValue();
                 } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.CO_CODE.equals(cell.getKey())) {
                     coCode = cell.getValue();
+                } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.LUI_SET_ID.equals(cell.getKey())) {
+                    luiSetId = cell.getValue();
                 }
             }
             ActivityOfferingWrapper aoWrapper = aoMap.get(aoId);
@@ -473,6 +478,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             } else {
                 aoWrapper.setColocatedAoInfo(aoWrapper.getColocatedAoInfo() + "<br/>" + coCode + " " + aoCode);
             }
+            ao2ColocatedSet.put(aoId,luiSetId);
 
         }
     }
@@ -512,12 +518,13 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     /**
      * Add scheduling information to the map if there are no "actual" schedules already in place for a particular AO.
      *
+     *
      * @param aoIdsWithoutSch
      * @param ao2sch
-     * @param contextInfo
-     * @throws Exception
+     * @param ao2ColocatedSet
+     *@param contextInfo  @throws Exception
      */
-    protected void processScheduleRequestsForAos(Collection<String> aoIdsWithoutSch, Map<String, List<ScheduleRequestCalcContainer>> ao2sch, ContextInfo contextInfo) throws Exception {
+    protected void processScheduleRequestsForAos(Collection<String> aoIdsWithoutSch, Map<String, List<ScheduleRequestCalcContainer>> ao2sch, Map<String, String> ao2ColocatedSet, ContextInfo contextInfo) throws Exception {
 
         if (!aoIdsWithoutSch.isEmpty()) {
             Set<String> buildingIds = new HashSet<String>();
@@ -528,8 +535,19 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             Map<String, RoomInfo> roomIdMap = new HashMap<String, RoomInfo>();
             Map<String, TimeSlotInfo> timeslotIdMap = new HashMap<String, TimeSlotInfo>();
 
+            //Filter out ref ids that are colocated sets
+            List<String> aoRefIds = ListUtils.removeAll(aoIdsWithoutSch, ao2ColocatedSet.keySet());
+            List<ScheduleRequestInfo> schRequests = new ArrayList<ScheduleRequestInfo>();
+            //Lookup AO related schedules
+            if(!aoRefIds.isEmpty()){
+                schRequests.addAll(getSchedulingService().getScheduleRequestsByRefObjects(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoRefIds, contextInfo));
+            }
+            //Lookup colocated set schedules
+            if(!ao2ColocatedSet.isEmpty()){
+                schRequests.addAll(getSchedulingService().getScheduleRequestsByRefObjects("kuali.luiset.type.colocated.offering.set", new ArrayList<String>(ao2ColocatedSet.values()), contextInfo));
+            }
 
-            List<ScheduleRequestInfo> schRequests = getSchedulingService().getScheduleRequestsByRefObjects(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, new ArrayList(aoIdsWithoutSch), contextInfo);
+            //Store the ids for bulk lookup
             for (ScheduleRequestInfo schRequest : schRequests) {
                 for (ScheduleRequestComponentInfo schRequestCom : schRequest.getScheduleRequestComponents()) {
                     buildingIds.addAll(schRequestCom.getBuildingIds());
@@ -539,6 +557,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
             }
 
+            //Lookup the information using bulk service calls and store in maps
             List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByIds(new ArrayList<String>(timeslotIds), contextInfo);
             for (TimeSlotInfo timeSlotInfo : timeSlotInfos) {
                 timeslotIdMap.put(timeSlotInfo.getId(), timeSlotInfo);
@@ -554,32 +573,44 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             }
 
             for (ScheduleRequestInfo schRequest : schRequests) {
-                String aoId = schRequest.getRefObjectId();
-
-                for (ScheduleRequestComponentInfo schRequestCom : schRequest.getScheduleRequestComponents()) {
-                    List<RoomInfo> rooms = new ArrayList<RoomInfo>();
-                    List<BuildingInfo> bldgs = new ArrayList<BuildingInfo>();
-                    List<TimeSlotInfo> timeSlots = new ArrayList<TimeSlotInfo>();
-                    for (String roomId : schRequestCom.getRoomIds()) {
-                        rooms.add(roomIdMap.get(roomId));
-                        bldgs.add(buildingIdMap.get(roomIdMap.get(roomId).getBuildingId()));
+                List<String> aoIds = new ArrayList<String>();
+                //if the refid is colocated set, map back to the ao Id
+                if(ao2ColocatedSet.containsValue(schRequest.getRefObjectId())){
+                    for(Map.Entry<String,String> entry : ao2ColocatedSet.entrySet()){
+                        if(schRequest.getRefObjectId().equals(entry.getValue())){
+                            aoIds.add(entry.getKey());
+                        }
                     }
-                    for (String timeSlotId : schRequestCom.getTimeSlotIds()) {
-                        TimeSlotInfo timeSlotInfo = timeslotIdMap.get(timeSlotId);
-                        timeSlots.add(timeSlotInfo);
+                }else{
+                    //Otherwise this is just a normal aoId
+                    aoIds.add(schRequest.getRefObjectId());
+                }
 
-                    }
-                    ScheduleRequestCalcContainer src = new ScheduleRequestCalcContainer(aoId, schRequest.getId(), CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, timeSlots, rooms, bldgs, schRequestCom.getIsTBA());
+                for(String aoId:aoIds){
+                    for (ScheduleRequestComponentInfo schRequestCom : schRequest.getScheduleRequestComponents()) {
+                        List<RoomInfo> rooms = new ArrayList<RoomInfo>();
+                        List<BuildingInfo> bldgs = new ArrayList<BuildingInfo>();
+                        List<TimeSlotInfo> timeSlots = new ArrayList<TimeSlotInfo>();
+                        for (String roomId : schRequestCom.getRoomIds()) {
+                            rooms.add(roomIdMap.get(roomId));
+                            bldgs.add(buildingIdMap.get(roomIdMap.get(roomId).getBuildingId()));
+                        }
+                        for (String timeSlotId : schRequestCom.getTimeSlotIds()) {
+                            TimeSlotInfo timeSlotInfo = timeslotIdMap.get(timeSlotId);
+                            timeSlots.add(timeSlotInfo);
 
+                        }
+                        ScheduleRequestCalcContainer src = new ScheduleRequestCalcContainer(aoId, schRequest.getId(), CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, timeSlots, rooms, bldgs, schRequestCom.getIsTBA());
 
-                    if (ao2sch.containsKey(aoId)) {
+                        if (ao2sch.containsKey(aoId)) {
 
-                        ao2sch.get(aoId).add(src);
+                            ao2sch.get(aoId).add(src);
 
-                    } else {
-                        List<ScheduleRequestCalcContainer> schList = new ArrayList<ScheduleRequestCalcContainer>();
-                        schList.add(src);
-                        ao2sch.put(aoId, schList);
+                        } else {
+                            List<ScheduleRequestCalcContainer> schList = new ArrayList<ScheduleRequestCalcContainer>();
+                            schList.add(src);
+                            ao2sch.put(aoId, schList);
+                        }
                     }
                 }
             }
@@ -591,7 +622,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
     }
 
-    private void processScheduleInfo(SearchResultInfo searchResults, Map<String, ActivityOfferingWrapper> sch2aoMap, Map<String, List<ScheduleCalcContainer>> ao2sch, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
+    private void processScheduleInfo(SearchResultInfo searchResults, Map<String, List<ActivityOfferingWrapper>> sch2aoMap, Map<String, List<ScheduleCalcContainer>> ao2sch, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
         //Process the search results
 
         for (SearchResultRowInfo row : searchResults.getRows()) {
@@ -619,15 +650,16 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                     weekdays = cell.getValue();
                 }
             }
-            ActivityOfferingWrapper aoWrapper = sch2aoMap.get(schId);
+            for(ActivityOfferingWrapper aoWrapper:sch2aoMap.get(schId)){
 
-            ScheduleCalcContainer scheduleCalcContainer = new ScheduleCalcContainer(aoWrapper.getId(), schId, SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE, startTime, endTime, weekdays, roomCode, buildingName, tbaInd);
-            if (ao2sch.containsKey(aoWrapper.getId())) {
-                ao2sch.get(aoWrapper.getId()).add(scheduleCalcContainer);
-            } else {
-                List<ScheduleCalcContainer> schList = new ArrayList<ScheduleCalcContainer>();
-                schList.add(scheduleCalcContainer);
-                ao2sch.put(aoWrapper.getId(), schList);
+                ScheduleCalcContainer scheduleCalcContainer = new ScheduleCalcContainer(aoWrapper.getId(), schId, SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE, startTime, endTime, weekdays, roomCode, buildingName, tbaInd);
+                if (ao2sch.containsKey(aoWrapper.getId())) {
+                    ao2sch.get(aoWrapper.getId()).add(scheduleCalcContainer);
+                } else {
+                    List<ScheduleCalcContainer> schList = new ArrayList<ScheduleCalcContainer>();
+                    schList.add(scheduleCalcContainer);
+                    ao2sch.put(aoWrapper.getId(), schList);
+                }
             }
         }
     }
@@ -779,7 +811,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
     }
 
-    private List<RegistrationGroupWrapper> processRgData(SearchResultInfo searchResults, ARGCourseOfferingManagementForm form, Map<String, ActivityOfferingWrapper> sch2aoMap, Map<String, ActivityOfferingClusterWrapper> clusterMap, Map<String, ActivityOfferingWrapper> aoMap, ContextInfo defaultContextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    private List<RegistrationGroupWrapper> processRgData(SearchResultInfo searchResults, ARGCourseOfferingManagementForm form, Map<String, List<ActivityOfferingWrapper>> sch2aoMap, Map<String, ActivityOfferingClusterWrapper> clusterMap, Map<String, ActivityOfferingWrapper> aoMap, ContextInfo defaultContextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         Map<String, RegistrationGroupWrapper> rgMap = new HashMap<String, RegistrationGroupWrapper>();
         for (SearchResultRowInfo row : searchResults.getRows()) {
 
@@ -877,7 +909,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     }
 
     private List<ActivityOfferingWrapper> processAoClusterData(SearchResultInfo searchResults, ARGCourseOfferingManagementForm form,
-                                                               Map<String, ActivityOfferingWrapper> sch2aoMap,
+                                                               Map<String, List<ActivityOfferingWrapper>> sch2aoMap,
                                                                Map<String, ActivityOfferingClusterWrapper> clusterMap,
                                                                Map<String, ActivityOfferingWrapper> aoMap,
                                                                Map<String, FormatOfferingInfo> foIds,
@@ -919,7 +951,12 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                     }
                 } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.SCHEDULE_ID.equals(cell.getKey())) {
                     aoWrapper.getAoInfo().setScheduleId(cell.getValue());
-                    sch2aoMap.put(cell.getValue(), aoWrapper);//Add to schedule map
+                    List<ActivityOfferingWrapper> list = sch2aoMap.get(cell.getValue());
+                    if(list == null){
+                        list = new ArrayList<ActivityOfferingWrapper>();
+                        sch2aoMap.put(cell.getValue(), list);
+                    }
+                    list.add(aoWrapper);//Add to schedule map
                 } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.FO_ID.equals(cell.getKey())) {
                     aoWrapper.getAoInfo().setFormatOfferingId(cell.getValue());
                     foId = cell.getValue();
