@@ -78,7 +78,7 @@
                             <property name="templateOptions">
                                 <map>
                                     <entry key="selected" value="0"/>
-                                    <entry key="select" value="function(event, ui) {ajaxCallOnTabSelect(event, ui);}"/>
+                                    <!--entry key="select" value="function(event, ui) {ajaxCallOnTabSelect(event, ui);}"/-->
                                 </map>
                             </property>
                         </bean>
