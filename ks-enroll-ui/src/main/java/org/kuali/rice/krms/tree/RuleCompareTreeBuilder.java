@@ -100,19 +100,8 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         String compareOpCode = this.getOpCode(compared);
 
         // Get the children form both nodes.
-        List<? extends PropositionDefinitionContract> originalChildren;
-        if (original != null) {
-            originalChildren = original.getCompoundComponents();
-        } else {
-            originalChildren = new ArrayList<PropositionDefinitionContract>();
-        }
-
-        List<? extends PropositionDefinitionContract> comparedChildren;
-        if (compared != null) {
-            comparedChildren = compared.getCompoundComponents();
-        } else {
-            comparedChildren = new ArrayList<PropositionDefinitionContract>();
-        }
+        List<? extends PropositionDefinitionContract> originalChildren = getChildPropositions(original);
+        List<? extends PropositionDefinitionContract> comparedChildren = getChildPropositions(compared);
 
         // Get the size of the biggest children list
         int size = Math.max(originalChildren.size(), comparedChildren.size());
@@ -143,6 +132,16 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
             addTreeNode(newNode, originalChild, compareChild);
         }
 
+    }
+
+    private List<? extends PropositionDefinitionContract> getChildPropositions(PropositionDefinitionContract parent) {
+        List<? extends PropositionDefinitionContract> children;
+        if ((parent != null) && (parent.getCompoundComponents()!=null)){
+            children = parent.getCompoundComponents();
+        } else {
+            children = new ArrayList<PropositionDefinitionContract>();
+        }
+        return children;
     }
 
     private String getOpCode(PropositionDefinitionContract proposition){
