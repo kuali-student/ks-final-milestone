@@ -99,6 +99,8 @@ public class TimeSlotInfo extends IdEntityInfo implements TimeSlot, Serializable
      */
     public boolean equals (Object obj) {
         TimeSlotInfo ts = (TimeSlotInfo) obj; // will throw a ClassCastException
+        //  To avoid IndexOutOfBoundsExceptions see if the weekdays collections have the same element count before trying to compare the elements.
+        if (this.getWeekdays().size() != ts.getWeekdays().size()) { return false; }
         for (int i=0; i<this.weekdays.size(); i++)  {
             if (!this.weekdays.get(i).equals(ts.weekdays.get(i))) { return false; }
         }
