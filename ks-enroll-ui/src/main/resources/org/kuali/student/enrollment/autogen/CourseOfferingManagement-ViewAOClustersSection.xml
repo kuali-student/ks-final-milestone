@@ -202,7 +202,7 @@
 
         <property name="lineActions">
             <list>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy&#160;&#160;|&#160;&#160;"
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="@{#line.isEnableEditAOActionLink() ? 'Copy&#160;&#160;|&#160;&#160;' : 'Copy'}"
                       p:render="@{#line.isEnableCopyAOActionLink()}" p:actionEvent="copyAOonManageAOsPage"
                       p:style="padding-right:3px;"  />
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit"
