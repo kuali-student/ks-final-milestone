@@ -23,6 +23,7 @@ import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRuleViewTreeBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.krms.util.KSKRMSConstants;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -55,6 +56,8 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
         CORuleManagementWrapper dataObject = new CORuleManagementWrapper();
 
+        dataObject.setNamespace(KSKRMSConstants.KS_SYS_NAMESPACE);
+
         String coId = dataObjectKeys.get("refObjectId");
         dataObject.setRefObjectId(coId);
 
@@ -78,6 +81,7 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
         //Populate Clu Identification Information
         if (courseOffering != null) {
+            dataObject.setRulePrefix(courseOffering.getCourseCode());
             StringBuilder courseNameBuilder = new StringBuilder();
             try {
                 AtpInfo atp = this.getAtpService().getAtp(courseOffering.getTermId(), ContextUtils.createDefaultContextInfo());

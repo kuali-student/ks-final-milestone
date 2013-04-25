@@ -188,7 +188,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             List<RuleEditor> deleteRuleList = new ArrayList<RuleEditor>();
             for(RuleEditor rule : agenda.getRuleEditors()) {
                 if(!rule.isDummy()) {
-                    this.finRule(rule, ruleWrapper.getRefObjectId());
+                    this.finRule(rule, ruleWrapper.getRulePrefix(), ruleWrapper.getNamespace());
                 } else {
                     deleteRuleList.add(rule);
                 }
@@ -219,7 +219,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
     }
 
-    protected void finRule(RuleEditor rule, String refObjectId) {
+    protected void finRule(RuleEditor rule, String rulePrefix, String namespace) {
         // handle saving new parameterized terms
         PropositionEditor proposition = (PropositionEditor) rule.getProposition();
         if (proposition != null) {
@@ -227,10 +227,10 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         }
 
         if(rule.getName() == null) {
-            rule.setName(getCourseOfferingCode(refObjectId) + " " + rule.getDescription());
+            rule.setName(rulePrefix + " " + rule.getDescription());
         }
         if(rule.getNamespace() == null) {
-            rule.setNamespace(KSKRMSConstants.KS_SYS_NAMESPACE);
+            rule.setNamespace(namespace);
         }
 
         RuleDefinition.Builder ruleBuilder = RuleDefinition.Builder.create(rule);
