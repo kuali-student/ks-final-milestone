@@ -259,8 +259,13 @@ public class ARGToolbarUtil {
                     activityWrapper.setEnableCopyAOActionLink(true);
                 }
 
+                String colocatedAO = "";
+                if (activityWrapper.isColocatedAO()) {
+                    colocatedAO = "true";
+                }
+                permissionDetails.put("colocatedAO", colocatedAO);
                 permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "editAOonManageAOsPage");
-                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
                     activityWrapper.setEnableEditAOActionLink(true);
                 }
 
