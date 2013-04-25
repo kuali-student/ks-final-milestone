@@ -115,7 +115,7 @@
             <map>
                 <entry key="code" value="proposition.courseInfo.code"/>
                 <entry key="cluId" value="proposition.courseInfo.id"/>
-                <entry key="verIndependentId" value="proposition.courseInfo.version"/>
+                <entry key="verIndependentId" value="proposition.courseInfo.version.versionIndId"/>
             </map>
         </property>
     </bean>
