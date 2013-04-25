@@ -49,7 +49,7 @@
                                 <property name="items">
                                     <list>
                                         <ref bean="messages_widget"/>
-                                        <ref bean="your_stuff_widget"/>
+                                        <ref bean="your_stuff_widget_planner"/>
                                     </list>
                                 </property>
                             </bean>
@@ -418,7 +418,8 @@
                 jQuery('#planned_courses_detail_list').jCarouselLite({
                     btnNext: '.myplan-carousel-next',
                     btnPrev: '.myplan-carousel-prev',
-                    scroll: 4,
+                    scroll: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()},
+                    visible: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()},
                     start: iStart,
                     afterEnd: function(a) {
                         fnBuildTitle(a);
@@ -525,6 +526,9 @@
                 <value>@{#line.openForPlanning ? 'open' : 'closed'}</value>
             </list>
         </property>
+        <property name="layoutManager.lineGroupPrototype.style"
+                  value="width:@{588/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;
+                  margin:0 @{20/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;"/>
         <property name="header">
             <bean parent="Uif-HeaderFour"/>
         </property>

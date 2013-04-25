@@ -751,10 +751,11 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     float: left;
 }
 
-.myplan-carousel-list ul li > .uif-group {
+/* Over Wrote in Planitemsui.xml */
+/*.myplan-carousel-list ul li > .uif-group {
     width: 147px;
     margin: 0 5px;
-}
+}*/
 
 .myplan-carousel-list ul li > .uif-group > .uif-header {
     margin: 0;
@@ -770,7 +771,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     white-space: nowrap;
     text-align: center;
     padding: 9px 0;
-    border: solid 1px #dcca9d;
+    border: solid 1px #000000;
     border-radius: 5px 5px 0px 0px;
     -webkit-border-radius: 5px 5px 0px 0px;
     -moz-border-radius: 5px 5px 0px 0px;

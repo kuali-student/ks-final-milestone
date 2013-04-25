@@ -489,4 +489,6 @@ public class DefaultTermHelper implements TermHelper {
 		return new DefaultYearTerm(term.getTypeKey(), c.get(Calendar.YEAR));
 	}
 
+
+
 }
