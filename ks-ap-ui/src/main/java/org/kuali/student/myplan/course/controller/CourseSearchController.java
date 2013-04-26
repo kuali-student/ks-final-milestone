@@ -1627,7 +1627,7 @@ public class CourseSearchController extends UifControllerBase {
 			ArrayNode ofas = json.putArray("facets");
 			ObjectNode campusFacetGroup = ofas.addObject();
 			campusFacetGroup.put("label", "Campus");
-			campusFacetGroup.put("select", 0);
+			campusFacetGroup.put("select", true);
 			ArrayNode ocfas = campusFacetGroup.putArray("facets");
 			ObjectNode oCampusFacets = ocfas.addObject();
 			oCampusFacets.put("label", "Campuses");
