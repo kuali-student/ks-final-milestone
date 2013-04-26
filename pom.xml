@@ -86,7 +86,7 @@
         <url>https://svn.kuali.org/repos/student/enrollment/aggregate/trunk</url>
     </scm>
     <properties>
-        <ks.api.version>2.0.0-M7-SNAPSHOT</ks.api.version>
+        <ks.api.version>2.0.0-M6-patch1-SNAPSHOT</ks.api.version>
         <ks.core.version>2.0.0-M7-SNAPSHOT</ks.core.version>
         <ks.enroll.version>1.0.0-M7-SNAPSHOT</ks.enroll.version>
         <ks.lum.version>2.0.0-M7-SNAPSHOT</ks.lum.version>
