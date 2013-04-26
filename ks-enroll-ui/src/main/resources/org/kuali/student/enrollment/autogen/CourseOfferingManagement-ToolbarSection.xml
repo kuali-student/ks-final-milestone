@@ -100,6 +100,11 @@
 
     <bean id="KS-CourseOfferingManagement-ToolBar-MoveTo-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
         <property name="actionLabel" value="Move Activity"/>
+        <property name="toolTip">
+            <bean parent="Uif-Tooltip">
+                <property name="tooltipContent" value="Move selected activities&lt;br /&gt;from one cluster to another."/>
+            </bean>
+        </property>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/move_to_cluster.png"/>
         </property>
