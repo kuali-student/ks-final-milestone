@@ -99,7 +99,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-MoveTo-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
-        <property name="actionLabel" value="Move to"/>
+        <property name="actionLabel" value="Move Activity"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/move_to_cluster.png"/>
         </property>
