@@ -441,8 +441,12 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
         for (ScheduleWrapper scheduleWrapper : wrapper.getRequestedScheduleComponents()) {
             if (!scheduleWrapper.isRequestAlreadySaved() || createScheduleComponent){
-                ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(scheduleWrapper);
-                wrapper.getScheduleRequestInfo().getScheduleRequestComponents().add(componentInfo);
+                try{
+                    ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(scheduleWrapper);
+                    wrapper.getScheduleRequestInfo().getScheduleRequestComponents().add(componentInfo);
+                }catch (Exception ex){
+                    throw new RuntimeException("Unable to buildScheduleComponentRequest for AO[" + wrapper.getId() + "]", ex);
+                }
             }
             else {
                 wrapper.getScheduleRequestInfo().getScheduleRequestComponents().add(scheduleWrapper.getScheduleRequestComponentInfo());
@@ -472,7 +476,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
     }
 
-    private ScheduleRequestComponentInfo buildScheduleComponentRequest(ScheduleWrapper scheduleWrapper){
+    private ScheduleRequestComponentInfo buildScheduleComponentRequest(ScheduleWrapper scheduleWrapper) throws Exception{
 
         ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
 //        componentInfo.setId(UUIDHelper.genStringUUID());
@@ -520,7 +524,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING,timeSlot, ContextUtils.createDefaultContextInfo());
             componentInfo.getTimeSlotIds().add(createdTimeSlot.getId());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new Exception("Error creating timeslot: " + timeSlot, e);
         }
 
         return componentInfo;
