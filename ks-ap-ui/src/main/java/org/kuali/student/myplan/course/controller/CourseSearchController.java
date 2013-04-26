@@ -1566,7 +1566,7 @@ public class CourseSearchController extends UifControllerBase {
 		return results;
 	}
 
-	@RequestMapping(value = "/course/find/")
+	@RequestMapping(value = "/course/s/")
 	public ModelAndView startClassFinder(
 			@ModelAttribute("KualiForm") UifFormBase form,
 			BindingResult result, HttpServletRequest request,
@@ -1575,7 +1575,7 @@ public class CourseSearchController extends UifControllerBase {
 		return getUIFModelAndView(form, "ClassFinder-view");
 	}
 
-	@RequestMapping(value = "/course/find/json")
+	@RequestMapping(value = "/course/s/json")
 	public ModelAndView findClasses(
 			@ModelAttribute("KualiForm") final ClassFinderForm form,
 			BindingResult result, final HttpServletRequest request,

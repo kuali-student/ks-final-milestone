@@ -8,6 +8,7 @@ import org.kuali.student.ap.framework.context.KsapContext;
 import org.kuali.student.ap.framework.context.OrgHelper;
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.UserSessionHelper;
+import org.kuali.student.ap.framework.course.ClassFinderService;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -49,6 +50,7 @@ public final class KsapFrameworkServiceLocator {
 	 * bean in an auto-wiring container in order to populate {@link EJB}
 	 * instances.
 	 * </p>
+	 * 
 	 * <pre>
 	 * &lt;bean class=&quot;org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator&quot;
 	 * 	factory-method=&quot;getInstance&quot; /&gt;
@@ -239,14 +241,23 @@ public final class KsapFrameworkServiceLocator {
 		return getInstance().courseSearchStrategy;
 	}
 
-    /**
-     * Get the course search strategy.
-     *
-     * @return The course search strategy.
-     */
-    public static EnrollmentStatusHelper getEnrollmentStatusHelper() {
-        return getInstance().enrollmentStatusHelper;
-    }
+	/**
+	 * Get the course search strategy.
+	 * 
+	 * @return The course search strategy.
+	 */
+	public static EnrollmentStatusHelper getEnrollmentStatusHelper() {
+		return getInstance().enrollmentStatusHelper;
+	}
+
+	/**
+	 * Get the class finder service.
+	 * 
+	 * @return The class finder service.
+	 */
+	public static ClassFinderService getClassFinderService() {
+		return getInstance().classFinderService;
+	}
 
 	@EJB
 	private transient AtpService ksCoreAtpService;
@@ -286,8 +297,11 @@ public final class KsapFrameworkServiceLocator {
 	private transient OrgHelper ksapOrgHelper;
 	@EJB
 	private transient AcademicPlanService academicPlanService;
-    @EJB
-    private transient EnrollmentStatusHelper enrollmentStatusHelper;
+	@EJB
+	private transient EnrollmentStatusHelper enrollmentStatusHelper;
+	@EJB
+	@OptionalResource // TODO: remove
+	private transient ClassFinderService classFinderService;
 	@EJB
 	@OptionalResource
 	// provided by ks-ap-ui or institution override

@@ -17,12 +17,6 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-    <bean id="courseSearchStrategy" class="org.kuali.student.myplan.course.controller.CourseSearchStrategyImpl"/>
-
-    <bean id="coursePreReqSearch" class="org.kuali.student.myplan.course.service.CoursePreReqSearch">
-        <property name="cluService" ref="ksLumCluService"/>
-    </bean>
-
     <bean id="academicPlanServicePersistence" class="org.kuali.student.myplan.academicplan.service.AcademicPlanServiceImpl">
         <property name="learningPlanDao" ref="learningPlanDao"/>
         <property name="learningPlanTypeDao" ref="learningPlanTypeDao"/>
@@ -53,6 +47,8 @@
 			</bean>
 		</property>
 	</bean>
+
+    <bean id="classFinderService" class="org.kuali.student.ap.course.service.ClassFinderServiceImpl" />
 
     <!-- Default JPA EntityManagerFactory -->
     <bean id="apDefaultEntityManagerFactory" abstract="true"
@@ -106,6 +102,10 @@
     </bean>
 
     <bean id="planItemRichTextDao" class="org.kuali.student.myplan.academicplan.dao.PlanItemRichTextDao">
+        <property name="em" ref="lpEntityManager"/>
+    </bean>
+
+    <bean id="classFinderDao" class="org.kuali.student.ap.course.dao.ClassFinderDao">
         <property name="em" ref="lpEntityManager"/>
     </bean>
 

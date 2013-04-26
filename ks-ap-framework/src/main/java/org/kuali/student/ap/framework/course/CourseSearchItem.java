@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.codehaus.jackson.node.ObjectNode;
+
 /**
  * Bean interface representing a search row in KSAP course search from the
  * ks-ap-ui module perspective.
@@ -113,6 +115,15 @@ public interface CourseSearchItem {
 	 * @see myplan.search.js
 	 */
 	String[] getSearchColumns();
+
+	/**
+	 * Get an ObjectMapper node for forming the JSON output to represent this
+	 * search item.
+	 * 
+	 * @return an ObjectMapper node for forming the JSON output to represent
+	 *         this search item.
+	 */
+	ObjectNode toJson();
 
 	/**
 	 * Get contextual data to use for sorting related to this search item.
