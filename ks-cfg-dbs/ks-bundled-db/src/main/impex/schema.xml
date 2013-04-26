@@ -8820,6 +8820,19 @@
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER_ID" size="255" type="VARCHAR"/>
     </table>
+    <table name="KSPL_CRIT">
+        <column name="CRIT_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="LAST_SRCH_DT" type="TIMESTAMP"/>
+    </table>
+    <table name="KSPL_CRIT_FACET">
+				<column name="CRIT_KEY" required="true" size="255" type="VARCHAR"/>
+				<column name="FACET" required="true" size="255" type="VARCHAR"/>
+				<unique name="KSPL_CRIT_FACET_UQ">
+            <unique-column name="CRIT_KEY"/>
+            <unique-column name="FACET"/>
+        </unique>
+   </table>
+ 
     <table name="KSPR_PROPOSAL">
         <column name="PROPOSAL_ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CREATEID" size="255" type="VARCHAR"/>
