@@ -37,6 +37,8 @@ import java.util.Set;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.in;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krms.api.repository.NaturalLanguageTree;
 import org.kuali.rice.krms.api.repository.action.ActionDefinition;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
@@ -66,6 +68,7 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
     private ContextBoService contextBoService = new ContextBoServiceImpl();
     private NaturalLanguageTemplaterContract templater = new SimpleNaturalLanguageTemplater ();
     private TermRepositoryService termRepositoryService = new TermBoServiceImpl ();
+    private SequenceAccessorService sequenceAccessorService = null;
 
     
     public ReferenceObjectBindingBoService getReferenceObjectBindingBoService() {
@@ -147,6 +150,18 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
     public void setTermRepositoryService(TermRepositoryService termRepositoryService) {
         this.termRepositoryService = termRepositoryService;
     }
+    
+    public SequenceAccessorService getSequenceAccessorService() {
+        if (this.sequenceAccessorService == null) {
+            this.sequenceAccessorService = KRADServiceLocator.getSequenceAccessorService();
+        }
+        return sequenceAccessorService;
+    }
+
+    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+        this.sequenceAccessorService = sequenceAccessorService;
+    }
+
     
     ////
     //// reference object binding methods
@@ -341,11 +356,19 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
             if (orig != null) {
                 throw new RiceIllegalArgumentException(ruleDefinition.getId());
             }
+        } else {
+            // if no id then set it because it is needed to store propositions connected to this rule
+            String ruleId = getSequenceAccessorService().getNextAvailableSequenceNumber("KRMS_RULE_S", RuleBo.class).toString();
+            RuleDefinition.Builder ruleBldr = RuleDefinition.Builder.create(ruleDefinition);
+            ruleBldr.setId(ruleId);
+            ruleDefinition = ruleBldr.build();
         }
+        
         // if both are set they better match
         crossCheckPropId (ruleDefinition);
-        RuleDefinition rule = ruleBoService.createRule(ruleDefinition);
-        return this.createPropositionIfNeeded(rule);
+        ruleDefinition = this.createPropositionIfNeeded(ruleDefinition);
+        ruleDefinition = ruleBoService.createRule(ruleDefinition);
+        return ruleDefinition;
     }
 
     private RuleDefinition createPropositionIfNeeded(RuleDefinition rule) {
@@ -365,8 +388,7 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         // now update the rule so it holds the proposition id
         propBldr = PropositionDefinition.Builder.create(prop);
         ruleBldr.setProposition(propBldr);
-        this.ruleBoService.updateRule(ruleBldr.build());
-        return this.getRule(ruleBldr.getId());
+        return ruleBldr.build();
     }
     
     
@@ -374,8 +396,8 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
     @Override
     public void updateRule(RuleDefinition ruleDefinition) throws RiceIllegalArgumentException {
         crossCheckPropId (ruleDefinition);
+        ruleDefinition = this.createPropositionIfNeeded(ruleDefinition);
         ruleBoService.updateRule(ruleDefinition);
-        this.createPropositionIfNeeded(ruleDefinition);
     }
 
     @Override
@@ -444,9 +466,9 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
             }
         }
         crossCheckPropositionParameters(propositionDefinition);
+        propositionDefinition = createTermValuesIfNeeded(propositionDefinition);
+        propositionDefinition = createCompoundPropsIfNeeded (propositionDefinition);
         PropositionDefinition prop = propositionBoService.createProposition(propositionDefinition);
-        prop = createTermValuesIfNeeded(prop);
-        prop = createCompoundPropsIfNeeded (prop);
         return prop;
     }
     
@@ -481,16 +503,13 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
                     paramBldr.setValue(termValue.getId());
                     updated = true;
                 }
-                // TODO: do we have to worry about updates to Terms?
             }
         }
         if (!updated) {
             return prop;
         }
         propBldr.setParameters(paramBldrs);
-        this.propositionBoService.updateProposition(propBldr.build());         
-        prop = this.getProposition(propBldr.getId());
-        return prop;
+        return propBldr.build();   
     }
         
     private PropositionDefinition createCompoundPropsIfNeeded(PropositionDefinition prop) {
@@ -505,23 +524,19 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         List<PropositionDefinition.Builder> compPropBldrs = new ArrayList<PropositionDefinition.Builder>();
         for (PropositionDefinition.Builder compPropBldr : propBldr.getCompoundComponents()) {
             if (compPropBldr.getId() == null) {
+                compPropBldr.setRuleId(prop.getRuleId());
                 PropositionDefinition compProp = this.createProposition(compPropBldr.build());
                 compPropBldrs.add(PropositionDefinition.Builder.create(compProp));
                 updated = true;
             } else {
                 compPropBldrs.add (compPropBldr);
-            }
-            if (compPropBldr.getRuleId() == null) {
-                compPropBldr.setRuleId(prop.getRuleId());
-                updated = true;
-            }            
+            }     
         }
         if (!updated) {
             return prop;
         }
         propBldr.setCompoundComponents(compPropBldrs);
-        this.propositionBoService.updateProposition(propBldr.build());
-        prop = this.getProposition(propBldr.getId());
+        prop = propBldr.build();
         return prop;
     }
 
@@ -598,10 +613,9 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
     @Override
     public void updateProposition(PropositionDefinition propositionDefinition) throws RiceIllegalArgumentException {
         this.crossCheckPropositionParameters(propositionDefinition);
+        propositionDefinition = createTermValuesIfNeeded(propositionDefinition);
+        propositionDefinition = createCompoundPropsIfNeeded (propositionDefinition);
         propositionBoService.updateProposition(propositionDefinition);
-        PropositionDefinition prop = this.getProposition(propositionDefinition.getId());
-        prop = createTermValuesIfNeeded(prop);
-        createCompoundPropsIfNeeded (prop);
     }
 
     @Override
