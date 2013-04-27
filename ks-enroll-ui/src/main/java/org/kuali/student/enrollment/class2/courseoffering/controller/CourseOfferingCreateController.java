@@ -156,60 +156,60 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                     SocInfo soc = getCourseOfferingSetService().getSoc(socIds.get(0), contextInfo);
                     coWrapper.setSocInfo(soc);
 
-                //Get all the course offerings in a term
-                List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(), term.getId(), contextInfo);
+                    //Get all the course offerings in a term
+                    List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(), term.getId(), contextInfo);
 
-                coWrapper.setCourse(course);
-                coWrapper.setCreditCount(CourseOfferingViewHelperUtil.trimTrailing0(getLrcService().getResultValue(course.getCreditOptions().get(0).getResultValueKeys().get(0), contextInfo).getValue()));
-                coWrapper.setShowAllSections(true);
-                coWrapper.setShowCatalogLink(false);
-                coWrapper.setShowTermOfferingLink(true);
+                    coWrapper.setCourse(course);
+                    coWrapper.setCreditCount(CourseOfferingViewHelperUtil.trimTrailing0(getLrcService().getResultValue(course.getCreditOptions().get(0).getResultValueKeys().get(0), contextInfo).getValue()));
+                    coWrapper.setShowAllSections(true);
+                    coWrapper.setShowCatalogLink(false);
+                    coWrapper.setShowTermOfferingLink(true);
 
-                coWrapper.getExistingTermOfferings().clear();
-                coWrapper.getExistingOfferingsInCurrentTerm().clear();
+                    coWrapper.getExistingTermOfferings().clear();
+                    coWrapper.getExistingOfferingsInCurrentTerm().clear();
 
-                for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
-                    if (StringUtils.equals(courseOfferingInfo.getStateKey(), LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)) {
+                    for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
+                        if (StringUtils.equals(courseOfferingInfo.getStateKey(), LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)) {
+                            ExistingCourseOffering co = new ExistingCourseOffering(courseOfferingInfo);
+                            co.setCredits(courseOfferingInfo.getCreditCnt());
+                            co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));
+                            coWrapper.getExistingOfferingsInCurrentTerm().add(co);
+                        }
+                    }
+
+                    //Get past 5 years CO
+                    Calendar termStart = Calendar.getInstance();
+                    termStart.setTime(term.getStartDate());
+                    String termYear = Integer.toString(termStart.get(Calendar.YEAR));
+
+                    org.kuali.student.r2.core.search.dto.SearchRequestInfo searchRequest = new org.kuali.student.r2.core.search.dto.SearchRequestInfo(CourseOfferingHistorySearchImpl.PAST_CO_SEARCH.getKey());
+                    searchRequest.addParam(CourseOfferingHistorySearchImpl.COURSE_ID, coWrapper.getCourse().getId());
+
+                    searchRequest.addParam(CourseOfferingHistorySearchImpl.TARGET_YEAR_PARAM, termYear);
+                    org.kuali.student.r2.core.search.dto.SearchResultInfo searchResult = getSearchService().search(searchRequest, null);
+
+                    List<String> courseOfferingIds = new ArrayList<String>(searchResult.getTotalResults());
+                    for (org.kuali.student.r2.core.search.dto.SearchResultRowInfo row : searchResult.getRows()) {
+                        courseOfferingIds.add(row.getCells().get(0).getValue());
+                    }
+
+                    courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds, contextInfo);
+
+                    for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
                         ExistingCourseOffering co = new ExistingCourseOffering(courseOfferingInfo);
+                        TermInfo termInfo = getAcademicCalendarService().getTerm(courseOfferingInfo.getTermId(), contextInfo);
+                        co.setTermCode(termInfo.getCode());
                         co.setCredits(courseOfferingInfo.getCreditCnt());
                         co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));
-                        coWrapper.getExistingOfferingsInCurrentTerm().add(co);
+                        coWrapper.getExistingTermOfferings().add(co);
                     }
-                }
 
-                //Get past 5 years CO
-                Calendar termStart = Calendar.getInstance();
-                termStart.setTime(term.getStartDate());
-                String termYear = Integer.toString(termStart.get(Calendar.YEAR));
-
-                org.kuali.student.r2.core.search.dto.SearchRequestInfo searchRequest = new org.kuali.student.r2.core.search.dto.SearchRequestInfo(CourseOfferingHistorySearchImpl.PAST_CO_SEARCH.getKey());
-                searchRequest.addParam(CourseOfferingHistorySearchImpl.COURSE_ID, coWrapper.getCourse().getId());
-
-                searchRequest.addParam(CourseOfferingHistorySearchImpl.TARGET_YEAR_PARAM, termYear);
-                org.kuali.student.r2.core.search.dto.SearchResultInfo searchResult = getSearchService().search(searchRequest, null);
-
-                List<String> courseOfferingIds = new ArrayList<String>(searchResult.getTotalResults());
-                for (org.kuali.student.r2.core.search.dto.SearchResultRowInfo row : searchResult.getRows()) {
-                    courseOfferingIds.add(row.getCells().get(0).getValue());
-                }
-
-                courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds, contextInfo);
-
-                for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
-                    ExistingCourseOffering co = new ExistingCourseOffering(courseOfferingInfo);
-                    TermInfo termInfo = getAcademicCalendarService().getTerm(courseOfferingInfo.getTermId(), contextInfo);
-                    co.setTermCode(termInfo.getCode());
-                    co.setCredits(courseOfferingInfo.getCreditCnt());
-                    co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));
-                    coWrapper.getExistingTermOfferings().add(co);
-                }
-
-                CourseOfferingCreateMaintainableImpl maintainable = (CourseOfferingCreateMaintainableImpl)KSControllerHelper.getViewHelperService(form);
-                maintainable.loadCourseJointInfos(coWrapper, form.getViewId());
-                //Enable the create button
-                coWrapper.setEnableCreateButton(true);
-            } else {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_SOC_NOT_EXISTS);
+                    CourseOfferingCreateMaintainableImpl maintainable = (CourseOfferingCreateMaintainableImpl)KSControllerHelper.getViewHelperService(form);
+                    maintainable.loadCourseJointInfos(coWrapper, form.getViewId());
+                    //Enable the create button
+                    coWrapper.setEnableCreateButton(true);
+                } else {
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_SOC_NOT_EXISTS);
                 }
             }
         } else {
