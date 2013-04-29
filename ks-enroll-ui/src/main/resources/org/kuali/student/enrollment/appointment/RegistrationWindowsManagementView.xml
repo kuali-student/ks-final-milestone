@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="KS-RegistrationWindowsManagement-View" parent="KSFormView" p:applyDirtyCheck="true"
+    <bean id="KS-RegistrationWindowsManagement-View" parent="KS-Uif-FormView" p:applyDirtyCheck="true"
             p:id="registrationWindowsManagementView" p:headerText="Manage Registration Windows"
             p:entryPageId="selectTermForRegWindows"
             p:viewHelperServiceClass="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentViewHelperServiceImpl"

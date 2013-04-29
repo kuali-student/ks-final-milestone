@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="ProcessInfo-CreateView" parent="KSFormView">
+    <bean id="ProcessInfo-CreateView" parent="KS-Uif-FormView">
         <property name="id" value="processCreateView"/>
         <property name="headerText" value="Create Process"/>
         <property name="formClass"

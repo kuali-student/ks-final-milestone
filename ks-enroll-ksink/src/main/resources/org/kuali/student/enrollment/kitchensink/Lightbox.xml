@@ -324,7 +324,7 @@
     </bean>
 
     <!-- simple test view
-    <bean id="KS-KitchenSink-Lightbox-View" parent="Uif-FormView"
+    <bean id="KS-KitchenSink-Lightbox-View" parent="KS-Uif-FormView"
           p:breadcrumbs.render="false">
         <property name="items">
             <list>

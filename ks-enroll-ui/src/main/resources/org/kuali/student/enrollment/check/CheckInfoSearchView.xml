@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="KS-CheckInfo-Search" parent="KSFormView"
+    <bean id="KS-CheckInfo-Search" parent="KS-Uif-FormView"
           p:id="checkInfoSearchView" p:headerText="Manage Checks" p:renderHeader="false">
         <property name="entryPageId" value="checkInfoSearch-SearchPage" />
         <property name="formClass" value="org.kuali.student.enrollment.class1.check.form.CheckInfoForm" />

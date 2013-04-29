@@ -7,7 +7,7 @@
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
-    <bean id="KS-HoldSearch-View" parent="KSFormView">
+    <bean id="KS-HoldSearch-View" parent="KS-Uif-FormView">
         <property name="id" value="holdSearchView"/>
         <property name="headerText" value="Manage Hold"/>
         <property name="renderHeader" value="false"/>

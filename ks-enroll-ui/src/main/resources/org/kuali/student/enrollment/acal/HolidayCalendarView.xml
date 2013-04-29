@@ -29,7 +29,7 @@
         KS-HolidayCalendar-ViewPage and all the required beans are defined by the three subviews.
     -->
 
-    <bean id="KS-HolidayCalendar-FlowView" parent="KSFormView">
+    <bean id="KS-HolidayCalendar-FlowView" parent="KS-Uif-FormView">
         <property name="id" value="holidayCalendarFlowView"/>
         <property name="entryPageId" value="holidayCalendarCopyPage"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.HolidayCalendarViewHelperServiceImpl"/>

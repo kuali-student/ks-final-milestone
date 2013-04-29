@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="KS-ProcessInfoSearch-View" parent="KSFormView">
+    <bean id="KS-ProcessInfoSearch-View" parent="KS-Uif-FormView">
         <property name="id" value="processInfoSearchView"/>
         <property name="headerText" value="Manage Process"/>
         <property name="renderHeader" value="false"/>

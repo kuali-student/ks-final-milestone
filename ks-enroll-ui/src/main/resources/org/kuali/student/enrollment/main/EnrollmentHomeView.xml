@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-EnrollmentHome-View" parent="KSFormView">
+    <bean id="KS-EnrollmentHome-View" parent="KS-Uif-FormView">
         <property name="id" value="enrollmentHomeView"/>
         <property name="headerText" value="Enrollment"/>
         <property name="formClass" value="org.kuali.student.enrollment.main.form.LaunchForm"/>

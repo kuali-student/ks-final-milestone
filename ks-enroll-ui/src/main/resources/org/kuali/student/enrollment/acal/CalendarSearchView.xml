@@ -31,7 +31,7 @@
         This is a single page view with all the required beans defined only here.
     -->
 
-    <bean id="KS-CalendarSearch-View" parent="KSFormView">
+    <bean id="KS-CalendarSearch-View" parent="KS-Uif-FormView">
         <property name="id" value="calendarSearchView"/>
         <property name="headerText" value="Calendar Search"/>
         <property name="singlePageView" value="true"/>

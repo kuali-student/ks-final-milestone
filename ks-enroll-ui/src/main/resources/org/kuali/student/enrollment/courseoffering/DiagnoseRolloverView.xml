@@ -19,7 +19,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <bean id="KS-DiagnoseRollover-View" parent="KSFormView" p:applyDirtyCheck="true"
+    <bean id="KS-DiagnoseRollover-View" parent="KS-Uif-FormView" p:applyDirtyCheck="true"
           p:id="diagnoseRolloverView" p:headerText="Diagnose Rollover View"
           p:entryPageId="selectTermForDiagnoseRollover"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.DiagnoseRolloverViewHelperServiceImpl"

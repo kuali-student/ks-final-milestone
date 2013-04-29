@@ -29,7 +29,7 @@ limitations under the License.
         2. AcademicCalendarCopyPage.xml
         3. AcademicTermPage.xml
     -->
-    <bean id="KS-AcademicCalendarView" parent="KSFormView">
+    <bean id="KS-AcademicCalendarView" parent="KS-Uif-FormView">
         <property name="id" value="academicCalendarFlowView"/>
         <property name="headerText" value="Academic Calendar"/>
         <property name="header.render" value="false"/>

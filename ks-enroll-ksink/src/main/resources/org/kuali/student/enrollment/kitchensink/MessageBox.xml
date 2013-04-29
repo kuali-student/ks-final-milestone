@@ -190,7 +190,7 @@
     </bean>
 
     <!-- simple test view
-    <bean id="KS-KitchenSink-MessageBox-View" parent="Uif-FormView"
+    <bean id="KS-KitchenSink-MessageBox-View" parent="KS-Uif-FormView"
           p:breadcrumbs.render="false">
         <property name="items">
             <list>

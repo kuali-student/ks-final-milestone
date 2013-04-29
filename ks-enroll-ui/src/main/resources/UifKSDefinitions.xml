@@ -37,7 +37,7 @@
         </property>
     </bean>
 
-    <bean id="KSFormView" abstract="true" parent="Uif-FormView">
+    <bean id="KS-Uif-FormView" abstract="true" parent="Uif-FormView">
         <property name="theme">
             <bean parent="KSTheme"/>
         </property>

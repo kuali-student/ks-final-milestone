@@ -19,7 +19,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <bean id="KS-TestServiceCall-View" parent="KSFormView" p:applyDirtyCheck="true"
+    <bean id="KS-TestServiceCall-View" parent="KS-Uif-FormView" p:applyDirtyCheck="true"
           p:id="testServiceCallView" p:headerText="Test Service Call View"
           p:entryPageId="testFirstService"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.TestServiceCallViewHelperServiceImpl"

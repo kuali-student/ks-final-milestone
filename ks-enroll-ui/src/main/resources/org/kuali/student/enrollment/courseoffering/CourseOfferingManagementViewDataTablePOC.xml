@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="KS-CourseOfferingManagement-View-DataTablePOC" parent="KSFormView" p:applyDirtyCheck="true"
+    <bean id="KS-CourseOfferingManagement-View-DataTablePOC" parent="KS-Uif-FormView" p:applyDirtyCheck="true"
           p:id="courseOfferingManagementViewDataTablePOC"
           p:entryPageId="searchInputPageDataTablePOC"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl"

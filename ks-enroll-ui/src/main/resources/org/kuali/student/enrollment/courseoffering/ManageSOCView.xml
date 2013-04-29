@@ -30,7 +30,7 @@
         This is a single page view with all the required beans defined only here.
     -->
 
-    <bean id="ManageSOCView" parent="KSFormView">
+    <bean id="ManageSOCView" parent="KS-Uif-FormView">
    	  <property name="id" value="ManageSOCView"/>
       <property name="headerText" value="Manage SOC" />
       <property name="header.render" value="false"/>

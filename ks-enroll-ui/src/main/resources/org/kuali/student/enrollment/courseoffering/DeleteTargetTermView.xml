@@ -19,7 +19,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <bean id="KS-DeleteTargetTerm-View" parent="KSFormView" p:applyDirtyCheck="true"
+    <bean id="KS-DeleteTargetTerm-View" parent="KS-Uif-FormView" p:applyDirtyCheck="true"
           p:id="deleteTargetTermView" p:headerText="Delete Target Term"
           p:entryPageId="selectTargetTermToDelete"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingViewHelperServiceImpl"

@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="KS-ProcessInfo-View" parent="KSFormView" p:applyDirtyCheck="true"
+    <bean id="KS-ProcessInfo-View" parent="KS-Uif-FormView" p:applyDirtyCheck="true"
           p:id="checkInfoView" p:headerText="Edit Checks">
         <property name="singlePageView" value="true"/>
         <property name="page">

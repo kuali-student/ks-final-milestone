@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="KrmsComponents-ManageView" parent="KSFormView">
+    <bean id="KrmsComponents-ManageView" parent="KS-Uif-FormView">
         <property name="id" value="manageKrmsComponentsView"/>
         <property name="headerText" value="KS KRMS Custom Components"/>
         <property name="formClass" value="org.kuali.student.enrollment.class1.krms.form.KrmsComponentsForm"/>

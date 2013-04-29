@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="HoldIssueInfo-CreateView" parent="KSFormView">
+    <bean id="HoldIssueInfo-CreateView" parent="KS-Uif-FormView">
         <property name="id" value="holdCreateView"/>
         <property name="headerText" value="Create Hold"/>
         <property name="formClass" value="org.kuali.student.enrollment.class1.hold.form.HoldIssueInfoForm" />

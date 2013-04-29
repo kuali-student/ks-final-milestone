@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="CheckInfo-CreateView" parent="KSFormView">
+    <bean id="CheckInfo-CreateView" parent="KS-Uif-FormView">
         <property name="id" value="checkCreateView"/>
         <property name="headerText" value="Create Checks"/>
         <property name="formClass"
