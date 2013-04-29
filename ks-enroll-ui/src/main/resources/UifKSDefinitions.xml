@@ -47,7 +47,7 @@
         <property name="theme">
             <bean parent="KSTheme"/>
         </property>
-        <!--TODO: check with UX, do we need to set page.header as for KS-Uif-HeaderOne-Empty by default? -->
+        <!--TODO: check with UX, do we need to set page.header as KS-Uif-HeaderOne-Empty by default? -->
         <!--<property name="page.header">-->
             <!--<ref bean="KS-Uif-HeaderOne-Empty" />-->
         <!--</property>-->
@@ -74,6 +74,16 @@
         <property name="page.items">
             <!-- In KS, we do not display the notes,route and doc overview section -->
             <list/>
+        </property>
+    </bean>
+
+    <!--Note by bonnie: Do not used in any code -->
+    <bean id="KS-Uif-InputField" abstract="true" parent="Uif-InputField"
+          p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="labelTop"
+          p:labelPlacement="TOP" p:fieldLabel.requiredMessagePlacement="LEFT"
+          p:instructionalMessage.render="false" >
+        <property name="instructionalMessage">
+            <bean parent="Uif-InstructionalMessage"/>
         </property>
     </bean>
 
@@ -166,15 +176,6 @@
           class="org.kuali.student.enrollment.uif.field.ActionFieldJsOverride">
         <property name="template" value="/krad/WEB-INF/jsp/templates/field/actionField.jsp"/>
         <property name="cssClasses" value="ui-priority-secondary-sm"/>
-    </bean>
-
-    <bean id="KSInputField" abstract="true" parent="Uif-InputField"
-          p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="labelTop"
-          p:labelPlacement="TOP" p:fieldLabel.requiredMessagePlacement="LEFT"
-          p:instructionalMessage.render="false" >
-        <property name="instructionalMessage">
-            <bean parent="Uif-InstructionalMessage"/>
-        </property>
     </bean>
 
     <bean id="KS-Link" parent="Uif-Link">
