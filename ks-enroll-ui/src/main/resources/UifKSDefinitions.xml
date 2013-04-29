@@ -78,6 +78,15 @@
     </bean>
 
     <!--Note by bonnie: Do not used in any code -->
+    <bean id="KS-Uif-TabGroup-Link" parent="Uif-TabGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-uif-tabSection</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--Note by bonnie: Do not used in any code -->
     <bean id="KS-Uif-InputField" abstract="true" parent="Uif-InputField"
           p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="labelTop"
           p:labelPlacement="TOP" p:fieldLabel.requiredMessagePlacement="LEFT"
@@ -247,14 +256,6 @@
     <bean id="KS-Disclosure-HorizontalCollectionSubSection" parent="KS-Disclosure-HorizontalCollectionSubSection-parent"/>
     <bean id="KS-Disclosure-HorizontalCollectionSubSection-parent" parent="KS-HorizontalCollectionSubSection">
         <property name="disclosure.render" value="true"/>
-    </bean>
-
-    <bean id="KS-Link-Uif-TabSection" parent="Uif-TabGroup">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-uif-tabSection</value>
-            </list>
-        </property>
     </bean>
 
     <bean id="KS-SimpleDataField" parent="KS-SimpleDataField-parentBean"/>
