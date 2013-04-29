@@ -82,7 +82,6 @@
     </bean>
 
     <!--This footer can be used for maintenance views: create a new or edit when we only want to see submit and cancel buttons -->
-    <!--<bean id="KSDocumentPageFooter_SubmitCancel" parent="KSDocumentPageFooter_SubmitCancel-parent"/>-->
     <bean id="KS-Uif-DocumentPageFooter-SubmitCancel" parent="Uif-DocumentPageFooter" abstract="true">
         <property name="items">
             <list>
@@ -95,7 +94,6 @@
     </bean>
 
     <!--<bean id="KS-HorizontalCollectionSection" parent="KS-HorizontalCollectionSection-parent"/>-->
-    <!--<bean id="KS-HorizontalCollectionSection-parent" parent="Uif-StackedCollectionSection">-->
     <bean id="KS-Uif-StackedCollectionSection" parent="Uif-StackedCollectionSection">
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
@@ -109,6 +107,18 @@
         </property>
     </bean>
 
+    <bean id="KS-Uif-Disclosure" abstract="true" parent="Uif-Disclosure">
+        <property name="collapseImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_collapse-back-ks.png"/>
+        <property name="expandImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_expand-back-ks.png"/>
+    </bean>
+
+    <!--Note by bonnie: Not used in any code -->
+    <bean id="KS-Uif-VerticalBoxSection-Disclosure" abstract="true" parent="Uif-VerticalBoxSection">
+        <property name="disclosure">
+            <bean parent="KS-Uif-Disclosure"/>
+        </property>
+    </bean>
+
     <!--Note: This is a tab group with link based look and feel. It is not used in any code so far. -->
     <bean id="KS-Uif-TabGroup-Link" parent="Uif-TabGroup">
         <property name="cssClasses">
@@ -118,7 +128,7 @@
         </property>
     </bean>
 
-    <!--Note by bonnie: Do not used in any code -->
+    <!--Note by bonnie: Not used in any code -->
     <bean id="KS-Uif-InputField" abstract="true" parent="Uif-InputField"
           p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="labelTop"
           p:labelPlacement="TOP" p:fieldLabel.requiredMessagePlacement="LEFT"
@@ -127,6 +137,27 @@
             <bean parent="Uif-InstructionalMessage"/>
         </property>
     </bean>
+
+    <!--Note by bonnie: Not used in any code -->
+    <bean id="KS-Uif-Link-DisplayInLightBox" parent="Uif-Link">
+        <property name="lightBox">
+            <bean parent="Uif-LightBox"/>
+        </property>
+        <property name="target" value="_blank"/>
+    </bean>
+
+    <!--Note by bonnie: Not used in any code -->
+    <bean id="KS-Uif-Link-Edit" parent="KS-Uif-Link-DisplayInLightBox" p:order="10">
+        <property name="linkText" value="Edit"/>
+        <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+        <property name="finalizeMethodAdditionalArguments">
+            <list>
+                <value>maintenanceEdit</value>
+            </list>
+        </property>
+        <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line)}"/>
+    </bean>
+
 
     <bean id="KSUifFormView" parent="KSUifFormView-parentBean"/>
     <bean id="KSUifFormView-parentBean" class="org.kuali.student.enrollment.uif.view.KSUifFormView" parent="Uif-FormView" abstract="true">
@@ -186,43 +217,11 @@
     </bean>
 
 
-
-    <bean id="KSGroup" abstract="true" parent="Uif-VerticalBoxSection">
-        <property name="disclosure">
-            <bean parent="KSDisclosure"/>
-        </property>
-    </bean>
-
-
-    <bean id="KSDisclosure" abstract="true" parent="Uif-Disclosure-parentBean">
-        <property name="collapseImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_collapse-back-ks.png"/>
-        <property name="expandImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_expand-back-ks.png"/>
-    </bean>
-
-
     <bean id="ActionField_SmallSecondary_Override" parent="ActionField_SmallSecondary_Override-parentBean"/>
     <bean id="ActionField_SmallSecondary_Override-parentBean" abstract="true"
           class="org.kuali.student.enrollment.uif.field.ActionFieldJsOverride">
         <property name="template" value="/krad/WEB-INF/jsp/templates/field/actionField.jsp"/>
         <property name="cssClasses" value="ui-priority-secondary-sm"/>
-    </bean>
-
-    <bean id="KS-Link" parent="Uif-Link">
-        <property name="lightBox">
-            <bean parent="Uif-LightBox"/>
-        </property>
-        <property name="target" value="_blank"/>
-    </bean>
-
-    <bean id="KS-Edit-Link" parent="KS-Link" p:order="10">
-        <property name="linkText" value="Edit"/>
-        <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
-        <property name="finalizeMethodAdditionalArguments">
-            <list>
-                <value>maintenanceEdit</value>
-            </list>
-        </property>
-        <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line)}"/>
     </bean>
 
 
