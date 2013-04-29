@@ -36,7 +36,7 @@
     </bean>
 
     <!-- InquiryView -->
-    <bean id="KS-CourseOfferingInfo-InquiryView" parent="KSInquiryView">
+    <bean id="KS-CourseOfferingInfo-InquiryView" parent="KS-Uif-InquiryView">
         <property name="headerText" value="CourseOfferingInfo Inquiry"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingInfoInquirableImpl" />

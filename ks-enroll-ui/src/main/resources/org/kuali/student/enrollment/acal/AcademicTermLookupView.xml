@@ -61,7 +61,7 @@
   </bean>
 
 
-    <bean id="KS-AcademicTerm-InquiryView" parent="KSInquiryView">
+    <bean id="KS-AcademicTerm-InquiryView" parent="KS-Uif-InquiryView">
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.TermInfo" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicTermInfoInquirableImpl" />
         <property name="Items">

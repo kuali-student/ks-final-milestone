@@ -26,7 +26,7 @@
 	<value>classpath:org/kuali/student/ui/admin/lrc/ResultValuesGroupInfoAdminInquiryView.xml</value>
 	********************************************** -->
 	<!-- InquiryView -->
-	<bean id="KS-ResultValuesGroupInfo-AdminInquiryView" parent="KSInquiryView"
+	<bean id="KS-ResultValuesGroupInfo-AdminInquiryView" parent="KS-Uif-InquiryView"
 		p:title="ResultValuesGroupInfo Inquiry"
 		p:dataObjectClassName="org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo"
 		p:viewHelperServiceClass="org.kuali.student.ui.admin.lrc.ResultValuesGroupInfoAdminInquirableImpl">

@@ -29,7 +29,7 @@
     </bean>
 
     <!-- InquiryView -->
-    <!--<bean id="KS-EnrollmentFeeInfo-InquiryView" parent="KSInquiryView"
+    <!--<bean id="KS-EnrollmentFeeInfo-InquiryView" parent="KS-Uif-InquiryView"
           p:headerText="EnrollmentFee Inquiry"
           p:dataObjectClassName="org.kuali.student.r2.core.room.dto.BuildingInfo"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.EnrollmentFeeInfoInquirableImpl">

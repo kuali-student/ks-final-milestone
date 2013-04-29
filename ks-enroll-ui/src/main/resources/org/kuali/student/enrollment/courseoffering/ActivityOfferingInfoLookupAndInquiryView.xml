@@ -61,7 +61,7 @@
     </bean>
 
     <!-- InquiryView -->
-    <bean id="KS-ActivityOffering-InquiryView" parent="KSInquiryView"
+    <bean id="KS-ActivityOffering-InquiryView" parent="KS-Uif-InquiryView"
         p:headerText="ActivityOffering Inquiry"
         p:dataObjectClassName="org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo"
         p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingInquirableImpl">

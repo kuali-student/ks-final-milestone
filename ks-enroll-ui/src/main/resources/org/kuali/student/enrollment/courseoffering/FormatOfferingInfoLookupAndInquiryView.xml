@@ -84,7 +84,7 @@
     </bean>
 
     <!-- InquiryView -->
-    <bean id="FormatOfferingInfo-InquiryView" parent="KSInquiryView">
+    <bean id="FormatOfferingInfo-InquiryView" parent="KS-Uif-InquiryView">
         <property name="headerText" value="Format OfferingInfo Inquiry"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.FormatOfferingInfoInquirableImpl" />

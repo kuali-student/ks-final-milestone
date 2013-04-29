@@ -51,7 +51,7 @@
     </bean>
 
     <!-- InquiryView -->
-    <bean id="TermInfo-InquiryView" parent="KSInquiryView">
+    <bean id="TermInfo-InquiryView" parent="KS-Uif-InquiryView">
         <property name="headerText" value="SocRolloverResultItemInfo Inquiry"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.SocRolloverResultItemInfoInquirableImpl" />

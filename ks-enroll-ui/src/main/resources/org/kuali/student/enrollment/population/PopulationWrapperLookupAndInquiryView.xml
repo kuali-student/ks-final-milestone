@@ -91,7 +91,7 @@
     </bean>
 
     <!-- InquiryView -->
-    <bean id="KS-Population-InquiryView" parent="KSInquiryView">
+    <bean id="KS-Population-InquiryView" parent="KS-Uif-InquiryView">
         <property name="headerText" value="View Population"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperInquirableImpl"/>

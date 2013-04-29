@@ -61,7 +61,7 @@
         <!-- -->
     </bean>
 
-    <bean id="KS-KitchenSink-InquiryView-NoHeaderButtons" parent="KSInquiryView">
+    <bean id="KS-KitchenSink-InquiryView-NoHeaderButtons" parent="KS-Uif-InquiryView">
         <property name="page">
             <bean parent="Uif-InquiryPage">
                 <property name="header">

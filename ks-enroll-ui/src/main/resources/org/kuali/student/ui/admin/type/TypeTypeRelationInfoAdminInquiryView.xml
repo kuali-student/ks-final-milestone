@@ -26,7 +26,7 @@
 	<value>classpath:org/kuali/student/ui/admin/type/TypeTypeRelationInfoAdminInquiryView.xml</value>
 	********************************************** -->
 	<!-- InquiryView -->
-	<bean id="KS-TypeTypeRelationInfo-AdminInquiryView" parent="KSInquiryView"
+	<bean id="KS-TypeTypeRelationInfo-AdminInquiryView" parent="KS-Uif-InquiryView"
 		p:title="TypeTypeRelationInfo Inquiry"
 		p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo"
 		p:viewHelperServiceClass="org.kuali.student.ui.admin.type.TypeTypeRelationInfoAdminInquirableImpl">
