@@ -32,6 +32,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.SeatPoolUtilit
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
+import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -151,8 +152,8 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                  * Once user submits a doc after scheduling complemented, all the RDLs should be converted to ADLs
                  */
                 if (activityOfferingWrapper.isSchedulesModified() ||
-                   (!activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && activityOfferingWrapper.isColocatedAO()) ||
-                   (activityOfferingWrapper.isSchedulingCompleted() && !activityOfferingWrapper.getRequestedScheduleComponents().isEmpty())){
+                        (!activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && activityOfferingWrapper.isColocatedAO()) ||
+                        (activityOfferingWrapper.isSchedulingCompleted() && !activityOfferingWrapper.getRequestedScheduleComponents().isEmpty())){
                     getScheduleHelper().saveSchedules(activityOfferingWrapper);
                 }
             }
@@ -161,7 +162,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
              * Now that the Ao & the schedule has been updated, we need to update the registration groups
              */
             try {
-            ARGUtil.getArgServiceAdapter().updateRegistrationGroups(activityOfferingInfo, contextInfo);
+                ARGUtil.getArgServiceAdapter().updateRegistrationGroups(activityOfferingInfo, contextInfo);
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
             }
@@ -277,18 +278,18 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             coloSet.getActivityOfferingIds().remove(activityOfferingId);
             //If there is only one AO in the colo set, delete the Coloset and point the colo RLDs to the last AO.
             if (coloSet.getActivityOfferingIds().size() == 1){
-              //For performance reasons, just get the lui instead of AO.
-              LuiInfo luiInfo = getLuiService().getLui(coloSet.getActivityOfferingIds().get(0), createContextInfo());
-              List<ScheduleRequestInfo> scheduleRequestInfos = getSchedulingService().getScheduleRequestsByRefObject(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,coloSet.getId(),createContextInfo());
-              for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
-                  scheduleRequestInfo.setRefObjectId(luiInfo.getId());
-                  scheduleRequestInfo.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
-                  scheduleRequestInfo.setName("Schedule request for activity offering");
-                  getSchedulingService().updateScheduleRequest(scheduleRequestInfo.getId(),scheduleRequestInfo,createContextInfo());
-              }
-              getCourseOfferingService().deleteColocatedOfferingSet(coloSet.getId(), createContextInfo());
+                //For performance reasons, just get the lui instead of AO.
+                LuiInfo luiInfo = getLuiService().getLui(coloSet.getActivityOfferingIds().get(0), createContextInfo());
+                List<ScheduleRequestInfo> scheduleRequestInfos = getSchedulingService().getScheduleRequestsByRefObject(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,coloSet.getId(),createContextInfo());
+                for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
+                    scheduleRequestInfo.setRefObjectId(luiInfo.getId());
+                    scheduleRequestInfo.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+                    scheduleRequestInfo.setName("Schedule request for activity offering");
+                    getSchedulingService().updateScheduleRequest(scheduleRequestInfo.getId(),scheduleRequestInfo,createContextInfo());
+                }
+                getCourseOfferingService().deleteColocatedOfferingSet(coloSet.getId(), createContextInfo());
             } else {
-              getCourseOfferingService().updateColocatedOfferingSet(coloSet.getId(),coloSet,createContextInfo());
+                getCourseOfferingService().updateColocatedOfferingSet(coloSet.getId(),coloSet,createContextInfo());
             }
 
         } catch (Exception e) {
@@ -303,7 +304,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         getScheduleHelper().prepareForScheduleRevise(wrapper);
     }*/
 
-   /* @Override
+    /* @Override
     public void processRevisedSchedules(ActivityOfferingWrapper activityOfferingWrapper) {
         getScheduleHelper().processRevisedSchedules(activityOfferingWrapper);
     }*/
@@ -521,7 +522,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
     @Override
     public void applyDefaultValuesForCollectionLine(View view, Object model, CollectionGroup collectionGroup,
-                Object line) {
+                                                    Object line) {
 
         super.applyDefaultValuesForCollectionLine(view,model,collectionGroup,line);
 
@@ -739,8 +740,28 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             }
         } else if (addLine instanceof SeatPoolWrapper) {   //Seat Pool
             SeatPoolWrapper seatPool = (SeatPoolWrapper) addLine;
-            //check duplication
 
+            //check if a valid population is entered
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.and(
+                    PredicateFactory.equal("populationState", PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY),
+                    PredicateFactory.equalIgnoreCase("name", seatPool.getSeatPoolPopulation().getName())));
+            QueryByCriteria criteria = qbcBuilder.build();
+
+            try {
+                List<PopulationInfo> populationInfoList = getPopulationService().searchForPopulations(criteria, createContextInfo());
+                if(populationInfoList == null || populationInfoList.isEmpty()){
+                    GlobalVariables.getMessageMap().putErrorForSectionId("ao-seatpoolgroup", PopulationConstants.POPULATION_MSG_ERROR_POPULATION_NOT_FOUND, seatPool.getSeatPoolPopulation().getName());
+                    return false;
+                } else {
+                    seatPool.getSeatPoolPopulation().setName(populationInfoList.get(0).getName());
+                    seatPool.getSeatPoolPopulation().setId(populationInfoList.get(0).getId());
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            //check duplication
             List<SeatPoolWrapper> pools = activityOfferingWrapper.getSeatpools();
             if (pools != null && !pools.isEmpty()) {
                 for (SeatPoolWrapper pool : pools) {
@@ -764,7 +785,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
         for (ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()){
             if (StringUtils.equals(activity.getCourseOfferingCode(),colo.getCourseOfferingCode()) &&
-                StringUtils.equals(activity.getActivityOfferingCode(),colo.getActivityOfferingCode())){
+                    StringUtils.equals(activity.getActivityOfferingCode(),colo.getActivityOfferingCode())){
                 GlobalVariables.getMessageMap().putError(groupId, RiceKeyConstants.ERROR_CUSTOM, "Duplicate Entry");
                 return false;
             }
@@ -895,12 +916,12 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         List<String> activityOfferingCodes = new ArrayList<String>();
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            qbcBuilder.setPredicates(PredicateFactory.and(
-                    PredicateFactory.equal("courseOfferingCode", StringUtils.upperCase(courseOfferingCode)),
-                    PredicateFactory.equalIgnoreCase("atpId", termId)));
-            QueryByCriteria criteria = qbcBuilder.build();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+                PredicateFactory.equal("courseOfferingCode", StringUtils.upperCase(courseOfferingCode)),
+                PredicateFactory.equalIgnoreCase("atpId", termId)));
+        QueryByCriteria criteria = qbcBuilder.build();
 
-            //Do search. In ideal case, returns one element, which is the desired CO.
+        //Do search. In ideal case, returns one element, which is the desired CO.
         List<CourseOfferingInfo> courseOfferings = null;
         try {
             courseOfferings = getCourseOfferingService().searchForCourseOfferings(criteria, createContextInfo());

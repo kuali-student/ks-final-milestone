@@ -430,7 +430,7 @@
                             <bean parent="Uif-MessageField" p:messageText="" p:label="PERCENT" p:readOnly="true" p:id="seatLimitPercent" />
                             <bean parent="Uif-InputField" p:label="POPULATION NAME" p:propertyName="seatPoolPopulation.name" p:required="true" p:cssClasses="col_6">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="true" />
+                                    <bean parent="Uif-TextControl" p:size="40"  />
                                 </property>
                                 <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
                                 <property name="quickfinder.fieldConversions">
