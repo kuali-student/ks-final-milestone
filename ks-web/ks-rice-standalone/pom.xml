@@ -64,7 +64,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
-                    <dependentWarExcludes>WEB-INF/lib/**</dependentWarExcludes>
+                    <dependentWarExcludes>WEB-INF/lib/**,META-INF/**</dependentWarExcludes>
                 </configuration>
             </plugin>
         </plugins>
