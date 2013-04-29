@@ -365,7 +365,7 @@
         </property>
     </bean>
 
-    <bean id="KS-ManageRegistrationGroups-ClusterCollection" parent="KS-HorizontalCollectionSection"
+    <bean id="KS-ManageRegistrationGroups-ClusterCollection" parent="KS-Uif-StackedCollectionSection"
           p:renderAddLine="false"  p:renderLineActions="false" p:onDocumentReadyScript="removeSelfFromDropdowns('KS-ManageRegistrationGroups-ClusterHeaderText');">
         <property name="disclosure.render" value="false"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper" />

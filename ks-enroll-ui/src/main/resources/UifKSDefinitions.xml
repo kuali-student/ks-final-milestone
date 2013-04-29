@@ -77,7 +77,22 @@
         </property>
     </bean>
 
-    <!--Note by bonnie: Do not used in any code -->
+    <!--<bean id="KS-HorizontalCollectionSection" parent="KS-HorizontalCollectionSection-parent"/>-->
+    <!--<bean id="KS-HorizontalCollectionSection-parent" parent="Uif-StackedCollectionSection">-->
+    <bean id="KS-Uif-StackedCollectionSection" parent="Uif-StackedCollectionSection">
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="subCollectionFieldGroupPrototype">
+                    <bean parent="Uif-HorizontalFieldGroup"/>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list/>
+        </property>
+    </bean>
+
+    <!--Note: This is a tab group with link based look and feel. It is not used in any code so far. -->
     <bean id="KS-Uif-TabGroup-Link" parent="Uif-TabGroup">
         <property name="cssClasses">
             <list merge="true">
@@ -205,35 +220,10 @@
         <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line)}"/>
     </bean>
 
-    <bean id="KS-HorizontalCollectionSection" parent="KS-HorizontalCollectionSection-parent"/>
-    <bean id="KS-HorizontalCollectionSection-parent" parent="Uif-StackedCollectionSection">
-        <property name="layoutManager">
-            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
-                <property name="subCollectionFieldGroupPrototype">
-                    <bean parent="Uif-HorizontalFieldGroup"/>
-                </property>
-            </bean>
-        </property>
-        <property name="items">
-            <list>
-                <!-- IMPORTANT NOTE:
-                     Rice 2.2.0-M1 has a bug such that StackedCollectionLayout-WithBoxItems does not
-                     assign the correct horizontal class to each item, so the items will incorrectly
-                     stack vertically.  To fix this, put the items in a HorizontalFieldGroup element:
-                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
-                    <property name="items">
-                        <list>
-                            { actual list of items }
-                        </list>
-                    </property>
-                </bean>
-                -->
-            </list>
-        </property>
-    </bean>
+
 
     <bean id="KS-Disclosure-HorizontalCollectionSection" parent="KS-Disclosure-HorizontalCollectionSection-parent"/>
-    <bean id="KS-Disclosure-HorizontalCollectionSection-parent" parent="KS-HorizontalCollectionSection">
+    <bean id="KS-Disclosure-HorizontalCollectionSection-parent" parent="KS-Uif-StackedCollectionSection">
         <property name="disclosure.render" value="true"/>
     </bean>
 
@@ -248,7 +238,7 @@
         </property>
         <property name="items">
             <list>
-                <!-- IMPORTANT NOTE: See note in KS-HorizontalCollectionSection -->
+                <!-- IMPORTANT NOTE: See note in KS-Uif-StackedCollectionSection -->
             </list>
         </property>
     </bean>
