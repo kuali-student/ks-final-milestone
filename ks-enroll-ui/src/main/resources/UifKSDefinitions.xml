@@ -107,6 +107,33 @@
         </property>
     </bean>
 
+    <!--Note by bonnie: Not used in any code -->
+    <bean id="KS-Uif-StackedCollectionSection-Disclosure" parent="KS-Uif-StackedCollectionSection">
+        <property name="disclosure.render" value="true"/>
+        <!-- TODO: check with UX, do we need to set disclosure as KS-Uif-Disclosure by default? -->
+        <!--<property name="disclosure">-->
+            <!--<bean parent="KS-Uif-Disclosure"/>-->
+        <!--</property>-->
+    </bean>
+
+    <bean id="KS-Uif-StackedCollectionSubSection" parent="Uif-StackedCollectionSubSection">
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="subCollectionFieldGroupPrototype">
+                    <bean parent="Uif-HorizontalFieldGroup"/>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list/>
+        </property>
+    </bean>
+
+    <!--<bean id="KS-Disclosure-HorizontalCollectionSubSection" parent="KS-Disclosure-HorizontalCollectionSubSection-parent"/>-->
+    <bean id="KS-Uif-StackedCollectionSubSection-Disclosure" parent="KS-Uif-StackedCollectionSubSection">
+        <property name="disclosure.render" value="true"/>
+    </bean>
+
     <bean id="KS-Uif-Disclosure" abstract="true" parent="Uif-Disclosure">
         <property name="collapseImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_collapse-back-ks.png"/>
         <property name="expandImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_expand-back-ks.png"/>
@@ -224,33 +251,6 @@
         <property name="cssClasses" value="ui-priority-secondary-sm"/>
     </bean>
 
-
-
-    <bean id="KS-Disclosure-HorizontalCollectionSection" parent="KS-Disclosure-HorizontalCollectionSection-parent"/>
-    <bean id="KS-Disclosure-HorizontalCollectionSection-parent" parent="KS-Uif-StackedCollectionSection">
-        <property name="disclosure.render" value="true"/>
-    </bean>
-
-    <bean id="KS-HorizontalCollectionSubSection" parent="KS-HorizontalCollectionSubSection-parent"/>
-    <bean id="KS-HorizontalCollectionSubSection-parent" parent="Uif-StackedCollectionSubSection">
-        <property name="layoutManager">
-            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
-                <property name="subCollectionFieldGroupPrototype">
-                    <bean parent="Uif-HorizontalFieldGroup"/>
-                </property>
-            </bean>
-        </property>
-        <property name="items">
-            <list>
-                <!-- IMPORTANT NOTE: See note in KS-Uif-StackedCollectionSection -->
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-Disclosure-HorizontalCollectionSubSection" parent="KS-Disclosure-HorizontalCollectionSubSection-parent"/>
-    <bean id="KS-Disclosure-HorizontalCollectionSubSection-parent" parent="KS-HorizontalCollectionSubSection">
-        <property name="disclosure.render" value="true"/>
-    </bean>
 
     <bean id="KS-SimpleDataField" parent="KS-SimpleDataField-parentBean"/>
     <bean id="KS-SimpleDataField-parentBean" abstract="true" parent="Uif-DataField" scope="prototype">
