@@ -19,13 +19,9 @@
      limitations under the License.
     -->
     <bean id="KRMS-AgendaManagement-View" parent="KSMaintenanceView">
-        <property name="headerText" value="Course Rules"/>
+        <property name="headerText" value="Course Rule"/>
+        <property name="header.style" value="border-bottom:solid 4px #000; height:26px"/>
         <property name="dataObjectClassName" value="org.kuali.rice.krms.dto.RuleManagementWrapper"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-enrollment-home</value>
-            </list>
-        </property>
         <property name="additionalScriptFiles">
             <list>
                 <value>krms/scripts/agendaTree.js</value>
@@ -73,6 +69,27 @@
     </bean>
 
     <bean name="KRMS-AgendaMaintenance-Page-Parent" parent="Uif-Page">
+        <property name="headerText" value="@{#dp.cluDescription}"/>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-HorizontalBoxGroup" p:style="margin-top:1em; margin-bottom:-1em">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-ActionLink" p:actionScript="expandDisclosures();"
+                                p:actionLabel="[+] expand all">
+                            <property name="actionImage">
+                                <null/>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-ActionLink" p:actionScript="collapseDisclosures();"
+                              p:actionLabel="[-] collapse all" p:style="margin-left:1em">
+                            <property name="actionImage">
+                                <null/>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
         <property name="footer">
             <bean id="KRMS-Footer-SubmitCancel" parent="KRMS-Footer-SubmitCancel-parent"/>
         </property>
