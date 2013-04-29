@@ -203,7 +203,7 @@
             <list>
                 <ref bean="KS-EditCourseOffering-AliasMessageSection" />
                 <ref bean="KS-CourseOfferingEdit-Term"/>
-                <ref bean="KSDocumentPageFooter_SubmitCancel"/>
+                <ref bean="KS-Uif-DocumentPageFooter-SubmitCancel"/>
                 <ref bean="KS-CourseOfferingEdit-CourseOfferingInformation"/>
                 <ref bean="KS-CourseOfferingEdit-DeliveryAndAssessment"/>
                 <ref bean="KS-CourseOfferingEdit-Waitlist"/>
@@ -213,7 +213,7 @@
             </list>
         </property>
         <property name="page.footer.items">
-            <ref bean="KSDocumentPageFooter_SubmitCancel" />
+            <ref bean="KS-Uif-DocumentPageFooter-SubmitCancel" />
         </property>
     </bean>
 

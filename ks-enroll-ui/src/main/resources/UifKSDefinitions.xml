@@ -75,6 +75,23 @@
             <!-- In KS, we do not display the notes,route and doc overview section -->
             <list/>
         </property>
+        <!-- TODO: check with UX, do we need to set page.footer.items as KS-Uif-DocumentPageFooter-SubmitCancel by default? -->
+        <!--<property name="page.footer.items">-->
+            <!--<ref bean="KS-Uif-DocumentPageFooter-SubmitCancel" />-->
+        <!--</property>-->
+    </bean>
+
+    <!--This footer can be used for maintenance views: create a new or edit when we only want to see submit and cancel buttons -->
+    <!--<bean id="KSDocumentPageFooter_SubmitCancel" parent="KSDocumentPageFooter_SubmitCancel-parent"/>-->
+    <bean id="KS-Uif-DocumentPageFooter-SubmitCancel" parent="Uif-DocumentPageFooter" abstract="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
     </bean>
 
     <!--<bean id="KS-HorizontalCollectionSection" parent="KS-HorizontalCollectionSection-parent"/>-->
@@ -168,19 +185,7 @@
         </property>
     </bean>
 
-    <!--Added by Bonnie-->
-    <!--This footer can be used for maintenance views: create a new or edit when we only want to see submit and cancel buttons -->
-    <bean id="KSDocumentPageFooter_SubmitCancel" parent="KSDocumentPageFooter_SubmitCancel-parent"/>
-    <bean id="KSDocumentPageFooter_SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
-        <property name="items">
-            <list>
-                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="cancel"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
-            </list>
-        </property>
-    </bean>
+
 
     <bean id="KSGroup" abstract="true" parent="Uif-VerticalBoxSection">
         <property name="disclosure">

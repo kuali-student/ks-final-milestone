@@ -35,7 +35,7 @@
             </list>
         </property>
         <property name="page.footer.items">
-            <ref bean="KSDocumentPageFooter_SubmitCancel"/>
+            <ref bean="KS-Uif-DocumentPageFooter-SubmitCancel"/>
         </property>
         <property name="dialogs">
             <list>
