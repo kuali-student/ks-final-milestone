@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
-    <bean id="Agenda-Student-MaintenanceView" parent="KSMaintenanceView">
+    <bean id="Agenda-Student-MaintenanceView" parent="KS-Uif-MaintenanceView">
         <property name="headerText" value="Manage Enrollment Eligibility"/>
         <property name="cssClasses">
             <list merge="true">

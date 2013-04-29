@@ -37,7 +37,7 @@
     <!-- just the various containers for the interesting bits -->
 
     <!-- Maintenance view for PopulationInfo -->
-    <bean id="KS-KitchenSink-MaintenanceView-PopulationInfo" parent="KSMaintenanceView">
+    <bean id="KS-KitchenSink-MaintenanceView-PopulationInfo" parent="KS-Uif-MaintenanceView">
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.population.dto.PopulationInfo"/>
         <property name="breadcrumbs.render" value="false"/>
         <property name="headerText" value="PopulationInfo Maintenance View"/>

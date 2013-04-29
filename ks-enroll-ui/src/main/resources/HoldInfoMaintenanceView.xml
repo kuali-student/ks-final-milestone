@@ -19,7 +19,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
  limitations under the License.
 -->
     
-  <bean id="HoldInfo-MaintenanceView" parent="KSMaintenanceView">
+  <bean id="HoldInfo-MaintenanceView" parent="KS-Uif-MaintenanceView">
      <property name="headerText" value="HoldInfo Maintenance"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.hold.dto.HoldInfo"/>
      <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.hold.service.HoldInfoMaintainableImpl" />

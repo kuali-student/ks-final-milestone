@@ -19,7 +19,7 @@
     -->
 
     <!-- PopulationWrapper MaintenanceView -->
-    <bean id="KS-PopulationWrapper-MaintenanceView" parent="KSMaintenanceView">
+    <bean id="KS-PopulationWrapper-MaintenanceView" parent="KS-Uif-MaintenanceView">
         <property name="headerText" value="@{(maintenanceAction eq 'New') ? 'Create a New Population' : 'Edit Population'}"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperMaintainableImpl" />

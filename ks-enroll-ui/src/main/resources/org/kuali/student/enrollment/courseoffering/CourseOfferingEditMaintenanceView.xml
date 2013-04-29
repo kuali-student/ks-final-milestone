@@ -178,7 +178,7 @@
     </bean>
 
     <!-- Edit a Course Offering MaintenanceView -->
-    <bean id="KS-CourseOfferingEditWrapper-EditMaintenanceView" parent="KSMaintenanceView">
+    <bean id="KS-CourseOfferingEditWrapper-EditMaintenanceView" parent="KS-Uif-MaintenanceView">
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>

@@ -49,6 +49,24 @@
         </property>
     </bean>
 
+    <bean id="KS-Uif-MaintenanceView" abstract="true" parent="Uif-MaintenanceView">
+        <property name="theme">
+            <bean parent="KSTheme"/>
+        </property>
+        <property name="header.rightGroup.items">
+            <!-- In KS, document overview section not needed(document status, create time, doc number etc)-->
+            <list/>
+        </property>
+        <property name="page.header.lowerGroup.items">
+            <!-- In KS, expandall/collapseall not needed-->
+            <list/>
+        </property>
+        <property name="page.items">
+            <!-- In KS, we do not display the notes,route and doc overview section -->
+            <list/>
+        </property>
+    </bean>
+
     <bean id="KSUifFormView" parent="KSUifFormView-parentBean"/>
     <bean id="KSUifFormView-parentBean" class="org.kuali.student.enrollment.uif.view.KSUifFormView" parent="Uif-FormView" abstract="true">
         <property name="theme">
@@ -89,22 +107,6 @@
         </property>
     </bean>
 
-
-
-    <bean id="KSMaintenanceView" abstract="true" parent="Uif-MaintenanceView">
-        <property name="theme">
-            <bean parent="KSTheme"/>
-        </property>
-        <property name="header.rightGroup.items">      <!-- In KS, document overview section not needed(document status, create time, doc number etc)-->
-            <list/>
-        </property>
-        <property name="page.header.lowerGroup.items">   <!-- Also, expandall/collapseall not needed-->
-            <list/>
-        </property>
-        <property name="page.items">  <!-- In KS, we are not displaying the notes,route and doc overview section -->
-            <list></list>
-        </property>
-    </bean>
 
     <bean id="KSUifMaintenanceView" abstract="true" parent="KSUifMaintenanceView-parentBean"/>
     <bean id="KSUifMaintenanceView-parentBean" class="org.kuali.student.enrollment.uif.view.KSUifMaintenanceView" parent="Uif-MaintenanceView" abstract="true">

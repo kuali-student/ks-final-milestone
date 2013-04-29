@@ -19,7 +19,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
  limitations under the License.
 -->
 
-    <bean id="EnrollmentFeeInfo-MaintenanceView" parent="KSMaintenanceView">
+    <bean id="EnrollmentFeeInfo-MaintenanceView" parent="KS-Uif-MaintenanceView">
         <property name="headerText" value="Enrollment Fee Info Maintenance"/>
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.EnrollmentFeeInfoMaintainableImpl" />

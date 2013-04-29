@@ -18,7 +18,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <bean id="KRMS-AgendaManagement-View" parent="KSMaintenanceView">
+    <bean id="KRMS-AgendaManagement-View" parent="KS-Uif-MaintenanceView">
         <property name="headerText" value="Course Rule"/>
         <property name="header.style" value="border-bottom:solid 4px #000; height:26px"/>
         <property name="dataObjectClassName" value="org.kuali.rice.krms.dto.RuleManagementWrapper"/>
