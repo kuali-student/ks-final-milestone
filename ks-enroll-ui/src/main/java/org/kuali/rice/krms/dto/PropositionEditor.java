@@ -98,7 +98,7 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
     }
 
     public void setId(String id) {
-        if (!StringUtils.isBlank(id)) {
+        if (!StringUtils.isBlank(id) || id == null) {
             this.id = id;
         }
     }
@@ -130,6 +130,10 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
     @Override
     public List<? extends PropositionDefinitionContract> getCompoundComponents() {
         return compoundEditors;
+    }
+
+    public void setVersionNumber(Long versionNumber) {
+        this.versionNumber = versionNumber;
     }
 
     public List<PropositionParameterEditor> getParameters() {

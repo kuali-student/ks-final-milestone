@@ -550,6 +550,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
                             workingProp = oldParent.getCompoundEditors().remove(index);
                         } else {
                             workingProp = viewHelper.copyProposition(oldParent.getCompoundEditors().get(index));
+                            this.getViewHelper(form).resetDescription(workingProp);
                         }
                         break;
                     }
@@ -657,8 +658,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
         PropositionTreeUtil.resetNewProp((PropositionEditor) ruleEditor.getProposition());
 
         EnrolPropositionEditor proposition = (EnrolPropositionEditor) PropositionTreeUtil.getProposition(ruleEditor);
-
-        //Resolve term if single course
         //Reset the description
         this.getViewHelper(form).resetDescription(proposition);
 

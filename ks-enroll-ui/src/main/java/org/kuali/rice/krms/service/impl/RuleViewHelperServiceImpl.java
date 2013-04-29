@@ -534,9 +534,17 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     public PropositionEditor copyProposition(PropositionEditor oldProposition) {
         try {
             PropositionEditor newProposition = (PropositionEditor) ObjectUtils.deepCopy(oldProposition);
+            List<PropositionParameterEditor> newParms = new ArrayList<PropositionParameterEditor>();
+            for (PropositionParameterContract parm : oldProposition.getParameters()) {
+                PropositionParameterEditor p = new PropositionParameterEditor(parm.getParameterType(), parm.getSequenceNumber());
+                p.setValue(parm.getValue());
+                newParms.add(p);
+            }
+            newProposition.setParameters(newParms);
             newProposition.setId(null);
             newProposition.setKey(null);
-
+            newProposition.setTerm(null);
+            newProposition.setVersionNumber(new Long(0));
             return newProposition;
         } catch (Exception e) {
             return null;
