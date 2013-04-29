@@ -61,7 +61,7 @@
             </list>
         </property>
         <property name="page.header">
-            <ref bean="KSHeader_Empty" />
+            <ref bean="KS-Uif-HeaderOne-Empty" />
         </property>
         <property name="Items">
             <list>

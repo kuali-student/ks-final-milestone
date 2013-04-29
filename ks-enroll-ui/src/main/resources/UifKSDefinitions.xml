@@ -47,6 +47,16 @@
         <property name="theme">
             <bean parent="KSTheme"/>
         </property>
+        <!--TODO: check with UX, do we need to set page.header as for KS-Uif-HeaderOne-Empty by default? -->
+        <!--<property name="page.header">-->
+            <!--<ref bean="KS-Uif-HeaderOne-Empty" />-->
+        <!--</property>-->
+    </bean>
+
+    <bean id="KS-Uif-HeaderOne-Empty" parent="Uif-HeaderOne">
+        <property name="items">
+            <list/>
+        </property>
     </bean>
 
     <bean id="KS-Uif-MaintenanceView" abstract="true" parent="Uif-MaintenanceView">
@@ -156,12 +166,6 @@
           class="org.kuali.student.enrollment.uif.field.ActionFieldJsOverride">
         <property name="template" value="/krad/WEB-INF/jsp/templates/field/actionField.jsp"/>
         <property name="cssClasses" value="ui-priority-secondary-sm"/>
-    </bean>
-
-    <bean id="KSHeader_Empty" parent="Uif-HeaderOne">
-        <property name="items">
-            <list/>
-        </property>
     </bean>
 
     <bean id="KSInputField" abstract="true" parent="Uif-InputField"

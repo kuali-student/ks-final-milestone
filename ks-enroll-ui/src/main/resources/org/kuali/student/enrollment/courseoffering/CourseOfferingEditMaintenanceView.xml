@@ -45,7 +45,7 @@
 
         <property name="page.header">
             <!-- suppress Expand/Collapse buttons -->
-            <ref bean="KSHeader_Empty" />
+            <ref bean="KS-Uif-HeaderOne-Empty" />
         </property>
         <property name="Items">
             <list>

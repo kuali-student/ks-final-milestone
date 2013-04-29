@@ -111,7 +111,7 @@
         p:dataObjectClassName="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"
         p:viewHelperServiceClass="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperInquiryViewHelperServiceImpl">
         <property name="page.header">
-            <ref bean="KSHeader_Empty" />
+            <ref bean="KS-Uif-HeaderOne-Empty" />
         </property>
         <property name="Items">
             <list>
