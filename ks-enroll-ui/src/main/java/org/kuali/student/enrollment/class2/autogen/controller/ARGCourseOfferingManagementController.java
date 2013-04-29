@@ -128,12 +128,11 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=show")
     public ModelAndView show(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm form) throws Exception {
 
+        //Reset the form
+        ARGUtil.clearForm(form);
+
         form.setInputCode(form.getInputCode().toUpperCase());
         ARGUtil.getViewHelperService(form).populateTerm(form);
-
-        //Reset the form - there should be a better place for this
-        form.setFormatOfferingIdForNewAO(null);
-        form.setAdminOrg(null);
 
         if (GlobalVariables.getMessageMap().getErrorCount() > 1) {
             return getUIFModelAndView(form);
