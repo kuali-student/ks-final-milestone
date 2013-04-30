@@ -40,6 +40,10 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
     public Class<? extends PropositionEditor> getPropositionEditorClass() {
         return EnrolPropositionEditor.class;
     }
+    @Override
+    public String getViewTypeName() {
+        return "kuali.krms.agenda.type.course.offering";
+    }
 
     @Override
     public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original, String compareToRefObjectId) throws Exception {

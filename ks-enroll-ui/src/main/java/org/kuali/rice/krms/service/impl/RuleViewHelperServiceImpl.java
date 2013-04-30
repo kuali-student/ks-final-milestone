@@ -61,6 +61,7 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -183,7 +184,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
      */
     private Map<String, AgendaTypeInfo> getTypeRelationsMap() {
         if (typeRelationsMap == null) {
-            typeRelationsMap = new HashMap<String, AgendaTypeInfo>();
+            typeRelationsMap = new LinkedHashMap<String, AgendaTypeInfo>();
 
             // Get Instruction Usage Id
             String instructionUsageId = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_TYPE_INSTRUCTION,
@@ -194,7 +195,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
                     PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
 
             // Get the super type.
-            KrmsTypeDefinition requisitesType = this.getKrmsTypeRepositoryService().getTypeByName(PermissionServiceConstants.KS_SYS_NAMESPACE, "kuali.krms.agenda.type.course");
+            KrmsTypeDefinition requisitesType = this.getKrmsTypeRepositoryService().getTypeByName(PermissionServiceConstants.KS_SYS_NAMESPACE, this.getViewTypeName());
 
             // Get all agenda types linked to super type.
             List<TypeTypeRelation> agendaRelationships = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(requisitesType.getId());
