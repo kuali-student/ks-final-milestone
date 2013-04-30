@@ -43,6 +43,7 @@
         </property>
     </bean>
 
+    <!--Note: might not need CustomizedBreadCrumb bean after rice 2.2.3 release -->
     <bean id="KS-Uif-FormView-CustomizedBreadCrumb" class="org.kuali.student.enrollment.uif.view.KSUifFormView" parent="KS-Uif-FormView" abstract="true"/>
 
     <bean id="KS-Uif-InquiryView" abstract="true" parent="Uif-InquiryView">
@@ -83,6 +84,7 @@
         <!--</property>-->
     </bean>
 
+    <!--Note: might not need CustomizedBreadCrumb bean after rice 2.2.3 release -->
     <bean id="KS-Uif-MaintenanceView-CustomizedBreadCrumb" class="org.kuali.student.enrollment.uif.view.KSUifMaintenanceView" parent="KS-Uif-MaintenanceView" abstract="true"/>
 
     <!--This footer can be used for maintenance views: create a new or edit when we only want to see submit and cancel buttons -->
@@ -164,12 +166,25 @@
     </bean>
 
     <!--Note by bonnie: Not used in any code -->
-    <bean id="KS-Uif-InputField" abstract="true" parent="Uif-InputField"
+    <bean id="KS-Uif-InputField"  parent="KS-Uif-InputField-parent" />
+    <bean id="KS-Uif-InputField-parent" abstract="true" parent="Uif-InputField"
           p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="labelTop"
           p:labelPlacement="TOP" p:fieldLabel.requiredMessagePlacement="LEFT"
           p:instructionalMessage.render="false" >
         <property name="instructionalMessage">
             <bean parent="Uif-InstructionalMessage"/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-DataField-Simple" parent="KS-Uif-DataField-Simple-parentBean"/>
+    <bean id="KS-Uif-DataField-Simple-parentBean" abstract="true" parent="Uif-DataField" scope="prototype">
+        <property name="template" value="/ks-enroll/ftl/ksSimpleDataField.ftl"/>
+        <property name="templateName" value="ks_SimpleDataField"/>
+        <property name="inquiry">
+            <null/>
+        </property>
+        <property name="help">
+            <null/>
         </property>
     </bean>
 
@@ -225,28 +240,16 @@
         </property>
     </bean>
 
-
-    <bean id="ActionField_SmallSecondary_Override" parent="ActionField_SmallSecondary_Override-parentBean"/>
-    <bean id="ActionField_SmallSecondary_Override-parentBean" abstract="true"
-          class="org.kuali.student.enrollment.uif.field.ActionFieldJsOverride">
-        <property name="template" value="/krad/WEB-INF/jsp/templates/field/actionField.jsp"/>
-        <property name="cssClasses" value="ui-priority-secondary-sm"/>
-    </bean>
-
-    <bean id="KS-SimpleDataField" parent="KS-SimpleDataField-parentBean"/>
-    <bean id="KS-SimpleDataField-parentBean" abstract="true" parent="Uif-DataField" scope="prototype">
-        <property name="template" value="/ks-enroll/ftl/ksSimpleDataField.ftl"/>
-        <property name="templateName" value="ks_SimpleDataField"/>
-        <property name="inquiry">
-            <null/>
-        </property>
-        <property name="help">
-            <null/>
-        </property>
-    </bean>
+    <!-- the following bean is not used in any place -->
+    <!--<bean id="ActionField_SmallSecondary_Override" parent="ActionField_SmallSecondary_Override-parentBean"/>-->
+    <!--<bean id="ActionField_SmallSecondary_Override-parentBean" abstract="true"-->
+          <!--class="org.kuali.student.enrollment.uif.field.ActionFieldJsOverride">-->
+        <!--<property name="template" value="/krad/WEB-INF/jsp/templates/field/actionField.jsp"/>-->
+        <!--<property name="cssClasses" value="ui-priority-secondary-sm"/>-->
+    <!--</bean>-->
 
     <bean id="KS-SimpleInputField" parent="KS-SimpleInputField-parentBean"/>
-    <bean id="KS-SimpleInputField-parentBean" abstract="true" parent="KS-SimpleDataField" scope="prototype" class="org.kuali.rice.krad.uif.field.InputField">
+    <bean id="KS-SimpleInputField-parentBean" abstract="true" parent="KS-Uif-DataField-Simple" scope="prototype" class="org.kuali.rice.krad.uif.field.InputField">
         <property name="quickfinder">
             <null/>
         </property>

@@ -85,7 +85,7 @@
                     <property name="label" value="Label"/>
                     <property name="items">
                         <list>
-                            <bean parent="KS-SimpleDataField" p:propertyName="courseOfferingCode">
+                            <bean parent="KS-Uif-DataField-Simple" p:propertyName="courseOfferingCode">
                                 <property name="inquiry">
                                     <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"  p:inquiryParameters="courseOfferingId" />
                                 </property>
@@ -98,16 +98,16 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="KS-SimpleDataField"
+                <bean parent="KS-Uif-DataField-Simple"
                       p:label="STATUS"
                       p:propertyName="courseOfferingStateDisplay"/>
-                <bean parent="KS-SimpleDataField"
+                <bean parent="KS-Uif-DataField-Simple"
                       p:label="TITLE"
                       p:propertyName="courseOfferingDesc"/>
-                <bean parent="KS-SimpleDataField"
+                <bean parent="KS-Uif-DataField-Simple"
                       p:label="CREDITS"
                       p:propertyName="courseOfferingCreditOptionDisplay"/>
-                <bean parent="KS-SimpleDataField"
+                <bean parent="KS-Uif-DataField-Simple"
                       p:label="GRADING"
                       p:propertyName="courseOfferingGradingOptionDisplay"/>
                 <bean name="enableApproveButton" parent="KS-SimpleInputField" p:propertyName="enableApproveButton"/>
