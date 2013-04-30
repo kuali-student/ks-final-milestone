@@ -87,7 +87,7 @@
         </property>
     </bean>
 
-    <bean id="KS-KeyDatesGroup-EditSubSection" parent="KS-Uif-StackedCollectionSubSection-Disclosure">
+    <bean id="KS-KeyDatesGroup-EditSubSection" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure">
         <property name="id" value="acal-term-keydatesgroup"/>
         <property name="readOnly" value="@{#view.readOnly}"/>
         <property name="propertyName" value="keyDatesGroupWrappers" />

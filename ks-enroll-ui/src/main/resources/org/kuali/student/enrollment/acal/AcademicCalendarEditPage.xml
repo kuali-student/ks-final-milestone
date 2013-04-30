@@ -251,7 +251,7 @@ limitations under the License.
 		</property>
 	</bean>
 
-    <bean id="KS-AcademicCalendar-HolidaySubSection" parent="KS-Uif-StackedCollectionSubSection-Disclosure">
+    <bean id="KS-AcademicCalendar-HolidaySubSection" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure">
         <property name="id" value="acal-holidays" />
         <property name="headerText" value="Holidays" />
         <property name="propertyName" value="holidayCalendarList" />
