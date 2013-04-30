@@ -114,6 +114,7 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                     //Retrieve the rule
                     RuleDefinition rule = this.getRuleManagementService().getRule(treeRuleEntry.getRuleId());
                     RuleEditor ruleEditor = new EnrolRuleEditor(rule);
+                    ruleEditor.setAgendaItem(agendaItem);
 
                     //Initialize the Proposition tree
                     PropositionEditor rootProposition = (PropositionEditor) ruleEditor.getProposition();

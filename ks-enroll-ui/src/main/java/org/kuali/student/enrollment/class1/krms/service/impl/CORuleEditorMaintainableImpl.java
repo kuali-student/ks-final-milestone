@@ -81,15 +81,22 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
         //Populate Clu Identification Information
         if (courseOffering != null) {
-            dataObject.setRulePrefix(courseOffering.getCourseCode());
-            StringBuilder courseNameBuilder = new StringBuilder();
+            //Get the atp code.
+            StringBuilder atpCode = new StringBuilder();
             try {
                 AtpInfo atp = this.getAtpService().getAtp(courseOffering.getTermId(), ContextUtils.createDefaultContextInfo());
-                courseNameBuilder.append(atp.getCode());
-                courseNameBuilder.append(" - ");
+                atpCode.append(atp.getCode());
+                atpCode.append(" - ");
             } catch (Exception e) {
                 //TODO: Add Exception handling.
             }
+
+            //Set the name prefix used for agenda and rule names.
+            dataObject.setNamePrefix(atpCode.toString() + courseOffering.getCourseOfferingCode());
+
+            //Set the description used on the screen.
+            StringBuilder courseNameBuilder = new StringBuilder();
+            courseNameBuilder.append(atpCode.toString());
             courseNameBuilder.append(courseOffering.getCourseOfferingCode());
             courseNameBuilder.append(" - ");
             courseNameBuilder.append(courseOffering.getCourseOfferingTitle());
@@ -132,6 +139,7 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                     //Retrieve the rule
                     RuleDefinition rule = this.getRuleManagementService().getRule(treeRuleEntry.getRuleId());
                     RuleEditor ruleEditor = new EnrolRuleEditor(rule);
+                    ruleEditor.setAgendaItem(agendaItem);
 
                     //Initialize the Proposition tree
                     PropositionEditor rootProposition = (PropositionEditor) ruleEditor.getProposition();

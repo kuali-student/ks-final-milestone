@@ -15,6 +15,7 @@
  */
 package org.kuali.rice.krms.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
@@ -34,10 +35,7 @@ import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContra
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
-import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
-import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
-import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.dto.AgendaEditor;
@@ -55,17 +53,12 @@ import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.service.RuleEditorMaintainable;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * {@link org.kuali.rice.krad.maintenance.Maintainable} for the {@link org.kuali.rice.krms.impl.ui.AgendaEditor}
@@ -134,6 +127,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                 if (agendaItem.getRuleId() != null) {
                     RuleDefinition rule = this.getRuleManagementService().getRule(treeRuleEntry.getRuleId());
                     RuleEditor ruleEditor = new RuleEditor(rule);
+                    ruleEditor.setAgendaItem(agendaItem);
                     this.initPropositionEditor((PropositionEditor) ruleEditor.getProposition());
                     ruleEditor.setViewTree(viewTreeBuilder.buildTree(ruleEditor));
                     rules.add(ruleEditor);
@@ -168,71 +162,100 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
         for (AgendaEditor agenda : ruleWrapper.getAgendas()){
 
-            List<RuleEditor> deleteRuleList = new ArrayList<RuleEditor>();
+            List<AgendaItemDefinition.Builder> itemBuilders = new ArrayList<AgendaItemDefinition.Builder>();
             for(RuleEditor rule : agenda.getRuleEditors()) {
                 if(!rule.isDummy()) {
-                    this.finRule(rule, ruleWrapper.getNamePrefix(), ruleWrapper.getNamespace());
-                } else {
-                    deleteRuleList.add(rule);
+                    String ruleId = this.finRule(rule, ruleWrapper.getNamePrefix(), ruleWrapper.getNamespace());
+
+                    //Create / Update the agendaItems
+                    AgendaItemDefinition.Builder itemBuilder = AgendaItemDefinition.Builder.create(null, agenda.getId());
+                    if(rule.getAgendaItem()!=null){
+                        itemBuilder.setId(rule.getAgendaItem().getId());
+                        itemBuilder.setVersionNumber(rule.getAgendaItem().getVersionNumber());
+                    }
+                    itemBuilder.setRuleId(ruleId);
+                    itemBuilders.add(itemBuilder);
+
                 }
             }
-            agenda.getRuleEditors().removeAll(deleteRuleList);
 
-            AgendaDefinition.Builder agendaBuilder = null;
-            AgendaDefinition agendaDefinition = null;
-            if(agenda.getId() == null) {
-                agendaBuilder = AgendaDefinition.Builder.create(agenda);
-                agendaDefinition = agendaBuilder.build();
-            }
+            //Set the first agenda item id and save the agenda items
+            agenda.setFirstItemId(maintainAgendaItems(itemBuilders));
 
-            if(agenda.getRuleEditors().size() == 0) {
-                for(String deletedRuleId : ruleWrapper.getDeletedRuleIds()) {
-                    this.getRuleManagementService().deleteAgendaItem(deletedRuleId);
-                }
-                this.getRuleManagementService().deleteReferenceObjectBinding(agenda.getId());
-                this.getRuleManagementService().deleteAgenda(agenda.getId());
+            //Create or update the agenda.
+            AgendaDefinition.Builder agendaBuilder = AgendaDefinition.Builder.create(agenda);
+            AgendaDefinition agendaDefinition = agendaBuilder.build();
+            if (agendaDefinition.getId()==null){
+                this.getRuleManagementService().createAgenda(agendaDefinition);
             } else {
-                if(agendaDefinition == null) {
-                    agendaBuilder = AgendaDefinition.Builder.create(agenda);
-                    agendaDefinition = agendaBuilder.build();
-                }
                 this.getRuleManagementService().updateAgenda(agendaDefinition);
             }
+
+            //Delete rules
+            for(RuleEditor deletedRule : ruleWrapper.getDeletedRules()) {
+                if(deletedRule.getAgendaItem()!=null){
+                    this.getRuleManagementService().deleteAgendaItem(deletedRule.getAgendaItem().getId());
+                }
+                this.getRuleManagementService().deleteRule(deletedRule.getId());
+
+            }
+
+            //If no more rules linked to agenda, delete it.
+            if (agendaDefinition.getFirstItemId().isEmpty()){
+                this.getRuleManagementService().deleteReferenceObjectBinding(agenda.getId());
+                this.getRuleManagementService().deleteAgenda(agenda.getId());
+            }
+
         }
 
     }
 
-    protected void finRule(RuleEditor rule, String rulePrefix, String namespace) {
+    protected String maintainAgendaItems(List<AgendaItemDefinition.Builder> itemBuilders){
+        if ((itemBuilders==null) || (itemBuilders.size()==0)){
+            return null;
+        }
+
+        String itemId = null;
+        AgendaItemDefinition.Builder itemBuilder;
+        for(int i=itemBuilders.size()-1; i>=0; i--){
+            itemBuilder = itemBuilders.get(i);
+            itemBuilder.setWhenTrueId(itemId);
+            if(itemBuilder.getId()==null){
+                itemId = this.getRuleManagementService().createAgendaItem(itemBuilder.build()).getId();
+            }else {
+                this.getRuleManagementService().updateAgendaItem(itemBuilder.build());
+                itemId = itemBuilder.getId();
+            }
+        }
+
+        return itemId;
+    }
+
+    protected String finRule(RuleEditor rule, String rulePrefix, String namespace) {
         // handle saving new parameterized terms
         PropositionEditor proposition = (PropositionEditor) rule.getProposition();
         if (proposition != null) {
             this.finPropositionEditor(proposition);
         }
 
-        if(rule.getName() == null) {
-            rule.setName(rulePrefix + " " + rule.getDescription());
-        }
         if(rule.getNamespace() == null) {
             rule.setNamespace(namespace);
         }
+        rule.setName(rulePrefix + " " + rule.getRuleTypeInfo().getDescription());
 
         RuleDefinition.Builder ruleBuilder = RuleDefinition.Builder.create(rule);
         RuleDefinition ruleDefinition = ruleBuilder.build();
         if (ruleDefinition.getId() == null) {
-            this.getRuleManagementService().createRule(ruleDefinition);
+            return this.getRuleManagementService().createRule(ruleDefinition).getId();
         } else {
             this.getRuleManagementService().updateRule(ruleDefinition);
         }
+
+        return ruleDefinition.getId();
     }
 
     protected void finPropositionEditor(PropositionEditor propositionEditor) {
         if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(propositionEditor.getPropositionTypeCode())) {
-
-            //Save term and set termid.
-            String termId = this.saveTerm(propositionEditor);
-            if (propositionEditor.getParameters().get(0) != null) {
-                propositionEditor.getParameters().get(0).setValue(termId);
-            }
 
             //Set the default operation and value
             TemplateInfo template = this.getTemplateRegistry().getTemplateForType(propositionEditor.getType());
@@ -250,40 +273,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             }
 
         }
-    }
-
-    protected String saveTerm(PropositionEditor propositionEditor) {
-
-        //Set the termSpecification based on current type.
-        TermEditor term = propositionEditor.getTerm();
-        term.setSpecification(this.getTermSpecForType(propositionEditor.getType()));
-
-        TermDefinition.Builder termBuilder = TermDefinition.Builder.create(term);
-        TermDefinition termDefinition = termBuilder.build();
-        if (term.getId() == null) {
-            termDefinition = this.getTermRepositoryService().createTerm(termDefinition);
-
-        } else {
-            this.getTermRepositoryService().updateTerm(termDefinition);
-        }
-
-        return termDefinition.getId();
-    }
-
-    protected TermSpecificationDefinition getTermSpecForType(String type) {
-
-        //Get the term output name for this type.
-        String termSpecName = this.getTemplateRegistry().getTermSpecNameForType(type);
-
-        List<TermResolverDefinition> matchingTermResolvers = this.getTermRepositoryService().findTermResolversByNamespace(PermissionServiceConstants.KS_SYS_NAMESPACE);
-        for (TermResolverDefinition termResolver : matchingTermResolvers) {
-            TermSpecificationDefinition termSpec = termResolver.getOutput();
-            if (termSpec.getName().equals(termSpecName)) {
-                return termSpec;
-            }
-        }
-
-        return null;
     }
 
     protected void initPropositionEditor(PropositionEditor propositionEditor) {
@@ -316,9 +305,14 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                 PropositionParameterEditor termParameter = proposition.getParameters().get(0);
                 if (termParameter.getTermValue() == null){
                     String termId = proposition.getParameters().get(0).getValue();
-                    termParameter.setTermValue(this.getTermRepositoryService().getTerm(termId));
+                    if (!StringUtils.isBlank(termId)) {
+                        termParameter.setTermValue(this.getTermRepositoryService().getTerm(termId));
+                        proposition.setTerm(new TermEditor(termParameter.getTermValue()));
+                    } else {
+                        proposition.setTerm(new TermEditor());
+                    }
                 }
-                proposition.setTerm(new TermEditor(termParameter.getTermValue()));
+
             } else {
                 return termParameters;
             }

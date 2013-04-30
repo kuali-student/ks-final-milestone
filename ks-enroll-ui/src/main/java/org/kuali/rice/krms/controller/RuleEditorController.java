@@ -18,30 +18,15 @@ package org.kuali.rice.krms.controller;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.uif.component.Component;
-import org.kuali.rice.krad.uif.container.Group;
-import org.kuali.rice.krad.uif.container.LinkGroup;
-import org.kuali.rice.krad.uif.element.Action;
-import org.kuali.rice.krad.uif.field.MessageField;
-import org.kuali.rice.krad.uif.util.ComponentFactory;
-import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
-import org.kuali.rice.krms.dto.AgendaEditor;
-import org.kuali.rice.krms.dto.PropositionEditor;
-import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.dto.RuleManagementWrapper;
-import org.kuali.rice.krms.dto.RuleTypeInfo;
-import org.kuali.rice.krms.dto.TemplateInfo;
+import org.kuali.rice.krms.dto.*;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.rice.krms.service.RuleViewHelperService;
-import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionEditNode;
@@ -96,7 +81,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         List<AgendaEditor> agendas = ruleWrapper.getAgendas();
         for (AgendaEditor agenda : agendas) {
             if (agenda.getRuleEditors().contains(ruleEditor)) {
-                ruleWrapper.getDeletedRuleIds().add(ruleEditor.getId());
+                ruleWrapper.getDeletedRules().add(ruleEditor);
                 agenda.getRuleEditors().remove(ruleEditor);
             }
         }
@@ -797,30 +782,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
             throws Exception {
 
         PropositionEditor proposition = PropositionTreeUtil.getProposition(this.getRuleEditor(form));
-        configureProposition(form, proposition);
+        this.getViewHelper(form).configurePropositionForType(proposition);
 
         return getUIFModelAndView(form);
-    }
-
-    private void configureProposition(UifFormBase form, PropositionEditor proposition) {
-
-        if (proposition != null) {
-
-            if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(proposition.getPropositionTypeCode())) {
-                return;
-            }
-
-            String propositionTypeId = proposition.getTypeId();
-            if (propositionTypeId == null) {
-                proposition.setType(null);
-                return;
-            }
-
-            KrmsTypeDefinition type = KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService().getTypeById(propositionTypeId);
-            if (type != null) {
-                proposition.setType(type.getName());
-            }
-        }
     }
 
     /**

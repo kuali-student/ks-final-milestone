@@ -18,7 +18,9 @@ import org.kuali.rice.krms.tree.node.CompareTreeNode;
  */
 public interface RuleViewHelperService {
 
-    public String resetDescription(PropositionEditor prop);
+    public String resetDescription(PropositionEditor proposition);
+
+    public void configurePropositionForType(PropositionEditor proposition);
 
     public TemplateInfo getTemplateForType(String type);
 

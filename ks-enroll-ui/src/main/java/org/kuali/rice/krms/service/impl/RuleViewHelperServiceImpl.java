@@ -12,6 +12,7 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
@@ -26,6 +27,7 @@ import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
+import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
@@ -281,12 +283,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             if (builder != null) {
                 termParameters = builder.buildTermParameters(prop);
             }
-            if (prop.getTerm() == null){
-                TermEditor term = new TermEditor();
-                String termSpecName = this.getTemplateRegistry().getTermSpecNameForType(prop.getType());
-                term.setSpecification(getTermRepositoryService().getTermSpecificationByNameAndNamespace(termSpecName,KsKrmsConstants.NAMESPACE_CODE));
-                prop.setTerm(term);
-            }
 
             List<TermParameterEditor> parameters = new ArrayList<TermParameterEditor>();
             if (termParameters != null) {
@@ -317,11 +313,46 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             prop.getTerm().setParameters(parameters);
         }
 
+        //Set the term specification if it doesn't exist.
+        if(prop.getTerm().getSpecification()==null){
+            String termSpecName = this.getTemplateRegistry().getTermSpecNameForType(prop.getType());
+            prop.getTerm().setSpecification(getTermRepositoryService().getTermSpecificationByNameAndNamespace(termSpecName, KsKrmsConstants.NAMESPACE_CODE));
+        }
+
         //Refresh the natural language.
         this.getNaturalLanguageHelper().setNaturalLanguageForUsage(prop, KsKrmsConstants.KRMS_NL_RULE_EDIT);
         this.getNaturalLanguageHelper().setNaturalLanguageForUsage(prop, KsKrmsConstants.KRMS_NL_PREVIEW);
         prop.setDescription(prop.getNaturalLanguageForUsage(KsKrmsConstants.KRMS_NL_RULE_EDIT));
         return prop.getDescription();
+    }
+
+    public void configurePropositionForType(PropositionEditor proposition) {
+
+        if (proposition != null) {
+
+            if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(proposition.getPropositionTypeCode())) {
+                return;
+            }
+
+            String propositionTypeId = proposition.getTypeId();
+            if (propositionTypeId == null) {
+                proposition.setType(null);
+                return;
+            }
+
+            KrmsTypeDefinition type = KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService().getTypeById(propositionTypeId);
+            if (type != null) {
+                proposition.setType(type.getName());
+            }
+
+            if (proposition.getTerm() == null){
+                proposition.setTerm(new TermEditor());
+            }
+
+            String termSpecName = this.getTemplateRegistry().getTermSpecNameForType(proposition.getType());
+            proposition.getTerm().setSpecification(getTermRepositoryService().getTermSpecificationByNameAndNamespace(termSpecName, KsKrmsConstants.NAMESPACE_CODE));
+
+        }
     }
 
     /**

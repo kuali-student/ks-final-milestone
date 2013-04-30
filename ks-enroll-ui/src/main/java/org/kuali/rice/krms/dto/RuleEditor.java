@@ -3,6 +3,7 @@ package org.kuali.rice.krms.dto;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.api.repository.action.ActionDefinitionContract;
+import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
@@ -39,6 +40,7 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
     private Long versionNumber;
 
     private PropositionEditor proposition;
+    private AgendaItemDefinition agendaItem;
 
     private String ruleType;
     private String copyKey;
@@ -213,6 +215,14 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     public void setLogicArea(String logicArea) {
         this.logicArea = logicArea;
+    }
+
+    public AgendaItemDefinition getAgendaItem() {
+        return agendaItem;
+    }
+
+    public void setAgendaItem(AgendaItemDefinition agendaItem) {
+        this.agendaItem = agendaItem;
     }
 
     @Override

@@ -78,6 +78,9 @@ public class TermEditor implements TermDefinitionContract, Serializable {
     }
 
     public List<TermParameterEditor> getEditorParameters() {
+        if (this.parameters == null){
+            this.parameters = new ArrayList<TermParameterEditor>();
+        }
         return this.parameters;
     }
 
