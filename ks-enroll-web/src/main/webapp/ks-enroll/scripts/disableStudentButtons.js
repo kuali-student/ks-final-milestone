@@ -78,6 +78,10 @@ function disableTreeButtons() {
     disableButton(TREE);
 }
 
+function disableAddButton() {
+    disableButton(ADD);
+}
+
 
 function cutPasteButtonInit() {
     // CUT

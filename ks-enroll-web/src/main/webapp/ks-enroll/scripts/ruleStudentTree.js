@@ -175,6 +175,13 @@ function handlePropositionNodeClick(parentLiNode) {
     } else {
         selectedItemTracker.val(propositionId);
         markNodeAsSelected(parentLiNode);
+
+        var parentId = jq(parentLiNode).find('input[type="hidden"]').parent().attr('id');
+        var parentClass = jq(parentLiNode).find('input[type="hidden"]').parent().attr('class');
+
+        if(parentId.match(/^u\d+_node_0_parent_root$/) && parentClass.match(/.*compound.*ruleBlockSelected.*/)){
+            disableAddButton();
+        }
     }
 }
 
