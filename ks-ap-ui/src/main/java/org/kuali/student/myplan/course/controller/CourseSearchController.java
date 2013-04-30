@@ -19,8 +19,10 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +39,7 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -48,12 +51,15 @@ import org.kuali.student.ap.framework.course.ClassFinderForm.CourseLevel;
 import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.myplan.course.form.CourseSearchFormImpl;
 import org.kuali.student.myplan.course.util.CampusSearch;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
@@ -93,7 +99,7 @@ public class CourseSearchController extends UifControllerBase {
 	 * faceted searches columns on the search item.
 	 * 
 	 * @see #FACET_COLUMNS_REVERSE
-	 * @see #getFacetValues(HttpServletResponse, HttpServletRequest)
+	 * @see #getFacetValues(javax.servlet.http.HttpServletResponse, javax.servlet.http.HttpServletRequest)
 	 */
 	private static final Map<String, Integer> FACET_COLUMNS;
 
@@ -103,7 +109,7 @@ public class CourseSearchController extends UifControllerBase {
 	 * faceted searches columns on the search item.
 	 * 
 	 * @see #FACET_COLUMNS
-	 * @see #getFacetValues(HttpServletResponse, HttpServletRequest)
+	 * @see #getFacetValues(javax.servlet.http.HttpServletResponse, javax.servlet.http.HttpServletRequest)
 	 */
 	private static final List<String> FACET_COLUMNS_REVERSE;
 
@@ -120,7 +126,7 @@ public class CourseSearchController extends UifControllerBase {
 				.getCourseSearchStrategy().getFacetSort().keySet();
 		Map<String, Integer> m = new java.util.HashMap<String, Integer>(
 				facetKeys.size());
-		List<String> l = new java.util.ArrayList<String>(facetKeys.size());
+		List<String> l = new ArrayList<String>(facetKeys.size());
 		for (String fk : facetKeys) {
 			m.put(fk, l.size());
 			l.add(fk);
@@ -143,7 +149,7 @@ public class CourseSearchController extends UifControllerBase {
 	 * TODO: evaluate moving to a public framework class.
 	 * </p>
 	 * 
-	 * @see CourseSearchItem#getKeywords()
+	 * @see org.kuali.student.ap.framework.course.CourseSearchItem#getKeywords()
 	 */
 	private static class TrendingState implements Serializable {
 
@@ -160,13 +166,13 @@ public class CourseSearchController extends UifControllerBase {
 		 * 
 		 * <p>
 		 * This field is populated via the order parameter
-		 * {@link #trend(String[], Map)} when non-null, and may be expected to
+		 * {@link #trend(String[], java.util.Map)} when non-null, and may be expected to
 		 * be truncated to a relatively small size (32) prior to being
 		 * populated.
 		 * </p>
 		 * 
-		 * @see SessionSearchInfo#SessionSearchInfo(HttpServletRequest,
-		 *      CourseSearchStrategy, FormKey, CourseSearchForm, String)
+		 * @see org.kuali.student.myplan.course.controller.CourseSearchController.SessionSearchInfo#SessionSearchInfo(javax.servlet.http.HttpServletRequest,
+		 *      org.kuali.student.ap.framework.course.CourseSearchStrategy, org.kuali.student.myplan.course.controller.CourseSearchController.FormKey, org.kuali.student.ap.framework.course.CourseSearchForm, String)
 		 */
 		private String[] related;
 
@@ -317,7 +323,7 @@ public class CourseSearchController extends UifControllerBase {
 	 * <p>
 	 * This method proxies trending reports to all relevant monitors. At preset,
 	 * we are tracking the current user's activity (
-	 * {@link #getSessionTendingState(HttpServletRequest)}) and global activity
+	 * {@link #getSessionTendingState(javax.servlet.http.HttpServletRequest)}) and global activity
 	 * on this node ({@link #TRENDING}).
 	 * 
 	 * @param request
@@ -349,7 +355,7 @@ public class CourseSearchController extends UifControllerBase {
 		private final List<String> criteria;
 
 		public FormKey(CourseSearchForm f) {
-			List<String> c = new java.util.ArrayList<String>();
+			List<String> c = new ArrayList<String>();
 			c.add(f.getSearchQuery());
 			c.add(f.getSearchTerm());
 			c.addAll(f.getCampusSelect());
@@ -357,7 +363,7 @@ public class CourseSearchController extends UifControllerBase {
 		}
 
 		public FormKey(ClassFinderForm f) {
-			List<String> c = new java.util.ArrayList<String>();
+			List<String> c = new ArrayList<String>();
 			c.add(f.getQuery());
 			for (String fa : f.getFacet())
 				if (f.isCriterion(fa))
@@ -501,7 +507,7 @@ public class CourseSearchController extends UifControllerBase {
 	/**
 	 * Simple object for tracking facet click/count state.
 	 * 
-	 * @see SessionSearchInfo
+	 * @see org.kuali.student.myplan.course.controller.CourseSearchController.SessionSearchInfo
 	 */
 	public static class FacetState implements Serializable {
 		private static final long serialVersionUID = 1719950239861974273L;
@@ -518,9 +524,9 @@ public class CourseSearchController extends UifControllerBase {
 	/**
 	 * Simple object representing pre-processed search data.
 	 * 
-	 * @see SessionSearchInfo
-	 * @see CourseSearchItem#getSearchColumns()
-	 * @see CourseSearchItem#getFacetColumns()
+	 * @see org.kuali.student.myplan.course.controller.CourseSearchController.SessionSearchInfo
+	 * @see org.kuali.student.ap.framework.course.CourseSearchItem#getSearchColumns()
+	 * @see org.kuali.student.ap.framework.course.CourseSearchItem#getFacetColumns()
 	 */
 	public static class SearchInfo implements Serializable {
 		private static final long serialVersionUID = 8697147011424347285L;
@@ -538,7 +544,7 @@ public class CourseSearchController extends UifControllerBase {
 				List<String> fl = facetColumns.get(fe.getKey());
 				if (fl == null)
 					facetColumns.put(fe.getKey(),
-							fl = new java.util.ArrayList<String>());
+							fl = new ArrayList<String>());
 				for (Map<String, String> fv : fe.getValue().values())
 					fl.addAll(fv.keySet());
 			}
@@ -616,10 +622,10 @@ public class CourseSearchController extends UifControllerBase {
 		 *            The active HTTP servlet request.
 		 * @param form
 		 *            The search form.
-		 * @see CourseSearchController#getJsonResponse(HttpServletResponse,
-		 *      HttpServletRequest)
-		 * @see CourseSearchController#getFacetValues(HttpServletResponse,
-		 *      HttpServletRequest)
+		 * @see CourseSearchController#getJsonResponse(javax.servlet.http.HttpServletResponse,
+		 *      javax.servlet.http.HttpServletRequest)
+		 * @see CourseSearchController#getFacetValues(javax.servlet.http.HttpServletResponse,
+		 *      javax.servlet.http.HttpServletRequest)
 		 */
 		public SessionSearchInfo(HttpServletRequest request,
 				CourseSearchForm form) {
@@ -643,10 +649,10 @@ public class CourseSearchController extends UifControllerBase {
 		 *            The active HTTP servlet request.
 		 * @param form
 		 *            The search form.
-		 * @see CourseSearchController#getJsonResponse(HttpServletResponse,
-		 *      HttpServletRequest)
-		 * @see CourseSearchController#getFacetValues(HttpServletResponse,
-		 *      HttpServletRequest)
+		 * @see CourseSearchController#getJsonResponse(javax.servlet.http.HttpServletResponse,
+		 *      javax.servlet.http.HttpServletRequest)
+		 * @see CourseSearchController#getFacetValues(javax.servlet.http.HttpServletResponse,
+		 *      javax.servlet.http.HttpServletRequest)
 		 */
 		public SessionSearchInfo(HttpServletRequest request,
 				ClassFinderForm form) {
@@ -662,7 +668,7 @@ public class CourseSearchController extends UifControllerBase {
 				List<CourseSearchItem> courses) {
 			CourseSearchStrategy searcher = KsapFrameworkServiceLocator
 					.getCourseSearchStrategy();
-			List<SearchInfo> resultList = new java.util.ArrayList<SearchInfo>(
+			List<SearchInfo> resultList = new ArrayList<SearchInfo>(
 					courses.size());
 			for (CourseSearchItem course : courses)
 				resultList.add(new SearchInfo(course));
@@ -954,7 +960,7 @@ public class CourseSearchController extends UifControllerBase {
 
 		private List<SearchInfo> getFilteredResults(
 				final DataTablesInputs dataTablesInputs) {
-			final List<SearchInfo> filteredResults = new java.util.ArrayList<SearchInfo>(
+			final List<SearchInfo> filteredResults = new ArrayList<SearchInfo>(
 					searchResults);
 
 			/**
@@ -1149,7 +1155,7 @@ public class CourseSearchController extends UifControllerBase {
 		}
 
 		private List<SearchInfo> getFilteredResults(final ClassFinderForm form) {
-			List<SearchInfo> filteredResults = new java.util.ArrayList<SearchInfo>(
+			List<SearchInfo> filteredResults = new ArrayList<SearchInfo>(
 					searchResults);
 			Iterator<SearchInfo> i = filteredResults.iterator();
 			while (i.hasNext()) { // filter search results
@@ -1559,7 +1565,7 @@ public class CourseSearchController extends UifControllerBase {
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("CLU lookup error", e);
 		}
-		List<String> results = new java.util.ArrayList<String>(searchResult
+		List<String> results = new ArrayList<String>(searchResult
 				.getRows().size());
 		for (SearchResultRow row : searchResult.getRows())
 			results.add(searcher.getCellValue(row, "courseCode"));
@@ -1599,6 +1605,8 @@ public class CourseSearchController extends UifControllerBase {
 		// results - actual data
 		json.put("query", form.getQuery());
 
+        json.put("criteriakey", KsapFrameworkServiceLocator.getClassFinderService().saveCriteria(form));
+
 		// TODO: Model class finder response as a data object, and convert below
 		// to a builder
 		// TODO: pull placeholder and examples from MessageService
@@ -1623,53 +1631,100 @@ public class CourseSearchController extends UifControllerBase {
 		exex = ex.putArray("examples");
 		exex.add("ENG 2*");
 
+        ArrayNode ofas = json.putArray("criteria");
+
+        // Output Campus Location Options
+        ObjectNode campusFacetGroup = ofas.addObject();
+        campusFacetGroup.put("label", "Campus");
+        campusFacetGroup.put("select", true);
+        ArrayNode ocfas = campusFacetGroup.putArray("facets");
+        ObjectNode oCampusFacets = ocfas.addObject();
+        oCampusFacets.put("label", "Campuses");
+        ArrayNode campusFacetState = oCampusFacets.putArray("facets");
+        List<EnumeratedValueInfo> enumeratedValueInfoList = KsapFrameworkServiceLocator
+                .getEnumerationHelper().getEnumerationValueInfoList(
+                        "kuali.lu.campusLocation");
+        for (EnumeratedValueInfo ev : enumeratedValueInfoList) {
+            ObjectNode campusFacet = campusFacetState.addObject();
+            campusFacet.put("id", ev.getCode());
+            campusFacet.put("label", ev.getValue());
+            campusFacet
+                    .put("value", form.getFacet().contains(ev.getCode()));
+        }
+
+        // TODO - Online class search may be IU specific,
+        // move to strategy override
+        ObjectNode onlineFacets = ocfas.addObject();
+        onlineFacets.put("label", "");
+        ArrayNode onlineFacetState = onlineFacets.putArray("facets");
+        ObjectNode onlineFacet = onlineFacetState.addObject();
+        onlineFacet.put("id", "ONLINE");
+        onlineFacet.put("label", "Online");
+        onlineFacet.put("value", false);
+
+        // Output Course Level options to json
+        ObjectNode levelFacets = ocfas.addObject();
+        levelFacets.put("label", "");
+        ArrayNode levelFacetState = levelFacets.putArray("facets");
+        StringBuilder clCondition = new StringBuilder("!(");
+        boolean first = true;
+        for (CourseLevel cl : CourseLevel.class.getEnumConstants()) {
+            if (first)
+                first = false;
+            else
+                clCondition.append("||");
+            clCondition.append(cl.name());
+            ObjectNode levelFacet = levelFacetState.addObject();
+            levelFacet.put("id", cl.name());
+            levelFacet.put("label", cl.toString());
+            levelFacet.put("value", form.getFacet().contains(cl.name()));
+        }
+        clCondition.append(")");
+        levelFacets.put("condition",clCondition.toString());
+
+        //Output Term Options
+        ObjectNode termFacets = ocfas.addObject();
+        termFacets.put("label", "");
+        ArrayNode termFacetState = termFacets.putArray("facets");
+        StringBuilder termCondition = new StringBuilder("!(");
+
+        AtpService atpService = KsapFrameworkServiceLocator.getAtpService();
+        Calendar c = Calendar.getInstance();
+        c.setTime(KsapFrameworkServiceLocator.getTermHelper().getCurrentTerms().get(0).getStartDate());
+        c.add(Calendar.DATE, -1);
+        Date startDate = c.getTime();
+        c.setTime(new Date());
+        c.add(Calendar.YEAR, 6);
+        Date endDate = c.getTime();
+        try {
+            first = true;
+            for (AtpInfo atp : atpService.getAtpsByDates(startDate, endDate,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo())){
+                if (first)
+                    first = false;
+                else
+                    termCondition.append("||");
+
+                termCondition.append(atp);
+                ObjectNode termFacet = termFacetState.addObject();
+                termFacet.put("id", atp.getId());
+                termFacet.put("label", atp.getName());
+                termFacet.put("value", form.getFacet().contains(atp.getId()));
+            }
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("ATP lookup failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("ATP lookup failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("ATP lookup failure", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("ATP lookup failure", e);
+        }
+        termCondition.append(")");
+        termFacets.put("condition",termCondition.toString());
+
+
 		if (table == null) {
-			ArrayNode ofas = json.putArray("facets");
-			ObjectNode campusFacetGroup = ofas.addObject();
-			campusFacetGroup.put("label", "Campus");
-			campusFacetGroup.put("select", true);
-			ArrayNode ocfas = campusFacetGroup.putArray("facets");
-			ObjectNode oCampusFacets = ocfas.addObject();
-			oCampusFacets.put("label", "Campuses");
-			ArrayNode campusFacetState = oCampusFacets.putArray("facets");
-			List<EnumeratedValueInfo> enumeratedValueInfoList = KsapFrameworkServiceLocator
-					.getEnumerationHelper().getEnumerationValueInfoList(
-							"kuali.lu.campusLocation");
-			for (EnumeratedValueInfo ev : enumeratedValueInfoList) {
-				ObjectNode campusFacet = campusFacetState.addObject();
-				campusFacet.put("id", ev.getCode());
-				campusFacet.put("label", ev.getValue());
-				campusFacet
-						.put("value", form.getFacet().contains(ev.getCode()));
-			}
-
-			// TODO - Online class search may be IU specific,
-			// move to strategy override
-			ObjectNode onlineFacets = ocfas.addObject();
-			onlineFacets.put("label", "");
-			ArrayNode onlineFacetState = onlineFacets.putArray("facets");
-			ObjectNode onlineFacet = onlineFacetState.addObject();
-			onlineFacet.put("id", "ONLINE");
-			onlineFacet.put("label", "Online");
-			onlineFacet.put("value", false);
-
-			ObjectNode levelFacets = ocfas.addObject();
-			levelFacets.put("label", "");
-			ArrayNode levelFacetState = levelFacets.putArray("facets");
-			StringBuilder clCondition = new StringBuilder("!(");
-			boolean first = true;
-			for (CourseLevel cl : CourseLevel.class.getEnumConstants()) {
-				if (first)
-					first = false;
-				else
-					clCondition.append("||");
-				clCondition.append(cl.name());
-				ObjectNode levelFacet = levelFacetState.addObject();
-				levelFacet.put("id", cl.name());
-				levelFacet.put("label", cl.toString());
-				levelFacet.put("value", form.getFacet().contains(cl.name()));
-			}
-			clCondition.append(")");
 
 			// try {
 			// Enum.valueOf(CourseLevel.class, facet);
@@ -1740,6 +1795,12 @@ public class CourseSearchController extends UifControllerBase {
 
 		} else {
 			List<SearchInfo> filteredResults = table.getFilteredResults(form);
+            ArrayNode results = json.putArray("results");
+            for(SearchInfo entry : filteredResults){
+                //Add each entry to results json.
+
+            }
+
 			throw new UnsupportedOperationException("TODO: search JSON "
 					+ filteredResults.size());
 			// json.put("sEcho", Integer.toString(dataTablesInputs.sEcho));
