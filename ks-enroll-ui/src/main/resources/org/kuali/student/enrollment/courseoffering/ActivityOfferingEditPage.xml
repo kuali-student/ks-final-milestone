@@ -344,6 +344,9 @@
                                     </map>
                                 </property>
                                 <property name="quickfinder.viewName" value="ks_simplePersonLookup" />
+                                <property name="quickfinder.lightBoxLookup">
+                                    <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
+                                </property>
                             </bean>
                             <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" p:readOnly="true"/>
                             <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:label="AFFILIATION">
@@ -438,6 +441,9 @@
                                         <entry key="populationInfo.id" value="seatPoolPopulation.id"/>
                                         <entry key="populationInfo.name" value="seatPoolPopulation.name"/>
                                     </map>
+                                </property>
+                                <property name="quickfinder.lightBoxLookup">
+                                    <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
                                 </property>
                                 <!--<property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />-->
                             </bean>
