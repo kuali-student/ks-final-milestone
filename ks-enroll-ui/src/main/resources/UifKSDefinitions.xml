@@ -189,13 +189,8 @@
         <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line)}"/>
     </bean>
 
-
-    <bean id="KSUifFormView" parent="KSUifFormView-parentBean"/>
-    <bean id="KSUifFormView-parentBean" class="org.kuali.student.enrollment.uif.view.KSUifFormView" parent="Uif-FormView" abstract="true">
-        <property name="theme">
-            <bean parent="KSTheme"/>
-        </property>
-    </bean>
+    <bean id="KS-Uif-FormView-CustomizedBreadCrumb" parent="KS-Uif-FormView-CustomizedBreadCrumb-parent"/>
+    <bean id="KS-Uif-FormView-CustomizedBreadCrumb-parent" class="org.kuali.student.enrollment.uif.view.KSUifFormView" parent="KS-Uif-FormView" abstract="true"/>
 
     <bean id="KSLookupView" abstract="true" parent="Uif-KSLookupView-parentBean"/>
     <bean id="Uif-KSLookupView-parentBean" abstract="true"

@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <!--<bean id="KS-CourseOfferingManagement-View" parent="KSUifFormView" p:applyDirtyCheck="true"-->
+    <!--<bean id="KS-CourseOfferingManagement-View" parent="KS-Uif-FormView-CustomizedBreadCrumb" p:applyDirtyCheck="true"-->
           <!--p:id="courseOfferingManagementView"-->
           <!--p:entryPageId="searchInputPage"-->
           <!--p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl"-->
