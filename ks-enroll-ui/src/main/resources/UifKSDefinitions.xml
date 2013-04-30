@@ -43,6 +43,8 @@
         </property>
     </bean>
 
+    <bean id="KS-Uif-FormView-CustomizedBreadCrumb" class="org.kuali.student.enrollment.uif.view.KSUifFormView" parent="KS-Uif-FormView" abstract="true"/>
+
     <bean id="KS-Uif-InquiryView" abstract="true" parent="Uif-InquiryView">
         <property name="theme">
             <bean parent="KSTheme"/>
@@ -80,6 +82,8 @@
             <!--<ref bean="KS-Uif-DocumentPageFooter-SubmitCancel" />-->
         <!--</property>-->
     </bean>
+
+    <bean id="KS-Uif-MaintenanceView-CustomizedBreadCrumb" class="org.kuali.student.enrollment.uif.view.KSUifMaintenanceView" parent="KS-Uif-MaintenanceView" abstract="true"/>
 
     <!--This footer can be used for maintenance views: create a new or edit when we only want to see submit and cancel buttons -->
     <bean id="KS-Uif-DocumentPageFooter-SubmitCancel"  parent="KS-Uif-DocumentPageFooter-SubmitCancel-parent"/>
@@ -189,9 +193,6 @@
         <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line)}"/>
     </bean>
 
-    <bean id="KS-Uif-FormView-CustomizedBreadCrumb" parent="KS-Uif-FormView-CustomizedBreadCrumb-parent"/>
-    <bean id="KS-Uif-FormView-CustomizedBreadCrumb-parent" class="org.kuali.student.enrollment.uif.view.KSUifFormView" parent="KS-Uif-FormView" abstract="true"/>
-
     <bean id="KSLookupView" abstract="true" parent="Uif-KSLookupView-parentBean"/>
     <bean id="Uif-KSLookupView-parentBean" abstract="true"
           class="org.kuali.student.enrollment.uif.view.KSLookupView" parent="Uif-LookupView">
@@ -225,30 +226,12 @@
     </bean>
 
 
-    <bean id="KSUifMaintenanceView" abstract="true" parent="KSUifMaintenanceView-parentBean"/>
-    <bean id="KSUifMaintenanceView-parentBean" class="org.kuali.student.enrollment.uif.view.KSUifMaintenanceView" parent="Uif-MaintenanceView" abstract="true">
-        <property name="theme">
-            <bean parent="KSTheme"/>
-        </property>
-        <property name="header.rightGroup.items">      <!-- In KS, document overview section not needed(document status, create time, doc number etc)-->
-            <list/>
-        </property>
-        <property name="page.header.lowerGroup.items">   <!-- Also, expandall/collapseall not needed-->
-            <list/>
-        </property>
-        <property name="page.items">  <!-- In KS, we are not displaying the notes,route and doc overview section -->
-            <list></list>
-        </property>
-    </bean>
-
-
     <bean id="ActionField_SmallSecondary_Override" parent="ActionField_SmallSecondary_Override-parentBean"/>
     <bean id="ActionField_SmallSecondary_Override-parentBean" abstract="true"
           class="org.kuali.student.enrollment.uif.field.ActionFieldJsOverride">
         <property name="template" value="/krad/WEB-INF/jsp/templates/field/actionField.jsp"/>
         <property name="cssClasses" value="ui-priority-secondary-sm"/>
     </bean>
-
 
     <bean id="KS-SimpleDataField" parent="KS-SimpleDataField-parentBean"/>
     <bean id="KS-SimpleDataField-parentBean" abstract="true" parent="Uif-DataField" scope="prototype">

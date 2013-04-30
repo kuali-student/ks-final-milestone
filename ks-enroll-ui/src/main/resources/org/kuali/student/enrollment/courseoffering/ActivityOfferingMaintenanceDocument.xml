@@ -49,7 +49,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOffering-MaintenanceView" parent="KSUifMaintenanceView" p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView or !#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
+    <bean id="ActivityOffering-MaintenanceView" parent="KS-Uif-MaintenanceView-CustomizedBreadCrumb" p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView or !#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
