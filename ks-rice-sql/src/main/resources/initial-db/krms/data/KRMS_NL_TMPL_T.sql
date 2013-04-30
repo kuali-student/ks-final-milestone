@@ -786,27 +786,23 @@ Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
 Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
  VALUES ('KS-KRMS-NL-TMPL-1402','en','KS-KRMS-NL-USAGE-1000','10042','If student is <attribute> AND upon drop total credit hours would be less than <min credit hours>, prevent drop ',0)
 /
-INSERT INTO KRMS_NL_USAGE_T (NL_USAGE_ID, NM, NMSPC_CD, DESC_TXT, ACTV, VER_NBR)
-  VALUES ('KS-KRMS-NL-USAGE-1006', 'kuali.krms.type.instruction', 'KS-SYS', 'Kuali Rule Type Instructions', 'Y', 0)
-/
-
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID, LANG_CD, NL_USAGE_ID, TYP_ID, TMPL, VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1403', 'en', 'KS-KRMS-NL-USAGE-1006', (SELECT TYP_ID FROM KRMS_TYP_T where NM = 'kuali.krms.rule.type.course.academicReadiness.studentEligibilityPrereq' AND NMSPC_CD = 'KS-SYS'), 'Add conditions that will restrict student enrollment, addressing restrictions to majors, locations, credit level requirements, etc. or Add courses, with or without grade requirements, which a student must have completed in order to enroll.', 0)
+  VALUES ('KS-KRMS-NL-TMPL-1403', 'en', 'KS-KRMS-NL-USAGE-1006', '10010', 'Add conditions that will restrict student enrollment, addressing restrictions to majors, locations, credit level requirements, etc. or Add courses, with or without grade requirements, which a student must have completed in order to enroll.', 0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID, LANG_CD, NL_USAGE_ID, TYP_ID, TMPL, VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1404', 'en', 'KS-KRMS-NL-USAGE-1006', (SELECT TYP_ID FROM KRMS_TYP_T where NM = 'kuali.krms.rule.type.course.academicReadiness.coreq' AND NMSPC_CD = 'KS-SYS'), 'Add conditions that will restrict student enrollment, addressing restrictions to majors, locations, credit level requirements, etc. or Add courses, with or without grade requirements, which a student must have completed in order to enroll.', 0)
+  VALUES ('KS-KRMS-NL-TMPL-1404', 'en', 'KS-KRMS-NL-USAGE-1006', '10006', 'Add conditions that will restrict student enrollment, addressing restrictions to majors, locations, credit level requirements, etc. or Add courses, with or without grade requirements, which a student must have completed in order to enroll.', 0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID, LANG_CD, NL_USAGE_ID, TYP_ID, TMPL, VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1405', 'en', 'KS-KRMS-NL-USAGE-1006', (SELECT TYP_ID FROM KRMS_TYP_T where NM = 'kuali.krms.rule.type.course.recommendedPreparation' AND NMSPC_CD = 'KS-SYS'), 'The courses and/or preparation added here will not prevent students from registering, but will be printed in the catalog.', 0)
+  VALUES ('KS-KRMS-NL-TMPL-1405', 'en', 'KS-KRMS-NL-USAGE-1006', '10008', 'The courses and/or preparation added here will not prevent students from registering, but will be printed in the catalog.', 0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID, LANG_CD, NL_USAGE_ID, TYP_ID, TMPL, VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1406', 'en', 'KS-KRMS-NL-USAGE-1006', (SELECT TYP_ID FROM KRMS_TYP_T where NM = 'kuali.krms.rule.type.course.academicReadiness.antireq' AND NMSPC_CD = 'KS-SYS'), 'Add courses that, if completed, would prevent a student from enrolling in this course.', 0)
+  VALUES ('KS-KRMS-NL-TMPL-1406', 'en', 'KS-KRMS-NL-USAGE-1006', '10005', 'Add courses that, if completed, would prevent a student from enrolling in this course.', 0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID, LANG_CD, NL_USAGE_ID, TYP_ID, TMPL, VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1407', 'en', 'KS-KRMS-NL-USAGE-1006', (SELECT TYP_ID FROM KRMS_TYP_T where NM = 'kuali.krms.rule.type.course.credit.restriction' AND NMSPC_CD = 'KS-SYS'), 'Enrollment in or completion of another course that will restrict the credits to be awarded.', 0)
+  VALUES ('KS-KRMS-NL-TMPL-1407', 'en', 'KS-KRMS-NL-USAGE-1006', '10012', 'Enrollment in or completion of another course that will restrict the credits to be awarded.', 0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID, LANG_CD, NL_USAGE_ID, TYP_ID, TMPL, VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1408', 'en', 'KS-KRMS-NL-USAGE-1006', (SELECT TYP_ID FROM KRMS_TYP_T where NM = 'kuali.krms.rule.type.course.credit.repeatable' AND NMSPC_CD = 'KS-SYS'), 'Course repeatable for credit.', 0)
+  VALUES ('KS-KRMS-NL-TMPL-1408', 'en', 'KS-KRMS-NL-USAGE-1006', '10011', 'Course repeatable for credit.', 0)
 /
 INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en', 'KS-KRMS-NL-TMPL-1409','KS-KRMS-NL-USAGE-1004','Enrollment Eligibility','10079',0)
@@ -863,38 +859,38 @@ INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en', 'KS-KRMS-NL-TMPL-1426','KS-KRMS-NL-USAGE-1004','Restricted for Credit','10099',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID, LANG_CD, NL_USAGE_ID, TYP_ID, TMPL, VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1427', 'en', 'KS-KRMS-NL-USAGE-1006', (SELECT TYP_ID FROM KRMS_TYP_T where NM = 'kuali.krms.rule.type.course.offering.academicReadiness.studentEligibilityPrereq' AND NMSPC_CD = 'KS-SYS'), 'Add conditions that will restrict student enrollment, addressing restrictions to majors, locations, credit level requirements, etc. or Add courses, with or without grade requirements, which a student must have completed in order to enroll.', 0)
+  VALUES ('KS-KRMS-NL-TMPL-1427', 'en', 'KS-KRMS-NL-USAGE-1006', '10089', 'Add conditions that will restrict student enrollment, addressing restrictions to majors, locations, credit level requirements, etc. or Add courses, with or without grade requirements, which a student must have completed in order to enroll.', 0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID, LANG_CD, NL_USAGE_ID, TYP_ID, TMPL, VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1428', 'en', 'KS-KRMS-NL-USAGE-1006', (SELECT TYP_ID FROM KRMS_TYP_T where NM = 'kuali.krms.rule.type.course.offering.academicReadiness.coreq' AND NMSPC_CD = 'KS-SYS'), 'Add conditions that will restrict student enrollment, addressing restrictions to majors, locations, credit level requirements, etc. or Add courses, with or without grade requirements, which a student must have completed in order to enroll.', 0)
+  VALUES ('KS-KRMS-NL-TMPL-1428', 'en', 'KS-KRMS-NL-USAGE-1006', '10085', 'Add conditions that will restrict student enrollment, addressing restrictions to majors, locations, credit level requirements, etc. or Add courses, with or without grade requirements, which a student must have completed in order to enroll.', 0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID, LANG_CD, NL_USAGE_ID, TYP_ID, TMPL, VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1429', 'en', 'KS-KRMS-NL-USAGE-1006', (SELECT TYP_ID FROM KRMS_TYP_T where NM = 'kuali.krms.rule.type.course.offering.recommendedPreparation' AND NMSPC_CD = 'KS-SYS'), 'The courses and/or preparation added here will not prevent students from registering, but will be printed in the catalog.', 0)
+  VALUES ('KS-KRMS-NL-TMPL-1429', 'en', 'KS-KRMS-NL-USAGE-1006', '10087', 'The courses and/or preparation added here will not prevent students from registering, but will be printed in the catalog.', 0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID, LANG_CD, NL_USAGE_ID, TYP_ID, TMPL, VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1430', 'en', 'KS-KRMS-NL-USAGE-1006', (SELECT TYP_ID FROM KRMS_TYP_T where NM = 'kuali.krms.rule.type.course.offering.academicReadiness.antireq' AND NMSPC_CD = 'KS-SYS'), 'Add courses that, if completed, would prevent a student from enrolling in this course.', 0)
+  VALUES ('KS-KRMS-NL-TMPL-1430', 'en', 'KS-KRMS-NL-USAGE-1006', '10084', 'Add courses that, if completed, would prevent a student from enrolling in this course.', 0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID, LANG_CD, NL_USAGE_ID, TYP_ID, TMPL, VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1431', 'en', 'KS-KRMS-NL-USAGE-1006', (SELECT TYP_ID FROM KRMS_TYP_T where NM = 'kuali.krms.rule.type.course.offering.credit.restriction' AND NMSPC_CD = 'KS-SYS'), 'Enrollment in or completion of another course that will restrict the credits to be awarded.', 0)
+  VALUES ('KS-KRMS-NL-TMPL-1431', 'en', 'KS-KRMS-NL-USAGE-1006', '10091', 'Enrollment in or completion of another course that will restrict the credits to be awarded.', 0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID, LANG_CD, NL_USAGE_ID, TYP_ID, TMPL, VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1432', 'en', 'KS-KRMS-NL-USAGE-1006', (SELECT TYP_ID FROM KRMS_TYP_T where NM = 'kuali.krms.rule.type.course.offering.credit.repeatable' AND NMSPC_CD = 'KS-SYS'), 'Course repeatable for credit.', 0)
+  VALUES ('KS-KRMS-NL-TMPL-1432', 'en', 'KS-KRMS-NL-USAGE-1006', '10090', 'Course repeatable for credit.', 0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID, LANG_CD, NL_USAGE_ID, TYP_ID, TMPL, VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1433', 'en', 'KS-KRMS-NL-USAGE-1006', (SELECT TYP_ID FROM KRMS_TYP_T where NM = 'kuali.krms.rule.type.activity.offering.academicReadiness.studentEligibilityPrereq' AND NMSPC_CD = 'KS-SYS'), 'Add conditions that will restrict student enrollment, addressing restrictions to majors, locations, credit level requirements, etc. or Add courses, with or without grade requirements, which a student must have completed in order to enroll.', 0)
+  VALUES ('KS-KRMS-NL-TMPL-1433', 'en', 'KS-KRMS-NL-USAGE-1006', '10097', 'Add conditions that will restrict student enrollment, addressing restrictions to majors, locations, credit level requirements, etc. or Add courses, with or without grade requirements, which a student must have completed in order to enroll.', 0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID, LANG_CD, NL_USAGE_ID, TYP_ID, TMPL, VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1434', 'en', 'KS-KRMS-NL-USAGE-1006', (SELECT TYP_ID FROM KRMS_TYP_T where NM = 'kuali.krms.rule.type.activity.offering.academicReadiness.coreq' AND NMSPC_CD = 'KS-SYS'), 'Add conditions that will restrict student enrollment, addressing restrictions to majors, locations, credit level requirements, etc. or Add courses, with or without grade requirements, which a student must have completed in order to enroll.', 0)
+  VALUES ('KS-KRMS-NL-TMPL-1434', 'en', 'KS-KRMS-NL-USAGE-1006', '10093', 'Add conditions that will restrict student enrollment, addressing restrictions to majors, locations, credit level requirements, etc. or Add courses, with or without grade requirements, which a student must have completed in order to enroll.', 0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID, LANG_CD, NL_USAGE_ID, TYP_ID, TMPL, VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1435', 'en', 'KS-KRMS-NL-USAGE-1006', (SELECT TYP_ID FROM KRMS_TYP_T where NM = 'kuali.krms.rule.type.activity.offering.recommendedPreparation' AND NMSPC_CD = 'KS-SYS'), 'The courses and/or preparation added here will not prevent students from registering, but will be printed in the catalog.', 0)
+  VALUES ('KS-KRMS-NL-TMPL-1435', 'en', 'KS-KRMS-NL-USAGE-1006', '10095', 'The courses and/or preparation added here will not prevent students from registering, but will be printed in the catalog.', 0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID, LANG_CD, NL_USAGE_ID, TYP_ID, TMPL, VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1436', 'en', 'KS-KRMS-NL-USAGE-1006', (SELECT TYP_ID FROM KRMS_TYP_T where NM = 'kuali.krms.rule.type.activity.offering.academicReadiness.antireq' AND NMSPC_CD = 'KS-SYS'), 'Add courses that, if completed, would prevent a student from enrolling in this course.', 0)
+  VALUES ('KS-KRMS-NL-TMPL-1436', 'en', 'KS-KRMS-NL-USAGE-1006', '10092', 'Add courses that, if completed, would prevent a student from enrolling in this course.', 0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID, LANG_CD, NL_USAGE_ID, TYP_ID, TMPL, VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1437', 'en', 'KS-KRMS-NL-USAGE-1006', (SELECT TYP_ID FROM KRMS_TYP_T where NM = 'kuali.krms.rule.type.activity.offering.credit.restriction' AND NMSPC_CD = 'KS-SYS'), 'Enrollment in or completion of another course that will restrict the credits to be awarded.', 0)
+  VALUES ('KS-KRMS-NL-TMPL-1437', 'en', 'KS-KRMS-NL-USAGE-1006', '10099', 'Enrollment in or completion of another course that will restrict the credits to be awarded.', 0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID, LANG_CD, NL_USAGE_ID, TYP_ID, TMPL, VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1438', 'en', 'KS-KRMS-NL-USAGE-1006', (SELECT TYP_ID FROM KRMS_TYP_T where NM = 'kuali.krms.rule.type.activity.offering.credit.repeatable' AND NMSPC_CD = 'KS-SYS'), 'Course repeatable for credit.', 0)
+  VALUES ('KS-KRMS-NL-TMPL-1438', 'en', 'KS-KRMS-NL-USAGE-1006', '10098', 'Course repeatable for credit.', 0)
 /
