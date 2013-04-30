@@ -16,6 +16,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListin
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.lrc.service.util.MockLrcTestDataLoader;
@@ -741,6 +742,34 @@ public class TestCourseOfferingServiceImpl {
         assertNotNull(coloInfos);
         assertEquals(1,coloInfos.size());
     }
-    
-   
+
+    @Test
+    public void testGetActivityOfferingsForSeatPoolDefinition() throws Exception {
+        // Create  Seatpool
+        SeatPoolDefinitionInfo seatPoolDefinitionInfo = new SeatPoolDefinitionInfo();
+        seatPoolDefinitionInfo.setName("TestSeatPoolDefinitionInfo-Id");
+        seatPoolDefinitionInfo.setStateKey("TestSeatPoolDefinitionInfo-StateKey1");
+        seatPoolDefinitionInfo.setTypeKey("TestSeatPoolDefinitionInfo-TypeKey1");
+        seatPoolDefinitionInfo.setExpirationMilestoneTypeKey("TestSeatPoolDefinitionInfo-MilestoneKey1");
+        seatPoolDefinitionInfo.setIsPercentage(false);
+        seatPoolDefinitionInfo.setSeatLimit(50);
+        seatPoolDefinitionInfo.setProcessingPriority(3);
+        seatPoolDefinitionInfo.setId(null);
+        SeatPoolDefinitionInfo seatPoolCreated = coService.createSeatPoolDefinition(seatPoolDefinitionInfo, callContext);
+
+        // Create AO
+        CourseOfferingInfo courseOffering = createCourseOffering();
+        FormatOfferingInfo fo = createFormatOffering(courseOffering.getId(), courseOffering.getTermId());
+        ActivityOfferingInfo activityOfferingCreated = createActivityOffering(courseOffering, fo.getId());
+
+        // Add Seatpool to AO
+        coService.addSeatPoolDefinitionToActivityOffering(seatPoolCreated.getId(), activityOfferingCreated.getId(), callContext);
+
+        //  Actual test
+        List<ActivityOfferingInfo> activityOfferingInfos = coService.getActivityOfferingsForSeatPoolDefinition(seatPoolCreated.getId(), callContext);
+
+        assertEquals(1, activityOfferingInfos.size());
+        assertEquals(activityOfferingCreated.getId(), activityOfferingInfos.get(0).getId());
+    }
+
 }
