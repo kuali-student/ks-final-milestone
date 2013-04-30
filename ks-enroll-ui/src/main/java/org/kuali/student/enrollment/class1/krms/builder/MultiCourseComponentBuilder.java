@@ -313,7 +313,7 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
 
         //Create the courseset
         try {
-            cluSetInfo = this.cluService.createCluSet(cluSetInfo.getTypeKey(), cluSetInfo, ContextUtils.getContextInfo());
+            cluSetInfo = this.getCluService().createCluSet(cluSetInfo.getTypeKey(), cluSetInfo, ContextUtils.getContextInfo());
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
