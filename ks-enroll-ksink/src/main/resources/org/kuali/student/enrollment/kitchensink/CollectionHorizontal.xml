@@ -22,8 +22,8 @@
 
     <!-- The Interesting Bits -->
 
-    <bean id="KS-KitchenSink-CollectionHorizontal" parent="KS-Uif-StackedCollectionSection">
-        <!-- KS-Uif-StackedCollectionSection is in UifKSDefinitions.xml; parent="Uif-StackedCollectionSection" -->
+    <bean id="KS-KitchenSink-CollectionHorizontal" parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup">
+        <!-- KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup is in UifKSDefinitions.xml; parent="Uif-StackedCollectionSection" -->
         <property name="propertyName" value="collection"/>
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.kitchensink.KitchenSinkFormCollection1"/>

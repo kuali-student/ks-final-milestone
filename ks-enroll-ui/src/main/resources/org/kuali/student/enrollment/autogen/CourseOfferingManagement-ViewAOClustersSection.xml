@@ -18,7 +18,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-AOClustersCollection" parent="KS-Uif-StackedCollectionSection" p:renderAddLine="false"  p:renderLineActions="false"
+    <bean id="KS-CourseOfferingManagement-AOClustersCollection" parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup" p:renderAddLine="false"  p:renderLineActions="false"
           p:onDocumentReadyScript="removeCheckboxColumns(1, 'activityOfferingsPerCluster', &quot;handleToolbar('KS-CourseOfferingManagement-AOClustersCollection',['enableApproveButton', 'enableDeleteButton', 'enableDraftButton', 'enableMoveToButton'], ['KS-CourseOfferingManagement-ToolBar-Approve-AO-ClusterTab','KS-CourseOfferingManagement-ToolBar-Delete-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Draft-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-MoveTo-AO-ClusterTab'])&quot;), removeZebraColoring('activityOfferingsPerCluster');">
         <property name="disclosure.render" value="false"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper" />

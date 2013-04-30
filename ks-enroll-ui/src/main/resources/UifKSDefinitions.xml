@@ -93,8 +93,20 @@
         </property>
     </bean>
 
-    <!--<bean id="KS-HorizontalCollectionSection" parent="KS-HorizontalCollectionSection-parent"/>-->
-    <bean id="KS-Uif-StackedCollectionSection" parent="Uif-StackedCollectionSection">
+
+    <bean id="KS-Uif-Disclosure" abstract="true" parent="Uif-Disclosure">
+        <property name="collapseImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_collapse-back-ks.png"/>
+        <property name="expandImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_expand-back-ks.png"/>
+    </bean>
+
+    <!--Note by bonnie: Not used in any code -->
+    <bean id="KS-Uif-VerticalBoxSection-Disclosure" abstract="true" parent="Uif-VerticalBoxSection">
+        <property name="disclosure">
+            <bean parent="KS-Uif-Disclosure"/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup" parent="Uif-StackedCollectionSection">
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
                 <property name="subCollectionFieldGroupPrototype">
@@ -108,7 +120,7 @@
     </bean>
 
     <!--Note by bonnie: Not used in any code -->
-    <bean id="KS-Uif-StackedCollectionSection-Disclosure" parent="KS-Uif-StackedCollectionSection">
+    <bean id="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroupWithDisclosure" parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup">
         <property name="disclosure.render" value="true"/>
         <!-- TODO: check with UX, do we need to set disclosure as KS-Uif-Disclosure by default? -->
         <!--<property name="disclosure">-->
@@ -129,21 +141,12 @@
         </property>
     </bean>
 
-    <!--<bean id="KS-Disclosure-HorizontalCollectionSubSection" parent="KS-Disclosure-HorizontalCollectionSubSection-parent"/>-->
     <bean id="KS-Uif-StackedCollectionSubSection-Disclosure" parent="KS-Uif-StackedCollectionSubSection">
         <property name="disclosure.render" value="true"/>
-    </bean>
-
-    <bean id="KS-Uif-Disclosure" abstract="true" parent="Uif-Disclosure">
-        <property name="collapseImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_collapse-back-ks.png"/>
-        <property name="expandImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_expand-back-ks.png"/>
-    </bean>
-
-    <!--Note by bonnie: Not used in any code -->
-    <bean id="KS-Uif-VerticalBoxSection-Disclosure" abstract="true" parent="Uif-VerticalBoxSection">
-        <property name="disclosure">
-            <bean parent="KS-Uif-Disclosure"/>
-        </property>
+        <!-- TODO: check with UX, do we need to set disclosure as KS-Uif-Disclosure by default? -->
+        <!--<property name="disclosure">-->
+        <!--<bean parent="KS-Uif-Disclosure"/>-->
+        <!--</property>-->
     </bean>
 
     <!--Note: This is a tab group with link based look and feel. It is not used in any code so far. -->
@@ -194,7 +197,6 @@
     </bean>
 
     <bean id="KSLookupView" abstract="true" parent="Uif-KSLookupView-parentBean"/>
-
     <bean id="Uif-KSLookupView-parentBean" abstract="true"
           class="org.kuali.student.enrollment.uif.view.KSLookupView" parent="Uif-LookupView">
         <property name="theme">
