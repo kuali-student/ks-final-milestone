@@ -57,7 +57,7 @@ public class AlphaIterator implements Serializable, Iterator {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    private class Inner {
+    private class Inner implements Serializable{
 
         private final static int START = 'A';
         private final static int END = 'Z';
