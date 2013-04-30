@@ -226,6 +226,9 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="3" p:disabled="@{!#root.editAuthz}"/>
                     </property>
+                    <property name="validCharactersConstraint">
+                      <bean parent="NumericPatternConstraint"/>
+                    </property>
                 </bean>
                 <bean parent="Uif-SecondaryActionButton-Small">
                     <property name="style" value="margin-top:1.5em;"/>
