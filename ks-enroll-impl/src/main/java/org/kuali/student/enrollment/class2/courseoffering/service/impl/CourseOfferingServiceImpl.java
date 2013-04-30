@@ -1089,7 +1089,20 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        throw new UnsupportedOperationException("not implemented");
+        List<ActivityOfferingInfo> activityOfferingInfos = new ArrayList<ActivityOfferingInfo>();
+
+        if (StringUtils.isNotBlank(seatPoolDefinitionId)) {
+            SeatPoolDefinitionEntity poolEntity = seatPoolDefinitionDao.find(seatPoolDefinitionId);
+            if (null == poolEntity) {
+                throw new DoesNotExistException(seatPoolDefinitionId);
+            }
+            String activityOfferingId = poolEntity.getActivityOfferingId();
+            ActivityOfferingInfo activityOfferingInfo = getActivityOffering(activityOfferingId, context);
+
+            activityOfferingInfos.add(activityOfferingInfo);
+        }
+
+        return activityOfferingInfos;
     }
 
     @Override
