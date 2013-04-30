@@ -94,7 +94,7 @@
           p:onClickScript="toggleAddAOCButton('addAOCButton','privateClusterNamePopover_control');">
         <property name="actionLabel" value="Add Cluster"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/add_cluster.png"/>
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/toolbar/add_cluster.png"/>
         </property>
     </bean>
 
@@ -106,21 +106,21 @@
             </bean>
         </property>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/move_to_cluster.png"/>
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/toolbar/move_to_cluster.png"/>
         </property>
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Add-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
         <property name="actionLabel" value="Add Course"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{enableAddButton ? #ConfigProperties['ks.externalizable.images.url']+'/add_enabled.png' : #ConfigProperties['ks.externalizable.images.url']+'/add_disabled.png'}"/>
+            <bean parent="Uif-Image" p:source="@{enableAddButton ? #ConfigProperties['ks.externalizable.images.url']+'/toolbar/add_enabled.png' : #ConfigProperties['ks.externalizable.images.url']+'/toolbar/add_disabled.png'}"/>
         </property>
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Approve-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
         <property name="actionLabel" value="Approve"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/approve_disabled.png"/>
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/toolbar/approve_disabled.png"/>
         </property>
     </bean>
 
@@ -134,28 +134,28 @@
     <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
         <property name="actionLabel" value="Cancel"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cancel_disabled.png"/>
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/toolbar/cancel_disabled.png"/>
         </property>
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
         <property name="actionLabel" value="Reinstate"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/reinstate_disabled.png"/>
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/toolbar/reinstate_disabled.png"/>
         </property>
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Delete-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
         <property name="actionLabel" value="Delete"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/delete_disabled.png"/>
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/toolbar/delete_disabled.png"/>
         </property>
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Draft-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
         <property name="actionLabel" value="Set as Draft"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/draft_disabled.png"/>
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/toolbar/draft_disabled.png"/>
         </property>
     </bean>
 
@@ -166,7 +166,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-ToolBar-Button" parent="Uif-SecondaryActionButton" p:disabled="true" abstract="true" p:style="font-size: 11px">
+    <bean id="KS-CourseOfferingManagement-ToolBar-Button" parent="Uif-SecondaryActionButton" p:disabled="true" abstract="true">
         <property name="actionImagePlacement" value="TOP"/>
         <property name="cssClasses">
             <list merge="true">
@@ -336,4 +336,5 @@
     </bean>
 
     <bean id="KS-HorizontalBoxGroup-WithRPadding" parent="Uif-HorizontalBoxGroup" p:style="padding-right: 20px" />
+
 </beans>
