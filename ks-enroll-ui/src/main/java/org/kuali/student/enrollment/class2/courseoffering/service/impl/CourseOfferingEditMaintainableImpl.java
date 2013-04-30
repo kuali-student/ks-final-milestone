@@ -50,6 +50,8 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
@@ -84,6 +86,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
     private transient LRCService lrcService;
     private transient AcademicCalendarService acalService;
     private transient CourseOfferingSetService courseOfferingSetService;
+    private transient TypeService typeService;
 
     //TODO : implement the functionality for Personnel section and its been delayed now since the backend implementation is not yet ready (06/06/2012).
 
@@ -297,7 +300,17 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             // TODO: fix R2 Format to include name and short name
             StringBuilder sb = new StringBuilder();
             for(ActivityInfo activityInfo:formatInfo.getActivities()){
-                sb.append(activityInfo.getTypeKey());
+                String activityTypeKey = activityInfo.getTypeKey();
+                String activityName = "";
+                try{
+                    if(!activityTypeKey.isEmpty()){
+                        activityName = typeService.getType(activityTypeKey, ContextUtils.createDefaultContextInfo()).getName();
+                    }
+                } catch (Exception e){
+                    throw new RuntimeException(e);
+                }
+
+                sb.append(activityName);
                 sb.append("/");
             }
             String tempName = sb.toString().substring(0,sb.toString().length()-1);
@@ -570,6 +583,12 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
         return this.acalService;
     }
 
+    protected TypeService getTypeService() {
+        if(typeService == null) {
+            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return this.typeService;
+    }
     protected CourseOfferingSetService getCourseOfferingSetService(){
         if (courseOfferingSetService == null){
             courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
