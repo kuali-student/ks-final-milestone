@@ -19,22 +19,28 @@ import org.kuali.student.r2.common.dao.GenericEntityDao;
 import org.kuali.student.r2.core.scheduling.model.ScheduleRequestEntity;
 
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class ScheduleRequestDao extends GenericEntityDao<ScheduleRequestEntity> {
     public List<ScheduleRequestEntity> getScheduleRequestsByRefObject(String refObjectType, String refObjectId ){
+        //TODO SSR work JIRA KSENROLL-6152
+        //Also why not use a named query?
+        /*
         return (List<ScheduleRequestEntity>)em.createQuery(
                 "from ScheduleRequestEntity sr where sr.refObjectTypeKey=:refObjectTypeKey and sr.refObjectId = :refObjectId")
                 .setParameter("refObjectTypeKey", refObjectType)
                 .setParameter("refObjectId", refObjectId)
                 .getResultList();
-
+          */
+        return new ArrayList<ScheduleRequestEntity>();
     }
 
     public List<ScheduleRequestEntity> getScheduleRequestsByRefObjects(String refObjectType, List<String> refObjectIds ){
-        Set<String> refObjectIdSet = new HashSet<String>(refObjectIds.size());
+        //TODO SSR work JIRA KSENROLL-6152
+        /*Set<String> refObjectIdSet = new HashSet<String>(refObjectIds.size());
         // remove duplicates from the key list
         refObjectIdSet.addAll(refObjectIds);
 
@@ -42,6 +48,8 @@ public class ScheduleRequestDao extends GenericEntityDao<ScheduleRequestEntity> 
         query.setParameter("refObjectTypeKey", refObjectType);
         query.setParameter("refObjectIds", refObjectIdSet);
         return query.getResultList();
+        */
+        return new ArrayList<ScheduleRequestEntity>();
     }
 
     public List<ScheduleRequestEntity> getScheduleRequestsByType(String scheduleRequestTypeKey){

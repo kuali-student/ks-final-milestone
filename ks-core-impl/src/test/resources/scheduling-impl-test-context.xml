@@ -203,12 +203,17 @@
 
     <alias name="schedulingServiceValidationDecorator" alias="SchedulingService" />
 
-    <bean id="TypeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
+    <!-- <bean id="TypeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/> -->
 
     <bean id="schedulingServiceValidationDecorator" class="org.kuali.student.r2.core.scheduling.service.decorators.SchedulingServiceValidationDecorator">
         <property name="nextDecorator" ref="schedulingServiceImpl"/>
         <property name="validator" ref="validator" />
         <!--<property name="typeService" ref="typeServiceImpl"/>-->
+    </bean>
+
+    <bean id="scheduleRequestTestDataLoader" class="org.kuali.student.r2.core.scheduling.service.impl.ScheduleRequestTestDataLoader">
+
+
     </bean>
 
 </beans>
