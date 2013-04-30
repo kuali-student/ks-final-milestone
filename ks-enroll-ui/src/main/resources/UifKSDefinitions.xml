@@ -82,7 +82,8 @@
     </bean>
 
     <!--This footer can be used for maintenance views: create a new or edit when we only want to see submit and cancel buttons -->
-    <bean id="KS-Uif-DocumentPageFooter-SubmitCancel" parent="Uif-DocumentPageFooter" abstract="true">
+    <bean id="KS-Uif-DocumentPageFooter-SubmitCancel"  parent="KS-Uif-DocumentPageFooter-SubmitCancel-parent"/>
+    <bean id="KS-Uif-DocumentPageFooter-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
         <property name="items">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
