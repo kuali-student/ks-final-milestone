@@ -25,7 +25,7 @@
 
 
     <!-- LookupView -->
-    <bean id="KS-FormatOfferingInfo-LookupView" parent="KSLookupView">
+    <bean id="KS-FormatOfferingInfo-LookupView" parent="KS-Uif-LookupView">
         <property name="headerText" value="Format Offering Info Lookup " />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.FormatOfferingInfoLookupableImpl" />
@@ -47,7 +47,7 @@
     </bean>
 
     <!-- LookupView By Type -->
-    <bean id="KS-FormatOfferingInfoByType-LookupView" parent="KSLookupView">
+    <bean id="KS-FormatOfferingInfoByType-LookupView" parent="KS-Uif-LookupView">
         <property name="headerText" value="Format Offering Info Lookup by Type" />
         <property name="viewName" value="KS-FormatOfferingInfoByType-LookupView"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo" />

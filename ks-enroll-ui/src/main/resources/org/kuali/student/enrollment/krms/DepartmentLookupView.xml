@@ -89,7 +89,7 @@
         </property>
     </bean>
 
-    <bean id="KS-Department-LookupView" parent="KSLookupView">
+    <bean id="KS-Department-LookupView" parent="KS-Uif-LookupView">
         <property name="id" value="departmentLookupView"/>
         <property name="viewName" value="krmsOrgDepartmentView" />
         <property name="headerText" value="Advance Search: Organization" />

@@ -21,7 +21,7 @@
     -->
 
     <!-- LookupView -->
-    <bean id="KS-SocRolloverResultInfo-LookupView" parent="KSLookupView">
+    <bean id="KS-SocRolloverResultInfo-LookupView" parent="KS-Uif-LookupView">
         <property name="headerText" value="SocRolloverResultInfo Lookup (Search not working)"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.SocRolloverResultInfoLookupableImpl" />

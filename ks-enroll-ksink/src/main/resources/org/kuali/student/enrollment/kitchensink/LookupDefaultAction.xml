@@ -114,7 +114,7 @@
     </bean>
 
     <!-- base UIM lookup view for PopulationInfo -->
-    <bean id="KS-KitchenSink-Population-LookupView-Base" parent="KSLookupView" abstract="true">
+    <bean id="KS-KitchenSink-Population-LookupView-Base" parent="KS-Uif-LookupView" abstract="true">
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.population.dto.PopulationInfo"/>
         <!--<property name="viewName" value="default"/>-->
         <property name="breadcrumbs.render" value="false"/>

@@ -10,7 +10,7 @@
     </bean>
 
     <!-- LookupView -->
-    <bean id="KS-RoomInfo-LookupView" parent="KSLookupView">
+    <bean id="KS-RoomInfo-LookupView" parent="KS-Uif-LookupView">
         <property name="headerText" value="Building Info Lookup" />
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.RoomInfo" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.RoomInfoLookupableImpl" />

@@ -10,7 +10,7 @@
     </bean>
 
     <!-- LookupView -->
-    <bean id="KS-EnrollmentFeeInfo-LookupView" parent="KSLookupView">
+    <bean id="KS-EnrollmentFeeInfo-LookupView" parent="KS-Uif-LookupView">
         <property name="headerText" value="Enrollment Fee Lookup" />
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.EnrollmentFeeInfoLookupableImpl" />

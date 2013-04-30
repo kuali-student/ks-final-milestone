@@ -84,7 +84,7 @@
         p:name="appointmentWindowInfo" p:dataObjectEntry-ref="AppointmentWindowInfo"/>
 
     <!-- LookupView -->
-    <bean id="KS-AppointmentWindowWrapper-LookupView" parent="KSLookupView"
+    <bean id="KS-AppointmentWindowWrapper-LookupView" parent="KS-Uif-LookupView"
         p:headerText="Appointment Window (with Assignments) Lookup"
         p:dataObjectClassName="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"
         p:viewHelperServiceClass="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperLookupableImpl">

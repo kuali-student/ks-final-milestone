@@ -73,7 +73,7 @@
     </bean>
 
 
-    <bean id="KS-OrganizationInfo-LookupView" parent="KSLookupView">
+    <bean id="KS-OrganizationInfo-LookupView" parent="KS-Uif-LookupView">
         <property name="id" value="organizationInfoLookupView"/>
         <property name="headerText" value="Organization Lookup" />
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />

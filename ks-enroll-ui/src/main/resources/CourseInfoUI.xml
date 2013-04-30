@@ -121,7 +121,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     </property>
   </bean>  
 
-  <bean id="CourseInfo-LookupView" parent="KSLookupView">
+  <bean id="CourseInfo-LookupView" parent="KS-Uif-LookupView">
     <property name="headerText" value="Course Lookup" />
     <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo" />
     <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseInfoLookupableImpl"/>

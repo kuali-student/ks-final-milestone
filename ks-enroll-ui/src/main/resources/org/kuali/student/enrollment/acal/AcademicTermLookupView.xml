@@ -34,7 +34,7 @@
        <property name="titleAttribute" value="id"/>
   </bean>
 
-  <bean id="AcademicTerm-LookupView" parent="KSLookupView">
+  <bean id="AcademicTerm-LookupView" parent="KS-Uif-LookupView">
     <property name="id" value="academicTermLookupView"/>
     <property name="headerText" value="Academic Term Lookup" />
     <property name="dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.TermInfo" />

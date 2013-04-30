@@ -106,7 +106,7 @@
         <!--</property>-->
     <!--</bean>-->
 
-    <bean id="KS-CluSetInfo-LookupView" parent="KSLookupView">
+    <bean id="KS-CluSetInfo-LookupView" parent="KS-Uif-LookupView">
         <property name="id" value="CourseSetsInfoLookupView"/>
         <!--<property name="viewName" value="krmsCourseSetsInfoView" />-->
         <property name="headerText" value="Advanced Search: Course Sets" />

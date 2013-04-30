@@ -20,7 +20,7 @@
      limitations under the License.
     -->
 
-    <bean id="KS-Person-LookupView" parent="KSLookupView"
+    <bean id="KS-Person-LookupView" parent="KS-Uif-LookupView"
           p:headerText="KS Person Lookup"
           >
 

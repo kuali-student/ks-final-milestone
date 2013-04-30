@@ -106,7 +106,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CluInfoTestSet-LookupView" parent="KSLookupView">
+    <bean id="KS-CluInfoTestSet-LookupView" parent="KS-Uif-LookupView">
         <property name="id" value="CluInfoTestSetLookupView"/>
         <property name="headerText" value="Advance Search: Advance Standardized Test Set Search" />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.TestSetInfo" />

@@ -71,7 +71,7 @@
         </property>
     </bean>
 
-    <bean id="KRMS-Program-LookupView" parent="KSLookupView">
+    <bean id="KRMS-Program-LookupView" parent="KS-Uif-LookupView">
         <property name="id" value="ProgramLookupView"/>
         <!--<property name="viewName" value="krmsProgramOnlyLookup"/>-->
         <property name="headerText" value="Advanced Search: Programs Only" />

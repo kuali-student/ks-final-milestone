@@ -78,7 +78,7 @@
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-LookupOverview-LookupView" parent="KSLookupView">
+    <bean id="KS-KitchenSink-LookupOverview-LookupView" parent="KS-Uif-LookupView">
         <property name="headerText" value="Term Info Lookup" />
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.TermInfo" />
         <property name="viewName" value="KS-KitchenSink-Lookup-TermInfo"/>

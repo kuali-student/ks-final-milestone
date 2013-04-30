@@ -5,7 +5,7 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <!-- LookupView -->
-   <bean id="KS-ActivityOfferingWrapper-LookupView" parent="KSLookupView">
+   <bean id="KS-ActivityOfferingWrapper-LookupView" parent="KS-Uif-LookupView">
         <property name="headerText" value="Activity Offering Lookup " />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingWrapperLookupableImpl" />

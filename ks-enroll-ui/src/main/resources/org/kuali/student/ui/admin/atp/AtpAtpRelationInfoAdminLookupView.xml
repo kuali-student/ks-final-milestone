@@ -29,7 +29,7 @@
 	<value>classpath:org/kuali/student/ui/admin/atp/AtpAtpRelationInfoAdminLookupView.xml</value>
 	********************************************** -->
 	<!-- LookupView -->
-	<bean id="KS-AtpAtpRelationInfo-AdminLookupView" parent="KSLookupView"
+	<bean id="KS-AtpAtpRelationInfo-AdminLookupView" parent="KS-Uif-LookupView"
 		p:title="AtpAtpRelationInfo Lookup"
 		p:header.headerText="AtpAtpRelationInfo Lookup"
 		p:dataObjectClassName="org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo"

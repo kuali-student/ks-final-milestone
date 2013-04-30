@@ -21,7 +21,7 @@
     -->
 
     <!-- LookupView -->
-    <bean id="KS-OfferingInstructorInfo-LookupView" parent="KSLookupView"
+    <bean id="KS-OfferingInstructorInfo-LookupView" parent="KS-Uif-LookupView"
           p:headerText="OfferingInstructorInfo Lookup (Search not working)"
           p:dataObjectClassName="org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo" >
         <!--p:viewHelperServiceClass="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperLookupableImpl"-->

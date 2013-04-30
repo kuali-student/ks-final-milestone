@@ -29,7 +29,7 @@
 	<value>classpath:org/kuali/student/ui/admin/lrc/ResultValuesGroupInfoAdminLookupView.xml</value>
 	********************************************** -->
 	<!-- LookupView -->
-	<bean id="KS-ResultValuesGroupInfo-AdminLookupView" parent="KSLookupView"
+	<bean id="KS-ResultValuesGroupInfo-AdminLookupView" parent="KS-Uif-LookupView"
 		p:title="ResultValuesGroupInfo Lookup"
 		p:header.headerText="ResultValuesGroupInfo Lookup"
 		p:dataObjectClassName="org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo"

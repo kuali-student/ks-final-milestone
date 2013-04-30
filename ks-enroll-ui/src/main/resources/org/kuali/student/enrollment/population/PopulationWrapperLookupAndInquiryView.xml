@@ -45,7 +45,7 @@
     </bean>
 
     <!-- LookupView -->
-    <bean id="KS-Population-LookupView" parent="KSLookupView">
+    <bean id="KS-Population-LookupView" parent="KS-Uif-LookupView">
         <property name="headerText" value="@{viewName != null ? 'Manage Populations' : 'Active Population Lookup'}" />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperLookupableImpl" />

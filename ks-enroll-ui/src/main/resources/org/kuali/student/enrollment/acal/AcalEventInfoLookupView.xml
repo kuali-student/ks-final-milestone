@@ -58,7 +58,7 @@
     </bean>
 
 
-    <bean id="KS-AcalEventInfo-LookupView" parent="KSLookupView">
+    <bean id="KS-AcalEventInfo-LookupView" parent="KS-Uif-LookupView">
         <property name="id" value="acalEventInfoLookupView"/>
         <property name="headerText" value="Advanced Search:Academic Calendar Event"/>
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.AcalEventInfo"/>

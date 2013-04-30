@@ -29,7 +29,7 @@
 	<value>classpath:org/kuali/student/ui/admin/lrc/ResultScaleInfoAdminLookupView.xml</value>
 	********************************************** -->
 	<!-- LookupView -->
-	<bean id="KS-ResultScaleInfo-AdminLookupView" parent="KSLookupView"
+	<bean id="KS-ResultScaleInfo-AdminLookupView" parent="KS-Uif-LookupView"
 		p:title="ResultScaleInfo Lookup"
 		p:header.headerText="ResultScaleInfo Lookup"
 		p:dataObjectClassName="org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo"

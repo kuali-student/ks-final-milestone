@@ -22,7 +22,7 @@
     <!--<import resource="classpath:ks-SocRolloverResultItemInfo-dictionary.xml"/>-->
 
     <!-- LookupView -->
-    <bean id="KS-SocRolloverResultItemInfo-LookupView" parent="KSLookupView">
+    <bean id="KS-SocRolloverResultItemInfo-LookupView" parent="KS-Uif-LookupView">
         <property name="headerText" value="SocRolloverResultItemInfo Lookup"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.SocRolloverResultItemInfoLookupableImpl" />

@@ -13,7 +13,7 @@
     </bean>
 
     <!-- LookupView -->
-    <bean id="KS-ActivityOffering-LookupView" parent="KSLookupView">
+    <bean id="KS-ActivityOffering-LookupView" parent="KS-Uif-LookupView">
         <property name="headerText" value="ActivityOffering Lookup " />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingLookupableImpl" />
@@ -34,7 +34,7 @@
         </property>
     </bean>
 
-    <bean id="KS-ActivityOffering-LookupView2" parent="KSLookupView">
+    <bean id="KS-ActivityOffering-LookupView2" parent="KS-Uif-LookupView">
         <property name="headerText" value="Advance ActivityOffering Lookup " />
         <property name="viewName" value="KS-ActivityOffering-LookupView2"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo" />

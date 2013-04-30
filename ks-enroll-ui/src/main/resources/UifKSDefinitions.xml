@@ -46,6 +46,14 @@
     <!--Note: might not need CustomizedBreadCrumb bean after rice 2.2.3 release -->
     <bean id="KS-Uif-FormView-CustomizedBreadCrumb" class="org.kuali.student.enrollment.uif.view.KSUifFormView" parent="KS-Uif-FormView" abstract="true"/>
 
+    <bean id="KS-Uif-LookupView" abstract="true" parent="KS-Uif-LookupView-parent"/>
+    <bean id="KS-Uif-LookupView-parent" abstract="true"
+          class="org.kuali.student.enrollment.uif.view.KSLookupView" parent="Uif-LookupView">
+        <property name="theme">
+            <bean parent="KSTheme"/>
+        </property>
+    </bean>
+
     <bean id="KS-Uif-InquiryView" abstract="true" parent="Uif-InquiryView">
         <property name="theme">
             <bean parent="KSTheme"/>
@@ -206,14 +214,6 @@
             </list>
         </property>
         <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line)}"/>
-    </bean>
-
-    <bean id="KSLookupView" abstract="true" parent="Uif-KSLookupView-parentBean"/>
-    <bean id="Uif-KSLookupView-parentBean" abstract="true"
-          class="org.kuali.student.enrollment.uif.view.KSLookupView" parent="Uif-LookupView">
-        <property name="theme">
-            <bean parent="KSTheme"/>
-        </property>
     </bean>
 
     <!-- try to override the default Uif-LookupView-ResultActions which contains edit, copy and delete.

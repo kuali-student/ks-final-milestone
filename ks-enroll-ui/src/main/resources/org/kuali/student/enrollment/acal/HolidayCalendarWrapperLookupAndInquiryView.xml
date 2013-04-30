@@ -152,7 +152,7 @@
     </bean>
 
     <!-- LookupView -->
-    <bean id="KS-HolidayCalendarWrapper-LookupView" parent="KSLookupView">
+    <bean id="KS-HolidayCalendarWrapper-LookupView" parent="KS-Uif-LookupView">
         <property name="headerText" value="Holiday Calendar (with Holidays) Lookup " />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.HolidayCalendarWrapperLookupableImpl" />
