@@ -343,7 +343,12 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
                     //remove it from its current spot
                     PropositionEditor parentProp = parent.getData().getProposition();
-                    PropositionEditor workingProp = parentProp.getCompoundEditors().remove(index / 2);
+                    PropositionEditor workingProp = null;
+                    if(index != 0 && up) {
+                        workingProp = parentProp.getCompoundEditors().remove(index / 2);
+                    } else if(!up && index != (children.size() - 1)) {
+                        workingProp = parentProp.getCompoundEditors().remove(index / 2);
+                    }
                     if ((index > 0) && up) {
                         parentProp.getCompoundEditors().add((index / 2) - 1, workingProp);
                     } else if ((index < (children.size() - 1) && !up)) {
