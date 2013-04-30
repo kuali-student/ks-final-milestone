@@ -444,4 +444,8 @@ public class ExpressionEvaluatorServiceImpl implements ExpressionEvaluatorServic
         return linePath;
     }
 
+    @Override
+    public void evaluatePropertyExpression(View view, Object contextObject, Map<String, Object> evaluationParameters, UifDictionaryBean expressionConfigurable, String propertyName, boolean removeExpression) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
