@@ -17,6 +17,7 @@
     </modules>
     <properties>
         <jdbc.source.db.username>KS_SOURCE_DB${db.branch.qualifier}</jdbc.source.db.username>
+        <oracle.source.dba.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</oracle.source.dba.url>
         <jdbc.password>${jdbc.username}</jdbc.password>
         <impex.metainf.context>org.kuali.common.impex.spring.MetaInfMpxConfig</impex.metainf.context>
         <impex.data.resources>META-INF/${project.artifactId}-data.resources</impex.data.resources>
@@ -35,7 +36,7 @@
                 <jdbc.username>${jdbc.source.db.username}</jdbc.username>
                 <oracle.dba.username>master</oracle.dba.username>
                 <oracle.dba.password>ENC(eEFVZmL4+y/5KlzDMCt6dGlBKQzXevFp)</oracle.dba.password>
-                <oracle.dba.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</oracle.dba.url>
+                <oracle.dba.url>${oracle.source.dba.url}</oracle.dba.url>
                 <!-- KS Source db is pure SQL not .mpx -->
                 <sql.data.concurrent.progress.label>SQL Count</sql.data.concurrent.progress.label>
                 <sql.data.concurrent.progress.label.throughput>SQL/s</sql.data.concurrent.progress.label.throughput>
@@ -118,9 +119,9 @@
                 <impex.ks.includes>KS.*</impex.ks.includes>
                 <impex.includes>${impex.rice.includes},${impex.ks.includes}</impex.includes>
                 <impex.source.artifactId>ks-source-db</impex.source.artifactId>
-                <impex.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</impex.url>
+                <impex.url>${oracle.source.dba.url}</impex.url>
                 <impex.driver>oracle.jdbc.driver.OracleDriver</impex.driver>
-                <impex.username>KS_SOURCE_DB${db.branch.qualifier}</impex.username>
+                <impex.username>${jdbc.source.db.username}</impex.username>
                 <impex.password>${impex.username}</impex.password>
                 <impex.schema>${impex.username}</impex.schema>
                 <impex.databaseVendor>oracle</impex.databaseVendor>
