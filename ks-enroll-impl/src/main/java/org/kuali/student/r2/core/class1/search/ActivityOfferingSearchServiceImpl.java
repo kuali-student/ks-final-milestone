@@ -32,7 +32,6 @@ import java.util.List;
  * Time: 12:56 PM
  *
  * This class is to be used to call ActivityOffering specific DB searches.
- *  TODOSSR: Fix search using join table for schedule Ids
  */
 public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHardwiredImplBase {
 
@@ -185,10 +184,10 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             MissingParameterException,
             OperationFailedException {
         if (SCH_IDS_BY_AO_SEARCH_KEY.equals(searchTypeKey)) {
-            return AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE;
+            return SCH_IDS_BY_AO_SEARCH_TYPE;
         }
         if (AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
-            return SCH_IDS_BY_AO_SEARCH_TYPE;
+            return AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE;
         }
         if (REG_GROUPS_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
             return REG_GROUPS_BY_CO_ID_SEARCH_TYPE;
@@ -442,7 +441,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "    ao.ID                AS col_5_0_, " +
                 "    ao.LUI_TYPE          AS col_6_0_, " +
                 "    ao.LUI_STATE         AS col_7_0_, " +
-                "    ao.SCHEDULE_ID       AS col_8_0_, " +
                 "    ao.MAX_SEATS         AS col_9_0_, " +
                 "    aoIdent.LUI_CD       AS col_10_0_ " +
                 "FROM " +
@@ -487,11 +485,14 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             row.addCell(SearchResultColumns.AOC_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AOC_NAME, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AOC_PRIVATE_NAME, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
+            String aoId = (String)resultRow[i++];
+            row.addCell(SearchResultColumns.AO_ID, aoId);
             row.addCell(SearchResultColumns.AO_TYPE, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AO_STATE, (String)resultRow[i++]);
-            // SSRTODO: Fix this
-            row.addCell(SearchResultColumns.SCHEDULE_ID, (String)resultRow[i++]);
+
+            for(String scheduleId : searchForScheduleIdsByAOId(aoId)) {
+                row.addCell(SearchResultColumns.SCHEDULE_ID, scheduleId);
+            }
             row.addCell(SearchResultColumns.AO_MAX_SEATS, resultRow[i]==null?null:resultRow[i].toString());
             i++;
             row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i++]);
@@ -499,6 +500,15 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         }
 
         return resultInfo;
+    }
+
+
+    private List<String> searchForScheduleIdsByAOId(String aoId) {
+        LuiEntity entity = entityManager.find(LuiEntity.class, aoId);
+        if(entity != null && entity.getScheduleIds() != null) {
+            return entity.getScheduleIds();
+        }
+        return Collections.EMPTY_LIST;
     }
 
     protected SearchResultInfo searchForAOsWithoutClusterByFormatOffering(SearchRequestInfo searchRequestInfo){
