@@ -162,7 +162,7 @@
             <bean parent="Uif-FieldGroupBase">
                 <property name="label" value="Actions"/>
                 <property name="group">
-                    <bean parent="KS-LookupView-ResultActions"/>
+                    <bean parent="KS-Uif-LookupView-ResultActions-EditOnly"/>
                 </property>
             </bean>
         </property>
