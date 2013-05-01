@@ -125,6 +125,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -333,10 +335,44 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
         processAosData(coId, clusterMap);
 
+        //Sort Activity Wrappers and Clusters
+        ArrayList<ActivityOfferingClusterWrapper> clusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>(clusterMap.values());
+        if(clusterWrapperList.size() > 1){
+            Collections.sort(clusterWrapperList, new Comparator<ActivityOfferingClusterWrapper>() {
+                @Override
+                public int compare(ActivityOfferingClusterWrapper o1, ActivityOfferingClusterWrapper o2) {
+                    int nameComparison = o1.getAoCluster().getPrivateName().compareTo(o2.getAoCluster().getPrivateName());
+                    int formatComparison = o1.getFormatNameForDisplay().compareTo(o2.getFormatNameForDisplay());
+
+                    if(formatComparison==0){
+                        return nameComparison;
+                    } else {
+                        return formatComparison;
+                    }
+                }
+            });
+        }
+
+        if(wrappers.size() >1){
+            Collections.sort(wrappers, new Comparator<ActivityOfferingWrapper>() {
+
+                @Override
+                public int compare(ActivityOfferingWrapper o1, ActivityOfferingWrapper o2) {
+                    int typeComparison = (o1.getTypeName().compareTo(o2.getTypeName())) * -1;
+                    int nameComparison = o1.getActivityCode().compareTo(o2.getActivityCode());
+                    if(typeComparison==0){
+                        return  nameComparison;
+                    } else {
+                        return typeComparison;
+                    }
+                }
+            });
+        }
+
         //Set the items in the form
         form.setActivityWrapperList(wrappers);
         form.getClusterResultList().clear();
-        form.getClusterResultList().addAll(clusterMap.values());
+        form.getClusterResultList().addAll(clusterWrapperList);
 
         //Get the mapping of formatids to AO types
         processRelatedTypeKeysForFos(coId, foIds, contextInfo);
@@ -376,6 +412,16 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
             List<RegistrationGroupWrapper> rgWrappers = processRgData(results, form, sch2aoMap, clusterMap, aoMap, contextInfo);
 
+            //Sort rgWrappers
+            if(rgWrappers.size()>1){
+                Collections.sort(rgWrappers, new Comparator<RegistrationGroupWrapper>() {
+                    @Override
+                    public int compare(RegistrationGroupWrapper o1, RegistrationGroupWrapper o2) {
+                        return o1.getRgInfo().getName().compareTo(o2.getRgInfo().getName());
+                    }
+                });
+            }
+
             form.setRgResultList(rgWrappers);
 
             form.setHasMoreThanOneCluster(clusterMap.size() > 1);
@@ -384,7 +430,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             //Validate Reg Groups
             Date startOfValidation = new Date();
             int i = 0;
-            for (ActivityOfferingClusterWrapper cluster : clusterMap.values()) {
+            for (ActivityOfferingClusterWrapper cluster : clusterWrapperList) {
                 List<RegistrationGroupInfo> rgInfos = new ArrayList<RegistrationGroupInfo>();
                 for (RegistrationGroupWrapper rgWrapper : cluster.getRgWrapperList()) {
                     rgInfos.add(rgWrapper.getRgInfo());
