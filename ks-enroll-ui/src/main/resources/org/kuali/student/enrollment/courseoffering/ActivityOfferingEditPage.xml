@@ -469,6 +469,9 @@
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="2" />
                                 </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="IntegerPatternConstraint" />
+                                </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="SEATS" p:maxLength="3" p:id="seatLimit" p:required="true">
                                 <property name="control">
