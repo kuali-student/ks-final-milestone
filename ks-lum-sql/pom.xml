@@ -8,10 +8,6 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ks-lum-sql</artifactId>
     <name>KS Lum SQL files</name>
-    <properties>
-        <!-- Baseline and upgrade scripts are written in Oracle compatible sql -->
-        <db.vendor>oracle</db.vendor>
-    </properties>
     <build>
         <plugins>
             <plugin>
