@@ -202,11 +202,18 @@
 
         <property name="lineActions">
             <list>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="@{#line.isEnableEditAOActionLink() ? 'Copy&#160;&#160;|&#160;&#160;' : 'Copy'}"
+                <!--p:actionLabel="@{#line.isEnableEditAOActionLink() ? 'Copy&#160;&#160;|&#160;&#160;' : 'Copy'}"-->
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy"
                       p:render="@{#line.isEnableCopyAOActionLink()}" p:actionEvent="copyAOonManageAOsPage"
                       p:style="padding-right:3px;"  />
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit"
-                      p:render="@{#line.isEnableEditAOActionLink()}" p:actionEvent="editAOonManageAOsPage"/>
+                      p:render="@{#line.isEnableEditAOActionLink()}" p:actionEvent="editAOonManageAOsPage">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-table-uif-navigationActionLink</value>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
