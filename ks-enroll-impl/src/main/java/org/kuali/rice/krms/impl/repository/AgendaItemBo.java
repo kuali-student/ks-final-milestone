@@ -313,14 +313,13 @@ public class AgendaItemBo extends PersistableBusinessObjectBase {
 	*/
    static AgendaItemDefinition to(AgendaItemBo bo) {
 	   if (bo == null) { return null; }
-	   AgendaItemDefinition.Builder builder =
-		   AgendaItemDefinition.Builder.create(bo.getId(), bo.getAgendaId());
+	   AgendaItemDefinition.Builder builder = AgendaItemDefinition.Builder.create(bo.getId(), bo.getAgendaId());
 	   builder.setRuleId(bo.getRuleId());
 	   builder.setSubAgendaId(bo.getSubAgendaId());
 	   builder.setWhenTrueId(bo.getWhenTrueId());
 	   builder.setWhenFalseId(bo.getWhenFalseId());
 	   builder.setAlwaysId(bo.getAlwaysId());
-           builder.setVersionNumber(bo.getVersionNumber());
+       builder.setVersionNumber(bo.getVersionNumber());
 	   
 	   return builder.build();
    }
@@ -341,7 +340,7 @@ public class AgendaItemBo extends PersistableBusinessObjectBase {
 	   bo.whenTrueId = im.getWhenTrueId();
 	   bo.whenFalseId = im.getWhenFalseId();
 	   bo.alwaysId = im.getAlwaysId();
-           bo.versionNumber = im.getVersionNumber();
+       bo.versionNumber = im.getVersionNumber();
 	   
 	   return bo;
    }
