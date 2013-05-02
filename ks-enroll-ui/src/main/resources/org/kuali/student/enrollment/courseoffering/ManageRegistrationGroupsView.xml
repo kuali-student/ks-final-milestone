@@ -212,7 +212,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:onChangeScript="toggleAssignButton();">
+                <bean parent="KS-Uif-InputField-Simple" p:propertyName="isChecked" p:required="false" p:onChangeScript="toggleAssignButton();">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
@@ -468,7 +468,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" >
+                <bean parent="KS-Uif-InputField-Simple" p:propertyName="isChecked" p:required="false" >
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>

@@ -370,7 +370,7 @@
         <property name="lineSelectPropertyName" value="selectedToCopy"/>
         <property name="items">
             <list>
-                 <bean parent="Uif-InputField" p:propertyName="selectedToCopy" p:required="false">
+                 <bean parent="KS-Uif-InputField-Simple" p:propertyName="selectedToCopy" p:required="false">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
@@ -480,21 +480,21 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="excludeCancelledActivityOfferings" p:fieldLabel.renderColon="false">
+                <bean parent="KS-Uif-InputField-Simple" p:propertyName="excludeCancelledActivityOfferings" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
                             <property name="checkboxLabel" value="Exclude cancelled activity offerings"/>
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="excludeSchedulingInformation" p:fieldLabel.renderColon="false">
+                <bean parent="KS-Uif-InputField-Simple" p:propertyName="excludeSchedulingInformation" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
                             <property name="checkboxLabel" value="Exclude scheduling information"/>
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="excludeInstructorInformation" p:fieldLabel.renderColon="false">
+                <bean parent="KS-Uif-InputField-Simple" p:propertyName="excludeInstructorInformation" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
                             <property name="checkboxLabel" value="Exclude instructor information"/>

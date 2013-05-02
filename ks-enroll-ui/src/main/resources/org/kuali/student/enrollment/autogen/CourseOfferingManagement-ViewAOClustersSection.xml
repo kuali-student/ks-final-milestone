@@ -121,7 +121,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isCheckedByCluster" p:required="false" p:readOnlyDisplayReplacement=" "
+                <bean parent="KS-Uif-InputField-Simple" p:propertyName="isCheckedByCluster" p:required="false" p:readOnlyDisplayReplacement=" "
                       p:onChangeScript="handleToolbar('KS-CourseOfferingManagement-AOClustersCollection',['enableApproveButton', 'enableDeleteButton', 'enableDraftButton', 'enableMoveToButton'], ['KS-CourseOfferingManagement-ToolBar-Approve-AO-ClusterTab','KS-CourseOfferingManagement-ToolBar-Delete-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Draft-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-MoveTo-AO-ClusterTab']);">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
@@ -174,15 +174,15 @@
                 <bean parent="Uif-MessageField"
                       p:label="INSTRUCTOR"
                       p:messageText="@{#line.instructorDisplayNames}" />
-                <bean name="enableApproveButton" parent="Uif-InputField" p:propertyName="enableApproveButton"/>
-                <bean name="enableDraftButton" parent="Uif-InputField" p:propertyName="enableDraftButton"/>
-                <bean name="enableSuspendButton" parent="Uif-InputField" p:propertyName="enableSuspendButton"/>
-                <bean name="enableCancelButton" parent="Uif-InputField" p:propertyName="enableCancelButton"/>
-                <bean name="enableReinstateButton" parent="Uif-InputField" p:propertyName="enableReinstateButton" />
-                <bean name="enableDeleteButton" parent="Uif-InputField" p:propertyName="enableDeleteButton" />
-                <bean name="enableCopyAOActionLink" parent="Uif-InputField" p:propertyName="enableCopyAOActionLink" />
-                <bean name="enableEditAOActionLink" parent="Uif-InputField" p:propertyName="enableEditAOActionLink" />
-                <bean name="enableMoveToButton" parent="Uif-InputField" p:propertyName="enableMoveToButton" />
+                <bean name="enableApproveButton" parent="KS-Uif-InputField-Simple" p:propertyName="enableApproveButton"/>
+                <bean name="enableDraftButton" parent="KS-Uif-InputField-Simple" p:propertyName="enableDraftButton"/>
+                <bean name="enableSuspendButton" parent="KS-Uif-InputField-Simple" p:propertyName="enableSuspendButton"/>
+                <bean name="enableCancelButton" parent="KS-Uif-InputField-Simple" p:propertyName="enableCancelButton"/>
+                <bean name="enableReinstateButton" parent="KS-Uif-InputField-Simple" p:propertyName="enableReinstateButton" />
+                <bean name="enableDeleteButton" parent="KS-Uif-InputField-Simple" p:propertyName="enableDeleteButton" />
+                <bean name="enableCopyAOActionLink" parent="KS-Uif-InputField-Simple" p:propertyName="enableCopyAOActionLink" />
+                <bean name="enableEditAOActionLink" parent="KS-Uif-InputField-Simple" p:propertyName="enableEditAOActionLink" />
+                <bean name="enableMoveToButton" parent="KS-Uif-InputField-Simple" p:propertyName="enableMoveToButton" />
             </list>
         </property>
 

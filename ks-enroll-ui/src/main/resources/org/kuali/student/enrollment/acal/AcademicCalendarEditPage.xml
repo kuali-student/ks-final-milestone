@@ -237,12 +237,12 @@ limitations under the License.
                         </bean>
                     </property>
                  </bean>
-                 <bean parent="Uif-InputField" p:propertyName="allDay" p:label="All Day" p:render="@{!#view.readOnly}">
+                 <bean parent="KS-Uif-InputField-Simple" p:propertyName="allDay" p:label="All Day" p:render="@{!#view.readOnly}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                  </bean>
-                 <bean parent="Uif-InputField" p:propertyName="dateRange" p:label="Date Range" p:render="@{!#view.readOnly}">
+                 <bean parent="KS-Uif-InputField-Simple" p:propertyName="dateRange" p:label="Date Range" p:render="@{!#view.readOnly}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" />
                     </property>
@@ -380,7 +380,7 @@ limitations under the License.
                 <bean parent="Uif-TextControl"/>
              </property>
          </bean>
-         <bean parent="Uif-InputField" p:propertyName="holidayInfo.isInstructionalDay" p:label="Instructional"
+         <bean parent="KS-Uif-InputField-Simple" p:propertyName="holidayInfo.isInstructionalDay" p:label="Instructional"
                p:style="font-weight:normal; text-align:center;" p:fieldLabel.style="text-align:center;"
                p:readOnlyDisplayReplacement="@{#line.holidayInfo.isInstructionalDay ? 'Yes' : ' '}">
              <property name="control">

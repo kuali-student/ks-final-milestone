@@ -198,7 +198,7 @@
             <list>
 
                 <!-- This column is hidden unless there are 2(or more) CO's to delete; see the property-replacer above -->
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false">
+                <bean parent="KS-Uif-InputField-Simple" p:propertyName="isChecked" p:required="false">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>

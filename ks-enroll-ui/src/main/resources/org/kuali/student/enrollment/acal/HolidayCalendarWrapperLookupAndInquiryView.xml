@@ -300,7 +300,7 @@
                         <bean parent="Uif-TextControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField"
+                <bean parent="KS-Uif-InputField-Simple"
                       p:label="Instructional"
                       p:propertyName="holidayInfo.isInstructionalDay"
                       p:readOnlyDisplayReplacement="@{#line.holidayInfo.isInstructionalDay ? 'Yes' : ' '}"
