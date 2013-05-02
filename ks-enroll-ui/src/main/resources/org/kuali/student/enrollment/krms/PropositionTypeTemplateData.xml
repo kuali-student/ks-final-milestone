@@ -251,22 +251,6 @@
                     </bean>
                 </entry>
 
-                <entry key="kuali.krms.proposition.type.course.test.score.max">
-                    <bean parent="TemplateInfo-parent"
-                          p:termSpecName="ScoreOnTest"
-                          p:operator="&lt;=" p:value="score">
-                        <property name="componentId" value="KRMS-TestScoreAndName-Group"/>
-                    </bean>
-                </entry>
-
-                <entry key="kuali.krms.proposition.type.course.test.score.min">
-                    <bean parent="TemplateInfo-parent"
-                          p:termSpecName="ScoreOnTest"
-                          p:operator="&gt;=" p:value="score">
-                        <property name="componentId" value="KRMS-TestScoreAndName-Group"/>
-                    </bean>
-                </entry>
-
                 <entry key="kuali.krms.proposition.type.cant.add.to.activity.offering.due.to.state">
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="CompletedCourse" p:operator="=" p:value="false">
@@ -455,21 +439,6 @@
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="null" p:value="n">
                         <property name="componentId" value="KRMS-CourseAndRepeat-Group"/>
-                    </bean>
-                </entry>
-
-                <entry key="kuali.krms.proposition.type.test.score.between.values">
-                    <bean parent="TemplateInfo-parent"
-                          p:termSpecName="null" p:value="true">
-                        <property name="componentId" value="KRMS-TestScoresBetweenAndName-Group"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.TestScoreComponentBuilder"/>
-                    </bean>
-                </entry>
-
-                <entry key="kuali.krms.proposition.type.test.score">
-                    <bean parent="TemplateInfo-parent"
-                          p:termSpecName="null" p:value="true">
-                        <property name="componentId" value="KRMS-TestScoreAndName-Group"/>
                     </bean>
                 </entry>
 
