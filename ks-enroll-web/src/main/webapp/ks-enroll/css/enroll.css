@@ -320,3 +320,23 @@ a
 .ks-toolbar-group-padded{
     padding-right: 20px;
 }
+
+
+/*    Watermark
+   After a usability test it was determined that the Watermark styling was too similar to the standard text.
+   To fix this we have the text lightened (to a level that's still valid for "accessibility") and made
+   all watermark text appear in italics
+*/
+::-webkit-input-placeholder {
+    color: #a9a9ab;
+    font-style: italic;
+}
+:-ms-input-placeholder {
+    color: #a9a9ab;
+    font-style: italic;
+}
+:-moz-placeholder {
+    color: #a9a9ab;
+    font-style: italic;
+}
+/*  End Watermark  */
