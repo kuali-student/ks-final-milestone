@@ -12908,6 +12908,36 @@ CREATE INDEX KSEN_LUI_RESULT_VAL_GRP_IF1
 
 
 -----------------------------------------------------------------------------
+-- KSEN_LUI_SCHEDULE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LUI_SCHEDULE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LUI_SCHEDULE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_LUI_SCHEDULE
+(
+      LUI_ID VARCHAR2(255)
+        , SCHED_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSEN_LUI_SCHEDULE
+    ADD CONSTRAINT KSEN_LUI_SCHEDULEP1
+PRIMARY KEY (LUI_ID,SCHED_ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
 -- KSEN_LUI_SET
 -----------------------------------------------------------------------------
 DECLARE temp NUMBER;
@@ -14753,13 +14783,13 @@ CREATE TABLE KSEN_SCHED_RQST
         , NAME VARCHAR2(255)
         , DESCR_PLAIN VARCHAR2(4000)
         , DESCR_FORMATTED VARCHAR2(4000)
-        , REF_OBJECT_ID VARCHAR2(255) NOT NULL
-        , REF_OBJECT_TYPE VARCHAR2(255) NOT NULL
         , VER_NBR NUMBER(19) NOT NULL
         , CREATETIME TIMESTAMP NOT NULL
         , CREATEID VARCHAR2(255) NOT NULL
         , UPDATETIME TIMESTAMP
         , UPDATEID VARCHAR2(255)
+        , SCHED_RQST_SET_ID VARCHAR2(255)
+        , SCHED_ID VARCHAR2(255)
     
 
 )
@@ -14771,10 +14801,6 @@ PRIMARY KEY (ID)
 /
 
 
-CREATE INDEX KSEN_SCHED_RQST_I1 
-  ON KSEN_SCHED_RQST 
-  (REF_OBJECT_ID, REF_OBJECT_TYPE)
-/
 
 
 
@@ -15034,6 +15060,112 @@ CREATE INDEX KSEN_SCHED_RQST_CMP_TMSLOT_IF1
   ON KSEN_SCHED_RQST_CMP_TMSLOT 
   (CMP_ID)
 /
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_SCHED_RQST_SET
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_SCHED_RQST_SET';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_SCHED_RQST_SET CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_SCHED_RQST_SET
+(
+      ID VARCHAR2(255)
+        , OBJ_ID VARCHAR2(36)
+        , SCHED_RQST_SET_TYPE VARCHAR2(255) NOT NULL
+        , SCHED_RQST_SET_STATE VARCHAR2(255) NOT NULL
+        , NAME VARCHAR2(255)
+        , DESCR_PLAIN VARCHAR2(4000)
+        , DESCR_FORMATTED VARCHAR2(4000)
+        , MAX_ENROLLMENT_SHARED_IND NUMBER(1)
+        , MAX_ENROLLMENT NUMBER(10)
+        , REF_OBJ_TYPE VARCHAR2(255) NOT NULL
+        , VER_NBR NUMBER(19) NOT NULL
+        , CREATETIME TIMESTAMP NOT NULL
+        , CREATEID VARCHAR2(255) NOT NULL
+        , UPDATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSEN_SCHED_RQST_SET
+    ADD CONSTRAINT KSEN_SCHED_RQST_SETP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_SCHED_RQST_SET_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_SCHED_RQST_SET_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_SCHED_RQST_SET_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_SCHED_RQST_SET_ATTR
+(
+      ID VARCHAR2(255)
+        , OBJ_ID VARCHAR2(36)
+        , ATTR_KEY VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(4000)
+        , OWNER_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSEN_SCHED_RQST_SET_ATTR
+    ADD CONSTRAINT KSEN_SCHED_RQST_SET_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_SCHED_RQST_SET_REF_OBJ
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_SCHED_RQST_SET_REF_OBJ';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_SCHED_RQST_SET_REF_OBJ CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_SCHED_RQST_SET_REF_OBJ
+(
+      REF_OBJ_ID VARCHAR2(255)
+        , SCHED_RQST_SET_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSEN_SCHED_RQST_SET_REF_OBJ
+    ADD CONSTRAINT KSEN_SCHED_RQST_SET_REF_OBJP1
+PRIMARY KEY (REF_OBJ_ID,SCHED_RQST_SET_ID)
+/
+
+
 
 
 

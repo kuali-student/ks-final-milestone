@@ -2632,6 +2632,25 @@ CREATE TABLE KSEN_LUI_RESULT_VAL_GRP
 
 
 # -----------------------------------------------------------------------
+# KSEN_LUI_SCHEDULE
+# -----------------------------------------------------------------------
+drop table if exists KSEN_LUI_SCHEDULE
+/
+
+CREATE TABLE KSEN_LUI_SCHEDULE
+(
+      LUI_ID VARCHAR(255)
+        , SCHED_ID VARCHAR(255)
+    
+    , CONSTRAINT KSEN_LUI_SCHEDULEP1 PRIMARY KEY(LUI_ID,SCHED_ID)
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
 # KSEN_LUI_SET
 # -----------------------------------------------------------------------
 drop table if exists KSEN_LUI_SET
@@ -3804,18 +3823,17 @@ CREATE TABLE KSEN_SCHED_RQST
         , NAME VARCHAR(255)
         , DESCR_PLAIN VARCHAR(4000)
         , DESCR_FORMATTED VARCHAR(4000)
-        , REF_OBJECT_ID VARCHAR(255) NOT NULL
-        , REF_OBJECT_TYPE VARCHAR(255) NOT NULL
         , VER_NBR DECIMAL(19) NOT NULL
         , CREATETIME DATETIME NOT NULL
         , CREATEID VARCHAR(255) NOT NULL
         , UPDATETIME DATETIME
         , UPDATEID VARCHAR(255)
+        , SCHED_RQST_SET_ID VARCHAR(255)
+        , SCHED_ID VARCHAR(255)
     
     , CONSTRAINT KSEN_SCHED_RQSTP1 PRIMARY KEY(ID)
 
 
-    , INDEX KSEN_SCHED_RQST_I1 (REF_OBJECT_ID, REF_OBJECT_TYPE)
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
@@ -3981,6 +3999,79 @@ CREATE TABLE KSEN_SCHED_RQST_CMP_TMSLOT
     , CONSTRAINT KSEN_SCHED_RQST_CMP_TMSLOT_I1 UNIQUE (CMP_ID, TM_SLOT_ID)
 
     , INDEX KSEN_SCHED_RQST_CMP_TMSLOT_IF1 (CMP_ID)
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# KSEN_SCHED_RQST_SET
+# -----------------------------------------------------------------------
+drop table if exists KSEN_SCHED_RQST_SET
+/
+
+CREATE TABLE KSEN_SCHED_RQST_SET
+(
+      ID VARCHAR(255)
+        , OBJ_ID VARCHAR(36)
+        , SCHED_RQST_SET_TYPE VARCHAR(255) NOT NULL
+        , SCHED_RQST_SET_STATE VARCHAR(255) NOT NULL
+        , NAME VARCHAR(255)
+        , DESCR_PLAIN VARCHAR(4000)
+        , DESCR_FORMATTED VARCHAR(4000)
+        , MAX_ENROLLMENT_SHARED_IND DECIMAL(1)
+        , MAX_ENROLLMENT DECIMAL(10)
+        , REF_OBJ_TYPE VARCHAR(255) NOT NULL
+        , VER_NBR DECIMAL(19) NOT NULL
+        , CREATETIME DATETIME NOT NULL
+        , CREATEID VARCHAR(255) NOT NULL
+        , UPDATETIME DATETIME
+        , UPDATEID VARCHAR(255)
+    
+    , CONSTRAINT KSEN_SCHED_RQST_SETP1 PRIMARY KEY(ID)
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# KSEN_SCHED_RQST_SET_ATTR
+# -----------------------------------------------------------------------
+drop table if exists KSEN_SCHED_RQST_SET_ATTR
+/
+
+CREATE TABLE KSEN_SCHED_RQST_SET_ATTR
+(
+      ID VARCHAR(255)
+        , OBJ_ID VARCHAR(36)
+        , ATTR_KEY VARCHAR(255)
+        , ATTR_VALUE VARCHAR(4000)
+        , OWNER_ID VARCHAR(255)
+    
+    , CONSTRAINT KSEN_SCHED_RQST_SET_ATTRP1 PRIMARY KEY(ID)
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# KSEN_SCHED_RQST_SET_REF_OBJ
+# -----------------------------------------------------------------------
+drop table if exists KSEN_SCHED_RQST_SET_REF_OBJ
+/
+
+CREATE TABLE KSEN_SCHED_RQST_SET_REF_OBJ
+(
+      REF_OBJ_ID VARCHAR(255)
+        , SCHED_RQST_SET_ID VARCHAR(255)
+    
+    , CONSTRAINT KSEN_SCHED_RQST_SET_REF_OBJP1 PRIMARY KEY(REF_OBJ_ID,SCHED_RQST_SET_ID)
+
+
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
