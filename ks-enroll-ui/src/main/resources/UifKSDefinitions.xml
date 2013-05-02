@@ -165,7 +165,7 @@
     </bean>
 
     <!--Note: This is a tab group with link based look and feel. It is not used in any code so far. -->
-    <bean id="KS-Uif-TabGroup-Link" parent="Uif-TabGroup">
+    <bean id="KS-Uif-TabGroup-LinkTab" parent="Uif-TabGroup">
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-uif-tabSection</value>
