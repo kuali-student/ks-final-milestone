@@ -316,3 +316,7 @@ a
     border: 1px solid #cccccc !important;
     border-left: 0px;
 }
+
+.ks-toolbar-group-padded{
+    padding-right: 20px;
+}

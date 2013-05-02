@@ -262,6 +262,23 @@
         </property>
     </bean>
 
+    <bean id="KS-Uif-HorizontalToolbarSection" parent="KS-Uif-HorizontalToolbarSection-parent"/>
+    <bean id="KS-Uif-HorizontalToolbarSection-parent" abstract="true" parent="Uif-HorizontalBoxSection" scope="prototype" p:onDocumentReadyScript="decorateToolbar(this);">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-toolbar</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-ToolbarGroup" parent="KS-Uif-ToolbarGroup-parent"/>
+    <bean id="KS-Uif-ToolbarGroup-parent" parent="Uif-HorizontalBoxGroup" abstract="true" scope="prototype">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-toolbar-group-padded</value>
+            </list>
+        </property>
+    </bean>
     <!-- the following bean is not used in any place -->
     <!--<bean id="ActionField_SmallSecondary_Override" parent="ActionField_SmallSecondary_Override-parentBean"/>-->
     <!--<bean id="ActionField_SmallSecondary_Override-parentBean" abstract="true"-->
