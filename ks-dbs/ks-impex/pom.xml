@@ -16,7 +16,7 @@
         <module>ks-impex-bundled-db</module>
     </modules>
     <properties>
-        <jdbc.source.db.username>KS_SOURCE_DB${db.branch.qualifier}</jdbc.source.db.username>
+        <jdbc.source.db.base>KS_SOURCE_DB</jdbc.source.db.base>
         <oracle.source.dba.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</oracle.source.dba.url>
         <jdbc.password>${jdbc.username}</jdbc.password>
         <impex.metainf.context>org.kuali.common.impex.spring.MetaInfMpxConfig</impex.metainf.context>
@@ -93,6 +93,18 @@
                         <artifactId>spring-maven-plugin</artifactId>
                         <executions>
                             <execution>
+                                <id>source-db-setup</id>
+                                <goals>
+                                    <goal>load</goal>
+                                </goals>
+                                <phase>initialize</phase>
+                                <configuration>
+                                    <injectMavenProject>true</injectMavenProject>
+                                    <forceMojoExecution>true</forceMojoExecution>
+                                    <annotatedClass>org.kuali.common.maven.spring.SetSourceDbSchemaNameConfig</annotatedClass>
+                                </configuration>
+                            </execution>
+                            <execution>
                                 <id>source-db</id>
                                 <goals>
                                     <goal>load</goal>
@@ -107,6 +119,13 @@
                                 </configuration>
                             </execution>
                         </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.kuali.common</groupId>
+                                <artifactId>kuali-maven</artifactId>
+                                <version>1.0.0</version>
+                            </dependency>
+                        </dependencies>
                     </plugin>
                 </plugins>
             </build>
@@ -121,10 +140,12 @@
                 <impex.source.artifactId>ks-source-db</impex.source.artifactId>
                 <impex.url>${oracle.source.dba.url}</impex.url>
                 <impex.driver>oracle.jdbc.driver.OracleDriver</impex.driver>
-                <impex.username>${jdbc.source.db.username}</impex.username>
+                <jdbc.username>${jdbc.source.db.username}</jdbc.username>
+                <impex.username>${jdbc.username}</impex.username>
                 <impex.password>${impex.username}</impex.password>
                 <impex.schema>${impex.username}</impex.schema>
-                <impex.databaseVendor>oracle</impex.databaseVendor>
+                <db.vendor>oracle</db.vendor>
+                <impex.databaseVendor>${db.vendor}</impex.databaseVendor>
                 <impex.databaseTablePropertiesFile>${project.basedir}/../../ks-deployment-resources/src/main/resources/org/kuali/student/impex/ks-source-db.properties</impex.databaseTablePropertiesFile>
                 <impex.table.includes>${impex.includes}</impex.table.includes>
                 <impex.view.includes>${impex.includes}</impex.view.includes>
@@ -141,6 +162,18 @@
                         <artifactId>spring-maven-plugin</artifactId>
                         <executions>
                             <execution>
+                                <id>source-db-setup</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>load</goal>
+                                </goals>
+                                <configuration>
+                                    <injectMavenProject>true</injectMavenProject>
+                                    <forceMojoExecution>true</forceMojoExecution>
+                                    <annotatedClass>org.kuali.common.maven.spring.SetSourceDbSchemaNameConfig</annotatedClass>
+                                </configuration>
+                            </execution>
+                            <execution>
                                 <id>load</id>
                                 <phase>generate-resources</phase>
                                 <goals>
@@ -148,10 +181,18 @@
                                 </goals>
                                 <configuration>
                                     <forceMojoExecution>true</forceMojoExecution>
+                                    <propertySourcesConfig>org.kuali.common.util.spring.MavenPropertySourceConfig</propertySourcesConfig>
                                     <annotatedClass>org.kuali.student.deploy.spring.DumpConfig</annotatedClass>
                                 </configuration>
                             </execution>
                         </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.kuali.common</groupId>
+                                <artifactId>kuali-maven</artifactId>
+                                <version>1.0.0</version>
+                            </dependency>
+                        </dependencies>
                     </plugin>
                 </plugins>
             </build>
