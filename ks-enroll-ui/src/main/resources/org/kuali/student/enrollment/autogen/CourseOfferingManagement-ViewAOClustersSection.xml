@@ -122,7 +122,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="isCheckedByCluster" p:required="false" p:readOnlyDisplayReplacement=" "
-                      p:onChangeScript="handleToolbar('KS-CourseOfferingManagement-AOClustersCollection',['enableApproveButton', 'enableDeleteButton', 'enableDraftButton'], ['KS-CourseOfferingManagement-ToolBar-Approve-AO-ClusterTab','KS-CourseOfferingManagement-ToolBar-Delete-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Draft-AO-ClusterTab']);">
+                      p:onChangeScript="handleToolbar('KS-CourseOfferingManagement-AOClustersCollection',['enableApproveButton', 'enableDeleteButton', 'enableDraftButton', 'enableMoveToButton'], ['KS-CourseOfferingManagement-ToolBar-Approve-AO-ClusterTab','KS-CourseOfferingManagement-ToolBar-Delete-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Draft-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-MoveTo-AO-ClusterTab']);">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>

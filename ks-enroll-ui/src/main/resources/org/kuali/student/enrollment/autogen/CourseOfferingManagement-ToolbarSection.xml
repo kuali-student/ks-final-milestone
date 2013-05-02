@@ -100,11 +100,6 @@
 
     <bean id="KS-CourseOfferingManagement-ToolBar-MoveTo-parent" parent="KS-CourseOfferingManagement-ToolBar-Button">
         <property name="actionLabel" value="Move Activity"/>
-        <property name="toolTip">
-            <bean parent="Uif-Tooltip">
-                <property name="tooltipContent" value="Move selected activities&lt;br /&gt;from one cluster to another."/>
-            </bean>
-        </property>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/toolbar/move_to_cluster.png"/>
         </property>
@@ -315,8 +310,7 @@
                 </bean>
                 <bean p:id="foNameForAOMoveId" parent="Uif-DataField" p:propertyName="selectedFONameForAOMove" p:label="Format Offering" p:labelPlacement="TOP" p:style="display:none; margin-right:15px;">
                 </bean>
-                <bean p:id="privateNameForMoveId" parent="Uif-InputField" p:propertyName="privateClusterNameForMovePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true" p:style="display:none"
-                       >
+                <bean p:id="privateNameForMoveId" parent="Uif-InputField" p:propertyName="privateClusterNameForMovePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true" p:style="display:none">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="30" p:maxLength="20" p:onKeyUpScript="toggleAddAOCButton('moveAOCButton','privateNameForMoveId_control');"/>
                     </property>

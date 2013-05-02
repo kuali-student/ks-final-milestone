@@ -833,6 +833,26 @@ function addTabs(aoTabName , regTabName, aoDivIdPrefix, regDivIdPrefix){
     });
 }
 
+function closeTooltip(e) {
+    var popupTarget;
+    if (typeof e === "string") {
+        popupTarget = jQuery("#" + e);
+    } else {  // source is a trigger event
+        stopEvent(e);
+        popupTarget = jQuery((e.currentTarget) ? e.currentTarget : e.srcElement);
+    }
+
+    // save open property before closing popups
+    var isPopupOpen = popupTarget.IsBubblePopupOpen();
+    if (isPopupOpen) {
+        var b = jQuery(popupTarget).data("private_jquerybubblepopup_options");
+        if (b != 'undefined') {
+//            var bubbleId = jQuery(b).attr('privateVars').id = null;
+            var isOpen = jQuery(b).attr('privateVars').is_open = null;
+        }
+    }
+}
+
 function addNewClusterOptionSuccessCallBack(){
     retrieveComponent('KS-CourseOfferingManagement-MoveAOCPopupForm',undefined, addNewClusterOption, undefined);
 }
