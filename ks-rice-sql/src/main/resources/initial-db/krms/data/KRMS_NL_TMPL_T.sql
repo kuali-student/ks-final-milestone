@@ -82,12 +82,6 @@ INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en', 'KS-KRMS-NL-TMPL-1030','KS-KRMS-NL-USAGE-1002','Must not have earned a grade of Letter D or higher in (MATH140,MATH111)','10026',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
-  VALUES ('en', 'KS-KRMS-NL-TMPL-1031','KS-KRMS-NL-USAGE-1002','Must have achieved a minimum score of <score> on <tests>','10038',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
-  VALUES ('en', 'KS-KRMS-NL-TMPL-1032','KS-KRMS-NL-USAGE-1002','Must have achieved a score no higher than <score> on <tests>','10037',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en', 'KS-KRMS-NL-TMPL-1033','KS-KRMS-NL-USAGE-1002','Must not have successfully completed MATH111','10032',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
@@ -155,12 +149,6 @@ INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
 /
 INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en', 'KS-KRMS-NL-TMPL-1056','KS-KRMS-NL-USAGE-1002','May not repeat MATH111 if repeated 2 times','10072',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
-  VALUES ('en', 'KS-KRMS-NL-TMPL-1057','KS-KRMS-NL-USAGE-1002','Must have achieved a score between <score> and <score> on <test>','10074',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
-  VALUES ('en', 'KS-KRMS-NL-TMPL-1058','KS-KRMS-NL-USAGE-1002','Must have achieved a score of <score> on <test>','10075',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en', 'KS-KRMS-NL-TMPL-1059','KS-KRMS-NL-USAGE-1004','Enrollment Eligibility','10002',0)
@@ -271,12 +259,6 @@ INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en', 'KS-KRMS-NL-TMPL-1099','KS-KRMS-NL-USAGE-1004','Must not have earned a grade of <gradeType> <grade> or higher in <courses>','10026',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
-  VALUES ('en', 'KS-KRMS-NL-TMPL-1100','KS-KRMS-NL-USAGE-1004','Must have achieved a minimum score of <score> on <tests>','10038',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
-  VALUES ('en', 'KS-KRMS-NL-TMPL-1101','KS-KRMS-NL-USAGE-1004','Must have achieved a score no higher than <score> on <tests>','10037',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en', 'KS-KRMS-NL-TMPL-1102','KS-KRMS-NL-USAGE-1004','Must not have successfully completed <course>','10032',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
@@ -345,23 +327,11 @@ INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
 INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en', 'KS-KRMS-NL-TMPL-1125','KS-KRMS-NL-USAGE-1004','May not repeat <course> if repeated <n> times','10072',0)
 /
-INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
-  VALUES ('en', 'KS-KRMS-NL-TMPL-1126','KS-KRMS-NL-USAGE-1004','Must have achieved a score between <score> and <score> on <test>','10074',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
-  VALUES ('en', 'KS-KRMS-NL-TMPL-1127','KS-KRMS-NL-USAGE-1004','Must have achieved a score of <score> on <test>','10075',0)
-/
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR) 
   VALUES ('KS-KRMS-NL-TMPL-1128','en','KS-KRMS-NL-USAGE-1000','10035','Permission of $org.getLongName() required',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1129','en','KS-KRMS-NL-USAGE-1000','10034','Permission of instructor required',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1130','en','KS-KRMS-NL-USAGE-1000','10038','Must have achieved a minimum score of $fields.get(''kuali.reqComponent.field.type.test.score'') on $testCluSet.getCluSetAsLongName()',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1131','en','KS-KRMS-NL-USAGE-1000','10037','Must have achieved a score no higher than $fields.get(''kuali.reqComponent.field.type.test.score'') on $testCluSet.getCluSetAsLongName()',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1132','en','KS-KRMS-NL-USAGE-1000','10028','Must successfully complete a minimum of $intValue $NLHelper.getProperGrammar($intValue, "course") with a minimum grade of #if($gradeType.getId().equals("kuali.result.scale.grade.letter") || $gradeType.getId().equals("kuali.result.scale.grade.percentage"))$gradeType.getName().toLowerCase() #{end}$grade from $courseCluSet.getCluSetAsCode()',0)
@@ -445,12 +415,6 @@ INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1217','en','KS-KRMS-NL-USAGE-1001','10034','<reqCompFieldType=kuali.reqComponent.field.type.person.id;reqCompFieldLabel=Instructor>',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1218','en','KS-KRMS-NL-USAGE-1001','10038','<reqCompFieldType=kuali.reqComponent.field.type.test.score;reqCompFieldLabel=Test Score> from <reqCompFieldType=kuali.reqComponent.field.type.test.cluSet.id;reqCompFieldLabel=Tests>',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1219','en','KS-KRMS-NL-USAGE-1001','10037','<reqCompFieldType=kuali.reqComponent.field.type.test.score;reqCompFieldLabel=Test Score> from <reqCompFieldType=kuali.reqComponent.field.type.test.cluSet.id;reqCompFieldLabel=Tests>',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1220','en','KS-KRMS-NL-USAGE-1001','10028','<reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number of Courses> from <reqCompFieldType=kuali.reqComponent.field.type.course.cluSet.id;reqCompFieldLabel=Courses> with <reqCompFieldType=kuali.reqComponent.field.type.gradeType.id;reqCompFieldLabel=Grade Type> of <reqCompFieldType=kuali.reqComponent.field.type.grade.id;reqCompFieldLabel=Grade>',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
@@ -532,12 +496,6 @@ INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1276','en','KS-KRMS-NL-USAGE-1003','10034','Permission of instructor required',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1277','en','KS-KRMS-NL-USAGE-1003','10038','Must have achieved a minimum score of $fields.get(''kuali.reqComponent.field.type.test.score'') on $testCluSet.getCluSetAsLongName()',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1278','en','KS-KRMS-NL-USAGE-1003','10037','Must have achieved a score no higher than $fields.get(''kuali.reqComponent.field.type.test.score'') on $testCluSet.getCluSetAsLongName()',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1279','en','KS-KRMS-NL-USAGE-1003','10028','Must successfully complete a minimum of $intValue $NLHelper.getProperGrammar($intValue, "course") with a minimum grade of #if($gradeType.getId().equals("kuali.result.scale.grade.letter") || $gradeType.getId().equals("kuali.result.scale.grade.percentage"))$gradeType.getName().toLowerCase() #{end}$grade from',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
@@ -607,16 +565,10 @@ INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1336','en','KS-KRMS-NL-USAGE-1003','10019','#if($intValue == 1 && $courseCluSet.getCluList().size() == 1)Must have successfully completed#{else}Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, "course") from#end',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1337','en','KS-KRMS-NL-USAGE-1003','10074','Must have achieved a score between <score> and <score> on <test>',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1338','en','KS-KRMS-NL-USAGE-1003','10064','Must not have been admitted to the <Program> Program with a class standing of <Class Standing>',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1339','en','KS-KRMS-NL-USAGE-1003','10057','May not repeat <course> if repeated <n> times ',0)
-/
-INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1340','en','KS-KRMS-NL-USAGE-1003','10075','Must have achieved a score between <score> and <score> on <test> ',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1341','en','KS-KRMS-NL-USAGE-1003','10067','Student must be in a class standing of <class standing> or greater ',0)
@@ -715,16 +667,10 @@ Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
  VALUES ('KS-KRMS-NL-TMPL-1375','en','KS-KRMS-NL-USAGE-1000','10019','#if($intValue == 1 && $courseCluSet.getCluList().size() == 1)Must have successfully completed $courseCluSet.getCluSetAsCode()#{else}Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, "course") from $courseCluSet.getCluSetAsCode()#end',0)
 /
 Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
- VALUES ('KS-KRMS-NL-TMPL-1376','en','KS-KRMS-NL-USAGE-1000','10074','Must have achieved a score between <score> and <score> on <test>',0)
-/
-Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
  VALUES ('KS-KRMS-NL-TMPL-1377','en','KS-KRMS-NL-USAGE-1000','10064','Must not have been admitted to the <Program> Program with a class standing of <Class Standing>',0)
 /
 Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
  VALUES ('KS-KRMS-NL-TMPL-1378','en','KS-KRMS-NL-USAGE-1000','10057','May not repeat <course> if repeated <n> times ',0)
-/
-Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
- VALUES ('KS-KRMS-NL-TMPL-1379','en','KS-KRMS-NL-USAGE-1000','10075','Must have achieved a score between <score> and <score> on <test> ',0)
 /
 Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
  VALUES ('KS-KRMS-NL-TMPL-1380','en','KS-KRMS-NL-USAGE-1000','10067','Student must be in a class standing of <class standing> or greater ',0)
