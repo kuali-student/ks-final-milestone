@@ -91,21 +91,21 @@
             </bean>
         </property>
         <property name="footer">
-            <bean id="KRMS-Footer-SubmitCancel" parent="KRMS-Footer-SubmitCancel-parent"/>
+            <ref bean="KS-Uif-DocumentPageFooter-SubmitCancel"/>
         </property>
     </bean>
 
-    <bean id="KRMS-Footer-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
-        <property name="items">
-            <list>
-                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Save"
-                      p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
-            </list>
-        </property>
-    </bean>
+    <!--<bean id="KRMS-Footer-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">-->
+        <!--<property name="items">-->
+            <!--<list>-->
+                <!--<bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Save"-->
+                      <!--p:performClientSideValidation="true"-->
+                      <!--p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>-->
+                <!--<bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"-->
+                      <!--p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
 
     <bean name="KRMS-RuleMaintenance-Page-Parent" parent="Uif-Page">
         <property name="items">
