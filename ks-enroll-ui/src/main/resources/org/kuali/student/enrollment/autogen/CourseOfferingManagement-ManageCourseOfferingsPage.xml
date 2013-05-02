@@ -137,7 +137,7 @@
             <list>
                 <!-- Note by Bonnie: turn on authz on copy and edit links now -->
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy"
-                      p:render="@{#line.isEnableCopyCOActionLink()}" p:actionEvent="copyCOonManageCOsPage"/>
+                      p:render="@{#line.isEnableCopyCOActionLink() and !#line.isCrossListed()}" p:actionEvent="copyCOonManageCOsPage"/>
                 <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" />-->
                 <bean parent="KS-Uif-NavigationActionLink-withSeparator" p:methodToCall="edit" p:actionLabel="Edit"
                       p:render="@{#line.isEnableEditCOActionLink()}" p:actionEvent="editCOonManageCOsPage">
