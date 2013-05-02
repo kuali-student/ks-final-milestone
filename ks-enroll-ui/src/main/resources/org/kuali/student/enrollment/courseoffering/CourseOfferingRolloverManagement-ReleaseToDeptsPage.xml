@@ -34,7 +34,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message" p:messageText="Currently, only central administrators are able to make changes to course offering information in this term's course schedule. To grant departmental administrators access to copy and edit functions, you must first release the term. Doing so will disable future Rollovers to this term."/>
-                            <bean parent="KS-Uif-InputField-Simple" p:propertyName="acceptIndicator" p:id="approveCheckbox" p:label="I understand that this action cannot be reversed." p:labelPlacement="RIGHT">
+                            <bean parent="Uif-InputField" p:propertyName="acceptIndicator" p:id="approveCheckbox" p:label="I understand that this action cannot be reversed." p:labelPlacement="RIGHT">
                                 <property name="control">
                                     <bean parent="Uif-CheckboxControl"/>
                                 </property>

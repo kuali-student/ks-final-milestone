@@ -667,7 +667,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText=""/>
-                <bean parent="KS-Uif-InputField-Simple" p:propertyName="courseOfferingInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
                             <property name="checkboxLabel" value="This is an Honors Course"/>

@@ -200,17 +200,17 @@
                         </bean>
                     </property>
                 </bean>
-	            <bean parent="KS-Uif-InputField-Simple" p:propertyName="allDay" p:label="All Day">
+	            <bean parent="Uif-InputField" p:propertyName="allDay" p:label="All Day">
 					<property name="control">
 						<bean parent="Uif-CheckboxControl"/>
 					</property>
 				</bean>
-                <bean parent="KS-Uif-InputField-Simple" p:propertyName="dateRange" p:label="Date Range">
+                <bean parent="Uif-InputField" p:propertyName="dateRange" p:label="Date Range">
 					<property name="control">
 						<bean parent="Uif-CheckboxControl"/>
 					</property>
 				</bean>
-				<bean parent="KS-Uif-InputField-Simple" p:propertyName="instructional" p:label="Instructional">
+				<bean parent="Uif-InputField" p:propertyName="instructional" p:label="Instructional">
 					<property name="control">
 						<bean parent="Uif-CheckboxControl" />
 					</property>

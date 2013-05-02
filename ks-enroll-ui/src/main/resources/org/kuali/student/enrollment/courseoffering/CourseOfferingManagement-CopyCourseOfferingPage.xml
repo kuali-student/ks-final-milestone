@@ -84,21 +84,21 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-Simple" p:propertyName="courseOfferingCopyWrapper.excludeCancelledActivityOfferings" p:fieldLabel.renderColon="false">
+                <bean parent="Uif-InputField" p:propertyName="courseOfferingCopyWrapper.excludeCancelledActivityOfferings" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
                             <property name="checkboxLabel" value="Exclude cancelled activity offerings"/>
                         </bean>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField-Simple" p:propertyName="courseOfferingCopyWrapper.excludeSchedulingInformation" p:fieldLabel.renderColon="false">
+                <bean parent="Uif-InputField" p:propertyName="courseOfferingCopyWrapper.excludeSchedulingInformation" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
                             <property name="checkboxLabel" value="Exclude scheduling information"/>
                         </bean>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField-Simple" p:propertyName="courseOfferingCopyWrapper.excludeInstructorInformation" p:fieldLabel.renderColon="false">
+                <bean parent="Uif-InputField" p:propertyName="courseOfferingCopyWrapper.excludeInstructorInformation" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
                             <property name="checkboxLabel" value="Exclude instructor information"/>

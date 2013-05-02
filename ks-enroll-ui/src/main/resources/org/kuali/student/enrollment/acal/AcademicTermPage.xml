@@ -223,12 +223,12 @@
                         </bean>
                     </property>
                 </bean>
-                <bean id="key_date_all_day" parent="KS-Uif-InputField-Simple" p:propertyName="allDay" p:label="All Day" p:render="@{!#view.readOnly}">
+                <bean id="key_date_all_day" parent="Uif-InputField" p:propertyName="allDay" p:label="All Day" p:render="@{!#view.readOnly}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <bean id="key_date_range" parent="KS-Uif-InputField-Simple" p:propertyName="dateRange" p:label="Date Range" p:render="@{!#view.readOnly}">
+                <bean id="key_date_range" parent="Uif-InputField" p:propertyName="dateRange" p:label="Date Range" p:render="@{!#view.readOnly}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" />
                     </property>
