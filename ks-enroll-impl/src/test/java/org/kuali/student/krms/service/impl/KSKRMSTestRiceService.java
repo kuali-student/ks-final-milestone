@@ -15,25 +15,19 @@
  */
 package org.kuali.student.krms.service.impl;
 
-import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.rice.krms.api.engine.*;
-import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
-import org.kuali.rice.krms.framework.engine.*;
-import org.kuali.rice.krms.framework.engine.expression.ComparisonOperator;
-import org.kuali.rice.krms.framework.engine.expression.ComparisonOperatorServiceImpl;
+import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.r2.core.process.krms.KSKRMSTestCase;
-import org.kuali.student.r2.core.process.krms.evaluator.KRMSEvaluator;
-import org.kuali.student.r2.core.process.krms.sample.ActionMock;
-import org.kuali.student.r2.core.process.krms.sample.TermResolverMock;
 
-import java.util.*;
+import javax.xml.namespace.QName;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
 /**
@@ -77,6 +71,36 @@ public class KSKRMSTestRiceService extends KSKRMSTestCase {
 
         assertNotNull(updatedItem);
         assertNotNull(updatedItem.getRuleId());
+
+    }
+
+    @Test
+    public void testRuleManagementServiceCache() {
+
+        String ruleId = "KRSM-TEST-ID";
+        RuleManagementService ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(QName.valueOf("ruleManagementService"));
+        try{
+            ruleManagementService.deleteRule(ruleId);
+        }catch (Exception e){
+            //ignore if the rule does not exist.
+        }
+
+        RuleDefinition.Builder newBuilder = RuleDefinition.Builder.create(ruleId, "My new Rule", "KS-SYS", "10000", "10000");
+        ruleManagementService.createRule(newBuilder.build());
+
+        RuleDefinition createdRule = ruleManagementService.getRule(ruleId);
+
+        assertNotNull(createdRule);
+
+        String updatedName = "My updated Rule";
+        RuleDefinition.Builder ruleBuilder = RuleDefinition.Builder.create(createdRule);
+        ruleBuilder.setName(updatedName);
+
+        ruleManagementService.updateRule(ruleBuilder.build());
+        RuleDefinition updatedRule = ruleManagementService.getRule(ruleId);
+
+        assertNotNull(updatedRule);
+        assertEquals(updatedName, updatedRule.getName());
 
     }
 
