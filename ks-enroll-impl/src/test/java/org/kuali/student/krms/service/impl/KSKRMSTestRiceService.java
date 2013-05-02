@@ -45,7 +45,7 @@ import static junit.framework.Assert.assertNotNull;
  *
  * @Author: SW Genis
  */
-//@Ignore
+@Ignore
 public class KSKRMSTestRiceService extends KSKRMSTestCase {
 
     @Before
