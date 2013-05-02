@@ -139,21 +139,11 @@
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy"
                       p:render="@{#line.isEnableCopyCOActionLink()}" p:actionEvent="copyCOonManageCOsPage"/>
                 <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" />-->
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit"
+                <bean parent="KS-Uif-NavigationActionLink-withSeparator" p:methodToCall="edit" p:actionLabel="Edit"
                       p:render="@{#line.isEnableEditCOActionLink()}" p:actionEvent="editCOonManageCOsPage">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ks-table-uif-navigationActionLink</value>
-                        </list>
-                    </property>
                 </bean>
                 <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />-->
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="loadAOs_RGs_AOCs" p:actionLabel="Manage">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ks-table-uif-navigationActionLink</value>
-                        </list>
-                    </property>
+                <bean parent="KS-Uif-NavigationActionLink-withSeparator" p:methodToCall="loadAOs_RGs_AOCs" p:actionLabel="Manage">
                 </bean>
             </list>
         </property>

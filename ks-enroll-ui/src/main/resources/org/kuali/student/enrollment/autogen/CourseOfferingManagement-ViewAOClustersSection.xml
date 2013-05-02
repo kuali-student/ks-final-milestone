@@ -206,13 +206,8 @@
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy"
                       p:render="@{#line.isEnableCopyAOActionLink()}" p:actionEvent="copyAOonManageAOsPage"
                       p:style="padding-right:3px;"  />
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit"
+                <bean parent="KS-Uif-NavigationActionLink-withSeparator" p:methodToCall="edit" p:actionLabel="Edit"
                       p:render="@{#line.isEnableEditAOActionLink()}" p:actionEvent="editAOonManageAOsPage">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ks-table-uif-navigationActionLink</value>
-                        </list>
-                    </property>
                 </bean>
             </list>
         </property>

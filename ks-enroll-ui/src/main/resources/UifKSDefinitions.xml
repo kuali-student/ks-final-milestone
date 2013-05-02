@@ -237,6 +237,14 @@
         </property>
         <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line)}"/>
     </bean>
+    
+    <bean id="KS-Uif-NavigationActionLink-withSeparator" parent="Uif-NavigationActionLink">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-table-uif-navigationActionLink</value>
+            </list>
+        </property>
+    </bean>
 
     <!-- try to override the default Uif-LookupView-ResultActions which contains edit, copy and delete.
          Here we only need edit -->
