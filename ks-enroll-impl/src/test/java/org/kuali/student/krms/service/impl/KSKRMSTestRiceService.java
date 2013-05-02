@@ -45,7 +45,7 @@ import static junit.framework.Assert.assertNotNull;
  *
  * @Author: SW Genis
  */
-@Ignore
+//@Ignore
 public class KSKRMSTestRiceService extends KSKRMSTestCase {
 
     @Before
@@ -65,10 +65,15 @@ public class KSKRMSTestRiceService extends KSKRMSTestCase {
         assertNotNull(agendaItem);
         assertNotNull(agendaItem.getRuleId());
 
+        AgendaItemDefinition createdItem = KrmsRepositoryServiceLocator.getAgendaBoService().getAgendaItemById(agendaItem.getId());
+
+        assertNotNull(createdItem);
+        assertNotNull(createdItem.getRuleId());
+
         AgendaItemDefinition.Builder updateBuilder = AgendaItemDefinition.Builder.create(agendaItem);
         KrmsRepositoryServiceLocator.getAgendaBoService().updateAgendaItem(updateBuilder.build());
 
-        AgendaItemDefinition updatedItem = KrmsRepositoryServiceLocator.getAgendaBoService().getAgendaItemById(agendaItem.getRuleId());
+        AgendaItemDefinition updatedItem = KrmsRepositoryServiceLocator.getAgendaBoService().getAgendaItemById(agendaItem.getId());
 
         assertNotNull(updatedItem);
         assertNotNull(updatedItem.getRuleId());
