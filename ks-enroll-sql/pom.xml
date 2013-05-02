@@ -9,10 +9,6 @@
     <artifactId>ks-enroll-sql</artifactId>
     <packaging>jar</packaging>
     <name>KS Enroll SQL files</name>
-    <properties>
-        <!-- Baseline and upgrade scripts are written in Oracle compatible sql -->
-        <db.vendor>oracle</db.vendor>
-    </properties>
     <build>
         <plugins>
             <plugin>
