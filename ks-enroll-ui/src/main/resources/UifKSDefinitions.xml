@@ -107,7 +107,6 @@
         </property>
     </bean>
 
-
     <bean id="KS-Uif-Disclosure" abstract="true" parent="Uif-Disclosure">
         <property name="collapseImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_collapse-back-ks.png"/>
         <property name="expandImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_expand-back-ks.png"/>
@@ -269,22 +268,6 @@
           <!--class="org.kuali.student.enrollment.uif.field.ActionFieldJsOverride">-->
         <!--<property name="template" value="/krad/WEB-INF/jsp/templates/field/actionField.jsp"/>-->
         <!--<property name="cssClasses" value="ui-priority-secondary-sm"/>-->
-    <!--</bean>-->
-
-    <!--<bean id="KS-SimpleInputField" parent="KS-SimpleInputField-parentBean"/>-->
-    <!--<bean id="KS-SimpleInputField-parentBean" abstract="true" parent="KS-Uif-DataField-Simple" scope="prototype" class="org.kuali.rice.krad.uif.field.InputField">-->
-        <!--<property name="quickfinder">-->
-            <!--<null/>-->
-        <!--</property>-->
-        <!--<property name="validationMessages">-->
-            <!--<null/>-->
-        <!--</property>-->
-        <!--<property name="constraintMessage">-->
-            <!--<null/>-->
-        <!--</property>-->
-        <!--<property name="instructionalMessage">-->
-            <!--<null/>-->
-        <!--</property>-->
     <!--</bean>-->
 
     <!--<bean id="KS-TableCollectionSection" parent="KS-TableCollectionSection-parentBean"/>
