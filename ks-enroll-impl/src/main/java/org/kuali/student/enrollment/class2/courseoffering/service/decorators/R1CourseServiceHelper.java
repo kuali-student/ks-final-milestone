@@ -6,6 +6,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -112,14 +113,14 @@ public class R1CourseServiceHelper {
 
         for (VersionDisplayInfo version : versions) {
             CourseInfo course = this.getCourse(version.getId());
-            if (isCourseValidToBeOfferendInTerm(course, targetTerm, context)) {
+            if (!course.getStateKey().equals(DtoConstants.STATE_NOT_APPROVED) && isCourseValidToBeOfferedInTerm(course, targetTerm, context)) {
                 list.add(course);
             }
         }
         return list;
     }
 
-    private boolean isCourseValidToBeOfferendInTerm(CourseInfo course, TermInfo targetTerm, ContextInfo context)
+    private boolean isCourseValidToBeOfferedInTerm(CourseInfo course, TermInfo targetTerm, ContextInfo context)
             throws OperationFailedException {
         // TODO: check the status of the course to make sure it is active, superseded or retired but it cannot be draft or otherwise in-active
 
