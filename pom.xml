@@ -25,6 +25,7 @@
                 <module>ks-lum-ui</module>
                 <module>ks-lum-program</module>
                 <module>ks-lum-ui-common</module>
+                <module>ks-cm-krad</module>
             </modules>
         </profile>
         <profile>
@@ -42,6 +43,7 @@
                 <module>ks-lum-ui</module>
                 <module>ks-lum-program</module>
                 <module>ks-lum-ui-common</module>
+                <module>ks-cm-krad</module>
             </modules>
         </profile>
         <profile>
@@ -53,6 +55,7 @@
                 <module>ks-lum-ui</module>
                 <module>ks-lum-program</module>
                 <module>ks-lum-ui-common</module>
+                <module>ks-cm-krad</module>
             </modules>
         </profile>
         <profile>
@@ -64,6 +67,7 @@
                 <module>ks-lum-ui</module>
                 <module>ks-lum-program</module>
                 <module>ks-lum-ui-common</module>
+                <module>ks-cm-krad</module>
             </modules>
         </profile>
         <profile>
@@ -75,6 +79,7 @@
                 <module>ks-lum-ui</module>
                 <module>ks-lum-program</module>
                 <module>ks-lum-ui-common</module>
+                <module>ks-cm-krad</module>
             </modules>
         </profile>
         <profile>
