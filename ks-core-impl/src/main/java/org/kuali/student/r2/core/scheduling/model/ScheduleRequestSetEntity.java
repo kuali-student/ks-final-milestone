@@ -30,6 +30,8 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
@@ -39,6 +41,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_SCHED_RQST_SET")
+@NamedQueries({
+        @NamedQuery(name="ScheduleRequestSet.getScheduleRequestSetByType", query="SELECT srs FROM ScheduleRequestSetEntity srs WHERE srs.schedReqSetType = :schedReqSetType")
+    })
 public class ScheduleRequestSetEntity extends MetaEntity implements AttributeOwner<ScheduleRequestSetAttributeEntity> {
 
     @Column(name = "NAME")
@@ -141,9 +146,7 @@ public class ScheduleRequestSetEntity extends MetaEntity implements AttributeOwn
 
         scheduleRequestSet.setRefObjectTypeKey(getRefObjectTypeKey());
         if(refObjectIds != null && !refObjectIds.isEmpty()) {
-            List<String> refObjectIds = new ArrayList<String>();
-            refObjectIds.addAll(getRefObjectIds());
-            scheduleRequestSet.setRefObjectIds(refObjectIds);
+            scheduleRequestSet.setRefObjectIds(new ArrayList<String>(getRefObjectIds()));
         }
 
         return scheduleRequestSet;
