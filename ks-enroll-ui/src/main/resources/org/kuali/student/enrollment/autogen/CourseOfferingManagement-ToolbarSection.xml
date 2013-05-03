@@ -11,10 +11,10 @@
 
         These are HorizontalBoxSections containing toolbar in manage CO and AO pages.
     -->
-    <bean id="KS-CourseOfferingManagement-CO-ToolBarSection" parent="KS-Uif-HorizontalToolbarSection">
+    <bean id="KS-CourseOfferingManagement-CO-ToolBarSection" parent="KS-Uif-HorizontalBoxSection-ToolbarSection">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ToolbarGroup" p:noLeftBorder="true">
+                <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup" p:noLeftBorder="true">
                     <property name="items">
                         <list>
                             <bean id="KS-CourseOfferingManagement-ToolBar-Add-CO" parent="KS-CourseOfferingManagement-ToolBar-Add-parent" p:methodToCall="createCourseOffering" p:disabled="@{!enableAddButton}"/>
