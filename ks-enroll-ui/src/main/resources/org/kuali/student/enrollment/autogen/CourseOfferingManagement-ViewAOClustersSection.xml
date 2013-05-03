@@ -9,9 +9,8 @@
         <!--<property name="headerText" value="Clusters (@{clusterResultList.size()})"/>-->
         <property name="items">
             <list>
-                <bean parent="Uif-Label" p:labelText="Clusters (@{clusterResultList.size()})" p:renderColon="false" />
                 <ref bean="KS-CourseOfferingManagement-AO-ToolBarSection-ClusterTab"/>
-
+                <bean parent="Uif-Label" p:labelText="Clusters (@{clusterResultList.size()})" p:renderColon="false" />
                 <ref bean="KS-CourseOfferingManagement-AOClustersCollection"/>
                 <ref bean="KS-CourseOfferingManagement-RenameAOCPopupForm"/>
             </list>
