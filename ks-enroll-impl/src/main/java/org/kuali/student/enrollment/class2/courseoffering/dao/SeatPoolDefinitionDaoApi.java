@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.dao;
 
-import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity;
 import org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionEntity;
 import org.kuali.student.r2.common.dao.EntityDao;
 
@@ -26,4 +25,13 @@ import org.kuali.student.r2.common.dao.EntityDao;
  * @author Kuali Student Team
  */
 public interface SeatPoolDefinitionDaoApi extends EntityDao<String, SeatPoolDefinitionEntity> {
+
+    /**
+     * This method will add the aoId to the seatpool.
+     *
+     * @param activityOfferingId
+     * @param seatPoolId
+     */
+    public void attachActivityOfferingIdToSeatPool(String activityOfferingId, String seatPoolId);
+
 }

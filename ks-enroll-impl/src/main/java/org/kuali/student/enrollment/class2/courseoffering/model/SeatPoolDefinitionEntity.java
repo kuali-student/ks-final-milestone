@@ -15,16 +15,20 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.model;
 
-import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseoffering.infc.SeatPoolDefinition;
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.enrollment.courseoffering.infc.SeatPoolDefinition;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,6 +39,9 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "KSEN_CO_SEAT_POOL_DEFN")
+@NamedQueries({
+        @NamedQuery(name="SeatPoolDefinitionEntity.storeAoIdOnSeatPool", query="UPDATE SeatPoolDefinitionEntity seatPool SET seatPool.activityOfferingId = :aoId where seatPool.id = :seatPoolId")
+})
 public class SeatPoolDefinitionEntity extends MetaEntity implements AttributeOwner<SeatPoolDefinitionAttributeEntity> {
 
     @Column(name = "NAME")
