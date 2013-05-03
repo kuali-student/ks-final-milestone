@@ -216,7 +216,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:propertyName="noOfActivityOfferings" p:label="Quantity" p:labelPlacement="TOP" p:required="true">
+                <bean parent="Uif-InputField" p:propertyName="noOfActivityOfferings" p:label="Quantity" p:labelPlacement="TOP" p:required="true" p:exclusiveMin="0">
                     <property name="readOnly" value="false"/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="3" p:disabled="@{!#root.editAuthz}"/>

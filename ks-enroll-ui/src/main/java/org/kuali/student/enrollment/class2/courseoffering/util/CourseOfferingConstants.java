@@ -124,6 +124,8 @@ public class CourseOfferingConstants {
     public static final String ACTIVITYOFFERING_TOOLBAR_APPROVED_1_SUCCESS="info.enroll.activityoffering.toolbar.approved.1.success";
     public static final String COURSEOFFERING_TOOLBAR_DELETE_1_SUCCESS="info.enroll.courseoffering.toolbar.delete.1.success";
     public static final String COURSEOFFERING_TOOLBAR_APPROVED_1_SUCCESS="info.enroll.courseoffering.toolbar.approved.1.success";
+
+    public static final String ACTIVITYOFFERING_TOOLBAR_ADD_INVALID_ERROR="error.enroll.activityoffering.toolbar.add.invalid";
     
     //controller path
     public static final String CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE = "courseOffering";

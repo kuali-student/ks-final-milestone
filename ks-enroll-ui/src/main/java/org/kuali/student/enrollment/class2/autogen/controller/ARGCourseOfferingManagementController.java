@@ -420,8 +420,18 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=addActivityOfferings")
     public ModelAndView addActivityOfferings(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
+        String quantity = theForm.getNoOfActivityOfferings();
+        if(!StringUtils.isEmpty(quantity) && StringUtils.isNumeric(quantity)){
+            if(Integer.parseInt(quantity) < 1){
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_INVALID_ERROR);
+            } else {
+                ARGActivityOfferingClusterHandler.addActivityOfferings(theForm);
+            }
+        }
+        else{
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_INVALID_ERROR);
+        }
 
-        ARGActivityOfferingClusterHandler.addActivityOfferings(theForm);
         return getUIFModelAndView(theForm);
 
     }
