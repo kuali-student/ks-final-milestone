@@ -63,15 +63,15 @@
                             <inputFiles>
                                 <!--  inputFiles that do not end in ".xml" are treated it
                       as a header and used it to group the dictionary files-->
-                                <inputFile>ActivityOfferingInfoUI.xml</inputFile>
-                                <inputFile>ActivityOfferingWrapper.xml</inputFile>
-                                <inputFile>CourseInfoUI.xml</inputFile>
-                                <inputFile>CourseOfferingWrapper.xml</inputFile>
+                                <!--<inputFile>ActivityOfferingInfoUI.xml</inputFile>-->
+                                <!--<inputFile>ActivityOfferingWrapper.xml</inputFile>-->
+                                <!--<inputFile>CourseInfoUI.xml</inputFile>-->
+                                <!--<inputFile>CourseOfferingWrapper.xml</inputFile>-->
                                 <inputFile>AppliedHoldInfo.xml</inputFile>
                                 <inputFile>HoldIssueInfo.xml</inputFile>
-                                <inputFile>RegistrationGroupInfoUI.xml</inputFile>
-                                <inputFile>RegistrationGroupWrapper.xml</inputFile>
-                                <inputFile>MeetingScheduleWrapper.xml</inputFile>
+                                <!--<inputFile>RegistrationGroupInfoUI.xml</inputFile>-->
+                                <!--<inputFile>RegistrationGroupWrapper.xml</inputFile>-->
+                                <!--<inputFile>MeetingScheduleWrapper.xml</inputFile>-->
                             </inputFiles>
                             <supportFiles>
                                 <supportFile>org/kuali/rice/kns/bo/datadictionary/DataDictionaryBaseTypes.xml</supportFile>
