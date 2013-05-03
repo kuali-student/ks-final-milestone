@@ -1591,7 +1591,7 @@ public class CourseSearchController extends UifControllerBase {
     public ModelAndView startClassFinder(
             @ModelAttribute("KualiForm") UifFormBase form,
             BindingResult result, HttpServletRequest request,
-            HttpServletResponse response) {
+            HttpServletResponse response) { 
         assert form instanceof ClassFinderForm : form;
         return getUIFModelAndView(form, "ClassFinder-view");
     }
