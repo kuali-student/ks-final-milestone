@@ -69,13 +69,18 @@
                 <value>classpath:ks-TermInfo-dictionary.xml</value>
                 <value>classpath:ks-HolidayInfo-dictionary.xml</value>
                 <value>classpath:ks-KeyDateInfo-dictionary.xml</value>
+                <!--
+                <value>classpath:ks-CourseInfo-dictionary.xml</value> --><!-- KSCM-720 Curriculum Management Course Info -->
 
 
                 <!-- KIM Attributes -->
                 <value>classpath:org/kuali/rice/student/bo/KualiStudentKimAttributes.xml</value>
 
-                <!-- Acal -->
+                <!-- Home Views -->
                 <value>classpath:org/kuali/student/enrollment/main/EnrollmentHomeView.xml</value>
+                <value>classpath:org/kuali/student/cm/main/CurriculumHomeView.xml</value> <!-- KSCM-727 Curriculum Management Course -->
+
+                <!-- Acal -->
                 <value>classpath:org/kuali/student/enrollment/acal/CalendarSearchView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarEditPage.xml</value>
@@ -262,12 +267,18 @@
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionNestedTable.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionTL.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionSL.xml</value>
+
+                <!-- Curriculum Management Course Info -->
+                <!--
+                <value>classpath:org/kuali/student/cm/courseinfo/CourseJointInfo.xml</value>
+                -->
             </list>
 		</property>
 		<property name="packagePrefixes">
 			<list>
 				<value>org.kuali.rice.student.</value>
 				<value>org.kuali.student.enrollment.</value>				
+				<value>org.kuali.student.cm.</value>				
 			</list>
 		</property>
         <!-- add in the student attributes to the kim module configuration -->
