@@ -47,15 +47,7 @@
     margin: 3px;
 }
 
-/*  Manage AO/CO toolbar buttons. Override the default rounded corners.
-    The toolbar is also using styles from krms.css (tree-bar-button).
-    The CSS for KRMS and toolbar needs to be reconciled. */
-.ks-toolbar-button {
-    border-radius: 0px !important;
-}
-
 /* Applying the CSS Grid Columns */
-
 .col_1
 {
     min-width: 40px;
@@ -153,6 +145,7 @@
     max-width: 1105px;
     width: 93.75%;
 }
+/* End of Applying the CSS Grid Columns */
 
 .uif-scheduled-dl {
     color: grey;
@@ -241,11 +234,20 @@ a
     margin: 0px 10px 20px 0px;
 }
 
+/* Manage CO Action Links
+   Links that appear in the Actions column on the Manage CO page
+*/
 .ks-table-uif-navigationActionLink {
     padding-left: 8px;
     margin-left: 8px;
 }
+/*  End Manage CO Action Links */
 
+/* Toolbar
+   The toolbar can be found on the Manage CO & AO pages.
+*/
+
+/* The background area which extends the full width of the table where the toolbar buttons sit on top of */
 .ks-toolbar {
     padding-left: 6px;
     padding-top: 1px;
@@ -253,6 +255,7 @@ a
     height: 60px;
 }
 
+/* Individual Buttons */
 .ks-toolbar button {
     font-size: 13px;
     color: black;
@@ -279,7 +282,8 @@ a
     width: 98px;
 }
 
-.ks-toolbar button:hover{
+/* Individual Buttons when focused */
+.ks-toolbar button:hover {
     background: #EBEBEB;
     background: -moz-linear-gradient(top, #e6e6e6 0%, #e6e6e6 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e6e6e6), color-stop(100%, #e6e6e6));
@@ -294,6 +298,7 @@ a
     border-bottom-color: #b3b3b3;
 }
 
+/* Disabled Buttons and the focus state */
 .ks-toolbar button[disabled], .ks-toolbar button[disabled]:hover {
     border: 1px solid #cccccc;
     border-color: #e6e6e6 #e6e6e6 #bfbfbf;
@@ -303,7 +308,8 @@ a
     color: #B0B0B0;
 }
 
-.ks-toolbar-no-left-border{
+/* When a disabled button becomes active, this class is called to remove the border from the left side */
+.ks-toolbar-no-left-border {
     border: 1px solid #cccccc;
     border-color: #e6e6e6 #e6e6e6 #bfbfbf;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
@@ -311,6 +317,7 @@ a
     border-left: 0px !important;
 }
 
+/* When a disabled button becomes active, this class is called to remove the border from the left side */
 .ks-toolbar-no-left-border[disabled]{
     border: 1px solid #cccccc;
     border-color: #e6e6e6 #e6e6e6 #bfbfbf;
@@ -319,20 +326,18 @@ a
     border-left: 0px;
 }
 
-.ks-toolbar-no-left-border[disabled]:hover{
+/* When a disabled button becomes active and is in focus, this class is called to remove the border from the left side */
+.ks-toolbar-no-left-border[disabled]:hover {
     border: 1px solid #cccccc;
     border-left: 0px;
-    <<<<<<< .mine
 }
 
-.ks-toolbar-group-padded{
+.ks-toolbar-group-padded {
     padding-right: 20px;
 }
+/*  End Toolbar  */
 
-
-
-
-/*    Watermark
+/* Watermark
    After a usability test it was determined that the Watermark styling was too similar to the standard text.
    To fix this we have the text lightened (to a level that's still valid for "accessibility") and made
    all watermark text appear in italics
