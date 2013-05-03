@@ -40,6 +40,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krms.api.repository.NaturalLanguageTree;
+import org.kuali.rice.krms.api.repository.RuleRepositoryService;
 import org.kuali.rice.krms.api.repository.action.ActionDefinition;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplaterContract;
@@ -56,7 +57,7 @@ import org.kuali.rice.krms.impl.repository.language.SimpleNaturalLanguageTemplat
  *
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
-public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl implements RuleManagementService {
+public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl implements RuleManagementService{
 
     private ReferenceObjectBindingBoService referenceObjectBindingBoService = new ReferenceObjectBindingBoServiceImpl();
     private AgendaBoService agendaBoService = new AgendaBoServiceImpl();

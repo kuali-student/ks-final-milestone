@@ -21,17 +21,18 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-	<bean id="rice.krms.ruleRepositoryService.exporter" parent="krmsServiceExporter">
-		<property name="serviceDefinition">
-			<bean parent="krmsService">
-				<property name="service">
-					<ref bean="ruleRepositoryService" />
-				</property>
-				<property name="localServiceName" value="ruleRepositoryService" />
-				<property name="busSecurity" value="${rice.krms.ruleRepositoryService.secure}" />
-			</bean>
-		</property>
-	</bean>
+    <bean id="rice.krms.ruleRepositoryService.exporter" parent="krmsServiceExporter">
+        <property name="serviceDefinition">
+            <bean parent="krmsService">
+                <property name="serviceInterface" value="org.kuali.rice.krms.api.repository.RuleRepositoryService" />
+                <property name="service">
+                    <ref bean="ruleRepositoryService" />
+                </property>
+                <property name="localServiceName" value="ruleRepositoryService" />
+                <property name="busSecurity" value="${rice.krms.ruleRepositoryService.secure}" />
+            </bean>
+        </property>
+    </bean>
 
   <bean id="rice.krms.functionRepositoryService.exporter" parent="krmsServiceExporter">
     <property name="serviceDefinition">
@@ -75,6 +76,7 @@
     <bean id="rice.krms.ruleManagementService.exporter" parent="krmsServiceExporter">
         <property name="serviceDefinition">
             <bean parent="krmsService">
+                <property name="serviceInterface" value="org.kuali.rice.krms.api.repository.RuleManagementService" />
                 <property name="service">
                     <ref bean="ruleManagementService" />
                 </property>
