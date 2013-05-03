@@ -19,6 +19,7 @@ import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.acal.infc.Term;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedTerm;
@@ -27,6 +28,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
 
 /**
@@ -258,20 +260,22 @@ public class PlannedTermsHelperBase {
 		c.add(Calendar.YEAR, futureTermsCount);
 		Date endDate = c.getTime();
 		try {
+			QueryByCriteria criteria =QueryByCriteria.Builder.fromPredicates(
+					like("atpStatus",
+                    PlanConstants.PUBLISHED)); 
+
 
             // need to re-examine this functionality
             // ie would a term that starts before end date but ends after end date be considered in that period.
             // ie- off by one errors.
 			for (Term t : KsapFrameworkServiceLocator
 					.getAcademicCalendarService().searchForTerms(
-							QueryByCriteria.Builder.fromPredicates(
-									PredicateFactory.greaterThanOrEqual(
-											"startDate", startDate),
-									PredicateFactory.lessThan("endDate",
-											endDate),like("atpStatus",
-                                    PlanConstants.PUBLISHED)),
+							criteria,
 							KsapFrameworkServiceLocator.getContext()
-									.getContextInfo())) {
+									.getContextInfo())){
+
+				if(t.getStartDate().compareTo(startDate)<0) continue;
+				if(t.getEndDate().compareTo(endDate)>=0) continue;
 				PlannedTerm plannedTerm = new PlannedTerm();
 				plannedTerm.setAtpId(t.getId());
 				plannedTerm.setQtrYear(t.getName());

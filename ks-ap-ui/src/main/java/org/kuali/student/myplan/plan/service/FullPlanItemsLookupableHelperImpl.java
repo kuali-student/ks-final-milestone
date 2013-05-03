@@ -35,6 +35,7 @@ public class FullPlanItemsLookupableHelperImpl extends
 	private static final Logger LOG = Logger
 			.getLogger(FullPlanItemsLookupableHelperImpl.class);
 
+
 	@Override
 	protected List<FullPlanItemsDataObject> getSearchResults(
 			LookupForm lookupForm, Map<String, String> fieldValues,
@@ -86,6 +87,7 @@ public class FullPlanItemsLookupableHelperImpl extends
 
 
 			// TODO: configure number of terms to display at a time
+
 			for (int j = 0; j < numberOfTerms; j++){
                 if(perfectPlannedTerms.size()>0){
                     plannedTermList.add(perfectPlannedTerms.remove(0));

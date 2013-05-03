@@ -84,7 +84,7 @@ public class DefaultTermHelper implements TermHelper {
 			throw new IllegalStateException("Acal lookup failure", e);
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("Acal lookup failure", e);
-		}
+		} 
 	}
 
 	@Override
