@@ -272,8 +272,8 @@
 
     <!--p:onDocumentReadyScript="decorateToolbar();-->
 
-    <bean id="KS-Uif-HorizontalToolbarSection" parent="KS-Uif-HorizontalToolbarSection-parent"/>
-    <bean id="KS-Uif-HorizontalToolbarSection-parent" abstract="true" parent="Uif-HorizontalBoxSection" scope="prototype">
+    <bean id="KS-Uif-HorizontalBoxSection-ToolbarSection" parent="KS-Uif-HorizontalBoxSection-ToolbarSection-parent"/>
+    <bean id="KS-Uif-HorizontalBoxSection-ToolbarSection-parent" abstract="true" parent="Uif-HorizontalBoxSection" scope="prototype">
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-toolbar</value>
@@ -281,8 +281,8 @@
         </property>
     </bean>
 
-    <bean id="KS-Uif-ToolbarGroup" parent="KS-Uif-ToolbarGroup-parent"/>
-    <bean id="KS-Uif-ToolbarGroup-parent" parent="Uif-HorizontalBoxGroup" class="org.kuali.student.enrollment.uif.container.KSToolbarGroup" abstract="true" scope="prototype">
+    <bean id="KS-Uif-HorizontalBoxGroup-ToolbarGroup" parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup-parent"/>
+    <bean id="KS-Uif-HorizontalBoxGroup-ToolbarGroup-parent" parent="Uif-HorizontalBoxGroup" class="org.kuali.student.enrollment.uif.container.KSToolbarGroup" abstract="true" scope="prototype">
         <property name="template" value="/ks-enroll/ftl/ksToolbarGroup.ftl"/>
         <property name="templateName" value="ks_ToolbarGroup"/>
         <property name="cssClasses">
