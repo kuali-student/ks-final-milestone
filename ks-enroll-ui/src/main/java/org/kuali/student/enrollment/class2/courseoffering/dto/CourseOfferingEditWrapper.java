@@ -255,7 +255,7 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
                 orgIDs = orgIDs + organizationName.getId() + ",";
             }
             if (orgIDs.length() > 0) {
-                adminOrgMap.put("org", orgIDs.substring(0, orgIDs.length()-1));
+                adminOrgMap.put("offeringAdminOrgId", orgIDs.substring(0, orgIDs.length()-1));
             }
         }
         return  adminOrgMap;

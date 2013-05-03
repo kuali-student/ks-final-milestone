@@ -307,7 +307,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                     orgIDs = orgIDs + orgId + ",";
                 }
                 if (orgIDs.length() > 0) {
-                    roleQualifications.put("org", orgIDs.substring(0, orgIDs.length() - 1));
+                    roleQualifications.put("offeringAdminOrgId", orgIDs.substring(0, orgIDs.length() - 1));
                 }
             }
             roleQualifications.put(PermissionServiceConstants.SUBJECT_AREA_ATTR_DEFINITION, jointCourse.getSubjectArea());

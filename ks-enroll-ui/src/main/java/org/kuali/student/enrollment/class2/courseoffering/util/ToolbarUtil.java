@@ -78,7 +78,7 @@ public class ToolbarUtil {
                     String coState = coStateKey.substring(coStateKey.lastIndexOf('.')+1);
 
                     permissionDetails.put("coState", coState);
-                    roleQualifications.put("org", coListWrapper.getAdminOrg());
+                    roleQualifications.put("offeringAdminOrgId", coListWrapper.getAdminOrg());
 
                     //Clear old values
                     coListWrapper.setEnableCopyCOActionLink(false);
@@ -145,7 +145,7 @@ public class ToolbarUtil {
         Map<String,String> roleQualifications = new HashMap<String,String>();
 
         //ToDo, add role qualifiers for org/subject/etc. (Refactor so qualification resolving is done in a single place)
-        roleQualifications.put("org", form.getAdminOrg());
+        roleQualifications.put("offeringAdminOrgId", form.getAdminOrg());
         roleQualifications.put("subjectArea", form.getSubjectCode());
 
         permissionDetails.put("socState", socState);

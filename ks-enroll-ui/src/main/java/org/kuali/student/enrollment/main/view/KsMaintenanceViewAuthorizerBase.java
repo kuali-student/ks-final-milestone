@@ -58,7 +58,7 @@ public class KsMaintenanceViewAuthorizerBase extends MaintenanceViewAuthorizerBa
                 ActivityOfferingMaintainableImpl theForm = (ActivityOfferingMaintainableImpl)document.getOldMaintainableObject();
                 ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)theForm.getDataObject();
                 if(wrapper.getAdminOrg() != null){
-                    attributes.put("org", wrapper.getAdminOrg());
+                    attributes.put("offeringAdminOrgId", wrapper.getAdminOrg());
                 }
                 if(wrapper.getCourse() != null){
                     attributes.put("subjectArea", wrapper.getCourse().getSubjectArea());
@@ -73,7 +73,7 @@ public class KsMaintenanceViewAuthorizerBase extends MaintenanceViewAuthorizerBa
                 CourseOfferingCreateMaintainableImpl theForm = (CourseOfferingCreateMaintainableImpl)document.getNewMaintainableObject();
                 CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) theForm.getDataObject();
                 if(wrapper.getAdminOrg() != null){
-                    attributes.put("org", wrapper.getAdminOrg());
+                    attributes.put("offeringAdminOrgId", wrapper.getAdminOrg());
                 }
                 if(wrapper.getCourse() != null){
                     attributes.put("subjectArea", wrapper.getCourse().getSubjectArea());

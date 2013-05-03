@@ -44,7 +44,7 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
         if (primaryDataObjectOrDocument !=null && primaryDataObjectOrDocument instanceof ARGCourseOfferingManagementForm) {
             ARGCourseOfferingManagementForm theForm = (ARGCourseOfferingManagementForm) primaryDataObjectOrDocument;
             if(theForm.getAdminOrg() != null){
-                attributes.put("org", theForm.getAdminOrg());
+                attributes.put("offeringAdminOrgId", theForm.getAdminOrg());
             }
             if(theForm.getSubjectCode() != null){
                 attributes.put("subjectArea", theForm.getSubjectCode());
@@ -61,7 +61,7 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
                         orgIDs = orgIDs + orgId + ",";
                     }
                     if (orgIDs.length() > 0) {
-                        attributes.put("org", orgIDs.substring(0, orgIDs.length()-1));
+                        attributes.put("offeringAdminOrgId", orgIDs.substring(0, orgIDs.length()-1));
                     }
                 }
                 if(theForm.getTheCourseOffering().getSubjectArea() != null){

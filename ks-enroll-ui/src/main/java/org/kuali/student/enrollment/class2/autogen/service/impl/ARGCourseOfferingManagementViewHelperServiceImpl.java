@@ -2165,7 +2165,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 if (orgIDs.length() > 0) {
                     String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
-                    roleQualifications.put("org", orgIDs.substring(0, orgIDs.length() - 1));
+                    roleQualifications.put("offeringAdminOrgId", orgIDs.substring(0, orgIDs.length() - 1));
 
                     permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, viewId);
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "approveSubj");
