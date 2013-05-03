@@ -296,7 +296,7 @@
     <bean id="KS-CourseOfferingManagement-AO-ToolBarSection-ClusterTab" parent="KS-Uif-HorizontalToolbarSection" p:render="@{!currentCourseOfferingWrapper.crossListed}">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ToolbarGroup">
+                <bean parent="KS-Uif-ToolbarGroup" p:noLeftBorder="true">
                     <property name="items">
                         <list>
                             <bean id="KS-CourseOfferingManagement-ToolBar-Add-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Add-parent" p:actionLabel="Add Activity"  p:disabled="@{!enableAddButton}"
@@ -308,7 +308,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-ToolbarGroup">
+                <bean parent="KS-Uif-ToolbarGroup"  p:noLeftBorder="true">
                     <property name="items">
                         <list>
                             <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-AddCluster-parent" p:methodToCall="addCluster" p:render="@{hasAO}" p:disabled="@{!enableAddClusterButton}"

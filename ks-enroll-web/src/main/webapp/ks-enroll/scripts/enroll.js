@@ -904,14 +904,3 @@ function removeZebraColoring(id){
 
 }
 
-function decorateToolbar(toolbar) {
-    jQuery('.ks-toolbar-group-padded').each(function () {
-        var firstItem = true;
-        jQuery(this).find('button').each(function () {
-            if (!firstItem) {
-                jQuery(this).addClass("ks-toolbar-no-left-border");
-            }
-            firstItem = false;
-        });
-    });
-}

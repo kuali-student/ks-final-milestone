@@ -131,3 +131,17 @@ function refreshAddAODropdowns(){
         retrieveComponent('clusterDropDown');
     });
 }
+
+function decorateToolbar(id) {
+    var div = jQuery('#' + id);
+    if (jQuery(div).hasClass('ks-toolbar-group-padded')) {
+        console.log("found if");
+        var firstItem = true;
+        jQuery(div).find(':button').each(function () {
+            if (!firstItem) {
+                jQuery(this).addClass("ks-toolbar-no-left-border");
+            }
+            firstItem = false;
+        });
+    }
+}
