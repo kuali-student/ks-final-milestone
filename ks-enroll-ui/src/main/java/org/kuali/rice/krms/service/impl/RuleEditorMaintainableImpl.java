@@ -124,9 +124,8 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                 AgendaTreeRuleEntry treeRuleEntry = (AgendaTreeRuleEntry) treeEntry;
                 AgendaItemDefinition agendaItem = this.getRuleManagementService().getAgendaItem(treeEntry.getAgendaItemId());
 
-                if (agendaItem.getRuleId() != null) {
-                    RuleDefinition rule = this.getRuleManagementService().getRule(treeRuleEntry.getRuleId());
-                    RuleEditor ruleEditor = new RuleEditor(rule);
+                if (agendaItem.getRule() != null) {
+                    RuleEditor ruleEditor = new RuleEditor(agendaItem.getRule());
                     ruleEditor.setAgendaItem(agendaItem);
                     this.initPropositionEditor((PropositionEditor) ruleEditor.getProposition());
                     ruleEditor.setViewTree(viewTreeBuilder.buildTree(ruleEditor));
@@ -160,40 +159,23 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     public void saveDataObject() {
         RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) getDataObject();
 
-        for (AgendaEditor agenda : ruleWrapper.getAgendas()){
-
-            List<AgendaItemDefinition.Builder> itemBuilders = new ArrayList<AgendaItemDefinition.Builder>();
-            for(RuleEditor rule : agenda.getRuleEditors()) {
-                if(!rule.isDummy()) {
-                    String ruleId = this.finRule(rule, ruleWrapper.getNamePrefix(), ruleWrapper.getNamespace());
-
-                    //Create / Update the agendaItems
-                    AgendaItemDefinition.Builder itemBuilder = AgendaItemDefinition.Builder.create(null, agenda.getId());
-                    if(rule.getAgendaItem()!=null){
-                        itemBuilder.setId(rule.getAgendaItem().getId());
-                        itemBuilder.setVersionNumber(rule.getAgendaItem().getVersionNumber());
-                    }
-                    itemBuilder.setRuleId(ruleId);
-                    itemBuilders.add(itemBuilder);
-
-                }
-            }
+        for (AgendaEditor agenda : ruleWrapper.getAgendas()) {
 
             //Set the first agenda item id and save the agenda items
-            agenda.setFirstItemId(maintainAgendaItems(itemBuilders));
+            agenda.setFirstItemId(maintainAgendaItems(agenda, ruleWrapper.getNamePrefix(), ruleWrapper.getNamespace()));
 
             //Create or update the agenda.
             AgendaDefinition.Builder agendaBuilder = AgendaDefinition.Builder.create(agenda);
             AgendaDefinition agendaDefinition = agendaBuilder.build();
-            if (agendaDefinition.getId()==null){
+            if (agendaDefinition.getId() == null) {
                 this.getRuleManagementService().createAgenda(agendaDefinition);
             } else {
                 this.getRuleManagementService().updateAgenda(agendaDefinition);
             }
 
             //Delete rules
-            for(RuleEditor deletedRule : ruleWrapper.getDeletedRules()) {
-                if(deletedRule.getAgendaItem()!=null){
+            for (RuleEditor deletedRule : ruleWrapper.getDeletedRules()) {
+                if (deletedRule.getAgendaItem() != null) {
                     this.getRuleManagementService().deleteAgendaItem(deletedRule.getAgendaItem().getId());
                 }
                 this.getRuleManagementService().deleteRule(deletedRule.getId());
@@ -201,7 +183,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             }
 
             //If no more rules linked to agenda, delete it.
-            if (agendaDefinition.getFirstItemId().isEmpty()){
+            if (agendaDefinition.getFirstItemId().isEmpty()) {
                 this.getRuleManagementService().deleteReferenceObjectBinding(agenda.getId());
                 this.getRuleManagementService().deleteAgenda(agenda.getId());
             }
@@ -210,48 +192,48 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
     }
 
-    protected String maintainAgendaItems(List<AgendaItemDefinition.Builder> itemBuilders){
-        if ((itemBuilders==null) || (itemBuilders.size()==0)){
-            return null;
-        }
+    protected String maintainAgendaItems(AgendaEditor agenda, String namePrefix, String nameSpace) {
 
-        String itemId = null;
-        AgendaItemDefinition.Builder itemBuilder;
-        for(int i=itemBuilders.size()-1; i>=0; i--){
-            itemBuilder = itemBuilders.get(i);
-            itemBuilder.setWhenTrueId(itemId);
-            if(itemBuilder.getId()==null){
-                itemId = this.getRuleManagementService().createAgendaItem(itemBuilder.build()).getId();
-            }else {
-                this.getRuleManagementService().updateAgendaItem(itemBuilder.build());
-                itemId = itemBuilder.getId();
+        AgendaItemDefinition.Builder rootItemBuilder = null;
+        for (int i = agenda.getRuleEditors().size() - 1; i >= 0; i--) {
+            RuleEditor rule = agenda.getRuleEditors().get(i);
+            if (!rule.isDummy()) {
+
+                //Create / Update the agendaItems
+                AgendaItemDefinition.Builder itemBuilder = AgendaItemDefinition.Builder.create(null, agenda.getId());
+                if (rule.getAgendaItem() != null) {
+                    itemBuilder.setId(rule.getAgendaItem().getId());
+                    itemBuilder.setVersionNumber(rule.getAgendaItem().getVersionNumber());
+                }
+                itemBuilder.setRule(this.finRule(rule, namePrefix, nameSpace));
+                itemBuilder.setWhenTrue(rootItemBuilder);
+
+                rootItemBuilder = itemBuilder;
+
             }
         }
 
-        return itemId;
+        if (rootItemBuilder.getId() == null) {
+            return this.getRuleManagementService().createAgendaItem(rootItemBuilder.build()).getId();
+        }
+
+        this.getRuleManagementService().updateAgendaItem(rootItemBuilder.build());
+        return rootItemBuilder.getId();
     }
 
-    protected String finRule(RuleEditor rule, String rulePrefix, String namespace) {
+    protected RuleDefinition.Builder finRule(RuleEditor rule, String rulePrefix, String namespace) {
         // handle saving new parameterized terms
         PropositionEditor proposition = (PropositionEditor) rule.getProposition();
         if (proposition != null) {
             this.finPropositionEditor(proposition);
         }
 
-        if(rule.getNamespace() == null) {
+        if (rule.getNamespace() == null) {
             rule.setNamespace(namespace);
         }
         rule.setName(rulePrefix + " " + rule.getRuleTypeInfo().getDescription());
 
-        RuleDefinition.Builder ruleBuilder = RuleDefinition.Builder.create(rule);
-        RuleDefinition ruleDefinition = ruleBuilder.build();
-        if (ruleDefinition.getId() == null) {
-            return this.getRuleManagementService().createRule(ruleDefinition).getId();
-        } else {
-            this.getRuleManagementService().updateRule(ruleDefinition);
-        }
-
-        return ruleDefinition.getId();
+        return RuleDefinition.Builder.create(rule);
     }
 
     protected void finPropositionEditor(PropositionEditor propositionEditor) {
@@ -303,7 +285,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             if (proposition.getParameters().get(0) != null) {
 
                 PropositionParameterEditor termParameter = proposition.getParameters().get(0);
-                if (termParameter.getTermValue() == null){
+                if (termParameter.getTermValue() == null) {
                     String termId = proposition.getParameters().get(0).getValue();
                     if (!StringUtils.isBlank(termId)) {
                         termParameter.setTermValue(this.getTermRepositoryService().getTerm(termId));

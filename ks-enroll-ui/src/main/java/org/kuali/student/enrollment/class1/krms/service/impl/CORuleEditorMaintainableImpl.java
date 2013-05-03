@@ -134,11 +134,10 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                 AgendaTreeRuleEntry treeRuleEntry = (AgendaTreeRuleEntry) treeEntry;
                 AgendaItemDefinition agendaItem = this.getRuleManagementService().getAgendaItem(treeEntry.getAgendaItemId());
 
-                if (agendaItem.getRuleId() != null) {
+                if (agendaItem.getRule() != null) {
 
-                    //Retrieve the rule
-                    RuleDefinition rule = this.getRuleManagementService().getRule(treeRuleEntry.getRuleId());
-                    RuleEditor ruleEditor = new EnrolRuleEditor(rule);
+                    //Build the ruleEditor
+                    RuleEditor ruleEditor = new EnrolRuleEditor(agendaItem.getRule());
                     ruleEditor.setAgendaItem(agendaItem);
 
                     //Initialize the Proposition tree

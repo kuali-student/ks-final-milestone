@@ -21,7 +21,9 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krms.api.repository.agenda.AgendaDefinitionContract;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
+import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinitionContract;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ import static org.kuali.rice.krms.impl.repository.AgendaItemBo.COPY_OF_TEXT;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  *
  */
-public class AgendaItemBo extends PersistableBusinessObjectBase {
+public class AgendaItemBo extends PersistableBusinessObjectBase implements AgendaItemDefinitionContract {
 
     public static final String COPY_OF_TEXT = "Copy of ";
     private static final String KRMS_AGENDA_ITM_S = "KRMS_AGENDA_ITM_S";
@@ -293,6 +295,11 @@ public class AgendaItemBo extends PersistableBusinessObjectBase {
         return this.rule;
     }
 
+    @Override
+    public AgendaDefinitionContract getSubAgenda() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     /**
      * @param rule the rule to set
      */
@@ -313,13 +320,7 @@ public class AgendaItemBo extends PersistableBusinessObjectBase {
 	*/
    static AgendaItemDefinition to(AgendaItemBo bo) {
 	   if (bo == null) { return null; }
-	   AgendaItemDefinition.Builder builder = AgendaItemDefinition.Builder.create(bo.getId(), bo.getAgendaId());
-	   builder.setRuleId(bo.getRuleId());
-	   builder.setSubAgendaId(bo.getSubAgendaId());
-	   builder.setWhenTrueId(bo.getWhenTrueId());
-	   builder.setWhenFalseId(bo.getWhenFalseId());
-	   builder.setAlwaysId(bo.getAlwaysId());
-       builder.setVersionNumber(bo.getVersionNumber());
+	   AgendaItemDefinition.Builder builder = AgendaItemDefinition.Builder.create(bo);
 	   
 	   return builder.build();
    }
@@ -341,6 +342,11 @@ public class AgendaItemBo extends PersistableBusinessObjectBase {
 	   bo.whenFalseId = im.getWhenFalseId();
 	   bo.alwaysId = im.getAlwaysId();
        bo.versionNumber = im.getVersionNumber();
+
+       bo.rule = RuleBo.from(im.getRule());
+       bo.whenTrue = AgendaItemBo.from(im.getWhenTrue());
+       bo.whenFalse = AgendaItemBo.from(im.getWhenFalse());
+       bo.always = AgendaItemBo.from(im.getAlways());
 	   
 	   return bo;
    }

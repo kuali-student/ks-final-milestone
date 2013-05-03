@@ -299,7 +299,46 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
     ////
     @Override
     public AgendaItemDefinition createAgendaItem(AgendaItemDefinition agendaItemDefinition) throws RiceIllegalArgumentException {
+        agendaItemDefinition = createAgendaItemIfNeeded(agendaItemDefinition).build();
         return agendaBoService.createAgendaItem(agendaItemDefinition);
+    }
+
+    public AgendaItemDefinition.Builder createAgendaItemIfNeeded(AgendaItemDefinition agendaItemDefinition) throws RiceIllegalArgumentException {
+
+        if(agendaItemDefinition == null){
+            return null;
+        }
+
+        AgendaItemDefinition.Builder agendaItemBuilder = AgendaItemDefinition.Builder.create(agendaItemDefinition.getId(), agendaItemDefinition.getAgendaId());
+        agendaItemBuilder.setVersionNumber(agendaItemDefinition.getVersionNumber());
+
+        // set the rule
+        if (agendaItemDefinition.getRule() != null) {
+            RuleDefinition ruleDefinition = this.createRuleIfNeeded(agendaItemDefinition.getRule());
+            RuleDefinition.Builder ruleBuilder = RuleDefinition.Builder.create(ruleDefinition);
+            agendaItemBuilder.setRule(ruleBuilder);
+            agendaItemBuilder.setRuleId(ruleBuilder.getId());
+        }
+
+        AgendaItemDefinition.Builder whenTrueBuilder = createAgendaItemIfNeeded(agendaItemDefinition.getWhenTrue());
+        if (whenTrueBuilder != null){
+            agendaItemBuilder.setWhenTrue(whenTrueBuilder);
+            agendaItemBuilder.setWhenTrueId(whenTrueBuilder.getId());
+        }
+
+        AgendaItemDefinition.Builder whenFalseBuilder = createAgendaItemIfNeeded(agendaItemDefinition.getWhenFalse());
+        if (whenFalseBuilder != null){
+            agendaItemBuilder.setWhenTrue(whenFalseBuilder);
+            agendaItemBuilder.setWhenTrueId(whenFalseBuilder.getId());
+        }
+
+        AgendaItemDefinition.Builder alwaysBuilder = createAgendaItemIfNeeded(agendaItemDefinition.getAlways());
+        if (alwaysBuilder != null){
+            agendaItemBuilder.setWhenTrue(alwaysBuilder);
+            agendaItemBuilder.setWhenTrueId(alwaysBuilder.getId());
+        }
+
+        return agendaItemBuilder;
     }
 
     @Override
@@ -331,6 +370,7 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
 
     @Override
     public void updateAgendaItem(AgendaItemDefinition agendaItemDefinition) throws RiceIllegalArgumentException {
+        agendaItemDefinition = createAgendaItemIfNeeded(agendaItemDefinition).build();
         agendaBoService.updateAgendaItem(agendaItemDefinition);
     }
 
@@ -344,30 +384,42 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         }
     }
     
-    
     ////
     //// rule methods
     ////
     @Override
     public RuleDefinition createRule(RuleDefinition ruleDefinition) throws RiceIllegalArgumentException {
-        // CREATE
         if (ruleDefinition.getId() != null) {
             RuleDefinition orig = this.getRule(ruleDefinition.getId());
             if (orig != null) {
                 throw new RiceIllegalArgumentException(ruleDefinition.getId());
             }
-        } else {
-            // if no id then set it because it is needed to store propositions connected to this rule
+        }
+
+        ruleDefinition = this.createRuleIfNeeded(ruleDefinition);
+        ruleDefinition = ruleBoService.createRule(ruleDefinition);
+        return ruleDefinition;
+    }
+
+    private RuleDefinition createRuleIfNeeded(RuleDefinition ruleDefinition) throws RiceIllegalArgumentException {
+
+        // no rule to create
+        if (ruleDefinition == null) {
+            return null;
+        }
+
+        // if no id then set it because it is needed to store propositions connected to this rule
+        if (ruleDefinition.getId() == null) {
             String ruleId = getSequenceAccessorService().getNextAvailableSequenceNumber("KRMS_RULE_S", RuleBo.class).toString();
             RuleDefinition.Builder ruleBldr = RuleDefinition.Builder.create(ruleDefinition);
             ruleBldr.setId(ruleId);
             ruleDefinition = ruleBldr.build();
         }
-        
+
         // if both are set they better match
         crossCheckPropId (ruleDefinition);
         ruleDefinition = this.createPropositionIfNeeded(ruleDefinition);
-        ruleDefinition = ruleBoService.createRule(ruleDefinition);
+
         return ruleDefinition;
     }
 
@@ -390,8 +442,6 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         ruleBldr.setProposition(propBldr);
         return ruleBldr.build();
     }
-    
-    
     
     @Override
     public void updateRule(RuleDefinition ruleDefinition) throws RiceIllegalArgumentException {

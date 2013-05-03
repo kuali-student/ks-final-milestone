@@ -64,7 +64,7 @@ public class KSKRMSTestRiceService extends KSKRMSTestCase {
         assertNotNull(createdItem);
         assertNotNull(createdItem.getRuleId());
 
-        AgendaItemDefinition.Builder updateBuilder = AgendaItemDefinition.Builder.create(agendaItem);
+        AgendaItemDefinition.Builder updateBuilder = AgendaItemDefinition.Builder.create(createdItem);
         KrmsRepositoryServiceLocator.getAgendaBoService().updateAgendaItem(updateBuilder.build());
 
         AgendaItemDefinition updatedItem = KrmsRepositoryServiceLocator.getAgendaBoService().getAgendaItemById(agendaItem.getId());
