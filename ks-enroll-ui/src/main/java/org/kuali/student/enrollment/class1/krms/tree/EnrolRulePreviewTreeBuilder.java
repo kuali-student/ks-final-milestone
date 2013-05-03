@@ -31,7 +31,7 @@ public class EnrolRulePreviewTreeBuilder extends RulePreviewTreeBuilder {
             if (enrolProp.getCluSet() != null) {
                 if (enrolProp.getCluSet().getClus() != null) {
                     for (CluInformation clu : enrolProp.getCluSet().getClus()) {
-                        String description = clu.getCode() + " " + clu.getTitle() + " " + clu.getCredits();
+                        String description = clu.getCode() + (clu.getTitle() != null ? " " + clu.getTitle() : "") + (clu.getCredits() != null ? " " + clu.getCredits() : "");
                         listItems.add(description);
                     }
                 }
