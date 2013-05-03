@@ -24,8 +24,15 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -39,6 +46,8 @@ import java.util.Map;
  */
 public class ARGToolbarUtil {
     private static PermissionService permissionService = getPermissionService();
+    private static TypeService typeService;
+    private static AcademicCalendarService academicCalendarService;
 
     public static void processCoToolbarForUser(List<CourseOfferingListSectionWrapper> coListWrapperList, ARGCourseOfferingManagementForm form){
         form.setEnableAddButton(false);
@@ -63,7 +72,6 @@ public class ARGToolbarUtil {
         if (termClassStartDate == null || now.before(termClassStartDate)) {
             permissionDetails.put("termClassStartDateLater", "true");
         }
-
         permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, form.getViewId());
 
         //for Add CO button
@@ -116,6 +124,30 @@ public class ARGToolbarUtil {
 
                 //for delete CO button
                 if (checkBzLogicForCOButtons(socStateKey, socSchedulingState, coStateKey, "deleteCO")) {
+                    // Term Registration Start Date (Milestone:First Day to Add < in the AZ matrix)
+                    if(coStateKey.equals("kuali.lui.course.offering.state.planned")) {    //for performance - skip if not applicable
+                        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+                        Date termRegStartDate = null;
+                        try {
+                            List<TypeInfo> regPeriods = getTypeService().getTypesForGroupType("kuali.milestone.type.group.appt.regperiods", contextInfo);
+                            List<KeyDateInfo> keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(form.getTermInfo().getId(), contextInfo);
+                            if (keyDateInfoList != null && keyDateInfoList.size() > 0) {
+                                for (KeyDateInfo keyDateInfo : keyDateInfoList) {
+                                    for (TypeInfo regPeriod : regPeriods) {
+                                        if (keyDateInfo.getTypeKey().equalsIgnoreCase(regPeriod.getKey()) && keyDateInfo.getStartDate() != null) {
+                                            if (termRegStartDate == null || keyDateInfo.getStartDate().before(termRegStartDate)) {
+                                                termRegStartDate = keyDateInfo.getStartDate();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } catch (Exception e){ }
+                        Date nowReg = new Date();
+                        if (termRegStartDate == null || nowReg.before(termRegStartDate)) {
+                            permissionDetails.put("termRegStartDateLater", "true");
+                        }
+                    }
                     //check role permission
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "deleteCO");
                     if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
@@ -361,5 +393,20 @@ public class ARGToolbarUtil {
             permissionService = KimApiServiceLocator.getPermissionService();
         }
         return permissionService;
+    }
+
+    private static TypeService getTypeService() {
+        if (typeService == null) {
+            typeService = CourseOfferingResourceLoader.loadTypeService();
+        }
+        return typeService;
+    }
+
+    private static AcademicCalendarService getAcademicCalendarService() {
+        if (academicCalendarService == null) {
+            academicCalendarService = CourseOfferingResourceLoader.loadAcademicCalendarService();
+        }
+
+        return academicCalendarService;
     }
 }
