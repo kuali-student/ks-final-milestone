@@ -595,7 +595,7 @@ INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1349','en','KS-KRMS-NL-USAGE-1003','10060','Must have successfully completed <course> as of <term>',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1350','en','KS-KRMS-NL-USAGE-1003','10054','Must have successfully completed a minimum of <n> credits from <courses>',0)
+  VALUES ('KS-KRMS-NL-TMPL-1350','en','KS-KRMS-NL-USAGE-1003','10054','Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, "credit") from',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1351','en','KS-KRMS-NL-USAGE-1003','10071','Must be concurrently enrolled in all courses from <courses>',0)
@@ -697,7 +697,7 @@ Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
  VALUES ('KS-KRMS-NL-TMPL-1388','en','KS-KRMS-NL-USAGE-1000','10060','Must have successfully completed <course> as of <term>',0)
 /
 Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
- VALUES ('KS-KRMS-NL-TMPL-1389','en','KS-KRMS-NL-USAGE-1000','10054','Must have successfully completed a minimum of <n> credits from <courses>',0)
+ VALUES ('KS-KRMS-NL-TMPL-1389','en','KS-KRMS-NL-USAGE-1000','10054','Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, "credit") from $courseCluSet.getCluSetAsCode()',0)
 /
 Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
  VALUES ('KS-KRMS-NL-TMPL-1390','en','KS-KRMS-NL-USAGE-1000','10071','Must be concurrently enrolled in all courses from <courses>',0)
