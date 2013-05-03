@@ -12,29 +12,34 @@
         These are HorizontalBoxSections containing toolbar in manage CO and AO pages.
     -->
     <bean id="KS-CourseOfferingManagement-CO-ToolBarSection" parent="Uif-HorizontalBoxSection">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-toolbar</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
                             <bean id="KS-CourseOfferingManagement-ToolBar-Add-CO" parent="KS-CourseOfferingManagement-ToolBar-Add-parent" p:methodToCall="createCourseOffering" p:disabled="@{!enableAddButton}"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
-                    <property name="items">
-                        <list>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Approve-CO" parent="KS-CourseOfferingManagement-ToolBar-Approve-parent" p:methodToCall="approveCOs" />
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
-                    <property name="items">
-                        <list>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Approve-CO" parent="KS-CourseOfferingManagement-ToolBar-Approve-parent" p:methodToCall="approveCOs">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ks-toolbar-no-left-border</value>
+                                    </list>
+                                </property>
+                            </bean>
                             <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-CO" parent="KS-CourseOfferingManagement-ToolBar-Suspend-parent" p:methodToCall="suspendCOs" p:render="false"/>
                             <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-CO" parent="KS-CourseOfferingManagement-ToolBar-Cancel-parent" p:methodToCall="cancelCOs"  p:render="false"/>
                             <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-CO" parent="KS-CourseOfferingManagement-ToolBar-Reinstate-parent" p:methodToCall="reinstateCOs"  p:render="false"/>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Delete-CO" parent="KS-CourseOfferingManagement-ToolBar-Delete-parent"  p:methodToCall="deleteCOs"/>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Delete-CO" parent="KS-CourseOfferingManagement-ToolBar-Delete-parent"  p:methodToCall="deleteCOs">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ks-toolbar-no-left-border</value>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
