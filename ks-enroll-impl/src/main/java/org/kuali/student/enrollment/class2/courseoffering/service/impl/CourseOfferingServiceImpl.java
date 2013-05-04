@@ -3331,10 +3331,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // should be supported by M4
-        LuiInfo lui = luiService.getLui(activityOfferingId, contextInfo);
-        if (lui == null) {
-            throw new DoesNotExistException("Activity offering ID does not exist: " + activityOfferingId);
+
+
+        if (!luiExists(activityOfferingId,contextInfo)) {
+            throw new DoesNotExistException("Activity offering does not exist with ID: " + activityOfferingId);
         }
         // The seat pool definition is connected only via the entity.  The DTO does not store the
         // activity offering ID.
@@ -3876,6 +3876,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             }
         }
         return infos;
+    }
+
+    protected boolean luiExists(String luiId, ContextInfo context){
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("id", luiId));
+
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        GenericQueryResults<String> results = criteriaLookupService.lookupIds(LuiEntity.class, criteria);
+        List<String> ids = results.getResults();
+
+        if(ids != null && !ids.isEmpty()){
+            return true;
+        } else{
+            return false;
+        }
     }
 
     private boolean _checkTypeForFormatOfferingType(String typeKey) {
