@@ -25,8 +25,6 @@ import org.kuali.student.r2.common.infc.Attribute;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.HashSet;
@@ -39,9 +37,6 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "KSEN_CO_SEAT_POOL_DEFN")
-@NamedQueries({
-        @NamedQuery(name="SeatPoolDefinitionEntity.storeAoIdOnSeatPool", query="UPDATE SeatPoolDefinitionEntity seatPool SET seatPool.activityOfferingId = :aoId where seatPool.id = :seatPoolId")
-})
 public class SeatPoolDefinitionEntity extends MetaEntity implements AttributeOwner<SeatPoolDefinitionAttributeEntity> {
 
     @Column(name = "NAME")

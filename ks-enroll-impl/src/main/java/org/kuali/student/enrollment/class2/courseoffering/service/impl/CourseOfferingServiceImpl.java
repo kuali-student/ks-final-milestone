@@ -3331,12 +3331,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-
-        seatPoolDefinitionDao.attachActivityOfferingIdToSeatPool(activityOfferingId, seatPoolDefinitionId);
-
+        // should be supported by M4
+        LuiInfo lui = luiService.getLui(activityOfferingId, contextInfo);
+        if (lui == null) {
+            throw new DoesNotExistException("Activity offering ID does not exist: " + activityOfferingId);
+        }
+        // The seat pool definition is connected only via the entity.  The DTO does not store the
+        // activity offering ID.
+        SeatPoolDefinitionEntity seatPoolEntity = seatPoolDefinitionDao.find(seatPoolDefinitionId);
+        seatPoolEntity.setActivityOfferingId(activityOfferingId);
+        seatPoolDefinitionDao.merge(seatPoolEntity);
         StatusInfo statusInfo = new StatusInfo();
         statusInfo.setSuccess(Boolean.TRUE);
-
         return statusInfo;
     }
 

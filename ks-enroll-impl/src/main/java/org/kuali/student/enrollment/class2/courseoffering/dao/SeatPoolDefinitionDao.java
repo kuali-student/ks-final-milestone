@@ -26,14 +26,4 @@ import org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefiniti
  * @author Kuali Student Team
  */
 public class SeatPoolDefinitionDao extends GenericEntityDao<SeatPoolDefinitionEntity> implements SeatPoolDefinitionDaoApi {
-    /**
-     * This method will add the aoId to the seatpool.
-     *
-     * @param activityOfferingId
-     * @param seatPoolId
-     */
-    @Override
-    public void attachActivityOfferingIdToSeatPool(String activityOfferingId, String seatPoolId) {
-        getEm().createNamedQuery("SeatPoolDefinitionEntity.storeAoIdOnSeatPool").setParameter("aoId", activityOfferingId).setParameter("seatPoolId", seatPoolId).executeUpdate();
-    }
 }
