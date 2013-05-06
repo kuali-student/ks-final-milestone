@@ -21,6 +21,7 @@
 		<property name="id" value="courseView" />
 		<property name="headerText" value="Course View" />
 		<property name="header.render" value="false" />
+		<property name="entryPageId" value="courseInfoPage"/>
 		<property name="viewHelperServiceClass"
 			value="org.kuali.student.cm.course.service.impl.CourseViewHelperServiceImpl" />
 		<property name="footer">
