@@ -9,9 +9,8 @@
     <artifactId>ks-cm-krad</artifactId>
     <name>KS CM KRAD</name>
     <description>KS CM KRAD</description>
-    
     <dependencies>
-      <!--
+        <!--
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>ks-lum-krad-common</artifactId>
@@ -23,39 +22,37 @@
         <version>${project.version}</version>
       </dependency>
      -->
-      <dependency>
-        <groupId>org.kuali.rice</groupId>
-        <artifactId>rice-core-api</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.kuali.rice</groupId>
-        <artifactId>rice-impl</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.kuali.rice</groupId>
-        <artifactId>rice-krad-web-framework</artifactId>
-        <version>${kuali.rice.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>servlet-api</artifactId>
-        <scope>provided</scope>
-      </dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-core-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-krad-web-framework</artifactId>
+            <version>${kuali.rice.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
-
-
-<!--     <dependencies> -->
-<!--         <dependency> -->
-<!--             <groupId>${project.groupId}</groupId> -->
-<!--             <artifactId>ks-lum-krad-common</artifactId> -->
-<!--             <version>${project.version}</version> -->
-<!--             <classifier>sources</classifier> -->
-<!--             <scope>provided</scope> -->
-<!--         </dependency> -->
-<!--         <dependency> -->
-<!--             <groupId>${project.groupId}</groupId> -->
-<!--             <artifactId>ks-lum-krad-common</artifactId> -->
-<!--             <version>${project.version}</version> -->
-<!--         </dependency> -->
-<!--     </dependencies> -->
+    <!--     <dependencies> -->
+    <!--         <dependency> -->
+    <!--             <groupId>${project.groupId}</groupId> -->
+    <!--             <artifactId>ks-lum-krad-common</artifactId> -->
+    <!--             <version>${project.version}</version> -->
+    <!--             <classifier>sources</classifier> -->
+    <!--             <scope>provided</scope> -->
+    <!--         </dependency> -->
+    <!--         <dependency> -->
+    <!--             <groupId>${project.groupId}</groupId> -->
+    <!--             <artifactId>ks-lum-krad-common</artifactId> -->
+    <!--             <version>${project.version}</version> -->
+    <!--         </dependency> -->
+    <!--     </dependencies> -->
 </project>
