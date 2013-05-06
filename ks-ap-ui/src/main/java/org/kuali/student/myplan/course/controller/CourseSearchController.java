@@ -1601,10 +1601,6 @@ public class CourseSearchController extends UifControllerBase {
             @ModelAttribute("KualiForm") final ClassFinderForm form,
             BindingResult result, final HttpServletRequest request,
             HttpServletResponse response) throws IOException {
-
-    	List<String> tempFacets = new ArrayList<String>(form.getFacet());
-    	tempFacets.add(CourseSearchForm.SEARCH_TERM_ANY_ITEM);
-    	form.setFacet(tempFacets);
     	
         SessionSearchInfo table = form.getQuery() == null ? null
                 : getSearchResults(new FormKey(form),
@@ -1649,7 +1645,8 @@ public class CourseSearchController extends UifControllerBase {
         exex.add("ENG 2*");
 
         ObjectNode criteriaNode = json.putObject("criteria");
-        criteriaNode.put("key", KsapFrameworkServiceLocator.getClassFinderService().saveCriteria(form));
+        //criteriaNode.put("key", KsapFrameworkServiceLocator.getClassFinderService().saveCriteria(form));
+        criteriaNode.put("key","tempKey");
 
         ArrayNode ofas = criteriaNode.putArray("facets");
         
@@ -1720,13 +1717,13 @@ public class CourseSearchController extends UifControllerBase {
         termFacets.put("radio",true);
         ArrayNode termFacetState = termFacets.putArray("facets");
         
-        StringBuilder termCondition = new StringBuilder("(");
+        StringBuilder termCondition = new StringBuilder("");
         
         ObjectNode anyTermFacet = termFacetState.addObject();
         anyTermFacet.put("label", "Any term");
         anyTermFacet.put("value", form.getFacet().contains(CourseSearchForm.SEARCH_TERM_ANY_ITEM));
         anyTermFacet.put("id", CourseSearchForm.SEARCH_TERM_ANY_ITEM);
-        termCondition.append("!"+CourseSearchForm.SEARCH_TERM_ANY_ITEM+"&&!");
+        termCondition.append("!"+CourseSearchForm.SEARCH_TERM_ANY_ITEM+"&&!(");
         
         ObjectNode specificTermFacet = termFacetState.addObject();
         specificTermFacet.put("label", "Specific term");
@@ -1759,6 +1756,11 @@ public class CourseSearchController extends UifControllerBase {
                 termFacet.put("label", atp.getName());
                 termFacet.put("value", form.getFacet().contains(atp.getId()));
                 termFacet.put("id", atp.getId());
+                
+              //IU Specific move when separating into independent module.
+				if(atp.getId().endsWith("9")){
+					termFacet.put("condition", "GRADUATE&&(edu.iu.sis.acadorg.SisInstitution.IUBLA||edu.iu.sis.acadorg.SisInstitution.IUINA)");
+				}
             }
         } catch (InvalidParameterException e) {
             throw new IllegalArgumentException("ATP lookup failure", e);
@@ -1792,7 +1794,7 @@ public class CourseSearchController extends UifControllerBase {
 				
 				//IU Specific move when separating into independent module.
 				if(termTypeInfos.get(i).getKey().compareTo("edu.iu.sis.acadorg.SisTerm.type.winter")==0){
-					seasonTerm.put("condition", "(PROFESSIONAL&&edu.iu.sis.acadorg.SisInstitution.IUBLA||edu.iu.sis.acadorg.SisInstitution.IUINA)");
+					seasonTerm.put("condition", "GRADUATE &&(edu.iu.sis.acadorg.SisInstitution.IUBLA||edu.iu.sis.acadorg.SisInstitution.IUINA)");
 				}
 			}
 		} catch (InvalidParameterException e) {
@@ -1813,7 +1815,7 @@ public class CourseSearchController extends UifControllerBase {
         ArrayNode extras = tempExtras.putArray("facets");
         ObjectNode extra = extras.addObject();
         extra.put("label","More than 10 years ago");
-        extra.put("id","");
+        extra.put("id","kuali.atp.type.other");
         
         ObjectNode filters = json.putObject("filters");
         ArrayNode filtersFacets = filters.putArray("facets");
@@ -1826,39 +1828,139 @@ public class CourseSearchController extends UifControllerBase {
         } else {
         	Map<String,Map<String,FacetState>> facetStates = table.facetState;
         	List<String> facetStateKeys = new ArrayList<String>(facetStates.keySet());
-        	 
         	
+        	
+        	
+        	/*	
         	for(String key : facetStateKeys){
-        		ObjectNode filterFacet = filtersFacets.addObject();
+    			ObjectNode filterFacet = filtersFacets.addObject();
         		String tempLabel = key.replaceAll("facet_", "");
         		tempLabel = tempLabel.substring(0,1).toUpperCase() + tempLabel.substring(1);
         		filterFacet.put("label", tempLabel);
+        		
         		ArrayNode filterFacetFacets = filterFacet.putArray("facets");
         		Map<String,FacetState> facetStateValues = facetStates.get(key);
         		List<String> tempKeys = new ArrayList<String>(facetStateValues.keySet());
         		
         		for(String key2 : tempKeys){
+        			
         			FacetState state = facetStateValues.get(key2);
         			ObjectNode stateNode = filterFacetFacets.addObject();
         			stateNode.put("id",key2);
-        			if(key.compareTo("facet_keywords")==0)
-        				stateNode.put("label", state.value.toLowerCase());
-        			else
-        				stateNode.put("label", state.value);
+        			stateNode.put("label", state.value);
         			stateNode.put("count", state.count);
         			stateNode.put("value", state.checked);
         			
         		}
         		
         	}
+        	*/
         	
+        	// Start IU Specific
+        	
+        	ObjectNode genEdFilterFacet = filtersFacets.addObject();
+        	genEdFilterFacet.put("label","Gen Ed");
+    		ArrayNode genEdFilterFacets = genEdFilterFacet.putArray("facets");
+    		Map<String,FacetState> facetStateValues = facetStates.get("facet_gened");
+    		List<String> tempKeys = new ArrayList<String>(facetStateValues.keySet());
+    		
+    		for(String key2 : tempKeys){
+    			
+    			if(key2.isEmpty()) continue;
+    			
+    			FacetState state = facetStateValues.get(key2);
+    			ObjectNode stateNode = genEdFilterFacets.addObject();
+    			stateNode.put("id",key2);
+    			stateNode.put("label", state.value);
+    			stateNode.put("count", state.count);
+    			stateNode.put("value", state.checked);
+    			
+    		}
+    		
+    		ObjectNode creditsFilterFacet = filtersFacets.addObject();
+    		creditsFilterFacet.put("label","Credits");
+    		ArrayNode creditsFilterFacets = creditsFilterFacet.putArray("facets");
+    		facetStateValues = facetStates.get("facet_credits");
+    		tempKeys = new ArrayList<String>(facetStateValues.keySet());
+    		Collections.sort(tempKeys);
+    		
+    		for(String key2 : tempKeys){
+    			
+    			FacetState state = facetStateValues.get(key2);
+    			ObjectNode stateNode = creditsFilterFacets.addObject();
+    			stateNode.put("id",key2);
+    			stateNode.put("label", state.value);
+    			stateNode.put("count", state.count);
+    			stateNode.put("value", state.checked);
+    			
+    		}
+    		
+    		ObjectNode levelFilterFacet = filtersFacets.addObject();
+    		levelFilterFacet.put("label","Class Level");
+    		ArrayNode levelFilterFacets = levelFilterFacet.putArray("facets");
+    		facetStateValues = facetStates.get("facet_level");
+    		tempKeys = new ArrayList<String>(facetStateValues.keySet());
+    		
+    		for(String key2 : tempKeys){
+    			
+    			FacetState state = facetStateValues.get(key2);
+    			ObjectNode stateNode = levelFilterFacets.addObject();
+    			stateNode.put("id",key2);
+    			stateNode.put("label", state.value+"00");
+    			stateNode.put("count", state.count);
+    			stateNode.put("value", state.checked);
+    			
+    		}
+    		
+    		ObjectNode subjectFilterFacet = filtersFacets.addObject();
+    		subjectFilterFacet.put("label","Subject");
+    		ArrayNode subjectFilterFacets = subjectFilterFacet.putArray("facets");
+    		facetStateValues = facetStates.get("facet_subject");
+    		tempKeys = new ArrayList<String>(facetStateValues.keySet());
+    		
+    		for(String key2 : tempKeys){
+    			
+    			FacetState state = facetStateValues.get(key2);
+    			ObjectNode stateNode = subjectFilterFacets.addObject();
+    			stateNode.put("id",key2);
+    			stateNode.put("label", state.value);
+    			stateNode.put("count", state.count);
+    			stateNode.put("value", state.checked);
+    			
+    		}
+    		
+    		ObjectNode keywordFilterFacet = filtersFacets.addObject();
+    		keywordFilterFacet.put("label","Keywords");
+    		ArrayNode keywordFilterFacets = keywordFilterFacet.putArray("facets");
+    		facetStateValues = facetStates.get("facet_keywords");
+    		tempKeys = new ArrayList<String>(facetStateValues.keySet());
+    		
+    		for(String key2 : tempKeys){
+    			
+    			FacetState state = facetStateValues.get(key2);
+    			ObjectNode stateNode = keywordFilterFacets.addObject();
+    			stateNode.put("id",key2);
+    			stateNode.put("label", state.value.toLowerCase());
+    			stateNode.put("count", state.count);
+    			stateNode.put("value", state.checked);
+    			
+    		}
+    		
+    		// end IU specific
         	
             //List<SearchInfo> filteredResults = table.getFilteredResults(form);
         	List<SearchInfo> filteredResults = table.searchResults;
+        	json.put("count", filteredResults.size());
             ArrayNode results = json.putArray("results");
+            int index = 0;
             for(SearchInfo entry : filteredResults){
-                //Add each entry to results json.
-            	results.add(entry.getItem().toJson());
+            	if(index>=form.getStart()&&index<form.getStart()+form.getLength()){
+	                //Add each entry to results json.
+	            	ObjectNode resultNode = results.addObject();
+	            	resultNode.put("index",index);
+	            	resultNode.put("result", entry.getItem().toJson());
+            	}
+            	index++;
             }
 
         }
