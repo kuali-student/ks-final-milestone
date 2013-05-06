@@ -35,6 +35,7 @@ import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContra
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
+import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
@@ -245,6 +246,11 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
             if (!"n".equals(template.getValue())) {
                 propositionEditor.getParameters().get(1).setValue(template.getValue());
+            }
+
+            if (propositionEditor.getTerm()!=null){
+                TermDefinition.Builder termBuilder = TermDefinition.Builder.create(propositionEditor.getTerm());
+                propositionEditor.getParameters().get(0).setTermValue(termBuilder.build());
             }
 
         } else {

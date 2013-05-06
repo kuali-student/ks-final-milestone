@@ -429,17 +429,20 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         if (rule.getProposition() == null) {
             return rule;
         }
-        // ojb will take care of props that have already been created
-        if (rule.getProposition().getId() != null) {
-            return rule;
-        }
-        // create the proposition
         RuleDefinition.Builder ruleBldr = RuleDefinition.Builder.create(rule);
+        PropositionDefinition propositionDefinition = null;
+        // ojb will take care of props that have already been created, but we still need to take care of the terms.
         PropositionDefinition.Builder propBldr = ruleBldr.getProposition();
-        propBldr.setRule(ruleBldr);
-        PropositionDefinition prop = this.createProposition(propBldr.build());
+        if (rule.getProposition().getId() != null) {
+            this.crossCheckPropositionParameters(rule.getProposition());
+            propBldr = maintainChildProposition(propBldr);
+        } else {
+            // create the proposition
+            propBldr.setRule(ruleBldr);
+            propositionDefinition = this.createProposition(propBldr.build());
+            propBldr = PropositionDefinition.Builder.create(propositionDefinition);
+        }
         // now update the rule so it holds the proposition id
-        propBldr = PropositionDefinition.Builder.create(prop);
         ruleBldr.setProposition(propBldr);
         return ruleBldr.build();
     }
@@ -517,21 +520,28 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
             }
         }
         crossCheckPropositionParameters(propositionDefinition);
-        propositionDefinition = createTermValuesIfNeeded(propositionDefinition);
-        propositionDefinition = createCompoundPropsIfNeeded (propositionDefinition);
-        PropositionDefinition prop = propositionBoService.createProposition(propositionDefinition);
+        PropositionDefinition.Builder propBldr = PropositionDefinition.Builder.create(propositionDefinition);
+        propBldr = maintainChildProposition(propBldr);
+        PropositionDefinition prop = propositionBoService.createProposition(propBldr.build());
         return prop;
     }
-    
-    private PropositionDefinition createTermValuesIfNeeded(PropositionDefinition prop) {
-        if (prop.getParameters() == null) {
-            return prop;
+
+    private PropositionDefinition.Builder maintainChildProposition(PropositionDefinition.Builder propBldr){
+        if (PropositionType.SIMPLE.getCode ().equalsIgnoreCase (propBldr.getPropositionTypeCode())) {
+            return maintainTermValues(propBldr);
+        } else {
+            return createCompoundPropsIfNeeded(propBldr);
         }
-        if (prop.getParameters().isEmpty ()) {
-            return prop;
+    }
+    
+    private PropositionDefinition.Builder maintainTermValues(PropositionDefinition.Builder propBldr) {
+        if (propBldr.getParameters() == null) {
+            return propBldr;
+        }
+        if (propBldr.getParameters().isEmpty ()) {
+            return propBldr;
         }
         boolean updated = false;
-        PropositionDefinition.Builder propBldr = PropositionDefinition.Builder.create(prop);
         List<PropositionParameter.Builder> paramBldrs = new ArrayList<PropositionParameter.Builder> ();
         for (PropositionParameter.Builder paramBldr : propBldr.getParameters()) {
             paramBldrs.add(paramBldr);
@@ -549,46 +559,38 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
                     termValue = this.termRepositoryService.createTerm(termValue);
                     paramBldr.setTermValue(termValue);
                     updated = true;
-                } 
-                if (paramBldr.getValue() == null) {
+                } else {
+                    this.termRepositoryService.updateTerm(termValue);
+                }
+                if ((paramBldr.getValue()==null)||(!paramBldr.getValue().equals(termValue.getId()))) {
                     paramBldr.setValue(termValue.getId());
                     updated = true;
                 }
             }
         }
         if (!updated) {
-            return prop;
+            return propBldr;
         }
         propBldr.setParameters(paramBldrs);
-        return propBldr.build();   
+        return propBldr;
     }
         
-    private PropositionDefinition createCompoundPropsIfNeeded(PropositionDefinition prop) {
-        if (prop.getCompoundComponents() == null) {
-            return prop;
+    private PropositionDefinition.Builder createCompoundPropsIfNeeded(PropositionDefinition.Builder propBldr) {
+        if (propBldr.getCompoundComponents() == null) {
+            return propBldr;
         }
-        if (prop.getCompoundComponents().isEmpty ()) {
-            return prop;
+        if (propBldr.getCompoundComponents().isEmpty ()) {
+            return propBldr;
         }
-        boolean updated = false;
-        PropositionDefinition.Builder propBldr = PropositionDefinition.Builder.create(prop);
+
         List<PropositionDefinition.Builder> compPropBldrs = new ArrayList<PropositionDefinition.Builder>();
         for (PropositionDefinition.Builder compPropBldr : propBldr.getCompoundComponents()) {
-            if (compPropBldr.getId() == null) {
-                compPropBldr.setRuleId(prop.getRuleId());
-                PropositionDefinition compProp = this.createProposition(compPropBldr.build());
-                compPropBldrs.add(PropositionDefinition.Builder.create(compProp));
-                updated = true;
-            } else {
-                compPropBldrs.add (compPropBldr);
-            }     
-        }
-        if (!updated) {
-            return prop;
+            compPropBldr.setRuleId(propBldr.getRuleId());
+            compPropBldr = maintainChildProposition(compPropBldr);
+            compPropBldrs.add(compPropBldr);
         }
         propBldr.setCompoundComponents(compPropBldrs);
-        prop = propBldr.build();
-        return prop;
+        return propBldr;
     }
 
     @Override
@@ -664,9 +666,9 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
     @Override
     public void updateProposition(PropositionDefinition propositionDefinition) throws RiceIllegalArgumentException {
         this.crossCheckPropositionParameters(propositionDefinition);
-        propositionDefinition = createTermValuesIfNeeded(propositionDefinition);
-        propositionDefinition = createCompoundPropsIfNeeded (propositionDefinition);
-        propositionBoService.updateProposition(propositionDefinition);
+        PropositionDefinition.Builder propBldr = PropositionDefinition.Builder.create(propositionDefinition);
+        propBldr = maintainChildProposition(propBldr);
+        propositionBoService.updateProposition(propBldr.build());
     }
 
     @Override
