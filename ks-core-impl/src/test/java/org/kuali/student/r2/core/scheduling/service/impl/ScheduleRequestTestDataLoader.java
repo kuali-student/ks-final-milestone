@@ -27,6 +27,7 @@ import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
 import java.util.ArrayList;
@@ -41,6 +42,20 @@ public class ScheduleRequestTestDataLoader {
     public  void loadData(SchedulingService schedulingService, ContextInfo callContext)
             throws DataValidationErrorException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
 
+        List<String> ids = new ArrayList<String>();
+        ids.add("refObjId-A");
+        createSchedReqSet("scheduleRequestSetId-A", "schedReqSet-A", "schedReqSetType-A",
+                "schedReqSetState-A", "refObjType-N", ids, true, 1000, "formatted A", "plain A", schedulingService, callContext);
+        ids.clear();
+        ids.add("refObjId-U");
+        createSchedReqSet("scheduleRequestSetId-U", "schedReqSet-U", "schedReqSetType-U",
+                "schedReqSetState-U", "refObjType-U", ids, true, 1000, "formatted U", "plain U", schedulingService, callContext);
+        ids.clear();
+        ids.add("refObjId-N");
+        ids.add("refObjId-O");
+        ids.add("refObjId-P");
+        createSchedReqSet("scheduleRequestSetId-N", "schedReqSet-N", "schedReqSetType-N",
+                "schedReqSetState-N", "refObjType-N", ids, true, 1000, "formatted N", "plain U", schedulingService, callContext);
 
         //TODO need valid scheduleId and scheduleSetId
         createSchedReq("schedReq-G", "schedReq-G", "scheduleId-G", "scheduleRequestSetId-A",
@@ -57,6 +72,31 @@ public class ScheduleRequestTestDataLoader {
                 "<p>schedreq Desc 104</p>", "schedreq Desc 104", "N", schedulingService, callContext);
     }
 
+    public ScheduleRequestSetInfo createSchedReqSet(String id, String name, String type, String state, String refObjectType, List<String> refObjectIds, boolean maxEnrollShared,
+                                                    int maxEnroll, String descrFormatted, String descrPlain, SchedulingService schedulingService, ContextInfo callContext)
+            throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException,
+            ReadOnlyException, MissingParameterException, DataValidationErrorException {
+        ScheduleRequestSetInfo info = generateSchedReqSet(id, name, type, state, refObjectType, refObjectIds, maxEnrollShared, maxEnroll, descrFormatted, descrPlain);
+        return schedulingService.createScheduleRequestSet(info.getTypeKey(), info.getRefObjectTypeKey(), info, callContext);
+    }
+
+    public ScheduleRequestSetInfo generateSchedReqSet(String id, String name, String type, String state, String refObjectType, List<String> refObjectIds, boolean maxEnrollShared,
+    int maxEnroll, String descrFormatted, String descrPlain) {
+        ScheduleRequestSetInfo info = new ScheduleRequestSetInfo();
+        info.setId(id);
+        info.setName(name);
+        info.setTypeKey(type);
+        info.setStateKey(state);
+        info.setRefObjectTypeKey(refObjectType);
+        info.setRefObjectIds(refObjectIds);
+        info.setMaxEnrollmentShared(maxEnrollShared);
+        info.setMaximumEnrollment(maxEnroll);
+        info.setDescr(RichTextHelper.buildRichTextInfo(descrPlain, descrFormatted));
+
+        return info;
+    }
+
+
     public ScheduleRequestInfo createSchedReq(String id,
                                             String name,
                                             String scheduleId,
@@ -69,7 +109,7 @@ public class ScheduleRequestTestDataLoader {
                                             SchedulingService schedulingService,
                                             ContextInfo callContext)
             throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException {
-        ScheduleRequestInfo info = generateSchedReq(id, name, scheduleId, scheduleRequestSetId, type, state, descrFormatted, descrPlain, suffix, schedulingService, callContext);
+        ScheduleRequestInfo info = generateSchedReq(id, name, scheduleId, scheduleRequestSetId, type, state, descrFormatted, descrPlain, suffix);
         return schedulingService.createScheduleRequest(info.getTypeKey(), info, callContext);
     }
 
@@ -81,9 +121,7 @@ public class ScheduleRequestTestDataLoader {
                               String state,
                               String descrFormatted,
                               String descrPlain,
-                              String suffix,
-                              SchedulingService schedulingService,
-                              ContextInfo callContext)
+                              String suffix)
             throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException {
         ScheduleRequestInfo info = new ScheduleRequestInfo();
         info.setId(id);

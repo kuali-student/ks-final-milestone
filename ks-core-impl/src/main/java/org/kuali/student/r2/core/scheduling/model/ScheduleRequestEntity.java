@@ -14,6 +14,9 @@ import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
@@ -27,11 +30,10 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "KSEN_SCHED_RQST")
-//TODO SSR work JIRA KSENROLL-6152
-/*@NamedQueries({
-        @NamedQuery(name="ScheduleRequest.getScheduleRequestsByRefObjects", query="" +
-                "Select sr from ScheduleRequestEntity sr where sr.scheduleRequestSetId in (Select reqSet from ScheduleRequestSetEntity where reqSet.refObjectTypeKey=:refObjectTypeKey and reqSet.refObjectId in (:refObjectIds))")
-})*/
+@NamedQueries({
+        @NamedQuery(name="ScheduleRequest.getScheduleRequestsByRefObjectAndRefObjectType",
+                query="SELECT sr FROM ScheduleRequestEntity sr WHERE sr.scheduleRequestSetId in (SELECT reqSet.id FROM ScheduleRequestSetEntity reqSet WHERE reqSet.refObjectTypeKey = :refObjectTypeKey and :refObjectId in elements(reqSet.refObjectIds))"),
+})
 public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<ScheduleRequestAttributeEntity> {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "scheduleRequest", orphanRemoval=true)

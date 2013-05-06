@@ -42,7 +42,12 @@ import java.util.Set;
 @Entity
 @Table(name = "KSEN_SCHED_RQST_SET")
 @NamedQueries({
-        @NamedQuery(name="ScheduleRequestSet.getScheduleRequestSetByType", query="SELECT srs FROM ScheduleRequestSetEntity srs WHERE srs.schedReqSetType = :schedReqSetType")
+        @NamedQuery(name="ScheduleRequestSet.getScheduleRequestSetByType", query="SELECT srs FROM ScheduleRequestSetEntity srs WHERE srs.schedReqSetType = :schedReqSetType"),
+        @NamedQuery(name="ScheduleRequestSet.getScheduleRequestSetByRefObjTypeAndRefObjId",
+                query="SELECT srs FROM ScheduleRequestSetEntity srs " +
+                        "WHERE :refObjectTypeKey = srs.refObjectTypeKey and :refObjectId in elements(srs.refObjectIds)"),
+        @NamedQuery(name="ScheduleRequestSet.getScheduleRequestSetIdsByRefObjType",
+                query="SELECT srs.id FROM ScheduleRequestSetEntity srs WHERE :refObjectTypeKey = srs.refObjectTypeKey")
     })
 public class ScheduleRequestSetEntity extends MetaEntity implements AttributeOwner<ScheduleRequestSetAttributeEntity> {
 
@@ -86,6 +91,7 @@ public class ScheduleRequestSetEntity extends MetaEntity implements AttributeOwn
         super(scheduleRequestSet);
         setId(scheduleRequestSet.getId());
         setSchedReqSetType(scheduleRequestSet.getTypeKey());
+        setRefObjectTypeKey(scheduleRequestSet.getRefObjectTypeKey());
         fromDto(scheduleRequestSet);
     }
 
@@ -105,8 +111,6 @@ public class ScheduleRequestSetEntity extends MetaEntity implements AttributeOwn
         setMaxEnrollmentShared(scheduleRequestSet.getIsMaxEnrollmentShared());
         setMaximumEnrollment(scheduleRequestSet.getMaximumEnrollment());
 
-        setRefObjectTypeKey(scheduleRequestSet.getRefObjectTypeKey());
-
         if(refObjectIds == null) {
             setRefObjectIds(new ArrayList<String>());
         } else {
@@ -123,8 +127,10 @@ public class ScheduleRequestSetEntity extends MetaEntity implements AttributeOwn
             getAttributes().clear();
         }
 
-        for (Attribute att : scheduleRequestSet.getAttributes()) {
-            getAttributes().add(new ScheduleRequestSetAttributeEntity(att, this));
+        if(scheduleRequestSet.getAttributes() != null && !scheduleRequestSet.getAttributes().isEmpty()) {
+            for (Attribute att : scheduleRequestSet.getAttributes()) {
+                getAttributes().add(new ScheduleRequestSetAttributeEntity(att, this));
+            }
         }
 
 

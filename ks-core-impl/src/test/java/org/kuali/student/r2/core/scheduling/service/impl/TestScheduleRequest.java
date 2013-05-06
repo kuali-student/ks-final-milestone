@@ -106,7 +106,6 @@ public class TestScheduleRequest {
         assertNotNull(obj);
         assertEquals("schedReq-G", obj.getName());
 
-        //TODO need valid scheduleId and scheduleSetId
         assertEquals("scheduleId-G", obj.getScheduleId());
         assertEquals("scheduleRequestSetId-A", obj.getScheduleRequestSetId());
         assertEquals(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, obj.getTypeKey());
@@ -149,8 +148,21 @@ public class TestScheduleRequest {
         scheduleRequestTestDataLoader.loadData(schedulingService, callContext);
 
         List<ScheduleRequestInfo> schedReqs = schedulingService.getScheduleRequestsByRefObject("refObjType-N", "refObjId-N", callContext);
-        //TODO SSR work JIRA KSENROLL-6152
-        //assertEquals(1, schedReqs.size());
+        assertEquals(1, schedReqs.size());
+    }
+
+    @Test
+    public void testGetScheduleRequestsByRefObjectsAndRefType()throws Exception {
+        scheduleRequestTestDataLoader.loadData(schedulingService, callContext);
+        List<String> ids = new ArrayList<String>();
+        ids.add("refObjId-N");
+        List<ScheduleRequestInfo> schedReqs = schedulingService.getScheduleRequestsByRefObjects("refObjType-N", ids, callContext);
+        assertEquals(1, schedReqs.size());
+
+        ids.add("refObjId-A");
+
+        schedReqs = schedulingService.getScheduleRequestsByRefObjects("refObjType-N", ids, callContext);
+        assertEquals(3, schedReqs.size());
     }
 
     @Test
@@ -179,7 +191,6 @@ public class TestScheduleRequest {
 
         ScheduleRequestInfo modified = new  ScheduleRequestInfo(obj);
         modified.setName(obj.getName() + "-modified");
-        //TODO need valid scheduleId and scheduleSetId
         modified.setScheduleId(obj.getScheduleId() + "-modified");
         modified.setScheduleRequestSetId(obj.getScheduleRequestSetId() + "-modified");
         modified.setStateKey(obj.getStateKey() + "-modified");
@@ -227,9 +238,8 @@ public class TestScheduleRequest {
 
     @Test
     public void testCreateScheduleRequest() throws Exception {
-        //TODO need valid scheduleId and scheduleSetId
         ScheduleRequestInfo orig = scheduleRequestTestDataLoader.generateSchedReq("schedReq-C", "schedReq-C", "scheduleId-X", "scheduleRequestSetId-X",
-                SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED, "<p>schedreq Desc</p>", "schedreq Desc", "C", schedulingService, callContext);
+                SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED, "<p>schedreq Desc</p>", "schedreq Desc", "C");
         ScheduleRequestInfo created = schedulingService.createScheduleRequest(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, orig, callContext);
         assertNotNull(created);
         assertEquals(orig.getName(), created.getName());
