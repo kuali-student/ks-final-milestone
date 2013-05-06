@@ -104,9 +104,9 @@
 
                 <entry key="kuali.krms.proposition.type.course.courseset.enrolled.nof">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="NumberOfEnrolledCourses"
+                          p:termSpecName="EnrolledCourses"
                           p:operator="&gt;=" p:value="n">
-                        <property name="componentId" value="KRMS-MultiCourse-Section"/>
+                        <property name="componentId" value="KRMS-MultiCourseWithNof-Group"/>
                         <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
                     </bean>
                 </entry>
