@@ -6,10 +6,6 @@
 .ks-enrollment-home > .uif-header { border-bottom:solid 2px #000; margin-bottom:5px; margin-top:15px; }
 .ks-enrollment-home-group { margin-bottom:5px; margin-top:15px; }
 
-/* currently commented out in CourseOfferingEditMaintenanceView.xml
-.ks-collection-margin-bottom-zero .uif-gridGroup,
-.ks-collection-margin-bottom-zero .uif-gridLayout { margin-bottom:0; } */
-
 .ks-termDates-table{}
 
 .ks-termDates-table tr{
@@ -39,7 +35,6 @@
 .paginate_disabled_previous, .paginate_enabled_previous, .paginate_disabled_next, .paginate_enabled_next {
     height: 19px; width: 19px; margin-left: 40px; float: left;
 }
-
 
 /*  Alignment for CO/AO delete confirmation Cancel links */
 .ks-enrollment-cancel-link {
@@ -154,82 +149,75 @@
 .uif-actual-dl {
 }
 
-.uif-invalid-state{
+.uif-invalid-state {
     color: red;
 }
 
-.uif-rg-message-partial{
+.uif-rg-message-partial {
     background-color: #FFFFCC;
     padding: 5px 10px;
     border-right: 5px solid #FFFFFF;
 }
 
-.uif-rg-message-all{
+.uif-rg-message-all {
     background-color: #C6F785;
     padding: 5px 10px;
     border-right: 5px solid #FFFFFF;
 }
 
-.uif-rg-message-none{
+.uif-rg-message-none {
     background-color: #B1ECFF;
     padding: 5px 10px;
     border-right: 5px solid #FFFFFF;
 }
 
-.aoc_links
-{
+/* Manage Registration Groups */
+.aoc_links {
     float: right;
     padding: 8px;
 }
 
-a
-{
+a {
     white-space: normal;
 }
 
-.aoc_stateandlinks
-{
+.aoc_stateandlinks {
     background: #EDEDED;
     float: none;
 }
 
-.aoc_disclosure .uif-horizontalFieldGroup
-{
+.aoc_disclosure .uif-horizontalFieldGroup {
     float: none;
 }
 
-.aoc_stateandlinks .uif-boxLayoutHorizontalItem
-{
+.aoc_stateandlinks .uif-boxLayoutHorizontalItem {
     margin-bottom: 0px;
 }
 
-.aoc_dialog .uif-dialogHeader
-{
+.aoc_dialog .uif-dialogHeader {
     background:none;
     margin-bottom: 0px;
 }
 
-.ac_disclosure .uif-boxLayoutHorizontalItem
-{
+.ac_disclosure .uif-boxLayoutHorizontalItem {
     float: none;
 }
 
-.error_403
-{
+/* End Manage Registration Groups */
+
+.error_403 {
     margin: 100px auto;
     width: 600px;
     overflow: auto;
 }
 
-.error_403 img
-{
+.error_403 img {
     float: left;
     margin: 10px 25px 15px 25px;
 }
 
 
-.error_403 p
-{
+.error_403 p {
     overflow: auto;
     margin: 0px 10px 20px 0px;
 }
@@ -241,10 +229,10 @@ a
     padding-left: 8px;
     margin-left: 8px;
 }
-/*  End Manage CO Action Links */
 
 /* Toolbar
-   The toolbar can be found on the Manage CO & AO pages.
+   The toolbar can be found on the Manage CO & AO pages and are items such as
+   Add Course, Approve and Delete.
 */
 
 /* The background area which extends the full width of the table where the toolbar buttons sit on top of */
@@ -318,7 +306,7 @@ a
 }
 
 /* When a disabled button becomes active, this class is called to remove the border from the left side */
-.ks-toolbar-no-left-border[disabled]{
+.ks-toolbar-no-left-border[disabled] {
     border: 1px solid #cccccc;
     border-color: #e6e6e6 #e6e6e6 #bfbfbf;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
