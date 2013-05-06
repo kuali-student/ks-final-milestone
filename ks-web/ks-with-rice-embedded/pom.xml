@@ -121,6 +121,11 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
+            <groupId>org.kuali.student.enroll</groupId>
+            <artifactId>ks-enroll-rice</artifactId>
+            <version>${ks.enroll.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-hibernate</artifactId>
             <version>${ks.core.version}</version>
