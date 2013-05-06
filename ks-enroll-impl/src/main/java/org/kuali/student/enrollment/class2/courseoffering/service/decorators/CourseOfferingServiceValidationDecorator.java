@@ -13,6 +13,7 @@ import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -25,7 +26,6 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
-import org.kuali.student.r2.core.class1.type.infc.TypeTypeRelation;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
@@ -33,9 +33,6 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
-import org.kuali.student.r2.core.search.dto.SortDirection;
-import org.kuali.student.r2.core.search.infc.SearchParam;
-import org.kuali.student.r2.core.search.infc.SearchRequest;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
@@ -436,6 +433,26 @@ public class CourseOfferingServiceValidationDecorator
         return errors;
     }
 
+    @Override
+    public StatusInfo addSeatPoolDefinitionToActivityOffering(String seatPoolDefinitionId, String activityOfferingId, ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        // gets a list of existing seatpools for this AO
+        List<SeatPoolDefinitionInfo> existingSeatPools = getNextDecorator().getSeatPoolDefinitionsForActivityOffering(activityOfferingId,contextInfo);
+
+        // pull the new seat pool from the db. (note, a seat pool has to exist prior to this call )
+        SeatPoolDefinitionInfo newSeatPool = getNextDecorator().getSeatPoolDefinition(seatPoolDefinitionId,contextInfo);  // this must already be in the database.
+
+
+        // Check for duplicate populations
+        for(SeatPoolDefinitionInfo seatPool : existingSeatPools){
+             String newPopId = newSeatPool.getPopulationId();
+             if(newPopId != null && newPopId.equals(seatPool.getPopulationId())){
+                 throw new AlreadyExistsException("Unable to addSeatPoolDefinitionToActivityOffering. Cannot have duplicate populations. ActitiyOffreingId["+ activityOfferingId +"] : SeatPoolId["+ seatPool.getId() +"] : PopulationId["+ seatPool.getPopulationId() +"]");
+             }
+        }
+
+        return getNextDecorator().addSeatPoolDefinitionToActivityOffering(seatPoolDefinitionId, activityOfferingId, contextInfo);    //To change body of overridden methods use File | Settings | File Templates.
+    }
 
     @Override
     public StatusInfo deleteFormatOffering(String formatOfferingId,
