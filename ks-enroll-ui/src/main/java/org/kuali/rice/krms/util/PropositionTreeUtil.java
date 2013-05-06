@@ -125,9 +125,9 @@ public class PropositionTreeUtil {
         return result;
     }
 
-    public static void resetEditModeOnPropositionTree(RuleEditor ruleEditor) {
+    public static boolean resetEditModeOnPropositionTree(RuleEditor ruleEditor) {
         Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
-        resetEditModeOnPropositionTree(root);
+        return resetEditModeOnPropositionTree(root);
     }
 
     /**
@@ -135,15 +135,21 @@ public class PropositionTreeUtil {
      *
      * @param currentNode
      */
-    public static void resetEditModeOnPropositionTree(Node<RuleEditorTreeNode, String> currentNode) {
+    public static boolean resetEditModeOnPropositionTree(Node<RuleEditorTreeNode, String> currentNode) {
+        boolean editMode = false;
         if (currentNode.getData() != null) {
             RuleEditorTreeNode dataNode = currentNode.getData();
+            editMode = dataNode.getProposition().isEditMode();
             dataNode.getProposition().setEditMode(false);
         }
         List<Node<RuleEditorTreeNode, String>> children = currentNode.getChildren();
         for (Node<RuleEditorTreeNode, String> child : children) {
-            resetEditModeOnPropositionTree(child);
+            if(resetEditModeOnPropositionTree(child)){
+                editMode=true;
+            }
+
         }
+        return editMode;
     }
 
     public static Node<RuleEditorTreeNode, String> findPropositionTreeNode(Node<RuleEditorTreeNode, String> currentNode, String selectedPropId) {

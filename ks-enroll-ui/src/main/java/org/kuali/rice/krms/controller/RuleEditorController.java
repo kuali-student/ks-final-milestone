@@ -492,7 +492,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
                     parentBo.getCompoundEditors().set(propIndex, compound);
                     compound.getCompoundEditors().get(1).setEditMode(true);
-                    ruleEditor.setSelectedKey(compound.getCompoundComponents().get(1).getId());
+                    ruleEditor.setSelectedKey(compound.getCompoundEditors().get(1).getKey());
                 }
             }
         }
@@ -671,9 +671,10 @@ public class RuleEditorController extends MaintenanceDocumentController {
         this.getViewHelper(form).refreshViewTree(ruleEditor);
         PropositionTreeUtil.resetNewProp((PropositionEditor) ruleEditor.getProposition());
 
-        PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
-        PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
-        this.getViewHelper(form).resetDescription(proposition);
+        if(PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor)){
+            PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
+            this.getViewHelper(form).resetDescription(proposition);
+        }
 
 
         //Replace edited rule with existing rule.

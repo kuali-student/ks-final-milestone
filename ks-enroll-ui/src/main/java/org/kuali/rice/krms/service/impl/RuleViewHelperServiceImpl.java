@@ -311,12 +311,15 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             }
 
             prop.getTerm().setParameters(parameters);
-        }
 
-        //Set the term specification if it doesn't exist.
-        if(prop.getTerm().getSpecification()==null){
-            String termSpecName = this.getTemplateRegistry().getTermSpecNameForType(prop.getType());
-            prop.getTerm().setSpecification(getTermRepositoryService().getTermSpecificationByNameAndNamespace(termSpecName, KsKrmsConstants.NAMESPACE_CODE));
+            //Set the term specification if it doesn't exist.
+            if(prop.getTerm().getSpecification()==null){
+                String termSpecName = this.getTemplateRegistry().getTermSpecNameForType(prop.getType());
+                prop.getTerm().setSpecification(getTermRepositoryService().getTermSpecificationByNameAndNamespace(termSpecName, KsKrmsConstants.NAMESPACE_CODE));
+            }
+
+        } else {
+            prop.setTerm(null);
         }
 
         //Refresh the natural language.
