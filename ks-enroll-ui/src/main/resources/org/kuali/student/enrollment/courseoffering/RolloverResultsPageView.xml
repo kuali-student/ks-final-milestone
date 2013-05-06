@@ -53,8 +53,8 @@
                                             <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="3" p:style="background-color:#C0C0C0;">
                                                 <property name="items">
                                                     <list>
-                                                        <bean parent="Uif-DataField" p:label="Status" p:propertyName="statusField" p:render="@{statusField!='Finished'}"/>
-                                                        <bean parent="Uif-Message" p:messageText="&lt;b&gt;Status:&lt;/b&gt; Released to Departments" p:render="@{statusField=='Finished'}"/>
+                                                        <bean parent="Uif-DataField" p:label="Status" p:propertyName="statusField" p:render="@{!socReleasedToDepts}"/>
+                                                        <bean parent="Uif-Message" p:messageText="&lt;b&gt;Status:&lt;/b&gt; Released to Departments" p:render="@{socReleasedToDepts}"/>
                                                     </list>
                                                 </property>
                                             </bean>
