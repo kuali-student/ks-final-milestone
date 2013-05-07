@@ -2452,6 +2452,8 @@
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
         <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
+        <column name="REF_OBJECT_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="REF_OBJECT_TYPE" required="true" size="255" type="VARCHAR"/>
         <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="CREATETIME" required="true" type="TIMESTAMP"/>
         <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
@@ -2459,6 +2461,10 @@
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="SCHED_RQST_SET_ID" size="255" type="VARCHAR"/>
         <column name="SCHED_ID" size="255" type="VARCHAR"/>
+        <index name="KSEN_SCHED_RQST_I1">
+            <index-column name="REF_OBJECT_ID"/>
+            <index-column name="REF_OBJECT_TYPE"/>
+        </index>
     </table>
     <table name="KSEN_SCHED_RQST_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
