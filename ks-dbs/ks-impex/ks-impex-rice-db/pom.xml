@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.student.db</groupId>
         <artifactId>ks-impex</artifactId>
-        <version>2.0.0-M7-SNAPSHOT</version>
+        <version>2.0.0-ORG-SNAPSHOT</version>
     </parent>
     <artifactId>ks-impex-rice-db</artifactId>
     <name>KS Impex Rice DB</name>
