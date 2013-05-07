@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:ws="http://jax-ws.dev.java.net/spring/core"
-       xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:jee="http://www.springframework.org/schema/jee"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="
-          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-          http://jax-ws.dev.java.net/spring/core http://jax-ws.dev.java.net/spring/core.xsd
-          http://jax-ws.dev.java.net/spring/servlet http://jax-ws.dev.java.net/spring/servlet.xsd
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-          http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
     <context:annotation-config/>
@@ -81,12 +72,6 @@
         <property name="persistenceXmlLocation" value="classpath:META-INF/test-core-services-persistence.xml" />
         <property name="dataSource" ref="dataSource" />
     </bean>
-
-    <!--<bean id="entityManagerFactory"
-        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" autowire-candidate="false" autowire="byType">
-        <property name="persistenceUnitName" value="Acal"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/persistence_jta.xml"/>
-    </bean>-->
 
     <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean" autowire-candidate="false" autowire="no">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
@@ -159,38 +144,12 @@
         <property name="em" ref="entityManager"/>
     </bean>
 
-    <!-- Commenting out until data dictionry is generated for Scheduling classes
-    <bean id="schedulingServiceValidationDecorator" class="SchedulingServiceValidationDecorator">
-        <property name="nextDecorator" ref="schedulingServiceImpl"/>
-        <property name="validator" ref="validator"/>
-    </bean>
-
-    -->
-
     <bean id="typeServiceImpl" class="org.kuali.student.r2.common.class1.type.service.TypeServiceImpl">
         <property name="typeDao" ref="typeDao"/>
         <property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
     </bean>
     <bean id="typeDao" class="org.kuali.student.r2.common.class1.type.dao.TypeDao"/>
     <bean id="typeTypeRelationDao" class="org.kuali.student.r2.common.class1.type.dao.TypeTypeRelationDao"/>
-
-    <bean id="typeServiceCacheDecorator" class="org.kuali.student.r2.common.class1.type.decorators.TypeServiceCacheDecorator">
-        <property name="nextDecorator" ref="typeServiceImpl" />
-    </bean>
-
-
- <!--   <bean id="ks.exp.typeService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
-                <property name="jaxWsService" value="true" />
-                <property name="service" ref="typeServiceCacheDecorator" />
-                <property name="serviceInterface" value="org.kuali.student.r2.core.class1.type.service.TypeService" />
-                <property name="localServiceName" value="TypeService" />
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/type" />
-            </bean>
-        </property>
-    </bean>
-    -->
 
     <bean id="scheduleRequestSetDao" class="org.kuali.student.r2.core.scheduling.dao.ScheduleRequestSetDao">
         <property name="em" ref="entityManager"/>
@@ -209,17 +168,12 @@
 
     <alias name="schedulingServiceValidationDecorator" alias="SchedulingService" />
 
-    <!-- <bean id="TypeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/> -->
-
     <bean id="schedulingServiceValidationDecorator" class="org.kuali.student.r2.core.scheduling.service.decorators.SchedulingServiceValidationDecorator">
         <property name="nextDecorator" ref="schedulingServiceImpl"/>
         <property name="validator" ref="validator" />
-        <!--<property name="typeService" ref="typeServiceImpl"/>-->
+        <property name="typeService" ref="typeServiceImpl"/>
     </bean>
 
-    <bean id="scheduleRequestTestDataLoader" class="org.kuali.student.r2.core.scheduling.service.impl.ScheduleRequestTestDataLoader">
-
-
-    </bean>
+    <bean id="scheduleRequestTestDataLoader" class="org.kuali.student.r2.core.scheduling.service.impl.ScheduleRequestTestDataLoader"/>
 
 </beans>

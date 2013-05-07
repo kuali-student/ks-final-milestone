@@ -114,14 +114,29 @@ public class TestSchedulingServiceImpl {
         SchedulingServiceDataLoader loader = new SchedulingServiceDataLoader(this.schedulingService);
         loader.setAtpService(atpService);
          loader.setRoomService(roomService);
-        loader.loadData();
 
-        TypeInfo info =  createTypeInfo(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, "testType", "This is a test", "refObjectUri");
+        TypeInfo info =  createTypeInfo(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, "testType", "This is a test", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_REQUEST);
         try {
             typeService.createType(info.getKey(), info, contextInfo);
         } catch (AlreadyExistsException e) {
             throw new DataValidationErrorException(e);
         }
+
+        info =  createTypeInfo(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, "testType", "This is a test", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
+        try {
+            typeService.createType(info.getKey(), info, contextInfo);
+        } catch (AlreadyExistsException e) {
+            throw new DataValidationErrorException(e);
+        }
+
+         info =  createTypeInfo(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE, "testType", "This is a test", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE);
+         try {
+             typeService.createType(info.getKey(), info, contextInfo);
+         } catch (AlreadyExistsException e) {
+             throw new DataValidationErrorException(e);
+         }
+
+         loader.loadData();
     }
 
     private TypeInfo createTypeInfo(String typeKey, String typeName, String descr, String refObjectUri) {
