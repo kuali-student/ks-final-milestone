@@ -42,10 +42,6 @@ limitations under the License.
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-SecondaryActionButton"
-                              p:methodToCall="copy"
-                              p:actionLabel="Copy Academic Calendar"
-                              p:render="@{academicCalendarInfo != null}"/>
                         <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"/>
                     </list>
                 </property>
