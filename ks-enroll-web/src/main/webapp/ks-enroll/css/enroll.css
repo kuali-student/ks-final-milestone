@@ -178,7 +178,7 @@
 
 /* View Registration Groups Alerts
    These control the colour of the alerts that appear above the
-   View Registration Group (count) link
+   View Registration Group (count) link. Not sure if these are still being used
 */
 .uif-rg-message-partial {
     background-color: #FFFFCC;
