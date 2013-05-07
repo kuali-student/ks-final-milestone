@@ -19,7 +19,7 @@
      limitations under the License.
     -->
     <bean id="KRMS-AgendaManagement-View" parent="KS-Uif-MaintenanceView">
-        <property name="headerText" value="Course Rule"/>
+        <property name="headerText" value="Course Offering Requisites"/>
         <property name="header.style" value="border-bottom:solid 4px #000; height:26px"/>
         <property name="dataObjectClassName" value="org.kuali.rice.krms.dto.RuleManagementWrapper"/>
         <property name="additionalScriptFiles">
@@ -131,7 +131,7 @@
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Original" p:methodToCall="compareRules">
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules">
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
                               p:tooltipContent="Compares Rules"/>
