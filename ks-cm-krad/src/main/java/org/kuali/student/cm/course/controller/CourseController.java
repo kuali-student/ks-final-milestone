@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 @Controller
-@RequestMapping(value = "/course")
+@RequestMapping(value = "/courses")
 public class CourseController extends UifControllerBase {
     protected String thing;
 
@@ -48,7 +48,7 @@ public class CourseController extends UifControllerBase {
     /**
      */
     @Override
-    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
+    @RequestMapping(method = RequestMethod.GET, value = "/start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
         return super.start(form, result, request, response);
@@ -67,7 +67,7 @@ public class CourseController extends UifControllerBase {
      *
      * It fills in the original Acal for the form with the latest calendar found, by default
      */
-    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=startNew")
+    @RequestMapping(method = RequestMethod.GET, value = "/new")
     public ModelAndView startNew( @ModelAttribute("KualiForm") CourseForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) {
 
