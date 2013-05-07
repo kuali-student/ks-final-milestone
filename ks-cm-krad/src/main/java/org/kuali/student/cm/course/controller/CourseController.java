@@ -67,14 +67,13 @@ public class CourseController extends UifControllerBase {
      *
      * It fills in the original Acal for the form with the latest calendar found, by default
      */
-    /*
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=startNew")
     public ModelAndView startNew( @ModelAttribute("KualiForm") CourseForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) {
 
-        return super.startNew(form, result, request, response);
+        return getUIFModelAndView(form);
     }
-    */
+
 
     /**
      * This will save the academic calendar.

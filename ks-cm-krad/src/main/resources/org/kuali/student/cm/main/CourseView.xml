@@ -12,18 +12,21 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- Controller Class: AcademicCalendarController.java View Helper Class: 
-		AcademicCalendarViewHelperServiceImpl.java UX : http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Scheduling_Interface/v3/start.html 
-		This view has couple of pages (edit and copy) with all the beans defined 
-		at 1. AcademicCalendarEditPage.xml 2. AcademicCalendarCopyPage.xml 3. AcademicTermPage.xml -->
+	<!-- 
+         Controller Class: CourseController.java 
+         View Helper Class: CourseViewHelperServiceImpl.java 
+         UX : http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Scheduling_Interface/v3/start.html 
+         This view has couple of pages (edit and copy) with all the beans defined 
+         at 
+         1. CourseViewCourseInfoPage.xml 
+    -->
 
 	<bean id="KS-CourseView" parent="KSFormView">
 		<property name="id" value="courseView" />
 		<property name="headerText" value="Course View" />
 		<property name="header.render" value="false" />
 		<property name="entryPageId" value="courseInfoPage"/>
-		<property name="viewHelperServiceClass"
-			value="org.kuali.student.cm.course.service.impl.CourseViewHelperServiceImpl" />
+		<property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseViewHelperServiceImpl" />
 		<property name="footer">
 			<bean parent="Uif-FooterBase" />
 		</property>
