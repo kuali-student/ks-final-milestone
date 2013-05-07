@@ -21,8 +21,7 @@
      limitations under the License.
     -->
     <bean id="KS-CourseOfferingRolloverManagement-SelectTermPage" parent="Uif-Page" p:disclosure.render="false"
-          p:id="selectTermsForRollover"
-          p:headerText="Perform Rollover">
+          p:id="selectTermsForRollover">
         <!-- It's easier to put the footer up front since it has a lot less content -->
         <property name="footer">
             <bean parent="Uif-FooterBase">
@@ -37,6 +36,8 @@
         </property> <!-- End of footer -->
         <property name="items">
             <list>
+                <bean parent="Uif-Message" p:messageText="Perform Rollover" p:style="font-size:175%;border-bottom: solid 2px #000;"/>
+                <bean parent="Uif-Message" p:messageText="Select Source and Target Terms" p:style="font-size:135%;"/>
                 <bean parent="Uif-VerticalBoxGroup" p:style="min-width:17cm">
                 <property name="items">
                         <list>
