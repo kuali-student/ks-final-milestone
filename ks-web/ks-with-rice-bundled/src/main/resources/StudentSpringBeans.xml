@@ -269,7 +269,7 @@
 
                 <!-- Curriculum Management Course Info -->
                 <value>classpath:org/kuali/student/cm/main/CourseView.xml</value>
-				<!--     -->
+				<value>classpath:org/kuali/student/cm/main/CourseViewCourseInfo.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">
