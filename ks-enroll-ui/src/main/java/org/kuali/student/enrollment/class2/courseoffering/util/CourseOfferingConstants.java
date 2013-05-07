@@ -90,8 +90,9 @@ public class CourseOfferingConstants {
     public static final String COURSEOFFERING_INFO_COPIED_SUCCESSFULLY = "info.enroll.courseoffering.copied.successful";
     public static final String COURSEOFFERING_ROLLOVER_RELEASE_TO_DEPTS_SUCCESSFULLY = "info.enroll.courseoffering.rollover.releaseToDepts.successful";
 
-    //JSON string root key for customized breadcrumb
+    //JSON string root keys
     public static final String BREADCRUMB_JSON_ROOT_KEY = "breadCrumb";
+    public static final String POPULATIONS_JSON_ROOT_KEY = "populations";
 
     //Map keys for params of customized breadcrumb generation of multiple views
     public static final String BREADCRUMB_PREVIOUS_CONTROLLER_PATH_KEY = "previousControllerPath";

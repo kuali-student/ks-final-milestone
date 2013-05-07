@@ -2,7 +2,7 @@
  * This method handles colocate/unclocate AO.
  *
  */
- function handleColocation(){
+function handleColocation(){
     setupColoCheckBoxChange(jQuery("#is_co_located_control"));
 
     if(jQuery("#is_co_located_control").is(":checked")) {
@@ -11,7 +11,7 @@
         // handle un-colocation in server side
         if(jQuery("#colocatedAO_value_control").val()=="true") {
             var str = "Break colocation:\n\nSelecting this option will break any colocation relationships associated with this Activity.\n\nDelivery Logistics" +
-                            "\nThe Activity you are editing will forfit any requested and actual delivery logistics as a result of breaking colocation. Delivery logistics will be retained by any remaining Activities.\n\n";
+                "\nThe Activity you are editing will forfit any requested and actual delivery logistics as a result of breaking colocation. Delivery logistics will be retained by any remaining Activities.\n\n";
 
             if (jQuery("#maxEnrollmentShared_value_control").val() == "true") {
                 str = str + "Maximum Enrollment\nThe maximum enrollment was shared across collocated activities. Any remaining activities will retain the entire value. The Activity you are editing will require its own maximum enrollment.\n";
@@ -168,15 +168,15 @@ function addColocatedAO(component){
  * @return {boolean}
  */
 /*function addRDLCallBack(){
-    retrieveComponent('ActivityOffering-DeliveryLogistic-Requested');
-    var scheduling_completed = jQuery('#scheduling_completed_control');
-    if (scheduling_completed.length > 0){
-        if (scheduling_completed.text().trim() === 'true'){
-            jQuery('.unprocessed_changes_message').show();
-            jQuery('.unprocessed_changes_checkbox').show();
-        }
-    }
-}*/
+ retrieveComponent('ActivityOffering-DeliveryLogistic-Requested');
+ var scheduling_completed = jQuery('#scheduling_completed_control');
+ if (scheduling_completed.length > 0){
+ if (scheduling_completed.text().trim() === 'true'){
+ jQuery('.unprocessed_changes_message').show();
+ jQuery('.unprocessed_changes_checkbox').show();
+ }
+ }
+ }*/
 
 
 /**
@@ -193,6 +193,100 @@ function checkAOEditWIP(){
         }
     }
     return true;
+}
+
+function validatePopulationForSP(field, populationsJSONString) {
+    var fieldId = jQuery(field).attr('id');
+    var populationName = jQuery(field).val();
+
+    var spErrorMsgDiv = jQuery('#ao-seatpoolgroup').find('.uif-validationMessages.uif-groupValidationMessages').get(0);
+    if (populationsJSONString && 0!==populationsJSONString.length) {
+        var populationsObj = jQuery.parseJSON(populationsJSONString);
+        var pos = 0;
+        jQuery.each(populationsObj.populations, function (key, value) {
+            if (populationName === value) {
+                return;
+            }
+            pos++;
+        });
+
+        var ul = jQuery('#seatpool_validation_errorMessageUl');
+        var liId = fieldId + '_errorMessageLi';
+        var li;
+        if (pos >= Object.keys(populationsObj.populations).length) {
+            if (ul.length == 0) {
+                ul = jQuery("<ul id='seatpool_validation_errorMessageUl' class='uif-validationMessagesList'>");
+            }
+
+            if (jQuery('#' + liId).length == 0) {
+
+                li = jQuery("<li id='" + liId + "' class='uif-errorMessageItem' tabindex='0'></li>");
+                ul.append(li);
+                jQuery(spErrorMsgDiv).append(ul);
+            }
+            li=jQuery('#' + liId);
+            li.text('Population ' +  populationName + ' is inactive or not found in the database.');
+            jQuery(spErrorMsgDiv).show();
+        } else {
+            if(jQuery('#' + liId).length > 0) {
+                jQuery('#' + liId).remove();
+            }
+        }
+
+        var rows = jQuery("[id^='ao-seatpoolgroup-population-name_line'][id$='control']");
+        var posPopDupCheck = 0;
+        rows.each(function () {
+            var id = jQuery(this).attr('id');
+            if ((populationName === jQuery(this).val()) && (fieldId != id)) {
+                return;
+            }
+            posPopDupCheck++;
+        });
+
+        var liIdPopDupCheck = fieldId + '_errorMessageLiPopDupCheck';
+        var liPopDupCheck;
+        var liAllliPopDupCheck = jQuery("[id^='ao-seatpoolgroup-population-name_line'][id$='_errorMessageLiPopDupCheck']");
+        liAllliPopDupCheck.remove();
+
+        if (posPopDupCheck >= rows.length) {
+            if(jQuery('#' + liIdPopDupCheck).length > 0) {
+            }
+        } else {
+            if (ul.length == 0) {
+                ul = jQuery("<ul id='seatpool_validation_errorMessageUl' class='uif-validationMessagesList'>");
+            }
+
+            if (jQuery('#' + liIdPopDupCheck).length == 0) {
+                liPopDupCheck = jQuery("<li id='" + liIdPopDupCheck + "' class='uif-errorMessageItem' tabindex='0'></li>");
+                ul.append(liPopDupCheck);
+                jQuery(spErrorMsgDiv).append(ul);
+            }
+            liPopDupCheck=jQuery('#' + liIdPopDupCheck);
+            liPopDupCheck.text('Population name ' +  populationName + ' has been used.');
+            jQuery(spErrorMsgDiv).show();
+        }
+    }
+}
+
+function showSPAddlinePriority(populationsJSONString){
+    var rows = jQuery("[id^='seatPoolPriority_line'][id$='control']");
+    var maxPriorityNum = 0;
+    rows.each(function () {
+        var id = jQuery(this).attr('id');
+        if(id.indexOf("_control") != -1) {
+            var currentPriorityNum = parseInt(jQuery(this).val());
+            maxPriorityNum = (maxPriorityNum<currentPriorityNum) ? currentPriorityNum : maxPriorityNum;
+        }
+    });
+
+    var lineNm = rows.length-1;
+    var priorityNmToSet = parseInt(maxPriorityNum)+1;
+
+    if (jQuery('#seatPoolPriority_line' + lineNm  + '_control').val() == '') {
+        jQuery('#seatPoolPriority_line' + lineNm  + '_control').val(priorityNmToSet);
+    }
+
+
 }
 
 function preSubmitCheck(){
@@ -217,14 +311,14 @@ function preSubmitNewRDL(){
 }
 
 /*function deleteRDLCallBack(){
-    var rdlExists = jQuery("#ActivityOffering-DeliveryLogistic-Requested td").length > 0;
-    //If authz is associated with this, check the hidden authz related flag before doing this.
-    if (rdlExists){
-        jQuery("#is_co_located_control").attr("disabled", true);
-    } else {
-        jQuery("#is_co_located_control").attr("disabled", false);
-    }
-}*/
+ var rdlExists = jQuery("#ActivityOffering-DeliveryLogistic-Requested td").length > 0;
+ //If authz is associated with this, check the hidden authz related flag before doing this.
+ if (rdlExists){
+ jQuery("#is_co_located_control").attr("disabled", true);
+ } else {
+ jQuery("#is_co_located_control").attr("disabled", false);
+ }
+ }*/
 
 /**
  *
@@ -265,6 +359,90 @@ function onColoCheckBoxChange(checked){
 function clearFeaturesSelected(){
     jQuery('#featuresList_control option').attr('selected', false);
     return false;
+}
+
+function validateSeatsForSP(jqObject) {
+    var currentId = jqObject.attr('id');
+        if (currentId.indexOf("_control") == -1) {
+            currentId = currentId + "_control";
+        }
+        var element = jQuery('#' + currentId);
+        var numValue = element.val();
+        var numericExpression = /^[0-9]+$/;
+        if(!numValue.match(numericExpression) && numValue != '') {
+            if (currentId == 'maximumEnrollment') {
+                alert("Maximum enrollment must be a number!");
+            } else {
+                alert("Number of seats must be a number!");
+            }
+            element.val('');
+        }
+
+    var spErrorMsgDiv = jQuery('#ao-seatpoolgroup').find('.uif-validationMessages.uif-groupValidationMessages').get(0);
+    var ul = jQuery('#seatpool_validation_errorMessageUl');
+    var liId = 'seatpool_validation_errorMessageLiSeatCheck';
+    var li;
+
+    var seatpoolCount = jQuery('#seatpoolCount span[class=uif-message]');
+    var seatsRemaining = jQuery('#seatsRemaining span[class=uif-message]');
+    var count = 0;
+    var seatsTotal = 0;
+    var maxEnrollValue = 0;
+
+    var maxEnrollView = jQuery('span[id=maximumEnrollment]');
+    var maxEnroll =  jQuery('#maximumEnrollment_control');
+
+    maxEnrollValue = maxEnroll.val();
+    var rows = jQuery("[id^='seatLimit_line']");
+    rows.each(function () {
+        var id = jQuery(this).attr('id');
+        if (id.indexOf("_control") != -1) {
+            var num = id.substring(14, id.length - 8);
+            var elemPct = jQuery('#seatLimitPercent_line' + num);
+            var seatsNum = jQuery(this).val();
+            count += 1;
+            if (maxEnrollValue != "" && maxEnrollValue != 0 && seatsNum != "") {
+                seatsTotal = parseInt(seatsTotal) + parseInt(seatsNum);
+                var result = (seatsNum / maxEnrollValue) * 100;
+                elemPct.text(Math.round(result) + "%");
+            } else {
+                elemPct.text("");
+            }
+        }
+    });
+    seatpoolCount.text(count);
+
+    if (maxEnrollValue != "") {
+        var seatsRemain = (maxEnrollValue > seatsTotal) ? (maxEnrollValue - seatsTotal) : 0;
+        var percTotal = Math.round((seatsTotal / maxEnrollValue) * 100);
+        var percRemain = (seatsRemain > 0) ? (100 - percTotal) : 0;
+        if (maxEnrollValue >= seatsTotal){
+            if(jQuery('#' + liId).length > 0) {
+                jQuery('#' + liId).remove();
+            }
+            seatsRemaining.text(percRemain + "% | " + seatsRemain + " Seats (Max Enrollment = " + maxEnrollValue + ")");
+            jq(seatsRemaining).css('color', 'black');
+        } else {
+            if (ul.length == 0) {
+                ul = jQuery("<ul id='seatpool_validation_errorMessageUl' class='uif-validationMessagesList'>");
+            }
+            if (jQuery('#' + liId).length == 0) {
+
+                li = jQuery("<li id='" + liId + "' class='uif-errorMessageItem' tabindex='0'></li>");
+                ul.append(li);
+                jQuery(spErrorMsgDiv).append(ul);
+            }
+            li=jQuery('#' + liId);
+            li.text('WARNING: Total seats exceeding the total max enrollment quantity by ' +  (seatsTotal - maxEnrollValue) + ' seats.');
+            jQuery(spErrorMsgDiv).show();
+
+            seatsRemaining.text(percRemain + "% | " + seatsRemain + " Seats (Max Enrollment = " + maxEnrollValue + ")" +
+                " - WARNING: Total seats exceeding the total max enrollment quantity by " + (seatsTotal - maxEnrollValue) + " seats!");
+            jq(seatsRemaining).css('color', 'red');
+        }
+    } else {
+        seatsRemaining.text("");
+    }
 }
 
 function calculatePercent(jqObject){

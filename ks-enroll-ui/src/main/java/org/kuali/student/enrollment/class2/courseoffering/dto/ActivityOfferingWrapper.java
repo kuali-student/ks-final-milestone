@@ -9,6 +9,7 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -36,10 +37,13 @@ public class ActivityOfferingWrapper implements Serializable{
     private List<OfferingInstructorWrapper> instructors;
     private List<ScheduleComponentWrapper> scheduleComponentWrappers;
     private List<SeatPoolWrapper> seatpools;
+    private List<PopulationInfo> populationsForSPValidation;
     private boolean readOnlyView;
     private boolean isChecked;
     private boolean isCheckedByCluster;
     private String courseOfferingId;
+    private String populationsJSONString;
+
     // Tanveer 06/13/2012
     private String stateName;
     private String typeName;
@@ -116,6 +120,7 @@ public class ActivityOfferingWrapper implements Serializable{
         aoInfo = new ActivityOfferingInfo();
         instructors = new ArrayList<OfferingInstructorWrapper>();
         seatpools = new ArrayList<SeatPoolWrapper>();
+        populationsForSPValidation = new ArrayList<PopulationInfo>();
         aoInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
         aoInfo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
         formatOffering = new FormatOfferingInfo();
@@ -138,6 +143,7 @@ public class ActivityOfferingWrapper implements Serializable{
         aoInfo = info;
         instructors = new ArrayList<OfferingInstructorWrapper>();
         seatpools = new ArrayList<SeatPoolWrapper>();
+        populationsForSPValidation = new ArrayList<PopulationInfo>();
     }
 
     public String getAoClusterName() {
@@ -440,6 +446,14 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setSeatpools(List<SeatPoolWrapper> seatpools) {
         this.seatpools = seatpools;
+    }
+
+    public List<PopulationInfo> getPopulationsForSPValidation() {
+        return populationsForSPValidation;
+    }
+
+    public void setPopulationsForSPValidation(List<PopulationInfo> populationsForSPValidation) {
+        this.populationsForSPValidation = populationsForSPValidation;
     }
 
     public String getFirstInstructorDisplayName() {
@@ -763,6 +777,14 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setColocatedAoInfo(String colocatedAoInfo) {
         this.colocatedAoInfo = colocatedAoInfo;
+    }
+
+    public String getPopulationsJSONString() {
+        return populationsJSONString;
+    }
+
+    public void setPopulationsJSONString(String populationsJSONString) {
+        this.populationsJSONString = populationsJSONString;
     }
 
     /**

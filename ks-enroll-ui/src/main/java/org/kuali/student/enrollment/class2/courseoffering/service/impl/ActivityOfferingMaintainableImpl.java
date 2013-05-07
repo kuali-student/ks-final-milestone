@@ -17,6 +17,7 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
@@ -30,6 +31,7 @@ import org.kuali.student.enrollment.class2.courseoffering.helper.ActivityOfferin
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.service.SeatPoolUtilityService;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
@@ -115,8 +117,31 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) getDataObject();
             disassembleInstructorsWrapper(activityOfferingWrapper.getInstructors(), activityOfferingWrapper.getAoInfo());
 
-            List<SeatPoolDefinitionInfo> seatPools = this.getSeatPoolDefinitions(activityOfferingWrapper.getSeatpools());
+            // Retrieve populationInfo for the newly added SP wrapper and set populationInfo for the SP wrapper
+            // TO DO: this can be done in the SP validation
+            for (SeatPoolWrapper seatPool : activityOfferingWrapper.getSeatpools()) {
+                if (seatPool.getSeatPoolPopulation().getId()==null || seatPool.getSeatPoolPopulation().getId().isEmpty()) {
+                    QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+                    qbcBuilder.setPredicates(PredicateFactory.and(
+                            PredicateFactory.equal("populationState", PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY),
+                            PredicateFactory.equalIgnoreCase("name", seatPool.getSeatPoolPopulation().getName())));
+                    QueryByCriteria criteria = qbcBuilder.build();
 
+                    try {
+                        List<PopulationInfo> populationInfoList = getPopulationService().searchForPopulations(criteria, createContextInfo());
+                        if(populationInfoList == null || populationInfoList.isEmpty()){
+                            GlobalVariables.getMessageMap().putErrorForSectionId("ao-seatpoolgroup", PopulationConstants.POPULATION_MSG_ERROR_POPULATION_NOT_FOUND, seatPool.getSeatPoolPopulation().getName());
+                        } else {
+                            seatPool.getSeatPoolPopulation().setName(populationInfoList.get(0).getName());
+                            seatPool.getSeatPoolPopulation().setId(populationInfoList.get(0).getId());
+                        }
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
+            List<SeatPoolDefinitionInfo> seatPools = this.getSeatPoolDefinitions(activityOfferingWrapper.getSeatpools());
             seatPoolUtilityService.updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), contextInfo);
 
             saveColocatedAOs(activityOfferingWrapper);
@@ -403,6 +428,39 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 }
             }
 
+            //retrieve all the populations for seat pool section client side validation
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(
+                    PredicateFactory.equal("populationState", PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY));
+            QueryByCriteria criteria = qbcBuilder.build();
+
+            try {
+                List<PopulationInfo> populationInfoList = getPopulationService().searchForPopulations(criteria, createContextInfo());
+                if(populationInfoList != null || !populationInfoList.isEmpty()){
+                    String populationJSONString = "{\"" + CourseOfferingConstants.POPULATIONS_JSON_ROOT_KEY + "\": {";
+
+                    int index = 0;
+                    for (PopulationInfo populationInfo : populationInfoList) {
+                        if (index == 0) {
+                            populationJSONString = "{\"" + CourseOfferingConstants.POPULATIONS_JSON_ROOT_KEY + "\": {\"" + populationInfo.getId() + "\": \"" + populationInfo.getName() + "\"";
+                        } else {
+                            populationJSONString += ",\"" + populationInfo.getId() + "\": \"" + populationInfo.getName() + "\"";
+                        }
+//                        if (index > 0) {
+//                            break;
+//                        }
+                        index++;
+                    }
+                    populationJSONString += "}}";
+
+                    //populationJSONString = "{\"populations\": {\"049285e2-e309-48a0-87d6-27e3764f4200\": \"Athletic Managers & Trainers\", \"049285e2-e309-48a0-87d6-27e3764f4200\": \"Young Scholars\"}}";
+
+                    wrapper.setPopulationsJSONString(populationJSONString);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
             document.getNewMaintainableObject().setDataObject(wrapper);
             document.getOldMaintainableObject().setDataObject(wrapper);
             document.getDocumentHeader().setDocumentDescription("Edit AO - " + info.getActivityCode());
@@ -621,6 +679,14 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             wrapper.setStateName(state.getName());
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+
+    @Override
+    protected void processAfterDeleteLine(View view, CollectionGroup collectionGroup, Object model, int lineIndex) {
+        if (!collectionGroup.getPropertyName().equals("seatpools")) {
+            super.processAfterDeleteLine(view, collectionGroup, model, lineIndex);
         }
     }
 
