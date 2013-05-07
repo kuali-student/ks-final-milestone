@@ -56,7 +56,7 @@
 	<bean id="KS-CourseNavigation-Menu" parent="Uif-TabNavigationGroup">
 		<property name="items">
 			<list>
-				<bean parent="Uif-HeaderTwo" p:headerText="Course Sections"/>
+				<!-- <bean parent="Uif-HeaderTwo" p:headerText="Course Sections"/> -->
 				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-CourseInfoPage" 
 					p:actionLabel="Course Information"/>
 				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-GovernancePage"
