@@ -113,13 +113,13 @@ limitations under the License.
 				<bean parent="Uif-VerticalBoxSection" p:title="Description and Rationale"> 
 					<property name="items">
 						<list>
-							<bean parent="Uif-InputField-LabelTop" p:label="Description"
+							<!-- <bean parent="Uif-InputField-LabelTop" p:label="Description"
 								p:propertyName="descr/plain">
 								<property name="instructionalText" value="This description will appear in the catalog."/>
 								<property name="control">
 									<bean parent="Uif-TextAreaControl"/>
 								</property>
-							</bean>
+							</bean>-->
 							<!-- <bean parent="Uif-InputField-LabelTop" p:label="Proposal Rationale"
 								p:propertyName="proposalInfo/rationale/plain">
 								<property name="instructionalText" value="This will be used in evaluating the proposal. It will not be published in the catalog."/>
