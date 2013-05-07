@@ -161,6 +161,9 @@
 }
 /* End of Applying the CSS Grid Columns */
 
+/* View Registration Groups State Column
+   These control the colour of the items in the State column
+*/
 .uif-scheduled-dl {
     color: grey;
 }
@@ -171,7 +174,12 @@
 .uif-invalid-state {
     color: red;
 }
+/* End of View Registration Group State Column */
 
+/* View Registration Groups Alerts
+   These control the colour of the alerts that appear above the
+   View Registration Group (count) link
+*/
 .uif-rg-message-partial {
     background-color: #FFFFCC;
     padding: 5px 10px;
@@ -189,25 +197,30 @@
     padding: 5px 10px;
     border-right: 5px solid #FFFFFF;
 }
+/* End of View Registration Groups Alerts */
 
 /* Manage Registration Group */
+/* Commenting this out as this does not appear to be used anymore
 .aoc_links {
     float: right;
     padding: 8px;
 }
+*/
 
 /* Prevents links from jumping to the next line */
 a {
     white-space: normal;
 }
 
-.aoc_stateandlinks {
-    background: #EDEDED;
-    float: none;
-}
-
 /* This causes the cluster table to extend full width of the screen */
 .aoc_disclosure .uif-horizontalFieldGroup {
+    float: none;
+}
+/* End Manage Registration Groups */
+
+/* Manage Registration Group (seperate form) */
+.aoc_stateandlinks {
+    background: #EDEDED;
     float: none;
 }
 
@@ -219,7 +232,7 @@ a {
     background:none;
     margin-bottom: 0px;
 }
-/* End Manage Registration Groups */
+/* End of Manage Registration Group (seperate form) */
 
 /* Academic Calendar */
 /* Create Academic Calendar > Information tab
