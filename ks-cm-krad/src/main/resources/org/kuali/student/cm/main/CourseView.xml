@@ -37,6 +37,9 @@
 			</list>
 		</property>
 		<property name="formClass" value="org.kuali.student.cm.course.form.CourseForm" />
+		<property name="navigation">
+			<ref bean="KS-CourseNavigation-Menu" />
+		</property>
 		<!-- <property name="additionalCssFiles"> -->
 		<!-- <list merge="true"> -->
 		<!-- <value>ks-enroll/css/calendar.css</value> -->
@@ -48,6 +51,34 @@
 		<!-- <value>ks-enroll/scripts/common.js</value> -->
 		<!-- </list> -->
 		<!-- </property> -->
+	</bean>
+	
+	<bean id="KS-CourseNavigation-Menu" parent="Uif-MenuNavigationGroup">
+		<property name="items">
+			<list>
+				<bean parent="Uif-HeaderTwo" p:headerText="Course Sections"/>
+				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-CourseInfoPage" 
+					p:actionLabel="Course Information" />
+				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-GovernancePage"
+              		p:actionLabel="Governance"/>
+              	<bean parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-CourseLogisticsPage"
+              		p:actionLabel="Course Logistics"/>
+              	<bean parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-LearningObjectivesPage"
+              		p:actionLabel="Learning Objectives"/>
+              	<bean parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-CourseRequisitesPage"
+              		p:actionLabel="Course Requisites"/>
+              	<bean parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-ActiveDatesPage"
+              		p:actionLabel="Active Dates"/>
+              	<bean parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-FinancialsPage"
+              		p:actionLabel="Financials"/>
+              	<bean parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-AuthorsAndCollaboratorsPage"
+              		p:actionLabel="Authors & Collaborators"/>
+              	<bean parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-SupportingDocumentsPage"
+              		p:actionLabel="Supporting Documents"/>
+              	<bean parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-ReviewProposalPage"
+              		p:actionLabel="Review Proposal"/>
+			</list>
+		</property>
 	</bean>
 
 </beans>
