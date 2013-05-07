@@ -1,11 +1,28 @@
+/* Enrollment Title
+   Enrollment header found on the enrollment home page
+*/
+.ks-enrollment-home > .uif-header {
+    border-bottom: solid 2px #000;
+    margin-bottom: 5px; margin-top:15px;
+}
+
+/* Setup Section
+   Setup section found on the enrollment home page
+*/
+.ks-enrollment-home-group {
+    margin-bottom: 5px;
+    margin-top: 15px;
+}
+
+/* Manage Registration Windows
+   Windows table section
+*/
 .ks-appointmentWindow-table tr{
     border-top:  1px solid #d3d3d3;
     border-bottom:  1px solid #d3d3d3;
 }
 
-.ks-enrollment-home > .uif-header { border-bottom:solid 2px #000; margin-bottom:5px; margin-top:15px; }
-.ks-enrollment-home-group { margin-bottom:5px; margin-top:15px; }
-
+/* Commenting this out as this does not appear to be used anymore
 .ks-termDates-table{}
 
 .ks-termDates-table tr{
@@ -20,6 +37,7 @@
 .ks-termDates-table .uif-constraintMessage{
     margin-bottom: 0px;
 }
+*/
 
 /* Brian S says we ought not to do this
 .uif-dropdownControl {
@@ -27,6 +45,7 @@
     padding: 3px 3px 4px 3px;
 }*/
 
+/* Tabs */
 .ui-widget-content a {
     color: #3F7826;
 }
@@ -171,12 +190,13 @@
     border-right: 5px solid #FFFFFF;
 }
 
-/* Manage Registration Groups */
+/* Manage Registration Group */
 .aoc_links {
     float: right;
     padding: 8px;
 }
 
+/* Prevents links from jumping to the next line */
 a {
     white-space: normal;
 }
@@ -186,6 +206,7 @@ a {
     float: none;
 }
 
+/* This causes the cluster table to extend full width of the screen */
 .aoc_disclosure .uif-horizontalFieldGroup {
     float: none;
 }
@@ -198,13 +219,21 @@ a {
     background:none;
     margin-bottom: 0px;
 }
+/* End Manage Registration Groups */
 
+/* Academic Calendar */
+/* Create Academic Calendar > Information tab
+   This causes the Organization, Start Date & End Date sections to start on a new line
+
+   Create Academic Calendar > Terms tab
+   This causes the Start Date & End Date sections to start on a new line
+ */
 .ac_disclosure .uif-boxLayoutHorizontalItem {
     float: none;
 }
+/* End of Academic Calendar */
 
-/* End Manage Registration Groups */
-
+/* Error 403 */
 .error_403 {
     margin: 100px auto;
     width: 600px;
@@ -216,11 +245,11 @@ a {
     margin: 10px 25px 15px 25px;
 }
 
-
 .error_403 p {
     overflow: auto;
     margin: 0px 10px 20px 0px;
 }
+/* End of Error 403 */
 
 /* Manage CO Action Links
    Links that appear in the Actions column on the Manage CO page
@@ -231,7 +260,7 @@ a {
 }
 
 /* Toolbar
-   The toolbar can be found on the Manage CO & AO pages and are items such as
+   The toolbar can be found on the Manage CO & AO pages and are buttons such as
    Add Course, Approve and Delete.
 */
 
