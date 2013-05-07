@@ -268,9 +268,8 @@
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionSL.xml</value>
 
                 <!-- Curriculum Management Course Info -->
-                <!--
-                <value>classpath:org/kuali/student/cm/courseinfo/CourseInfo.xml</value>
-                -->
+                <value>classpath:org/kuali/student/cm/main/CourseView.xml</value>
+				<!--     -->
             </list>
 		</property>
 		<property name="packagePrefixes">
