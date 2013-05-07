@@ -53,7 +53,7 @@
 		<!-- </property> -->
 	</bean>
 	
-	<bean id="KS-CourseNavigation-Menu" parent="Uif-TabNavigationGroup">
+	<bean id="KS-CourseNavigation-Menu" parent="Uif-MenuNavigationGroup">
 		<property name="items">
 			<list>
 				<bean parent="Uif-HeaderTwo" p:headerText="Course Sections"/>

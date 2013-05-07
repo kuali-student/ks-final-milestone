@@ -104,12 +104,12 @@ limitations under the License.
 						</list>
 					</property>
 				</bean>
-				<bean parent="Uif-InputField-LabelTop" p:label="Instructor(s)"
+				<!-- <bean parent="Uif-InputField-LabelTop" p:label="Instructor(s)"
 					p:propertyName="instructors">
 					<property name="control">
 						<bean parent="Uif-TextControl" p:size="20" />
 					</property>
-				</bean>
+				</bean> -->
 				<bean parent="Uif-VerticalBoxSection" p:title="Description and Rationale"> 
 					<property name="items">
 						<list>
