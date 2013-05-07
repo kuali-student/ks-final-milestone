@@ -5,6 +5,7 @@ import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinitionContract;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +30,7 @@ public class AgendaEditor extends UifFormBase implements AgendaDefinitionContrac
 
     private AgendaTypeInfo agendaTypeInfo;
     private List<RuleEditor> ruleEditors;
+    private List<RuleEditor> deletedRules;
 
     public AgendaEditor() {
         super();
@@ -115,6 +117,17 @@ public class AgendaEditor extends UifFormBase implements AgendaDefinitionContrac
 
     public void setRuleEditors(List<RuleEditor> ruleEditors) {
         this.ruleEditors = ruleEditors;
+    }
+
+    public List<RuleEditor> getDeletedRules() {
+        if(this.deletedRules == null) {
+            return deletedRules = new ArrayList<RuleEditor>();
+        }
+        return deletedRules;
+    }
+
+    public void setDeletedRules(List<RuleEditor> deletedRules) {
+        this.deletedRules = deletedRules;
     }
 
     public String getCourseName() {

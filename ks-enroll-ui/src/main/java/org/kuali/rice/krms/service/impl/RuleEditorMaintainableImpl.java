@@ -204,7 +204,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             }
 
             //Delete rules
-            for (RuleEditor deletedRule : ruleWrapper.getDeletedRules()) {
+            for (RuleEditor deletedRule : agenda.getDeletedRules()) {
                 if (deletedRule.getAgendaItem() != null) {
                     this.getRuleManagementService().deleteAgendaItem(deletedRule.getAgendaItem().getId());
                 }

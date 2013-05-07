@@ -27,8 +27,6 @@ public class RuleManagementWrapper extends UifFormBase {
     private List<AgendaEditor> agendas;
     private RuleEditor ruleEditor;
 
-    private List<RuleEditor> deletedRules;
-
     private Tree<CompareTreeNode, String> compareTree;
 
     public String getRefObjectId() {
@@ -129,17 +127,6 @@ public class RuleManagementWrapper extends UifFormBase {
 
     public void setSelectedTab(String selectedTab) {
         this.getRuleEditor().setSelectedTab(selectedTab);
-    }
-
-    public List<RuleEditor> getDeletedRules() {
-        if(this.deletedRules == null) {
-            return deletedRules = new ArrayList<RuleEditor>();
-        }
-        return deletedRules;
-    }
-
-    public void setDeletedRules(List<RuleEditor> deletedRules) {
-        this.deletedRules = deletedRules;
     }
 
     public String getNamePrefix() {

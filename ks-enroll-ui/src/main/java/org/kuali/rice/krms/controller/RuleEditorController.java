@@ -81,7 +81,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         List<AgendaEditor> agendas = ruleWrapper.getAgendas();
         for (AgendaEditor agenda : agendas) {
             if (agenda.getRuleEditors().contains(ruleEditor)) {
-                ruleWrapper.getDeletedRules().add(ruleEditor);
+                agenda.getDeletedRules().add(ruleEditor);
                 agenda.getRuleEditors().remove(ruleEditor);
             }
         }
