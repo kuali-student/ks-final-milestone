@@ -20,7 +20,7 @@
      limitations under the License.
     -->
     <bean id="KS-CourseOfferingRolloverManagement-View" parent="KS-Uif-FormView-CustomizedBreadCrumb" p:applyDirtyCheck="true"
-          p:id="courseOfferingRolloverManagementView" p:headerText="Rollover Management"
+          p:id="courseOfferingRolloverManagementView"
           p:entryPageId="selectTermForRolloverDetails"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingViewHelperServiceImpl"
           p:formClass="org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm">
