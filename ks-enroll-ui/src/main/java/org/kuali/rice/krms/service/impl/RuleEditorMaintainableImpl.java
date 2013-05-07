@@ -33,7 +33,9 @@ import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContract;
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
+import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
+import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
@@ -162,16 +164,43 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
         for (AgendaEditor agenda : ruleWrapper.getAgendas()) {
 
-            //Set the first agenda item id and save the agenda items
-            agenda.setFirstItemId(maintainAgendaItems(agenda, ruleWrapper.getNamePrefix(), ruleWrapper.getNamespace()));
+            //Check if this agenda has anything to save
+            if(agenda.isDummyAgenda()){
+                continue;
+            }
+
+            //Set the agenda name.
+            agenda.setName(ruleWrapper.getNamePrefix() + " " + agenda.getAgendaTypeInfo().getDescription());
+
+            //Retrieve the context and set the id ong the agenda.
+            if(agenda.getContextId()==null){
+                ContextDefinition context = this.getRuleManagementService().getContextByNameAndNamespace("Course Requirements", ruleWrapper.getNamespace());
+                agenda.setContextId(context.getId());
+            }
 
             //Create or update the agenda.
-            AgendaDefinition.Builder agendaBuilder = AgendaDefinition.Builder.create(agenda);
-            AgendaDefinition agendaDefinition = agendaBuilder.build();
-            if (agendaDefinition.getId() == null) {
-                this.getRuleManagementService().createAgenda(agendaDefinition);
-            } else {
-                this.getRuleManagementService().updateAgenda(agendaDefinition);
+            if (agenda.getId() == null) {
+                AgendaDefinition.Builder agendaBldr = AgendaDefinition.Builder.create(agenda);
+                AgendaDefinition agendaDfn = this.getRuleManagementService().createAgenda(agendaBldr.build());
+
+                //Set the id and versionnumber for a possible update.
+                agenda.setId(agendaDfn.getId());
+                agenda.setVersionNumber(agendaDfn.getVersionNumber());
+
+                //Create the reference object binding only on create agenda, no need to update.
+                ReferenceObjectBinding.Builder refBuilder = ReferenceObjectBinding.Builder.create("Agenda",
+                        agendaDfn.getId(), ruleWrapper.getNamespace(), ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId());
+                this.getRuleManagementService().createReferenceObjectBinding(refBuilder.build());
+            }
+
+            //Set the first agenda item id and save the agenda items
+            String firstItemId = maintainAgendaItems(agenda, ruleWrapper.getNamePrefix(), ruleWrapper.getNamespace());
+            if(firstItemId!=null){
+                if((agenda.getFirstItemId()==null)||(!agenda.getFirstItemId().equals(firstItemId))){
+                    AgendaDefinition.Builder agendaBldr = AgendaDefinition.Builder.create(agenda);
+                    agendaBldr.setFirstItemId(firstItemId);
+                    this.getRuleManagementService().updateAgenda(agendaBldr.build());
+                }
             }
 
             //Delete rules
@@ -180,12 +209,16 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                     this.getRuleManagementService().deleteAgendaItem(deletedRule.getAgendaItem().getId());
                 }
                 this.getRuleManagementService().deleteRule(deletedRule.getId());
-
             }
 
             //If no more rules linked to agenda, delete it.
-            if (agendaDefinition.getFirstItemId().isEmpty()) {
-                this.getRuleManagementService().deleteReferenceObjectBinding(agenda.getId());
+            if(firstItemId==null){
+                List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId());
+                for(ReferenceObjectBinding referenceObjectBinding : refObjectsBindings){
+                    if(referenceObjectBinding.getKrmsObjectId().equals(agenda.getId())){
+                        this.getRuleManagementService().deleteReferenceObjectBinding(referenceObjectBinding.getId());
+                    }
+                }
                 this.getRuleManagementService().deleteAgenda(agenda.getId());
             }
 
@@ -212,6 +245,10 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                 rootItemBuilder = itemBuilder;
 
             }
+        }
+
+        if(rootItemBuilder == null){
+            return null;
         }
 
         if (rootItemBuilder.getId() == null) {
@@ -292,13 +329,9 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
                 PropositionParameterEditor termParameter = proposition.getParameters().get(0);
                 if (termParameter.getTermValue() == null) {
-                    String termId = proposition.getParameters().get(0).getValue();
-                    if (!StringUtils.isBlank(termId)) {
-                        termParameter.setTermValue(this.getTermRepositoryService().getTerm(termId));
-                        proposition.setTerm(new TermEditor(termParameter.getTermValue()));
-                    } else {
-                        proposition.setTerm(new TermEditor());
-                    }
+                    proposition.setTerm(new TermEditor());
+                } else {
+                    proposition.setTerm(new TermEditor(termParameter.getTermValue()));
                 }
 
             } else {

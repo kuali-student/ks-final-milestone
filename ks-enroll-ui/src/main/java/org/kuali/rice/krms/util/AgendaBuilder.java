@@ -57,20 +57,20 @@ public class AgendaBuilder {
         // Lookup existing agenda by type
         List<AgendaTypeInfo> agendaTypeInfos = new ArrayList<AgendaTypeInfo>(typeRelationsMap.values());
         for (AgendaTypeInfo agendaTypeInfo : agendaTypeInfos) {
-            boolean exist = false;
-            for (AgendaEditor agenda : agendas) {
-                if (agenda.getTypeId().equals(agendaTypeInfo.getId())) {
-                    components.add(this.buildAgenda(agenda));
-                    exist = true;
-                    sortedAgendas.add(agenda);
+            AgendaEditor agenda = null;
+            for (AgendaEditor existingAgenda : agendas) {
+                if (existingAgenda.getTypeId().equals(agendaTypeInfo.getId())) {
+                    agenda=existingAgenda;
+                    break;
                 }
             }
-            if (!exist) {
-                AgendaEditor emptyAgenda = new AgendaEditor();
-                emptyAgenda.setTypeId(agendaTypeInfo.getId());
-                components.add(this.buildAgenda(emptyAgenda));
-                sortedAgendas.add(emptyAgenda);
+            if (agenda==null) {
+                agenda = new AgendaEditor();
+                agenda.setTypeId(agendaTypeInfo.getId());
             }
+            agenda.setAgendaTypeInfo(agendaTypeInfo);
+            components.add(this.buildAgenda(agenda));
+            sortedAgendas.add(agenda);
         }
 
         ruleManagementWrapper.setAgendas(sortedAgendas);
@@ -88,13 +88,12 @@ public class AgendaBuilder {
         // Reset the rule counter.
         ruleCounter = 0;
 
-        AgendaTypeInfo agendaType = typeRelationsMap.get(agenda.getTypeId());
         Group group = (Group) ComponentFactory.getNewComponentInstance("KRMS-AgendaSection-Template");
-        group.setHeaderText(agendaType.getDescription());
+        group.setHeaderText(agenda.getAgendaTypeInfo().getDescription());
 
         List<Component> components = new ArrayList<Component>();
         List<RuleEditor> ruleEditors = new ArrayList<RuleEditor>();
-        for (RuleTypeInfo ruleType : agendaType.getRuleTypes()) {
+        for (RuleTypeInfo ruleType : agenda.getAgendaTypeInfo().getRuleTypes()) {
 
             // Add all existing rules of this type.
             boolean exist = false;

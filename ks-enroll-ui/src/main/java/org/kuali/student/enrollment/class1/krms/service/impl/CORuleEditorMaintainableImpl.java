@@ -27,6 +27,7 @@ import org.kuali.student.krms.util.KSKRMSConstants;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -57,12 +58,13 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         CORuleManagementWrapper dataObject = new CORuleManagementWrapper();
 
         dataObject.setNamespace(KSKRMSConstants.KS_SYS_NAMESPACE);
+        dataObject.setRefDiscriminatorType("kuali.lui.type.course.offering");
 
         String coId = dataObjectKeys.get("refObjectId");
         dataObject.setRefObjectId(coId);
 
         List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
-        List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject("kuali.lui.type.course.offering", coId);
+        List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(dataObject.getRefDiscriminatorType(), coId);
         for(ReferenceObjectBinding referenceObjectBinding : refObjectsBindings){
             agendas.add(this.getAgendaEditor(referenceObjectBinding.getKrmsObjectId()));
         }

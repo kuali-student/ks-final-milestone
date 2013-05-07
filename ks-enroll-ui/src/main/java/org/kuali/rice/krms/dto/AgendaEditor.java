@@ -27,6 +27,7 @@ public class AgendaEditor extends UifFormBase implements AgendaDefinitionContrac
     private Long versionNumber;
     private String courseName;
 
+    private AgendaTypeInfo agendaTypeInfo;
     private List<RuleEditor> ruleEditors;
 
     public AgendaEditor() {
@@ -122,6 +123,26 @@ public class AgendaEditor extends UifFormBase implements AgendaDefinitionContrac
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    public AgendaTypeInfo getAgendaTypeInfo() {
+        return agendaTypeInfo;
+    }
+
+    public void setAgendaTypeInfo(AgendaTypeInfo agendaTypeInfo) {
+        this.agendaTypeInfo = agendaTypeInfo;
+    }
+
+    public boolean isDummyAgenda(){
+        if(this.getId()==null){
+            for(RuleEditor rule : this.getRuleEditors()){
+                if(rule.isDummy()==false){
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
 }

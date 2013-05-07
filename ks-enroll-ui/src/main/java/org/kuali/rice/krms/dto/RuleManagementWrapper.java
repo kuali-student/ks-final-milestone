@@ -22,6 +22,7 @@ public class RuleManagementWrapper extends UifFormBase {
     private String selectedRuleId;
     private String namePrefix;
     private String namespace;
+    private String refDiscriminatorType;
 
     private List<AgendaEditor> agendas;
     private RuleEditor ruleEditor;
@@ -155,5 +156,13 @@ public class RuleManagementWrapper extends UifFormBase {
 
     public void setNamespace(String namespace) {
         this.namespace = namespace;
+    }
+
+    public String getRefDiscriminatorType() {
+        return refDiscriminatorType;
+    }
+
+    public void setRefDiscriminatorType(String refDiscriminatorType) {
+        this.refDiscriminatorType = refDiscriminatorType;
     }
 }

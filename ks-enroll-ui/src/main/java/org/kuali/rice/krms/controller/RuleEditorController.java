@@ -492,12 +492,14 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
                     parentBo.getCompoundEditors().set(propIndex, compound);
                     compound.getCompoundEditors().get(1).setEditMode(true);
-                    ruleEditor.setSelectedKey(compound.getCompoundEditors().get(1).getKey());
                 }
+
+                viewHelper.refreshInitTrees(ruleEditor);
+                ruleEditor.setSelectedKey(compound.getCompoundEditors().get(1).getKey());
+
             }
         }
 
-        viewHelper.refreshInitTrees(ruleEditor);
         return getUIFModelAndView(form);
     }
 

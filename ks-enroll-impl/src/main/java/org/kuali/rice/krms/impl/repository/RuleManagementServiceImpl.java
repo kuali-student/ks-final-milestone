@@ -170,6 +170,13 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
     @Override
     public ReferenceObjectBinding createReferenceObjectBinding(ReferenceObjectBinding referenceObjectDefinition)
             throws RiceIllegalArgumentException {
+        //Set the id if it doesn't exist.
+        if(referenceObjectDefinition.getId()==null){
+            String referenceObjectBindingId = getSequenceAccessorService().getNextAvailableSequenceNumber("KRMS_REF_OBJ_KRMS_OBJ_S", ReferenceObjectBindingBo.class).toString();
+            ReferenceObjectBinding.Builder refBldr = ReferenceObjectBinding.Builder.create(referenceObjectDefinition);
+            refBldr.setId(referenceObjectBindingId);
+            referenceObjectDefinition = refBldr.build();
+        }
         return referenceObjectBindingBoService.createReferenceObjectBinding(referenceObjectDefinition);
     }
 
@@ -344,7 +351,18 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
 
     @Override
     public AgendaItemDefinition getAgendaItem(String id) throws RiceIllegalArgumentException {
-        return agendaBoService.getAgendaItemById(id);
+        AgendaItemDefinition agendaItem = agendaBoService.getAgendaItemById(id);
+
+        // Set the termValues on the agenda item.
+        if(agendaItem.getRule()!=null){
+            PropositionDefinition proposition = agendaItem.getRule().getProposition();
+            if(proposition!=null){
+                AgendaItemDefinition.Builder itemBuiler = AgendaItemDefinition.Builder.create(agendaItem);
+                itemBuiler.getRule().setProposition(this.replaceTermValues(proposition));
+                agendaItem = itemBuiler.build();
+            }
+        }
+        return agendaItem;
     }
 
     @Override
@@ -599,21 +617,29 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         if (proposition == null) {
             throw new RiceIllegalArgumentException (id);
         }
-        proposition = this.replaceTermValues (proposition);
+        proposition = this.replaceTermValues (proposition).build();
         return proposition;
     }
     
-    private PropositionDefinition replaceTermValues(PropositionDefinition proposition) {
-        // only do this for simple props
+    private PropositionDefinition.Builder replaceTermValues(PropositionDefinition proposition) {
+
+        PropositionDefinition.Builder bldr = PropositionDefinition.Builder.create(proposition);
+
+        // recursively add termValues to child propositions.
         if (!PropositionType.SIMPLE.getCode ().equalsIgnoreCase (proposition.getPropositionTypeCode())) {
-            return proposition;
+            List<PropositionDefinition.Builder> cmpdProps = new ArrayList<PropositionDefinition.Builder>();
+            for(PropositionDefinition cmpdProp : proposition.getCompoundComponents()){
+                cmpdProps.add(replaceTermValues(cmpdProp));
+            }
+            bldr.setCompoundComponents(cmpdProps);
+            return bldr;
         }
         // that have parameters
         if (proposition.getParameters() == null) {
-            return proposition;
+            return bldr;
         }
         if (proposition.getParameters().isEmpty()) {
-            return proposition;
+            return bldr;
         }
         boolean found = false;
         List<PropositionParameter.Builder> params = new ArrayList<PropositionParameter.Builder> (proposition.getParameters().size());
@@ -625,16 +651,16 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
             // inflate the termValue
             found = true;
             TermDefinition termValue = this.termRepositoryService.getTerm(param.getValue());
-            PropositionParameter.Builder bldr = PropositionParameter.Builder.create(param);
-            bldr.setTermValue(termValue);
-            params.add(bldr);
+            PropositionParameter.Builder parmbldr = PropositionParameter.Builder.create(param);
+            parmbldr.setTermValue(termValue);
+            params.add(parmbldr);
         }
         if (!found) {
-            return proposition;
+            return bldr;
         }
-        PropositionDefinition.Builder bldr = PropositionDefinition.Builder.create(proposition);
+
         bldr.setParameters(params);
-        return bldr.build();
+        return bldr;
     }
 
     
@@ -647,7 +673,7 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         }
         Set<PropositionDefinition> set = new LinkedHashSet<PropositionDefinition>(propositions.size());
         for (PropositionDefinition proposition : propositions) {
-            proposition = this.replaceTermValues(proposition);
+            proposition = this.replaceTermValues(proposition).build();
             set.add(proposition);
         }
         return set;
