@@ -33,7 +33,6 @@ function getPropositionIdFromParentLi(parentLiNode) {
 function ajaxCallPropositionTree(controllerMethod, collectionGroupId) {
     var selectedItemInput = getSelectedPropositionInput();
     var selectedItemId = selectedItemInput.val();
-    var selectedItemInputName = selectedItemInput.attr('name');
     var actionRevealCallBack = function (htmlContent) {
         jq('.editModeNode').find(".actionReveal").first().hide();
     };
@@ -54,44 +53,35 @@ function ajaxCallOnTabSelect(event, ui){
     if(ui.index==0){
         ajaxCallPropositionTree('onTabSelect', 'RuleStudentEditorView-TreeGroup');
         retrieveComponent('KS-EditWithLogic-TreeGroup');
-    }// else {
-    //    ajaxCallPropositionTree('updatePropositionType', 'KS-EditWithLogic-TreeGroup');
-    //    retrieveComponent('RuleStudentEditorView-TreeGroup');
-    //}
-
-}
-
-function ajaxAddPropositionTree(controllerMethod, collectionGroupId) {
-    var selectedItemInput = getSelectedPropositionInput();
-    var selectedItemId = selectedItemInput.val();
-    var actionRevealCallBack = function (htmlContent) {
-        jq('.editModeNode').find(".actionReveal").first().hide();
-
-        resetControlKeys();
-    };
-    retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
+    }
 }
 
 function ajaxCutPropositionTree() {
-    var selectedItemTracker = getSelectedPropositionInput();
-    var selectedItemId = selectedItemTracker.val();
-    var cutItemTracker = getCutPropositionInput();
-    cutItemTracker.val(selectedItemId);
-    var copyItemTracker = getCopyPropositionInput();
-    copyItemTracker.val('');
+    var enabled = enabledCheck('cut');
+    if (enabled) {
+        var selectedItemTracker = getSelectedPropositionInput();
+        var selectedItemId = selectedItemTracker.val();
+        var cutItemTracker = getCutPropositionInput();
+        cutItemTracker.val(selectedItemId);
+        var copyItemTracker = getCopyPropositionInput();
+        copyItemTracker.val('');
 
-    resetCutSelected(selectedItemId);
+        resetCutSelected(selectedItemId);
+    }
 }
 
 function ajaxCopyPropositionTree() {
-    var selectedItemTracker = getSelectedPropositionInput();
-    var selectedItemId = selectedItemTracker.val();
-    var copyItemTracker = getCopyPropositionInput();
-    copyItemTracker.val(selectedItemId);
-    var cutItemTracker = getCutPropositionInput();
-    cutItemTracker.val('');
+    var enabled = enabledCheck('copy');
+    if (enabled) {
+        var selectedItemTracker = getSelectedPropositionInput();
+        var selectedItemId = selectedItemTracker.val();
+        var copyItemTracker = getCopyPropositionInput();
+        copyItemTracker.val(selectedItemId);
+        var cutItemTracker = getCutPropositionInput();
+        cutItemTracker.val('');
 
-   resetCutSelected(selectedItemId);
+        resetCutSelected(selectedItemId);
+    }
 }
 
 function resetCutSelected(selectedItemId) {
@@ -108,19 +98,22 @@ function resetCutSelected(selectedItemId) {
 }
 
 function ajaxPastePropositionTree(controllerMethod, collectionGroupId) {
-    var selectedItemInput = getSelectedPropositionInput();
-    var selectedItemId = selectedItemInput.val();
-    var selectedItemInputName = selectedItemInput.attr('name');
-    var actionRevealCallBack = function (htmlContent) {
-        jq('.editModeNode').find(".actionReveal").first().hide();
+    var enabled = enabledCheck('paste');
+    if (enabled) {
+        var selectedItemInput = getSelectedPropositionInput();
+        var selectedItemId = selectedItemInput.val();
+        var selectedItemInputName = selectedItemInput.attr('name');
+        var actionRevealCallBack = function (htmlContent) {
+            jq('.editModeNode').find(".actionReveal").first().hide();
 
-        resetControlKeys();
+            resetControlKeys();
 
-        jq('a.ruleTreeNode').each( function() {
-            jq(this.parentNode).removeClass('ruleCutSelected');
-        });
-    };
-    retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
+            jq('a.ruleTreeNode').each( function() {
+                jq(this.parentNode).removeClass('ruleCutSelected');
+            });
+        };
+        retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
+    }
 }
 
 function resetControlKeys(){
