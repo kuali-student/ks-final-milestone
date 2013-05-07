@@ -69,8 +69,7 @@
                 <value>classpath:ks-TermInfo-dictionary.xml</value>
                 <value>classpath:ks-HolidayInfo-dictionary.xml</value>
                 <value>classpath:ks-KeyDateInfo-dictionary.xml</value>
-                <!--
-                <value>classpath:ks-CourseInfo-dictionary.xml</value> --><!-- KSCM-720 Curriculum Management Course Info -->
+                <value>classpath:ks-CourseInfo-dictionary.xml</value> <!-- KSCM-720 Curriculum Management Course Info -->
 
 
                 <!-- KIM Attributes -->
@@ -270,7 +269,7 @@
 
                 <!-- Curriculum Management Course Info -->
                 <!--
-                <value>classpath:org/kuali/student/cm/courseinfo/CourseJointInfo.xml</value>
+                <value>classpath:org/kuali/student/cm/courseinfo/CourseInfo.xml</value>
                 -->
             </list>
 		</property>
