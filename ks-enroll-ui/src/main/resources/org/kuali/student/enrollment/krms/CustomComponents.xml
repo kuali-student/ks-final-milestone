@@ -411,7 +411,7 @@
         </property>
     </bean>
 
-    <bean id="KRMS-GPA-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termParameter" p:label="GPA" p:minLength="3" p:maxLength="3" p:required="true">
+    <bean id="KRMS-GPA-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.parameters[1].value" p:label="GPA" p:minLength="3" p:maxLength="3" p:required="true">
         <property name="control">
             <bean parent="Uif-TextControl"/>
         </property>
