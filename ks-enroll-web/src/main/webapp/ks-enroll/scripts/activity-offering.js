@@ -206,7 +206,7 @@ function validatePopulationForSP(field, populationsJSONString) {
         var populationsObj = jQuery.parseJSON(populationsJSONString);
         var pos = 0;
         jQuery.each(populationsObj.populations, function (key, value) {
-            if (populationName === value) {
+            if (populationName.toLowerCase() === value.toLowerCase()) {
                 return;
             }
             pos++;
@@ -238,7 +238,7 @@ function validatePopulationForSP(field, populationsJSONString) {
     var posPopDupCheck = 0;
     rows.each(function () {
         var id = jQuery(this).attr('id');
-        if ((populationName === jQuery(this).val()) && (fieldId != id)) {
+        if ((populationName.toLowerCase() === jQuery(this).val().toLowerCase()) && (fieldId != id)) {
             return;
         }
         posPopDupCheck++;
