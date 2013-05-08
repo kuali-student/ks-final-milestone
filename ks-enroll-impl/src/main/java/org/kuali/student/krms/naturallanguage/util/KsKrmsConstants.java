@@ -97,6 +97,7 @@ public class KsKrmsConstants {
     public static final String PROPOSITION_TYPE_TEST_SCORE_BETWEEN_VALUES = "kuali.krms.proposition.type.test.score.between.values";
     public static final String PROPOSITION_TYPE_TEST_SCORE = "kuali.krms.proposition.type.test.score";
     public static final String PROPOSITION_TYPE_COMPOUND_AND = "kuali.krms.proposition.type.compound.and";  
+    public static final String PROPOSITION_TYPE_COMPOUND_OR = "kuali.krms.proposition.type.compound.or";  
     
     // term specs
     public static final String TERM_SPEC_COMPLETEDCOURSE = "CompletedCourse";
