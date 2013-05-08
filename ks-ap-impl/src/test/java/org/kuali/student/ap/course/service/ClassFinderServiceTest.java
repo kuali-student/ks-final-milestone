@@ -61,11 +61,11 @@ public class ClassFinderServiceTest {
 			this.start = start;
 		}
 
-		public int getLength() {
+		public int getCount() {
 			return length;
 		}
 
-		public void setLength(int length) {
+		public void setCount(int length) {
 			this.length = length;
 		}
 
