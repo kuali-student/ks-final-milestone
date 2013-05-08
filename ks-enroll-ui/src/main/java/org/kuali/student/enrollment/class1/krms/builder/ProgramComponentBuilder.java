@@ -72,6 +72,11 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
         return null;
     }
 
+    @Override
+    public void onSubmit(EnrolPropositionEditor propositionEditor) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     public CluSetInformation getCluSetInformation(String cluSetId) {
         CluSetInformation result = new CluSetInformation();
         CluSetInfo cluSetInfo = getCluSetInfo(cluSetId, ContextUtils.getContextInfo());

@@ -61,6 +61,9 @@ public class CluContextImpl extends BasicContextImpl {
     public final static String PROGRAM_CLU_SET_TOKEN = "programCluSet";
     public final static String TEST_CLU_SET_TOKEN = "testCluSet";
 
+    private static final String CLULIST_KEY = "kuali.term.parameter.type.course.nl.clu.list";
+    private static final String CLUSETLIST_KEY = "kuali.term.parameter.type.course.nl.cluset.list";
+
     /**
      * Sets the LU service.
      *
@@ -133,6 +136,15 @@ public class CluContextImpl extends BasicContextImpl {
         }
     }
 
+    private void findClusInCluSet(String cluSetId, List<CluInfo> cluList, ContextInfo contextInfo) throws OperationFailedException {
+        try {
+            CluSetTreeViewInfo tree = cluService.getCluSetTreeView(cluSetId, contextInfo);
+            findClusInCluSet(tree, cluList);
+        } catch (Exception e) {
+            throw new OperationFailedException(e.getMessage(), e);
+        }
+    }
+
     private static boolean containsClu(List<CluInfo> cluList, CluInfo clu) {
         return containsClu(cluList, clu.getId());
     }
@@ -167,31 +179,45 @@ public class CluContextImpl extends BasicContextImpl {
             }
 
             List<CluInfo> list = new ArrayList<CluInfo>();
-            if (map.containsKey("kuali.term.parameter.type.course.nl.clu.list")) {
-                String idList = (String) map.get("kuali.term.parameter.type.course.nl.clu.list");
-                String [] ids = idList.split(",");
-                for (String id : ids) {
+            if(map.containsKey(CLULIST_KEY)||map.containsKey(CLUSETLIST_KEY)){
+                String [] cluids = getIdArray(map, CLULIST_KEY);
+                for (String id : cluids) {
                     if (!containsClu(list, id)) {
-                        list.add(this.getCluInfo(id, contextInfo));
+                            list.add(this.getCluInfo(id, contextInfo));
                     }
                 }
+
+                String [] clusetids = getIdArray(map, CLUSETLIST_KEY);
+                for (String id : clusetids) {
+                    findClusInCluSet(id, list, contextInfo);
+                }
+
             } else {
                 if (cluSetId != null) {
-                    try {
-                        CluSetTreeViewInfo tree = cluService.getCluSetTreeView(cluSetId, contextInfo);
-                        findClusInCluSet(tree, list);
-                    } catch (Exception e) {
-                        throw new OperationFailedException(e.getMessage(), e);
-                    }
+                    findClusInCluSet(cluSetId, list, contextInfo);
                 }else {
-                    return null;
+                    return cluSet;
                 }
             }
+
 
             return new NLCluSet(cluSetInfo.getId(), list, cluSetInfo);
 
         }
         return cluSet;
+    }
+
+    private static String[] getIdArray(Map<String, Object> map, String key){
+        if (map.containsKey(key)) {
+            String idList = (String) map.get(key);
+
+            if(idList.length()==0){
+                return new String[0];
+            }
+
+            return idList.split(",");
+        }
+        return new String[0];
     }
 
     /**

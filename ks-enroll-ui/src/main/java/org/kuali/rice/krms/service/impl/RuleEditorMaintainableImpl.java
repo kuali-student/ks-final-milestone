@@ -277,6 +277,12 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     protected void finPropositionEditor(PropositionEditor propositionEditor) {
         if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(propositionEditor.getPropositionTypeCode())) {
 
+            //Call onsubmit on the associated builder.
+            ComponentBuilder builder = this.getTemplateRegistry().getComponentBuilderForType(propositionEditor.getType());
+            if (builder != null) {
+                builder.onSubmit(propositionEditor);
+            }
+
             //Set the default operation and value
             TemplateInfo template = this.getTemplateRegistry().getTemplateForType(propositionEditor.getType());
             propositionEditor.getParameters().get(2).setValue(template.getOperator());

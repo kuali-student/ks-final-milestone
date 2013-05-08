@@ -36,6 +36,7 @@ public class EnrolPropositionEditor extends PropositionEditor {
     private OrgInfo orgInfo;
 
     private static final String CLULIST_KEY = "kuali.term.parameter.type.course.nl.clu.list";
+    private static final String CLUSETLIST_KEY = "kuali.term.parameter.type.course.nl.cluset.list";
 
     public EnrolPropositionEditor(){
         super();
@@ -119,7 +120,8 @@ public class EnrolPropositionEditor extends PropositionEditor {
     public Map<String, String> getNlParameters() {
         Map<String, String> nlParameters = super.getNlParameters();
         if (this.getCluSet() != null){
-            nlParameters.put(CLULIST_KEY, this.getCluSet().getDelimitedString());
+            nlParameters.put(CLULIST_KEY, this.getCluSet().getCluDelimitedString());
+            nlParameters.put(CLUSETLIST_KEY, this.getCluSet().getCluSetDelimitedString());
         }
         return nlParameters;
     }

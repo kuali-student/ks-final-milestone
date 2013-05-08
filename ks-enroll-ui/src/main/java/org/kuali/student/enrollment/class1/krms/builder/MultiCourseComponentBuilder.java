@@ -78,6 +78,21 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
         return termParameters;
     }
 
+    @Override
+    public void onSubmit(EnrolPropositionEditor propositionEditor) {
+        //Create the courseset
+        try {
+            CluSetInfo cluSetInfo = propositionEditor.getCluSet().getCluSetInfo();
+            if(cluSetInfo.getId()==null){
+                cluSetInfo = this.getCluService().createCluSet(cluSetInfo.getTypeKey(), cluSetInfo, ContextUtils.getContextInfo());
+            }else{
+                this.getCluService().updateCluSet(cluSetInfo.getId(), cluSetInfo, ContextUtils.getContextInfo());
+            }
+        } catch (Exception ex) {
+            throw new IllegalArgumentException(ex);
+        }
+    }
+
     public CluSetInformation getCluSetInformation(String cluSetId) {
         CluSetInformation result = new CluSetInformation();
         CluSetInfo cluSetInfo = getCluSetInfo(cluSetId);
@@ -311,12 +326,7 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
             }
         }
 
-        //Create the courseset
-        try {
-            cluSetInfo = this.getCluService().createCluSet(cluSetInfo.getTypeKey(), cluSetInfo, ContextUtils.getContextInfo());
-        } catch (Exception ex) {
-            throw new IllegalArgumentException(ex);
-        }
+
         return cluSetInfo;
     }
 

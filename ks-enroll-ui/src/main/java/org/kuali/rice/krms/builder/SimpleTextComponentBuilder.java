@@ -34,4 +34,9 @@ public class SimpleTextComponentBuilder implements ComponentBuilder<PropositionE
         termParameters.put(TEXT_KEY, propositionEditor.getTermParameter());
         return termParameters;
     }
+
+    @Override
+    public void onSubmit(PropositionEditor propositionEditor) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

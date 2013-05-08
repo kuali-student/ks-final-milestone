@@ -20,4 +20,6 @@ public interface ComponentBuilder<T extends PropositionEditor> {
 
     public Map<String, String> buildTermParameters(T propositionEditor);
 
+    public void onSubmit(T propositionEditor);
+
 }

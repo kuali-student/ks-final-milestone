@@ -77,7 +77,7 @@ public class CluSetInformation implements Serializable {
         this.subCluSetInformations = subCluSetInformations;
     }
 
-    public String getDelimitedString() {
+    public String getCluDelimitedString() {
 
         StringBuilder sb = new StringBuilder();
         for (CluInformation clu : this.getClus()) {
@@ -85,15 +85,6 @@ public class CluSetInformation implements Serializable {
                 sb.append(",");
             }
             sb.append(clu.getVerIndependentId());
-        }
-
-        for (CluSetInfo cluSet : this.getCluSets()) {
-            for (String id : cluSet.getCluIds()) {
-                if (sb.length() > 0) {
-                    sb.append(",");
-                }
-                sb.append(id);
-            }
         }
 
         if (this.getClusInRange() != null) {
@@ -104,6 +95,19 @@ public class CluSetInformation implements Serializable {
                 sb.append(clu.getVerIndependentId());
             }
         }
+        return sb.toString();
+    }
+
+    public String getCluSetDelimitedString() {
+
+        StringBuilder sb = new StringBuilder();
+        for (CluSetInfo cluSet : this.getCluSets()) {
+            if (sb.length() > 0) {
+                sb.append(",");
+            }
+            sb.append(cluSet.getId());
+        }
+
         return sb.toString();
     }
 

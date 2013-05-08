@@ -54,6 +54,12 @@ public class AdministeringOrgComponentBuilder implements ComponentBuilder<EnrolP
         }
         return termParameters;
     }
+
+    @Override
+    public void onSubmit(EnrolPropositionEditor propositionEditor) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     protected OrganizationService getOrganizationService() {
         if (organizationService == null) {
             organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(OrganizationServiceConstants.NAMESPACE, OrganizationServiceConstants.SERVICE_NAME_LOCAL_PART));
