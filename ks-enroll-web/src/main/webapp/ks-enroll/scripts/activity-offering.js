@@ -196,10 +196,12 @@ function checkAOEditWIP(){
 }
 
 function validatePopulationForSP(field, populationsJSONString) {
-    var fieldId = jQuery(field).attr('id');
+    var fieldId = jQuery(field).attr('id'); //id of the population name text box
     var populationName = jQuery(field).val();
+    var spErrorMsgDiv = jQuery('#ao-seatpoolgroup').find('.uif-validationMessages.uif-groupValidationMessages').get(0); //div for error message display on top of SP table
+    var ul = jQuery('#seatpool_validation_errorMessageUl');
 
-    var spErrorMsgDiv = jQuery('#ao-seatpoolgroup').find('.uif-validationMessages.uif-groupValidationMessages').get(0);
+    // validate if the input population name is valid in DB
     if (populationsJSONString && 0!==populationsJSONString.length) {
         var populationsObj = jQuery.parseJSON(populationsJSONString);
         var pos = 0;
@@ -210,16 +212,13 @@ function validatePopulationForSP(field, populationsJSONString) {
             pos++;
         });
 
-        var ul = jQuery('#seatpool_validation_errorMessageUl');
         var liId = fieldId + '_errorMessageLi';
         var li;
         if (pos >= Object.keys(populationsObj.populations).length) {
             if (ul.length == 0) {
                 ul = jQuery("<ul id='seatpool_validation_errorMessageUl' class='uif-validationMessagesList'>");
             }
-
             if (jQuery('#' + liId).length == 0) {
-
                 li = jQuery("<li id='" + liId + "' class='uif-errorMessageItem' tabindex='0'></li>");
                 ul.append(li);
                 jQuery(spErrorMsgDiv).append(ul);
@@ -232,40 +231,50 @@ function validatePopulationForSP(field, populationsJSONString) {
                 jQuery('#' + liId).remove();
             }
         }
-
-        var rows = jQuery("[id^='ao-seatpoolgroup-population-name_line'][id$='control']");
-        var posPopDupCheck = 0;
-        rows.each(function () {
-            var id = jQuery(this).attr('id');
-            if ((populationName === jQuery(this).val()) && (fieldId != id)) {
-                return;
-            }
-            posPopDupCheck++;
-        });
-
-        var liIdPopDupCheck = fieldId + '_errorMessageLiPopDupCheck';
-        var liPopDupCheck;
-        var liAllliPopDupCheck = jQuery("[id^='ao-seatpoolgroup-population-name_line'][id$='_errorMessageLiPopDupCheck']");
-        liAllliPopDupCheck.remove();
-
-        if (posPopDupCheck >= rows.length) {
-            if(jQuery('#' + liIdPopDupCheck).length > 0) {
-            }
-        } else {
-            if (ul.length == 0) {
-                ul = jQuery("<ul id='seatpool_validation_errorMessageUl' class='uif-validationMessagesList'>");
-            }
-
-            if (jQuery('#' + liIdPopDupCheck).length == 0) {
-                liPopDupCheck = jQuery("<li id='" + liIdPopDupCheck + "' class='uif-errorMessageItem' tabindex='0'></li>");
-                ul.append(liPopDupCheck);
-                jQuery(spErrorMsgDiv).append(ul);
-            }
-            liPopDupCheck=jQuery('#' + liIdPopDupCheck);
-            liPopDupCheck.text('Population name ' +  populationName + ' has been used.');
-            jQuery(spErrorMsgDiv).show();
-        }
     }
+
+    // validate if there is any population name duplication
+    var rows = jQuery("[id^='ao-seatpoolgroup-population-name_line'][id$='control']");
+    var posPopDupCheck = 0;
+    rows.each(function () {
+        var id = jQuery(this).attr('id');
+        if ((populationName === jQuery(this).val()) && (fieldId != id)) {
+            return;
+        }
+        posPopDupCheck++;
+    });
+
+    var liIdPopDupCheck = fieldId + '_errorMessageLiPopDupCheck';
+    var liPopDupCheck;
+    var liAllliPopDupCheck = jQuery("[id^='ao-seatpoolgroup-population-name_line'][id$='_errorMessageLiPopDupCheck']");
+    liAllliPopDupCheck.remove();
+
+    if (posPopDupCheck >= rows.length) {
+        if (jQuery('#' + liIdPopDupCheck).length > 0) {
+        }
+    } else {
+        if (ul.length == 0) {
+            ul = jQuery("<ul id='seatpool_validation_errorMessageUl' class='uif-validationMessagesList'>");
+        }
+
+        if (jQuery('#' + liIdPopDupCheck).length == 0) {
+            liPopDupCheck = jQuery("<li id='" + liIdPopDupCheck + "' class='uif-errorMessageItem' tabindex='0'></li>");
+            ul.append(liPopDupCheck);
+            jQuery(spErrorMsgDiv).append(ul);
+        }
+        liPopDupCheck = jQuery('#' + liIdPopDupCheck);
+        liPopDupCheck.text('Population name ' + populationName + ' already in use. Please enter a different, unique population name');
+        jQuery(spErrorMsgDiv).show();
+    }
+/*
+    if (jQuery('#seatpool_validation_errorMessageUl li').length != 0) {
+        jQuery('.uif-action.uif-primaryActionButton.uif-boxLayoutHorizontalItem').attr('disabled', true);
+    } else {
+        jQuery('.uif-action.uif-primaryActionButton.uif-boxLayoutHorizontalItem').attr('disabled', false);
+    }
+*/
+    //if there is no error messages at all, delete the ul
+    jQuery("#seatpool_validation_errorMessageUl:empty").remove();
 }
 
 function showSPAddlinePriority(populationsJSONString){
@@ -443,6 +452,15 @@ function validateSeatsForSP(jqObject) {
     } else {
         seatsRemaining.text("");
     }
+/*
+    if (jQuery('#seatpool_validation_errorMessageUl li').length != 0) {
+        jQuery('.uif-action.uif-primaryActionButton.uif-boxLayoutHorizontalItem').attr('disabled', true);
+    } else {
+        jQuery('.uif-action.uif-primaryActionButton.uif-boxLayoutHorizontalItem').attr('disabled', false);
+    }
+*/
+    //if there is no error messages at all, delete the ul
+    jQuery("#seatpool_validation_errorMessageUl:empty").remove();
 }
 
 function calculatePercent(jqObject){

@@ -116,31 +116,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
             ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) getDataObject();
             disassembleInstructorsWrapper(activityOfferingWrapper.getInstructors(), activityOfferingWrapper.getAoInfo());
-
-            // Retrieve populationInfo for the newly added SP wrapper and set populationInfo for the SP wrapper
-            // TO DO: this can be done in the SP validation
-            for (SeatPoolWrapper seatPool : activityOfferingWrapper.getSeatpools()) {
-                if (seatPool.getSeatPoolPopulation().getId()==null || seatPool.getSeatPoolPopulation().getId().isEmpty()) {
-                    QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-                    qbcBuilder.setPredicates(PredicateFactory.and(
-                            PredicateFactory.equal("populationState", PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY),
-                            PredicateFactory.equalIgnoreCase("name", seatPool.getSeatPoolPopulation().getName())));
-                    QueryByCriteria criteria = qbcBuilder.build();
-
-                    try {
-                        List<PopulationInfo> populationInfoList = getPopulationService().searchForPopulations(criteria, createContextInfo());
-                        if(populationInfoList == null || populationInfoList.isEmpty()){
-                            GlobalVariables.getMessageMap().putErrorForSectionId("ao-seatpoolgroup", PopulationConstants.POPULATION_MSG_ERROR_POPULATION_NOT_FOUND, seatPool.getSeatPoolPopulation().getName());
-                        } else {
-                            seatPool.getSeatPoolPopulation().setName(populationInfoList.get(0).getName());
-                            seatPool.getSeatPoolPopulation().setId(populationInfoList.get(0).getId());
-                        }
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-
             List<SeatPoolDefinitionInfo> seatPools = this.getSeatPoolDefinitions(activityOfferingWrapper.getSeatpools());
             seatPoolUtilityService.updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), contextInfo);
 
