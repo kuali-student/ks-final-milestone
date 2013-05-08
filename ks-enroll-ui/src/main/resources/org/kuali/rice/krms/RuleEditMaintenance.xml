@@ -167,7 +167,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-ActionLink" p:actionScript="jq('.jstree').jstree('close_all');"
-                      p:actionLabel="[-] collapse all" p:style="margin-right: 15pt;">
+                      p:actionLabel="[-] collapse all" p:style="margin-right: 15pt;margin-left:1em">
                     <property name="actionImage">
                         <null/>
                     </property>
