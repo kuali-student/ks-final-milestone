@@ -72,7 +72,8 @@
                 <ref bean="ActivityOffering-Inquiry-DeliveryLogistic-Actuals"/>
                 <ref bean="ActivityOffering-Inquiry-DeliveryLogistic-Requested"/>
                 <ref bean="ActivityOfferingEdit-PersonnelSection"/>
-                <ref bean="ActivityOfferingEdit-SeatPool"/>
+                <!--<ref bean="ActivityOfferingEdit-SeatPool"/>-->
+                <ref bean="KS-ActivityOffering-Inquiry-SeatPool"/>
                 <ref bean="KS-ActivityOffering-Inquiry-HonorsOffering"/>
                 <ref bean="KS-ActivityOffering-Inquiry-Evaluation"/>
                 <ref bean="ActivityOfferingEdit-Inquiry-Miscellaneous"/>
@@ -249,6 +250,79 @@
                         </list>
                     </property>
                 </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ActivityOffering-Inquiry-SeatPool" parent="Uif-VerticalBoxSection">
+        <property name="componentSecurity.editAuthz" value="true"/>
+        <property name="items">
+            <list>
+                <bean id="ActivityOffering-SeatpoolsSection" parent="Uif-TableCollectionSection"
+                      p:layoutManager.numberOfColumns="6"
+                      p:id="ao-seatpoolgroup"
+                      p:layoutManager.style="width: 100%; display:block;">
+                    <property name="headerText" value="Seat Pools"/>
+                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper" />
+                    <property name="propertyName" value="seatpools" />
+                    <property name="layoutManager.renderSequenceField" value="false" />
+                    <property name="layoutManager.separateAddLine" value="false" />
+                    <property name="layoutManager.richTable.render" value="false" />
+                    <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                    <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+
+
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:id="seatPoolPriority" p:propertyName="seatPool.processingPriority" p:label="PRIORITY" p:maxLength="2" p:required="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="2" />
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="IntegerPatternConstraint" />
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="SEATS" p:maxLength="3" p:id="seatLimit" p:required="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="3" p:onBlurScript="validateSeatsForSP(jQuery(this))" />
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField" p:messageText="%" p:label="PERCENT" p:readOnly="true" p:id="seatLimitPercent" />
+                            <!-- validatePopulationForSP('@{document.newMaintainableObject.dataObject.populationsJSONString}') -->
+                            <bean parent="Uif-InputField" p:label="POPULATION NAME" p:id="ao-seatpoolgroup-population-name" p:propertyName="seatPoolPopulation.name"  p:required="true" p:cssClasses="col_6">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="40"/>
+                                </property>
+                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+                                <property name="quickfinder.fieldConversions">
+                                    <map>
+                                        <entry key="populationInfo.id" value="seatPoolPopulation.id"/>
+                                        <entry key="populationInfo.name" value="seatPoolPopulation.name"/>
+                                    </map>
+                                </property>
+
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="seatPool.expirationMilestoneTypeKey" p:label="EXPIRATION MILESTONE">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" />
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.SeatPoolExpirationMilestoneTypeKeyValues" p:addBlankOption="false"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+
+                    <property name="lineActions">
+                        <list>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="delete"
+                                  p:actionEvent="deleteLine" p:onDocumentReadyScript="calculatePercent()" />
+                        </list>
+                    </property>
+
+                </bean>
+                <bean parent="Uif-MessageField" p:label="Seat Pools" p:messageText="0" p:id="seatpoolCount" />
+                <bean parent="Uif-MessageField" p:label="Seats Remaining" p:messageText="N/A" p:id="seatsRemaining" />
             </list>
         </property>
     </bean>
