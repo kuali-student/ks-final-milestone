@@ -291,6 +291,15 @@
             </list>
         </property>
     </bean>
+
+    <bean id="KS-Uif-ToolBar-Button" parent="Uif-SecondaryActionButton" p:disabled="true" abstract="true">
+        <property name="actionImagePlacement" value="TOP"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>tree-bar-button</value>
+            </list>
+        </property>
+    </bean>
     <!-- the following bean is not used in any place -->
     <!--<bean id="ActionField_SmallSecondary_Override" parent="ActionField_SmallSecondary_Override-parentBean"/>-->
     <!--<bean id="ActionField_SmallSecondary_Override-parentBean" abstract="true"-->
