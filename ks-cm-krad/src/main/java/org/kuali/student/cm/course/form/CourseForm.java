@@ -18,7 +18,6 @@ package org.kuali.student.cm.course.form;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.mapping.Array;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;

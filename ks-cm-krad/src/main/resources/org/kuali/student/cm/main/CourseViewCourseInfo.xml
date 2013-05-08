@@ -105,7 +105,7 @@ limitations under the License.
 					</property>
 				</bean>
 				<bean parent="Uif-TableCollectionSection" p:headerText="Instructor(s)"
-					p:collectionObjectClass=“org.kuali.student.r2.lum.clu.dto.CluInstructorInfo”
+					p:collectionObjectClass="org.kuali.student.r2.lum.clu.dto.CluInstructorInfo"
 					p:propertyName="instructors">
 					<property name="items">
 						<list>
