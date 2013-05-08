@@ -104,12 +104,15 @@ limitations under the License.
 						</list>
 					</property>
 				</bean>
-				<!-- <bean parent="Uif-InputField-LabelTop" p:label="Instructor(s)"
+				<bean parent="Uif-TableCollectionSection" p:headerText="Instructor(s)"
+					p:collectionObjectClass=“org.kuali.student.r2.lum.clu.dto.CluInstructorInfo”
 					p:propertyName="instructors">
-					<property name="control">
-						<bean parent="Uif-TextControl" p:size="20" />
+					<property name="items">
+						<list>
+							<bean parent="Uif-InputField" p:propertyName="personId" />
+						</list>
 					</property>
-				</bean> -->
+				</bean>
 				<bean parent="Uif-VerticalBoxSection" p:title="Description and Rationale"> 
 					<property name="items">
 						<list>
