@@ -332,7 +332,6 @@ public abstract class TestSchedulingServiceImplConformanceBaseCrud {
 	// ****************************************************
 	//           ScheduleBatchInfo
 	// ****************************************************
-	/*
     @Test
 	public void testCrudScheduleBatch() 
 		throws DataValidationErrorException,
@@ -439,7 +438,7 @@ public abstract class TestSchedulingServiceImplConformanceBaseCrud {
 			
 			List<String> scheduleBatchIds = new ArrayList<String>();
 			// code to get DTO by Ids
-			List<ScheduleBatchInfo> records = null; // TODO INSERT CODE TO GET DTO BY IDS
+			List<ScheduleBatchInfo> records = testService.getScheduleBatchesByIds(scheduleBatchIds,contextInfo);
 			
 			assertEquals(scheduleBatchIds.size(), records.size());
 			assertEquals(0, scheduleBatchIds.size());
@@ -451,7 +450,7 @@ public abstract class TestSchedulingServiceImplConformanceBaseCrud {
 			scheduleBatchIds.add(alphaDTO.getId());
 			scheduleBatchIds.add(betaDTO.getId());
 			// code to get DTO by Ids
-			records = null; // TODO INSERT CODE TO GET DTO BY IDS
+			records = testService.getScheduleBatchesByIds(scheduleBatchIds,contextInfo);
 			
 			assertEquals(scheduleBatchIds.size(), records.size());
 			for (ScheduleBatchInfo record : records)
@@ -498,8 +497,7 @@ public abstract class TestSchedulingServiceImplConformanceBaseCrud {
 			}
 			
 	}
-	*/
-	
+
 	/*
 		A method to set the fields for a ScheduleBatch in a 'test create' section prior to calling the 'create' operation.
 	*/
