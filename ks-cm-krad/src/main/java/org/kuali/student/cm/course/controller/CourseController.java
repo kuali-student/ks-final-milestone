@@ -62,17 +62,20 @@ public class CourseController extends UifControllerBase {
     }
     */
 
-    /**
-     * This method is called before the Create New Academic Calendar page is displayed
-     *
-     * It fills in the original Acal for the form with the latest calendar found, by default
-     */
     @RequestMapping(method = RequestMethod.GET, value = "/new")
     public ModelAndView startNew( @ModelAttribute("KualiForm") CourseForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) {
 
         return getUIFModelAndView(form);
     }
+
+	@Override
+	@RequestMapping(method = RequestMethod.POST, params = "methodToCall=navigate")
+	public ModelAndView navigate(UifFormBase form, BindingResult result,
+			HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		return super.navigate(form, result, request, response);
+	}
 
 
     /**
@@ -91,4 +94,6 @@ public class CourseController extends UifControllerBase {
         return super.save(form, result, request, response);
     }
     */
+    
+    
 }
