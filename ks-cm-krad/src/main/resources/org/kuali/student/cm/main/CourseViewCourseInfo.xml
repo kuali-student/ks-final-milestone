@@ -56,21 +56,21 @@ limitations under the License.
 					p:propertyName="proposalInfo.name">
 					<property name="instructionalText" value="This title is used for identifying the proposal through the appproval process. It is highly recommended that you use the same name for the course and proposal title."/>
 					<property name="control">
-						<bean parent="Uif-TextControl" p:size="20" />
+						<bean parent="Uif-LargeTextControl" />
 					</property>
 				</bean>
 				<bean parent="Uif-InputField-LabelTop" p:label="Course Title"
 					p:propertyName="courseTitle">
 					<property name="instructionalText" value="It is highly recommended that you use the same name for the course and proposal title."/>
 					<property name="control">
-						<bean parent="Uif-TextControl" p:size="20" />
+						<bean parent="Uif-LargeTextControl" />
 					</property>
 				</bean>
 				<bean parent="Uif-InputField-LabelTop" p:label="Transcript Course Title"
 					p:propertyName="transcriptCourseTitle">
 					<property name="instructionalText" value="This is the truncated title that will appear on the printed transcript."/>
 					<property name="control">
-						<bean parent="Uif-TextControl" p:size="20" />
+						<bean parent="Uif-TextControl" p:size="24" />
 					</property>
 					<!-- Character count -->
 				</bean>
@@ -80,21 +80,31 @@ limitations under the License.
 							<bean parent="Uif-InputField-LabelTop" p:label="Subject Area"
 								p:propertyName="subjectArea">
 								<property name="constraintText" value="Must be a 4 letter code"/>
+								<property name="validCharactersConstraint">
+									<bean parent="AlphaPatternConstraint"/>
+								</property>
 								<property name="control">
-									<bean parent="Uif-TextControl" p:size="20" />
+									<bean parent="Uif-TextControl" p:size="4" p:watermarkText="AAAA"/>
 								</property>
 							</bean>
 							<bean parent="Uif-InputField-LabelTop" p:label="Course Number"
 								p:propertyName="courseNumberSuffix">
-								<property name="constraintText" value="Must be a 3 digit number"/>
+								<property name="constraintText" value="Must be a 3 digit number" />
+								<property name="validCharactersConstraint">
+									<bean parent="NumericPatternConstraint"/>
+								</property>
 								<property name="control">
-									<bean parent="Uif-TextControl" p:size="20" />
+									<bean parent="Uif-TextControl" p:size="3" p:watermarkText="111"/>
+								</property>
+								<property name="help">
+									<bean parent="Uif-Help"
+										p:tooltipHelpContent="The department will determine the course number based on: course format, restrictions, available numbers, and other factors." />
 								</property>
 							</bean>
 						</list>
 					</property>
 				</bean>
-				<bean parent="Uif-Disclosure-VerticalBoxSection">
+				<bean parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false">
 					<property name="headerText" value="Cross List, Offer Jointly, Add Version Codes" />
 					<property name="items">
 						<list>
