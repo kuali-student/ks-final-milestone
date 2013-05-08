@@ -123,7 +123,7 @@ public interface CourseSearchItem {
 	 * @return an ObjectMapper node for forming the JSON output to represent
 	 *         this search item.
 	 */
-	ObjectNode toJson();
+	ObjectNode toJson(int index);
 
 	/**
 	 * Get contextual data to use for sorting related to this search item.

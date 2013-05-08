@@ -43,7 +43,7 @@ public class CourseSearchFormImpl extends UifFormBase implements
 	// class finder properties
 	private List<String> facet;
 	private int start;
-	private int length;
+	private int count;
 	private String sort;
 	private boolean reverse;
 
@@ -131,12 +131,12 @@ public class CourseSearchFormImpl extends UifFormBase implements
 		this.start = start;
 	}
 
-	public int getLength() {
-		return length;
+	public int getCount() {
+		return count;
 	}
 
-	public void setLength(int length) {
-		this.length = length;
+	public void setCount(int count) {
+		this.count = count;
 	}
 
 	public String getSort() {
@@ -166,7 +166,7 @@ public class CourseSearchFormImpl extends UifFormBase implements
 		result = prime * result
 				+ ((campusSelect == null) ? 0 : campusSelect.hashCode());
 		result = prime * result + ((facet == null) ? 0 : facet.hashCode());
-		result = prime * result + length;
+		result = prime * result + count;
 		result = prime * result + (reverse ? 1231 : 1237);
 		result = prime * result
 				+ ((searchQuery == null) ? 0 : searchQuery.hashCode());
@@ -196,7 +196,7 @@ public class CourseSearchFormImpl extends UifFormBase implements
 				return false;
 		} else if (!facet.equals(other.facet))
 			return false;
-		if (length != other.length)
+		if (count != other.count)
 			return false;
 		if (reverse != other.reverse)
 			return false;
@@ -225,7 +225,7 @@ public class CourseSearchFormImpl extends UifFormBase implements
 		return "CourseSearchFormImpl [searchQuery=" + searchQuery
 				+ ", searchTerm=" + searchTerm + ", campusSelect="
 				+ campusSelect + ", facet=" + facet + ", start=" + start
-				+ ", length=" + length + ", sort=" + sort + ", reverse="
+				+ ", count=" + count + ", sort=" + sort + ", reverse="
 				+ reverse + "]";
 	}
 

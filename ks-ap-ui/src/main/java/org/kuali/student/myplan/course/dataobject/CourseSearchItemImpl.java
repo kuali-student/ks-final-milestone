@@ -159,7 +159,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	}
 
 	@Override
-	public ObjectNode toJson() {
+	public ObjectNode toJson(int index) {
 		throw new UnsupportedOperationException("TODO");
 	}
 

@@ -1629,10 +1629,10 @@ public class CourseSearchController extends UifControllerBase {
 			@ModelAttribute("KualiForm") final ClassFinderForm form,
 			BindingResult result, final HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-
-		List<String> tempFacets = new ArrayList<String>(form.getFacet());
-		tempFacets.add(CourseSearchForm.SEARCH_TERM_ANY_ITEM);
-		form.setFacet(tempFacets);
+		//
+		// List<String> tempFacets = new ArrayList<String>(form.getFacet());
+		// tempFacets.add(CourseSearchForm.SEARCH_TERM_ANY_ITEM);
+		// form.setFacet(tempFacets);
 
 		SessionSearchInfo table = form.getQuery() == null ? null
 				: getSearchResults(new FormKey(form),
@@ -1695,12 +1695,14 @@ public class CourseSearchController extends UifControllerBase {
 		List<EnumeratedValueInfo> enumeratedValueInfoList = KsapFrameworkServiceLocator
 				.getEnumerationHelper().getEnumerationValueInfoList(
 						"kuali.lu.campusLocation");
-		for (EnumeratedValueInfo ev : enumeratedValueInfoList) {
-			ObjectNode campusFacet = campusFacetState.addObject();
-			campusFacet.put("label", ev.getValue());
-			campusFacet.put("value", form.getFacet().contains(ev.getCode()));
-			campusFacet.put("id", ev.getCode());
-		}
+		for (EnumeratedValueInfo ev : enumeratedValueInfoList)
+			if (!"IUCSA".equals(ev.getValue())) {
+				ObjectNode campusFacet = campusFacetState.addObject();
+				campusFacet.put("label", ev.getValue());
+				campusFacet
+						.put("value", form.getFacet().contains(ev.getCode()));
+				campusFacet.put("id", ev.getCode());
+			}
 
 		// TODO - Online class search may be IU specific,
 		// move to strategy override
@@ -1919,12 +1921,13 @@ public class CourseSearchController extends UifControllerBase {
 			// List<SearchInfo> filteredResults =
 			// table.getFilteredResults(form);
 			List<SearchInfo> filteredResults = table.searchResults;
+			json.put("count", filteredResults.size());
 			ArrayNode results = json.putArray("results");
-			for (SearchInfo entry : filteredResults) {
-				// Add each entry to results json.
-				results.add(entry.getItem().toJson());
-			}
-
+			int start = Math.min(form.getStart(), filteredResults.size());
+			int len = Math.min(form.getCount(), filteredResults.size() - start);
+			for (int i = 0; i < len; i++)
+				results.add(filteredResults.get(start + i).getItem()
+						.toJson(start + i));
 		}
 
 		String jsonString = mapper.writeValueAsString(json);

@@ -87,15 +87,15 @@ public interface ClassFinderForm {
 	 * 
 	 * @return The number results to return.
 	 */
-	int getLength();
+	int getCount();
 
 	/**
 	 * Set the number of results to return.
 	 * 
-	 * @param length
+	 * @param count
 	 *            The number results to return.
 	 */
-	void setLength(int length);
+	void setCount(int count);
 
 	/**
 	 * Get the name of the property to sort results by.
