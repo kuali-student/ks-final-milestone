@@ -137,18 +137,8 @@
                               p:tooltipContent="Compares Rules"/>
                     </property>
                 </bean>
-                <bean parent="Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView">
-                    <property name="toolTip">
-                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
-                              p:tooltipContent="Edit Rule"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule">
-                    <property name="toolTip">
-                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
-                              p:tooltipContent="Delete Rule"/>
-                    </property>
-                </bean>
+                <bean parent="Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule"/>
             </list>
         </property>
     </bean>
@@ -156,12 +146,7 @@
     <bean id="KRMS-RuleAdd-Links" parent="Uif-LinkGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule">
-                    <property name="toolTip">
-                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
-                              p:tooltipContent="Add Requisite to Rule"/>
-                    </property>
-                </bean>
+                <bean parent="Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"/>
             </list>
         </property>
     </bean>
