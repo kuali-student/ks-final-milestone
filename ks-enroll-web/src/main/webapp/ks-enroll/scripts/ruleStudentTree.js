@@ -97,7 +97,7 @@ function resetCutSelected(selectedItemId) {
     });
 }
 
-function ajaxPastePropositionTree(controllerMethod, collectionGroupId) {
+function ajaxPastePropositionTree(controllerMethod, collectionGroupId, secondaryGroupId) {
     var enabled = enabledCheck('paste');
     if (enabled) {
         var selectedItemInput = getSelectedPropositionInput();
@@ -113,6 +113,9 @@ function ajaxPastePropositionTree(controllerMethod, collectionGroupId) {
             });
         };
         retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
+        if (secondaryGroupId) {
+            retrieveComponent(secondaryGroupId);
+        }
     }
 }
 
