@@ -117,6 +117,7 @@
                           p:termSpecName="EnrolledCourses"
                           p:value="true">
                         <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.CourseComponentBuilder"/>
                     </bean>
                 </entry>
 
