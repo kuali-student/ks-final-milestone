@@ -825,7 +825,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
             //Build the compare rule tree
             ruleWrapper.setCompareTree(this.getViewHelper(form).buildCompareTree(ruleEditor, ruleWrapper.getRefObjectId()));
-
+            ruleWrapper.setCompareLightBoxHeader( ruleEditor.getRuleTypeInfo().getDescription());
         }
 
         // redirect back to client to display lightbox

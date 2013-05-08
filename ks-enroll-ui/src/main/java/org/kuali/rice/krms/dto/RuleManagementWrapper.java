@@ -29,6 +29,8 @@ public class RuleManagementWrapper extends UifFormBase {
 
     private Tree<CompareTreeNode, String> compareTree;
 
+    private String compareLightBoxHeader;
+
     public String getRefObjectId() {
         return refObjectId;
     }
@@ -151,5 +153,13 @@ public class RuleManagementWrapper extends UifFormBase {
 
     public void setRefDiscriminatorType(String refDiscriminatorType) {
         this.refDiscriminatorType = refDiscriminatorType;
+    }
+
+    public String getCompareLightBoxHeader(){
+        return compareLightBoxHeader;
+    }
+
+    public void setCompareLightBoxHeader( String compareLightBoxHeader){
+        this.compareLightBoxHeader = compareLightBoxHeader;
     }
 }

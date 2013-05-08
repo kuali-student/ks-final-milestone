@@ -266,7 +266,7 @@
         <property name="items">
             <list>
                 <bean parent="KS-VerticalBoxSection">
-                    <property name="headerText" value="Prerequisite Rule"/>
+                    <property name="headerText" value="@{#dp.compareLightBoxHeader}"/>
                     <property name="items">
                         <list>
 
