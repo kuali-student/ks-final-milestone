@@ -270,6 +270,15 @@
                 <!-- Curriculum Management Course Info -->
                 <value>classpath:org/kuali/student/cm/main/CourseView.xml</value>
 				<value>classpath:org/kuali/student/cm/main/CourseViewCourseInfo.xml</value>
+				<value>classpath:org/kuali/student/cm/main/CourseViewGovernance.xml</value>
+				<value>classpath:org/kuali/student/cm/main/CourseViewCourseLogistics.xml</value>
+				<value>classpath:org/kuali/student/cm/main/CourseViewLearningObjectives.xml</value>
+				<value>classpath:org/kuali/student/cm/main/CourseViewCourseRequisites.xml</value>
+				<value>classpath:org/kuali/student/cm/main/CourseViewActiveDates.xml</value>
+				<value>classpath:org/kuali/student/cm/main/CourseViewFinancials.xml</value>
+				<value>classpath:org/kuali/student/cm/main/CourseViewSupportingDocuments.xml</value>
+				<value>classpath:org/kuali/student/cm/main/CourseViewReviewProposal.xml</value>
+				<value>classpath:org/kuali/student/cm/main/CourseViewAuthorsAndCollaborators.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">
