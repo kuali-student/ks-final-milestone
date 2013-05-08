@@ -58,9 +58,12 @@
 			<list>
 				<bean parent="Uif-HeaderTwo" p:headerText="Course Sections"/>
 				<bean id="KS-CourseViewCourseInfo-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="courseInfoPage"
-					p:actionLabel="Course Information"/>
+					p:actionLabel="Course Information">
+                </bean>
 				<bean id="KS-CourseViewGovernance-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="governancePage"
-              		p:actionLabel="Governance"/>
+              		p:actionLabel="Governance">
+                  <property name="template" value="/cm/WEB-INF/jsp/templates/field/navigationActionLink.jsp"/>
+                </bean>
               	<bean id="KS-CourseViewCourseLogistics-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="courseLogisticsPage"
               		p:actionLabel="Course Logistics"/>
               	<bean id="KS-CourseViewLearningObjectives-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="learningObjectivesPage"
