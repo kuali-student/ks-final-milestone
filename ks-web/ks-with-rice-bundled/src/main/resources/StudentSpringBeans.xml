@@ -264,6 +264,7 @@
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionNestedTable.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionTL.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionSL.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/Toolbar.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">

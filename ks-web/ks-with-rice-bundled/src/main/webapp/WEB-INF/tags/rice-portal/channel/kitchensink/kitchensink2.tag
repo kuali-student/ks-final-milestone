@@ -78,5 +78,11 @@
         <li><portal:portalLink displayTitle="true" title="Buttons"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-Buttons-View&methodToCall=start" /></li>
     </ul>
+
+    <strong>Toolbar</strong>
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Toolbar"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-Toolbar-View-Base&methodToCall=start" /></li>
+    </ul>
 </div>
 <channel:portalChannelBottom />
