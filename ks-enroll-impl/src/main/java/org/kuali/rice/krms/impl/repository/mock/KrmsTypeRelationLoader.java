@@ -4,6 +4,7 @@
  */
 package org.kuali.rice.krms.impl.repository.mock;
 
+import java.util.List;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.api.repository.typerelation.RelationshipType;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
@@ -32,7 +33,24 @@ public class KrmsTypeRelationLoader {
         TypeTypeRelation.Builder bldr = TypeTypeRelation.Builder.create(fromTypeId, relationshipType, sequenceNumber, toTypeId);
         bldr.setId(id);
         bldr.setActive(true);
-        this.getKrmsTypeRepositoryService().createTypeTypeRelation(bldr.build());
+        TypeTypeRelation existing = this.findExisting(bldr);
+        if (existing == null) {
+            this.getKrmsTypeRepositoryService().createTypeTypeRelation(bldr.build());
+        } else {
+            // consider comparing and only update if different!
+            bldr.setVersionNumber(existing.getVersionNumber());
+            this.getKrmsTypeRepositoryService().updateTypeTypeRelation(bldr.build());
+        }
+    }
+
+    private TypeTypeRelation findExisting(TypeTypeRelation.Builder bldr) {
+        List<TypeTypeRelation> list = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(bldr.getFromTypeId());
+        for (TypeTypeRelation rel : list) {
+            if (bldr.getToTypeId().equals(rel.getToTypeId())) {
+                return rel;
+            }
+        }
+        return null;
     }
 
     public void load() {
@@ -145,5 +163,4 @@ public class KrmsTypeRelationLoader {
         // TERM PARAMETER
         loadTypeRelation("10100-A-10104", "10100", "10104", "A", 1);
     }
-
 }

@@ -18,7 +18,6 @@ package org.kuali.rice.krms.impl.repository.mock;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +31,7 @@ import static org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService.
 import static org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService.PROPOSITION_SERVICE_NAMES;
 import org.kuali.rice.krms.api.repository.typerelation.RelationshipType;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
+import org.kuali.rice.krms.impl.repository.TypeTypeRelationSequenceComparator;
 
 public class KrmsTypeRepositoryServiceMockImpl implements KrmsTypeRepositoryService {
     // cache variable 
@@ -335,7 +335,7 @@ public class KrmsTypeRepositoryServiceMockImpl implements KrmsTypeRepositoryServ
             throw new RiceIllegalArgumentException(typeId + "'s serviceTypeName is " + fromType.getServiceName() + " expected " + fromServiceNames);
         }
         List<TypeTypeRelation> rels = this.findTypeTypeRelationsByFromType(typeId);
-        Collections.sort(rels, new SequenceComparator ());
+        Collections.sort(rels, new TypeTypeRelationSequenceComparator ());
         List<KrmsTypeDefinition> list = new ArrayList<KrmsTypeDefinition>(rels.size());
         for (TypeTypeRelation rel : rels) {
             KrmsTypeDefinition info = this.getTypeById(rel.getToTypeId());
@@ -346,22 +346,6 @@ public class KrmsTypeRepositoryServiceMockImpl implements KrmsTypeRepositoryServ
         return list;
     }
     
-    private class SequenceComparator implements Comparator<TypeTypeRelation>  {
-
-        @Override
-        public int compare(TypeTypeRelation o1, TypeTypeRelation o2) {
-            Integer seq1 = o1.getSequenceNumber();
-            if (seq1 == null) {
-                seq1 = 0;
-            }
-            Integer seq2 = o2.getSequenceNumber();
-            if (seq2 == null) {
-                seq2 = 0;
-            }
-            return seq1.compareTo(seq2);            
-        }
-        
-    }
 
     @Override
     public List<KrmsTypeDefinition> findAgendaTypesForAgendaType(String agendaTypeId) throws RiceIllegalArgumentException {

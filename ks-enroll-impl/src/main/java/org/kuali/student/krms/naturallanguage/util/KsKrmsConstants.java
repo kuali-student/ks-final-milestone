@@ -16,16 +16,15 @@ public class KsKrmsConstants {
     // dynamic attributes
     public static final String ATTRIBUTE_COMPONENT_ID = "componentId";
     public static final String ATTRIBUTE_COMPONENT_BUILDER_CLASS = "componentBuilderClass";
-    // context ??? 
-    // TODO: decide if we need/want these!
+    // context names
     public static final String CONTEXT_COURSE_REQUIREMENTS = "Course Requirements";
     public static final String CONTEXT_PROGRAM_REQUIREMENTS = "Program Requirements";
+    public static final String CONTEXT_TYPE_DEFAULT = "T1004"; 
     //Namespace
     public static final String NAMESPACE_CODE = "KS-SYS";
     // Context Types
-    public static final String CONTEXT_TYPE_COURSE = "kuali.krms.context.type.course";
-    public static final String CONTEXT_TYPE_PROGRAM = "kuali.krms.context.type.program";
-    public static final String CONTEXT_TYPE_COURSE_OFFERING = "kuali.krms.context.type.course.offering";
+    public static final String AGENDA_TYPE_COURSE = "kuali.krms.agenda.type.course";
+    public static final String AGENDA_TYPE_PROGRAM = "kuali.krms.agenda.type.program";
     // Agenda Types
     public static final String AGENDA_TYPE_COURSE_ENROLLMENTELIGIBILITY = "kuali.krms.agenda.type.course.enrollmentEligibility";
     public static final String AGENDA_TYPE_COURSE_CREDITCONSTRAINTS = "kuali.krms.agenda.type.course.creditConstraints";
@@ -98,18 +97,6 @@ public class KsKrmsConstants {
     public static final String PROPOSITION_TYPE_TEST_SCORE_BETWEEN_VALUES = "kuali.krms.proposition.type.test.score.between.values";
     public static final String PROPOSITION_TYPE_TEST_SCORE = "kuali.krms.proposition.type.test.score";
     public static final String PROPOSITION_TYPE_COMPOUND_AND = "kuali.krms.proposition.type.compound.and";  
-    
-    // parameter types
-    public static final String PROPOSITION_PARAMETER_TYPE_TERM_NUMBER_OF_COMPLETED_COURSES = "kuali.krms.proposition.parameter.type.term.number.of.completed.courses";
-    public static final String PROPOSITION_PARAMETER_TYPE_OPERATOR_LESS_THAN_OR_EQUAL_TO = "kuali.krms.proposition.parameter.type.operator.less.than.or.equal.to";
-    public static final String PROPOSITION_PARAMETER_TYPE_CONSTANT_VALUE_N = "kuali.krms.proposition.parameter.type.constant.value.n";
-    // term parameter types
-    public static final String TERM_PARAMETER_TYPE_COURSE_CLU_ID = "kuali.term.parameter.type.course.clu.id";
-    public static final String TERM_PARAMETER_TYPE_COURSE_CLUSET_ID = "kuali.term.parameter.type.course.cluSet.id";
-    public static final String TERM_PARAMETER_TYPE_FREE_TEXT = "kuali.term.parameter.type.free.text";
-    public static final String TERM_PARAMETER_TYPE_GRADE_ID = "kuali.term.parameter.type.grade.id";
-    public static final String TERM_PARAMETER_TYPE_ORG_ID = "kuali.term.parameter.type.org.id";
-    public static final String TERM_PARAMETER_TYPE_PROGRAM_CLUSET_ID = "kuali.term.parameter.type.program.cluSet.id"; 
     
     // term specs
     public static final String TERM_SPEC_COMPLETEDCOURSE = "CompletedCourse";

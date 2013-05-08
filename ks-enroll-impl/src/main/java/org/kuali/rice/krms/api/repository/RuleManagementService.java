@@ -39,6 +39,7 @@ import org.kuali.rice.krms.api.repository.agenda.AgendaTreeDefinition;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.api.repository.context.ContextSelectionCriteria;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * The rule maintenance service operations facilitate management of rules and
@@ -205,7 +206,7 @@ public interface RuleManagementService extends TranslateBusinessMethods {
     //// agenda methods
     ////
     /**
-     * Create Agenda
+     * Create Agenda and an empty first item
      *
      * @param agendaDefinition data for the new Agenda to be created
      * @return newly created Agenda
@@ -215,6 +216,19 @@ public interface RuleManagementService extends TranslateBusinessMethods {
     @WebMethod(operationName = "createAgenda")
     @WebResult(name = "agenda")
     public AgendaDefinition createAgenda(@WebParam(name = "AgendaDefinition") AgendaDefinition agendaDefinition) throws RiceIllegalArgumentException;
+
+    
+    /**
+     * Create Agenda if not found by contextId and name
+     *
+     * @param agendaDefinition data for the new Agenda to be created
+     * @return newly created or found Agenda
+     * @throws RiceIllegalArgumentException if the given agendaDefinition is
+     *                                      null or invalid
+     */
+    @WebMethod(operationName = "findCreateAgenda")
+    @WebResult(name = "agenda")
+    public AgendaDefinition findCreateAgenda(@WebParam(name = "AgendaDefinition") AgendaDefinition agendaDefinition) throws RiceIllegalArgumentException;
 
     /**
      * Retrieve Agenda for the specified id
@@ -227,6 +241,22 @@ public interface RuleManagementService extends TranslateBusinessMethods {
     @WebResult(name = "agenda")
     public AgendaDefinition getAgenda(@WebParam(name = "id") String id) throws RiceIllegalArgumentException;
 
+	
+    /**
+     * Retrieves an Agenda from the repository based on the provided agenda name
+     * and context id.
+     *
+     * @param name the name of the Agenda to retrieve.
+     * @param contextId the id of the context that the agenda belongs to.
+     * @return an {@link AgendaDefinition} identified by the given name and namespace.  
+     * A null reference is returned if an invalid or non-existent name and
+     * namespace combination is supplied.
+     */
+    @WebMethod(operationName = "getAgendaByNameAndContextId")
+    @WebResult(name = "agenda")
+    public AgendaDefinition getAgendaByNameAndContextId (@WebParam(name = "name") String name,
+                                                         @WebParam(name = "contextId") String contextId);
+    
     /**
      * Retrieve Agendas of the specified type
      *
@@ -409,6 +439,23 @@ public interface RuleManagementService extends TranslateBusinessMethods {
     @WebResult(name = "rule")
     public RuleDefinition getRule(@WebParam(name = "ruleId") String ruleId);
 
+    /**
+     * Retrieves an Rule from the repository based on the provided rule name
+     * and namespace.
+     *
+     * @param name the name of the Rule to retrieve.
+     * @param namespace the namespace that the rule is under.
+     * @return an {@link RuleDefinition} identified by the given name and namespace.
+     * A null reference is returned if an invalid or non-existent name and
+     * namespace combination is supplied.
+     * @throws IllegalArgumentException if the either the name or the namespace
+     * is null or blank.
+     */
+    @WebMethod(operationName = "getRuleByNameAndNamespace")
+    @WebResult(name = "rule")
+    public RuleDefinition getRuleByNameAndNamespace(@WebParam(name = "name") String name, 
+                                                    @WebParam(name = "namespace") String namespace);
+	
     /**
      * Retrieves all of the rules for the given list of ruleIds.  The rule
      * includes the propositions which define the condition that is to be

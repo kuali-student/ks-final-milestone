@@ -31,6 +31,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.krms.impl.repository.language.SimpleNaturalLanguageTemplater;
 
 /**
@@ -151,7 +152,9 @@ public final class NaturalLanguageTemplateBoServiceImpl
     }
 
     @Override
-    public NaturalLanguageTemplate findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(String languageCode, String typeId, String naturalLanguageUsageId) {
+    public NaturalLanguageTemplate findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(String languageCode,
+            String typeId,
+            String naturalLanguageUsageId) {
         if (org.apache.commons.lang.StringUtils.isBlank(languageCode)) {
             throw new IllegalArgumentException("languageCode is null or blank");
         }
@@ -160,6 +163,12 @@ public final class NaturalLanguageTemplateBoServiceImpl
         map.put("naturalLanguageUsageId", naturalLanguageUsageId);
         map.put("typeId", typeId);
         List<NaturalLanguageTemplateBo> bos = (List<NaturalLanguageTemplateBo>) businessObjectService.findMatching(NaturalLanguageTemplateBo.class, map);
+        if (bos.isEmpty()) {
+            return null;
+        }
+        if (bos.size() > 1) {
+            throw new RiceIllegalArgumentException (languageCode + typeId +  naturalLanguageUsageId + " is supposed to be unique");
+        }
         return convertBosToImmutables(bos).get(0);
     }
 

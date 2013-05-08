@@ -4,6 +4,7 @@
  */
 package org.kuali.rice.krms.impl.repository.mock;
 
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 
@@ -28,7 +29,25 @@ public class KrmsTypeLoader {
         bldr.setId(id);
         bldr.setActive(true);
         bldr.setServiceName(serviceName);
-        this.getKrmsTypeRepositoryService().createKrmsType(bldr.build());
+        KrmsTypeDefinition existing = this.findExisting(bldr);
+        if (existing == null) {
+            this.getKrmsTypeRepositoryService().createKrmsType(bldr.build());
+        } else {
+            // consider comparing and only update if different!
+            bldr.setVersionNumber(existing.getVersionNumber());
+            this.getKrmsTypeRepositoryService().updateKrmsType(bldr.build());
+        }
+    }
+
+    private KrmsTypeDefinition findExisting(KrmsTypeDefinition.Builder bldr) {
+        if (bldr.getId() != null) {
+            try {
+                return this.getKrmsTypeRepositoryService().getTypeById(bldr.getId());
+            } catch (RiceIllegalArgumentException ex) {
+                return null;
+            }
+        }
+        return this.getKrmsTypeRepositoryService().getTypeByName(bldr.getNamespace(), bldr.getName());
     }
 
     public void load() {
@@ -121,5 +140,4 @@ public class KrmsTypeLoader {
         loadType("10107", "kuali.term.parameter.type.org.id", "KS-SYS", "termParameterTypeService");
         loadType("10108", "kuali.term.parameter.type.program.cluSet.id", "KS-SYS", "termParameterTypeService");
     }
-
 }

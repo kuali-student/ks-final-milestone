@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
@@ -69,10 +70,27 @@ public class KrmsTermResolverLoader {
                 attributes,
                 parameterNames);
         bldr.setActive(true);
-        this.getTermRepositoryService().createTermResolver(bldr.build());
+        TermResolverDefinition existing = this.findExisting(bldr);
+        if (existing == null) {
+            this.getTermRepositoryService().createTermResolver(bldr.build());
+        } else {
+            bldr.setVersionNumber(existing.getVersionNumber());
+            this.getTermRepositoryService().updateTermResolver(bldr.build());
+        }
     }
-    
-    public void load(){
+
+    private TermResolverDefinition findExisting(TermResolverDefinition.Builder bldr) {
+        if (bldr.getId() != null) {
+            try {
+                return this.getTermRepositoryService().getTermResolverById(bldr.getId());
+            } catch (RiceIllegalArgumentException ex) {
+                return null;
+            }
+        }
+        return this.getTermRepositoryService().getTermResolverByNameAndNamespace(bldr.getName(), bldr.getNamespace());
+    }
+
+    public void load() {
         loadTermResolver("10000", "KS-SYS", "CompletedCourse", "10000", "10000", "", "", "");
         loadTermResolver("10001", "KS-SYS", "CompletedCourses", "10000", "10001", "", "", "");
         loadTermResolver("10002", "KS-SYS", "NumberOfCompletedCourses", "10000", "10002", "", "", "");
@@ -88,6 +106,4 @@ public class KrmsTermResolverLoader {
         loadTermResolver("10012", "KS-SYS", "AdmittedToProgramLimitCoursesInOrgForDuration", "10000", "10012", "", "", "");
         loadTermResolver("10013", "KS-SYS", "FreeFormText", "10000", "10013", "", "", "");
     }
-
-
 }

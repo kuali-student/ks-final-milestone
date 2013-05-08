@@ -223,12 +223,15 @@ public class RuleManagementServiceMockImpl implements RuleManagementService {
     @Override
     public AgendaDefinition createAgenda(AgendaDefinition agendaDefinition)
             throws RiceIllegalArgumentException {
-        // CREATE
         if (agendaDefinition.getId() != null) {
             AgendaDefinition orig = this.getAgenda(agendaDefinition.getId());
             if (orig != null) {
                 throw new RiceIllegalArgumentException(agendaDefinition.getId() + "." + agendaDefinition.getName());
             }
+        }
+        AgendaDefinition existing = this.getAgendaByNameAndContextId (agendaDefinition.getName(), agendaDefinition.getContextId());
+        if (existing == null) {
+            throw new RiceIllegalArgumentException (agendaDefinition.getName() + " " + agendaDefinition.getContextId() + " already exists");
         }
         AgendaDefinition.Builder copy = AgendaDefinition.Builder.create(agendaDefinition);
         if (copy.getId() == null) {
@@ -239,6 +242,29 @@ public class RuleManagementServiceMockImpl implements RuleManagementService {
         agendaMap.put(agendaDefinition.getId(), agendaDefinition);
         return agendaDefinition;
     }
+
+    @Override
+    public AgendaDefinition findCreateAgenda(AgendaDefinition agendaDefinition) throws RiceIllegalArgumentException {
+        AgendaDefinition agenda = this.getAgendaByNameAndContextId(agendaDefinition.getName(), agendaDefinition.getContextId());
+        if (agenda != null) {
+            return agenda;
+        }
+        return this.createAgenda(agendaDefinition);        
+    }
+
+    @Override
+    public AgendaDefinition getAgendaByNameAndContextId(String name, String contextId) {  
+        for (AgendaDefinition info : this.agendaMap.values()) {
+            if (info.getContextId().equals(contextId)) {
+                if (info.getName().equals(name)) {
+                    return info;
+                }
+            }
+        }
+        return null;
+    }
+    
+    
 
     @Override
     public AgendaDefinition getAgenda(String id)
@@ -410,6 +436,20 @@ public class RuleManagementServiceMockImpl implements RuleManagementService {
         return;
     }
 
+    @Override
+    public RuleDefinition getRuleByNameAndNamespace(String name, String namespace) {
+        for (RuleDefinition rule : this.ruleMap.values()) {
+            if (rule.getName().equals(name)) {
+                if (rule.getNamespace().equals(namespace)) {
+                    return rule;
+                }
+            }
+        }
+        return null;
+    }
+
+    
+    
     @Override
     public RuleDefinition createRule(RuleDefinition ruleDefinition)
             throws RiceIllegalArgumentException {
