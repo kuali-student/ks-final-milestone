@@ -143,6 +143,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         this.logStateChange(entity, entity.getSocState(), context);
         entity.setEntityCreated(context);
         socDao.persist(entity);
+        socDao.getEm().flush();
         return entity.toDto();
     }
 
@@ -734,6 +735,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             PermissionDeniedException {
 
         org.springframework.transaction.PlatformTransactionManager mgr;
+        socDao.getEm().flush(); // need to flush to get the version ind to update
 
         SocEntity entity = socDao.find(socId);
         if (entity == null) {
@@ -765,7 +767,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
                 entity.setEntityUpdated(contextInfo);
                 socDao.merge(entity);
-                socDao.getEm().flush(); // need to flush to get the version ind to update
+                //socDao.getEm().flush(); // need to flush to get the version ind to update
             }
             else{
                 throw new OperationFailedException(scStatus.getMessage());
