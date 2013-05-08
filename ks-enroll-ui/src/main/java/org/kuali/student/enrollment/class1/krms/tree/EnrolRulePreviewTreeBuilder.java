@@ -8,6 +8,7 @@ import org.kuali.rice.krms.tree.RulePreviewTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,11 @@ public class EnrolRulePreviewTreeBuilder extends RulePreviewTreeBuilder {
                     for (CluInformation clu : enrolProp.getCluSet().getClus()) {
                         String description = clu.getCode() + (clu.getTitle() != null ? " " + clu.getTitle() : "") + (clu.getCredits() != null ? " " + clu.getCredits() : "");
                         listItems.add(description);
+                    }
+                    if (enrolProp.getCluSet().getCluSets() != null) {
+                        for (CluSetInfo cluSet : enrolProp.getCluSet().getCluSets()) {
+                            listItems.add(cluSet.getName());
+                        }
                     }
                 }
             }

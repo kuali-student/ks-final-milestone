@@ -23,6 +23,12 @@ public class TermParameterEditor implements TermParameterDefinitionContract, Ser
         super();
     }
 
+    public TermParameterEditor(String name, String value){
+        super();
+        this.setName(name);
+        this.setValue(value);
+    }
+
     public TermParameterEditor(TermParameterDefinitionContract contract){
         this.id = contract.getId();
         this.termId = contract.getTermId();

@@ -11,6 +11,7 @@ import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.TreeNode;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,11 @@ public class EnrolRuleViewTreeBuilder extends RuleViewTreeBuilder {
                 if (enrolProp.getCluSet().getClus() != null) {
                     for (CluInformation clu : enrolProp.getCluSet().getClus()) {
                         listItems.add(clu.getCode());
+                    }
+                }
+                if (enrolProp.getCluSet().getCluSets() != null) {
+                    for (CluSetInfo cluSet : enrolProp.getCluSet().getCluSets()) {
+                        listItems.add(cluSet.getName());
                     }
                 }
             }

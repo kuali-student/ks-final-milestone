@@ -85,6 +85,20 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
             CluSetInfo cluSetInfo = propositionEditor.getCluSet().getCluSetInfo();
             if(cluSetInfo.getId()==null){
                 cluSetInfo = this.getCluService().createCluSet(cluSetInfo.getTypeKey(), cluSetInfo, ContextUtils.getContextInfo());
+
+                //Update the termparameter value
+                boolean updated = false;
+                for(TermParameterEditor parm : propositionEditor.getTerm().getEditorParameters()){
+                    if(parm.getName().equals(CLUSET_KEY)){
+                        parm.setValue(cluSetInfo.getId());
+                        updated = true;
+                    }
+                }
+
+                if(!updated){
+                    TermParameterEditor parm = new TermParameterEditor(CLUSET_KEY, cluSetInfo.getId());
+                    propositionEditor.getTerm().getEditorParameters().add(parm);
+                }
             }else{
                 this.getCluService().updateCluSet(cluSetInfo.getId(), cluSetInfo, ContextUtils.getContextInfo());
             }
