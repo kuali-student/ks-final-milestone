@@ -671,13 +671,14 @@ public class RuleEditorController extends MaintenanceDocumentController {
         RuleEditor ruleEditor = getRuleEditor(form);
 
         this.getViewHelper(form).refreshViewTree(ruleEditor);
-        PropositionTreeUtil.resetNewProp((PropositionEditor) ruleEditor.getProposition());
+        if (!(ruleEditor.getProposition() == null && ruleEditor.getPropId() == null)) {
+            PropositionTreeUtil.resetNewProp((PropositionEditor) ruleEditor.getProposition());
 
-        if(PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor)){
-            PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
-            this.getViewHelper(form).resetDescription(proposition);
+            if (PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor)) {
+                PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
+                this.getViewHelper(form).resetDescription(proposition);
+            }
         }
-
 
         //Replace edited rule with existing rule.
         for (AgendaEditor agendaEditor : ruleWrapper.getAgendas()) {
