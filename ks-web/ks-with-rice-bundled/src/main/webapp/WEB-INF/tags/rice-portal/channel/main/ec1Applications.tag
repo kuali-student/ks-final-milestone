@@ -26,6 +26,10 @@
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Test Service Call" url="${ConfigProperties.application.url}/kr-krad/testServiceCall?viewId=testServiceCallView&pageId=firstServiceCall&methodToCall=start"/></li>
     </ul>
+    <strong>State Propagation Testing</strong>
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Test State Propagation" url="${ConfigProperties.application.url}/kr-krad/testStatePropagation?viewId=testStatePropagationView&pageId=testStatePropagationPageId&methodToCall=start"/></li>
+    </ul>
 
 </div>
 
