@@ -44,8 +44,21 @@ public class SeatPoolUtilityServiceImpl implements SeatPoolUtilityService {
         List<SeatPoolDefinitionInfo> updatedSeatPoolFinalList = new ArrayList<SeatPoolDefinitionInfo>();
         List <String> currentSeatPoolIds = getExistingSeatPoolIds(activityOfferingId, context);
 
+        List<String> idsToDelete = _getSeatPoolIdsToDelete(updatedSeatPoolList, currentSeatPoolIds);
+
         try {
             if (updatedSeatPoolList != null)  {
+
+                //delete SPs that have been removed by the user
+                // This MUST happen BEFORE we add any items. There is validation that runs when
+                // a Seatpool is added that breaks if we haven't removed deleted items from the
+                // AO.
+                if (idsToDelete != null && !idsToDelete.isEmpty()){
+                    for(String seatPoolId: idsToDelete){
+                        getCourseOfferingService().deleteSeatPoolDefinition(seatPoolId, context);
+                    }
+                }
+
                 Collections.sort(updatedSeatPoolList, new Comparator<SeatPoolDefinitionInfo>() {
                     @Override
                     public int compare(SeatPoolDefinitionInfo sp1, SeatPoolDefinitionInfo sp2) {
@@ -73,17 +86,27 @@ public class SeatPoolUtilityServiceImpl implements SeatPoolUtilityService {
                     seatPoolPriority++;
                 }
 
-                //delete SPs that have been removed by the user
-                if (currentSeatPoolIds != null && currentSeatPoolIds.size() > 0){
-                    for(String seatPoolId: currentSeatPoolIds){
-                        getCourseOfferingService().deleteSeatPoolDefinition(seatPoolId, context);
-                    }
-                }
-
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private List<String>  _getSeatPoolIdsToDelete(List<SeatPoolDefinitionInfo> updatedSeatPoolList, List <String> currentSeatPoolIds){
+
+        List<String> idsToDelete = new ArrayList<String>();
+        List<String> updatedSeatPoolIds = new ArrayList<String>();
+
+        for(SeatPoolDefinitionInfo sp : updatedSeatPoolList){
+            updatedSeatPoolIds.add(sp.getId());
+        }
+
+        for(String  currentSeatPoolId : currentSeatPoolIds){
+          if(!updatedSeatPoolIds.contains(currentSeatPoolId)){
+            idsToDelete.add(currentSeatPoolId);
+          }
+        }
+        return idsToDelete;
     }
 
     private List<String> getExistingSeatPoolIds(String activityOfferingId, ContextInfo context) {
