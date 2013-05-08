@@ -450,7 +450,7 @@
                         </list>
                     </property>
                     <property name="addBlankLineAction">
-                        <bean parent="Uif-SecondaryActionButton-Small" p:onDocumentReadyScript="showSPAddlinePriority();" p:hidden="@{#parent.readOnly}">
+                        <bean parent="Uif-SecondaryActionButton-Small" p:onDocumentReadyScript="showSPAddlinePriority();" >
                             <property name="methodToCall" value="addBlankLine"/>
                             <property name="actionEvent" value="addBlankLine"/>
                             <property name="id" value="uif-addBlankLine"/>
