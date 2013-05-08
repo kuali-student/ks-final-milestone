@@ -70,7 +70,7 @@ public class CourseController extends UifControllerBase {
     }
 
 	@Override
-	@RequestMapping(method = RequestMethod.GET, params = "methodToCall=navigate")
+	@RequestMapping(method = RequestMethod.POST, params = "methodToCall=navigate")
 	public ModelAndView navigate(UifFormBase form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
