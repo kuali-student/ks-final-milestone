@@ -195,8 +195,8 @@
                 </property>
             </bean>
         </property>
-        <property name="breadcrumbTitlePropertyName" value="Edit @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode} - @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingTitle} (@{document.oldMaintainableObject.dataObject.courseOfferingInfo.creditCnt} Credits)"/>
-        <property name="breadcrumbTitleDisplayOption" value="replace"/>
+        <!--<property name="viewLabelFieldPropertyName" value="Edit @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode} - @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingTitle} (@{document.oldMaintainableObject.dataObject.courseOfferingInfo.creditCnt} Credits)"/>-->
+        <!--<property name="breadcrumbTitleDisplayOption" value="replace"/>-->
 
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />
         <property name="page.items">

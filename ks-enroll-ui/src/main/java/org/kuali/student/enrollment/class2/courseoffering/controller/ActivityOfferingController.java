@@ -272,20 +272,20 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
 
         GlobalVariables.getMessageMap().addGrowlMessage("", "activityOffering.modified" );
 
-        if( form.getFormHistory().getHistoryEntries().isEmpty()){
-            return modelAndView;
-        }
-
-        //Redirect to last page (some hackery here that I'd rather not do
-        //The url has lots of dulpicate params which prevents history from working correctly
-        String url = form.getFormHistory().getHistoryEntries().get(form.getFormHistory().getHistoryEntries().size() - 1).getUrl();
-        url = url.replaceAll("&methodToCall=[a-zA-Z]+","");
-        url = url.replaceAll("&pageId=[a-zA-Z]+","");
-        url = url.replaceAll("\\?methodToCall=[a-zA-Z]+&","?");
-        url = url.replaceAll("\\?pageId=[a-zA-Z]+&","?");
-        form.getFormHistory().getHistoryEntries().get(form.getFormHistory().getHistoryEntries().size() - 1).setUrl(url);
-        modelAndView = returnToHistory(form, false);
-        modelAndView.setViewName(modelAndView.getViewName().replaceFirst("methodToCall="+ UifConstants.MethodToCallNames.REFRESH,"methodToCall=show"));
+//        if( form.getHistoryFlow().FormHistory().getHistoryEntries().isEmpty()){
+//            return modelAndView;
+//        }
+//
+//        //Redirect to last page (some hackery here that I'd rather not do
+//        //The url has lots of dulpicate params which prevents history from working correctly
+//        String url = form.getFormHistory().getHistoryEntries().get(form.getFormHistory().getHistoryEntries().size() - 1).getUrl();
+//        url = url.replaceAll("&methodToCall=[a-zA-Z]+","");
+//        url = url.replaceAll("&pageId=[a-zA-Z]+","");
+//        url = url.replaceAll("\\?methodToCall=[a-zA-Z]+&","?");
+//        url = url.replaceAll("\\?pageId=[a-zA-Z]+&","?");
+//        form.getFormHistory().getHistoryEntries().get(form.getFormHistory().getHistoryEntries().size() - 1).setUrl(url);
+//        modelAndView = returnToHistory(form, false);
+//        modelAndView.setViewName(modelAndView.getViewName().replaceFirst("methodToCall="+ UifConstants.MethodToCallNames.REFRESH,"methodToCall=show"));
         return modelAndView;
     }
 

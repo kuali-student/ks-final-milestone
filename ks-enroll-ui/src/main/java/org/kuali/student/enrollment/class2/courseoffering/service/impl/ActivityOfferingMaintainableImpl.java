@@ -720,7 +720,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     }
 
     protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine,boolean isValidLine) {
-        super.processAfterAddLine(view, collectionGroup, model, addLine);
+        super.processAfterAddLine(view, collectionGroup, model, addLine, true);
 
         if (addLine instanceof ScheduleComponentWrapper) {
             ScheduleComponentWrapper scheduleComponentWrapper = (ScheduleComponentWrapper) addLine;

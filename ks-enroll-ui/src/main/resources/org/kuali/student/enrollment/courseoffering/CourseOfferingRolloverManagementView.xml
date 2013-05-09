@@ -36,17 +36,17 @@
                 <bean parent="Uif-FooterBase"/>
             </property>
 
-        <property name="breadCrumbConfigMap">
-            <map>
-                <entry key="releaseToDepts">
-                    <map key-type="java.lang.String">
-                        <entry key="Home" value=""/>
-                        <entry key="Rollover Details" value="selectTermForRolloverDetails"/>
-                        <entry key="@{rolloverTargetTermDesc == '' ? 'Unknown Term Course Offerings': rolloverTargetTermDesc + ' Course Offerings'}" value=""/>
-                    </map>
-                </entry>
-            </map>
-        </property>
+        <!--<property name="breadCrumbConfigMap">-->
+            <!--<map>-->
+                <!--<entry key="releaseToDepts">-->
+                    <!--<map key-type="java.lang.String">-->
+                        <!--<entry key="Home" value=""/>-->
+                        <!--<entry key="Rollover Details" value="selectTermForRolloverDetails"/>-->
+                        <!--<entry key="@{rolloverTargetTermDesc == '' ? 'Unknown Term Course Offerings': rolloverTargetTermDesc + ' Course Offerings'}" value=""/>-->
+                    <!--</map>-->
+                <!--</entry>-->
+            <!--</map>-->
+        <!--</property>-->
 
             <property name="items">
                 <list>

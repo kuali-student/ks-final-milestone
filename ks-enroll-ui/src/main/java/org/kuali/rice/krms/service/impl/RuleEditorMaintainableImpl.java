@@ -360,10 +360,10 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
      *
      * @see org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl#processAfterAddLine(org.kuali.rice.krad.uif.view.View,
      *      org.kuali.rice.krad.uif.container.CollectionGroup, Object,
-     *      Object)
+     *      Object, boolean)
      */
     @Override
-    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine, boolean isValidLine) {
         // Check for maintenance documents in edit but exclude notes
         if (model instanceof MaintenanceDocumentForm && KRADConstants.MAINTENANCE_EDIT_ACTION.equals(((MaintenanceDocumentForm) model).getMaintenanceAction()) && !(addLine instanceof Note)) {
             MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;

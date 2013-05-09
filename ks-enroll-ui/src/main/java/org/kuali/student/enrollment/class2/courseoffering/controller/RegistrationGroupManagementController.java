@@ -47,7 +47,7 @@ import java.util.*;
 @Controller
 @RequestMapping(value = "/registrationGroupManagement")
 public class RegistrationGroupManagementController extends UifControllerBase {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingManagementController.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RegistrationGroupManagementController.class);
     private TypeService typeService;
     private StateService stateService;
     private RegistrationGroupManagementViewHelperService viewHelperService;

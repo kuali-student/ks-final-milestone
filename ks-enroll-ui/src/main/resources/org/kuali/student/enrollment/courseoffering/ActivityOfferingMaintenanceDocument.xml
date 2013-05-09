@@ -55,7 +55,7 @@
         </property>
         <property name="headerText" value="Edit Activity Offering"/>
         <property name="header.render" value="false"/>
-        <property name="breadcrumbTitlePropertyName" value="aoInfo.activityCode"/>
+        <!--<property name="viewLabelFieldPropertyName" value="aoInfo.activityCode"/>-->
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />
         <property name="singlePageView" value="true"/>

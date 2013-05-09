@@ -36,7 +36,7 @@
 
     <!--bean id="KRMS-Course-SuggestControl" parent="Uif-Suggest">
         <property name="render" value="true"/>
-        <property name="sourcePropertyName" value="displayName"/>
+        <property name="valuePropertyName" value="displayName"/>
         <property name="templateOptions" value="minLength:1,delay:0"/>
         <property name="suggestQuery">
             <bean parent="Uif-AttributeQueryConfig">
@@ -215,7 +215,7 @@
                     <!--property name="suggest">
                         <bean parent="Uif-Suggest">
                             <property name="render" value="true"/>
-                            <property name="sourcePropertyName" value="displayName"/>
+                            <property name="valuePropertyName" value="displayName"/>
                             <property name="templateOptions" value="minLength:1,delay:0"/>
                             <property name="suggestQuery">
                                 <bean parent="Uif-AttributeQueryConfig">
@@ -425,7 +425,7 @@
         <property name="suggest">
             <bean parent="Uif-Suggest">
                 <property name="render" value="true"/>
-                <property name="sourcePropertyName" value="displayName"/>
+                <property name="valuePropertyName" value="displayName"/>
                 <property name="templateOptions" value="minLength:1,delay:0"/>
                 <property name="suggestQuery">
                     <bean parent="Uif-AttributeQueryConfig">
@@ -467,7 +467,7 @@
         <property name="suggest">
             <bean parent="Uif-Suggest">
                 <property name="render" value="true"/>
-                <property name="sourcePropertyName" value="displayName"/>
+                <property name="valuePropertyName" value="displayName"/>
                 <property name="templateOptions" value="minLength:1,delay:0"/>
                 <property name="suggestQuery">
                     <bean parent="Uif-AttributeQueryConfig">
@@ -790,7 +790,7 @@
                     <!--<property name="suggest">-->
                         <!--<bean parent="Uif-Suggest">-->
                             <!--<property nahme="render" value="true"/>-->
-                            <!--<property name="sourcePropertyName" value="displayName"/>-->
+                            <!--<property name="valuePropertyName" value="displayName"/>-->
                             <!--<property name="templateOptions" value="minLength:1,delay:0"/>-->
                             <!--<property name="suggestQuery">-->
                                 <!--<bean parent="Uif-AttributeQueryConfig">-->

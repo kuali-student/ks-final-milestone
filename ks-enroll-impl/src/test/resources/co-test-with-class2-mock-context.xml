@@ -21,7 +21,7 @@
         </constructor-arg>
     </bean>
 
-    <bean id="kualiConfigurationService" class="org.kuali.rice.krad.service.impl.ConfigurationServiceImpl" depends-on="configContext" />
+    <bean id="kualiConfigurationService" class="org.kuali.rice.core.impl.services.ConfigurationServiceImpl" depends-on="configContext" />
 
 	<bean id="atpService"
 		class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl">

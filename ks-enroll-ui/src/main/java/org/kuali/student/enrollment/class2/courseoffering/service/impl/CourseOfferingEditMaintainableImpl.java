@@ -320,7 +320,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
     }
 
     @Override
-    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine, boolean isValidLine) {
         if(addLine instanceof OfferingInstructorInfo) {
             // set the person name if it's null, in the case of user-input personell id
             OfferingInstructorInfo instructorInfo = (OfferingInstructorInfo)addLine;

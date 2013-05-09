@@ -51,7 +51,8 @@ import java.util.Properties;
  * @author Kuali Student Team
  */
 @Controller
-@RequestMapping(value = "/lookup")
+// TODO: KSENROLL-6698 workaround for inability to exclude LookupController. Change back to "/lookup"
+@RequestMapping(value = "/ks-lookup")
 public class KSLookupController extends LookupController {
 
     private static final Logger LOG = Logger.getLogger(KSLookupController.class);
@@ -80,7 +81,7 @@ public class KSLookupController extends LookupController {
 
                 Properties redirectUrlProps = new Properties();
                 redirectUrlProps.put(UifParameters.REDIRECTED_LOOKUP, "true");
-                UifControllerHelper.prepareHistory(request, form);
+                //UifControllerHelper.prepareHistory(request, form);
                 // clear current form from session
                 GlobalVariables.getUifFormManager().removeSessionForm(form);
 

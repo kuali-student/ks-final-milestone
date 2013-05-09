@@ -23,7 +23,7 @@
 
 
   <bean id="businessObjectService"
-        class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
     <property name="serviceName" value="businessObjectService" />
   </bean>
 
@@ -103,7 +103,7 @@
 
   <!-- PeopleFlow action type services -->
 
-<!--   <bean id="configurationService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean"> -->
+<!--   <bean id="configurationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean"> -->
 <!--     <property name="serviceName" value="kualiConfigurationService"/> -->
 <!--   </bean> -->
 

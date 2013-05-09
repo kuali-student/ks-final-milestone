@@ -36,6 +36,14 @@
                 </entry>
             </map>
         </property> -->
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Home"/>
+                    <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
+                </bean>
+            </list>
+        </property>
 
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>

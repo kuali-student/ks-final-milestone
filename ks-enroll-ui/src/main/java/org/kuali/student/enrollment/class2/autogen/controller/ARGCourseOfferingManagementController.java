@@ -190,11 +190,11 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
         String controllerPath = RegistrationGroupConstants.RG_CONTROLLER_PATH;
 
         //set the redirection param to carry over view information to RG view for customized breadcrumb generation
-        urlParameters.put(CourseOfferingConstants.BREADCRUMB_PREVIOUS_CONTROLLER_PATH_KEY, CourseOfferingConstants.MANAGE_CO_CONTROLLER_PATH);
-        urlParameters.put(CourseOfferingConstants.BREADCRUMB_PREVIOUS_VIEW_ID_KEY, CourseOfferingConstants.MANAGE_CO_VIEW_ID);
-        urlParameters.put(CourseOfferingConstants.BREADCRUMB_PREVIOUS_HOME_URL_KEY, theForm.getFormHistory().getHomewardPath().get(0).getUrl());
-        urlParameters.put(CourseOfferingConstants.BREADCRUMB_PREVIOUS_FORM_HISTORY_KEY, theForm.getFormHistory().getHistoryParameterString());
-        urlParameters.put(CourseOfferingConstants.BREADCRUMB_PREVIOUS_FORMKEY_KEY, theForm.getFormKey());
+//        urlParameters.put(CourseOfferingConstants.BREADCRUMB_PREVIOUS_CONTROLLER_PATH_KEY, CourseOfferingConstants.MANAGE_CO_CONTROLLER_PATH);
+//        urlParameters.put(CourseOfferingConstants.BREADCRUMB_PREVIOUS_VIEW_ID_KEY, CourseOfferingConstants.MANAGE_CO_VIEW_ID);
+//        urlParameters.put(CourseOfferingConstants.BREADCRUMB_PREVIOUS_HOME_URL_KEY, theForm.getFormHistory().getHomewardPath().get(0).getUrl());
+//        urlParameters.put(CourseOfferingConstants.BREADCRUMB_PREVIOUS_FORM_HISTORY_KEY, theForm.getFormHistory().getHistoryParameterString());
+//        urlParameters.put(CourseOfferingConstants.BREADCRUMB_PREVIOUS_FORMKEY_KEY, theForm.getFormKey());
 
         return super.performRedirect(theForm, controllerPath, urlParameters);
 

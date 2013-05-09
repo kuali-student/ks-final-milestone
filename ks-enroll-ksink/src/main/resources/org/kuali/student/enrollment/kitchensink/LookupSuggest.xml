@@ -40,7 +40,7 @@
             <bean parent="Uif-Suggest">
                 <property name="render" value="true"/>
                 <!-- sourcePropertyName is the Person property displayed in the resulting suggest menu -->
-                <property name="sourcePropertyName" value="name"/>
+                <property name="valuePropertyName" value="name"/>
                 <property name="templateOptions" value="minLength:2,delay:0"/>
                 <property name="suggestQuery">
                     <bean parent="Uif-AttributeQueryConfig">

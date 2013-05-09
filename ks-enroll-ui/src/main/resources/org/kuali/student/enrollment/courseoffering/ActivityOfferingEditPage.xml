@@ -201,7 +201,7 @@
                         <bean parent="Uif-TextControl" p:size="10" p:watermarkText="ENGL101"/>
                     </property>
                     <property name="suggest">
-                        <bean parent="Uif-Suggest" p:render="true" p:sourceQueryMethodResults="true">
+                        <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
                             <property name="suggestQuery">
                                 <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveCourseOfferingCode" p:queryMethodArgumentFieldList="document.newMaintainableObject.dataObject.termId"/>
                             </property>
@@ -227,7 +227,7 @@
                         <bean parent="Uif-TextControl" p:size="4" p:watermarkText="A"/>
                     </property>
                     <!--<property name="suggest">
-                        <bean parent="Uif-Suggest" p:render="true" p:sourceQueryMethodResults="true">
+                        <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
                           <property name="suggestQuery">
                             <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveActivityOfferingCode"
                                   p:queryMethodArgumentFieldList="document.newMaintainableObject.dataObject.termId,newCollectionLines['document.newMaintainableObject.dataObject.colocatedActivities'].courseOfferingCode" p:renderNotFoundMessage="true" p:returnMessageText="Please enter valid course/activity offering code."/>

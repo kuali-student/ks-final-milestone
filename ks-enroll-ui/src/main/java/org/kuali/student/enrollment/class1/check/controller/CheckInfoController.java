@@ -185,7 +185,7 @@ public class CheckInfoController extends UifControllerBase {
         }
        createForm.setStateKey(checkInfo.getStateKey());
        createForm.setCheckInfo(checkInfo);
-       return close(createForm, result, request, response);
+       return back(createForm, result, request, response);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=edit")

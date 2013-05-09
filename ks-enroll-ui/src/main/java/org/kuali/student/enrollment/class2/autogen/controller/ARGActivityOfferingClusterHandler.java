@@ -139,7 +139,7 @@ public class ARGActivityOfferingClusterHandler {
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, ActivityOfferingWrapper.class.getName());
         urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
 
-        KSUifUtils.setBreadcrumbRedirectUrlParams(urlParameters, theForm);
+//        KSUifUtils.setBreadcrumbRedirectUrlParams(urlParameters, theForm);
         return urlParameters;
     }
 
