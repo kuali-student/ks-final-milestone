@@ -63,12 +63,12 @@ create table maxind_t as (select b.sched_rqst_set_id as srsid, a.attr_value as m
 
 /
 
-drop table colosets_t
+-- Create temp table with srsid, maxenr
+create table maxenr_t as (select b.sched_rqst_set_id as srsid, a.attr_value as maxenr from ksen_lui_set_attr a, colosets_t b where a.owner_id = b.ref_object_id and a.attr_key = 'kuali.attribute.colocatedset.max.enrollment')
 
 /
 
--- Create temp table with srsid, maxenr
-create table maxenr_t as (select b.sched_rqst_set_id as srsid, a.attr_value as maxenr from ksen_lui_set_attr a, colosets_t b where a.owner_id = b.ref_object_id and a.attr_key = 'kuali.attribute.colocatedset.max.enrollment')
+drop table colosets_t
 
 /
 
