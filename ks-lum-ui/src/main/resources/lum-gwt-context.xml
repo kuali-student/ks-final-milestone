@@ -50,7 +50,7 @@
 		</property>
 	</bean>
 
-	<bean id="transactionManager" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+	<bean id="transactionManager" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="transactionManager" />
 	</bean>
 
