@@ -24,7 +24,7 @@
      *****
      (1) org/kuali/rice/kns/bo/datadictionary/DataDictionaryBaseTypes.xml"
     -->
-    <import resource="classpath:org/kuali/rice/krad/bo/datadictionary/DataDictionaryBaseTypes.xml"/>
+    <import resource="classpath:org/kuali/rice/krad/datadictionary/DataDictionaryBaseTypes.xml"/>
 
 
     <bean id="AlphanumericHyphenPeriod" parent="AlphaNumericPatternConstraint"
