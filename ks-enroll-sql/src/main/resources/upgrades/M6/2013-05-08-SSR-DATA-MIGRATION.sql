@@ -46,6 +46,9 @@ create table ssrtemp1_t as (select sched_id, sched_rqst_set_id from ksen_lui_sch
 /
 
 update ksen_sched_rqst a set sched_id = (select sched_id from ssrtemp1_t where ssrtemp1_t.sched_rqst_set_id = a.sched_rqst_set_id and rownum = 1)
+
+/
+
 drop table ssrtemp1_t
 
 /
