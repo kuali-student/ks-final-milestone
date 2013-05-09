@@ -99,5 +99,12 @@
 
     <bean id="coCriteriaLookupService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CriteriaLookupServiceMockImpl" />
 
+    <bean id="schedulingServiceDataLoader" class="org.kuali.student.r2.core.scheduling.SchedulingServiceDataLoader">
+        <property name="schedulingService"  ref="schedulingService"  />
+        <property name="atpService" ref="atpService" />
+        <property name="roomService" ref="roomService" />
+
+    </bean>
+
 </beans>
 

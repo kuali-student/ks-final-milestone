@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
-import org.kuali.student.enrollment.class2.acal.util.AcalTestDataLoader;
 import org.kuali.student.enrollment.class2.acal.util.MockAcalTestDataLoader;
 import org.kuali.student.lum.lrc.service.util.MockLrcTestDataLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -27,6 +26,7 @@ public class TestCourseOfferingServiceImplWithFewerClass1Mocks extends TestCours
             new MockLrcTestDataLoader(this.lrcService).loadData();
 
             createStateTestData();
+            createScheduleTestData();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }

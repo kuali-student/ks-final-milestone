@@ -36,6 +36,8 @@ import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.scheduling.SchedulingServiceDataLoader;
+import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
@@ -44,7 +46,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -71,6 +77,11 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
     protected AtpService atpService;
     @Resource(name = "LrcService")
     protected LRCService lrcService;
+    @Resource(name = "schedulingService")
+    protected SchedulingService schedulingService;
+
+    @Resource(name = "schedulingServiceDataLoader")
+    private SchedulingServiceDataLoader schedulingServiceDataLoader;
 
     @Before
     public void setUp() {
@@ -87,6 +98,7 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
             new MockLrcTestDataLoader(this.lrcService).loadData();
 
             createStateTestData();
+            createScheduleTestData();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -114,6 +126,9 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
         addState( coLifecycle, LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY, true );
     }
 
+    protected void createScheduleTestData() throws Exception {
+        schedulingServiceDataLoader.loadData();
+    }
     // TODO: temporary stop-gap because SS throws an error about duplicate-data; this cleans state from previous runs
     private void cleanupStateTestData( String state ) {
         try {
