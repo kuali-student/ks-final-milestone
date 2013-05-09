@@ -79,7 +79,6 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
     protected LRCService lrcService;
     @Resource(name = "schedulingService")
     protected SchedulingService schedulingService;
-
     @Resource(name = "schedulingServiceDataLoader")
     private SchedulingServiceDataLoader schedulingServiceDataLoader;
 
@@ -98,11 +97,15 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
             new MockLrcTestDataLoader(this.lrcService).loadData();
 
             createStateTestData();
-            createScheduleTestData();
+            createSchedulingServiceData();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
 
+    }
+
+    protected void createSchedulingServiceData() throws Exception {
+        schedulingServiceDataLoader.loadData();
     }
 
     protected void createStateTestData() throws Exception {
@@ -126,9 +129,6 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
         addState( coLifecycle, LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY, true );
     }
 
-    protected void createScheduleTestData() throws Exception {
-        schedulingServiceDataLoader.loadData();
-    }
     // TODO: temporary stop-gap because SS throws an error about duplicate-data; this cleans state from previous runs
     private void cleanupStateTestData( String state ) {
         try {

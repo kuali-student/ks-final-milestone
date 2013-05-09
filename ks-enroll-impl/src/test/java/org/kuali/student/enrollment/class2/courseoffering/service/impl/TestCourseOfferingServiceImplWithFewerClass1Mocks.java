@@ -26,7 +26,7 @@ public class TestCourseOfferingServiceImplWithFewerClass1Mocks extends TestCours
             new MockLrcTestDataLoader(this.lrcService).loadData();
 
             createStateTestData();
-            createScheduleTestData();
+            createSchedulingServiceData();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
