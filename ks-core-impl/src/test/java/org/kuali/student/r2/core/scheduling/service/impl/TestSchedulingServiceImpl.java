@@ -947,28 +947,6 @@ public class TestSchedulingServiceImpl {
             assertTrue(displayInfo.getScheduleRequestComponentDisplays().get(0).getOrgs().size() > 0);
         }
 
-        pList.clear();
-        displayInfoList.clear();
-        qBuilder.setPredicates();
-        p = equal("refObjectId", scheduleRequestInfoRefObjectId);
-        pList.add(p);
-
-        qBuilder.setPredicates(p);
-
-        displayInfoList = getSchedulingService().searchForScheduleRequestDisplays(qBuilder.build(), contextInfo);
-        assertNotNull(displayInfoList);
-        assertTrue(displayInfoList.size() > 0);
-        assertEquals(displayInfoList.get(0).getId(), scheduleRequestInfo.getId());
-        assertEquals(displayInfoList.get(0).getName(), scheduleRequestInfo.getName());
-
-        for (ScheduleRequestDisplayInfo displayInfo : displayInfoList) {
-            assertNotNull(displayInfo);
-            assertTrue(displayInfo.getScheduleRequestComponentDisplays().size() > 0);
-            assertTrue(displayInfo.getScheduleRequestComponentDisplays().get(0).getBuildings().size() > 0);
-            assertTrue(displayInfo.getScheduleRequestComponentDisplays().get(0).getRooms().size() > 0);
-            assertTrue(displayInfo.getScheduleRequestComponentDisplays().get(0).getOrgs().size() > 0);
-        }
-
     }
 
     @Test
