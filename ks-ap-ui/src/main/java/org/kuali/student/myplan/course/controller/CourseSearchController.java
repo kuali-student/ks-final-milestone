@@ -984,6 +984,29 @@ public class CourseSearchController extends UifControllerBase {
 			}
 		}
 
+		/**
+		 * Update checked state on all facets following a click event from the
+		 * class finder interface.
+		 * 
+		 * @param form
+		 *            The class finder form.
+		 */
+		private void facetClick(ClassFinderForm form) {
+			for (Map<String, FacetState> fsm : facetState.values()) {
+				boolean none = true;
+				for (String fsk : fsm.keySet())
+					none = none && !form.getFacet().contains(fsk);
+				if (none)
+					for (FacetState fs : fsm.values())
+						fs.checked = true;
+				else
+					for (Entry<String, FacetState> fe : fsm.entrySet())
+						fe.getValue().checked = form.getFacet().contains(
+								fe.getKey());
+			}
+			updateFacetCounts();
+		}
+
 		private List<SearchInfo> getFilteredResults(
 				final DataTablesInputs dataTablesInputs) {
 			final List<SearchInfo> filteredResults = new ArrayList<SearchInfo>(
@@ -1670,6 +1693,8 @@ public class CourseSearchController extends UifControllerBase {
 										true);
 							}
 						}, request);
+		if (table != null)
+			table.facetClick(form);
 
 		ObjectNode json = mapper.createObjectNode();
 
@@ -1722,16 +1747,19 @@ public class CourseSearchController extends UifControllerBase {
 		List<EnumeratedValueInfo> enumeratedValueInfoList = KsapFrameworkServiceLocator
 				.getEnumerationHelper().getEnumerationValueInfoList(
 						"kuali.lu.campusLocation");
-		
+
 		EnumeratedValueInfo csa = null;
 		for (EnumeratedValueInfo ev : enumeratedValueInfoList)
-			if (!"IUCSA".equals(ev.getValue())) {
+			// TODO - Online class search is IU specific,
+			// move to strategy override
+			if (!"edu.iu.sis.acadorg.SisInstitution.IUCSA"
+					.equals(ev.getValue())) {
 				ObjectNode campusFacet = campusFacetState.addObject();
 				campusFacet.put("label", ev.getValue());
-				campusFacet.put("value", form.getFacet().contains(ev.getCode()));
+				campusFacet
+						.put("value", form.getFacet().contains(ev.getCode()));
 				campusFacet.put("id", ev.getCode());
-			}
-			else
+			} else
 				csa = ev;
 
 		// TODO - Online class search may be IU specific,
@@ -1939,25 +1967,22 @@ public class CourseSearchController extends UifControllerBase {
 				ArrayNode filterFacetFacets = filterFacet.putArray("facets");
 				Map<String, FacetState> facetStateValues = facetStates.get(fo
 						.getKey());
-				List<String> tempKeys = new ArrayList<String>(
-						facetStateValues.keySet());
-
-				for (String key2 : tempKeys) {
-					FacetState state = facetStateValues.get(key2);
-					ObjectNode stateNode = filterFacetFacets.addObject();
-					stateNode.put("id", key2);
-					if (fo.getKey().equals("facet_keywords"))
-						// TODO: make lowercase in SisCourseSearchItem
-						stateNode.put("label", state.value.toLowerCase());
-					else
-						stateNode.put("label", state.value);
-					stateNode.put("count", state.count);
-					stateNode.put("value", state.checked);
-				}
+				if (facetStateValues != null)
+					for (String key2 : facetStateValues.keySet()) {
+						FacetState state = facetStateValues.get(key2);
+						ObjectNode stateNode = filterFacetFacets.addObject();
+						stateNode.put("id", key2);
+						if (fo.getKey().equals("facet_keywords"))
+							// TODO: make lowercase in SisCourseSearchItem
+							stateNode.put("label", state.value.toLowerCase());
+						else
+							stateNode.put("label", state.value);
+						stateNode.put("count", state.count);
+						stateNode.put("value", state.checked);
+					}
 			}
 
 			List<SearchInfo> filteredResults = table.getFilteredResults(form);
-			// List<SearchInfo> filteredResults = table.searchResults;
 			json.put("count", filteredResults.size());
 			ArrayNode results = json.putArray("results");
 			int start = Math.min(form.getStart(), filteredResults.size());
