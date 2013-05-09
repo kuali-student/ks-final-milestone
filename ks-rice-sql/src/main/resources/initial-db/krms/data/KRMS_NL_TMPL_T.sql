@@ -547,7 +547,7 @@ INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1325','en','KS-KRMS-NL-USAGE-1000','10031','$freeText',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1330','en','KS-KRMS-NL-USAGE-1000','10021','Must successfully complete no more than $intValue $NLHelper.getProperGrammar($intValue, "credit") from',0)
+  VALUES ('KS-KRMS-NL-TMPL-1330','en','KS-KRMS-NL-USAGE-1000','10021','Must successfully complete no more than $intValue $NLHelper.getProperGrammar($intValue, "credit") from $courseCluSet.getCluSetAsCode()',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1331','en','KS-KRMS-NL-USAGE-1000','10022','Must not have successfully completed any credits from $courseCluSet.getCluSetAsCode()',0)
