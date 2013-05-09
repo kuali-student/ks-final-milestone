@@ -6,6 +6,7 @@ import org.kuali.student.ap.framework.context.EnrollmentStatusHelper;
 import org.kuali.student.ap.framework.context.EnumerationHelper;
 import org.kuali.student.ap.framework.context.KsapContext;
 import org.kuali.student.ap.framework.context.OrgHelper;
+import org.kuali.student.ap.framework.context.ShoppingCartHelper;
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.UserSessionHelper;
 import org.kuali.student.ap.framework.course.ClassFinderService;
@@ -259,6 +260,10 @@ public final class KsapFrameworkServiceLocator {
 		return getInstance().classFinderService;
 	}
 
+    public static ShoppingCartHelper getShoppingCartHelper(){
+        return getInstance().shoppingCartHelper;
+    }
+
 	@EJB
 	private transient AtpService ksCoreAtpService;
 	@EJB
@@ -302,6 +307,8 @@ public final class KsapFrameworkServiceLocator {
 	@EJB
 	@OptionalResource // TODO: remove
 	private transient ClassFinderService classFinderService;
+    @EJB
+    private transient ShoppingCartHelper shoppingCartHelper;
 	@EJB
 	@OptionalResource
 	// provided by ks-ap-ui or institution override

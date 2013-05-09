@@ -107,9 +107,19 @@ public class PlannedCoursesLookupableHelperImpl extends
 
 		}
 
+        /************* Cart List **************/
+        List<PlannedCourseDataObject> cartCoursesList = new ArrayList<PlannedCourseDataObject>();
+        try {
+            cartCoursesList = getPlanItems(
+                    PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART, studentId);
+        } catch (Exception e) {
+            LOG.error("Could not load cart list", e);
+
+        }
+
 		List<PlannedTerm> perfectPlannedTerms = PlannedTermsHelperBase
 				.populatePlannedTerms(plannedCoursesList, backupCoursesList,
-						studentCourseRecordInfos, focusAtpId, PlanConstants.MAX_FUTURE_YEARS, false);
+						studentCourseRecordInfos, cartCoursesList, focusAtpId, PlanConstants.MAX_FUTURE_YEARS, false);
 		return perfectPlannedTerms;
 	}
 }

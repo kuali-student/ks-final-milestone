@@ -72,10 +72,9 @@ public class FullPlanItemsLookupableHelperImpl extends
 			throw new IllegalStateException("AR lookup error", e);
 		}
 
-        // Dont think the Fullplanitem boolean is needed anymore with changes.
 		List<PlannedTerm> perfectPlannedTerms = PlannedTermsHelperBase
 				.populatePlannedTerms(plannedCoursesList, null,
-						studentCourseRecordInfos, null, 1, true);
+						studentCourseRecordInfos,null, null, 1, true);
         int numberOfTerms =KsapFrameworkServiceLocator.getTermHelper().getNumberOfTermsInAcademicYear();
 
 

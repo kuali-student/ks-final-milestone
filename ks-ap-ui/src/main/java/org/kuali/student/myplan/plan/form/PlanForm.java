@@ -27,6 +27,7 @@ import org.kuali.student.myplan.course.dataobject.ActivityOfferingItem;
 import org.kuali.student.myplan.course.dataobject.CourseDetails;
 import org.kuali.student.myplan.course.dataobject.CourseSummaryDetails;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseSummary;
+import org.kuali.student.r2.common.dto.StatusInfo;
 
 /**
  * Form for all plan item actions.
@@ -117,6 +118,8 @@ public class PlanForm extends UifFormBase {
     private boolean courseInPlan;
 
     private boolean courseInBackup;
+
+    private StatusInfo statusInfo = new StatusInfo();
 
     public int getBookmarkedCount() {
         return bookmarkedCount;
@@ -409,5 +412,11 @@ public class PlanForm extends UifFormBase {
         if(courseId!=null)
             return courseId.replace(".","_");
         return "";
+    }
+    public StatusInfo getStatusInfo(){
+        return this.statusInfo;
+    }
+    public void setStatusInfo(StatusInfo statusInfo){
+        this.statusInfo=statusInfo;
     }
 }

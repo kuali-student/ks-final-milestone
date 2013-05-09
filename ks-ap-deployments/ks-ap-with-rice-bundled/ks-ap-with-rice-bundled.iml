@@ -42,11 +42,9 @@
       <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/annotations" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/target/.generated" />
       <excludeFolder url="file://$MODULE_DIR$/target/classes" />
       <excludeFolder url="file://$MODULE_DIR$/target/ks-ap-with-rice-bundled-webapp" />
       <excludeFolder url="file://$MODULE_DIR$/target/maven-archiver" />
-      <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
       <excludeFolder url="file://$MODULE_DIR$/target/war" />
     </content>
     <orderEntry type="inheritedJdk" />

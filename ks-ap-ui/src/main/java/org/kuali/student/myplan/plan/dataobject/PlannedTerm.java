@@ -24,6 +24,7 @@ public class PlannedTerm {
     private List<PlannedCourseDataObject> plannedList = new ArrayList<PlannedCourseDataObject>();
     private List<PlannedCourseDataObject> backupList = new ArrayList<PlannedCourseDataObject>();
     private List<AcademicRecordDataObject> academicRecord = new ArrayList<AcademicRecordDataObject>();
+    private List<PlannedCourseDataObject> cartList = new ArrayList<PlannedCourseDataObject>();
     private String credits = null;
 
     /*These flags are used for help icons to display*/
@@ -32,6 +33,7 @@ public class PlannedTerm {
     private boolean displayPlannedHelp;
     private boolean displayCreditsHelp = true;
     private boolean displayBackupHelp;
+    private boolean displayCartHelp;
     private boolean displayRegisteredHelp;
 
 
@@ -81,6 +83,14 @@ public class PlannedTerm {
 
     public void setPlannedList(List<PlannedCourseDataObject> plannedList) {
         this.plannedList = plannedList;
+    }
+
+    public List<PlannedCourseDataObject> getCartList() {
+        return cartList;
+    }
+
+    public void setCartList(List<PlannedCourseDataObject> cartList) {
+        this.cartList = cartList;
     }
 
     public List<PlannedCourseDataObject> getBackupList() {
@@ -193,6 +203,21 @@ public class PlannedTerm {
         return totalCredits;
     }
 
+    public String getCartCredits(){
+        double realTotal=0.0;
+        for(int i=0;i<this.getCartList().size();i++){
+            String itemCredits = this.getCartList().get(i).getCourseDetails().getCredit();
+            try{
+                    realTotal=realTotal+Double.parseDouble(itemCredits);
+
+            }catch(NumberFormatException e){
+
+            }
+        }
+        if(realTotal==0.0) return null;
+        return (realTotal+"").replaceAll(".0", "");
+    }
+
     public void setCredits(String credits) {
         this.credits = credits;
     }
@@ -245,6 +270,14 @@ public class PlannedTerm {
 
     public void setDisplayPlannedHelp(boolean displayPlannedHelp) {
         this.displayPlannedHelp = displayPlannedHelp;
+    }
+
+    public boolean isDisplayCartHelp() {
+        return displayCartHelp;
+    }
+
+    public void setDisplayCartHelp(boolean displayCartHelp) {
+        this.displayCartHelp = displayCartHelp;
     }
 
     public boolean isDisplayCreditsHelp() {

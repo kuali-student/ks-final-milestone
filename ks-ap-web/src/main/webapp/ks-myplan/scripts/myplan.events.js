@@ -71,9 +71,12 @@ function fnUpdateSavedCount (savedItemCount) {
     Function: update the credits total in the quarter plan view
 #################################################################
  */
-function fnUpdateCredits (atpId, termCredits) {
+function fnUpdateCredits (atpId, termCredits, cartCredits) {
     jQuery("." + atpId + ".myplan-term-planned .myplan-carousel-term-total .credits span.uif-message").fadeOut(250, function() {
         jQuery(this).html(termCredits).fadeIn(250);
+    });
+    jQuery("." + atpId + ".myplan-term-cart .myplan-carousel-term-total .credits span.uif-message").fadeOut(250, function() {
+        jQuery(this).html(cartCredits).fadeIn(250);
     });
 }
 /*

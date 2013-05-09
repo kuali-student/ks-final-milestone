@@ -15,6 +15,8 @@ public class QuickAddConstants {
     public static final String ACCESS_DENIED="myplan.text.error.permissionDenied";
     public static final String PLANNED_TYPE="planned";
     public static final String BACKUP_TYPE="backup";
+    public static final String CART_TYPE="cart";
     public static final String PLAN=" Plan";
     public static final String BACKUP=" Backup";
+    public static final String CART=" Cart";
 }

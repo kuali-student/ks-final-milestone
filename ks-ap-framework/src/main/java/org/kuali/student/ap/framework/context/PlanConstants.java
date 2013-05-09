@@ -9,6 +9,7 @@ public class PlanConstants extends AcademicPlanServiceConstants {
 
 	public static final int PLANNED_PLAN_ITEM_CAPACITY = 8;
 	public static final int BACKUP_PLAN_ITEM_CAPACITY = 8;
+    public static final int CART_PLAN_ITEM_CAPACITY = 8;
 	public static final int MAX_FUTURE_YEARS = 6;
 
 	public static final String PLAN_ITEM_RESPONSE_PAGE_ID = "plan_item_action_response_page";
@@ -24,7 +25,7 @@ public class PlanConstants extends AcademicPlanServiceConstants {
 	public static final String SUCCESS_KEY_PLANNED_ITEM_COPIED = "myplan.text.success.plannedCourseList.itemCopied";
 	public static final String SUCCESS_KEY_PLANNED_ITEM_MARKED_BACKUP = "myplan.text.success.plannedCourseList.itemMarkedAsBackup";
 	public static final String SUCCESS_KEY_PLANNED_ITEM_MARKED_PLANNED = "myplan.text.success.plannedCourseList.itemMarkedAsPlanned";
-
+    public static final String SUCCESS_KEY_PLANNED_ITEM_MARKED_CART = "myplan.text.success.plannedCourseList.itemMarkedAsCart";
 	public static final String SUCCESS_KEY_ITEM_DELETED = "myplan.text.success.itemDeleted";
 
 	public static final String SUCCESS_KEY_SAVED_ITEM_ADDED = "myplan.text.success.savedCourseList.itemAdded";
@@ -33,6 +34,7 @@ public class PlanConstants extends AcademicPlanServiceConstants {
 	public static final String ERROR_KEY_PLANNED_ITEM_ALREADY_EXISTS = "myplan.text.error.plannedCourseList.itemAlreadyExists";
 	public static final String ERROR_KEY_PLANNED_ITEM_CAPACITY_EXCEEDED = "myplan.text.error.plannedCourseList.plannedCapacityExceeded";
 	public static final String ERROR_KEY_BACKUP_ITEM_CAPACITY_EXCEEDED = "myplan.text.error.plannedCourseList.backupCapacityExceeded";
+    public static final String ERROR_KEY_CART_ITEM_CAPACITY_EXCEEDED = "myplan.text.error.plannedCourseList.backupCapacityExceeded";
 
 	public static final String ERROR_KEY_HISTORICAL_ATP = "myplan.text.error.plannedCourseList.historicalAtp";
 

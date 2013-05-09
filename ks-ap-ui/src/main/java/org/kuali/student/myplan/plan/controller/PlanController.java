@@ -65,6 +65,7 @@ import org.kuali.student.myplan.plan.form.PlanForm;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -501,6 +502,376 @@ public class PlanController extends UifControllerBase {
 				PlanConstants.SUCCESS_KEY_PLANNED_ITEM_MARKED_PLANNED, params);
 	}
 
+
+    @RequestMapping(params = "methodToCall=plannedToCart")
+    public ModelAndView plannedToCart(
+            @ModelAttribute("KualiForm") PlanForm form, BindingResult result,
+            HttpServletRequest httprequest, HttpServletResponse httpresponse) {
+        if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
+            return doAdviserAccessError(form, "Adviser Access Denied", null);
+        }
+
+        String planItemId = form.getPlanItemId();
+        if (StringUtils.isEmpty(planItemId)) {
+            return doOperationFailedError(form, "Plan Item ID was missing.",
+                    null);
+        }
+
+        // Verify the type is planned, change to backup, update, make events
+        // (delete, add, update credits).
+        PlanItemInfo planItem = null;
+        try {
+            // First load the plan item and retrieve the courseId
+            planItem = getAcademicPlanService().getPlanItem(planItemId,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (Exception e) {
+            return doOperationFailedError(form, "Could not fetch plan item.", e);
+        }
+
+        // Verify that the plan item type is "planned".
+        if (!planItem.getTypeKey().equals(
+                PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)) {
+            return doOperationFailedError(form,
+                    "Move planned item was not type planned.", null);
+        }
+
+        if(!planItem.getRefObjectType().equals(PlanConstants.SECTION_TYPE)){
+            return doOperationFailedError(form,
+                    "Move planned item was not a section.", null);
+        }
+
+        // Validate: Capacity.
+        boolean hasCapacity = false;
+        try {
+            hasCapacity = isAtpHasCapacity(getLearningPlan(getUserId()),
+                    planItem.getPlanPeriods().get(0),
+                    PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART);
+        } catch (RuntimeException e) {
+            return doOperationFailedError(form,
+                    "Could not validate capacity for new plan item.", e);
+        }
+        if (!hasCapacity) {
+            return doPlanCapacityExceededError(form,
+                    PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART);
+        }
+
+        // Lookup course details.
+        CourseSummaryDetails courseDetails = null;
+        try {
+            courseDetails = getCourseDetailsInquiryService()
+                    .retrieveCourseSummaryById(planItem.getRefObjectId());
+        } catch (Exception e) {
+            return doOperationFailedError(form,
+                    "Unable to retrieve Course Details.", e);
+        }
+
+        // Make removed event before updating the plan item.
+        Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> removeEvent = makeRemoveEvent(
+                planItem, courseDetails, planItem.getRefObjectId(), form, null);
+
+        // Update
+        planItem.setTypeKey(PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART);
+        try {
+            getAcademicPlanService().updatePlanItem(planItemId, planItem,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (Exception e) {
+            return doOperationFailedError(form, "Could not update plan item.",
+                    e);
+        }
+
+        // Make events (delete, add, update credits).
+        // Set the javascript event(s) that should be thrown in the UI.
+        Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new LinkedHashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
+
+        events.putAll(removeEvent);
+        events.putAll(makeAddEvent(planItem, courseDetails, form));
+        String atpId = planItem.getPlanPeriods().get(0);
+        events.putAll(makeUpdateTotalCreditsEvent(atpId,
+                PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS));
+
+        form.setJavascriptEvents(events);
+
+        // Pass the ATP name in the params.
+        String[] params = { KsapFrameworkServiceLocator.getTermHelper()
+                .getYearTerm(planItem.getPlanPeriods().get(0)).getTermName() };
+        return doPlanActionSuccess(form,
+                PlanConstants.SUCCESS_KEY_PLANNED_ITEM_MARKED_BACKUP, params);
+    }
+
+    @RequestMapping(params = "methodToCall=backupToCart")
+    public ModelAndView backupToCart(
+            @ModelAttribute("KualiForm") PlanForm form, BindingResult result,
+            HttpServletRequest httprequest, HttpServletResponse httpresponse) {
+        if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
+            return doAdviserAccessError(form, "Adviser Access Denied", null);
+        }
+
+        String planItemId = form.getPlanItemId();
+        if (StringUtils.isEmpty(planItemId)) {
+            return doOperationFailedError(form, "Plan Item ID was missing.",
+                    null);
+        }
+
+        // Verify type backup, change to planned, update, make events (delete,
+        // add, update credits).
+        PlanItemInfo planItem = null;
+        try {
+            planItem = getAcademicPlanService().getPlanItem(planItemId,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (Exception e) {
+            return doOperationFailedError(form, "Could not fetch plan item.", e);
+        }
+
+        if(!planItem.getRefObjectType().equals(PlanConstants.SECTION_TYPE)){
+            return doOperationFailedError(form,
+                    "Move planned item was not a section.", null);
+        }
+
+        // Verify that the plan item type is "backup".
+        if (!planItem.getTypeKey().equals(
+                PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)) {
+            return doOperationFailedError(form,
+                    "Move planned item was not type backup.", null);
+        }
+
+        // Validate: Capacity.
+        boolean hasCapacity = false;
+        try {
+            hasCapacity = isAtpHasCapacity(getLearningPlan(getUserId()),
+                    planItem.getPlanPeriods().get(0),
+                    PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART);
+        } catch (RuntimeException e) {
+            return doOperationFailedError(form,
+                    "Could not validate capacity for new plan item.", e);
+        }
+        if (!hasCapacity) {
+            return doPlanCapacityExceededError(form,
+                    PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART);
+        }
+
+        // Lookup course details.
+        CourseSummaryDetails courseDetails = null;
+        try {
+            courseDetails = getCourseDetailsInquiryService()
+                    .retrieveCourseSummaryById(planItem.getRefObjectId());
+        } catch (Exception e) {
+            return doOperationFailedError(form,
+                    "Unable to retrieve Course Details.", e);
+        }
+
+        // Make removed event before updating the plan item.
+        Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> removeEvent = makeRemoveEvent(
+                planItem, courseDetails, planItem.getRefObjectId(), form, null);
+
+        // Set type to "planned".
+        planItem.setTypeKey(PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART);
+
+        // Update
+        try {
+            getAcademicPlanService().updatePlanItem(planItemId, planItem,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (Exception e) {
+            return doOperationFailedError(form, "Could not udpate plan item.",
+                    e);
+        }
+
+        // Make events (delete, add, update credits).
+        // Set the javascript event(s) that should be thrown in the UI.
+        Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new HashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
+
+        events.putAll(removeEvent);
+        events.putAll(makeAddEvent(planItem, courseDetails, form));
+        String atpId = planItem.getPlanPeriods().get(0);
+        events.putAll(makeUpdateTotalCreditsEvent(atpId,
+                PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS));
+
+        form.setJavascriptEvents(events);
+
+        String[] params = { KsapFrameworkServiceLocator.getTermHelper()
+                .getYearTerm(planItem.getPlanPeriods().get(0)).getTermName() };
+        return doPlanActionSuccess(form,
+                PlanConstants.SUCCESS_KEY_PLANNED_ITEM_MARKED_PLANNED, params);
+    }
+
+
+    @RequestMapping(params = "methodToCall=cartToPlanned")
+    public ModelAndView cartToPlanned(
+            @ModelAttribute("KualiForm") PlanForm form, BindingResult result,
+            HttpServletRequest httprequest, HttpServletResponse httpresponse) {
+        if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
+            return doAdviserAccessError(form, "Adviser Access Denied", null);
+        }
+
+        String planItemId = form.getPlanItemId();
+        if (StringUtils.isEmpty(planItemId)) {
+            return doOperationFailedError(form, "Plan Item ID was missing.",
+                    null);
+        }
+
+        // Verify type cart, change to planned, update, make events (delete,
+        // add, update credits).
+        PlanItemInfo planItem = null;
+        try {
+            planItem = getAcademicPlanService().getPlanItem(planItemId,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (Exception e) {
+            return doOperationFailedError(form, "Could not fetch plan item.", e);
+        }
+
+        // Verify that the plan item type is "cart".
+        if (!planItem.getTypeKey().equals(
+                PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
+            return doOperationFailedError(form,
+                    "Move planned item was not type cart.", null);
+        }
+
+        // Validate: Capacity.
+        boolean hasCapacity = false;
+        try {
+            hasCapacity = isAtpHasCapacity(getLearningPlan(getUserId()),
+                    planItem.getPlanPeriods().get(0),
+                    PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
+        } catch (RuntimeException e) {
+            return doOperationFailedError(form,
+                    "Could not validate capacity for new plan item.", e);
+        }
+        if (!hasCapacity) {
+            return doPlanCapacityExceededError(form,
+                    PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
+        }
+
+        // Lookup course details.
+        CourseSummaryDetails courseDetails = null;
+        try {
+            courseDetails = getCourseDetailsInquiryService()
+                    .retrieveCourseSummaryById(planItem.getRefObjectId());
+        } catch (Exception e) {
+            return doOperationFailedError(form,
+                    "Unable to retrieve Course Details.", e);
+        }
+
+        // Make removed event before updating the plan item.
+        Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> removeEvent = makeRemoveEvent(
+                planItem, courseDetails, planItem.getRefObjectId(), form, null);
+
+        // Set type to "planned".
+        planItem.setTypeKey(PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
+
+        // Update
+        try {
+            getAcademicPlanService().updatePlanItem(planItemId, planItem,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (Exception e) {
+            return doOperationFailedError(form, "Could not udpate plan item.",
+                    e);
+        }
+
+        // Make events (delete, add, update credits).
+        // Set the javascript event(s) that should be thrown in the UI.
+        Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new HashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
+
+        events.putAll(removeEvent);
+        events.putAll(makeAddEvent(planItem, courseDetails, form));
+        String atpId = planItem.getPlanPeriods().get(0);
+        events.putAll(makeUpdateTotalCreditsEvent(atpId,
+                PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS));
+
+        form.setJavascriptEvents(events);
+
+        String[] params = { KsapFrameworkServiceLocator.getTermHelper()
+                .getYearTerm(planItem.getPlanPeriods().get(0)).getTermName() };
+        return doPlanActionSuccess(form,
+                PlanConstants.SUCCESS_KEY_PLANNED_ITEM_MARKED_PLANNED, params);
+    }
+    @RequestMapping(params = "methodToCall=cartToBackup")
+    public ModelAndView cartToBackup(
+            @ModelAttribute("KualiForm") PlanForm form, BindingResult result,
+            HttpServletRequest httprequest, HttpServletResponse httpresponse) {
+        if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
+            return doAdviserAccessError(form, "Adviser Access Denied", null);
+        }
+
+        String planItemId = form.getPlanItemId();
+        if (StringUtils.isEmpty(planItemId)) {
+            return doOperationFailedError(form, "Plan Item ID was missing.",
+                    null);
+        }
+
+        // Verify the type is cart, change to backup, update, make events
+        // (delete, add, update credits).
+        PlanItemInfo planItem = null;
+        try {
+            // First load the plan item and retrieve the courseId
+            planItem = getAcademicPlanService().getPlanItem(planItemId,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (Exception e) {
+            return doOperationFailedError(form, "Could not fetch plan item.", e);
+        }
+
+        // Verify that the plan item type is "planned".
+        if (!planItem.getTypeKey().equals(
+                PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
+            return doOperationFailedError(form,
+                    "Move planned item was not type cart.", null);
+        }
+
+        // Validate: Capacity.
+        boolean hasCapacity = false;
+        try {
+            hasCapacity = isAtpHasCapacity(getLearningPlan(getUserId()),
+                    planItem.getPlanPeriods().get(0),
+                    PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP);
+        } catch (RuntimeException e) {
+            return doOperationFailedError(form,
+                    "Could not validate capacity for new plan item.", e);
+        }
+        if (!hasCapacity) {
+            return doPlanCapacityExceededError(form,
+                    PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP);
+        }
+
+        // Lookup course details.
+        CourseSummaryDetails courseDetails = null;
+        try {
+            courseDetails = getCourseDetailsInquiryService()
+                    .retrieveCourseSummaryById(planItem.getRefObjectId());
+        } catch (Exception e) {
+            return doOperationFailedError(form,
+                    "Unable to retrieve Course Details.", e);
+        }
+
+        // Make removed event before updating the plan item.
+        Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> removeEvent = makeRemoveEvent(
+                planItem, courseDetails, planItem.getRefObjectId(), form, null);
+
+        // Update
+        planItem.setTypeKey(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP);
+        try {
+            getAcademicPlanService().updatePlanItem(planItemId, planItem,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (Exception e) {
+            return doOperationFailedError(form, "Could not update cart item.",
+                    e);
+        }
+
+        // Make events (delete, add, update credits).
+        // Set the javascript event(s) that should be thrown in the UI.
+        Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new LinkedHashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
+
+        events.putAll(removeEvent);
+        events.putAll(makeAddEvent(planItem, courseDetails, form));
+        String atpId = planItem.getPlanPeriods().get(0);
+        events.putAll(makeUpdateTotalCreditsEvent(atpId,
+                PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS));
+
+        form.setJavascriptEvents(events);
+
+        // Pass the ATP name in the params.
+        String[] params = { KsapFrameworkServiceLocator.getTermHelper()
+                .getYearTerm(planItem.getPlanPeriods().get(0)).getTermName() };
+        return doPlanActionSuccess(form,
+                PlanConstants.SUCCESS_KEY_PLANNED_ITEM_MARKED_BACKUP, params);
+    }
 	@RequestMapping(params = "methodToCall=movePlanCourse")
 	public ModelAndView movePlannedCourse(
 			@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
@@ -1044,7 +1415,7 @@ public class PlanController extends UifControllerBase {
 				}
 				if (addPrimaryCourse) {
 					if (primarySectionCode != null) {
-						// primaryPlanItem = addActivityOfferingPlanItem(plan,
+						//primaryPlanItem = addActivityOfferingPlanItem(plan,
 						// courseDetails.getCode() + " " + primarySectionCode,
 						// newAtpIds, newType);
 						// form.setPrimaryPlanItemId(primaryPlanItem.getId());
@@ -1338,6 +1709,10 @@ public class PlanController extends UifControllerBase {
 				.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)) {
 			return (counter >= PlanConstants.PLANNED_PLAN_ITEM_CAPACITY) ? false
 					: true;
+        }else if (typeKey
+                .equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
+            return (counter >= PlanConstants.CART_PLAN_ITEM_CAPACITY) ? false
+                    : true;
 		}
 
 		throw new RuntimeException(String.format(
@@ -1521,7 +1896,9 @@ public class PlanController extends UifControllerBase {
 		}
 
 		if (planItem.getTypeKey().equals(
-				PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)) {
+				PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)
+                ||planItem.getTypeKey().equals(
+                    PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
 			events.putAll(makeUpdateTotalCreditsEvent(planItem.getPlanPeriods()
 					.get(0),
 					PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS));
@@ -1531,6 +1908,57 @@ public class PlanController extends UifControllerBase {
 		return doPlanActionSuccess(form,
 				PlanConstants.SUCCESS_KEY_ITEM_DELETED, new String[0]);
 	}
+
+    @RequestMapping(params = "methodToCall=validateCart")
+    public ModelAndView validateCart(
+            @ModelAttribute("KualiForm") PlanForm form, BindingResult result,
+            HttpServletRequest httprequest, HttpServletResponse httpresponse){
+
+        if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
+            return doAdviserAccessError(form, "Adviser Access Denied", null);
+        }
+
+        String atpId = form.getAtpId();
+        String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
+
+        if (StringUtils.isEmpty(atpId) && StringUtils.isEmpty(studentId)) {
+            return doOperationFailedError(form,
+                    "Atp id and sudent id are missing.", null);
+        }
+
+        StatusInfo status = KsapFrameworkServiceLocator.getShoppingCartHelper().validateCartContents(
+                PlanConstants.LEARNING_PLAN_TYPE_PLAN,atpId,studentId,
+                KsapFrameworkServiceLocator.getContext().getContextInfo());
+        form.setStatusInfo(status);
+
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=enrollCart")
+    public ModelAndView enrollCart(
+            @ModelAttribute("KualiForm") PlanForm form, BindingResult result,
+            HttpServletRequest httprequest, HttpServletResponse httpresponse){
+
+        if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
+            return doAdviserAccessError(form, "Adviser Access Denied", null);
+        }
+
+        String atpId = form.getAtpId();
+        String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
+
+        if (StringUtils.isEmpty(atpId) && StringUtils.isEmpty(studentId)) {
+            return doOperationFailedError(form,
+                    "Atp id and sudent id are missing.", null);
+        }
+
+        StatusInfo status = KsapFrameworkServiceLocator.getShoppingCartHelper().validateAndEnrollCourses(
+                PlanConstants.LEARNING_PLAN_TYPE_PLAN,atpId,studentId,
+                KsapFrameworkServiceLocator.getContext().getContextInfo());
+        form.setStatusInfo(status);
+
+        return getUIFModelAndView(form);
+    }
+
 
 	/**
 	 * Used to get the list of all the section that are planned for the
@@ -2095,7 +2523,9 @@ public class PlanController extends UifControllerBase {
 		if (planItem.getTypeKey().equals(
 				PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)
 				|| planItem.getTypeKey().equals(
-						PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)) {
+						PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)
+                || planItem.getTypeKey().equals(
+                    PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
 			params.put("atpId",
 					formatAtpIdForUI(planItem.getPlanPeriods().get(0)));
 		}
@@ -2153,7 +2583,9 @@ public class PlanController extends UifControllerBase {
 
 		params.put("atpId", formatAtpIdForUI(atpId));
 		String totalCredits = this.getTotalCredits(atpId);
+        String cartCredits = this.getCartCredits(atpId);
 		params.put("totalCredits", totalCredits);
+        params.put("cartCredits", cartCredits);
 
 		events.put(eventName, params);
 		return events;
@@ -2179,7 +2611,9 @@ public class PlanController extends UifControllerBase {
 		if (planItem.getTypeKey().equals(
 				PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)
 				|| planItem.getTypeKey().equals(
-						PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)) {
+						PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)
+                || planItem.getTypeKey().equals(
+                        PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
 			params.put("atpId",
 					formatAtpIdForUI(planItem.getPlanPeriods().get(0)));
 			// event for aler Icon
@@ -2428,6 +2862,110 @@ public class PlanController extends UifControllerBase {
 		return totalCredits;
 	}
 
+    private String getCartCredits(String termId) {
+        double plannedTotalMin = 0;
+        double plannedTotalMax = 0;
+        String totalCredits = null;
+        Person user = GlobalVariables.getUserSession().getPerson();
+        String studentID = user.getPrincipalId();
+
+        String planTypeKey = PlanConstants.LEARNING_PLAN_TYPE_PLAN;
+        List<LearningPlanInfo> learningPlanList = null;
+
+
+        List<PlanItemInfo> planItemList = null;
+        try {
+            learningPlanList = getAcademicPlanService()
+                    .getLearningPlansForStudentByType(
+                            studentID,
+                            planTypeKey,
+                            KsapFrameworkServiceLocator.getContext()
+                                    .getContextInfo());
+            for (LearningPlanInfo learningPlan : learningPlanList) {
+                String learningPlanID = learningPlan.getId();
+
+                planItemList = getAcademicPlanService()
+                        .getPlanItemsInPlanByType(
+                                learningPlanID,
+                                PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART,
+                                KsapFrameworkServiceLocator.getContext()
+                                        .getContextInfo());
+
+                for (PlanItemInfo planItem : planItemList) {
+                    String courseID = planItem.getRefObjectId();
+                    if (planItem.getRefObjectType().equalsIgnoreCase(
+                            PlanConstants.COURSE_TYPE)) {
+                        if (getCourseDetailsInquiryService().isCourseIdValid(
+                                courseID)) {
+                            for (String atp : planItem.getPlanPeriods()) {
+                                if (atp.equalsIgnoreCase(termId)) {
+                                    CourseSummaryDetails courseDetails = getCourseDetailsInquiryService()
+                                            .retrieveCourseSummaryById(courseID);
+                                    if (courseDetails != null
+                                            && !courseDetails.getCredit()
+                                            .contains(".")) {
+                                        String[] str = courseDetails
+                                                .getCredit().split("\\D");
+                                        double min = Double.parseDouble(str[0]);
+                                        plannedTotalMin += min;
+                                        double max = Double
+                                                .parseDouble(str[str.length - 1]);
+                                        plannedTotalMax += max;
+
+                                    } else if (courseDetails != null
+                                            && courseDetails.getCredit()
+                                            .contains(".")) {
+                                        if (courseDetails.getCredit().contains(
+                                                PlanConstants.MULTIPLE)) {
+                                            String[] str = courseDetails
+                                                    .getCredit()
+                                                    .split(PlanConstants.MULTIPLE);
+                                            plannedTotalMin += Double
+                                                    .parseDouble(str[0]);
+                                            plannedTotalMax += Double
+                                                    .parseDouble(str[1]);
+                                        } else if (courseDetails.getCredit()
+                                                .contains(PlanConstants.RANGE)) {
+                                            String[] str = courseDetails
+                                                    .getCredit()
+                                                    .split(PlanConstants.RANGE);
+                                            plannedTotalMin += Double
+                                                    .parseDouble(str[0]);
+                                            plannedTotalMax += Double
+                                                    .parseDouble(str[1]);
+                                        } else {
+                                            plannedTotalMin += Double
+                                                    .parseDouble(courseDetails
+                                                            .getCredit());
+                                            plannedTotalMax += Double
+                                                    .parseDouble(courseDetails
+                                                            .getCredit());
+                                        }
+                                    }
+                                }
+                                totalCredits = Double.toString(plannedTotalMin);
+                                if (plannedTotalMin != plannedTotalMax) {
+                                    totalCredits = totalCredits + "-"
+                                            + Double.toString(plannedTotalMax);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("could not load total credits");
+        }
+
+        if (totalCredits != null) {
+            if (totalCredits.contains(".0"))
+                totalCredits = totalCredits.replace(".0", "");
+        } else {
+            totalCredits = "0";
+        }
+        return totalCredits;
+    }
+
 	private String getPlanIdFromCourseId(String courseId, String planItemType) {
 		String planItemId = null;
 		Person user = GlobalVariables.getUserSession().getPerson();
@@ -2484,7 +3022,7 @@ public class PlanController extends UifControllerBase {
 		return studentCourseRecordInfos;
 	}
 
-	private boolean isNewUser() {
+    private boolean isNewUser() {
 		boolean isNewUser = false;
 		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper()
 				.getStudentId();

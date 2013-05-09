@@ -852,7 +852,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				} else if (planItem.getTypeKey().equals(
 						PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)
 						|| planItem.getTypeKey().equals(
-								PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)) {
+								PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)
+                        || planItem.getTypeKey().equals(
+                                PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
 					state = CourseSearchItem.PlanState.IN_PLAN;
 				} else {
 					throw new RuntimeException("Unknown plan item type.");

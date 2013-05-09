@@ -57,6 +57,7 @@
                             <ref bean="backup_menu_items"/>
                             <ref bean="completed_menu_items"/>
                             <ref bean="completed_backup_menu_items"/>
+                            <ref bean="cart_menu_items"/>
                             <bean id="hidden_new_user_flag" parent="Uif-DataField" p:propertyName="newUser"
                                   p:style="display:none;"/>
                         </list>
@@ -102,6 +103,85 @@
     </bean>
 
     <!--Planned Menu Items-->
+    <bean id="cart_menu_items" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+
+                <bean parent="Uif-Link" p:target="" p:href="#"
+                      p:linkText="View Course Summary"
+                      p:title="View Course Summary">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
+                    <property name="onClickScript"
+                              value="var temp = jQuery(this).data('planitemid').replace(/\./g,'_');
+                              openPlanItemPopUp(temp,'course_summary_dialog_page',{planItemId:jQuery(this).data('planitemid'),pageId:'course_summary_dialog_page',atpId:jQuery(this).data('atpid'),courseId:jQuery(this).data('courseid')},e,null,{tail:{hidden:true},align:'top'});"/>
+                </bean>
+
+                <bean parent="Uif-Link" p:target="" p:href="#"
+                      p:linkText="Validate Cart Items"
+                      p:title="Validate Cart Items">
+                    <property name="onClickScript"
+                              value="var submitOptions = {data:{methodToCall:'validateCart',atpId:jQuery(this).data('atpid'),courseId:jQuery(this).data('courseid')}};
+                              jQuery('#kualiForm').ajaxSubmit(submitOptions);"/>
+                </bean>
+
+
+                <bean parent="Uif-Link" p:target="" p:href="#"
+                      p:linkText="Enroll In Cart Items"
+                      p:title="Enroll In Cart Items">
+                    <property name="onClickScript"
+                              value="var submitOptions = {data:{methodToCall:'enrollCart',atpId:jQuery(this).data('atpid'),courseId:jQuery(this).data('courseid')}};
+                              jQuery('#kualiForm').ajaxSubmit(submitOptions);"/>
+                </bean>
+
+                <bean parent="Uif-Link" p:target="" p:href="#"
+                      p:linkText="Mark as Planned Course"
+                      p:title="Mark as Planned Course"
+                      p:style="margin:0;">
+                    <property name="onClickScript"
+                              value="myPlanAjaxPlanItemMove(jQuery(this).data('planitemid'),jQuery(this).data('planitemid'),'planItemId','cartToPlanned',e);"/>
+                </bean>
+
+                <bean parent="Uif-Message" p:messageText="Will be moved out of the cart credit total and into the planned credit total"
+                      p:cssClasses="fl-text-gray fl-font-size-90"/>
+
+                <bean parent="Uif-Link" p:target="" p:href="#"
+                      p:linkText="Mark as Backup Course"
+                      p:title="Mark as Backup Course"
+                      p:style="margin:0;">
+                    <property name="onClickScript"
+                              value="myPlanAjaxPlanItemMove(jQuery(this).data('planitemid'),jQuery(this).data('planitemid'),'planItemId','cartToBackup',e);"/>
+                </bean>
+
+                <bean parent="Uif-Message" p:messageText="Will be moved out of the cart credit total"
+                      p:cssClasses="fl-text-gray fl-font-size-90"/>
+
+
+                <bean parent="Uif-Link" p:target="" p:href="#"
+                      p:linkText="Delete from Plan"
+                      p:title="Delete from Plan"
+                      p:style="margin:0;">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
+                    <property name="onClickScript"
+                              value="var temp = jQuery(this).data('planitemid').replace(/\./g,'_');
+                              openPlanItemPopUp(temp,'plan_item_delete_page',{planItemId:jQuery(this).data('planitemid'),pageId:'plan_item_delete_page',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
+                </bean>
+
+                <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
+                      p:cssClasses="fl-text-gray fl-font-size-90"/>
+
+            </list>
+        </property>
+    </bean>
+
     <bean id="planned_menu_items" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
         <property name="hidden" value="true"/>
         <property name="items">
@@ -119,6 +199,17 @@
                               value="var temp = jQuery(this).data('planitemid').replace(/\./g,'_');
                               openPlanItemPopUp(temp,'course_summary_dialog_page',{planItemId:jQuery(this).data('planitemid'),pageId:'course_summary_dialog_page',atpId:jQuery(this).data('atpid'),courseId:jQuery(this).data('courseid')},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
+
+                <bean parent="Uif-Link" p:target="" p:href="#"
+                      p:linkText="Place in Cart"
+                      p:title="Place in Cart"
+                      p:style="margin:0;">
+                    <property name="onClickScript"
+                              value="myPlanAjaxPlanItemMove(jQuery(this).data('planitemid'),jQuery(this).data('planitemid'),'planItemId','plannedToCart',e);"/>
+                </bean>
+
+                <bean parent="Uif-Message" p:messageText="Will be moved out of the Total Credit"
+                      p:cssClasses="fl-text-gray fl-font-size-90"/>
 
                 <bean parent="Uif-Link" p:target="" p:href="#"
                       p:linkText="Mark as Backup Course"
@@ -195,6 +286,18 @@
                               value="var temp = jQuery(this).data('planitemid').replace(/\./g,'_');
                               openPlanItemPopUp(temp,'course_summary_dialog_page',{planItemId:jQuery(this).data('planitemid'),pageId:'course_summary_dialog_page',atpId:jQuery(this).data('atpid'),courseId:jQuery(this).data('courseid')},e,null,{tail:{hidden:true},align:'top'});"/>
                 </bean>
+
+                <bean parent="Uif-Link" p:target="" p:href="#"
+                      p:linkText="Place in Cart"
+                      p:title="Place in Cart"
+                      p:style="margin:0;">
+                    <property name="onClickScript"
+                              value="myPlanAjaxPlanItemMove(jQuery(this).data('planitemid'),jQuery(this).data('planitemid'),'planItemId','backupToCart',e);"/>
+                </bean>
+
+                <bean parent="Uif-Message" p:messageText="Will be moved out of the Total Credit"
+                      p:cssClasses="fl-text-gray fl-font-size-90"/>
+
                 <bean parent="Uif-Link" p:target="" p:href="#"
                       p:linkText="Mark it as Planned course"
                       p:title="Mark it as Planned course"
@@ -563,6 +666,7 @@
         <property name="subCollections">
             <list>
                 <ref bean="academicRecordCollection"/>
+                <ref bean="cartCollection"/>
                 <ref bean="plannedCollection"/>
                 <ref bean="backupCollection"/>
             </list>
@@ -590,10 +694,10 @@
                     fnRemovePlanItem(data.atpId, data.planItemType, data.planItemId);
                 })
                 .subscribe('UPDATE_NEW_TERM_TOTAL_CREDITS', function(data){
-                    fnUpdateCredits(data.atpId, data.totalCredits);
+                    fnUpdateCredits(data.atpId, data.totalCredits, data.cartCredits);
                 })
                 .subscribe('UPDATE_OLD_TERM_TOTAL_CREDITS', function(data){
-                    fnUpdateCredits(data.atpId, data.totalCredits);
+                    fnUpdateCredits(data.atpId, data.totalCredits, data.cartCredits);
                 });
         "/>
     </bean>
@@ -895,6 +999,156 @@
                         <ref bean="term_total_credits_label"/>
                         <ref bean="total_credits_help_icon"/>
                         <ref bean="term_total_credits_text"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="cartCollection" parent="Uif-StackedCollectionGroup" p:headerText="Cart">
+        <property name="validationMessages.render" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderSix"/>
+        </property>
+        <property name="header.rightGroup">
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="validationMessages.render" value="false"/>
+                <property name="items">
+                    <list>
+                        <ref bean="cart_help_icon"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="lineGroupPrototype">
+                    <bean parent="Uif-CollectionVerticalBoxItem"/>
+                </property>
+            </bean>
+        </property>
+        <property name="dataAttributes">
+            <map>
+                <entry key="plantype" value="cart"/>
+                <entry key="atpid" value="@{#line.atpId}"/>
+                <entry key="size" value="@{#line.cartList.size()}"/>
+            </map>
+        </property>
+        <property name="cssClasses">
+            <list merge="false">
+                <value>myplan-carousel-term</value>
+                <value>@{#line.atpId.replaceAll("\.","-")}</value>
+                <value>myplan-term-cart</value>
+            </list>
+        </property>
+        <property name="layoutManager.lineGroupPrototype.footer.render" value="false"/>
+        <property name="layoutManager.lineGroupPrototype.validationMessages.render" value="false"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject"/>
+        <property name="propertyName" value="cartList"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean p:id="@{#line.planItemDataObject.id}_cart" parent="Uif-HorizontalFieldGroup"
+                      p:render="@{#line.courseDetails.code ne null}"
+                      p:title="@{#line.courseDetails.courseTitle}">
+                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="onClickScript"
+                              value="openMenu('@{#line.planItemDataObject.id}_cart','cart_menu_items','@{#line.planItemDataObject.atp}',e,'.uif-collectionItem','fl-container-150 uif-boxLayoutHorizontalItem',{tail:{align:'top'},align:'top',position:'right'},false);"/>
+                    <property name="dataAttributes">
+                        <map>
+                            <entry key="courseid" value="@{#line.courseDetails.courseId}"/>
+                            <entry key="planitemid" value="@{#line.planItemDataObject.id}"/>
+                            <entry key="atpid" value="@{#line.planItemDataObject.atp}"/>
+                        </map>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>myplan-course-valid</value>
+                            <value>@{#line.timeScheduleOpen ? 'schedule':''}</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-ImageField"
+                                  p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif"
+                                  p:title="@{#line.showAlert ? #line.courseDetails.code + ' is not scheduled for '+ #line.planItemDataObject.termName : #line.courseDetails.code + ' is scheduled for '+ #line.planItemDataObject.termName}"
+                                  p:altText="@{#line.showAlert ? #line.courseDetails.code + ' is not scheduled for '+ #line.planItemDataObject.termName : #line.courseDetails.code + ' is scheduled for '+ #line.planItemDataObject.termName}"
+                                  p:render="@{#line.timeScheduleOpen}">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>schedule-status</value>
+                                        <value>@{#line.showAlert ? 'not-scheduled' : 'scheduled'}</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{#line.courseDetails.code}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>code</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="(@{#line.courseDetails.credit})"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>credit</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="collectionLookup.render" value="false"/>
+        <property name="collectionLookup.quickfinderAction.render" value="false"/>
+        <property name="footer">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="validationMessages.render" value="false"/>
+                <property name="items">
+                    <list>
+                        <bean parent="term_total_credits" p:cssClasses="myplan-carousel-term-total"
+                              p:render="@{#line.academicRecord.size() gt 0 and #line.openForPlanning}">
+                            <property name="items">
+                                <list>
+                                    <ref bean="term_total_credits_label"/>
+                                    <ref bean="cart_credits_help_icon"/>
+                                    <bean  parent="Uif-MessageField"
+                                          p:messageText="@{#line.cartCredits ne null ? #line.cartCredits : '0'}">
+                                        <property name="cssClasses">
+                                            <list merge="true">
+                                                <value>credits</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                        <bean parent="term_total_credits" p:cssClasses="myplan-carousel-term-total"
+                              p:render="@{#line.academicRecord.size() eq 0 and #line.openForPlanning}">
+                            <property name="items">
+                                <list>
+                                    <ref bean="term_total_credits_label"/>
+                                    <ref bean="cart_credits_help_icon"/>
+                                    <bean  parent="Uif-MessageField"
+                                           p:messageText="@{#line.cartCredits ne null ? #line.cartCredits : '0'}">
+                                        <property name="cssClasses">
+                                            <list merge="true">
+                                                <value>credits</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                        <bean parent="term_no_courses"
+                              p:render="@{!#line.openForPlanning and #line.cartList.size() eq 0}"/>
                     </list>
                 </property>
             </bean>
@@ -1540,6 +1794,8 @@
             </list>
         </property>
     </bean>
+
+
 
 
 

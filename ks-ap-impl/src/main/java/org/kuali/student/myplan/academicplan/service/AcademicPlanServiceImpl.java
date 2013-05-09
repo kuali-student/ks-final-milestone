@@ -656,7 +656,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
         List<PlanItemEntity> planItems = this.planItemDao.getLearningPlanItems(planItemId, planItemType);
         for (PlanItemEntity p : planItems) {
             if (p.getRefObjectId().equals(courseId)) {
-                if (planItemType.equals(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)||planItemType.equals(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)) {
+                if (planItemType.equals(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)||planItemType.equals(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)||planItemType.equals(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
                     for (String atpId : planItem.getPlanPeriods()) {
                         if (p.getPlanPeriods().contains(atpId)) {
                             throw new AlreadyExistsException(String.format("A plan item for plan [%s], course id [%s], and term [%s] already exists.",

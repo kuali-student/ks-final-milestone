@@ -41,6 +41,7 @@ public class PlannedTermsHelperBase {
 			List<PlannedCourseDataObject> plannedCoursesList,
 			List<PlannedCourseDataObject> backupCoursesList,
 			List<StudentCourseRecordInfo> studentCourseRecordInfos,
+            List<PlannedCourseDataObject> cartCoursesList,
 			String focusAtpId, int futureTerms, boolean fullPlanView) {
 		TermHelper th = KsapFrameworkServiceLocator.getTermHelper();
         YearTerm focusQuarterYear;
@@ -105,6 +106,38 @@ public class PlannedTermsHelperBase {
 			}
 		}
 
+        /*
+		 * Populating the backup list for the Plans
+		 */
+        if (cartCoursesList != null) {
+            int count = plannedTerms.size();
+            for (PlannedCourseDataObject bl : cartCoursesList) {
+                String atp = bl.getPlanItemDataObject().getAtp();
+
+                boolean added = false;
+                for (int i = 0; i < count; i++) {
+                    if (atp.equalsIgnoreCase(plannedTerms.get(i).getAtpId())) {
+                        plannedTerms.get(i).getCartList().add(bl);
+                        added = true;
+                    }
+                }
+                if (!added) {
+                    PlannedTerm plannedTerm = new PlannedTerm();
+                    plannedTerm.setAtpId(atp);
+                    StringBuffer str = new StringBuffer();
+                    YearTerm yearTerm = KsapFrameworkServiceLocator
+                            .getTermHelper().getYearTerm(atp);
+                    str = str.append(yearTerm.getTermName());
+                    String QtrYear = str.substring(0, 1).toUpperCase()
+                            .concat(str.substring(1, str.length()));
+                    plannedTerm.setQtrYear(QtrYear);
+                    plannedTerm.getCartList().add(bl);
+                    plannedTerms.add(plannedTerm);
+                    count++;
+                }
+            }
+        }
+
 		/*
 		 * Used for sorting the planItemDataobjects
 		 */
@@ -148,7 +181,8 @@ public class PlannedTermsHelperBase {
 			for (PlannedTerm plannedTerm : plannedTerms)
 				if (termsList.containsKey(plannedTerm.getAtpId()))
 					if (plannedTerm.getPlannedList().size() > 0
-							|| plannedTerm.getBackupList().size() > 0) {
+							|| plannedTerm.getBackupList().size() > 0
+                            || plannedTerm.getCartList().size() > 0) {
 						plannedTerm.setQtrYear(termsList.get(
 								plannedTerm.getAtpId()).getQtrYear());
 
@@ -306,6 +340,7 @@ public class PlannedTermsHelperBase {
 				if (plannedTerms.get(index).isCurrentTermForView() || i == 1) {
 					plannedTerms.get(index).setDisplayBackupHelp(true);
 					plannedTerms.get(index).setDisplayPlannedHelp(true);
+                    plannedTerms.get(index).setDisplayCartHelp(true);
 					index = index - i;
 					break;
 				}
