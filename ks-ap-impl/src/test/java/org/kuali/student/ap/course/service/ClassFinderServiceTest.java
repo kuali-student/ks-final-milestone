@@ -26,6 +26,7 @@ public class ClassFinderServiceTest {
 
 	private static class FormImpl implements ClassFinderForm {
 		private String query;
+		private String criteriaKey;
 		private List<String> facet;
 		private int start;
 		private int length;
@@ -38,6 +39,14 @@ public class ClassFinderServiceTest {
 
 		public void setQuery(String query) {
 			this.query = query;
+		}
+
+		public String getCriteriaKey() {
+			return criteriaKey;
+		}
+
+		public void setCriteriaKey(String criteriaKey) {
+			this.criteriaKey = criteriaKey;
 		}
 
 		public List<String> getFacet() {
