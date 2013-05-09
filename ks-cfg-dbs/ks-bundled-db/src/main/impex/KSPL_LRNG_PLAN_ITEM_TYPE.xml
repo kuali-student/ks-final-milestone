@@ -17,4 +17,8 @@
         OBJ_ID="obj-plan-item-wishlist"
         TYPE_DESC="Wishlist item description"
         TYPE_KEY="kuali.academicplan.item.wishlist" VER_NBR="0"/>
+    <KSPL_LRNG_PLAN_ITEM_TYPE NAME="Shopping Cart Item"
+      OBJ_ID="obj-plan-item-cart"
+      TYPE_DESC="A plan item that has been added to the shopping cart."
+      TYPE_KEY="kuali.academicplan.item.cart" VER_NBR="0"/>
 </dataset>
