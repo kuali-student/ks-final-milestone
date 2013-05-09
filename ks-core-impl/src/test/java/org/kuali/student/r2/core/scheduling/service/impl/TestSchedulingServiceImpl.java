@@ -707,7 +707,8 @@ public class TestSchedulingServiceImpl {
 
     }
 
-    @Test
+    //  SSRTODO: looks like it's not needed anymore.. anyway, revist this when working on refactoring this class
+    /*@Test
     public void testgetScheduleRequestsByRefObject () throws Exception {
         String requestType =  SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST;
 
@@ -756,7 +757,7 @@ public class TestSchedulingServiceImpl {
 
         // make sure all of our expected ids have been removed
         assertTrue(expectedIds.isEmpty());
-    }
+    }*/
 
     @Test
     public void testCreateScheduleInfo () throws Exception {
