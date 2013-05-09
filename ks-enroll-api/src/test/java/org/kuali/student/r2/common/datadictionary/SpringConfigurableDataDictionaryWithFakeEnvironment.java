@@ -16,6 +16,10 @@
  */
 package org.kuali.student.r2.common.datadictionary;
 
+import java.util.Map;
+import javax.xml.namespace.QName;
+
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -27,15 +31,11 @@ import org.kuali.rice.core.framework.resourceloader.BaseResourceLoader;
 import org.kuali.rice.core.framework.resourceloader.SimpleServiceLocator;
 import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
 import org.kuali.rice.krad.datadictionary.DataDictionary;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-
-import javax.xml.namespace.QName;
-import java.util.Map;
 
 /**
  * This class allows us to parse data dictionary files along with creating a fake environment
@@ -59,7 +59,7 @@ public class SpringConfigurableDataDictionaryWithFakeEnvironment extends DataDic
             @Override public Map<String, String> getAllProperties() { return null; }
         };
 
-        serviceLocator.addService(new QName(KRADServiceLocator.KUALI_CONFIGURATION_SERVICE), configurationService);
+        serviceLocator.addService(new QName(CoreApiServiceLocator.KUALI_CONFIGURATION_SERVICE), configurationService);
         KualiModuleService moduleService = (KualiModuleService) applicationContext.getBean(KRADServiceLocatorWeb.KUALI_MODULE_SERVICE);
         serviceLocator.addService(new QName(KRADServiceLocatorWeb.KUALI_MODULE_SERVICE), moduleService);
 
