@@ -46,8 +46,23 @@
                     <property name="disclosure.render" value="false"/>
                     <property name="items">
                         <list>
+                            <bean parent="KS-KitchenSink-MessageField">
+                                <property name="messageText">
+                                    <value>
+                                        This first section of the toolbar displays the buttons with "no left border." This can be configured on the KS-Uif-HorizontalBoxGroup-ToolbarGroup property noLeftBorder="true". This just pushes the buttons closer together.
+                                    </value>
+                                </property>
+                            </bean>
                             <ref bean="KS-KitchenSink-Toolbar-WithoutLeftBorderSection"/>
+                            <bean parent="KS-KitchenSink-MessageField">
+                                <property name="messageText">
+                                    <value>
+                                        This first section of the toolbar displays the buttons with a left border. This can be configured on the KS-Uif-HorizontalBoxGroup-ToolbarGroup property noLeftBorder="false" or just leaving it blank by default.
+                                    </value>
+                                </property>
+                            </bean>
                             <ref bean="KS-KitchenSink-Toolbar-WithLeftBorderSection"/>
+                            <ref bean="KS-KitchenSink-Toolbar-Links"/>
                         </list>
                     </property>
                 </bean>
@@ -131,6 +146,28 @@
         <property name="actionLabel" value="Move Activity"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="@{#parent.disabled ? #ConfigProperties['ks.externalizable.images.url']+'/toolbar/move_to_cluster.png' : #ConfigProperties['ks.externalizable.images.url']+'/toolbar/move_to_cluster.png'}"/>
+        </property>
+    </bean>
+
+
+    <bean id="KS-KitchenSink-Toolbar-Links" parent="KS-KitchenSink-Page-Links">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-FooterLinkSection">
+                    <property name="footerLinkGroups">
+                        <list>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Toolbar.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Toolbar.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
         </property>
     </bean>
 
